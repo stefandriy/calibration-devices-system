@@ -22,6 +22,14 @@ angular
                         $scope.totalItems = verifications.totalItems;
                     });
             }
+            function updatePage() {
+                dataReceivingService
+                    .getData('/provider/verifications/new/' + $scope.currentPage + '/' + $scope.itemsPerPage)
+                    .success(function (verifications) {
+                        $scope.pageData = verifications.content;
+                        $scope.totalItems = verifications.totalItems;
+                    });
+            }
 
             $scope.openDetails = function ($index) {
                 $modal.open({
@@ -70,6 +78,7 @@ angular
                     .success(function () {
                     });
                 $scope.verificationIds = [];
+              updatePage();
             }
 
             $scope.openSending = function () {
@@ -90,14 +99,14 @@ angular
 
                 moduleInstance.result.then(function (calibrator) {
                     $log.info(calibrator);
-                    try{
-                        if(calibrator.id!=='undefined' && calibrator.name!=='undefined') {
+                    try {
+                        if (calibrator.id !== 'undefined' && calibrator.name !== 'undefined') {
                             sendVerification(calibrator);
                             checkedItems = [];
                             console.log(calibrator);
                         }
                     }
-                    catch(err){
+                    catch (err) {
                         $scope.verificationIds = [];
                         checkedItems = [];
                         console.log(calibrator);
