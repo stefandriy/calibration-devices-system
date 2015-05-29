@@ -1,8 +1,5 @@
 package com.softserve.edu.controller.provider.util;
 
-/**
- * Created by Oles Onyshchak on 5/29/2015.
- */
 public class InitiateVerificationDTO {
     private String surname;
     private String name;

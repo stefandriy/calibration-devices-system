@@ -128,8 +128,6 @@ public class ProviderController {
     public void getInitiateVerification(
             @PathVariable InitiateVerificationDTO initiateVerificationDTO,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        System.out.println("/////////");
-        System.out.println(initiateVerificationDTO.toString());
 
     }
 }
