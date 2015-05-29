@@ -1,5 +1,6 @@
 package com.softserve.edu.controller.provider;
 
+import com.softserve.edu.controller.provider.util.InitiateVerificationDTO;
 import com.softserve.edu.controller.provider.util.VerificationIdAndCalibrationDataDTO;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
@@ -122,5 +123,13 @@ public class ProviderController {
                 verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
                 verification.getProviderEmployee(), verification.getStateVerificator(),
                 verification.getStateVerificatorEmployee());
+    }
+    @RequestMapping(value = "/provider/verifications/sendverification/", method = RequestMethod.POST)
+    public void getInitiateVerification(
+            @PathVariable InitiateVerificationDTO initiateVerificationDTO,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        System.out.println("/////////");
+        System.out.println(initiateVerificationDTO.toString());
+
     }
 }

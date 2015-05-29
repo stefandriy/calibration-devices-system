@@ -5,7 +5,8 @@ angular
             getData: function (url) {
                 $log.info(url);
                 return $http.get(url)
-                    .success(function (result) {
+                    .then(function (result) {
+                        console.dir(result);
                         return result.data;
                     });
             }

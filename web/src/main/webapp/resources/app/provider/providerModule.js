@@ -42,6 +42,7 @@
         'controllers/DetailsModalController',
         'controllers/SendingModalController',
         'services/DataReceivingService',
-        'services/DataUpdatingService'
+        'services/DataUpdatingService',
+        'services/DataSendingService'
     ], function () {});
 })();

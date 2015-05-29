@@ -10,80 +10,80 @@
 
                 <form class="form-horizontal" role="form" ng-controller="AddingVerificationsController">
                     <div class="form-group">
-                        <label for="inputSurname" class="col-sm-2 control-label">Прізвище</label>
+                        <label for="surname" class="col-sm-2 control-label">Прізвище</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputSurname"  ng-model="form.Surname">
+                            <input class="form-control" id="surname"  ng-model="form.surname">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputName" class="col-sm-2 control-label">Ім'я</label>
+                        <label for="name" class="col-sm-2 control-label">Ім'я</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputName"  ng-model="form.Name">
+                            <input class="form-control" id="name"  ng-model="form.Name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputMiddleName" class="col-sm-2 control-label">По-батькові</label>
+                        <label for="middleName" class="col-sm-2 control-label">По-батькові</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputMiddleName"  ng-model="form.MiddleName">
+                            <input class="form-control" id="middleName"  ng-model="form.middleName">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputPhone" class="col-sm-2 control-label">Номер телефону</label>
+                        <label for="phone" class="col-sm-2 control-label">Номер телефону</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputPhone"  ng-model="form.Phone">
+                            <input class="form-control" id="phone"  ng-model="form.phone">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputRegion" class="col-sm-2 control-label">Область</label>
+                        <label for="region" class="col-sm-2 control-label">Область</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputRegion" ng-model="form.Region">
+                            <input class="form-control" id="region" ng-model="form.region">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="inputDistrict" class="col-sm-2 control-label">Район</label>
+                        <label for="district" class="col-sm-2 control-label">Район</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputDistrict"  ng-model="form.District">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="inputLocality" class="col-sm-2 control-label">Населений пункт</label>
-                        <div class="col-sm-4">
-                            <input class="form-control" id="inputLocality"  ng-model="form.Locality">
+                            <input class="form-control" id="district"  ng-model="form.district">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputStreet" class="col-sm-2 control-label">Вулиця</label>
+                        <label for="locality" class="col-sm-2 control-label">Населений пункт</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputStreet"  ng-model="form.Street">
+                            <input class="form-control" id="locality"  ng-model="form.locality">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputBuilding" class="col-sm-2 control-label">Будинок</label>
+                        <label for="street" class="col-sm-2 control-label">Вулиця</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputBuilding"  ng-model="form.Building">
+                            <input class="form-control" id="street"  ng-model="form.street">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputFlat" class="col-sm-2 control-label">Квартира</label>
+                        <label for="building" class="col-sm-2 control-label">Будинок</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputFlat"  ng-model="form.Flat">
+                            <input class="form-control" id="building"  ng-model="form.building">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="inputCalibratorName" class="col-sm-2 control-label">Повірник</label>
+                        <label for="flat" class="col-sm-2 control-label">Квартира</label>
                         <div class="col-sm-4">
-                            <input class="form-control" id="inputCalibratorName"  ng-model="form.Flat">
+                            <input class="form-control" id="flat"  ng-model="form.flat">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="calibratorName" class="col-sm-2 control-label">Повірник</label>
+                        <div class="col-sm-4">
+                            <input class="form-control" id="calibratorName"  ng-model="form.calibratorName">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" ng-click="saveData()" class="btn btn-success">Ініціювати повірку</button>
+                            <button type="submit" ng-click="saveVerification()" class="btn btn-success">Ініціювати повірку</button>
                         </div>
                     </div>
                     <span>{{form}}</span>

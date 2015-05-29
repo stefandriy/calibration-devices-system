@@ -1,35 +1,26 @@
 angular
     .module('providerModule')
-    .controller('NewVerificationsController', ['$scope', '$modal', '$log', 'DataReceivingService', 'DataUpdatingService',
-        function ($scope, $modal, $log, dataReceivingService, dataUpdatingService) {
+    .controller('NewVerificationsController', ['$scope', '$modal', 'DataReceivingService', 'DataUpdatingService',
+        function ($scope, $modal, dataReceivingService, dataUpdatingService) {
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageData = [];
 
+            $scope.verificationIds = [];
+            $scope.checkedItems = [];
+
             $scope.onTableHandling = function () {
-                updatePage();
+                dataReceivingService
+                    .getData('/provider/verifications/new/' + $scope.currentPage + '/' + $scope.itemsPerPage)
+                    .then(function (verifications) {
+                        $scope.pageData = verifications.content;
+                        $scope.totalItems = verifications.totalItems;
+                    });
             };
 
-            updatePage();
-
-            function updatePage() {
-                dataReceivingService
-                    .getData('/provider/verifications/new/' + $scope.currentPage + '/' + $scope.itemsPerPage)
-                    .success(function (verifications) {
-                        $scope.pageData = verifications.content;
-                        $scope.totalItems = verifications.totalItems;
-                    });
-            }
-            function updatePage() {
-                dataReceivingService
-                    .getData('/provider/verifications/new/' + $scope.currentPage + '/' + $scope.itemsPerPage)
-                    .success(function (verifications) {
-                        $scope.pageData = verifications.content;
-                        $scope.totalItems = verifications.totalItems;
-                    });
-            }
+            $scope.onTableHandling();
 
             $scope.openDetails = function ($index) {
                 $modal.open({
@@ -39,8 +30,9 @@ angular
                     size: 'lg',
                     resolve: {
                         verification: function () {
-                            return dataReceivingService.getData('/provider/verifications/new/' + $scope.pageData[$index].id)
-                                .success(function (verification) {
+                            return dataReceivingService.getData('/provider/verifications/new/' +
+                                $scope.pageData[$index].id)
+                                .then(function (verification) {
                                     verification.id = $scope.pageData[$index].id;
                                     verification.initialDate = $scope.pageData[$index].initialDate;
                                     return verification;
@@ -50,21 +42,15 @@ angular
                 });
             };
 
-            $scope.verificationIds = [];
-            checkedItems = [];
 
 
             $scope.resolveVerificationId = function (id, $index) {
-                console.log(checkedItems[$index]);
-                if (!checkedItems[$index]) {
-                    $log.info("checked");
+                if (!$scope.checkedItems[$index]) {
                     $scope.verificationIds[$index] = id;
-                    $log.info($scope.verificationIds);
-                    checkedItems[$index] = true;
+                    $scope.checkedItems[$index] = true;
                 } else {
-                    $log.info("unchecked");
                     $scope.verificationIds[$index] = undefined;
-                    checkedItems[$index] = false;
+                    $scope.checkedItems[$index] = false;
                 }
             };
 
@@ -76,9 +62,9 @@ angular
                 dataUpdatingService
                     .updateData('/provider/verifications/new/update', dataToSend)
                     .success(function () {
+                        $scope.onTableHandling();
                     });
                 $scope.verificationIds = [];
-              updatePage();
             }
 
             $scope.openSending = function () {
@@ -90,7 +76,7 @@ angular
                     resolve: {
                         calibrators: function () {
                             return dataReceivingService.getData('/provider/verifications/new/calibrators')
-                                .success(function (calibrators) {
+                                .then(function (calibrators) {
                                     return calibrators;
                                 });
                         }
@@ -98,20 +84,17 @@ angular
                 });
 
                 moduleInstance.result.then(function (calibrator) {
-                    $log.info(calibrator);
                     try {
                         if (calibrator.id !== 'undefined' && calibrator.name !== 'undefined') {
                             sendVerification(calibrator);
-                            checkedItems = [];
-                            console.log(calibrator);
+                            $scope.checkedItems = [];
                         }
                     }
                     catch (err) {
                         $scope.verificationIds = [];
-                        checkedItems = [];
-                        console.log(calibrator);
+                        $scope.checkedItems = [];
                     }
-                    updatePage();
+                    $scope.onTableHandling();
                 });
             }
         }]);

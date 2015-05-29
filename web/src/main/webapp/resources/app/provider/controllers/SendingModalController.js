@@ -1,11 +1,9 @@
 angular
     .module('providerModule')
-    .controller('SendingModalController', ['$scope', '$modalInstance', '$log', 'calibrators',
-        function ($scope, $modalInstance, $log, calibrators) {
+    .controller('SendingModalController', ['$scope', '$rootScope', '$modalInstance', 'calibrators',
+        function ($scope,$rootScope, $modalInstance, calibrators) {
 
-            $scope.calibrators = calibrators.data;
-            $log.info($scope.calibrators);
-
+            $scope.calibrators = calibrators;
             $scope.close = function () {
                 $modalInstance.close();
             };
