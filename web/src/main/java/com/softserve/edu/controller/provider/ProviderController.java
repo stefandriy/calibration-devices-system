@@ -124,7 +124,7 @@ public class ProviderController {
                 verification.getProviderEmployee(), verification.getStateVerificator(),
                 verification.getStateVerificatorEmployee());
     }
-    @RequestMapping(value = "/provider/verifications/sendverification/", method = RequestMethod.POST)
+    @RequestMapping(value = "sendverification", method = RequestMethod.POST)
     public void getInitiateVerification(
             @PathVariable InitiateVerificationDTO initiateVerificationDTO,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
