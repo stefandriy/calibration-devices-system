@@ -1,4 +1,4 @@
-package com.softserve.edu.controller.provider.util;
+package com.softserve.edu.dto.provider;
 
 public class InitiateVerificationDTO {
     private String surname;
@@ -9,8 +9,17 @@ public class InitiateVerificationDTO {
     private String district;
     private String locality;
     private String street;
+    private String building;
     private String flat;
     private String calibratorName;
+
+    public String getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
+    }
 
     public String getSurname() {
         return surname;
