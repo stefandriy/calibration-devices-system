@@ -3,16 +3,19 @@ package com.softserve.edu.dto;
 import com.softserve.edu.entity.CalibrationTest;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
 
 
 public class CalibrationTestDTO extends ResourceSupport {
     private String name;
-    private String deviceNumber;
+    private Date dateTest;
     private Integer temperature;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
+    private String consumptionStatus;
     private String testResult;
+    // private String photoPath;
 
 
     public String getName() {
@@ -23,12 +26,12 @@ public class CalibrationTestDTO extends ResourceSupport {
         this.name = name;
     }
 
-    public String getDeviceNumber() {
-        return deviceNumber;
+    public Date getDateTest() {
+        return dateTest;
     }
 
-    public void setDeviceNumber(String deviceNumber) {
-        this.deviceNumber = deviceNumber;
+    public void setDateTest(Date dateTest) {
+        this.dateTest = dateTest;
     }
 
     public Integer getTemperature() {
@@ -63,6 +66,14 @@ public class CalibrationTestDTO extends ResourceSupport {
         this.longitude = longitude;
     }
 
+    public String getConsumptionStatus() {
+        return consumptionStatus;
+    }
+
+    public void setConsumptionStatus(String consumptionStatus) {
+        this.consumptionStatus = consumptionStatus;
+    }
+
     public String getTestResult() {
         return testResult;
     }
@@ -74,11 +85,12 @@ public class CalibrationTestDTO extends ResourceSupport {
     public CalibrationTest toCalibrationTest() {
         CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setName(name);
-      //  calibrationTest.setDeviceNumber(deviceNumber);
+        calibrationTest.setDateTest(dateTest);
         calibrationTest.setTemperature(temperature);
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
+        calibrationTest.setConsumptionStatus(consumptionStatus);
         calibrationTest.setTestResult(testResult);
         return calibrationTest;
     }

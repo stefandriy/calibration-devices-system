@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface DistrictRepository extends CrudRepository<District, Long> {
     List<District> findByRegionId(Long id);
+
+    District findByDesignationAndRegion(String designation, Region region);
 }

@@ -40,15 +40,15 @@ angular
                 });
             };
 
-            $scope.verificationIds = [];
+            $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
 
             $scope.resolveVerificationId = function (id, $index) {
                 if (!$scope.checkedItems[$index]) {
-                    $scope.verificationIds[$index] = id;
+                    $scope.idsOfVerifications[$index] = id;
                     $scope.checkedItems[$index] = true;
                 } else {
-                    $scope.verificationIds[$index] = undefined;
+                    $scope.idsOfVerifications[$index] = undefined;
                     $scope.checkedItems[$index] = false;
                 }
             };
@@ -56,7 +56,7 @@ angular
             function sendVerification(calibratorId) {
 
                 var dataToSend = {
-                    verificationIds: removeEmptyArrayElements($scope.verificationIds),
+                    idsOfVerifications: removeEmptyArrayElements($scope.idsOfVerifications),
                     calibrator: calibratorId
                 };
                 $log.info(dataToSend);
@@ -65,7 +65,7 @@ angular
                     .then(function () {
                         $scope.onTableHandling();
                     });
-                $scope.verificationIds = [];
+                $scope.idsOfVerifications = [];
             }
 
             $scope.openSending = function () {
@@ -92,7 +92,7 @@ angular
                         }
                     }
                     catch (err) {
-                        $scope.verificationIds = [];
+                        $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
                     }
                     $scope.onTableHandling();
@@ -100,10 +100,10 @@ angular
             }
         }]);
 
-function removeEmptyArrayElements(arr) {
+var removeEmptyArrayElements = function (arr) {
 
     return arr
         .filter(function (elem) {
             return elem !== null
         });
-}
+};

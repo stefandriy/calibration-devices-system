@@ -100,20 +100,4 @@ public class ProviderStageVerificationDTO {
     public void setCalibratorName(String calibratorName) {
         this.calibratorName = calibratorName;
     }
-
-    @Override
-    public String toString() {
-        return "InitiateVerificationDTO{" +
-                "surname='" + surname + '\'' +
-                ", name='" + name + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", region='" + region + '\'' +
-                ", district='" + district + '\'' +
-                ", locality='" + locality + '\'' +
-                ", street='" + street + '\'' +
-                ", flat='" + flat + '\'' +
-                ", calibratorName='" + calibratorName + '\'' +
-                '}';
-    }
 }
