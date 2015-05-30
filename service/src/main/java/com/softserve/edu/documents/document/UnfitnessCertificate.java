@@ -22,15 +22,6 @@ public class UnfitnessCertificate extends BaseCertificate {
     @Override
     @Column(name = "UNFITNESS_CERTIFICATE_NUMBER")
     public String getVerificationCertificateNumber() {
-        return String.valueOf(getVerification().getId());
-    }
-
-    /**
-     * @return the date until this verification certificate is effective.
-     */
-    @Column(name = "EFF_DATE")
-    public String getVerificationCertificateDate() {
-//        return getVerification().getVerificationFinishedDate().toString();
-        return null;
+        return super.getVerificationCertificateNumber();
     }
 }

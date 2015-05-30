@@ -18,8 +18,7 @@ public class VerificationCertificate extends BaseCertificate {
      */
     @Column(name = "EFF_DATE")
     public String getVerificationCertificateEffectiveUntilDate() {
-        //return getVerification().getVerificationFinishedDate().toString();
-        return null;
+        return getVerification().getExpirationDate().toString();
     }
 
     /**

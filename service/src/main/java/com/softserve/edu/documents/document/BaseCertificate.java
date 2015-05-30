@@ -9,8 +9,10 @@ import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.StateVerificatorEmployee;
 import com.softserve.edu.entity.util.DeviceType;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Represents a base document.
@@ -63,8 +65,7 @@ public abstract class BaseCertificate implements Document {
     public String getCalibratorCompanyAddress() {
         Address address = getVerification().getCalibrator().getAddress();
 
-        String addresToReturn = // address.getIndex() + ", " +
-                address.getLocality() + ", " +
+        String addresToReturn = address.getLocality() + ", " +
                 address.getStreet() + ", " +
                 address.getBuilding();
 
@@ -96,7 +97,8 @@ public abstract class BaseCertificate implements Document {
      */
     @Column(name = "VERIFICATION_CERTIFICATE_NUMBER")
     public String getVerificationCertificateNumber() {
-        return String.valueOf(getVerification().getId());
+        String verificationID = String.valueOf(getVerification().getId());
+        return new BigInteger(verificationID.replaceAll("-", ""), 16).toString().substring(0, 8);
     }
 
     /**
@@ -104,7 +106,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Column(name = "DEV_NAME")
     public String getDeviceName() {
-        String deviceName = "Лічильник ";
+        String deviceName = "лічильник ";
 
         DeviceType deviceType = getVerification().getDevice().getDeviceType();
 
