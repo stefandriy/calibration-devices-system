@@ -42,7 +42,8 @@ public class AdjustLines implements Action {
                 filter(paragraph -> !paragraph.getParagraphText().isEmpty()).
                 collect(Collectors.toList());
 
-        for (XWPFParagraph paragraph : paragraphList) {
+        for (int i = 0; i < paragraphList.size(); i++) {
+            XWPFParagraph paragraph = paragraphList.get(i);
             setCorrectText(paragraph, contentWidth);
         }
 
