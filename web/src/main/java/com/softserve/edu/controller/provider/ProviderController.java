@@ -1,16 +1,14 @@
 package com.softserve.edu.controller.provider;
 
-import com.softserve.edu.controller.provider.util.InitiateVerificationDTO;
+import com.softserve.edu.dto.provider.InitiateVerificationDTO;
 import com.softserve.edu.controller.provider.util.VerificationIdAndCalibrationDataDTO;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.entity.Calibrator;
-import com.softserve.edu.entity.ClientData;
-import com.softserve.edu.entity.Provider;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.*;
+import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.CalibratorService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.provider.ProviderService;
@@ -21,7 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -124,10 +122,30 @@ public class ProviderController {
                 verification.getProviderEmployee(), verification.getStateVerificator(),
                 verification.getStateVerificatorEmployee());
     }
+
     @RequestMapping(value = "sendverification", method = RequestMethod.POST)
     public void getInitiateVerification(
             @RequestBody InitiateVerificationDTO initiateVerificationDTO,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        System.out.println("Hell world");
+
+        Provider provider = providerService.findById(employeeUser.getOrganizationId());
+
+        Verification verification = new Verification(
+                new Date(),
+                new ClientData(
+                        initiateVerificationDTO.getName(),
+                        initiateVerificationDTO.getSurname(),
+                        initiateVerificationDTO.getMiddleName(),
+                        initiateVerificationDTO.getPhone(),
+                        new Address(
+                                provider.getAddress().getRegion(),
+                                provider.getAddress().getDistrict(),
+                                initiateVerificationDTO.getLocality(),
+                                initiateVerificationDTO.getStreet(),
+                                initiateVerificationDTO.getBuilding(),
+                                initiateVerificationDTO.getFlat())),
+                provider,
+                Status.SENT);
+        verificationService.saveVerification(verification);
     }
 }

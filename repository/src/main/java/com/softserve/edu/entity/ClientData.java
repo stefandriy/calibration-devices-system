@@ -14,7 +14,13 @@ public class ClientData {
     @Embedded
     private Address clientAddress;
 
-    protected ClientData() {}
+    protected ClientData() {
+    }
+
+    public ClientData(String firstName, String lastName, String middleName,
+                      String phone, Address clientAddress) {
+        this(firstName, lastName, middleName, null, phone, clientAddress);
+    }
 
     public ClientData(String firstName, String lastName, String middleName, String email,
                       String phone, Address clientAddress) {
