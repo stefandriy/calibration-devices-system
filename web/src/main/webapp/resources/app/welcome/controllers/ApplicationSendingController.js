@@ -1,25 +1,27 @@
 angular
     .module('welcomeModule')
-    .controller('ApplicationSendingController', ['$scope', '$state', '$http', '$log', 'DataReceivingService',
-        'DataSendingService',
+    .controller('ApplicationSendingController', ['$scope', '$state', '$http', '$log',
+        'DataReceivingService', 'DataSendingService',
 
         function ($scope, $state, $http, $log, dataReceivingService, dataSendingService) {
 
             $scope.isShownForm = true;
+
             /**
              * Receives all possible regions.
              */
             $scope.regions = [];
-            dataReceivingService.getData("/application/regions").success(function (regions) {
-                $scope.regions = regions;
-            });
+            dataReceivingService.findAllRegions()
+                .success(function (regions) {
+                    $scope.regions = regions;
+                });
             /**
              * Receives all possible districts.
              * On-select handler in region input form element.
              */
             $scope.receiveDistricts = function (selectedRegion) {
                 $scope.districts = [];
-                dataReceivingService.getData("/application/districts/" + selectedRegion.id)
+                dataReceivingService.findDistrictsByRegionId(selectedRegion.id)
                     .success(function (districts) {
                         $scope.districts = districts;
                         $scope.selectedDistrict = "";
@@ -31,18 +33,17 @@ angular
              * Receives all possible localities.
              * On-select handler in district input form element.
              */
-            $scope.receiveLocalities = function (selectedDistrict) {
+            $scope.receiveLocalitiesAndProviders = function (selectedDistrict) {
                 $scope.localities = [];
-                dataReceivingService.getData("/application/localities/" + selectedDistrict.id)
+                dataReceivingService.findLocalitiesByDistrictId(selectedDistrict.id)
                     .success(function (localities) {
                         $scope.localities = localities;
                         $scope.selectedLocality = "";
                         $scope.selectedStreet = "";
                     });
+
                 //Receives providers corresponding this district
-                $log.log(selectedDistrict.designation);
-                dataReceivingService.getData("/application/providers/"
-                + selectedDistrict.designation)
+                dataReceivingService.findProvidersByDistrictDesignation(selectedDistrict.designation)
                     .success(function (providers) {
                         $scope.providers = providers;
                     });
@@ -53,7 +54,7 @@ angular
              */
             $scope.receiveStreets = function (selectedLocality) {
                 $scope.streets = [];
-                dataReceivingService.getData("/application/streets/" + selectedLocality.id)
+                dataReceivingService.findStreetsByLocalityId(selectedLocality.id)
                     .success(function (streets) {
                         $scope.streets = streets;
                         $scope.selectedStreet = "";
@@ -65,7 +66,7 @@ angular
              */
             $scope.receiveBuildings = function (selectedStreet) {
                 $scope.buildings = [];
-                dataReceivingService.getData("/application/buildings/" + selectedStreet.id)
+                dataReceivingService.findBuildingsByStreetId(selectedStreet.id)
                     .success(function (buildings) {
                         $scope.buildings = buildings;
                     });
@@ -85,10 +86,13 @@ angular
                     $scope.formData.street = $scope.selectedStreet.designation;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
-                    dataSendingService.sendData("/application/add", $scope.formData)
+
+                    dataSendingService.sendApplication($scope.formData)
                         .success(function (applicationCode) {
                             $scope.applicationCode = applicationCode;
                         });
+
+                    //hide form because application status is shown
                     $scope.isShownForm = false;
                 }
             };
