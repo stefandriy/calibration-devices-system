@@ -1,6 +1,6 @@
 package com.softserve.edu.controller.provider;
 
-import com.softserve.edu.dto.provider.InitiateVerificationDTO;
+import com.softserve.edu.dto.provider.ProviderStageVerificationDTO;
 import com.softserve.edu.controller.provider.util.VerificationIdAndCalibrationDataDTO;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
@@ -82,7 +82,6 @@ public class ProviderController {
         );
     }
 
-
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationIdAndCalibrationDataDTO verificationIdAndCalibrationDataDTO) {
@@ -91,7 +90,8 @@ public class ProviderController {
             verificationService
                     .updateVerification(
                             verificationId,
-                            verificationIdAndCalibrationDataDTO.getCalibrator());
+                            verificationIdAndCalibrationDataDTO.getCalibrator()
+                    );
         }
     }
 
@@ -101,11 +101,15 @@ public class ProviderController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         Verification verification = verificationService
-                .findByIdAndProviderId(verificationId, employeeUser.getOrganizationId());
+                .findByIdAndProviderId(
+                        verificationId,
+                        employeeUser.getOrganizationId()
+                );
 
         ClientData clientData = verification.getClientData();
+        Address address = clientData.getClientAddress();
 
-        return new ClientStageVerificationDTO(clientData, clientData.getClientAddress(), null);
+        return new ClientStageVerificationDTO(clientData, address, null);
     }
 
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
@@ -116,16 +120,25 @@ public class ProviderController {
         Verification verification = verificationService
                 .findByIdAndProviderId(verificationId, employeeUser.getOrganizationId());
 
-        return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(),
-                verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
-                verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
-                verification.getProviderEmployee(), verification.getStateVerificator(),
-                verification.getStateVerificatorEmployee());
+        return new VerificationDTO(
+                verification.getClientData(),
+                verification.getId(),
+                verification.getInitialDate(),
+                verification.getExpirationDate(),
+                verification.getStatus(),
+                verification.getCalibrator(),
+                verification.getCalibratorEmployee(),
+                verification.getDevice(),
+                verification.getProvider(),
+                verification.getProviderEmployee(),
+                verification.getStateVerificator(),
+                verification.getStateVerificatorEmployee()
+        );
     }
 
-    @RequestMapping(value = "sendverification", method = RequestMethod.POST)
+    @RequestMapping(value = "send", method = RequestMethod.POST)
     public void getInitiateVerification(
-            @RequestBody InitiateVerificationDTO initiateVerificationDTO,
+            @RequestBody ProviderStageVerificationDTO verificationDTO,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         Provider provider = providerService.findById(employeeUser.getOrganizationId());
@@ -133,17 +146,17 @@ public class ProviderController {
         Verification verification = new Verification(
                 new Date(),
                 new ClientData(
-                        initiateVerificationDTO.getName(),
-                        initiateVerificationDTO.getSurname(),
-                        initiateVerificationDTO.getMiddleName(),
-                        initiateVerificationDTO.getPhone(),
+                        verificationDTO.getName(),
+                        verificationDTO.getSurname(),
+                        verificationDTO.getMiddleName(),
+                        verificationDTO.getPhone(),
                         new Address(
                                 provider.getAddress().getRegion(),
                                 provider.getAddress().getDistrict(),
-                                initiateVerificationDTO.getLocality(),
-                                initiateVerificationDTO.getStreet(),
-                                initiateVerificationDTO.getBuilding(),
-                                initiateVerificationDTO.getFlat())),
+                                verificationDTO.getLocality(),
+                                verificationDTO.getStreet(),
+                                verificationDTO.getBuilding(),
+                                verificationDTO.getFlat())),
                 provider,
                 Status.SENT);
         verificationService.saveVerification(verification);

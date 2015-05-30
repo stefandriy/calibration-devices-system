@@ -1,15 +1,13 @@
 angular
     .module('providerModule')
-    .controller('NewVerificationsController', ['$scope', '$modal', 'DataReceivingService', 'DataUpdatingService',
-        function ($scope, $modal, dataReceivingService, dataUpdatingService) {
+    .controller('NewVerificationsController', ['$scope', '$log', '$modal', 'DataReceivingService',
+        'DataUpdatingService',
+        function ($scope, $log, $modal, dataReceivingService, dataUpdatingService) {
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageData = [];
-
-            $scope.verificationIds = [];
-            $scope.checkedItems = [];
 
             $scope.onTableHandling = function () {
                 dataReceivingService
@@ -31,7 +29,7 @@ angular
                     resolve: {
                         verification: function () {
                             return dataReceivingService.getData('/provider/verifications/new/' +
-                                $scope.pageData[$index].id)
+                            $scope.pageData[$index].id)
                                 .then(function (verification) {
                                     verification.id = $scope.pageData[$index].id;
                                     verification.initialDate = $scope.pageData[$index].initialDate;
@@ -42,7 +40,8 @@ angular
                 });
             };
 
-
+            $scope.verificationIds = [];
+            $scope.checkedItems = [];
 
             $scope.resolveVerificationId = function (id, $index) {
                 if (!$scope.checkedItems[$index]) {
@@ -55,10 +54,12 @@ angular
             };
 
             function sendVerification(calibratorId) {
+
                 var dataToSend = {
-                    verificationIds: $scope.verificationIds,
+                    verificationIds: removeEmptyArrayElements($scope.verificationIds),
                     calibrator: calibratorId
                 };
+                $log.info(dataToSend);
                 dataUpdatingService
                     .updateData('/provider/verifications/new/update', dataToSend)
                     .then(function () {
@@ -98,3 +99,11 @@ angular
                 });
             }
         }]);
+
+function removeEmptyArrayElements(arr) {
+
+    return arr
+        .filter(function (elem) {
+            return elem !== null
+        });
+}

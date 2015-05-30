@@ -1,15 +1,9 @@
 package com.softserve.edu.entity;
 
-import com.softserve.edu.entity.catalogue.Street;
-
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue(value = "CALIBRATOR")
 public class Calibrator extends Organization {
     /**
      * Identification number of the certificate that allows this calibrator to

@@ -3,7 +3,6 @@ package com.softserve.edu.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name="`CALIBRATION_TEST_DATA`")
 public class CalibrationTestData {
     @Id
     @GeneratedValue

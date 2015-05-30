@@ -1,6 +1,6 @@
 package com.softserve.edu.dto.provider;
 
-public class InitiateVerificationDTO {
+public class ProviderStageVerificationDTO {
     private String surname;
     private String name;
     private String middleName;
