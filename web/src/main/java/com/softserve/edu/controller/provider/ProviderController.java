@@ -126,8 +126,8 @@ public class ProviderController {
     }
     @RequestMapping(value = "sendverification", method = RequestMethod.POST)
     public void getInitiateVerification(
-            @PathVariable InitiateVerificationDTO initiateVerificationDTO,
+            @RequestBody InitiateVerificationDTO initiateVerificationDTO,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
+        System.out.println("Hell world");
     }
 }

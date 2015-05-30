@@ -61,7 +61,7 @@ angular
                 };
                 dataUpdatingService
                     .updateData('/provider/verifications/new/update', dataToSend)
-                    .success(function () {
+                    .then(function () {
                         $scope.onTableHandling();
                     });
                 $scope.verificationIds = [];

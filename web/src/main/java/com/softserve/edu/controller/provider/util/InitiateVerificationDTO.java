@@ -9,6 +9,7 @@ public class InitiateVerificationDTO {
     private String district;
     private String locality;
     private String street;
+    private String building;
     private String flat;
     private String calibratorName;
 

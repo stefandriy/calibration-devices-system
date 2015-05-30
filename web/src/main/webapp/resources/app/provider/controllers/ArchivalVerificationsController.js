@@ -18,7 +18,7 @@ angular
             function updatePage() {
                 dataReceivingService
                     .getData('/provider/verifications/archive/' + $scope.currentPage + '/' + $scope.itemsPerPage)
-                    .success(function (verifications) {
+                    .then(function (verifications) {
                         $scope.pageData = verifications.content;
                         $scope.totalItems = verifications.totalItems;
                     });
@@ -33,7 +33,7 @@ angular
                     resolve: {
                         verification: function () {
                             return dataReceivingService.getData('/provider/verifications/archive/' + $scope.pageData[$index].id)
-                                .success(function (verification) {
+                                .then(function (verification) {
                                     return verification;
                                 });
                         }
