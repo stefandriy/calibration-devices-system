@@ -12,6 +12,9 @@ angular
                 {type: 'STATE_VERIFICATION', name: 'Державний повірник'}
             ];
 
+            /**
+             * Updates the table with organization.
+             */
             $scope.onTableHandling = function () {
                 organizationService
                     .getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData)
