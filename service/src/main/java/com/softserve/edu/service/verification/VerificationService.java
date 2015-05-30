@@ -1,9 +1,10 @@
 package com.softserve.edu.service.verification;
 
-import com.softserve.edu.entity.Calibrator;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.exceptions.CalibrationTestNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,9 @@ public class VerificationService {
 
     @Autowired
     private VerificationRepository verificationRepository;
+
+    @Autowired
+    private CalibrationTestRepository calibrationTestRepository;
 
     @Transactional
     public void saveVerification(Verification verification) {
@@ -43,16 +47,35 @@ public class VerificationService {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return verificationRepository.findByProviderId(providerId, pageRequest);
     }
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfAllVerificationsByCalibratorId(Long calibratorId, int pageNumber, int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByCalibratorId(calibratorId, pageRequest);
+    }
 
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return verificationRepository.findByProviderIdAndStatus(providerId, Status.SENT, pageRequest);
     }
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber, int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByCalibratorIdAndStatus(calibratorId, Status.RECEIVED, pageRequest);
+    }
+
 
     @Transactional(readOnly = true)
     public Verification findByIdAndProviderId(String id, Long providerId) {
         Verification verification = verificationRepository.findByIdAndProviderId(id, providerId);
+        if (verification == null) {
+            throw new AccessDeniedException("You have not permission to get this data.");
+        }
+        return verification;
+    }
+    @Transactional(readOnly = true)
+    public Verification findByIdAndCalibratorId(String id, Long calibratorId) {
+        Verification verification = verificationRepository.findByIdAndCalibratorId(id, calibratorId);
         if (verification == null) {
             throw new AccessDeniedException("You have not permission to get this data.");
         }
@@ -64,5 +87,23 @@ public class VerificationService {
         verification.setStatus(Status.RECEIVED);
         verification.setCalibrator(calibrator);
         verificationRepository.save(verification);
+    }
+    @Transactional
+    public void updateVerificationByCalibrator(String verificationId,
+                                               StateVerificator stateVerificator) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        verification.setStatus(Status.IN_PROGRESS);
+        verification.setStateVerificator(stateVerificator);
+        verificationRepository.save(verification);
+    }
+    @Transactional
+    public CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data){
+        Verification updatedVerification = verificationRepository.findOne(verificationId);
+        if (updatedVerification == null) {
+            throw new CalibrationTestNotFoundException();// todo: make proper exception!!!
+        }
+        CalibrationTest testData = calibrationTestRepository.save(data);
+        testData.setVerification(updatedVerification);
+        return testData;
     }
 }
