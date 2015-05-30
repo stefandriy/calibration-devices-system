@@ -1,9 +1,10 @@
 angular
     .module('providerModule')
-    .controller('DetailsModalController', ['$scope', '$modalInstance', '$log', 'verification',
-        function ($scope, $modalInstance, $log, verification) {
+    .controller('DetailsModalController', ['$scope', '$modalInstance', '$log', 'response',
+        function ($scope, $modalInstance, $log, response) {
 
-            $scope.verificationData = verification.data;
+            $scope.verificationData = response.data;
+
             $log.info($scope.verificationData);
 
             $scope.close = function () {

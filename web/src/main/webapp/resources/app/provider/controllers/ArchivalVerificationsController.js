@@ -1,11 +1,11 @@
 angular
     .module('providerModule')
-    .controller('ArchivalVerificationsController', ['$scope', '$modal', '$log', 'DataReceivingService',
-        function ($scope, $modal, $log, dataReceivingService) {
+    .controller('ArchivalVerificationsController', ['$scope', '$modal', '$log', 'VerificationService',
+        function ($scope, $modal, $log, verificationService) {
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;
-            $scope.itemsPerPage = 5;
+            $scope.itemsPerPage = 10;
             $scope.pageData = [];
 
             $scope.onTableHandling = function () {
@@ -16,9 +16,9 @@ angular
             updatePage();
 
             function updatePage() {
-                dataReceivingService
-                    .getData('/provider/verifications/archive/' + $scope.currentPage + '/' + $scope.itemsPerPage)
-                    .then(function (verifications) {
+                verificationService
+                    .getArchivalVerifications($scope.currentPage, $scope.itemsPerPage)
+                    .success(function (verifications) {
                         $scope.pageData = verifications.content;
                         $scope.totalItems = verifications.totalItems;
                     });
@@ -31,14 +31,14 @@ angular
                     controller: 'DetailsModalController',
                     size: 'lg',
                     resolve: {
-                        verification: function () {
-                            return dataReceivingService.getData('/provider/verifications/archive/' + $scope.pageData[$index].id)
-                                .then(function (verification) {
+                        response: function () {
+                            return verificationService.getArchivalVerificationDetails(
+                                $scope.pageData[$index].id)
+                                .success(function (verification) {
                                     return verification;
                                 });
                         }
                     }
                 });
             };
-
         }]);

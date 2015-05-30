@@ -1,6 +1,6 @@
 angular
     .module('providerModule')
-    .service('DataSendingService', ['$http', function ($http) {
+    .factory('DataSendingService', ['$http', function ($http) {
         this.sendData = function (url, data) {
             return $http.post(url, data)
                 .success(function (responseData) {

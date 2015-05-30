@@ -18,11 +18,12 @@
                         <div class="col-md-offset-11">
                             <label>
                                 Показати по
-                                <select ng-model="itemsPerPage" ng-change="onTableHandling()" class="form-control input-sm">
+                                <select ng-model="itemsPerPage" ng-change="onTableHandling()"
+                                        class="form-control input-sm">
                                     <option value="1">1</option>
                                     <option value="3">3</option>
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -54,7 +55,7 @@
                                     <td class="text-center">
                                         <a popover="Клацініть, щоб отримати всі дані про цю повірку"
                                            popover-trigger="mouseenter" ng-click="openDetails($index)">
-                                            <i class="fa fa-2x fa-info-circle"></i>
+                                            <i class="fa fa-info-circle"></i>
                                         </a>
                                     </td>
                                 </tr>

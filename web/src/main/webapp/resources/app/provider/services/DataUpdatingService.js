@@ -1,6 +1,6 @@
 angular
     .module('providerModule')
-    .service('DataUpdatingService', ['$http', function ($http) {
+    .factory('DataUpdatingService', ['$http', function ($http) {
         this.updateData = function (url, data) {
             return $http.put(url, data)
                 .success(function (responseData) {

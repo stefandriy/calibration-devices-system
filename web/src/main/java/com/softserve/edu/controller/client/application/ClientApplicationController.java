@@ -1,6 +1,6 @@
 package com.softserve.edu.controller.client.application;
 
-import com.softserve.edu.dto.application.ClientApplicationFieldDTO;
+import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
@@ -75,12 +75,12 @@ public class ClientApplicationController {
     }
 
     @RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
-    public List<ClientApplicationFieldDTO> getProvidersCorrespondingDistrict(
+    public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(
             @PathVariable String district) {
 
         return providerService.findByDistrictDesignation(district)
                 .stream()
-                .map(provider -> new ClientApplicationFieldDTO(
+                .map(provider -> new ApplicationFieldDTO(
                                 provider.getId(),
                                 provider.getName())
                 )

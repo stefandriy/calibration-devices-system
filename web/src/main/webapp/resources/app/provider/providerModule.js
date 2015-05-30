@@ -41,7 +41,7 @@
         'controllers/AddingVerificationsController',
         'controllers/DetailsModalController',
         'controllers/SendingModalController',
-        'services/DataReceivingService',
+        'services/VerificationService',
         'services/DataUpdatingService',
         'services/DataSendingService'
     ], function () {});
