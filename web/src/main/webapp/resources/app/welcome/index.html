@@ -4,18 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.css"
+          rel="stylesheet">
     <link href="/resources/assets/css/welcome.css" rel="stylesheet">
     <link href="/resources/assets/css/application-form.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css"
+          rel="stylesheet">
 </head>
 
 <body id="welcomeModule" ng-controller="NavigationController">
 
-<div ng-if="!loaded" class="col-lg-offset-4">
-    <i class="fa big-icon-loader fa-spinner fa-spin centered"></i>
+<div class="row">
+    <div id="loaderSpinner" ng-if="!loaded" class="col-md-2 col-md-offset-5">
+        <i class="fa fa-spinner fa-spin fa-camera-retro "></i>
+    </div>
 </div>
+
 
 <div id="content" ng-show="loaded" class="ng-hide">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -50,7 +55,8 @@
                         <a ui-sref="login">{{ 'LOG_IN' | translate }}</a></li>
 
                     <li ng-class="{ active: isActive('/application-sending')}">
-                        <a ui-sref="application-sending">{{ 'APPLY_FOR_VERIFCIATION' | translate }}</a>
+                        <a ui-sref="application-sending">{{ 'APPLY_FOR_VERIFCIATION' | translate
+                            }}</a>
                     </li>
 
                     <li ng-class="{ active: isActive('/application-status')}">

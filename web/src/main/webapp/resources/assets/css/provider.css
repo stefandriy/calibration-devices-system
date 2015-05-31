@@ -381,8 +381,12 @@ input[type="radio"], input[type="checkbox"] {
     right: 15px;
 }
 
-#emptyError{
+#emptyError {
     display: block;
     color: red;
 }
 
+.fa {
+    font-size: 1.5em;
+    padding-right: 5px;
+}
