@@ -106,6 +106,10 @@ public class DocumentsController {
             case DOCX:
                 response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
                 break;
+            default:
+                throw new IllegalArgumentException(documentFormat.name() +
+                        " is not supported");
+
         }
 
         response.setHeader("Content-Disposition", "attachment; filename=\"myfile." +
