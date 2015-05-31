@@ -3,68 +3,65 @@ angular
     .controller('OrganizationFormController', ['$rootScope', '$scope', '$modal', 'OrganizationService', 'UserService',
         function ($rootScope, $scope, $modal, organizationService, userService) {
 
-            $scope.addressMessage = "";
-
-            $rootScope.addressForm = {
-                region: null,
-                district: null,
-                locality: null,
-                street: null,
-                building: null,
-                flat: null
+            /**
+             * Resets organization form
+             */
+            $scope.resetOrganizationForm = function () {
+                $scope.$broadcast('show-errors-reset');
+                $scope.addressMessage = '';
+                $scope.usernameValidation = null;
+                $scope.organizationFormData = null;
+                $rootScope.address = {
+                    region: null,
+                    district: null,
+                    locality: null,
+                    street: null,
+                    building: null,
+                    flat: null
+                };
             };
 
+            /**
+             * Calls resetOrganizationForm after the view loaded
+             */
+            $scope.resetOrganizationForm();
+
+            /**
+             * Updates address message in organization form according
+             * to data in modal window with address form.
+             */
             $rootScope.updateAddressMessage = function () {
-                var message = '';
-                if ($rootScope.addressForm.region != null) {
-                    message += $rootScope.addressForm.region.designation + ' область';
-                }
-                if ($rootScope.addressForm.district != null) {
-                    message += ', ' + $rootScope.addressForm.district.designation + ' район';
-                }
-                if ($rootScope.addressForm.locality != null) {
-                    message += ',\n ' + $rootScope.addressForm.locality.designation;
-                }
-                if ($rootScope.addressForm.street != null) {
-                    message += ', ' + $rootScope.addressForm.street.designation;
-                }
-                if ($rootScope.addressForm.building != null) {
-                    message += ', буд. ' + $rootScope.addressForm.building.designation;
-                }
-                if ($rootScope.addressForm.flat != null) {
-                    message += ', кв. ' + $rootScope.addressForm.flat;
-                }
-                $scope.addressMessage = message;
+                $scope.addressMessage = addressToString($rootScope.address);
             };
 
-
+            /**
+             * Validates username
+             */
             $scope.checkUsername = function () {
-                var username = $scope.organizationsFormData.username;
-                /^[a-z0-9_-]{3,16}$/.test(username) ?
-                    isUsernameAvailable(username) :
-                    validateUsername(false, 'does not correspond the standard');
+                var username = $scope.organizationFormData.username;
+                if (username == null) {
+                } else if (/^[a-z0-9_-]{3,16}$/.test(username)) {
+                    isUsernameAvailable(username)
+                } else {
+                    validateUsername(false, 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 ');
+                }
             };
 
+            /**
+             * Validates organization form before saving
+             */
             $scope.onOrganizationFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
+                //TODO: add password match checking
                 if ($scope.organizationForm.$valid && $scope.usernameValidation.isValid) {
-                    $scope.organizationsFormData.region = $rootScope.addressForm.region.designation;
-                    $scope.organizationsFormData.district = $rootScope.addressForm.district.designation;
-                    $scope.organizationsFormData.locality = $rootScope.addressForm.locality.designation;
-                    $scope.organizationsFormData.street = $rootScope.addressForm.street.designation;
-                    $scope.organizationsFormData.building = $rootScope.addressForm.building.designation;
-                    $scope.organizationsFormData.flat = $rootScope.addressForm.flat;
+                    addressFormToOrganizationForm();
                     saveOrganization();
                 }
             };
 
-            $scope.resetOrganizationForm = function () {
-                $scope.$broadcast('show-errors-reset');
-                $scope.usernameValidation = null;
-                $scope.organizationsFormData = null;
-
-            };
-
+            /**
+             * Opens modal window with address form.
+             */
             $scope.openAddressModal = function () {
                 var addressModal = $modal.open({
                     animation: true,
@@ -78,9 +75,14 @@ angular
                 });
             };
 
+            /**
+             * Saves new organization from the form in database.
+             * If everything is ok then resets the organization
+             * form and updates table with organizations.
+             */
             function saveOrganization() {
                 organizationService
-                    .saveOrganization($scope.organizationsFormData)
+                    .saveOrganization($scope.organizationFormData)
                     .then(function (data) {
                         if (data == 201) {
                             $scope.resetOrganizationForm();
@@ -89,6 +91,12 @@ angular
                     });
             }
 
+            /**
+             * Custom username field validation. Shows error message
+             * in view if username isn't validated.
+             * @param isValid
+             * @param message
+             */
             function validateUsername(isValid, message) {
                 $scope.usernameValidation = {
                     isValid: isValid,
@@ -97,12 +105,45 @@ angular
                 }
             }
 
+            /**
+             * Checks whereas given username is available to use for new user
+             * @param username
+             */
             function isUsernameAvailable(username) {
                 userService
                     .isUsernameAvailable(username)
                     .then(function (data) {
-                        validateUsername(data, 'already exists');
+                        validateUsername(data, 'Такий логін вже існує');
                     })
+            }
+
+            /**
+             * Transfers address data from modal window to current scope
+             */
+            function addressFormToOrganizationForm() {
+                $scope.organizationFormData.region = $rootScope.address.region.designation;
+                $scope.organizationFormData.district = $rootScope.address.district.designation;
+                $scope.organizationFormData.locality = $rootScope.address.locality.designation;
+                $scope.organizationFormData.street = $rootScope.address.street.designation;
+                $scope.organizationFormData.building = $rootScope.address.building.designation;
+                $scope.organizationFormData.flat = $rootScope.address.flat;
+            }
+
+            /**
+             * Translates address form data to string format
+             *
+             * @param address form data
+             * @returns {string} address in string format
+             */
+            function addressToString(address) {
+                var message = '';
+                if (address.region != null) {message += address.region.designation + ' область';}
+                if (address.district != null) {message += ', ' + address.district.designation + ' район';}
+                if (address.locality != null) {message += ', ' + address.locality.designation;}
+                if (address.street != null) {message += ', ' + address.street.designation;}
+                if (address.building != null) {message += ', буд. ' + address.building.designation;}
+                if (address.flat != null) {message += ', кв. ' + address.flat;}
+                return message
             }
 
         }]);
