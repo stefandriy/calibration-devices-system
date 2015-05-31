@@ -59,13 +59,15 @@
                                             <i class="fa fa-info-circle"></i>
                                         </a>
 
-                                        <a popover="Завантажити тестові дані у форматі 'docx'"
+                                        <a ng-show="verification.status === 'COMPLETED'"
+                                           popover="Завантажити тестові дані у форматі 'docx'"
                                            popover-trigger="mouseenter"
                                            href="{{'/doc/VERIFICATION_CERTIFICATE/' + verification.id + '/docx'}}">
                                             <i class="fa fa-file-word-o"></i>
                                         </a>
 
-                                        <a popover="Завантажити тестові дані у форматі 'pdf'"
+                                        <a ng-show="verification.status === 'COMPLETED'"
+                                           popover="Завантажити тестові дані у форматі 'pdf'"
                                            popover-trigger="mouseenter"
                                            href="{{'/doc/VERIFICATION_CERTIFICATE/' + verification.id + '/pdf'}}">
                                             <i class="fa fa-file-pdf-o"></i>
