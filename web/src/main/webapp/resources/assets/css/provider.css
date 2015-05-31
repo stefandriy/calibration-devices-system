@@ -358,3 +358,26 @@ input[type="radio"], input[type="checkbox"] {
     line-height: normal;
     margin: 0;
 }
+
+.form-group .help-block {
+    display: none;
+}
+
+.form-group .has-error .help-block {
+    display: block;
+}
+
+.form-group .glyphicon-ok-sign {
+    display: none;
+}
+
+.form-group .has-success .glyphicon-ok-sign {
+    display: block;
+    color: green;
+}
+
+.form-control-feedback {
+    top: 15px;
+    right: 15px;
+}
+

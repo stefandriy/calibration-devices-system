@@ -22,8 +22,8 @@
                                         class="form-control input-sm">
                                     <option value="1">1</option>
                                     <option value="3">3</option>
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
+                                    <option value="5"></option>
+                                    <option value="10" selected>10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -67,8 +67,11 @@
                             </table>
 
                             <div class="col-md-offset-11">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()">
+
+                                <button id="sendBtn" type="button" class="btn btn-primary"
+                                        ng-mouseenter="checkForEmpty()"
+                                        ng-click="openSendingModal()"
+                                        tooltip="Оберіть хоча би одну заявку">
                                     Надіслати
                                 </button>
                             </div>

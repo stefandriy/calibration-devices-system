@@ -5,7 +5,7 @@ angular
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;
-            $scope.itemsPerPage = 5;
+            $scope.itemsPerPage = 10;
             $scope.pageData = [];
 
             $scope.onTableHandling = function () {
@@ -41,6 +41,10 @@ angular
 
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
+            $scope.helpEvents = {
+                true: 'mouseenter',
+                false: 'never'
+            };
 
             $scope.resolveVerificationId = function (id, $index) {
                 if (!$scope.checkedItems[$index]) {
@@ -50,53 +54,54 @@ angular
                     $scope.idsOfVerifications[$index] = undefined;
                     $scope.checkedItems[$index] = false;
                 }
+                $scope.idsOfVerifications = removeEmptyArrayElements($scope.idsOfVerifications);
             };
 
-            function sendVerifications(calibratorId) {
-
-                var dataToSend = {
-                    idsOfVerifications: removeEmptyArrayElements($scope.idsOfVerifications),
-                    calibrator: calibratorId
-                };
-                $log.info(dataToSend);
-                verificationService
-                    .sendVerificationsToCalibrator(dataToSend)
-                    .success(function () {
-                        $scope.onTableHandling();
-                    });
-                $scope.idsOfVerifications = [];
-            }
+            $scope.checkForEmpty = function () {
+                $log.info($scope.idsOfVerifications);
+                $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
+                $log.info($scope.allIsEmpty);
+                angular.element("#sendBtn").trigger($scope.allIsEmpty);
+            };
 
             $scope.openSendingModal = function () {
-                var moduleInstance = $modal.open({
-                    animation: true,
-                    templateUrl: '/resources/app/provider/views/verification-sending.html',
-                    controller: 'SendingModalController',
-                    size: 'sm',
-                    resolve: {
-                        response: function () {
-                            return verificationService.getCalibrators()
-                                .success(function (calibrators) {
-                                    return calibrators;
-                                });
+                if (!$scope.allIsEmpty) {
+                    var modalInstance = $modal.open({
+                        animation: true,
+                        templateUrl: '/resources/app/provider/views/verification-sending.html',
+                        controller: 'SendingModalController',
+                        size: 'md',
+                        resolve: {
+                            response: function () {
+                                return verificationService.getCalibrators()
+                                    .success(function (calibrators) {
+                                        return calibrators;
+                                    });
+                            }
                         }
-                    }
-                });
+                    });
 
-                moduleInstance.result.then(function (calibrator) {
-                    try {
-                        if (calibrator.id !== 'undefined' && calibrator.name !== 'undefined') {
-                            sendVerifications(calibrator);
-                            $scope.checkedItems = [];
-                        }
-                    }
-                    catch (err) {
+                    //executes when modal closing
+                    modalInstance.result.then(function (calibrator) {
+                        $log.info(calibrator);
+
+                        var dataToSend = {
+                            idsOfVerifications: $scope.idsOfVerifications,
+                            calibrator: calibrator
+                        };
+
+                        $log.info(dataToSend);
+
+                        verificationService
+                            .sendVerificationsToCalibrator(dataToSend)
+                            .success(function () {
+                                $scope.onTableHandling();
+                            });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
-                    }
-                    $scope.onTableHandling();
-                });
-            }
+                    });
+                }
+            };
         }]);
 
 

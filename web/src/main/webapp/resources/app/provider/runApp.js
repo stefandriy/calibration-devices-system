@@ -4,23 +4,28 @@ require.config({
         csrfInterceptor: '../../assets/bower_components/spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
         angularBootstrap: '../../assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         angularUIRouter: '../../assets/bower_components/angular-ui-router/release/angular-ui-router.min',
-        providerModule : 'providerModule'
+        showErrors: '../../assets/bower_components/angular-bootstrap-show-errors/src/showErrors.min',
+        providerModule: 'providerModule'
     },
     shim: {
         angular: {
             exports: "angular"
         },
         csrfInterceptor: {
-            deps: [ 'angular' ]
+            deps: ['angular']
         },
         angularBootstrap: {
-            deps: [ 'angular' ]
+            deps: ['angular']
         },
         angularUIRouter: {
-            deps: [ 'angular' ]
+            deps: ['angular']
+        },
+        showErrors: {
+            deps: ['angular']
         },
         providerModule: {
-            deps: [ 'angular', 'csrfInterceptor', 'angularBootstrap', 'angularUIRouter' ]
+            deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularUIRouter',
+                'showErrors']
         }
     }
 });
