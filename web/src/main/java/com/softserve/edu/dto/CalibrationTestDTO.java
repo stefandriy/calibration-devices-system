@@ -1,6 +1,7 @@
 package com.softserve.edu.dto;
 
 import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.util.CalibrationTestResult;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
@@ -14,7 +15,7 @@ public class CalibrationTestDTO extends ResourceSupport {
     private Double latitude;
     private Double longitude;
     private String consumptionStatus;
-    private String testResult;
+    private CalibrationTestResult testResult;
     // private String photoPath;
 
 
@@ -74,11 +75,11 @@ public class CalibrationTestDTO extends ResourceSupport {
         this.consumptionStatus = consumptionStatus;
     }
 
-    public String getTestResult() {
+    public CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(String testResult) {
+    public void setTestResult(CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 
