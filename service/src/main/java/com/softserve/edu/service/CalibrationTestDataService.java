@@ -27,7 +27,7 @@ public class CalibrationTestDataService {
         CalibrationTestData updatedCalibrationTestData = dataRepository.findOne(id);
         updatedCalibrationTestData.setGivenConsumption(testData.getGivenConsumption());
         updatedCalibrationTestData.setAcceptableError(testData.getAcceptableError());
-        updatedCalibrationTestData.setVolumeOfStandart(testData.getVolumeOfStandart());
+        updatedCalibrationTestData.setVolumeOfStandard(testData.getVolumeOfStandard());
         updatedCalibrationTestData.setInitialValue(testData.getInitialValue());
         updatedCalibrationTestData.setEndValue(testData.getEndValue());
         updatedCalibrationTestData.setVolumeInDevice(testData.getVolumeInDevice());

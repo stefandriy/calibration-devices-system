@@ -110,7 +110,7 @@ public class CalibrationTestDataDTO extends ResourceSupport {
         CalibrationTestData calibrationTestData = new CalibrationTestData();
         calibrationTestData.setGivenConsumption(givenConsumption);
         calibrationTestData.setAcceptableError(acceptableError);
-        calibrationTestData.setVolumeOfStandart(volumeOfStandart);
+        calibrationTestData.setVolumeOfStandard(volumeOfStandart);
         calibrationTestData.setInitialValue(initialValue);
         calibrationTestData.setEndValue(endValue);
         calibrationTestData.setVolumeInDevice(volumeInDevice);

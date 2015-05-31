@@ -5,6 +5,7 @@ import javax.persistence.*;
 import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
 
 @Entity
+@Table(name="`REGION`")
 public class Region extends AbstractCatalogue {
     @Id
     @GeneratedValue

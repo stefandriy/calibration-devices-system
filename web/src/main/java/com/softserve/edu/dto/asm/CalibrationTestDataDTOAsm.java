@@ -21,7 +21,7 @@ public class CalibrationTestDataDTOAsm
         CalibrationTestDataDTO resource = new CalibrationTestDataDTO();
         resource.setGivenConsumption(calibrationTestData.getGivenConsumption());
         resource.setAcceptableError(calibrationTestData.getAcceptableError());
-        resource.setVolumeOfStandart(calibrationTestData.getVolumeOfStandart());
+        resource.setVolumeOfStandart(calibrationTestData.getVolumeOfStandard());
         resource.setInitialValue(calibrationTestData.getInitialValue());
         resource.setEndValue(calibrationTestData.getEndValue());
         resource.setVolumeInDevice(calibrationTestData.getVolumeInDevice());

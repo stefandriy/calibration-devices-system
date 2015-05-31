@@ -6,7 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "stateVerificator_employee")
+@DiscriminatorValue(value = "STATE_VERIFICATOR_EMPLOYEE")
 public class StateVerificatorEmployee extends Employee {
 
     public enum StateVerificatorEmployeeRole implements Role {

@@ -6,7 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "provider_employee")
+@DiscriminatorValue(value = "PROVIDER_EMPLOYEE")
 public class ProviderEmployee extends Employee {
 
     public enum ProviderEmployeeRole implements Role {

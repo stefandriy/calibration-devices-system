@@ -4,7 +4,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "state_verificator")
+@DiscriminatorValue(value = "STATE_VERIFICATION")
 public class StateVerificator extends Organization {
     public StateVerificator(String name, String email, String phone) {
         super(name, email, phone);

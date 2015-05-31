@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type")
+@Table(name = "`USER`")
 public abstract class User {
     @Id
     private String username;

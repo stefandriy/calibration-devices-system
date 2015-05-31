@@ -3,13 +3,14 @@ package com.softserve.edu.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name="`CALIBRATION_TEST_DATA`")
 public class CalibrationTestData {
     @Id
     @GeneratedValue
     private Long id;
     private Double givenConsumption;
     private Integer acceptableError;
-    private Integer volumeOfStandart;
+    private Integer volumeOfStandard;
     private Double initialValue;
     private Double endValue;
     private Double volumeInDevice;
@@ -20,7 +21,7 @@ public class CalibrationTestData {
     private String testResult;
 
     @ManyToOne
-    @JoinColumn(name = "calibration_test_id")
+    @JoinColumn(name = "calibrationTest_id")
     private CalibrationTest calibrationTest;
 
     public Long getId() {
@@ -47,12 +48,12 @@ public class CalibrationTestData {
         this.acceptableError = acceptableError;
     }
 
-    public Integer getVolumeOfStandart() {
-        return volumeOfStandart;
+    public Integer getVolumeOfStandard() {
+        return volumeOfStandard;
     }
 
-    public void setVolumeOfStandart(Integer volumeOfStandart) {
-        this.volumeOfStandart = volumeOfStandart;
+    public void setVolumeOfStandard(Integer volumeOfStandard) {
+        this.volumeOfStandard = volumeOfStandard;
     }
 
     public Double getInitialValue() {
