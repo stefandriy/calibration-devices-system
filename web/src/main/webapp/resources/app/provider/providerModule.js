@@ -48,6 +48,6 @@
         'controllers/AddingVerificationsController',
         'controllers/DetailsModalController',
         'controllers/SendingModalController',
-        'services/VerificationService',
+        'services/VerificationService'
     ], function () {});
 })();

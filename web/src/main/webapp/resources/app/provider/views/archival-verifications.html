@@ -54,14 +54,21 @@
                                     <td>{{ verification.status }}</td>
                                     <td class="text-center">
                                         <a popover="Детальніше"
-                                           popover-trigger="mouseenter" ng-click="openDetails($index)">
+                                           popover-trigger="mouseenter"
+                                           ng-click="openDetails($index)">
                                             <i class="fa fa-info-circle"></i>
                                         </a>
 
-                                        <a popover="Завантажити тестові дані"
+                                        <a popover="Завантажити тестові дані у форматі 'docx'"
                                            popover-trigger="mouseenter"
-                                           ng-click="downloadDocuments($index)">
-                                            <i class="fa fa-info-circle"></i>
+                                           href="{{'/doc/VERIFICATION_CERTIFICATE/' + verification.id + '/docx'}}">
+                                            <i class="fa fa-file-word-o"></i>
+                                        </a>
+
+                                        <a popover="Завантажити тестові дані у форматі 'pdf'"
+                                           popover-trigger="mouseenter"
+                                           href="{{'/doc/VERIFICATION_CERTIFICATE/' + verification.id + '/pdf'}}">
+                                            <i class="fa fa-file-pdf-o"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -72,8 +79,10 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true"
-                                        rotate="false" ng-change="onTableHandling()" items-per-page="itemsPerPage"></pagination>
+                            <pagination total-items="totalItems" ng-model="currentPage" max-size="5"
+                                        boundary-links="true"
+                                        rotate="false" ng-change="onTableHandling()"
+                                        items-per-page="itemsPerPage"></pagination>
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,8 @@
 (function () {
     angular
         .module('welcomeModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'pascalprecht.translate', 'ngCookies', 'ui.router',
-        'ui.bootstrap.showErrors'])
+            'ui.bootstrap', 'pascalprecht.translate', 'ngCookies', 'ui.router',
+            'ui.bootstrap.showErrors'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
@@ -45,7 +45,7 @@
                         controller: 'ApplicationSendingController'
                     })
                     .state('application-status', {
-                        url: '/application-status',
+                        url: '/application-status/{clientCode}',
                         templateUrl: '/resources/app/welcome/views/application-status.html',
                         controller: 'ApplicationStatusController'
                     });

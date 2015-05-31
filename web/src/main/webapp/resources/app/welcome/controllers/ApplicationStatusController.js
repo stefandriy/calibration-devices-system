@@ -1,10 +1,14 @@
 angular
     .module('welcomeModule')
     .controller('ApplicationStatusController', ['$scope', '$http', '$translate', '$state', '$log',
-        'DataReceivingService',
-        function ($scope, $http, $translate, $state, $log, dataReceivingService) {
+        '$stateParams', 'DataReceivingService',
+        function ($scope, $http, $translate, $state, $log, $stateParams, dataReceivingService) {
 
             $scope.isShownForm = true;
+
+            $log.info($stateParams);
+
+            $scope.code = $stateParams.clientCode;
 
             $scope.findCode = function () {
                 dataReceivingService.getClientApplicationStatusByCode($scope.code)

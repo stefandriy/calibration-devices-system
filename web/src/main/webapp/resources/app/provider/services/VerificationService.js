@@ -36,16 +36,6 @@ angular
                 });
         }
 
-        function saveData(url, data) {
-            return $http.post('provider/verifications/' + url, data)
-                .success(function (responseData) {
-                    return responseData;
-                })
-                .error(function (err) {
-                    return err;
-                });
-        }
-
         function updateData(url, data) {
             return $http.put('provider/verifications/' + url, data)
                 .success(function (responseData) {

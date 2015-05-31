@@ -1,7 +1,8 @@
 angular
     .module('providerModule')
     .controller('ArchivalVerificationsController', ['$scope', '$modal', '$log', 'VerificationService',
-        function ($scope, $modal, $log, verificationService) {
+        'DocumentService',
+        function ($scope, $modal, $log, verificationService, documentService) {
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;
@@ -41,8 +42,4 @@ angular
                     }
                 });
             };
-
-            $scope.downloadDocuments = function(verificationId){
-
-            }
         }]);
