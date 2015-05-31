@@ -13,7 +13,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{SecurityConfig.class, TransactionConfiguration.class,
-                DevelopmentJPAConfig.class, TestJPAConfig.class, MailConfig.class};
+                JPAConfig.class, MailConfig.class};
     }
 
     @Override

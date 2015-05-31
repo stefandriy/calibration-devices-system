@@ -23,8 +23,7 @@ import java.util.Map;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.softserve.edu.repository")
 @PropertySource(value = "/WEB-INF/database.properties")
-@Profile("dev")
-public class DevelopmentJPAConfig {
+public class JPAConfig {
     @Autowired
     private Environment env;
 
