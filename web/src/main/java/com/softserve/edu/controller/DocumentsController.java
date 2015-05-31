@@ -4,6 +4,7 @@ import com.softserve.edu.documents.parameter.DocumentFormat;
 import com.softserve.edu.documents.parameter.DocumentType;
 import com.softserve.edu.service.DocumentsService;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
@@ -24,6 +25,8 @@ import java.io.OutputStream;
 @RestController
 @RequestMapping(value = "/doc")
 public class DocumentsController {
+    static Logger log = Logger.getLogger(DocumentsController.class.getName());
+
     @Autowired
     DocumentsService documentsService;
 
@@ -45,7 +48,6 @@ public class DocumentsController {
                             @PathVariable Long testID,
                             @PathVariable DocumentFormat documentFormat)
             throws IOException, IllegalStateException {
-        // check input parameters
         InputStream inputStream = documentsService.getFile(verificationCode, testID, documentType, documentFormat);
         sendFile(response, documentFormat, inputStream);
         response.getOutputStream().close();
@@ -119,11 +121,19 @@ public class DocumentsController {
      * @param outputStream to write data to
      * @throws IOException if one of streams is unreachable
      */
-    private void writeToOutputStream(InputStream inputStream, OutputStream outputStream) throws IOException {
-        byte[] bytes = IOUtils.toByteArray(inputStream);
-        inputStream.close();
+    private void writeToOutputStream(InputStream inputStream,
+                                     OutputStream outputStream) throws IOException {
+        final int bufferSize = 10240;
+        byte[] buffer = new byte[bufferSize];
 
-        outputStream.write(bytes);
+        int length = inputStream.read(buffer);
+
+        do {
+            outputStream.write(buffer, 0, length);
+            length = inputStream.read(buffer);
+        } while (length > 0);
+
+        inputStream.close();
     }
 
     /**
@@ -135,7 +145,7 @@ public class DocumentsController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalStateException.class)
     public void illegalStateExceptionHandler(IllegalStateException exception) {
-        exception.printStackTrace(); // TODO add logger
+        log.error("exception: ", exception);
     }
 
     /**
@@ -147,7 +157,7 @@ public class DocumentsController {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(IOException.class)
     public void ioExceptionHandler(IOException exception) {
-        exception.printStackTrace();
+        log.error("exception: ", exception);
     }
 
     /**
@@ -159,7 +169,7 @@ public class DocumentsController {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public void uncaughtExceptionHandler(Exception exception) {
-        exception.printStackTrace();
+        log.error("exception: ", exception);
     }
 
     /**
