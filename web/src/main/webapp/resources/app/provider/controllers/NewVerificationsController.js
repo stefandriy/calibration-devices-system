@@ -43,15 +43,21 @@ angular
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;
 
-            $scope.resolveVerificationId = function (id, $index) {
-                if (!$scope.checkedItems[$index]) {
-                    $scope.idsOfVerifications[$index] = id;
-                    $scope.checkedItems[$index] = true;
-                } else {
-                    $scope.idsOfVerifications[$index] = undefined;
-                    $scope.checkedItems[$index] = false;
+            $scope.resolveVerificationId = function (id) {
+
+                var index = $scope.idsOfVerifications.indexOf(id);
+                if (index === -1) {
+                    $scope.idsOfVerifications.push(id);
+                    index = $scope.idsOfVerifications.indexOf(id);
                 }
-                $scope.idsOfVerifications = removeEmptyArrayElements($scope.idsOfVerifications);
+
+                if (!$scope.checkedItems[index]) {
+                    $scope.idsOfVerifications.splice(index, 1, id);
+                    $scope.checkedItems.splice(index, 1, true);
+                } else {
+                    $scope.idsOfVerifications.splice(index, 1);
+                    $scope.checkedItems.splice(index, 1);
+                }
                 checkForEmpty();
             };
 
@@ -101,11 +107,3 @@ angular
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
         }]);
-
-
-var removeEmptyArrayElements = function (arr) {
-    return arr
-        .filter(function (elem) {
-            return elem !== null && elem !== undefined
-        });
-};
