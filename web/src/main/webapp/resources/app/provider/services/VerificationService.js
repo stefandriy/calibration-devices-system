@@ -4,30 +4,47 @@ angular
 
         return {
             getArchivalVerifications: function (currentPage, itemsPerPage) {
-                return getData('archive/' + currentPage + '/' + itemsPerPage);
+                return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
             },
             getNewVerifications: function (currentPage, itemsPerPage) {
-                return getData('new/' + currentPage + '/' + itemsPerPage);
+                return getData('verifications/new/' + currentPage + '/' + itemsPerPage);
             },
             getArchivalVerificationDetails: function (verificationId) {
-                return getData('archive/' + verificationId);
+                return getData('verifications/archive/' + verificationId);
             },
             getNewVerificationDetails: function (verificationId) {
-                return getData('new/' + verificationId);
+                return getData('verifications/new/' + verificationId);
             },
             getCalibrators: function (url) {
-                return getData('new/calibrators');
+                return getData('verifications/new/calibrators');
             },
             sendVerificationsToCalibrator: function (data) {
                 return updateData('new/update', data);
-            }
+            },
+            sendInitiatedVerification:function(form){
+                return sendData("send",form);
+            },
+            getCalibratorsCorrespondingProvider:function(url){
+                return getData("applications/calibrators");
+            },
+            getLocalitiesCorrespondingProvider:function(url){
+                return getData("applications/localities");
+            },
+            getStreetsCorrespondingLocality:function(selectedLocality){
+                return getData("applications/streets/" + selectedLocality.id);
+            },
+            getBuildingsCorrespondingStreet:function(selectedBuilding){
+                    return getData("applications/buildings/" + selectedBuilding.id);
+                }
+
+
         };
 
         function getData(url) {
 
             $log.info(url);
 
-            return $http.get('provider/verifications/' + url)
+            return $http.get('provider/' + url)
                 .success(function (data) {
                     return data;
                 })
@@ -38,6 +55,16 @@ angular
 
         function updateData(url, data) {
             return $http.put('provider/verifications/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+
+        function sendData(url, data) {
+            return $http.post('provider/applications/' + url, data)
                 .success(function (responseData) {
                     return responseData;
                 })

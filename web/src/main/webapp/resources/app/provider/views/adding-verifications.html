@@ -39,11 +39,10 @@
             <label for="locality" class="col-sm-2 control-label">Населений пункт</label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="locality" ng-model="selectedLocality" ng-model="localities"
+                <input class="form-control" id="locality" ng-model="selectedLocality"
                        typeahead="locality as locality.designation for locality in localities | filter: $viewValue"
                        typeahead-on-select="receiveStreets(selectedLocality)"
                        typeahead-editable="false" required>
-
             </div>
         </div>
 
@@ -51,7 +50,11 @@
             <label for="street" class="col-sm-2 control-label">Вулиця</label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="street" ng-model="form.street">
+                <input class="form-control" id="street" ng-model="selectedStreet"
+                       typeahead="street as street.designation for street in streets | filter: $viewValue"
+                       typeahead-on-select="receiveBuildings(selectedStreet)"
+                       typeahead-editable="false" required>
+
             </div>
         </div>
 
@@ -59,7 +62,8 @@
             <label for="building" class="col-sm-2 control-label">Будинок</label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="building" ng-model="form.building">
+                <input class="form-control" id="building" ng-model="selectedBuilding"
+                       typeahead="building as building.designation for building in buildings | filter: $viewValue">
             </div>
         </div>
 
@@ -72,10 +76,12 @@
         </div>
 
         <div class="form-group">
-            <label for="calibratorName" class="col-sm-2 control-label">Повірник</label>
+            <label for="calibrator" class="col-sm-2 control-label">Повірник</label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="calibratorName" ng-model="form.calibratorName">
+                <input class="form-control" id="calibrator" ng-model="selectedCalibrator"
+                       typeahead="calibrator as calibrator.name for calibrator in calibrators | filter: $viewValue"
+                       typeahead-editable="false" required>
             </div>
         </div>
 

@@ -1,5 +1,7 @@
 package com.softserve.edu.dto.provider;
 
+import com.softserve.edu.entity.Calibrator;
+
 public class ProviderStageVerificationDTO {
     private String surname;
     private String name;
@@ -11,7 +13,7 @@ public class ProviderStageVerificationDTO {
     private String street;
     private String building;
     private String flat;
-    private String calibratorName;
+    private Calibrator calibrator;
 
     public String getBuilding() {
         return building;
@@ -93,11 +95,11 @@ public class ProviderStageVerificationDTO {
         this.flat = flat;
     }
 
-    public String getCalibratorName() {
-        return calibratorName;
+    public Calibrator getCalibrator() {
+        return calibrator;
     }
 
-    public void setCalibratorName(String calibratorName) {
-        this.calibratorName = calibratorName;
+    public void setCalibrator(Calibrator calibrator) {
+        this.calibrator = calibrator;
     }
 }
