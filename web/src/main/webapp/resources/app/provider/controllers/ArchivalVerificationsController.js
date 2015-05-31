@@ -1,8 +1,8 @@
 angular
     .module('providerModule')
     .controller('ArchivalVerificationsController', ['$scope', '$modal', '$log', 'VerificationService',
-        'DocumentService',
-        function ($scope, $modal, $log, verificationService, documentService) {
+
+        function ($scope, $modal, $log, verificationService) {
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;

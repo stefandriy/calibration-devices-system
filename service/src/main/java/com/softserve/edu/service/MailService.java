@@ -1,10 +1,8 @@
 package com.softserve.edu.service;
 
-import org.apache.velocity.Template;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +40,7 @@ public class MailService {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(to);
                 message.setFrom(new InternetAddress("metrology.calibrations@gmail.com",
-                        "Metrology Service of Ukraine"));
+                        "Централізована система повірки лічильників"));
                 
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("name", userName);
