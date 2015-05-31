@@ -7,7 +7,9 @@ import com.softserve.edu.documents.parameter.DocumentFontFactory;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.size.SizeUnit;
 import com.softserve.edu.documents.size.SizeUnitConverter;
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
@@ -18,38 +20,60 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdjustLines implements Action {
-    @Override
-    public FileObject process(FileObject fileObject, FileParameters fileParameters) throws IOException {
-        InputStream inputStream = fileObject.getContent().getInputStream(); // FileInputStream?
-        XWPFDocument templateDocument = new XWPFDocument(inputStream);
-        inputStream.close();
+/**
+ * Singleton.
+ * Represents an operation that reads file, finds tokens that represent
+ * formatting rules and adjusts text accordingly.
+ */
+public enum FormatText implements Operation {
+    INSTANCE;
 
-        XWPFDocument newDocument = new XWPFDocument(templateDocument.getPackage());
+    private Logger logger = Logger.getLogger(FormatText.class);
+
+    /**
+     * {inherit}
+     */
+    @Override
+    public FileObject perform(FileObject sourceFile,
+                              FileParameters fileParameters) throws IOException {
+        XWPFDocument templateDocument;
+        FileContent sourceFileContent = sourceFile.getContent();
+
+        try (InputStream inputStream = sourceFileContent.getInputStream()) {
+            templateDocument = new XWPFDocument(inputStream);
+        } catch (IOException exception) {
+            logger.error("exception: ", exception);
+            throw exception;
+        }
+
+        XWPFDocument newDocument =
+                new XWPFDocument(templateDocument.getPackage());
 
         List<XWPFParagraph> paragraphs = newDocument.getParagraphs();
-
-        double contentWidth = getContentWidth(newDocument);
-        contentWidth = SizeUnitConverter.convert(contentWidth, SizeUnit.TWIP, SizeUnit.PT);
-        System.out.println("wdith: " + contentWidth);
 
         List<XWPFParagraph> paragraphList = paragraphs.
                 stream().
                 filter(paragraph -> !paragraph.getParagraphText().isEmpty()).
                 collect(Collectors.toList());
 
-        for (int i = 0; i < paragraphList.size(); i++) {
-            XWPFParagraph paragraph = paragraphList.get(i);
+        double contentWidth = getContentWidth(newDocument);
+        contentWidth = SizeUnitConverter.convert(contentWidth, SizeUnit.TWIP,
+                SizeUnit.PT);
+
+        for (XWPFParagraph paragraph : paragraphList) {
             setCorrectText(paragraph, contentWidth);
         }
 
-        newDocument.write(fileObject.getContent().getOutputStream());
+        try (OutputStream outputStream = sourceFileContent.getOutputStream()) {
+            newDocument.write(outputStream);
+        }
 
-        return fileObject;
+        return sourceFile;
     }
 
     /**
@@ -57,39 +81,43 @@ public class AdjustLines implements Action {
      *
      * @param sourceParagraph paragraph to copy runs from
      */
-    private void setCorrectText(XWPFParagraph sourceParagraph, double contentWidth) throws IOException {
-        int position = 0;
+    private void setCorrectText(XWPFParagraph sourceParagraph,
+                                double contentWidth) throws IOException {
+        final int textPosition = 0;
 
         List<XWPFRun> runs = sourceParagraph.getRuns();
-        double paragraphWidthSource = 0;
 
-        for (int i = 0; i < runs.size(); i++) {
-            XWPFRun sourceRun = runs.get(i);
-            String textInRun = sourceRun.getText(position);
+        // format every run
+        for (XWPFRun sourceRun : runs) {
+            String textInRun = sourceRun.getText(textPosition);
 
             if (textInRun == null || textInRun.isEmpty()) {
                 continue;
             }
 
-            Font font = DocumentFontFactory.buildFont(DocumentFont.FREE_SERIF, sourceRun.getFontSize());
+            Font font = DocumentFontFactory.buildFont(DocumentFont.FREE_SERIF,
+                    sourceRun.getFontSize());
 
             int indexOfRight = textInRun.lastIndexOf("#");
 
             if (indexOfRight != -1) {
-                textInRun = align(new StringBuilder(textInRun), font, paragraphWidthSource, contentWidth);
+                textInRun = align(new StringBuilder(textInRun), font,
+                        contentWidth);
             }
 
-            sourceRun.setText(textInRun, position);
+            sourceRun.setText(textInRun, textPosition);
         }
     }
 
-    private String align(StringBuilder textInRun, Font font, double paragraphWidth, double contentWidth) {
-        paragraphWidth = getStringWidth(textInRun.toString(), font);
+    private String align(StringBuilder textInRun, Font font,
+                         Double contentWidth) {
+        Double paragraphWidth = getStringWidth(textInRun.toString(), font);
         int index = textInRun.lastIndexOf("#");
 
-        while ((int)paragraphWidth < (int)contentWidth) {
+        final double epsilon = 0.0001;
+        while ((paragraphWidth - contentWidth) < epsilon) {
             textInRun.insert(index, ' ');
-            paragraphWidth = getStringWidth(textInRun.toString(), font) + 10;
+            paragraphWidth = getStringWidth(textInRun.toString(), font);
         }
 
         return textInRun.toString();

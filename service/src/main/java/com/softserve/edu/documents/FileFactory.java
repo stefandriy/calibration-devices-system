@@ -10,26 +10,26 @@ import java.util.List;
 
 public class FileFactory {
     public static FileObject buildFile(FileParameters fileParameters) {
-        List<Action> actions = new ArrayList<>();
+        List<Operation> operations = new ArrayList<>();
 
         switch (fileParameters.getDocumentFormat()) {
             case DOCX:
-                actions.add(LoadTemplate.getInstance());
-                actions.add(new Normalize());
-                actions.add(new InsertText());
-                actions.add(new AdjustLines());
-                actions.add(new Cleanse());
+                operations.add(LoadTemplate.getInstance());
+                operations.add(new Normalize());
+                operations.add(new InsertText());
+                operations.add(FormatText.INSTANCE);
+                operations.add(new Cleanse());
                 break;
             case PDF:
-                actions.add(LoadTemplate.getInstance());
-                actions.add(new Normalize());
-                actions.add(new InsertText());
-                actions.add(new AdjustLines());
-                actions.add(new Cleanse());
-                actions.add(new TransformToPdf());
+                operations.add(LoadTemplate.getInstance());
+                operations.add(new Normalize());
+                operations.add(new InsertText());
+                operations.add(FormatText.INSTANCE);
+                operations.add(new Cleanse());
+                operations.add(new TransformToPdf());
                 break;
         }
 
-        return ActionChain.processChain(fileParameters, actions);
+        return ActionChain.processChain(fileParameters, operations);
     }
 }

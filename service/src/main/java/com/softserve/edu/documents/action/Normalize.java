@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class Normalize implements Action {
+public class Normalize implements Operation {
 
     @Override
-    public FileObject process(FileObject fileObject, FileParameters fileParameters) throws IOException {
-        InputStream inputStream = fileObject.getContent().getInputStream();
+    public FileObject perform(FileObject sourceFile, FileParameters fileParameters) throws IOException {
+        InputStream inputStream = sourceFile.getContent().getInputStream();
         XWPFDocument templateDocument = new XWPFDocument(inputStream);
         inputStream.close();
 
@@ -27,9 +27,9 @@ public class Normalize implements Action {
                 filter(paragraph -> !paragraph.getParagraphText().isEmpty()).
                 forEach(this::normalize);
 
-        newDocument.write(fileObject.getContent().getOutputStream());
+        newDocument.write(sourceFile.getContent().getOutputStream());
 
-        return fileObject;
+        return sourceFile;
     }
 
     private void normalize(XWPFParagraph sourceParagraph) {

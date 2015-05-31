@@ -1,28 +1,40 @@
 package com.softserve.edu.documents.action;
 
+import com.mysql.jdbc.log.Log4JLogger;
 import com.softserve.edu.documents.parameter.FileParameters;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 
-public class LoadTemplate implements Action {
+/**
+ * Load template that corresponds to the document's type, copy it to the
+ * source file and return it.
+ */
+public class LoadTemplate implements Operation {
+    static Logger log = Logger.getLogger(LoadTemplate.class.getName());
+
+    /**
+     * {inherit}
+     */
     @Override
-    public FileObject process(FileObject fileObject, FileParameters fileParameters) throws IOException {
+    public FileObject perform(FileObject sourceFile,
+                              FileParameters fileParameters) throws IOException {
         FileObject template = fileParameters.getDocumentType().getTemplate();
-        InputStream inputStream = template.getContent().getInputStream();
+        FileContent templateContent = template.getContent();
+        FileContent sourceContent = sourceFile.getContent();
 
-        //byte[] bytes = IOUtils.toByteArray(inputStream);
+        try (InputStream inputStream = templateContent.getInputStream();
+             OutputStream outputStream = sourceContent.getOutputStream()) {
+            IOUtils.copy(inputStream, outputStream);
+        } catch (IOException exception) {
+            log.error("exception: ", exception);
+            throw exception;
+        }
 
-        OutputStream outputStream = fileObject.getContent().getOutputStream();
-//        outputStream.getColumnsNamesValues(bytes);
-
-        IOUtils.copy(inputStream, outputStream);
-
-        inputStream.close();
-        outputStream.close();
-
-        return fileObject;
+        return sourceFile;
     }
 
     private static final LoadTemplate instance = new LoadTemplate();

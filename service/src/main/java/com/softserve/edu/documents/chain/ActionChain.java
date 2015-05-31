@@ -1,6 +1,6 @@
 package com.softserve.edu.documents.chain;
 
-import com.softserve.edu.documents.action.Action;
+import com.softserve.edu.documents.action.Operation;
 import com.softserve.edu.documents.utils.FileLocator;
 import com.softserve.edu.documents.parameter.FileParameters;
 import org.apache.commons.vfs2.FileObject;
@@ -12,13 +12,13 @@ public class ActionChain {
     private ActionChain() {
     }
 
-    public static FileObject processChain(FileParameters fileParameters, List<Action> actionList) {
+    public static FileObject processChain(FileParameters fileParameters, List<Operation> operationList) {
         org.apache.commons.vfs2.FileObject file = FileLocator.getFile(fileParameters.getFileSystem(),
                 fileParameters.getFileName());
 
-        for (Action action : actionList) {
+        for (Operation operation : operationList) {
             try {
-                file = action.process(file, fileParameters);
+                file = operation.perform(file, fileParameters);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);

@@ -2,6 +2,10 @@ package com.softserve.edu.documents.parameter;
 
 import com.softserve.edu.documents.document.Document;
 
+/**
+ * Contains information about a file that is to be generated.
+ * It is meant to be used outside of the documents package to provide info about the needed file.
+ */
 public class FileParameters {
     private Document document;
     private DocumentType documentType;

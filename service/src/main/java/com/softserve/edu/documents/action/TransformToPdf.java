@@ -17,13 +17,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class TransformToPdf implements Action {
+public class TransformToPdf implements Operation {
     @Override
-    public FileObject process(FileObject fileObject, FileParameters fileParameters) throws IOException {
+    public FileObject perform(FileObject sourceFile, FileParameters fileParameters) throws IOException {
         FileObject filePdf = FileLocator.getFile(fileParameters.getFileSystem(),
                 fileParameters.getFileName() + "_pdf");
 
-        createPdfFile(fileObject, filePdf);
+        createPdfFile(sourceFile, filePdf);
 
         return filePdf;
     }

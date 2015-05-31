@@ -20,10 +20,10 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Cleanse implements Action {
+public class Cleanse implements Operation {
     @Override
-    public FileObject process(FileObject fileObject, FileParameters fileParameters) throws IOException {
-        InputStream inputStream = fileObject.getContent().getInputStream(); // FileInputStream?
+    public FileObject perform(FileObject sourceFile, FileParameters fileParameters) throws IOException {
+        InputStream inputStream = sourceFile.getContent().getInputStream(); // FileInputStream?
         XWPFDocument templateDocument = new XWPFDocument(inputStream);
         inputStream.close();
 
@@ -44,9 +44,9 @@ public class Cleanse implements Action {
             setCorrectText(paragraph, contentWidth);
         }
 
-        newDocument.write(fileObject.getContent().getOutputStream());
+        newDocument.write(sourceFile.getContent().getOutputStream());
 
-        return fileObject;
+        return sourceFile;
     }
 
     /**

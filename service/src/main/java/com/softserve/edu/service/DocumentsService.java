@@ -57,12 +57,12 @@ public class DocumentsService {
         CalibrationTest calibrationTest = calibrationTestRepository.findOne(calibrationTestID);
 
         // check input parameters
-        Assert.notNull(verification, "can't find a " + verification.getClass() + " with id " + verificationCode);
+        Assert.notNull(verification, "can't find a " + Verification.class + " with id " + verificationCode);
 
-        Assert.notNull(calibrationTest, "can't find a " + calibrationTest.getClass() + " with id" + calibrationTestID);
+        Assert.notNull(calibrationTest, "can't find a " + CalibrationTest.class + " with id" + calibrationTestID);
 
         Assert.state(calibrationTest.getVerification().equals(verification),
-                calibrationTest.getClass() + " with id:" + calibrationTest.getId() + " is not assigned to " +
+                calibrationTest.getClass() + " with id:" + CalibrationTest.class + " is not assigned to " +
                         verification.getClass() + " with id: " + verification.getId());
 
         return builFile(documentType, verification, calibrationTest, documentFormat);
@@ -73,7 +73,7 @@ public class DocumentsService {
         Document document = DocumentFactory.build(documentType, verification, calibrationTest);
 
         FileParameters fileParameters = new FileParameters(document, documentType, documentFormat);
-fileParameters.setFileSystem(FileSystem.RAM);
+        fileParameters.setFileSystem(FileSystem.RAM);
 
         try {
             FileObject fileObject = FileFactory.buildFile(fileParameters);

@@ -10,6 +10,12 @@ public enum DocumentType {
     VERIFICATION_CERTIFICATE,
     UNFITNESS_CERTIFICATE;
 
+    private FileObject file;
+
+    DocumentType() {
+        file = FileLocator.getFile(FileSystem.RES, StandardPath.DOCUMENTS_TEMPLATES + "/" + this.toString());
+    }
+
     /**
      * @return the template's name with format
      */
@@ -22,7 +28,7 @@ public enum DocumentType {
      * @return the template's file.
      */
     public FileObject getTemplate() {
-        return FileLocator.getFile(FileSystem.RES, StandardPath.DOCUMENTS_TEMPLATES + "/" + this.toString());
+        return file;
     }
 
 }

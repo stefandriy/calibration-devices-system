@@ -17,18 +17,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class InsertText implements Action {
+public class InsertText implements Operation {
     Map<String, String> columnsNamesValues;
 
     @Override
-    public FileObject process(FileObject fileObject, FileParameters fileParameters)
+    public FileObject perform(FileObject sourceFile, FileParameters fileParameters)
             throws IOException {
         Document document = fileParameters.getDocument();
 
         Writer writer = new Writer();
         columnsNamesValues = writer.getColumnsNamesValues(document);
 
-        InputStream inputStream = fileObject.getContent().getInputStream();
+        InputStream inputStream = sourceFile.getContent().getInputStream();
         XWPFDocument templateDocument = new XWPFDocument(inputStream);
         inputStream.close();
 
@@ -45,9 +45,9 @@ public class InsertText implements Action {
             setCorrectText(paragraph);
         }
 
-        newDocument.write(fileObject.getContent().getOutputStream());
+        newDocument.write(sourceFile.getContent().getOutputStream());
 
-        return fileObject;
+        return sourceFile;
     }
 
     /**
