@@ -1,15 +1,12 @@
 package com.softserve.edu.entity.user;
 
-import javax.persistence.*;
-
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Provider;
-import com.softserve.edu.entity.Verification;
 
-import java.util.Set;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue(value = "PROVIDER_EMPLOYEE")
+@DiscriminatorValue(value = "provider_employee")
 public class ProviderEmployee extends Employee {
 
     public enum ProviderEmployeeRole implements Role {

@@ -20,7 +20,7 @@ public class CalibrationTestData {
     private String testResult;
 
     @ManyToOne
-    @JoinColumn(name = "calibrationTest_id")
+    @JoinColumn(name = "calibration_test_id")
     private CalibrationTest calibrationTest;
 
     public Long getId() {

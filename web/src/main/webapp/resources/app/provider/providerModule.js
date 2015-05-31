@@ -3,13 +3,8 @@
         'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors'])
 
         .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
-            '$tooltipProvider',
-            function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider, $tooltipProvider) {
 
-                $tooltipProvider.setTriggers({
-                    'true': 'mouseenter',
-                    'false': 'never'
-                });
+            function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider) {
 
                 showErrorsConfigProvider.showSuccess(true);
 
@@ -54,7 +49,5 @@
         'controllers/DetailsModalController',
         'controllers/SendingModalController',
         'services/VerificationService',
-        'services/DataUpdatingService',
-        'services/DataSendingService'
     ], function () {});
 })();

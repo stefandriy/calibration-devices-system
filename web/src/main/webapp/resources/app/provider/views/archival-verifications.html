@@ -41,7 +41,7 @@
                                     <th>Прізвище клієнта</th>
                                     <th>Вулиця, на якій проживає клієнт</th>
                                     <th>Статус повірки</th>
-                                    <th>Детальніше</th>
+                                    <th>Дії</th>
                                 </tr>
                                 </thead>
 
@@ -53,8 +53,14 @@
                                     <td>{{ verification.street }}</td>
                                     <td>{{ verification.status }}</td>
                                     <td class="text-center">
-                                        <a popover="Клацініть, щоб отримати всі дані про цю повірку"
+                                        <a popover="Детальніше"
                                            popover-trigger="mouseenter" ng-click="openDetails($index)">
+                                            <i class="fa fa-info-circle"></i>
+                                        </a>
+
+                                        <a popover="Завантажити тестові дані"
+                                           popover-trigger="mouseenter"
+                                           ng-click="downloadDocuments($index)">
                                             <i class="fa fa-info-circle"></i>
                                         </a>
                                     </td>

@@ -7,7 +7,7 @@ import javax.persistence.Entity;
  * Root administrator.
  */
 @Entity
-@DiscriminatorValue(value= "SYS_ADMIN")
+@DiscriminatorValue(value= "sys_admin")
 public class SystemAdmin extends User {
 
     public enum AdminRole implements Role

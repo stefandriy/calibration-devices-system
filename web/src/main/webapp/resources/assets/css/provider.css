@@ -381,3 +381,8 @@ input[type="radio"], input[type="checkbox"] {
     right: 15px;
 }
 
+#emptyError{
+    display: block;
+    color: red;
+}
+

@@ -15,7 +15,7 @@ import java.util.UUID;
  * Contains data about whole business process of verification.
  */
 @Entity
-    public class Verification {
+public class Verification {
 
     @Id
     private String id;
@@ -24,7 +24,7 @@ import java.util.UUID;
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "deviceId")
+    @JoinColumn(name = "device_id")
     private Device device;
 
     @OneToMany
@@ -59,16 +59,20 @@ import java.util.UUID;
     public Verification() {}
 
     public Verification(Date initialDate, ClientData clientData, Provider provider, Status status) {
-        this(initialDate,clientData,provider,status,null);
+        this(initialDate, clientData, provider, status, null);
     }
-    public Verification(Date initialDate, ClientData clientData, Provider provider, Status status,Calibrator calibrator){
+
+    public Verification(Date initialDate, ClientData clientData, Provider provider, Status
+            status, Calibrator calibrator) {
         this.id = UUID.randomUUID().toString();
         this.initialDate = initialDate;
         this.clientData = clientData;
         this.provider = provider;
         this.status = status;
-        this.calibrator =calibrator;
-    };
+        this.calibrator = calibrator;
+    }
+
+    ;
 
     public String getId() {
         return id;

@@ -25,7 +25,7 @@ public class CalibrationTest {
             @AttributeOverride(name = "name", column = @Column(name = "document_name")),
             @AttributeOverride(name = "sign", column = @Column(name = "document_sign"))
     })
-    private MetrologicalDocument metrologicalDocument;
+    private MeteorologicalDocument meteorologicalDocument;
 
     @ManyToOne
     private Verification verification;
@@ -129,11 +129,11 @@ public class CalibrationTest {
         this.calibrationTestDatas = calibrationTestDatas;
     }
 
-    public MetrologicalDocument getMetrologicalDocument() {
-        return metrologicalDocument;
+    public MeteorologicalDocument getMeteorologicalDocument() {
+        return meteorologicalDocument;
     }
 
-    public void setMetrologicalDocument(MetrologicalDocument metrologicalDocument) {
-        this.metrologicalDocument = metrologicalDocument;
+    public void setMeteorologicalDocument(MeteorologicalDocument meteorologicalDocument) {
+        this.meteorologicalDocument = meteorologicalDocument;
     }
 }

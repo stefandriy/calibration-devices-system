@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue(value = "CALIBRATOR")
+@DiscriminatorValue(value = "calibrator")
 public class Calibrator extends Organization {
 
     /**

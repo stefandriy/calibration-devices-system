@@ -41,4 +41,8 @@ angular
                     }
                 });
             };
+
+            $scope.downloadDocuments = function(verificationId){
+
+            }
         }]);

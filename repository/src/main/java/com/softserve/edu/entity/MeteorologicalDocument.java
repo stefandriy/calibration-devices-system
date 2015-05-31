@@ -3,10 +3,10 @@ package com.softserve.edu.entity;
 import javax.persistence.Embeddable;
 
 /**
- * Document that contains the metrological requirements for testing a device
+ * Document that contains the meteorological requirements for testing a device
  */
 @Embeddable
-public class MetrologicalDocument {
+public class MeteorologicalDocument {
     private String name;
     private String sign;
 

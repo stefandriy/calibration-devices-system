@@ -41,10 +41,7 @@ angular
 
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
-            $scope.helpEvents = {
-                true: 'mouseenter',
-                false: 'never'
-            };
+            $scope.allIsEmpty = true;
 
             $scope.resolveVerificationId = function (id, $index) {
                 if (!$scope.checkedItems[$index]) {
@@ -55,14 +52,9 @@ angular
                     $scope.checkedItems[$index] = false;
                 }
                 $scope.idsOfVerifications = removeEmptyArrayElements($scope.idsOfVerifications);
+                checkForEmpty();
             };
 
-            $scope.checkForEmpty = function () {
-                $log.info($scope.idsOfVerifications);
-                $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
-                $log.info($scope.allIsEmpty);
-                angular.element("#sendBtn").trigger($scope.allIsEmpty);
-            };
 
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
@@ -100,7 +92,13 @@ angular
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
                     });
+                } else {
+                    $scope.isClicked = true;
                 }
+            };
+
+            var checkForEmpty = function () {
+                $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
         }]);
 
