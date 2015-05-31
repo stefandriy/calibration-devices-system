@@ -1,14 +1,13 @@
-----------------------------------------------------------------
+-- --------------------------------------------------------------
 -- To log in
 -- as: SYS_ADMIN — admin:password
 -- as PROVIDER_ADMIN from "Тернопільводоканал" — provider-te:pass
 -- as PROVIDER_ADMIN from "Львівводоканал" — provider-lv: pass
------------------------------------------------------------------
+-- ---------------------------------------------------------------
 
+use measurement_devices;
 
-
------------------------ REGION ---------------------
-
+-- --------------------- REGION ---------------------
 INSERT INTO `measurement_devices`.`REGION`
 (`id`,`designation`)
 VALUES(1,'Тернопільська');
@@ -183,24 +182,31 @@ INSERT INTO `measurement_devices`.`ORGANIZATION`
 
 VALUES
 
-('PROVIDER',43,'ЛКП «Львівводоканал»','lvivvodokanal@gmail.com', '0322771690', null, null, 'Львівська','Львівський','м. Львів','вул. Морозенка','12а',null),
-('PROVIDER',32,'КП «Тернопільводоканал»','vodokanal@te.ua', '0352282719', null, null,'Тернопільська','Тернопільський','м. Тернопіль','бульвар Тараса Шевченка','43',null),
-('CALIBRATOR',52,'ПП «Повірик з Тернополя»','verification@te.ua', '0352285419', '2014-7-04', '47549','Тернопільська','Тернопільський','м. Тернопіль','вул. Тарнавського','13б',null),
-('CALIBRATOR',11,'ПП «Повірник зі Львова»','verification@lv.ua', '0322771690', '2013-11-11', '69365', 'Львівська','Львівський','м. Львів','вул. Петлюри','11а',null),
-('STATE_VERIFICATION',7,'СДГО ЛВ','sdgo_lv@gmail.com', '2915496', null, null, 'Львівська','Львівський','м. Львів','вул. Київська','11',null),
-('STATE_VERIFICATION',8,'СПМО ТЕ','spmo_lv@gmail.com', '2914309', null, null, 'Тернопільська','Тернопільський','м. Тернопіль','бульвар Тараса Шевченка','2',null);
+  ('PROVIDER',43,'ЛКП «Львівводоканал»','lvivvodokanal@gmail.com', '0322771690', null, null, 'Львівська','Львівський','м. Львів','вул. Морозенка','12а',null),
+  ('PROVIDER',32,'КП «Тернопільводоканал»','vodokanal@te.ua', '0352282719', null, null,'Тернопільська','Тернопільський','м. Тернопіль','бульвар Тараса Шевченка','43',null),
+  ('CALIBRATOR',52,'ПП «Повірик з Тернополя»','verification@te.ua', '0352285419', '2014-7-04', '47549','Тернопільська','Тернопільський','м. Тернопіль','вул. Тарнавського','13б',null),
+  ('CALIBRATOR',11,'ПП «Повірник зі Львова»','verification@lv.ua', '0322771690', '2013-11-11', '69365', 'Львівська','Львівський','м. Львів','вул. Петлюри','11а',null),
+  ('STATE_VERIFICATION',7,'СДГО ЛВ','sdgo_lv@gmail.com', '2915496', null, null, 'Львівська','Львівський','м. Львів','вул. Київська','11',null),
+  ('STATE_VERIFICATION',8,'СПМО ТЕ','spmo_lv@gmail.com', '2914309', null, null, 'Тернопільська','Тернопільський','м. Тернопіль','бульвар Тараса Шевченка','2',null);
 
 -- ------------------------------- USERS ---------------------------- --
 INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('SYS_ADMIN','admin','$2a$10$xTq90ybFNT/W0TfNHdQ4e.0DL1WO/7vebrpDZybGRwdEk/7F8ULEi','SYS_ADMIN',NULL,NULL,NULL,NULL,NULL);
 INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('PROVIDER_EMPLOYEE','provider-lv','$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2','PROVIDER_ADMIN',NULL,NULL,NULL,NULL,'43');
 INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('PROVIDER_EMPLOYEE','provider-te','$2a$10$E5l.KYBTC.VVxxjZ5vBMFeiZck0i4H.P84FO7809hm85XNIIkJ2eC','PROVIDER_ADMIN',NULL,NULL,NULL,NULL,'32');
+INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('CALIBRATOR_EMPLOYEE','calibrator-lv','$2a$10$E5l.KYBTC.VVxxjZ5vBMFeiZck0i4H.P84FO7809hm85XNIIkJ2eC','CALIBRATOR_ADMIN',NULL,NULL,NULL,NULL,'11');
 
-INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('PROVIDER_EMPLOYEE','lv_vodo_kanal_employee','1234abc','PROVIDER_EMPLOYEE','lv_vodo_employee@gmail.com', 'Романів', 'Роман', '0684589473', 43);
-INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('PROVIDER_EMPLOYEE','te_vodo_kanal_employee','1234abc','PROVIDER_EMPLOYEE','te_vodo_employee@gmail.com', 'Джеймс', 'Бонд', '0688946349', 32);
-INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('CALIBRATOR_EMPLOYEE','lv_calib_omega','1234abc','CALIBRATOR_EMPLOYEE', 'lv_calib_omega@gmail.com', 'Олена', 'Іванова', '0687463749', 52);
-INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('CALIBRATOR_EMPLOYEE','lv_calib_orion','1234abc','CALIBRATOR_EMPLOYEE', 'lv_calib_orion@gmail.com', 'Надія', 'Іванова', '0687540683', 11);
-INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('STATE_VERIFICATOR_EMPLOYEE','lv_verif_sdgo','1234abc','STATE_VERIFICATOR_EMPLOYEE','lv_verif_sdgo@gmail.com', 'Іван', 'Іванів', '0688926548', 7);
-INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`) VALUES ('STATE_VERIFICATOR_EMPLOYEE','te_verif_spmo','1234abc','STATE_VERIFICATOR_EMPLOYEE','te_verif_spmo@gmail.com', 'Віктор', 'Вікторів', '0688926548', 8);
+INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`)
+VALUES ('PROVIDER_EMPLOYEE','lv_vodo_kanal_employee','$2a$10$E5l.KYBTC.VVxxjZ5vBMFeiZck0i4H.P84FO7809hm85XNIIkJ2eC','PROVIDER_EMPLOYEE','lv_vodo_employee@gmail.com', 'Романів', 'Роман', '0684589473', 43);
+INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`)
+VALUES ('PROVIDER_EMPLOYEE','te_vodo_kanal_employee','$2a$10$E5l.KYBTC.VVxxjZ5vBMFeiZck0i4H.P84FO7809hm85XNIIkJ2eC','PROVIDER_EMPLOYEE','te_vodo_employee@gmail.com', 'Джеймс', 'Бонд', '0688946349', 32);
+INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`)
+VALUES ('CALIBRATOR_EMPLOYEE','lv_calib_omega','$2a$10$E5l.KYBTC.VVxxjZ5vBMFeiZck0i4H.P84FO7809hm85XNIIkJ2eC','CALIBRATOR_EMPLOYEE', 'lv_calib_omega@gmail.com', 'Олена', 'Іванова', '0687463749', 52);
+INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`)
+VALUES ('CALIBRATOR_EMPLOYEE','lv_calib_orion','$2a$10$E5l.KYBTC.VVxxjZ5vBMFeiZck0i4H.P84FO7809hm85XNIIkJ2eC','CALIBRATOR_EMPLOYEE', 'lv_calib_orion@gmail.com', 'Надія', 'Іванова', '0687540683', 11);
+INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`)
+VALUES ('STATE_VERIFICATOR_EMPLOYEE','lv_verif_sdgo','$2a$10$E5l.KYBTC.VVxxjZ5vBMFeiZck0i4H.P84FO7809hm85XNIIkJ2eC','STATE_VERIFICATOR_EMPLOYEE','lv_verif_sdgo@gmail.com', 'Іван', 'Іванів', '0688926548', 7);
+INSERT INTO `USER` (`user_type`,`username`,`password`,`role`,`email`,`firstName`,`lastName`,`phone`,`organization_id`)
+VALUES ('STATE_VERIFICATOR_EMPLOYEE','te_verif_spmo','$2a$10$E5l.KYBTC.VVxxjZ5vBMFeiZck0i4H.P84FO7809hm85XNIIkJ2eC','STATE_VERIFICATOR_EMPLOYEE','te_verif_spmo@gmail.com', 'Віктор', 'Вікторів', '0688926548', 8);
 
 
 -- ------------------------------- MANUFACTURERS ---------------------------- --
@@ -234,4 +240,3 @@ INSERT INTO `CALIBRATION_TEST` (`id`,`consumptionStatus`,`dateTest`,`latitude`,`
 INSERT INTO `CALIBRATION_TEST` (`id`,`consumptionStatus`,`dateTest`,`latitude`,`longitude`,`document_name`,`document_sign`,`name`,`photoPath`,`settingNumber`,`temperature`,`testResult`,`verification_id`) VALUES (42,NULL,NULL,NULL,NULL,'Державна система забезпечення єдності вимірювань','ДСТУ 2681-94',NULL,NULL,NULL,NULL,NULL,'6cf7dcf1-3199-4d1b-a7aa-12a02b4444b4');
 INSERT INTO `CALIBRATION_TEST` (`id`,`consumptionStatus`,`dateTest`,`latitude`,`longitude`,`document_name`,`document_sign`,`name`,`photoPath`,`settingNumber`,`temperature`,`testResult`,`verification_id`) VALUES (43,NULL,NULL,NULL,NULL,'Державна система забезпечення єдності вимірювань','ДСТУ 2681-94',NULL,NULL,NULL,NULL,NULL,'54720638-4dac-46c2-a95b-12130ce791af');
 INSERT INTO `CALIBRATION_TEST` (`id`,`consumptionStatus`,`dateTest`,`latitude`,`longitude`,`document_name`,`document_sign`,`name`,`photoPath`,`settingNumber`,`temperature`,`testResult`,`verification_id`) VALUES (44,NULL,NULL,NULL,NULL,'Державна система забезпечення єдності вимірювань','ДСТУ 2681-94',NULL,NULL,NULL,NULL,'FAILED','0a3661b4-2873-432c-9318-663716e5e950');
-
