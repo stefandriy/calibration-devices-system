@@ -15,7 +15,6 @@ angular
              */
             $scope.saveVerification = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if ($scope.form.$valid) {
                     $scope.form.locality = $scope.selectedLocality.designation;
                     $scope.form.street = $scope.selectedStreet.designation;
                     $scope.form.building = $scope.selectedBuilding.designation;
@@ -23,7 +22,6 @@ angular
                     verificationService.sendInitiatedVerification($scope.form)
                         .success(function () {
                         });
-                };
             };
             /**
              * Receives all possible localities.
