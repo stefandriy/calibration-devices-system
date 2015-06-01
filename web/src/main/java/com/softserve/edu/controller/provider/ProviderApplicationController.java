@@ -29,25 +29,25 @@ public class ProviderApplicationController {
     private RegionService regionService;
 
     @Autowired
-    VerificationService verificationService;
+   private VerificationService verificationService;
 
     @Autowired
-    ProviderService providerService;
+    private  ProviderService providerService;
 
     @Autowired
-    CalibratorService calibratorService;
+    private CalibratorService calibratorService;
 
     @Autowired
-    DistrictService districtService;
+    private  DistrictService districtService;
 
     @Autowired
-    LocalityService localityService;
+    private  LocalityService localityService;
 
     @Autowired
-    StreetService streetService;
+    private StreetService streetService;
 
     @Autowired
-    BuildingService buildingService;
+    private BuildingService buildingService;
 
     /**
      * Save verification in database
