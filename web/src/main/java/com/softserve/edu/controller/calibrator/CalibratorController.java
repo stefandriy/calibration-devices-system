@@ -2,6 +2,7 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.*;
@@ -76,5 +77,22 @@ public class CalibratorController {
                             verificationUpdatingDTO.getVerificator()
                     );
         }
+    }
+    @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
+    public ClientStageVerificationDTO getNewVerificationDetailsById(
+            @PathVariable String verificationId,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+
+        Verification verification = verificationService
+                .findByIdAndCalibratorId(
+                        verificationId,
+                        user.getOrganizationId()
+                );
+
+
+        ClientData clientData = verification.getClientData();
+        Address address = clientData.getClientAddress();
+
+        return new ClientStageVerificationDTO(clientData, address,  null );
     }
 }

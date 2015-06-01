@@ -40,17 +40,25 @@
                                     <th>Реєстраційний номер повірки</th>
                                     <th>Прізвище клієнта</th>
                                     <th>Вулиця, на якій проживає клієнт</th>
+                                    <th>Детальна інформація</th>
                                     <th>Дії<br/> <br/></th>
                                     <th>Відправити державному повірнику</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr ng-repeat="verification in pageData">
+                                <tr ng-repeat="verification in pageData | orderBy:'-initialDate'">
                                     <td>{{ verification.initialDate | date}}</td>
                                     <td>{{ verification.id }}</td>
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
+                                    <td class="text-center">
+                                        <a popover="Детальніше"
+                                           popover-trigger="mouseenter"
+                                           ng-click="openDetails($index)">
+                                            <i class="fa fa-info-circle"></i>
+                                        </a>
+                                    </td>
                                     <td class="text-center">
                                             <button type="button" class="btn btn-primary" ng-click="openDetails($index)">
                                                 Створити тест
