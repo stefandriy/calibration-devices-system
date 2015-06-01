@@ -57,5 +57,6 @@ define([
     'controllers/EmployeeController',
     'controllers/AddressModalController',
     'services/VerificationService',
-    'services/AddressService'
+    'services/AddressService',
+    'services/UserService'
 ], function () {});

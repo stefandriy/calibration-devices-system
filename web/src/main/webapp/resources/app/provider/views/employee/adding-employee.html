@@ -3,16 +3,16 @@
     <div class="row">
         <div class="form-group col-md-4" show-errors>
 
-            <label for="surname" class="control-label">Прізвище</label>
+            <label for="lastName" class="control-label">Прізвище</label>
 
-            <input id="surname" name="surname" class="form-control" ng-model="employeeData.surname"
+            <input id="lastName" name="lastName" class="form-control" ng-model="employeeData.lastName"
                    required>
         </div>
 
         <div class="form-group col-md-4">
-            <label for="name" class="control-label">Ім'я</label>
+            <label for="firstName" class="control-label">Ім'я</label>
 
-            <input id="name" name="name" class="form-control" ng-model="employeeData.name"
+            <input id="firstName" name="firstName" class="form-control" ng-model="employeeData.firstName"
                    required>
         </div>
 
@@ -61,11 +61,8 @@
             <input id="username" name="username" class="form-control"
                    ng-model="employeeData.username"
                    ng-model-options="{debounce: 350}"
-                   ng-change="checkUsername()" required>
-
-            <p class="help-block" ng-if="!usernameValidation.isValid">
-                {{ usernameValidation.message}}
-            </p>
+                   ng-change="checkUsername(employeeData.username)" required>
+            {{usernameError}}
         </div>
 
         <div class="form-group col-md-4" show-errors>
@@ -79,11 +76,14 @@
             <label for="rePassword" class="control-label">Повторіть пароль</label>
 
             <input id="rePassword" name="rePassword" class="form-control" type="password"
-                   ng-model="employeeData.rePassword" required>
+                   ng-model="rePassword" required>
         </div>
     </div>
 
     <button type="submit" class="btn btn-success">Додати працівника</button>
-    <a class="btn btn-warning pull-right" ng-click="resetOrganizationForm()">Скинути форму</a>
+
+    <button type="button" class="btn btn-warning pull-right" ng-click="resetOrganizationForm()">
+        Скинути форму
+    </button>
 
 </form>

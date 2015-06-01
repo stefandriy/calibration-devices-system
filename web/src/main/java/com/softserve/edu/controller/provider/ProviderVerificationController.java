@@ -24,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/provider/verifications/")
-public class ProviderController {
+public class ProviderVerificationController {
 
     @Autowired
     VerificationService verificationService;
@@ -35,7 +35,7 @@ public class ProviderController {
     @Autowired
     CalibratorService calibratorService;
 
-    private final Logger logger = Logger.getLogger(ProviderController.class);
+    private final Logger logger = Logger.getLogger(ProviderVerificationController.class);
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllVerificationsByProviderId(
