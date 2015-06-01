@@ -33,6 +33,7 @@ angular
             /**
              * Receives all possible streets.
              */
+
             $scope.receiveStreets = function (selectedLocality) {
                 $scope.streets = [];
                 verificationService.getStreetsCorrespondingLocality(selectedLocality)
