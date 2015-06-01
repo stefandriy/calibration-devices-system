@@ -1,6 +1,5 @@
 package com.softserve.edu.entity.user;
 
-
 import com.softserve.edu.entity.Organization;
 
 import javax.persistence.DiscriminatorValue;
@@ -21,12 +20,25 @@ public class CalibratorEmployee extends Employee {
 
     public CalibratorEmployee() {}
 
-    public CalibratorEmployee(String username, String password, Role role, Organization organization) {
+    public CalibratorEmployee(
+            String username, String password, CalibratorEmployeeRole role,
+            Organization organization) {
         super(username, password, role, organization);
     }
 
-    public CalibratorEmployee(String username, String password, Role role, Organization organization,
-                              String firstName, String lastName, String email, String phone) {
+    public CalibratorEmployee(
+            String username, String password, CalibratorEmployeeRole role,
+            Organization organization, String firstName, String lastName,
+            String email, String phone) {
         super(username, password, role, organization, firstName, lastName, email, phone);
+    }
+
+    @Override
+    public void setRole(Role role) {
+        if (!(role instanceof CalibratorEmployeeRole)) {
+            throw new IllegalArgumentException("Role " + role.roleName() +
+                    " not supported for CalibratorEmployee");
+        }
+        super.setRole(role);
     }
 }

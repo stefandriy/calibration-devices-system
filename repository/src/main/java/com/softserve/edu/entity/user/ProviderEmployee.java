@@ -20,13 +20,25 @@ public class ProviderEmployee extends Employee {
 
     public ProviderEmployee() {}
 
-    public ProviderEmployee(String username, String password, ProviderEmployeeRole role,
-             Organization organization) {
+    public ProviderEmployee(
+            String username, String password, ProviderEmployeeRole role,
+            Organization organization) {
         super(username, password, role, organization);
     }
 
-    public ProviderEmployee(String username, String password, Role role, Organization organization,
-                            String firstName, String lastName, String email, String phone) {
+    public ProviderEmployee(
+            String username, String password, ProviderEmployeeRole role,
+            Organization organization, String firstName, String lastName,
+            String email, String phone) {
         super(username, password, role, organization, firstName, lastName, email, phone);
+    }
+
+    @Override
+    public void setRole(Role role) {
+        if (!(role instanceof ProviderEmployeeRole)) {
+            throw new IllegalArgumentException("Role " + role.roleName() +
+                    " not supported for ProviderEmployee");
+        }
+        super.setRole(role);
     }
 }

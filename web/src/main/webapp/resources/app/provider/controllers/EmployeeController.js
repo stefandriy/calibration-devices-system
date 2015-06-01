@@ -44,15 +44,19 @@ angular
             };
 
             $scope.addEmployee = function () {
-                var address = $scope.address;
-                var employeeData = $scope.employeeData;
 
-                employeeData.region = address.selectedRegion.designation;
-                employeeData.district = address.selectedDistrict.designation;
-                employeeData.locality = address.selectedLocality.designation;
-                employeeData.street = address.selectedStreet.designation;
-                employeeData.building = address.selectedBuilding.designation || address.selectedBuilding;
-                employeeData.flat = address.selectedFlat;
+                var employeeData = $scope.employeeData;
+                var address = $scope.address;
+
+                employeeData.address = {
+                    region: address.selectedRegion.designation,
+                    district: address.selectedDistrict.designation,
+                    locality: address.selectedLocality.designation,
+                    street: address.selectedStreet.designation,
+                    building: address.selectedBuilding.designation || address.selectedBuilding,
+                    flat: address.selectedFlat
+                };
+
 
                 $log.info(employeeData);
 

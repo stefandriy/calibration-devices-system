@@ -20,13 +20,26 @@ public class StateVerificatorEmployee extends Employee {
 
     protected StateVerificatorEmployee() {}
 
-    public StateVerificatorEmployee(String username, String password, Role role, Organization organization) {
+    public StateVerificatorEmployee(
+            String username, String password, StateVerificatorEmployeeRole role,
+            Organization organization) {
         super(username, password, role, organization);
     }
 
-    public StateVerificatorEmployee(String username, String password, Role role, Organization organization,
-                                    String firstName, String lastName, String email, String phone) {
+    public StateVerificatorEmployee(
+            String username, String password, StateVerificatorEmployeeRole role,
+            Organization organization, String firstName, String lastName,
+            String email, String phone) {
+
         super(username, password, role, organization, firstName, lastName, email, phone);
     }
-}
 
+    @Override
+    public void setRole(Role role) {
+        if (!(role instanceof StateVerificatorEmployeeRole)) {
+            throw new IllegalArgumentException("Role " + role.roleName() +
+                    " not supported for StateVerificatorEmployee");
+        }
+        super.setRole(role);
+    }
+}
