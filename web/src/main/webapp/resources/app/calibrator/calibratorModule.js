@@ -20,12 +20,17 @@
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
                         controller: 'NewVerificationsController'
                     })
-
+                    .state("calibration-test", {
+                        url: '/verifications/calibration-test',
+                        templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
+                        controller: 'CalibrationTestController'
+                    })
                     .state("verifications-archive", {
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsController'
                     });
+
 
             }]);
 
@@ -44,6 +49,8 @@
         'controllers/AddingVerificationsController',
         'controllers/DetailsModalController',
         'controllers/SendingModalController',
+        'controllers/CalibrationTestController',
+        'services/CalibrationTestService',
         'services/VerificationService'
     ], function () {});
 })();
