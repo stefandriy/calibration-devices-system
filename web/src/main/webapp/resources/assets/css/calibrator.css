@@ -376,13 +376,9 @@ input[type="radio"], input[type="checkbox"] {
     color: green;
 }
 
-#providerSelectionForm .form-control-feedback {
+.form-control-feedback {
     top: 15px;
     right: 15px;
-}
-
-#employeeForm .form-control-feedback{
-    right: 12px;
 }
 
 #emptyError {
@@ -393,9 +389,4 @@ input[type="radio"], input[type="checkbox"] {
 .fa {
     font-size: 1.5em;
     padding-right: 5px;
-}
-
-#successMessage {
-    font-size: 10em;
-    color: green;
 }

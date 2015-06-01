@@ -1,8 +1,8 @@
 angular
     .module('providerModule')
-    .controller('EmployeeController', ['$scope', '$log', '$modal', 'UserService',
+    .controller('EmployeeController', ['$scope', '$log', '$modal', '$state', 'UserService',
 
-        function ($scope, $log, $modal, userService) {
+        function ($scope, $log, $modal, $state, userService) {
 
             $scope.employeeData = {};
 
@@ -43,22 +43,48 @@ angular
                     })
             };
 
+            $scope.resetForm = function () {
+                $state.go($state.current, {}, {reload: true});
+            };
+
             $scope.addEmployee = function () {
-                var address = $scope.address;
-                var employeeData = $scope.employeeData;
+                $scope.$broadcast('show-errors-check-validity');
 
-                employeeData.region = address.selectedRegion.designation;
-                employeeData.district = address.selectedDistrict.designation;
-                employeeData.locality = address.selectedLocality.designation;
-                employeeData.street = address.selectedStreet.designation;
-                employeeData.building = address.selectedBuilding.designation || address.selectedBuilding;
-                employeeData.flat = address.selectedFlat;
+                if ($scope.employeeForm.$valid) {
 
-                $log.info(employeeData);
+                    var employeeData = $scope.employeeData;
+                    var address = $scope.address;
 
-                userService.saveUser(employeeData)
-                    .success(function (response) {
-                        $log.info(response);
-                    });
+                    employeeData.address = {
+                        region: address.selectedRegion.designation,
+                        district: address.selectedDistrict.designation,
+                        locality: address.selectedLocality.designation,
+                        street: address.selectedStreet.designation,
+                        building: address.selectedBuilding.designation || address.selectedBuilding,
+                        flat: address.selectedFlat
+                    };
+
+
+                    $log.info(employeeData);
+
+                    userService.saveUser(employeeData)
+                        .success(function (response) {
+                            $log.info(response);
+
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/provider/views/modals/employee-adding-success.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'successController',
+                                size: 'md'
+                            });
+
+                            $scope.resetForm();
+                        });
+                }
             };
         }]);

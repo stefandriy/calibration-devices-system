@@ -1,5 +1,5 @@
 angular
-    .module('providerModule')
+    .module('calibratorModule')
     .controller('NewVerificationsController', ['$scope', '$log', '$modal', 'VerificationService',
         function ($scope, $log, $modal, verificationService) {
 
@@ -8,9 +8,6 @@ angular
             $scope.itemsPerPage = 10;
             $scope.pageData = [];
 
-            /**
-             * get page
-             */
             $scope.onTableHandling = function () {
                 verificationService
                     .getNewVerifications($scope.currentPage, $scope.itemsPerPage)
@@ -21,13 +18,11 @@ angular
             };
 
             $scope.onTableHandling();
-            /**
-             * open modal
-             */
+
             $scope.openDetails = function ($index) {
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/new-verification-details.html',
+                    templateUrl: '/resources/app/calibrator/views/new-verification-details.html',
                     controller: 'DetailsModalController',
                     size: 'lg',
                     resolve: {
@@ -48,10 +43,8 @@ angular
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;
 
-            /**
-             * push verification id to array
-             */
             $scope.resolveVerificationId = function (id) {
+
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {
                     $scope.idsOfVerifications.push(id);
@@ -68,29 +61,25 @@ angular
                 checkForEmpty();
             };
 
-            /**
-             * open modal
-             */
+
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/provider/views/modals/verification-sending.html',
+                        templateUrl: '/resources/app/calibrator/views/verification-sending.html',
                         controller: 'SendingModalController',
                         size: 'md',
                         resolve: {
                             response: function () {
-                                return verificationService.getCalibrators()
-                                    .success(function (calibrators) {
-                                        return calibrators;
+                                return verificationService.getVerificators()
+                                    .success(function (verificators) {
+                                        return verificators;
                                     });
                             }
                         }
                     });
 
-                    /**
-                     * executes when modal closing
-                     */
+                    //executes when modal closing
                     modalInstance.result.then(function (calibrator) {
                         $log.info(calibrator);
 
@@ -113,9 +102,7 @@ angular
                     $scope.isClicked = true;
                 }
             };
-            /**
-             * check if idsOfVerifications array is empty
-             */
+
             var checkForEmpty = function () {
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
