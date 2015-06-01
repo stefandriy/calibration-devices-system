@@ -137,7 +137,7 @@ public class DocumentsService {
      * @return the built file
      */
     private FileObject buildFile(DocumentType documentType, Verification verification,
-                                CalibrationTest calibrationTest, FileFormat fileFormat) {
+                                 CalibrationTest calibrationTest, FileFormat fileFormat) {
         Document document = DocumentFactory.build(documentType, verification,
                 calibrationTest);
 
