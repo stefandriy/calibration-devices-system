@@ -47,12 +47,12 @@ public class FileFactory {
      * Runs all operations using info from parameters and returns
      * the resulting file.
      *
-     * @param operations to tun
+     * @param operations     to tun
      * @param fileParameters by which a file will be created
      * @return the resulting file
      */
     private static FileObject runOperations(List<Operation> operations,
-                                     FileParameters fileParameters) {
+                                            FileParameters fileParameters) {
         FileObject file = FileLocator.getFile(fileParameters.getFileSystem(),
                 fileParameters.getFileName());
 

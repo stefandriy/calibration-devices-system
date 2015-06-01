@@ -27,7 +27,7 @@ public enum Cleanse implements Operation {
     /**
      * Cleans formatting data from template that is left in the document.
      *
-     * @param sourceFile file to perform the operation on
+     * @param sourceFile     file to perform the operation on
      * @param fileParameters parameters that specify how the file
      *                       must be generated
      * @return file without formatting tokens

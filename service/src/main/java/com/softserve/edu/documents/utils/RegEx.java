@@ -1,7 +1,5 @@
 package com.softserve.edu.documents.utils;
 
-import java.util.Collection;
-
 /**
  * Created by Oleg on 5/31/2015.
  */

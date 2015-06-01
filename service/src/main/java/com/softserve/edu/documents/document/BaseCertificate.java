@@ -12,11 +12,11 @@ import com.softserve.edu.entity.util.DeviceType;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 /**
- * Represents a base document.
- * All real documents extend from this class.
+ * Represents a base certificate and consists of common columns and methods
+ * of all certificates.
+ * All certificates extend this class.
  */
 public abstract class BaseCertificate implements Document {
     /**

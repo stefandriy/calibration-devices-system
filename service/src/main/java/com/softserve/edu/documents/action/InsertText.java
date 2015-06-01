@@ -1,7 +1,7 @@
 package com.softserve.edu.documents.action;
 
 import com.softserve.edu.documents.document.Document;
-import com.softserve.edu.documents.document.writer.Writer;
+import com.softserve.edu.documents.document.meta.MetaDataReader;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.utils.FormattingTokens;
 import com.softserve.edu.documents.utils.RegEx;
@@ -31,9 +31,9 @@ public enum InsertText implements Operation {
                               FileParameters fileParameters) throws IOException {
         Document document = fileParameters.getDocument();
 
-        Writer writer = new Writer();
-        Map<String, String> columnsNamesValues =
-                writer.getColumnsNamesValues(document);
+        MetaDataReader metaDataReader = new MetaDataReader();
+        Map<String, Object> columnsNamesValues =
+                metaDataReader.getColumnsNamesValues(document);
 
         InputStream inputStream = sourceFile.getContent().getInputStream();
         XWPFDocument templateDocument = new XWPFDocument(inputStream);
@@ -54,7 +54,7 @@ public enum InsertText implements Operation {
      * @param sourceParagraph paragraph to copy runs from
      */
     private void replaceColumnsWithData(XWPFDocument newDocument,
-                                        Map<String, String> columnsNamesValues) {
+                                        Map<String, Object> columnsNamesValues) {
         List<XWPFParagraph> paragraphs = newDocument.getParagraphs();
 
         List<XWPFParagraph> paragraphList = paragraphs.
@@ -81,14 +81,12 @@ public enum InsertText implements Operation {
     }
 
     /**
-     *
-     *
      * @param textInRun
      * @param columnsNamesValues
      * @return
      */
     private String replaceText(String textInRun,
-                               Map<String, String> columnsNamesValues) {
+                               Map<String, Object> columnsNamesValues) {
         StringBuffer textInRunBuilder = new StringBuffer(textInRun);
 
         int indexOf = textInRunBuilder.indexOf(FormattingTokens.COLUMN.toString());
@@ -108,7 +106,7 @@ public enum InsertText implements Operation {
         for (String match : allMatches) {
             int indexOfColumn = textInRunBuilder.indexOf(match);
             String substring = match.substring(1).trim();
-            String columnValue = columnsNamesValues.get(substring);
+            String columnValue = columnsNamesValues.get(substring).toString();
 
             if (columnValue == null) {
                 continue;
