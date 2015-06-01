@@ -15,8 +15,8 @@ angular
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);
             },
-            getCalibrators: function (url) {
-                return getData('verifications/new/calibrators');
+            getVerificators: function (url) {
+                return getData('verifications/new/verificators');
             },
             sendVerificationsToCalibrator: function (data) {
                 return updateData('new/update', data);

@@ -3,18 +3,16 @@ angular
     .controller('SendingModalController', ['$scope', '$log', '$modalInstance', 'response',
         function ($scope, $log, $modalInstance, response) {
 
-            $scope.calibrators = response.data;
+            $scope.verificators = response.data;
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();
             };
-            $scope.submit = function (calibrator) {
+            $scope.submit = function (verificator) {
                 $scope.$broadcast('show-errors-check-validity');
 
-                if ($scope.calibratorSelectionForm.$valid) {
-                    $modalInstance.close(calibrator);
+                if ($scope.verificatorSelectionForm.$valid) {
+                    $modalInstance.close(verificator);
                 }
             }
         }]);
-
-
