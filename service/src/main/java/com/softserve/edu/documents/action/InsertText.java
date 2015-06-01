@@ -3,6 +3,8 @@ package com.softserve.edu.documents.action;
 import com.softserve.edu.documents.document.Document;
 import com.softserve.edu.documents.document.writer.Writer;
 import com.softserve.edu.documents.parameter.FileParameters;
+import com.softserve.edu.documents.utils.FormattingTokens;
+import com.softserve.edu.documents.utils.RegEx;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -17,16 +19,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class InsertText implements Operation {
-    Map<String, String> columnsNamesValues;
+/**
+ * Singleton.
+ * Represents an operation that can be done on a document.
+ */
+public enum InsertText implements Operation {
+    INSTANCE;
 
     @Override
-    public FileObject perform(FileObject sourceFile, FileParameters fileParameters)
-            throws IOException {
+    public FileObject perform(FileObject sourceFile,
+                              FileParameters fileParameters) throws IOException {
         Document document = fileParameters.getDocument();
 
         Writer writer = new Writer();
-        columnsNamesValues = writer.getColumnsNamesValues(document);
+        Map<String, String> columnsNamesValues =
+                writer.getColumnsNamesValues(document);
 
         InputStream inputStream = sourceFile.getContent().getInputStream();
         XWPFDocument templateDocument = new XWPFDocument(inputStream);
@@ -34,16 +41,7 @@ public class InsertText implements Operation {
 
         XWPFDocument newDocument = new XWPFDocument(templateDocument.getPackage());
 
-        List<XWPFParagraph> paragraphs = newDocument.getParagraphs();
-
-        List<XWPFParagraph> paragraphList = paragraphs.
-                stream().
-                filter(paragraph -> !paragraph.getParagraphText().isEmpty()).
-                collect(Collectors.toList());
-
-        for (XWPFParagraph paragraph : paragraphList) {
-            setCorrectText(paragraph);
-        }
+        replaceColumnsWithData(newDocument, columnsNamesValues);
 
         newDocument.write(sourceFile.getContent().getOutputStream());
 
@@ -51,36 +49,56 @@ public class InsertText implements Operation {
     }
 
     /**
-     * Set the correct data for each run in the supplied paragraph
+     * Replace column names with actual data in the supplied paragraph
      *
      * @param sourceParagraph paragraph to copy runs from
      */
-    private void setCorrectText(XWPFParagraph sourceParagraph) {
-        int position = 0;
+    private void replaceColumnsWithData(XWPFDocument newDocument,
+                                        Map<String, String> columnsNamesValues) {
+        List<XWPFParagraph> paragraphs = newDocument.getParagraphs();
 
-        List<XWPFRun> runs = sourceParagraph.getRuns();
+        List<XWPFParagraph> paragraphList = paragraphs.
+                stream().
+                filter(paragraph -> !paragraph.getParagraphText().isEmpty()).
+                collect(Collectors.toList());
 
-        for (int i = 0; i < runs.size(); i++) {
-            XWPFRun sourceRun = runs.get(i);
-            String textInRun = sourceRun.getText(position);
+        int textPosition = 0;
 
-            if (textInRun == null || textInRun.isEmpty()) {
-                continue;
+        for (XWPFParagraph paragraph : paragraphList) {
+            List<XWPFRun> runs = paragraph.getRuns();
+
+            for (XWPFRun sourceRun : runs) {
+                String textInRun = sourceRun.getText(textPosition);
+
+                if (textInRun == null || textInRun.isEmpty()) {
+                    continue;
+                }
+
+                sourceRun.setText(replaceText(textInRun, columnsNamesValues),
+                        textPosition);
             }
-
-            sourceRun.setText(replaceText(textInRun), position);
         }
     }
 
-    private String replaceText(String textInRun) {
+    /**
+     *
+     *
+     * @param textInRun
+     * @param columnsNamesValues
+     * @return
+     */
+    private String replaceText(String textInRun,
+                               Map<String, String> columnsNamesValues) {
         StringBuffer textInRunBuilder = new StringBuffer(textInRun);
 
-        int indexOf = textInRunBuilder.indexOf("$");
+        int indexOf = textInRunBuilder.indexOf(FormattingTokens.COLUMN.toString());
         if (indexOf == -1) {
             return textInRun;
         }
 
-        Matcher matcher = Pattern.compile("\\$(\\w+)").matcher(textInRunBuilder);
+        Matcher matcher = Pattern
+                .compile(RegEx.findAllColumns())
+                .matcher(textInRunBuilder);
         List<String> allMatches = new ArrayList<>();
 
         while (matcher.find()) {

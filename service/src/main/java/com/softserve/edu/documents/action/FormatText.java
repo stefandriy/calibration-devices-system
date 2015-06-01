@@ -7,6 +7,7 @@ import com.softserve.edu.documents.parameter.DocumentFontFactory;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.size.SizeUnit;
 import com.softserve.edu.documents.size.SizeUnitConverter;
+import com.softserve.edu.documents.utils.FormattingTokens;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
@@ -27,16 +28,22 @@ import java.util.stream.Collectors;
 
 /**
  * Singleton.
- * Represents an operation that reads file, finds tokens that represent
- * formatting rules and adjusts text accordingly.
+ * Represents an operation that can be done on a document.
  */
 public enum FormatText implements Operation {
     INSTANCE;
 
-    private Logger logger = Logger.getLogger(FormatText.class);
+    private static Logger logger = Logger.getLogger(FormatText.class);
 
     /**
-     * {inherit}
+     * Represents an operation that reads file, finds tokens that represent
+     * formatting rules and format text accordingly.
+     *
+     * @param sourceFile     file to perform the operation on
+     * @param fileParameters parameters that specify how the file
+     *                       must be generated
+     * @return file with formatted text
+     * @throws IOException TODO: copy from interface
      */
     @Override
     public FileObject perform(FileObject sourceFile,
@@ -47,7 +54,9 @@ public enum FormatText implements Operation {
         try (InputStream inputStream = sourceFileContent.getInputStream()) {
             templateDocument = new XWPFDocument(inputStream);
         } catch (IOException exception) {
-            logger.error("exception: ", exception);
+            logger.error("exception while trying to use input stream of file " +
+                    sourceFile.getName().toString() +
+                    ": ", exception);
             throw exception;
         }
 
@@ -80,14 +89,28 @@ public enum FormatText implements Operation {
      * Set the correct data for each run in the supplied paragraph
      *
      * @param sourceParagraph paragraph to copy runs from
+     * @param contentWidth    width of the content area
+     * @throws IOException if a font can't be build
      */
     private void setCorrectText(XWPFParagraph sourceParagraph,
                                 double contentWidth) throws IOException {
-        final int textPosition = 0;
+        int textPosition = 0;
 
         List<XWPFRun> runs = sourceParagraph.getRuns();
 
-        // format every run
+        Font font;
+
+        try {
+            font = DocumentFontFactory.buildFont(DocumentFont.FREE_SERIF);
+        } catch (IOException exception) {
+            logger.error(DocumentFont.FREE_SERIF.name() + "can't be built",
+                    exception);
+            throw exception;
+        }
+
+        int indexOfRight;
+        int notFound = -1;
+
         for (XWPFRun sourceRun : runs) {
             String textInRun = sourceRun.getText(textPosition);
 
@@ -95,12 +118,11 @@ public enum FormatText implements Operation {
                 continue;
             }
 
-            Font font = DocumentFontFactory.buildFont(DocumentFont.FREE_SERIF,
-                    sourceRun.getFontSize());
+            indexOfRight = textInRun.lastIndexOf(
+                    FormattingTokens.RIGHT_SIDE.toString());
 
-            int indexOfRight = textInRun.lastIndexOf("#");
-
-            if (indexOfRight != -1) {
+            if (indexOfRight != notFound) {
+                font.setSize(sourceRun.getFontSize());
                 textInRun = align(new StringBuilder(textInRun), font,
                         contentWidth);
             }
@@ -112,9 +134,9 @@ public enum FormatText implements Operation {
     private String align(StringBuilder textInRun, Font font,
                          Double contentWidth) {
         Double paragraphWidth = getStringWidth(textInRun.toString(), font);
-        int index = textInRun.lastIndexOf("#");
+        int index = textInRun.lastIndexOf(FormattingTokens.RIGHT_SIDE.toString());
 
-        final double epsilon = 0.0001;
+        double epsilon = 0.0001;
         while ((paragraphWidth - contentWidth) < epsilon) {
             textInRun.insert(index, ' ');
             paragraphWidth = getStringWidth(textInRun.toString(), font);
