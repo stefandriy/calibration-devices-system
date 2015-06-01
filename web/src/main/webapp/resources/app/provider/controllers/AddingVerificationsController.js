@@ -32,7 +32,8 @@ angular
                 });
             /**
              * Receives all possible streets.
-             */
+             *
+             * /
 
             $scope.receiveStreets = function (selectedLocality) {
                 $scope.streets = [];
