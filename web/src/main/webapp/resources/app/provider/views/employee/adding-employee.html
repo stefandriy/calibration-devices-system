@@ -1,99 +1,165 @@
-<form ng-submit="addEmployee()" name="employeeForm" novalidate>
+<div class="from-top form-group">
 
-    <div class="row">
-        <div class="form-group col-md-4" show-errors>
+    <form name="employeeForm" id="employeeForm" class="form-group"
+          ng-submit="addEmployee()" novalidate>
 
-            <label for="lastName" class="control-label">Прізвище</label>
+        <div class="row">
+            <div class="form-group has-feedback col-md-4" show-errors>
 
-            <input id="lastName" name="lastName" class="form-control" ng-model="employeeData.lastName"
-                   required>
+                <label for="lastName" class="control-label">Прізвище</label>
 
-            <p class="help-block" ng-if="employeeForm.lastName.$error.required">
-                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                Це поле є обов'язковим для заповнення
-            </p>
+                <input id="lastName" name="lastName" class="form-control"
+                       ng-model="employeeData.lastName"
+                       ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required>
 
-            <p class="help-block" ng-if="employeeForm.lastName.$error.pattern">
-                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                Це поле може містити лише буквенні символи
-            </p>
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
+
+                <p class="help-block" ng-if="employeeForm.lastName.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле є обов'язковим для заповнення
+                </p>
+
+                <p class="help-block" ng-if="employeeForm.lastName.$error.pattern">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле може містити лише буквенні символи
+                </p>
+            </div>
+
+            <div class="form-group has-feedback col-md-4" show-errors>
+                <label for="firstName" class="control-label">Ім'я</label>
+
+                <input id="firstName" name="firstName" class="form-control"
+                       ng-model="employeeData.firstName"
+                       ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required>
+
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
+
+                <p class="help-block" ng-if="employeeForm.firstName.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле є обов'язковим для заповнення
+                </p>
+
+                <p class="help-block" ng-if="employeeForm.firstName.$error.pattern">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле може містити лише буквенні символи
+                </p>
+            </div>
+
+            <div class="form-group has-feedback col-md-4" show-errors>
+                <label for="middleName" class="control-label">По батькові</label>
+
+                <input id="middleName" name="middleName" class="form-control"
+                       ng-model="employeeData.middleName"
+                       ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required>
+
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
+
+                <p class="help-block" ng-if="employeeForm.middleName.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле є обов'язковим для заповнення
+                </p>
+
+                <p class="help-block" ng-if="employeeForm.middleName.$error.pattern">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле може містити лише буквенні символи
+                </p>
+            </div>
         </div>
 
-        <div class="form-group col-md-4">
-            <label for="firstName" class="control-label">Ім'я</label>
+        <div class="row">
+            <div class="form-group has-feedback col-md-6" show-errors>
+                <label for="phone" class="control-label">Номер телефону</label>
 
-            <input id="firstName" name="firstName" class="form-control" ng-model="employeeData.firstName"
-                   required>
+                <input id="phone" name="phone" class="form-control" ng-model="employeeData.phone"
+                       ng-pattern="/^0[1-9]\d{8}$/" required>
+
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
+
+                <p class="help-block" ng-if="employeeForm.phone.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле є обов'язковим для заповнення
+                </p>
+
+                <p class="help-block" ng-if="employeeForm.phone.$error.pattern">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Номер телефону повинен бути завповнений у наступному форматі:
+                    0{кодміста/оператора}{номер телефону}
+                </p>
+            </div>
+
+            <div class="form-group has-feedback col-md-6" show-errors>
+                <label for="email" class="control-label">Електронна адреса</label>
+
+                <input id="email" name="email" type="email" class="form-control"
+                       ng-model="employeeData.email"
+                       required>
+
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
+
+                <p class="help-block" ng-if="employeeForm.email.$error.email">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Адреса електронної пошти повинна містити символ '@'. Приклад: <i>example@gmail.com</i>
+                </p>
+
+                <p class="help-block" ng-if="employeeForm.email.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле є обов'язковим для заповнення
+                </p>
+            </div>
         </div>
 
-        <div class="form-group col-md-4">
-            <label for="middleName" class="control-label">По батькові</label>
+        <div class="row">
+            <div class="form-group has-feedback col-md-12" show-errors>
 
-            <input id="middleName" name="middleName" class="form-control"
-                   ng-model="employeeData.middleName" required>
-        </div>
-    </div>
+                <label for="address" class="control-label">Домашня адреса</label>
 
-    <div class="row">
-        <div class="form-group col-md-6" show-errors>
-            <label for="phone" class="control-label">Номер телефону</label>
+                <input id="address" name="address" type="button" ng-click="openAddressModal()"
+                       ng-model="addressMessage" class="form-control" required>
 
-            <input id="phone" name="phone" class="form-control" ng-model="employeeData.phone"
-                   required>
-        </div>
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
 
-        <div class="form-group col-md-6">
-            <label for="email" class="control-label">Електронна адреса</label>
-
-            <input id="email" name="email" class="form-control" ng-model="employeeData.email"
-                   required>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="form-group col-md-12">
-            <label class="control-label">Домашня адреса</label>
-
-            <input type="button" ng-click="openAddressModal()"
-                   name="address" value="{{addressMessage}}" class="form-control">
-        </div>
-    </div>
-
-    <hr/>
-
-    <h4 class="help-block">Заповніть дані за якими працівник зможе зайти в систему.
-        Також ці дані будуть надіслані на вказану раніше електронну адерсу працівника</h4>
-
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label for="username" class="control-label">Логін</label>
-
-            <input id="username" name="username" class="form-control"
-                   ng-model="employeeData.username"
-                   ng-model-options="{debounce: 350}"
-                   ng-change="checkUsername(employeeData.username)" required>
-            {{usernameError}}
+                <p class="help-block">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Це поле є обов'язковим для заповнення
+                </p>
+            </div>
         </div>
 
-        <div class="form-group col-md-4" show-errors>
-            <label for="password" class="control-label">Пароль</label>
+        <hr/>
 
-            <input id="password" name="password" class="form-control" type="password"
-                   ng-model="employeeData.password" required>
+        <h4 class="help-block">Заповніть дані за якими працівник зможе зайти в систему.
+            Також ці дані будуть надіслані на вказану раніше електронну адерсу працівника</h4>
+
+        <div class="row">
+            <div class="form-group col-md-4" show-errors>
+                <label for="username" class="control-label">Логін</label>
+
+                <input id="username" name="username" class="form-control"
+                       ng-model="employeeData.username"
+                       ng-model-options="{debounce: 350}"
+                       ng-change="checkUsername(employeeData.username)" required>
+            </div>
+
+            <div class="form-group col-md-4" show-errors>
+                <label for="password" class="control-label">Пароль</label>
+
+                <input id="password" name="password" class="form-control" type="password"
+                       ng-model="employeeData.password" required>
+            </div>
+
+            <div class="form-group col-md-4" show-errors>
+                <label for="rePassword" class="control-label">Повторіть пароль</label>
+
+                <input id="rePassword" name="rePassword" class="form-control" type="password"
+                       ng-model="rePassword" required>
+            </div>
         </div>
 
-        <div class="form-group col-md-4" show-errors>
-            <label for="rePassword" class="control-label">Повторіть пароль</label>
+        <button type="submit" class="btn btn-success">Додати працівника</button>
 
-            <input id="rePassword" name="rePassword" class="form-control" type="password"
-                   ng-model="rePassword" required>
-        </div>
-    </div>
+        <button type="button" class="btn btn-warning pull-right" ng-click="resetForm()">
+            Скинути форму
+        </button>
 
-    <button type="submit" class="btn btn-success">Додати працівника</button>
-
-    <button type="button" class="btn btn-warning pull-right" ng-click="resetForm()">
-        Скинути форму
-    </button>
-
-</form>
+    </form>
+</div>

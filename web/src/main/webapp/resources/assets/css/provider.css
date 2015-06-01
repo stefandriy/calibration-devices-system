@@ -381,6 +381,10 @@ input[type="radio"], input[type="checkbox"] {
     right: 15px;
 }
 
+#employeeForm .form-control-feedback{
+    right: 12px;
+}
+
 #emptyError {
     display: block;
     color: red;
