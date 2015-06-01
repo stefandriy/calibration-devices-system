@@ -3,17 +3,18 @@ package com.softserve.edu.controller;
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.service.DocumentsService;
+import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyEditorSupport;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Controller for file generation requests.
@@ -30,92 +31,111 @@ public class DocumentsController {
     DocumentsService documentsService;
 
     /**
-     * Returns a document with a specific fileFormat using verification and one of it's tests.
-     * For example: .../verification_certificate/1/1/pdf.
+     * Returns a document with a specific fileFormat using verification and it's
+     * most recent calibration test.
+     * For example: .../verification-code/pdf.
      *
-     * @param documentType     document to generate
-     * @param verificationCode id of the verification, for which the document is to be generated
-     * @param testID           one of the verification's tests, for which the document is to be generated
-     * @param fileFormat   fileFormat of the resulting document
-     * @throws IOException           if file can't be generated because of a file system error
+     * @param verificationCode id of the verification, for which the document
+     *                         is to be generated
+     * @param fileFormat       fileFormat of the resulting document
+     * @throws IOException           if file can't be generated because of a
+     *                               file system error
      * @throws IllegalStateException if one of parameters is incorrect
      */
-    @RequestMapping(value = "{documentType}/{verificationCode}/{testID}/{fileFormat}", method = RequestMethod.GET)
+    @RequestMapping(value = "{verificationCode}/{fileFormat}",
+            method = RequestMethod.GET)
+    public void getDocument(HttpServletResponse response,
+                            @PathVariable String verificationCode,
+                            @PathVariable FileFormat fileFormat)
+            throws IOException, IllegalStateException {
+        FileObject file = documentsService.getFile(verificationCode, fileFormat);
+        sendFile(response, fileFormat, file);
+    }
+
+    /**
+     * Returns a document with a specific fileFormat using verification and one
+     * of it's tests. For example: .../verification_certificate/1/1/pdf.
+     *
+     * @param documentType     document to generate
+     * @param verificationCode id of the verification, for which the document
+     *                         is to be generated
+     * @param testID           one of the verification's tests, for which the
+     *                         document is to be generated
+     * @param fileFormat       fileFormat of the resulting document
+     * @throws IOException           if file can't be generated because of a
+     *                               file system error
+     * @throws IllegalStateException if one of parameters is incorrect
+     */
+    @RequestMapping(value = "{documentType}/{verificationCode}/{testID}/{fileFormat}",
+            method = RequestMethod.GET)
     public void getDocument(HttpServletResponse response,
                             @PathVariable DocumentType documentType,
                             @PathVariable String verificationCode,
                             @PathVariable Long testID,
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
-        InputStream inputStream = documentsService.getFile(verificationCode, testID, documentType, fileFormat);
-        sendFile(response, fileFormat, inputStream);
-        response.getOutputStream().close();
-        inputStream.close();
+        FileObject file = documentsService.getFile(verificationCode,
+                testID, documentType, fileFormat);
+        sendFile(response, fileFormat, file);
     }
 
     /**
-     * Returns a document with a specific fileFormat using verification that has only one test.
-     * For example: .../verification_certificate/1/pdf.
-     *
-     * @param verificationCode id of the verification, for which the document is to be generated. This verification
-     *                         must have only one test
-     * @param fileFormat   fileFormat of the resulting document
-     * @throws IOException           if file can't be generated because of a file system error
-     * @throws IllegalStateException if one of parameters is incorrect
-     */
-    @RequestMapping(value = "{verificationCode}/{fileFormat}", method = RequestMethod.GET)
-    public void getDocument(HttpServletResponse response,
-                            @PathVariable String verificationCode,
-                            @PathVariable FileFormat fileFormat)
-            throws IOException, IllegalStateException {
-        InputStream inputStream = documentsService.getFile(verificationCode, fileFormat);
-        sendFile(response, fileFormat, inputStream);
-        response.getOutputStream().close();
-        inputStream.close();
-    }
-
-    /**
-     * Returns a document with a specific fileFormat using verification that has only one test.
-     * For example: .../verification_certificate/1/pdf.
+     * Returns a document with a specific fileFormat using verification that
+     * has only one test. For example: .../verification_certificate/1/pdf.
      *
      * @param documentType     document to generate
-     * @param verificationCode id of the verification, for which the document is to be generated. This verification
+     * @param verificationCode id of the verification, for which the document
+     *                         is to be generated. This verification
      *                         must have only one test
-     * @param fileFormat   fileFormat of the resulting document
-     * @throws IOException           if file can't be generated because of a file system error
+     * @param fileFormat       fileFormat of the resulting document
+     * @throws IOException           if file can't be generated because of a
+     *                               file system error
      * @throws IllegalStateException if one of parameters is incorrect
      */
-    @RequestMapping(value = "{documentType}/{verificationCode}/{fileFormat}", method = RequestMethod.GET)
+    @RequestMapping(value = "{documentType}/{verificationCode}/{fileFormat}",
+            method = RequestMethod.GET)
     public void getDocument(HttpServletResponse response,
                             @PathVariable DocumentType documentType,
                             @PathVariable String verificationCode,
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
-        InputStream inputStream = documentsService.getFile(verificationCode, documentType, fileFormat);
-        sendFile(response, fileFormat, inputStream);
-        response.getOutputStream().close();
-        inputStream.close();
+        FileObject file = documentsService.getFile(verificationCode,
+                documentType, fileFormat);
+        sendFile(response, fileFormat, file);
     }
 
     /**
-     * Writes contents of the input stream to the response' output stream and sets http headers depending on
-     * the fileFormat.
-     * Doesn't close the streams.
+     * Writes contents of the input stream to the response' output stream and
+     * sets http headers depending on the fileFormat.
      *
-     * @param response       servlet response
+     * @param response   servlet response
      * @param fileFormat of the file to be sent
-     * @param inputStream    input steam to the data that must be written to the output stream
+     * @param file       file to be sent
      * @throws IOException
      */
-    private void sendFile(HttpServletResponse response, FileFormat fileFormat, InputStream inputStream) throws IOException {
+    private void sendFile(HttpServletResponse response, FileFormat fileFormat,
+                          FileObject file) throws IOException {
         setContentType(response, fileFormat);
-        writeToOutputStream(inputStream, response.getOutputStream());
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        int bufferSize = 10240;  // 10Kb
+        byte[] buffer = new byte[bufferSize];
+
+        try (InputStream inputStream = file.getContent().getInputStream()) {
+            int length = inputStream.read(buffer);
+            int offset = 0;
+
+            do {
+                outputStream.write(buffer, offset, length);
+                length = inputStream.read(buffer);
+            } while (length > 0);
+        }
     }
 
     /**
      * Set content type of the response depending on the document's format.
      *
-     * @param response       servlet response
+     * @param response   servlet response
      * @param fileFormat of the file to be sent
      */
     private void setContentType(HttpServletResponse response, FileFormat fileFormat) {
@@ -124,7 +144,8 @@ public class DocumentsController {
                 response.setContentType("application/pdf");
                 break;
             case DOCX:
-                response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                response.setContentType("application/vnd.openxmlformats-" +
+                        "officedocument.wordprocessingml.document");
                 break;
             default:
                 throw new IllegalArgumentException(fileFormat.name() +
@@ -132,32 +153,8 @@ public class DocumentsController {
 
         }
 
-        response.setHeader("Content-Disposition", "attachment; filename=\"myfile." +
-                fileFormat.name().toLowerCase() +
-                "\"");
-        //request.setContentLength(bytes.length);
-    }
-
-    /**
-     * Writes contents of the input stream to the output stream
-     *
-     * @param inputStream  to the data to be written
-     * @param outputStream to write data to
-     * @throws IOException if one of streams is unreachable
-     */
-    private void writeToOutputStream(InputStream inputStream,
-                                     OutputStream outputStream) throws IOException {
-        final int bufferSize = 10240;
-        byte[] buffer = new byte[bufferSize];
-
-        int length = inputStream.read(buffer);
-
-        do {
-            outputStream.write(buffer, 0, length);
-            length = inputStream.read(buffer);
-        } while (length > 0);
-
-        inputStream.close();
+        response.setHeader("Content-Disposition", "attachment; " +
+                "filename=\"document." + fileFormat.name().toLowerCase() + "\"");
     }
 
     /**
@@ -169,7 +166,7 @@ public class DocumentsController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalStateException.class)
     public void illegalStateExceptionHandler(IllegalStateException exception) {
-        log.error("exception: ", exception);
+        log.error(exception.getMessage(), exception);
     }
 
     /**
@@ -181,7 +178,7 @@ public class DocumentsController {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(IOException.class)
     public void ioExceptionHandler(IOException exception) {
-        log.error("exception: ", exception);
+        log.error(exception.getMessage(), exception);
     }
 
     /**
@@ -191,13 +188,13 @@ public class DocumentsController {
      * @param exception thrown exception
      */
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class) // TODO: throwable?
     public void uncaughtExceptionHandler(Exception exception) {
-        log.error("exception: ", exception);
+        log.error(exception.getMessage(), exception);
     }
 
     /**
-     * {inherit}
+     * Registers custom editors for the enum parameters.
      */
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {

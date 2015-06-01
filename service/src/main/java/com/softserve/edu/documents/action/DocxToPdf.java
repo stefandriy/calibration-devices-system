@@ -130,6 +130,9 @@ public enum DocxToPdf implements Operation {
         XWPFRun run = docxParagraph.getRuns().get(0);
 
         int fontSize = run.getFontSize();
+        if (fontSize < 1) {
+            fontSize = 12;
+        }
         int align = docxParagraph.getAlignment() == ParagraphAlignment.CENTER ?
                 Element.ALIGN_CENTER : Element.ALIGN_LEFT;
         int style = !run.isBold() ? 0 : Font.BOLD;

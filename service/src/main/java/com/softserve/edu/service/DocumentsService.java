@@ -4,16 +4,15 @@ import com.softserve.edu.documents.DocumentFactory;
 import com.softserve.edu.documents.FileFactory;
 import com.softserve.edu.documents.document.Document;
 import com.softserve.edu.documents.parameter.FileFormat;
-import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.parameter.FileSystem;
+import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import org.apache.commons.vfs2.FileObject;
-import org.apache.commons.vfs2.FileSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,6 @@ import java.io.InputStream;
 import java.util.Set;
 
 @Service
-@Transactional
 public class DocumentsService {
 
     @Autowired
@@ -32,7 +30,7 @@ public class DocumentsService {
     @Autowired
     CalibrationTestRepository calibrationTestRepository;
 
-    public InputStream getFile(String verificationCode, DocumentType documentType, FileFormat fileFormat) {
+    public FileObject getFile(String verificationCode, DocumentType documentType, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
 
         // check input parameters
@@ -52,8 +50,8 @@ public class DocumentsService {
         return builFile(documentType, verification, calibrationTest, fileFormat);
     }
 
-    public InputStream getFile(String verificationCode, Long calibrationTestID,
-                                         DocumentType documentType, FileFormat fileFormat) {
+    public FileObject getFile(String verificationCode, Long calibrationTestID,
+                              DocumentType documentType, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
         CalibrationTest calibrationTest = calibrationTestRepository.findOne(calibrationTestID);
 
@@ -69,24 +67,17 @@ public class DocumentsService {
         return builFile(documentType, verification, calibrationTest, fileFormat);
     }
 
-    private InputStream builFile(DocumentType documentType, Verification verification,
-                                           CalibrationTest calibrationTest, FileFormat fileFormat) {
+    private FileObject builFile(DocumentType documentType, Verification verification,
+                                CalibrationTest calibrationTest, FileFormat fileFormat) {
         Document document = DocumentFactory.build(documentType, verification, calibrationTest);
 
         FileParameters fileParameters = new FileParameters(document, documentType, fileFormat);
         fileParameters.setFileSystem(FileSystem.RAM);
 
-        try {
-            FileObject fileObject = FileFactory.buildFile(fileParameters);
-            InputStream inputStream = fileObject.getContent().getInputStream();
-            return inputStream;
-        } catch (FileSystemException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        return FileFactory.buildFile(fileParameters);
     }
 
-    public InputStream getFile(String verificationCode, FileFormat fileFormat) {
+    public FileObject getFile(String verificationCode, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
         Set<CalibrationTest> calibrationTests = verification.getCalibrationTests();
 
@@ -103,7 +94,7 @@ public class DocumentsService {
                 break;
             default:
                 throw new IllegalArgumentException(testResult.name() +
-                    " is not supported");
+                        " is not supported");
         }
 
         return builFile(documentType, verification, calibrationTest, fileFormat);
