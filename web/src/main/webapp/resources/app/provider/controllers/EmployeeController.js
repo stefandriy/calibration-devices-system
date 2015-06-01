@@ -10,8 +10,27 @@ angular
                     animation: true,
                     controller: 'AddressModalController',
                     templateUrl: '/resources/app/provider/views/modals/address.html',
-                    size: 'lg'
+                    size: 'lg',
+                    resolve: {
+                        address: function () {
+                            return $scope.address;
+                        }
+                    }
                 });
 
+                addressModal.result.then(function (address) {
+                    $log.info(address);
+                    $scope.address = address;
+
+                    if (address) {
+                        $scope.addressMessage =
+                            address.selectedRegion.designation + " область, " +
+                            address.selectedDistrict.designation + " район, " +
+                            address.selectedLocality.designation + ", " +
+                            address.selectedStreet.designation + " " +
+                            address.selectedBuilding.designation || address.selectedBuilding + "/" +
+                            address.flat || ""
+                    }
+                });
             };
         }]);

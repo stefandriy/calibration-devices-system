@@ -1,10 +1,12 @@
 angular
     .module('providerModule')
-    .controller('AddressModalController', ['$scope', '$modalInstance', 'AddressService',
-        function ($scope, $modalInstance, addressService) {
+    .controller('AddressModalController', ['$scope', '$log', '$modalInstance', 'address', 'AddressService',
+        function ($scope, $log, $modalInstance, address, addressService) {
+            $log.info(address);
+
+            $scope.addressData = {};
 
             $scope.regions = [];
-
             addressService.findAllRegions()
                 .success(function (regions) {
                     $scope.regions = regions;
@@ -15,14 +17,15 @@ angular
              */
             $scope.receiveDistricts = function (selectedRegion) {
                 $scope.districts = [];
-
                 addressService.findDistrictsByRegionId(selectedRegion.id)
                     .success(function (districts) {
                         $scope.districts = districts;
-                        $scope.selectedDistrict = "";
-                        $scope.selectedLocality = "";
-                        $scope.selectedStreet = "";
                     });
+                if (!address) {
+                    $scope.addressData.selectedDistrict = "";
+                    $scope.addressData.selectedLocality = "";
+                    $scope.addressData.selectedStreet = "";
+                }
             };
             /**
              * Receives all possible localities.
@@ -33,9 +36,11 @@ angular
                 addressService.findLocalitiesByDistrictId(selectedDistrict.id)
                     .success(function (localities) {
                         $scope.localities = localities;
-                        $scope.selectedLocality = "";
-                        $scope.selectedStreet = "";
                     });
+                if (!address) {
+                    $scope.addressData.selectedLocality = "";
+                    $scope.addressData.selectedStreet = "";
+                }
             };
             /**
              * Receives all possible streets.
@@ -46,8 +51,10 @@ angular
                 addressService.findStreetsByLocalityId(selectedLocality.id)
                     .success(function (streets) {
                         $scope.streets = streets;
-                        $scope.selectedStreet = "";
                     });
+                if (!address) {
+                    $scope.addressData.selectedStreet = "";
+                }
             };
             /**
              * Receives all possible buildings.
@@ -60,4 +67,26 @@ angular
                         $scope.buildings = buildings;
                     });
             };
-        }]);
+
+            //for cases when user reopen modal
+            if (address) {
+                $scope.addressData = address;
+                $scope.receiveDistricts(address.selectedRegion);
+                $scope.receiveLocalitiesAndProviders(address.selectedDistrict);
+                $scope.receiveStreets(address.selectedLocality);
+                $scope.receiveBuildings(address.selectedStreet);
+                address = null;
+            }
+
+            $scope.cancel = function () {
+                $modalInstance.close();
+            };
+            $scope.submitAddress = function () {
+                $scope.$broadcast('show-errors-check-validity');
+
+                if ($scope.addressForm.$valid) {
+                    $modalInstance.close($scope.addressData);
+                }
+            }
+        }])
+;
