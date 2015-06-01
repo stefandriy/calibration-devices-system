@@ -89,7 +89,6 @@ public class ProviderVerificationController {
 
     /**
      * Update verifications
-     *
      */
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(

@@ -5,6 +5,7 @@ import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.CalibrationTestNotFoundException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Service
 public class VerificationService {
+    Logger logger = Logger.getLogger(VerificationService.class);
 
     @Autowired
     private VerificationRepository verificationRepository;
@@ -47,6 +49,7 @@ public class VerificationService {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return verificationRepository.findByProviderId(providerId, pageRequest);
     }
+
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfAllVerificationsByCalibratorId(Long calibratorId, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
@@ -58,6 +61,7 @@ public class VerificationService {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return verificationRepository.findByProviderIdAndStatus(providerId, Status.SENT, pageRequest);
     }
+
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
@@ -73,6 +77,7 @@ public class VerificationService {
         }
         return verification;
     }
+
     @Transactional(readOnly = true)
     public Verification findByIdAndCalibratorId(String id, Long calibratorId) {
         Verification verification = verificationRepository.findByIdAndCalibratorId(id, calibratorId);
@@ -81,13 +86,23 @@ public class VerificationService {
         }
         return verification;
     }
+
+    /**
+     * Find verification, add receive status to calibrator, add calibrator to verification
+     * save verification
+     */
     @Transactional
     public void updateVerification(String verificationId, Calibrator calibrator) {
         Verification verification = verificationRepository.findOne(verificationId);
+        if (verification == null) {
+            logger.error("verification haven't found");
+            return;
+        }
         verification.setStatus(Status.RECEIVED);
         verification.setCalibrator(calibrator);
         verificationRepository.save(verification);
     }
+
     @Transactional
     public void updateVerificationByCalibrator(String verificationId,
                                                StateVerificator stateVerificator) {
@@ -96,8 +111,9 @@ public class VerificationService {
         verification.setStateVerificator(stateVerificator);
         verificationRepository.save(verification);
     }
+
     @Transactional
-    public CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data){
+    public CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data) {
         Verification updatedVerification = verificationRepository.findOne(verificationId);
         if (updatedVerification == null) {
             throw new CalibrationTestNotFoundException();// todo: make proper exception!!!
