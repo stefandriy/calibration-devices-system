@@ -9,6 +9,7 @@ import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.parameter.FileSystem;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.util.CalibrationTestResult;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import org.apache.commons.vfs2.FileObject;
@@ -83,5 +84,28 @@ public class DocumentsService {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public InputStream getFile(String verificationCode, DocumentFormat documentFormat) {
+        Verification verification = verificationRepository.findOne(verificationCode);
+        Set<CalibrationTest> calibrationTests = verification.getCalibrationTests();
+
+        CalibrationTest calibrationTest = calibrationTests.iterator().next();
+        CalibrationTestResult testResult = calibrationTest.getTestResult();
+        DocumentType documentType;
+
+        switch (testResult) {
+            case SUCCESS:
+                documentType = DocumentType.VERIFICATION_CERTIFICATE;
+                break;
+            case FAILED:
+                documentType = DocumentType.UNFITNESS_CERTIFICATE;
+                break;
+            default:
+                throw new IllegalArgumentException(testResult.name() +
+                    " is not supported");
+        }
+
+        return builFile(documentType, verification, calibrationTest, documentFormat);
     }
 }

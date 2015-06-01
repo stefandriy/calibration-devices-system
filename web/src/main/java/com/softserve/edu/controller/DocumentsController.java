@@ -58,6 +58,27 @@ public class DocumentsController {
      * Returns a document with a specific documentFormat using verification that has only one test.
      * For example: .../verification_certificate/1/pdf.
      *
+     * @param verificationCode id of the verification, for which the document is to be generated. This verification
+     *                         must have only one test
+     * @param documentFormat   documentFormat of the resulting document
+     * @throws IOException           if file can't be generated because of a file system error
+     * @throws IllegalStateException if one of parameters is incorrect
+     */
+    @RequestMapping(value = "{verificationCode}/{documentFormat}", method = RequestMethod.GET)
+    public void getDocument(HttpServletResponse response,
+                            @PathVariable String verificationCode,
+                            @PathVariable DocumentFormat documentFormat)
+            throws IOException, IllegalStateException {
+        InputStream inputStream = documentsService.getFile(verificationCode, documentFormat);
+        sendFile(response, documentFormat, inputStream);
+        response.getOutputStream().close();
+        inputStream.close();
+    }
+
+    /**
+     * Returns a document with a specific documentFormat using verification that has only one test.
+     * For example: .../verification_certificate/1/pdf.
+     *
      * @param documentType     document to generate
      * @param verificationCode id of the verification, for which the document is to be generated. This verification
      *                         must have only one test

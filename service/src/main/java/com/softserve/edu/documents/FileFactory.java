@@ -40,9 +40,6 @@ public class FileFactory {
                         " is not supported");
         }
 
-        FileObject file = FileLocator.getFile(fileParameters.getFileSystem(),
-                fileParameters.getFileName());
-
         return runOperations(operations, fileParameters);
     }
 

@@ -182,6 +182,14 @@ public abstract class BaseCertificate implements Document {
         return fullName;
     }
 
+    /**
+     * @return the date until this verification certificate is effective.
+     */
+    @Column(name = "EFF_DATE")
+    public String getVerificationCertificateEffectiveUntilDate() {
+        return getVerification().getExpirationDate().toString();
+    }
+
     private void setVerification(Verification verification) {
         this.verification = verification;
     }
