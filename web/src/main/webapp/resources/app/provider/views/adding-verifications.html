@@ -60,7 +60,12 @@
                        typeahead="street as street.designation for street in streets | filter: $viewValue"
                        typeahead-on-select="receiveBuildings(selectedStreet)"
                        typeahead-editable="false" required>
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
 
+                <p class="help-block">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Почніть вводити і виберіть відповідний варіант з випадаючого списку
+                </p>
             </div>
         </div>
 
@@ -71,6 +76,12 @@
                 <input class="form-control" id="building" ng-model="selectedBuilding"
                        typeahead="building as building.designation for building in buildings | filter: $viewValue"
                        required>
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
+
+                <p class="help-block">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Почніть вводити і виберіть відповідний варіант з випадаючого списку
+                </p>
             </div>
         </div>
 
@@ -89,12 +100,23 @@
                 <input class="form-control" id="calibrator" ng-model="selectedCalibrator"
                        typeahead="calibrator as calibrator.name for calibrator in calibrators | filter: $viewValue"
                        typeahead-editable="false" required>
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
+
+                <p class="help-block">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Почніть вводити і виберіть відповідний варіант з випадаючого списку
+                </p>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" ng-click="saveVerification()" class="btn btn-success">Ініціювати повірку</button>
+                <button type="submit" ng-click="saveVerification()" class="btn btn-success">
+                    Ініціювати повірку
+                </button>
+                <button type="button" class="btn btn-warning" ng-click="resetForm()">
+                    Скинути форму
+                </button>
             </div>
 
         </div>

@@ -47,6 +47,11 @@ public class ProviderApplicationController {
     @Autowired
     BuildingService buildingService;
 
+    /**
+     * Save verification in database
+     *
+     * @param verificationDTO object with verification data
+     */
     @RequestMapping(value = "send", method = RequestMethod.POST)
     public void getInitiateVerification(
             @RequestBody ProviderStageVerificationDTO verificationDTO,
@@ -69,9 +74,17 @@ public class ProviderApplicationController {
                                 verificationDTO.getBuilding(),
                                 verificationDTO.getFlat())),
                 provider,
-                Status.SENT,verificationDTO.getCalibrator());
+                Status.SENT, verificationDTO.getCalibrator());
         verificationService.saveVerification(verification);
     }
+
+    /**
+     * Find provider by id, finds region corresponding to provider region, finds district
+     * corresponding to provider district and id
+     *
+     * @return  ApplicationFieldDTO which contains id and designation corresponding to
+     * locality id an designation
+     */
     @RequestMapping(value = "localities", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getLocalityCorrespondingProvider(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
@@ -85,16 +98,33 @@ public class ProviderApplicationController {
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
     }
 
+    /**
+     * Find street by locality id
+     *
+     * @return lo ApplicationFieldDTO which contains id and designation corresponding to
+     * street id an designation
+     */
     @RequestMapping(value = "streets/{localityId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getStreetsCorrespondingLocality(@PathVariable Long localityId) {
         return CatalogueDTOTransformer.toDto(streetService.getStreetsCorrespondingLocality(localityId));
     }
 
+    /**
+     * Find buildings by street id
+     *
+     * @return  ApplicationFieldDTO which contains id and designation corresponding to
+     * street id an designation
+     */
     @RequestMapping(value = "buildings/{streetId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getBuildingsCorrespondingStreet(@PathVariable Long streetId) {
         return CatalogueDTOTransformer.toDto(buildingService.getBuildingsCorrespondingStreet(streetId));
     }
 
+    /**
+     * Find calibrators by district which correspond provider district
+     *
+     * @return  calibrator
+     */
     @RequestMapping(value = "calibrators", method = RequestMethod.GET)
     public List<Calibrator> getCalibrators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {

@@ -70,6 +70,11 @@ public class ProviderVerificationController {
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
 
+    /**
+     * Find calibrators by district which correspond provider district
+     *
+     * @return  calibrator
+     */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
     public List<Calibrator> updateVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
@@ -82,6 +87,10 @@ public class ProviderVerificationController {
         );
     }
 
+    /**
+     * Update verifications
+     *
+     */
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
