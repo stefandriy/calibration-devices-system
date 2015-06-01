@@ -376,7 +376,12 @@ input[type="radio"], input[type="checkbox"] {
     color: green;
 }
 
-.form-control-feedback {
+#addressModalForm .form-control-feedback {
+    padding-top: 40px;
+    right: 15px;
+}
+
+#providerModalForm .form-control-feedback {
     top: 15px;
     right: 15px;
 }

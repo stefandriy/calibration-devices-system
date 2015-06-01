@@ -27,7 +27,7 @@ angular
                 })
                 .state("employees", {
                     url: '/employees',
-                    templateUrl: '/resources/app/provider/views/employees.html',
+                    templateUrl: '/resources/app/provider/views/employee/main-panel.html',
                     controller: 'EmployeeController'
 
                 })
@@ -55,6 +55,7 @@ define([
     'controllers/DetailsModalController',
     'controllers/SendingModalController',
     'controllers/EmployeeController',
+    'controllers/AddressModalController',
     'services/VerificationService',
     'services/AddressService'
 ], function () {});
