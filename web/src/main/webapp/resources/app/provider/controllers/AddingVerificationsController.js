@@ -28,6 +28,7 @@ angular
             /**
              * Receives all possible localities.
              */
+
             $scope.localities = [];
             verificationService.getLocalitiesCorrespondingProvider()
                 .success(function (localities) {
