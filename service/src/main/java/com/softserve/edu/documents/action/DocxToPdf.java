@@ -7,6 +7,7 @@ import com.softserve.edu.documents.parameter.DocumentFontFactory;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.utils.FileLocator;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.commons.vfs2.FileSystemException;
 import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
@@ -51,7 +52,7 @@ public enum DocxToPdf implements Operation {
      * Create a pdf document.
      *
      * @param docxFile source docx file
-     * @param pdfFile target pdf file
+     * @param pdfFile  target pdf file
      * @throws IOException
      */
     public void createPdfFile(FileObject docxFile,
@@ -60,8 +61,9 @@ public enum DocxToPdf implements Operation {
         PdfWriter writer;
 
         resultPdfDocument = new Document();
+        OutputStream outputStream = pdfFile.getContent().getOutputStream();
 
-        try (OutputStream outputStream = pdfFile.getContent().getOutputStream()) {
+        try {
             writer = PdfWriter.getInstance(resultPdfDocument, outputStream);
         } catch (DocumentException exception) {
             resultPdfDocument.close();
@@ -75,14 +77,18 @@ public enum DocxToPdf implements Operation {
         resultPdfDocument.newPage();
         writer.setPageEmpty(true);
 
-        InputStream inputStream = docxFile.getContent().getInputStream();
-        XWPFDocument doc = new XWPFDocument(inputStream);
-        inputStream.close();
-
+        XWPFDocument doc;
+        try (InputStream inputStream = docxFile.getContent().getInputStream()) {
+            doc = new XWPFDocument(inputStream);
+        } catch (FileSystemException exception) {
+            logger.error("can't open an input stream to " +
+                    docxFile.getName().toString(), exception);
+            throw exception;
+        }
 
         copyParagraphs(doc, resultPdfDocument);
-
         resultPdfDocument.close();
+        outputStream.close();
     }
 
     /**
@@ -98,14 +104,15 @@ public enum DocxToPdf implements Operation {
                 sourceDocxDocument.getParagraphs();
         Paragraph pdfParagraph;
 
-        try {
-            for (XWPFParagraph docxParagraph : docxParagraphs) {
+        for (XWPFParagraph docxParagraph : docxParagraphs) {
+            try {
                 pdfParagraph = createParagraph(docxParagraph);
                 targetPdfDocument.add(pdfParagraph);
+            } catch (Exception e) {
+                logger.error("exception while trying to copy docx paragraph " +
+                        docxParagraph.toString() + ": ");
+                throw new IOException("The output file couldn't be reached.");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new IOException("The output file couldn't be reached.");
         }
     }
 

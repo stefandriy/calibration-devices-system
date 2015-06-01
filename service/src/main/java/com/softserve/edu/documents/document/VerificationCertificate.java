@@ -14,14 +14,6 @@ public class VerificationCertificate extends BaseCertificate {
     }
 
     /**
-     * @return the date until this verification certificate is effective.
-     */
-    @Column(name = "EFF_DATE")
-    public String getVerificationCertificateEffectiveUntilDate() {
-        return getVerification().getExpirationDate().toString();
-    }
-
-    /**
      * @return get the sign of the document, which contains the metrological characteristics
      */
     @Column(name = "METR_DOC_SIGN")
