@@ -7,6 +7,16 @@
 
             <input id="lastName" name="lastName" class="form-control" ng-model="employeeData.lastName"
                    required>
+
+            <p class="help-block" ng-if="employeeForm.lastName.$error.required">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                Це поле є обов'язковим для заповнення
+            </p>
+
+            <p class="help-block" ng-if="employeeForm.lastName.$error.pattern">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                Це поле може містити лише буквенні символи
+            </p>
         </div>
 
         <div class="form-group col-md-4">
@@ -51,8 +61,8 @@
 
     <hr/>
 
-    <p class="help-block">Заповніть дані за якими працівник зможе зайти в систему.
-        Також ці дані будуть надіслані на вказану раніше електронну адерсу працівника</p>
+    <h4 class="help-block">Заповніть дані за якими працівник зможе зайти в систему.
+        Також ці дані будуть надіслані на вказану раніше електронну адерсу працівника</h4>
 
     <div class="row">
         <div class="form-group col-md-4">
@@ -82,7 +92,7 @@
 
     <button type="submit" class="btn btn-success">Додати працівника</button>
 
-    <button type="button" class="btn btn-warning pull-right" ng-click="resetOrganizationForm()">
+    <button type="button" class="btn btn-warning pull-right" ng-click="resetForm()">
         Скинути форму
     </button>
 

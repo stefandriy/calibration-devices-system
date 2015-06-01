@@ -1,8 +1,8 @@
 angular
     .module('providerModule')
-    .controller('EmployeeController', ['$scope', '$log', '$modal', 'UserService',
+    .controller('EmployeeController', ['$scope', '$log', '$modal', '$state', 'UserService',
 
-        function ($scope, $log, $modal, userService) {
+        function ($scope, $log, $modal, $state, userService) {
 
             $scope.employeeData = {};
 
@@ -43,6 +43,10 @@ angular
                     })
             };
 
+            $scope.resetForm = function () {
+                $state.go($state.current, {}, {reload: true});
+            };
+
             $scope.addEmployee = function () {
 
                 var employeeData = $scope.employeeData;
@@ -63,6 +67,20 @@ angular
                 userService.saveUser(employeeData)
                     .success(function (response) {
                         $log.info(response);
+
+                        $modal.open({
+                            animation: true,
+                            templateUrl: '/resources/app/provider/views/modals/employee-adding-success.html',
+                            controller: function ($modalInstance) {
+                                this.ok = function () {
+                                    $modalInstance.close();
+                                }
+                            },
+                            controllerAs: 'successController',
+                            size: 'md'
+                        });
+
+                        $scope.resetForm();
                     });
             };
         }]);
