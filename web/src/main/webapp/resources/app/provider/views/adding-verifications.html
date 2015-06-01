@@ -10,32 +10,32 @@
             <label for="surname" class="col-sm-2 control-label">Прізвище</label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="surname" ng-model="form.surname">
+                <input class="form-control" id="surname" ng-model="form.surname" required>
             </div>
         </div>
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Ім'я</label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="name" ng-model="form.name">
+                <input class="form-control" id="name" ng-model="form.name" required>
             </div>
         </div>
         <div class="form-group">
             <label for="middleName" class="col-sm-2 control-label">По-батькові</label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="middleName" ng-model="form.middleName">
+                <input class="form-control" id="middleName" ng-model="form.middleName" required>
             </div>
         </div>
         <div class="form-group">
             <label for="phone" class="col-sm-2 control-label">Номер телефону</label>
 
             <div class="col-sm-4">
-                <input class="form-control" id="phone" ng-model="form.phone">
+                <input class="form-control" id="phone" ng-model="form.phone" required>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group has-feedback">
             <label for="locality" class="col-sm-2 control-label">Населений пункт</label>
 
             <div class="col-sm-4">
@@ -43,6 +43,12 @@
                        typeahead="locality as locality.designation for locality in localities | filter: $viewValue"
                        typeahead-on-select="receiveStreets(selectedLocality)"
                        typeahead-editable="false" required>
+                <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
+
+                <p class="help-block">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Почніть вводити і виберіть відповідний варіант з випадаючого списку
+                </p>
             </div>
         </div>
 
@@ -63,7 +69,8 @@
 
             <div class="col-sm-4">
                 <input class="form-control" id="building" ng-model="selectedBuilding"
-                       typeahead="building as building.designation for building in buildings | filter: $viewValue">
+                       typeahead="building as building.designation for building in buildings | filter: $viewValue"
+                       required>
             </div>
         </div>
 
@@ -89,6 +96,7 @@
             <div class="col-sm-offset-2 col-sm-10">
                 <button type="submit" ng-click="saveVerification()" class="btn btn-success">Ініціювати повірку</button>
             </div>
+
         </div>
         <span>{{form}}</span>
     </form>

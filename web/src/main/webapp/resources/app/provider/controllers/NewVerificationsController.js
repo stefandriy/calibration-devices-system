@@ -8,6 +8,9 @@ angular
             $scope.itemsPerPage = 10;
             $scope.pageData = [];
 
+            /**
+             * get page
+             */
             $scope.onTableHandling = function () {
                 verificationService
                     .getNewVerifications($scope.currentPage, $scope.itemsPerPage)
@@ -18,7 +21,9 @@ angular
             };
 
             $scope.onTableHandling();
-
+            /**
+             * open modal
+             */
             $scope.openDetails = function ($index) {
                 $modal.open({
                     animation: true,
@@ -43,8 +48,10 @@ angular
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;
 
+            /**
+             * push verification id to array
+             */
             $scope.resolveVerificationId = function (id) {
-
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {
                     $scope.idsOfVerifications.push(id);
@@ -61,7 +68,9 @@ angular
                 checkForEmpty();
             };
 
-
+            /**
+             * open modal
+             */
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
@@ -79,7 +88,9 @@ angular
                         }
                     });
 
-                    //executes when modal closing
+                    /**
+                     * executes when modal closing
+                     */
                     modalInstance.result.then(function (calibrator) {
                         $log.info(calibrator);
 
@@ -102,7 +113,9 @@ angular
                     $scope.isClicked = true;
                 }
             };
-
+            /**
+             * check if idsOfVerifications array is empty
+             */
             var checkForEmpty = function () {
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };

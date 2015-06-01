@@ -3,11 +3,16 @@ angular
     .controller('AddingVerificationsController', ['$scope', '$log', '$modal', 'VerificationService',
         function ($scope, $log, $modal, verificationService) {
             $scope.calibrators = [];
+            /**
+             * Receives all possible calibrators.
+             */
             verificationService.getCalibratorsCorrespondingProvider()
                 .success(function (calibrators) {
                     $scope.calibrators = calibrators;
                 });
-
+            /**
+             * Updates the table with verifications.
+             */
             $scope.saveVerification = function () {
                 $scope.form.locality = $scope.selectedLocality.designation;
                 $scope.form.street = $scope.selectedStreet.designation;
@@ -16,14 +21,19 @@ angular
                 verificationService.sendInitiatedVerification($scope.form)
                     .success(function () {
                     });
+                $scope.form = null;
             };
+            /**
+             * Receives all possible localities.
+             */
             $scope.localities = [];
             verificationService.getLocalitiesCorrespondingProvider()
                 .success(function (localities) {
                     $scope.localities = localities;
                 });
-
-
+            /**
+             * Receives all possible streets.
+             */
             $scope.receiveStreets = function (selectedLocality) {
                 $scope.streets = [];
                 verificationService.getStreetsCorrespondingLocality(selectedLocality)
@@ -31,6 +41,9 @@ angular
                         $scope.streets = streets;
                     });
             };
+            /**
+             * Receives all possible buildings.
+             */
             $scope.receiveBuildings = function (selectedStreet) {
                 $scope.buildings = [];
                 verificationService.getBuildingsCorrespondingStreet(selectedStreet)
