@@ -11,12 +11,12 @@ public abstract class Employee extends User {
 
     private String firstName;
     private String lastName;
+    private String middleName;
     private String email;
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     private Organization organization;
-
 
     protected Employee() {}
 
@@ -65,6 +65,14 @@ public abstract class Employee extends User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public String getEmail() {
