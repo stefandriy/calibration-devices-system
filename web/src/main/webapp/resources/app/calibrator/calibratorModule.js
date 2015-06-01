@@ -20,11 +20,7 @@
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
                         controller: 'NewVerificationsController'
                     })
-                    .state("adding-verifications", {
-                        url: '/verifications/add',
-                        templateUrl: '/resources/app/calibrator/views/adding-verifications.html',
-                        controller: 'AddingVerificationsController'
-                    })
+
                     .state("verifications-archive", {
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',

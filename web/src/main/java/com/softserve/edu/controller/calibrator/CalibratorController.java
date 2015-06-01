@@ -40,7 +40,7 @@ public class CalibratorController {
 
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderId(
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorId(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
