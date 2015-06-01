@@ -45,7 +45,7 @@ public class Router {
      *
      * @return calibrator page
      */
-    @RequestMapping(value = "/calibrator", method = RequestMethod.GET)
+    @RequestMapping(value = "/calibrator/", method = RequestMethod.GET)
     public String calibrator() {
         return "/resources/app/calibrator/index.html";
     }

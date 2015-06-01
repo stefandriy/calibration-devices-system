@@ -32,7 +32,7 @@ angular
                 if (role == "SYS_ADMIN")
                     path = '/admin';
                 else if (role == 'CALIBRATOR_EMPLOYEE' || role == 'CALIBRATOR_ADMIN')
-                    path = '/calibrator';
+                    path = '/calibrator/';
                 else if (role == 'PROVIDER_EMPLOYEE' || role == 'PROVIDER_ADMIN')
                     path = '/provider';
                 else if (role == 'STATE_VERIFICATOR_EMPLOYEE' || role == 'STATE_VERIFICATOR_ADMIN')

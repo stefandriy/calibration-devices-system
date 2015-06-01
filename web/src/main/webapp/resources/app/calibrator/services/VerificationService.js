@@ -44,7 +44,7 @@ angular
 
             $log.info(url);
 
-            return $http.get('calibrator/' + url)
+            return $http.get('/calibrator/' + url)
                 .success(function (data) {
                     return data;
                 })
@@ -54,7 +54,7 @@ angular
         }
 
         function updateData(url, data) {
-            return $http.put('calibrator/verifications/' + url, data)
+            return $http.put('/calibrator/verifications/' + url, data)
                 .success(function (responseData) {
                     return responseData;
                 })
@@ -64,7 +64,7 @@ angular
         }
 
         function sendData(url, data) {
-            return $http.post('calibrator/applications/' + url, data)
+            return $http.post('/calibrator/applications/' + url, data)
                 .success(function (responseData) {
                     return responseData;
                 })
