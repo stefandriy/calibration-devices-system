@@ -2,6 +2,7 @@ package com.softserve.edu.config;
 
 import com.sun.star.connection.Connector;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,10 +28,14 @@ import java.util.List;
 @ComponentScan("com.softserve.edu.controller")
 @PropertySource("classpath:/properties/mail.properties")
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
+    
+    @Value("${photo.storage}") 
+    private String storageLocation;
+    
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**", "/picture/**").addResourceLocations("/resources/", "${photo.storage}");
+        registry.addResourceHandler("/resources/**", "/picture/**").addResourceLocations("/resources/", storageLocation);
     }
 
     @Override
