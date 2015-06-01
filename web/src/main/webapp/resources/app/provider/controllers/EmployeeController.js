@@ -48,39 +48,43 @@ angular
             };
 
             $scope.addEmployee = function () {
+                $scope.$broadcast('show-errors-check-validity');
 
-                var employeeData = $scope.employeeData;
-                var address = $scope.address;
+                if ($scope.employeeForm.$valid) {
 
-                employeeData.address = {
-                    region: address.selectedRegion.designation,
-                    district: address.selectedDistrict.designation,
-                    locality: address.selectedLocality.designation,
-                    street: address.selectedStreet.designation,
-                    building: address.selectedBuilding.designation || address.selectedBuilding,
-                    flat: address.selectedFlat
-                };
+                    var employeeData = $scope.employeeData;
+                    var address = $scope.address;
+
+                    employeeData.address = {
+                        region: address.selectedRegion.designation,
+                        district: address.selectedDistrict.designation,
+                        locality: address.selectedLocality.designation,
+                        street: address.selectedStreet.designation,
+                        building: address.selectedBuilding.designation || address.selectedBuilding,
+                        flat: address.selectedFlat
+                    };
 
 
-                $log.info(employeeData);
+                    $log.info(employeeData);
 
-                userService.saveUser(employeeData)
-                    .success(function (response) {
-                        $log.info(response);
+                    userService.saveUser(employeeData)
+                        .success(function (response) {
+                            $log.info(response);
 
-                        $modal.open({
-                            animation: true,
-                            templateUrl: '/resources/app/provider/views/modals/employee-adding-success.html',
-                            controller: function ($modalInstance) {
-                                this.ok = function () {
-                                    $modalInstance.close();
-                                }
-                            },
-                            controllerAs: 'successController',
-                            size: 'md'
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/provider/views/modals/employee-adding-success.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'successController',
+                                size: 'md'
+                            });
+
+                            $scope.resetForm();
                         });
-
-                        $scope.resetForm();
-                    });
+                }
             };
         }]);
