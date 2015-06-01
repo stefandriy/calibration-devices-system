@@ -1,16 +1,18 @@
-package com.softserve.edu.controller.admin;
+package com.softserve.edu.controller.provider;
 
+import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/admin/users/")
-public class UserController {
+@RequestMapping(value = "provider/admin/users/")
+public class ProviderUserController {
+
+    Logger logger = Logger.getLogger(ProviderUserController.class);
 
     @Autowired
     private UserService userService;
@@ -29,5 +31,11 @@ public class UserController {
             isAvailable = userService.existsWithUsername(username);
         }
         return isAvailable;
+    }
+
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public ResponseEntity<HttpStatus> addEmployee(@RequestBody ProviderEmployee providerEmployee) {
+        logger.info(providerEmployee);
+        return null;
     }
 }

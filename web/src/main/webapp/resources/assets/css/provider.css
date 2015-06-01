@@ -376,7 +376,8 @@ input[type="radio"], input[type="checkbox"] {
     color: green;
 }
 
-.form-control-feedback {
+
+#providerSelectionForm .form-control-feedback {
     top: 15px;
     right: 15px;
 }
