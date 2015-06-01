@@ -78,7 +78,7 @@ public enum Cleanse implements Operation {
 
         List<XWPFRun> runs = sourceParagraph.getRuns();
 
-        String regex = RegEx.findAllFormattingTokens();
+        String regex = RegEx.FIND_ALL_FORMATTING_TOKENS.toString();
 
         for (XWPFRun sourceRun : runs) {
             String textInRun = sourceRun.getText(textPosition);

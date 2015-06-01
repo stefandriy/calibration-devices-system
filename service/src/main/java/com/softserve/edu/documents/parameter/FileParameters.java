@@ -1,22 +1,25 @@
 package com.softserve.edu.documents.parameter;
 
 import com.softserve.edu.documents.document.Document;
+import com.softserve.edu.documents.resources.DocumentType;
 
 /**
  * Contains information about a file that is to be generated.
- * It is meant to be used outside of the documents package to provide info about the needed file.
+ * It is meant to be used outside of the documents package to provide info
+ * about the needed file.
  */
 public class FileParameters {
     private Document document;
     private DocumentType documentType;
-    private DocumentFormat documentFormat;
+    private FileFormat fileFormat;
     private FileSystem fileSystem;
     private String fileName;
 
-    public FileParameters(Document document, DocumentType documentType, DocumentFormat documentFormat) {
+    public FileParameters(Document document, DocumentType documentType,
+                          FileFormat fileFormat) {
         this.document = document;
         this.documentType = documentType;
-        this.documentFormat = documentFormat;
+        this.fileFormat = fileFormat;
     }
 
     public DocumentType getDocumentType() {
@@ -27,12 +30,12 @@ public class FileParameters {
         this.documentType = documentType;
     }
 
-    public DocumentFormat getDocumentFormat() {
-        return documentFormat;
+    public FileFormat getFileFormat() {
+        return fileFormat;
     }
 
-    public void setDocumentFormat(DocumentFormat documentFormat) {
-        this.documentFormat = documentFormat;
+    public void setFileFormat(FileFormat fileFormat) {
+        this.fileFormat = fileFormat;
     }
 
     public FileSystem getFileSystem() {

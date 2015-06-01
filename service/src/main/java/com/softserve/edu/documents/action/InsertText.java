@@ -95,7 +95,7 @@ public enum InsertText implements Operation {
         }
 
         Matcher matcher = Pattern
-                .compile(RegEx.findAllColumns())
+                .compile(RegEx.FIND_ALL_COLUMNS.toString())
                 .matcher(textInRunBuilder);
         List<String> allMatches = new ArrayList<>();
 

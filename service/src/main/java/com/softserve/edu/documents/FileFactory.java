@@ -3,9 +3,9 @@ package com.softserve.edu.documents;
 import com.softserve.edu.documents.action.FormatText;
 import com.softserve.edu.documents.action.Operation;
 import com.softserve.edu.documents.chain.OperationChain;
-import com.softserve.edu.documents.parameter.DocumentFormat;
+import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.parameter.FileParameters;
-import com.softserve.edu.documents.utils.FileLocator;
+import com.softserve.edu.documents.utils.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 
 import java.io.IOException;
@@ -26,9 +26,9 @@ public class FileFactory {
      */
     public static FileObject buildFile(FileParameters fileParameters) {
         List<Operation> operations;
-        DocumentFormat documentFormat = fileParameters.getDocumentFormat();
+        FileFormat fileFormat = fileParameters.getFileFormat();
 
-        switch (documentFormat) {
+        switch (fileFormat) {
             case DOCX:
                 operations = OperationChain.DOCX_CHAIN.getOperations();
                 break;
@@ -36,7 +36,7 @@ public class FileFactory {
                 operations = OperationChain.PDF_CHAIN.getOperations();
                 break;
             default:
-                throw new IllegalArgumentException(documentFormat.name() +
+                throw new IllegalArgumentException(fileFormat.name() +
                         " is not supported");
         }
 
@@ -53,7 +53,7 @@ public class FileFactory {
      */
     private static FileObject runOperations(List<Operation> operations,
                                             FileParameters fileParameters) {
-        FileObject file = FileLocator.getFile(fileParameters.getFileSystem(),
+        FileObject file = FileUtils.createFile(fileParameters.getFileSystem(),
                 fileParameters.getFileName());
 
         for (Operation operation : operations) {

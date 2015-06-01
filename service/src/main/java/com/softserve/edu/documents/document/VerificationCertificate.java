@@ -1,7 +1,7 @@
 package com.softserve.edu.documents.document;
 
 import com.softserve.edu.documents.document.meta.*;
-import com.softserve.edu.documents.parameter.DocumentType;
+import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Verification;
 

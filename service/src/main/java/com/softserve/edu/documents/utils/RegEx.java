@@ -1,14 +1,20 @@
 package com.softserve.edu.documents.utils;
 
 /**
- * Created by Oleg on 5/31/2015.
+ * Regular expressions used during documents generations.
  */
-public class RegEx {
-    public static String findAllColumns() {
-        return "\\$(\\w+)";
+public enum RegEx {
+    FIND_ALL_COLUMNS("\\$(\\w+)"),
+    FIND_ALL_FORMATTING_TOKENS("\\$|#");
+
+    private String regEx;
+
+    RegEx(String regEx) {
+        this.regEx = regEx;
     }
 
-    public static String findAllFormattingTokens() {
-        return "\\$|#";
+    @Override
+    public String toString() {
+        return regEx;
     }
 }
