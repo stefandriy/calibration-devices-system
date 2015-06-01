@@ -24,8 +24,10 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/provider/applications/")
 public class ProviderApplicationController {
+
     @Autowired
     private RegionService regionService;
+
     @Autowired
     VerificationService verificationService;
 
