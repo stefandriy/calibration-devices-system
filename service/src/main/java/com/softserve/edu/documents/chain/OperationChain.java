@@ -31,7 +31,7 @@ public enum OperationChain {
     },
     /**
      * Chain of actions to generate a pdf file.
-      */
+     */
     PDF_CHAIN {
         /**
          * Initialize this constant's operations.

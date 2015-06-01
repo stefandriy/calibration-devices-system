@@ -1,5 +1,7 @@
 package com.softserve.edu.documents.document;
 
-@com.softserve.edu.documents.document.meta.Document
+/**
+ * Common interface for all documents.
+ */
 public interface Document {
 }

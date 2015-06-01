@@ -1,6 +1,7 @@
 package com.softserve.edu.documents.action;
 
 import com.softserve.edu.documents.parameter.FileParameters;
+import com.softserve.edu.documents.resources.DocumentTemplateFactory;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
@@ -26,7 +27,8 @@ public enum LoadTemplate implements Operation {
     @Override
     public FileObject perform(FileObject sourceFile,
                               FileParameters fileParameters) throws IOException {
-        FileObject template = fileParameters.getDocumentType().getTemplate();
+        FileObject template =
+                DocumentTemplateFactory.build(fileParameters.getDocumentType());
         FileContent templateContent = template.getContent();
         FileContent sourceContent = sourceFile.getContent();
 

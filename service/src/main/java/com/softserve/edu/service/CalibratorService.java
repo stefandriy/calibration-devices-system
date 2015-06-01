@@ -6,18 +6,20 @@ import com.softserve.edu.entity.Provider;
 import com.softserve.edu.repository.CalibratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
+
 import java.util.List;
 
 @Service
-@Transactional
+
 public class CalibratorService {
 
     @Autowired
     private CalibratorRepository calibratorRepository;
 
+    @Transactional
     public void saveCalibrator(Calibrator calibrator) {
        // Address address = calibrator.getAddress();
 
@@ -25,8 +27,13 @@ public class CalibratorService {
        // Assert.notNull(address.getFlat(), "calibrator can't have flat in address");
         calibratorRepository.save(calibrator);
     }
-
+    @Transactional
     public List<Calibrator> findByDistrict(String district) {
         return calibratorRepository.findByAddressDistrict(district);
+    }
+
+    @Transactional(readOnly = true)
+    public Calibrator findById(Long id) {
+        return calibratorRepository.findOne(id);
     }
 }

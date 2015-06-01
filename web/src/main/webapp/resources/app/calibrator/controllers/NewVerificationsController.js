@@ -71,9 +71,9 @@ angular
                         size: 'md',
                         resolve: {
                             response: function () {
-                                return verificationService.getCalibrators()
-                                    .success(function (calibrators) {
-                                        return calibrators;
+                                return verificationService.getVerificators()
+                                    .success(function (verificators) {
+                                        return verificators;
                                     });
                             }
                         }

@@ -3,8 +3,8 @@ package com.softserve.edu.service;
 import com.softserve.edu.documents.DocumentFactory;
 import com.softserve.edu.documents.FileFactory;
 import com.softserve.edu.documents.document.Document;
-import com.softserve.edu.documents.parameter.DocumentFormat;
-import com.softserve.edu.documents.parameter.DocumentType;
+import com.softserve.edu.documents.parameter.FileFormat;
+import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.parameter.FileSystem;
 import com.softserve.edu.entity.CalibrationTest;
@@ -32,7 +32,7 @@ public class DocumentsService {
     @Autowired
     CalibrationTestRepository calibrationTestRepository;
 
-    public InputStream getFile(String verificationCode, DocumentType documentType, DocumentFormat documentFormat) {
+    public InputStream getFile(String verificationCode, DocumentType documentType, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
 
         // check input parameters
@@ -49,11 +49,11 @@ public class DocumentsService {
 
         CalibrationTest calibrationTest = verification.getCalibrationTests().iterator().next();
 
-        return builFile(documentType, verification, calibrationTest, documentFormat);
+        return builFile(documentType, verification, calibrationTest, fileFormat);
     }
 
     public InputStream getFile(String verificationCode, Long calibrationTestID,
-                                         DocumentType documentType, DocumentFormat documentFormat) {
+                                         DocumentType documentType, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
         CalibrationTest calibrationTest = calibrationTestRepository.findOne(calibrationTestID);
 
@@ -66,14 +66,14 @@ public class DocumentsService {
                 calibrationTest.getClass() + " with id:" + CalibrationTest.class + " is not assigned to " +
                         verification.getClass() + " with id: " + verification.getId());
 
-        return builFile(documentType, verification, calibrationTest, documentFormat);
+        return builFile(documentType, verification, calibrationTest, fileFormat);
     }
 
     private InputStream builFile(DocumentType documentType, Verification verification,
-                                           CalibrationTest calibrationTest, DocumentFormat documentFormat) {
+                                           CalibrationTest calibrationTest, FileFormat fileFormat) {
         Document document = DocumentFactory.build(documentType, verification, calibrationTest);
 
-        FileParameters fileParameters = new FileParameters(document, documentType, documentFormat);
+        FileParameters fileParameters = new FileParameters(document, documentType, fileFormat);
         fileParameters.setFileSystem(FileSystem.RAM);
 
         try {
@@ -86,7 +86,7 @@ public class DocumentsService {
         }
     }
 
-    public InputStream getFile(String verificationCode, DocumentFormat documentFormat) {
+    public InputStream getFile(String verificationCode, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
         Set<CalibrationTest> calibrationTests = verification.getCalibrationTests();
 
@@ -106,6 +106,6 @@ public class DocumentsService {
                     " is not supported");
         }
 
-        return builFile(documentType, verification, calibrationTest, documentFormat);
+        return builFile(documentType, verification, calibrationTest, fileFormat);
     }
 }
