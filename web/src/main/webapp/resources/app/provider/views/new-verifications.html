@@ -22,8 +22,8 @@
                                         class="form-control input-sm">
                                     <option value="1">1</option>
                                     <option value="3">3</option>
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
+                                    <option value="5">5</option>
+                                    <option value="10" selected>10</option>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -40,7 +40,7 @@
                                     <th>Реєстраційний номер повірки</th>
                                     <th>Прізвище клієнта</th>
                                     <th>Вулиця, на якій проживає клієнт</th>
-                                    <th>Детальніше</th>
+                                    <th>Дії</th>
                                     <th>Відправити повірку</th>
                                 </tr>
                                 </thead>
@@ -52,24 +52,34 @@
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
                                     <td class="text-center">
-                                        <a popover="Клацініть, щоб отримати всі дані про цю повірку"
-                                           popover-trigger="mouseenter" ng-click="openDetails($index)">
+                                        <a popover="Детальніше"
+                                           popover-trigger="mouseenter"
+                                           ng-click="openDetails($index)">
                                             <i class="fa fa-info-circle"></i>
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <div class="checkbox">
-                                            <input type="checkbox" ng-click="saveInfo(verification.id)"/>
-                                        </div>
+                                        <input type="checkbox"
+                                               ng-click="resolveVerificationId(verification.id)"/>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+
+                            <p id="emptyError" ng-if="allIsEmpty && isClicked"
+                               class="help-block pull-right">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                Оберіть хоча би одну заявку
+                            </p>
+
                             <div class="col-md-offset-11">
-                                <button type="button" class="btn btn-primary" ng-click="openSending()">
-                                    Send
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="openSendingModal()">
+                                    Надіслати
                                 </button>
                             </div>
+
+
                         </div>
                     </div>
 

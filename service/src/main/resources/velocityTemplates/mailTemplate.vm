@@ -1,13 +1,11 @@
 <html>
 	<body>
 		<span style="font-weight:bold">
-			Hello $name!  Your request has been sent.
+			Привіт, $name!  Ваша заявка була успішно відправлена.
 		</span>
-		<br>You can check status of your application following by this link:
-		<br>$protocol://$domain/calibrationTests/$applicationId
-		
-		
-		
-		<br>Thank you for using our services.
+		<br>Ви можете перевірити статус вашої заявки за наступним посиланням:
+		<br>$protocol://$domain/#/application-status/$applicationId
+
+		<br>Дякуємо, що користуєтесь нашим сервісом.
 	</body>
 </html>

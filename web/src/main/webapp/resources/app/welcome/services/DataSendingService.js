@@ -1,13 +1,20 @@
 angular
     .module('welcomeModule')
-    .service('DataSendingService', ['$http', function ($http) {
-        this.sendData = function (url, data) {
-            return $http.post(url, data)
+    .factory('DataSendingService', ['$http', function ($http) {
+
+        return {
+            sendApplication: function (data) {
+                return sendData('add', data);
+            }
+        };
+
+        function sendData(url, data) {
+            return $http.post('application/' + url, data)
                 .success(function (responseData) {
                     return responseData;
                 })
                 .error(function (err) {
                     return err;
                 });
-        };
+        }
     }]);

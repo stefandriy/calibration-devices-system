@@ -1,16 +1,19 @@
 angular
     .module('providerModule')
-    .controller('SendingModalController', ['$scope', '$modalInstance', '$log', 'calibrators',
-        function ($scope, $modalInstance, $log, calibrators) {
+    .controller('SendingModalController', ['$scope', '$log', '$modalInstance', 'response',
+        function ($scope, $log, $modalInstance, response) {
 
-            $scope.calibrators = calibrators.data;
-            $log.info($scope.calibrators);
+            $scope.calibrators = response.data;
 
-            $scope.close = function () {
-                $modalInstance.close();
+            $scope.cancel = function () {
+                $modalInstance.dismiss();
             };
-            $scope.ok = function (calibrator) {
-                $modalInstance.close(calibrator);
+            $scope.submit = function (calibrator) {
+                $scope.$broadcast('show-errors-check-validity');
+
+                if ($scope.calibratorSelectionForm.$valid) {
+                    $modalInstance.close(calibrator);
+                }
             }
         }]);
 

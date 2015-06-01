@@ -1,5 +1,7 @@
 package com.softserve.edu.entity;
 
+import com.softserve.edu.entity.util.CalibrationTestResult;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -11,22 +13,25 @@ public class CalibrationTest {
     @GeneratedValue
     private Long id;
     private String name;
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
     private Integer temperature;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
     private String consumptionStatus;
-    private String testResult;
+    @Enumerated(EnumType.STRING)
+    private CalibrationTestResult testResult;
     private String photoPath;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "name", column = @Column(name = "document_name")),
-            @AttributeOverride(name = "sign", column = @Column(name = "document_sign"))
+            @AttributeOverride(name = "name",
+                    column = @Column(name = "document_name")),
+            @AttributeOverride(name = "sign",
+                    column = @Column(name = "document_sign"))
     })
-    private MetrologicalDocument metrologicalDocument;
+    private MeteorologicalDocument meteorologicalDocument;
 
     @ManyToOne
     private Verification verification;
@@ -98,11 +103,11 @@ public class CalibrationTest {
         this.consumptionStatus = consumptionStatus;
     }
 
-    public String getTestResult() {
+    public CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(String testResult) {
+    public void setTestResult(CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 
@@ -130,11 +135,11 @@ public class CalibrationTest {
         this.calibrationTestDatas = calibrationTestDatas;
     }
 
-    public MetrologicalDocument getMetrologicalDocument() {
-        return metrologicalDocument;
+    public MeteorologicalDocument getMeteorologicalDocument() {
+        return meteorologicalDocument;
     }
 
-    public void setMetrologicalDocument(MetrologicalDocument metrologicalDocument) {
-        this.metrologicalDocument = metrologicalDocument;
+    public void setMeteorologicalDocument(MeteorologicalDocument meteorologicalDocument) {
+        this.meteorologicalDocument = meteorologicalDocument;
     }
 }

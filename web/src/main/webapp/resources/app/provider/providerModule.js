@@ -1,8 +1,15 @@
-(function () {
-    angular.module('providerModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router'])
-        .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+angular
+    .module('providerModule', ['spring-security-csrf-token-interceptor',
+        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors'])
+
+    .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
+
+        function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider) {
+
+            showErrorsConfigProvider.showSuccess(true);
+
             $urlRouterProvider.otherwise('/');
+
             $stateProvider
                 .state('main-panel', {
                     url: '/',
@@ -18,6 +25,12 @@
                     templateUrl: '/resources/app/provider/views/adding-verifications.html',
                     controller: 'AddingVerificationsController'
                 })
+                .state("employees", {
+                    url: '/employees',
+                    templateUrl: '/resources/app/provider/views/employee/main-panel.html',
+                    controller: 'EmployeeController'
+
+                })
                 .state("verifications-archive", {
                     url: '/verifications/archive',
                     templateUrl: '/resources/app/provider/views/archival-verifications.html',
@@ -26,22 +39,24 @@
 
         }]);
 
-    angular.module('providerModule').run(function (paginationConfig) {
-        paginationConfig.firstText = 'Перша';
-        paginationConfig.previousText = 'Попередня';
-        paginationConfig.nextText = 'Наступна';
-        paginationConfig.lastText = 'Остання';
-    });
+angular.module('providerModule').run(function (paginationConfig) {
+    paginationConfig.firstText = 'Перша';
+    paginationConfig.previousText = 'Попередня';
+    paginationConfig.nextText = 'Наступна';
+    paginationConfig.lastText = 'Остання';
+});
 
-    define([
-        'controllers/TopNavBarController',
-        'controllers/MainPanelController',
-        'controllers/ArchivalVerificationsController',
-        'controllers/NewVerificationsController',
-        'controllers/AddingVerificationsController',
-        'controllers/DetailsModalController',
-        'controllers/SendingModalController',
-        'services/DataReceivingService',
-        'services/DataUpdatingService'
-    ], function () {});
-})();
+define([
+    'controllers/TopNavBarController',
+    'controllers/MainPanelController',
+    'controllers/ArchivalVerificationsController',
+    'controllers/NewVerificationsController',
+    'controllers/AddingVerificationsController',
+    'controllers/DetailsModalController',
+    'controllers/SendingModalController',
+    'controllers/EmployeeController',
+    'controllers/AddressModalController',
+    'services/VerificationService',
+    'services/AddressService',
+    'services/UserService'
+], function () {});

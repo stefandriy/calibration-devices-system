@@ -25,7 +25,7 @@ public class Verification {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "deviceId")
+    @JoinColumn(name = "device_id")
     private Device device;
 
     @OneToMany
@@ -60,12 +60,20 @@ public class Verification {
     public Verification() {}
 
     public Verification(Date initialDate, ClientData clientData, Provider provider, Status status) {
+        this(initialDate, clientData, provider, status, null);
+    }
+
+    public Verification(Date initialDate, ClientData clientData, Provider provider, Status
+            status, Calibrator calibrator) {
         this.id = UUID.randomUUID().toString();
         this.initialDate = initialDate;
         this.clientData = clientData;
         this.provider = provider;
         this.status = status;
+        this.calibrator = calibrator;
     }
+
+    ;
 
     public String getId() {
         return id;
@@ -169,24 +177,5 @@ public class Verification {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Verification{" +
-                "id='" + id + '\'' +
-                ", status=" + status +
-                ", device=" + device +
-                ", calibrationTests=" + calibrationTests +
-                ", provider=" + provider +
-                ", providerEmployee=" + providerEmployee +
-                ", calibrator=" + calibrator +
-                ", calibratorEmployee=" + calibratorEmployee +
-                ", stateVerificator=" + stateVerificator +
-                ", stateVerificatorEmployee=" + stateVerificatorEmployee +
-                ", clientData=" + clientData +
-                ", initialDate=" + initialDate +
-                ", expirationDate=" + expirationDate +
-                '}';
     }
 }

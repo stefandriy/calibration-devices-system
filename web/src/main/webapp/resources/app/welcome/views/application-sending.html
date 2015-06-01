@@ -22,7 +22,8 @@
 
                     <div class="col-md-8">
                         <input id="lastName" name="lastName" class="form-control" type="text"
-                               ng-model="formData.lastName" ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required>
+                               ng-model="formData.lastName" ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/"
+                               required>
                         <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
                         <p class="help-block" ng-if="clientForm.lastName.$error.required">
@@ -43,7 +44,8 @@
                     </label>
 
                     <div class="col-md-8">
-                        <input id="firstName" name="firstName" class="form-control" ng-model="formData.firstName"
+                        <input id="firstName" name="firstName" class="form-control"
+                               ng-model="formData.firstName"
                                ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required>
                         <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -66,7 +68,8 @@
 
                     <div class="col-md-8">
                         <input id="middleName" name="middleName" type="text" class="form-control"
-                               ng-model="formData.middleName" ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required>
+                               ng-model="formData.middleName"
+                               ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required>
                         <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
                         <p class="help-block" ng-if="clientForm.middleName.$error.required">
@@ -131,7 +134,8 @@
                     </label>
 
                     <div class="col-md-8">
-                        <input id="region" name="region" type="text" class="form-control" ng-model="selectedRegion"
+                        <input id="region" name="region" type="text" class="form-control"
+                               ng-model="selectedRegion"
                                typeahead="region as region.designation for region in regions | filter: $viewValue"
                                typeahead-on-select="receiveDistricts(selectedRegion)"
                                typeahead-editable="false" required>
@@ -153,7 +157,7 @@
                         <input id="district" name="district" class="form-control" type="text"
                                ng-model="selectedDistrict"
                                typeahead="district as district.designation for district in districts | filter: $viewValue"
-                               typeahead-on-select="receiveLocalities(selectedDistrict)"
+                               typeahead-on-select="receiveLocalitiesAndProviders(selectedDistrict)"
                                typeahead-editable="false" required>
                         <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -190,7 +194,8 @@
                     </label>
 
                     <div class="col-md-8">
-                        <input id="street" name="street" class="form-control" type="text" ng-model="selectedStreet"
+                        <input id="street" name="street" class="form-control" type="text"
+                               ng-model="selectedStreet"
                                typeahead="street as street.designation for street in streets | filter: $viewValue"
                                typeahead-on-select="receiveBuildings(selectedStreet)"
                                typeahead-editable="false" required>
@@ -232,25 +237,25 @@
                 </div>
 
                 <div class="form-group" show-errors>
-                <label for="provider" class="col-md-2 control-label">
-                    {{'PROVIDER' | translate}}
-                </label>
+                    <label for="provider" class="col-md-2 control-label">
+                        {{'PROVIDER' | translate}}
+                    </label>
 
-                <div class="col-md-8">
-                    <input id="provider" name="provider" class="form-control"
-                           ng-model="selectedProvider"
-                           typeahead="provider as provider.designation for provider in providers | filter: $viewValue"
-                           typeahead-editable="false"
-                           popover="{{'PROVIDER_INFO' | translate}}"
-                           popover-trigger="focus" required>
-                    <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    <div class="col-md-8">
+                        <input id="provider" name="provider" class="form-control"
+                               ng-model="selectedProvider"
+                               typeahead="provider as provider.designation for provider in providers | filter: $viewValue"
+                               typeahead-editable="false"
+                               popover="{{'PROVIDER_INFO' | translate}}"
+                               popover-trigger="focus" required>
+                        <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                    <p class="help-block">
-                        <span class="glyphicon glyphicon-exclamation-sign"></span>
-                        {{'TYPEAHEAD_ERROR' | translate}}
-                    </p>
+                        <p class="help-block">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
                 </div>
-            </div>
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-8">
@@ -263,12 +268,22 @@
             </form>
         </div>
 
-        <div ng-hide="isShownForm" class="row col-md-10 alert alert-success alert-dismissible centered"
+        <div ng-hide="isShownForm"
+             class="row col-md-10 alert alert-success alert-dismissible centered"
              role="alert">
-            <button ng-click="closeAlert()" type="button" class="close btn-close-alert" aria-label="Close">
+            <button ng-click="closeAlert()" type="button" class="close btn-close-alert"
+                    aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            {{'APP_SENT' | translate}}{{ applicationCode }}
+
+            <i ng-show="!applicationCode" class="fa fa-3x fa-spinner fa-spin"></i>
+
+            <div class="text-center" ng-show="applicationCode">
+                {{'APP_SENT' | translate}} <b>{{ applicationCode }} </b>
+                <br>
+                {{'APP_SENT_INFO' | translate}}
+            </div>
+
         </div>
     </div>
 

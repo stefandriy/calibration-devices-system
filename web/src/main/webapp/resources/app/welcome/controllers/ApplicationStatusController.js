@@ -1,16 +1,22 @@
 angular
     .module('welcomeModule')
-    .controller('ApplicationStatusController', ['$scope', '$http', '$translate', '$state', '$log', 'DataReceivingService',
-        function ($scope, $http, $translate, $state, $log, dataSendingService) {
+    .controller('ApplicationStatusController', ['$scope', '$http', '$translate', '$state', '$log',
+        '$stateParams', 'DataReceivingService',
+        function ($scope, $http, $translate, $state, $log, $stateParams, dataReceivingService) {
 
             $scope.isShownForm = true;
 
+            $log.info($stateParams);
+
+            $scope.code = $stateParams.clientCode;
+
             $scope.findCode = function () {
-                dataSendingService.getData('/application/check/' + $scope.code)
+                dataReceivingService.getClientApplicationStatusByCode($scope.code)
                     .success(function (status) {
                         $log.debug(status);
                         $scope.status = resolveStatus(status, $translate.use());
                     });
+
                 $scope.isShownForm = false;
             };
 

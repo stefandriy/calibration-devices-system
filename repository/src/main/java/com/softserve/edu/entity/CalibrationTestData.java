@@ -10,13 +10,15 @@ public class CalibrationTestData {
     private Long id;
     private Double givenConsumption;
     private Integer acceptableError;
-    private Integer volumeOfStandart;
+    private Integer volumeOfStandard;
     private Double initialValue;
     private Double endValue;
     private Double volumeInDevice;
     private Double testTime;
     private Double actualConsumption;
-    private Double consumptionStatus;
+    private String consumptionStatus;
+    private Double calculationError;
+    private String testResult;
 
     @ManyToOne
     @JoinColumn(name = "calibrationTest_id")
@@ -46,12 +48,12 @@ public class CalibrationTestData {
         this.acceptableError = acceptableError;
     }
 
-    public Integer getVolumeOfStandart() {
-        return volumeOfStandart;
+    public Integer getVolumeOfStandard() {
+        return volumeOfStandard;
     }
 
-    public void setVolumeOfStandart(Integer volumeOfStandart) {
-        this.volumeOfStandart = volumeOfStandart;
+    public void setVolumeOfStandard(Integer volumeOfStandard) {
+        this.volumeOfStandard = volumeOfStandard;
     }
 
     public Double getInitialValue() {
@@ -94,12 +96,28 @@ public class CalibrationTestData {
         this.actualConsumption = actualConsumption;
     }
 
-    public Double getConsumptionStatus() {
+    public String getConsumptionStatus() {
         return consumptionStatus;
     }
 
-    public void setConsumptionStatus(Double consumptionStatus) {
+    public void setConsumptionStatus(String consumptionStatus) {
         this.consumptionStatus = consumptionStatus;
+    }
+
+    public Double getCalculationError() {
+        return calculationError;
+    }
+
+    public void setCalculationError(Double calculationError) {
+        this.calculationError = calculationError;
+    }
+
+    public String getTestResult() {
+        return testResult;
+    }
+
+    public void setTestResult(String testResult) {
+        this.testResult = testResult;
     }
 
     public CalibrationTest getCalibrationTest() {

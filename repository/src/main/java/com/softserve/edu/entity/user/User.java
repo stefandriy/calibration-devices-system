@@ -8,7 +8,7 @@ import javax.persistence.*;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "userType")
+@DiscriminatorColumn(name = "user_type")
 @Table(name = "`USER`")
 public abstract class User {
     @Id
@@ -57,4 +57,5 @@ public abstract class User {
     public void setRole(String role) {
         this.role = role;
     }
+
 }

@@ -1,6 +1,6 @@
 package com.softserve.edu.controller.catalogue;
 
-import com.softserve.edu.dto.application.ClientApplicationFieldDTO;
+import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.service.catalogue.BuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class BuildingController {
     private BuildingService buildingService;
 
     @RequestMapping(value = "application/buildings/{streetId}", method = RequestMethod.GET)
-    public List<ClientApplicationFieldDTO> getBuildingsCorrespondingStreet(@PathVariable Long streetId) {
+    public List<ApplicationFieldDTO> getBuildingsCorrespondingStreet(@PathVariable Long streetId) {
         return CatalogueDTOTransformer.toDto(buildingService.getBuildingsCorrespondingStreet(streetId));
     }
 }
