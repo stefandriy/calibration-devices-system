@@ -1,23 +1,27 @@
 package com.softserve.edu.documents.action;
 
-import com.mysql.jdbc.log.Log4JLogger;
 import com.softserve.edu.documents.parameter.FileParameters;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.vfs2.FileContent;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
- * Load template that corresponds to the document's type, copy it to the
- * source file and return it.
+ * Singleton.
+ * Represents an operation that can be done on a document.
  */
-public class LoadTemplate implements Operation {
-    static Logger log = Logger.getLogger(LoadTemplate.class.getName());
+public enum LoadTemplate implements Operation {
+    INSTANCE;
+
+    private static Logger log = Logger.getLogger(LoadTemplate.class.getName());
 
     /**
-     * {inherit}
+     * Load template that corresponds to the document's type, copy it to the
+     * source file and return it.
      */
     @Override
     public FileObject perform(FileObject sourceFile,
@@ -30,16 +34,12 @@ public class LoadTemplate implements Operation {
              OutputStream outputStream = sourceContent.getOutputStream()) {
             IOUtils.copy(inputStream, outputStream);
         } catch (IOException exception) {
-            log.error("exception: ", exception);
+            log.error("exception while trying to load template" +
+                    template.getName().toString() +
+                    ": ", exception);
             throw exception;
         }
 
         return sourceFile;
-    }
-
-    private static final LoadTemplate instance = new LoadTemplate();
-
-    public static LoadTemplate getInstance() {
-        return instance;
     }
 }

@@ -10,10 +10,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class Normalize implements Operation {
+/**
+ * Singleton.
+ * Represents an operation that can be done on a document.
+ */
+public enum Normalize implements Operation {
+    INSTANCE;
 
     @Override
-    public FileObject perform(FileObject sourceFile, FileParameters fileParameters) throws IOException {
+    public FileObject perform(FileObject sourceFile,
+                              FileParameters fileParameters) throws IOException {
         InputStream inputStream = sourceFile.getContent().getInputStream();
         XWPFDocument templateDocument = new XWPFDocument(inputStream);
         inputStream.close();

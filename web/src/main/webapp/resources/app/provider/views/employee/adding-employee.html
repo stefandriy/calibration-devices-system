@@ -1,0 +1,89 @@
+<form ng-submit="addEmployee()" name="employeeForm" novalidate>
+
+    <div class="row">
+        <div class="form-group col-md-4" show-errors>
+
+            <label for="lastName" class="control-label">Прізвище</label>
+
+            <input id="lastName" name="lastName" class="form-control" ng-model="employeeData.lastName"
+                   required>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="firstName" class="control-label">Ім'я</label>
+
+            <input id="firstName" name="firstName" class="form-control" ng-model="employeeData.firstName"
+                   required>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="middleName" class="control-label">По батькові</label>
+
+            <input id="middleName" name="middleName" class="form-control"
+                   ng-model="employeeData.middleName" required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6" show-errors>
+            <label for="phone" class="control-label">Номер телефону</label>
+
+            <input id="phone" name="phone" class="form-control" ng-model="employeeData.phone"
+                   required>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="email" class="control-label">Електронна адреса</label>
+
+            <input id="email" name="email" class="form-control" ng-model="employeeData.email"
+                   required>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="control-label">Домашня адреса</label>
+
+            <input type="button" ng-click="openAddressModal()"
+                   name="address" value="{{addressMessage}}" class="form-control">
+        </div>
+    </div>
+
+    <hr/>
+
+    <p class="help-block">Заповніть дані за якими працівник зможе зайти в систему.
+        Також ці дані будуть надіслані на вказану раніше електронну адерсу працівника</p>
+
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="username" class="control-label">Логін</label>
+
+            <input id="username" name="username" class="form-control"
+                   ng-model="employeeData.username"
+                   ng-model-options="{debounce: 350}"
+                   ng-change="checkUsername(employeeData.username)" required>
+            {{usernameError}}
+        </div>
+
+        <div class="form-group col-md-4" show-errors>
+            <label for="password" class="control-label">Пароль</label>
+
+            <input id="password" name="password" class="form-control" type="password"
+                   ng-model="employeeData.password" required>
+        </div>
+
+        <div class="form-group col-md-4" show-errors>
+            <label for="rePassword" class="control-label">Повторіть пароль</label>
+
+            <input id="rePassword" name="rePassword" class="form-control" type="password"
+                   ng-model="rePassword" required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Додати працівника</button>
+
+    <button type="button" class="btn btn-warning pull-right" ng-click="resetOrganizationForm()">
+        Скинути форму
+    </button>
+
+</form>

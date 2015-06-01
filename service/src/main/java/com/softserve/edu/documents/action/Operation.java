@@ -6,8 +6,9 @@ import org.apache.commons.vfs2.FileObject;
 import java.io.IOException;
 
 /**
- * Represents an operation that can be done on a file.
+ * Interface for all operations that can be done on a file.
  */
+@FunctionalInterface
 public interface Operation {
     /**
      * Performs the operation and returns it's result.

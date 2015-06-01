@@ -7,6 +7,7 @@ import com.softserve.edu.documents.parameter.DocumentFontFactory;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.utils.FileLocator;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -17,9 +18,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class TransformToPdf implements Operation {
+/**
+ * Singleton.
+ * Represents an operation that can be done on a document.
+ */
+public enum DocxToPdf implements Operation {
+    INSTANCE;
+
+    private static Logger logger = Logger.getLogger(DocxToPdf.class);
+
+    /**
+     * Transform a docx file to pdf format.
+     *
+     * @param sourceFile     a docx file to transform to pdf
+     * @param fileParameters parameters that specify how the file
+     *                       must be generated
+     * @return generated pdf file
+     * @throws IOException
+     */
     @Override
-    public FileObject perform(FileObject sourceFile, FileParameters fileParameters) throws IOException {
+    public FileObject perform(FileObject sourceFile,
+                              FileParameters fileParameters) throws IOException {
         FileObject filePdf = FileLocator.getFile(fileParameters.getFileSystem(),
                 fileParameters.getFileName() + "_pdf");
 
@@ -28,17 +47,26 @@ public class TransformToPdf implements Operation {
         return filePdf;
     }
 
-    public void createPdfFile(FileObject fileObject, FileObject outputFile) throws IOException {
+    /**
+     * Create a pdf document.
+     *
+     * @param docxFile source docx file
+     * @param pdfFile target pdf file
+     * @throws IOException
+     */
+    public void createPdfFile(FileObject docxFile,
+                              FileObject pdfFile) throws IOException {
         Document resultPdfDocument;
         PdfWriter writer;
 
         resultPdfDocument = new Document();
 
-        try {
-            OutputStream outputStream = outputFile.getContent().getOutputStream();
+        try (OutputStream outputStream = pdfFile.getContent().getOutputStream()) {
             writer = PdfWriter.getInstance(resultPdfDocument, outputStream);
-        } catch (DocumentException e) {
+        } catch (DocumentException exception) {
             resultPdfDocument.close();
+            logger.error("exception while opening an input stream to the " +
+                    pdfFile.getName().toString(), exception);
             throw new IOException("The output file couldn't be reached.");
         }
 
@@ -47,46 +75,38 @@ public class TransformToPdf implements Operation {
         resultPdfDocument.newPage();
         writer.setPageEmpty(true);
 
-        InputStream inputStream = fileObject.getContent().getInputStream();
+        InputStream inputStream = docxFile.getContent().getInputStream();
         XWPFDocument doc = new XWPFDocument(inputStream);
         inputStream.close();
 
 
-        writeDocument(doc, resultPdfDocument);
+        copyParagraphs(doc, resultPdfDocument);
 
         resultPdfDocument.close();
     }
 
     /**
-     * Writes pdf document using paragraphs from a source docx document.
+     * Copy paragraphs from the source docx document to the target document.
      *
      * @param sourceDocxDocument source document
-     * @param resultPdfDocument  target document
+     * @param targetPdfDocument  target document
      * @throws IOException
      */
-    private void writeDocument(XWPFDocument sourceDocxDocument, Document resultPdfDocument) throws IOException {
-        java.util.List<XWPFParagraph> docxParagraphs = sourceDocxDocument.getParagraphs();
+    private void copyParagraphs(XWPFDocument sourceDocxDocument,
+                                Document targetPdfDocument) throws IOException {
+        java.util.List<XWPFParagraph> docxParagraphs =
+                sourceDocxDocument.getParagraphs();
         Paragraph pdfParagraph;
 
         try {
             for (XWPFParagraph docxParagraph : docxParagraphs) {
-                pdfParagraph = createPdfParagraph(docxParagraph);
-                resultPdfDocument.add(pdfParagraph);
+                pdfParagraph = createParagraph(docxParagraph);
+                targetPdfDocument.add(pdfParagraph);
             }
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException("The output file couldn't be reached.");
         }
-    }
-
-    private Paragraph createParagraph(String text, int fontStyle, int size, DocumentFont documentFont,
-                                     int alignment) throws IOException {
-        Font font = DocumentFontFactory.buildFont(documentFont, size, fontStyle);
-
-        Paragraph paragraph = new Paragraph(text, font);
-        paragraph.setAlignment(alignment);
-
-        return paragraph;
     }
 
     /**
@@ -96,17 +116,24 @@ public class TransformToPdf implements Operation {
      * @return created header paragraph
      * @throws IOException if font file is invalid
      */
-    public Paragraph createPdfParagraph(XWPFParagraph docxParagraph) throws IOException, InvalidFormatException {
+    public Paragraph createParagraph(XWPFParagraph docxParagraph)
+            throws IOException, InvalidFormatException {
         String text = docxParagraph.getText();
 
         XWPFRun run = docxParagraph.getRuns().get(0);
 
         int fontSize = run.getFontSize();
-        int align = docxParagraph.getAlignment() == ParagraphAlignment.CENTER ? Element.ALIGN_CENTER : Element.ALIGN_LEFT;
-
+        int align = docxParagraph.getAlignment() == ParagraphAlignment.CENTER ?
+                Element.ALIGN_CENTER : Element.ALIGN_LEFT;
         int style = !run.isBold() ? 0 : Font.BOLD;
         style = !run.isItalic() ? style : Font.ITALIC;
 
-        return createParagraph(text, style, fontSize, DocumentFont.FREE_SERIF, align);
+        Font font = DocumentFontFactory.buildFont(DocumentFont.FREE_SERIF,
+                fontSize, style);
+
+        Paragraph paragraph = new Paragraph(text, font);
+        paragraph.setAlignment(align);
+
+        return paragraph;
     }
 }
