@@ -25,6 +25,11 @@
                         templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
                         controller: 'CalibrationTestController'
                     })
+                    .state("employees", {
+                        url: '/employees',
+                        templateUrl: '/resources/app/calibrator/views/employee/main-panel.html',
+                        controller: 'EmployeeController'
+                    })
                     .state("verifications-archive", {
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
@@ -44,13 +49,15 @@
     define([
         'controllers/TopNavBarController',
         'controllers/MainPanelController',
-        'controllers/ArchivalVerificationsController',
         'controllers/NewVerificationsController',
-        'controllers/AddingVerificationsController',
         'controllers/DetailsModalController',
         'controllers/SendingModalController',
         'controllers/CalibrationTestController',
+        'controllers/EmployeeController',
+        'controllers/AddressModalController',
         'services/CalibrationTestService',
+        'services/AddressService',
+        'services/UserService',
         'services/VerificationService'
     ], function () {});
 })();
