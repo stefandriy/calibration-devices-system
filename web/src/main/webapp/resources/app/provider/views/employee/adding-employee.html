@@ -127,9 +127,6 @@
 
         <hr/>
 
-        <h4 class="help-block">Заповніть дані за якими працівник зможе зайти в систему.
-            Також ці дані будуть надіслані на вказану раніше електронну адерсу працівника</h4>
-
         <div id="userData" class="row">
             <div class="form-group col-md-4" show-errors>
                 <label for="username" class="control-label">Логін</label>
@@ -138,7 +135,7 @@
                        ng-model="employeeData.username"
                        ng-model-options="{debounce: 450}"
                        ng-change="checkUsername(employeeData.username)"
-                       ng-minlength="3"
+                       ng-pattern="/^[a-zA-Z0-9]{3,20}$/"
                        required>
 
                 <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
@@ -148,14 +145,15 @@
                     Це поле є обов'язковим для заповнення
                 </p>
 
-                <p class="help-block" ng-if="form.employee.username.$error.minlength">
+                <p class="help-block" ng-if="form.employee.username.$error.pattern">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    Логін не повинен бути коротшим ніж 3 символа
+                    Логін повинен містити лише латинські літери або цифри та бути не коротшим
+                    ніж 3 символи та не більшим ніж 20 символів
                 </p>
 
                 <p class="help-block" ng-if="!form.employee.username.$error[isAvailable]
                 && !form.employee.username.$error.required
-                && !form.employee.username.$error.minlength">
+                && !form.employee.username.$error.pattern">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     Користувач з таким іменем вже існує
                 </p>
