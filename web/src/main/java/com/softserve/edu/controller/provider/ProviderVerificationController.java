@@ -10,7 +10,7 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Calibrator;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Verification;
-import com.softserve.edu.service.CalibratorService;
+import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -41,12 +41,12 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfAllVerificationsByProviderId(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         Page<VerificationPageDTO> page = VerificationPageDTOTransformer
                 .toDTO(verificationService
                         .findPageOfAllVerificationsByProviderId(
-                                employeeUser.getOrganizationId(),
+                                user.getOrganizationId(),
                                 pageNumber,
                                 itemsPerPage
                         ));
@@ -58,34 +58,42 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderId(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         Page<VerificationPageDTO> page = VerificationPageDTOTransformer
                 .toDTO(verificationService
                         .findPageOfSentVerificationsByProviderId(
-                                employeeUser.getOrganizationId(),
+                                user.getOrganizationId(),
                                 pageNumber,
                                 itemsPerPage));
 
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
 
+    /**
+     * Find calibrators by district which correspond provider district
+     *
+     * @return calibrator
+     */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
     public List<Calibrator> updateVerification(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         return calibratorService.findByDistrict(
                 providerService
-                        .findById(employeeUser.getOrganizationId())
+                        .findById(user.getOrganizationId())
                         .getAddress()
                         .getDistrict()
         );
     }
 
+    /**
+     * Update verifications
+     */
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()){
+        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
             verificationService
                     .updateVerification(
                             verificationId,
@@ -97,12 +105,12 @@ public class ProviderVerificationController {
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
     public ClientStageVerificationDTO getNewVerificationDetailsById(
             @PathVariable String verificationId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         Verification verification = verificationService
                 .findByIdAndProviderId(
                         verificationId,
-                        employeeUser.getOrganizationId()
+                        user.getOrganizationId()
                 );
 
         ClientData clientData = verification.getClientData();
@@ -114,10 +122,10 @@ public class ProviderVerificationController {
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
     public VerificationDTO getArchivalVerificationDetailsById(
             @PathVariable String verificationId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         Verification verification = verificationService
-                .findByIdAndProviderId(verificationId, employeeUser.getOrganizationId());
+                .findByIdAndProviderId(verificationId, user.getOrganizationId());
 
         return new VerificationDTO(
                 verification.getClientData(),

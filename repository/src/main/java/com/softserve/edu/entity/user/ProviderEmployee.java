@@ -20,13 +20,20 @@ public class ProviderEmployee extends Employee {
 
     public ProviderEmployee() {}
 
-    public ProviderEmployee(String username, String password, ProviderEmployeeRole role,
-             Organization organization) {
+    public ProviderEmployee(
+            String username, String password, ProviderEmployeeRole role,
+            Organization organization) {
         super(username, password, role, organization);
     }
 
-    public ProviderEmployee(String username, String password, Role role, Organization organization,
-                            String firstName, String lastName, String email, String phone) {
+    public ProviderEmployee(
+            String username, String password, ProviderEmployeeRole role,
+            Organization organization, String firstName, String lastName,
+            String email, String phone) {
         super(username, password, role, organization, firstName, lastName, email, phone);
+    }
+
+    public void setRole(ProviderEmployeeRole role) {
+        super.setRole(role);
     }
 }

@@ -5,7 +5,7 @@ import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
-import com.softserve.edu.service.exceptions.CalibrationTestNotFoundException;
+import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public class CalibrationTestService {
     public CalibrationTestData createTestData(Long testId, CalibrationTestData data) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         if(calibrationTest == null) {
-            throw new CalibrationTestNotFoundException();
+            throw new NotAvailableException();
         }
         CalibrationTestData testData = dataRepository.save(data);
         testData.setCalibrationTest(calibrationTest);
@@ -73,7 +73,7 @@ public class CalibrationTestService {
             Long calibrationTestId){
         CalibrationTest calibrationTest = testRepository.findOne(calibrationTestId);
         if (calibrationTest == null){
-            throw new CalibrationTestNotFoundException();
+            throw new NotAvailableException("Тесту з таким ID не існує!");
         }else{
             return new CalibrationTestDataList(calibrationTestId
                     , dataRepository.findByCalibrationTestId(calibrationTestId));

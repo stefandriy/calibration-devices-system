@@ -20,13 +20,21 @@ public class StateVerificatorEmployee extends Employee {
 
     protected StateVerificatorEmployee() {}
 
-    public StateVerificatorEmployee(String username, String password, Role role, Organization organization) {
+    public StateVerificatorEmployee(
+            String username, String password, StateVerificatorEmployeeRole role,
+            Organization organization) {
         super(username, password, role, organization);
     }
 
-    public StateVerificatorEmployee(String username, String password, Role role, Organization organization,
-                                    String firstName, String lastName, String email, String phone) {
+    public StateVerificatorEmployee(
+            String username, String password, StateVerificatorEmployeeRole role,
+            Organization organization, String firstName, String lastName,
+            String email, String phone) {
+
         super(username, password, role, organization, firstName, lastName, email, phone);
     }
-}
 
+    public void setRole(StateVerificatorEmployeeRole role) {
+        super.setRole(role);
+    }
+}

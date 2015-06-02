@@ -2,10 +2,10 @@ package com.softserve.edu.documents.action;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
-import com.softserve.edu.documents.parameter.DocumentFont;
-import com.softserve.edu.documents.parameter.DocumentFontFactory;
+import com.softserve.edu.documents.resources.DocumentFont;
+import com.softserve.edu.documents.resources.DocumentFontFactory;
 import com.softserve.edu.documents.parameter.FileParameters;
-import com.softserve.edu.documents.utils.FileLocator;
+import com.softserve.edu.documents.utils.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.log4j.Logger;
@@ -40,7 +40,7 @@ public enum DocxToPdf implements Operation {
     @Override
     public FileObject perform(FileObject sourceFile,
                               FileParameters fileParameters) throws IOException {
-        FileObject filePdf = FileLocator.getFile(fileParameters.getFileSystem(),
+        FileObject filePdf = FileUtils.createFile(fileParameters.getFileSystem(),
                 fileParameters.getFileName() + "_pdf");
 
         createPdfFile(sourceFile, filePdf);
@@ -130,6 +130,9 @@ public enum DocxToPdf implements Operation {
         XWPFRun run = docxParagraph.getRuns().get(0);
 
         int fontSize = run.getFontSize();
+        if (fontSize < 1) {
+            fontSize = 12;
+        }
         int align = docxParagraph.getAlignment() == ParagraphAlignment.CENTER ?
                 Element.ALIGN_CENTER : Element.ALIGN_LEFT;
         int style = !run.isBold() ? 0 : Font.BOLD;

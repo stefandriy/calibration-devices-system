@@ -1,7 +1,6 @@
 package com.softserve.edu.entity;
 
 import javax.persistence.Embeddable;
-import java.util.HashMap;
 
 @Embeddable
 public class Address {
@@ -13,8 +12,7 @@ public class Address {
     private String building;
     private String flat;
 
-    public Address() {
-    }
+    public Address() {}
 
     public Address(String region, String district, String locality, String street, String building,
                    String flat) {

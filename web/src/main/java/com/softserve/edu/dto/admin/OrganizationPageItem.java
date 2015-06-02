@@ -7,8 +7,7 @@ public class OrganizationPageItem {
     private String phone;
     private String type;
 
-    public OrganizationPageItem() {
-    }
+    public OrganizationPageItem() {}
 
     public OrganizationPageItem(Long id, String name, String email, String phone, String type) {
         this.id = id;

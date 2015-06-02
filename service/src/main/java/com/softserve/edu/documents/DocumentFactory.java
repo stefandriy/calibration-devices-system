@@ -3,7 +3,7 @@ package com.softserve.edu.documents;
 import com.softserve.edu.documents.document.Document;
 import com.softserve.edu.documents.document.UnfitnessCertificate;
 import com.softserve.edu.documents.document.VerificationCertificate;
-import com.softserve.edu.documents.parameter.DocumentType;
+import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Verification;
 import org.springframework.util.Assert;
@@ -18,7 +18,7 @@ public class DocumentFactory {
      * @return created document
      */
     public static Document build(DocumentType documentType, Verification verification,
-                               CalibrationTest calibrationTest) {
+                                 CalibrationTest calibrationTest) {
         Assert.notNull(verification, verification.getClass() + " can't be null");
         Assert.notNull(calibrationTest, calibrationTest.getClass() + " can't be null");
 

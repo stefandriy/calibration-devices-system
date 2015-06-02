@@ -1,10 +1,9 @@
 package com.softserve.edu.entity.user;
 
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class Employee extends User {
@@ -14,6 +13,9 @@ public abstract class Employee extends User {
     private String middleName;
     private String email;
     private String phone;
+
+    @Embedded
+    private Address address;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     private Organization organization;
@@ -98,4 +100,13 @@ public abstract class Employee extends User {
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 }
+

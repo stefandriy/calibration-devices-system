@@ -40,13 +40,13 @@
                                     <th>Реєстраційний номер повірки</th>
                                     <th>Прізвище клієнта</th>
                                     <th>Вулиця, на якій проживає клієнт</th>
-                                    <th>Дії</th>
-                                    <th>Створити тест</th>
+                                    <th>Дії<br/> <br/></th>
+                                    <th>Відправити державному повірнику</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                <tr ng-repeat="verification in pageData">
+                                <tr ng-repeat="verification in pageData | orderBy:'-initialDate'">
                                     <td>{{ verification.initialDate | date}}</td>
                                     <td>{{ verification.id }}</td>
                                     <td>{{ verification.surname }}</td>
@@ -57,7 +57,11 @@
                                            ng-click="openDetails($index)">
                                             <i class="fa fa-info-circle"></i>
                                         </a>
-                                    </td>
+                                        <a popover="Створити тест"
+                                           popover-trigger="mouseenter"
+                                           ui-sref="calibration-test">
+                                            <i class="fa fa-check-square-o"></i>
+                                        </a>
                                     <td class="text-center">
                                         <input type="checkbox"
                                                ng-click="resolveVerificationId(verification.id)"/>
@@ -69,7 +73,7 @@
                             <p id="emptyError" ng-if="allIsEmpty && isClicked"
                                class="help-block pull-right">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                Оберіть хоча би одну заявку
+                                Оберіть хоча б одну пвірку
                             </p>
 
                             <div class="col-md-offset-11">
@@ -78,11 +82,8 @@
                                     Надіслати
                                 </button>
                             </div>
-
-
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-12">
                             <pagination total-items="totalItems" ng-model="currentPage" max-size="5"

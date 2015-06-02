@@ -1,9 +1,9 @@
-package com.softserve.edu.documents.parameter;
+package com.softserve.edu.documents.resources;
 
 /**
- * Constants for standard paths
+ * Constants names of standard resources folders.
  */
-public enum StandardPath {
+public enum ResourcesFolder {
     DOCUMENTS_TEMPLATES {
         @Override
         public String toString() {

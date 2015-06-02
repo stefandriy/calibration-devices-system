@@ -1,4 +1,4 @@
-package com.softserve.edu.documents.parameter;
+package com.softserve.edu.documents.resources;
 
 /**
  * Available fonts.

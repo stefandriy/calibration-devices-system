@@ -1,7 +1,7 @@
 package com.softserve.edu.documents.document;
 
 import com.softserve.edu.documents.document.meta.Column;
-import com.softserve.edu.documents.parameter.DocumentType;
+import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
@@ -12,11 +12,11 @@ import com.softserve.edu.entity.util.DeviceType;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
 
 /**
- * Represents a base document.
- * All real documents extend from this class.
+ * Represents a base certificate and consists of common columns and methods
+ * of all certificates.
+ * All certificates extend this class.
  */
 public abstract class BaseCertificate implements Document {
     /**

@@ -5,10 +5,9 @@ import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.provider.ProviderStageVerificationDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
-import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.CalibratorService;
+import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.catalogue.*;
 import com.softserve.edu.service.provider.ProviderService;
@@ -17,36 +16,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/provider/applications/")
 public class ProviderApplicationController {
+
     @Autowired
     private RegionService regionService;
-    @Autowired
-    VerificationService verificationService;
 
     @Autowired
-    ProviderService providerService;
+    private VerificationService verificationService;
 
     @Autowired
-    CalibratorService calibratorService;
+    private ProviderService providerService;
 
     @Autowired
-    DistrictService districtService;
+    private DistrictService districtService;
 
     @Autowired
-    LocalityService localityService;
+    private LocalityService localityService;
 
-    @Autowired
-    StreetService streetService;
 
-    @Autowired
-    BuildingService buildingService;
-
+    /**
+     * Save verification in database
+     *
+     * @param verificationDTO object with verification data
+     */
     @RequestMapping(value = "send", method = RequestMethod.POST)
     public void getInitiateVerification(
             @RequestBody ProviderStageVerificationDTO verificationDTO,
@@ -69,9 +66,17 @@ public class ProviderApplicationController {
                                 verificationDTO.getBuilding(),
                                 verificationDTO.getFlat())),
                 provider,
-                Status.SENT,verificationDTO.getCalibrator());
+                Status.RECEIVED, verificationDTO.getCalibrator());
         verificationService.saveVerification(verification);
     }
+
+    /**
+     * Find provider by id, finds region corresponding to provider region, finds district
+     * corresponding to provider district and id
+     *
+     * @return ApplicationFieldDTO which contains id and designation corresponding to
+     * locality id an designation
+     */
     @RequestMapping(value = "localities", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getLocalityCorrespondingProvider(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
@@ -83,26 +88,5 @@ public class ProviderApplicationController {
                 region.getId()
         );
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
-    }
-
-    @RequestMapping(value = "streets/{localityId}", method = RequestMethod.GET)
-    public List<ApplicationFieldDTO> getStreetsCorrespondingLocality(@PathVariable Long localityId) {
-        return CatalogueDTOTransformer.toDto(streetService.getStreetsCorrespondingLocality(localityId));
-    }
-
-    @RequestMapping(value = "buildings/{streetId}", method = RequestMethod.GET)
-    public List<ApplicationFieldDTO> getBuildingsCorrespondingStreet(@PathVariable Long streetId) {
-        return CatalogueDTOTransformer.toDto(buildingService.getBuildingsCorrespondingStreet(streetId));
-    }
-
-    @RequestMapping(value = "calibrators", method = RequestMethod.GET)
-    public List<Calibrator> getCalibrators(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        return calibratorService.findByDistrict(
-                providerService
-                        .findById(employeeUser.getOrganizationId())
-                        .getAddress()
-                        .getDistrict()
-        );
     }
 }
