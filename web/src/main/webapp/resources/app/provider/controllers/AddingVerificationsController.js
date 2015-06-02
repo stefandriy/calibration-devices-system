@@ -6,7 +6,7 @@ angular
             /**
              * Receives all possible calibrators.
              */
-            verificationService.getCalibratorsCorrespondingProvider()
+            verificationService.getCalibrators()
                 .success(function (calibrators) {
                     $scope.calibrators = calibrators;
                 });

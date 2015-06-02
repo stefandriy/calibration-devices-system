@@ -24,9 +24,6 @@ angular
             sendInitiatedVerification:function(form){
                 return sendData("send",form);
             },
-            getCalibratorsCorrespondingProvider:function(url){
-                return getData("applications/calibrators");
-            },
             getLocalitiesCorrespondingProvider:function(url){
                 return getData("applications/localities");
             },
@@ -73,9 +70,6 @@ angular
                 });
         }
         function getDataFromCatalog(url) {
-
-            $log.info(url);
-
             return $http.get('application/' + url)
                 .success(function (data) {
                     return data;

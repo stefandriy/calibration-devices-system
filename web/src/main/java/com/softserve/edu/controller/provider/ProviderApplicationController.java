@@ -27,19 +27,16 @@ public class ProviderApplicationController {
     private RegionService regionService;
 
     @Autowired
-   private VerificationService verificationService;
+    private VerificationService verificationService;
 
     @Autowired
-    private  ProviderService providerService;
+    private ProviderService providerService;
 
     @Autowired
-    private CalibratorService calibratorService;
+    private DistrictService districtService;
 
     @Autowired
-    private  DistrictService districtService;
-
-    @Autowired
-    private  LocalityService localityService;
+    private LocalityService localityService;
 
 
     /**
@@ -77,7 +74,7 @@ public class ProviderApplicationController {
      * Find provider by id, finds region corresponding to provider region, finds district
      * corresponding to provider district and id
      *
-     * @return  ApplicationFieldDTO which contains id and designation corresponding to
+     * @return ApplicationFieldDTO which contains id and designation corresponding to
      * locality id an designation
      */
     @RequestMapping(value = "localities", method = RequestMethod.GET)
@@ -91,21 +88,5 @@ public class ProviderApplicationController {
                 region.getId()
         );
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
-    }
-
-    /**
-     * Find calibrators by district which correspond provider district
-     *
-     * @return  calibrator
-     */
-    @RequestMapping(value = "calibrators", method = RequestMethod.GET)
-    public List<Calibrator> getCalibrators(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        return calibratorService.findByDistrict(
-                providerService
-                        .findById(employeeUser.getOrganizationId())
-                        .getAddress()
-                        .getDistrict()
-        );
     }
 }
