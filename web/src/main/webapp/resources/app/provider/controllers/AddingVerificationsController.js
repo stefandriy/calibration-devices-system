@@ -18,7 +18,7 @@ angular
             /**
              * Updates the table with verifications.
              */
-            $scope.saveVerification = function (form) {
+            $scope.saveVerification = function () {
 
                 /* if ($scope.form.$valid) {*/
                 $scope.form.locality = $scope.selectedLocality.designation;
@@ -27,6 +27,17 @@ angular
                 $scope.form.calibrator = $scope.selectedCalibrator;
                 verificationService.sendInitiatedVerification($scope.form)
                     .success(function () {
+                        $modal.open({
+                            animation: true,
+                            templateUrl: '/resources/app/provider/views/modals/verification-adding-success.html',
+                            controller: function ($modalInstance) {
+                                this.ok = function () {
+                                    $modalInstance.close();
+                                }
+                            },
+                            controllerAs: 'successController',
+                            size: 'md'
+                        });
                             $state.go($state.current, {}, {reload: true});
                     });
             };
