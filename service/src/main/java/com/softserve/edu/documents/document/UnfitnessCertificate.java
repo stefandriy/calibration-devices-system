@@ -1,7 +1,6 @@
 package com.softserve.edu.documents.document;
 
 import com.softserve.edu.documents.document.meta.Placeholder;
-import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Verification;
 
@@ -19,7 +18,7 @@ public class UnfitnessCertificate extends BaseCertificate {
      */
     public UnfitnessCertificate(Verification verification,
                                 CalibrationTest calibrationTest) {
-        super(DocumentType.UNFITNESS_CERTIFICATE, verification, calibrationTest);
+        super(verification, calibrationTest);
     }
 
     @Override

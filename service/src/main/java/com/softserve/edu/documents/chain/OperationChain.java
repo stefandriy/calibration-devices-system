@@ -19,8 +19,7 @@ public enum OperationChain {
          */
         @Override
         public void init() {
-            final int operationsNumber = 5;
-            operations = new ArrayList<>(operationsNumber);
+            operations = new ArrayList<>();
 
             operations.add(LoadTemplate.INSTANCE);
             operations.add(Normalize.INSTANCE);

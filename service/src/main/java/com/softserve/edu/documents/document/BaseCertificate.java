@@ -1,7 +1,6 @@
 package com.softserve.edu.documents.document;
 
 import com.softserve.edu.documents.document.meta.Placeholder;
-import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
@@ -35,7 +34,7 @@ public abstract class BaseCertificate implements Document {
      * @param verification    entity to get document's data from.
      * @param calibrationTest one of calibration test that is assigned to the verification
      */
-    public BaseCertificate(DocumentType documentType, Verification verification, CalibrationTest calibrationTest) {
+    public BaseCertificate(Verification verification, CalibrationTest calibrationTest) {
         super();
 
         setVerification(verification);

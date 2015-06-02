@@ -6,6 +6,7 @@ import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
 import org.apache.log4j.Logger;
+import org.springframework.util.Assert;
 
 import java.io.FileNotFoundException;
 
@@ -28,6 +29,8 @@ public class FileUtils {
      * @return the created file
      */
     public static FileObject createFile(FileSystem fileSystem, String fileName) {
+        checkParameters(fileSystem, fileName);
+
         FileObject fileToReturn;
 
         String filePath = fileSystem.name().toLowerCase() +
@@ -55,7 +58,10 @@ public class FileUtils {
      * @param fileName   name of the file
      * @return the found file
      */
-    public static FileObject findFile(FileSystem fileSystem, String fileName) {
+    public static FileObject findFile(FileSystem fileSystem, String fileName)
+            throws FileNotFoundException {
+        checkParameters(fileSystem, fileName);
+
         FileObject fileToReturn;
 
         String filePath = fileSystem.name().toLowerCase() +
@@ -72,7 +78,7 @@ public class FileUtils {
                         fileSystem;
 
                 logger.error(errorMessage);
-                throw new RuntimeException(new FileNotFoundException(errorMessage));
+                throw new FileNotFoundException(errorMessage);
             }
         } catch (FileSystemException exception) {
             logger.error("couldn't create " +
@@ -98,5 +104,12 @@ public class FileUtils {
         }
 
         return manager;
+    }
+
+    private static void checkParameters(FileSystem fileSystem, String fileName) {
+        Assert.notNull(fileSystem, FileSystem.class.getSimpleName() + "" +
+                "can't be null");
+        Assert.notNull(fileName, "file name can't be null");
+        Assert.isTrue(!fileName.isEmpty(), "file name can't be empty");
     }
 }

@@ -1,7 +1,6 @@
 package com.softserve.edu.documents.document;
 
-import com.softserve.edu.documents.document.meta.*;
-import com.softserve.edu.documents.resources.DocumentType;
+import com.softserve.edu.documents.document.meta.Placeholder;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Verification;
 
@@ -11,7 +10,7 @@ import com.softserve.edu.entity.Verification;
 @com.softserve.edu.documents.document.meta.Document
 public class VerificationCertificate extends BaseCertificate {
     public VerificationCertificate(Verification verification, CalibrationTest calibrationTest) {
-        super(DocumentType.VERIFICATION_CERTIFICATE, verification, calibrationTest);
+        super(verification, calibrationTest);
     }
 
     /**
