@@ -136,8 +136,9 @@
 
                 <input id="username" name="username" class="form-control"
                        ng-model="employeeData.username"
-                       ng-model-options="{debounce: 350}"
+                       ng-model-options="{debounce: 450}"
                        ng-change="checkUsername(employeeData.username)"
+                       ng-minlength="3"
                        required>
 
                 <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
@@ -147,8 +148,14 @@
                     Це поле є обов'язковим для заповнення
                 </p>
 
+                <p class="help-block" ng-if="form.employee.username.$error.minlength">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Логін не повинен бути коротшим ніж 3 символа
+                </p>
+
                 <p class="help-block" ng-if="!form.employee.username.$error[isAvailable]
-                && !form.employee.username.$error.required">
+                && !form.employee.username.$error.required
+                && !form.employee.username.$error.minlength">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     Користувач з таким іменем вже існує
                 </p>
@@ -159,8 +166,8 @@
 
                 <input id="password" name="password" class="form-control" type="password"
                        ng-model="employeeData.password"
-                       ng-model-options="{debounce: 350}"
                        ng-change="checkPasswords()"
+                       ng-minlength="6"
                        required>
 
                 <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
@@ -170,8 +177,14 @@
                     Це поле є обов'язковим для заповнення
                 </p>
 
-                <p class="help-block" ng-if="!form.employee.password.$error[isMatch] &&
-                !form.employee.password.$error.required">
+                <p class="help-block" ng-if="form.employee.password.$error.minlength">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Пароль не повинен бути коротшим ніж 6 символів
+                </p>
+
+                <p class="help-block" ng-if="!form.employee.password.$error[isMatch]
+                 && !form.employee.password.$error.required
+                 && !form.employee.password.$error.minlength">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     Паролі не збігаються
                 </p>
@@ -183,8 +196,8 @@
 
                 <input id="rePassword" name="rePassword" class="form-control" type="password"
                        ng-model="form.rePassword"
-                       ng-model-options="{debounce: 350}"
                        ng-change="checkPasswords()"
+                       ng-minlength="6"
                        required>
 
                 <i class="form-control-feedback glyphicon glyphicon glyphicon-ok-sign"></i>
@@ -194,8 +207,14 @@
                     Це поле є обов'язковим для заповнення
                 </p>
 
-                <p class="help-block" ng-if="!form.employee.rePassword.$error[isMatch] &&
-                !form.employee.rePassword.$error.required">
+                <p class="help-block" ng-if="form.employee.rePassword.$error.minlength">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    Пароль не повинен бути коротшим ніж 6 символів
+                </p>
+
+                <p class="help-block" ng-if="!form.employee.rePassword.$error[isMatch]
+                && !form.employee.rePassword.$error.required
+                && !form.employee.rePassword.$error.minlength">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     Паролі не збігаються
                 </p>
