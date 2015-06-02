@@ -1,6 +1,5 @@
 package com.softserve.edu.controller;
 
-import com.softserve.edu.exceptions.NotFoundException;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.dto.CalibrationTestDataListDTO;
 import com.softserve.edu.dto.asm.CalibrationTestDataDTOAsm;
@@ -13,7 +12,7 @@ import com.softserve.edu.dto.asm.CalibrationTestListDTOAsm;
 import com.softserve.edu.dto.asm.CalibrationTestDTOAsm;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.service.CalibrationTestService;
-import com.softserve.edu.service.exceptions.CalibrationTestNotFoundException;
+import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,8 +105,8 @@ public class CalibrationTestController {
             HttpHeaders headers = new HttpHeaders();
             headers.setLocation(URI.create(createdTestDataDTO.getLink("self").getHref()));
             return new ResponseEntity<>(createdTestDataDTO, headers, HttpStatus.CREATED);
-        } catch (CalibrationTestNotFoundException e) {
-            throw new NotFoundException(e);
+        } catch (NotAvailableException e) {
+            throw new com.softserve.edu.exceptions.NotFoundException(e);
         }
     }
 
@@ -119,8 +118,8 @@ public class CalibrationTestController {
             CalibrationTestDataList list = service.findAllTestDataAsociatedWithTest(calibrationTestId);
             CalibrationTestDataListDTO res = new CalibrationTestDataListDTOAsm().toResource(list);
             return new ResponseEntity<>(res, HttpStatus.OK);
-        } catch(CalibrationTestNotFoundException exception) {
-            throw new NotFoundException(exception);
+        } catch(NotAvailableException exception) {
+            throw new com.softserve.edu.exceptions.NotFoundException(exception);
         }
     }
 }

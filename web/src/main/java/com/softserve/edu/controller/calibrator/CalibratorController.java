@@ -8,10 +8,9 @@ import com.softserve.edu.dto.asm.CalibrationTestDTOAsm;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.*;
-import com.softserve.edu.exceptions.NotFoundException;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.exceptions.CalibrationTestNotFoundException;
+import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -110,8 +109,8 @@ public class CalibratorController {
             CalibrationTestDTO createdTestDTO =
                     new CalibrationTestDTOAsm().toResource(createdTest);
             return new ResponseEntity<>(createdTestDTO, HttpStatus.CREATED);
-        } catch (CalibrationTestNotFoundException e) {
-            throw new NotFoundException(e);
+        } catch (NotAvailableException e) {
+            throw new com.softserve.edu.exceptions.NotFoundException(e);
         }
     }
 }
