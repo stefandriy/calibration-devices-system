@@ -17,7 +17,7 @@ public class VerificationCertificate extends BaseCertificate {
     /**
      * @return get the sign of the document, which contains the metrological characteristics
      */
-    @Column(name = "METR_DOC_SIGN")
+    @Placeholder(name = "METR_DOC_SIGN")
     public String getMetrologicalDocumentSign() {
         return getCalibrationTest().getMeteorologicalDocument().getSign();
     }
@@ -25,7 +25,7 @@ public class VerificationCertificate extends BaseCertificate {
     /**
      * @return get the name of the document, which contains the metrological characteristics
      */
-    @Column(name = "METR_DOC_NAME")
+    @Placeholder(name = "METR_DOC_NAME")
     public String getMetrologicalDocumentName() {
         return getCalibrationTest().getMeteorologicalDocument().getName();
     }
