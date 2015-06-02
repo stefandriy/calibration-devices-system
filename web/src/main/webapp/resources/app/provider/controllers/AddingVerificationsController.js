@@ -15,13 +15,15 @@ angular
              */
             $scope.saveVerification = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                    $scope.form.locality = $scope.selectedLocality.designation;
-                    $scope.form.street = $scope.selectedStreet.designation;
-                    $scope.form.building = $scope.selectedBuilding.designation;
-                    $scope.form.calibrator = $scope.selectedCalibrator;
-                    verificationService.sendInitiatedVerification($scope.form)
-                        .success(function () {
-                        });
+                console.log($scope.form.$valid);
+                $scope.form.locality = $scope.selectedLocality.designation;
+                $scope.form.street = $scope.selectedStreet.designation;
+                $scope.form.building = $scope.selectedBuilding.designation;
+                $scope.form.calibrator = $scope.selectedCalibrator;
+                verificationService.sendInitiatedVerification($scope.form)
+                    .success(function () {
+                            $state.go($state.current, {}, {reload: true});
+                    });
             };
             /**
              * Receives all possible localities.

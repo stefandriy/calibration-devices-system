@@ -76,7 +76,7 @@ public class ProviderApplicationController {
                                 verificationDTO.getBuilding(),
                                 verificationDTO.getFlat())),
                 provider,
-                Status.SENT, verificationDTO.getCalibrator());
+                Status.RECEIVED, verificationDTO.getCalibrator());
         verificationService.saveVerification(verification);
     }
 
