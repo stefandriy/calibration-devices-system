@@ -182,15 +182,15 @@ public class DocumentsController {
     }
 
     /**
-     * In case of an uncaught exception logs exception and
+     * In case of an uncaught throwable logs it and
      * sends http status INTERNAL_SERVER_ERROR to the client.
      *
-     * @param exception thrown exception
+     * @param throwable thrown exception or error
      */
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class) // TODO: throwable?
-    public void uncaughtExceptionHandler(Exception exception) {
-        log.error(exception.getMessage(), exception);
+    @ExceptionHandler(Throwable.class)
+    public void throwableHandler(Throwable throwable) {
+        log.error(throwable.getMessage(), throwable);
     }
 
     /**
