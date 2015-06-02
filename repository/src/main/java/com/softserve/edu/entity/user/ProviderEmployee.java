@@ -33,12 +33,7 @@ public class ProviderEmployee extends Employee {
         super(username, password, role, organization, firstName, lastName, email, phone);
     }
 
-    @Override
-    public void setRole(Role role) {
-        if (!(role instanceof ProviderEmployeeRole)) {
-            throw new IllegalArgumentException("Role " + role.roleName() +
-                    " not supported for ProviderEmployee");
-        }
+    public void setRole(ProviderEmployeeRole role) {
         super.setRole(role);
     }
 }

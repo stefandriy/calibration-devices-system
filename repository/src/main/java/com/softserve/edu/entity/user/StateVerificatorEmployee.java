@@ -34,12 +34,7 @@ public class StateVerificatorEmployee extends Employee {
         super(username, password, role, organization, firstName, lastName, email, phone);
     }
 
-    @Override
-    public void setRole(Role role) {
-        if (!(role instanceof StateVerificatorEmployeeRole)) {
-            throw new IllegalArgumentException("Role " + role.roleName() +
-                    " not supported for StateVerificatorEmployee");
-        }
+    public void setRole(StateVerificatorEmployeeRole role) {
         super.setRole(role);
     }
 }

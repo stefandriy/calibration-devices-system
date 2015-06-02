@@ -48,7 +48,8 @@ public class MailService {
                 templateVariables.put("domain", domain);
                 templateVariables.put("applicationId", clientCode);
 
-                String body = mergeTemplateIntoString(velocityEngine, "/velocityTemplates/mailTemplate.vm",
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" +
+                                "/mailTemplate.vm",
                         "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
