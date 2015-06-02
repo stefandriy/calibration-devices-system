@@ -41,11 +41,6 @@ public class ProviderApplicationController {
     @Autowired
     private  LocalityService localityService;
 
-    @Autowired
-    private StreetService streetService;
-
-    @Autowired
-    private BuildingService buildingService;
 
     /**
      * Save verification in database
@@ -96,28 +91,6 @@ public class ProviderApplicationController {
                 region.getId()
         );
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
-    }
-
-    /**
-     * Find street by locality id
-     *
-     * @return lo ApplicationFieldDTO which contains id and designation corresponding to
-     * street id an designation
-     */
-    @RequestMapping(value = "streets/{localityId}", method = RequestMethod.GET)
-    public List<ApplicationFieldDTO> getStreetsCorrespondingLocality(@PathVariable Long localityId) {
-        return CatalogueDTOTransformer.toDto(streetService.getStreetsCorrespondingLocality(localityId));
-    }
-
-    /**
-     * Find buildings by street id
-     *
-     * @return  ApplicationFieldDTO which contains id and designation corresponding to
-     * street id an designation
-     */
-    @RequestMapping(value = "buildings/{streetId}", method = RequestMethod.GET)
-    public List<ApplicationFieldDTO> getBuildingsCorrespondingStreet(@PathVariable Long streetId) {
-        return CatalogueDTOTransformer.toDto(buildingService.getBuildingsCorrespondingStreet(streetId));
     }
 
     /**

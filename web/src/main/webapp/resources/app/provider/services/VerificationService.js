@@ -31,10 +31,10 @@ angular
                 return getData("applications/localities");
             },
             getStreetsCorrespondingLocality:function(selectedLocality){
-                return getData("applications/streets/" + selectedLocality.id);
+                return getDataFromCatalog("streets/" + selectedLocality.id);
             },
             getBuildingsCorrespondingStreet:function(selectedBuilding){
-                    return getData("applications/buildings/" + selectedBuilding.id);
+                    return getDataFromCatalog("buildings/" + selectedBuilding.id);
                 }
 
 
@@ -67,6 +67,18 @@ angular
             return $http.post('provider/applications/' + url, data)
                 .success(function (responseData) {
                     return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function getDataFromCatalog(url) {
+
+            $log.info(url);
+
+            return $http.get('application/' + url)
+                .success(function (data) {
+                    return data;
                 })
                 .error(function (err) {
                     return err;

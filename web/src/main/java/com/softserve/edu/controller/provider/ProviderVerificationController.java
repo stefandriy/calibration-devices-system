@@ -73,7 +73,7 @@ public class ProviderVerificationController {
     /**
      * Find calibrators by district which correspond provider district
      *
-     * @return  calibrator
+     * @return calibrator
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
     public List<Calibrator> updateVerification(
@@ -93,7 +93,7 @@ public class ProviderVerificationController {
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()){
+        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
             verificationService
                     .updateVerification(
                             verificationId,
