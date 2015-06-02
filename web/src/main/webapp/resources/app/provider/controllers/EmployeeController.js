@@ -5,6 +5,7 @@ angular
         function ($scope, $log, $modal, $state, userService) {
 
             $scope.employeeData = {};
+            $scope.form = {};
 
             $scope.openAddressModal = function () {
                 var addressModal = $modal.open({
@@ -38,23 +39,34 @@ angular
             };
 
             $scope.checkUsername = function (username) {
-                $log.info($scope.employeeForm.username.$valid);
-                employeeForm.username.$setValidity("usernameError", true);
+
                 userService
                     .isUsernameAvailable(username)
                     .success(function (result) {
-                        $scope.usernameError = !result;
+                        $scope.form.employee.username.$setValidity("isAvailable", result);
                     })
+            };
+
+            $scope.checkPasswords = function () {
+                var first = $scope.employeeData.password;
+                var second = $scope.form.rePassword;
+                $log.info(first);
+                $log.info(second);
+                if (first && second) {
+                    var isMatch = first === second;
+                    $scope.form.employee.password.$setValidity("isMatch", isMatch);
+                    $scope.form.employee.rePassword.$setValidity("isMatch", isMatch);
+                }
             };
 
             $scope.resetForm = function () {
                 $state.go($state.current, {}, {reload: true});
             };
 
-            $scope.addEmployee = function (employeeForm) {
+            $scope.addEmployee = function () {
                 $scope.$broadcast('show-errors-check-validity');
 
-                if (employeeForm.$valid) {
+                if ($scope.form.employee.$valid) {
 
                     var employeeData = $scope.employeeData;
                     var address = $scope.address;

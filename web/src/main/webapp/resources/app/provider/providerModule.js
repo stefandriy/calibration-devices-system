@@ -29,7 +29,6 @@ angular
                     url: '/employees',
                     templateUrl: '/resources/app/provider/views/employee/main-panel.html',
                     controller: 'EmployeeController'
-
                 })
                 .state("verifications-archive", {
                     url: '/verifications/archive',
