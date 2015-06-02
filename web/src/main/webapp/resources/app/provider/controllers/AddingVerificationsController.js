@@ -10,12 +10,17 @@ angular
                 .success(function (calibrators) {
                     $scope.calibrators = calibrators;
                 });
+
+            $scope.resetForm = function () {
+                $state.go($state.current, {}, {reload: true});
+            };
+
             /**
              * Updates the table with verifications.
              */
-            $scope.saveVerification = function () {
-                $scope.$broadcast('show-errors-check-validity');
-                console.log($scope.form.$valid);
+            $scope.saveVerification = function (form) {
+
+                /* if ($scope.form.$valid) {*/
                 $scope.form.locality = $scope.selectedLocality.designation;
                 $scope.form.street = $scope.selectedStreet.designation;
                 $scope.form.building = $scope.selectedBuilding.designation;
@@ -25,6 +30,10 @@ angular
                             $state.go($state.current, {}, {reload: true});
                     });
             };
+               /* else {
+                    $scope.$broadcast('show-errors-check-validity');
+                }*/
+
             /**
              * Receives all possible localities.
              */
@@ -53,8 +62,5 @@ angular
                     .success(function (buildings) {
                         $scope.buildings = buildings;
                     });
-            };
-            $scope.resetForm = function () {
-                $state.go($state.current, {}, {reload: true});
             };
         }]);
