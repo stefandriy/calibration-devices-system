@@ -58,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/app/verificator/**", "/verificator").hasAnyAuthority(STATE_VERIFICATOR_EMPLOYEE.roleName(), STATE_VERIFICATOR_ADMIN.roleName())
                 .antMatchers("/verificator/admin/**").hasAuthority(STATE_VERIFICATOR_ADMIN.roleName())
                 .antMatchers("/verificator/employee/**").hasAuthority(STATE_VERIFICATOR_EMPLOYEE.roleName())
+                .antMatchers("/uploadFile/").permitAll()
 
                 .and()
                 .formLogin()
