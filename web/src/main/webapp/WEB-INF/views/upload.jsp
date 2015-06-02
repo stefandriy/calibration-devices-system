@@ -10,6 +10,5 @@
 		Name: <input type="text" name="name"><br /> <br /> 
 		<input type="submit" value="Upload"> Press here to upload the file!
 	</form>
-	oololooll
 </body>
 </html>

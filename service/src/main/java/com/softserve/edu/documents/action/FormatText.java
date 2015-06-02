@@ -2,9 +2,9 @@ package com.softserve.edu.documents.action;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Font;
+import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.resources.DocumentFont;
 import com.softserve.edu.documents.resources.DocumentFontFactory;
-import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.size.SizeUnit;
 import com.softserve.edu.documents.size.SizeUnitConverter;
 import com.softserve.edu.documents.utils.FormattingTokens;
@@ -101,7 +101,7 @@ public enum FormatText implements Operation {
         Font font;
 
         try {
-            font = DocumentFontFactory.buildFont(DocumentFont.FREE_SERIF);
+            font = DocumentFontFactory.INSTANCE.buildFont(DocumentFont.FREE_SERIF);
         } catch (IOException exception) {
             logger.error(DocumentFont.FREE_SERIF.name() + "can't be built",
                     exception);

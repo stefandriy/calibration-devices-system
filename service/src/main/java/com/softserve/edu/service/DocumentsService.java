@@ -144,6 +144,7 @@ public class DocumentsService {
         FileParameters fileParameters = new FileParameters(document, documentType,
                 fileFormat);
         fileParameters.setFileSystem(FileSystem.RAM);
+        fileParameters.setFileName(documentType.toString());
 
         return FileFactory.buildFile(fileParameters);
     }

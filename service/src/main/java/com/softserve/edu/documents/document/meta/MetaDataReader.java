@@ -34,13 +34,13 @@ public class MetaDataReader {
         Map<String, Object> columnMap = new HashMap<>();
 
         for (Method method : documentMethods) {
-            Column column = method.getAnnotation(Column.class);
+            Placeholder placeholder = method.getAnnotation(Placeholder.class);
 
-            if (column == null) {
+            if (placeholder == null) {
                 continue;
             }
 
-            String columnName = column.name();
+            String columnName = placeholder.name();
             Object columnValue;
 
             try {

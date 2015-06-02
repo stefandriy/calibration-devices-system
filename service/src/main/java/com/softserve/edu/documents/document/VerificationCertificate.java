@@ -1,7 +1,6 @@
 package com.softserve.edu.documents.document;
 
-import com.softserve.edu.documents.document.meta.*;
-import com.softserve.edu.documents.resources.DocumentType;
+import com.softserve.edu.documents.document.meta.Placeholder;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Verification;
 
@@ -11,13 +10,13 @@ import com.softserve.edu.entity.Verification;
 @com.softserve.edu.documents.document.meta.Document
 public class VerificationCertificate extends BaseCertificate {
     public VerificationCertificate(Verification verification, CalibrationTest calibrationTest) {
-        super(DocumentType.VERIFICATION_CERTIFICATE, verification, calibrationTest);
+        super(verification, calibrationTest);
     }
 
     /**
      * @return get the sign of the document, which contains the metrological characteristics
      */
-    @Column(name = "METR_DOC_SIGN")
+    @Placeholder(name = "METR_DOC_SIGN")
     public String getMetrologicalDocumentSign() {
         return getCalibrationTest().getMeteorologicalDocument().getSign();
     }
@@ -25,7 +24,7 @@ public class VerificationCertificate extends BaseCertificate {
     /**
      * @return get the name of the document, which contains the metrological characteristics
      */
-    @Column(name = "METR_DOC_NAME")
+    @Placeholder(name = "METR_DOC_NAME")
     public String getMetrologicalDocumentName() {
         return getCalibrationTest().getMeteorologicalDocument().getName();
     }

@@ -1,7 +1,6 @@
 package com.softserve.edu.documents.document;
 
-import com.softserve.edu.documents.document.meta.Column;
-import com.softserve.edu.documents.resources.DocumentType;
+import com.softserve.edu.documents.document.meta.Placeholder;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
@@ -35,7 +34,7 @@ public abstract class BaseCertificate implements Document {
      * @param verification    entity to get document's data from.
      * @param calibrationTest one of calibration test that is assigned to the verification
      */
-    public BaseCertificate(DocumentType documentType, Verification verification, CalibrationTest calibrationTest) {
+    public BaseCertificate(Verification verification, CalibrationTest calibrationTest) {
         super();
 
         setVerification(verification);
@@ -45,7 +44,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the calibrator company's name.
      */
-    @Column(name = "CALIBRATOR_COMPANY_NAME")
+    @Placeholder(name = "CALIBRATOR_COMPANY_NAME")
     public String getCalibratorCompanyName() {
         return getVerification().getCalibrator().getName();
     }
@@ -53,7 +52,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the state verificator company's name.
      */
-    @Column(name = "VERIFICATOR_COMPANY_NAME")
+    @Placeholder(name = "VERIFICATOR_COMPANY_NAME")
     public String getStateVerificatorCompanyName() {
         return getVerification().getStateVerificator().getName();
     }
@@ -61,7 +60,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the calibrator's address.
      */
-    @Column(name = "CALIBRATOR_COMPANY_ADDRESS")
+    @Placeholder(name = "CALIBRATOR_COMPANY_ADDRESS")
     public String getCalibratorCompanyAddress() {
         Address address = getVerification().getCalibrator().getAddress();
 
@@ -75,7 +74,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the calibrator company's certificate identification number.
      */
-    @Column(name = "CALIBRATOR_ACC_CERT_NAME")
+    @Placeholder(name = "CALIBRATOR_ACC_CERT_NAME")
     public String getCalibratorCompanyAccreditationCertificateNumber() {
         return getVerification().getCalibrator().getCertificateNumber();
     }
@@ -84,7 +83,7 @@ public abstract class BaseCertificate implements Document {
      * @return the date when the calibrator company received the certificate, that allows
      * it to.
      */
-    @Column(name = "CALIBRATOR_ACC_CERT_DATE_GRANTED")
+    @Placeholder(name = "CALIBRATOR_ACC_CERT_DATE_GRANTED")
     public String getCalibratorCompanyAccreditationCertificateGrantedDate() {
         Date certificateGrantedDate = getVerification().getCalibrator().getCertificateGrantedDate();
         String dateFormated = new SimpleDateFormat("yyyy-MM-dd").format(certificateGrantedDate);
@@ -95,7 +94,7 @@ public abstract class BaseCertificate implements Document {
      * @return Returns the identification number of the accreditation certificate,
      * that the calibrator's company owns.
      */
-    @Column(name = "VERIFICATION_CERTIFICATE_NUMBER")
+    @Placeholder(name = "VERIFICATION_CERTIFICATE_NUMBER")
     public String getVerificationCertificateNumber() {
         String verificationID = String.valueOf(getVerification().getId());
         return new BigInteger(verificationID.replaceAll("-", ""), 16).toString().substring(0, 8);
@@ -104,7 +103,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the device's name
      */
-    @Column(name = "DEV_NAME")
+    @Placeholder(name = "DEV_NAME")
     public String getDeviceName() {
         String deviceName = "лічильник ";
 
@@ -133,7 +132,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the device's sign
      */
-    @Column(name = "DEV_SIGN")
+    @Placeholder(name = "DEV_SIGN")
     public String getDeviceSign() {
         return getVerification().getDevice().getDeviceSign();
     }
@@ -141,7 +140,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the device's manufacturer serial number
      */
-    @Column(name = "DEV_MAN_SER")
+    @Placeholder(name = "DEV_MAN_SER")
     public String getDeviceManufacturerSerial() {
         return String.valueOf(getVerification().getDevice().getId());
     }
@@ -149,7 +148,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the device's manufacturer name
      */
-    @Column(name = "MAN_NAME")
+    @Placeholder(name = "MAN_NAME")
     public String getManufacturerName() {
         return getVerification().getDevice().getManufacturer().getName();
     }
@@ -157,7 +156,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the owner's full name - surName + name + middleName
      */
-    @Column(name = "OWNER_NAME")
+    @Placeholder(name = "OWNER_NAME")
     public String getOwnerFullName() {
         ClientData ownerData = getVerification().getClientData();
 
@@ -172,7 +171,7 @@ public abstract class BaseCertificate implements Document {
      * @return the state verificator's name in Surname N.M., where N - first letter of name,
      * M - first letter of middle name.
      */
-    @Column(name = "VERIFICATOR_SHORT_NAME")
+    @Placeholder(name = "VERIFICATOR_SHORT_NAME")
     public String getStateVerificatorShortName() {
         StateVerificatorEmployee stateVerificatorEmployee = getVerification().getStateVerificatorEmployee();
 
@@ -185,7 +184,7 @@ public abstract class BaseCertificate implements Document {
     /**
      * @return the date until this verification certificate is effective.
      */
-    @Column(name = "EFF_DATE")
+    @Placeholder(name = "EFF_DATE")
     public String getVerificationCertificateEffectiveUntilDate() {
         return getVerification().getExpirationDate().toString();
     }

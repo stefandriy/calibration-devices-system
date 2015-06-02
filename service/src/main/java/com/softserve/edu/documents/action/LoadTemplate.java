@@ -28,7 +28,7 @@ public enum LoadTemplate implements Operation {
     public FileObject perform(FileObject sourceFile,
                               FileParameters fileParameters) throws IOException {
         FileObject template =
-                DocumentTemplateFactory.build(fileParameters.getDocumentType());
+                DocumentTemplateFactory.INSTANCE.build(fileParameters.getDocumentType());
         FileContent templateContent = template.getContent();
         FileContent sourceContent = sourceFile.getContent();
 

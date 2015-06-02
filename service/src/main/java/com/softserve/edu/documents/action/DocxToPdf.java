@@ -2,9 +2,9 @@ package com.softserve.edu.documents.action;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
+import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.resources.DocumentFont;
 import com.softserve.edu.documents.resources.DocumentFontFactory;
-import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.utils.FileUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
@@ -138,7 +138,7 @@ public enum DocxToPdf implements Operation {
         int style = !run.isBold() ? 0 : Font.BOLD;
         style = !run.isItalic() ? style : Font.ITALIC;
 
-        Font font = DocumentFontFactory.buildFont(DocumentFont.FREE_SERIF,
+        Font font = DocumentFontFactory.INSTANCE.buildFont(DocumentFont.FREE_SERIF,
                 fontSize, style);
 
         Paragraph paragraph = new Paragraph(text, font);
