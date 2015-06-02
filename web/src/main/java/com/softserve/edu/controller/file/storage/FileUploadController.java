@@ -27,6 +27,7 @@ import com.softserve.edu.service.storage.impl.SaveOptions;
 
 
 @Controller
+@RequestMapping(value = "/uploadFile/")
 public class FileUploadController {
 
 
@@ -38,9 +39,9 @@ public class FileUploadController {
 
     private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$";
 
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.GET)
+    @RequestMapping(value = "/upload", method = RequestMethod.GET)
     public String uploadFile(){
-        return "upload";
+        return "/WEB-INF/views/upload.jsp";
     }
     
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)

@@ -22,14 +22,14 @@ public class FileStorageConfig {
         return resolver;
     }
     
-    @Bean
-    public ViewResolver configureViewResolver() {
-        InternalResourceViewResolver viewResolve = new InternalResourceViewResolver();
-        viewResolve.setPrefix("/WEB-INF/views/");
-        viewResolve.setSuffix(".jsp");
-
-        return viewResolve;
-    }
+//    @Bean
+//    public ViewResolver configureViewResolver() {
+//        InternalResourceViewResolver viewResolve = new InternalResourceViewResolver();
+//        viewResolve.setPrefix("/WEB-INF/views/");
+//        viewResolve.setSuffix(".jsp");
+//
+//        return viewResolve;
+//    }
     
     @Bean
     public FormattingConversionService conversionService(){
