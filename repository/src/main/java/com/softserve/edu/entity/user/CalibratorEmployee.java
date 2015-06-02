@@ -33,12 +33,7 @@ public class CalibratorEmployee extends Employee {
         super(username, password, role, organization, firstName, lastName, email, phone);
     }
 
-    @Override
-    public void setRole(Role role) {
-        if (!(role instanceof CalibratorEmployeeRole)) {
-            throw new IllegalArgumentException("Role " + role.roleName() +
-                    " not supported for CalibratorEmployee");
-        }
+    public void setRole(CalibratorEmployeeRole role) {
         super.setRole(role);
     }
 }

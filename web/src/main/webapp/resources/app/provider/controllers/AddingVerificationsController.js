@@ -6,23 +6,43 @@ angular
             /**
              * Receives all possible calibrators.
              */
-            verificationService.getCalibratorsCorrespondingProvider()
+            verificationService.getCalibrators()
                 .success(function (calibrators) {
                     $scope.calibrators = calibrators;
                 });
+
             /**
              * Updates the table with verifications.
              */
             $scope.saveVerification = function () {
                 $scope.$broadcast('show-errors-check-validity');
+
+                if ($scope.verificationForm.$valid) {
                     $scope.form.locality = $scope.selectedLocality.designation;
                     $scope.form.street = $scope.selectedStreet.designation;
                     $scope.form.building = $scope.selectedBuilding.designation;
                     $scope.form.calibrator = $scope.selectedCalibrator;
                     verificationService.sendInitiatedVerification($scope.form)
                         .success(function () {
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/provider/views/modals/verification-adding-success.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'successController',
+                                size: 'md'
+                            });
+                            $state.go($state.current, {}, {reload: true});
                         });
+                }
+                else{
+                    console.log("doesn't valid")
+                }
             };
+
             /**
              * Receives all possible localities.
              */
@@ -52,6 +72,9 @@ angular
                         $scope.buildings = buildings;
                     });
             };
+            /**
+             * Update form.
+             */
             $scope.resetForm = function () {
                 $state.go($state.current, {}, {reload: true});
             };

@@ -5,6 +5,7 @@ angular
         function ($scope, $log, $modal, $state, userService) {
 
             $scope.employeeData = {};
+            $scope.form = {};
 
             $scope.openAddressModal = function () {
                 var addressModal = $modal.open({
@@ -22,6 +23,7 @@ angular
                 addressModal.result.then(function (address) {
                     $log.info(address);
                     $scope.address = address;
+                    $scope.addressMessage = null;
 
                     if (address) {
                         $scope.addressMessage =
@@ -29,18 +31,32 @@ angular
                             address.selectedDistrict.designation + " район, " +
                             address.selectedLocality.designation + ", " +
                             address.selectedStreet.designation + " " +
-                            address.selectedBuilding.designation || address.selectedBuilding + "/" +
-                            address.selectedFlat || ""
+                            (address.selectedBuilding.designation || address.selectedBuilding) + " " +
+                            (address.selectedFlat || "");
+                        $log.info($scope.addressMessage);
                     }
                 });
             };
 
             $scope.checkUsername = function (username) {
+
                 userService
                     .isUsernameAvailable(username)
                     .success(function (result) {
-                        $scope.usernameError = result;
+                        $scope.form.employee.username.$setValidity("isAvailable", result);
                     })
+            };
+
+            $scope.checkPasswords = function () {
+                var first = $scope.employeeData.password;
+                var second = $scope.form.rePassword;
+                $log.info(first);
+                $log.info(second);
+                if (first && second) {
+                    var isMatch = first === second;
+                    $scope.form.employee.password.$setValidity("isMatch", isMatch);
+                    $scope.form.employee.rePassword.$setValidity("isMatch", isMatch);
+                }
             };
 
             $scope.resetForm = function () {
@@ -50,7 +66,7 @@ angular
             $scope.addEmployee = function () {
                 $scope.$broadcast('show-errors-check-validity');
 
-                if ($scope.employeeForm.$valid) {
+                if ($scope.form.employee.$valid) {
 
                     var employeeData = $scope.employeeData;
                     var address = $scope.address;

@@ -4,7 +4,7 @@ import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.exceptions.CalibrationTestNotFoundException;
+import com.softserve.edu.service.exceptions.NotAvailableException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class VerificationService {
@@ -116,7 +114,7 @@ public class VerificationService {
     public CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data) {
         Verification updatedVerification = verificationRepository.findOne(verificationId);
         if (updatedVerification == null) {
-            throw new CalibrationTestNotFoundException();// todo: make proper exception!!!
+            throw new NotAvailableException("Повырки з таким ID не існує");
         }
         CalibrationTest testData = calibrationTestRepository.save(data);
         testData.setVerification(updatedVerification);

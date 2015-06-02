@@ -2,7 +2,7 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.service.CalibrationTestService;
-import com.softserve.edu.service.exceptions.CalibrationTestNotFoundException;
+import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.mockito.InjectMocks;
@@ -25,7 +25,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -182,7 +181,7 @@ public class CalibrationTestControllerTest {
 
     @Test
     public void createTestDataForNonExistingCalibrationTest() throws Exception{
-        when(service.createTestData(eq(1L), any(CalibrationTestData.class))).thenThrow(new CalibrationTestNotFoundException());
+        when(service.createTestData(eq(1L), any(CalibrationTestData.class))).thenThrow(new NotAvailableException());
 
         mockMvc.perform(post("/calibrationTests/1/testData")
                 .content("{\"actualConsumption\": 33.0}")
@@ -218,7 +217,7 @@ public class CalibrationTestControllerTest {
     @Test
     public void  listCalibrationTestDataForNonExistingTest() throws Exception {
         when(service.findAllTestDataAsociatedWithTest(1L))
-                .thenThrow(new CalibrationTestNotFoundException());
+                .thenThrow(new NotAvailableException());
 
         mockMvc.perform(get("/calibrationTests/1/testData"))
                 .andExpect(status().isNotFound());

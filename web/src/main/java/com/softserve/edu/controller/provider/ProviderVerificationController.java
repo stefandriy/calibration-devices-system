@@ -10,7 +10,7 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Calibrator;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Verification;
-import com.softserve.edu.service.CalibratorService;
+import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -73,7 +73,7 @@ public class ProviderVerificationController {
     /**
      * Find calibrators by district which correspond provider district
      *
-     * @return  calibrator
+     * @return calibrator
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
     public List<Calibrator> updateVerification(
@@ -93,7 +93,7 @@ public class ProviderVerificationController {
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()){
+        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
             verificationService
                     .updateVerification(
                             verificationId,

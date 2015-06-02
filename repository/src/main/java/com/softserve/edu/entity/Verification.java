@@ -40,10 +40,11 @@ public class Verification {
 
     @ManyToOne
     private Calibrator calibrator;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private CalibratorEmployee calibratorEmployee;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private StateVerificator stateVerificator;
     @ManyToOne
     private StateVerificatorEmployee stateVerificatorEmployee;

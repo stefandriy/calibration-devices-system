@@ -54,7 +54,7 @@ public abstract class User {
         return role;
     }
 
-    public void setRole(Role role) {
+    protected void setRole(Role role) {
         this.role = role.roleName();
     }
 }
