@@ -88,5 +88,4 @@ angular
                     $modalInstance.close($scope.addressData);
                 }
             }
-        }])
-;
+        }]);

@@ -22,6 +22,7 @@ angular
                 addressModal.result.then(function (address) {
                     $log.info(address);
                     $scope.address = address;
+                    $scope.addressMessage = null;
 
                     if (address) {
                         $scope.addressMessage =
@@ -29,17 +30,20 @@ angular
                             address.selectedDistrict.designation + " район, " +
                             address.selectedLocality.designation + ", " +
                             address.selectedStreet.designation + " " +
-                            address.selectedBuilding.designation || address.selectedBuilding + "/" +
-                            address.selectedFlat || ""
+                            (address.selectedBuilding.designation || address.selectedBuilding) + " " +
+                            (address.selectedFlat || "");
+                        $log.info($scope.addressMessage);
                     }
                 });
             };
 
             $scope.checkUsername = function (username) {
+                $log.info($scope.employeeForm.username.$valid);
+                employeeForm.username.$setValidity("usernameError", true);
                 userService
                     .isUsernameAvailable(username)
                     .success(function (result) {
-                        $scope.usernameError = result;
+                        $scope.usernameError = !result;
                     })
             };
 
@@ -47,10 +51,10 @@ angular
                 $state.go($state.current, {}, {reload: true});
             };
 
-            $scope.addEmployee = function () {
+            $scope.addEmployee = function (employeeForm) {
                 $scope.$broadcast('show-errors-check-validity');
 
-                if ($scope.employeeForm.$valid) {
+                if (employeeForm.$valid) {
 
                     var employeeData = $scope.employeeData;
                     var address = $scope.address;
