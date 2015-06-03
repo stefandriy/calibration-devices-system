@@ -10,17 +10,16 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@PropertySource("classpath:/properties/mail.properties")
 @ComponentScan("com.softserve.edu.controller.service")
 public class FileStorageConfig {
 
-    @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
-        resolver.setDefaultEncoding("utf-8");
-        resolver.setMaxUploadSize(5000000);
-        return resolver;
-    }
+//    @Bean
+//    public CommonsMultipartResolver multipartResolver() {
+//        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+//        resolver.setDefaultEncoding("utf-8");
+//        resolver.setMaxUploadSize(5000000);
+//        return resolver;
+//    }
     
 //    @Bean
 //    public ViewResolver configureViewResolver() {
@@ -31,11 +30,11 @@ public class FileStorageConfig {
 //        return viewResolve;
 //    }
     
-    @Bean
-    public FormattingConversionService conversionService(){
-        FormattingConversionService conversionService = new FormattingConversionService();
-        
-        return conversionService;
-    }
+//    @Bean
+//    public FormattingConversionService conversionService(){
+//        FormattingConversionService conversionService = new FormattingConversionService();
+//        
+//        return conversionService;
+//    }
     
 }

@@ -48,6 +48,19 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
     }
     
     @Bean
+    public FormattingConversionService conversionService(){
+        return new FormattingConversionService();
+    }
+    
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getMultipartResolver() {
+        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+        resolver.setDefaultEncoding("utf-8");
+        resolver.setMaxUploadSize(5000000);
+        return resolver;
+    }
+    
+    @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
         return new PropertySourcesPlaceholderConfigurer();
     }
