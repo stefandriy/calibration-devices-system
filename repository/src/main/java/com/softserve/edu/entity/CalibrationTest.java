@@ -6,8 +6,12 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * Calibration Test entity.
+ * Contains data about measurement device calibration test.
+ */
 @Entity
-@Table(name="`CALIBRATION_TEST`")
+@Table(name = "`CALIBRATION_TEST`")
 public class CalibrationTest {
     @Id
     @GeneratedValue
@@ -139,7 +143,8 @@ public class CalibrationTest {
         return meteorologicalDocument;
     }
 
-    public void setMeteorologicalDocument(MeteorologicalDocument meteorologicalDocument) {
+    public void setMeteorologicalDocument(
+            MeteorologicalDocument meteorologicalDocument) {
         this.meteorologicalDocument = meteorologicalDocument;
     }
 }

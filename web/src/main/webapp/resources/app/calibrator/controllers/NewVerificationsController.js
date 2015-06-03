@@ -22,7 +22,7 @@ angular
             $scope.openDetails = function ($index) {
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/new-verification-details.html',
+                    templateUrl: '/resources/app/calibrator/views/modals/new-verification-details.html',
                     controller: 'DetailsModalController',
                     size: 'lg',
                     resolve: {
@@ -66,7 +66,7 @@ angular
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/calibrator/views/verification-sending.html',
+                        templateUrl: '/resources/app/calibrator/views/modals/verification-sending.html',
                         controller: 'SendingModalController',
                         size: 'md',
                         resolve: {
