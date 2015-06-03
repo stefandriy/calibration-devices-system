@@ -9,12 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static com.softserve.edu.entity.user.CalibratorEmployee.CalibratorEmployeeRole.CALIBRATOR_EMPLOYEE;
 
+
+/**
+ * Service for adding employees for calibrator.
+ */
+
 @Service
 public class CalibratorEmployeeService {
 
     @Autowired
     private CalibratorEmployeeRepository calibratorEmployeeRepository;
 
+    /**
+     * Adds Employee for calibrator. Saves encoded password and
+     * gives role CALIBRATOR_EMPLOYEE for user
+     *
+     * @param calibratorEmployee data for creation employee
+     *      */
     @Transactional
     public void addEmployee(CalibratorEmployee calibratorEmployee) {
 

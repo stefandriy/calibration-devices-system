@@ -2,8 +2,13 @@ package com.softserve.edu.entity;
 
 import javax.persistence.*;
 
+
+/**
+ * Calibration Test Data entity.
+ * Contains information about measurement device calibration test data.
+ */
 @Entity
-@Table(name="`CALIBRATION_TEST_DATA`")
+@Table(name = "`CALIBRATION_TEST_DATA`")
 public class CalibrationTestData {
     @Id
     @GeneratedValue
