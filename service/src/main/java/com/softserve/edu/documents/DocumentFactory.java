@@ -19,8 +19,12 @@ public class DocumentFactory {
      */
     public static Document build(DocumentType documentType, Verification verification,
                                  CalibrationTest calibrationTest) {
-        Assert.notNull(verification, verification.getClass() + " can't be null");
-        Assert.notNull(calibrationTest, calibrationTest.getClass() + " can't be null");
+        Assert.notNull(verification, Verification.class.getSimpleName()
+                + " can't be null");
+        Assert.notNull(calibrationTest, CalibrationTest.class.getSimpleName()
+                + " can't be null");
+        Assert.notNull(documentType, CalibrationTest.class.getSimpleName()
+                + " can't be null");
 
         Document document;
 
