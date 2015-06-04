@@ -73,7 +73,7 @@ public class CalibratorController {
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()){
+        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
             verificationService
                     .updateVerificationByCalibrator(
                             verificationId,
@@ -95,7 +95,7 @@ public class CalibratorController {
         ClientData clientData = verification.getClientData();
         Address address = clientData.getClientAddress();
 
-        return new ClientStageVerificationDTO(clientData, address,  null );
+        return new ClientStageVerificationDTO(clientData, address,  null);
     }
 
     @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.POST)
@@ -104,8 +104,8 @@ public class CalibratorController {
             @RequestBody CalibrationTestDTO sentTest) {
         CalibrationTest createdTest;
         try {
-            createdTest = verificationService.createCalibrationTest
-                    (verificationId, sentTest.toCalibrationTest());
+            createdTest = verificationService.createCalibrationTest(
+                    verificationId, sentTest.toCalibrationTest());
             CalibrationTestDTO createdTestDTO =
                     new CalibrationTestDTOAsm().toResource(createdTest);
             return new ResponseEntity<>(createdTestDTO, HttpStatus.CREATED);

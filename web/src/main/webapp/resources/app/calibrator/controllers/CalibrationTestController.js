@@ -1,7 +1,7 @@
 angular
     .module('calibratorModule')
     .controller('CalibrationTestController', ['$scope', '$http', 'CalibrationTestService', 'StatisticService',
-        function ($scope, $http, calibrationTestService, statisticService, $state) {
+        function ($scope, $http, calibrationTestService) {
 
             $scope.calibrationTests = [];
 
@@ -11,8 +11,7 @@ angular
             function getCalibrationTests(){
                 calibrationTestService
                     .getCalibrationTests()
-                    .then(function(data){
-                        console.dir(data);
+                    .then(function(data){;
                         $scope.calibrationTests = data.calibrationTests;
                     })
             }
@@ -24,6 +23,4 @@ angular
                         $scope.addFormData = null;
                     });
             }
-
-
         }]);

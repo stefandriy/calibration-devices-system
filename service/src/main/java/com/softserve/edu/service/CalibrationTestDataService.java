@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service that implements CRUD operations for test data.
+ */
 @Service
 @Transactional
 public class CalibrationTestDataService {

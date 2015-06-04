@@ -25,7 +25,7 @@ public class CalibrationTestDataController {
     public ResponseEntity<CalibrationTestDataDTO> getTestData(
             @PathVariable Long testDataId) {
         CalibrationTestData testData = service.findTestData(testDataId);
-        if (testData != null){
+        if (testData != null) {
             CalibrationTestDataDTO resource = new CalibrationTestDataDTOAsm()
                     .toResource(testData);
             return new ResponseEntity<>(resource, HttpStatus.OK);
@@ -36,9 +36,9 @@ public class CalibrationTestDataController {
 
     @RequestMapping(value = "/{testDataId}", method = RequestMethod.DELETE)
     public ResponseEntity<CalibrationTestDataDTO> deleteTestData(
-            @PathVariable Long testDataId){
+            @PathVariable Long testDataId) {
         CalibrationTestData testData = service.deleteTestData(testDataId);
-        if(testData != null){
+        if (testData != null) {
             CalibrationTestDataDTO res = new CalibrationTestDataDTOAsm().toResource(testData);
             return new ResponseEntity<>(res, HttpStatus.OK);
         } else {
@@ -48,10 +48,10 @@ public class CalibrationTestDataController {
 
     @RequestMapping(value = "/{testDataId}", method = RequestMethod.PUT)
     public ResponseEntity<CalibrationTestDataDTO> updateTestData(
-            @PathVariable Long testDataId, @RequestBody CalibrationTestDataDTO sentTestData){
+            @PathVariable Long testDataId, @RequestBody CalibrationTestDataDTO sentTestData) {
         CalibrationTestData updatedTestData = service.updateTestData(testDataId,
                 sentTestData.toTestData());
-        if(updatedTestData != null){
+        if (updatedTestData != null) {
             CalibrationTestDataDTO res = new CalibrationTestDataDTOAsm()
                     .toResource(updatedTestData);
             return new ResponseEntity<>(res, HttpStatus.OK);

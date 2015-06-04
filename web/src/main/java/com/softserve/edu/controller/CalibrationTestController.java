@@ -33,9 +33,9 @@ public class CalibrationTestController {
 
     @RequestMapping(value = "/{calibrationTestId}", method = RequestMethod.GET)
     public ResponseEntity<CalibrationTestDTO> getCalibrationTest(
-            @PathVariable Long calibrationTestId){
+            @PathVariable Long calibrationTestId) {
         CalibrationTest calibrationTest = service.findTest(calibrationTestId);
-        if(calibrationTest != null) {
+        if (calibrationTest != null) {
             CalibrationTestDTO resource = new CalibrationTestDTOAsm()
                     .toResource(calibrationTest);
             return new ResponseEntity<>(resource, HttpStatus.OK);
@@ -44,7 +44,7 @@ public class CalibrationTestController {
         }
     }
 
-    @RequestMapping(value="/{calibrationTestId}",
+    @RequestMapping(value = "/{calibrationTestId}",
             method = RequestMethod.DELETE)
     public ResponseEntity<CalibrationTestDTO> deleteCalibrationTest(
             @PathVariable Long calibrationTestId) {
@@ -58,15 +58,14 @@ public class CalibrationTestController {
         }
     }
 
-    @RequestMapping(value="/{calibrationTestId}",
+    @RequestMapping(value = "/{calibrationTestId}",
             method = RequestMethod.PUT)
     public ResponseEntity<CalibrationTestDTO> updateCalibrationTest(
             @PathVariable Long calibrationTestId,
             @RequestBody CalibrationTestDTO sentCalibrationTest) {
         CalibrationTest updatedCalibrationTest = service.updateTest(calibrationTestId,
                 sentCalibrationTest.toCalibrationTest());
-        if(updatedCalibrationTest != null)
-        {
+        if (updatedCalibrationTest != null) {
             CalibrationTestDTO resource = new CalibrationTestDTOAsm()
                     .toResource(updatedCalibrationTest);
             return new ResponseEntity<>(resource, HttpStatus.OK);
@@ -92,7 +91,7 @@ public class CalibrationTestController {
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{calibrationTestId}/testData",
+    @RequestMapping(value = "/{calibrationTestId}/testData",
             method = RequestMethod.POST)
     public ResponseEntity<CalibrationTestDataDTO> createTestData(
             @PathVariable Long calibrationTestId,
@@ -110,15 +109,14 @@ public class CalibrationTestController {
         }
     }
 
-    @RequestMapping(value="/{calibrationTestId}/testData")
+    @RequestMapping(value = "/{calibrationTestId}/testData")
     public ResponseEntity<CalibrationTestDataListDTO> findAllCalibrationTestData(
-            @PathVariable Long calibrationTestId)
-    {
+            @PathVariable Long calibrationTestId) {
         try {
             CalibrationTestDataList list = service.findAllTestDataAsociatedWithTest(calibrationTestId);
             CalibrationTestDataListDTO res = new CalibrationTestDataListDTOAsm().toResource(list);
             return new ResponseEntity<>(res, HttpStatus.OK);
-        } catch(NotAvailableException exception) {
+        } catch (NotAvailableException exception) {
             throw new com.softserve.edu.exceptions.NotFoundException(exception);
         }
     }
