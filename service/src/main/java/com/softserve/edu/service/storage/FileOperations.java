@@ -10,11 +10,8 @@ import com.softserve.edu.service.storage.impl.SaveOptions;
 
 public interface FileOperations {
 
-    public Boolean putResourse(InputStream stream, Path path, String resourseName,
+    public Boolean putResourse(InputStream stream, Path path, 
             SaveOptions options);
-
-    public InputStream getResourseStream(Path path) throws IOException, FileNotFoundException,
-            Exception;
 
     public URI getResourseURI(Path directory, String fileName);
 

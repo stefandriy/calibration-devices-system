@@ -39,12 +39,12 @@ public class FileUploadController {
 
     private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$";
 
-    @RequestMapping(value = "/upload", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String uploadFile(){
         return "/WEB-INF/views/upload.jsp";
     }
     
-    @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     public @ResponseBody String uploadFileHandler(@RequestParam(value="name", required=false) String name,
             @RequestParam("file") MultipartFile file) {
         
@@ -55,7 +55,7 @@ public class FileUploadController {
             if (Pattern.matches(contentExtPattern, fileType)) {
                 
                 Path path = pg.getPath(fileType);
-                newOperation.putResourse(file.getInputStream(), path, "hi", options);
+                newOperation.putResourse(file.getInputStream(), path, options);
                 
                 return "You successfully uploaded file=" + name;
             } else {
@@ -66,33 +66,4 @@ public class FileUploadController {
             return "You failed to upload " + name + " => " + e.getMessage();
         }
     }
-//    @RequestMapping(value = "/test", method = RequestMethod.GET)
-//    public URI uploadFileHandler(@RequestParam("name") String fileName, HttpRequest request) {
-//        
-//        System.out.println(newOperation.getResourseURI(Paths.get(pg.getROOT_PATH()), fileName));
-//        return null;
-//        
-//    }
-//    
-//
-//    @RequestMapping(value = "/img", method = RequestMethod.GET, produces = "image/jpg")
-//    public @ResponseBody byte[] getFileHadler(@RequestParam("name") String name) {
-//        try {
-//
-//            InputStream is = newOperation.getResourseStream(Paths.get(pg.getROOT_PATH()));
-//
-//            BufferedImage img;
-//
-//            img = ImageIO.read(is);
-//            ByteArrayOutputStream bao = new ByteArrayOutputStream();
-//            ImageIO.write(img, "jpg", bao);
-//
-//            return bao.toByteArray();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
-    
 }
