@@ -28,9 +28,9 @@ public class FileOperationImpl {
     @Value("${photo.path.prefix}")
     private String photoPathPref;
 
-    public String putResourse(InputStream stream, String relativeFolder) {
+    public String putResourse(InputStream stream, String relativeFolder, String fileType) {
 
-        String fileName = getFileName();
+        String fileName = getFileName(fileType);
         try {
             FileUtils.copyInputStreamToFile(stream, new File(localStorage + relativeFolder
                     + fileName));
@@ -44,12 +44,12 @@ public class FileOperationImpl {
         return URI.create(photoPathPref + relativeFilePath);
     }
 
-    private String getFileName() {
+    private String getFileName(String fileType) {
         Base64 base64 = new Base64();
         UUID uuid = UUID.randomUUID();
         ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(uuid.getMostSignificantBits());
         bb.putLong(uuid.getLeastSignificantBits());
-        return base64.encodeBase64URLSafeString(bb.array()).concat(".jpg");
+        return base64.encodeBase64URLSafeString(bb.array()).concat(fileType);
     }
 }
