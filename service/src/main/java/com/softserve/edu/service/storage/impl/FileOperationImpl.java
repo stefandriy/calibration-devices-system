@@ -5,48 +5,51 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.*;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.softserve.edu.service.storage.FileOperations;
 
 @Service
-public class FileOperationImpl implements FileOperations {
+public class FileOperationImpl {
 
-    public static final String ROOT_PATH = System.getProperty("user.home") + File.separator
-            + "MetrologyFiles";
+    @Value("${photo.storage.local}")
+    private String localStorage;
 
-    @Override
-    public Boolean putResourse(InputStream stream, Path path, SaveOptions options) {
+    @Value("${photo.path.prefix}")
+    private String photoPathPref;
 
+    public String putResourse(InputStream stream, String relativeFolder) {
+
+        String fileName = getFileName();
         try {
-            FileUtils.copyInputStreamToFile(stream, path.toFile());
+            FileUtils.copyInputStreamToFile(stream, new File(localStorage + relativeFolder
+                    + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return true;
+        return relativeFolder + fileName;
     }
 
-    @Override
-    public URI getResourseURI(Path directory, String fileName) {
-
-        String file = FileSearch.find(directory.toFile(), "ccV01Nm0RiaXrQp4anPyzA.jpg");
-        
-        System.out.println(file);
-
-        Path pathAbsolute = Paths.get(FileSearch.find(directory.toFile(),
-                "ccV01Nm0RiaXrQp4anPyzA.jpg"));
-        Path pathBase = Paths.get(ROOT_PATH);
-        Path pathRelative = pathBase.relativize(pathAbsolute);
-        System.out.println(pathRelative);
-
-        return pathRelative.toUri();
+    public URI getResourseURI(String relativeFilePath) {
+        return URI.create(photoPathPref + relativeFilePath);
     }
 
+    private String getFileName() {
+        Base64 base64 = new Base64();
+        UUID uuid = UUID.randomUUID();
+        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+        bb.putLong(uuid.getMostSignificantBits());
+        bb.putLong(uuid.getLeastSignificantBits());
+        return base64.encodeBase64URLSafeString(bb.array()).concat(".jpg");
+    }
 }

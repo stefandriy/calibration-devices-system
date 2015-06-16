@@ -22,48 +22,41 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.softserve.edu.service.VerificationPhotoService;
 import com.softserve.edu.service.storage.impl.FileOperationImpl;
 import com.softserve.edu.service.storage.impl.SaveOptions;
 
-
 @Controller
-@RequestMapping(value = "/uploadFile/")
+@RequestMapping(value = "/uploadFile")
 public class FileUploadController {
 
-
     @Autowired
-    FileOperationImpl newOperation;
-    
-    @Autowired
-    PathGenerator pg;
+    VerificationPhotoService verificationPhotoService;
 
-    private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$";
+    private static final String photoExtPattern = "^.*\\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$";
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String uploadFile(){
+    @RequestMapping(method = RequestMethod.GET)
+    public String uploadFile() {
         return "/WEB-INF/views/upload.jsp";
     }
-    
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public @ResponseBody String uploadFileHandler(@RequestParam(value="name", required=false) String name,
+
+    @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody String uploadFileHandler(
+            @RequestParam(value = "testId") long testId,
             @RequestParam("file") MultipartFile file) {
-        
+
         try {
-            SaveOptions options = new SaveOptions(true);
-            String fileType = file.getOriginalFilename().substring(
+            String fileType = file.getOriginalFilename().substring( //TODO find out how to get fileType
                     file.getOriginalFilename().lastIndexOf('.'));
-            if (Pattern.matches(contentExtPattern, fileType)) {
-                
-                Path path = pg.getPath(fileType);
-                newOperation.putResourse(file.getInputStream(), path, options);
-                
-                return "You successfully uploaded file=" + name;
+            if (Pattern.matches(photoExtPattern, fileType)) {
+                verificationPhotoService.putResourse(testId, file.getInputStream());
+
+                return "You successfully uploaded file";
             } else {
                 return "Wrong file type";
             }
-            
         } catch (Exception e) {
-            return "You failed to upload " + name + " => " + e.getMessage();
+            return "You failed to upload => " + e.getMessage();
         }
     }
 }

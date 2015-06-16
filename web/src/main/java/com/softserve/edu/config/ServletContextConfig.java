@@ -35,10 +35,12 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
     @Value("${photo.storage}") 
     private String storageLocation;
     
+    @Value("${photo.path}")
+    private String photoPath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**", "/picture/**").addResourceLocations("/resources/", storageLocation);
+        registry.addResourceHandler("/resources/**", photoPath).addResourceLocations("/resources/", storageLocation);
     }
 
     @Override
