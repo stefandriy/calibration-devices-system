@@ -35,6 +35,7 @@
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a ng-click="logout()"><i class="icons fa fa-sign-out fa-fw"></i> Вийти</a></li>
+                    <li><a ui-sref="settings"><i class="icons fa fa-cog fa-fw"></i> Налаштування</a></li>
                 </ul>
             </li>
         </ul>
@@ -49,15 +50,8 @@
                     <li ui-sref-active="active">
                         <a ui-sref="organizations"><i class="icons fa fa-bank fa-fw"></i> Організації</a>
                     </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="address"><i class="icons fa fa-location-arrow fa-fw"></i> Довідник адрес</a>
-                    </li>
-                    <li ui-sref-active="active">
-                        <a ui-sref="devices"><i class="icons fa fa-hdd-o fa-fw"></i> Лічильники</a>
-                    </li>
                 </ul>
             </div>
-            <!-- /.sidebar-collapse -->
         </div>
     </nav>
 

@@ -40,6 +40,7 @@ define([
     'controllers/OrganizationController',
     'controllers/OrganizationFormController',
     'controllers/OrganizationModalAddressController',
+    'controllers/SettingsController',
     'services/OrganizationService',
     'services/StatisticService',
     'services/UserService',
