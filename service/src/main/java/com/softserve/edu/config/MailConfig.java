@@ -23,9 +23,7 @@ public class MailConfig {
 
 	@Autowired
 	private Environment env;
-	
-	//lolololoooo
-	
+
 	@Bean
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
