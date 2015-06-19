@@ -44,27 +44,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf()
-
                 .and()
                 .authorizeRequests()
                 .antMatchers("/resources/assets/**", "/resources/app/welcome/**",
-                         "/application/**", "/calibrationTests/**"
+                         "/application/**", "/calibrationTests/**" /*Some one has to move these tests out to verificator page!*/
                         , "/calibrationTestData/**").permitAll()
+
                 .antMatchers("/resources/app/admin/**", "/admin/**").hasAuthority(SYS_ADMIN.roleName())
                 
                 .antMatchers("/uploadFile/**").fullyAuthenticated()
                 
-                .antMatchers("/resources/app/provider/**", "/provider").hasAnyAuthority(PROVIDER_EMPLOYEE.roleName(), PROVIDER_ADMIN.roleName())
+                .antMatchers("/resources/app/provider/**", "/provider", "/provider/employee/**").hasAnyAuthority(PROVIDER_EMPLOYEE.roleName(), PROVIDER_ADMIN.roleName())
                 .antMatchers("/provider/admin/**").hasAuthority(PROVIDER_ADMIN.roleName())
-                .antMatchers("/provider/employee/**").hasAuthority(PROVIDER_EMPLOYEE.roleName())
 
-                .antMatchers("/resources/app/calibrator/**", "/calibrator").hasAnyAuthority(CALIBRATOR_EMPLOYEE.roleName(), CALIBRATOR_ADMIN.roleName())
+                .antMatchers("/resources/app/calibrator/**", "/calibrator", "/calibrator/employee/**").hasAnyAuthority(CALIBRATOR_EMPLOYEE.roleName(), CALIBRATOR_ADMIN.roleName())
                 .antMatchers("/calibrator/admin/**").hasAuthority(CALIBRATOR_ADMIN.roleName())
-                .antMatchers("/calibrator/employee/**").hasAuthority(CALIBRATOR_EMPLOYEE.roleName())
 
-                .antMatchers("/resources/app/verificator/**", "/verificator").hasAnyAuthority(STATE_VERIFICATOR_EMPLOYEE.roleName(), STATE_VERIFICATOR_ADMIN.roleName())
+                .antMatchers("/resources/app/verificator/**", "/verificator", "/verificator/employee/**").hasAnyAuthority(STATE_VERIFICATOR_EMPLOYEE.roleName(), STATE_VERIFICATOR_ADMIN.roleName())
                 .antMatchers("/verificator/admin/**").hasAuthority(STATE_VERIFICATOR_ADMIN.roleName())
-                .antMatchers("/verificator/employee/**").hasAuthority(STATE_VERIFICATOR_EMPLOYEE.roleName())
 
                 .and()
                 .formLogin()
