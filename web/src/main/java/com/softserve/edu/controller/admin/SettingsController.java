@@ -25,7 +25,7 @@ public class SettingsController {
     public ResponseEntity changePassword(
             @RequestBody NewPasswordDTO newPasswordDTO,
             @AuthenticationPrincipal UserDetails userDetails) {
-        HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        HttpStatus httpStatus = HttpStatus.CONFLICT;
         if (userService.changePassword(
                 userDetails.getUsername(),
                 newPasswordDTO.getOldPassword(),

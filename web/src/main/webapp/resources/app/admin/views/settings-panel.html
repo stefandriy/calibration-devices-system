@@ -49,18 +49,25 @@
                         <div class="form-group col-sm-12">
                             <label class="control-label" for="newPass">Новий пароль: </label>
                             <input type="text" id="newPass" name="newPass" class="form-control"
-                                   ng-model="newPassword" ng-change="onNewPasswordChanged()" >
+                                   ng-model="newPassword" ng-change="onNewPasswordChanged()">
                         </div>
                         <div class="form-group col-sm-12">
                             <label class="control-label" for="newPassRe">Повторіть: </label>
                             <input type="text" id="newPassRe" name="newPassRe" class="form-control"
-                                   ng-model="newPasswordRe" ng-change="onNewPasswordReChanged()" >
+                                   ng-model="newPasswordRe" ng-change="onNewPasswordReChanged()">
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-success">Змінити</button>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <button type="submit" class="btn btn-success">Змінити</button>
+                                </div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <div class="col-sm-8" ng-if="password.message">
+                                    <em ng-class="password.isChanged ? 'text-success' : 'text-danger'">
+                                        {{ password.message }}
+                                    </em>
+                                </div>
+                            </div>
                     </form>
                 </div>
             </div>

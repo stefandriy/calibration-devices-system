@@ -44,5 +44,6 @@ define([
     'services/OrganizationService',
     'services/StatisticService',
     'services/UserService',
+    'services/SettingsService',
     'services/AddressService'
 ], function () {});
