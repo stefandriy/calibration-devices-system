@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/admin/settings/")
-public class SettingsController {
+public class SettingsAdminController {
 
     @Autowired
     private UserService userService;
