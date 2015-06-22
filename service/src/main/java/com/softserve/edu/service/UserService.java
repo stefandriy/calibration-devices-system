@@ -25,30 +25,38 @@ public class UserService {
     }
 
     /**
-     * Changes given type of user's name
+     * Changes given type of user's field
      *
      * @param username must not be non {@literal null}
-     * @param newName new name to change
-     * @param type (first, last or middle name)
-     * @return {@literal true} if changed, if not or passwords don't match - {@literal false}
+     * @param newField new value
+     * @param type of user's field
+     * @return {@literal true} if changed, else - {@literal false}
      */
-    public boolean changeName(String username, String newName, String type) {
+    public boolean changeField(String username, String newField, String type) {
         boolean isChanged = false;
-        if (type != null && username != null && newName != null) {
+        if (type != null && username != null && newField != null) {
             User user = userRepository.findOne(username);
             if (user instanceof Employee) {
                 Employee employee = (Employee) user;
                 switch (type) {
                     case "firstName":
-                        employee.setFirstName(newName);
+                        employee.setFirstName(newField);
                         isChanged = true;
                         break;
                     case "lastName":
-                        employee.setLastName(newName);
+                        employee.setLastName(newField);
                         isChanged = true;
                         break;
                     case "middleName":
-                        employee.setMiddleName(newName);
+                        employee.setMiddleName(newField);
+                        isChanged = true;
+                        break;
+                    case "email":
+                        employee.setEmail(newField);
+                        isChanged = true;
+                        break;
+                    case "phone":
+                        employee.setPhone(newField);
                         isChanged = true;
                         break;
                 }
@@ -58,6 +66,17 @@ public class UserService {
             }
         }
         return isChanged;
+    }
+
+    /**
+     * Finds an employee by the given username
+     *
+     * @param username of employee
+     * @return employee entity
+     * @throws ClassCastException if username isn't a employee
+     */
+    public Employee getEmployee(String username) throws ClassCastException {
+        return (Employee) userRepository.findOne(username);
     }
 
     /**
