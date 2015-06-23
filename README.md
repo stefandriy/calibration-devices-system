@@ -37,10 +37,19 @@ To get an admin page login with the following credentials:
 
 Check `database_script.sql` for additional information about other users such as provider, calibrator etc.
 
-### Some overview
+### Team members
+##### LV-144 Java:
+Експерт: Михайло Партика
 
-> TODO
+Викладачі: Вікторія Ряжська та В’ячеслав Колдовський 
 
+Учасники:
+ - Михайло Осипов
+ - Дмитро Добровольський
+ - Олесь Онищак
+ - Романів Іван
+ - Олег Чернигевич
+ - Олександр Виблов
 
 ### REST API
 
