@@ -47,7 +47,7 @@ Check `database_script.sql` for additional information about other users such as
  - Михайло Осипов
  - Дмитро Добровольський
  - Олесь Онищак
- - Романів Іван
+ - Іван Романів 
  - Олег Чернигевич
  - Олександр Виблов
 
