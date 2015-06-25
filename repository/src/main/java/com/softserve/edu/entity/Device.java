@@ -3,6 +3,7 @@ package com.softserve.edu.entity;
 import com.softserve.edu.entity.util.DeviceType;
 
 import javax.persistence.*;
+
 import java.util.Set;
 
 @Entity
@@ -40,7 +41,17 @@ public class Device {
         this.manufacturer = manufacturer;
     }
 
-    public Long getId() {
+    public Device(Long id, DeviceType deviceType, String deviceSign,
+			String number, Manufacturer manufacturer, Provider provider) {
+		this.id = id;
+		this.deviceType = deviceType;
+		this.deviceSign = deviceSign;
+		this.number = number;
+		this.manufacturer = manufacturer;
+		this.provider = provider;
+	}
+
+	public Long getId() {
         return id;
     }
 
