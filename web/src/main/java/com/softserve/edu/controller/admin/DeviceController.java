@@ -37,7 +37,7 @@ public class DeviceController {
 		Page<DevicePageItem> page = deviceService
 				.getDevicesBySearchAndPagination(pageNumber, itemsPerPage, search)
 				.map(device -> new DevicePageItem(device.getId(), device.getDeviceSign(),
-						device.getNumber()
+						device.getNumber(), device.getDeviceType().toString()
 						)
 				);
 				

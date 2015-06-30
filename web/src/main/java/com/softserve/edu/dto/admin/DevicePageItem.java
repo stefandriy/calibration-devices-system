@@ -2,19 +2,20 @@ package com.softserve.edu.dto.admin;
 
 public class DevicePageItem {
 	private Long id;
+	private String deviceType;
 	private String deviceSign;
 	private String number;
-	
-	public DevicePageItem() {
-		}
-	
 
-	public DevicePageItem(Long id, String deviceSign, String number) {
+	public DevicePageItem() {
+	}
+
+	public DevicePageItem(Long id, String deviceType, String deviceSign,
+			String number) {
 		this.id = id;
+		this.deviceType = deviceType;
 		this.deviceSign = deviceSign;
 		this.number = number;
 	}
-
 
 	public Long getId() {
 		return id;
@@ -22,6 +23,14 @@ public class DevicePageItem {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDeviceType() {
+		return deviceType;
+	}
+
+	public void setDeviceType(String deviceType) {
+		this.deviceType = deviceType;
 	}
 
 	public String getDeviceSign() {
@@ -39,8 +48,5 @@ public class DevicePageItem {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
-	
-	
-	
+
 }

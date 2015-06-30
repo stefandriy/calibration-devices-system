@@ -9,10 +9,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface VerificationRepository extends PagingAndSortingRepository<Verification, String> {
     Page<Verification> findByProviderId(Long providerId, Pageable pageable);
     Page<Verification> findByCalibratorId(Long calibratorId, Pageable pageable);
-
+    Page<Verification> findByStateVerificatorId(Long stateVerificatorId, Pageable pageable);
+    
     Page<Verification> findByProviderIdAndStatus(Long providerId, Status status, Pageable pageable);
     Page<Verification> findByCalibratorIdAndStatus(Long calibratorId, Status status, Pageable pageable);
-
+    Page<Verification> findByStateVerificatorIdAndStatus(Long stateVerificatorId, Status status, Pageable pageable);
+    
     /**
      * This method serves for security purpose. When provider employee(or admin) makes GET request
      * for any verification he can only get it if id of organization and provider employee matches.
@@ -24,4 +26,5 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
      */
     Verification findByIdAndProviderId(String id, Long providerId);
     Verification findByIdAndCalibratorId(String id, Long providerId);
+    Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId);
 }

@@ -48,9 +48,9 @@
 									<thead>
 										<tr>
 											<th>Унікальний номер</th>
-											<!-- <th>Тип лічильника</th>-->
 											<th>Знак лічильника</th>
 											<th>Номер</th>
+											<th>Тип лічильника</th>
 											<!--  <th>блабла</th>
 											<th>блабла</th>-->
 										</tr>
@@ -58,6 +58,7 @@
 									<tbody>
 										<tr ng-repeat="device in pageContent">
 											<td>{{ device.id }}</td>
+											<td>{{ device.deviceType }}</td>
 											<td>{{ device.deviceSign }}</td>
 											<td>{{ device.number }}</td>
 										</tr>

@@ -6,12 +6,7 @@ angular
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
-           /* $scope.typeData = [
-                {type: 'PROVIDER', name: 'Постачальник послуг'},
-                {type: 'CALIBRATOR', name: 'Повірочна організація'},
-                {type: 'STATE_VERIFICATION', name: 'Державний повірник'}
-            ];
-
+       
             /**
              * Updates the table with device.
              */

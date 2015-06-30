@@ -41,15 +41,6 @@ public class Device {
         this.manufacturer = manufacturer;
     }
 
-    public Device(Long id, DeviceType deviceType, String deviceSign,
-			String number, Manufacturer manufacturer, Provider provider) {
-		this.id = id;
-		this.deviceType = deviceType;
-		this.deviceSign = deviceSign;
-		this.number = number;
-		this.manufacturer = manufacturer;
-		this.provider = provider;
-	}
 
 	public Long getId() {
         return id;
