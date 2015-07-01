@@ -1,7 +1,9 @@
 package com.softserve.edu.dto.provider;
 
+
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.entity.user.ProviderEmployee;
+import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import org.springframework.data.domain.Page;
 
@@ -13,17 +15,20 @@ public class VerificationPageDTO {
     private String surname;
     private String street;
     private Status status;
-   private String providerEmployee;
+    private String providerEmployee;
     private Long countOfWork;
+    private ReadStatus readStatus;
+    public VerificationPageDTO() {}
 
+    public VerificationPageDTO(String id, Date initialDate, String surname, String street,
+    		Status status, ReadStatus readStatus) {
 
-    public VerificationPageDTO(String id, Date initialDate, String surname, String street, Status status)  {
         this.id = id;
         this.initialDate = initialDate;
         this.surname = surname;
         this.street = street;
         this.status = status;
-
+        this.readStatus = readStatus;
     }
 
     public VerificationPageDTO(Long count){
@@ -71,6 +76,7 @@ public class VerificationPageDTO {
         this.status = status;
     }
 
+
     public String getProviderEmployee() {
         return providerEmployee;
     }
@@ -86,6 +92,14 @@ public class VerificationPageDTO {
     public void setCountOfWork(Long countOfWork) {
         this.countOfWork = countOfWork;
     }
+
+    public ReadStatus getReadStatus() {
+		return readStatus;
+	}
+
+	public void setReadStatus(ReadStatus readStatus) {
+		this.readStatus = readStatus;
+	}
 
     @Override
     public String toString() {

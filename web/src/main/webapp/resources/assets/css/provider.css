@@ -9,6 +9,38 @@ body {
     cursor: pointer;
 }
 
+
+.unreadClass {
+	background: rgba(0, 255, 0, 0.2);
+	color: black;
+}
+.myCircleButton {
+	position:relative;
+	left: 15px;
+	top: -10px;
+	background: #00FF00;
+	color: black;
+	width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 15px;
+    font-size: 13px;
+    
+    border: none;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    padding-bottom: 3;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    }
+    
+ [ng\:cloak],[ng-cloak],.ng-cloak {
+  	display:none !important;
+  }
+
 .wrapper {
     width: 100%;
 }
@@ -258,6 +290,7 @@ table.dataTable thead .sorting:after {
 }
 
 .btn-circle {
+	
     width: 30px;
     height: 30px;
     padding: 6px 0;
@@ -284,6 +317,16 @@ table.dataTable thead .sorting:after {
     font-size: 24px;
     line-height: 1.33;
 }
+
+.btn-circle.btn-sm {
+    width: 25px;
+    height: 25px;
+    padding: 1px 1px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.33;
+}
+
 
 .show-grid [class^=col-] {
     padding-top: 10px;

@@ -6,6 +6,8 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.asm.CalibrationTestDTOAsm;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.dto.calibrator.VerificationSearchDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -14,6 +16,7 @@ import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.verification.VerificationService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -57,7 +60,46 @@ public class CalibratorController {
 
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
+    
+    @RequestMapping(value = "new/search", method = RequestMethod.POST)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
+    		@RequestBody VerificationSearchDTO verificationSearchDto,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
+    		if(verificationSearchDto.getSearchText().length()>0){
+    			
+    			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+    		                .toDTO(verificationService
+    		                        .findPageOfSentVerificationsByCalibratorIdAndSearch(
+    		                                employeeUser.getOrganizationId(),
+    		                                verificationSearchDto.getPageNumber(),
+    		                                verificationSearchDto.getItemsPerPage(),
+    		                                verificationSearchDto.getSearchType(),
+    		                                verificationSearchDto.getSearchText()
+    		                                ));
+
+    		        return new PageDTO<>(page.getTotalElements(), page.getContent());
+    		} else {
+    			
+    			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+    		                .toDTO(verificationService
+    		                        .findPageOfSentVerificationsByCalibratorId(
+    		                                employeeUser.getOrganizationId(),
+    		                                verificationSearchDto.getPageNumber(),
+    		                                verificationSearchDto.getItemsPerPage()));
+
+    		        return new PageDTO<>(page.getTotalElements(), page.getContent());
+    		}
+    		
+       
+    }
+
+    @RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
+    public Long getCountOfNewVerificationsByCalibratorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    	//System.out.println("Inside calibrator controller count ...");
+    	return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
+    }
+    
     @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
     public List<StateVerificator> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
@@ -81,6 +123,13 @@ public class CalibratorController {
                     );
         }
     }
+    
+    @RequestMapping(value = "new/read", method = RequestMethod.PUT)
+    public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
+     System.out.println("inside controller to update");
+     verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
+    }
+        
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
     public ClientStageVerificationDTO getNewVerificationDetailsById(
             @PathVariable String verificationId,

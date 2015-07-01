@@ -6,10 +6,12 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Provider;
 import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +58,8 @@ public class ClientApplicationController {
                 new Date(),
                 clientData,
                 provider,
-                Status.SENT
+                Status.SENT,
+                ReadStatus.UNREAD
         );
 
         verificationService.saveVerification(verification);

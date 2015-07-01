@@ -1,7 +1,8 @@
 angular
     .module('providerModule')
-    .controller('SendingModalController', ['$scope', '$log', '$modalInstance', 'response','providerEmploy',
-        function ($scope, $log, $modalInstance, response,providerEmploy) {
+
+    .controller('SendingModalController', ['$scope', '$log', '$modalInstance', 'response','providerEmploy', '$rootScope',
+        function ($scope, $log, $modalInstance, response, providerEmploy, $rootScope) {
 
             $scope.calibrators = response.data;
             $scope.providers = providerEmploy.data;
@@ -20,8 +21,10 @@ angular
             $scope.submit = function () {
                 $scope.$broadcast('show-errors-check-validity');
 
+
                 if ($scope.calibratorSelectionForm.$valid){
                     $modalInstance.close($scope.formData);
+
                 }
             }
         }]);

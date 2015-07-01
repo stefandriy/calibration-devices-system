@@ -2,7 +2,7 @@
     angular
         .module('welcomeModule', ['spring-security-csrf-token-interceptor',
             'ui.bootstrap', 'pascalprecht.translate', 'ngCookies', 'ui.router',
-            'ui.bootstrap.showErrors'])
+            'ui.bootstrap.showErrors', 'ngTable'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 

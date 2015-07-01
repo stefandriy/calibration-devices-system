@@ -1,6 +1,6 @@
 angular
     .module('providerModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors'])
+        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable'])
 
     .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
@@ -67,6 +67,7 @@ define([
     'controllers/AddressModalController',
     'controllers/UsersController',
     'controllers/SettingsController',
+    'controllers/NotificationsController',
     'services/VerificationService',
     'services/AddressService',
     'services/SettingsService',

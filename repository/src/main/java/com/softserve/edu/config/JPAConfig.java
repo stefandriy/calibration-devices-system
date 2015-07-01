@@ -41,6 +41,7 @@ public class JPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DriverManagerDataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
+       // entityManagerFactoryBean.setPersistenceUnitName("mySql");
         entityManagerFactoryBean.setPackagesToScan(env.getProperty("em.packagesToScan"));
         entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());

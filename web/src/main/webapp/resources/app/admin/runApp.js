@@ -5,7 +5,7 @@ require.config({
         angularBootstrap: '../../assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         angularUIRouter: '../../assets/bower_components/angular-ui-router/release/angular-ui-router.min',
         showErrors: '../../assets/bower_components/angular-bootstrap-show-errors/src/showErrors.min',
-        ngTable: '../../assets/bower_components/ng-table/dist/ng-table',
+        ngTable: '../../assets/bower_components/esvit-ng-table-268d113/ng-table',
         adminModule: 'adminModule'
     },
     shim: {
@@ -24,12 +24,15 @@ require.config({
         showErrors: {
             deps: [ 'angularBootstrap' ]
         },
-        ngTable:{
-            exports:"ngTable",
-            deps:['angular']
+
+        ngTable: {
+        	exports:"ngTable",
+        	 deps: [ 'angular' ]
         },
         adminModule: {
-            deps: [ 'angular', 'csrfInterceptor', 'angularBootstrap', 'angularUIRouter', 'showErrors','ngTable' ]
+
+            deps: [ 'angular', 'csrfInterceptor', 'angularBootstrap', 'angularUIRouter', 'showErrors', 'ngTable' ]
+
         }
     }
 });

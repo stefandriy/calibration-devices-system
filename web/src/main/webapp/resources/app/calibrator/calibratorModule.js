@@ -1,6 +1,6 @@
 (function () {
     angular.module('calibratorModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors'])
+        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable'])
 
         .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
@@ -55,6 +55,7 @@
         'controllers/CalibrationTestController',
         'controllers/EmployeeController',
         'controllers/AddressModalController',
+        'controllers/NotificationsController',
         'services/CalibrationTestService',
         'services/AddressService',
         'services/UserService',

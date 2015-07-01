@@ -56,8 +56,12 @@
                         <a ui-sref="main-panel"><i class="fa fa-home fa-fw"></i> Головна панель</a>
                     </li>
 
-                    <li ui-sref-active="active">
-                        <a ui-sref="new-verifications"><i class="fa fa-list-alt fa-fw"></i>Нові заявки</a>
+                    <li ui-sref-active="active" ng-controller ="NotificationsController">
+                        <a ui-sref="new-verifications" ng-click="reloadVerifications()" ><i class="fa fa-list-alt fa-fw"></i>Нові заявки   
+        			 		<button  class="pull-right myCircleButton " ng-if="countOfUnreadVerifications > 0"
+        			 			ng-bind="countOfUnreadVerifications" ng-cloak>
+        			 		</button>
+                      	</a>
                     </li>
 	                <li ui-sref-active="active">
                         <a ui-sref="adding-verifications"><i class="fa fa-file-text-o"></i>Ініціювати повірку</a>

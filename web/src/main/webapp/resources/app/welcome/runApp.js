@@ -10,6 +10,7 @@ require.config({
         angularTranslateStorageLocal: '../../assets/bower_components/angular-translate-storage-local/angular-translate-storage-local.min',
         angularTranslateStorageCookie: '../../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
         showErrors: '../../assets/bower_components/angular-bootstrap-show-errors/src/showErrors.min',
+        ngTable: '../../assets/bower_components/esvit-ng-table-268d113/ng-table',
         welcomeModule: 'welcomeModule'
     },
     shim: {
@@ -43,11 +44,15 @@ require.config({
         showErrors: {
             deps: ['angular']
         },
+        ngTable: {
+        	exports:"ngTable",
+        	 deps: [ 'angular' ]
+        },
         welcomeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap',
                 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                 'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
-                'showErrors']
+                'showErrors', 'ngTable']
         }
     }
 });

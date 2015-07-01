@@ -4,7 +4,7 @@ angular
         function ($scope, $http, calibrationTestService) {
 
             $scope.calibrationTests = [];
-
+           // $rootScope.$broadcast('test-is-created');
 
             getCalibrationTests();
 

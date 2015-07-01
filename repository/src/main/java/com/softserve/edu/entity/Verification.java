@@ -3,9 +3,11 @@ package com.softserve.edu.entity;
 import com.softserve.edu.entity.user.CalibratorEmployee;
 import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.StateVerificatorEmployee;
+import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -23,6 +25,10 @@ public class Verification {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+    
+    // my changes
+    @Enumerated(EnumType.STRING)
+    private ReadStatus readStatus;
 
     @ManyToOne
     @JoinColumn(name = "device_id")
@@ -60,17 +66,19 @@ public class Verification {
 
     public Verification() {}
 
-    public Verification(Date initialDate, ClientData clientData, Provider provider, Status status) {
-        this(initialDate, clientData, provider, status, null);
+    public Verification(Date initialDate, ClientData clientData, Provider provider, 
+    		Status status, ReadStatus readStatus) {
+        this(initialDate, clientData, provider, status, readStatus, null);
     }
 
     public Verification(Date initialDate, ClientData clientData, Provider provider, Status
-            status, Calibrator calibrator) {
+            status, ReadStatus readStatus, Calibrator calibrator) {
         this.id = UUID.randomUUID().toString();
         this.initialDate = initialDate;
         this.clientData = clientData;
         this.provider = provider;
         this.status = status;
+        this.readStatus = readStatus;
         this.calibrator = calibrator;
     }
 
@@ -91,6 +99,14 @@ public class Verification {
         this.status = status;
     }
 
+    public ReadStatus getReadStatus() {
+		return readStatus;
+	}
+
+	public void setReadStatus(ReadStatus readStatus) {
+		this.readStatus = readStatus;
+	}
+    
     public Device getDevice() {
         return device;
     }

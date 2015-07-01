@@ -9,6 +9,7 @@ import com.softserve.edu.entity.Provider;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
+import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.catalogue.DistrictService;
@@ -16,6 +17,7 @@ import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.catalogue.RegionService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,7 +75,7 @@ public class ProviderApplicationController {
                                 verificationDTO.getBuilding(),
                                 verificationDTO.getFlat())),
                 provider,
-                Status.RECEIVED, verificationDTO.getCalibrator());
+                Status.RECEIVED, ReadStatus.UNREAD, verificationDTO.getCalibrator());
         verificationService.saveVerification(verification);
     }
 

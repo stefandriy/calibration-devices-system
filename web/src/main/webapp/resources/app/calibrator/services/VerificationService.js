@@ -35,14 +35,23 @@ angular
             },
             getBuildingsCorrespondingStreet:function(selectedBuilding){
                     return getData("applications/buildings/" + selectedBuilding.id);
-                }
-
+                },
+            //my method
+            getCountOfNewVerifications: function(url) {
+            	return getData('verifications/new/count/calibrator');
+            },
+            markVerificationAsRead : function(data) {
+            	return updateData('new/read', data);
+            },
+            searchNewVerifications : function(data) {
+            	return sendDataWithParams('new/search', data);
+            }
 
         };
 
         function getData(url) {
 
-            $log.info(url);
+           // $log.info(url);
 
             return $http.get('calibrator/' + url)
                 .success(function (data) {
@@ -65,6 +74,16 @@ angular
 
         function sendData(url, data) {
             return $http.post('calibrator/applications/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        
+        function sendDataWithParams(url, data) {
+            return $http.post('calibrator/verifications/' + url, data)
                 .success(function (responseData) {
                     return responseData;
                 })

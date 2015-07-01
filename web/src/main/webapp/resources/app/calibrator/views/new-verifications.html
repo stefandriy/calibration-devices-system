@@ -11,29 +11,43 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Останні дані
-                </div>
-
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-offset-11">
-                            <label>
-                                Показати по
-                                <select ng-model="itemsPerPage" ng-change="onTableHandling()"
-                                        class="form-control input-sm">
-                                    <option value="1">1</option>
-                                    <option value="3">3</option>
-                                    <option value="5">5</option>
-                                    <option value="10" selected>10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
+                	</div>
+                	<div class="panel-body">
+                		<div class="col-md-7 col-md-offset-0">
+                			<div class="row">
+								 <form name="form" class = "form-inline" ng-submit="doSearch()"> 
+									<div class="form-group">
+								 		<strong><p class="form-control-static">Search by: </p></strong>
+								 	</div>
+								 	<div class="form-group">
+		                                <select ng-model="search.type" ng-change="clearInput()" class="form-control">
+		                                    <option value="id" selected="selected">ID</option>
+		                                    <option value="lastName">Last Name</option>
+		                                    <option value="street">Street</option>
+		                                    <option value="date" >Initial Date</option>
+		                                </select>
+                          			</div>	 
+                          			
+                          			<div class="form-group" ng-hide="search.type =='date'">	 
+	                                	<input name="otherTypes" type="text" class="form-control" ng-model="search.text" required>
+										<span ng-show="form.otherTypes.$error.required && search.type!=''">Cannot be empty!</span>
+										<button class="btn btn-primary" ng-hide="form.$error.required" type="submit">Search</button> 
+									</div>
+									
+                          			<div class="form-group" ng-hide="search.type !='date'">	 
+                                		<input name="initDate" class="form-control"
+		     							ng-pattern='/^(0?[1-9]|1\d|2[0-8]|29(?=[-]\d?\d[-](?!1[01345789]00|2[1235679]00)\d\d(?:[02468][048]|[13579][26]))|30(?![-]0?2)|31(?=[-]0?[13578]|[-]1[02]))[-](0?[1-9]|1[0-2])[-]([12]\d{3})$/'
+		      							required ng-model="search.text" type="text">
+										<span ng-show="form.initDate.$error.required && search.type!=''">Cannot be empty!</span>
+								 		<span ng-show="form.initDate.$error.pattern">Format: DD-MM-YYYY</span>
+										<button class="btn btn-primary" ng-hide="!form.$valid" type="submit">Search</button>
+									</div>
+								</form>
+							</div>
+						</div>
+                   <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-striped table-bordered table-hover">
+                            <table  ng-table="tableParams" template-pagination="custom/pager" class="table table-bordered table-hover" >
                                 <thead>
                                 <tr>
                                     <th>Дата початку процесу повірки</th>
@@ -44,17 +58,17 @@
                                     <th>Відправити державному повірнику</th>
                                 </tr>
                                 </thead>
-
-                                <tbody>
-                                <tr ng-repeat="verification in pageData | orderBy:'-initialDate'">
+								 <tbody>
+                                <tr ng-repeat="verification in $data" 
+                                ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td>{{ verification.initialDate | date}}</td>
-                                    <td>{{ verification.id }}</td>
+                                    <td>{{ verification.id}}</td>
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
-                                    <td class="text-center">
+                                <td class="text-center">
                                         <a popover="Детальніше"
                                            popover-trigger="mouseenter"
-                                           ng-click="openDetails($index)">
+                                           ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
                                             <i class="fa fa-info-circle"></i>
                                         </a>
                                         <a popover="Створити тест"
@@ -70,30 +84,48 @@
                                 </tbody>
                             </table>
 
-                            <p id="emptyError" ng-if="allIsEmpty && isClicked"
-                               class="help-block pull-right">
+                            
+                            
+		<script type="text/ng-template" id="custom/pager">
+			<p id="emptyError" ng-if="allIsEmpty && isClicked"
+                               class="help-block col-md-3 col-md-offset-9">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 Оберіть хоча б одну пвірку
-                            </p>
-
-                            <div class="col-md-offset-11">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()">
+            </p>			
+			<div class="col-md-3 col-md-offset-10 send-button">
+               <button type="button" class="btn btn-primary"
+					 ng-click="openSendingModal()">
                                     Надіслати
-                                </button>
-                            </div>
+               </button>
+            </div> 
+			<div> 			
+				<ul class="pager ng-cloak">
+            		 <li ng-class="{'disabled': !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+            			  <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;</a>
+            			  <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+           				  <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+           			      <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+          				  <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+          				  <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&raquo;</a>
+       				 </li>
+           				<li>
+               			<div class="btn-group">
+                    		<button type="button" ng-class="{'active':params.count() == 5}" ng-click="params.count(5)" class="btn btn-default">5</button>
+                    		<button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
+                   			<button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
+                   			<button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
+                		</div>
+            		</li>
+        		</ul>
+			</div>
+    	</script>
+                 
+                          
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <pagination total-items="totalItems" ng-model="currentPage" max-size="5"
-                                        boundary-links="true"
-                                        rotate="false" ng-change="onTableHandling()"
-                                        items-per-page="itemsPerPage"></pagination>
-                        </div>
-                    </div>
-                </div>
+               </div>
             </div>
         </div>
     </div>
 </div>
+

@@ -13,7 +13,8 @@ public class VerificationPageDTOTransformer {
                                 verification.getInitialDate(),
                                 verification.getClientData().getLastName(),
                                 verification.getClientData().getClientAddress().getStreet(),
-                                verification.getStatus())
+                                verification.getStatus(),
+                                verification.getReadStatus())
                 );
     }
 public static Long getCount(Long countId){

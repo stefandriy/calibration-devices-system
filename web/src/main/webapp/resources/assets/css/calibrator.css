@@ -2,6 +2,43 @@ body {
     background-color: #f8f8f8;
 }
 
+.unreadClass {
+	background: rgba(0, 255, 0, 0.2);
+	color: black;
+}
+
+.send-button {
+	position: relative;
+	top: -10px;
+}
+
+ .myCircleButton {
+	position:relative;
+	left: 15px;
+	top: -10px;
+	background: #00FF00;
+	color: black;
+	width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 15px;
+    font-size: 13px;
+    
+    border: none;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    padding-bottom: 3;
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    }
+    
+  [ng\:cloak],[ng-cloak],.ng-cloak {
+  	display:none !important;
+ }
+  
 .nav,
 .pagination,
 .carousel,
