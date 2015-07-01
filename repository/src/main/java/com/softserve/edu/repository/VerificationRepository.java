@@ -24,4 +24,8 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
      */
     Verification findByIdAndProviderId(String id, Long providerId);
     Verification findByIdAndCalibratorId(String id, Long providerId);
+
+    Long countByProviderEmployee_usernameAndStatus(String providerEmployee_username, Status status);
+
 }
+                                                                                                                                                                                                                                            

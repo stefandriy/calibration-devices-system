@@ -7,6 +7,17 @@ angular
             },
             saveUser: function (userData) {
                 return saveData('provider/admin/users/add', userData);
+            },
+            getPage: function (pageNumber, itemsPerPage, idOrganization, search) {
+                var url = '/provider/admin/users/' + pageNumber + '/' + itemsPerPage +'/'+idOrganization;
+
+                if (search != null && search != undefined && search != "")
+                    url += '/' + search;
+
+                return $http.get(url)
+                    .then(function (result) {
+                        return result.data;
+                    });
             }
         };
 
@@ -15,6 +26,7 @@ angular
                 .success(function (result) {
                     return result;
                 });
+
         }
 
         function saveData(url, data) {
@@ -23,4 +35,8 @@ angular
                     return response;
                 });
         }
+
+
+
+
     });

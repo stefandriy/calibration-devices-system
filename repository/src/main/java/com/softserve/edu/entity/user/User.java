@@ -32,6 +32,7 @@ public abstract class User {
         this.username = username;
         this.password = password;
         this.role = role.roleName();
+
     }
 
     public String getUsername() {
@@ -57,4 +58,9 @@ public abstract class User {
     protected void setRole(Role role) {
         this.role = role.roleName();
     }
+
+
+
+
+
 }

@@ -18,8 +18,11 @@ angular
             getCalibrators: function (url) {
                 return getData('verifications/new/calibrators');
             },
+            getProviders: function (url) {
+                return getData('verifications/new/providers');
+            },
             sendVerificationsToCalibrator: function (data) {
-                return updateData('new/update', data);
+               return updateData('new/update', data);
             },
             sendInitiatedVerification:function(form){
                 return sendData("send",form);

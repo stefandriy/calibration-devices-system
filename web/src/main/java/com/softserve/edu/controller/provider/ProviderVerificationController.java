@@ -1,17 +1,20 @@
 package com.softserve.edu.controller.provider;
 
-import com.softserve.edu.dto.provider.VerificationUpdatingDTO;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.EmployeeProvider;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.provider.VerificationUpdatingDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Calibrator;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Verification;
-import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
@@ -20,6 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,6 +35,9 @@ public class ProviderVerificationController {
 
     @Autowired
     ProviderService providerService;
+
+    @Autowired
+    ProviderEmployeeService providerEmployeeService;
 
     @Autowired
     CalibratorService calibratorService;
@@ -87,18 +94,35 @@ public class ProviderVerificationController {
         );
     }
 
+    @RequestMapping(value = "new/providers", method = RequestMethod.GET)
+    public List<EmployeeProvider> employeeVerification(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        ProviderEmployee employee = providerEmployeeService.oneProviderEmployee(user.getUsername());
+        List<EmployeeProvider> providerListEmployee = new ArrayList<>();
+
+        if (employee.getRole().equalsIgnoreCase("PROVIDER_ADMIN")) {
+            List<ProviderEmployee> list = providerEmployeeService.getAllProviders("PROVIDER_EMPLOYEE",employee.getOrganization().getId());
+            EmployeeProvider.giveListOfProvidors(list);
+            providerListEmployee = EmployeeProvider.giveListOfProvidors(list);
+        } else {
+            EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(), employee.getLastName(), employee.getMiddleName(), employee.getRole());
+            providerListEmployee.add(userPage);
+        }
+        return providerListEmployee;
+    }
+
     /**
-     * Update verifications
+     * Update verificationsproviderListEmployee
      */
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+        ProviderEmployee providerEmployee = new ProviderEmployee();
+        providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
         for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
             verificationService
-                    .updateVerification(
-                            verificationId,
-                            verificationUpdatingDTO.getCalibrator()
-                    );
+                    .updateVerification(verificationId, verificationUpdatingDTO.getCalibrator(),
+                            providerEmployee);
         }
     }
 

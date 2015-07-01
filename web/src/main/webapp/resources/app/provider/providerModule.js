@@ -30,6 +30,11 @@ angular
                     templateUrl: '/resources/app/provider/views/employee/main-panel.html',
                     controller: 'EmployeeController'
                 })
+                .state("employee-show", {
+                    url: '/employee-show',
+                    templateUrl: '/resources/app/provider/views/employee/show-employee.html',
+                    controller: 'UsersController'
+                })
                 .state("verifications-archive", {
                     url: '/verifications/archive',
                     templateUrl: '/resources/app/provider/views/archival-verifications.html',
@@ -55,6 +60,7 @@ define([
     'controllers/SendingModalController',
     'controllers/EmployeeController',
     'controllers/AddressModalController',
+    'controllers/UsersController',
     'services/VerificationService',
     'services/AddressService',
     'services/UserService'

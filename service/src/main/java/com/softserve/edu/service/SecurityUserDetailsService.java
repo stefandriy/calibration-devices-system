@@ -49,12 +49,16 @@ public class SecurityUserDetailsService implements UserDetailsService {
     public static class CustomUserDetails extends org.springframework.security.core.userdetails
             .User {
         private static final long serialVersionUID = UUID.randomUUID().getMostSignificantBits();
+
         private Long organizationId;
+
 
         public CustomUserDetails(String username, String password, Collection<? extends
                 GrantedAuthority> authorities, Long organizationId) {
             super(username, password, authorities);
+
             this.organizationId = organizationId;
+
         }
 
         public Long getOrganizationId() {
