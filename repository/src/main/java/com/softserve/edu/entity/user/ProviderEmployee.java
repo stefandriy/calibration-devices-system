@@ -20,6 +20,9 @@ public class ProviderEmployee extends Employee {
 
     public ProviderEmployee() {}
 
+    public ProviderEmployee(String username) {
+    }
+
     public ProviderEmployee(
             String username, String password, ProviderEmployeeRole role,
             Organization organization) {

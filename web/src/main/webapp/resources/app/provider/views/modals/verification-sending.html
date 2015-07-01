@@ -9,12 +9,12 @@
 
 <div class="from-top form-group ">
     <form id="providerSelectionForm" name="calibratorSelectionForm" class="form-group"
-          ng-submit="submit(selectedCalibrator)" novalidate>
+          ng-submit="submit()" novalidate>
 
         <div class="modal-body form-group has-feedback" show-errors>
 
             <input name="calibrator" class="form-control"
-                   ng-model="selectedCalibrator"
+                   ng-model="formData.calibrator"
                    typeahead="calibrator as calibrator.name for calibrator in calibrators | filter: $viewValue"
                    typeahead-editable="false" required>
 
@@ -26,6 +26,16 @@
             </p>
 
         </div>
+
+
+        <div class="modal-footer">
+            <h3 class="modal-title">Вибрати відповідальну особу: </h3>
+            <select name="provider"
+                    ng-model="formData.provider"
+                    ng-options="provider as providerFullName(provider) for provider in providers track by provider.firstName">
+            </select>
+        </div>
+
 
         <div class="modal-footer form-group">
             <button class="btn btn-success pull-left" type="submit">

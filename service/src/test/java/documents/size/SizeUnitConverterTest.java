@@ -1,4 +1,4 @@
-package size;
+package documents.size;
 
 import com.softserve.edu.documents.size.SizeUnit;
 import com.softserve.edu.documents.size.SizeUnitConverter;

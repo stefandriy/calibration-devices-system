@@ -14,6 +14,8 @@ public abstract class Employee extends User {
     private String email;
     private String phone;
 
+
+
     @Embedded
     private Address address;
 
@@ -52,6 +54,8 @@ public abstract class Employee extends User {
         this.email = email;
         this.phone = phone;
     }
+
+
 
     public String getFirstName() {
         return firstName;

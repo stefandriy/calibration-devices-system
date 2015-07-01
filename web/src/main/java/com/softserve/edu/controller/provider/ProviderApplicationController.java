@@ -3,18 +3,25 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.provider.ProviderStageVerificationDTO;
-import com.softserve.edu.entity.*;
+import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.ClientData;
+import com.softserve.edu.entity.Provider;
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.catalogue.*;
+import com.softserve.edu.service.catalogue.DistrictService;
+import com.softserve.edu.service.catalogue.LocalityService;
+import com.softserve.edu.service.catalogue.RegionService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
@@ -66,7 +73,7 @@ public class ProviderApplicationController {
                                 verificationDTO.getBuilding(),
                                 verificationDTO.getFlat())),
                 provider,
-                Status.RECEIVED, verificationDTO.getCalibrator());
+                Status.RECEIVED, verificationDTO.getCalibrator(),verificationDTO.getProviderEmployee());
         verificationService.saveVerification(verification);
     }
 

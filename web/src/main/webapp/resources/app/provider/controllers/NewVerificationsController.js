@@ -83,20 +83,29 @@ angular
                                 return verificationService.getCalibrators()
                                     .success(function (calibrators) {
                                         return calibrators;
-                                    });
+                                    }
+                                );
+                            },
+                            providerEmploy:function(){
+                                return verificationService.getProviders()
+                                    .success(function (providers) {
+                                        return providers;
+                                    }
+                                );
                             }
+
                         }
                     });
 
                     /**
                      * executes when modal closing
                      */
-                    modalInstance.result.then(function (calibrator) {
-                        $log.info(calibrator);
+                    modalInstance.result.then(function (formData) {
 
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
-                            calibrator: calibrator
+                            calibrator: formData.calibrator,
+                            employeeProvider: formData.provider
                         };
 
                         $log.info(dataToSend);
@@ -113,6 +122,7 @@ angular
                     $scope.isClicked = true;
                 }
             };
+
             /**
              * check if idsOfVerifications array is empty
              */

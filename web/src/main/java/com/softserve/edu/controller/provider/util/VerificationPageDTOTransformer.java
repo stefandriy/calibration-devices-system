@@ -12,7 +12,7 @@ public class VerificationPageDTOTransformer {
                                 verification.getInitialDate(),
                                 verification.getClientData().getLastName(),
                                 verification.getClientData().getClientAddress().getStreet(),
-                                verification.getStatus())
+                                verification.getStatus(),verification.getProviderEmployee())
                 );
     }
 }

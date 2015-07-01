@@ -22,6 +22,7 @@ angular
                     $scope.form.street = $scope.selectedStreet.designation;
                     $scope.form.building = $scope.selectedBuilding.designation;
                     $scope.form.calibrator = $scope.selectedCalibrator;
+                    $scope.form.provider = $scope.selectedProvider;
                     verificationService.sendInitiatedVerification($scope.form)
                         .success(function () {
                             $modal.open({

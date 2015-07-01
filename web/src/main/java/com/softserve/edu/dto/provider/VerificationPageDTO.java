@@ -1,5 +1,6 @@
 package com.softserve.edu.dto.provider;
 
+import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.util.Status;
 
 import java.util.Date;
@@ -10,10 +11,10 @@ public class VerificationPageDTO {
     private String surname;
     private String street;
     private Status status;
+   private String providerEmployee;
 
-    public VerificationPageDTO() {}
 
-    public VerificationPageDTO(String id, Date initialDate, String surname, String street, Status status) {
+    public VerificationPageDTO(String id, Date initialDate, String surname, String street, Status status,ProviderEmployee providerEmployee) {
         this.id = id;
         this.initialDate = initialDate;
         this.surname = surname;
@@ -59,6 +60,14 @@ public class VerificationPageDTO {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getProviderEmployee() {
+        return providerEmployee;
+    }
+
+    public void setProviderEmployee(String providerEmployee) {
+        this.providerEmployee = providerEmployee;
     }
 
     @Override

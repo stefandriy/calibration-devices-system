@@ -1,5 +1,5 @@
 angular.module('adminModule', ['spring-security-csrf-token-interceptor',
-    'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors'])
+    'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors','ngTable'])
     .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
         function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider) {
             showErrorsConfigProvider.showSuccess(true);
@@ -12,6 +12,10 @@ angular.module('adminModule', ['spring-security-csrf-token-interceptor',
                 .state('organizations', {
                     url: '/organizations',
                     templateUrl: '/resources/app/admin/views/organizations-panel.html'
+                })
+                .state('users', {
+                    url: '/users',
+                    templateUrl: '/resources/app/admin/views/users-panel.html'
                 })
                 .state('address', {
                     url: '/address',
@@ -40,8 +44,11 @@ define([
     'controllers/OrganizationController',
     'controllers/OrganizationFormController',
     'controllers/OrganizationModalAddressController',
+    'controllers/UsersController',
     'services/OrganizationService',
+    'services/UsersService',
     'services/StatisticService',
     'services/UserService',
     'services/AddressService'
-], function () {});
+], function () {
+});

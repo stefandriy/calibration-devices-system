@@ -12,7 +12,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 public class CalibrationTestDataDTOAsm
         extends ResourceAssemblerSupport<CalibrationTestData, CalibrationTestDataDTO> {
-    public CalibrationTestDataDTOAsm(){
+    public CalibrationTestDataDTOAsm() {
         super(CalibrationTestDataController.class, CalibrationTestDataDTO.class);
     }
 
@@ -33,7 +33,7 @@ public class CalibrationTestDataDTOAsm
         Link self = linkTo(CalibrationTestDataController.class)
                 .slash(calibrationTestData.getId()).withSelfRel();
         resource.add(self);
-        if(calibrationTestData.getCalibrationTest() != null){
+        if (calibrationTestData.getCalibrationTest() != null) {
             resource.add((linkTo(CalibrationTestController.class)
                     .slash(calibrationTestData.getCalibrationTest().getId())
                     .withRel("owner")));

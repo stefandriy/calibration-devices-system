@@ -8,6 +8,7 @@
 
     <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/resources/assets/bower_components/ng-table/dist/ng-table.css" rel="stylesheet">
     <link href="/resources/assets/css/admin.css" rel="stylesheet">
 </head>
 
@@ -55,12 +56,15 @@
                     <li ui-sref-active="active">
                         <a ui-sref="devices"><i class="icons fa fa-hdd-o fa-fw"></i> Лічильники</a>
                     </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref="users"><i class="icons fa fa-users"></i> Працівники</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->
         </div>
     </nav>
-
+    
     <div ui-view></div>
 
 
