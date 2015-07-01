@@ -36,7 +36,7 @@
                         controller: 'ArchivalVerificationsController'
                     });
 
-
+//BEFORE MERGE!!!!!!!!!!!!!!!!!!!!!!!!!
             }]);
 
     angular.module('verificatorModule').run(function (paginationConfig) {

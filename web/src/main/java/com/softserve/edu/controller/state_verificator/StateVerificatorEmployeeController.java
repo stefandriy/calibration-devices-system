@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.edu.controller.provider.ProviderEmployeeController;
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.CalibratorEmployee;
 import com.softserve.edu.entity.user.StateVerificatorEmployee;
 import com.softserve.edu.repository.StateVerificatorEmployeeRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
@@ -56,7 +55,6 @@ public class StateVerificatorEmployeeController {
 	public ResponseEntity<HttpStatus> addEmployee(
 			@RequestBody StateVerificatorEmployee stateVerificatorEmployee,
 			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-		
 		Organization employeeOrganization = organizationsService.findById(user.getOrganizationId());
 		stateVerificatorEmployee.setOrganization(employeeOrganization);
 		
