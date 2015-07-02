@@ -5,8 +5,8 @@ import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.CalibratorEmployee;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +21,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "calibrator/admin/users/")
 public class CalibratorEmployeeController {
 
-    Logger logger = Logger.getLogger(ProviderEmployeeController.class);
+        Logger logger = Logger.getLogger(ProviderEmployeeController.class);
 
-    @Autowired
-    private UserService userService;
+        @Autowired
+        private UsersService userService;
 
-    @Autowired
-    private OrganizationsService organizationsService;
+        @Autowired
+        private OrganizationsService organizationsService;
 
-    @Autowired
-    private CalibratorEmployeeService calibratorEmployeeService;
+        @Autowired
+        private CalibratorEmployeeService calibratorEmployeeService;
+        
+        @RequestMapping(value = "verificator", method = RequestMethod.GET)
+        public String verification() {
+            return "admin";
+        }
+        
 
     /**
      * Check whereas {@code username} is available,
@@ -43,7 +49,7 @@ public class CalibratorEmployeeController {
     public Boolean isValidUsername(@PathVariable String username) {
         boolean isAvailable = false;
         if (username != null) {
-            isAvailable = userService.existsWithUsername(username);
+                isAvailable = userService.existsWithUsername(username);
         }
         return isAvailable;
     }

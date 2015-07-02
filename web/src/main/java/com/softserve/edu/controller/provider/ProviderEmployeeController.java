@@ -7,7 +7,7 @@ import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
@@ -26,7 +26,7 @@ public class ProviderEmployeeController {
     Logger logger = Logger.getLogger(ProviderEmployeeController.class);
 
     @Autowired
-    private UserService userService;
+    private UsersService userService;
 
     @Autowired
     private OrganizationsService organizationsService;
@@ -34,9 +34,17 @@ public class ProviderEmployeeController {
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
 
+
     @Autowired
     private VerificationService verificationService;
 
+
+    @RequestMapping(value = "verificator", method = RequestMethod.GET)
+    public String verification() {
+        return "admin";
+    }
+    
+    
     /**
      * Check whereas {@code username} is available,
      * i.e. it is possible to create new user with this {@code username}

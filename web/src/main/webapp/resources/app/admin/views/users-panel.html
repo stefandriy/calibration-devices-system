@@ -80,26 +80,4 @@
 </div>
 <!-- /#page-wrapper -->
 <div class="page-header">
-    <h1>Table with grouping</h1>
 </div>
-<div ng-controller="UsersController">
-<table ng-table="tableParams" class="table ng-table-responsive">
-    <tbody ng-repeat="group in $groups">
-    <tr class="ng-table-group">
-        <td colspan="{{$columns.length}}">
-            <a href="" ng-click="group.$hideRows = !group.$hideRows">
-                <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
-                <strong>{{ group.value }}</strong>
-            </a>
-        </td>
-    </tr>
-    <tr ng-hide="group.$hideRows" ng-repeat="user in group.data">
-        <td sortable="'name'" data-title="'Name'">
-            {{user.name}}
-        </td>
-        <td sortable="'age'" data-title="'Age'">
-            {{user.age}}
-        </td>
-    </tr>
-    </tbody>
-</table>

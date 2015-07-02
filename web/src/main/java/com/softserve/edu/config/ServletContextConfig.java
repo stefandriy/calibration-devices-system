@@ -35,16 +35,31 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
     @Value("${photo.storage}") 
     private String storageLocation;
     
+    @Value("${photo.path}")
+    private String photoPath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**", "/picture/**").addResourceLocations("/resources/", storageLocation);
+        registry.addResourceHandler("/resources/**", photoPath).addResourceLocations("/resources/", storageLocation);
     }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(new MappingJackson2HttpMessageConverter());
         converters.add(new StringHttpMessageConverter());
+    }
+    
+    @Bean
+    public FormattingConversionService conversionService(){
+        return new FormattingConversionService();
+    }
+    
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getMultipartResolver() {
+        CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+        resolver.setDefaultEncoding("utf-8");
+        resolver.setMaxUploadSize(5000000);
+        return resolver;
     }
     
     @Bean

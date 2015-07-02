@@ -3,7 +3,7 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.user.*;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UsersService userService;
 
     Logger logger = Logger.getLogger(UserController.class);
     /**
