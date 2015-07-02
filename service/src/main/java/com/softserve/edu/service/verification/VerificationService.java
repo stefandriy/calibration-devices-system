@@ -2,38 +2,35 @@ package com.softserve.edu.service.verification;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
-
+import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
 import com.softserve.edu.entity.*;
 
 import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.util.ReadStatus;
 
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.entity.util.Verification_;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
+
+
+import com.softserve.edu.service.utils.ListToPageTransformer;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -172,62 +169,103 @@ public class VerificationService {
     }
 
 
+//    @Transactional(readOnly = true)
+//    public Page<Verification> findPageOfSentVerificationsByProviderIdAndSearch(
+//            Long providerId, int pageNumber, int itemsPerPage, String searchType, String searchText) {
+//        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+//        	switch (searchType) {
+//				case "id":
+//					return verificationRepository.findByProviderIdAndStatusAndIdLikeIgnoreCase(providerId, Status.SENT, "%"+ searchText +"%", pageRequest);
+//				
+//				case "lastName":
+//					return verificationRepository.findByProviderIdAndStatusAndClientData_lastNameLikeIgnoreCase(providerId, Status.SENT, "%"+ searchText +"%", pageRequest);
+//				
+//				case "street":
+//					return verificationRepository.findByProviderIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(providerId, Status.SENT, "%"+ searchText +"%", pageRequest);
+//				
+//				case "date":
+//					
+//					SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
+//					Date date = null;
+//						try {
+//							date = form.parse(searchText);
+//						} catch (ParseException e) {
+//							e.printStackTrace();
+//						}
+//					return verificationRepository.findByProviderIdAndStatusAndInitialDate(providerId, Status.SENT, date, pageRequest);
+//				
+//				default:
+//					 return verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId, Status.SENT, pageRequest);
+//			}
+//        
+//    }
+    
+    
     @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByProviderIdAndSearch(
-            Long providerId, int pageNumber, int itemsPerPage, String searchType, String searchText) {
-        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        	switch (searchType) {
-				case "id":
-					return verificationRepository.findByProviderIdAndStatusAndIdLikeIgnoreCase(providerId, Status.SENT, "%"+ searchText +"%", pageRequest);
-				
-				case "lastName":
-					return verificationRepository.findByProviderIdAndStatusAndClientData_lastNameLikeIgnoreCase(providerId, Status.SENT, "%"+ searchText +"%", pageRequest);
-				
-				case "street":
-					return verificationRepository.findByProviderIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(providerId, Status.SENT, "%"+ searchText +"%", pageRequest);
-				
-				case "date":
+    public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
+    		 Long providerId, int pageNumber, int itemsPerPage, String dateToSearch, 
+    		 String idToSearch, String lastNameToSearch, String streetToSearch){
+    	
+	    	CriteriaBuilder cb = em.getCriteriaBuilder();
+	    	CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
+	    	Root<Verification> root = criteriaQuery.from(Verification.class);
+	    	Path<Long> provider = root.join("provider").get("id");
+	    	
+	    	List<Predicate> predicates = new ArrayList<Predicate>();
+	    	
+	    	Predicate statusPredicate = cb.equal(root.get("status"), Status.SENT);
+	    	 predicates.add(statusPredicate);
+	    	
+	    	Predicate providerPredicate  = cb.equal(provider, providerId);
+	    	 predicates.add(providerPredicate);
+	    	
+	    	 System.err.println("date to search " + dateToSearch);
+				if(dateToSearch.length() > 5) {
 					
 					SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
 					Date date = null;
-						try {
-							date = form.parse(searchText);
-						} catch (ParseException e) {
-							e.printStackTrace();
-						}
-					return verificationRepository.findByProviderIdAndStatusAndInitialDate(providerId, Status.SENT, date, pageRequest);
+					try {
+						date = form.parse(dateToSearch);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+					Predicate datePredicate  = cb.equal(root.get("initialDate"), date);
+			    	 predicates.add(datePredicate);
+				}
 				
-				default:
-					 return verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId, Status.SENT, pageRequest);
-			}
-        
-    }
-    
-    
-    @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
-    		 Long providerId, int pageNumber, int itemsPerPage, String dateToSearch, 
-    		 String idToSearch, String lastNameToSearch, String streetToSearch){
-    	//final String PERSISTENCE_UNIT_NAME = "Verification";
-    	
-    	
-    	//em.getTransaction().begin();
-    	String idtest = "2a2a";
-    	CriteriaBuilder cb = em.getCriteriaBuilder(); 
-    	CriteriaQuery criteriaQuery = cb.createQuery();
-    	Root verificationRoot = criteriaQuery.from(Verification.class);
-    	criteriaQuery.where(cb.like(verificationRoot.get("id"), cb.parameter(String.class, "id" )));
-    	Query query = em.createQuery(criteriaQuery);
-    	query.setParameter("id", idtest);
-    	Verification result2 = (Verification)query.getSingleResult();
-    	System.out.println("res " + result2.getId());
-    	//Predicate condition = cb.like(Verification_.id, "2a2a");
-    	
-    	// do what ever you need 
-    	//em.getTransaction().commit();
-    	//em.close();
-    	
-    	return null;
+				if(idToSearch.length()>0){
+					Predicate verifIdPredicate  = cb.like(root.get("id"), "%" + idToSearch + "%");
+			    	 predicates.add(verifIdPredicate);
+				}
+				
+				if(lastNameToSearch.length()>0){
+					Predicate lastNamePredicate  = cb.like(root.get("clientData").get("lastName"), "%"+ lastNameToSearch+ "%");
+			    	 predicates.add(lastNamePredicate);
+				}
+				
+				if(streetToSearch.length()>0){
+					Predicate streetPredicate  = cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%");
+			    	 predicates.add(streetPredicate);
+				}
+				
+
+	    	criteriaQuery.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
+	    	
+	    	CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+	    	countQuery.select(cb.count(countQuery.from(Verification.class)));//.where(predicates.toArray(new Predicate[]{}));
+	    	Long count = em.createQuery(countQuery).getSingleResult();
+	
+	    	TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+	
+	    	typedQuery.setFirstResult((pageNumber-1)*itemsPerPage);
+	    	typedQuery.setMaxResults(itemsPerPage);
+	    	List<Verification> verificationList = typedQuery.getResultList();
+	    	ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+	    	
+	    	result.setContent(verificationList);
+	    	result.setTotalItems(count);
+	    	
+	    	return result;
     }
     
     

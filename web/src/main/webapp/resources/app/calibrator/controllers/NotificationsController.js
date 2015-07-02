@@ -10,7 +10,7 @@ angular
 	    	$scope.reloadVerifications = function() {
 				promiseTimeOut = $timeout(function() {
 							$state.reload();
-					}, 500);
+					}, 300);
 			}
 			
 	    	$scope.startPolling = function(){

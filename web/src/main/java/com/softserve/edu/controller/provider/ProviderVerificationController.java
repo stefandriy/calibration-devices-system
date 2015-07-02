@@ -19,6 +19,7 @@ import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 
 import org.apache.log4j.Logger;
@@ -84,33 +85,37 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
     		@RequestBody VerificationSearchDTO verificationSearchDto,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
-    		
-    			
-    	if(verificationSearchDto.getSearchByDate().length()>0){
-			
-			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-		                .toDTO(verificationService
-		                        .findPageOfSentVerificationsByCalibratorIdAndSearch(
+//
+//    		boolean searchRequired = (verificationSearchDto.getSearchByDate().length()>5)||(verificationSearchDto.getSearchById().length()>0)||
+//    				(verificationSearchDto.getSearchByLastName().length()>0)||(verificationSearchDto.getSearchByStreet().length()>0);
+//    			
+//    	if(searchRequired){
+//			System.err.println("search called");
+//			
+			ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
 		                                employeeUser.getOrganizationId(),
 		                                verificationSearchDto.getPageNumber(),
 		                                verificationSearchDto.getItemsPerPage(),
 		                                verificationSearchDto.getSearchByDate(),
-		                                verificationSearchDto.getSearchByDate()
-		                                ));
+		                                verificationSearchDto.getSearchById(),
+		                                verificationSearchDto.getSearchByLastName(),
+		                                verificationSearchDto.getSearchByStreet()
+		                                );
 
-		        return new PageDTO<>(page.getTotalElements(), page.getContent());
-		} else {
+			List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
 			
-			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-		                .toDTO(verificationService
-		                        .findPageOfSentVerificationsByCalibratorId(
-		                                employeeUser.getOrganizationId(),
-		                                verificationSearchDto.getPageNumber(),
-		                                verificationSearchDto.getItemsPerPage()));
-
-		        return new PageDTO<>(page.getTotalElements(), page.getContent());
-		}
+		        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+//		} else {
+//			System.err.println("normal method called called");
+//			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+//		                .toDTO(verificationService
+//		                        .findPageOfSentVerificationsByProviderId(
+//		                                employeeUser.getOrganizationId(),
+//		                                verificationSearchDto.getPageNumber(),
+//		                                verificationSearchDto.getItemsPerPage()));
+//
+//		        return new PageDTO<>(page.getTotalElements(), page.getContent());
+//		}
     		
     }
     

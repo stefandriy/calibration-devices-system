@@ -11,7 +11,7 @@ angular
 				promiseTimeOut = $timeout(function() {
 							$state.reload();
 							$log.info('time for break');
-			    	}, 400);
+			    	}, 300);
 			}
 			
 	    	$scope.startPolling = function(){

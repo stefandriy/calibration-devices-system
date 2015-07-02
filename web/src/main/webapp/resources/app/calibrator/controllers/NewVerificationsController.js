@@ -5,12 +5,7 @@ angular
                                                '$rootScope','ngTableParams',
         function ($scope, $log, $modal, verificationService, $rootScope, ngTableParams) {
 
-//            $scope.totalItems = 0;
-//            $scope.currentPage = 1;
-//            $scope.itemsPerPage = 3;
-//            $scope.pageData = [];
-//            $scope.currentId = 0;
-//            
+            
             $scope.search = {
             		text:"",
             		type:""
@@ -129,8 +124,7 @@ angular
 
                     //executes when modal closing
                     modalInstance.result.then(function (calibrator) {
-                       // $log.info(calibrator);
-
+                     
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
                             calibrator: calibrator

@@ -2,12 +2,14 @@ angular
     .module('providerModule')
     .controller('NewVerificationsController', ['$scope', '$log',
                                                '$modal', 'VerificationService',
-                                               '$rootScope', 'ngTableParams',
-        function ($scope, $log, $modal, verificationService, $rootScope, ngTableParams) {
+                                               '$rootScope', 'ngTableParams', '$filter',
+        function ($scope, $log, $modal, verificationService, $rootScope, ngTableParams, $filter) {
                 
         $scope.search = {
-        		text:"",
-        		type:""
+        		idText:"",
+        		formattedDate :"2000",
+        		lastNameText:"",
+        		streetText:""
         }
         
         $scope.clearInput = function(){
@@ -15,12 +17,12 @@ angular
         }
         
         $scope.doSearch = function() {
-            $log.debug('search text from scope inside reload:', $scope.search.text);
+            $log.debug(' from scope d: ', $scope.dt);
+	          
             $scope.tableParams.reload();
         }
 
-        
-		$scope.tableParams = new ngTableParams({
+       $scope.tableParams = new ngTableParams({
 					page: 1, 
 					count: 10
 					}, {
@@ -33,36 +35,32 @@ angular
 //								searchType: $scope.search.type,
 //								searchText: $scope.search.text,
 								
-								searchById: $scope.idText,
-								searchByDate: $scope.dt,
-					        	searchByLastName: $scope.lastNameText,
-					        	searchByStreet: $scope.streetText
-								
-								
+								searchById: $scope.search.idText,
+								searchByDate: $scope.search.formattedDate,
+					        	searchByLastName: $scope.search.lastNameText,
+					        	searchByStreet: $scope.search.streetText
 							}
-						         
-							 verificationService.searchNewVerifications(queryOptions).success(function(result) {
+						verificationService.searchNewVerifications(queryOptions).success(function(result) {
 												$defer.resolve(result.content);
 												params.total(result.totalItems);
 											}, function(result) {
 												$log.debug('error fetching data:', result);
 									  			});  
 								          }
-		});
+					});
         
-               
-		$scope.markAsRead = function (id) {
-			 var dataToSend = {
-						verificationId: id,
-						readStatus: 'READ'
-					};
-			 $log.info("data to send in mark as read : " + dataToSend.verificationId); 
-	         	verificationService.markVerificationAsRead(dataToSend).success(function () {
-	         		$log.info('succesfully sent to database');
-	         		$rootScope.$broadcast('verification-was-read');
-                    $scope.tableParams.reload();
-	            });
-         };
+	       $scope.markAsRead = function (id) {
+				 var dataToSend = {
+							verificationId: id,
+							readStatus: 'READ'
+						};
+				 $log.info("data to send in mark as read : " + dataToSend.verificationId); 
+		         	verificationService.markVerificationAsRead(dataToSend).success(function () {
+		         		$log.info('succesfully sent to database');
+		         		$rootScope.$broadcast('verification-was-read');
+	                    $scope.tableParams.reload();
+		            });
+	         };
            
             /**
              * open modal
@@ -81,7 +79,7 @@ angular
                                  verification.id = verifId;
                                  verification.initialDate = verifDate;
                                  if(verifReadStatus=='UNREAD'){
-                               	  $scope.markAsRead(verifId);
+                               	  	$scope.markAsRead(verifId);
                                	 } 
                                  return verification;
                              });
@@ -177,15 +175,17 @@ angular
             var checkForEmpty = function () {
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
+           
             
-            //DATE
-            
+            $scope.openState = {};
+            $scope.openState.isOpen = false;
+           
             $scope.today = function() {
                 $scope.dt = new Date();
-              };
-              $scope.today();
+            };
+            $scope.today();
 
-              $scope.clear = function () {
+            $scope.clear = function () {
                 $scope.dt = null;
               };
 
@@ -193,18 +193,32 @@ angular
                 $event.preventDefault();
                 $event.stopPropagation();
 
-                $scope.opened = true;
+                $scope.openState.isOpen = true;
               };
 
               $scope.dateOptions = {
-                formatYear: 'yy',
+                formatYear: 'yyyy',
                 startingDay: 1
               };
 
               $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
               $scope.format = $scope.formats[0];
 
-              var tomorrow = new Date();
+              
+              $scope.changeDateToSend = function(val){
+            	  $log.debug( 'befor change date '+ val);
+            	  if(val.isUndefined){
+            		  $scope.search.formattedDate = '2000';
+            	  
+            	  } else {
+            		  var datefilter = $filter('date');
+                	  $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
+                	  $log.debug( 'after change date '+ $scope.search.formattedDate);
+            	  }
+              }
+           
+            
+             var tomorrow = new Date();
               tomorrow.setDate(tomorrow.getDate() + 1);
               var afterTomorrow = new Date();
               afterTomorrow.setDate(tomorrow.getDate() + 2);
