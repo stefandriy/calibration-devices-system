@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .csrf()
+                .ignoringAntMatchers("/uploadFile/**")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/resources/assets/**", "/resources/app/welcome/**",

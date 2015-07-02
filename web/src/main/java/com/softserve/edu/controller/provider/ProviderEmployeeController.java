@@ -44,7 +44,7 @@ public class ProviderEmployeeController {
         return "admin";
     }
     
-    
+
     /**
      * Check whereas {@code username} is available,
      * i.e. it is possible to create new user with this {@code username}

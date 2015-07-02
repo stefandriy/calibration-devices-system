@@ -95,6 +95,7 @@ angular
                     userService.saveUser(employeeData)
                         .success(function (response) {
                             $log.info(response);
+
                             $modal.open({
                                 animation: true,
                                 templateUrl: '/resources/app/provider/views/modals/employee-adding-success.html',

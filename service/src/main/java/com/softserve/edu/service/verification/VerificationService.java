@@ -61,6 +61,16 @@ public class VerificationService {
                 pageRequest);
     }
 
+    
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfAllVerificationsByStateVerificatorId(Long stateVerificatorId,
+    		 int pageNumber, int itemsPerPage){
+    	Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+    	return verificationRepository.findByStateVerificatorId(stateVerificatorId, pageRequest); 
+    }
+    
+
+
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByProviderId(
             Long providerId, int pageNumber, int itemsPerPage) {
@@ -89,6 +99,15 @@ public class VerificationService {
         return verificationRepository.findByCalibratorIdAndStatus(calibratorId,
                 Status.RECEIVED, pageRequest);
     }
+
+    
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId,
+   		 int pageNumber, int itemsPerPage){
+    	Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+    	return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.IN_PROGRESS, pageRequest);
+    }
+
 
     @Transactional(readOnly = true)
     public Verification findByIdAndProviderId(String id, Long providerId) {
@@ -121,6 +140,16 @@ public class VerificationService {
         }
         return verification;
     }
+    
+    @Transactional(readOnly = true)
+    public Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId){
+    	 Verification verification = verificationRepository.findByIdAndStateVerificatorId(id, stateVerificatorId);
+    	 if(verification == null){
+    		   throw new AccessDeniedException("You have not permission to get this data.");
+         }
+         return verification;
+    }
+
 
     /**
      * Find verification, add receive status to calibrator, add calibrator to
@@ -140,6 +169,10 @@ public class VerificationService {
         verificationRepository.save(verification);
     }
 
+ 
+
+    /**
+     * Find verification, add IN_PROGRESS status to state verificator, add state verificator to verification.
     /**
      * Find verification, add IN_PROGRESS status to state verificator, add stat
      * verificator to verification. save verification
@@ -153,6 +186,53 @@ public class VerificationService {
         verification.setStateVerificator(stateVerificator);
         verificationRepository.save(verification);
     }
+
+    /**
+     * Find verification, add complete status to stateVerificator, add stateVerificator to verification
+     * save verification
+     */
+    @Transactional
+    public void updateVerification(String verificationId, StateVerificator stateVerificator){
+    	Verification verification = verificationRepository.findOne(verificationId);
+    	 if (verification == null) {
+             logger.error("verification haven't found");
+             return;
+         }
+    	 verification.setStatus(Status.COMPLETED);
+    	 verification.setStateVerificator(stateVerificator);
+    	 verificationRepository.save(verification);
+    }
+    
+    /**
+     * Find verification, add receive status to Provider, add Provider to verification
+     * save verification
+     */
+//    @Transactional
+//    public void updateVerification(String verificationId, Provider provider){
+//    	Verification verification = verificationRepository.findOne(verificationId);
+//    	 if (verification == null) {
+//             logger.error("verification haven't found");
+//             return;
+//         }
+//    	 verification.setStatus(Status.COMPLETED);
+//    	 verification.setProvider(provider);
+//    	 verificationRepository.save(verification);
+//    }
+//    
+//    /**
+//     * Find verification, add RECEIVED status to provider, add provider to verification.
+//     * save verification
+//     * SOME SH*T!!!
+//     */
+//    @Transactional
+//    public void updateVerificationByStateVerificator(String verificationId,
+//                                               Provider provider) {
+//        Verification verification = verificationRepository.findOne(verificationId);
+//        verification.setStatus(Status.RECEIVED);
+//        verification.setProvider(provider);
+//        verificationRepository.save(verification);
+//    }
+
 
     /**
      * Returns calibration test assigned to verification

@@ -43,6 +43,7 @@ angular
                 .state('settings', {
                     url: '/settings',
                     templateUrl: '/resources/app/provider/views/settings-panel.html'
+
                 });
 
         }]);

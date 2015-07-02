@@ -40,7 +40,8 @@ public class Device {
         this.manufacturer = manufacturer;
     }
 
-    public Long getId() {
+
+	public Long getId() {
         return id;
     }
 

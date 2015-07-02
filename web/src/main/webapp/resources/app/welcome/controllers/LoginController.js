@@ -41,7 +41,7 @@ angular
                 else if (role == 'PROVIDER_EMPLOYEE' || role == 'PROVIDER_ADMIN')
                     path = '/provider';
                 else if (role == 'STATE_VERIFICATOR_EMPLOYEE' || role == 'STATE_VERIFICATOR_ADMIN')
-                    path = '/verification';
+                    path = '/verificator';
                 return path;
             }
         };
