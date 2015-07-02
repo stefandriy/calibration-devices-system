@@ -1,9 +1,18 @@
 angular
     .module('providerModule')
-    .controller('EmployeeController', ['$scope', '$log', '$modal', '$state', 'UserService',
+    .controller('EmployeeController', ['$scope', '$log', '$modal', '$state', '$http', 'UserService',
 
-        function ($scope, $log, $modal, $state, userService) {
-
+        function ($scope, $log, $modal, $state, $http, userService) {
+    	
+    		userService.isAdmin()
+    			.success(function (response) {
+    				if (response == 'admin'){
+    			$scope.verificator = true;
+    				} else {
+    			alert(response);
+    				}
+    			});
+	       
             $scope.employeeData = {};
             $scope.form = {};
 
@@ -86,7 +95,6 @@ angular
                     userService.saveUser(employeeData)
                         .success(function (response) {
                             $log.info(response);
-
                             $modal.open({
                                 animation: true,
                                 templateUrl: '/resources/app/provider/views/modals/employee-adding-success.html',

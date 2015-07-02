@@ -7,7 +7,10 @@ angular
             },
             saveUser: function (userData) {
                 return saveData('provider/admin/users/add', userData);
-            }
+            },
+            isAdmin: function (){
+            	return getData('provider/admin/users/verificator');
+            } 
         };
 
         function getData(url) {
@@ -21,6 +24,11 @@ angular
             return $http.post(url, data)
                 .success(function (response) {
                     return response;
-                });
+                })
+                .error(function(err){
+                	alert(err);
+                	alert("in error");
+                	return err;
+                	               });  	
         }
     });

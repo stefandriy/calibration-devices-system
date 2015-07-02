@@ -29,6 +29,13 @@ public class CalibratorEmployeeController {
 
         @Autowired
         private CalibratorEmployeeService calibratorEmployeeService;
+        
+        @RequestMapping(value = "verificator", method = RequestMethod.GET)
+        public String verification() {
+        	System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            return "admin";
+        }
+        
 
         /**
          * Check whereas {@code username} is available,
