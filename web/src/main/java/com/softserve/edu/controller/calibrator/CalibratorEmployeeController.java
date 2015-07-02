@@ -30,6 +30,13 @@ public class CalibratorEmployeeController {
         @Autowired
         private CalibratorEmployeeService calibratorEmployeeService;
 
+        
+        @RequestMapping(value = "verificator", method = RequestMethod.GET)
+        public String verification() {
+            return "admin";
+        }
+
+
         /**
          * Check whereas {@code username} is available,
          * i.e. it is possible to create new user with this {@code username}

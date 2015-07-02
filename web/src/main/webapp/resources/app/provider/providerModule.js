@@ -34,6 +34,11 @@ angular
                     url: '/verifications/archive',
                     templateUrl: '/resources/app/provider/views/archival-verifications.html',
                     controller: 'ArchivalVerificationsController'
+                })
+                .state('settings', {
+                    url: '/settings',
+                    templateUrl: '/resources/app/provider/views/settings-panel.html'
+
                 });
 
         }]);
@@ -55,7 +60,9 @@ define([
     'controllers/SendingModalController',
     'controllers/EmployeeController',
     'controllers/AddressModalController',
+    'controllers/SettingsController',
     'services/VerificationService',
     'services/AddressService',
+    'services/SettingsService',
     'services/UserService'
 ], function () {});

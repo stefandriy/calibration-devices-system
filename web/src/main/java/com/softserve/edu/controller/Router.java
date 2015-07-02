@@ -37,7 +37,7 @@ public class Router {
      */
     @RequestMapping(value = "/provider", method = RequestMethod.GET)
     public String provider() {
-        return "/resources/app/provider/index.html";
+        return "/resources/app/provider/index.jsp";
     }
 
     /**
@@ -47,7 +47,7 @@ public class Router {
      */
     @RequestMapping(value = "/calibrator", method = RequestMethod.GET)
     public String calibrator() {
-        return "/resources/app/calibrator/index.html";
+        return "/resources/app/calibrator/index.jsp";
     }
 
     /**

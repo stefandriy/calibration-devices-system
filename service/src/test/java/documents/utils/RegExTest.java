@@ -1,3 +1,4 @@
+
 package documents.utils;
 
 import com.softserve.edu.documents.utils.FormattingTokens;

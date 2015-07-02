@@ -1,9 +1,18 @@
 angular
     .module('providerModule')
-    .controller('EmployeeController', ['$scope', '$log', '$modal', '$state', 'UserService',
+    .controller('EmployeeController', ['$scope', '$log', '$modal', '$state', '$http', 'UserService',
 
-        function ($scope, $log, $modal, $state, userService) {
-
+        function ($scope, $log, $modal, $state, $http, userService) {
+    	
+    		userService.isAdmin()
+    			.success(function (response) {
+    				if (response == 'admin'){
+    			$scope.verificator = true;
+    				} else {
+    			alert(response);
+    				}
+    			});
+	       
             $scope.employeeData = {};
             $scope.form = {};
 

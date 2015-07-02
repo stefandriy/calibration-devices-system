@@ -3,6 +3,15 @@ angular
     .controller('EmployeeController', ['$scope', '$log', '$modal', '$state', 'UserService',
 
         function ($scope, $log, $modal, $state, userService) {
+    	
+    	    userService.isAdmin()
+            	.success(function (response) {
+                if (response == 'admin'){
+                	$scope.verificator = true;
+                } else {
+                	alert(response);
+    	            }
+    	        });
 
             $scope.employeeData = {};
             $scope.form = {};

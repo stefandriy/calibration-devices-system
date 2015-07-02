@@ -41,10 +41,14 @@ define([
     'controllers/OrganizationFormController',
     'controllers/OrganizationModalAddressController',
     'controllers/DeviceController',
+    'controllers/SettingsController',
     'services/OrganizationService',
     'services/StatisticService',
     'services/UserService',
     'services/AddressService',
     'services/DeviceService',
-    'services/DevicesService'
+    'services/DevicesService',
+    'services/UserService',
+    'services/SettingsService',
+
 ], function () {});

@@ -1,8 +1,10 @@
 angular
     .module('welcomeModule')
-    .controller('LoginController', ['$scope', '$http', function ($scope, $http) {
+    .controller('LoginController', ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
         $scope.login = function () {
-
+        	
+        	$scope.loginCorrect = false;
+        	
             var loginData = 'username=' + $scope.loginForm.username
                 + '&password=' + $scope.loginForm.password;
 
@@ -22,6 +24,9 @@ angular
                 $scope.loginForm.password = null;
                 if (path)
                     window.location.replace(path);
+                if (path == undefined){
+                	$scope.loginCorrect = true;
+                }
             });
             response.error(function (data) {
                 console.dir(data);
@@ -36,7 +41,7 @@ angular
                 else if (role == 'PROVIDER_EMPLOYEE' || role == 'PROVIDER_ADMIN')
                     path = '/provider';
                 else if (role == 'STATE_VERIFICATOR_EMPLOYEE' || role == 'STATE_VERIFICATOR_ADMIN')
-                    path = '/verificator';
+                    path = '/verification';
                 return path;
             }
         };

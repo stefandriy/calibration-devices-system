@@ -54,6 +54,7 @@ public class VerificationService {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return verificationRepository.findByCalibratorId(calibratorId, pageRequest);
     }
+
     
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfAllVerificationsByStateVerificatorId(Long stateVerificatorId,
@@ -62,6 +63,7 @@ public class VerificationService {
     	return verificationRepository.findByStateVerificatorId(stateVerificatorId, pageRequest); 
     }
     
+
 
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByProviderId(
@@ -86,6 +88,7 @@ public class VerificationService {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return verificationRepository.findByCalibratorIdAndStatus(calibratorId, Status.RECEIVED, pageRequest);
     }
+
     
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId,
@@ -93,6 +96,7 @@ public class VerificationService {
     	Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
     	return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.IN_PROGRESS, pageRequest);
     }
+
 
     @Transactional(readOnly = true)
     public Verification findByIdAndProviderId(String id, Long providerId) {
@@ -130,6 +134,7 @@ public class VerificationService {
          return verification;
     }
 
+
     /**
      * Find verification, add receive status to calibrator, add calibrator to verification
      * save verification
@@ -145,10 +150,13 @@ public class VerificationService {
         verification.setCalibrator(calibrator);
         verificationRepository.save(verification);
     }
+
  
 
     /**
      * Find verification, add IN_PROGRESS status to state verificator, add state verificator to verification.
+    /**
+     * Find verification, add IN_PROGRESS status to state verificator, add stat verificator to verification.
      * save verification
      */
     @Transactional
@@ -159,7 +167,7 @@ public class VerificationService {
         verification.setStateVerificator(stateVerificator);
         verificationRepository.save(verification);
     }
-    
+
     /**
      * Find verification, add complete status to stateVerificator, add stateVerificator to verification
      * save verification
@@ -205,6 +213,7 @@ public class VerificationService {
 //        verification.setProvider(provider);
 //        verificationRepository.save(verification);
 //    }
+
 
     /**
      * Returns calibration test assigned to verification

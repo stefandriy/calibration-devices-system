@@ -7,7 +7,12 @@ angular
             },
             saveUser: function (userData) {
                 return saveData('calibrator/admin/users/add', userData);
-            }
+
+            },
+            isAdmin: function (){
+            	return getData('calibrator/admin/users/verificator');
+            } 
+
         };
 
         function getData(url) {

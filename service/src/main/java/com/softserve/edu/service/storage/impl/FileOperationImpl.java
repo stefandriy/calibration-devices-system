@@ -5,54 +5,51 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.*;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.softserve.edu.service.storage.FileOperations;
 
 @Service
-public class FileOperationImpl implements FileOperations {
-    
-    public static final String ROOT_PATH = System.getProperty("user.home") + File.separator
-            + "MetrologyFiles";
+public class FileOperationImpl {
 
-    @Override
-    public Boolean putResourse(InputStream stream, Path path, String resourceName,
-            SaveOptions options) {
+    @Value("${photo.storage.local}")
+    private String localStorage;
 
+    @Value("${photo.path.prefix}")
+    private String photoPathPref;
+
+    public String putResourse(InputStream stream, String relativeFolder, String fileType) {
+
+        String fileName = getFileName(fileType);
         try {
-            FileUtils.copyInputStreamToFile(stream, path.toFile());
+            FileUtils.copyInputStreamToFile(stream, new File(localStorage + relativeFolder
+                    + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return true;
+        return relativeFolder + fileName;
     }
 
-    @Override
-    public InputStream getResourseStream(Path path) throws IOException, FileNotFoundException {
-        return FileUtils.openInputStream(path.toFile());
+    public URI getResourseURI(String relativeFilePath) {
+        return URI.create(photoPathPref + relativeFilePath);
     }
 
-    @Override
-    public URI getResourseURI(Path directory, String fileName) {
-        
-        String file = FileSearch.find(directory.toFile(), "ccV01Nm0RiaXrQp4anPyzA.jpg");
-        System.out.println(file);
-        
-        Path pathAbsolute = Paths.get(FileSearch.find(directory.toFile(), "ccV01Nm0RiaXrQp4anPyzA.jpg"));
-        Path pathBase = Paths.get(ROOT_PATH);
-        Path pathRelative = pathBase.relativize(pathAbsolute);
-        System.out.println(pathRelative);
-        
-        
-        
-        return pathRelative.toUri();
+    private String getFileName(String fileType) {
+        Base64 base64 = new Base64();
+        UUID uuid = UUID.randomUUID();
+        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+        bb.putLong(uuid.getMostSignificantBits());
+        bb.putLong(uuid.getLeastSignificantBits());
+        return base64.encodeBase64URLSafeString(bb.array()).concat(fileType);
     }
-
 }
