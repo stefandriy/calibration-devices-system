@@ -61,20 +61,18 @@ public class Verification {
     public Verification() {}
 
     public Verification(Date initialDate, ClientData clientData, Provider provider, Status status) {
-        this(initialDate, clientData, provider, status, null,null);
+        this(initialDate, clientData, provider, status, null);
     }
 
     public Verification(Date initialDate, ClientData clientData, Provider provider, Status
-            status, Calibrator calibrator,ProviderEmployee providerEmployee) {
+            status, Calibrator calibrator) {
         this.id = UUID.randomUUID().toString();
         this.initialDate = initialDate;
         this.clientData = clientData;
         this.provider = provider;
         this.status = status;
         this.calibrator = calibrator;
-        this.providerEmployee=providerEmployee;
     }
-
 
 
     public String getId() {
