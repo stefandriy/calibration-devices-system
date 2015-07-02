@@ -66,11 +66,10 @@
                     <li ui-sref-active="active">
                         <a ui-sref="employees"><i class="fa fa-user-plus"></i>Додати працівника</a>
                     </li>
-				</sec:authorize>
                     <li ui-sref-active="active">
                         <a ui-sref="employee-show"><i class="fa fa-users"></i>Переглянути усіх працівників</a>
                     </li>
-
+                </sec:authorize>
                     <li ui-sref-active="active">
                         <a ui-sref="verifications-archive"><i class="fa fa-archive fa-fw"></i> Архів повірок</a>
                     </li>

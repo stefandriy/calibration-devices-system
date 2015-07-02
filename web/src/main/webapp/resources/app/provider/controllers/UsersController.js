@@ -14,6 +14,16 @@ angular
 
 
             $scope.onTableHandling = function () {
+
+                userService.isAdmin()
+                    .success(function (response) {
+                        if (response == 'admin'){
+                            $scope.verificator = true;
+                        } else {
+                            alert(response);
+                        }
+                    });
+
                 userService
                     .getPage($scope.currentPage, $scope.itemsPerPage,$scope.idOrganization,$scope.searchData)
                     .then(function (data) {
@@ -21,8 +31,6 @@ angular
                         $scope.totalItems = data.totalItems;
                         $scope.idOrganization=data.idOrganization;
 
-                        $log.info(data.content + "resp Content");
-                        $log.info(data.totalItems + "resp items");
                     });
 
             };
