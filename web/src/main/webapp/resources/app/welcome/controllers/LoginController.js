@@ -3,6 +3,8 @@ angular
     .controller('LoginController', ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
         $scope.login = function () {
         	
+        	$scope.incorrectStyle = {"color":"black"};
+        	$scope.incorrectStylePlaceholder = {"border":""};
         	$scope.loginCorrect = false;
         	
             var loginData = 'username=' + $scope.loginForm.username
@@ -26,6 +28,11 @@ angular
                     window.location.replace(path);
                 if (path == undefined){
                 	$scope.loginCorrect = true;
+                	$scope.incorrectStyleMessage = {"color":"red",
+                									"text-align":"center"};
+                	$scope.incorrectStyle = {"color":"red",
+                							  "text-align":"left"};
+                	$scope.incorrectStylePlaceholder = {"border":"2px solid red"};
                 }
             });
             response.error(function (data) {

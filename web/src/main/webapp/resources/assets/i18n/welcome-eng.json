@@ -38,5 +38,8 @@
   "PHONE_NUMBER_INFO":"This field is not mandatory , but to improve communications capabilities ask him to fill",
   "PROVIDER": "Provider",
   "PROVIDER_INFO": "Provider is a service that will handle your application. For instance 'Lvivvodokanal'. Start typing and choose one form drop-down list. It will correspond district that you have just selected",
-  "INCORRECT": "Incorrect value input"
+  "INCORRECT": "Incorrect value input",
+   "INCORRECT": "Incorrect value input",
+  "INCORRECT_LOGIN": "Login:",
+  "INCORRECT_PASSWORD": "Password:"
 }
