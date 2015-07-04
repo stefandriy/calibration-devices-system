@@ -10,7 +10,7 @@ require.config({
         angularTranslateStorageLocal: '../../assets/bower_components/angular-translate-storage-local/angular-translate-storage-local.min',
         angularTranslateStorageCookie: '../../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
         showErrors: '../../assets/bower_components/angular-bootstrap-show-errors/src/showErrors.min',
-        ngTable: '../../assets/bower_components/esvit-ng-table-268d113/ng-table',
+        ngTable: '../../assets/bower_components/ng-table/ng-table',
         welcomeModule: 'welcomeModule'
     },
     shim: {
