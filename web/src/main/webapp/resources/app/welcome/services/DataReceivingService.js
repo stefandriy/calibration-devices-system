@@ -21,8 +21,14 @@ angular
             findBuildingsByStreetId: function (id) {
                 return getData('buildings/' + id);
             },
-            getClientApplicationStatusByCode: function (code) {
+            getVerificationStatusById: function (code) {
                 return getData('check/' + code);
+            },
+            getVerificationById: function (code) {
+                return getData('verification/' + code);
+            },
+            getArchivalVerificationDetails: function (verificationId) {
+                return getData('archive/' + verificationId);
             }
         };
 

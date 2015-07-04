@@ -35,6 +35,7 @@
   "TYPEAHEAD_ERROR": "Start typing and select the appropriate option from the drop down list",
   "ALPHABETIC_ERROR": "This field can contain only alphabetic characters",
   "PHONE_NUMBER_ERROR": "Phone number must be filled in format: 0{city/operator code}{phone number}",
+  "PHONE_NUMBER_INFO":"This field is not mandatory , but to improve communications capabilities ask him to fill",
   "PROVIDER": "Provider",
   "PROVIDER_INFO": "Provider is a service that will handle your application. For instance 'Lvivvodokanal'. Start typing and choose one form drop-down list. It will correspond district that you have just selected",
   "INCORRECT": "Incorrect value input"

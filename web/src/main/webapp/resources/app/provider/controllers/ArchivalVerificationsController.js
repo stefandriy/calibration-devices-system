@@ -28,7 +28,7 @@ angular
             $scope.openDetails = function ($index) {
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/archival-verification-details.html',
+                    templateUrl: 'resources/app/provider/views/modals/archival-verification-details.html',
                     controller: 'DetailsModalController',
                     size: 'lg',
                     resolve: {

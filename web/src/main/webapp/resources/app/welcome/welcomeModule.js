@@ -57,6 +57,7 @@
         'controllers/ApplicationStatusController',
         'controllers/InternationalizationController',
         'controllers/NavigationController',
+        'controllers/DetailsController',
         'services/DataReceivingService',
         'services/DataSendingService',
         'directives/OnStartupMessage'
