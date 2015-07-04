@@ -5,10 +5,12 @@ import com.softserve.edu.dto.SearchDTO;
 import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.admin.OrganizationsService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin/organization/")
@@ -77,7 +80,7 @@ public class OrganizationsController {
                                 new OrganizationPageItem(
                                         organization.getId(), organization.getName(),
                                         organization.getEmail(), organization.getPhone(),
-                                        organizationsService.getType(organization)
+                                        organizationsService.getOrganizationType(organization)
                                 )
                 );
 
@@ -99,4 +102,57 @@ public class OrganizationsController {
                                                               @PathVariable Integer itemsPerPage) {
         return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null);
     }
+    
+    
+//    @RequestMapping(value = "/admin/organization/edit/{id}")
+//    public Organization editOrganization(@PathVariable("id") Long id) {
+//    	return organizationsService.edit(id);
+//    }
+    
+    @RequestMapping(value = "getOrganization/{id}")
+    public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
+    	OrganizationDTO organization = new OrganizationDTO();
+    	organization.setEmail(organizationsService.getEmail(id));
+    	organization.setName(organizationsService.getName(id));
+    	organization.setPhone(organizationsService.getPhone(id));
+    	organization.setType(organizationsService.getType(id));
+    	organization.setRegion(organizationsService.getRegion(id));
+    	organization.setLocality(organizationsService.getLocality(id));
+    	organization.setDistrict(organizationsService.getDistrict(id));
+    	organization.setStreet(organizationsService.getStreet(id));
+    	organization.setBuilding(organizationsService.getBuilding(id));
+    	organization.setFlat(organizationsService.getFlat(id));
+    	organization.setUsername(organizationsService.getUser(id));
+		return organization;
+    }
+    
+    
+//    /**
+//     * Edit and its administrator employee in database
+//     *
+//     * @param organizationDTO object with organization and employee admin data
+//     * @return a response body with http status {@literal CREATED} if everything
+//     * organization and employee admin successfully created or else http status {@literal CONFLICT}
+//     */
+//    @RequestMapping(value = "edit", method = RequestMethod.POST)
+//    public ResponseEntity editOrganization(@RequestBody OrganizationDTO organizationDTO, Long organizationId) {
+//        HttpStatus httpStatus = HttpStatus.CREATED;
+//        Address address = new Address(
+//                organizationDTO.getRegion(), organizationDTO.getDistrict(),
+//                organizationDTO.getLocality(), organizationDTO.getStreet(),
+//                organizationDTO.getBuilding(), organizationDTO.getFlat());
+//        try {
+//            organizationsService.editOrganizationWithAdmin(organizationId, 
+//                    organizationDTO.getName(), organizationDTO.getEmail(),
+//                    organizationDTO.getPhone(), organizationDTO.getType(),
+//                    organizationDTO.getUsername(), organizationDTO.getPassword(),
+//                    address);
+//        } catch (Exception e) {
+//            // TODO
+//            logger.error("GOT EXCEPTION " + e.getMessage());
+//            httpStatus = HttpStatus.CONFLICT;
+//        }
+//        return new ResponseEntity(httpStatus);
+//    }
+//    
 }

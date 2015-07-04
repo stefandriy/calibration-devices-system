@@ -61,12 +61,6 @@
 										<td>{{ organization.type }}</td>
 										<td>{{ organization.email }}</td>
 										<td>{{ organization.phone }}</td>
-										<td>
-											<button type="button" class="btn btn-primary"
-												ng-click="openOrganizationDTO(organization.id)">
-												<span class="glyphicon glyphicon-pencil"></span>
-											</button>
-										</td>
 									</tr>
 								</tbody>
 							</table>

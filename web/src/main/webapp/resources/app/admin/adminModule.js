@@ -45,6 +45,7 @@ define([
     'controllers/MainPanelController',
     'controllers/OrganizationController',
     'controllers/OrganizationFormController',
+    'controllers/OrganizationDTOController',
     'controllers/OrganizationModalAddressController',
     'controllers/DeviceController',
     'controllers/SettingsController',
