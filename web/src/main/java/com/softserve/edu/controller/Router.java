@@ -57,7 +57,7 @@ public class Router {
      */
     @RequestMapping(value = "/verificator", method = RequestMethod.GET)
     public String verificator() {
-        return "/resources/app/verificator/index.html";
+        return "/resources/app/verificator/index.jsp";
     }
 
 }

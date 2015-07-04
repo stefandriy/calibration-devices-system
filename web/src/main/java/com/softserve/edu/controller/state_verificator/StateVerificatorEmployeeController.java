@@ -34,6 +34,11 @@ public class StateVerificatorEmployeeController {
 
 	@Autowired
 	private StateVerificatorEmployeeService stateVerificatorEmployeeService;
+	
+    @RequestMapping(value = "verificator", method = RequestMethod.GET)
+    public String verification() {
+        return "admin";
+    }
 
 	/**
 	 * Check whereas {@code username} is available, i.e. it is possible to

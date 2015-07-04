@@ -7,7 +7,10 @@ angular
             },
             saveUser: function (userData) {
                 return saveData('verificator/admin/users/add', userData);
-            }
+            },
+            isAdmin: function (){
+            	return getData('verificator/admin/users/verificator');
+            } 
         };
 
         function getData(url) {
