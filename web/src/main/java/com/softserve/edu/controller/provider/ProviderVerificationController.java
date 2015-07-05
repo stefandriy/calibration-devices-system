@@ -167,6 +167,10 @@ public class ProviderVerificationController {
         providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
         verificationService.assignProviderEmployee(idVerif, providerEmployee);
     }
+    @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
+    public void removeProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+        verificationService.assignProviderEmployee(verificationUpdatingDTO.getIdVerification(), null);
+    }
 
 
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)

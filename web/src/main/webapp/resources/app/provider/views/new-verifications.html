@@ -49,28 +49,31 @@
 											              </span>
                                                 </p>
                                             </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control input-sm" ng-model="search.idText">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control input-sm"
-                                                   ng-model="search.lastNameText">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control input-sm"
-                                                   ng-model="search.streetText">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" ng-click="doSearch()">Search</button>
-                                        </div>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-sm"
+                                                           ng-model="search.idText">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-sm"
+                                                           ng-model="search.lastNameText">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control input-sm"
+                                                           ng-model="search.streetText">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <button class="btn btn-primary" ng-click="doSearch()">Search
+                                                    </button>
+                                                </div>
+                                            </td>
                                         </form>
                                     </td>
                                 </tr>
@@ -90,7 +93,8 @@
                                                 ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
                                             Взяти заявку
                                         </button>
-                                        <button ng-show="verification.providerEmployee" class="btn btn-danger btn-sm">
+                                        <button ng-show="verification.providerEmployee" class="btn btn-danger btn-sm"
+                                                ng-click="removeProviderEmployee(verification.id)">
                                             Скасувати
                                         </button>
                                     </td>

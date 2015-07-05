@@ -27,6 +27,9 @@ angular
             sendEmployeeProvider: function (data) {
                 return updateData('assign/providerEmployee', data);
             },
+            cleanProviderEmployeeField:function (data) {
+                return updateData('remove/providerEmployee', data);
+            },
             sendInitiatedVerification:function(form){
                 return sendData('send',form);
             },
