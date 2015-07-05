@@ -7,7 +7,7 @@ import com.softserve.edu.entity.user.ProviderEmployee;
 import java.util.List;
 
 public class VerificationUpdatingDTO {
-
+    String idVerification;
     private List<String> idsOfVerifications;
     private Calibrator calibrator;
 
@@ -35,5 +35,13 @@ public class VerificationUpdatingDTO {
 
     public void setEmployeeProvider(EmployeeProvider employeeProvider) {
         this.employeeProvider = employeeProvider;
+    }
+
+    public String getIdVerification() {
+        return idVerification;
+    }
+
+    public void setIdVerification(String idVerification) {
+        this.idVerification = idVerification;
     }
 }

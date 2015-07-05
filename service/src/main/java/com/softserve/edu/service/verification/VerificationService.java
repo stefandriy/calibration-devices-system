@@ -183,7 +183,7 @@ public class VerificationService {
 	@Transactional(readOnly = true)
 	public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-			String streetToSearch) {
+			String streetToSearch,ProviderEmployee providerEmployee) {
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
@@ -294,7 +294,7 @@ public class VerificationService {
 	 * verification save verification
 	 */
 	@Transactional
-	public void updateVerification(String verificationId, Calibrator calibrator, ProviderEmployee providerEmployee) {
+	public void updateVerification(String verificationId, Calibrator calibrator) {
 		Verification verification = verificationRepository.findOne(verificationId);
 
 		if (verification == null) {
@@ -303,8 +303,19 @@ public class VerificationService {
 		}
 		verification.setStatus(Status.RECEIVED);
 		verification.setCalibrator(calibrator);
-		verification.setProviderEmployee(providerEmployee);
 		verification.setReadStatus(ReadStatus.UNREAD);
+		verificationRepository.save(verification);
+	}
+
+	@Transactional
+	public void assignProviderEmployee(String verificationId, ProviderEmployee providerEmployee) {
+		Verification verification = verificationRepository.findOne(verificationId);
+		if (verification == null) {
+			logger.error("verification haven't found");
+			return;
+		}
+		verification.setProviderEmployee(providerEmployee);
+		verification.setReadStatus(ReadStatus.READ);
 		verificationRepository.save(verification);
 	}
 

@@ -24,6 +24,9 @@ angular
             sendVerificationsToCalibrator: function (data) {
                return updateData('new/update', data);
             },
+            sendEmployeeProvider: function (data) {
+                return updateData('assign/providerEmployee', data);
+            },
             sendInitiatedVerification:function(form){
                 return sendData('send',form);
             },

@@ -18,10 +18,12 @@ public class VerificationPageDTO {
     private String providerEmployee;
     private Long countOfWork;
     private ReadStatus readStatus;
-    public VerificationPageDTO() {}
+
+    public VerificationPageDTO() {
+    }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street,
-    		Status status, ReadStatus readStatus) {
+                               Status status, ReadStatus readStatus, ProviderEmployee providerEmployee) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -29,10 +31,17 @@ public class VerificationPageDTO {
         this.street = street;
         this.status = status;
         this.readStatus = readStatus;
+        if (providerEmployee != null) {
+            if (providerEmployee.getMiddleName() != null) {
+                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
+            } else {
+                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
+            }
+        }
     }
 
-    public VerificationPageDTO(Long count){
-        this.countOfWork=count;
+    public VerificationPageDTO(Long count) {
+        this.countOfWork = count;
     }
 
 
@@ -94,12 +103,12 @@ public class VerificationPageDTO {
     }
 
     public ReadStatus getReadStatus() {
-		return readStatus;
-	}
+        return readStatus;
+    }
 
-	public void setReadStatus(ReadStatus readStatus) {
-		this.readStatus = readStatus;
-	}
+    public void setReadStatus(ReadStatus readStatus) {
+        this.readStatus = readStatus;
+    }
 
     @Override
     public String toString() {

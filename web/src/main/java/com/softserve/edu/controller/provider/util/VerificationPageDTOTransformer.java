@@ -17,7 +17,7 @@ import org.springframework.data.domain.Page;
                                 verification.getClientData().getLastName(),
                                 verification.getClientData().getClientAddress().getStreet(),
                                 verification.getStatus(),
-                                verification.getReadStatus())
+                                verification.getReadStatus(),verification.getProviderEmployee())
                 );
     }
 
@@ -35,7 +35,9 @@ import org.springframework.data.domain.Page;
 			                     verification.getClientData().getLastName(),
 			                     verification.getClientData().getClientAddress().getStreet(),
 			                     verification.getStatus(),
-			                     verification.getReadStatus()));
+			                     verification.getReadStatus(), verification.getProviderEmployee()
+                                 )
+                         );
 					}
 			return resultList;
 		}

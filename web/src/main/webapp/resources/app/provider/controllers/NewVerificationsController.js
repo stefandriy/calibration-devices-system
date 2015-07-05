@@ -1,8 +1,8 @@
 angular
     .module('providerModule')
     .controller('NewVerificationsController', ['$scope', '$log',
-                                               '$modal', 'VerificationService',
-                                               '$rootScope', 'ngTableParams', '$filter',
+        '$modal', 'VerificationService',
+        '$rootScope', 'ngTableParams', '$filter',
         function ($scope, $log, $modal, verificationService, $rootScope, ngTableParams, $filter) {
                 
         $scope.search = {
@@ -60,12 +60,12 @@ angular
 	                    $scope.tableParams.reload();
 		            });
 	         };
-           
+
             /**
              * open modal
              */
             $scope.openDetails = function (verifId, verifDate, verifReadStatus) {
-            	
+
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/provider/views/modals/new-verification-details.html',
@@ -73,17 +73,51 @@ angular
                     size: 'lg',
                     resolve: {
                         response: function () {
-                        	 return verificationService.getNewVerificationDetails(verifId)
-                             .success(function (verification) {
-                                 verification.id = verifId;
-                                 verification.initialDate = verifDate;
-                                 if(verifReadStatus=='UNREAD'){
-                               	  	$scope.markAsRead(verifId);
-                               	 } 
-                                 return verification;
-                             });
+                            return verificationService.getNewVerificationDetails(verifId)
+                                .success(function (verification) {
+                                    verification.id = verifId;
+                                    verification.initialDate = verifDate;
+                                    if (verifReadStatus == 'UNREAD') {
+                                        $scope.markAsRead(verifId);
+                                    }
+                                    return verification;
+                                });
                         }
                     }
+                });
+            };
+
+
+            $scope.addProviderEmployee = function (verifId, providerEmployee) {
+                var modalInstance =  $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
+                    controller: 'ProviderEmployeeController',
+                    size: 'sm',
+                    resolve: {
+                        providerEmploy: function () {
+                            return verificationService.getProviders()
+                                .success(function (providers) {
+                                    return providers;
+                                }
+                            );
+                        }
+                    }})
+                /**
+                 * executes when modal closing
+                 */
+                modalInstance.result.then(function (formData) {
+                    idVerification=0;
+                    var dataToSend = {
+                        idVerification: verifId,
+                        employeeProvider: formData.provider
+                    };
+                    $log.info(dataToSend);
+                    verificationService
+                        .sendEmployeeProvider(dataToSend)
+                        .success(function () {
+                            $scope.tableParams.reload();
+                        });
                 });
             };
 
@@ -91,10 +125,11 @@ angular
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;
 
+
             /**
              * push verification id to array
              */
-            $scope.resolveVerificationId = function (id) {
+            $scope.resolveVerificationId = function (id,providerEmployee) {
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {
                     $scope.idsOfVerifications.push(id);
@@ -128,15 +163,7 @@ angular
                                         return calibrators;
                                     }
                                 );
-                            },
-                            providerEmploy:function(){
-                                return verificationService.getProviders()
-                                    .success(function (providers) {
-                                        return providers;
-                                    }
-                                );
                             }
-
                         }
                     });
 
@@ -148,7 +175,7 @@ angular
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
                             calibrator: formData.calibrator,
-                            employeeProvider: formData.provider
+                        //    employeeProvider: formData.provider
                         };
 
                         $log.info(dataToSend);
@@ -156,12 +183,12 @@ angular
                         verificationService
                             .sendVerificationsToCalibrator(dataToSend)
                             .success(function () {
-                            	$scope.tableParams.reload();
-                            	$rootScope.$broadcast('verification-sent-to-calibrator');
+                                $scope.tableParams.reload();
+                                $rootScope.$broadcast('verification-sent-to-calibrator');
                             });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
-                       
+
                     });
                 } else {
                     $scope.isClicked = true;
@@ -174,28 +201,28 @@ angular
             var checkForEmpty = function () {
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
-           
-            
+
+
             $scope.openState = {};
             $scope.openState.isOpen = false;
-           
-            $scope.today = function() {
+
+            $scope.today = function () {
                 $scope.dt = new Date();
             };
             $scope.today();
 
             $scope.clear = function () {
                 $scope.dt = null;
-              };
+            };
 
-             $scope.open = function($event) {
+            $scope.open = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
 
                 $scope.openState.isOpen = true;
-              };
+            };
 
-              $scope.dateOptions = {
+            $scope.dateOptions = {
                 formatYear: 'yyyy',
                 startingDay: 1
               };
@@ -224,29 +251,29 @@ angular
               afterTomorrow.setDate(tomorrow.getDate() + 2);
               $scope.events =
                 [
-                  {
-                    date: tomorrow,
-                    status: 'full'
-                  },
-                  {
-                    date: afterTomorrow,
-                    status: 'partially'
-                  }
+                    {
+                        date: tomorrow,
+                        status: 'full'
+                    },
+                    {
+                        date: afterTomorrow,
+                        status: 'partially'
+                    }
                 ];
 
-              $scope.getDayClass = function(date, mode) {
+            $scope.getDayClass = function (date, mode) {
                 if (mode === 'day') {
-                  var dayToCheck = new Date(date).setHours(0,0,0,0);
+                    var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
 
-                  for (var i=0;i<$scope.events.length;i++){
-                    var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+                    for (var i = 0; i < $scope.events.length; i++) {
+                        var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
 
-                    if (dayToCheck === currentDay) {
-                      return $scope.events[i].status;
+                        if (dayToCheck === currentDay) {
+                            return $scope.events[i].status;
+                        }
                     }
-                  }
                 }
 
                 return '';
-              };
+            };
         }]);

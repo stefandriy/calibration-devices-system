@@ -38,10 +38,10 @@ public class VerificationDTO extends ClientStageVerificationDTO {
         this.expirationDate = expirationDate;
         this.device = device == null ? "" : device.getDeviceType().name() + " : " + device.getNumber();
         this.provider = provider == null ? "" : provider.getName();
-        this.providerEmployee = providerEmployee == null ? "" : providerEmployee.getFirstName() + " " + providerEmployee.getLastName();
+        this.providerEmployee = providerEmployee == null ? "" : providerEmployee.getFirstName() + " " + providerEmployee.getLastName() +" " + providerEmployee.getMiddleName();
         this.calibrator = calibrator == null ? "" : calibrator.getName();
         this.calibratorEmployee = calibratorEmployee == null ? "" : calibratorEmployee.getFirstName() + " "
-                + calibratorEmployee.getLastName();
+                + calibratorEmployee.getLastName()+ " " + calibratorEmployee.getMiddleName();
         this.stateVerificator = stateVerificator == null ? "" : stateVerificator.getName();
         this.stateVerificatorEmployee = stateVerificatorEmployee == null ? "" : stateVerificatorEmployee.getFirstName() + " "
                 + stateVerificatorEmployee.getLastName();

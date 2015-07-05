@@ -41,6 +41,7 @@
                                     <th>Прізвище клієнта</th>
                                     <th>Вулиця, на якій проживає клієнт</th>
                                     <th>Статус повірки</th>
+                                    <th>Відповідальна особа</th>
                                     <th>Дії</th>
                                 </tr>
                                 </thead>
@@ -52,6 +53,7 @@
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
                                     <td>{{ verification.status }}</td>
+                                    <td>{{verification.providerEmployee}}</td>
                                     <td class="text-center">
                                         <a popover="Детальніше"
                                            popover-trigger="mouseenter"

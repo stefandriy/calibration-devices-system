@@ -46,7 +46,7 @@ public class ProviderVerificationController {
 
     @Autowired
     CalibratorService calibratorService;
-    
+
     private final Logger logger = Logger.getLogger(ProviderVerificationController.class);
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
@@ -83,32 +83,32 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "new/search", method = RequestMethod.POST)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
-    		@RequestBody VerificationSearchDTO verificationSearchDto,
+            @RequestBody VerificationSearchDTO verificationSearchDto,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-			ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
-		                                employeeUser.getOrganizationId(),
-		                                verificationSearchDto.getPageNumber(),
-		                                verificationSearchDto.getItemsPerPage(),
-		                                verificationSearchDto.getSearchByDate(),
-		                                verificationSearchDto.getSearchById(),
-		                                verificationSearchDto.getSearchByLastName(),
-		                                verificationSearchDto.getSearchByStreet()
-		                                );
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
+                employeeUser.getOrganizationId(),
+                verificationSearchDto.getPageNumber(),
+                verificationSearchDto.getItemsPerPage(),
+                verificationSearchDto.getSearchByDate(),
+                verificationSearchDto.getSearchById(),
+                verificationSearchDto.getSearchByLastName(),
+                verificationSearchDto.getSearchByStreet(),
+                verificationSearchDto.getProviderEmployee()
+        );
 
-			List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-			
-		        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
 
     }
-    
-    
+
+
     @RequestMapping(value = "new/count/provider", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByProviderId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         	return verificationService.findCountOfNewVerificationsByProviderId(user.getOrganizationId());
     }
-    
-    
+
+
     /**
      * Find calibrators by district which correspond provider district
      *
@@ -133,7 +133,7 @@ public class ProviderVerificationController {
         List<EmployeeProvider> providerListEmployee = new ArrayList<>();
 
         if (employee.getRole().equalsIgnoreCase("PROVIDER_ADMIN")) {
-            List<ProviderEmployee> list = providerEmployeeService.getAllProviders("PROVIDER_EMPLOYEE",employee.getOrganization().getId());
+            List<ProviderEmployee> list = providerEmployeeService.getAllProviders("PROVIDER_EMPLOYEE", employee.getOrganization().getId());
             EmployeeProvider.giveListOfProvidors(list);
             providerListEmployee = EmployeeProvider.giveListOfProvidors(list);
         } else {
@@ -149,20 +149,26 @@ public class ProviderVerificationController {
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-		        ProviderEmployee providerEmployee = new ProviderEmployee();
-		        providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
-		        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-		            verificationService.updateVerification(verificationId, verificationUpdatingDTO.getCalibrator(), providerEmployee);
-		        }
+        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
+            verificationService.updateVerification(verificationId, verificationUpdatingDTO.getCalibrator());
+        }
     }
 
     @RequestMapping(value = "new/read", method = RequestMethod.PUT)
     public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
-     System.out.println("inside controller to update");
-     verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
+        System.out.println("inside controller to update");
+        verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
     }
-    
-    
+
+    @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
+    public void assignProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+        ProviderEmployee providerEmployee = new ProviderEmployee();
+        String idVerif=verificationUpdatingDTO.getIdVerification();
+        providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
+        verificationService.assignProviderEmployee(idVerif, providerEmployee);
+    }
+
+
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
     public ClientStageVerificationDTO getNewVerificationDetailsById(
             @PathVariable String verificationId,

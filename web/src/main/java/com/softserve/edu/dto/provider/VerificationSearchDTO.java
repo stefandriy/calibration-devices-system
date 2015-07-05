@@ -1,5 +1,7 @@
 package com.softserve.edu.dto.provider;
 
+import com.softserve.edu.entity.user.ProviderEmployee;
+
 public class VerificationSearchDTO {
 	int pageNumber;
 	int itemsPerPage;
@@ -7,6 +9,7 @@ public class VerificationSearchDTO {
 	String searchByDate;
 	String searchByLastName;
 	String searchByStreet;
+	ProviderEmployee providerEmployee;
 	
 	public int getPageNumber() {
 		return pageNumber;
@@ -44,6 +47,12 @@ public class VerificationSearchDTO {
 	public void setSearchByStreet(String searchByStreet) {
 		this.searchByStreet = searchByStreet;
 	}
-	
-	
+
+	public ProviderEmployee getProviderEmployee() {
+		return providerEmployee;
+	}
+
+	public void setProviderEmployee(ProviderEmployee providerEmployee) {
+		this.providerEmployee = providerEmployee;
+	}
 }
