@@ -85,13 +85,7 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
     		@RequestBody VerificationSearchDTO verificationSearchDto,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-//
-//    		boolean searchRequired = (verificationSearchDto.getSearchByDate().length()>5)||(verificationSearchDto.getSearchById().length()>0)||
-//    				(verificationSearchDto.getSearchByLastName().length()>0)||(verificationSearchDto.getSearchByStreet().length()>0);
-//    			
-//    	if(searchRequired){
-//			System.err.println("search called");
-//			
+
 			ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
 		                                employeeUser.getOrganizationId(),
 		                                verificationSearchDto.getPageNumber(),
@@ -105,25 +99,13 @@ public class ProviderVerificationController {
 			List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
 			
 		        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-//		} else {
-//			System.err.println("normal method called called");
-//			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-//		                .toDTO(verificationService
-//		                        .findPageOfSentVerificationsByProviderId(
-//		                                employeeUser.getOrganizationId(),
-//		                                verificationSearchDto.getPageNumber(),
-//		                                verificationSearchDto.getItemsPerPage()));
-//
-//		        return new PageDTO<>(page.getTotalElements(), page.getContent());
-//		}
-    		
+
     }
     
     
     @RequestMapping(value = "new/count/provider", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByProviderId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-    	//System.out.println("Inside controller count ...");
-    	return verificationService.findCountOfNewVerificationsByProviderId(user.getOrganizationId());
+        	return verificationService.findCountOfNewVerificationsByProviderId(user.getOrganizationId());
     }
     
     

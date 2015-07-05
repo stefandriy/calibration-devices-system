@@ -35,7 +35,7 @@
 								 				<form name="form" class = "form-inline" ng-submit="doSearch()"> 
 									 				<div class="form-group">
 													  <p class="input-group">
-											              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" ng-change="changeDateToSend(dt)" is-open="openState.isOpen" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+											              <input type="text" class="form-control input-sm" datepicker-popup="{{format}}" ng-model="dt" ng-change="changeDateToSend(dt)" is-open="openState.isOpen" min-date="minDate"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
 											              	<span class="input-group-btn">
 											                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 											              </span>
@@ -44,17 +44,17 @@
 								 				</td>
 												 <td >
 								 					<div class="form-group">
-								 						<input type="text" class="form-control" ng-model="search.idText">
+								 						<input type="text" class="form-control input-sm" ng-model="search.idText">
 													 </div>
 												</td>
 												<td >
 													<div class="form-group">
-								 	 					<input type="text" class="form-control" ng-model="search.lastNameText">
+								 	 					<input type="text" class="form-control input-sm" ng-model="search.lastNameText">
 								 					</div>
 								 				</td>
 												<td >
 								 					<div class="form-group">
-								 	 					<input type="text" class="form-control" ng-model="search.streetText">
+								 	 					<input type="text" class="form-control input-sm" ng-model="search.streetText">
 													</div>
 								  				</td>
 								 				<td >

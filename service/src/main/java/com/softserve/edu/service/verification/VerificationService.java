@@ -5,24 +5,24 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import com.softserve.edu.entity.*;
 
+import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.util.ReadStatus;
-
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
-
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
 import org.apache.log4j.Logger;
@@ -179,49 +179,7 @@ public class VerificationService {
 				pageRequest);
 	}
 
-	// @Transactional(readOnly = true)
-	// public Page<Verification>
-	// findPageOfSentVerificationsByProviderIdAndSearch(
-	// Long providerId, int pageNumber, int itemsPerPage, String searchType,
-	// String searchText) {
-	// Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-	// switch (searchType) {
-	// case "id":
-	// return
-	// verificationRepository.findByProviderIdAndStatusAndIdLikeIgnoreCase(providerId,
-	// Status.SENT, "%"+ searchText +"%", pageRequest);
-	//
-	// case "lastName":
-	// return
-	// verificationRepository.findByProviderIdAndStatusAndClientData_lastNameLikeIgnoreCase(providerId,
-	// Status.SENT, "%"+ searchText +"%", pageRequest);
-	//
-	// case "street":
-	// return
-	// verificationRepository.findByProviderIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(providerId,
-	// Status.SENT, "%"+ searchText +"%", pageRequest);
-	//
-	// case "date":
-	//
-	// SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
-	// Date date = null;
-	// try {
-	// date = form.parse(searchText);
-	// } catch (ParseException e) {
-	// e.printStackTrace();
-	// }
-	// return
-	// verificationRepository.findByProviderIdAndStatusAndInitialDate(providerId,
-	// Status.SENT, date, pageRequest);
-	//
-	// default:
-	// return
-	// verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId,
-	// Status.SENT, pageRequest);
-	// }
-	//
-	// }
-
+	
 	@Transactional(readOnly = true)
 	public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
@@ -229,19 +187,25 @@ public class VerificationService {
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
+		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 		Root<Verification> root = criteriaQuery.from(Verification.class);
-		Path<Long> provider = root.join("provider").get("id");
-
-		List<Predicate> predicates = new ArrayList<Predicate>();
-
-		Predicate statusPredicate = cb.equal(root.get("status"), Status.SENT);
-		predicates.add(statusPredicate);
-
-		Predicate providerPredicate = cb.equal(provider, providerId);
-		predicates.add(providerPredicate);
-
+		Root<Verification> rootCount = countQuery.from(Verification.class);
+		Join<Verification, Provider> joinSearch = root.join("provider");
+		Join<Verification, Provider> joinCount = rootCount.join("provider");
+		criteriaQuery.select(root);
+		countQuery.select(cb.count(rootCount));
+		
+		Predicate searchPredicate = cb.conjunction();
+		Predicate countPredicate = cb.conjunction();
+		searchPredicate = cb.and(cb.equal(root.get("status"), Status.SENT));
+		countPredicate = cb.and(cb.equal(rootCount.get("status"), Status.SENT));
+		searchPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), searchPredicate);
+		countPredicate = cb.and(cb.equal(joinCount.get("id"), providerId), countPredicate);
+		
+		criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
+		
 		System.err.println("date to search " + dateToSearch);
-		if (dateToSearch.length() > 5) {
+		if (dateToSearch.length() > 1) {
 
 			SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = null;
@@ -250,35 +214,30 @@ public class VerificationService {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			Predicate datePredicate = cb.equal(root.get("initialDate"), date);
-			predicates.add(datePredicate);
+			searchPredicate = cb.and(cb.equal(root.get("initialDate"), date), searchPredicate);
+			countPredicate = cb.and(cb.equal(rootCount.get("initialDate"), date), countPredicate);
 		}
 
 		if (idToSearch.length() > 0) {
-			Predicate verifIdPredicate = cb.like(root.get("id"), "%" + idToSearch + "%");
-			predicates.add(verifIdPredicate);
+			searchPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), searchPredicate);
+			countPredicate = cb.and(cb.like(rootCount.get("id"), "%" + idToSearch + "%"), countPredicate);
 		}
 
 		if (lastNameToSearch.length() > 0) {
-			Predicate lastNamePredicate = cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%");
-			predicates.add(lastNamePredicate);
+			searchPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), searchPredicate);
+			countPredicate = cb.and(cb.like(rootCount.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), countPredicate);
 		}
 
 		if (streetToSearch.length() > 0) {
-			Predicate streetPredicate = cb.like(root.get("clientData").get("clientAddress").get("street"),
-					"%" + streetToSearch + "%");
-			predicates.add(streetPredicate);
+			searchPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), searchPredicate);
+			countPredicate = cb.and(cb.like(rootCount.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), countPredicate);
 		}
 
-		criteriaQuery.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
-
-		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		countQuery.select(cb.count(countQuery.from(Verification.class)));// .where(predicates.toArray(new
-																			// Predicate[]{}));
+		criteriaQuery.where(searchPredicate);
+		countQuery.where(countPredicate);													
+		
 		Long count = em.createQuery(countQuery).getSingleResult();
-
 		TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
-
 		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
 		typedQuery.setMaxResults(itemsPerPage);
 		List<Verification> verificationList = typedQuery.getResultList();
@@ -286,9 +245,10 @@ public class VerificationService {
 
 		result.setContent(verificationList);
 		result.setTotalItems(count);
-
 		return result;
 	}
+	
+	
 
 	@Transactional(readOnly = true)
 	public Verification findByIdAndProviderId(String id, Long providerId) {

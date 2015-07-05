@@ -7,7 +7,7 @@ angular
                 
         $scope.search = {
         		idText:"",
-        		formattedDate :"2000",
+        		formattedDate :"",
         		lastNameText:"",
         		streetText:""
         }
@@ -30,11 +30,10 @@ angular
 						getData: function($defer, params) {
 		        
 					        var queryOptions = {
+					        		
 								pageNumber: params.page(),
 								itemsPerPage: params.count(),
-//								searchType: $scope.search.type,
-//								searchText: $scope.search.text,
-								
+
 								searchById: $scope.search.idText,
 								searchByDate: $scope.search.formattedDate,
 					        	searchByLastName: $scope.search.lastNameText,
@@ -207,8 +206,9 @@ angular
               
               $scope.changeDateToSend = function(val){
             	  $log.debug( 'befor change date '+ val);
+            	  $log.debug( 'befor change date sent to controller  '+ $scope.search.formattedDate );
             	  if(val.isUndefined){
-            		  $scope.search.formattedDate = '2000';
+            		  $scope.search.formattedDate = '';
             	  
             	  } else {
             		  var datefilter = $filter('date');
