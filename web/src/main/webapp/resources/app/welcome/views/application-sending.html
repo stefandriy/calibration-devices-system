@@ -230,8 +230,13 @@
 
 					<div class="col-md-8">
 						<input id="flat" name="flat" class="form-control"
-							ng-model="formData.flat"> <span
+							ng-model="formData.flat" popover="{{'FLAT_INFO' | translate}}"
+							popover-trigger="focus" ng-pattern="/^[0-9]{1,10}$/" required> <span
 							class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
+							<p class="help-block"ng-if="clientForm.flat.$error.required">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'REQUIRED' | translate}}
+						</p>
 					</div>
 				</div>
 

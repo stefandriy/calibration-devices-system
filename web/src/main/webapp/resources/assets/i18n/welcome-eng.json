@@ -41,5 +41,6 @@
   "INCORRECT": "Incorrect value input",
    "INCORRECT": "Incorrect value input",
   "INCORRECT_LOGIN": "Login:",
-  "INCORRECT_PASSWORD": "Password:"
+  "INCORRECT_PASSWORD": "Password:",
+  "FLAT_INFO":"If you lives in a private house type 0."
 }

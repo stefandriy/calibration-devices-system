@@ -28,6 +28,7 @@ angular
 											$log.debug(status);
 											$scope.status = resolveStatus(
 													status, $translate.use());
+											
 										});
 
 								$scope.isShownForm = false;
@@ -38,6 +39,13 @@ angular
 										function(verification) {
 											$log.debug('verif from func :' + verification);
 											$scope.verification = verification;
+											
+											 if (verification.status == undefined){
+								              
+								            
+								                	$scope.incorrectStyle = {"border":"2px solid red"};
+								           
+								                }
 										});
 
 								$scope.isShownForm = false;
