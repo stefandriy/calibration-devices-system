@@ -184,12 +184,14 @@ public class VerificationService {
 	public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
 			String streetToSearch,ProviderEmployee providerEmployee) {
-
+			String role= providerEmployee.getRole();   // my code
+			String userName = providerEmployee.getUsername(); // my code
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 		Root<Verification> root = criteriaQuery.from(Verification.class);
 		Root<Verification> rootCount = countQuery.from(Verification.class);
+	//	Join<Verification, ProviderEmployee> joinSearche = root.join("providerEmployee");  //my code
 		Join<Verification, Provider> joinSearch = root.join("provider");
 		Join<Verification, Provider> joinCount = rootCount.join("provider");
 		criteriaQuery.select(root);
@@ -201,9 +203,12 @@ public class VerificationService {
 		countPredicate = cb.and(cb.equal(rootCount.get("status"), Status.SENT));
 		searchPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), searchPredicate);
 		countPredicate = cb.and(cb.equal(joinCount.get("id"), providerId), countPredicate);
-		
+
+		//searchPredicate = cb.and(cb.equal(joinSearch.get("providerEmployee"), userName), searchPredicate);  //my code
+
+
 		criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
-		
+
 		if (dateToSearch != null) {
 
 			SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");

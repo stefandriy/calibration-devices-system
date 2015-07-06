@@ -10,7 +10,7 @@ public class VerificationSearchDTO {
 	String searchByLastName;
 	String searchByStreet;
 	ProviderEmployee providerEmployee;
-	
+
 	public int getPageNumber() {
 		return pageNumber;
 	}

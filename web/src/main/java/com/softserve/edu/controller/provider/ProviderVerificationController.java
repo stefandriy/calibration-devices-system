@@ -85,7 +85,7 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
             @RequestBody VerificationSearchDTO verificationSearchDto,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
+       ProviderEmployee providerEmployee= providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
                 employeeUser.getOrganizationId(),
                 verificationSearchDto.getPageNumber(),
@@ -94,7 +94,8 @@ public class ProviderVerificationController {
                 verificationSearchDto.getSearchById(),
                 verificationSearchDto.getSearchByLastName(),
                 verificationSearchDto.getSearchByStreet(),
-                verificationSearchDto.getProviderEmployee()
+               providerEmployee
+
         );
 
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());

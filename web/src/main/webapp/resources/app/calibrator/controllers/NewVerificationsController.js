@@ -123,11 +123,11 @@ angular
                     });
 
                     //executes when modal closing
-                    modalInstance.result.then(function (calibrator) {
+                    modalInstance.result.then(function (verificator) {
                      
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
-                            calibrator: calibrator
+                            verificator: verificator
                         };
 
                         $log.info(dataToSend);

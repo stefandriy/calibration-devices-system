@@ -23,7 +23,8 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private String stateVerificator;
     private String stateVerificatorEmployee;
 
-    protected VerificationDTO() {}
+    protected VerificationDTO() {
+    }
 
     public VerificationDTO(
             ClientData clientData, String id, Date initialDate, Date expirationDate,
@@ -38,10 +39,18 @@ public class VerificationDTO extends ClientStageVerificationDTO {
         this.expirationDate = expirationDate;
         this.device = device == null ? "" : device.getDeviceType().name() + " : " + device.getNumber();
         this.provider = provider == null ? "" : provider.getName();
-        this.providerEmployee = providerEmployee == null ? "" : providerEmployee.getFirstName() + " " + providerEmployee.getLastName() +" " + providerEmployee.getMiddleName();
+        if (providerEmployee != null) {
+            if (providerEmployee.getMiddleName() != null) {
+                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
+            } else {
+                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
+            }
+        }
+       /* this.providerEmployee = providerEmployee == null ? "" : providerEmployee.getFirstName() + " " + providerEmployee.getLastName() + " " +
+                providerEmployee.getMiddleName();*/
         this.calibrator = calibrator == null ? "" : calibrator.getName();
         this.calibratorEmployee = calibratorEmployee == null ? "" : calibratorEmployee.getFirstName() + " "
-                + calibratorEmployee.getLastName()+ " " + calibratorEmployee.getMiddleName();
+                + calibratorEmployee.getLastName() + " " + calibratorEmployee.getMiddleName();
         this.stateVerificator = stateVerificator == null ? "" : stateVerificator.getName();
         this.stateVerificatorEmployee = stateVerificatorEmployee == null ? "" : stateVerificatorEmployee.getFirstName() + " "
                 + stateVerificatorEmployee.getLastName();
