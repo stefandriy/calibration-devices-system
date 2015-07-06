@@ -24,7 +24,7 @@
   "POSTCODE": "Postcode",
   "SEND_BTN": "send",
   "APP_SENT": "Thank you! We your application was sent. Your code is: ",
-  "APP_SENT_INFO": "Also this code was sent on your email. Hava a nice day!",
+  "APP_SENT_INFO": "Also this code was sent on your email. Have a nice day!",
   "APP_STATUS_TITLE": "Please enter the code of your application",
   "NOT_FOUND": "Application not found",
   "SEARCH_BTN": "search",
@@ -33,7 +33,7 @@
   "REQUIRED": "This field is required",
   "EMAIL_ERROR": "Email must contatin '@' character. For instance: ",
   "TYPEAHEAD_ERROR": "Start typing and select the appropriate option from the drop down list",
-  "ALPHABETIC_ERROR": "This field can contain only alphabetic characters",
+  "ALPHABETIC_ERROR": "This field can contain only alphabetic characters.",
   "PHONE_NUMBER_ERROR": "Phone number must be filled in format: 0{city/operator code}{phone number}",
   "PHONE_NUMBER_INFO":"This field is not mandatory , but to improve communications capabilities ask him to fill",
   "PROVIDER": "Provider",
@@ -42,5 +42,11 @@
    "INCORRECT": "Incorrect value input",
   "INCORRECT_LOGIN": "Login:",
   "INCORRECT_PASSWORD": "Password:",
-  "FLAT_INFO":"If you lives in a private house type 0."
+  "FLAT_INFO":"If you lives in a private house type 0.",
+  "ALPHABETIC_INFO":"This field can contain only their own name, so the name must begin with a letter.If proper name consists of two words , both words begin with a capital letter and should contain between dash.",
+  "MIDDLE_NAME_INFO":"This field can contain only their own name, so the name must begin with a letter.",
+  "DOUBLE_NAME_ERROR":"This field can contain only alphabetic characters and/or dash."
+
+ 
+
 }
