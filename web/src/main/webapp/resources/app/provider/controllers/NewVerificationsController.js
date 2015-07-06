@@ -32,16 +32,12 @@ angular
         	 $scope.clearInput();
         }); 
        
-        $scope.doSearch = function () {
-                $log.debug(' from scope d: ', $scope.dt);
-
-                $scope.tableParams.reload();
-            }
+        
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10
-            }, {
+            			}, {
                 total: 0,
                 getData: function ($defer, params) {
 
@@ -234,16 +230,12 @@ var checkForEmpty = function () {
 };
 
 
-
-
             /**
              *  Date picker and formatter setup
              * 
              */
             $scope.openState = {};
             $scope.openState.isOpen = false;
-
-
 
             $scope.open = function ($event) {
                 $event.preventDefault();
@@ -257,8 +249,6 @@ var checkForEmpty = function () {
                 startingDay: 1,
                 showWeeks: 'false'
               };
-
-
 
            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
            $scope.format = $scope.formats[2];
