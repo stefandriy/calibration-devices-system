@@ -26,7 +26,8 @@ angular.module('adminModule').factory(
 				},
 
 				editOrganization : function(formData, id) {
-					return $http.post("/admin/organization/edit", formData, id)
+					var url = '/admin/organization/edit/' + id;
+					return $http.post(url, formData)
 							.then(function(result) {
 								return result.status;
 							});

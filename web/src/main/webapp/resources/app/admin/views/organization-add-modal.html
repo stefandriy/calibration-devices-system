@@ -3,9 +3,8 @@
 </div>
 
 <div class="modal-body">
-	<form ng-controller="OrganizationFormController"
-		ng-submit="onOrganizationFormSubmit()" name="organizationForm"
-		novalidate>
+
+	<form name="organizationForm" novalidate>
 
 		<div class="row">
 			<div class="form-group col-md-4">
@@ -43,12 +42,12 @@
 		</div>
 
 		<div class="row">
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-4" ng-class="usernameValidation.css">
 				<label class="control-label">Електронна адреса</label>
 			</div>
 			<div class="form-group col-md-8">
-				<input type="text" ng-model="organizationFormData.email"
-					name="phone" class="form-control">
+				<input type="text" ng-model="organizationFormData.email" name="email"
+					class="form-control">
 			</div>
 		</div>
 
@@ -94,7 +93,7 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="panel panel-success">
+				<div class="panel panel-primary">
 					<div class="panel-heading">Адреса</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
@@ -104,9 +103,9 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="region" type="text"
-										ng-model="$root.address.region"
+										ng-model="organizationFormData.region"
 										typeahead="region as region.designation for region in regions | filter: $viewValue"
-										typeahead-on-select="onRegionSelected($root.address.region.id)"
+										typeahead-on-select="onRegionSelected(organizationFormData.region.id)"
 										typeahead-editable="false" class="form-control" required>
 								</div>
 							</div>
@@ -117,9 +116,9 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="district" type="text"
-										ng-model="$root.address.district"
+										ng-model="organizationFormData.district"
 										typeahead="district as district.designation for district in districts | filter: $viewValue"
-										typeahead-on-select="onDistrictSelected($root.address.district.id)"
+										typeahead-on-select="onDistrictSelected(organizationFormData.district.id)"
 										typeahead-editable="false" class="form-control" required>
 								</div>
 							</div>
@@ -131,9 +130,9 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="locality" type="text"
-										ng-model="$root.address.locality"
+										ng-model="organizationFormData.locality"
 										typeahead="locality as locality.designation for locality in localities | filter: $viewValue"
-										typeahead-on-select="onLocalitySelected($root.address.locality.id)"
+										typeahead-on-select="onLocalitySelected(organizationFormData.locality.id)"
 										typeahead-editable="false" class="form-control" required>
 								</div>
 							</div>
@@ -144,9 +143,9 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="street" type="text"
-										ng-model="$root.address.street"
+										ng-model="organizationFormData.street"
 										typeahead="street as street.designation for street in streets | filter: $viewValue"
-										typeahead-on-select="onStreetSelected($root.address.street.id)"
+										typeahead-on-select="onStreetSelected(organizationFormData.street.id)"
 										typeahead-editable="false" class="form-control" required>
 								</div>
 							</div>
@@ -157,9 +156,8 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="building" type="text"
-										ng-model="$root.address.building"
+										ng-model="organizationFormData.building"
 										typeahead="building as building.designation for building in buildings | filter: $viewValue"
-										typeahead-on-select="onBuildingSelected()"
 										class="form-control" required>
 								</div>
 							</div>
@@ -169,8 +167,8 @@
 									<label class="control-label">Квартира</label>
 								</div>
 								<div class="form-group col-md-8">
-									<input name="flat" type="text" ng-model="$root.address.flat"
-										ng-change="$root.updateAddressMessage()" class="form-control"
+									<input name="flat" type="text"
+										ng-model="organizationFormData.flat" class="form-control"
 										required>
 								</div>
 							</div>
@@ -182,7 +180,8 @@
 
 		<div class="row">
 			<div class="form-group col-md-10">
-				<button type="submit" class="btn btn-success">Добавити</button>
+				<button type="submit" class="btn btn-success"
+					ng-click="onOrganizationFormSubmit()">Добавити</button>
 				<a class="btn btn-warning" ng-click="resetOrganizationForm()">Скинути
 					форму</a>
 			</div>
@@ -192,5 +191,4 @@
 		</div>
 
 	</form>
-
 </div>

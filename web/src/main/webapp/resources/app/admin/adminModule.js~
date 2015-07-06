@@ -43,9 +43,7 @@ angular.module('adminModule').run(function (paginationConfig) {
 define([
     'controllers/TopNavBarController',
     'controllers/MainPanelController',
-    'controllers/OrganizationPanelController',
-    'controllers/OrganizationAddModalController',
-    'controllers/OrganizationEditModalController',
+    'controllers/OrganizationЗфтудController',
     'controllers/DeviceController',
     'controllers/SettingsController',
     'controllers/UsersController',

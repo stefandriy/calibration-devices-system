@@ -126,7 +126,7 @@ public class OrganizationsService {
 	public String getFlat(Long id) {
 		return findById(id).getAddress().getFlat();
 	}
-	
+
 	@Transactional
 	public String getUser(Long id) {
 		return userRepository.findUsernameByOrganizationId(id);
@@ -145,35 +145,16 @@ public class OrganizationsService {
 		}
 		return "NO_TYPE";
 	}
-	
-//	@Transactional
-//	public void editOrganizationWithAdmin(Long organizationId, String name, String email,
-//			String phone, String type, String username, String password,
-//			Address address) {
-//		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
-//		Organization organization = organizationRepository.findOne(organizationId);
-//		String usernameDB = userRepository.findUsernameByOrganizationId(organizationId);
-//		switch (type) {
-//		case "PROVIDER":
-//			organization = new Provider(name, email, phone);
-//			employeeAdmin = new ProviderEmployee(username, passwordEncoded,
-//					PROVIDER_ADMIN, organization);
-//			break;
-//		case "CALIBRATOR":
-//			organization = new Calibrator(name, email, phone);
-//			employeeAdmin = new CalibratorEmployee(username, passwordEncoded,
-//					CALIBRATOR_ADMIN, organization);
-//			break;
-//		case "STATE_VERIFICATION":
-//			organization = new StateVerificator(name, email, phone);
-//			employeeAdmin = new StateVerificatorEmployee(username,
-//					passwordEncoded, STATE_VERIFICATOR_ADMIN, organization);
-//			break;
-//		default:
-//			throw new NoSuchElementException();
-//		}
-//		organization.setAddress(address);
-//		organizationRepository.save(organization);
-//		userRepository.save(employeeAdmin);
-//	}
+
+	@Transactional
+	public void editOrganization(Long organizationId, String name,
+			String email, String phone, Address address) {
+		Organization organization = organizationRepository
+				.findOne(organizationId);
+		organization.setName(name);
+		organization.setEmail(email);
+		organization.setPhone(phone);
+		organization.setAddress(address);
+
+	}
 }
