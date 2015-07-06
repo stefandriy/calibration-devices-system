@@ -66,7 +66,7 @@ public class ProviderEmployeeController {
             @RequestBody ProviderEmployee providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        Organization employeeOrganization = organizationsService.findById(user.getOrganizationId());
+        Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
         providerEmployee.setOrganization(employeeOrganization);
 
         providerEmployeeService.addEmployee(providerEmployee);

@@ -156,8 +156,7 @@ angular
 							};
 
 							/**
-							 * Transfers address data from modal window to
-							 * current scope
+							 * Convert address data to string
 							 */
 							function addressFormToOrganizationForm() {
 								$scope.organizationFormData.region = $scope.organizationFormData.region.designation;

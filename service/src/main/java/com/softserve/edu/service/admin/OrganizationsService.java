@@ -73,63 +73,8 @@ public class OrganizationsService {
 	}
 
 	@Transactional(readOnly = true)
-	public Organization findById(Long id) {
+	public Organization getOrganizationById(Long id) {
 		return organizationRepository.findOne(id);
-	}
-
-	@Transactional
-	public String getEmail(Long id) {
-		return findById(id).getEmail();
-	}
-
-	@Transactional
-	public String getName(Long id) {
-		return findById(id).getName();
-	}
-
-	@Transactional
-	public String getPhone(Long id) {
-		return findById(id).getPhone();
-	}
-
-	@Transactional
-	public String getType(Long id) {
-		return getOrganizationType(findById(id));
-	}
-
-	@Transactional
-	public String getRegion(Long id) {
-		return findById(id).getAddress().getRegion();
-	}
-
-	@Transactional
-	public String getLocality(Long id) {
-		return findById(id).getAddress().getLocality();
-	}
-
-	@Transactional
-	public String getDistrict(Long id) {
-		return findById(id).getAddress().getDistrict();
-	}
-
-	@Transactional
-	public String getStreet(Long id) {
-		return findById(id).getAddress().getStreet();
-	}
-
-	@Transactional
-	public String getBuilding(Long id) {
-		return findById(id).getAddress().getBuilding();
-	}
-
-	@Transactional
-	public String getFlat(Long id) {
-		return findById(id).getAddress().getFlat();
-	}
-
-	@Transactional
-	public String getUser(Long id) {
-		return userRepository.findUsernameByOrganizationId(id);
 	}
 
 	@Transactional
@@ -148,13 +93,12 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-			String email, String phone, Address address) {
+			String phone, String email, Address address) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		organization.setName(name);
-		organization.setEmail(email);
 		organization.setPhone(phone);
+		organization.setEmail(email);
 		organization.setAddress(address);
-
 	}
 }

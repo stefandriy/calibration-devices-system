@@ -20,7 +20,4 @@ public interface UserRepository extends CrudRepository<User, String> {
 
 	Page<User> findByRoleLikeIgnoreCase(String role, Pageable pageable);
 
-	@Query(value = "SELECT username FROM USER WHERE organization_id = ?1 AND role LIKE '%ADMIN%'", nativeQuery = true)
-	String findUsernameByOrganizationId(Long id);
-	
 }

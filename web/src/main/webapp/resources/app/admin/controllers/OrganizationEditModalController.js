@@ -109,24 +109,23 @@ angular
 							$scope.resetOrganizationForm();
 
 							/**
-							 * Transfers address data from modal window to
-							 * current scope
+							 * Convert address data to string
 							 */
 							function addressFormToOrganizationForm() {
-								if (typeof $rootScope.organization.region == 'object') {
-									$rootScope.organization.region = $rootScope.organization.region.designation;
+								if (typeof $rootScope.organization.address.region == 'object') {
+									$rootScope.organization.address.region = $rootScope.organization.address.region.designation;
 								}
-								if (typeof $rootScope.organization.district == 'object') {
-									$rootScope.organization.district = $rootScope.organization.district.designation;
+								if (typeof $rootScope.organization.address.district == 'object') {
+									$rootScope.organization.address.district = $rootScope.organization.address.district.designation;
 								}
-								if (typeof $rootScope.organization.locality == 'object') {
-									$rootScope.organization.locality = $rootScope.organization.locality.designation;
+								if (typeof $rootScope.organization.address.locality == 'object') {
+									$rootScope.organization.address.locality = $rootScope.organization.address.locality.designation;
 								}
-								if (typeof $rootScope.organization.street == 'object') {
-									$rootScope.organization.street = $rootScope.organization.street.designation;
+								if (typeof $rootScope.organization.address.street == 'object') {
+									$rootScope.organization.address.street = $rootScope.organization.address.street.designation;
 								}
-								if (typeof $rootScope.organization.building == 'object') {
-									$rootScope.organization.building = $rootScope.organization.building.designation;
+								if (typeof $rootScope.organization.address.building == 'object') {
+									$rootScope.organization.address.building = $rootScope.organization.address.building.designation;
 								}
 							}
 
@@ -137,8 +136,19 @@ angular
 							 */
 							$scope.editOrganization = function() {
 								addressFormToOrganizationForm();
+								var organizationForm = {
+									name : $rootScope.organization.name,
+									phone : $rootScope.organization.phone,
+									email : $rootScope.organization.email,
+									region : $rootScope.organization.address.region,
+									locality : $rootScope.organization.address.locality,
+									district : $rootScope.organization.address.district,
+									street : $rootScope.organization.address.street,
+									building : $rootScope.organization.address.building,
+									flat : $rootScope.organization.address.flat
+								}
 								organizationService.editOrganization(
-										$rootScope.organization,
+										organizationForm,
 										$rootScope.organizationId).then(
 										function(data) {
 											if (data == 200) {

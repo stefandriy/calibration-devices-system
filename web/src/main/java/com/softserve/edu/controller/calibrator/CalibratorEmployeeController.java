@@ -59,7 +59,7 @@ public class CalibratorEmployeeController {
     public ResponseEntity<HttpStatus> addEmployee(
             @RequestBody CalibratorEmployee calibratorEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        Organization employeeOrganization = organizationsService.findById(user.getOrganizationId());
+        Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
         calibratorEmployee.setOrganization(employeeOrganization);
         calibratorEmployeeService.addEmployee(calibratorEmployee);
 

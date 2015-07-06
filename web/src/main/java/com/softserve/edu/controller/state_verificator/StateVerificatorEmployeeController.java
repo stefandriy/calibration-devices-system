@@ -59,7 +59,7 @@ public class StateVerificatorEmployeeController {
 	public ResponseEntity<HttpStatus> addEmployee(
 			@RequestBody StateVerificatorEmployee stateVerificatorEmployee,
 			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-		Organization employeeOrganization = organizationsService.findById(user.getOrganizationId());
+		Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
 		stateVerificatorEmployee.setOrganization(employeeOrganization);
 		
 		stateVerificatorEmployeeService.addEmployee(stateVerificatorEmployee);

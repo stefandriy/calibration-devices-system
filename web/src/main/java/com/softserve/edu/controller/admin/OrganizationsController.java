@@ -2,10 +2,12 @@ package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.SearchDTO;
+import com.softserve.edu.dto.admin.OrganizationEditDTO;
 import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.StateVerificator;
 import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
@@ -112,48 +114,37 @@ public class OrganizationsController {
 	}
 
 	@RequestMapping(value = "getOrganization/{id}")
-	public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
-		OrganizationDTO organization = new OrganizationDTO();
-		organization.setEmail(organizationsService.getEmail(id));
-		organization.setName(organizationsService.getName(id));
-		organization.setPhone(organizationsService.getPhone(id));
-		organization.setType(organizationsService.getType(id));
-		organization.setRegion(organizationsService.getRegion(id));
-		organization.setLocality(organizationsService.getLocality(id));
-		organization.setDistrict(organizationsService.getDistrict(id));
-		organization.setStreet(organizationsService.getStreet(id));
-		organization.setBuilding(organizationsService.getBuilding(id));
-		organization.setFlat(organizationsService.getFlat(id));
-		organization.setUsername(organizationsService.getUser(id));
+	public Organization getOrganization(@PathVariable("id") Long id) {
+		Organization organization = organizationsService
+				.getOrganizationById(id);
 		return organization;
 	}
 
 	/**
 	 * Edit organization in database
 	 *
-	 * @param organizationDTO
+	 * @param organization
 	 *            object with organization data
 	 * @return a response body with http status {@literal OK} if organization
 	 *         successfully edited or else http status {@literal CONFLICT}
 	 */
 	@RequestMapping(value = "edit/{organizationId}", method = RequestMethod.POST)
 	public ResponseEntity editOrganization(
-			@RequestBody OrganizationDTO organizationDTO,
+			@RequestBody OrganizationEditDTO organization,
 			@PathVariable Long organizationId) {
 		HttpStatus httpStatus = HttpStatus.OK;
-		Address address = new Address(organizationDTO.getRegion(),
-				organizationDTO.getDistrict(), organizationDTO.getLocality(),
-				organizationDTO.getStreet(), organizationDTO.getBuilding(),
-				organizationDTO.getFlat());
+		Address address = new Address(organization.getRegion(),
+				organization.getDistrict(), organization.getLocality(),
+				organization.getStreet(), organization.getBuilding(),
+				organization.getFlat());
 		try {
 			organizationsService.editOrganization(organizationId,
-					organizationDTO.getName(), organizationDTO.getEmail(),
-					organizationDTO.getPhone(), address);
+					organization.getName(), organization.getPhone(),
+					organization.getEmail(), address);
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
 			httpStatus = HttpStatus.CONFLICT;
 		}
 		return new ResponseEntity(httpStatus);
 	}
-
 }
