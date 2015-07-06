@@ -26,7 +26,13 @@ public class UsersService {
         return userRepository.findOne(username) == null;
     }
 
-
+    /**
+     * get all users who are added in system
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param search
+     * @return page of users with search
+     */
     @Transactional
     public Page<User> getUsersBySearchAndPagination(int pageNumber,
                                                     int itemsPerPage, String search) {

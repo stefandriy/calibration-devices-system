@@ -14,7 +14,6 @@ public class UsersPageItem {
     private String phone;
 
     private String organization;
-
     private Long countOfVarification;
 
     public UsersPageItem() {}
@@ -96,6 +95,7 @@ public class UsersPageItem {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public String getOrganization() {
         return organization;
     }
@@ -103,8 +103,6 @@ public class UsersPageItem {
     public void setOrganization(String organization) {
         this.organization = organization;
     }
-
-
 
     public Long getCountOfVarification() {
         return countOfVarification;

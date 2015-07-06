@@ -2,7 +2,9 @@ package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.user.*;
+import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.SystemAdmin;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.UsersService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,15 @@ public class UserController {
             return isAvailable;
     }
 
+    /**
+     *Take data from pageSearchUsers in first request and then
+     * if somebody doing search this method will invoke instead
+     * pageSearchUsers
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param search
+     * @return PageDTO with employees
+     */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
     public PageDTO<UsersPageItem> pageSearchUsers(
             @PathVariable Integer pageNumber,
@@ -48,7 +59,6 @@ public class UserController {
                 .getUsersBySearchAndPagination(pageNumber, itemsPerPage, search)
                 .map(
                         new Converter<User, UsersPageItem>() {
-
                             @Override
                                 public UsersPageItem convert(User user) {
                                 UsersPageItem usPage = null;
@@ -61,7 +71,6 @@ public class UserController {
                                     usPage.setLastName(((Employee) user).getLastName());
                                     usPage.setOrganization(((Employee) user).getOrganization().getName());
                                     usPage.setPhone(((Employee) user).getPhone());
-
                                 } else if (user instanceof SystemAdmin) {
                                     usPage = new UsersPageItem();
                                     usPage.setUsername(user.getUsername());
@@ -75,7 +84,12 @@ public class UserController {
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
 
-
+    /**
+     *This method take data from web and invoke pageSearchUsers
+     * @param pageNumber
+     * @param itemsPerPage
+     * @return  pageSearchUsers
+     */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<UsersPageItem> getUsersPage(@PathVariable Integer pageNumber,
                                                @PathVariable Integer itemsPerPage) {

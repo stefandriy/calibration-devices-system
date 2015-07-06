@@ -1,7 +1,5 @@
 package com.softserve.edu.dto;
 
-import com.softserve.edu.service.SecurityUserDetailsService;
-
 import java.util.List;
 
 public class PageDTO<T> {
@@ -9,19 +7,18 @@ public class PageDTO<T> {
     private Long totalItems;
     private List<T> content;
     private Long idOrganization;
+
     public PageDTO() {}
 
     public PageDTO(Long totalItems, List<T> content) {
         this.totalItems = totalItems;
         this.content = content;
     }
-
     public PageDTO(Long totalItems, List<T> content, Long userId) {
         this.totalItems = totalItems;
         this.content = content;
         this.idOrganization=userId;
     }
-
 
     public Long getTotalItems() {
         return totalItems;
