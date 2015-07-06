@@ -127,7 +127,7 @@ public class ProviderVerificationController {
         );
     }
 
-    @RequestMapping(value = "new/providers", method = RequestMethod.GET)
+    @RequestMapping(value = "new/providerEmployees", method = RequestMethod.GET)
     public List<EmployeeProvider> employeeVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         ProviderEmployee employee = providerEmployeeService.oneProviderEmployee(user.getUsername());

@@ -28,36 +28,42 @@
                                     <th>Дії<br/> <br/></th>
                                     <th>Відповідальна особа</th>
                                     <th>Відправити державному повірнику</th>
-                               	 </tr>
+                                </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
 
-                                       <p class="input-group myDatePicker">
-                                         <input type="text" class="form-control input-sm"  datepicker-popup="{{format}}" ng-model="dt"
-                                            ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
-                                             min-date="minDate" datepicker-options="dateOptions"
-                                            date-disabled="disabled(date, mode)" ng-required="true"close-text="Close"/>
+                                        <p class="input-group myDatePicker">
+                                            <input type="text" class="form-control input-sm"
+                                                   datepicker-popup="{{format}}" ng-model="dt"
+                                                   ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
+                                                   min-date="minDate" datepicker-options="dateOptions"
+                                                   date-disabled="disabled(date, mode)" ng-required="true"
+                                                   close-text="Close"/>
 											  <span class="input-group-btn ">
-											     <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
-											        <i class="glyphicon glyphicon-calendar"></i>
+											     <button type="button" class="btn btn-default myGroupBtn"
+                                                         ng-click="open($event)">
+                                                     <i class="glyphicon glyphicon-calendar"></i>
                                                  </button>
 											  </span>
-                                       </p>
+                                        </p>
                                     </td>
                                     <td>
-                                       <input type="text" class="form-control input-sm" ng-model="search.idText" ng-change= doSearch()>
+                                        <input type="text" class="form-control input-sm" ng-model="search.idText"
+                                               ng-change=doSearch()>
                                     </td>
                                     <td>
-                                       <input type="text" class="form-control input-sm" ng-model="search.lastNameText" ng-change= doSearch()>
+                                        <input type="text" class="form-control input-sm" ng-model="search.lastNameText"
+                                               ng-change=doSearch()>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control input-sm" ng-model="search.streetText" ng-change= doSearch()>
+                                        <input type="text" class="form-control input-sm" ng-model="search.streetText"
+                                               ng-change=doSearch()>
                                     </td>
                                     <td class="text-center clearInput">
-                                      <button class="btn btn-danger btn-sm" ng-click="clearInput()">Clear</button>
-									</td>
+                                        <button class="btn btn-danger btn-sm" ng-click="clearInput()">Clear</button>
+                                    </td>
                                 </tr>
                                 <tr ng-repeat="verification in $data"
                                     ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">

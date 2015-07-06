@@ -156,7 +156,7 @@ $scope.allIsEmpty = true;
 /**
  * push verification id to array
  */
-$scope.resolveVerificationId = function (id, providerEmployee) {
+$scope.resolveVerificationId = function (id) {
     var index = $scope.idsOfVerifications.indexOf(id);
     if (index === -1) {
         $scope.idsOfVerifications.push(id);

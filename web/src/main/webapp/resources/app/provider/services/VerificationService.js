@@ -19,7 +19,7 @@ angular
                 return getData('verifications/new/calibrators');
             },
             getProviders: function (url) {
-                return getData('verifications/new/providers');
+                return getData('verifications/new/providerEmployees');
             },
             sendVerificationsToCalibrator: function (data) {
                return updateData('new/update', data);
