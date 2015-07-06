@@ -96,7 +96,6 @@ public class CalibratorController {
 
     @RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByCalibratorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-    	//System.out.println("Inside calibrator controller count ...");
     	return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
     }
     

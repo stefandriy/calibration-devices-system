@@ -102,6 +102,12 @@ public class VerificationService {
 		return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
 				ReadStatus.UNREAD);
 	}
+	
+	@Transactional(readOnly = true)
+	public long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
+		return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.IN_PROGRESS,
+				ReadStatus.UNREAD);
+	}
 
 	@Transactional(readOnly = true)
 	public Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber,

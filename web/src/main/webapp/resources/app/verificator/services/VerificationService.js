@@ -35,9 +35,16 @@ angular
             },
             getBuildingsCorrespondingStreet:function(selectedBuilding){
                     return getData("applications/buildings/" + selectedBuilding.id);
-                }
-
-
+                },
+            getCountOfNewVerifications: function(url) {
+            	return getData('verifications/new/count/verificator');
+            },
+            markVerificationAsRead : function(data) {
+            	return updateData('new/read', data);
+            },
+            searchNewVerifications : function(data) {
+            	return sendDataWithParams('new/search', data);
+            }
         };
 
         function getData(url) {

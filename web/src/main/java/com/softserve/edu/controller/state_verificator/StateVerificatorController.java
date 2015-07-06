@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
@@ -72,6 +73,11 @@ public class StateVerificatorController {
         					.getAddress()
         					.getDistrict()
         );
+    }
+    
+    @RequestMapping(value = "new/count/verificator", method = RequestMethod.GET)
+    public Long getCountOfNewVerificationsByStateVerificatorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    	return verificationService.findCountOfNewVerificationsByStateVerificatorId(user.getOrganizationId());
     }
     
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)

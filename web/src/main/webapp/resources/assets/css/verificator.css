@@ -31,7 +31,10 @@ body {
 .navbar-top-links {
     margin-right: 0;
 }
-
+.unreadClass {
+	background: rgba(0, 255, 0, 0.2);
+	color: black;
+}
 .navbar-top-links li {
     display: inline-block;
 }

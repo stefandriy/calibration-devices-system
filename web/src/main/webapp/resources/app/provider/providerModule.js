@@ -69,6 +69,7 @@ define([
     'controllers/SettingsController',
     'controllers/NotificationsController',
     'controllers/ProviderEmployeeController',
+    
     'services/VerificationService',
     'services/AddressService',
     'services/SettingsService',

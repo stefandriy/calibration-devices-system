@@ -48,6 +48,7 @@
         'controllers/SendingModalController',
         'controllers/EmployeeController',
         'controllers/AddressModalController',
+        'controllers/NotificationsController',
       
         'services/AddressService',
         'services/UserService',

@@ -56,5 +56,5 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
     long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
-
+    long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, ReadStatus readStatus);
 }
