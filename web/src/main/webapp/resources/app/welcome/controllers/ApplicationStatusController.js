@@ -43,7 +43,7 @@ angular
 											 if (verification.status == undefined){
 								              
 								            
-								                	$scope.incorrectStyle = {"border":"2px solid red"};
+								                	$scope.incorrectStyle = {"border":"2px solid red","background-color":"DarkSalmon","color": "black"};
 								           
 								                }
 										});

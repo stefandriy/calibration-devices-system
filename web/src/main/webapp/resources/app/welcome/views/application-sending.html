@@ -24,7 +24,7 @@
 					<div class="col-md-8">
 						<input id="lastName" name="lastName" class="form-control"
 							type="text" ng-model="formData.lastName"
-							ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required> <span
+							ng-pattern="/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/" required> <span
 							class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
 						<p class="help-block" ng-if="clientForm.lastName.$error.required">
@@ -46,7 +46,7 @@
 					<div class="col-md-8">
 						<input id="firstName" name="firstName" class="form-control"
 							ng-model="formData.firstName"
-							ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required> <span
+							ng-pattern="/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/" required> <span
 							class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
 						<p class="help-block" ng-if="clientForm.firstName.$error.required">
@@ -68,7 +68,7 @@
 					<div class="col-md-8">
 						<input id="middleName" name="middleName" type="text"
 							class="form-control" ng-model="formData.middleName"
-							ng-pattern="/^[A-Za-z\u0400-\u04FF]+$/" required> <span
+							ng-pattern="/^[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}$/" required> <span
 							class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
 						<p class="help-block"
@@ -214,6 +214,7 @@
 						<input id="building" name="building" class="form-control"
 							ng-model="selectedBuilding"
 							typeahead="building as building.designation for building in buildings | filter: $viewValue"
+							ng-pattern="/^[1-9]{1}[0-9]{0,3}[A-Z\u0410-\u042f\u0407\u0406a-z\u0430-\u044f\u0456\u0457]{0,1}$/"
 							required> <span
 							class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -231,7 +232,7 @@
 					<div class="col-md-8">
 						<input id="flat" name="flat" class="form-control"
 							ng-model="formData.flat" popover="{{'FLAT_INFO' | translate}}"
-							popover-trigger="focus" ng-pattern="/^[0-9]{1,10}$/" required> <span
+							popover-trigger="focus" ng-pattern="/^([1-9]{1}[0-9]{0,3}|0)$/" required> <span
 							class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
 							<p class="help-block"ng-if="clientForm.flat.$error.required">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
