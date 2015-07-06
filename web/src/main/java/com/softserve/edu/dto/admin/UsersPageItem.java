@@ -17,12 +17,7 @@ public class UsersPageItem {
 
     private Long countOfVarification;
 
-
-
     public UsersPageItem() {}
-
-
-
 
     public UsersPageItem(String username, String password,
                          String role, String organization, String firstName, String lastName,

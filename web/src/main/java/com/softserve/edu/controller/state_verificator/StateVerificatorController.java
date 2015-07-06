@@ -5,30 +5,21 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
-import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
-import com.softserve.edu.dto.asm.CalibrationTestDTOAsm;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.dto.state_verificator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Provider;
-import com.softserve.edu.entity.StateVerificator;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
-import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -57,7 +48,6 @@ public class StateVerificatorController {
 			@PathVariable Integer pageNumber,
 			@PathVariable Integer itemsPerPage,
 			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-		System.out.println("Inside Controller!!!");
 		Page<VerificationPageDTO> page = VerificationPageDTOTransformer
 				.toDTO(verificationService
 						.findPageOfSentVerificationsByStateVerificatorId(
@@ -83,21 +73,6 @@ public class StateVerificatorController {
         					.getDistrict()
         );
     }
-    
-    /**
-     * Update verifications
-     */
-//    @RequestMapping(value = "new/update", method = RequestMethod.PUT)
-//    public void updateVerification(
-//            @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-//        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-//            verificationService
-//                    .updateVerification(
-//                            verificationId,
-//                            verificationUpdatingDTO.getProvider()
-//                    );
-//        }
-//    }
     
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
     public ClientStageVerificationDTO getNewVerificationDetailsById(

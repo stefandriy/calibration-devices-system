@@ -20,11 +20,6 @@
                         templateUrl: '/resources/app/verificator/views/new-verifications.html',
                         controller: 'NewVerificationsController'
                     })
-//                    .state("calibration-test", {
-//                        url: '/verifications/calibration-test',
-//                        templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
-//                        controller: 'CalibrationTestController'
-//                    })
                     .state("employees", {
                         url: '/employees',
                         templateUrl: '/resources/app/verificator/views/employee/main-panel.html',
@@ -36,7 +31,6 @@
                         controller: 'ArchivalVerificationsController'
                     });
 
-//BEFORE MERGE!!!!!!!!!!!!!!!!!!!!!!!!!
             }]);
 
     angular.module('verificatorModule').run(function (paginationConfig) {
@@ -52,10 +46,9 @@
         'controllers/NewVerificationsController',
         'controllers/DetailsModalController',
         'controllers/SendingModalController',
-       // 'controllers/CalibrationTestController',
         'controllers/EmployeeController',
         'controllers/AddressModalController',
-       // 'services/CalibrationTestService',
+      
         'services/AddressService',
         'services/UserService',
         'services/VerificationService'

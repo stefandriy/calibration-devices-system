@@ -364,38 +364,6 @@ public class VerificationService {
 		verificationRepository.save(verification);
 	}
 
-	/**
-	 * Find verification, add receive status to Provider, add Provider to
-	 * verification save verification
-	 */
-	// @Transactional
-	// public void updateVerification(String verificationId, Provider provider){
-	// Verification verification =
-	// verificationRepository.findOne(verificationId);
-	// if (verification == null) {
-	// logger.error("verification haven't found");
-	// return;
-	// }
-	// verification.setStatus(Status.COMPLETED);
-	// verification.setProvider(provider);
-	// verificationRepository.save(verification);
-	// }
-	//
-	// /**
-	// * Find verification, add RECEIVED status to provider, add provider to
-	// verification.
-	// * save verification
-	// * SOME SH*T!!!
-	// */
-	// @Transactional
-	// public void updateVerificationByStateVerificator(String verificationId,
-	// Provider provider) {
-	// Verification verification =
-	// verificationRepository.findOne(verificationId);
-	// verification.setStatus(Status.RECEIVED);
-	// verification.setProvider(provider);
-	// verificationRepository.save(verification);
-	// }
 
 	/**
 	 * Returns calibration test assigned to verification

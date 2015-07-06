@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.softserve.edu.controller.provider.ProviderEmployeeController;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.StateVerificatorEmployee;
-import com.softserve.edu.repository.StateVerificatorEmployeeRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.UserService;
 import com.softserve.edu.service.admin.OrganizationsService;
