@@ -8,11 +8,8 @@ angular
 	    	$scope.countOfUnreadVerifications = 0;
 	    	
 	    	$scope.reloadVerifications = function() {
-				promiseTimeOut = $timeout(function() {
-							$state.reload();
-							$log.info('time for break');
-			    	}, 300);
-			}
+	    		$rootScope.$broadcast('refresh-table');
+	    	}
 			
 	    	$scope.startPolling = function(){
 					$scope.stopPolling();
@@ -24,28 +21,28 @@ angular
 					}, 5000); 
 			}
 
-    	$scope.stopPolling = function() {
-    			$interval.cancel(promiseInterval);
-    	};
-    	
-    	$scope.startPolling();
-    	
-		$rootScope.$on('verification-sent-to-calibrator', function(){
-				$log.info("gotcha... verif sent to calibrator ");   	
+	    	$scope.stopPolling = function() {
+	    			$interval.cancel(promiseInterval);
+	    	};
+	    	
+	    	$scope.startPolling();
+	    	
+			$rootScope.$on('verification-sent-to-calibrator', function(){
+					$log.info("gotcha... verif sent to calibrator ");   	
+					verificationService.getCountOfNewVerifications().success(function (count) {
+			       		$scope.countOfUnreadVerifications = count;
+						});
+			});	   	
+		
+			$rootScope.$on('verification-was-read', function(){
+				$log.info("gotcha... verif was read "); 
 				verificationService.getCountOfNewVerifications().success(function (count) {
 		       		$scope.countOfUnreadVerifications = count;
 					});
-		});	   	
-	
-		$rootScope.$on('verification-was-read', function(){
-			$log.info("gotcha... verif was read "); 
-			verificationService.getCountOfNewVerifications().success(function (count) {
-	       		$scope.countOfUnreadVerifications = count;
-				});
-		});
-	
-		$scope.$on('$destroy', function () {
-				$scope.stopPolling();
-		}); 
+			});
+		
+			$scope.$on('$destroy', function () {
+					$scope.stopPolling();
+			}); 
 
 	}]);

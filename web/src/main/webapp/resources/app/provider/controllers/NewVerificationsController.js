@@ -1,22 +1,38 @@
 angular
     .module('providerModule')
     .controller('NewVerificationsController', ['$scope', '$log',
-        '$modal', 'VerificationService',
-        '$rootScope', 'ngTableParams', '$filter',
-        function ($scope, $log, $modal, verificationService, $rootScope, ngTableParams, $filter) {
+        '$modal', 'VerificationService', '$rootScope', 'ngTableParams', '$filter', '$timeout',
+        function ($scope, $log, $modal, verificationService,
+        		$rootScope, ngTableParams, $filter, $timeout) {
+                
+        $scope.search = {
+        		idText:null,
+        		formattedDate :null,
+        		lastNameText:null,
+        		streetText: null
+        }
+        
+        $scope.clearInput = function(){
+        	$scope.search.idText=null;
+        	$scope.search.formattedDate=null;
+        	$scope.dt = new Date();
+        	$scope.search.lastNameText=null;
+        	$scope.search.streetText=null;
+        	$scope.tableParams.reload();
+        }
+        
+        var promiseSearchTimeOut;
+        $scope.doSearch = function() {
+        	promiseTimeOut = $timeout(function() {
+            $scope.tableParams.reload();
+        	}, 1200);
+        }
 
-            $scope.search = {
-                idText: "",
-                formattedDate: "",
-                lastNameText: "",
-                streetText: ""
-            }
-
-            $scope.clearInput = function () {
-                $scope.search.text = "";
-            }
-
-            $scope.doSearch = function () {
+        $scope.$on('refresh-table', function () {
+        	 $scope.clearInput();
+        }); 
+       
+        $scope.doSearch = function () {
                 $log.debug(' from scope d: ', $scope.dt);
 
                 $scope.tableParams.reload();
@@ -48,18 +64,19 @@ angular
                 }
             });
 
-            $scope.markAsRead = function (id) {
-                var dataToSend = {
-                    verificationId: id,
-                    readStatus: 'READ'
-                };
-                $log.info("data to send in mark as read : " + dataToSend.verificationId);
-                verificationService.markVerificationAsRead(dataToSend).success(function () {
-                    $log.info('succesfully sent to database');
-                    $rootScope.$broadcast('verification-was-read');
-                    $scope.tableParams.reload();
-                });
-            };
+  
+	       $scope.markAsRead = function (id) {
+				 var dataToSend = {
+							verificationId: id,
+							readStatus: 'READ'
+						};
+				
+		         	verificationService.markVerificationAsRead(dataToSend).success(function () {
+		         		$rootScope.$broadcast('verification-was-read');
+	                    $scope.tableParams.reload();
+		            });
+	         };
+
 
             /**
              * open modal
@@ -217,78 +234,46 @@ var checkForEmpty = function () {
 };
 
 
-$scope.openState = {};
-$scope.openState.isOpen = false;
-
-$scope.today = function () {
-    $scope.dt = new Date();
-};
-$scope.today();
-
-$scope.clear = function () {
-    $scope.dt = null;
-};
-
-$scope.open = function ($event) {
-    $event.preventDefault();
-    $event.stopPropagation();
-
-    $scope.openState.isOpen = true;
-};
-
-$scope.dateOptions = {
-    formatYear: 'yyyy',
-    startingDay: 1
-};
-
-$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-$scope.format = $scope.formats[0];
 
 
-$scope.changeDateToSend = function (val) {
-    $log.debug('befor change date ' + val);
-    $log.debug('befor change date sent to controller  ' + $scope.search.formattedDate);
-    if (val.isUndefined) {
-        $scope.search.formattedDate = '';
-
-    } else {
-        var datefilter = $filter('date');
-        $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
-        $log.debug('after change date ' + $scope.search.formattedDate);
-    }
-}
+            /**
+             *  Date picker and formatter setup
+             * 
+             */
+            $scope.openState = {};
+            $scope.openState.isOpen = false;
 
 
-var tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-var afterTomorrow = new Date();
-afterTomorrow.setDate(tomorrow.getDate() + 2);
-$scope.events =
-    [
-        {
-            date: tomorrow,
-            status: 'full'
-        },
-        {
-            date: afterTomorrow,
-            status: 'partially'
-        }
-    ];
 
-$scope.getDayClass = function (date, mode) {
-    if (mode === 'day') {
-        var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+            $scope.open = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.openState.isOpen = true;
+            };
 
-        for (var i = 0; i < $scope.events.length; i++) {
-            var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
 
-            if (dayToCheck === currentDay) {
-                return $scope.events[i].status;
-            }
-        }
-    }
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false'
+              };
 
-    return '';
-};
-}])
-;
+
+
+           $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+           $scope.format = $scope.formats[2];
+
+           $scope.changeDateToSend = function(val){
+            	
+            	  if(angular.isUndefined(val)){
+            		  $scope.search.formattedDate = null;
+            		  $scope.tableParams.reload();
+            	  } else {
+            		  var datefilter = $filter('date');
+                	  $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
+                	  $scope.tableParams.reload();
+            	  }
+              }
+
+        }]);
+

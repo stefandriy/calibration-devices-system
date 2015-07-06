@@ -28,54 +28,36 @@
                                     <th>Дії<br/> <br/></th>
                                     <th>Відповідальна особа</th>
                                     <th>Відправити державному повірнику</th>
-                                </tr>
+                               	 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>
-                                        <form name="form" class="form-inline" ng-submit="doSearch()">
-                                            <div class="form-group">
-                                                <p class="input-group">
-                                                    <input type="text" class="form-control input-sm"
-                                                           datepicker-popup="{{format}}" ng-model="dt"
-                                                           ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
-                                                           min-date="minDate" datepicker-options="dateOptions"
-                                                           date-disabled="disabled(date, mode)" ng-required="true"
-                                                           close-text="Close"/>
-											              	<span class="input-group-btn">
-											                <button type="button" class="btn btn-default"
-                                                                    ng-click="open($event)"><i
-                                                                    class="glyphicon glyphicon-calendar"></i></button>
-											              </span>
-                                                </p>
-                                            </div>
 
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control input-sm"
-                                                           ng-model="search.idText">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control input-sm"
-                                                           ng-model="search.lastNameText">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control input-sm"
-                                                           ng-model="search.streetText">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <button class="btn btn-primary" ng-click="doSearch()">Search
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </form>
+                                       <p class="input-group myDatePicker">
+                                         <input type="text" class="form-control input-sm"  datepicker-popup="{{format}}" ng-model="dt"
+                                            ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
+                                             min-date="minDate" datepicker-options="dateOptions"
+                                            date-disabled="disabled(date, mode)" ng-required="true"close-text="Close"/>
+											  <span class="input-group-btn ">
+											     <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+											        <i class="glyphicon glyphicon-calendar"></i>
+                                                 </button>
+											  </span>
+                                       </p>
                                     </td>
+                                    <td>
+                                       <input type="text" class="form-control input-sm" ng-model="search.idText" ng-change= doSearch()>
+                                    </td>
+                                    <td>
+                                       <input type="text" class="form-control input-sm" ng-model="search.lastNameText" ng-change= doSearch()>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control input-sm" ng-model="search.streetText" ng-change= doSearch()>
+                                    </td>
+                                    <td class="text-center clearInput">
+                                      <button class="btn btn-danger btn-sm" ng-click="clearInput()">Clear</button>
+									</td>
                                 </tr>
                                 <tr ng-repeat="verification in $data"
                                     ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
@@ -115,7 +97,7 @@
                                         Оберіть хоча б одну повірку
                                     </p>
 
-                                    <div class="col-md-3 col-md-offset-10 send-button">
+                                    <div class="col-md-3 col-md-offset-10 sendButton">
                                         <button type="button" class="btn btn-primary"
                                                 ng-click="openSendingModal()">Надіслати
                                         </button>

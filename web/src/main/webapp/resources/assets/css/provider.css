@@ -9,7 +9,22 @@ body {
     cursor: pointer;
 }
 
+.sendButton{
+	position: relative;
+	left: 20px;
+	top: -15px;
+}
+.myDatepicker .input-group-btn{
+	height:  30px;
+	
+}
 
+.myGroupBtn {
+	height: 30px;
+}
+.clearInput .btn {
+	height: 30px;
+}
 .unreadClass {
 	background: rgba(0, 255, 0, 0.2);
 	color: black;

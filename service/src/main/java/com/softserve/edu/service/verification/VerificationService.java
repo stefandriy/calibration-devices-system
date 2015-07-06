@@ -204,8 +204,7 @@ public class VerificationService {
 		
 		criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 		
-		System.err.println("date to search " + dateToSearch);
-		if (dateToSearch.length() > 1) {
+		if (dateToSearch != null) {
 
 			SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
 			Date date = null;
@@ -218,17 +217,17 @@ public class VerificationService {
 			countPredicate = cb.and(cb.equal(rootCount.get("initialDate"), date), countPredicate);
 		}
 
-		if (idToSearch.length() > 0) {
+		if (idToSearch != null) {
 			searchPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), searchPredicate);
 			countPredicate = cb.and(cb.like(rootCount.get("id"), "%" + idToSearch + "%"), countPredicate);
 		}
 
-		if (lastNameToSearch.length() > 0) {
+		if (lastNameToSearch != null) {
 			searchPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), searchPredicate);
 			countPredicate = cb.and(cb.like(rootCount.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), countPredicate);
 		}
 
-		if (streetToSearch.length() > 0) {
+		if (streetToSearch != null) {
 			searchPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), searchPredicate);
 			countPredicate = cb.and(cb.like(rootCount.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), countPredicate);
 		}
@@ -248,8 +247,6 @@ public class VerificationService {
 		return result;
 	}
 	
-	
-
 	@Transactional(readOnly = true)
 	public Verification findByIdAndProviderId(String id, Long providerId) {
 		Verification verification = verificationRepository.findByIdAndProviderId(id, providerId);
