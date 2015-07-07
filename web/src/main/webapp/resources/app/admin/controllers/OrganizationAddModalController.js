@@ -42,7 +42,6 @@ angular
 							 * Calls resetOrganizationForm after the view loaded
 							 */
 							$scope.resetOrganizationForm();
-							
 
 							/**
 							 * Validates username
@@ -57,6 +56,25 @@ angular
 											'К-сть символів не повинна бути меншою за 3\n і більшою за 16 ');
 								}
 							};
+
+							$scope.checkPassword = function() {
+								if ($scope.organizationFormData.password != $scope.organizationFormData.rePassword) {
+									validatePassword(false,
+											'Паролі не співпадають.');
+								}
+								else {
+									validatePassword(true,
+									'Паролі співпадають.');
+								}
+							};
+
+							function validatePassword(isValid, message) {
+								$scope.passwordValidation = {
+									isValid : isValid,
+									css : isValid ? 'has-success' : 'has-error',
+									message : isValid ? undefined : message
+								}
+							}
 
 							/**
 							 * Custom username field validation. Shows error
@@ -172,9 +190,8 @@ angular
 							 */
 							$scope.onOrganizationFormSubmit = function() {
 								$scope.$broadcast('show-errors-check-validity');
-								// TODO: add password match checking
 								if ($scope.organizationForm.$valid
-										&& $scope.usernameValidation.isValid) {
+										&& $scope.usernameValidation.isValid && $scope.validatePassword.isValid) {
 									addressFormToOrganizationForm();
 									saveOrganization();
 								}

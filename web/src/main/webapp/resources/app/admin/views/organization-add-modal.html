@@ -11,9 +11,18 @@
 				<label class="control-label">{{'ORGANIZATION_NAME_ADMIN' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
-				<input type="text" ng-model="organizationFormData.name"
-					ng-minlength="3" id="name" name="name" class="form-control"
-					required>
+				<input type="text" ng-model="organizationFormData.name" id="name"
+					name="name" class="form-control" ng-pattern="/^[a-z]{5,20}$/"
+					required> <span
+					class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
+				<p class="help-block" ng-if="organizationForm.name.$error.required">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> Назва
+					організації є обов’язковим полем
+				</p>
+				<p class="help-block" ng-if="organizationForm.name.$error.pattern">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> Назва
+					організації повинна містити від 5 до 20 літер
+				</p>
 			</div>
 		</div>
 
@@ -27,6 +36,10 @@
 					name="type" class="form-control" required>
 					<option value="" style='display: none;' disabled>{{'ORGANIZATION_CHOOSE_TYPE_ADMIN' | translate }}</option>
 				</select>
+				<p class="help-block" ng-if="organizationForm.type.$error.required">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> Тип
+					організації є обов’язковим полем
+				</p>
 			</div>
 		</div>
 
@@ -36,7 +49,11 @@
 			</div>
 			<div class="form-group col-md-8" show-errors>
 				<input type="text" ng-model="organizationFormData.phone"
-					name="phone" class="form-control" required>
+					name="phone" class="form-control" ng-pattern="/^0[1-9]\d{8}$/">
+				<p class="help-block" ng-if="organizationForm.phone.$error.pattern">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> Номер
+					телефону повинен містити 10 цифер і відповідати шаблону: <i>0{код
+						міста/оператора}{номер телефону}</i>
 			</div>
 		</div>
 
@@ -45,8 +62,12 @@
 				<label class="control-label">{{'EMAIL' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8">
-				<input type="text" ng-model="organizationFormData.email" name="email"
-					class="form-control">
+				<input type="email" ng-model="organizationFormData.email"
+					name="email" class="form-control">
+				<p class="help-block" ng-if="organizationForm.email.$error.email">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> Введіть
+					електронну адресу згідно до шаблону: <i>example@gmail.com</i>
+				</p>
 			</div>
 		</div>
 
@@ -62,8 +83,11 @@
 					<input type="text" ng-model="organizationFormData.username"
 						ng-model-options="{debounce: 350}" ng-change="checkUsername()"
 						id="username" name="username" class="form-control" required>
-					<p class="help-block" ng-if="!usernameValidation.isValid">{{
-						usernameValidation.message }}</p>
+					<p class="help-block" ng-if="!usernameValidation.isValid">
+						<span class="glyphicon glyphicon-exclamation-sign"></span> Логін
+						адміністратора організації є обов’язковим полем <i>{{
+							usernameValidation.message }}</i>
+					</p>
 				</div>
 			</div>
 
@@ -74,6 +98,10 @@
 				<div class="form-group col-md-8" show-errors>
 					<input type="password" ng-model="organizationFormData.password"
 						name="password" class="form-control" required>
+					<p class="help-block" ng-if="organizationForm.password.$error.required">
+						<span class="glyphicon glyphicon-exclamation-sign"></span> Введіть
+						пароль
+					</p>
 				</div>
 			</div>
 
@@ -83,7 +111,16 @@
 				</div>
 				<div class="form-group col-md-8" show-errors>
 					<input type="password" ng-model="organizationFormData.rePassword"
+						ng-class="passwordValidation.css" ng-change="checkPassword()"
 						name="rePassword" class="form-control" required>
+
+					<p class="help-block" ng-if="organizationForm.rePassword.$error.required">
+						<span class="glyphicon glyphicon-exclamation-sign"></span> Введіть
+						повторно пароль
+					</p>
+
+					<p class="help-block" ng-if="!passwordValidation.isValid">{{
+						passwordValidation.message }}</p>
 				</div>
 			</div>
 		</div>
