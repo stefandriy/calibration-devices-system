@@ -1,10 +1,24 @@
 angular.module('adminModule', ['spring-security-csrf-token-interceptor',
 
-    'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors','ngTable'])
+    'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors','ngTable', 'pascalprecht.translate', 'ngCookies'])
 
-    .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
-        function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider) {
+    .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
+        function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider) {
             showErrorsConfigProvider.showSuccess(true);
+            
+            /**
+             *  i18n configuration.
+             */
+            $translateProvider.useStaticFilesLoader({
+                prefix: '/resources/assets/i18n/welcome-',
+                suffix: '.json'
+            });
+            $translateProvider.useLocalStorage();
+            $translateProvider.useSanitizeValueStrategy('escaped');
+            $translateProvider.preferredLanguage('ukr');
+            /**
+             * Routing configuration.
+             */
             $urlRouterProvider.otherwise('/');
             $stateProvider
                 .state('main', {
@@ -49,6 +63,7 @@ define([
     'controllers/DeviceController',
     'controllers/SettingsController',
     'controllers/UsersController',
+    'controllers/InternationalizationController',
     'services/OrganizationService',
     'services/StatisticService',
     'services/UserService',

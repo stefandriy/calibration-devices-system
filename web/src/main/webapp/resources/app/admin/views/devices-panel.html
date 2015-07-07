@@ -8,7 +8,7 @@
 	<div id="page-wrapper" ng-controller="DeviceController">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">Лічильники</h1>
+				<h1 class="page-header">{{'COUNTERS' | translate}}</h1>
 			</div>
 		</div>
 
@@ -16,19 +16,19 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Лічильники</div>
+					<div class="panel-heading">{{'COUNTERS' | translate}}</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-sm-6">
-								<label>Пошук по номері: <input type="text"
+								<label>{{'FIND_BY_NUMBER' | translate}} <input type="text"
 									ng-model="searchData" ng-change="onTableHandling()"
 									ng-model-options="{debounce: 600}"
 									class="form-control input-sm">
 								</label>
 							</div>
 							<div class="col-sm-offset-6">
-								<label>Показати по <select ng-model="itemsPerPage"
+								<label>{{'DISPLAY_ON' | translate}} <select ng-model="itemsPerPage"
 									ng-change="onTableHandling()" class="form-control input-sm">
 										<option value="1">1</option>
 										<option value="3">3</option>
@@ -47,10 +47,10 @@
 									id="devicesTable">
 									<thead>
 										<tr>
-											<th>Унікальний номер</th>
-											<th>Знак лічильника</th>
-											<th>Номер</th>
-											<th>Тип лічильника</th>
+											<th>{{'UNIQUE_NUMBER'| translate}}</th>
+											<th>{{'SIGN_OF_COUNTER' | translate}}</th>
+											<th>{{'COUNTER_NUMBER' | translate}}</th>
+											<th>{{'TYPE_OF_COUNTER' | translate }}</th>
 											<!--  <th>блабла</th>
 											<th>блабла</th>-->
 										</tr>

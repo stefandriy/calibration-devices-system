@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h3 class="modal-title">Заповніть інформацію про організацію</h3>
+	<h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_ORGANIZATION' | translate}}</h3>
 </div>
 
 <div class="modal-body">
@@ -8,7 +8,7 @@
 
 		<div class="row">
 			<div class="form-group col-md-4">
-				<label class="control-label">Назва організації *</label>
+				<label class="control-label">{{'ORGANIZATION_NAME_ADMIN' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
 				<input type="text" ng-model="organizationFormData.name"
@@ -19,21 +19,20 @@
 
 		<div class="row">
 			<div class="form-group col-md-4">
-				<label class="control-label">Тип організації *</label>
+				<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
 				<select ng-model="organizationFormData.type"
 					ng-options="typeInfo.type as typeInfo.name for typeInfo in typeData"
 					name="type" class="form-control" required>
-					<option value="" style='display: none;' disabled>Виберіть
-						тип...</option>
+					<option value="" style='display: none;' disabled>{{'ORGANIZATION_CHOOSE_TYPE_ADMIN' | translate }}</option>
 				</select>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="form-group col-md-4">
-				<label class="control-label">Номер телефону *</label>
+				<label class="control-label">{{'ORGANIZATION_TELEPHON_NUMBER_ADMIN' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
 				<input type="text" ng-model="organizationFormData.phone"
@@ -43,7 +42,7 @@
 
 		<div class="row">
 			<div class="form-group col-md-4" ng-class="usernameValidation.css">
-				<label class="control-label">Електронна адреса</label>
+				<label class="control-label">{{'EMAIL' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8">
 				<input type="text" ng-model="organizationFormData.email" name="email"
@@ -53,12 +52,11 @@
 
 		<div>
 			<hr />
-			<p class="help-block">Заповніть дані для системного
-				адміністратора організації</p>
+			<p class="help-block">{{'FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION' | translate }}</p>
 
 			<div class="row">
 				<div class="form-group col-md-4">
-					<label class="control-label">Логін *</label>
+					<label class="control-label">{{'LOGIN_TWO' | translate }}</label>
 				</div>
 				<div class="form-group col-md-8" ng-class="usernameValidation.css">
 					<input type="text" ng-model="organizationFormData.username"
@@ -71,7 +69,7 @@
 
 			<div class="row">
 				<div class="form-group col-md-4">
-					<label class="control-label">Пароль *</label>
+					<label class="control-label">{{'PASSWORD_TWO' | translate}}</label>
 				</div>
 				<div class="form-group col-md-8" show-errors>
 					<input type="password" ng-model="organizationFormData.password"
@@ -81,7 +79,7 @@
 
 			<div class="row">
 				<div class="form-group col-md-4">
-					<label class="control-label">Повторіть пароль *</label>
+					<label class="control-label">{{'REPEAT_PASSWORD' | translate}}</label>
 				</div>
 				<div class="form-group col-md-8" show-errors>
 					<input type="password" ng-model="organizationFormData.rePassword"
@@ -94,12 +92,12 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
-					<div class="panel-heading">Адреса</div>
+					<div class="panel-heading">{{'ADDRESS' | translate }}</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">Область *</label>
+									<label class="control-label">{{'REGION_TWO' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="region" type="text"
@@ -112,7 +110,7 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">Район *</label>
+									<label class="control-label">{{'DISTRICT_TWO' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="district" type="text"
@@ -126,7 +124,7 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">Населений пункт *</label>
+									<label class="control-label">{{'LOCALITY_TWO' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="locality" type="text"
@@ -139,7 +137,7 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">Вулиця *</label>
+									<label class="control-label">{{'STREET_TWO' | translate }}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="street" type="text"
@@ -152,7 +150,7 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">Будинок *</label>
+									<label class="control-label">{{'HOUSE_TWO' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="building" type="text"
@@ -164,7 +162,7 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">Квартира</label>
+									<label class="control-label">{{'FLAT' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="flat" type="text"
@@ -180,13 +178,11 @@
 
 		<div class="row">
 			<div class="form-group col-md-10">
-				<button type="submit" class="btn btn-success"
-					ng-click="onOrganizationFormSubmit()">Добавити</button>
-				<a class="btn btn-warning" ng-click="resetOrganizationForm()">Скинути
-					форму</a>
+				<button type="submit" class="btn btn-success">{{'ADD' | translate}}</button>
+				<a class="btn btn-warning" ng-click="resetOrganizationForm()">{{'CLEAR_FORM' | translate }}</a>
 			</div>
 			<div class="form-group col-md-2">
-				<button class="btn btn-danger pull-right" ng-click="closeModal()">Закрити</button>
+				<button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
 			</div>
 		</div>
 
