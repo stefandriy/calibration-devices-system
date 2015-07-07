@@ -3,21 +3,20 @@
  */
 angular
     .module('providerModule')
-    .controller('UsersController', ['$scope', 'UserService' , '$log',
-        function ($scope, userService,$log) {
+    .controller('UsersController', ['$scope', 'UserService', '$log',
+        function ($scope, userService, $log) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
-            $scope.idOrganization=0;
-
+            $scope.idOrganization = 0;
 
 
             $scope.onTableHandling = function () {
 
                 userService.isAdmin()
                     .success(function (response) {
-                        if (response == 'admin'){
+                        if (response == 'admin') {
                             $scope.verificator = true;
                         } else {
                             alert(response);
@@ -25,17 +24,17 @@ angular
                     });
 
                 userService
-                    .getPage($scope.currentPage, $scope.itemsPerPage,$scope.idOrganization,$scope.searchData)
+                    .getPage($scope.currentPage, $scope.itemsPerPage, $scope.idOrganization, $scope.searchData)
                     .then(function (data) {
                         $scope.pageContent = data.content;
                         $scope.totalItems = data.totalItems;
-                        $scope.idOrganization=data.idOrganization;
+                        $scope.idOrganization = data.idOrganization;
 
                     });
 
             };
 
-           $scope.onTableHandling();
+            $scope.onTableHandling();
         }
     ]);
 

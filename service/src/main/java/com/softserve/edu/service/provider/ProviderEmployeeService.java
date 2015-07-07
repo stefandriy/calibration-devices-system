@@ -22,7 +22,6 @@ public class ProviderEmployeeService {
 
     @Transactional
     public void addEmployee(ProviderEmployee providerEmployee) {
-
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
         providerEmployee.setPassword(passwordEncoded);
         providerEmployee.setRole(PROVIDER_EMPLOYEE);
@@ -32,13 +31,11 @@ public class ProviderEmployeeService {
     @Transactional
     public Page<? extends User> getUsersPagination(Long idOrganization, int pageNumber, int itemsPerPage, String search, String role) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-
         if (search==null) {
             return providerEmployeeRepository.findByRoleAndOrganizationId(role, idOrganization, pageRequest);
         } else {
             return providerEmployeeRepository.findByOrganizationIdAndRoleAndLastNameLikeIgnoreCase(idOrganization,role,"%" + search + "%", pageRequest);
           }
-
     }
 
     @Transactional

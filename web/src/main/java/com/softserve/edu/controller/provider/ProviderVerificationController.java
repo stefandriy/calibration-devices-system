@@ -6,10 +6,9 @@ import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.dto.provider.VerificationSearchDTO;
 import com.softserve.edu.dto.provider.VerificationUpdatingDTO;
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.EmployeeProvider;
+import com.softserve.edu.dto.provider.EmployeeProvider;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.dto.provider.VerificationUpdatingDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Calibrator;
 import com.softserve.edu.entity.ClientData;
@@ -95,7 +94,6 @@ public class ProviderVerificationController {
                 verificationSearchDto.getSearchByLastName(),
                 verificationSearchDto.getSearchByStreet(),
                providerEmployee
-
         );
 
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
@@ -127,6 +125,7 @@ public class ProviderVerificationController {
         );
     }
 
+
     @RequestMapping(value = "new/providerEmployees", method = RequestMethod.GET)
     public List<EmployeeProvider> employeeVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
@@ -135,8 +134,7 @@ public class ProviderVerificationController {
 
         if (employee.getRole().equalsIgnoreCase("PROVIDER_ADMIN")) {
             List<ProviderEmployee> list = providerEmployeeService.getAllProviders("PROVIDER_EMPLOYEE", employee.getOrganization().getId());
-            EmployeeProvider.giveListOfProvidors(list);
-            providerListEmployee = EmployeeProvider.giveListOfProvidors(list);
+            providerListEmployee = EmployeeProvider.giveListOfProviders(list);
         } else {
             EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(), employee.getLastName(), employee.getMiddleName(), employee.getRole());
             providerListEmployee.add(userPage);
@@ -163,9 +161,9 @@ public class ProviderVerificationController {
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         ProviderEmployee providerEmployee = new ProviderEmployee();
-        String idVerif=verificationUpdatingDTO.getIdVerification();
+        String idVerification=verificationUpdatingDTO.getIdVerification();
         providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
-        verificationService.assignProviderEmployee(idVerif, providerEmployee);
+        verificationService.assignProviderEmployee(idVerification, providerEmployee);
     }
     @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
     public void removeProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {

@@ -1,8 +1,6 @@
 package com.softserve.edu.dto.provider;
 
-import com.softserve.edu.dto.admin.EmployeeProvider;
 import com.softserve.edu.entity.Calibrator;
-import com.softserve.edu.entity.user.ProviderEmployee;
 
 import java.util.List;
 

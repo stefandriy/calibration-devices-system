@@ -7,9 +7,6 @@ angular
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
-
-
-
             $scope.onTableHandling = function () {
                 usersService
                     .getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData)
@@ -18,7 +15,6 @@ angular
                         $scope.totalItems = data.totalItems;
                     });
             };
-
             $scope.onTableHandling();
         }
     ]);

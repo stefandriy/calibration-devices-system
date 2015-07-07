@@ -46,8 +46,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
             }
         }
-       /* this.providerEmployee = providerEmployee == null ? "" : providerEmployee.getFirstName() + " " + providerEmployee.getLastName() + " " +
-                providerEmployee.getMiddleName();*/
+
         this.calibrator = calibrator == null ? "" : calibrator.getName();
         this.calibratorEmployee = calibratorEmployee == null ? "" : calibratorEmployee.getFirstName() + " "
                 + calibratorEmployee.getLastName() + " " + calibratorEmployee.getMiddleName();

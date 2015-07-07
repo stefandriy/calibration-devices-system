@@ -34,16 +34,13 @@ public class ProviderEmployeeController {
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
 
-
     @Autowired
     private VerificationService verificationService;
-
 
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
     public String verification() {
         return "admin";
     }
-    
 
     /**
      * Check whereas {@code username} is available,
@@ -68,43 +65,35 @@ public class ProviderEmployeeController {
 
         Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
         providerEmployee.setOrganization(employeeOrganization);
-
         providerEmployeeService.addEmployee(providerEmployee);
-
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
-
 
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{idOrganization}/{search}", method = RequestMethod.GET)
     public PageDTO<UsersPageItem> pageSearchUsers(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
             @PathVariable Long idOrganization,
-            @PathVariable String search
-    ) {
+            @PathVariable String search) {
         Page<UsersPageItem> page = providerEmployeeService
                 .getUsersPagination(idOrganization, pageNumber, itemsPerPage, search, "PROVIDER_EMPLOYEE")
                 .map(
-                        new Converter<User, UsersPageItem>() {
-                            @Override
-                            public UsersPageItem convert(User user) {
-                                UsersPageItem usPage = null;
-
-                                if (user instanceof ProviderEmployee) {
-                                    usPage = new UsersPageItem();
-                                    usPage.setUsername(user.getUsername());
-                                    usPage.setRole(user.getRole());
-                                    usPage.setFirstName(((ProviderEmployee) user).getFirstName());
-                                    usPage.setLastName(((ProviderEmployee) user).getLastName());
-                                    usPage.setOrganization(((ProviderEmployee) user).getOrganization().getName());
-                                    usPage.setPhone(((ProviderEmployee) user).getPhone());
-                                    usPage.setCountOfVarification(verificationService.countByProviderEmployeeTasks(user.getUsername()));
-                                }
-                                return usPage;
+                        user -> {
+                            UsersPageItem usPage = null;
+                            if (user instanceof ProviderEmployee) {
+                                usPage = new UsersPageItem();
+                                usPage.setUsername(user.getUsername());
+                                usPage.setRole(user.getRole());
+                                usPage.setFirstName(((ProviderEmployee) user).getFirstName());
+                                usPage.setLastName(((ProviderEmployee) user).getLastName());
+                                usPage.setOrganization(((ProviderEmployee) user).getOrganization().getName());
+                                usPage.setPhone(((ProviderEmployee) user).getPhone());
+                                usPage.setCountOfVarification(verificationService.countByProviderEmployeeTasks(user.getUsername()));
                             }
+                            return usPage;
                         }
                 );
-        return new PageDTO<>(page.getTotalElements(), page.getContent(),idOrganization);
+        return new PageDTO<>(page.getTotalElements(), page.getContent(), idOrganization);
     }
 
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{idOrganization}", method = RequestMethod.GET)
@@ -113,7 +102,7 @@ public class ProviderEmployeeController {
             @PathVariable Integer itemsPerPage,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
-        return pageSearchUsers(pageNumber, itemsPerPage,idOrganization,null);
+        return pageSearchUsers(pageNumber, itemsPerPage, idOrganization, null);
     }
 
 

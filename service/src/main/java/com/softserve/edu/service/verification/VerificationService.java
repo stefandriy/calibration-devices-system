@@ -196,8 +196,6 @@ public class VerificationService {
 		Predicate countPredicate = cb.conjunction();
 		Join<Verification, Provider> joinSearch = root.join("provider");
 		Join<Verification, Provider> joinCount = rootCount.join("provider");
-		criteriaQuery.select(root);
-		countQuery.select(cb.count(rootCount));
 
 		if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
 			Join<Verification, ProviderEmployee> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
@@ -217,6 +215,9 @@ public class VerificationService {
 		searchPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), searchPredicate);
 		countPredicate = cb.and(cb.equal(joinCount.get("id"), providerId), countPredicate);
 		criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
+
+		criteriaQuery.select(root);
+		countQuery.select(cb.count(rootCount));
 
 		if (dateToSearch != null) {
 

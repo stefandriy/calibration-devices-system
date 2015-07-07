@@ -21,7 +21,7 @@ angular
             },
             isAdmin: function (){
             	return getData('provider/admin/users/verificator');
-            } 
+            }
         };
 
         function getData(url) {

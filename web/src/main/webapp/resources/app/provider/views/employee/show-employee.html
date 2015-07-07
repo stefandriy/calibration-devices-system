@@ -1,4 +1,4 @@
-<div id="page-wrapper" ng-controller="UsersController" ng-show = "verificator">
+<div id="page-wrapper" ng-controller="UsersController" ng-show="verificator">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Користувачі </h1>
@@ -17,12 +17,14 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <label>Пошук за прізвищем:
-                                <input type="text" ng-model="searchData" ng-change="onTableHandling()" ng-model-options="{debounce: 600}" class="form-control input-sm">
+                                <input type="text" ng-model="searchData" ng-change="onTableHandling()"
+                                       ng-model-options="{debounce: 600}" class="form-control input-sm">
                             </label>
                         </div>
                         <div class="col-sm-offset-10">
                             <label>Показати по
-                                <select ng-model="itemsPerPage" ng-change="onTableHandling()" class="form-control input-sm">
+                                <select ng-model="itemsPerPage" ng-change="onTableHandling()"
+                                        class="form-control input-sm">
                                     <option value="1">1</option>
                                     <option value="3">3</option>
                                     <option value="5" selected>5</option>
@@ -45,7 +47,7 @@
                                     <th>Прізвище</th>
                                     <th>Організація</th>
                                     <th>Номер телефону</th>
-                                    <th>Кількість заявок в роботі</th>
+                                    <th class="col-md-1">Кількість заявок в роботі</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -64,8 +66,10 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <pagination total-items="totalItems" ng-model="currentPage" max-size="5" boundary-links="true"
-                                        rotate="false" ng-change="onTableHandling()" items-per-page="itemsPerPage"></pagination>
+                            <pagination total-items="totalItems" ng-model="currentPage" max-size="5"
+                                        boundary-links="true"
+                                        rotate="false" ng-change="onTableHandling()"
+                                        items-per-page="itemsPerPage"></pagination>
                         </div>
                     </div>
                 </div>
