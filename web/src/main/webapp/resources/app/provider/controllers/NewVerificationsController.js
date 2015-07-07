@@ -12,12 +12,25 @@ angular
         		streetText: null
         }
         
-        $scope.clearInput = function(){
+        $scope.clearAll = function(){
         	$scope.search.idText=null;
         	$scope.search.formattedDate=null;
-        	$scope.dt = new Date();
+        	$scope.dt = null;
         	$scope.search.lastNameText=null;
         	$scope.search.streetText=null;
+        	$scope.tableParams.reload();
+        }
+        
+        $scope.clearId = function () {
+        	$scope.search.idText = null;
+        	$scope.tableParams.reload();
+        }
+        $scope.clearLastName = function () {
+        	$scope.search.lastNameText = null;
+        	$scope.tableParams.reload();
+        }
+        $scope.clearStreet = function () {
+        	$scope.search.streetText = null;
         	$scope.tableParams.reload();
         }
         
@@ -29,7 +42,7 @@ angular
         }
 
         $scope.$on('refresh-table', function () {
-        	 $scope.clearInput();
+        	 $scope.clearAll();
         }); 
        
         

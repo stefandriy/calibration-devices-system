@@ -33,38 +33,49 @@
                                 <tbody>
                                 <tr>
                                     <td>
+										<p class="input-group myDatePicker">
+                                         <input type="text" class="form-control input-sm"  datepicker-popup="{{format}}" ng-model="dt"
+                                            ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
+                                             min-date="minDate" datepicker-options="dateOptions"
+                                            date-disabled="disabled(date, mode)" ng-required="true"close-text="Close"/>
 
-                                        <p class="input-group myDatePicker">
-                                            <input type="text" class="form-control input-sm"
-                                                   datepicker-popup="{{format}}" ng-model="dt"
-                                                   ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
-                                                   min-date="minDate" datepicker-options="dateOptions"
-                                                   date-disabled="disabled(date, mode)" ng-required="true"
-                                                   close-text="Close"/>
 											  <span class="input-group-btn ">
 											     <button type="button" class="btn btn-default myGroupBtn"
                                                          ng-click="open($event)">
                                                      <i class="glyphicon glyphicon-calendar"></i>
                                                  </button>
 											  </span>
-                                        </p>
+											</p>
+										</td>
+                                    <td>
+										<div class="btn-group">
+  											<input type="text" class="form-control input-sm" ng-model="search.idText" ng-change= doSearch() >
+ 		 									<span id="searchclear" class="glyphicon glyphicon-remove-circle" ng-show="search.idText.length"
+ 		 									 ng-click="clearId()"></span>
+										</div>
+
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control input-sm" ng-model="search.idText"
-                                               ng-change=doSearch()>
-                                    </td>
+                                    	<div class="btn-group">
+  											<input type="text" class="form-control input-sm" ng-model="search.lastNameText" ng-change= doSearch() >
+ 		 									<span id="searchclear" class="glyphicon glyphicon-remove-circle" ng-show="search.lastNameText.length"
+ 		 									 ng-click="clearLastName()"></span>
+										</div>
+									</td>
                                     <td>
-                                        <input type="text" class="form-control input-sm" ng-model="search.lastNameText"
-                                               ng-change=doSearch()>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control input-sm" ng-model="search.streetText"
-                                               ng-change=doSearch()>
-                                    </td>
+                                    	<div class="btn-group">
+  											<input type="text" class="form-control input-sm" ng-model="search.streetText" ng-change= doSearch() >
+ 		 									<span id="searchclear" class="glyphicon glyphicon-remove-circle" ng-show="search.streetText.length"
+ 		 								 	ng-click="clearStreet()"></span>
+										</div>
+									</td>
                                     <td class="text-center clearInput">
-                                        <button class="btn btn-danger btn-sm" ng-click="clearInput()">Clear</button>
-                                    </td>
-                                </tr>
+                                    	<button class="btn btn-danger btn-sm" ng-click="clearAll()" 
+                                      	ng-show="search.streetText.length && search.lastNameText.length && search.idText.length">Clear all</button>
+									</td>
+									<td></td>
+									<td></td>
+								 </tr>
                                 <tr ng-repeat="verification in $data"
                                     ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td>{{ verification.initialDate | date}}</td>

@@ -83,45 +83,48 @@
                                 </tr>
                                 </tbody>
                             </table>
+							<script type="text/ng-template" id="custom/pager">
+                                <div>
+                                    <p id="emptyError" ng-if="allIsEmpty && isClicked"
+                                       class="help-block col-md-3 col-md-offset-9">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        Оберіть хоча б одну повірку
+                                    </p>
 
-                            
-                            
-		<script type="text/ng-template" id="custom/pager">
-			<p id="emptyError" ng-if="allIsEmpty && isClicked"
-                               class="help-block col-md-3 col-md-offset-9">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                Оберіть хоча б одну пвірку
-            </p>			
-			<div class="col-md-3 col-md-offset-10 send-button">
-               <button type="button" class="btn btn-primary"
-					 ng-click="openSendingModal()">
-                                    Надіслати
-               </button>
-            </div> 
-			<div> 			
-				<ul class="pager ng-cloak">
-            		 <li ng-class="{'disabled': !page.active}" ng-repeat="page in pages" ng-switch="page.type">
-            			  <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;</a>
-            			  <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
-           				  <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
-           			      <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
-          				  <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
-          				  <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&raquo;</a>
-       				 </li>
-           				<li>
-               			<div class="btn-group">
-                    		<button type="button" ng-class="{'active':params.count() == 5}" ng-click="params.count(5)" class="btn btn-default">5</button>
-                    		<button type="button" ng-class="{'active':params.count() == 10}" ng-click="params.count(10)" class="btn btn-default">10</button>
-                   			<button type="button" ng-class="{'active':params.count() == 25}" ng-click="params.count(25)" class="btn btn-default">25</button>
-                   			<button type="button" ng-class="{'active':params.count() == 50}" ng-click="params.count(50)" class="btn btn-default">50</button>
-                		</div>
-            		</li>
-        		</ul>
-			</div>
-    	</script>
-                 
-                          
-                        </div>
+                                    <div class="col-md-3 col-md-offset-10 sendButton">
+                                        <button type="button" class="btn btn-primary"
+                                                ng-click="openSendingModal()">Надіслати
+                                        </button>
+                                    </div>
+                                    <ul class="pager ng-cloak">
+                                        <li ng-repeat="page in pages"
+                                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                                Previous</a>
+                                            <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                               href="">Next &raquo;</a>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <button type="button" ng-class="{'active':params.count() == 5}"
+                                                        ng-click="params.count(5)" class="btn btn-default">5
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 10}"
+                                                        ng-click="params.count(10)" class="btn btn-default">10
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 25}"
+                                                        ng-click="params.count(25)" class="btn btn-default">25
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 50}"
+                                                        ng-click="params.count(50)" class="btn btn-default">50
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </script>
+                   		</div>
                     </div>
                </div>
             </div>

@@ -337,7 +337,6 @@ public class VerificationService {
 			logger.error("verification haven't found");
 			return;
 		}
-		System.out.println("inside service updating verif addressed from calibrator...");
 		verification.setReadStatus(ReadStatus.READ);
 		verificationRepository.save(verification);
 	}
