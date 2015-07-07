@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Provider;
@@ -78,6 +80,11 @@ public class StateVerificatorController {
     @RequestMapping(value = "new/count/verificator", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByStateVerificatorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
     	return verificationService.findCountOfNewVerificationsByStateVerificatorId(user.getOrganizationId());
+    }
+    
+    @RequestMapping(value = "new/read", method = RequestMethod.PUT)
+    public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
+    	 verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
     }
     
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)

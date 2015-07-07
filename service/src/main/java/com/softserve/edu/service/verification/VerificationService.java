@@ -2,14 +2,21 @@ package com.softserve.edu.service.verification;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+
 import javax.persistence.criteria.*;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
 
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.user.ProviderEmployee;
@@ -182,85 +189,85 @@ public class VerificationService {
 
 	
 	@Transactional(readOnly = true)
-	public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
-			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-			String streetToSearch,ProviderEmployee providerEmployee) {
-			String role= providerEmployee.getRole();
-			String userName = providerEmployee.getUsername();
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
-		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		Root<Verification> root = criteriaQuery.from(Verification.class);
-		Root<Verification> rootCount = countQuery.from(Verification.class);
-		Predicate searchPredicate = cb.conjunction();
-		Predicate countPredicate = cb.conjunction();
-		Join<Verification, Provider> joinSearch = root.join("provider");
-		Join<Verification, Provider> joinCount = rootCount.join("provider");
+	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
+	   int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+	   String streetToSearch,ProviderEmployee providerEmployee) {
+	   String role= providerEmployee.getRole();
+	   String userName = providerEmployee.getUsername();
+	  CriteriaBuilder cb = em.getCriteriaBuilder();
+	  CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
+	  CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+	  Root<Verification> root = criteriaQuery.from(Verification.class);
+	  Root<Verification> rootCount = countQuery.from(Verification.class);
+	  Predicate searchPredicate = cb.conjunction();
+	  Predicate countPredicate = cb.conjunction();
+	  Join<Verification, Provider> joinSearch = root.join("provider");
+	  Join<Verification, Provider> joinCount = rootCount.join("provider");
 
-		if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
-			Join<Verification, ProviderEmployee> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
-			Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);
-			Predicate searchPredicateByEmptyField = cb.isNull(joinSearchProviderEmployee.get("username"));
-			Predicate searchPredicateByProviderEmployee=cb.or(searchPredicateByUsername,searchPredicateByEmptyField);
-			searchPredicate=cb.and(searchPredicateByProviderEmployee);
+	  if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
+	   Join<Verification, ProviderEmployee> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
+	   Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);
+	   Predicate searchPredicateByEmptyField = cb.isNull(joinSearchProviderEmployee.get("username"));
+	   Predicate searchPredicateByProviderEmployee=cb.or(searchPredicateByUsername,searchPredicateByEmptyField);
+	   searchPredicate=cb.and(searchPredicateByProviderEmployee);
 
-			Join<Verification, ProviderEmployee> joinCountsProviderEmployee  = rootCount.join("providerEmployee", JoinType.LEFT);
-			Predicate countsPredicateByUsername =cb.equal(joinCountsProviderEmployee.get("username"), userName);
-			Predicate countsPredicateByEmptyField = cb.isNull(joinCountsProviderEmployee.get("username"));
-			Predicate countsPredicateByProviderEmployee=cb.or(countsPredicateByUsername,countsPredicateByEmptyField);
-			countPredicate=cb.and(countsPredicateByProviderEmployee);
-		}
-		searchPredicate = cb.and(cb.equal(root.get("status"), Status.SENT),searchPredicate);
-		countPredicate = cb.and(cb.equal(rootCount.get("status"), Status.SENT),countPredicate);
-		searchPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), searchPredicate);
-		countPredicate = cb.and(cb.equal(joinCount.get("id"), providerId), countPredicate);
-		criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
+	   Join<Verification, ProviderEmployee> joinCountsProviderEmployee  = rootCount.join("providerEmployee", JoinType.LEFT);
+	   Predicate countsPredicateByUsername =cb.equal(joinCountsProviderEmployee.get("username"), userName);
+	   Predicate countsPredicateByEmptyField = cb.isNull(joinCountsProviderEmployee.get("username"));
+	   Predicate countsPredicateByProviderEmployee=cb.or(countsPredicateByUsername,countsPredicateByEmptyField);
+	   countPredicate=cb.and(countsPredicateByProviderEmployee);
+	  }
+	  searchPredicate = cb.and(cb.equal(root.get("status"), Status.SENT),searchPredicate);
+	  countPredicate = cb.and(cb.equal(rootCount.get("status"), Status.SENT),countPredicate);
+	  searchPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), searchPredicate);
+	  countPredicate = cb.and(cb.equal(joinCount.get("id"), providerId), countPredicate);
+	  criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 
-		criteriaQuery.select(root);
-		countQuery.select(cb.count(rootCount));
+	  criteriaQuery.select(root);
+	  countQuery.select(cb.count(rootCount));
 
-		if (dateToSearch != null) {
+	  if (dateToSearch != null) {
 
-			SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
-			Date date = null;
-			try {
-				date = form.parse(dateToSearch);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			searchPredicate = cb.and(cb.equal(root.get("initialDate"), date), searchPredicate);
-			countPredicate = cb.and(cb.equal(rootCount.get("initialDate"), date), countPredicate);
-		}
+	   SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
+	   Date date = null;
+	   try {
+	    date = form.parse(dateToSearch);
+	   } catch (ParseException e) {
+	    e.printStackTrace();
+	   }
+	   searchPredicate = cb.and(cb.equal(root.get("initialDate"), date), searchPredicate);
+	   countPredicate = cb.and(cb.equal(rootCount.get("initialDate"), date), countPredicate);
+	  }
 
-		if (idToSearch != null) {
-			searchPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), searchPredicate);
-			countPredicate = cb.and(cb.like(rootCount.get("id"), "%" + idToSearch + "%"), countPredicate);
-		}
+	  if (idToSearch != null) {
+	   searchPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), searchPredicate);
+	   countPredicate = cb.and(cb.like(rootCount.get("id"), "%" + idToSearch + "%"), countPredicate);
+	  }
 
-		if (lastNameToSearch != null) {
-			searchPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), searchPredicate);
-			countPredicate = cb.and(cb.like(rootCount.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), countPredicate);
-		}
+	  if (lastNameToSearch != null) {
+	   searchPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), searchPredicate);
+	   countPredicate = cb.and(cb.like(rootCount.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), countPredicate);
+	  }
 
-		if (streetToSearch != null) {
-			searchPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), searchPredicate);
-			countPredicate = cb.and(cb.like(rootCount.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), countPredicate);
-		}
+	  if (streetToSearch != null) {
+	   searchPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), searchPredicate);
+	   countPredicate = cb.and(cb.like(rootCount.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), countPredicate);
+	  }
 
-		criteriaQuery.where(searchPredicate);
-		countQuery.where(countPredicate);													
-		
-		Long count = em.createQuery(countQuery).getSingleResult();
-		TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
-		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-		typedQuery.setMaxResults(itemsPerPage);
-		List<Verification> verificationList = typedQuery.getResultList();
-		ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+	  criteriaQuery.where(searchPredicate);
+	  countQuery.where(countPredicate);             
+	  
+	  Long count = em.createQuery(countQuery).getSingleResult();
+	  TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+	  typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+	  typedQuery.setMaxResults(itemsPerPage);
+	  List<Verification> verificationList = typedQuery.getResultList();
+	  ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
 
-		result.setContent(verificationList);
-		result.setTotalItems(count);
-		return result;
-	}
+	  result.setContent(verificationList);
+	  result.setTotalItems(count);
+	  return result;
+	 }
 	
 	@Transactional(readOnly = true)
 	public Verification findByIdAndProviderId(String id, Long providerId) {
@@ -334,6 +341,7 @@ public class VerificationService {
 	@Transactional
 	public void updateVerificationReadStatus(String verificationId, String readStatus) {
 		Verification verification = verificationRepository.findOne(verificationId);
+		System.err.println("INSIDEservice!!!");
 		if (verification == null) {
 			logger.error("verification haven't found");
 			return;

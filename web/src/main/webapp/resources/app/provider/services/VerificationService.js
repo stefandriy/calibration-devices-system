@@ -57,8 +57,6 @@ angular
 
         function getData(url) {
 
-           // $log.info(url);
-
             return $http.get('provider/' + url)
                 .success(function (data) {
                 	return data;
@@ -69,9 +67,6 @@ angular
         }
 
         function updateData(url, data) {
-//            $log.info('Inside service before PUT');
-//        	$log.info(url);
-//            $log.info(data);
             return $http.put('provider/verifications/' + url, data)
                 .success(function (responseData) {
                    $log.info('response'  + responseData);

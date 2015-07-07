@@ -1,7 +1,7 @@
 angular
     .module('verificatorModule')
-    .controller('NewVerificationsController', ['$scope', '$log', '$modal', 'VerificationService',
-        function ($scope, $log, $modal, verificationService) {
+    .controller('NewVerificationsController', ['$scope', '$log', '$modal', 'VerificationService', '$rootScope',
+        function ($scope, $log, $modal, VerificationService,  $rootScope) {
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;
@@ -9,7 +9,7 @@ angular
             $scope.pageData = [];
 
             $scope.onTableHandling = function () {
-                verificationService
+                VerificationService
                     .getNewVerifications($scope.currentPage, $scope.itemsPerPage)
                     .success(function (verifications) {
                         $scope.pageData = verifications.content;
@@ -18,8 +18,20 @@ angular
             };
 
             $scope.onTableHandling();
+            
+            $scope.markAsRead = function (id) {
+				 var dataToSend = {
+							verificationId: id,
+							readStatus: 'READ'
+						};
+				
+		         	VerificationService.markVerificationAsRead(dataToSend).success(function () {
+		         	$rootScope.$broadcast('verification-was-read');
+		         		$scope.onTableHandling();
+		            });
+	         };
 
-            $scope.openDetails = function ($index) {
+            $scope.openDetails = function ( verifId, verifDate, verifReadStatus ) {
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/verificator/views/modals/new-verification-details.html',
@@ -27,13 +39,15 @@ angular
                     size: 'lg',
                     resolve: {
                         response: function () {
-                            return verificationService.getNewVerificationDetails(
-                                $scope.pageData[$index].id)
-                                .success(function (verification) {
-                                    verification.id = $scope.pageData[$index].id;
-                                    verification.initialDate = $scope.pageData[$index].initialDate;
-                                    return verification;
-                                });
+                        	   return VerificationService.getNewVerificationDetails(verifId)
+                               .success(function (verification) {
+                                   verification.id = verifId;
+                                   verification.initialDate = verifDate;
+                                   if (verifReadStatus == 'UNREAD') {
+                                       $scope.markAsRead(verifId);
+                                   }
+                                   return verification;
+                               });
                         }
                     }
                 });
@@ -71,7 +85,7 @@ angular
                         size: 'md',
                         resolve: {
                             response: function () {
-                                return verificationService.getProviders()
+                                return VerificationService.getProviders()
                                     .success(function (providers) {
                                         return providers;
                                     });
