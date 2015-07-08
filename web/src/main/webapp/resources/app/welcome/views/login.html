@@ -6,13 +6,28 @@
             </div>
             <div class="col-lg-12">
                 <form ng-submit="login()" class="form-signin centered">
-                   <h5 id="incorrectLogin" ng-show="loginCorrect" ng-style="incorrectStyle">{{'INCORRECT_LOGIN' | translate}}</h5>                           
-                    <input ng-model="loginForm.username" ng-style="incorrectStylePlaceholder" type="text" class="form-control"
-                           placeholder="{{ 'USERNAME' | translate }}" required>             
-                   <h5 id="incorrectPassword" ng-show="loginCorrect" ng-style="incorrectStyle">{{'INCORRECT_PASSWORD' | translate}}</h5> 
-                    <input ng-model="loginForm.password" ng-style="incorrectStylePlaceholder" type="password" id="inputPassword" class="form-control"
+                <table id ="loginTable">
+                <tr>
+                <td>
+                   <h5 class="incorrectLoginPass"  ng-class="{'incorStyle': incorrectStyle==true}">{{'INCORRECT_LOGIN' | translate}}</h5>
+                </td>                           
+                <td>
+                   <input ng-model="loginForm.username" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}"  type="text" class="form-control"
+                           placeholder="{{ 'USERNAME' | translate }}" required>  
+                 </td>
+                 </tr>
+                 <tr>
+                <td>           
+                   <h5 class="incorrectLoginPass"  ng-class="{'incorStyle': incorrectStyle==true}">{{'INCORRECT_PASSWORD' | translate}}</h5> 
+                </td>                           
+                <td>
+                    
+                    <input ng-model="loginForm.password" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}" type="password" id="inputPassword" class="form-control"
                            placeholder="{{ 'PASSWORD' | translate }}" required>
-                   <h5 id="incorrectLoginMessage" ng-show="loginCorrect" ng-style="incorrectStyleMessage">{{'INCORRECT' | translate}}</h5> 
+                 </td>
+                 </tr>
+                </table> 
+                   <h5 id="incorrectLoginMessage" ng-show="loginCorrect"  class="incortLebStyle">{{'INCORRECT' | translate}}</h5>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'LOG_IN' | translate }}</button>
                 </form>
             </div>

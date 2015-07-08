@@ -42,6 +42,26 @@ a {
     padding-top: 35px !important;
 }
 
+.incorStyle {
+	color:red;
+    text-align:left;
+}
+
+
+.incortLebStyle {
+	color:red;
+    text-align:center;
+	}
+
+.incorStylePlaceholder {
+	border:2px solid red;
+}
+
+.incorStyle {
+	color:red;
+    text-align:left;
+}
+
 #welcomeSection {
     height: 100%;
     padding-top: 150px;
@@ -63,6 +83,8 @@ a {
     background: #fff;
 }
 
+
+
 #applicationStatusSection {
     height: 100%;
     padding-top: 40px;
@@ -70,9 +92,18 @@ a {
     background: #fff;
 }
 
+#loginTable{
+	position: relative;
+	width:100%;
+}
+
 .centered {
     float: none;
     margin: 0 auto;
+}
+
+.incorrectLoginPass {
+	text-align: left;
 }
 
 .form-signin {
