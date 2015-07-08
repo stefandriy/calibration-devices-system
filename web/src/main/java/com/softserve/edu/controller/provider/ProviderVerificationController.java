@@ -3,7 +3,6 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
-import com.softserve.edu.dto.provider.VerificationSearchDTO;
 import com.softserve.edu.dto.provider.VerificationUpdatingDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.provider.EmployeeProvider;
@@ -88,7 +87,6 @@ public class ProviderVerificationController {
     		@PathVariable String street,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
        ProviderEmployee providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-
        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
                 employeeUser.getOrganizationId(),
                 pageNumber,
@@ -99,10 +97,8 @@ public class ProviderVerificationController {
                 street,
                providerEmployee
         );
-
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-
     }
 
     /**
@@ -161,6 +157,10 @@ public class ProviderVerificationController {
         }
     }
 
+    /**
+     * change read status of verification when Provider user reads it
+     * @param verificationDto
+     */
     @RequestMapping(value = "new/read", method = RequestMethod.PUT)
     public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
         verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());

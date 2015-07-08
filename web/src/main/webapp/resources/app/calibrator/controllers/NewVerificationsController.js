@@ -18,7 +18,6 @@ angular
             $scope.doSearch = function() {
                $scope.tableParams.reload();
             }
-
             
 			$scope.tableParams = new ngTableParams({
 				page: 1, 
@@ -43,9 +42,7 @@ angular
 							verificationId: id,
 							readStatus: 'READ'
 						};
-				 $log.info("data to send in mark as read : " + dataToSend.verificationId); 
-		         	verificationService.markVerificationAsRead(dataToSend).success(function () {
-		         		$log.info('succesfully sent to database');
+				 verificationService.markVerificationAsRead(dataToSend).success(function () {
 		         		$rootScope.$broadcast('verification-was-read');
 		         		$scope.tableParams.reload();
 		            });

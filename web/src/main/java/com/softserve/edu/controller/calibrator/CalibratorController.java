@@ -7,7 +7,6 @@ import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.asm.CalibrationTestDTOAsm;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
-import com.softserve.edu.dto.calibrator.VerificationSearchDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -97,6 +96,12 @@ public class CalibratorController {
        
     }
 
+    /**
+     * Finds count of verifications which have read status 'UNREAD' and are assigned to this organization
+     * 
+     * @param user
+     * @return Long
+     */
     @RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByCalibratorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
     	return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
@@ -126,6 +131,10 @@ public class CalibratorController {
         }
     }
     
+    /**
+     * Update verification when user reads it
+     * @param verificationDto
+     */
     @RequestMapping(value = "new/read", method = RequestMethod.PUT)
     public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
      System.out.println("inside controller to update");

@@ -43,7 +43,6 @@ angular
             getBuildingsCorrespondingStreet:function(selectedBuilding){
                     return getDataFromCatalog('buildings/' + selectedBuilding.id);
             },
-            //my method
             getCountOfNewVerifications: function(url) {
             	return getData('verifications/new/count/provider');
             },

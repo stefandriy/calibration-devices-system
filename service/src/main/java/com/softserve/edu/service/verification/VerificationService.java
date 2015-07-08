@@ -8,15 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-
 import javax.persistence.criteria.*;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.user.ProviderEmployee;
@@ -26,6 +18,7 @@ import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.QueryConstructor;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,20 +86,41 @@ public class VerificationService {
 		return verificationRepository.findByStateVerificatorId(stateVerificatorId, pageRequest);
 	}
 
+	/**
+	 * Finds count of rows in database for verifications assigned to Calibrator with Read Status = 'UNREAD'.
+	 * Method is used for notification about unwatched verifications
+	 * 
+	 * @param calibratorId
+	 * @return 
+	 */
 	@Transactional(readOnly = true)
-	public long findCountOfNewVerificationsByCalibratorId(Long providerId) {
-		return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(providerId, Status.RECEIVED,
+	public Long findCountOfNewVerificationsByCalibratorId(Long calibratorId) {
+		return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.RECEIVED,
 				ReadStatus.UNREAD);
 	}
-
+	
+	/**
+	 * Finds count of rows in database for verifications assigned to Provider with Read Status = 'UNREAD'.
+	 * Method is used for notification about unwatched verifications
+	 * 
+	 * @param providerId
+	 * @return 
+	 */
 	@Transactional(readOnly = true)
-	public long findCountOfNewVerificationsByProviderId(Long providerId) {
+	public Long findCountOfNewVerificationsByProviderId(Long providerId) {
 		return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
 				ReadStatus.UNREAD);
 	}
 	
+	/**
+	 * Finds count of rows in database for verifications assigned to State Verificator with Read Status = 'UNREAD'.
+	 * Method is used for notification about unwatched verifications
+	 * 
+	 * @param stateVerificatorId
+	 * @return 
+	 */
 	@Transactional(readOnly = true)
-	public long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
+	public Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
 		return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.IN_PROGRESS,
 				ReadStatus.UNREAD);
 	}
@@ -187,86 +201,48 @@ public class VerificationService {
 				pageRequest);
 	}
 
-	
+	/**
+	 * Find page of new verifications for provider with search parameters specified
+	 * 
+	 * @param providerId  
+	 * 		ID of organization
+	 * @param pageNumber
+	 * 		number of page requested by user
+	 * @param itemsPerPage
+	 * 		desired number of rows to be displayed on page
+	 * @param dateToSearch
+	 * 		 search by initial date of verification
+	 * @param idToSearch
+	 * 		search by verification ID
+	 * @param lastNameToSearch
+	 * 		search by last name of client
+	 * @param streetToSearch
+	 * 		search by street where client lives
+	 * @param providerEmployee
+	 * 		restrict query by provider employee user name. Allows restrict query so that simple employee user
+	 * 		can only see verifications assigned to him and free verifications (not yet assigned)
+	 * @return ListToPageTransformer<Verification>
+	 */
 	@Transactional(readOnly = true)
 	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
-	   int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-	   String streetToSearch, ProviderEmployee providerEmployee) {
-	   String role= providerEmployee.getRole();
-	   String userName = providerEmployee.getUsername();
-	  CriteriaBuilder cb = em.getCriteriaBuilder();
-	  CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
-	  CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-	  Root<Verification> root = criteriaQuery.from(Verification.class);
-	  Root<Verification> rootCount = countQuery.from(Verification.class);
-	  Predicate searchPredicate = cb.conjunction();
-	  Predicate countPredicate = cb.conjunction();
-	  Join<Verification, Provider> joinSearch = root.join("provider");
-	  Join<Verification, Provider> joinCount = rootCount.join("provider");
+			 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+			 														String streetToSearch, ProviderEmployee providerEmployee) {
 
-	  if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
-	   Join<Verification, ProviderEmployee> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
-	   Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);
-	   Predicate searchPredicateByEmptyField = cb.isNull(joinSearchProviderEmployee.get("username"));
-	   Predicate searchPredicateByProviderEmployee=cb.or(searchPredicateByUsername,searchPredicateByEmptyField);
-	   searchPredicate=cb.and(searchPredicateByProviderEmployee);
+		CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
+			  																	lastNameToSearch, streetToSearch, providerEmployee, em);
+  
+		Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
+			  												streetToSearch, providerEmployee, em)).getSingleResult();
+ 
+		TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+		typedQuery.setMaxResults(itemsPerPage);
+		List<Verification> verificationList = typedQuery.getResultList();
 
-	   Join<Verification, ProviderEmployee> joinCountsProviderEmployee  = rootCount.join("providerEmployee", JoinType.LEFT);
-	   Predicate countsPredicateByUsername =cb.equal(joinCountsProviderEmployee.get("username"), userName);
-	   Predicate countsPredicateByEmptyField = cb.isNull(joinCountsProviderEmployee.get("username"));
-	   Predicate countsPredicateByProviderEmployee=cb.or(countsPredicateByUsername,countsPredicateByEmptyField);
-	   countPredicate=cb.and(countsPredicateByProviderEmployee);
-	  }
-	  searchPredicate = cb.and(cb.equal(root.get("status"), Status.SENT),searchPredicate);
-	  countPredicate = cb.and(cb.equal(rootCount.get("status"), Status.SENT),countPredicate);
-	  searchPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), searchPredicate);
-	  countPredicate = cb.and(cb.equal(joinCount.get("id"), providerId), countPredicate);
-	  criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
-
-	  criteriaQuery.select(root);
-	  countQuery.select(cb.count(rootCount));
-
-	  if (!(dateToSearch.equalsIgnoreCase("null"))) {
-
-	   SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
-	   Date date = null;
-	   try {
-	    date = form.parse(dateToSearch);
-	   } catch (ParseException e) {
-	    e.printStackTrace();
-	   }
-	   searchPredicate = cb.and(cb.equal(root.get("initialDate"), date), searchPredicate);
-	   countPredicate = cb.and(cb.equal(rootCount.get("initialDate"), date), countPredicate);
-	  }
-
-	  if (!(idToSearch.equalsIgnoreCase("null"))) {
-	   searchPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), searchPredicate);
-	   countPredicate = cb.and(cb.like(rootCount.get("id"), "%" + idToSearch + "%"), countPredicate);
-	  }
-
-	  if (!(lastNameToSearch.equalsIgnoreCase("null"))) {
-	   searchPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), searchPredicate);
-	   countPredicate = cb.and(cb.like(rootCount.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), countPredicate);
-	  }
-
-	  if (!(streetToSearch.equalsIgnoreCase("null"))) {
-	   searchPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), searchPredicate);
-	   countPredicate = cb.and(cb.like(rootCount.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), countPredicate);
-	  }
-
-	  criteriaQuery.where(searchPredicate);
-	  countQuery.where(countPredicate);             
-	  
-	  Long count = em.createQuery(countQuery).getSingleResult();
-	  TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
-	  typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-	  typedQuery.setMaxResults(itemsPerPage);
-	  List<Verification> verificationList = typedQuery.getResultList();
-	  ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
-
-	  result.setContent(verificationList);
-	  result.setTotalItems(count);
-	  return result;
+		ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+		result.setContent(verificationList);
+		result.setTotalItems(count);
+		return result;
 	 }
 	
 	@Transactional(readOnly = true)
@@ -310,7 +286,8 @@ public class VerificationService {
 
 	/**
 	 * Find verification, add receive status to calibrator, add calibrator to
-	 * verification save verification
+	 * verification, set verification read status to 'UNREAD', 
+	 *  save verification
 	 */
 	@Transactional
 	public void updateVerification(String verificationId, Calibrator calibrator) {
@@ -338,6 +315,12 @@ public class VerificationService {
 		verificationRepository.save(verification);
 	}
 
+	
+	/**
+	 * Changes verification read status to 'READ' when Provider or Calibrator or State Verificator reads it
+	 * @param verificationId
+	 * @param readStatus
+	 */
 	@Transactional
 	public void updateVerificationReadStatus(String verificationId, String readStatus) {
 		Verification verification = verificationRepository.findOne(verificationId);

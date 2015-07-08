@@ -5,16 +5,15 @@ angular
     	
 	    	var promiseInterval;
 	    	var promiseTimeOut;
-	    	$scope.countOfUnreadVerifications = 0;
+	    $scope.countOfUnreadVerifications = 0;
 	    	
-	    	$scope.reloadVerifications = function() {
-				promiseTimeOut = $timeout(function() {
-							$state.reload();
-					}, 300);
-			}
-			
-	    	$scope.startPolling = function(){
-					$scope.stopPolling();
+	    $scope.reloadVerifications = function() {
+			promiseTimeOut = $timeout(function() {
+						$state.reload();
+				}, 300);
+		}
+	    $scope.startPolling = function(){
+				$scope.stopPolling();
 					if(angular.isDefined(promiseInterval)) return;
 					promiseInterval = $interval(function () {
 						verificationService.getCountOfNewVerifications().success(function (count) {
@@ -24,21 +23,19 @@ angular
 			}
 
     	$scope.stopPolling = function() {
-    			$interval.cancel(promiseInterval);
+    		$interval.cancel(promiseInterval);
     	};
     	
     	$scope.startPolling();
     	
 		
 		$rootScope.$on('verification-sent-to-verifikator', function(){
-				$log.info("gotcha... verif sent to calibrator ");   	
-				verificationService.getCountOfNewVerifications().success(function (count) {
+			verificationService.getCountOfNewVerifications().success(function (count) {
 		       		$scope.countOfUnreadVerifications = count;
 					});
 		});	   	
 	
 		$rootScope.$on('verification-was-read', function(){
-			$log.info("gotcha... verif was read "); 
 			verificationService.getCountOfNewVerifications().success(function (count) {
 	       		$scope.countOfUnreadVerifications = count;
 				});
@@ -52,7 +49,7 @@ angular
 //		});
 		
 		$scope.$on('$destroy', function () {
-				$scope.stopPolling();
+			$scope.stopPolling();
 		}); 
 		
 

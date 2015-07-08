@@ -22,20 +22,18 @@ angular
 			}
 
 	    	$scope.stopPolling = function() {
-	    			$interval.cancel(promiseInterval);
+	    		$interval.cancel(promiseInterval);
 	    	};
 	    	
 	    	$scope.startPolling();
 	    	
 			$rootScope.$on('verification-sent-to-calibrator', function(){
-					$log.info("gotcha... verif sent to calibrator ");   	
-					verificationService.getCountOfNewVerifications().success(function (count) {
+				verificationService.getCountOfNewVerifications().success(function (count) {
 			       		$scope.countOfUnreadVerifications = count;
 						});
 			});	   	
 		
 			$rootScope.$on('verification-was-read', function(){
-				$log.info("gotcha... verif was read "); 
 				verificationService.getCountOfNewVerifications().success(function (count) {
 		       		$scope.countOfUnreadVerifications = count;
 					});
