@@ -191,7 +191,7 @@ public class VerificationService {
 	@Transactional(readOnly = true)
 	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
 	   int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-	   String streetToSearch,ProviderEmployee providerEmployee) {
+	   String streetToSearch, ProviderEmployee providerEmployee) {
 	   String role= providerEmployee.getRole();
 	   String userName = providerEmployee.getUsername();
 	  CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -226,7 +226,7 @@ public class VerificationService {
 	  criteriaQuery.select(root);
 	  countQuery.select(cb.count(rootCount));
 
-	  if (dateToSearch != null) {
+	  if (!(dateToSearch.equalsIgnoreCase("null"))) {
 
 	   SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
 	   Date date = null;
@@ -239,17 +239,17 @@ public class VerificationService {
 	   countPredicate = cb.and(cb.equal(rootCount.get("initialDate"), date), countPredicate);
 	  }
 
-	  if (idToSearch != null) {
+	  if (!(idToSearch.equalsIgnoreCase("null"))) {
 	   searchPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), searchPredicate);
 	   countPredicate = cb.and(cb.like(rootCount.get("id"), "%" + idToSearch + "%"), countPredicate);
 	  }
 
-	  if (lastNameToSearch != null) {
+	  if (!(lastNameToSearch.equalsIgnoreCase("null"))) {
 	   searchPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), searchPredicate);
 	   countPredicate = cb.and(cb.like(rootCount.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), countPredicate);
 	  }
 
-	  if (streetToSearch != null) {
+	  if (!(streetToSearch.equalsIgnoreCase("null"))) {
 	   searchPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), searchPredicate);
 	   countPredicate = cb.and(cb.like(rootCount.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), countPredicate);
 	  }

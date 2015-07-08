@@ -61,21 +61,24 @@ public class CalibratorController {
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
     
-    @RequestMapping(value = "new/search", method = RequestMethod.POST)
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
-    		@RequestBody VerificationSearchDTO verificationSearchDto,
+    		@PathVariable Integer pageNumber,
+            @PathVariable Integer itemsPerPage,
+            @PathVariable String searchType,
+            @PathVariable String searchText,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
-    		if(verificationSearchDto.getSearchText().length()>0){
+    	
+    		if(!(searchText.equalsIgnoreCase("null"))){
     			
     			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
     		                .toDTO(verificationService
     		                        .findPageOfSentVerificationsByCalibratorIdAndSearch(
     		                                employeeUser.getOrganizationId(),
-    		                                verificationSearchDto.getPageNumber(),
-    		                                verificationSearchDto.getItemsPerPage(),
-    		                                verificationSearchDto.getSearchType(),
-    		                                verificationSearchDto.getSearchText()
+    		                                pageNumber,
+    		                                itemsPerPage,
+    		                                searchType,
+    		                                searchText
     		                                ));
 
     		        return new PageDTO<>(page.getTotalElements(), page.getContent());
@@ -85,8 +88,8 @@ public class CalibratorController {
     		                .toDTO(verificationService
     		                        .findPageOfSentVerificationsByCalibratorId(
     		                                employeeUser.getOrganizationId(),
-    		                                verificationSearchDto.getPageNumber(),
-    		                                verificationSearchDto.getItemsPerPage()));
+    		                                pageNumber,
+    		                                itemsPerPage));
 
     		        return new PageDTO<>(page.getTotalElements(), page.getContent());
     		}

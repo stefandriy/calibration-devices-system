@@ -7,17 +7,16 @@ angular
 
             
             $scope.search = {
-            		text:"",
-            		type:""
+            		text: null,
+            		type: null
             }
             
             $scope.clearInput = function(){
-            	$scope.search.text="";
+            	$scope.search.text=null;
             }
             
             $scope.doSearch = function() {
-                $log.debug('search text from scope inside reload:', $scope.search.text);
-                $scope.tableParams.reload();
+               $scope.tableParams.reload();
             }
 
             
@@ -28,20 +27,13 @@ angular
 							total: 0,
 							getData: function($defer, params) {
 			        
-							        var queryOptions = {
-										pageNumber: params.page(),
-										itemsPerPage: params.count(),
-										searchType: $scope.search.type,
-										searchText: $scope.search.text 	 
-									}
-							         
-							        verificationService.searchNewVerifications(queryOptions)
-								          	.success(function(result) {
-												$defer.resolve(result.content);
-												params.total(result.totalItems);
-									  		}, function(result) {
-													 $log.debug('error fetching data:', result);
-									  			});  
+								verificationService.getNewVerifications(params.page(), params.count(), $scope.search.type, $scope.search.text)
+								.success(function(result) {
+										$defer.resolve(result.content);
+										params.total(result.totalItems);
+									}, function(result) {
+											 $log.debug('error fetching data:', result);
+							  	}); 
 							}
 			});
             

@@ -54,23 +54,15 @@ angular
                 total: 0,
                 getData: function ($defer, params) {
 
-                    var queryOptions = {
-
-                        pageNumber: params.page(),
-                        itemsPerPage: params.count(),
-
-                        searchById: $scope.search.idText,
-                        searchByDate: $scope.search.formattedDate,
-                        searchByLastName: $scope.search.lastNameText,
-                        searchByStreet: $scope.search.streetText
-                    }
-                    verificationService.searchNewVerifications(queryOptions).success(function (result) {
-                        $defer.resolve(result.content);
-                        params.total(result.totalItems);
-                    }, function (result) {
-                        $log.debug('error fetching data:', result);
-                    });
-                }
+                    verificationService.getNewVerifications(params.page(), params.count(), $scope.search.formattedDate, $scope.search.idText, 
+                    				$scope.search.lastNameText, $scope.search.streetText)
+                    				.success(function (result) {
+                    					$defer.resolve(result.content);
+                    					params.total(result.totalItems);
+                    				}, function (result) {
+                    					$log.debug('error fetching data:', result);
+                    				});
+                 }
             });
 
   

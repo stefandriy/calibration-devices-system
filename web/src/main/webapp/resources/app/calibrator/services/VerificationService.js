@@ -6,8 +6,8 @@ angular
             getArchivalVerifications: function (currentPage, itemsPerPage) {
                 return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
             },
-            getNewVerifications: function (currentPage, itemsPerPage) {
-                return getData('verifications/new/' + currentPage + '/' + itemsPerPage);
+            getNewVerifications: function (currentPage, itemsPerPage, searchType, searchText) {
+                return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' + searchType + '/' + searchText);
             },
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);
@@ -35,18 +35,13 @@ angular
             },
             getBuildingsCorrespondingStreet:function(selectedBuilding){
                     return getData("applications/buildings/" + selectedBuilding.id);
-                },
-            //my method
+            },
             getCountOfNewVerifications: function(url) {
             	return getData('verifications/new/count/calibrator');
             },
             markVerificationAsRead : function(data) {
             	return updateData('new/read', data);
-            },
-            searchNewVerifications : function(data) {
-            	return sendDataWithParams('new/search', data);
             }
-
         };
 
         function getData(url) {
@@ -81,14 +76,5 @@ angular
                     return err;
                 });
         }
-        
-        function sendDataWithParams(url, data) {
-            return $http.post('calibrator/verifications/' + url, data)
-                .success(function (responseData) {
-                    return responseData;
-                })
-                .error(function (err) {
-                    return err;
-                });
-        }
+   
     }]);

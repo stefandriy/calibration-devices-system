@@ -6,8 +6,9 @@ angular
             getArchivalVerifications: function (currentPage, itemsPerPage) {
                 return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
             },
-            getNewVerifications: function (currentPage, itemsPerPage) {
-                return getData('verifications/new/' + currentPage + '/' + itemsPerPage);
+            getNewVerifications: function (currentPage, itemsPerPage, searchByDate, searchById, searchByLastName, searchByStreet) {
+            	return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' + 
+            			searchByDate + '/' + searchById + '/' + searchByLastName + '/' + searchByStreet);
             },
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);
@@ -48,11 +49,7 @@ angular
             },
             markVerificationAsRead : function(data) {
             	return updateData('new/read', data);
-            },
-            searchNewVerifications : function(data) {
-            	return sendDataWithParams('new/search', data);
             }
-
         };
 
         function getData(url) {
@@ -86,17 +83,7 @@ angular
                     return err;
                 });
         }
-        
-        function sendDataWithParams(url, data) {
-            return $http.post('provider/verifications/' + url, data)
-                .success(function (responseData) {
-                    return responseData;
-                })
-                .error(function (err) {
-                    return err;
-                });
-        }
-        
+       
         function getDataFromCatalog(url) {
             return $http.get('application/' + url)
                 .success(function (data) {
