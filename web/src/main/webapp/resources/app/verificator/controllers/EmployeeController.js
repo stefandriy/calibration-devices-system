@@ -6,10 +6,10 @@ angular
     	
     		userService.isAdmin()
     		.success(function (response) {
-    			if (response == 'admin'){
-    		$scope.verificator = true;
+    			if (response == 'STATE_VERIFICATOR_ADMIN'){
+    					$scope.verificator = true;
     			} else {
-    		alert(response);
+    					$scope.accessLable = true;
     			}
     		});
 

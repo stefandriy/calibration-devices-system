@@ -33,9 +33,15 @@ public class CalibratorEmployeeController {
         private CalibratorEmployeeService calibratorEmployeeService;
 
         
+        /**
+         * Spatial security service
+         * Find the role of the login user
+         * @return role
+         */
+
         @RequestMapping(value = "verificator", method = RequestMethod.GET)
-        public String verification() {
-            return "admin";
+        public String verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            return calibratorEmployeeService.findByUserame(user.getUsername()).getRole();
         }
 
 

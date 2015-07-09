@@ -1,6 +1,7 @@
 package com.softserve.edu.service.calibrator;
 
 import com.softserve.edu.entity.user.CalibratorEmployee;
+import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.repository.CalibratorEmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -34,4 +35,9 @@ public class CalibratorEmployeeService {
         calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
         calibratorEmployeeRepository.save(calibratorEmployee);
     }
+    
+    @Transactional()
+    public CalibratorEmployee findByUserame(String userName){
+    	return calibratorEmployeeRepository.findByUsername(userName);
+}
 }

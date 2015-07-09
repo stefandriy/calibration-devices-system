@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.StateVerificatorEmployee;
 import com.softserve.edu.repository.StateVerificatorEmployeeRepository;
 
@@ -29,4 +31,9 @@ public class StateVerificatorEmployeeService {
 		stateVerificatorEmployee.setRole(STATE_VERIFICATOR_EMPLOYEE);
 		stateVerificatorEmployeeRepository.save(stateVerificatorEmployee);
 	}
+	
+    @Transactional()
+    public StateVerificatorEmployee findByUserame(String userName){
+    	return stateVerificatorEmployeeRepository.findByUsername(userName);
+    }
 }

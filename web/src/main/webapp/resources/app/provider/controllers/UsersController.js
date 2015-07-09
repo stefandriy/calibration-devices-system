@@ -13,15 +13,15 @@ angular
 
 
             $scope.onTableHandling = function () {
-
-                userService.isAdmin()
-                    .success(function (response) {
-                        if (response == 'admin') {
-                            $scope.verificator = true;
-                        } else {
-                            alert(response);
-                        }
-                    });
+            	    	
+           		userService.isAdmin()
+           			.success(function (response) {
+           				if (response === 'PROVIDER_ADMIN'){
+           						$scope.verificator = true;
+           				}else{
+           						$scope.accessLable = true;	
+        				}
+           			});
 
                 userService
                     .getPage($scope.currentPage, $scope.itemsPerPage, $scope.idOrganization, $scope.searchData)

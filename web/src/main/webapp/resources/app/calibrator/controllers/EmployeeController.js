@@ -4,14 +4,14 @@ angular
 
         function ($scope, $log, $modal, $state, userService) {
     	
-    	    userService.isAdmin()
-            	.success(function (response) {
-                if (response == 'admin'){
-                	$scope.verificator = true;
-                } else {
-                	alert(response);
-    	            }
-    	        });
+		userService.isAdmin()
+			.success(function (response) {
+				if (response === 'CALIBRATOR_ADMIN'){
+					$scope.verificator = true;
+				}else{
+					$scope.accessLable = true;	
+				}
+			});
 
             $scope.employeeData = {};
             $scope.form = {};

@@ -1,5 +1,6 @@
 package com.softserve.edu.service.provider;
 
+import com.softserve.edu.entity.Provider;
 import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.ProviderEmployeeRepository;
@@ -46,6 +47,11 @@ public class ProviderEmployeeService {
     @Transactional
     public List<ProviderEmployee> getAllProviders(String role, Long id) {
         return providerEmployeeRepository.getAllProviderUsers(role,id);
+    }
+    
+    @Transactional()
+    public ProviderEmployee findByUserame(String userName){
+    	return providerEmployeeRepository.findByUsername(userName);
     }
 
 

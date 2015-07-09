@@ -9,6 +9,7 @@ import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ProviderEmployeeController {
 
     @Autowired
     private UsersService userService;
-
+    
     @Autowired
     private OrganizationsService organizationsService;
 
@@ -36,10 +37,16 @@ public class ProviderEmployeeController {
 
     @Autowired
     private VerificationService verificationService;
+    
+    /**
+     * Spatial security service
+     * Find the role of the login user
+     * @return role
+     */
 
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
-    public String verification() {
-        return "admin";
+    public String verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        return providerEmployeeService.findByUserame(user.getUsername()).getRole();
     }
 
     /**

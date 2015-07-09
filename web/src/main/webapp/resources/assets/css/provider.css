@@ -478,3 +478,10 @@ input[type="radio"], input[type="checkbox"] {
 .field-stat {
     right: 9px !important;
 }
+
+.fa-times-circle-o {
+    font-size: 6.5em;
+    color:red;
+    padding-right: 5px;
+}
+

@@ -1,5 +1,6 @@
 package com.softserve.edu.repository;
 
+import com.softserve.edu.entity.Provider;
 import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.User;
@@ -30,4 +31,6 @@ public interface ProviderEmployeeRepository extends CrudRepository<ProviderEmplo
    @Query("select u from User u where u.role =  :role and u.organization.id = :organizationId ")
     List<ProviderEmployee> getAllProviderUsers(@Param("role") String role,
                                                @Param("organizationId")Long organizationId);
+   
+   public ProviderEmployee findByUsername(String userName);
 }

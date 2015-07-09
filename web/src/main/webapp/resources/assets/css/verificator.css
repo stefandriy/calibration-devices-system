@@ -398,6 +398,13 @@ input[type="radio"], input[type="checkbox"] {
     padding-right: 5px;
 }
 
+.fa-times-circle-o {
+    font-size: 6.5em;
+    color:red;
+    padding-right: 5px;
+}
+
+
 #successMessage {
     font-size: 10em;
     color: green;
