@@ -1,7 +1,7 @@
 <html>
 	<body>
 		<span style="font-weight:bold">
-			Привіт, $name!  Ваша заявка була успішно відправлена.
+			Доброго дня, $name!  Ваша заявка була успішно відправлена.
 		</span>
 		<br>Ви можете перевірити статус вашої заявки за наступним посиланням:
 		<br>$protocol://$domain/#/application-status/$applicationId

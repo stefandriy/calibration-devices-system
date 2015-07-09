@@ -43,9 +43,9 @@ angular
 											 if (verification.status == undefined){
 								              
 								            
-								                	$scope.incorrectStyle = {"border":"2px solid red","background-color":"DarkSalmon","color": "black"};
+								                	$scope.checkStyle = 'row col-md-10 alert alert-danger alert-dismissible centered';
 								           
-								                }
+								                }else $scope.checkStyle='row col-md-10 alert alert-success alert-dismissible centered';
 										});
 
 								$scope.isShownForm = false;

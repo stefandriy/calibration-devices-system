@@ -30,8 +30,8 @@
 			</div>
 
 			<div ng-hide="isShownForm"
-				class="row col-md-10 alert alert-success alert-dismissible centered"
-				role="alert" ng-style="incorrectStyle">
+				class="{{checkStyle}}"
+				role="alert">
 				<button ng-click="closeAlert()" type="button"
 					class="close btn-close-alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -45,26 +45,31 @@
 					<table class="table table-striped table-bordered table-hover">
 						<thead>
 							<tr>
-								<th>Дата початку процесу повірки</th>
-								<th>Реєстраційний номер повірки</th>
 								<th>Прізвище клієнта</th>
-								<th>Вулиця, на якій проживає
-									клієнт</th>
-								<th>Статус повірки</th>
+								<th>Ім'я</th>
+								<th>Дата початку процесу повірки</th>
+								<th>Населений пункт</th>
+								<th>Вулиця</th>
+								<th>Будинок</th>
+
 								<th>Дії</th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<tr>
-								<td>{{ verification.initialDate | date}}</td>
-								<td>{{ verification.id }}</td>
 								<td>{{ verification.lastName}}</td>
+								<td>{{ verification.firstName}}</td>
+								<td>{{ verification.initialDate | date}}</td>
+								<td>{{ verification.locality }}</td>
+
 								<td>{{ verification.street }}</td>
-								<td>{{ verification.status }}</td>
+
+								<td>{{verification.building}}</td>
+
 								<td class="text-center"><a popover="Детальніше"
-									popover-trigger="mouseenter" ng-click="openDetails()">
-										<i class="fa fa-info-circle"></i>
+									popover-trigger="mouseenter" ng-click="openDetails()"> <i
+										class="fa fa-info-circle"></i>
 								</a> <a ng-show="verification.status === 'COMPLETED'"
 									popover="Завантажити тестові дані у форматі 'docx'"
 									popover-trigger="mouseenter"
