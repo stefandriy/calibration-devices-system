@@ -136,8 +136,8 @@ public class ProviderVerificationController {
         ProviderEmployee employee = providerEmployeeService.oneProviderEmployee(user.getUsername());
         List<EmployeeProvider> providerListEmployee = new ArrayList<>();
 
-        if (employee.getRole().equalsIgnoreCase("PROVIDER_ADMIN")) {
-            List<ProviderEmployee> list = providerEmployeeService.getAllProviders("PROVIDER_EMPLOYEE", employee.getOrganization().getId());
+        if (employee.getRole().equalsIgnoreCase((ProviderEmployee.ProviderEmployeeRole.PROVIDER_ADMIN.roleName()))) {
+            List<ProviderEmployee> list = providerEmployeeService.getAllProviders(ProviderEmployee.ProviderEmployeeRole.PROVIDER_EMPLOYEE.roleName(), employee.getOrganization().getId());
             providerListEmployee = EmployeeProvider.giveListOfProviders(list);
         } else {
             EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(), employee.getLastName(), employee.getMiddleName(), employee.getRole());

@@ -124,7 +124,8 @@ $scope.addProviderEmployee = function (verifId, providerEmployee) {
         animation: true,
         templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
         controller: 'ProviderEmployeeController',
-        size: 'sm',
+        size: 'md',
+        windowClass: "providerEmployee",
         resolve: {
             providerEmploy: function () {
                 return verificationService.getProviders()

@@ -6,6 +6,7 @@ import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.StateVerificatorEmployee;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.OrganizationName;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 
@@ -33,23 +34,23 @@ public class OrganizationsService {
 
 	@Transactional
 	public void addOrganizationWithAdmin(String name, String email,
-			String phone, String type, String username, String password,
+			String phone, OrganizationName type, String username, String password,
 			Address address) {
 		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
 		Organization organization;
 		Employee employeeAdmin;
 		switch (type) {
-		case "PROVIDER":
+			case PROVIDER:
 			organization = new Provider(name, email, phone);
 			employeeAdmin = new ProviderEmployee(username, passwordEncoded,
 					PROVIDER_ADMIN, organization);
 			break;
-		case "CALIBRATOR":
+			case CALIBRATOR:
 			organization = new Calibrator(name, email, phone);
 			employeeAdmin = new CalibratorEmployee(username, passwordEncoded,
 					CALIBRATOR_ADMIN, organization);
 			break;
-		case "STATE_VERIFICATION":
+			case STATE_VERIFICATION:
 			organization = new StateVerificator(name, email, phone);
 			employeeAdmin = new StateVerificatorEmployee(username,
 					passwordEncoded, STATE_VERIFICATOR_ADMIN, organization);
@@ -80,15 +81,15 @@ public class OrganizationsService {
 	@Transactional
 	public String getOrganizationType(Organization organization) {
 		if (organization instanceof Provider) {
-			return "PROVIDER";
+			return OrganizationName.PROVIDER.name();
 		}
 		if (organization instanceof Calibrator) {
-			return "CALIBRATOR";
+			return OrganizationName.CALIBRATOR.name();
 		}
 		if (organization instanceof StateVerificator) {
-			return "STATE_VERIFICATION";
+			return OrganizationName.STATE_VERIFICATION.name();
 		}
-		return "NO_TYPE";
+		return OrganizationName.NO_TYPE.name();
 	}
 
 	@Transactional

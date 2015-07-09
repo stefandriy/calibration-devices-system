@@ -1,10 +1,12 @@
 package com.softserve.edu.dto.admin;
 
+import com.softserve.edu.entity.util.OrganizationName;
+
 public class OrganizationDTO {
     private String name;
     private String email;
     private String phone;
-    private String type;
+    private OrganizationName type;
 
     private String username;
     private String password;
@@ -44,11 +46,11 @@ public class OrganizationDTO {
         this.phone = phone;
     }
 
-    public String getType() {
+    public OrganizationName getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(OrganizationName type) {
         this.type = type;
     }
 

@@ -83,7 +83,7 @@ public class ProviderEmployeeController {
             @PathVariable Long idOrganization,
             @PathVariable String search) {
         Page<UsersPageItem> page = providerEmployeeService
-                .getUsersPagination(idOrganization, pageNumber, itemsPerPage, search, "PROVIDER_EMPLOYEE")
+                .getUsersPagination(idOrganization, pageNumber, itemsPerPage, search, ProviderEmployee.ProviderEmployeeRole.PROVIDER_EMPLOYEE.roleName())
                 .map(
                         user -> {
                             UsersPageItem usPage = null;

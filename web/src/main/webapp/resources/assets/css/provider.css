@@ -58,7 +58,7 @@ body {
     margin-left: 0;
     margin-top: 0;
     margin-right: 0;
-    padding-bottom: 3;
+    padding-bottom:0;
     padding-top: 0;
     padding-left: 0;
     padding-right: 0;
@@ -479,9 +479,31 @@ input[type="radio"], input[type="checkbox"] {
     right: 9px !important;
 }
 
+
 .fa-times-circle-o {
     font-size: 6.5em;
     color:red;
     padding-right: 5px;
 }
+.providerEmployee h3{
+    text-align: left;
+    margin-bottom: 10px;
+}
+.providerEmployee .modal-footer.form-group{
+    margin-bottom: 0;
+}
+.providerEmployee .modal-content{
+    margin-left: 18%;
+}
+.verificationNumber {
+    overflow: hidden!important;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 1px;
+    width:40px;
+}
+.showInline {
+    display: inline-block;
+    float: left;
 
+}
