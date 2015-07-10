@@ -75,7 +75,7 @@ public class ProviderApplicationController {
                                 verificationDTO.getBuilding(),
                                 verificationDTO.getFlat())),
                 provider,
-                Status.RECEIVED, ReadStatus.UNREAD, verificationDTO.getCalibrator());
+                Status.IN_PROGRESS, ReadStatus.UNREAD, verificationDTO.getCalibrator());
         verificationService.saveVerification(verification);
     }
 

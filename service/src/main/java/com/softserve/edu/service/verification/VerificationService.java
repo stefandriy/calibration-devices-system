@@ -95,7 +95,7 @@ public class VerificationService {
 	 */
 	@Transactional(readOnly = true)
 	public Long findCountOfNewVerificationsByCalibratorId(Long calibratorId) {
-		return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.RECEIVED,
+		return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS,
 				ReadStatus.UNREAD);
 	}
 	
@@ -121,7 +121,7 @@ public class VerificationService {
 	 */
 	@Transactional(readOnly = true)
 	public Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
-		return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.IN_PROGRESS,
+		return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
 				ReadStatus.UNREAD);
 	}
 
@@ -153,7 +153,7 @@ public class VerificationService {
 	public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber,
 			int itemsPerPage) {
 		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.RECEIVED,
+		return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS,
 				pageRequest);
 	}
 
@@ -163,16 +163,16 @@ public class VerificationService {
 		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
 		switch (searchType) {
 		case "id":
-			return verificationRepository.findByCalibratorIdAndStatusAndIdLikeIgnoreCase(calibratorId, Status.RECEIVED,
+			return verificationRepository.findByCalibratorIdAndStatusAndIdLikeIgnoreCase(calibratorId, Status.IN_PROGRESS,
 					"%" + searchText + "%", pageRequest);
 
 		case "lastName":
 			return verificationRepository.findByCalibratorIdAndStatusAndClientData_lastNameLikeIgnoreCase(calibratorId,
-					Status.RECEIVED, "%" + searchText + "%", pageRequest);
+					Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
 
 		case "street":
 			return verificationRepository.findByCalibratorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(
-					calibratorId, Status.RECEIVED, "%" + searchText + "%", pageRequest);
+					calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
 
 		case "date":
 
@@ -183,12 +183,12 @@ public class VerificationService {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			return verificationRepository.findByCalibratorIdAndStatusAndInitialDateLike(calibratorId, Status.RECEIVED,
+			return verificationRepository.findByCalibratorIdAndStatusAndInitialDateLike(calibratorId, Status.IN_PROGRESS,
 					date, pageRequest);
 
 		default:
 			return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId,
-					Status.RECEIVED, pageRequest);
+					Status.IN_PROGRESS, pageRequest);
 		}
 
 	}
@@ -197,7 +197,7 @@ public class VerificationService {
 	public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
 			int itemsPerPage) {
 		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.IN_PROGRESS,
+		return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
 				pageRequest);
 	}
 
@@ -297,7 +297,7 @@ public class VerificationService {
 			logger.error("verification haven't found");
 			return;
 		}
-		verification.setStatus(Status.RECEIVED);
+		verification.setStatus(Status.IN_PROGRESS);
 		verification.setCalibrator(calibrator);
 		verification.setReadStatus(ReadStatus.UNREAD);
 		verificationRepository.save(verification);
@@ -342,7 +342,7 @@ public class VerificationService {
 	@Transactional
 	public void updateVerificationByCalibrator(String verificationId, StateVerificator stateVerificator) {
 		Verification verification = verificationRepository.findOne(verificationId);
-		verification.setStatus(Status.IN_PROGRESS);
+		verification.setStatus(Status.SENT_TO_VERIFICATOR);
 		verification.setStateVerificator(stateVerificator);
 		verification.setReadStatus(ReadStatus.UNREAD);
 		verificationRepository.save(verification);
@@ -359,7 +359,7 @@ public class VerificationService {
 			logger.error("verification haven't found");
 			return;
 		}
-		verification.setStatus(Status.COMPLETED);
+		verification.setStatus(Status.TEST_OK);
 		verification.setStateVerificator(stateVerificator);
 		verificationRepository.save(verification);
 	}
