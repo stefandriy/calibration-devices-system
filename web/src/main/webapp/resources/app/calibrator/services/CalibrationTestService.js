@@ -1,6 +1,6 @@
 angular
     .module('calibratorModule')
-    .factory('calibrationTestService', function ($http) {
+    .factory('CalibrationTestService', function ($http) {
 
 
         return {

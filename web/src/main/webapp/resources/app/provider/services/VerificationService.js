@@ -48,6 +48,12 @@ angular
             },
             markVerificationAsRead : function(data) {
             	return updateData('new/read', data);
+            },
+            acceptVerification : function(data) {
+            	return updateData('new/accept', data);
+            },
+            rejectVerification : function(data) {
+            	return updateData('new/reject', data);
             }
         };
 

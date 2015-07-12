@@ -3,6 +3,7 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.dto.provider.VerificationStatusUpdateDTO;
 import com.softserve.edu.dto.provider.VerificationUpdatingDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.provider.EmployeeProvider;
@@ -13,6 +14,7 @@ import com.softserve.edu.entity.Calibrator;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.ProviderEmployee;
+import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -153,8 +155,21 @@ public class ProviderVerificationController {
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            verificationService.updateVerification(verificationId, verificationUpdatingDTO.getCalibrator());
+            verificationService.sendVerificationTo(verificationId, verificationUpdatingDTO.getCalibrator(), Status.IN_PROGRESS);
         }
+    }
+    
+    
+    @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
+    public void rejectVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
+			verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
+           					Status.valueOf(verificationReadStatusUpdateDTO.getStatus().toUpperCase()));
+    }
+    
+    @RequestMapping(value = "new/accept", method = RequestMethod.PUT)
+    public void acceptVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
+			verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
+           					Status.valueOf(verificationReadStatusUpdateDTO.getStatus().toUpperCase()));
     }
 
     /**
@@ -192,7 +207,7 @@ public class ProviderVerificationController {
 
         ClientData clientData = verification.getClientData();
         Address address = clientData.getClientAddress();
-
+        
         return new ClientStageVerificationDTO(clientData, address, null);
     }
 

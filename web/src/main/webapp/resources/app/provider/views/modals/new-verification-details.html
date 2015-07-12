@@ -8,4 +8,6 @@
 
 <div class="modal-footer">
     <button class="btn btn-primary" ng-click="close()">Закрити</button>
+     <button class="btn btn-success" ng-click="acceptVerification()" ng-hide="verificationData.status=='ACCEPTED'">Accept</button>
+      <button class="btn btn-danger" ng-click="rejectVerification()" ng-hide="verificationData.status=='ACCEPTED'">Reject</button>
 </div>

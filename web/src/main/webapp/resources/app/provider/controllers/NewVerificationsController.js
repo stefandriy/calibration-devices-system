@@ -45,9 +45,7 @@ angular
         	 $scope.clearAll();
         }); 
        
-        
-
-            $scope.tableParams = new ngTableParams({
+        $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10
             			}, {
@@ -82,7 +80,7 @@ angular
             /**
              * open modal
              */
-            $scope.openDetails = function (verifId, verifDate, verifReadStatus) {
+            $scope.openDetails = function (verifId, verifDate, verifReadStatus, verifStatus) {
 
                 $modal.open({
                     animation: true,
@@ -93,8 +91,10 @@ angular
                         response: function () {
                             return verificationService.getNewVerificationDetails(verifId)
                                 .success(function (verification) {
-                                    verification.id = verifId;
+                                	 $rootScope.verificationID = verifId;
+                                    verification.id =   $rootScope.verificationID;
                                     verification.initialDate = verifDate;
+                                    verification.status = verifStatus;
                                     if (verifReadStatus == 'UNREAD') {
                                         $scope.markAsRead(verifId);
                                     }

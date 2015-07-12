@@ -9,6 +9,7 @@ import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.*;
+import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
@@ -124,10 +125,7 @@ public class CalibratorController {
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
             verificationService
-                    .updateVerificationByCalibrator(
-                            verificationId,
-                            verificationUpdatingDTO.getVerificator()
-                    );
+                    .sendVerificationTo(verificationId,verificationUpdatingDTO.getVerificator(), Status.SENT_TO_VERIFICATOR);
         }
     }
     

@@ -292,7 +292,6 @@ public class VerificationService {
 	@Transactional
 	public void updateVerification(String verificationId, Calibrator calibrator) {
 		Verification verification = verificationRepository.findOne(verificationId);
-
 		if (verification == null) {
 			logger.error("verification haven't found");
 			return;
@@ -333,6 +332,8 @@ public class VerificationService {
 		verificationRepository.save(verification);
 	}
 
+	
+	
 	/**
 	 * Find verification, add IN_PROGRESS status to state verificator, add state
 	 * verificator to verification. /** Find verification, add IN_PROGRESS
@@ -347,7 +348,31 @@ public class VerificationService {
 		verification.setReadStatus(ReadStatus.UNREAD);
 		verificationRepository.save(verification);
 	}
-
+	
+	@Transactional
+	public void updateVerificationStatus (String verificationId, Status status) {
+		Verification verification = verificationRepository.findOne(verificationId);
+		verification.setStatus(status);
+		verificationRepository.save(verification);
+	}
+	
+	@Transactional
+	public void sendVerificationTo(String verificationId, Organization oraganization, Status status) {
+		Verification verification = verificationRepository.findOne(verificationId);
+		String organizationName = oraganization.getClass().getSimpleName();
+			if (organizationName.equals(Provider.class.getSimpleName())) {
+				verification.setProvider((Provider) oraganization);
+			} else if (organizationName.equals(Calibrator.class.getSimpleName())) {
+				verification.setCalibrator((Calibrator) oraganization);
+			} else if (organizationName.equals(StateVerificator.class.getSimpleName())) {
+				verification.setStateVerificator((StateVerificator) oraganization);
+			}
+		verification.setStatus(status);
+		verification.setReadStatus(ReadStatus.UNREAD);
+		verificationRepository.save(verification);
+	}
+	
+	
 	/**
 	 * Find verification, add complete status to stateVerificator, add
 	 * stateVerificator to verification save verification

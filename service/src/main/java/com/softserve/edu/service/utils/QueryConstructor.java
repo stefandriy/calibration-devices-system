@@ -119,7 +119,12 @@ public class QueryConstructor {
 					queryPredicate=cb.and(searchPredicateByProviderEmployee);
 				}
 			
-			queryPredicate = cb.and(cb.equal(root.get("status"), Status.SENT),queryPredicate);
+			Predicate sentStatus = cb.equal(root.get("status"), Status.SENT);
+			Predicate acceptedStatus = cb.equal(root.get("status"), Status.ACCEPTED);
+			
+			queryPredicate = cb.and(cb.or(sentStatus, acceptedStatus), queryPredicate);
+			//queryPredicate = cb.and(cb.equal(root.get("status"), Status.SENT),queryPredicate);
+			
 			queryPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), queryPredicate);
 				
 				 if (!(dateToSearch.equalsIgnoreCase("null"))) {

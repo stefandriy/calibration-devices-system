@@ -17,6 +17,7 @@ public class ClientStageVerificationDTO {
     private String flat;
     private Long providerId;
 
+    
     protected ClientStageVerificationDTO() {}
 
     public ClientStageVerificationDTO(ClientData clientData, Address address, Long providerId) {
@@ -32,6 +33,7 @@ public class ClientStageVerificationDTO {
         this.building = address.getBuilding();
         this.flat = address.getFlat();
         this.providerId = providerId;
+       
     }
 
     public String getFirstName() {
@@ -129,4 +131,5 @@ public class ClientStageVerificationDTO {
     public void setProviderId(Long providerId) {
         this.providerId = providerId;
     }
+   
 }
