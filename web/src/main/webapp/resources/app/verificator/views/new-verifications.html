@@ -43,7 +43,7 @@
 											<th>Прізвище клієнта</th>
 											<th>Вулиця, на якій проживає клієнт</th>
 											<th>Дії<br /> <br /></th>
-											<th>Відправити провайдеру</th>
+											<th class="text-center">Тест</th>
 										</tr>
 									</thead>
 
@@ -61,8 +61,13 @@
 												ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
                                             <i class="fa fa-info-circle"></i>
 											</a> 
-											<td class="text-center"><input type="checkbox"
-												ng-click="resolveVerificationId(verification.id)" /></td>
+											<td class="text-center">
+											 <button type="button" class="btn btn-info btn-sm btn-block" 
+											 ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
+											 <span class="glyphicon glyphicon-search"></span>
+                                          Переглянути тест
+                                          </button> 
+                                     
 										</tr>
 									</tbody>
 								</table>

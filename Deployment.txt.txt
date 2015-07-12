@@ -1,0 +1,10 @@
+mstsc - remoteApp in Windows
+Deployed App
+IP: 10.5.3.132
+Login: .\demo
+Password: Qazwsx12
+
+Access via Cisco VPN
+Server: misto.ssbs.com.ua
+User: SSU-admin
+Passw: @hfhf11s
