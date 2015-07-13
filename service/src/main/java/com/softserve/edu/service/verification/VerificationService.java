@@ -227,7 +227,7 @@ public class VerificationService {
 	@Transactional(readOnly = true)
 	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
 			 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-			 														String streetToSearch, Employee providerEmployee) {
+			 														String streetToSearch, User providerEmployee) {
 
 		CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
 			  																	lastNameToSearch, streetToSearch, providerEmployee, em);

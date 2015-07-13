@@ -26,7 +26,7 @@ public interface UserRepository extends CrudRepository<User, String> {
 //
 //
     @Query("select u from User u where u.username = :username")
-    Employee getUserByUserName(@Param("username") String username);
+    User getUserByUserName(@Param("username") String username);
 
 //   @Query("select u from User u where u.role =  :role and u.organization.id = :organizationId ")
 //    List<Employee> getAllProviderUsers(@Param("role") String role,

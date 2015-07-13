@@ -37,7 +37,7 @@ public class ProviderEmployeeService {
 //    }
 
     @Transactional
-    public Employee oneProviderEmployee(String username) {
+    public User oneProviderEmployee(String username) {
         return providerEmployeeRepository.getUserByUserName(username);
     }
 

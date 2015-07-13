@@ -13,6 +13,7 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -88,7 +89,7 @@ public class ProviderVerificationController {
     		@PathVariable String street,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
     	
-       Employee providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+       User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
                 employeeUser.getOrganizationId(),
                 pageNumber,
