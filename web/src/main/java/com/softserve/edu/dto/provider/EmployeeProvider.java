@@ -3,8 +3,6 @@ package com.softserve.edu.dto.provider;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.softserve.edu.entity.user.Employee;
-
 /**
  * Created by MAX on 29.06.2015.
  */

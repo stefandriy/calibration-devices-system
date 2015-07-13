@@ -1,6 +1,5 @@
 package com.softserve.edu.service.provider;
 
-import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 
@@ -20,7 +19,7 @@ public class ProviderEmployeeService {
     private UserRepository providerEmployeeRepository;
 
     @Transactional
-    public void addEmployee(Employee providerEmployee) {
+    public void addEmployee(User providerEmployee) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
         providerEmployee.setPassword(passwordEncoded);
 //        providerEmployee.setRole(PROVIDER_EMPLOYEE);

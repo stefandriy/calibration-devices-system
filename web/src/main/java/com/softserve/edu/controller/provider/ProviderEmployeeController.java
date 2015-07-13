@@ -3,7 +3,6 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
@@ -68,7 +67,7 @@ public class ProviderEmployeeController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
-            @RequestBody Employee providerEmployee,
+            @RequestBody User providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());

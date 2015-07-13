@@ -1,8 +1,6 @@
 package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.*;
-import com.softserve.edu.entity.user.Employee;
-
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.OrganizationName;
 import com.softserve.edu.repository.OrganizationRepository;
@@ -17,7 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
-
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @Service
 public class OrganizationsService {
@@ -28,16 +28,22 @@ public class OrganizationsService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@PersistenceContext
+	private EntityManager em;
+
 	@Transactional
 	public void addOrganizationWithAdmin(String name, String email,
-			String phone, OrganizationName type, String username, String password,
+			String phone, String type, String username, String password,
 			Address address) {
 		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
-		Organization organization;
-		Employee employeeAdmin;
-//		organization.setAddress(address);
-//		organizationRepository.save(organization);
-//		userRepository.save(employeeAdmin);
+		Organization organization = new Organization(name, email, phone, address);
+		Query q = em.createNativeQuery("SELECT * FROM ORGANIZATION_TYPE AS ot WHERE ot.type = ?").setParameter(1, type);
+		OrganizationType organizationType = (OrganizationType) q.getSingleResult();
+		organization.addOrganizationType(organizationType);
+		organization.setAddress(address);
+		organizationRepository.save(organization);
+		User employeeAdmin = new User(username, password, organization);
+		userRepository.save(employeeAdmin);
 	}
 
 	@Transactional
@@ -57,7 +63,11 @@ public class OrganizationsService {
 
 	@Transactional
 	public String getOrganizationType(Organization organization) {
-		return null;
+		String result = "";
+		for (OrganizationType ot : organization.getOrganizationTypes()) {
+			result += ot.getType() + " ";
+		}
+		return result;
 	}
 
 	@Transactional

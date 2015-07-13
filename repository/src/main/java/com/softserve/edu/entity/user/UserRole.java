@@ -20,8 +20,10 @@ public class UserRole {
 	private String role;
 
 	@ManyToMany
-	 @JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "id"))
-	 private Set<User> users;
+	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "id"),
+			inverseJoinColumns = @JoinColumn(name = "username"))
+	private Set<User> users;
+
 
 	public void addUser(User user) {
 		this.users.add(user);

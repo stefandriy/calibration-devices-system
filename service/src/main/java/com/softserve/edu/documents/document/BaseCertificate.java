@@ -5,7 +5,7 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.DeviceType;
 
 import java.math.BigInteger;
@@ -173,7 +173,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "VERIFICATOR_SHORT_NAME")
     public String getStateVerificatorShortName() {
-        Employee stateVerificatorEmployee = getVerification().getStateVerificatorEmployee();
+    	User stateVerificatorEmployee = getVerification().getStateVerificatorEmployee();
 
         String fullName = stateVerificatorEmployee.getLastName() + " "
                 + stateVerificatorEmployee.getFirstName();

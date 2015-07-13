@@ -3,7 +3,6 @@ package com.softserve.edu.service;
 
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +40,8 @@ public class UserService {
         boolean isChanged = false;
         if (type != null && username != null && newField != null) {
             User user = userRepository.findOne(username);
-            if (user instanceof Employee) {
-                Employee employee = (Employee) user;
+            if (user instanceof User) {
+            	User employee = (User) user;
                 switch (type) {
                     case "firstName":
                         employee.setFirstName(newField);
@@ -80,8 +79,8 @@ public class UserService {
      * @return employee entity
      * @throws ClassCastException if username isn't a employee
      */
-    public Employee getEmployee(String username) throws ClassCastException {
-        return (Employee) userRepository.findOne(username);
+    public User getEmployee(String username) throws ClassCastException {
+        return (User) userRepository.findOne(username);
     }
 
     /**

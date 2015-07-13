@@ -112,6 +112,13 @@ public class OrganizationsController {
 		return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null);
 	}
 
+//	@RequestMapping(value = "getOrganization/{id}")
+//	public EditOrganizationDTO getOrganization(@PathVariable("id") Long id) {
+//		EditOrganizationDTO organization = organizationsService
+//				.getOrganizationById(id);
+//		return organization;
+//	}
+	
 	@RequestMapping(value = "getOrganization/{id}")
 	public Organization getOrganization(@PathVariable("id") Long id) {
 		Organization organization = organizationsService

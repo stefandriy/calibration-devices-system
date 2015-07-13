@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 
 @Service
@@ -21,7 +21,7 @@ public class StateVerificatorEmployeeService {
      * @param state_verificator_Employee data for creation employee
      *      */
 	@Transactional
-	public void addEmployee(Employee stateVerificatorEmployee){
+	public void addEmployee(User stateVerificatorEmployee){
 		
 		String passwordEncoded = new BCryptPasswordEncoder().encode(stateVerificatorEmployee.getPassword());
 		stateVerificatorEmployee.setPassword(passwordEncoded);

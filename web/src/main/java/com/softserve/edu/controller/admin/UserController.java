@@ -1,10 +1,7 @@
 package com.softserve.edu.controller.admin;
 
-//import com.softserve.edu.dto.PageDTO;
-//
-//
-//import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.UsersService;
 import org.apache.log4j.Logger;

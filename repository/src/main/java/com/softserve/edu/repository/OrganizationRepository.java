@@ -1,6 +1,8 @@
 package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.OrganizationType;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +20,5 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     Page<Organization> findByNameLikeIgnoreCase(String name, Pageable pageable);
     
     public List<Organization> findByAddressDistrict(String designation);
+    
 }

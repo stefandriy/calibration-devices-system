@@ -1,6 +1,7 @@
 package com.softserve.edu.service;
 
-import com.softserve.edu.entity.user.Employee;
+
+
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
@@ -45,11 +46,11 @@ public class SecurityUserDetailsService implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority(role));
 
         Long employeeOrganizationId = role.equals("SYS_ADMIN") ?
-                null : ((Employee) user).getOrganization().getId();
+                null : ((User) user).getOrganization().getId();
       
         
         return new CustomUserDetails(username, user.getPassword(), authorities,
-        		( (Employee) user).getOrganization().getId());
+        		( (User) user).getOrganization().getId());
 //    	return null;
     }
 

@@ -2,7 +2,7 @@ package com.softserve.edu.dto.provider;
 
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 
@@ -24,7 +24,7 @@ public class VerificationPageDTO {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street,
-                               Status status, ReadStatus readStatus, Employee providerEmployee) {
+                               Status status, ReadStatus readStatus, User providerEmployee) {
 
         this.id = id;
         this.initialDate = initialDate;
