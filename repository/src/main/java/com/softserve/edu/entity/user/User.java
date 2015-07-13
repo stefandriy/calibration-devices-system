@@ -1,66 +1,64 @@
 package com.softserve.edu.entity.user;
 
+import java.util.Set;
+
 import javax.persistence.*;
 
-/**
- * User class.
- * Each user with grant privileges to login the system extends this class.
- */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type")
 @Table(name = "`USER`")
 public abstract class User {
-    @Id
-    private String username;
-    private String password;
+	@Id
+	private String username;
+	private String password;
 
-    @Column(nullable = false)
-    private String role;
+	@ManyToMany
+	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "id"))
+	private Set<UserRole> userRoles;
 
-    protected User() {}
+	protected User() {
+	}
 
-    /**
-     * Required constructor for saving employee in database.
-     * Employee cannot exists without these parameters.
-     *
-     * @param username username
-     * @param password password
-     * @param role     (look through implementations of Role interface in each User-extended class)
-     */
-    public User(String username, String password, Role role) {
-        this.username = username;
-        this.password = password;
-        this.role = role.roleName();
+	/**
+	 * Required constructor for saving employee in database. Employee cannot
+	 * exists without these parameters.
+	 *
+	 * @param username
+	 *            username
+	 * @param password
+	 *            password
+	 * @param role
+	 *            (look through implementations of Role interface in each
+	 *            User-extended class)
+	 */
+	public User(String username, String password, Set<UserRole> userRole) {
+		this.username = username;
+		this.password = password;
+		this.userRoles = userRole;
 
-    }
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getRole() {
-        return role;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    protected void setRole(Role role) {
-        this.role = role.roleName();
-    }
-
-
-
-
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 }

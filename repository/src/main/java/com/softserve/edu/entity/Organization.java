@@ -1,75 +1,133 @@
 package com.softserve.edu.entity;
 
+import java.util.Date;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "organization_type")
 @Table(name = "`ORGANIZATION`")
-public abstract class Organization {
-    @Id
-    @GeneratedValue
-    private Long id;
-    private String name;
-    private String email;
-    private String phone;
+public class Organization {
+	@Id
+	@GeneratedValue
+	@Column(name="`organizationId`")
+	private Long id;
+	private String name;
+	private String email;
+	private String phone;
+	private Boolean isAvailable;
 
-    @Embedded
-    private Address address;
+	@Embedded
+	private Address address;
 
-    public Organization() {}
+	/**
+	 * Identification number of the certificate that allows this Usercalibrator
+	 * to perform verifications.
+	 */
+	private String certificateNumber;
 
-    public Organization(String name, String email, String phone) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-    }
+	/**
+	 * Identification number of the certificate that allows this calibrator to
+	 * perform verifications.
+	 */
+	private Date certificateGrantedDate;
 
-    public Organization(String name, String email, String phone, Address address) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-    }
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), inverseJoinColumns = @JoinColumn(name = "typeId"))
+	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
 
-    public Long getId() {
-        return id;
-    }
+	public void addOrganizationType(OrganizationType organizationType) {
+		this.organizationTypes.add(organizationType);
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Organization() {
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Organization(String name, String email, String phone) {
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public Organization(String name, String email, String phone, Address address) {
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public Set<OrganizationType> getOrganizationTypes() {
+		return organizationTypes;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	public void setOrganizationTypes(Set<OrganizationType> organizationTypes) {
+		this.organizationTypes = organizationTypes;
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public String getCertificateNumber() {
+		return certificateNumber;
+	}
+
+	public void setCertificateNumber(String certificateNumber) {
+		this.certificateNumber = certificateNumber;
+	}
+
+	public Date getCertificateGrantedDate() {
+		return certificateGrantedDate;
+	}
+
+	public void setCertificateGrantedDate(Date certificateGrantedDate) {
+		this.certificateGrantedDate = certificateGrantedDate;
+	}
+
+	public Boolean getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setIsAvailable(Boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+
 }
-
