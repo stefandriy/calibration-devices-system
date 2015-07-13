@@ -78,30 +78,31 @@ public class ProviderVerificationController {
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
      */
-//    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{verifDate}/{verifId}/{lastName}/{street}", method = RequestMethod.GET)
-//    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
-//
-//    		@PathVariable Integer pageNumber,
-//    		@PathVariable Integer itemsPerPage,
-//    		@PathVariable String verifDate,
-//    		@PathVariable String verifId,
-//    		@PathVariable String lastName,
-//    		@PathVariable String street,
-//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-//       Employee providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-//       ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
-//                employeeUser.getOrganizationId(),
-//                pageNumber,
-//                itemsPerPage,
-//                verifDate,
-//                verifId,
-//                lastName,
-//                street,
-//               providerEmployee
-//        );
-//        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-//        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-//    }
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{verifDate}/{verifId}/{lastName}/{street}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
+
+    		@PathVariable Integer pageNumber,
+    		@PathVariable Integer itemsPerPage,
+    		@PathVariable String verifDate,
+    		@PathVariable String verifId,
+    		@PathVariable String lastName,
+    		@PathVariable String street,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    	
+       Employee providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+       ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                verifDate,
+                verifId,
+                lastName,
+                street,
+               providerEmployee
+        );
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+    }
 
     /**
      * Find count of new verifications that have Read Status "UNREAD"
@@ -110,7 +111,7 @@ public class ProviderVerificationController {
      */
     @RequestMapping(value = "new/count/provider", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByProviderId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        	return verificationService.findCountOfNewVerificationsByProviderId(user.getOrganizationId());
+        	return  null;//verificationService.findCountOfNewVerificationsByProviderId(user.getOrganizationId());
     }
 
 

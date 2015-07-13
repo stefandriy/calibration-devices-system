@@ -66,14 +66,14 @@
 	                <li ui-sref-active="active">
                         <a ui-sref="adding-verifications"><i class="fa fa-file-text-o"></i>Ініціювати повірку</a>
                     </li>
-				<sec:authorize url="/provider/admin/">
+				
                     <li ui-sref-active="active">
                         <a ui-sref="employees"><i class="fa fa-user-plus"></i>Додати працівника</a>
                     </li>
                     <li ui-sref-active="active">
                         <a ui-sref="employee-show"><i class="fa fa-users"></i>Переглянути усіх працівників</a>
                     </li>
-                </sec:authorize>
+            
                     <li ui-sref-active="active">
                         <a ui-sref="verifications-archive"><i class="fa fa-archive fa-fw"></i> Архів повірок</a>
                     </li>

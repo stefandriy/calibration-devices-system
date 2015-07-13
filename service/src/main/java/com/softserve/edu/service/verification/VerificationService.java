@@ -106,11 +106,12 @@ public class VerificationService {
 	 * @param providerId
 	 * @return 
 	 */
-	@Transactional(readOnly = true)
-	public Long findCountOfNewVerificationsByProviderId(Long providerId) {
-		return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
-				ReadStatus.UNREAD);
-	}
+//	@Transactional(readOnly = true)
+//	public Long findCountOfNewVerificationsByProviderId(Long providerId) {
+//		System.err.println();
+//		return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
+//				ReadStatus.UNREAD);
+//	}
 	
 	/**
 	 * Finds count of rows in database for verifications assigned to State Verificator with Read Status = 'UNREAD'.
@@ -223,27 +224,27 @@ public class VerificationService {
 	 * 		can only see verifications assigned to him and free verifications (not yet assigned)
 	 * @return ListToPageTransformer<Verification>
 	 */
-//	@Transactional(readOnly = true)
-//	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
-//			 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-//			 														String streetToSearch, Employee providerEmployee) {
-//
-//		CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
-//			  																	lastNameToSearch, streetToSearch, providerEmployee, em);
-//  
-//		Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
-//			  												streetToSearch, providerEmployee, em)).getSingleResult();
-// 
-//		TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
-//		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-//		typedQuery.setMaxResults(itemsPerPage);
-//		List<Verification> verificationList = typedQuery.getResultList();
-//
-//		ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
-//		result.setContent(verificationList);
-//		result.setTotalItems(count);
-//		return result;
-//	 }
+	@Transactional(readOnly = true)
+	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
+			 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+			 														String streetToSearch, Employee providerEmployee) {
+
+		CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
+			  																	lastNameToSearch, streetToSearch, providerEmployee, em);
+  
+		Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
+			  												streetToSearch, providerEmployee, em)).getSingleResult();
+ 
+		TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+		typedQuery.setMaxResults(itemsPerPage);
+		List<Verification> verificationList = typedQuery.getResultList();
+
+		ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+		result.setContent(verificationList);
+		result.setTotalItems(count);
+		return result;
+	 }
 	
 	@Transactional(readOnly = true)
 	public Verification findByIdAndProviderId(String id, Long providerId) {

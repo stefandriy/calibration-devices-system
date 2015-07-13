@@ -12,7 +12,8 @@ public class User {
 	private String password;
 
 	@ManyToMany
-	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "id"))
+	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "username"), 
+	inverseJoinColumns = @JoinColumn(name = "id"))
 	private Set<UserRole> userRoles;
 
 	protected User() {

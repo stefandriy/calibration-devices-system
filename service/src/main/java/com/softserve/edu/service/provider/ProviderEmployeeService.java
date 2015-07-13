@@ -26,7 +26,7 @@ public class ProviderEmployeeService {
 //        providerEmployee.setRole(PROVIDER_EMPLOYEE);
         providerEmployeeRepository.save(providerEmployee);
     }
-//
+
 //    @Transactional
 //    public Page<? extends User> getUsersPagination(Long idOrganization, int pageNumber, int itemsPerPage, String search, String role) {
 //        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
@@ -36,12 +36,12 @@ public class ProviderEmployeeService {
 //            return providerEmployeeRepository.findByOrganizationIdAndRoleAndLastNameLikeIgnoreCase(idOrganization,role,"%" + search + "%", pageRequest);
 //          }
 //    }
-//
-//    @Transactional
-//    public Employee oneProviderEmployee(String username) {
-//        return providerEmployeeRepository.getUserByUserName(username);
-//    }
-//
+
+    @Transactional
+    public Employee oneProviderEmployee(String username) {
+        return providerEmployeeRepository.getUserByUserName(username);
+    }
+
 //    @Transactional
 //    public List<Employee> getAllProviders(String role, Long id) {
 //        return providerEmployeeRepository.getAllProviderUsers(role,id);
