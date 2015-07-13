@@ -3,6 +3,7 @@ package com.softserve.edu.service.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,6 +16,9 @@ import javax.persistence.criteria.Root;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.Employee;
+
+import com.softserve.edu.entity.user.UserRole;
+
 import com.softserve.edu.entity.util.Status;
 
 
@@ -107,18 +111,24 @@ public class QueryConstructor {
 	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch,
 													Long providerId, String dateToSearch,String idToSearch, String lastNameToSearch,
 																			String streetToSearch, Employee providerEmployee) {
-			Predicate queryPredicate = cb.conjunction();
-//			String role= providerEmployee.getRole();
-			String userName = providerEmployee.getUsername();
+
 			
-//				if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
-//					Join<Verification, Employee> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
-//					Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);
-//					Predicate searchPredicateByEmptyField = cb.isNull(joinSearchProviderEmployee.get("username"));
-//					Predicate searchPredicateByProviderEmployee=cb.or(searchPredicateByUsername,searchPredicateByEmptyField);
-//					queryPredicate=cb.and(searchPredicateByProviderEmployee);
-//				}
+		String userName = providerEmployee.getUsername();
+		Predicate queryPredicate = cb.conjunction();
+			Set<UserRole> roles= providerEmployee.getUserRoles();
+			for (UserRole userRole : roles) {
+				String role = userRole.getRole();
 			
+
+				if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
+					Join<Verification, Employee> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
+					Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);
+					Predicate searchPredicateByEmptyField = cb.isNull(joinSearchProviderEmployee.get("username"));
+					Predicate searchPredicateByProviderEmployee=cb.or(searchPredicateByUsername,searchPredicateByEmptyField);
+					queryPredicate=cb.and(searchPredicateByProviderEmployee);
+				}
+			}
+
 			Predicate sentStatus = cb.equal(root.get("status"), Status.SENT);
 			Predicate acceptedStatus = cb.equal(root.get("status"), Status.ACCEPTED);
 			
