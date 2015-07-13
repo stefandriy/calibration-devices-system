@@ -1,10 +1,9 @@
 package com.softserve.edu.dto.provider;
 
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
+
 import com.softserve.edu.entity.*;
-import com.softserve.edu.entity.user.CalibratorEmployee;
-import com.softserve.edu.entity.user.ProviderEmployee;
-import com.softserve.edu.entity.user.StateVerificatorEmployee;
+import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.util.Status;
 
 import java.util.Date;
@@ -28,9 +27,9 @@ public class VerificationDTO extends ClientStageVerificationDTO {
 
     public VerificationDTO(
             ClientData clientData, String id, Date initialDate, Date expirationDate,
-            Status status, Calibrator calibrator, CalibratorEmployee calibratorEmployee,
-            Device device, Provider provider, ProviderEmployee providerEmployee,
-            StateVerificator stateVerificator, StateVerificatorEmployee stateVerificatorEmployee) {
+            Status status, Organization calibrator, Employee calibratorEmployee,
+            Device device, Organization provider, Employee providerEmployee,
+            Organization stateVerificator, Employee stateVerificatorEmployee) {
 
         super(clientData, clientData.getClientAddress(), null);
         this.id = id;

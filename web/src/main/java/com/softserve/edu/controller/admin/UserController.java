@@ -1,9 +1,10 @@
 package com.softserve.edu.controller.admin;
 
-import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.UsersPageItem;
+//import com.softserve.edu.dto.PageDTO;
+//
+//
+//import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.user.Employee;
-import com.softserve.edu.entity.user.SystemAdmin;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.UsersService;
 import org.apache.log4j.Logger;
@@ -49,40 +50,40 @@ public class UserController {
      * @param search
      * @return PageDTO with employees
      */
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
-    public PageDTO<UsersPageItem> pageSearchUsers(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @PathVariable String search) {
-
-        Page<UsersPageItem> page = userService
-                .getUsersBySearchAndPagination(pageNumber, itemsPerPage, search)
-                .map(
-                        new Converter<User, UsersPageItem>() {
-                            @Override
-                                public UsersPageItem convert(User user) {
-                                UsersPageItem usPage = null;
-
-                                if (user instanceof Employee) {
-                                    usPage = new UsersPageItem();
-                                    usPage.setUsername(user.getUsername());
-                                    usPage.setRole(user.getRole());
-                                    usPage.setFirstName(((Employee) user).getFirstName());
-                                    usPage.setLastName(((Employee) user).getLastName());
-                                    usPage.setOrganization(((Employee) user).getOrganization().getName());
-                                    usPage.setPhone(((Employee) user).getPhone());
-                                } else if (user instanceof SystemAdmin) {
-                                    usPage = new UsersPageItem();
-                                    usPage.setUsername(user.getUsername());
-                                    usPage.setRole(user.getRole());
-                                }
-                                return usPage;
-                            }
-                        }
-                );
-
-        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    }
+//    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
+//    public PageDTO<UsersPageItem> pageSearchUsers(
+//            @PathVariable Integer pageNumber,
+//            @PathVariable Integer itemsPerPage,
+//            @PathVariable String search) {
+//
+//        Page<UsersPageItem> page = userService
+//                .getUsersBySearchAndPagination(pageNumber, itemsPerPage, search)
+//                .map(
+//                        new Converter<User, UsersPageItem>() {
+//                            @Override
+//                                public UsersPageItem convert(User user) {
+//                                UsersPageItem usPage = null;
+//
+//                                if (user instanceof Employee) {
+//                                    usPage = new UsersPageItem();
+//                                    usPage.setUsername(user.getUsername());
+////                                    usPage.setRole(user.getRole());
+//                                    usPage.setFirstName(((Employee) user).getFirstName());
+//                                    usPage.setLastName(((Employee) user).getLastName());
+//                                    usPage.setOrganization(((Employee) user).getOrganization().getName());
+//                                    usPage.setPhone(((Employee) user).getPhone());
+////                                } else if (user instanceof SystemAdmin) {
+//                                    usPage = new UsersPageItem();
+//                                    usPage.setUsername(user.getUsername());
+////                                    usPage.setRole(user.getRole());
+//                                }
+//                                return usPage;
+//                            }
+//                        }
+//                );
+//
+//        return new PageDTO<>(page.getTotalElements(), page.getContent());
+//    }
 
     /**
      *This method take data from web and invoke pageSearchUsers
@@ -90,10 +91,10 @@ public class UserController {
      * @param itemsPerPage
      * @return  pageSearchUsers
      */
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<UsersPageItem> getUsersPage(@PathVariable Integer pageNumber,
-                                               @PathVariable Integer itemsPerPage) {
-        return pageSearchUsers(pageNumber, itemsPerPage, null);
-    }
+//    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+//    public PageDTO<UsersPageItem> getUsersPage(@PathVariable Integer pageNumber,
+//                                               @PathVariable Integer itemsPerPage) {
+//        return pageSearchUsers(pageNumber, itemsPerPage, null);
+//    }
 
 }

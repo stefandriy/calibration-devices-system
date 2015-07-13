@@ -1,12 +1,11 @@
 package com.softserve.edu.service.calibrator;
 
-
-import com.softserve.edu.entity.Calibrator;
-import com.softserve.edu.repository.CalibratorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.repository.OrganizationRepository;
 
 import java.util.List;
 
@@ -14,15 +13,15 @@ import java.util.List;
 public class CalibratorService {
 
     @Autowired
-    private CalibratorRepository calibratorRepository;
+    private OrganizationRepository calibratorRepository;
 
     @Transactional (readOnly = true)
-    public List<Calibrator> findByDistrict(String district) {
+    public List<Organization> findByDistrict(String district) {
         return calibratorRepository.findByAddressDistrict(district);
     }
 
     @Transactional(readOnly = true)
-    public Calibrator findById(Long id) {
+    public Organization findById(Long id) {
         return calibratorRepository.findOne(id);
     }
 }

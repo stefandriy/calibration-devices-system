@@ -1,13 +1,13 @@
 package com.softserve.edu.dto.provider;
 
-import com.softserve.edu.entity.Calibrator;
+import com.softserve.edu.entity.Organization;
 
 import java.util.List;
 
 public class VerificationUpdatingDTO {
     String idVerification;
     private List<String> idsOfVerifications;
-    private Calibrator calibrator;
+    private Organization calibrator;
 
     private EmployeeProvider employeeProvider;
 
@@ -19,11 +19,11 @@ public class VerificationUpdatingDTO {
         this.idsOfVerifications = idsOfVerifications;
     }
 
-    public Calibrator getCalibrator() {
+    public Organization getCalibrator() {
         return calibrator;
     }
 
-    public void setCalibrator(Calibrator calibrator) {
+    public void setCalibrator(Organization calibrator) {
         this.calibrator = calibrator;
     }
 

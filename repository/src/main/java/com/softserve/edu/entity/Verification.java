@@ -1,8 +1,6 @@
 package com.softserve.edu.entity;
 
-import com.softserve.edu.entity.user.CalibratorEmployee;
-import com.softserve.edu.entity.user.ProviderEmployee;
-import com.softserve.edu.entity.user.StateVerificatorEmployee;
+import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 
@@ -39,21 +37,21 @@ public class Verification {
     private Set<CalibrationTest> calibrationTests;
 
     @ManyToOne
-    private Provider provider;
+    private Organization provider;
 
     @ManyToOne
-    private ProviderEmployee providerEmployee;
+    private Employee providerEmployee;
 
     @ManyToOne
-    private Calibrator calibrator;
+    private Organization calibrator;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private CalibratorEmployee calibratorEmployee;
+    private Employee calibratorEmployee;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private StateVerificator stateVerificator;
+    private Organization stateVerificator;
     @ManyToOne
-    private StateVerificatorEmployee stateVerificatorEmployee;
+    private Employee stateVerificatorEmployee;
 
     @Embedded
     private ClientData clientData;
@@ -66,13 +64,13 @@ public class Verification {
 
     public Verification() {}
 
-    public Verification(Date initialDate, ClientData clientData, Provider provider, 
+    public Verification(Date initialDate, ClientData clientData, Organization provider, 
     		Status status, ReadStatus readStatus) {
         this(initialDate, clientData, provider, status, readStatus, null);
     }
 
-    public Verification(Date initialDate, ClientData clientData, Provider provider, Status
-            status, ReadStatus readStatus, Calibrator calibrator) {
+    public Verification(Date initialDate, ClientData clientData, Organization provider, Status
+            status, ReadStatus readStatus, Organization calibrator) {
         this.id = UUID.randomUUID().toString();
         this.initialDate = initialDate;
         this.clientData = clientData;
@@ -123,51 +121,51 @@ public class Verification {
         this.calibrationTests = calibrationTests;
     }
 
-    public Provider getProvider() {
+    public Organization getProvider() {
         return provider;
     }
 
-    public void setProvider(Provider provider) {
+    public void setProvider(Organization provider) {
         this.provider = provider;
     }
 
-    public ProviderEmployee getProviderEmployee() {
+    public Employee getProviderEmployee() {
         return providerEmployee;
     }
 
-    public void setProviderEmployee(ProviderEmployee providerEmployee) {
+    public void setProviderEmployee(Employee providerEmployee) {
         this.providerEmployee = providerEmployee;
     }
 
-    public Calibrator getCalibrator() {
+    public Organization getCalibrator() {
         return calibrator;
     }
 
-    public void setCalibrator(Calibrator calibrator) {
+    public void setCalibrator(Organization calibrator) {
         this.calibrator = calibrator;
     }
 
-    public CalibratorEmployee getCalibratorEmployee() {
+    public Employee getCalibratorEmployee() {
         return calibratorEmployee;
     }
 
-    public void setCalibratorEmployee(CalibratorEmployee calibratorEmployee) {
+    public void setCalibratorEmployee(Employee calibratorEmployee) {
         this.calibratorEmployee = calibratorEmployee;
     }
 
-    public StateVerificator getStateVerificator() {
+    public Organization getStateVerificator() {
         return stateVerificator;
     }
 
-    public void setStateVerificator(StateVerificator stateVerificator) {
+    public void setStateVerificator(Organization stateVerificator) {
         this.stateVerificator = stateVerificator;
     }
 
-    public StateVerificatorEmployee getStateVerificatorEmployee() {
+    public Employee getStateVerificatorEmployee() {
         return stateVerificatorEmployee;
     }
 
-    public void setStateVerificatorEmployee(StateVerificatorEmployee stateVerificatorEmployee) {
+    public void setStateVerificatorEmployee(Employee stateVerificatorEmployee) {
         this.stateVerificatorEmployee = stateVerificatorEmployee;
     }
 

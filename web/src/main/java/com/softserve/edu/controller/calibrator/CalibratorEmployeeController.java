@@ -3,11 +3,12 @@ package com.softserve.edu.controller.calibrator;
 import com.softserve.edu.controller.provider.ProviderEmployeeController;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.CalibratorEmployee;
+import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,10 +40,10 @@ public class CalibratorEmployeeController {
          * @return role
          */
 
-        @RequestMapping(value = "verificator", method = RequestMethod.GET)
-        public String verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-            return calibratorEmployeeService.findByUserame(user.getUsername()).getRole();
-        }
+//        @RequestMapping(value = "verificator", method = RequestMethod.GET)
+//        public String verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+//            return calibratorEmployeeService.findByUserame(user.getUsername()).getRole();
+//        }
 
 
     /**
@@ -63,7 +64,7 @@ public class CalibratorEmployeeController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
-            @RequestBody CalibratorEmployee calibratorEmployee,
+            @RequestBody Employee calibratorEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
         calibratorEmployee.setOrganization(employeeOrganization);

@@ -26,7 +26,7 @@ public class Device {
     private Set<Verification> verifications;
     
     @ManyToOne
-    private Provider provider;
+    private Organization provider;
 
     @ManyToOne
     private Manufacturer manufacturer;
@@ -81,11 +81,11 @@ public class Device {
         this.verifications = verifications;
     }
 
-    public Provider getProvider() {
+    public Organization getProvider() {
         return provider;
     }
 
-    public void setProvider(Provider provider) {
+    public void setProvider(Organization provider) {
         this.provider = provider;
     }
 

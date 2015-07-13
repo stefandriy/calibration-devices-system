@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "`USER`")
-public abstract class User {
+public class User {
 	@Id
 	private String username;
 	private String password;
@@ -30,11 +30,9 @@ public abstract class User {
 	 *            (look through implementations of Role interface in each
 	 *            User-extended class)
 	 */
-	public User(String username, String password, Set<UserRole> userRole) {
+	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
-		this.userRoles = userRole;
-
 	}
 
 	public Set<UserRole> getUserRoles() {

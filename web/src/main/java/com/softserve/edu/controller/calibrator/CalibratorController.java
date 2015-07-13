@@ -45,57 +45,57 @@ public class CalibratorController {
 
     private final Logger logger = Logger.getLogger(CalibratorController.class);
 
-    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorId(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
-        Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-                .toDTO(verificationService
-                        .findPageOfSentVerificationsByCalibratorId(
-                                employeeUser.getOrganizationId(),
-                                pageNumber,
-                                itemsPerPage));
-
-        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    }
+//    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+//    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorId(
+//            @PathVariable Integer pageNumber,
+//            @PathVariable Integer itemsPerPage,
+//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+//
+//        Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+//                .toDTO(verificationService
+//                        .findPageOfSentVerificationsByCalibratorId(
+//                                employeeUser.getOrganizationId(),
+//                                pageNumber,
+//                                itemsPerPage));
+//
+//        return new PageDTO<>(page.getTotalElements(), page.getContent());
+//    }
     
-    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
-    		@PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @PathVariable String searchType,
-            @PathVariable String searchText,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-    	
-    		if(!(searchText.equalsIgnoreCase("null"))){
-    			
-    			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-    		                .toDTO(verificationService
-    		                        .findPageOfSentVerificationsByCalibratorIdAndSearch(
-    		                                employeeUser.getOrganizationId(),
-    		                                pageNumber,
-    		                                itemsPerPage,
-    		                                searchType,
-    		                                searchText
-    		                                ));
-
-    		        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    		} else {
-    			
-    			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-    		                .toDTO(verificationService
-    		                        .findPageOfSentVerificationsByCalibratorId(
-    		                                employeeUser.getOrganizationId(),
-    		                                pageNumber,
-    		                                itemsPerPage));
-
-    		        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    		}
-    		
-       
-    }
+//    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
+//    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
+//    		@PathVariable Integer pageNumber,
+//            @PathVariable Integer itemsPerPage,
+//            @PathVariable String searchType,
+//            @PathVariable String searchText,
+//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+//    	
+//    		if(!(searchText.equalsIgnoreCase("null"))){
+//    			
+//    			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+//    		                .toDTO(verificationService
+//    		                        .findPageOfSentVerificationsByCalibratorIdAndSearch(
+//    		                                employeeUser.getOrganizationId(),
+//    		                                pageNumber,
+//    		                                itemsPerPage,
+//    		                                searchType,
+//    		                                searchText
+//    		                                ));
+//
+//    		        return new PageDTO<>(page.getTotalElements(), page.getContent());
+//    		} else {
+//    			
+//    			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+//    		                .toDTO(verificationService
+//    		                        .findPageOfSentVerificationsByCalibratorId(
+//    		                                employeeUser.getOrganizationId(),
+//    		                                pageNumber,
+//    		                                itemsPerPage));
+//
+//    		        return new PageDTO<>(page.getTotalElements(), page.getContent());
+//    		}
+//    		
+//       
+//    }
 
     /**
      * Finds count of verifications which have read status 'UNREAD' and are assigned to this organization
@@ -109,7 +109,7 @@ public class CalibratorController {
     }
     
     @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
-    public List<StateVerificator> getMatchingVerificators(
+    public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         return verificatorService.findByDistrict(
@@ -120,14 +120,14 @@ public class CalibratorController {
         );
     }
 
-    @RequestMapping(value = "new/update", method = RequestMethod.PUT)
-    public void updateVerification(
-            @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            verificationService
-                    .sendVerificationTo(verificationId,verificationUpdatingDTO.getVerificator(), Status.SENT_TO_VERIFICATOR);
-        }
-    }
+//    @RequestMapping(value = "new/update", method = RequestMethod.PUT)
+//    public void updateVerification(
+//            @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+//        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
+//            verificationService
+//                    .sendVerificationTo(verificationId,verificationUpdatingDTO.getVerificator(), Status.SENT_TO_VERIFICATOR);
+//        }
+//    }
     
     /**
      * Update verification when user reads it

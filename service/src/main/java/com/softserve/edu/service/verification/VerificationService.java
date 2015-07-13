@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 
 import com.softserve.edu.entity.*;
-import com.softserve.edu.entity.user.ProviderEmployee;
+import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
@@ -223,27 +223,27 @@ public class VerificationService {
 	 * 		can only see verifications assigned to him and free verifications (not yet assigned)
 	 * @return ListToPageTransformer<Verification>
 	 */
-	@Transactional(readOnly = true)
-	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
-			 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-			 														String streetToSearch, ProviderEmployee providerEmployee) {
-
-		CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
-			  																	lastNameToSearch, streetToSearch, providerEmployee, em);
-  
-		Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
-			  												streetToSearch, providerEmployee, em)).getSingleResult();
- 
-		TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
-		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-		typedQuery.setMaxResults(itemsPerPage);
-		List<Verification> verificationList = typedQuery.getResultList();
-
-		ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
-		result.setContent(verificationList);
-		result.setTotalItems(count);
-		return result;
-	 }
+//	@Transactional(readOnly = true)
+//	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
+//			 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+//			 														String streetToSearch, Employee providerEmployee) {
+//
+//		CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
+//			  																	lastNameToSearch, streetToSearch, providerEmployee, em);
+//  
+//		Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
+//			  												streetToSearch, providerEmployee, em)).getSingleResult();
+// 
+//		TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+//		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+//		typedQuery.setMaxResults(itemsPerPage);
+//		List<Verification> verificationList = typedQuery.getResultList();
+//
+//		ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+//		result.setContent(verificationList);
+//		result.setTotalItems(count);
+//		return result;
+//	 }
 	
 	@Transactional(readOnly = true)
 	public Verification findByIdAndProviderId(String id, Long providerId) {
@@ -289,21 +289,21 @@ public class VerificationService {
 	 * verification, set verification read status to 'UNREAD', 
 	 *  save verification
 	 */
-	@Transactional
-	public void updateVerification(String verificationId, Calibrator calibrator) {
-		Verification verification = verificationRepository.findOne(verificationId);
-		if (verification == null) {
-			logger.error("verification haven't found");
-			return;
-		}
-		verification.setStatus(Status.IN_PROGRESS);
-		verification.setCalibrator(calibrator);
-		verification.setReadStatus(ReadStatus.UNREAD);
-		verificationRepository.save(verification);
-	}
+//	@Transactional
+//	public void updateVerification(String verificationId, Organization calibrator) {
+//		Verification verification = verificationRepository.findOne(verificationId);
+//		if (verification == null) {
+//			logger.error("verification haven't found");
+//			return;
+//		}
+//		verification.setStatus(Status.IN_PROGRESS);
+//		verification.setCalibrator(calibrator);
+//		verification.setReadStatus(ReadStatus.UNREAD);
+//		verificationRepository.save(verification);
+//	}
 
 	@Transactional
-	public void assignProviderEmployee(String verificationId, ProviderEmployee providerEmployee) {
+	public void assignProviderEmployee(String verificationId, Employee providerEmployee) {
 		Verification verification = verificationRepository.findOne(verificationId);
 		if (verification == null) {
 			logger.error("verification haven't found");
@@ -341,7 +341,7 @@ public class VerificationService {
 	 * verification
 	 */
 	@Transactional
-	public void updateVerificationByCalibrator(String verificationId, StateVerificator stateVerificator) {
+	public void updateVerificationByCalibrator(String verificationId, Organization stateVerificator) {
 		Verification verification = verificationRepository.findOne(verificationId);
 		verification.setStatus(Status.SENT_TO_VERIFICATOR);
 		verification.setStateVerificator(stateVerificator);
@@ -360,12 +360,12 @@ public class VerificationService {
 	public void sendVerificationTo(String verificationId, Organization oraganization, Status status) {
 		Verification verification = verificationRepository.findOne(verificationId);
 		String organizationName = oraganization.getClass().getSimpleName();
-			if (organizationName.equals(Provider.class.getSimpleName())) {
-				verification.setProvider((Provider) oraganization);
-			} else if (organizationName.equals(Calibrator.class.getSimpleName())) {
-				verification.setCalibrator((Calibrator) oraganization);
-			} else if (organizationName.equals(StateVerificator.class.getSimpleName())) {
-				verification.setStateVerificator((StateVerificator) oraganization);
+			if (organizationName.equals(Organization.class.getSimpleName())) {
+				verification.setProvider((Organization) oraganization);
+			} else if (organizationName.equals(Organization.class.getSimpleName())) {
+				verification.setCalibrator((Organization) oraganization);
+			} else if (organizationName.equals(Organization.class.getSimpleName())) {
+				verification.setStateVerificator((Organization) oraganization);
 			}
 		verification.setStatus(status);
 		verification.setReadStatus(ReadStatus.UNREAD);
@@ -378,7 +378,7 @@ public class VerificationService {
 	 * stateVerificator to verification save verification
 	 */
 	@Transactional
-	public void updateVerification(String verificationId, StateVerificator stateVerificator) {
+	public void updateVerification(String verificationId, Organization stateVerificator) {
 		Verification verification = verificationRepository.findOne(verificationId);
 		if (verification == null) {
 			logger.error("verification haven't found");

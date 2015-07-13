@@ -1,10 +1,8 @@
 package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.*;
-import com.softserve.edu.entity.user.CalibratorEmployee;
 import com.softserve.edu.entity.user.Employee;
-import com.softserve.edu.entity.user.ProviderEmployee;
-import com.softserve.edu.entity.user.StateVerificatorEmployee;
+
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.OrganizationName;
 import com.softserve.edu.repository.OrganizationRepository;
@@ -19,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
-import static com.softserve.edu.entity.user.CalibratorEmployee.CalibratorEmployeeRole.CALIBRATOR_ADMIN;
-import static com.softserve.edu.entity.user.ProviderEmployee.ProviderEmployeeRole.PROVIDER_ADMIN;
-import static com.softserve.edu.entity.user.StateVerificatorEmployee.StateVerificatorEmployeeRole.STATE_VERIFICATOR_ADMIN;
+
 
 @Service
 public class OrganizationsService {
@@ -39,28 +35,9 @@ public class OrganizationsService {
 		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
 		Organization organization;
 		Employee employeeAdmin;
-		switch (type) {
-			case PROVIDER:
-			organization = new Provider(name, email, phone);
-			employeeAdmin = new ProviderEmployee(username, passwordEncoded,
-					PROVIDER_ADMIN, organization);
-			break;
-			case CALIBRATOR:
-			organization = new Calibrator(name, email, phone);
-			employeeAdmin = new CalibratorEmployee(username, passwordEncoded,
-					CALIBRATOR_ADMIN, organization);
-			break;
-			case STATE_VERIFICATION:
-			organization = new StateVerificator(name, email, phone);
-			employeeAdmin = new StateVerificatorEmployee(username,
-					passwordEncoded, STATE_VERIFICATOR_ADMIN, organization);
-			break;
-		default:
-			throw new NoSuchElementException();
-		}
-		organization.setAddress(address);
-		organizationRepository.save(organization);
-		userRepository.save(employeeAdmin);
+//		organization.setAddress(address);
+//		organizationRepository.save(organization);
+//		userRepository.save(employeeAdmin);
 	}
 
 	@Transactional
@@ -80,16 +57,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public String getOrganizationType(Organization organization) {
-		if (organization instanceof Provider) {
-			return OrganizationName.PROVIDER.name();
-		}
-		if (organization instanceof Calibrator) {
-			return OrganizationName.CALIBRATOR.name();
-		}
-		if (organization instanceof StateVerificator) {
-			return OrganizationName.STATE_VERIFICATION.name();
-		}
-		return OrganizationName.NO_TYPE.name();
+		return null;
 	}
 
 	@Transactional

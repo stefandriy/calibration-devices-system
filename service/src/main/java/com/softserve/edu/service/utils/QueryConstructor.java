@@ -12,9 +12,9 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import com.softserve.edu.entity.Provider;
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.ProviderEmployee;
+import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.util.Status;
 
 
@@ -41,12 +41,12 @@ public class QueryConstructor {
 	 */
 	public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch,
 									String idToSearch, String lastNameToSearch, String streetToSearch,
-												ProviderEmployee providerEmployee, EntityManager em) {
+												Employee providerEmployee, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
-			Join<Verification, Provider> joinSearch = root.join("provider");
+			Join<Verification, Organization> joinSearch = root.join("provider");
 			Predicate predicate = QueryConstructor.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
 																		lastNameToSearch, streetToSearch, providerEmployee);
 			criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
@@ -77,12 +77,12 @@ public class QueryConstructor {
 	 */
 	public static CriteriaQuery<Long> buildCountQuery (Long providerId, String dateToSearch,
 							String idToSearch, String lastNameToSearch, String streetToSearch,
-										ProviderEmployee providerEmployee, EntityManager em) {
+										Employee providerEmployee, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
-			Join<Verification, Provider> joinSearch = root.join("provider");
+			Join<Verification, Organization> joinSearch = root.join("provider");
 			Predicate predicate = QueryConstructor.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
 																		lastNameToSearch, streetToSearch, providerEmployee);
 			countQuery.select(cb.count(root));
@@ -104,20 +104,20 @@ public class QueryConstructor {
 	 * @param providerEmployee
 	 * @return Predicate 
 	 */
-	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Provider> joinSearch,
+	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch,
 													Long providerId, String dateToSearch,String idToSearch, String lastNameToSearch,
-																			String streetToSearch,ProviderEmployee providerEmployee) {
+																			String streetToSearch, Employee providerEmployee) {
 			Predicate queryPredicate = cb.conjunction();
-			String role= providerEmployee.getRole();
+//			String role= providerEmployee.getRole();
 			String userName = providerEmployee.getUsername();
 			
-				if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
-					Join<Verification, ProviderEmployee> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
-					Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);
-					Predicate searchPredicateByEmptyField = cb.isNull(joinSearchProviderEmployee.get("username"));
-					Predicate searchPredicateByProviderEmployee=cb.or(searchPredicateByUsername,searchPredicateByEmptyField);
-					queryPredicate=cb.and(searchPredicateByProviderEmployee);
-				}
+//				if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
+//					Join<Verification, Employee> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
+//					Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);
+//					Predicate searchPredicateByEmptyField = cb.isNull(joinSearchProviderEmployee.get("username"));
+//					Predicate searchPredicateByProviderEmployee=cb.or(searchPredicateByUsername,searchPredicateByEmptyField);
+//					queryPredicate=cb.and(searchPredicateByProviderEmployee);
+//				}
 			
 			Predicate sentStatus = cb.equal(root.get("status"), Status.SENT);
 			Predicate acceptedStatus = cb.equal(root.get("status"), Status.ACCEPTED);

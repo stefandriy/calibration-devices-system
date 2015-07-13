@@ -1,14 +1,13 @@
 package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
+
 import com.softserve.edu.dto.SearchDTO;
 import com.softserve.edu.dto.admin.OrganizationEditDTO;
 import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.StateVerificator;
-import com.softserve.edu.entity.user.ProviderEmployee;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.admin.OrganizationsService;

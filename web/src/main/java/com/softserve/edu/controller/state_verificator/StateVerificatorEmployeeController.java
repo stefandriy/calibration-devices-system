@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.edu.controller.provider.ProviderEmployeeController;
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.StateVerificatorEmployee;
+import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.UserService;
 import com.softserve.edu.service.admin.OrganizationsService;
@@ -39,10 +39,10 @@ public class StateVerificatorEmployeeController {
      * Find the role of the login user
      * @return role
      */
-    @RequestMapping(value = "verificator", method = RequestMethod.GET)
-    public String verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-    	return stateVerificatorEmployeeService.findByUserame(user.getUsername()).getRole();
-    }
+//    @RequestMapping(value = "verificator", method = RequestMethod.GET)
+//    public String verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+//    	return stateVerificatorEmployeeService.findByUserame(user.getUsername()).getRole();
+//    }
 
 	/**
 	 * Check whereas {@code username} is available, i.e. it is possible to
@@ -62,7 +62,7 @@ public class StateVerificatorEmployeeController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addEmployee(
-			@RequestBody StateVerificatorEmployee stateVerificatorEmployee,
+			@RequestBody Employee stateVerificatorEmployee,
 			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 		Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
 		stateVerificatorEmployee.setOrganization(employeeOrganization);

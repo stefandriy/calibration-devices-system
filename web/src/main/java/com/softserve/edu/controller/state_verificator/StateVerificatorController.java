@@ -19,7 +19,7 @@ import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
-import com.softserve.edu.entity.Provider;
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -46,19 +46,19 @@ public class StateVerificatorController {
 	private final Logger logger = Logger
 			.getLogger(StateVerificatorController.class);
 
-	@RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-	public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorId(
-			@PathVariable Integer pageNumber,
-			@PathVariable Integer itemsPerPage,
-			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-		Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-				.toDTO(verificationService
-						.findPageOfSentVerificationsByStateVerificatorId(
-								employeeUser.getOrganizationId(), pageNumber,
-								itemsPerPage));
-
-		return new PageDTO<>(page.getTotalElements(), page.getContent());
-	}
+//	@RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+//	public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorId(
+//			@PathVariable Integer pageNumber,
+//			@PathVariable Integer itemsPerPage,
+//			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+//		Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+//				.toDTO(verificationService
+//						.findPageOfSentVerificationsByStateVerificatorId(
+//								employeeUser.getOrganizationId(), pageNumber,
+//								itemsPerPage));
+//
+//		return new PageDTO<>(page.getTotalElements(), page.getContent());
+//	}
 	
 	 /**
      * Find providers by district which correspond stateVerificator district
@@ -66,7 +66,7 @@ public class StateVerificatorController {
      * @return provider
      */
     @RequestMapping(value = "new/providers", method = RequestMethod.GET)
-    public List<Provider> getMatchingVerificators(
+    public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         return providerService.findByDistrictDesignation(

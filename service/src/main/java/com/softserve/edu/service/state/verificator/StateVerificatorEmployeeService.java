@@ -5,17 +5,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.entity.user.ProviderEmployee;
-import com.softserve.edu.entity.user.StateVerificatorEmployee;
-import com.softserve.edu.repository.StateVerificatorEmployeeRepository;
-
-import static com.softserve.edu.entity.user.StateVerificatorEmployee.StateVerificatorEmployeeRole.STATE_VERIFICATOR_EMPLOYEE; 
+import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.repository.UserRepository;
 
 @Service
 public class StateVerificatorEmployeeService {
 
 	@Autowired
-	private StateVerificatorEmployeeRepository stateVerificatorEmployeeRepository;
+	private UserRepository stateVerificatorEmployeeRepository;
 	
 	 /**
      * Adds Employee for state_verificator. Saves encoded password and
@@ -24,16 +21,16 @@ public class StateVerificatorEmployeeService {
      * @param state_verificator_Employee data for creation employee
      *      */
 	@Transactional
-	public void addEmployee(StateVerificatorEmployee stateVerificatorEmployee){
+	public void addEmployee(Employee stateVerificatorEmployee){
 		
 		String passwordEncoded = new BCryptPasswordEncoder().encode(stateVerificatorEmployee.getPassword());
 		stateVerificatorEmployee.setPassword(passwordEncoded);
-		stateVerificatorEmployee.setRole(STATE_VERIFICATOR_EMPLOYEE);
+//		stateVerificatorEmployee.setRole(STATE_VERIFICATOR_EMPLOYEE);
 		stateVerificatorEmployeeRepository.save(stateVerificatorEmployee);
 	}
 	
-    @Transactional()
-    public StateVerificatorEmployee findByUserame(String userName){
-    	return stateVerificatorEmployeeRepository.findByUsername(userName);
-    }
+//    @Transactional()
+//    public Employee findByUserame(String userName){
+//    	return stateVerificatorEmployeeRepository.findByUsername(userName);
+//    }
 }

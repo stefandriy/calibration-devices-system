@@ -2,9 +2,10 @@ package com.softserve.edu.dto.provider;
 
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
-import com.softserve.edu.entity.user.ProviderEmployee;
+import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
+
 import org.springframework.data.domain.Page;
 
 import java.util.Date;
@@ -23,7 +24,7 @@ public class VerificationPageDTO {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street,
-                               Status status, ReadStatus readStatus, ProviderEmployee providerEmployee) {
+                               Status status, ReadStatus readStatus, Employee providerEmployee) {
 
         this.id = id;
         this.initialDate = initialDate;

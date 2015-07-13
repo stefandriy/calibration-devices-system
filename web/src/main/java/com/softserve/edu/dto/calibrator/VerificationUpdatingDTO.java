@@ -1,12 +1,12 @@
 package com.softserve.edu.dto.calibrator;
 
-import com.softserve.edu.entity.StateVerificator;
-
 import java.util.List;
+
+import com.softserve.edu.entity.Organization;
 
 public class VerificationUpdatingDTO {
     private List<String> idsOfVerifications;
-    private StateVerificator verificator;
+    private Organization verificator;
 
     public List<String> getIdsOfVerifications() {
         return idsOfVerifications;
@@ -16,11 +16,11 @@ public class VerificationUpdatingDTO {
         this.idsOfVerifications = idsOfVerifications;
     }
 
-    public StateVerificator getVerificator() {
+    public Organization getVerificator() {
         return verificator;
     }
 
-    public void setVerificator(StateVerificator verificator) {
+    public void setVerificator(Organization verificator) {
         this.verificator = verificator;
     }
 }

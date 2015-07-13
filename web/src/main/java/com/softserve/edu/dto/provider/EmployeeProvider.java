@@ -1,9 +1,9 @@
 package com.softserve.edu.dto.provider;
 
-import com.softserve.edu.entity.user.ProviderEmployee;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.softserve.edu.entity.user.Employee;
 
 /**
  * Created by MAX on 29.06.2015.
@@ -79,11 +79,11 @@ public class EmployeeProvider {
 
     }
 
-    public static List<EmployeeProvider> giveListOfProviders(List<ProviderEmployee> list) {
-        List<EmployeeProvider> listEmployee = new ArrayList<>();
-        for (ProviderEmployee providEmployee : list) {
-            listEmployee.add(new EmployeeProvider(providEmployee.getUsername(), providEmployee.getFirstName(), providEmployee.getLastName(), providEmployee.getMiddleName(), providEmployee.getRole()));
-        }
-        return listEmployee;
-    }
+//    public static List<EmployeeProvider> giveListOfProviders(List<Employee> list) {
+//        List<EmployeeProvider> listEmployee = new ArrayList<>();
+//        for (Employee providEmployee : list) {
+//            listEmployee.add(new EmployeeProvider(providEmployee.getUsername(), providEmployee.getFirstName(), providEmployee.getLastName(), providEmployee.getMiddleName(), providEmployee.getRole()));
+//        }
+//        return listEmployee;
+//    }
 }

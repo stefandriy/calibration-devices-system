@@ -5,15 +5,14 @@ import com.softserve.edu.entity.Organization;
 
 import javax.persistence.*;
 
-@MappedSuperclass
-public abstract class Employee extends User {
+@Entity
+public class Employee extends User {
 
     private String firstName;
     private String lastName;
     private String middleName;
     private String email;
     private String phone;
-
 
 
     @Embedded
@@ -33,8 +32,8 @@ public abstract class Employee extends User {
      * @param role         role (organization employee or admin)
      * @param organization its organization
      */
-    public Employee(String username, String password, Role role, Organization organization) {
-        super(username, password, role);
+    public Employee(String username, String password, Organization organization) {
+        super(username, password);
         this.organization = organization;
     }
 
@@ -46,16 +45,14 @@ public abstract class Employee extends User {
      * @param email     email
      * @param phone     phone number
      */
-    public Employee(String username, String password, Role role, Organization organization,
+    public Employee(String username, String password, Organization organization,
                     String firstName, String lastName, String email, String phone) {
-        this(username, password, role, organization);
+        this(username, password, organization);
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
     }
-
-
 
     public String getFirstName() {
         return firstName;

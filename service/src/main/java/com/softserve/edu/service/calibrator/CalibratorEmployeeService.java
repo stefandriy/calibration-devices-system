@@ -1,14 +1,12 @@
 package com.softserve.edu.service.calibrator;
 
-import com.softserve.edu.entity.user.CalibratorEmployee;
-import com.softserve.edu.entity.user.ProviderEmployee;
-import com.softserve.edu.repository.CalibratorEmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.softserve.edu.entity.user.CalibratorEmployee.CalibratorEmployeeRole.CALIBRATOR_EMPLOYEE;
+import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.repository.UserRepository;
 
 
 /**
@@ -19,7 +17,7 @@ import static com.softserve.edu.entity.user.CalibratorEmployee.CalibratorEmploye
 public class CalibratorEmployeeService {
 
     @Autowired
-    private CalibratorEmployeeRepository calibratorEmployeeRepository;
+    private UserRepository calibratorEmployeeRepository;
 
     /**
      * Adds Employee for calibrator. Saves encoded password and
@@ -28,16 +26,16 @@ public class CalibratorEmployeeService {
      * @param calibratorEmployee data for creation employee
      *      */
     @Transactional
-    public void addEmployee(CalibratorEmployee calibratorEmployee) {
+    public void addEmployee(Employee calibratorEmployee) {
 
         String passwordEncoded = new BCryptPasswordEncoder().encode(calibratorEmployee.getPassword());
         calibratorEmployee.setPassword(passwordEncoded);
-        calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
+//        calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
         calibratorEmployeeRepository.save(calibratorEmployee);
     }
     
-    @Transactional()
-    public CalibratorEmployee findByUserame(String userName){
-    	return calibratorEmployeeRepository.findByUsername(userName);
-}
+//    @Transactional()
+//    public Employee findByUserame(String userName){
+//    	return calibratorEmployeeRepository.findByUsername(userName);
+//}
 }

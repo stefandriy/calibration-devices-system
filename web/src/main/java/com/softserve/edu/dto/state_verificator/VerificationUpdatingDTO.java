@@ -2,11 +2,12 @@ package com.softserve.edu.dto.state_verificator;
 
 import java.util.List;
 
-import com.softserve.edu.entity.Provider;
+
+import com.softserve.edu.entity.Organization;
 
 public class VerificationUpdatingDTO {
 	 private List<String> idsOfVerifications;
-	    private Provider provider;
+	    private Organization provider;
 
 	    public List<String> getIdsOfVerifications() {
 	        return idsOfVerifications;
@@ -16,11 +17,11 @@ public class VerificationUpdatingDTO {
 	        this.idsOfVerifications = idsOfVerifications;
 	    }
 
-		public Provider getProvider() {
+		public Organization getProvider() {
 			return provider;
 		}
 
-		public void setProvider(Provider provider) {
+		public void setProvider(Organization provider) {
 			this.provider = provider;
 		}
 

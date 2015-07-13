@@ -16,4 +16,6 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     Page<Organization> findAll(Pageable pageable);
 
     Page<Organization> findByNameLikeIgnoreCase(String name, Pageable pageable);
+    
+    public List<Organization> findByAddressDistrict(String designation);
 }
