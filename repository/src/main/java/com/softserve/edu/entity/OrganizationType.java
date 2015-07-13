@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -20,7 +22,9 @@ public class OrganizationType {
 	private Integer id;
 	private String type;
 
-	@ManyToMany(mappedBy = "organizationTypes", fetch = FetchType.LAZY)
+	@ManyToMany
+	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "typeId"),
+	inverseJoinColumns = @JoinColumn(name = "organizationId"))
 	private Set<Organization> organizations = new HashSet<Organization>();
 
 	public void addOrganization(Organization organization) {

@@ -1,7 +1,7 @@
 package com.softserve.edu.dto.provider;
 
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
 
 public class ProviderStageVerificationDTO {
     private String surname;
@@ -15,7 +15,7 @@ public class ProviderStageVerificationDTO {
     private String building;
     private String flat;
     private Organization calibrator;
-    private Employee providerEmployee;
+    private User providerEmployee;
 
     public String getBuilding() {
         return building;
@@ -105,11 +105,11 @@ public class ProviderStageVerificationDTO {
         this.calibrator = calibrator;
     }
 
-    public Employee getProviderEmployee() {
+    public User getProviderEmployee() {
         return providerEmployee;
     }
 
-    public void setProviderEmployee(Employee providerEmployee) {
+    public void setProviderEmployee(User providerEmployee) {
         this.providerEmployee = providerEmployee;
     }
 }

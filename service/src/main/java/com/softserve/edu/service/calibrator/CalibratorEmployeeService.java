@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 
 
@@ -26,7 +26,7 @@ public class CalibratorEmployeeService {
      * @param calibratorEmployee data for creation employee
      *      */
     @Transactional
-    public void addEmployee(Employee calibratorEmployee) {
+    public void addEmployee(User calibratorEmployee) {
 
         String passwordEncoded = new BCryptPasswordEncoder().encode(calibratorEmployee.getPassword());
         calibratorEmployee.setPassword(passwordEncoded);

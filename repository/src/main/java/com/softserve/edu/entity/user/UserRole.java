@@ -3,8 +3,11 @@ package com.softserve.edu.entity.user;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -16,7 +19,9 @@ public class UserRole {
 	private Integer id;
 	private String role;
 
-	@ManyToMany(mappedBy = "userRoles")
+	@ManyToMany
+	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "id"),
+			inverseJoinColumns = @JoinColumn(name = "username"))
 	private Set<User> users;
 
 	public void addUser(User user) {

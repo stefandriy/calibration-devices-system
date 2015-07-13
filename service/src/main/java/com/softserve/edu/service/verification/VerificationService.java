@@ -11,7 +11,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 
 import com.softserve.edu.entity.*;
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
@@ -303,7 +303,7 @@ public class VerificationService {
 //	}
 
 	@Transactional
-	public void assignProviderEmployee(String verificationId, Employee providerEmployee) {
+	public void assignProviderEmployee(String verificationId, User providerEmployee) {
 		Verification verification = verificationRepository.findOne(verificationId);
 		if (verification == null) {
 			logger.error("verification haven't found");

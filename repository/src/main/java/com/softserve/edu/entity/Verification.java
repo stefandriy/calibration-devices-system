@@ -1,6 +1,6 @@
 package com.softserve.edu.entity;
 
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 
@@ -40,18 +40,18 @@ public class Verification {
     private Organization provider;
 
     @ManyToOne
-    private Employee providerEmployee;
+    private User providerEmployee;
 
     @ManyToOne
     private Organization calibrator;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Employee calibratorEmployee;
+    private User calibratorEmployee;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Organization stateVerificator;
     @ManyToOne
-    private Employee stateVerificatorEmployee;
+    private User stateVerificatorEmployee;
 
     @Embedded
     private ClientData clientData;
@@ -129,11 +129,11 @@ public class Verification {
         this.provider = provider;
     }
 
-    public Employee getProviderEmployee() {
+    public User getProviderEmployee() {
         return providerEmployee;
     }
 
-    public void setProviderEmployee(Employee providerEmployee) {
+    public void setProviderEmployee(User providerEmployee) {
         this.providerEmployee = providerEmployee;
     }
 
@@ -145,11 +145,11 @@ public class Verification {
         this.calibrator = calibrator;
     }
 
-    public Employee getCalibratorEmployee() {
+    public User getCalibratorEmployee() {
         return calibratorEmployee;
     }
 
-    public void setCalibratorEmployee(Employee calibratorEmployee) {
+    public void setCalibratorEmployee(User calibratorEmployee) {
         this.calibratorEmployee = calibratorEmployee;
     }
 
@@ -161,11 +161,11 @@ public class Verification {
         this.stateVerificator = stateVerificator;
     }
 
-    public Employee getStateVerificatorEmployee() {
+    public User getStateVerificatorEmployee() {
         return stateVerificatorEmployee;
     }
 
-    public void setStateVerificatorEmployee(Employee stateVerificatorEmployee) {
+    public void setStateVerificatorEmployee(User stateVerificatorEmployee) {
         this.stateVerificatorEmployee = stateVerificatorEmployee;
     }
 

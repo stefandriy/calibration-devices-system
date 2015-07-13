@@ -1,8 +1,6 @@
 package com.softserve.edu.repository;
 
 import java.util.List;
-
-import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.util.Status;
 
 import org.springframework.data.domain.Page;

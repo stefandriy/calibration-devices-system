@@ -6,7 +6,7 @@ public class OrganizationDTO {
     private String name;
     private String email;
     private String phone;
-    private OrganizationName type;
+    private String type;
 
     private String username;
     private String password;
@@ -46,11 +46,11 @@ public class OrganizationDTO {
         this.phone = phone;
     }
 
-    public OrganizationName getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(OrganizationName type) {
+    public void setType(String type) {
         this.type = type;
     }
 

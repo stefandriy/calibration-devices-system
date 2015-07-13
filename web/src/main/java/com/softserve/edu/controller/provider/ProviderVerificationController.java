@@ -13,7 +13,6 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.Employee;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;

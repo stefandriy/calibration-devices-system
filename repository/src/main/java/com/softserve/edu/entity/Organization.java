@@ -1,7 +1,6 @@
 package com.softserve.edu.entity;
 
 import java.util.Date;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,8 +33,9 @@ public class Organization {
 	 */
 	private Date certificateGrantedDate;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), inverseJoinColumns = @JoinColumn(name = "typeId"))
+	@ManyToMany
+	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), 
+	inverseJoinColumns = @JoinColumn(name = "typeId"))
 	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
 
 	public void addOrganizationType(OrganizationType organizationType) {

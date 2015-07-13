@@ -195,7 +195,7 @@ INSERT INTO `ORGANIZATION_TYPE`(`type`) VALUES ('PROVIDER'), ('CALIBRATOR'), ('S
 
 
 -- ------------------------------- ORGANIZATIONS TYPES ---------------------------- --
-INSERT INTO `ORGANIZATIONS_TYPES` VALUES (43, 1), (32, 1), (52, 2), (11, 2), (7, 3), (8,3);
+INSERT INTO `ORGANIZATIONS_TYPES`(`organizationId`, `typeId`) VALUES (43, 1), (32, 1), (52, 2), (11, 2), (7, 3), (8,3);
 
 
 -- ------------------------------- USERS ---------------------------- --

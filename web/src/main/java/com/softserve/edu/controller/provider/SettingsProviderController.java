@@ -3,8 +3,9 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.dto.EmployeeDTO;
 import com.softserve.edu.dto.FieldDTO;
 import com.softserve.edu.dto.NewPasswordDTO;
-import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,7 +77,7 @@ public class SettingsProviderController {
     public ResponseEntity<EmployeeDTO> getEmployeeData(@AuthenticationPrincipal UserDetails userDetails) {
         ResponseEntity<EmployeeDTO> response;
         try {
-            Employee employee = userService.getEmployee(userDetails.getUsername());
+        	User employee = userService.getEmployee(userDetails.getUsername());
             EmployeeDTO employeeDTO = new EmployeeDTO(
                     employee.getFirstName(),
                     employee.getLastName(),

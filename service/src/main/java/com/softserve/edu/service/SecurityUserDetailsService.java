@@ -1,7 +1,5 @@
 package com.softserve.edu.service;
 
-import com.softserve.edu.entity.user.Employee;
-
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
