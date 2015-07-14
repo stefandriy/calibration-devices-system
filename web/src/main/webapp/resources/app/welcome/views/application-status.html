@@ -30,13 +30,13 @@
 			</div>
 
 			<div ng-hide="isShownForm"
-				class="{{checkStyle}}"
+				ng-class="{'successStyle':verification.status != undefined , 'notFoundStyle' :verification.status == undefined}"
 				role="alert">
 				<button ng-click="closeAlert()" type="button"
 					class="close btn-close-alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				{{'APPLICATION_STATUS' | translate}} : {{status }}
+				{{'APPLICATION_STATUS' | translate}} : {{status | translate}}
 
 
 			</div>
@@ -62,20 +62,17 @@
 								<td>{{ verification.firstName}}</td>
 								<td>{{ verification.initialDate | date}}</td>
 								<td>{{ verification.locality }}</td>
-
 								<td>{{ verification.street }}</td>
-
 								<td>{{verification.building}}</td>
-
 								<td class="text-center"><a popover="Детальніше"
 									popover-trigger="mouseenter" ng-click="openDetails()"> <i
 										class="fa fa-info-circle"></i>
-								</a> <a ng-show="verification.status === 'COMPLETED'"
+								</a> <a ng-show="verification.status === 'TEST_OK'"
 									popover="Завантажити тестові дані у форматі 'docx'"
 									popover-trigger="mouseenter"
 									href="{{'/doc/' + verification.id + '/docx'}}"> <i
 										class="fa fa-file-word-o"></i>
-								</a> <a ng-show="verification.status === 'COMPLETED'"
+								</a> <a ng-show="verification.status === 'TEST_OK'"
 									popover="Завантажити тестові дані у форматі 'pdf'"
 									popover-trigger="mouseenter"
 									href="{{'/doc/' + verification.id + '/pdf'}}"> <i
@@ -86,6 +83,50 @@
 					</table>
 				</div>
 			</div>
+			<div class="row col-md-12 centered" ng-if="verification.status">
+				<h1>{{'WIDGET_TITLE' | translate}}</h1>
+			</div>
+
+			
+			<div class="container col-md-12 centered" ng-if="verification.status">
+				
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped active"
+						role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0"
+						aria-valuemax="100" style="width: {{progress}}%;">{{progress}}</div>
+				</div>
+			</div>
+			<div class="container col-lg-12 well " ng-if="verification.status">
+				<table class="table table-striped table-bordered table-hover">
+					<tr>
+						<td ><span 
+							class="glyphicon glyphicon-arrow-down col-sm-3 col-sm-offset-5"
+							ng-show="verification.status === 'TEST_OK'"></span></td>
+						<td ><span
+							class="glyphicon glyphicon-arrow-down col-sm-3 col-sm-offset-5" 
+							ng-show="verification.status === 'SENT'"></span></td>
+						<td ><span
+							class="glyphicon glyphicon-arrow-down col-sm-3 col-sm-offset-5" 
+							ng-show="verification.status === 'IN_PROGRESS'"></span></td>
+						<td ><span
+							class="glyphicon glyphicon-arrow-down col-sm-3 col-sm-offset-5" 
+							ng-show="verification.status === 'SENT_TO_VERIFICATOR'"></span></td>
+					</tr>
+					<tr ng-class="{'doneStyle':verification.status === 'TEST_OK'}">
+						<td class="col-sm-3  glyphicon glyphicon-user"
+							ng-class="{'progressStyle':verification.status === 'SENT_TO_VERIFICATOR', 'progressStyle':verification.status === 'SENT','progressStyle':verification.status === 'IN_PROGRESS'}">Client</td>
+						<td class="col-sm-3  glyphicon glyphicon-tint"
+							ng-class="{ 'doneStyle':verification.status === 'SENT_TO_VERIFICATOR', 'progressStyle':verification.status === 'SENT', 'doneStyle':verification.status === 'IN_PROGRESS'}">Provider</td>
+						<td class="col-sm-3  glyphicon glyphicon-scale"
+							ng-class="{'doneStyle':verification.status === 'SENT_TO_VERIFICATOR','notYetStyle':verification.status === 'SENT', 'progressStyle':verification.status === 'IN_PROGRESS'}">Calibrator</td>
+						<td class="col-sm-3  glyphicon glyphicon-home"
+							ng-class="{'progressStyle':verification.status === 'SENT_TO_VERIFICATOR','notYetStyle':verification.status === 'SENT', 'notYetStyle':verification.status === 'IN_PROGRESS'}">State
+							Verificator</td>
+					</tr>
+				</table>
+			</div>
+
+
 		</div>
 	</div>
 </section>
