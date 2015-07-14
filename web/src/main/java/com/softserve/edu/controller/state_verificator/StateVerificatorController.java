@@ -13,14 +13,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
+import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.dto.state_verificator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
@@ -82,6 +86,15 @@ public class StateVerificatorController {
     	 verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
     }
     
+    @RequestMapping(value = "new/update", method = RequestMethod.PUT)
+    public void sendVerification(
+            @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
+            verificationService
+                    .sendVerificationTo(verificationId,verificationUpdatingDTO.getProvider(), Status.TEST_OK);
+        }
+    }
+    
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
     public ClientStageVerificationDTO getNewVerificationDetailsById(
             @PathVariable String verificationId,
@@ -99,5 +112,14 @@ public class StateVerificatorController {
         return new ClientStageVerificationDTO(clientData, address,  null);
     }
     
+    @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.GET)
+    public CalibrationTestDTO getNewCalibrationTestDetailsById(
+    		@PathVariable Long calibrationTestId,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user){
+		CalibrationTest calibrationTest = verificationService.findByCalibrationTestId(calibrationTestId);
+    	
+    	return null;
+    	
+    }
 
 }

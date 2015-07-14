@@ -326,7 +326,6 @@ public class VerificationService {
 	@Transactional
 	public void updateVerificationReadStatus(String verificationId, String readStatus) {
 		Verification verification = verificationRepository.findOne(verificationId);
-		System.err.println("INSIDEservice!!!");
 		if (verification == null) {
 			logger.error("verification haven't found");
 			return;
@@ -339,7 +338,7 @@ public class VerificationService {
 	
 	/**
 	 * Find verification, add IN_PROGRESS status to state verificator, add state
-	 * verificator to verification. /** Find verification, add IN_PROGRESS
+	 * verificator to verification. /** Find verification, add SENT_TO_VERIFICATOR
 	 * status to state verificator, add stat verificator to verification. save
 	 * verification
 	 * 
@@ -416,6 +415,15 @@ public class VerificationService {
 		CalibrationTest testData = calibrationTestRepository.save(data);
 		testData.setVerification(updatedVerification);
 		return testData;
+	}
+	
+	@Transactional(readOnly=true)
+	public CalibrationTest findByCalibrationTestId(Long id){
+		CalibrationTest calibrationTest = calibrationTestRepository.findById(id);
+		if(calibrationTest == null){
+			throw new AccessDeniedException("You have not permission to get this data");
+		}
+		return calibrationTest;
 	}
 
 	@Transactional

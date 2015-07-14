@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<table class="table table-striped table-bordered">
+		<tr>
+			<th>Дата</th>
+			<th>{{calibrationTestData.initialDate}}</th>
+		</tr>
+
+		<tr>
+			<th>Реєстраційний номер повірки</th>
+			<th>{{verificationData.id}}</th>
+		</tr>
+
+	</table>
+
+	<table class="table table-striped table-bordered">
+
+		<thead>
+			<tr>
+				<th colspan="2" class="text-center text-info">Інформація про
+					тест</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<th>Назва тесту</th>
+				<th>{{calibrationTestData.name}}</th>
+			</tr>
+
+			<tr>
+				<th>Температура</th>
+				<th>{{calibrationTestData.temperature}}</th>
+			</tr>
+
+			<tr>
+				<th>Номер установки</th>
+				<th>{{calibrationTestData.settingNumber}}</th>
+			</tr>
+
+			<tr>
+				<th>Широта</th>
+				<th>{{calibrationTestData.latitude}}</th>
+			</tr>
+
+			<tr>
+				<th>Довгота</th>
+				<th>{{calibrationTestData.longitude}}</th>
+			</tr>
+
+			<tr>
+				<th>Статус Споживання</th>
+				<th>{{verificationData.region}}</th>
+			</tr>
+
+		</tbody>
+
+	</table>
+
+	<button type="button" class="btn btn-success btn-sm"
+		ng-click="openSendingModal()">
+		<span class="glyphicon glyphicon-thumbs-up"></span>Придатний
+	</button>
+
+	<button type="button" class="btn btn-warning btn-sm"
+		ng-click="openSendingModal()">
+		<span class="glyphicon glyphicon-thumbs-down"></span>Непридатний
+	</button>
+
+	<button type="button" class="btn btn-danger btn-sm"
+		ng-click="openSendingModal()">
+		<span class="glyphicon glyphicon-exclamation-sign"></span>Неправильний
+		Тест
+	</button>
+</body>
+</html>

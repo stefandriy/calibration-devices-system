@@ -38,7 +38,11 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     Page<Verification> findByProviderIdAndStatusAndInitialDate(Long providerId, Status status, Date date, Pageable pageable);
     Page<Verification> findByProviderIdAndStatusAndClientData_lastNameLikeIgnoreCase(Long providerId, Status status, String search, Pageable pageable);
     Page<Verification> findByProviderIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(Long providerId, Status status, String search, Pageable pageable);
-    
+    // search methods for verificator
+    Page<Verification> findByStateVerificatorIdAndStatusAndIdLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
+    Page<Verification> findByStateVerificatorIdAndStatusAndInitialDate(Long stateVerificatorId, Status status, Date date, Pageable pageable);
+    Page<Verification> findByStateVerificatorIdAndStatusAndClientData_lastNameLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
+    Page<Verification> findByStateVerificatorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
 
     /**
      * This method serves for security purpose. When provider employee(or admin) makes GET request
@@ -51,13 +55,11 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
      */
     Verification findByIdAndProviderId(String id, Long providerId);
     Verification findByIdAndCalibratorId(String id, Long providerId);
-    Verification findOne(String id);
-
-
-
-    Long countByProviderEmployee_usernameAndStatus(String providerEmployee_username, Status status);
     Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId);
-
+    
+    Verification findOne(String id);
+    
+    Long countByProviderEmployee_usernameAndStatus(String providerEmployee_username, Status status);
     Long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
     Long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
     Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, ReadStatus readStatus);

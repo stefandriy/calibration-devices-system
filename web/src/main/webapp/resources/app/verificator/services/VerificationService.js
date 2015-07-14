@@ -44,6 +44,10 @@ angular
             },
             searchNewVerifications : function(data) {
             	return sendDataWithParams('new/search', data);
+            },
+            //for CalibrationTest
+            getCalibraionTestDetails: function (calibrationTestId){
+            	return getData('verififcations/new/' + calibrationTestId)
             }
         };
 

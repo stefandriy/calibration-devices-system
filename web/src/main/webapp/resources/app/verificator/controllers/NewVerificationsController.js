@@ -52,6 +52,27 @@ angular
                     }
                 });
             };
+            //Temporaly
+            $scope.testReview = function(calibrationTestId){
+            	$modal.open({
+            		animation: true,
+            		templateUrl: '/resources/app/verificator/views/modals/testReview.html',
+            		controller: 'CalibrationTestReviewController',
+            		size: 'lg',
+            		resolve: {
+            			response: function () {
+            				return VerificationService.getCalibraionTestDetails(calibrationTestId)
+            				.success(function(calibrationTest){
+            					calibrationTest.id = calibrationTestId;
+            					return calibrationTest;
+            				})
+            				.error(function(){
+            					console.log('ERROR');
+            				});
+            			}
+            		}
+            	});
+            };
 
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];

@@ -49,6 +49,7 @@
         'controllers/EmployeeController',
         'controllers/AddressModalController',
         'controllers/NotificationsController',
+        'controllers/CalibrationTestReviewController',
       
         'services/AddressService',
         'services/UserService',

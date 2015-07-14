@@ -27,8 +27,7 @@ angular
 	    	
 	    	$scope.startPolling();
 	    	
-			$rootScope.$on('verification-sent-to-calibrator', function(){
-					$log.info("gotcha... verif sent to calibrator ");   	
+			$rootScope.$on('verification-sent-to-provider', function(){  	
 					verificationService.getCountOfNewVerifications().success(function (count) {
 			       		$scope.countOfUnreadVerifications = count;
 						});
