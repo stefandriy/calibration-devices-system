@@ -47,6 +47,8 @@ public class User {
 		this.password = password;
 	}
 
+	public User (){}
+	
 	/**
 	 * Required constructor for saving employee in database. Employee cannot
 	 * exists without these parameters.

@@ -24,14 +24,14 @@ angular
             response.success(function (data) {
                 var path = redirectByRole(data);
                 $scope.loginForm.password = null;
-                window.location.replace('/provider');
-//                if (path)
-//                    window.location.replace(path);
-//                if (path == undefined){
-//                	$scope.loginCorrect = true;
-//                	$scope.incorrectStyle = true;
-//                	$scope.incorrectStylePlaceholder = true;
-//                }
+               // window.location.replace('/provider');
+                if (path)
+                    window.location.replace(path);
+                if (path == undefined){
+                	$scope.loginCorrect = true;
+                	$scope.incorrectStyle = true;
+                	$scope.incorrectStylePlaceholder = true;
+                }
             });
             response.error(function (data) {
                 console.dir(data);

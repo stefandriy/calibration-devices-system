@@ -46,19 +46,19 @@ public class StateVerificatorController {
 	private final Logger logger = Logger
 			.getLogger(StateVerificatorController.class);
 
-//	@RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-//	public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorId(
-//			@PathVariable Integer pageNumber,
-//			@PathVariable Integer itemsPerPage,
-//			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-//		Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-//				.toDTO(verificationService
-//						.findPageOfSentVerificationsByStateVerificatorId(
-//								employeeUser.getOrganizationId(), pageNumber,
-//								itemsPerPage));
-//
-//		return new PageDTO<>(page.getTotalElements(), page.getContent());
-//	}
+	@RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+	public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorId(
+			@PathVariable Integer pageNumber,
+			@PathVariable Integer itemsPerPage,
+			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+		Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+				.toDTO(verificationService
+						.findPageOfSentVerificationsByStateVerificatorId(
+								employeeUser.getOrganizationId(), pageNumber,
+								itemsPerPage));
+
+		return new PageDTO<>(page.getTotalElements(), page.getContent());
+	}
 	
 	 /**
      * Find providers by district which correspond stateVerificator district

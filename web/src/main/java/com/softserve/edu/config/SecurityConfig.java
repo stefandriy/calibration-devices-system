@@ -31,48 +31,48 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//
-//        CsrfTokenResponseHeaderBindingFilter csrfTokenFilter = new CsrfTokenResponseHeaderBindingFilter();
-//        http.addFilterAfter(csrfTokenFilter, CsrfFilter.class);
-//
-//        http
-//                .csrf()
-//                .ignoringAntMatchers("/uploadFile/**")
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/resources/assets/**", "/resources/app/welcome/**",
-//                         "/application/**", "/calibrationTests/**" /*Some one has to move these tests out to verificator page!*/
-//                        , "/calibrationTestData/**").permitAll()
-//
-//                .antMatchers("/resources/app/admin/**", "/admin/**").hasAuthority(SYS_ADMIN.roleName())
-//                
-//                .antMatchers("/uploadFile/**").fullyAuthenticated()
-//                
-//                .antMatchers("/resources/app/provider/**", "/provider", "/provider/employee/**").hasAnyAuthority(PROVIDER_EMPLOYEE.roleName(), PROVIDER_ADMIN.roleName())
-//                .antMatchers("/provider/admin/**").hasAuthority(PROVIDER_ADMIN.roleName())
-//
-//                .antMatchers("/resources/app/calibrator/**", "/calibrator", "/calibrator/employee/**").hasAnyAuthority(CALIBRATOR_EMPLOYEE.roleName(), CALIBRATOR_ADMIN.roleName())
-//                .antMatchers("/calibrator/admin/**").hasAuthority(CALIBRATOR_ADMIN.roleName())
-//
-//                .antMatchers("/resources/app/verificator/**", "/verificator", "/verificator/employee/**").hasAnyAuthority(STATE_VERIFICATOR_EMPLOYEE.roleName(), STATE_VERIFICATOR_ADMIN.roleName())
-//                .antMatchers("/verificator/admin/**").hasAuthority(STATE_VERIFICATOR_ADMIN.roleName())
-//
-//                .and()
-//                .formLogin()
-//                .defaultSuccessUrl("/")
-//                .loginProcessingUrl("/authenticate")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .successHandler(new AjaxAuthenticationSuccessHandler(new SavedRequestAwareAuthenticationSuccessHandler()))
-//                .loginPage("/")
-//                .permitAll()
-//                .and()
-//                .httpBasic()
-//                .and()
-//                .logout()
-//                .logoutSuccessUrl("/")
-//                .logoutUrl("/logout")
-//                .permitAll();
+
+        CsrfTokenResponseHeaderBindingFilter csrfTokenFilter = new CsrfTokenResponseHeaderBindingFilter();
+        http.addFilterAfter(csrfTokenFilter, CsrfFilter.class);
+
+        http
+                .csrf()
+                .ignoringAntMatchers("/uploadFile/**")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/resources/assets/**", "/resources/app/welcome/**",
+                         "/application/**", "/calibrationTests/**" /*Some one has to move these tests out to verificator page!*/
+                        , "/calibrationTestData/**").permitAll()
+
+                .antMatchers("/resources/app/admin/**", "/admin/**").hasAuthority("SYS_ADMIN")//SYS_ADMIN.roleName())
+                
+                .antMatchers("/uploadFile/**").fullyAuthenticated()
+                
+                .antMatchers("/resources/app/provider/**", "/provider", "/provider/employee/**").hasAnyAuthority("PROVIDER_EMPLOYEE", "PROVIDER_ADMIN")    //(PROVIDER_EMPLOYEE.roleName(), PROVIDER_ADMIN.roleName())
+                .antMatchers("/provider/admin/**").hasAuthority("PROVIDER_ADMIN") //(PROVIDER_ADMIN.roleName())
+
+                .antMatchers("/resources/app/calibrator/**", "/calibrator", "/calibrator/employee/**").hasAnyAuthority("CALIBRATOR_EMPLOYEE", "CALIBRATOR_ADMIN")  //(CALIBRATOR_EMPLOYEE.roleName(), CALIBRATOR_ADMIN.roleName())
+                .antMatchers("/calibrator/admin/**").hasAuthority("CALIBRATOR_ADMIN")//(CALIBRATOR_ADMIN.roleName())
+
+                .antMatchers("/resources/app/verificator/**", "/verificator", "/verificator/employee/**").hasAnyAuthority("STATE_VERIFICATOR_EMPLOYEE", "STATE_VERIFICATOR_ADMIN") //(STATE_VERIFICATOR_EMPLOYEE.roleName(), STATE_VERIFICATOR_ADMIN.roleName())
+                .antMatchers("/verificator/admin/**").hasAuthority("STATE_VERIFICATOR_ADMIN")//(STATE_VERIFICATOR_ADMIN.roleName())
+
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/")
+                .loginProcessingUrl("/authenticate")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .successHandler(new AjaxAuthenticationSuccessHandler(new SavedRequestAwareAuthenticationSuccessHandler()))
+                .loginPage("/")
+                .permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .logoutUrl("/logout")
+                .permitAll();
         
     }
       

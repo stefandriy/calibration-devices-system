@@ -23,8 +23,8 @@ public interface UserRepository extends CrudRepository<User, String> {
 //    Page<User> findByRoleAndOrganizationId(String role,Long id, Pageable pageable);
 //
 //    Page<User> findByOrganizationIdAndRoleAndLastNameLikeIgnoreCase(Long id, String role,String search, Pageable pageable);
-//
-//
+
+
     @Query("select u from User u where u.username = :username")
     User getUserByUserName(@Param("username") String username);
 

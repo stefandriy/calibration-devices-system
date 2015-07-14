@@ -28,7 +28,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    	System.err.println( " U=[" + username + "]");
+    	
         User user = userRepository.findOne(username);
         if (user == null) {
             throw new UsernameNotFoundException("Username " + username + " not found");
@@ -42,16 +42,16 @@ public class SecurityUserDetailsService implements UserDetailsService {
 			
         	role = userRole.getRole();
 		}
-        System.err.println("role : " + role);
         authorities.add(new SimpleGrantedAuthority(role));
+        
 
         Long employeeOrganizationId = role.equals("SYS_ADMIN") ?
                 null : ((User) user).getOrganization().getId();
       
         
         return new CustomUserDetails(username, user.getPassword(), authorities,
-        		( (User) user).getOrganization().getId());
-//    	return null;
+        		employeeOrganizationId);
+    	
     }
 
     /**

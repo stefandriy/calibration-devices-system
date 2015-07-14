@@ -106,12 +106,12 @@ public class VerificationService {
 	 * @param providerId
 	 * @return 
 	 */
-//	@Transactional(readOnly = true)
-//	public Long findCountOfNewVerificationsByProviderId(Long providerId) {
-//		System.err.println();
-//		return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
-//				ReadStatus.UNREAD);
-//	}
+	@Transactional(readOnly = true)
+	public Long findCountOfNewVerificationsByProviderId(Long providerId) {
+		System.err.println();
+		return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
+				ReadStatus.UNREAD);
+	}
 	
 	/**
 	 * Finds count of rows in database for verifications assigned to State Verificator with Read Status = 'UNREAD'.
@@ -361,6 +361,7 @@ public class VerificationService {
 	public void sendVerificationTo(String verificationId, Organization oraganization, Status status) {
 		Verification verification = verificationRepository.findOne(verificationId);
 		String organizationName = oraganization.getClass().getSimpleName();
+		
 			if (organizationName.equals(Organization.class.getSimpleName())) {
 				verification.setProvider((Organization) oraganization);
 			} else if (organizationName.equals(Organization.class.getSimpleName())) {
