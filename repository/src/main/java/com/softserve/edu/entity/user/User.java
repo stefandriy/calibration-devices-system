@@ -29,11 +29,8 @@ public class User {
 	@ManyToMany
 	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "username"), 
 	inverseJoinColumns = @JoinColumn(name = "id"))
-	private Set<UserRole> userRoles=new HashSet<>();
+	private Set<UserRole> userRoles;
 
-	public void addUserRoles(UserRole userRoles) {
-		this.userRoles.add(userRoles);
-	}
 
 
 	/**
