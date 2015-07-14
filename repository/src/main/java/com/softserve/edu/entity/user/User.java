@@ -1,5 +1,6 @@
 package com.softserve.edu.entity.user;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -28,7 +29,12 @@ public class User {
 	@ManyToMany
 	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "username"), 
 	inverseJoinColumns = @JoinColumn(name = "id"))
-	private Set<UserRole> userRoles;
+	private Set<UserRole> userRoles=new HashSet<>();
+
+	public void addUserRoles(UserRole userRoles) {
+		this.userRoles.add(userRoles);
+	}
+
 
 	/**
 	 * Required constructor for saving employee in database. Employee cannot
@@ -38,9 +44,6 @@ public class User {
 	 *            username
 	 * @param password
 	 *            password
-	 * @param role
-	 *            (look through implementations of Role interface in each
-	 *            User-extended class)
 	 */
 	public User(String username, String password) {
 		this.username = username;
@@ -57,8 +60,6 @@ public class User {
 	 *            username
 	 * @param password
 	 *            password
-	 * @param role
-	 *            role (organization employee or admin)
 	 * @param organization
 	 *            its organization
 	 */

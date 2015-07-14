@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,15 +34,19 @@ public class UsersService {
      * @param search
      * @return page of users with search
      */
-//    @Transactional
-//    public Page<User> getUsersBySearchAndPagination(int pageNumber,
-//                                                    int itemsPerPage, String search) {
-//        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-//        return search == null ? userRepository.findAll(pageRequest)
-//                : userRepository.findByRoleLikeIgnoreCase("%" + search + "%",
-//                pageRequest);
-//    }
+     @Transactional
+     public Page<User> getUsersBySearchAndPagination(int pageNumber,
+                                                    int itemsPerPage, String search) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return search == null ? userRepository.findAll(pageRequest)
+                : userRepository.findByRoleLikeIgnoreCase("%" + search + "%",
+                pageRequest);
+    }
 
 
+    @Transactional
+    public String getRoleByUserName(String username){
+        return userRepository.getRoleByUserName(username);
+    }
 
 }

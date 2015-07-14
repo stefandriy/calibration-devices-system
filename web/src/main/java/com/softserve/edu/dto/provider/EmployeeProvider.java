@@ -1,5 +1,7 @@
 package com.softserve.edu.dto.provider;
 
+import com.softserve.edu.entity.user.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,11 +79,11 @@ public class EmployeeProvider {
 
     }
 
-//    public static List<EmployeeProvider> giveListOfProviders(List<Employee> list) {
-//        List<EmployeeProvider> listEmployee = new ArrayList<>();
-//        for (Employee providEmployee : list) {
-//            listEmployee.add(new EmployeeProvider(providEmployee.getUsername(), providEmployee.getFirstName(), providEmployee.getLastName(), providEmployee.getMiddleName(), providEmployee.getRole()));
-//        }
-//        return listEmployee;
-//    }
+    public static List<EmployeeProvider> giveListOfProviders(List<User> list,String role) {
+        List<EmployeeProvider> listEmployee = new ArrayList<>();
+        for (User providEmployee : list) {
+            listEmployee.add(new EmployeeProvider(providEmployee.getUsername(), providEmployee.getFirstName(), providEmployee.getLastName(), providEmployee.getMiddleName(), role));
+        }
+        return listEmployee;
+    }
 }

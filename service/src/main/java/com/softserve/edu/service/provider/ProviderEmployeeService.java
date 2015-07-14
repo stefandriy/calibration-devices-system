@@ -26,30 +26,35 @@ public class ProviderEmployeeService {
         providerEmployeeRepository.save(providerEmployee);
     }
 
-//    @Transactional
-//    public Page<? extends User> getUsersPagination(Long idOrganization, int pageNumber, int itemsPerPage, String search, String role) {
-//        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-//        if (search==null) {
-//            return providerEmployeeRepository.findByRoleAndOrganizationId(role, idOrganization, pageRequest);
-//        } else {
-//            return providerEmployeeRepository.findByOrganizationIdAndRoleAndLastNameLikeIgnoreCase(idOrganization,role,"%" + search + "%", pageRequest);
-//          }
-//    }
+    @Transactional
+    public Page<? extends User> getUsersPagination(Long idOrganization, int pageNumber, int itemsPerPage, String search, String role) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        if (search == null) {
+            return providerEmployeeRepository.findByRoleAndOrganizationId(role, idOrganization, pageRequest);
+        } else {
+            return providerEmployeeRepository.findByOrganizationIdAndRoleAndLastNameLikeIgnoreCase(role, idOrganization, "%" + search + "%", pageRequest);
+        }
+    }
 
     @Transactional
     public User oneProviderEmployee(String username) {
         return providerEmployeeRepository.getUserByUserName(username);
     }
 
-//    @Transactional
-//    public List<Employee> getAllProviders(String role, Long id) {
-//        return providerEmployeeRepository.getAllProviderUsers(role,id);
-//    }
-//    
-//    @Transactional()
-//    public Employee findByUserame(String userName){
-//    	return providerEmployeeRepository.findByUsername(userName);
-//    }
+    @Transactional
+    public List<User> getAllProviders(String role, Long id) {
+        return providerEmployeeRepository.getAllProviderUsers(role, id);
+    }
+
+    @Transactional()
+    public User findByUserame(String userName) {
+        return providerEmployeeRepository.findByUsername(userName);
+    }
+
+    @Transactional
+    public String getRoleByUserName(String username) {
+        return providerEmployeeRepository.getRoleByUserName(username);
+    }
 
 
 }

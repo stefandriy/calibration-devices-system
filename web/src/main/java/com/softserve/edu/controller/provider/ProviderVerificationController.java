@@ -136,21 +136,22 @@ public class ProviderVerificationController {
     }
 
 
-//    @RequestMapping(value = "new/providerEmployees", method = RequestMethod.GET)
-//    public List<EmployeeProvider> employeeVerification(
-//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-//        Employee employee = providerEmployeeService.oneProviderEmployee(user.getUsername());
-//        List<EmployeeProvider> providerListEmployee = new ArrayList<>();
-//
-//        if (employee.getRole().equalsIgnoreCase((Employee.ProviderEmployeeRole.PROVIDER_ADMIN.roleName()))) {
-//            List<Employee> list = providerEmployeeService.getAllProviders(Employee.ProviderEmployeeRole.PROVIDER_EMPLOYEE.roleName(), employee.getOrganization().getId());
-//            providerListEmployee = EmployeeProvider.giveListOfProviders(list);
-//        } else {
-//            EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(), employee.getLastName(), employee.getMiddleName(), employee.getRole());
-//            providerListEmployee.add(userPage);
-//        }
-//        return providerListEmployee;
-//    }
+    @RequestMapping(value = "new/providerEmployees", method = RequestMethod.GET)
+    public List<EmployeeProvider> employeeVerification(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User employee = providerEmployeeService.oneProviderEmployee(user.getUsername());
+        String role = providerEmployeeService.getRoleByUserName(user.getUsername());
+        List<EmployeeProvider> providerListEmployee = new ArrayList<>();
+
+        if (role.equalsIgnoreCase("PROVIDER_ADMIN")){
+            List<User> list = providerEmployeeService.getAllProviders("PROVIDER_EMPLOYEE", employee.getOrganization().getId());
+            providerListEmployee = EmployeeProvider.giveListOfProviders(list,role);
+        } else {
+            EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(), employee.getLastName(), employee.getMiddleName(), role);
+            providerListEmployee.add(userPage);
+        }
+        return providerListEmployee;
+    }
 
     /**
      * Update verificationsproviderListEmployee
@@ -185,13 +186,13 @@ public class ProviderVerificationController {
         verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
     }
 
-//    @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
-//    public void assignProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-//        Employee providerEmployee = new Employee();
-//        String idVerification=verificationUpdatingDTO.getIdVerification();
-//        providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
-//        verificationService.assignProviderEmployee(idVerification, providerEmployee);
-//    }
+    @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
+    public void assignProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+        User providerEmployee = new User();
+        String idVerification=verificationUpdatingDTO.getIdVerification();
+        providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
+        verificationService.assignProviderEmployee(idVerification, providerEmployee);
+    }
     @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
     public void removeProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         verificationService.assignProviderEmployee(verificationUpdatingDTO.getIdVerification(), null);
