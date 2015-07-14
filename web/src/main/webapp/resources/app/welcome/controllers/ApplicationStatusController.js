@@ -12,8 +12,8 @@ angular
 						'$stateParams',
 						'DataReceivingService',
 
-						function($scope, $http, $translate, $state, $log,$modal,
-								$stateParams, dataReceivingService) {
+						function($scope, $http, $translate, $state, $log,
+								$modal, $stateParams, dataReceivingService) {
 
 							$scope.isShownForm = true;
 
@@ -21,36 +21,45 @@ angular
 
 							$scope.code = $stateParams.clientCode;
 
-							 $scope.findCode = function() {
+							$scope.findCode = function() {
 								dataReceivingService.getVerificationStatusById(
-										$scope.code).success(
-										function(status) {
-											$log.debug(status);
-											$scope.status = resolveStatus(
-													status, $translate.use());
-											
-										});
+										$scope.code).success(function(status) {
+									$log.debug(status);
+									$scope.status = resolveStatus(status);
+
+								});
 
 								$scope.isShownForm = false;
 							};
 							$scope.findVerification = function() {
-								dataReceivingService.getVerificationById(
-										$scope.code).success(
-										function(verification) {
-											$log.debug('verif from func :' + verification);
-											$scope.verification = verification;
-											
-											 if (verification.status == undefined){
-								              
-								            
-								                	$scope.checkStyle = 'row col-md-10 alert alert-danger alert-dismissible centered';
-								           
-								                }else $scope.checkStyle='row col-md-10 alert alert-success alert-dismissible centered';
-										});
+								dataReceivingService
+										.getVerificationById($scope.code)
+										.success(
+												function(verification) {
+													$log
+															.debug('verif from func :'
+																	+ verification.status);
+													$scope.verification = verification;
+
+													if ($scope.verification.status == ('SENT'
+															|| 'ACCEPTED' || 'REJECTED')) {
+														$scope.progress = '25';
+													}
+													if ($scope.verification.status == 'IN_PROGRESS') {
+														$scope.progress = '50';
+													}
+													if ($scope.verification.status == ('SENT_TO_VERIFICATOR' || 'TEST_COMPLETED')) {
+														$scope.progress = '75';
+													}
+													if ($scope.verification.status == ('TEST_OK' || 'TEST_NOK')) {
+														$scope.progress = '100';
+													}
+
+												});
 
 								$scope.isShownForm = false;
 							};
-							$scope.getClientForm=function(){
+							$scope.getClientForm = function() {
 								$scope.findCode();
 								$scope.findVerification();
 							}
@@ -84,42 +93,26 @@ angular
 							};
 						} ]);
 
-var resolveStatus = function(status, lang) {
-	var translations = getTranslations(lang);
+var resolveStatus = function(status) {
+
 	switch (status) {
 	case 'NOT_FOUND':
-		return translations.notFound;
+		return 'NOTFOUND_TRANSLATION';
 	case 'SENT':
-		return translations.sent;
-	case 'RECEIVED':
-		return translations.received;
+		return 'SENT_TRANSLATION';
 	case 'IN_PROGRESS':
-		return translations.inProgress;
-	case 'COMPLETED':
-		return translations.completed;
+		return 'IN_PROGRESS_TRANSLATION';
+	case 'SENT_TO_VERIFICATOR':
+		return 'SENT_TO_VERIFICATOR_TRANSLATION';
+	case 'TEST_OK':
+		return 'TEST_OK_TRANSLATION';
+	case 'ACCEPTED':
+		return 'ACCEPTED_TRASLATION';
+	case 'REJECTED':
+		return 'REJECTED_TRASLATION';
+	case 'TEST_COMPLETED':
+		return 'TEST_COMPLETED_TRASLATION';
+	case 'TEST_NOK':
+		return 'TEST_NOK_TRASLATION';
 	}
-};
-
-var getTranslations = function(lang) {
-	var translations;
-	if (lang === 'ukr') {
-		translations = {
-			notFound : 'Заявки з таким кодом не знайдено.',
-			sent : 'Ваша заявка відправлена.',
-			received : "Ваша заявка отримана. Ми зв'яжемось з вами найближчим часом.",
-			inProgress : 'Ваша заявка в процесі обробки.',
-			completed : 'Ваша заявка успішно виконана.'
-		}
-	} else if (lang === 'eng') {
-		translations = {
-			notFound : 'Application not found.',
-			sent : 'Application is sent.',
-			received : "We have received your application and will contact you soon.",
-			inProgress : 'Application in progress.',
-			completed : 'Application completed.'
-		}
-	} else {
-		console.error(lang);
-	}
-	return translations;
 };
