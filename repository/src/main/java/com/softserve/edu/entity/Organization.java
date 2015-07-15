@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.persistence.*;
 
 
-import org.codehaus.jackson.annotate.JsonManagedReference;
-
 @Entity
 @Table(name = "`ORGANIZATION`")
 public class Organization {

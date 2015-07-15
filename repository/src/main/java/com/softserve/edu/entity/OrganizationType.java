@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import org.codehaus.jackson.annotate.JsonBackReference;
+
 
 @Entity
 @Table(name = "`ORGANIZATION_TYPE`")
