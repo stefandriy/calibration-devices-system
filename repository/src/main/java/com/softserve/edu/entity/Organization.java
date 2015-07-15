@@ -1,10 +1,9 @@
 package com.softserve.edu.entity;
 
+import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
 
 
 @Entity
