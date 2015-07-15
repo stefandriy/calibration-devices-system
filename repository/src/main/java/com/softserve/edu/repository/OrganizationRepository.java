@@ -21,6 +21,16 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     
     //public List<Organization> findByAddressDistrict(String designation);
     
+
     @Query("select o from Organization o inner join o.organizationTypes t  where t.type=:type ")
     List<Organization> findOrganizationByType(@Param("type") String type );
+
+    @Query("select t.type from OrganizationType t inner join t.organizations o where o.id=:id")
+    String getTypeByOrganizationId(@Param("id") Long id);
+    
+    @Query(value = "select ot.type from ORGANIZATION_TYPE as ot inner join ORGANIZATIONS_TYPES AS ots "
+    		+ "inner join ORGANIZATION AS o WHERE ots.typeId = ot.typeId "
+    		+ "AND ots.organizationId = ?;", nativeQuery = true)
+    String getTypeById(Long id);
+
 }

@@ -23,10 +23,11 @@ public class OrganizationType {
 	private Integer id;
 	private String type;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "typeId"),
-	inverseJoinColumns = @JoinColumn(name = "organizationId"))
-	private Set<Organization> organizations;// = new HashSet<Organization>();
+
+	@ManyToMany
+	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "typeId"))
+	private Set<Organization> organizations = new HashSet<Organization>();
+
 
 	public void addOrganization(Organization organization) {
 		this.organizations.add(organization);

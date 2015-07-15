@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends CrudRepository<User, String>,EmployeeRepositoryCustom {
+public interface UserRepository extends CrudRepository<User, String> {
 
 	Page<User> findAll(Pageable pageable);
 
