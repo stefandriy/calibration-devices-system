@@ -19,7 +19,9 @@ public class PageDTO<T> {
         this.content = content;
         this.idOrganization=userId;
     }
-
+    public PageDTO(List<T>content){
+        this.content=content;
+    }
     public Long getTotalItems() {
         return totalItems;
     }

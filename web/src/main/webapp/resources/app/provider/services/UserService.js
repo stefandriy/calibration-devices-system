@@ -8,43 +8,40 @@ angular
             saveUser: function (userData) {
                 return saveData('provider/admin/users/add', userData);
             },
-            getPage: function (pageNumber, itemsPerPage, idOrganization, search) {
-                var url = '/provider/admin/users/' + pageNumber + '/' + itemsPerPage +'/'+idOrganization;
-
-                if (search != null && search != undefined && search != "")
-                    url += '/' + search;
-
-                return $http.get(url)
-                    .then(function (result) {
-                        return result.data;
-                    });
+            isAdmin: function () {
+                return getData('provider/admin/users/verificator');
             },
-            isAdmin: function (){
-            	return getData('provider/admin/users/verificator');
+            getPage: function (currentPage, itemsPerPage, searchObj) {
+
+                return getData('provider/admin/users/' + currentPage + '/' + itemsPerPage, searchObj);
+            },
+            getCapacityOfWork: function(username){
+                return getData('provider/admin/users/capacityOfEmployee'+ '/'+username);
             }
         };
 
-        function getData(url) {
-            return $http.get(url)
-                .success(function (result) {
-                    return result;
-                });
-
+        function getData(url, params) {
+            return $http.get(url, {
+                params : params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
         }
+
 
         function saveData(url, data) {
             return $http.post(url, data)
                 .success(function (response) {
                     return response;
                 })
-                .error(function(err){
-                	alert(err);
-                	alert("in error");
-                	return err;
-                	               });  	
+                .error(function (err) {
+                    alert(err);
+                    alert("in error");
+                    return err;
+                });
         }
-
-
 
 
     });

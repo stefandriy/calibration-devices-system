@@ -17,7 +17,10 @@ import org.springframework.data.domain.Page;
                                 verification.getClientData().getLastName(),
                                 verification.getClientData().getClientAddress().getStreet(),
                                 verification.getStatus(),
-                                verification.getReadStatus(),verification.getProviderEmployee())
+                                verification.getReadStatus(), verification.getProviderEmployee(),
+                                verification.getClientData().getFirstName(), verification.getClientData().getClientAddress().getDistrict(),
+                                verification.getClientData().getClientAddress().getLocality(),
+                                verification.getClientData().getPhone())
                 );
     }
 
@@ -35,10 +38,12 @@ import org.springframework.data.domain.Page;
 			                     verification.getClientData().getLastName(),
 			                     verification.getClientData().getClientAddress().getStreet(),
 			                     verification.getStatus(),
-			                     verification.getReadStatus(), verification.getProviderEmployee()
-                                 )
+                                         verification.getReadStatus(), verification.getProviderEmployee(),
+                                         verification.getClientData().getFirstName(), verification.getClientData().getClientAddress().getDistrict(),
+                                         verification.getClientData().getClientAddress().getLocality(),
+                                         verification.getClientData().getPhone())
                          );
-					}
+                    }
 			return resultList;
 		}
 

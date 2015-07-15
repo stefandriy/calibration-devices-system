@@ -502,8 +502,19 @@ input[type="radio"], input[type="checkbox"] {
     max-width: 1px;
     width:40px;
 }
-.showInline {
-    display: inline-block;
+.grid_actions {
     float: left;
-
+    width: 125px;
+}
+.grid_actions > div {
+    float: left;
+}
+.grid_actions > a {
+    margin-left: 10px;
+}
+.users_table td .btn-groups {
+    position: relative;
+}
+.is-filter {
+    margin-bottom: 15px;
 }

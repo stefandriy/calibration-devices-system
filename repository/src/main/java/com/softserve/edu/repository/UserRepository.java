@@ -42,4 +42,7 @@ public interface UserRepository extends CrudRepository<User, String> {
 
    public User findByUsername(String userName);
 
+    @Query("select countOfWork from User u where u.username = :username")
+    Long getCountOfWork(@Param("username") String username);
+
 }
