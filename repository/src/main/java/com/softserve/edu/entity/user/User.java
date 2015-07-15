@@ -27,11 +27,8 @@ public class User {
 	private Organization organization;
 
 	@ManyToMany
-	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "username"), 
-	inverseJoinColumns = @JoinColumn(name = "id"))
-	private Set<UserRole> userRoles;
-
-
+	@JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "id"))
+	private Set<UserRole> userRoles = new HashSet<UserRole>();
 
 	/**
 	 * Required constructor for saving employee in database. Employee cannot
@@ -47,8 +44,9 @@ public class User {
 		this.password = password;
 	}
 
-	public User (){}
-	
+	public User() {
+	}
+
 	/**
 	 * Required constructor for saving employee in database. Employee cannot
 	 * exists without these parameters.
@@ -157,6 +155,10 @@ public class User {
 
 	public void setOrganization(Organization organization) {
 		this.organization = organization;
+	}
+
+	public void addUserRole(UserRole userRole) {
+		this.userRoles.add(userRole);
 	}
 
 	public Set<UserRole> getUserRoles() {

@@ -2,6 +2,7 @@ package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.OrganizationName;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -36,13 +37,21 @@ public class OrganizationsService {
 			String phone, String type, String username, String password,
 			Address address) {
 		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
-		Organization organization = new Organization(name, email, phone, address);
-		Query q = em.createNativeQuery("SELECT * FROM ORGANIZATION_TYPE AS ot WHERE ot.type = ?").setParameter(1, type);
-		OrganizationType organizationType = (OrganizationType) q.getSingleResult();
+		Organization organization = new Organization(name, email, phone,
+				address);
+		OrganizationType organizationType = (OrganizationType) em
+				.createQuery(
+						"SELECT ot FROM OrganizationType ot WHERE ot.type=:t")
+				.setParameter("t", type).getSingleResult();
 		organization.addOrganizationType(organizationType);
-		organization.setAddress(address);
 		organizationRepository.save(organization);
-		User employeeAdmin = new User(username, password, organization);
+		User employeeAdmin = new User(username, passwordEncoded, organization);
+		String stringUserRole = type + "_ADMIN";
+		UserRole userRole = (UserRole) em
+				.createQuery("SELECT ur FROM UserRole ur WHERE ur.role=:r")
+				.setParameter("r", stringUserRole).getSingleResult();
+		System.out.println(userRole.getRole());
+		employeeAdmin.addUserRole(userRole);
 		userRepository.save(employeeAdmin);
 	}
 
@@ -63,11 +72,13 @@ public class OrganizationsService {
 
 	@Transactional
 	public String getOrganizationType(Organization organization) {
-		String result = "";
-		for (OrganizationType ot : organization.getOrganizationTypes()) {
-			result += ot.getType() + " ";
-		}
-		return result;
+		Long id = organization.getId();
+//		String res = organizationRepository.getTypeByOrganizationId(id);
+//		String res = (String) em
+//				.createQuery("select t.type from OrganizationType t inner join t.organizations o where o.id=:id")
+//				.setParameter("id", id).getSingleResult();
+//		String res = organizationRepository.getTypeById(id);
+		return "";
 	}
 
 	@Transactional

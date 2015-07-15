@@ -16,6 +16,7 @@ angular.module('adminModule').factory(
 					return $http.post("/admin/organization/add", formData)
 							.then(function(result) {
 								return result.status;
+								
 							});
 				},
 				getOrganizationWithId : function(id) {
