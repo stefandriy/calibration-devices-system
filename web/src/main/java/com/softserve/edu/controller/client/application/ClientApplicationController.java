@@ -62,41 +62,43 @@ public class ClientApplicationController {
 		return verification == null ? "NOT_FOUND" : verification.getStatus().name();
 	}
 
-//	@RequestMapping(value = "verification/{verificationId}", method = RequestMethod.GET)
-//	public VerificationDTO getVerificationCode(@PathVariable String verificationId) {
-//		Verification verification = verificationService.findById(verificationId);
-//		if (verification != null) {
-//			return new VerificationDTO(verification.getClientData(), verification.getId(),
-//					verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
-//					verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
-//					verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-//					verification.getStateVerificatorEmployee());
-//		} else {
-//			return null;
-//		}
-//	}
+	@RequestMapping(value = "verification/{verificationId}", method = RequestMethod.GET)
+	public VerificationDTO getVerificationCode(@PathVariable String verificationId) {
+		Verification verification = verificationService.findById(verificationId);
+		if (verification != null) {
+			return new VerificationDTO(verification.getClientData(), verification.getId(),
+					verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
+					verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
+					verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+					verification.getStateVerificatorEmployee());
+		} else {
+			return null;
+		}
+	}
 
-//	@RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
-//	public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
-//
-//		return providerService.findByDistrictDesignation(district).stream()
-//				.map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
-//				.collect(Collectors.toList());
-//	}
+	@RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
+	public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
 
-//	@RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
-//	public VerificationDTO getArchivalVerificationDetailsById(@PathVariable String verificationId) {
-//
-//		Verification verification = verificationService.findById(verificationId);
-//		if (verification != null) {
-//			return new VerificationDTO(verification.getClientData(), verification.getId(),
-//					verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
-//					verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
-//					verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-//					verification.getStateVerificatorEmployee());
-//		} else {
-//			return null;
-//		}
-//
-//	}
+		return providerService.findByDistrictDesignation(district, "PROVIDER").stream()
+				.map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
+				.collect(Collectors.toList());
+	}
+
+	/*
+	 * @RequestMapping(value = "archive/{verificationId}", method =
+	 * RequestMethod.GET) public VerificationDTO
+	 * getArchivalVerificationDetailsById(@PathVariable String verificationId) {
+	 * 
+	 * Verification verification = verificationService.findById(verificationId);
+	 * if (verification != null) { return new
+	 * VerificationDTO(verification.getClientData(), verification.getId(),
+	 * verification.getInitialDate(), verification.getExpirationDate(),
+	 * verification.getStatus(), verification.getCalibrator(),
+	 * verification.getCalibratorEmployee(), verification.getDevice(),
+	 * verification.getProvider(), verification.getProviderEmployee(),
+	 * verification.getStateVerificator(),
+	 * verification.getStateVerificatorEmployee()); } else { return null; }
+	 * 
+	 * }
+	 */
 }

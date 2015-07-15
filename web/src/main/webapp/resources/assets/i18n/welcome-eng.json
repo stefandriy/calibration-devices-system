@@ -106,6 +106,8 @@
 			
 	"TEST_COMPLETED_TRASLATION":"A measure done.",
 		
-	"TEST_NOK_TRASLATION":"Counter tested : not suitable!"
+	"TEST_NOK_TRASLATION":"Counter tested : not suitable!",
+	"SECOND_PHONE":"Additional phone number",
+	"SECOND_PHONE_NUMBER_INFO":"If you want / do not want to enter an additional phone number, click here."
   
 }

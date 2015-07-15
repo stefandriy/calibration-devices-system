@@ -112,15 +112,15 @@
 							class="glyphicon glyphicon-arrow-down col-sm-3 col-sm-offset-5" 
 							ng-show="verification.status === 'SENT_TO_VERIFICATOR'"></span></td>
 					</tr>
-					<tr ng-class="{'doneStyle':verification.status === 'TEST_OK'}">
+					<tr ng-class="{'doneStyle':verification.status === 'TEST_OK','progressStyle':verification.status === 'SENT','notYetStyle':verification.status === 'REJECTED'}">
 						<td class="col-sm-3  glyphicon glyphicon-user"
-							ng-class="{'progressStyle':verification.status === 'SENT_TO_VERIFICATOR', 'progressStyle':verification.status === 'SENT','progressStyle':verification.status === 'IN_PROGRESS'}">Client</td>
+							ng-class="{'progressStyle':verification.status === 'SENT_TO_VERIFICATOR', 'progressStyle':verification.status === 'IN_PROGRESS'}">Client</td>
 						<td class="col-sm-3  glyphicon glyphicon-tint"
-							ng-class="{ 'doneStyle':verification.status === 'SENT_TO_VERIFICATOR', 'progressStyle':verification.status === 'SENT', 'doneStyle':verification.status === 'IN_PROGRESS'}">Provider</td>
+							ng-class="{ 'doneStyle':verification.status === 'SENT_TO_VERIFICATOR',  'doneStyle':verification.status === 'IN_PROGRESS'}">Provider</td>
 						<td class="col-sm-3  glyphicon glyphicon-scale"
-							ng-class="{'doneStyle':verification.status === 'SENT_TO_VERIFICATOR','notYetStyle':verification.status === 'SENT', 'progressStyle':verification.status === 'IN_PROGRESS'}">Calibrator</td>
+							ng-class="{'doneStyle':verification.status === 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status === 'SENT', 'progressStyle':verification.status === 'IN_PROGRESS'}">Calibrator</td>
 						<td class="col-sm-3  glyphicon glyphicon-home"
-							ng-class="{'progressStyle':verification.status === 'SENT_TO_VERIFICATOR','notYetStyle':verification.status === 'SENT', 'notYetStyle':verification.status === 'IN_PROGRESS'}">State
+							ng-class="{'progressStyle':verification.status === 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status === 'SENT', 'notYetStyle':verification.status === 'IN_PROGRESS'}">State
 							Verificator</td>
 					</tr>
 				</table>

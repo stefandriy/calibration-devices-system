@@ -80,7 +80,7 @@ angular
 											resolve : {
 												response : function() {
 													return dataReceivingService
-															.getArchivalVerificationDetails(
+															.getVerificationById(
 																	$scope.code)
 															.success(
 																	function(
