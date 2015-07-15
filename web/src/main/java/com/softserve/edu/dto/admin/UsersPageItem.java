@@ -126,4 +126,17 @@ public class UsersPageItem {
                 ", organization='" + organization + '\'' +
                 '}';
     }
+    public UsersPageItem(String username, String role, String firstName, String lastName,String middleName,
+                         String phone, String organization,Long countOfVarification) {
+        this.username = username;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName=middleName;
+        this.phone = phone;
+        this.organization = organization;
+        this.countOfVarification=countOfVarification;
+
+    }
+
 }

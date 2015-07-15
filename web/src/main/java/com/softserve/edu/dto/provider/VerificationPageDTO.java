@@ -14,6 +14,10 @@ public class VerificationPageDTO {
     private String id;
     private Date initialDate;
     private String surname;
+    private String name;
+    private String district;
+    private String locality;
+    private String phone;
     private String street;
     private Status status;
     private String providerEmployee;
@@ -24,7 +28,8 @@ public class VerificationPageDTO {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street,
-                               Status status, ReadStatus readStatus, User providerEmployee) {
+                               Status status, ReadStatus readStatus, User providerEmployee,
+                               String name, String district, String locality, String phone) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -38,9 +43,12 @@ public class VerificationPageDTO {
             } else {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
             }
-        }
+        };
+        this.name=name;
+        this.district=district;
+        this.locality=locality;
+        this.phone=phone;
     }
-
     public VerificationPageDTO(Long count) {
         this.countOfWork = count;
     }

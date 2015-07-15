@@ -1,14 +1,21 @@
 package com.softserve.edu.controller.provider;
 
+
+import com.softserve.edu.controller.provider.util.ProviderEmployeePageDTOTransformer;
+import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
+import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
+import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
 
 import org.apache.log4j.Logger;
@@ -19,6 +26,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "provider/admin/users/")
@@ -37,6 +46,9 @@ public class ProviderEmployeeController {
 
     @Autowired
     private VerificationService verificationService;
+
+    @Autowired
+    private VerificationProviderEmployeeService verificationProviderEmployeeService;
     
     /**
      * Spatial security service
@@ -113,5 +125,28 @@ public class ProviderEmployeeController {
         return pageSearchUsers(pageNumber, itemsPerPage, idOrganization, null);
     }
 
+    @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPaginationUsers(
+            @PathVariable String username) {
+        List<Verification> list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
+        return new PageDTO<>(content);
+    }
 
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<UsersPageItem> getPaginationUsers(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer itemsPerPage,
+            UsersPageItem usersPageItem,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        String role = userService.getRoleByUserName(user.getUsername());
+        Long idOrganization = user.getOrganizationId();
+        ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
+                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), role, usersPageItem.getFirstName(),
+                usersPageItem.getLastName(), usersPageItem.getOrganization(), usersPageItem.getPhone(), usersPageItem.getCountOfVarification());
+
+        List<UsersPageItem> content = ProviderEmployeePageDTOTransformer.toDtoFromList(queryResult.getContent(),role);
+        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), content);
+
+    }
 }

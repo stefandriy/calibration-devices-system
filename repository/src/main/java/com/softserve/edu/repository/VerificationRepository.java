@@ -1,14 +1,18 @@
 package com.softserve.edu.repository;
 
 import java.util.Date;
+import java.util.List;
 
 import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 public interface VerificationRepository extends PagingAndSortingRepository<Verification, String> {
     Page<Verification> findByProviderId(Long providerId, Pageable pageable);
@@ -57,4 +61,11 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     Long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
     Long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
     Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, ReadStatus readStatus);
+
+    @Query("select u.providerEmployee from Verification u where u.id = :id")
+    User getProviderEmployeeById(@Param("id") String id);
+
+    List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
+
+
 }
