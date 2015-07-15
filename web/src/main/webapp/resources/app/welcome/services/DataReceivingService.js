@@ -26,10 +26,7 @@ angular
             },
             getVerificationById: function (code) {
                 return getData('verification/' + code);
-            },
-            /*getArchivalVerificationDetails: function (verificationId) {
-                return getData('archive/' + verificationId);
-            }*/
+            }
         };
 
         function getData(url) {
