@@ -290,18 +290,18 @@ public class VerificationService {
 	 * verification, set verification read status to 'UNREAD', 
 	 *  save verification
 	 */
-//	@Transactional
-//	public void updateVerification(String verificationId, Organization calibrator) {
-//		Verification verification = verificationRepository.findOne(verificationId);
-//		if (verification == null) {
-//			logger.error("verification haven't found");
-//			return;
-//		}
-//		verification.setStatus(Status.IN_PROGRESS);
-//		verification.setCalibrator(calibrator);
-//		verification.setReadStatus(ReadStatus.UNREAD);
-//		verificationRepository.save(verification);
-//	}
+	@Transactional
+	public void updateVerificationByprovider(String verificationId, Organization calibrator) {
+		Verification verification = verificationRepository.findOne(verificationId);
+		if (verification == null) {
+			logger.error("verification haven't found");
+			return;
+		}
+		verification.setStatus(Status.IN_PROGRESS);
+		verification.setCalibrator(calibrator);
+		verification.setReadStatus(ReadStatus.UNREAD);
+		verificationRepository.save(verification);
+	}
 
 	@Transactional
 	public void assignProviderEmployee(String verificationId, User providerEmployee) {

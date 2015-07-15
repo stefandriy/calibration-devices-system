@@ -6,6 +6,9 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 @Entity
 @Table(name = "`ORGANIZATION`")
 public class Organization {
@@ -33,10 +36,10 @@ public class Organization {
 	 */
 	private Date certificateGrantedDate;
 
-	@ManyToMany
+	@ManyToMany(fetch= FetchType.LAZY)
 	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), 
 	inverseJoinColumns = @JoinColumn(name = "typeId"))
-	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
+	private Set<OrganizationType> organizationTypes;// = new HashSet<OrganizationType>();
 
 	public void addOrganizationType(OrganizationType organizationType) {
 		this.organizationTypes.add(organizationType);

@@ -22,10 +22,10 @@ public class StateVerificatorService {
         public void saveStateVerificator(Organization cstateVerificatorlibrator) {
             stateVerificatorRepository.save(cstateVerificatorlibrator);
         }
-        @Transactional(readOnly = true)
-        public List<Organization> findByDistrict(String district) {
-            return stateVerificatorRepository.findByAddressDistrict(district);
-        }
+//        @Transactional(readOnly = true)
+//        public List<Organization> findByDistrict(String district) {
+//            return stateVerificatorRepository.findByAddressDistrict(district);
+//        }
         @Transactional(readOnly = true)
         public Organization findById(Long id){
         	return stateVerificatorRepository.findOne(id);

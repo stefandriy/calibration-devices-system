@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 @Entity
 @Table(name = "`ORGANIZATION_TYPE`")
@@ -22,10 +23,10 @@ public class OrganizationType {
 	private Integer id;
 	private String type;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "typeId"),
 	inverseJoinColumns = @JoinColumn(name = "organizationId"))
-	private Set<Organization> organizations = new HashSet<Organization>();
+	private Set<Organization> organizations;// = new HashSet<Organization>();
 
 	public void addOrganization(Organization organization) {
 		this.organizations.add(organization);
@@ -34,6 +35,8 @@ public class OrganizationType {
 	public OrganizationType() {
 	}
 
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -41,6 +44,8 @@ public class OrganizationType {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	
 
 	public Set<Organization> getOrganizations() {
 		return organizations;

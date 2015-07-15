@@ -13,12 +13,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrganizationRepository extends CrudRepository<Organization, Long> {
+public interface OrganizationRepository extends CrudRepository<Organization, Long>, OrganizationRepositoryCustom {
 
     Page<Organization> findAll(Pageable pageable);
 
     Page<Organization> findByNameLikeIgnoreCase(String name, Pageable pageable);
     
-    public List<Organization> findByAddressDistrict(String designation);
+    //public List<Organization> findByAddressDistrict(String designation);
     
+    @Query("select o from Organization o inner join o.organizationTypes t  where t.type=:type ")
+    List<Organization> findOrganizationByType(@Param("type") String type );
 }

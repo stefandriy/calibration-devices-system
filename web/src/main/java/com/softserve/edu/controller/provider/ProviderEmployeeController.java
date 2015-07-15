@@ -77,41 +77,41 @@ public class ProviderEmployeeController {
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{idOrganization}/{search}", method = RequestMethod.GET)
-         public PageDTO<UsersPageItem> pageSearchUsers(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @PathVariable Long idOrganization,
-            @PathVariable String search) {
-        Page<UsersPageItem> page = providerEmployeeService
-                .getUsersPagination(idOrganization, pageNumber, itemsPerPage, search,"PROVIDER_EMPLOYEE")
-                .map(
-                        user -> {
-                            UsersPageItem usPage = null;
-                            if (user instanceof User) {
-                                usPage = new UsersPageItem();
-                                usPage.setUsername(user.getUsername());
-                                usPage.setRole(providerEmployeeService.getRoleByUserName(usPage.getUsername()));
-                                usPage.setFirstName(((User) user).getFirstName());
-                                usPage.setLastName(((User) user).getLastName());
-                                usPage.setOrganization(((User) user).getOrganization().getName());
-                                usPage.setPhone(((User) user).getPhone());
-                                usPage.setCountOfVarification(verificationService.countByProviderEmployeeTasks(user.getUsername()));
-                            }
-                            return usPage;
-                        }
-                );
-        return new PageDTO<>(page.getTotalElements(), page.getContent(), idOrganization);
-    }
+//    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{idOrganization}/{search}", method = RequestMethod.GET)
+//         public PageDTO<UsersPageItem> pageSearchUsers(
+//            @PathVariable Integer pageNumber,
+//            @PathVariable Integer itemsPerPage,
+//            @PathVariable Long idOrganization,
+//            @PathVariable String search) {
+//        Page<UsersPageItem> page = providerEmployeeService
+//                .getUsersPagination(idOrganization, pageNumber, itemsPerPage, search,"PROVIDER_EMPLOYEE")
+//                .map(
+//                        user -> {
+//                            UsersPageItem usPage = null;
+//                            if (user instanceof User) {
+//                                usPage = new UsersPageItem();
+//                                usPage.setUsername(user.getUsername());
+//                                usPage.setRole(providerEmployeeService.getRoleByUserName(usPage.getUsername()));
+//                                usPage.setFirstName(((User) user).getFirstName());
+//                                usPage.setLastName(((User) user).getLastName());
+//                                usPage.setOrganization(((User) user).getOrganization().getName());
+//                                usPage.setPhone(((User) user).getPhone());
+//                                usPage.setCountOfVarification(verificationService.countByProviderEmployeeTasks(user.getUsername()));
+//                            }
+//                            return usPage;
+//                        }
+//                );
+//        return new PageDTO<>(page.getTotalElements(), page.getContent(), idOrganization);
+//    }
 
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{idOrganization}", method = RequestMethod.GET)
-    public PageDTO<UsersPageItem> getUsersPage(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        Long idOrganization = user.getOrganizationId();
-        return pageSearchUsers(pageNumber, itemsPerPage, idOrganization, null);
-    }
+//    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{idOrganization}", method = RequestMethod.GET)
+//    public PageDTO<UsersPageItem> getUsersPage(
+//            @PathVariable Integer pageNumber,
+//            @PathVariable Integer itemsPerPage,
+//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+//        Long idOrganization = user.getOrganizationId();
+//        return pageSearchUsers(pageNumber, itemsPerPage, idOrganization, null);
+//    }
 
 
 }

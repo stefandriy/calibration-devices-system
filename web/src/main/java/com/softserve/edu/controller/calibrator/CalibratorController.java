@@ -45,21 +45,21 @@ public class CalibratorController {
 
     private final Logger logger = Logger.getLogger(CalibratorController.class);
 
-//    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-//    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorId(
-//            @PathVariable Integer pageNumber,
-//            @PathVariable Integer itemsPerPage,
-//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-//
-//        Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-//                .toDTO(verificationService
-//                        .findPageOfSentVerificationsByCalibratorId(
-//                                employeeUser.getOrganizationId(),
-//                                pageNumber,
-//                                itemsPerPage));
-//
-//        return new PageDTO<>(page.getTotalElements(), page.getContent());
-//    }
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorId(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer itemsPerPage,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
+        Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+                .toDTO(verificationService
+                        .findPageOfSentVerificationsByCalibratorId(
+                                employeeUser.getOrganizationId(),
+                                pageNumber,
+                                itemsPerPage));
+
+        return new PageDTO<>(page.getTotalElements(), page.getContent());
+    }
     
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
@@ -107,18 +107,18 @@ public class CalibratorController {
     public Long getCountOfNewVerificationsByCalibratorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
     	return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
     }
-    
-    @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
-    public List<Organization> getMatchingVerificators(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
-        return verificatorService.findByDistrict(
-                calibratorService
-                        .findById(user.getOrganizationId())
-                        .getAddress()
-                        .getDistrict()
-        );
-    }
+//    
+//    @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
+//    public List<Organization> getMatchingVerificators(
+//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+//
+//        return verificatorService.findByDistrict(
+//                calibratorService
+//                        .findById(user.getOrganizationId())
+//                        .getAddress()
+//                        .getDistrict()
+//        );
+//    }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(

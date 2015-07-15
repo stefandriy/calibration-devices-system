@@ -126,13 +126,9 @@ public class ProviderVerificationController {
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
     public List<Organization> updateVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
-        return calibratorService.findByDistrict(
-                providerService
-                        .findById(user.getOrganizationId())
-                        .getAddress()
-                        .getDistrict()
-        );
+//System.err.println("INSIDE NEW CALIBRATORS CONROLEER");
+//System.err.println("user details : " + user.getOrganizationId());
+        return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict());
     }
 
 
@@ -160,7 +156,7 @@ public class ProviderVerificationController {
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            verificationService.sendVerificationTo(verificationId, verificationUpdatingDTO.getCalibrator(), Status.IN_PROGRESS);
+            verificationService.updateVerificationByprovider(verificationId, verificationUpdatingDTO.getCalibrator());
         }
     }
     

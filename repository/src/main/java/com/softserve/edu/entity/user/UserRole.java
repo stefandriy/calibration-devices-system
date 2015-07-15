@@ -25,9 +25,6 @@ public class UserRole {
 			inverseJoinColumns = @JoinColumn(name = "username"))
 	private Set<User> users;
 
-
-
-
 	public Set<User> getUsers() {
 		return users;
 	}

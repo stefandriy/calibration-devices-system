@@ -76,13 +76,13 @@ public class ClientApplicationController {
 //		}
 //	}
 
-	@RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
-	public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
-
-		return providerService.findByDistrictDesignation(district).stream()
-				.map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
-				.collect(Collectors.toList());
-	}
+//	@RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
+//	public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
+//
+//		return providerService.findByDistrictDesignation(district).stream()
+//				.map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
+//				.collect(Collectors.toList());
+//	}
 
 //	@RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
 //	public VerificationDTO getArchivalVerificationDetailsById(@PathVariable String verificationId) {
