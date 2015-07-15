@@ -65,17 +65,12 @@ public class StateVerificatorController {
      *
      * @return provider
      */
-//    @RequestMapping(value = "new/providers", method = RequestMethod.GET)
-//    public List<Organization> getMatchingVerificators(
-//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-//
-//        return providerService.findByDistrictDesignation(
-//        		verificatorService
-//        					.findById(user.getOrganizationId())
-//        					.getAddress()
-//        					.getDistrict()
-//        );
-//    }
+    @RequestMapping(value = "new/providers", method = RequestMethod.GET)
+    public List<Organization> getMatchingVerificators(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+
+        return providerService.findByDistrictDesignation(verificatorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
+    }
     
     @RequestMapping(value = "new/count/verificator", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByStateVerificatorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {

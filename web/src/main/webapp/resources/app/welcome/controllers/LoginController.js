@@ -24,7 +24,7 @@ angular
             response.success(function (data) {
                 var path = redirectByRole(data);
                 $scope.loginForm.password = null;
-               // window.location.replace('/provider');
+            
                 if (path)
                     window.location.replace(path);
                 if (path == undefined){

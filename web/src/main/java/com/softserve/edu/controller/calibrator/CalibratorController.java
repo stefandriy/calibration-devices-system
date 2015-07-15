@@ -107,18 +107,13 @@ public class CalibratorController {
     public Long getCountOfNewVerificationsByCalibratorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
     	return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
     }
-//    
-//    @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
-//    public List<Organization> getMatchingVerificators(
-//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-//
-//        return verificatorService.findByDistrict(
-//                calibratorService
-//                        .findById(user.getOrganizationId())
-//                        .getAddress()
-//                        .getDistrict()
-//        );
-//    }
+    
+    @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
+    public List<Organization> getMatchingVerificators(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+
+        return verificatorService.findByDistrict( calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATION" );
+    }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(

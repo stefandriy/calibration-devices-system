@@ -124,11 +124,8 @@ public class ProviderVerificationController {
      * @return calibrator
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
-    public List<Organization> updateVerification(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-//System.err.println("INSIDE NEW CALIBRATORS CONROLEER");
-//System.err.println("user details : " + user.getOrganizationId());
-        return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict());
+    public List<Organization> updateVerification( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
     }
 
 
