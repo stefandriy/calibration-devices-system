@@ -5,10 +5,12 @@ import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
+import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.service.DeviceService;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -32,6 +34,8 @@ public class ClientApplicationController {
 
 	@Autowired
 	private ProviderService providerService;
+	@Autowired
+	private DeviceService deviceService;
 
 	@Autowired
 	private MailService mail;
@@ -84,5 +88,10 @@ public class ClientApplicationController {
 				.collect(Collectors.toList());
 	}
 
-
+	@RequestMapping(value = "devices", method = RequestMethod.GET)
+    public List<ApplicationFieldDTO> getAll() {
+        return deviceService.getAll().stream()
+				.map(device -> new ApplicationFieldDTO(device.getId(),device.getDeviceSign()))
+				.collect(Collectors.toList());
+    }
 }

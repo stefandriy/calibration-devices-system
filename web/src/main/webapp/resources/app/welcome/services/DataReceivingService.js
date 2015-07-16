@@ -6,6 +6,9 @@ angular
             findAllRegions: function () {
                 return getData('regions');
             },
+            findAllDevices: function () {
+                return getData('devices');
+            },
             findDistrictsByRegionId: function (id) {
                 return getData('districts/' + id);
             },

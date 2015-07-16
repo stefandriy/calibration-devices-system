@@ -16,6 +16,14 @@ angular
                     $scope.regions = regions;
                 });
             /**
+             * Receives all possible devices.
+             */
+            $scope.devices = [];
+            dataReceivingService.findAllDevices()
+                .success(function (devices) {
+                    $scope.devices = devices;
+                });
+            /**
              * Receives all possible districts.
              * On-select handler in region input form element.
              */
@@ -81,6 +89,7 @@ angular
 
                 if ($scope.clientForm.$valid) {
                     $scope.formData.region = $scope.selectedRegion.designation;
+                    $scope.formData.device = $scope.selectedDevice;
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
                     $scope.formData.street = $scope.selectedStreet.designation;

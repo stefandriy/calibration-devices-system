@@ -307,6 +307,24 @@
 						</p>
 					</div>
 				</div>
+					<div class="form-group" show-errors>
+					<label for="region" class="col-md-2 control-label">
+						Devices </label>
+
+					<div class="col-md-8">
+						<select multiple chosen id="device" name="device" type="text"
+							class="form-control" ng-model="selectedDevice"
+							ng-options="device as device for device in devices | filter: $viewValue"
+							required></select>
+
+
+						<p class="help-block">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'TYPEAHEAD_ERROR' | translate}}
+						</p>
+					</div>
+				</div>
+
 
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-8">

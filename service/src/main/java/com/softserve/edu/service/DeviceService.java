@@ -1,6 +1,8 @@
 package com.softserve.edu.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.entity.Device;
+import com.softserve.edu.entity.catalogue.AbstractCatalogue;
 import com.softserve.edu.repository.DeviceRepository;
 
 @Service
@@ -21,7 +24,10 @@ public class DeviceService {
 		return deviceRepository.findOne(id) != null;
 	}
 
-
+	@Transactional
+	public List<Device> getAll() {
+		return (List<Device>) deviceRepository.findAll(); 
+	}
 	@Transactional
 	  public Page<Device> getDevicesBySearchAndPagination(int pageNumber,
 	   int itemsPerPage, String search) {

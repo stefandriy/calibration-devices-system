@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="`DEVICE`")
-public class Device {
+public class Device  {
 
     @Id
     @GeneratedValue
