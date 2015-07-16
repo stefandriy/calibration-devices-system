@@ -69,7 +69,7 @@ public class StateVerificatorController {
     public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        return providerService.findByDistrictDesignation(verificatorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
+        return providerService.findByDistrict(verificatorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
     }
     
     @RequestMapping(value = "new/count/verificator", method = RequestMethod.GET)
