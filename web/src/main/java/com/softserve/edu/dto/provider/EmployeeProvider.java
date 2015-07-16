@@ -79,10 +79,10 @@ public class EmployeeProvider {
 
     }
 
-    public static List<EmployeeProvider> giveListOfProviders(List<User> list,String role) {
+    public static List<EmployeeProvider> giveListOfProviders(List<User> list) {
         List<EmployeeProvider> listEmployee = new ArrayList<>();
         for (User providEmployee : list) {
-            listEmployee.add(new EmployeeProvider(providEmployee.getUsername(), providEmployee.getFirstName(), providEmployee.getLastName(), providEmployee.getMiddleName(), role));
+            listEmployee.add(new EmployeeProvider(providEmployee.getUsername(), providEmployee.getFirstName(), providEmployee.getLastName(), providEmployee.getMiddleName(),null));
         }
         return listEmployee;
     }

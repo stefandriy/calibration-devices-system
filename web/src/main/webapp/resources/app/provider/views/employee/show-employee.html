@@ -1,12 +1,12 @@
 <div id="page-wrapper" ng-show="accessLable">
-    <h1>РЈ РІР°СЃ РЅРµРјР°С” РїСЂР°РІР° РґРѕСЃС‚СѓРїСѓ РґРѕ РґР°РЅРѕС— С–РЅС„РѕСЂРјР°С†С–С—</h1>
+    <h1>У вас немає права доступу до даної інформації</h1>
     <i class="fa fa-times-circle-o"></i>
 </div>
 
 <div id="page-wrapper" ng-controller="UsersController" ng-show="verificator">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">РљРѕСЂРёСЃС‚СѓРІР°С‡С– </h1>
+            <h1 class="page-header">Користувачі </h1>
         </div>
     </div>
 
@@ -15,14 +15,14 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    РџСЂР°С†С–РІРЅРёРєРё
+                    Працівники
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
                             <button ng-click="tableParams.filter({})" ng-show="isFilter()"
-                                    class="btn btn-warning pull-right is-filter">РћС‡РёСЃС‚РёС‚Рё РїРѕС€СѓРє
+                                    class="btn btn-warning pull-right is-filter">Скинути пошук
                             </button>
 
                             <table show-filter="true" ng-table="tableParams" template-pagination="employee/pager"
@@ -30,19 +30,19 @@
 
                                 <tbody>
                                 <tr ng-repeat="user in $data">
-                                    <td data-title="'РџСЃРµРІРґРѕРЅС–Рј РєРѕСЂРёСЃС‚СѓРІР°С‡Р°'" filter="{ 'username': 'text' }">{{
+                                    <td data-title="'Псевдонім користувача'" filter="{ 'username': 'text' }">{{
                                         user.username }}
                                     </td>
-                                    <td data-title="'Р РѕР»СЊ'" filter="{ 'role': 'text' }">{{ user.role }}</td>
-                                    <td data-title="'Р†РјСЏ'" filter="{ 'firstName': 'text' }">{{ user.firstName }}</td>
-                                    <td data-title="'РџСЂС–Р·РІРёС‰Рµ'" filter="{ 'lastName': 'text' }">{{ user.lastName }}</td>
-                                    <td data-title="'РћСЂРіР°РЅС–Р·Р°С†С–СЏ'" filter="{ 'organization': 'text' }">{{
+                                    <td data-title="'Роль'" filter="{ 'role': 'text' }">{{ user.role }}</td>
+                                    <td data-title="'Імя'" filter="{ 'firstName': 'text' }">{{ user.firstName }}</td>
+                                    <td data-title="'Прізвище'" filter="{ 'lastName': 'text' }">{{ user.lastName }}</td>
+                                    <td data-title="'Організація'" filter="{ 'organization': 'text' }">{{
                                         user.organization }}
                                     </td>
-                                    <td data-title="'РќРѕРјРµСЂ С‚РµР»РµС„РѕРЅСѓ'" filter="{ 'phone': 'text' }">{{ user.phone }}</td>
-                                    <td data-title="'РљС–Р»СЊРєС–СЃС‚СЊ Р·Р°СЏРІРѕРє РІ СЂРѕР±РѕС‚С–'"
+                                    <td data-title="'Номер телефону'" filter="{ 'phone': 'text' }">{{ user.phone }}</td>
+                                    <td data-title="'Кількість заявок в роботі'"
                                         filter="{ 'countOfVarification': 'text' }">
-                                        <a ng-href="" ng-click="showCapacity(user.username,user.countOfWork)"> {{ user.countOfVarification }}</a></td>
+                                        <a ng-href="" ng-click="showCapacity(user.username)"> {{ user.countOfVarification }}</a></td>
                                 </tr>
                                 </tbody>
                             </table>

@@ -38,13 +38,13 @@ public class ProviderEmployeeQuary {
         Predicate queryPredicate = cb.conjunction();
 
         queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization));
-        queryPredicate = cb.and(cb.equal(joinRole.get("role"), role),queryPredicate);
+         queryPredicate = cb.and(cb.equal(joinRole.get("id"), role),queryPredicate);
 
         if (!(userName == null)) {
             queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
         }
 //        if (!(role == null)) {
-//            queryPredicate = cb.and(cb.like(root.get("role"), "%" + role + "%"), queryPredicate);
+//            queryPredicate = cb.in(cb.like(root.get("role"), "%" + role + "%"), queryPredicate);
 //        }
         if (!(firstName == null)) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);

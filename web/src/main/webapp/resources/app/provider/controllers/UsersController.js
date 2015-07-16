@@ -32,7 +32,7 @@ angular
                 return false;
             };
 
-            $scope.showCapacity = function (username,countOfWork) {
+            $scope.showCapacity = function (username) {
 
                 $modal.open({
                     animation: true,

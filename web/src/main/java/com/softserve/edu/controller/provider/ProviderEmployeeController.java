@@ -139,13 +139,13 @@ public class ProviderEmployeeController {
             @PathVariable Integer itemsPerPage,
             UsersPageItem usersPageItem,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        String role = userService.getRoleByUserName(user.getUsername());
+       // String role = userService.getRoleByUserName(user.getUsername());
         Long idOrganization = user.getOrganizationId();
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
-                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), role, usersPageItem.getFirstName(),
+                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), "PROVIDER_EMPLOYEE", usersPageItem.getFirstName(),
                 usersPageItem.getLastName(), usersPageItem.getOrganization(), usersPageItem.getPhone(), usersPageItem.getCountOfVarification());
 
-        List<UsersPageItem> content = ProviderEmployeePageDTOTransformer.toDtoFromList(queryResult.getContent(),role);
+        List<UsersPageItem> content = ProviderEmployeePageDTOTransformer.toDtoFromList(queryResult.getContent(),"PROVIDER_EMPLOYEE");
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), content);
 
     }

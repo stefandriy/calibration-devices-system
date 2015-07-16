@@ -19,7 +19,9 @@ import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
+import com.softserve.edu.service.utils.CountOfWork;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
 
 import org.apache.log4j.Logger;
@@ -48,6 +50,9 @@ public class ProviderVerificationController {
 
     @Autowired
     CalibratorService calibratorService;
+
+    @Autowired
+    VerificationProviderEmployeeService verificationProviderEmployeeService;
 
     private final Logger logger = Logger.getLogger(ProviderVerificationController.class);
 
@@ -138,7 +143,7 @@ public class ProviderVerificationController {
 
         if (role.equalsIgnoreCase("PROVIDER_ADMIN")){
             List<User> list = providerEmployeeService.getAllProviders("PROVIDER_EMPLOYEE", employee.getOrganization().getId());
-            providerListEmployee = EmployeeProvider.giveListOfProviders(list,role);
+            providerListEmployee = EmployeeProvider.giveListOfProviders(list);
         } else {
             EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(), employee.getLastName(), employee.getMiddleName(), role);
             providerListEmployee.add(userPage);
@@ -182,15 +187,17 @@ public class ProviderVerificationController {
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         User providerEmployee = new User();
-        String idVerification=verificationUpdatingDTO.getIdVerification();
+        String idVerification = verificationUpdatingDTO.getIdVerification();
         providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
-        verificationService.assignProviderEmployee(idVerification, providerEmployee);
-    }
-    @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
-    public void removeProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-        verificationService.assignProviderEmployee(verificationUpdatingDTO.getIdVerification(), null);
+        verificationProviderEmployeeService.assignProviderEmployee(idVerification, providerEmployee, CountOfWork.Increment.name());
     }
 
+    @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
+    public void removeProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+        String idVerification = verificationUpdatingDTO.getIdVerification();
+        User providerEmployee = verificationProviderEmployeeService.getProviderEmployeeById(idVerification);
+        verificationProviderEmployeeService.assignProviderEmployee(idVerification, providerEmployee, CountOfWork.Decrement.name());
+    }
 
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
     public ClientStageVerificationDTO getNewVerificationDetailsById(

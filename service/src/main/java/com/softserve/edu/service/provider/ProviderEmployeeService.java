@@ -1,8 +1,10 @@
 package com.softserve.edu.service.provider;
 
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 
+import com.softserve.edu.repository.UserRoleRepository;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.ProviderEmployeeQuary;
 import com.softserve.edu.service.verification.VerificationService;
@@ -24,6 +26,8 @@ import java.util.List;
 public class ProviderEmployeeService {
     @Autowired
     private UserRepository providerEmployeeRepository;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     @PersistenceContext
     private EntityManager em;
@@ -34,9 +38,11 @@ public class ProviderEmployeeService {
     public void addEmployee(User providerEmployee) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
         providerEmployee.setPassword(passwordEncoded);
-       // providerEmployee.setRole(PROVIDER_EMPLOYEE);
+        UserRole r= userRoleRepository.findByRole("PROVIDER_EMPLOYEE");
+        providerEmployee.getUserRoles().add(r);
         providerEmployee.setCountOfWork(0l);       //assign count of work to zero
         providerEmployeeRepository.save(providerEmployee);
+
     }
 
     @Transactional
