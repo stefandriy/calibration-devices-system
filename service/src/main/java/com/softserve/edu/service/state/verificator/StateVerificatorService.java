@@ -26,19 +26,10 @@ public class StateVerificatorService {
         public void saveStateVerificator(Organization cstateVerificatorlibrator) {
             stateVerificatorRepository.save(cstateVerificatorlibrator);
         }
-        
-        @PersistenceContext
-    	private EntityManager em;
-        
+ 
         @Transactional (readOnly = true)
         public List<Organization> findByDistrict(String district, String type) {
-
-        	String sql = "SELECT * FROM ORGANIZATION AS o INNER JOIN ORGANIZATION_TYPE t  WHERE o.district = ? and t.type = ?";
-        	Query q = em.createNativeQuery(sql, Organization.class);
-        	q.setParameter(1, district);
-        	q.setParameter(2, type);
-        	List<Organization> list = (List<Organization>)q.getResultList();
-        	  return list;
+        	  return stateVerificatorRepository.getByTypeAndDistrict(district, type);
         }
         
         @Transactional(readOnly = true)

@@ -1,7 +1,8 @@
 package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationType;
+
+
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,5 +27,8 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     		+ "inner join ORGANIZATION AS o WHERE ots.typeId = ot.typeId "
     		+ "AND ots.organizationId = ?;", nativeQuery = true)
     String getTypeById(Long id);
+    
+    @Query("select o from Organization o inner join o.organizationTypes ot where o.address.district=:district and ot.type=:type")
+    List<Organization> getByTypeAndDistrict (@Param("district") String district,  @Param("type")String type);
 
 }

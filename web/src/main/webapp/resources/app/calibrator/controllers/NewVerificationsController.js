@@ -105,7 +105,8 @@ angular
                             response: function () {
                                 return verificationService.getVerificators()
                                     .success(function (verificators) {
-                                        return verificators;
+                                       $log.debug(verificators);
+                                    	return verificators;
                                     });
                             }
                         }
@@ -119,7 +120,8 @@ angular
                             verificator: verificator
                         };
 
-                        $log.info(dataToSend);
+                        $log.debug(dataToSend);
+                        $log.debug(verificator);
 
                         verificationService
                             .sendVerificationsToCalibrator(dataToSend)

@@ -37,7 +37,7 @@ public class Organization {
 	@ManyToMany(fetch= FetchType.LAZY)
 	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), 
 	inverseJoinColumns = @JoinColumn(name = "typeId"))
-	private Set<OrganizationType> organizationTypes;// = new HashSet<OrganizationType>();
+	private Set<OrganizationType> organizationTypes;
 
 	public void addOrganizationType(OrganizationType organizationType) {
 		this.organizationTypes.add(organizationType);

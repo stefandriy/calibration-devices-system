@@ -19,19 +19,9 @@ public class ProviderService {
     @Autowired
     private OrganizationRepository providerRepository;
    
-    @PersistenceContext
-	private EntityManager em;
-
-    @Transactional(readOnly = true)
-    public List<Organization> findByDistrictDesignation(String district, String type) {
-    	
-    	    	String sql = "SELECT * FROM ORGANIZATION AS o INNER JOIN ORGANIZATION_TYPE t  WHERE o.district = ? and t.type = ?";
-    	    	Query q = em.createNativeQuery(sql, Organization.class);
-    	    	q.setParameter(1, district);
-    	    	q.setParameter(2, type);
-    	    	List<Organization> list1 = (List<Organization>)q.getResultList();
-    	    	  return list1;
-    	    
+    @Transactional (readOnly = true)
+    public List<Organization> findByDistrict(String district, String type) {
+    	  return providerRepository.getByTypeAndDistrict(district, type);
     }
     
     @Transactional(readOnly = true)

@@ -153,7 +153,7 @@ public class ProviderVerificationController {
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            verificationService.updateVerificationByprovider(verificationId, verificationUpdatingDTO.getCalibrator());
+            verificationService.sendVerificationTo(verificationId, verificationUpdatingDTO.getCalibrator(), Status.IN_PROGRESS);
         }
     }
     

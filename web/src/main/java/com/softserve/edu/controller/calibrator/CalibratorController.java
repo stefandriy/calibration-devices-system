@@ -45,22 +45,7 @@ public class CalibratorController {
 
     private final Logger logger = Logger.getLogger(CalibratorController.class);
 
-    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorId(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
-        Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-                .toDTO(verificationService
-                        .findPageOfSentVerificationsByCalibratorId(
-                                employeeUser.getOrganizationId(),
-                                pageNumber,
-                                itemsPerPage));
-
-        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    }
-    
+       
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
     		@PathVariable Integer pageNumber,
@@ -94,7 +79,6 @@ public class CalibratorController {
     		        return new PageDTO<>(page.getTotalElements(), page.getContent());
     		}
     		
-       
     }
 
     /**
@@ -112,15 +96,17 @@ public class CalibratorController {
     public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        return verificatorService.findByDistrict( calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATION" );
+    	List<Organization> list = verificatorService.findByDistrict( calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATION" );
+    	System.err.println("controller " + list.size() + " elements " + list.get(0));
+    	return list;
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            verificationService
-                    .sendVerificationTo(verificationId,verificationUpdatingDTO.getVerificator(), Status.SENT_TO_VERIFICATOR);
+        	System.err.println(verificationUpdatingDTO.getVerificator() + " verificators");
+            verificationService.sendVerificationTo(verificationId, verificationUpdatingDTO.getVerificator(), Status.SENT_TO_VERIFICATOR);
         }
     }
     

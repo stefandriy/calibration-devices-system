@@ -289,19 +289,21 @@ public class VerificationService {
 	 * Find verification, add receive status to calibrator, add calibrator to
 	 * verification, set verification read status to 'UNREAD', 
 	 *  save verification
+	 *  
+	 *   NOT CURRENTLY USED
 	 */
-	@Transactional
-	public void updateVerificationByprovider(String verificationId, Organization calibrator) {
-		Verification verification = verificationRepository.findOne(verificationId);
-		if (verification == null) {
-			logger.error("verification haven't found");
-			return;
-		}
-		verification.setStatus(Status.IN_PROGRESS);
-		verification.setCalibrator(calibrator);
-		verification.setReadStatus(ReadStatus.UNREAD);
-		verificationRepository.save(verification);
-	}
+//	@Transactional
+//	public void updateVerificationByprovider(String verificationId, Organization calibrator) {
+//		Verification verification = verificationRepository.findOne(verificationId);
+//		if (verification == null) {
+//			logger.error("verification haven't found");
+//			return;
+//		}
+//		verification.setStatus(Status.IN_PROGRESS);
+//		verification.setCalibrator(calibrator);
+//		verification.setReadStatus(ReadStatus.UNREAD);
+//		verificationRepository.save(verification);
+//	}
 
 	@Transactional
 	public void assignProviderEmployee(String verificationId, User providerEmployee) {
@@ -340,15 +342,17 @@ public class VerificationService {
 	 * verificator to verification. /** Find verification, add IN_PROGRESS
 	 * status to state verificator, add stat verificator to verification. save
 	 * verification
+	 * 
+	 * NOT CURRENTLY USED
 	 */
-	@Transactional
-	public void updateVerificationByCalibrator(String verificationId, Organization stateVerificator) {
-		Verification verification = verificationRepository.findOne(verificationId);
-		verification.setStatus(Status.SENT_TO_VERIFICATOR);
-		verification.setStateVerificator(stateVerificator);
-		verification.setReadStatus(ReadStatus.UNREAD);
-		verificationRepository.save(verification);
-	}
+//	@Transactional
+//	public void updateVerificationByCalibrator(String verificationId, Organization stateVerificator) {
+//		Verification verification = verificationRepository.findOne(verificationId);
+//		verification.setStatus(Status.SENT_TO_VERIFICATOR);
+//		verification.setStateVerificator(stateVerificator);
+//		verification.setReadStatus(ReadStatus.UNREAD);
+//		verificationRepository.save(verification);
+//	}
 	
 	@Transactional
 	public void updateVerificationStatus (String verificationId, Status status) {
@@ -360,14 +364,13 @@ public class VerificationService {
 	@Transactional
 	public void sendVerificationTo(String verificationId, Organization oraganization, Status status) {
 		Verification verification = verificationRepository.findOne(verificationId);
-		String organizationName = oraganization.getClass().getSimpleName();
 		
-			if (organizationName.equals(Organization.class.getSimpleName())) {
-				verification.setProvider((Organization) oraganization);
-			} else if (organizationName.equals(Organization.class.getSimpleName())) {
-				verification.setCalibrator((Organization) oraganization);
-			} else if (organizationName.equals(Organization.class.getSimpleName())) {
-				verification.setStateVerificator((Organization) oraganization);
+			if(status.equals(Status.IN_PROGRESS)) {
+				verification.setCalibrator(oraganization);
+			} else if (status.equals(Status.SENT_TO_VERIFICATOR)) {
+				verification.setStateVerificator(oraganization);
+			} else if ((status.equals(Status.TEST_OK))||(status.equals(Status.TEST_NOK))) {
+				verification.setProvider(oraganization);
 			}
 		verification.setStatus(status);
 		verification.setReadStatus(ReadStatus.UNREAD);

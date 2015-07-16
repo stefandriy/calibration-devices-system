@@ -23,8 +23,7 @@ public class Verification {
 
     @Enumerated(EnumType.STRING)
     private Status status;
-    
-    // my changes
+
     @Enumerated(EnumType.STRING)
     private ReadStatus readStatus;
 
