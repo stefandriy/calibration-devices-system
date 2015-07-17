@@ -1,5 +1,5 @@
 angular
-    .module('providerModule')
+    .module('employeeModule')
     .factory('UserService', function ($http) {
         return {
             isUsernameAvailable: function (username) {

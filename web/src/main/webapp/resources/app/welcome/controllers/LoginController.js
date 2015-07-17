@@ -36,19 +36,17 @@ angular
             response.error(function (data) {
                 console.dir(data);
             });
+            
 
-            function redirectByRole(role) {
-                var path = undefined;
+
+                function redirectByRole(role) {
+            	var path = undefined;
                 if (role == "SYS_ADMIN")
                     path = '/admin';
-                else if (role == 'CALIBRATOR_EMPLOYEE' || role == 'CALIBRATOR_ADMIN')
-                    path = '/calibrator';
-                else if (role == 'PROVIDER_EMPLOYEE' || role == 'PROVIDER_ADMIN')
-                    path = '/provider';
-                else if (role == 'STATE_VERIFICATOR_EMPLOYEE' || role == 'STATE_VERIFICATOR_ADMIN')
-                    path = '/verificator';
-                return path;
+                else if (role == 'CALIBRATOR_EMPLOYEE' || role == 'CALIBRATOR_ADMIN' || role == 'PROVIDER_EMPLOYEE' || role == 'PROVIDER_ADMIN' || role == 'STATE_VERIFICATOR_EMPLOYEE' || role == 'STATE_VERIFICATOR_ADMIN')
+                    path = '/employee';
+                  return path;
             }
-        };
+       };
 
     }]);

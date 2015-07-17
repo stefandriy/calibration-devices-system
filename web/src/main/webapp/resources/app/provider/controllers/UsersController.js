@@ -2,7 +2,7 @@
  * Created by MAX on 25.06.2015.
  */
 angular
-    .module('providerModule')
+    .module('employeeModule')
     .controller('UsersController', ['$scope', 'UserService', '$modal','$log', 'ngTableParams', '$timeout', '$filter',
         function ($scope, userService,$modal,$log, ngTableParams, $timeout, $filter) {
 
