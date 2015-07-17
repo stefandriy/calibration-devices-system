@@ -191,7 +191,7 @@ VALUES
   (8,'СПМО ТЕ','spmo_lv@gmail.com', '2914309', null, null, 'Тернопільська','Тернопільський','м. Тернопіль','бульвар Тараса Шевченка','2',null);
 
 -- ------------------------------- ORGANIZATION TYPE ---------------------------- --
-INSERT INTO `ORGANIZATION_TYPE`(`type`) VALUES ('PROVIDER'), ('CALIBRATOR'), ('STATE_VERIFICATION');
+INSERT INTO `ORGANIZATION_TYPE`(`type`) VALUES ('PROVIDER'), ('CALIBRATOR'), ('STATE_VERIFICATOR');
 
 
 -- ------------------------------- ORGANIZATIONS TYPES ---------------------------- --

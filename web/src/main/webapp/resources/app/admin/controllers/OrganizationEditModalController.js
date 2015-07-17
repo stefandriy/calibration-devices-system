@@ -11,16 +11,7 @@ angular
 						function($rootScope, $scope, $modalInstance,
 								addressService, organizationService) {
 
-							$scope.typeData = [ {
-								type : 'PROVIDER',
-								name : 'Постачальник послуг'
-							}, {
-								type : 'CALIBRATOR',
-								name : 'Повірочна організація'
-							}, {
-								type : 'STATE_VERIFICATION',
-								name : 'Державний повірник'
-							} ];
+							
 							$scope.regions = null;
 							$scope.districts = [];
 							$scope.localities = [];

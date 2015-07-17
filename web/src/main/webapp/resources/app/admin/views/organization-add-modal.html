@@ -24,11 +24,12 @@
 				<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN' |
 					translate }}</label>
 			</div>
-			<div class="form-group col-md-8" show-errors>
-				<div ng-dropdown-multiselect="" options="example1data"
-					selected-model="example1model"></div>
+			<div class="form-group col-md-4">
+				<multiselect ng-model="organizationFormData.types"
+					options="c.name for c in typeData" data-multiple="true"></multiselect>
 			</div>
 		</div>
+
 
 		<div class="row">
 			<div class="form-group col-md-4">

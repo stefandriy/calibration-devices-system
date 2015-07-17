@@ -54,7 +54,7 @@ public class OrganizationsController {
 		try {
 			organizationsService.addOrganizationWithAdmin(
 					organizationDTO.getName(), organizationDTO.getEmail(),
-					organizationDTO.getPhone(), organizationDTO.getType(),
+					organizationDTO.getPhone(), organizationDTO.getTypes(),
 					organizationDTO.getUsername(),
 					organizationDTO.getPassword(), address);
 		} catch (Exception e) {

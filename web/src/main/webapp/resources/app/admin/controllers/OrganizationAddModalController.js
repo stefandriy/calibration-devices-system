@@ -13,18 +13,6 @@ angular
 								addressService, organizationService,
 								userService) {
 
-							$scope.example1model = [];
-							$scope.example1data = [ {
-								id : 1,
-								label : "David"
-							}, {
-								id : 2,
-								label : "Jhon"
-							}, {
-								id : 3,
-								label : "Danny"
-							} ];
-
 							$scope.typeData = [ {
 								type : 'PROVIDER',
 								name : 'Постачальник послуг'
@@ -32,9 +20,10 @@ angular
 								type : 'CALIBRATOR',
 								name : 'Повірочна організація'
 							}, {
-								type : 'STATE_VERIFICATION',
+								type : 'STATE_VERIFICATOR',
 								name : 'Державний повірник'
 							} ];
+
 							$scope.regions = null;
 							$scope.districts = [];
 							$scope.localities = [];
@@ -178,6 +167,12 @@ angular
 								$scope.organizationFormData.flat = $scope.organizationFormData.flat;
 							}
 
+							function typeObjectToString() {
+								for ( var i in $scope.organizationFormData.types) {
+									$scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].type;
+								}
+							}
+
 							/**
 							 * Validates organization form before saving
 							 */
@@ -187,6 +182,7 @@ angular
 								if ($scope.organizationForm.$valid
 										&& $scope.usernameValidation.isValid) {
 									addressFormToOrganizationForm();
+									typeObjectToString();
 									saveOrganization();
 								}
 							};

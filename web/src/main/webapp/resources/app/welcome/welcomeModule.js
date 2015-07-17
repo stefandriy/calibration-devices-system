@@ -4,7 +4,9 @@
 					'welcomeModule',
 					[ 'spring-security-csrf-token-interceptor', 'ui.bootstrap',
 							'pascalprecht.translate', 'ngCookies', 'ui.router',
-							'ui.bootstrap.showErrors', 'ngTable' ,'localytics.directives','frapontillo.bootstrap-switch'])
+							'ui.bootstrap.showErrors', 'ngTable',
+							'localytics.directives',
+							'frapontillo.bootstrap-switch' ])
 
 			.config(
 					[
@@ -16,7 +18,7 @@
 							function($translateProvider, $stateProvider,
 									$urlRouterProvider,
 									showErrorsConfigProvider) {
-								
+
 								showErrorsConfigProvider.showSuccess(true);
 
 								/**

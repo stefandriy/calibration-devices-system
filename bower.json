@@ -21,6 +21,7 @@
     "angular-chosen-localytics": "1.0.7",
     "chosen": "1.4.2",
     "angular-bootstrap-switch": "~0.4.1",
-    "angularjs-dropdown-multiselect": "~1.5.2"
+    "angularjs-dropdown-multiselect": "~1.5.2",
+    "angular-bootstrap-multiselect": "~0.3.0"
   }
 }
