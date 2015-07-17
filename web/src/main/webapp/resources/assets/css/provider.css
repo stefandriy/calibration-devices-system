@@ -518,3 +518,21 @@ input[type="radio"], input[type="checkbox"] {
 .is-filter {
     margin-bottom: 15px;
 }
+.modal-header-capacity {
+    background-color: MediumSeaGreen;
+    margin-bottom: 0;
+}
+.capacity-employee{
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    height: 60px;
+    line-height: 60px;
+}
+.modal-body-capacity{
+    margin:0px 10px;
+}
+.table-bordered th .col-cap-1{
+    width:20px;
+}
