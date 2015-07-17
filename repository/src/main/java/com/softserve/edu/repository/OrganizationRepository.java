@@ -1,8 +1,8 @@
 package com.softserve.edu.repository;
 
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
-
-
+import com.softserve.edu.entity.OrganizationType;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,23 +12,36 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
-public interface OrganizationRepository extends CrudRepository<Organization, Long>, OrganizationRepositoryCustom {
+public interface OrganizationRepository extends
+		CrudRepository<Organization, Long>, OrganizationRepositoryCustom {
 
-    Page<Organization> findAll(Pageable pageable);
+	Page<Organization> findAll(Pageable pageable);
 
-    Page<Organization> findByNameLikeIgnoreCase(String name, Pageable pageable);
-    
-      @Query("select t.type from OrganizationType t inner join t.organizations o where o.id=:id")
-    String getTypeByOrganizationId(@Param("id") Long id);
-    
-    @Query(value = "select ot.type from ORGANIZATION_TYPE as ot inner join ORGANIZATIONS_TYPES AS ots "
-    		+ "inner join ORGANIZATION AS o WHERE ots.typeId = ot.typeId "
-    		+ "AND ots.organizationId = ?;", nativeQuery = true)
-    String getTypeById(Long id);
-    
-    @Query("select o from Organization o inner join o.organizationTypes ot where o.address.district=:district and ot.type=:type")
-    List<Organization> getByTypeAndDistrict (@Param("district") String district,  @Param("type")String type);
+	Page<Organization> findByNameLikeIgnoreCase(String name, Pageable pageable);
+
+	@Query("select t from OrganizationType t where t.type=:type")
+	OrganizationType getOrganizationType(@Param("type") String type);
+
+	@Query("select t.type from OrganizationType t inner join t.organizations o where o.id=:id")
+	Set<String> getOrganizationTypeById(@Param("id") Long id);
+
+	@Query("select o from Organization o inner join o.organizationTypes ot where o.address.district=:district and ot.type=:type")
+	List<Organization> getByTypeAndDistrict(@Param("district") String district,
+			@Param("type") String type);
+
+	@Query("select o.address from Organization o where o.id=:id")
+	Address getOrganizationAddressById(@Param("id") Long id);
+
+	@Query("select o.name from Organization o where o.id=:id")
+	String getOrganizationNameById(@Param("id") Long id);
+
+	@Query("select o.phone from Organization o where o.id=:id")
+	String getOrganizationPhoneById(@Param("id") Long id);
+
+	@Query("select o.email from Organization o where o.id=:id")
+	String getOrganizationEmailById(@Param("id") Long id);
 
 }

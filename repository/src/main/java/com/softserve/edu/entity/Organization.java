@@ -1,17 +1,19 @@
 package com.softserve.edu.entity;
 
 import javax.persistence.*;
+
+import com.softserve.edu.entity.user.User;
+
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-
-
 @Entity
-@Table(name = "`ORGANIZATION`")
+@Table(name = "ORGANIZATION")
 public class Organization {
 	@Id
 	@GeneratedValue
-	@Column(name="`organizationId`")
+	@Column(name = "organizationId")
 	private Long id;
 	private String name;
 	private String email;
@@ -33,10 +35,13 @@ public class Organization {
 	 */
 	private Date certificateGrantedDate;
 
-	@ManyToMany(fetch= FetchType.LAZY)
-	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), 
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
+//	private Set<User> users = new HashSet<User>(0);
+
+	@ManyToMany
+	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"),
 	inverseJoinColumns = @JoinColumn(name = "typeId"))
-	private Set<OrganizationType> organizationTypes;
+	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
 
 	public void addOrganizationType(OrganizationType organizationType) {
 		this.organizationTypes.add(organizationType);

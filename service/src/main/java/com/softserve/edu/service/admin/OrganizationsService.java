@@ -10,13 +10,17 @@ import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -65,20 +69,26 @@ public class OrganizationsService {
 						+ "%", pageRequest);
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public Organization getOrganizationById(Long id) {
-		return organizationRepository.findOne(id);
+		Address address = organizationRepository.getOrganizationAddressById(id);
+		String name = organizationRepository.getOrganizationNameById(id);
+		String email = organizationRepository.getOrganizationEmailById(id);
+		String phone = organizationRepository.getOrganizationPhoneById(id);
+		Organization organization = new Organization(name, email, phone, address);
+		return organization;
+//		return organizationRepository.findOne(id);
 	}
 
 	@Transactional
 	public String getOrganizationType(Organization organization) {
 		Long id = organization.getId();
-//		String res = organizationRepository.getTypeByOrganizationId(id);
-//		String res = (String) em
-//				.createQuery("select t.type from OrganizationType t inner join t.organizations o where o.id=:id")
-//				.setParameter("id", id).getSingleResult();
-//		String res = organizationRepository.getTypeById(id);
-		return "";
+		Set<String> types = organizationRepository.getOrganizationTypeById(id);
+		String result = "";
+		for (String s : types) {
+			result += (s + " ");
+		}
+		return result;
 	}
 
 	@Transactional

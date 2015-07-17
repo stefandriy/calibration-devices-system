@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "`USER_ROLE`")
+@Table(name = "USER_ROLE")
 public class UserRole {
     @Id
     @GeneratedValue

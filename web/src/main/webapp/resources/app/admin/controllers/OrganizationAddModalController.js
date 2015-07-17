@@ -13,6 +13,18 @@ angular
 								addressService, organizationService,
 								userService) {
 
+							$scope.example1model = [];
+							$scope.example1data = [ {
+								id : 1,
+								label : "David"
+							}, {
+								id : 2,
+								label : "Jhon"
+							}, {
+								id : 3,
+								label : "Danny"
+							} ];
+
 							$scope.typeData = [ {
 								type : 'PROVIDER',
 								name : 'Постачальник послуг'
@@ -42,7 +54,6 @@ angular
 							 * Calls resetOrganizationForm after the view loaded
 							 */
 							$scope.resetOrganizationForm();
-							
 
 							/**
 							 * Validates username

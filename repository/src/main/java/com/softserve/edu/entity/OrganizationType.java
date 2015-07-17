@@ -1,23 +1,21 @@
 package com.softserve.edu.entity;
 
 import javax.persistence.*;
+
+
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "`ORGANIZATION_TYPE`")
+@Table(name = "ORGANIZATION_TYPE")
 public class OrganizationType {
 	@Id
 	@GeneratedValue
-	@Column(name="`typeId`")
 	private Integer id;
 	private String type;
 
-
-	@ManyToMany
-	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "typeId"))
+	@ManyToMany(mappedBy = "organizationTypes")
 	private Set<Organization> organizations = new HashSet<Organization>();
-
 
 	public void addOrganization(Organization organization) {
 		this.organizations.add(organization);
@@ -26,8 +24,6 @@ public class OrganizationType {
 	public OrganizationType() {
 	}
 
-	
-	
 	public Integer getId() {
 		return id;
 	}
@@ -35,8 +31,6 @@ public class OrganizationType {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	
 
 	public Set<Organization> getOrganizations() {
 		return organizations;

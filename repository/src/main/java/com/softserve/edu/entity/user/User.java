@@ -9,7 +9,7 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 
 @Entity
-@Table(name = "`USER`")
+@Table(name = "USER")
 public class User {
 	@Id
 	private String username;

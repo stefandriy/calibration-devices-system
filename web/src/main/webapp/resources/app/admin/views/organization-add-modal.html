@@ -1,5 +1,6 @@
 <div class="modal-header">
-	<h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_ORGANIZATION' | translate}}</h3>
+	<h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_ORGANIZATION'
+		| translate}}</h3>
 </div>
 
 <div class="modal-body">
@@ -8,7 +9,8 @@
 
 		<div class="row">
 			<div class="form-group col-md-4">
-				<label class="control-label">{{'ORGANIZATION_NAME_ADMIN' | translate }}</label>
+				<label class="control-label">{{'ORGANIZATION_NAME_ADMIN' |
+					translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
 				<input type="text" ng-model="organizationFormData.name"
@@ -19,20 +21,19 @@
 
 		<div class="row">
 			<div class="form-group col-md-4">
-				<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN' | translate }}</label>
+				<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN' |
+					translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
-				<select ng-model="organizationFormData.type"
-					ng-options="typeInfo.type as typeInfo.name for typeInfo in typeData"
-					name="type" class="form-control" required>
-					<option value="" style='display: none;' disabled>{{'ORGANIZATION_CHOOSE_TYPE_ADMIN' | translate }}</option>
-				</select>
+				<div ng-dropdown-multiselect="" options="example1data"
+					selected-model="example1model"></div>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="form-group col-md-4">
-				<label class="control-label">{{'ORGANIZATION_TELEPHON_NUMBER_ADMIN' | translate }}</label>
+				<label class="control-label">{{'ORGANIZATION_TELEPHON_NUMBER_ADMIN'
+					| translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
 				<input type="text" ng-model="organizationFormData.phone"
@@ -45,14 +46,15 @@
 				<label class="control-label">{{'EMAIL' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8">
-				<input type="text" ng-model="organizationFormData.email" name="email"
-					class="form-control">
+				<input type="text" ng-model="organizationFormData.email"
+					name="email" class="form-control">
 			</div>
 		</div>
 
 		<div>
 			<hr />
-			<p class="help-block">{{'FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION' | translate }}</p>
+			<p class="help-block">{{'FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION'
+				| translate }}</p>
 
 			<div class="row">
 				<div class="form-group col-md-4">
@@ -79,7 +81,8 @@
 
 			<div class="row">
 				<div class="form-group col-md-4">
-					<label class="control-label">{{'REPEAT_PASSWORD' | translate}}</label>
+					<label class="control-label">{{'REPEAT_PASSWORD' |
+						translate}}</label>
 				</div>
 				<div class="form-group col-md-8" show-errors>
 					<input type="password" ng-model="organizationFormData.rePassword"
@@ -97,7 +100,8 @@
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'REGION_TWO' | translate}}</label>
+									<label class="control-label">{{'REGION_TWO' |
+										translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="region" type="text"
@@ -110,7 +114,8 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'DISTRICT_TWO' | translate}}</label>
+									<label class="control-label">{{'DISTRICT_TWO' |
+										translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="district" type="text"
@@ -124,7 +129,8 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'LOCALITY_TWO' | translate}}</label>
+									<label class="control-label">{{'LOCALITY_TWO' |
+										translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="locality" type="text"
@@ -137,7 +143,8 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'STREET_TWO' | translate }}</label>
+									<label class="control-label">{{'STREET_TWO' | translate
+										}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="street" type="text"
@@ -150,7 +157,8 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'HOUSE_TWO' | translate}}</label>
+									<label class="control-label">{{'HOUSE_TWO' |
+										translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="building" type="text"
@@ -178,11 +186,15 @@
 
 		<div class="row">
 			<div class="form-group col-md-10">
-				<button type="submit" class="btn btn-success" ng-click="onOrganizationFormSubmit()">{{'ADD' | translate}}</button>
-				<a class="btn btn-warning" ng-click="resetOrganizationForm()">{{'CLEAR_FORM' | translate }}</a>
+				<button type="submit" class="btn btn-success"
+					ng-click="onOrganizationFormSubmit()">{{'ADD' |
+					translate}}</button>
+				<a class="btn btn-warning" ng-click="resetOrganizationForm()">{{'CLEAR_FORM'
+					| translate }}</a>
 			</div>
 			<div class="form-group col-md-2">
-				<button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
+				<button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
+					| translate}}</button>
 			</div>
 		</div>
 
