@@ -13,7 +13,7 @@ import javax.persistence.criteria.*;
 public class ProviderEmployeeQuary {
 
     public static CriteriaQuery<User>   buildSearchQuery(String userName, String role, String firstName,
-                                                                   String lastName, String organization, String telephone, Long numberOfWork,
+                                                                   String lastName, String organization, String telephone,
                                                                    EntityManager em, Long idOrganization) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -23,7 +23,7 @@ public class ProviderEmployeeQuary {
         Join<User, UserRole> joinRole = root.join("userRoles");
 
 
-        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb,joinRole, joinSearch, userName, role, firstName, lastName, organization, telephone, idOrganization, numberOfWork);
+        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb,joinRole, joinSearch, userName, role, firstName, lastName, organization, telephone, idOrganization);
 
         criteriaQuery.orderBy(cb.desc(root.get("lastName")));
         criteriaQuery.select(root);
@@ -34,7 +34,7 @@ public class ProviderEmployeeQuary {
 
     private static Predicate buildPredicate(Root<User> root, CriteriaBuilder cb,Join<User, UserRole> joinRole, Join<User, Organization> joinSearch,
                                             String userName, String role, String firstName, String lastName, String organization, String telephone,
-                                            Long idOrganization, Long numberOfWork) {
+                                            Long idOrganization) {
         Predicate queryPredicate = cb.conjunction();
 
         queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization),queryPredicate);
@@ -58,14 +58,12 @@ public class ProviderEmployeeQuary {
         if (!(telephone == null)) {
             queryPredicate = cb.and(cb.like(root.get("phone"), "%" + telephone + "%"), queryPredicate);
         }
-        if (!(numberOfWork == null)) {
-            queryPredicate = cb.and(cb.equal(root.get("countOfWork"), numberOfWork), queryPredicate);
-        }
+
         return queryPredicate;
     }
 
     public static CriteriaQuery<Long> buildCountQuery(String userName, String role, String firstName,
-                                                      String lastName, String organization, String telephone, Long numberOfWork,
+                                                      String lastName, String organization, String telephone,
                                                       Long idOrganization, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -73,7 +71,7 @@ public class ProviderEmployeeQuary {
         Root<User> root = countQuery.from(User.class);
         Join<User, Organization> joinSearch = root.join("organization");
         Join<User, UserRole> joinRole = root.join("userRoles");
-        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb,joinRole, joinSearch, userName, role, firstName, lastName, organization, telephone, idOrganization, numberOfWork);
+        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb,joinRole, joinSearch, userName, role, firstName, lastName, organization, telephone, idOrganization);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
         return countQuery;

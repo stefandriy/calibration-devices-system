@@ -18,20 +18,6 @@ public class UsersPageItem {
 
     public UsersPageItem() {}
 
-    public UsersPageItem(String username, String password,
-                         String role, String organization, String firstName, String lastName,
-                         String email, String phone) {
-        this.password = password;
-        this.username = username;
-        this.role = role;
-        this.organization = organization;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-    }
-
-
     public String getUsername() {
         return username;
     }

@@ -19,7 +19,6 @@ import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
-import com.softserve.edu.service.utils.CountOfWork;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -30,8 +29,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -189,14 +186,13 @@ public class ProviderVerificationController {
         User providerEmployee = new User();
         String idVerification = verificationUpdatingDTO.getIdVerification();
         providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
-        verificationProviderEmployeeService.assignProviderEmployee(idVerification, providerEmployee, CountOfWork.Increment.name());
+        verificationProviderEmployeeService.assignProviderEmployee(idVerification, providerEmployee);
     }
 
     @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
     public void removeProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         String idVerification = verificationUpdatingDTO.getIdVerification();
-        User providerEmployee = verificationProviderEmployeeService.getProviderEmployeeById(idVerification);
-        verificationProviderEmployeeService.assignProviderEmployee(idVerification, providerEmployee, CountOfWork.Decrement.name());
+         verificationProviderEmployeeService.assignProviderEmployee(idVerification, null);
     }
 
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)

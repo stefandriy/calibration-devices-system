@@ -6,7 +6,6 @@ import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.utils.CountOfWork;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,49 +29,19 @@ public class VerificationProviderEmployeeService {
 
 
     @Transactional
-    public void assignProviderEmployee(String verificationId, User providerEmployee, String countOfWork) {
+    public void assignProviderEmployee(String verificationId, User providerEmployee) {
         Verification verification = verificationRepository.findOne(verificationId);
         if (verification == null) {
             logger.error("verification haven't found");
             return;
         }
-        if (countOfWork.equals(CountOfWork.Increment.name())) {
-            verification.setProviderEmployee(providerEmployee);
-            verification.setStatus(Status.SENT);
-        } else {
-            verification.setProviderEmployee(null);
-            verification.setStatus(Status.SENT);
-        }
+        verification.setProviderEmployee(providerEmployee);
+        verification.setStatus(Status.SENT);
         verification.setReadStatus(ReadStatus.READ);
-        countOfProviderEmployeeWork(providerEmployee.getUsername(), countOfWork);
+
         verificationRepository.save(verification);
     }
 
-
-    @Transactional
-    public Long countByProviderEmployeeTasks(String username) {
-        return userRepository.getCountOfWork(username);
-    }
-
-    /**
-     * this method calculate work of ProviderEmployee
-     *
-     * @param username
-     * @param statusOfWork
-     */
-    @Transactional
-    public void countOfProviderEmployeeWork(String username, String statusOfWork) {
-        User providerEmployee = userRepository.getUserByUserName(username);
-        Long count = providerEmployee.getCountOfWork();
-        long work = (count == null) ? 0 : count;
-        if (statusOfWork.equals(CountOfWork.Increment.name())) {
-            providerEmployee.setCountOfWork(++work);
-        } else {
-            providerEmployee.setCountOfWork(--work);
-        }
-        userRepository.save(providerEmployee);
-
-    }
 
     /**
      * This method search in Verification table ProviderEmployee by verification Id
@@ -89,5 +58,10 @@ public class VerificationProviderEmployeeService {
     @Transactional
     public List<Verification> getVerificationListbyProviderEmployee(String username) {
         return verificationRepository.findByProviderEmployeeUsernameAndStatus(username, Status.SENT);
+    }
+
+    @Transactional
+    public Long countByProviderEmployeeTasks(String username) {
+        return verificationRepository.countByProviderEmployee_usernameAndStatus(username, Status.SENT);
     }
 }

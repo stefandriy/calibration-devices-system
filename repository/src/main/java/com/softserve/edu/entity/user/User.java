@@ -19,7 +19,7 @@ public class User {
 	private String middleName;
 	private String email;
 	private String phone;
-	private Long countOfWork;
+
 
 	@Embedded
 	private Address address;
@@ -170,11 +170,4 @@ public class User {
 		this.userRoles = userRoles;
 	}
 
-	public Long getCountOfWork() {
-		return countOfWork;
-	}
-
-	public void setCountOfWork(Long countOfWork) {
-		this.countOfWork = countOfWork;
-	}
 }

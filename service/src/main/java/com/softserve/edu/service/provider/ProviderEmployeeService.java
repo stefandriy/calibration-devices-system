@@ -33,15 +33,13 @@ public class ProviderEmployeeService {
     @PersistenceContext
     private EntityManager em;
 
-    @Autowired
-    private VerificationService verificationService;
+
     @Transactional
     public void addEmployee(User providerEmployee) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
         providerEmployee.setPassword(passwordEncoded);
         UserRole r= userRoleRepository.findByRole("PROVIDER_EMPLOYEE");
         providerEmployee.getUserRoles().add(r);
-        providerEmployee.setCountOfWork(0l);       //assign count of work to zero
         providerEmployeeRepository.save(providerEmployee);
 
     }
@@ -79,12 +77,12 @@ public class ProviderEmployeeService {
     @Transactional
     public ListToPageTransformer<User>
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage,long idOrganization, String userName,String role,String firstName,String lastName, String organization,
-                                                   String telephone, Long numberOfWorks) {
+                                                   String telephone) {
                 CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
-                lastName, organization, telephone, numberOfWorks, em, idOrganization);
+                lastName, organization, telephone,  em, idOrganization);
 
         Long count = em.createQuery(ProviderEmployeeQuary.buildCountQuery(userName, role, firstName,
-                lastName, organization, telephone,numberOfWorks,idOrganization, em)).getSingleResult();
+                lastName, organization, telephone,idOrganization, em)).getSingleResult();
 
         TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);

@@ -1,7 +1,6 @@
 package com.softserve.edu.controller.provider;
 
 
-import com.softserve.edu.controller.provider.util.ProviderEmployeePageDTOTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
@@ -9,20 +8,15 @@ import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
-import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(value = "provider/admin/users/")
@@ -52,6 +45,7 @@ public class ProviderEmployeeController {
 
     @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
+
 
     /**
      * Spatial security service
@@ -93,42 +87,6 @@ public class ProviderEmployeeController {
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
-//    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{idOrganization}/{search}", method = RequestMethod.GET)
-//         public PageDTO<UsersPageItem> pageSearchUsers(
-//            @PathVariable Integer pageNumber,
-//            @PathVariable Integer itemsPerPage,
-//            @PathVariable Long idOrganization,
-//            @PathVariable String search) {
-//        Page<UsersPageItem> page = providerEmployeeService
-//                .getUsersPagination(idOrganization, pageNumber, itemsPerPage, search,"PROVIDER_EMPLOYEE")
-//                .map(
-//                        user -> {
-//                            UsersPageItem usPage = null;
-//                            if (user instanceof User) {
-//                                usPage = new UsersPageItem();
-//                                usPage.setUsername(user.getUsername());
-//                                usPage.setRole(providerEmployeeService.getRoleByUserName(usPage.getUsername()));
-//                                usPage.setFirstName(((User) user).getFirstName());
-//                                usPage.setLastName(((User) user).getLastName());
-//                                usPage.setOrganization(((User) user).getOrganization().getName());
-//                                usPage.setPhone(((User) user).getPhone());
-//                                usPage.setCountOfVarification(verificationService.countByProviderEmployeeTasks(user.getUsername()));
-//                            }
-//                            return usPage;
-//                        }
-//                );
-//        return new PageDTO<>(page.getTotalElements(), page.getContent(), idOrganization);
-//    }
-
-//    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{idOrganization}", method = RequestMethod.GET)
-//    public PageDTO<UsersPageItem> getUsersPage(
-//            @PathVariable Integer pageNumber,
-//            @PathVariable Integer itemsPerPage,
-//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-//        Long idOrganization = user.getOrganizationId();
-//        return pageSearchUsers(pageNumber, itemsPerPage, idOrganization, null);
-//    }
-
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPaginationUsers(
             @PathVariable String username) {
@@ -146,9 +104,15 @@ public class ProviderEmployeeController {
         Long idOrganization = user.getOrganizationId();
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(), usersPageItem.getFirstName(),
-                usersPageItem.getLastName(), usersPageItem.getOrganization(), usersPageItem.getPhone(), usersPageItem.getCountOfVarification());
+                usersPageItem.getLastName(), usersPageItem.getOrganization(), usersPageItem.getPhone());
+        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
 
-        // List<UsersPageItem> content = ProviderEmployeePageDTOTransformer.toDtoFromList(queryResult.getContent(), "Lol");
+         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
+
+    }
+
+
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(
@@ -159,14 +123,10 @@ public class ProviderEmployeeController {
                             providerEmployee.getMiddleName(),
                             providerEmployee.getPhone(),
                             providerEmployee.getOrganization().getName(),
-                            providerEmployee.getCountOfWork()
-
+                            verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername())
                     )
             );
         }
-
-
-        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
-
+        return resultList;
     }
 }
