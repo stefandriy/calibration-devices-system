@@ -135,6 +135,7 @@
             'provider/services/AddressServiceProvider',
             'provider/services/SettingsServiceProvider',
             'provider/services/UserService',
+            'provider/controllers/CapacityEmployeeControllerProvider',
             
             'calibrator/controllers/TopNavBarControllerCalibrator',
             'calibrator/controllers/MainPanelControllerCalibrator',

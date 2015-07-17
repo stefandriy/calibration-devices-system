@@ -85,7 +85,7 @@ angular
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/provider/views/modals/new-verification-details.html',
-                    controller: 'DetailsModalController',
+                    controller: 'DetailsModalControllerProvider',
                     size: 'lg',
                     resolve: {
                         response: function () {
@@ -123,7 +123,7 @@ $scope.addProviderEmployee = function (verifId, providerEmployee) {
     var modalInstance = $modal.open({
         animation: true,
         templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
-        controller: 'ProviderEmployeeController',
+        controller: 'ProviderEmployeeControllerProvider',
         size: 'md',
         windowClass: "providerEmployee",
         resolve: {
@@ -187,7 +187,7 @@ $scope.openSendingModal = function () {
         var modalInstance = $modal.open({
             animation: true,
             templateUrl: '/resources/app/provider/views/modals/verification-sending.html',
-            controller: 'SendingModalController',
+            controller: 'SendingModalControllerProvider',
             size: 'md',
             resolve: {
                 response: function () {

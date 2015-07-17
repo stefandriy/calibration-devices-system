@@ -15,7 +15,7 @@ angular
             $log.info($scope.verifications);
 
             $scope.close = function () {
-                $modalInstance.close();
+                $modalInstance.close(); 
             };
 
 

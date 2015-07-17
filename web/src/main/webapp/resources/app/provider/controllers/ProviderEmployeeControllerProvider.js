@@ -1,10 +1,10 @@
 angular
     .module('employeeModule')
 
-    .controller('ProviderEmployeeControllerProvider', ['$scope', '$log', '$modalInstance','providerEmployProvider', '$rootScope',
-        function ($scope, $log, $modalInstance, providerEmployProvider, $rootScope) {
+    .controller('ProviderEmployeeControllerProvider', ['$scope', '$log', '$modalInstance','providerEmploy', '$rootScope',
+        function ($scope, $log, $modalInstance, providerEmploy, $rootScope) {
 
-            $scope.providers = providerEmployProvider.data;
+            $scope.providers = providerEmploy.data;
             $scope.formData={};
             $scope.formData.provider= $scope.providers[0];
 

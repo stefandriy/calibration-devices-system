@@ -37,7 +37,7 @@ angular
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/provider/views/employee/capacity-providerEmployee.html',
-                    controller: 'CapacityEmployeeController',
+                    controller: 'CapacityEmployeeControllerProvider',
                     size: 'lg',
                     resolve: {
 
