@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('DetailsModalControllerVerificotor', ['$scope', '$modalInstance', '$log', 'response',
+    .controller('DetailsModalControllerVerificator', ['$scope', '$modalInstance', '$log', 'response',
         function ($scope, $modalInstance, $log, response) {
 
             $scope.verificationData = response.data;

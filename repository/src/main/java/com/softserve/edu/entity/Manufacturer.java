@@ -16,6 +16,10 @@ public class Manufacturer {
     @OneToMany
     @JoinColumn(name = "manufacturer_id")
     private Set<Device> devices;
+    
+//    @OneToMany
+//    @JoinColumn(name = "manufacturer_id")
+//    private Set<MeasuringEquipment> measuringEquipment;
 
     public Long getId() {
         return id;
@@ -40,4 +44,16 @@ public class Manufacturer {
     public void setDevices(Set<Device> devices) {
         this.devices = devices;
     }
+
+//	public Set<MeasuringEquipment> getMeasuringEquipment() {
+//		return measuringEquipment;
+//	}
+//
+//	public void setMeasuringEquipment(Set<MeasuringEquipment> measuringEquipment) {
+//		this.measuringEquipment = measuringEquipment;
+//	}
+    
+    
+    
+    
 }

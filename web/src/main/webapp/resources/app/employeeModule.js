@@ -158,6 +158,7 @@
             'verificator/controllers/EmployeeControllerVerificator',
             'verificator/controllers/AddressModalControllerVerificator',
             'verificator/controllers/NotificationsControllerVerificator',
+            'verificator/controllers/CalibrationTestReviewControllerVerificator',
           
             'verificator/services/AddressServiceVerificator',
             'verificator/services/UserServiceVerificator',

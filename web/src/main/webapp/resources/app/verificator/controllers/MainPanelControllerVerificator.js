@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('MainPanelControllerVerificotor', ['$scope',
+    .controller('MainPanelControllerVerificator', ['$scope',
         function ($scope) {
 
         }]);

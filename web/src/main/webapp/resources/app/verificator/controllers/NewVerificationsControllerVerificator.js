@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('NewVerificationsControllerVerificotor', ['$scope', '$log', '$modal', 'VerificationServiceVerificotor', '$rootScope',
-        function ($scope, $log, $modal, VerificationServiceVerificotor,  $rootScope) {
+    .controller('NewVerificationsControllerVerificator', ['$scope', '$log', '$modal', 'VerificationServiceVerificator', '$rootScope',
+        function ($scope, $log, $modal, VerificationServiceVerificator,  $rootScope) {
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;
@@ -9,7 +9,7 @@ angular
             $scope.pageData = [];
 
             $scope.onTableHandling = function () {
-                VerificationServiceVerificotor
+            	VerificationServiceVerificator
                     .getNewVerifications($scope.currentPage, $scope.itemsPerPage)
                     .success(function (verifications) {
                         $scope.pageData = verifications.content;
@@ -25,7 +25,7 @@ angular
 							readStatus: 'READ'
 						};
 				
-		         	VerificationServiceVerificotor.markVerificationAsRead(dataToSend).success(function () {
+				 VerificationServiceVerificator.markVerificationAsRead(dataToSend).success(function () {
 		         	$rootScope.$broadcast('verification-was-read');
 		         		$scope.onTableHandling();
 		            });
@@ -35,11 +35,11 @@ angular
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/verificator/views/modals/new-verification-details.html',
-                    controller: 'DetailsModalController',
+                    controller: 'DetailsModalControllerVerificator',
                     size: 'lg',
                     resolve: {
                         response: function () {
-                        	   return VerificationServiceVerificotor.getNewVerificationDetails(verifId)
+                        	   return VerificationServiceVerificator.getNewVerificationDetails(verifId)
                                .success(function (verification) {
                                    verification.id = verifId;
                                    verification.initialDate = verifDate;
@@ -57,11 +57,11 @@ angular
             	$modal.open({
             		animation: true,
             		templateUrl: '/resources/app/verificator/views/modals/testReview.html',
-            		controller: 'CalibrationTestReviewController',
+            		controller: 'CalibrationTestReviewControllerVerificator',
             		size: 'lg',
             		resolve: {
             			response: function () {
-            				return VerificationServiceVerificotor.getCalibraionTestDetails(calibrationTestId)
+            				return VerificationServiceVerificator.getCalibraionTestDetails(calibrationTestId)
             				.success(function(calibrationTest){
             					calibrationTest.id = calibrationTestId;
             					return calibrationTest;
@@ -102,11 +102,11 @@ angular
                     var modalInstance = $modal.open({
                         animation: true,
                         templateUrl: '/resources/app/verificator/views/modals/verification-sending.html',
-                        controller: 'SendingModalController',
+                        controller: 'SendingModalControllerVerificator',
                         size: 'md',
                         resolve: {
                             response: function () {
-                                return VerificationServiceVerificotor.getProviders()
+                                return VerificationServiceVerificator.getProviders()
                                     .success(function (providers) {
                                         return providers;
                                     });
@@ -125,7 +125,7 @@ angular
 
                         $log.info(dataToSend);
 
-                        verificationServiceVerificotor
+                        VerificationServiceVerificator
                             .sendVerificationsToVerificator(dataToSend)
                             .success(function () {
                                 $scope.onTableHandling();

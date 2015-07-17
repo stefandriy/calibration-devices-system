@@ -1,13 +1,13 @@
 angular
     .module('employeeModule')
-    .controller('AddressModalControllerVerificotor', ['$scope', '$log', '$modalInstance', 'address', 'AddressServiceVerificotor',
-        function ($scope, $log, $modalInstance, address, addressServiceVerificotor) {
+    .controller('AddressModalControllerVerificator', ['$scope', '$log', '$modalInstance', 'address', 'AddressServiceVerificator',
+        function ($scope, $log, $modalInstance, address, AddressServiceVerificator) {
             $log.info(address);
 
             $scope.addressData = {};
 
             $scope.regions = [];
-            addressServiceVerificotor.findAllRegions()
+            AddressServiceVerificator.findAllRegions()
                 .success(function (regions) {
                     $scope.regions = regions;
                 });
@@ -17,7 +17,7 @@ angular
              */
             $scope.receiveDistricts = function (selectedRegion) {
                 $scope.districts = [];
-                addressServiceVerificotor.findDistrictsByRegionId(selectedRegion.id)
+                AddressServiceVerificator.findDistrictsByRegionId(selectedRegion.id)
                     .success(function (districts) {
                         $scope.districts = districts;
                     });
@@ -33,7 +33,7 @@ angular
              */
             $scope.receiveLocalitiesAndVerificators = function (selectedDistrict) {
                 $scope.localities = [];
-                addressServiceVerificotor.findLocalitiesByDistrictId(selectedDistrict.id)
+                AddressServiceVerificator.findLocalitiesByDistrictId(selectedDistrict.id)
                     .success(function (localities) {
                         $scope.localities = localities;
                     });
@@ -48,7 +48,7 @@ angular
              */
             $scope.receiveStreets = function (selectedLocality) {
                 $scope.streets = [];
-                addressServiceVerificotor.findStreetsByLocalityId(selectedLocality.id)
+                AddressServiceVerificator.findStreetsByLocalityId(selectedLocality.id)
                     .success(function (streets) {
                         $scope.streets = streets;
                     });
@@ -62,7 +62,7 @@ angular
              */
             $scope.receiveBuildings = function (selectedStreet) {
                 $scope.buildings = [];
-                addressServiceVerificotor.findBuildingsByStreetId(selectedStreet.id)
+                AddressServiceVerificator.findBuildingsByStreetId(selectedStreet.id)
                     .success(function (buildings) {
                         $scope.buildings = buildings;
                     });

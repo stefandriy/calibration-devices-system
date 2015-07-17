@@ -1,9 +1,6 @@
 package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.catalogue.AbstractCatalogue;
-
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.catalogue.AbstractCatalogue;
 import com.softserve.edu.repository.DeviceRepository;
 
 @Service

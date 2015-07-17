@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('NotificationsControllerVerificator', ['$scope', '$log', 'VerificationServiceVerificotor', '$interval', '$state', '$rootScope', '$timeout',
-        function ($scope, $log, verificationServiceVerificotor, $interval, $state,  $rootScope, $timeout) {
+    .controller('NotificationsControllerVerificator', ['$scope', '$log', 'VerificationServiceVerificator', '$interval', '$state', '$rootScope', '$timeout',
+        function ($scope, $log, VerificationServiceVerificator, $interval, $state,  $rootScope, $timeout) {
     	
 	    	var promiseInterval;
 	    	var promiseTimeOut;
@@ -15,7 +15,7 @@ angular
 					$scope.stopPolling();
 					if(angular.isDefined(promiseInterval)) return;
 					promiseInterval = $interval(function () {
-						verificationServiceVerificotor.getCountOfNewVerifications().success(function (count) {
+						VerificationServiceVerificator.getCountOfNewVerifications().success(function (count) {
 				       		$scope.countOfUnreadVerifications = count;
 							})
 					}, 5000); 
@@ -28,14 +28,14 @@ angular
 	    	$scope.startPolling();
 	    	
 			$rootScope.$on('verification-sent-to-provider', function(){  	
-					verificationServiceVerificotor.getCountOfNewVerifications().success(function (count) {
+				VerificationServiceVerificator.getCountOfNewVerifications().success(function (count) {
 			       		$scope.countOfUnreadVerifications = count;
 						});
 			});	   	
 		
 			$rootScope.$on('verification-was-read', function(){
 				$log.info("gotcha... verif was read "); 
-				verificationServiceVerificotor.getCountOfNewVerifications().success(function (count) {
+				VerificationServiceVerificator.getCountOfNewVerifications().success(function (count) {
 		       		$scope.countOfUnreadVerifications = count;
 					});
 			});

@@ -1,10 +1,10 @@
 angular
     .module('employeeModule')
-    .controller('EmployeeControllerVerificotor', ['$scope', '$log', '$modal', '$state', 'UserServiceVerificotor',
+    .controller('EmployeeControllerVerificator', ['$scope', '$log', '$modal', '$state', 'userServiceVerificator',
 
-        function ($scope, $log, $modal, $state, userServiceVerificotor) {
+        function ($scope, $log, $modal, $state, userServiceVerificator) {
     	
-    		userServiceVerificotor.isAdmin()
+    	userServiceVerificator.isAdmin()
     		.success(function (response) {
     			if (response == 'STATE_VERIFICATOR_ADMIN'){
     					$scope.verificator = true;
@@ -49,7 +49,7 @@ angular
 
             $scope.checkUsername = function (username) {
 
-                userServiceVerificotor
+            	userServiceVerificator
                     .isUsernameAvailable(username)
                     .success(function (result) {
                         $scope.form.employee.username.$setValidity("isAvailable", result);
@@ -92,7 +92,7 @@ angular
 
                     $log.info(employeeData);
 
-                    userServiceVerificotor.saveUser(employeeData)
+                    userServiceVerificator.saveUser(employeeData)
                         .success(function (response) {
                             $log.info(response);
 

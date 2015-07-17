@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('CalibrationTestReviewControllerVerificotor', ['$scope', '$modalInstance', '$log', 'response',
+    .controller('CalibrationTestReviewControllerVerificator', ['$scope', '$modalInstance', '$log', 'response',
         function ($scope, $modalInstance, $log, response) {
 
             $scope.calibrationTest = response.data;
