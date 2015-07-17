@@ -64,6 +64,7 @@ define([
     'controllers/SettingsController',
     'controllers/UsersController',
     'controllers/InternationalizationController',
+    
     'services/OrganizationService',
     'services/StatisticService',
     'services/UserService',

@@ -41,7 +41,7 @@ public class DeviceController {
 						search).map(
 						device -> new DevicePageItem(device.getId(), device
 								.getDeviceSign(), device.getNumber(), device
-								.getDeviceType().toString()));
+								.getDeviceType().toString(), device.getDeviceName().toString()));
 
 		return new PageDTO<>(page.getTotalElements(), page.getContent());
 

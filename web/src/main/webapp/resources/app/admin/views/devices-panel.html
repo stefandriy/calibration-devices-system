@@ -47,12 +47,11 @@
 									id="devicesTable">
 									<thead>
 										<tr>
-											<th>{{'UNIQUE_NUMBER'| translate}}</th>
+											<th>{{'ID'| translate}}</th>
 											<th>{{'SIGN_OF_COUNTER' | translate}}</th>
 											<th>{{'COUNTER_NUMBER' | translate}}</th>
 											<th>{{'TYPE_OF_COUNTER' | translate }}</th>
-											<!--  <th>блабла</th>
-											<th>блабла</th>-->
+											<th>{{ 'DEVICE_NAME' | translate }}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -61,6 +60,7 @@
 											<td>{{ device.deviceType }}</td>
 											<td>{{ device.deviceSign }}</td>
 											<td>{{ device.number }}</td>
+											<td>{{ device.deviceName }}</td>
 										</tr>
 									</tbody>
 								</table>

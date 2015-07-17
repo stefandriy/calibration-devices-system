@@ -21,6 +21,9 @@ public class Device  {
 
     @Column(nullable = false)
     private String number;
+    
+    @Column(nullable = false)
+    private String deviceName;
 
     @OneToMany(mappedBy = "device")
     private Set<Verification> verifications;
@@ -72,8 +75,18 @@ public class Device  {
     public void setNumber(String number) {
         this.number = number;
     }
+    
+    
 
-    public Set<Verification> getVerifications() {
+    public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+
+	public Set<Verification> getVerifications() {
         return verifications;
     }
 

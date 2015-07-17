@@ -5,16 +5,18 @@ public class DevicePageItem {
 	private String deviceType;
 	private String deviceSign;
 	private String number;
+	private String deviceName;
 
 	public DevicePageItem() {
 	}
 
 	public DevicePageItem(Long id, String deviceType, String deviceSign,
-			String number) {
+			String number, String deviceName) {
 		this.id = id;
 		this.deviceType = deviceType;
 		this.deviceSign = deviceSign;
 		this.number = number;
+		this.deviceName = deviceName;
 	}
 
 	public Long getId() {
@@ -48,5 +50,14 @@ public class DevicePageItem {
 	public void setNumber(String number) {
 		this.number = number;
 	}
+
+	public String getDeviceName() {
+		return deviceName;
+	}
+
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+	
 
 }

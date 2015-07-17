@@ -1,7 +1,7 @@
 angular
     .module('adminModule')
-    .controller('DeviceController', ['$scope', '$http', 'DevicesService',
-        function ($scope, $http, devicesService) {
+    .controller('DeviceController', ['$rootScope','$scope', '$http', 'DevicesService',
+        function ($rootScope, $scope, $http, devicesService) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -10,7 +10,7 @@ angular
             /**
              * Updates the table with device.
              */
-            $scope.onTableHandling = function () {
+            $rootScope.onTableHandling = function () {
                 devicesService
                     .getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData)
                     .then(function (data) {
@@ -19,5 +19,5 @@ angular
                     });
             };
 
-            $scope.onTableHandling();
+            $rootScope.onTableHandling();
     }]);
