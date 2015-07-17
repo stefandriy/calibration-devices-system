@@ -51,8 +51,9 @@ angular
                     });
 
                 //Receives providers corresponding this district
-                dataReceivingService.findProvidersByDistrictDesignation(selectedDistrict.designation)
+                dataReceivingService.findProvidersByDistrict(selectedDistrict.designation)
                     .success(function (providers) {
+                    	$log.debug(providers);
                         $scope.providers = providers;
                     });
             };

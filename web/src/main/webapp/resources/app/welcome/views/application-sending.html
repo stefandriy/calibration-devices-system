@@ -163,7 +163,7 @@
 								ng-show="checkboxModel">
 
 								<span class="input-group-addon" id="basic-addon-code">+38</span>
-								<input id="phoneNumber" name="phoneNumber" class="form-control "
+								<input id="phoneNumber" name="phoneNumber" class="form-control"ng-model="formData.phone"
 									placeholder="(0XX)XXX-XX-XX" ng-pattern="PHONE_REGEX"
 									popover="{{'PHONE_NUMBER_INFO' | translate}}"
 									popover-trigger="focus" popover-placement="right">
@@ -314,7 +314,7 @@
 					<div class="col-md-8">
 						<select multiple chosen id="device" name="device" type="text"
 							class="form-control" ng-model="selectedDevice"
-							ng-options="device as device for device in devices | filter: $viewValue"
+							ng-options="device as device.designation for device in devices | filter: $viewValue"
 							required></select>
 
 

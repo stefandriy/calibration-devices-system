@@ -10,6 +10,7 @@ public class ClientData {
     private String middleName;
     private String email;
     private String phone;
+    private String secondPhone;
 
     @Embedded
     private Address clientAddress;
@@ -18,17 +19,18 @@ public class ClientData {
     }
 
     public ClientData(String firstName, String lastName, String middleName,
-                      String phone, Address clientAddress) {
-        this(firstName, lastName, middleName, null, phone, clientAddress);
+                      String phone,String secondPhone, Address clientAddress) {
+        this(firstName, lastName, middleName, null, phone,secondPhone, clientAddress);
     }
 
     public ClientData(String firstName, String lastName, String middleName, String email,
-                      String phone, Address clientAddress) {
+                      String phone,String secondPhone, Address clientAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.email = email;
         this.phone = phone;
+        this.setSecondPhone(secondPhone);
         this.clientAddress = clientAddress;
     }
 
@@ -79,4 +81,12 @@ public class ClientData {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+	public String getSecondPhone() {
+		return secondPhone;
+	}
+
+	public void setSecondPhone(String secondPhone) {
+		this.secondPhone = secondPhone;
+	}
 }
