@@ -3,9 +3,9 @@ angular
     .controller('CalibrationTestReviewControllerVerificotor', ['$scope', '$modalInstance', '$log', 'response',
         function ($scope, $modalInstance, $log, response) {
 
-            $scope.calibrationTestData = response.data;
+            $scope.calibrationTest = response.data;
 
-            $log.info($scope.calibrationTestData);
+            $log.info($scope.calibrationTest);
 
             $scope.close = function () {
                 $modalInstance.close();

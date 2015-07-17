@@ -16,7 +16,6 @@ public class Device  {
     @Enumerated(EnumType.STRING)
     private DeviceType deviceType;
 
-    //@Column(nullable = false)
     private String deviceSign;
 
     @Column(nullable = false)
