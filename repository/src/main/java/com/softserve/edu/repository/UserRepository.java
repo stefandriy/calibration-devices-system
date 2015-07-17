@@ -1,6 +1,7 @@
 package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.user.User;
+
 import com.softserve.edu.entity.user.UserRole;
 
 import org.springframework.data.domain.Page;
@@ -42,9 +43,6 @@ public interface UserRepository extends CrudRepository<User, String> {
 			@Param("organizationId") Long organizationId);
 
 	public User findByUsername(String userName);
-
-	@Query("select countOfWork from User u where u.username = :username")
-	Long getCountOfWork(@Param("username") String username);
 
 	@Query("select ur from UserRole ur where ur.role=:role")
 	UserRole getUserRole(@Param("role") String role);
