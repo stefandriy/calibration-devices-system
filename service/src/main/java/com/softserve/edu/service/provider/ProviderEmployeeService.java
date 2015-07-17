@@ -21,6 +21,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProviderEmployeeService {
@@ -79,8 +80,7 @@ public class ProviderEmployeeService {
     public ListToPageTransformer<User>
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage,long idOrganization, String userName,String role,String firstName,String lastName, String organization,
                                                    String telephone, Long numberOfWorks) {
-
-        CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
+                CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
                 lastName, organization, telephone, numberOfWorks, em, idOrganization);
 
         Long count = em.createQuery(ProviderEmployeeQuary.buildCountQuery(userName, role, firstName,

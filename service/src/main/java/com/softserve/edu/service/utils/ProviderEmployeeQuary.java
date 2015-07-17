@@ -12,7 +12,7 @@ import javax.persistence.criteria.*;
  */
 public class ProviderEmployeeQuary {
 
-    public static CriteriaQuery<User> buildSearchQuery(String userName, String role, String firstName,
+    public static CriteriaQuery<User>   buildSearchQuery(String userName, String role, String firstName,
                                                                    String lastName, String organization, String telephone, Long numberOfWork,
                                                                    EntityManager em, Long idOrganization) {
 
@@ -37,15 +37,15 @@ public class ProviderEmployeeQuary {
                                             Long idOrganization, Long numberOfWork) {
         Predicate queryPredicate = cb.conjunction();
 
-        queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization));
-         queryPredicate = cb.and(cb.equal(joinRole.get("role"), role),queryPredicate);
+        queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization),queryPredicate);
 
         if (!(userName == null)) {
             queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
         }
-//        if (!(role == null)) {
-//            queryPredicate = cb.and(cb.like(root.get("role"), "%" + role + "%"), queryPredicate);
-//        }
+        if (!(role == null)) {
+            queryPredicate = cb.and(cb.like(joinRole.get("role"), "%" + role + "%"),queryPredicate);
+
+        }
         if (!(firstName == null)) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
         }

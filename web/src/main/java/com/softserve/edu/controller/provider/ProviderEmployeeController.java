@@ -9,6 +9,7 @@ import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
@@ -27,7 +28,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "provider/admin/users/")
@@ -37,7 +40,7 @@ public class ProviderEmployeeController {
 
     @Autowired
     private UsersService userService;
-    
+
     @Autowired
     private OrganizationsService organizationsService;
 
@@ -49,16 +52,17 @@ public class ProviderEmployeeController {
 
     @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
-    
+
     /**
      * Spatial security service
      * Find the role of the login user
+     *
      * @return role
      */
 
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
     public String verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-       String s= providerEmployeeService.getRoleByUserName(user.getUsername());
+        String s = providerEmployeeService.getRoleByUserName(user.getUsername());
         return s;
     }
 
@@ -139,14 +143,30 @@ public class ProviderEmployeeController {
             @PathVariable Integer itemsPerPage,
             UsersPageItem usersPageItem,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-       // String role = userService.getRoleByUserName(user.getUsername());
         Long idOrganization = user.getOrganizationId();
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
-                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), "PROVIDER_EMPLOYEE", usersPageItem.getFirstName(),
+                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(), usersPageItem.getFirstName(),
                 usersPageItem.getLastName(), usersPageItem.getOrganization(), usersPageItem.getPhone(), usersPageItem.getCountOfVarification());
 
-        List<UsersPageItem> content = ProviderEmployeePageDTOTransformer.toDtoFromList(queryResult.getContent(),"PROVIDER_EMPLOYEE");
-        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), content);
+        // List<UsersPageItem> content = ProviderEmployeePageDTOTransformer.toDtoFromList(queryResult.getContent(), "Lol");
+        List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
+        for (User providerEmployee : queryResult.getContent()) {
+            resultList.add(new UsersPageItem(
+                            providerEmployee.getUsername(),
+                            userService.getRoleByUserName(providerEmployee.getUsername()),
+                            providerEmployee.getFirstName(),
+                            providerEmployee.getLastName(),
+                            providerEmployee.getMiddleName(),
+                            providerEmployee.getPhone(),
+                            providerEmployee.getOrganization().getName(),
+                            providerEmployee.getCountOfWork()
+
+                    )
+            );
+        }
+
+
+        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
 
     }
 }
