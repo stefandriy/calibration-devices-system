@@ -45,12 +45,20 @@ angular
             searchNewVerifications : function(data) {
             	return sendDataWithParams('new/search', data);
             },
-            //for CalibrationTest
+//            for CalibrationTest
             getCalibraionTestDetails: function (calibrationTestId){
-            	return getData('verififcations/new/' + calibrationTestId)
-            }
+            	return getData('show/' + calibrationTestId )
+            },
+            
         };
 
+//       function getCalibraionTestDetails(id) {
+//			var url = 'verificator/verifications/show/' + id;
+//			return $http.get(url).then(function(result) {
+//				return result.data;
+//			});
+//		}
+       
         function getData(url) {
 
             $log.info(url);

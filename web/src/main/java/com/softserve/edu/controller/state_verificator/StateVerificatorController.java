@@ -112,13 +112,10 @@ public class StateVerificatorController {
         return new ClientStageVerificationDTO(clientData, address,  null);
     }
     
-    @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.GET)
-    public CalibrationTestDTO getNewCalibrationTestDetailsById(
-    		@PathVariable Long calibrationTestId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user){
+    @RequestMapping(value = "show/{calibrationTestId}", method = RequestMethod.GET)
+    public CalibrationTestDTO getCalibraionTestDetails(@PathVariable Long calibrationTestId){
 		CalibrationTest calibrationTest = verificationService.findByCalibrationTestId(calibrationTestId);
-    	
-    	return null;
+    	return new CalibrationTestDTO(calibrationTest);
     	
     }
 

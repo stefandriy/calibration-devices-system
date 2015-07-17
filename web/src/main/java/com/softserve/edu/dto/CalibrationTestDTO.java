@@ -23,9 +23,7 @@ public class CalibrationTestDTO extends ResourceSupport {
     public CalibrationTestDTO() {}
     
 
-    public CalibrationTestDTO(CalibrationTest calibrationTest, String name, Date dateTest, Integer temperature,
-			Integer settingNumber, Double latitude, Double longitude,
-			String consumptionStatus) {
+    public CalibrationTestDTO(CalibrationTest calibrationTest) {
 		super();
 		this.name = calibrationTest.getName();
 		this.dateTest = calibrationTest.getDateTest();

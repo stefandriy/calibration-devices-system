@@ -137,10 +137,28 @@ public class CalibratorController {
         return new ClientStageVerificationDTO(clientData, address,  null);
     }
 
+//    @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.POST)
+//    public ResponseEntity<CalibrationTestDTO> createCalibrationTest(@PathVariable String verificationId,
+//          @RequestBody CalibrationTestDTO sendTest) {
+//		HttpStatus httpStatus = HttpStatus.CREATED;
+//		CalibrationTest createdtest;
+//		try {
+//			createdtest = verificationService
+//			
+//		} catch (Exception e) {
+//			logger.error("GOT EXCEPTION " + e.getMessage());
+//			httpStatus = HttpStatus.CONFLICT;
+//		}
+//    	
+//    	return new ResponseEntity<CalibrationTestDTO>(null);
+//    	
+//    }
+    
     @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.POST)
     public ResponseEntity<CalibrationTestDTO> createCalibrationTest(
             @PathVariable String verificationId,
             @RequestBody CalibrationTestDTO sentTest) {
+    	System.out.println("CREATE TEST");
         CalibrationTest createdTest;
         try {
             createdTest = verificationService.createCalibrationTest(

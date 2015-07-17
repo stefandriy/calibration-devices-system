@@ -74,14 +74,13 @@ public class CalibrationTestController {
         }
     }
 
+    //by Konyk
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<CalibrationTestDTO> createCalibrationTest(
             @RequestBody CalibrationTestDTO sentTest) {
-        CalibrationTest createdCalibrationTest = service.createTest(sentTest.toCalibrationTest());
-        CalibrationTestDTO res = new CalibrationTestDTOAsm().toResource(createdCalibrationTest);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(res.getLink("self").getHref()));
-        return new ResponseEntity<>(res, headers, HttpStatus.CREATED);
+        CalibrationTest createdCalibrationTest = sentTest.toCalibrationTest();
+        service.createTest(createdCalibrationTest);
+        return new ResponseEntity<>( HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET)
