@@ -41,9 +41,9 @@ public class SecurityUserDetailsService implements UserDetailsService {
         for (UserRole userRole : userRoles) {
 			
         	role = userRole.getRole();
-		}
-        authorities.add(new SimpleGrantedAuthority(role));
         
+        authorities.add(new SimpleGrantedAuthority(role));
+        }
 
         Long employeeOrganizationId = role.equals("SYS_ADMIN") ?
                 null : ((User) user).getOrganization().getId();
