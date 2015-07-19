@@ -84,6 +84,11 @@
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerCalibrator'
                     })
+                      .state("measuring-equipment-calibrator", {
+                        url: '/calibrator/mEquipment/',
+                        templateUrl: '/resources/app/calibrator/views/measurement-equipments.html',
+                        controller: 'MeasuringEquipmentControllerCalibrator'
+                    })
                     
                     
                     .state('main-panel-verificator', {
@@ -150,11 +155,14 @@
             'calibrator/controllers/EmployeeControllerCalibrator',
             'calibrator/controllers/AddressModalControllerCalibrator',
             'calibrator/controllers/NotificationsControllerCalibrator',
-
+            'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
+           'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
+            'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',   
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',
             'calibrator/services/VerificationServiceCalibrator',
+            'calibrator/services/MeasuringEquipmentServiceCalibrator',
             
             'verificator/controllers/TopNavBarControllerVerificator',
             'verificator/controllers/MainPanelControllerVerificator',
@@ -164,8 +172,7 @@
             'verificator/controllers/EmployeeControllerVerificator',
             'verificator/controllers/AddressModalControllerVerificator',
             'verificator/controllers/NotificationsControllerVerificator',
-            'verificator/controllers/CalibrationTestReviewControllerVerificator',
-          
+            'verificator/controllers/CalibrationTestReviewControllerVerificator',    
             'verificator/services/AddressServiceVerificator',
             'verificator/services/UserServiceVerificator',
             'verificator/services/VerificationServiceVerificator'

@@ -1,0 +1,83 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_EQUIPMENT'	| translate}}</h3>
+</div>
+
+<div class="modal-body">
+
+	<form name="eqipmentForm" novalidate>
+
+		<div>
+			<hr />
+			<div class="row">
+				<div class="form-group col-md-4">
+					<label class="control-label">{{'NAME' | translate }}</label>
+				</div>
+				<div class="form-group col-md-8" ng-class="usernameValidation.css">
+					<input type="text" ng-model="equipmentFormData.name"
+						ng-model-options="{debounce: 350}" ng-change="checkName()"
+						id="name" name="name" class="form-control" required>
+					<p class="help-block" ng-if="!nameValidation.isValid">{{
+						nameValidation.message }}</p>
+				</div>
+			</div>
+		</div>
+		
+		<!-- div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">{{'NAME' |	translate }}</label>
+			</div>
+			<div class="form-group col-md-8" show-errors>
+				<input type="text" ng-model="equipmentFormData.name"
+					ng-minlength="3" id="name" name="name" class="form-control"
+					required>
+			</div>
+		</div-->
+
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">{{'TYPE_OF_EQUIPMENT' |  translate }}</label>
+			</div>
+			<div class="form-group col-md-4">
+				<input type="text" ng-model="equipmentFormData.equipmentType"
+				    name="equipmentType" class="form-control" required>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">{{'MANUFACTURER' | translate }}</label>
+			</div>
+			<div class="form-group col-md-4">
+				<input type="text" ng-model="equipmentFormData.manufacturer"
+					name="manufacturer" class="form-control" required>
+			</div>
+		</div>
+			
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">{{'VERIFICATION_INTERVAL' | translate }}</label>
+			</div>
+			<div class="form-group col-md-4">
+				<input type="text" ng-model="equipmentFormData.verificationInterval"
+					name="verificationInterval" class="form-control" required>
+			</div>
+		</div>
+	
+
+	
+		<hr />
+
+		<div class="row">
+			<div class="form-group col-md-10">
+				<button type="submit" class="btn btn-success"
+					ng-click="onEquipmentFormSubmit()">{{'ADD' | translate}}</button>
+				<a class="btn btn-warning" ng-click="resetEquipmentForm()">{{'CLEAR_FORM' | translate }}</a>
+			</div>
+			<div class="form-group col-md-2">
+				<button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'	| translate}}</button>
+			</div>
+		</div>
+
+	</form>
+</div>

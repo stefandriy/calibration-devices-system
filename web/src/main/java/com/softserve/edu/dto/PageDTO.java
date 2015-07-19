@@ -2,6 +2,8 @@ package com.softserve.edu.dto;
 
 import java.util.List;
 
+
+
 public class PageDTO<T> {
 
     private Long totalItems;

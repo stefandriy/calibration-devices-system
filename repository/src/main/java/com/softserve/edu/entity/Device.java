@@ -18,7 +18,6 @@ public class Device  {
 
     private String deviceSign;
 
-    @Column(nullable = false)
     private String number;
     
     @Column(nullable = false)

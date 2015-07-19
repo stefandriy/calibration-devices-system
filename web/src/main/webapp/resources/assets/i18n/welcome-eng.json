@@ -103,7 +103,14 @@
   "TEST_OK_TRANSLATION":"Application completed.",
   "SENT_TO_VERIFICATOR_TRANSLATION":"The application brought against attorneys",
   "ACCEPTED_TRASLATION":"Application accepted performer.",
-"REJECTED_TRASLATION":"Application rejected performer.",
+  "REJECTED_TRASLATION":"Application rejected performer.",
+  "MEASURING_EQUIPMENTS":"Measuring equipments",
+  "NAME":"Equipment name",
+  "TYPE_OF_EQUIPMENT":"Type of Equipment",
+  "MANUFACTURER":"Manufacturer",
+  "VERIFICATION_INTERVAL":"Verification interval",
+  "ADD_EQUIPMENT":"Add equipment",
+  "FILL_IN_INFORMATION_ABOUT_EQUIPMENT":"Fill information about equipment",
 			
 	"TEST_COMPLETED_TRASLATION":"A measure done.",
 		
