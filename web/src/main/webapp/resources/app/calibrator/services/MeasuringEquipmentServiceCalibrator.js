@@ -42,8 +42,11 @@
 				},
 				
 				deleteEquipment : function(id){
-					var url = '/calibrator/mEquipment/' + id;
-					return null;
+					var url = '/calibrator/mEquipment/delete/' + id;
+					return $http.post(url)
+					.then(function(result) {
+						return result.status;
+					});
 				}
             
         }

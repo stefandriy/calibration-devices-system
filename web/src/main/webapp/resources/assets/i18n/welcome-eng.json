@@ -110,6 +110,7 @@
   "MANUFACTURER":"Manufacturer",
   "VERIFICATION_INTERVAL":"Verification interval",
   "ADD_EQUIPMENT":"Add equipment",
+  "EDIT_OF_EQUIPMENT":"Edit of equipment",
   "FILL_IN_INFORMATION_ABOUT_EQUIPMENT":"Fill information about equipment",
 			
 	"TEST_COMPLETED_TRASLATION":"A measure done.",

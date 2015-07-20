@@ -107,7 +107,7 @@
                       	</a>
                     </li>
                      <li ui-sref-active="active" ng-controller ="MeasuringEquipmentControllerCalibrator">
-                         <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()" ><i class="fa fa-list-alt fa-fw"></i>Довідник засобів вимірювальної техніки (калібратор)  
+                         <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()" ><i class="fa fa-desktop"></i>Довідник засобів вимірювальної техніки (калібратор)  
                       	</a>
                     </li>
                     

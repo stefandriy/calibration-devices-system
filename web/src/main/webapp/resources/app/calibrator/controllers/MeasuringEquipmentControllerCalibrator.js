@@ -49,4 +49,11 @@ angular
 							templateUrl : '/resources/app/calibrator/views/modals/measuring-equipment-edit-modal.html',
 						});
 			};
+			
+			$scope.deleteEquipment = function (equipmentId) {
+				equipmentServiceCalibrator.deleteEquipment(equipmentId)
+                    $rootScope.onTableHandling();
+            };
+			
+			
     }]);

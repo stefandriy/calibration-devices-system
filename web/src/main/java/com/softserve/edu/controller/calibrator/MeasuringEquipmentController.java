@@ -135,7 +135,7 @@ public class MeasuringEquipmentController {
 	 * @return a response body with http status {@literal OK} if MeasuringEquipment
 	 *         successfully deleted
 	 */
-	 @RequestMapping(value = "/{mEquipmentId}", method = RequestMethod.DELETE)
+	 @RequestMapping(value = "/delete/{mEquipmentId}", method = RequestMethod.POST)
 	 public ResponseEntity deleteMeasuringEquipment(@PathVariable Long mEquipmentId){
 		 MeasuringEquipment measuringEquipment = measuringEquipmentService.deleteMeasuringEquipment(mEquipmentId);
 		 return new ResponseEntity<>(measuringEquipment, HttpStatus.OK);
