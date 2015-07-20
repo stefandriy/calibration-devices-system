@@ -40,7 +40,8 @@ public class Organization {
 //	private Set<User> users = new HashSet<User>(0);
 
 	@ManyToMany
-	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"))
+	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"),
+	inverseJoinColumns = @JoinColumn(name = "typeId"))
 	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
 
 	public void addOrganizationType(OrganizationType organizationType) {

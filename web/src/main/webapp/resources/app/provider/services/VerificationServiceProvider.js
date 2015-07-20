@@ -54,6 +54,9 @@ angular
             },
             rejectVerification : function(data) {
             	return updateData('new/reject', data);
+            },
+            sendMail : function(data) {
+            	return sendData ('new/mail', data);
             }
         };
 

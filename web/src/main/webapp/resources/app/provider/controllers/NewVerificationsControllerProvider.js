@@ -116,9 +116,6 @@ angular
                     });
             };
 
-
-
-
 $scope.addProviderEmployee = function (verifId, providerEmployee) {
     var modalInstance = $modal.open({
         animation: true,
@@ -270,6 +267,47 @@ var checkForEmpty = function () {
                 	  $scope.tableParams.reload();
             	  }
               }
+           
+           /**
+            * Modal window used to explain the reason of verification rejection
+            */
+           $scope.openMailModal = function (ID) {
+        	   $log.debug('ID');
+        	   $log.debug(ID);
+        	        var modalInstance = $modal.open({
+        	            animation: true,
+        	            templateUrl: '/resources/app/provider/views/modals/mailComment.html',
+        	            controller: 'MailSendingModalController',
+        	            size: 'md',
+
+        	        });
+
+        	        /**
+        	         * executes when modal closing
+        	         */
+        	        modalInstance.result.then(function (formData) {
+
+        	            var messageToSend = {
+        	         		   verifID : ID,
+        	         		   msg : formData.message
+        	         	   };
+        	 
+        	            var dataToSend = {
+        	            		verificationId: ID,
+        	            		status: 'REJECTED'
+        	            };
+        	            verificationServiceProvider.rejectVerification(dataToSend).success(function () {
+        	            		$rootScope.$broadcast('refresh-table');
+        	            		verificationServiceProvider.sendMail (messageToSend)
+         	            		.success(function (responseVal) {});
+        	         	   });
+        	        });
+          	};
+
+          	$scope.$on('verification_rejected', function(event, args) {
+          		$log.debug(args.verifID);
+          		 $scope.openMailModal(args.verifID);
+          	});
 
         }]);
 

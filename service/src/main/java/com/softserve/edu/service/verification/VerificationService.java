@@ -1,6 +1,7 @@
 package com.softserve.edu.service.verification;
 
 import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
@@ -11,6 +12,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.QueryConstructor;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
