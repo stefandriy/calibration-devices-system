@@ -131,6 +131,7 @@
             'provider/controllers/SettingsControllerProvider',
             'provider/controllers/NotificationsControllerProvider',
             'provider/controllers/ProviderEmployeeControllerProvider',
+            'provider/controllers/MailSendingModalControllerProvider',
             'provider/services/VerificationServiceProvider',
             'provider/services/AddressServiceProvider',
             'provider/services/SettingsServiceProvider',

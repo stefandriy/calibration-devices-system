@@ -1,7 +1,7 @@
 angular
-    .module('providerModule')
+    .module('employeeModule')
 
-    .controller('MailSendingModalController', ['$scope', '$log', '$modalInstance','$rootScope',
+    .controller('MailSendingModalControllerProvider', ['$scope', '$log', '$modalInstance','$rootScope',
         function ($scope, $log, $modalInstance,  $rootScope) {
           $scope.formData={};
             $scope.cancel = function () {

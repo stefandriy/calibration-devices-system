@@ -277,7 +277,7 @@ var checkForEmpty = function () {
         	        var modalInstance = $modal.open({
         	            animation: true,
         	            templateUrl: '/resources/app/provider/views/modals/mailComment.html',
-        	            controller: 'MailSendingModalController',
+        	            controller: 'MailSendingModalControllerProvider',
         	            size: 'md',
 
         	        });
