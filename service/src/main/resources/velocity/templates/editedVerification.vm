@@ -1,10 +1,11 @@
 <html>
 	<body>
 		<span style="font-weight:bold">
-			Доброго дня, $name!  Ваша заявка була успішно відправлена.
+			Доброго дня, $name!  Ваша заявка була успішно відредагована.
 		</span>
 		<br>Ви можете перевірити статус вашої заявки за наступним посиланням:
-		<br>$protocol://$domain:8080/#/application-status/$applicationId
+		<br>$protocol://$domain/#/application-status/$applicationId
+
 		<br>Дякуємо, що користуєтесь нашим сервісом.
 	</body>
 </html>

@@ -16,11 +16,11 @@ public class ClientStageVerificationDTO {
     private String building;
     private String flat;
     private Long providerId;
-
+    private String verificationId;
     
     protected ClientStageVerificationDTO() {}
 
-    public ClientStageVerificationDTO(ClientData clientData, Address address, Long providerId) {
+    public ClientStageVerificationDTO(ClientData clientData, Address address, Long providerId, String verificationId) {
         this.firstName = clientData.getFirstName();
         this.lastName = clientData.getLastName();
         this.middleName = clientData.getMiddleName();
@@ -33,7 +33,7 @@ public class ClientStageVerificationDTO {
         this.building = address.getBuilding();
         this.flat = address.getFlat();
         this.providerId = providerId;
-       
+       this.verificationId = verificationId;
     }
 
     public String getFirstName() {
@@ -131,5 +131,13 @@ public class ClientStageVerificationDTO {
     public void setProviderId(Long providerId) {
         this.providerId = providerId;
     }
+
+	public String getVerificationId() {
+		return verificationId;
+	}
+
+	public void setVerificationId(String verificationId) {
+		this.verificationId = verificationId;
+	}
    
 }

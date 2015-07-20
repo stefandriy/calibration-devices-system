@@ -380,7 +380,17 @@ public class VerificationService {
 		verificationRepository.save(verification);
 	}
 
-
+	@Transactional
+	public void updateVerificationData(String id, ClientData clientData, Organization provider ) {
+		Verification verificationToEdit = verificationRepository.findOne(id);
+		verificationToEdit.setInitialDate(new Date());
+		verificationToEdit.setClientData(clientData);
+		verificationToEdit.setProvider(provider);
+		verificationToEdit.setStatus(Status.SENT);
+		verificationToEdit.setReadStatus(ReadStatus.UNREAD);
+		verificationRepository.save(verificationToEdit);
+	}
+	
 	/**
 	 * Returns calibration test assigned to verification
 	 *

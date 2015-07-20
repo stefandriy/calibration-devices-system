@@ -1,0 +1,11 @@
+<html>
+	<body>
+		<span style="font-weight:bold">
+			Доброго дня, $name!  Ваша заявка була відхилена!
+		</span>
+		<br>Причина відхилення: $message.
+		<br>Ви можете редагувати вашу заявку за наступним посиланням:
+		<br>$protocol://$domain:8080/#/application-sending/$verificationId
+		<br>Дякуємо, що користуєтесь нашим сервісом.
+	</body>
+</html>

@@ -1,15 +1,26 @@
 angular
     .module('providerModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable'])
+        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies'])
 
-    .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
+    .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','$translateProvider',
 
-        function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider) {
+        function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider, $translateProvider) {
 
             showErrorsConfigProvider.showSuccess(true);
 
-            $urlRouterProvider.otherwise('/');
 
+        	/**
+			 * i18n configuration.
+			 */
+			$translateProvider.useStaticFilesLoader({
+				prefix : '/resources/assets/i18n/welcome-',
+				suffix : '.json'
+			});
+			$translateProvider.useLocalStorage();
+			$translateProvider.useSanitizeValueStrategy('escaped');
+			$translateProvider.preferredLanguage('ukr');
+			
+			$urlRouterProvider.otherwise('/');
             $stateProvider
                 .state('main-panel', {
                     url: '/',
@@ -70,7 +81,8 @@ define([
     'controllers/NotificationsController',
     'controllers/ProviderEmployeeController',
     'controllers/CapacityEmployeeController',
-
+    'controllers/MailSendingModalController',
+    
     'services/VerificationService',
     'services/AddressService',
     'services/SettingsService',

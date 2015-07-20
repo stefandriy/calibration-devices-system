@@ -134,7 +134,7 @@ public class CalibratorController {
         ClientData clientData = verification.getClientData();
         Address address = clientData.getClientAddress();
 
-        return new ClientStageVerificationDTO(clientData, address,  null);
+        return new ClientStageVerificationDTO(clientData, address,  null, null);
     }
 
 //    @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.POST)

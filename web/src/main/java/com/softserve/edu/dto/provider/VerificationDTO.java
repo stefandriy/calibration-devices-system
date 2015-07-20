@@ -30,7 +30,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
             Device device, Organization provider, User providerEmployee,
             Organization stateVerificator, User stateVerificatorEmployee) {
 
-        super(clientData, clientData.getClientAddress(), null);
+        super(clientData, clientData.getClientAddress(), null, null);
         this.id = id;
         this.status = status;
         this.initialDate = initialDate;

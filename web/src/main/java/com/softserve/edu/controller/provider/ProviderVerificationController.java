@@ -209,7 +209,7 @@ public class ProviderVerificationController {
         ClientData clientData = verification.getClientData();
         Address address = clientData.getClientAddress();
         
-        return new ClientStageVerificationDTO(clientData, address, null);
+        return new ClientStageVerificationDTO(clientData, address, null, null);
     }
 
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)

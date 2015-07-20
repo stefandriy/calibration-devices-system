@@ -14,6 +14,7 @@ public class OrganizationType {
 	private Integer id;
 	private String type;
 
+
 	@ManyToMany(mappedBy = "organizationTypes")
 	private Set<Organization> organizations = new HashSet<Organization>();
 

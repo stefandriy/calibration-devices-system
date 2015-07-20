@@ -1,6 +1,6 @@
 <section id=applicationSection>
 
-	<div class="col-md-12 text-center">
+	<div class="col-md-12 text-center" ng-hide="errorEdit">
 		<h1>{{ 'APP_SENDING_TITLE' | translate }}</h1>
 	</div>
 
@@ -197,7 +197,7 @@
 						</p>
 					</div>
 				</div>
-
+				
 				<div class="form-group" show-errors>
 					<label for="district" class="col-md-2 control-label">
 						{{'DISTRICT' | translate}} </label>
@@ -329,15 +329,19 @@
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-8">
 						<button type="submit"
-							class="btn btn-success text-uppercase pull-left">
+							class="btn btn-success text-uppercase pull-left" ng-show="!showEditButton">
 							{{'SEND_BTN' | translate}}</button>
+					</div>
+					<div class="col-md-offset-2 col-md-8">
+						<button class="btn btn-success text-uppercase pull-left" ng-show="showEditButton" ng-click="editApplicationData()">
+							{{'EDIT' | translate}}</button>
 					</div>
 				</div>
 
 			</form>
 		</div>
 
-		<div ng-hide="isShownForm"
+		<div ng-show="!isShownForm  && !errorEdit"
 			class="row col-md-10 alert alert-success alert-dismissible centered"
 			role="alert">
 			<button ng-click="closeAlert()" type="button"
@@ -353,6 +357,21 @@
 			</div>
 
 		</div>
+		<div ng-show="!isShownForm  && errorEdit"
+			class="row col-md-10 alert alert-danger alert-dismissible centered"
+			role="alert">
+			<button ng-click="closeAlert()" type="button"
+				class="close btn-close-alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+
+			<div class="text-center" >
+				{{'EDIT_ERROR' | translate}}<br>
+				{{'EDIT_ERROR_INFO' | translate}}
+			</div>
+
+		</div>
+		
 	</div>
 
 </section>

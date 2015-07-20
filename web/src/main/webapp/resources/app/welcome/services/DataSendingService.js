@@ -5,6 +5,9 @@ angular
         return {
             sendApplication: function (data) {
                 return sendData('add', data);
+            },
+            editApplication: function (data) {
+            	return sendData('edit', data);
             }
         };
 

@@ -1,6 +1,8 @@
 package com.softserve.edu.config;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
 import org.apache.velocity.app.VelocityEngine;
@@ -28,6 +30,7 @@ public class MailConfig {
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setDefaultEncoding("UTF-8");
+		
 		mailSender.setHost(env.getProperty("mail.config.host"));
 		mailSender.setPort(env.getProperty("mail.config.port", Integer.class, 25));
 		mailSender.setProtocol(env.getProperty("mail.config.protocol"));

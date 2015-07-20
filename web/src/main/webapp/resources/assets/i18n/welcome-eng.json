@@ -22,8 +22,8 @@
   "BUILDING": "Building",
   "FLAT": "Flat",
   "POSTCODE": "Postcode",
-  "SEND_BTN": "send",
-  "APP_SENT": "Thank you! We your application was sent. Your code is: ",
+  "SEND_BTN": "Send",
+  "APP_SENT": "Thank you! Your application was sent. Your code is: ",
   "APP_SENT_INFO": "Also this code was sent on your email. Have a nice day!",
   "APP_STATUS_TITLE": "Please enter the code of your application",
   "NOT_FOUND": "Application not found",
@@ -109,6 +109,14 @@
 		
 	"TEST_NOK_TRASLATION":"Counter tested : not suitable!",
 	"SECOND_PHONE":"Additional phone number",
-	"SECOND_PHONE_NUMBER_INFO":"If you want / do not want to enter an additional phone number, click here."
-  
+	"SECOND_PHONE_NUMBER_INFO":"If you want / do not want to enter an additional phone number, click here.",
+	
+	"PLEASE_DESCRIBE_REASON":"Please explain why verification is being rejected",
+  	"REJECT":"Reject",
+  	"REASON_OF_REJECTION":"Please provide the detailed reason why this verification needs to be rejected",
+  	"ACCEPT":"Accept",
+  	"CLEAR_ALL":"Clear all",
+  	"CANCEL":"Cancel",
+  	"EDIT_ERROR":"Sorry, but You cannot edit this verification anymore! It was edited and sent to service provider.",
+  	"EDIT_ERROR_INFO":"Info about current state of Your verification You can check via link that was sent on Your email."
 }

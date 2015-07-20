@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,8 +33,8 @@ public class MailService {
     @Value("${site.protocol}")
     private String protocol;
 
-    @Value("${site.domain}")
-    private String domain;
+//    @Value("${site.domain}")
+//    private String domain;
     
     public void sendMail(String to, String userName, String clientCode) {
 
@@ -41,7 +44,13 @@ public class MailService {
                 message.setTo(to);
                 message.setFrom(new InternetAddress("metrology.calibrations@gmail.com",
                         "Централізована система повірки лічильників"));
-                
+                String domain = null;	
+                try {
+               		 domain  = InetAddress.getLocalHost().getHostAddress();
+            		} catch (UnknownHostException e) {
+            			e.printStackTrace();
+            		}
+            		
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("name", userName);
                 templateVariables.put("protocol", protocol);
@@ -50,6 +59,37 @@ public class MailService {
 
                 String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" +
                                 "/mailTemplate.vm",
+                        "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+
+            }
+        };
+       this.mailSender.send(preparator);
+    }
+    
+    public void sendRejectMail(String to, String userName, String verificationId, String msg) {
+
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(to);
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com",
+                        "Централізована система повірки лічильників"));
+                String domain = null;	
+                try {
+               		 domain  = InetAddress.getLocalHost().getHostAddress();
+            		} catch (UnknownHostException e) {
+            			e.printStackTrace();
+            		}
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("name", userName);
+                templateVariables.put("protocol", protocol);
+                templateVariables.put("domain", domain);
+                templateVariables.put("verificationId", verificationId);
+                templateVariables.put("message", msg);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" +
+                                "/rejectVerification.vm",
                         "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");

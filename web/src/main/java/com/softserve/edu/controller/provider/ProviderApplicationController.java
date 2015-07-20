@@ -2,6 +2,8 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
+import com.softserve.edu.dto.application.ClientStageVerificationDTO;
+import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.ProviderStageVerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
@@ -11,6 +13,8 @@ import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.catalogue.DistrictService;
 import com.softserve.edu.service.catalogue.LocalityService;
@@ -47,6 +51,8 @@ public class ProviderApplicationController {
     @Autowired
     private LocalityService localityService;
 
+	@Autowired
+	private MailService mail;
 
     /**
      * Save verification in database
@@ -98,4 +104,13 @@ public class ProviderApplicationController {
         );
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
     }
+    
+    @RequestMapping(value = "new/mail", method = RequestMethod.POST)
+	public String sendReject(@RequestBody RejectMailDTO reject) {
+		Verification verification = verificationService.findById(reject.getVerifID());
+    	String name = verification.getClientData().getFirstName();
+    	String sendTo = verification.getClientData().getEmail();
+    	mail.sendRejectMail(sendTo, name, reject.getVerifID(), reject.getMsg());
+    	return reject.getVerifID();
+	}
 }
