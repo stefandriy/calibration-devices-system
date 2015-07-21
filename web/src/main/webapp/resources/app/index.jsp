@@ -11,6 +11,8 @@
     <link href="/resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
 	<link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="/resources/assets/bower_components/chosen/chosen.min.css">
     <link href="/resources/assets/css/provider.css" rel="stylesheet">
  </head>
 
@@ -157,4 +159,20 @@
 
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
+<br>
+<script src="/resources/assets/bower_components/jquery/dist/jquery.js"
+        type="text/javascript"></script>
+<br>
+<br>
+<script
+        src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
+        type="text/javascript"></script>
+<br>
+<script type="text/javascript">
+    $(".chzn-select").chosen();
+    $(".chzn-select-deselect").chosen({
+        allow_single_deselect : true
+    });
+    $("#states").chosen();
+</script>
 </body>

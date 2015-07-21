@@ -14,6 +14,8 @@ require.config({
         employeeModule: 'employeeModule',
         highchartsAngular:  '../assets/bower_components/highcharts-ng/src/highcharts-ng',
         highcharts:  '../assets/bower_components/highcharts-release/highcharts.src',
+        chosen : '../assets/bower_components/angular-chosen-localytics/chosen',
+
         standalone:  '../assets/bower_components/highcharts-release/adapters/standalone-framework.src'
     },
     shim: {
@@ -56,11 +58,16 @@ require.config({
         },
         highchartsAngular:{
             deps: [ 'angular','highcharts']
+
+        },
+        chosen : {
+            exports : "chosen",
+            deps : [ 'angular' ]
         },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
-                'showErrors', 'ngTable','highchartsAngular']
+                'showErrors', 'ngTable', 'highchartsAngular', 'chosen']
         }
     }
 });

@@ -21,6 +21,24 @@
                 <div class="panel-body">
                     <div class="row">
                      <div class="col-md-12">
+                         <div ng-show ="showListOfOrganization">
+                         <select multiple chosen id="device" name="device" type="text"
+                                 class="form-control" ng-model="selectedEmployee"
+                                 data-placeholder="Choose type of worcker"
+                                ng-change = "chouse(selectedEmployee)"
+                                 required>
+                             <div  ng-show ="showProviderOrganization">
+                             <option value = 'provider'> Provider </option>
+                             </div>
+                             <div  ng-show ="showCalibratorOrganization">
+                             <option value = 'calibrator'> Calibrator </option>
+                             </div>
+                             <div  ng-show ="showCalibratorOrganization">
+                             <option value = 'verificatot' ng-show ="showVerificatorOrganization"> Verificator </option>
+                             </div>
+                         </select>
+                         </div>
+
                          <label ng-show ="showProviderOrganization">Provider
     						<input type="checkbox" ng-click="selectOrganization()" ng-model="checkboxProviderOrganization" ng-init = "checkboxProviderOrganization=false">
      					 </label>

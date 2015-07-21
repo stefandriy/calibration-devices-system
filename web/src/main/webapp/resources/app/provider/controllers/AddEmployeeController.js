@@ -37,6 +37,7 @@ angular
         						organizationTypeVerificator = true;	
     				}
     				if (thereIsAdmin > 1){
+                        $scope.showListOfOrganization = true;
     					for (var i = 0; i<role.length; i++){
         					if(role[i]==='PROVIDER_ADMIN')
         						$scope.showProviderOrganization = true;
@@ -47,7 +48,21 @@ angular
         				}
     				}
     			});
-	       
+                $scope.chouse = function(selectedEmployee){
+                    var employee = selectedEmployee + '';
+                    var resaultEmployee = employee.split(',');
+                    for (var i = 0; i< resaultEmployee.length; i++){
+                        if (resaultEmployee[i]==='provider') {
+                            organizationTypeProvider = true;
+                        }
+                        if (resaultEmployee[i]==='calibrator'){
+                            organizationTypeCalibrator = true;
+                        }
+                        if (resaultEmployee[i]==='verificatot') {
+                            organizationTypeVerificator = true
+                        }
+                        }
+                }
             $scope.employeeData = {};
             $scope.form = {};
 
