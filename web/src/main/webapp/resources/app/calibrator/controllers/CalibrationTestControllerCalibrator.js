@@ -1,12 +1,11 @@
 angular
     .module('employeeModule')
-    .controller('CalibrationTestControllerCalibrator', ['$scope', '$http', 'CalibrationTestServiceCalibrator',
-        function ($scope, $http, calibrationTestServiceCalibrator) {
+    .controller('CalibrationTestControllerCalibrator', ['$scope', '$http', '$log', 'CalibrationTestServiceCalibrator',
+        function ($scope, $http, $log, calibrationTestServiceCalibrator) {
 
             $scope.calibrationTests = [];
-           // $rootScope.$broadcast('test-is-created');
 
-
+            $log.debug("In controller!");
             function getCalibrationTests(){
                 calibrationTestServiceCalibrator
                     .getCalibrationTests()
@@ -17,11 +16,12 @@ angular
 
             getCalibrationTests();
             
-            function saveCalibrationTest() {
+            $scope.saveCalibrationTest = function() {
                 calibrationTestServiceCalibrator
                     .saveCalibrationTest($scope.addFormData)
                     .then(function (data) {
-                        $scope.addFormData = null;
+                       $log.debug("saved!");
                     });
             }
+         
         }]);

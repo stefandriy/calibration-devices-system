@@ -4,10 +4,10 @@ angular.module('employeeModule')
 						function($rootScope, $scope, $modalInstance, MeasuringEquipmentServiceCalibrator) {
 
 							
-//					   $scope.name = null;
-//						$scope.equipmentType = null;
-//						$scope.manufacturer = null;
-//						$scope.verificationInterval = null;
+//					   $scope.name = name;
+//						$scope.equipmentType = equipmentType;
+//						$scope.manufacturer = manufacturer;
+//						$scope.verificationInterval = verificationInterval;
 
 						/**
 						 * Resets Equipment form

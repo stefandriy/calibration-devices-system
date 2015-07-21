@@ -25,9 +25,10 @@ public class CalibrationTestDataService {
         dataRepository.delete(id);
         return deletedTestData;
     }
-
-    public CalibrationTestData updateTestData(Long id, CalibrationTestData testData){
-        CalibrationTestData updatedCalibrationTestData = dataRepository.findOne(id);
+    
+    //Updated by Konyk
+    public CalibrationTestData editTestData(Long testDataId, CalibrationTestData testData){
+        CalibrationTestData updatedCalibrationTestData = dataRepository.findOne(testDataId);
         updatedCalibrationTestData.setGivenConsumption(testData.getGivenConsumption());
         updatedCalibrationTestData.setAcceptableError(testData.getAcceptableError());
         updatedCalibrationTestData.setVolumeOfStandard(testData.getVolumeOfStandard());

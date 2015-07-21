@@ -4,15 +4,14 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
-import com.softserve.edu.dto.asm.CalibrationTestDTOAsm;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.CalibrationTestService;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -39,6 +38,9 @@ public class CalibratorController {
 
     @Autowired
     CalibratorService calibratorService;
+    
+    @Autowired
+    CalibrationTestService testService;
 
     @Autowired
     StateVerificatorService verificatorService;
@@ -116,7 +118,6 @@ public class CalibratorController {
      */
     @RequestMapping(value = "new/read", method = RequestMethod.PUT)
     public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
-     System.out.println("inside controller to update");
      verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
     }
         
@@ -137,37 +138,17 @@ public class CalibratorController {
         return new ClientStageVerificationDTO(clientData, address,  null, null);
     }
 
-//    @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.POST)
-//    public ResponseEntity<CalibrationTestDTO> createCalibrationTest(@PathVariable String verificationId,
-//          @RequestBody CalibrationTestDTO sendTest) {
-//		HttpStatus httpStatus = HttpStatus.CREATED;
-//		CalibrationTest createdtest;
-//		try {
-//			createdtest = verificationService
-//			
-//		} catch (Exception e) {
-//			logger.error("GOT EXCEPTION " + e.getMessage());
-//			httpStatus = HttpStatus.CONFLICT;
-//		}
-//    	
-//    	return new ResponseEntity<CalibrationTestDTO>(null);
-//    	
-//    }
     
     @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.POST)
-    public ResponseEntity<CalibrationTestDTO> createCalibrationTest(
-            @PathVariable String verificationId,
-            @RequestBody CalibrationTestDTO sentTest) {
-    	System.out.println("CREATE TEST");
-        CalibrationTest createdTest;
-        try {
-            createdTest = verificationService.createCalibrationTest(
-                    verificationId, sentTest.toCalibrationTest());
-            CalibrationTestDTO createdTestDTO =
-                    new CalibrationTestDTOAsm().toResource(createdTest);
-            return new ResponseEntity<>(createdTestDTO, HttpStatus.CREATED);
-        } catch (NotAvailableException e) {
-            throw new com.softserve.edu.exceptions.NotFoundException(e);
-        }
+    public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
+    	HttpStatus httpStatus = HttpStatus.CREATED;
+    	try {
+			CalibrationTest createdTest = testDTO.saveCalibrationTest();
+			testService.createTest(createdTest);
+		} catch (Exception e) {
+			logger.error("GOT EXCEPTION " + e.getMessage());
+			httpStatus = HttpStatus.CONFLICT;
+		}
+    	return new ResponseEntity<>(httpStatus);
     }
 }

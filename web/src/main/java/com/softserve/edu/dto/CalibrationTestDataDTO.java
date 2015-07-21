@@ -106,7 +106,7 @@ public class CalibrationTestDataDTO extends ResourceSupport {
         this.testResult = testResult;
     }
 
-    public CalibrationTestData toTestData() {
+    public CalibrationTestData saveTestData() {
         CalibrationTestData calibrationTestData = new CalibrationTestData();
         calibrationTestData.setGivenConsumption(givenConsumption);
         calibrationTestData.setAcceptableError(acceptableError);

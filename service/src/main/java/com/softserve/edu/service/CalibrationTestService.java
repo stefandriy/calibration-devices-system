@@ -8,10 +8,13 @@ import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -25,40 +28,41 @@ public class CalibrationTestService {
     @Autowired
     private CalibrationTestDataRepository dataRepository;
 
-    public CalibrationTest deleteTest(Long id){
-        CalibrationTest deletedCalibrationTest = testRepository.findOne(id);
-        testRepository.delete(id);
-        return deletedCalibrationTest;
-    }
 
-    public CalibrationTest findTest(Long id){
-        return testRepository.findOne(id);
+    public CalibrationTest findTestById(Long testId){
+        return testRepository.findOne(testId);
     }
-
-    public CalibrationTest updateTest(Long id, CalibrationTest data){
-        CalibrationTest updatedCalibrationTest = testRepository.findOne(id);
-        updatedCalibrationTest.setName(data.getName());
-        updatedCalibrationTest.setDateTest(data.getDateTest());
-        updatedCalibrationTest.setTemperature(data.getTemperature());
-        updatedCalibrationTest.setSettingNumber(data.getSettingNumber());
-        updatedCalibrationTest.setLatitude(data.getLatitude());
-        updatedCalibrationTest.setLongitude(data.getLongitude());
-        updatedCalibrationTest.setConsumptionStatus(data.getConsumptionStatus());
-        updatedCalibrationTest.setTestResult(data.getTestResult());
-        updatedCalibrationTest = testRepository.save(updatedCalibrationTest);
-        return updatedCalibrationTest;
-    }
-
-    public CalibrationTest createTest(CalibrationTest data){
-        return testRepository.save(data);
-    }
-
+    
     public CalibrationTestList findAllCalibrationTests (){
-        List<CalibrationTest> list = (ArrayList<CalibrationTest>) testRepository.findAll();
-        CalibrationTestList foundTests = new CalibrationTestList(list);
-        return foundTests;
+    	List<CalibrationTest> list = (ArrayList<CalibrationTest>) testRepository.findAll();
+    	CalibrationTestList foundTests = new CalibrationTestList(list);
+    	return foundTests;
     }
 
+    public CalibrationTest createTest(CalibrationTest test){
+    	return testRepository.save(test);
+    }
+    
+    public CalibrationTest editTest(Long testId, String name, Date dateTest, Integer temperature, Integer settingNumber,
+    		Double latitude, Double longitude, String consumptionStatus){
+        CalibrationTest calibrationTest = testRepository.findOne(testId);
+        calibrationTest.setName(name);
+        calibrationTest.setDateTest(dateTest);
+        calibrationTest.setTemperature(temperature);
+        calibrationTest.setSettingNumber(settingNumber);
+        calibrationTest.setLatitude(latitude);
+        calibrationTest.setLongitude(longitude);
+        calibrationTest.setConsumptionStatus(consumptionStatus);
+        return calibrationTest;
+    }
+
+    public CalibrationTest deleteTest(Long testId){
+    	CalibrationTest deletedCalibrationTest = testRepository.findOne(testId);
+    	testRepository.delete(testId);
+    	return deletedCalibrationTest;
+    }
+    
+    //TestData
     public CalibrationTestData createTestData(Long testId, CalibrationTestData data) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         if(calibrationTest == null) {
@@ -69,8 +73,7 @@ public class CalibrationTestService {
         return testData;
     }
 
-    public CalibrationTestDataList findAllTestDataAsociatedWithTest(
-            Long calibrationTestId){
+    public CalibrationTestDataList findAllTestDataAsociatedWithTest(Long calibrationTestId){
         CalibrationTest calibrationTest = testRepository.findOne(calibrationTestId);
         if (calibrationTest == null){
             throw new NotAvailableException("Тесту з таким ID не існує!");

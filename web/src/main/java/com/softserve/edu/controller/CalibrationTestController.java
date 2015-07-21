@@ -1,120 +1,102 @@
 package com.softserve.edu.controller;
 
-import com.softserve.edu.dto.CalibrationTestDataDTO;
-import com.softserve.edu.dto.CalibrationTestDataListDTO;
-import com.softserve.edu.dto.asm.CalibrationTestDataDTOAsm;
-import com.softserve.edu.dto.asm.CalibrationTestDataListDTOAsm;
-import com.softserve.edu.entity.CalibrationTest;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.softserve.edu.dto.CalibrationTestListDTO;
 import com.softserve.edu.dto.CalibrationTestDTO;
-import com.softserve.edu.dto.asm.CalibrationTestListDTOAsm;
-import com.softserve.edu.dto.asm.CalibrationTestDTOAsm;
+import com.softserve.edu.dto.CalibrationTestDataDTO;
+import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.service.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 @Controller
-@RequestMapping("/calibrationTests")
+@RequestMapping("/calibrationTests/")
 public class CalibrationTestController {
 
     @Autowired
-    private CalibrationTestService service;
+    private CalibrationTestService testService;
+    
+    private final Logger logger = Logger.getLogger(CalibrationTestController.class);
 
-    @RequestMapping(value = "/{calibrationTestId}", method = RequestMethod.GET)
-    public ResponseEntity<CalibrationTestDTO> getCalibrationTest(
-            @PathVariable Long calibrationTestId) {
-        CalibrationTest calibrationTest = service.findTest(calibrationTestId);
-        if (calibrationTest != null) {
-            CalibrationTestDTO resource = new CalibrationTestDTOAsm()
-                    .toResource(calibrationTest);
-            return new ResponseEntity<>(resource, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @RequestMapping(value = "getTest/{calibrationTestId}", method = RequestMethod.GET)
+    public ResponseEntity getCalibrationTest(@PathVariable Long calibrationTestId) {
+        CalibrationTest foundTest = testService.findTestById(calibrationTestId);
+        if (foundTest == null) {
+        	 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    @RequestMapping(value = "/{calibrationTestId}",
-            method = RequestMethod.DELETE)
-    public ResponseEntity<CalibrationTestDTO> deleteCalibrationTest(
-            @PathVariable Long calibrationTestId) {
-        CalibrationTest calibrationTest = service.deleteTest(calibrationTestId);
-        if(calibrationTest != null) {
-            CalibrationTestDTO resource = new CalibrationTestDTOAsm()
-                    .toResource(calibrationTest);
-            return new ResponseEntity<>(resource, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @RequestMapping(value = "/{calibrationTestId}",
-            method = RequestMethod.PUT)
-    public ResponseEntity<CalibrationTestDTO> updateCalibrationTest(
-            @PathVariable Long calibrationTestId,
-            @RequestBody CalibrationTestDTO sentCalibrationTest) {
-        CalibrationTest updatedCalibrationTest = service.updateTest(calibrationTestId,
-                sentCalibrationTest.toCalibrationTest());
-        if (updatedCalibrationTest != null) {
-            CalibrationTestDTO resource = new CalibrationTestDTOAsm()
-                    .toResource(updatedCalibrationTest);
-            return new ResponseEntity<>(resource, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    //by Konyk
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<CalibrationTestDTO> createCalibrationTest(
-            @RequestBody CalibrationTestDTO sentTest) {
-        CalibrationTest createdCalibrationTest = sentTest.toCalibrationTest();
-        service.createTest(createdCalibrationTest);
-        return new ResponseEntity<>( HttpStatus.CREATED);
+        return new ResponseEntity<>(foundTest, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<CalibrationTestListDTO> findAllCalibrationTests() {
-        CalibrationTestList list = service.findAllCalibrationTests();
-        CalibrationTestListDTO res =  new CalibrationTestListDTOAsm().toResource(list);
-        return new ResponseEntity<>(res, HttpStatus.OK);
+    public ResponseEntity findAllCalibrationTests() {
+    	try {
+    		CalibrationTestList list = testService.findAllCalibrationTests();			
+    		return new ResponseEntity<>(list, HttpStatus.OK);
+    	 } catch (NotAvailableException exception) {
+             throw new com.softserve.edu.exceptions.NotFoundException(exception);
+         }
+    }
+    
+    //by Konyk
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
+    	HttpStatus httpStatus = HttpStatus.CREATED;
+    	try {
+			CalibrationTest createdTest = testDTO.saveCalibrationTest();
+			testService.createTest(createdTest);
+		} catch (Exception e) {
+			logger.error("GOT EXCEPTION " + e.getMessage());
+			httpStatus = HttpStatus.CONFLICT;
+		}
+    	return new ResponseEntity<>(httpStatus);
+    }
+    
+    @RequestMapping(value = "edit/{calibrationTestId}", method = RequestMethod.POST)
+    public ResponseEntity editCalibrationTest(@PathVariable Long calibrationTestId,  @RequestBody CalibrationTestDTO testDTO) {
+    	HttpStatus httpStatus = HttpStatus.OK;
+    	try {
+			testService.editTest(calibrationTestId, testDTO.getName(), testDTO.getDateTest(), testDTO.getTemperature(),
+					testDTO.getSettingNumber(), testDTO.getLatitude(), testDTO.getLongitude(), testDTO.getConsumptionStatus());
+		} catch (Exception e) {
+			logger.error("GOT EXCEPTION " + e.getMessage());
+			httpStatus = HttpStatus.CONFLICT;
+		}
+    	return new ResponseEntity<>(httpStatus);
+    }
+    
+    @RequestMapping(value = "delete/{calibrationTestId}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteCalibrationTest(@PathVariable Long calibrationTestId) {
+        CalibrationTest calibrationTest = testService.deleteTest(calibrationTestId);
+        return new ResponseEntity<>(calibrationTest, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{calibrationTestId}/testData",
-            method = RequestMethod.POST)
-    public ResponseEntity<CalibrationTestDataDTO> createTestData(
-            @PathVariable Long calibrationTestId,
-            @RequestBody CalibrationTestDataDTO sentTestData) {
+
+    @RequestMapping(value = "/{calibrationTestId}/testData", method = RequestMethod.POST)
+    public ResponseEntity createTestData(@PathVariable Long calibrationTestId, @RequestBody CalibrationTestDataDTO testDataDTO) {
         CalibrationTestData createdTestData;
         try {
-            createdTestData = service.createTestData(calibrationTestId, sentTestData.toTestData());
-            CalibrationTestDataDTO createdTestDataDTO =
-                    new CalibrationTestDataDTOAsm().toResource(createdTestData);
-            HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(URI.create(createdTestDataDTO.getLink("self").getHref()));
-            return new ResponseEntity<>(createdTestDataDTO, headers, HttpStatus.CREATED);
+            createdTestData = testService.createTestData(calibrationTestId, testDataDTO.saveTestData());
+            return new ResponseEntity<>(createdTestData, HttpStatus.CREATED);
         } catch (NotAvailableException e) {
             throw new com.softserve.edu.exceptions.NotFoundException(e);
         }
     }
 
     @RequestMapping(value = "/{calibrationTestId}/testData")
-    public ResponseEntity<CalibrationTestDataListDTO> findAllCalibrationTestData(
-            @PathVariable Long calibrationTestId) {
+    public ResponseEntity findAllCalibrationTestData(@PathVariable Long calibrationTestId) {
         try {
-            CalibrationTestDataList list = service.findAllTestDataAsociatedWithTest(calibrationTestId);
-            CalibrationTestDataListDTO res = new CalibrationTestDataListDTOAsm().toResource(list);
-            return new ResponseEntity<>(res, HttpStatus.OK);
+            CalibrationTestDataList list = testService.findAllTestDataAsociatedWithTest(calibrationTestId);
+            return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (NotAvailableException exception) {
             throw new com.softserve.edu.exceptions.NotFoundException(exception);
         }

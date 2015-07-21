@@ -24,7 +24,7 @@ public class VerificationPhotoService {
     private String sep = FileSystems.getDefault().getSeparator();
 
     public boolean putResourse(long testId, InputStream stream, String fileType) {
-        CalibrationTest test = calibrationTestService.findTest(testId);
+        CalibrationTest test = calibrationTestService.findTestById(testId);
         String verId = test.getVerification().getId();
         String relFolder = verId + sep + testId + sep;
         test.setPhotoPath(fileOperationImpl.putResourse(stream, relFolder, fileType));

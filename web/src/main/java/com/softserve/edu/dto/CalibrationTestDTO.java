@@ -99,7 +99,7 @@ public class CalibrationTestDTO extends ResourceSupport {
         this.testResult = testResult;
     }
 
-    public CalibrationTest toCalibrationTest() {
+    public CalibrationTest saveCalibrationTest() {
         CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setName(name);
         calibrationTest.setDateTest(dateTest);
