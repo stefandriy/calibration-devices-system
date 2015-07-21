@@ -13,7 +13,6 @@ require
 				angularTranslateStorageCookie : '../../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
 				showErrors : '../../assets/bower_components/angular-bootstrap-show-errors/src/showErrors.min',
 				ngTable : '../../assets/bower_components/ng-table/ng-table',
-
 				chosen : '../../assets/bower_components/angular-chosen-localytics/chosen',
 				bootstrapAngularSwitch : '../../assets/bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch',
 				angularjsScrollGlue :'../../assets/bower_components/angularjs-scroll-glue/src/scrollglue',

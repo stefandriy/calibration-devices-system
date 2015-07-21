@@ -19,7 +19,7 @@
 <div id="employeeModule" class="wrapper">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0" ng-controller="TopNavBarControllerProvider">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="margin-bottom: 0" ng-controller="TopNavBarControllerProvider">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>

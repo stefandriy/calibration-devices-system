@@ -119,7 +119,7 @@
 						<td class="col-sm-3  glyphicon glyphicon-user"
 							ng-class="{'progressStyle':verification.status == 'SENT'||'IN_PROGRESS'||'SENT_TO_VERIFICATOR'}">Client</td>
 						<td class="col-sm-3  glyphicon glyphicon-tint"
-							ng-class="{ 'doneStyle':verification.status == 'IN_PROGRESS'||'SENT_TO_VERIFICATOR','progressStyle':verification.status == 'SENT'}">Provider</td>
+							ng-class="{ 'doneStyle':verification.status == 'IN_PROGRESS'||'SENT_TO_VERIFICATOR','progressStyle':verification.status == 'SENT'}">{{'PROVIDER' | translate}}</td>
 						<td class="col-sm-3  glyphicon glyphicon-scale"
 							ng-class="{'doneStyle':verification.status == 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status == 'SENT', 'progressStyle':verification.status == 'IN_PROGRESS'}">Calibrator</td>
 						<td class="col-sm-3  glyphicon glyphicon-home"
@@ -141,8 +141,25 @@
 				Modal
 			</button>
 			
+	<!-- 		<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
+				data-target="#myModal" popover="Model chat"
+				popover-trigger="mouseenter" ng-click="chatOpen()" ng-if="verification.status">
+				<span class=" glyphicon glyphicon-envelope"></span> Open Feedback
+				Modal
+			</button>
+			
 		
-
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
+      <li role="presentation" class="divider"></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+    </ul>
+  </div> -->
 
 			
 		</div>

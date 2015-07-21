@@ -122,9 +122,7 @@
 								<span class="input-group-addon" id="basic-addon-code">+38</span>
 								<input id="phoneNumber" name="phoneNumber" type="tel"
 									class="form-control col-md-8 " ng-model="formData.phone"
-									placeholder="(0XX)XXX-XX-XX" ng-pattern="PHONE_REGEX"
-									popover="{{'PHONE_NUMBER_INFO' | translate}}"
-									popover-trigger="focus" popover-placement="right" required>
+									placeholder="0XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
 								<span class="input-group-addon">{{'SECOND_PHONE' |
 									translate}}</span> <span class="input-group-addon"> <input
 									type="checkbox" ng-model="checkboxModel">
@@ -174,7 +172,7 @@
 								<span class="input-group-addon" id="basic-addon-code">+38</span>
 								<input id="phoneNumberSecond" name="phoneNumberSecond"
 									class="form-control" ng-model="formData.secondPhone"
-									placeholder="(0XX)XXX-XX-XX" ng-pattern="PHONE_REGEX_SECOND"
+									placeholder="0XXXXXXXXX" ng-pattern="PHONE_REGEX_SECOND"
 									popover="{{'PHONE_NUMBER_INFO' | translate}}"
 									popover-trigger="focus" popover-placement="right">
 							</div>
@@ -208,7 +206,7 @@
 						</p>
 					</div>
 				</div>
-				
+
 				<div class="form-group" show-errors>
 					<label for="district" class="col-md-2 control-label">
 						{{'DISTRICT' | translate}} </label>
@@ -250,29 +248,26 @@
 						{{'STREET' | translate}} </label>
 
 					<div class="col-md-8">
-						<div class="input-group">
-							<div class="input-group-btn">
-								<button type="button" class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false">
-									Action <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu">
-									<li>Action</li>
-									<li>Another action</li>
-									<li>Something else here</li>
-									<li role="separator" class="divider"></li>
-									<li>Separated link</li>
-								</ul>
-							</div>
-							<!-- /btn-group -->
-							<!-- /btn-group -->
+
+						<div class="col-md-2">
+							<select chosen data-placeholder="Pick one of these"
+								disable-search="true" id="typeStreet" name="typeStreet"
+								type="text" class="input-large">
+								<option value="street">street</option>
+								<option value="avenue">avenue</option>
+								<option value="corner">corner</option>
+								<option value="square">square</option>
+							</select>
+						</div>
+						<div class="col-md-8">
 							<input id="street" name="street" class="form-control "
 								type="text" ng-model="selectedStreet"
 								typeahead="street as street.designation for street in streets | filter: $viewValue"
 								typeahead-on-select="receiveBuildings(selectedStreet)" required>
-						</div><span
-							class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+							<span
+								class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
+						</div>
 						<p class="help-block">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
 							{{'TYPEAHEAD_ERROR' | translate}}
@@ -285,24 +280,12 @@
 						{{'BUILDING' | translate}} </label>
 
 					<div class="col-md-8">
-			<!-- 		<div class="input-group"> spiner -->
-							<!-- 	<div class="input-group-btn-vertical">
-								<button class="btn btn-default" type="button">
-									<i class="fa fa-caret-up"></i>
-								</button>
-								<button class="btn btn-default" type="button">
-									<i class="fa fa-caret-down"></i>
-								</button>
-							</div>
-							/btn-group -->
-							<input id="building" name="building" class="form-control"
-								ng-model=" selectedBuilding"
-								typehead="building as building.designation for building in buildings | filter: $viewValue"
-								ng-pattern="FLAT_REGEX" required><span
+
+						<input id="building" name="building" class="form-control"
+							ng-model=" selectedBuilding"
+							typehead="building as building.designation for building in buildings | filter: $viewValue"
+							ng-pattern="BUILDING_REGEX" required><span
 							class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
-				<!-- 		</div> -->
-
-
 
 						<p class="help-block">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -350,8 +333,8 @@
 					</div>
 				</div>
 				<div class="form-group" show-errors>
-					<label for="device" class="col-md-2 control-label"> Counter
-					</label>
+					<label for="device" class="col-md-2 control-label">
+						{{'TYPE_OF_COUNTER' | translate}} </label>
 
 					<div class="col-md-8">
 						<select multiple chosen id="device" name="device" type="text"
@@ -372,15 +355,15 @@
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-8">
 						<button type="submit"
-							class="btn btn-success text-uppercase pull-left" ng-show="!showEditButton">
-							{{'SEND_BTN' | translate}}</button>
+							class="btn btn-success text-uppercase pull-left"
+							ng-show="!showEditButton">{{'SEND_BTN' | translate}}</button>
 					</div>
 					<div class="col-md-offset-2 col-md-8">
-						<button class="btn btn-success text-uppercase pull-left" ng-show="showEditButton" ng-click="editApplicationData()">
+						<button class="btn btn-success text-uppercase pull-left"
+							ng-show="showEditButton" ng-click="editApplicationData()">
 							{{'EDIT' | translate}}</button>
 					</div>
 				</div>
-
 			</form>
 		</div>
 
@@ -409,13 +392,13 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 
-			<div class="text-center" >
-				{{'EDIT_ERROR' | translate}}<br>
-				{{'EDIT_ERROR_INFO' | translate}}
+			<div class="text-center">
+				{{'EDIT_ERROR' | translate}} <br> {{'EDIT_ERROR_INFO' |
+				translate}}
 			</div>
 
 		</div>
-		
+
 	</div>
 
 </section>
