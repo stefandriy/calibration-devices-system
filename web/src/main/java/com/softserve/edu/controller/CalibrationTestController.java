@@ -23,7 +23,7 @@ import com.softserve.edu.service.utils.CalibrationTestList;
 @RequestMapping("/calibrationTests/")
 public class CalibrationTestController {
 
-    @Autowired
+	@Autowired
     private CalibrationTestService testService;
     
     private final Logger logger = Logger.getLogger(CalibrationTestController.class);

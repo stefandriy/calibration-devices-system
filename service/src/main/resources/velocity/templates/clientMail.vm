@@ -1,0 +1,11 @@
+<html>
+	<body>
+		<span style="font-weight:bold">
+			Доброго дня!  Вам надійшов відгук від $firstName $lastName.<br>
+			Номер заявки: $applicationId.<br>
+			 Електронна пошта : $mailAddress
+		</span>
+		<br>Текст повідомлення:<br>
+		$message<br>
+	</body>
+</html>

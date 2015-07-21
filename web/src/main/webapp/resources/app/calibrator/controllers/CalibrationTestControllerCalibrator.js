@@ -5,7 +5,6 @@ angular
 
             $scope.calibrationTests = [];
 
-            $log.debug("In controller!");
             function getCalibrationTests(){
                 calibrationTestServiceCalibrator
                     .getCalibrationTests()
@@ -15,12 +14,17 @@ angular
             }
 
             getCalibrationTests();
-            
+   
             $scope.saveCalibrationTest = function() {
+
                 calibrationTestServiceCalibrator
                     .saveCalibrationTest($scope.addFormData)
                     .then(function (data) {
+
                        $log.debug("saved!");
+
+//                        $scope.addFormData = null;
+
                     });
             }
          

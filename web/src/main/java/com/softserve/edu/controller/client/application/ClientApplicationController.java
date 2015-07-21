@@ -1,7 +1,9 @@
 package com.softserve.edu.controller.client.application;
 
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
+import com.softserve.edu.dto.application.ClientMailDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
+import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
@@ -111,5 +113,17 @@ public class ClientApplicationController {
         return deviceService.getAll().stream()
 				.map(device -> new ApplicationFieldDTO(device.getId(),device.getDeviceSign()))
 				.collect(Collectors.toList());
+    }
+	
+	@RequestMapping(value = "clientMessage", method = RequestMethod.POST)
+    public String sentMailFromClient(@RequestBody ClientMailDTO mailDto) {
+		System.err.println("inside client message ");
+		Verification verification = verificationService.findById(mailDto.getVerifID());
+    	String name = verification.getClientData().getFirstName();
+    	String surname = verification.getClientData().getLastName();
+    	String sendFrom = verification.getClientData().getEmail();
+    	mail.sendClientMail(sendFrom, name, surname, mailDto.getVerifID(), mailDto.getMsg());
+    	
+		return "hello";
     }
 }

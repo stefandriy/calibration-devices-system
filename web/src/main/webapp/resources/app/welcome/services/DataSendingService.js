@@ -8,6 +8,9 @@ angular
             },
             editApplication: function (data) {
             	return sendData('edit', data);
+            },
+            sendMail: function (data) {
+            	return sendData('clientMessage', data);
             }
         };
 

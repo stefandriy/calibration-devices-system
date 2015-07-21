@@ -98,4 +98,30 @@ public class MailService {
         };
         this.mailSender.send(preparator);
     }
+    
+    public void sendClientMail(String from, String userFirstName, String userLastName, String verificationId, String msg) {
+
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo("metrology.calibration.devices@gmail.com");
+                message.setFrom(new InternetAddress(from));
+                
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("firstName", userFirstName);
+                templateVariables.put("lastName", userLastName);
+                templateVariables.put("mailAddress", from);
+                templateVariables.put("message", msg);
+                templateVariables.put("applicationId", verificationId);
+
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" +
+                                "/clientMail.vm",
+                        "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+
+            }
+        };
+       this.mailSender.send(preparator);
+    }
 }

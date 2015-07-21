@@ -1,55 +1,25 @@
-<section id="feedBackSection">
-	<form class="form-horizontal " name="commentform" method="post"
-		action="MAILTO:someone@example.com">
-		<div class="modal-header">
-			<button type="button" class="close" ng-click="close()" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">Modal Header</h4>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-4" for="first_name">First
-				Name</label>
-			<div class="col-md-6">
-				<input type="text" class="form-control" id="first_name"
-					name="first_name" placeholder="First Name" />
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-4" for="last_name">Last
-				Name</label>
-			<div class="col-md-6">
-				<input type="text" class="form-control" id="last_name"
-					name="last_name" placeholder="Last Name" />
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-4" for="email">Email
-				Address</label>
-			<div class="col-md-6">
-				<div class=" input-group">
-					<span class="input-group-addon">@</span> <input type="email"
-						class="form-control" id="email" name="email"
-						placeholder="Email Address" />
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-4" for="comment">Question
-				or Comment</label>
-			<div class="col-md-6">
-				<textarea rows="6" class="form-control" id="comments"
-					name="comments" placeholder="Your question or comment here"></textarea>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-6 col-md-offset-4">
-				<button type="submit" value="Submit"
-					class="pull-right btn btn-success">Send</button>
-				
-			</div>
-		</div>
-		
-	</form>
-	<div class="modal-footer">
-			<button class="btn btn-primary" ng-click="close()">Закрити</button>
-		</div>
-</section>
+<div class="modal-header">
+    <h3 class="modal-title">{{'PLEASE_LEAVE_COMMENT' | translate}}</h3>
+    
+</div>
+<div class="from-top form-group" >
+    <form id="mailSendingForm" name="mailSendingForm" class="form-group" ng-submit="submit()" novalidate>
+        <div class="modal-body form-group " show-errors>
+            <textarea id="message" name="message" class="form-control"
+             rows="4"  ng-model="formData.message" required></textarea>
+         	<p class="help-block" ng-if="mailSendingForm.message.$error.required">
+				<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'REQUIRED' | translate}}
+			</p>
+           
+        </div>
+        <div class="modal-footer form-group">
+            <button class="btn btn-success pull-left" type="submit">
+               {{'SEND_BTN' | translate}}
+            </button>
+            <button class="btn btn-danger pull-right" type="button" ng-click="cancel()">
+               {{'CANCEL' | translate}}
+            </button>
+        </div>
+    </form>
+</div>
