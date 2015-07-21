@@ -532,6 +532,6 @@ input[type="radio"], input[type="checkbox"] {
 .modal-body-capacity{
     margin:0px 10px;
 }
-.calendarShow{
-    padding-left: 75%;
+.panel-heading.calendarShow{
+    text-align: right;
 }
