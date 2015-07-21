@@ -19,23 +19,24 @@ public class CalibrationTestDTO extends ResourceSupport {
     private CalibrationTestResult testResult;
     // private String photoPath;
 
-   //added constructors by Konyk
-    public CalibrationTestDTO() {}
-    
+    //added constructors by Konyk
+    public CalibrationTestDTO() {
+    }
+
 
     public CalibrationTestDTO(CalibrationTest calibrationTest) {
-		super();
-		this.name = calibrationTest.getName();
-		this.dateTest = calibrationTest.getDateTest();
-		this.temperature = calibrationTest.getTemperature();
-		this.settingNumber = calibrationTest.getSettingNumber();
-		this.latitude = calibrationTest.getLatitude();
-		this.longitude = calibrationTest.getLongitude();
-		this.consumptionStatus = calibrationTest.getConsumptionStatus();
-	}
+        super();
+        this.name = calibrationTest.getName();
+        this.dateTest = calibrationTest.getDateTest();
+        this.temperature = calibrationTest.getTemperature();
+        this.settingNumber = calibrationTest.getSettingNumber();
+        this.latitude = calibrationTest.getLatitude();
+        this.longitude = calibrationTest.getLongitude();
+        this.consumptionStatus = calibrationTest.getConsumptionStatus();
+    }
 
 
-	public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -102,7 +103,7 @@ public class CalibrationTestDTO extends ResourceSupport {
     public CalibrationTest saveCalibrationTest() {
         CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setName(name);
-        calibrationTest.setDateTest(dateTest);
+        calibrationTest.setDateTest(new Date());
         calibrationTest.setTemperature(temperature);
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);

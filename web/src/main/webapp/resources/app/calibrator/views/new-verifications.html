@@ -98,10 +98,14 @@
                                         Оберіть хоча б одну повірку
                                     </p>
 
-                                    <div class="col-md-3 col-md-offset-10 sendButton">
-                                        <button type="button" class="btn btn-primary"
+                                    <!--div class="col-md-3 col-md-offset-10 sendButton">
+                                        <button type="button" class="btn btn-primary btn-lg"
                                                 ng-click="openSendingModal()" Надіслати
-                                        </button>
+                                        </button-->
+                                    <div class="col-md-3 col-md-offset-10 sendButton">
+                                    <button type="button" class="btn btn-primary" ng-click="openSendingModal()">
+                                        <span class="glyphicon glyphicon-send"></span>
+                                        Надіслати</button>
                                     </div>
                                     <ul class="pager ng-cloak">
                                         <li ng-repeat="page in pages"
