@@ -25,6 +25,8 @@
     "angular-bootstrap-multiselect": "~0.3.0",
     "angular-mailto": "~0.1.0",
     "angular-scroll-glue": "~2.0.6",
-    "angular-bootstrap-simple-chat": "~0.0.2"
+    "angular-bootstrap-simple-chat": "~0.0.2",
+    "highcharts-release": "4.0.4",
+    "highcharts-ng": "0.0.8"
   }
 }

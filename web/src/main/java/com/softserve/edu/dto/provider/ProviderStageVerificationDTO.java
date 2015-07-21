@@ -8,6 +8,7 @@ public class ProviderStageVerificationDTO {
     private String name;
     private String middleName;
     private String phone;
+    private String secondPhone;
     private String region;
     private String district;
     private String locality;
@@ -111,5 +112,13 @@ public class ProviderStageVerificationDTO {
 
     public void setProviderEmployee(User providerEmployee) {
         this.providerEmployee = providerEmployee;
+    }
+
+    public String getSecondPhone() {
+        return secondPhone;
+    }
+
+    public void setSecondPhone(String secondPhone) {
+        this.secondPhone = secondPhone;
     }
 }

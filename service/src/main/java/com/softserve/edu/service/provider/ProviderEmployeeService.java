@@ -3,11 +3,11 @@ package com.softserve.edu.service.provider;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
-
 import com.softserve.edu.repository.UserRoleRepository;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.ProviderEmployeeGraphic;
 import com.softserve.edu.service.utils.ProviderEmployeeQuary;
-import com.softserve.edu.service.verification.VerificationService;
+import com.softserve.edu.service.utils.TransformStringsToMonths;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,11 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ProviderEmployeeService {
@@ -38,9 +41,10 @@ public class ProviderEmployeeService {
     public void addEmployee(User providerEmployee) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
         providerEmployee.setPassword(passwordEncoded);
-        UserRole r= userRoleRepository.findByRole("PROVIDER_EMPLOYEE");
+        UserRole r = userRoleRepository.findByRole("PROVIDER_EMPLOYEE");
         providerEmployee.getUserRoles().add(r);
         providerEmployeeRepository.save(providerEmployee);
+        userRoleRepository.save(r);
 
     }
 
@@ -83,13 +87,13 @@ public class ProviderEmployeeService {
 
     @Transactional
     public ListToPageTransformer<User>
-    findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage,long idOrganization, String userName,String role,String firstName,String lastName, String organization,
+    findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, long idOrganization, String userName, String role, String firstName, String lastName, String organization,
                                                    String telephone) {
-                CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
-                lastName, organization, telephone,  em, idOrganization);
+        CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
+                lastName, organization, telephone, em, idOrganization);
 
         Long count = em.createQuery(ProviderEmployeeQuary.buildCountQuery(userName, role, firstName,
-                lastName, organization, telephone,idOrganization, em)).getSingleResult();
+                lastName, organization, telephone, idOrganization, em)).getSingleResult();
 
         TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -101,5 +105,53 @@ public class ProviderEmployeeService {
         result.setTotalItems(count);
         return result;
     }
+
+    @Transactional
+    public List<ProviderEmployeeGraphic> getgraphicProviderEmployee(String fromDate,String toDate,Long idOrganization) {
+        List<Object[]> list = null;
+        List<ProviderEmployeeGraphic> resultList = new ArrayList<>() ;
+        List<Double> countOfWork = null ;
+        Date dateFrom = null;
+        Date dateTo = null;
+        List <String> listMonths= TransformStringsToMonths.transferToMonthArray(fromDate,toDate);
+        if (!(fromDate.equalsIgnoreCase("null") && toDate.equalsIgnoreCase("null"))) {
+            SimpleDateFormat from = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat to = new SimpleDateFormat("dd-MM-yyyy");
+            try {
+                dateFrom = from.parse(fromDate);
+                dateTo = to.parse(toDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        String providerUsername ="SELECT distinct providerEmployee_username as username FROM verification " +
+                " where provider_organizationId= ?1 and  providerEmployee_username is not null";
+        String toGrafic = "select  count(v.providerEmployee_username) as data" +
+                " from verification v  " +
+                "  where v.providerEmployee_username= ?1 " +
+                " and  initialDate Between ?2 and ?3 " +
+                " group by month(initialDate) ";
+        Query queryEmployee =em.createNativeQuery(providerUsername);
+        queryEmployee.setParameter(1, idOrganization);
+        List empList = queryEmployee.getResultList();
+        for(Object employee :empList){
+
+        Query quer = em.createNativeQuery(toGrafic);
+        quer.setParameter(1, employee.toString());
+        quer.setParameter(2, dateFrom);
+        quer.setParameter(3, dateTo);
+
+            list = quer.getResultList();
+            countOfWork = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+           double d= Double.valueOf(String.valueOf(list.get(i)));
+            countOfWork.add(d);
+        }
+            resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
+        }
+        return resultList;
+    }
+
 
 }

@@ -1,6 +1,6 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies'])
+        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies','highcharts-ng'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
@@ -124,6 +124,7 @@
             'provider/controllers/NewVerificationsControllerProvider',
             'provider/controllers/AddingVerificationsControllerProvider',
             'provider/controllers/DetailsModalControllerProvider',
+            'provider/controllers/DetailsModalController',
             'provider/controllers/SendingModalControllerProvider',
             'provider/controllers/AddEmployeeController',
             'provider/controllers/AddressModalControllerProvider',
@@ -137,7 +138,9 @@
             'provider/services/SettingsServiceProvider',
             'provider/services/UserService',
             'provider/controllers/CapacityEmployeeControllerProvider',
-            
+            'provider/controllers/GraficEmployeeProvider',
+            'provider/controllers/CalendarEmployeeProvider',
+
             'calibrator/controllers/TopNavBarControllerCalibrator',
             'calibrator/controllers/MainPanelControllerCalibrator',
             'calibrator/controllers/NewVerificationsControllerCalibrator',
@@ -147,6 +150,7 @@
             'calibrator/controllers/EmployeeControllerCalibrator',
             'calibrator/controllers/AddressModalControllerCalibrator',
             'calibrator/controllers/NotificationsControllerCalibrator',
+
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',
@@ -165,7 +169,7 @@
             'verificator/services/AddressServiceVerificator',
             'verificator/services/UserServiceVerificator',
             'verificator/services/VerificationServiceVerificator'
-        
+
 
     ], function () {});
 })();

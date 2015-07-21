@@ -59,31 +59,32 @@ public class ProviderApplicationController {
      *
      * @param verificationDTO object with verification data
      */
-//    @RequestMapping(value = "send", method = RequestMethod.POST)
-//    public void getInitiateVerification(
-//            @RequestBody ProviderStageVerificationDTO verificationDTO,
-//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-//
-//        Organization provider = providerService.findById(employeeUser.getOrganizationId());
-//
-//        Verification verification = new Verification(
-//                new Date(),
-//                new ClientData(
-//                        verificationDTO.getName(),
-//                        verificationDTO.getSurname(),
-//                        verificationDTO.getMiddleName(),
-//                        verificationDTO.getPhone(),
-//                        new Address(
-//                                provider.getAddress().getRegion(),
-//                                provider.getAddress().getDistrict(),
-//                                verificationDTO.getLocality(),
-//                                verificationDTO.getStreet(),
-//                                verificationDTO.getBuilding(),
-//                                verificationDTO.getFlat())),
-//                provider,
-//                Status.IN_PROGRESS, ReadStatus.UNREAD, verificationDTO.getCalibrator());
-//        verificationService.saveVerification(verification);
-//    }
+    @RequestMapping(value = "send", method = RequestMethod.POST)
+    public void getInitiateVerification(
+            @RequestBody ProviderStageVerificationDTO verificationDTO,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
+        Organization provider = providerService.findById(employeeUser.getOrganizationId());
+
+        Verification verification = new Verification(
+                new Date(),
+                new ClientData(
+                        verificationDTO.getName(),
+                        verificationDTO.getSurname(),
+                        verificationDTO.getMiddleName(),
+                        verificationDTO.getPhone(),
+                        verificationDTO.getSecondPhone(),
+                        new Address(
+                                provider.getAddress().getRegion(),
+                                provider.getAddress().getDistrict(),
+                                verificationDTO.getLocality(),
+                                verificationDTO.getStreet(),
+                                verificationDTO.getBuilding(),
+                                verificationDTO.getFlat())),
+                provider,
+                Status.IN_PROGRESS, ReadStatus.UNREAD, verificationDTO.getCalibrator());
+        verificationService.saveVerification(verification);
+    }
 
     /**
      * Find provider by id, finds region corresponding to provider region, finds district

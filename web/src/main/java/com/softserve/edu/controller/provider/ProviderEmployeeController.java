@@ -13,7 +13,9 @@ import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.utils.DataDtoField;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.ProviderEmployeeGraphic;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
@@ -110,6 +112,17 @@ public class ProviderEmployeeController {
          return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
 
     }
+    @RequestMapping(value = "graphic", method = RequestMethod.GET)
+    public List<ProviderEmployeeGraphic>  graphic
+            ( DataDtoField dataDtoField,
+             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user)
+    {
+        Long idOrganization = user.getOrganizationId();
+        List<ProviderEmployeeGraphic> list= providerEmployeeService.getgraphicProviderEmployee(dataDtoField.getFromDate(),dataDtoField.getToDate(),idOrganization) ;
+        return list;
+    }
+
+
 
 
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {

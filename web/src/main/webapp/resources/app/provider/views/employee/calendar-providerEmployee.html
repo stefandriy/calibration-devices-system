@@ -1,0 +1,64 @@
+<div class="modal-header-capacity">
+    <h3 class="capacity-employee">Виберіть дату для пошуку інформації</h3>
+</div>
+<form name="myForm" novalidate>
+    <div class="modal-body-capacity">
+        <table class="table table-bordered">
+            <td>
+                <p class="input-group myDatePicker">
+                    <input type="text" class="form-control input-sm"
+                           datepicker-popup="{{format}}" ng-model="dataToSearch.fromDate" required
+                           ng-change="changeDateToSend(dataToSearch.fromDate)" is-open="firstCalendar.isOpen"
+                           min-date="minDate" datepicker-options="dateOptions"
+                           date-disabled="disabled(date, mode)" ng-required="true"
+                           close-text="Close"/>
+
+        <span class="input-group-btn ">
+            <button type="button" class="btn btn-default myGroupBtn"
+                    ng-click="open($event)">
+                <i class="glyphicon glyphicon-calendar"></i>
+            </button>
+        </span>
+            </td>
+
+                <td style="color:yellow" ng-show="myForm.dataToSearch.fromDate.$dirty && myForm.dataToSearch.fromDate.$invalid">
+                    <span ng-show="myForm.dataToSearch.fromDate.$error.required">Username is required.</span>
+                </td>
+            </p>
+            <td>
+                <p class="input-group myDatePicker">
+                    <input type="text" class="form-control input-sm"
+                           datepicker-popup="{{format}}" ng-model="dataToSearch.toDate" required
+                           ng-change="changeDateToSend(dataToSearch.toDate)" is-open="firstCalendar.isOpen"
+                           min-date="minDate" datepicker-options="dateOptions"
+                           date-disabled="disabled(date, mode)" ng-required="true"
+                           close-text="Close"/>
+
+                            <span class="input-group-btn ">
+                                <button type="button" class="btn btn-default myGroupBtn"
+                                        ng-click="open($event)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+
+                </p>
+            </td>
+        </table>
+    </div>
+
+
+    <div class="modal-footer form-group">
+
+        <input class="btn btn-success pull-left" type="submit"
+               ng-disabled="myForm.dataToSearch.fromDate.$dirty && myForm.dataToSearch.fromDate.$invalid"
+               ng-click="showGrafic()">
+
+        </input>
+
+        <button class="btn btn-danger pull-right" type="button" ng-click="cancel()">
+            Відмінити
+        </button>
+    </div>
+</form>
+
+

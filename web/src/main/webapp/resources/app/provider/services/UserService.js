@@ -17,6 +17,9 @@ angular
             },
             getCapacityOfWork: function(username){
                 return getData('provider/admin/users/capacityOfEmployee'+ '/'+username);
+            },
+            getGraficData :function(dataToSearch){
+                return getData('provider/admin/users/graphic',dataToSearch);
             }
         };
 

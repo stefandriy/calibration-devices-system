@@ -68,6 +68,4 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     User getProviderEmployeeById(@Param("id") String id);
 
     List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
-
-
 }

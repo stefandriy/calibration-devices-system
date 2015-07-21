@@ -64,7 +64,7 @@ angular.module('providerModule').run(function (paginationConfig) {
     paginationConfig.previousText = 'Попередня';
     paginationConfig.nextText = 'Наступна';
     paginationConfig.lastText = 'Остання';
-});
+        });
 
 define([
     'controllers/TopNavBarController',
@@ -87,4 +87,5 @@ define([
     'services/AddressService',
     'services/SettingsService',
     'services/UserService'
-], function () {});
+], function () {}
+    );

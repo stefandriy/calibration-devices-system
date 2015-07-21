@@ -3,8 +3,8 @@
  */
 angular
     .module('employeeModule')
-    .controller('UsersController', ['$scope', 'UserService', '$modal','$log', 'ngTableParams', '$timeout', '$filter',
-        function ($scope, userService,$modal,$log, ngTableParams, $timeout, $filter) {
+    .controller('UsersController', ['$scope', 'UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter',
+        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter) {
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -49,7 +49,18 @@ angular
                         }
                     }
                 });
-            }
+            };
+
+            $scope.openCalendarMenu = function () {
+
+                $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/provider/views/employee/calendar-providerEmployee.html',
+                    controller: 'CalendarEmployeeProvider',
+                    size: 'md'
+
+                });
+            };
 
             $scope.onTableHandling = function () {
 

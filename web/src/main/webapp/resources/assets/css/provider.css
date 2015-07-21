@@ -519,7 +519,6 @@ input[type="radio"], input[type="checkbox"] {
     margin-bottom: 15px;
 }
 .modal-header-capacity {
-    background-color: MediumSeaGreen;
     margin-bottom: 0;
 }
 .capacity-employee{
@@ -533,6 +532,6 @@ input[type="radio"], input[type="checkbox"] {
 .modal-body-capacity{
     margin:0px 10px;
 }
-.table-bordered th .col-cap-1{
-    width:20px;
+.calendarShow{
+    padding-left: 75%;
 }

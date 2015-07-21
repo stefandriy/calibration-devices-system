@@ -29,7 +29,7 @@ angular
                 $modal.open({
                     animation: true,
                     templateUrl: 'resources/app/provider/views/modals/archival-verification-details.html',
-                    controller: 'DetailsModalController',
+                    controller: 'DetailsModalControllerProvider',
                     size: 'lg',
                     resolve: {
                         response: function () {

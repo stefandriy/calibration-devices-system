@@ -11,7 +11,10 @@ require.config({
         angularCookie: '../assets/bower_components/angular-cookies/angular-cookies.min',
         angularTranslateStorageLocal: '../assets/bower_components/angular-translate-storage-local/angular-translate-storage-local.min',
         angularTranslateStorageCookie: '../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
-        employeeModule: 'employeeModule'
+        employeeModule: 'employeeModule',
+        highchartsAngular:  '../assets/bower_components/highcharts-ng/src/highcharts-ng',
+        highcharts:  '../assets/bower_components/highcharts-release/highcharts.src',
+        standalone:  '../assets/bower_components/highcharts-release/adapters/standalone-framework.src'
     },
     shim: {
         angular: {
@@ -48,10 +51,16 @@ require.config({
         	exports:"ngTable",
         	 deps: [ 'angular' ]
         },
+        highcharts:{
+            deps: [ 'angular','standalone' ]
+        },
+        highchartsAngular:{
+            deps: [ 'angular','highcharts']
+        },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
-                'showErrors', 'ngTable']
+                'showErrors', 'ngTable','highchartsAngular']
         }
     }
 });
