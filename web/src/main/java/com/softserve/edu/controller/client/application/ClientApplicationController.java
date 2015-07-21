@@ -44,12 +44,13 @@ public class ClientApplicationController {
 	public String saveApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
 
 		ClientData clientData = new ClientData(verificationDTO.getFirstName(), verificationDTO.getLastName(),
-				verificationDTO.getMiddleName(), verificationDTO.getEmail(), verificationDTO.getPhone(),
+				verificationDTO.getMiddleName(), verificationDTO.getEmail(), verificationDTO.getPhone(),verificationDTO.getSecondPhone(),
 				new Address(verificationDTO.getRegion(), verificationDTO.getDistrict(), verificationDTO.getLocality(),
 						verificationDTO.getStreet(), verificationDTO.getBuilding(), verificationDTO.getFlat()));
 		Organization provider = providerService.findById(verificationDTO.getProviderId());
+	/*	Device device= deviceService.findById(verificationDTO.getDeviceId());*/
 
-		Verification verification = new Verification(new Date(), clientData, provider, Status.SENT, ReadStatus.UNREAD);
+		Verification verification = new Verification(new Date(), clientData, provider,/*device, */Status.SENT, ReadStatus.UNREAD);
 
 		verificationService.saveVerification(verification);
 

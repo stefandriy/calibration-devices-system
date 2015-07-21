@@ -6,7 +6,8 @@
 							'pascalprecht.translate', 'ngCookies', 'ui.router',
 							'ui.bootstrap.showErrors', 'ngTable',
 							'localytics.directives',
-							'frapontillo.bootstrap-switch' ])
+							'frapontillo.bootstrap-switch', 'luegg.directives',
+							'irontec.simpleChat' ])
 
 			.config(
 					[
@@ -83,7 +84,8 @@
 			'controllers/ApplicationStatusController',
 			'controllers/InternationalizationController',
 			'controllers/NavigationController',
-			'controllers/DetailsController', 'services/DataReceivingService',
+			'controllers/DetailsController', 'controllers/FeedbackController',
+			'controllers/ChatController', 'services/DataReceivingService',
 			'services/DataSendingService', 'directives/OnStartupMessage' ],
 			function() {
 			});

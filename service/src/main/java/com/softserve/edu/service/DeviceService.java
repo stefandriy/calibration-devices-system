@@ -22,6 +22,11 @@ public class DeviceService {
 	public boolean existsWithDeviceid(Long id) {
 		return deviceRepository.findOne(id) != null;
 	}
+	@Transactional
+	public Device getById(Long id) {
+		return deviceRepository.findOne(id);
+	}
+
 
 	@Transactional
 	public List<Device> getAll() {

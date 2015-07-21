@@ -9,6 +9,8 @@ public class ClientStageVerificationDTO {
     private String middleName;
     private String email;
     private String phone;
+    private String secondPhone;
+    
     private String region;
     private String locality;
     private String district;
@@ -26,6 +28,7 @@ public class ClientStageVerificationDTO {
         this.middleName = clientData.getMiddleName();
         this.email = clientData.getEmail();
         this.phone = clientData.getPhone();
+        this.secondPhone = clientData.getSecondPhone();
         this.region = address.getRegion();
         this.locality = address.getLocality();
         this.district = address.getDistrict();
@@ -123,7 +126,13 @@ public class ClientStageVerificationDTO {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    public String getSecondPhone() {
+		return secondPhone;
+	}
 
+	public void setSecondPhone(String secondPhone) {
+		this.secondPhone = secondPhone;
+	}
     public Long getProviderId() {
         return providerId;
     }
@@ -132,6 +141,7 @@ public class ClientStageVerificationDTO {
         this.providerId = providerId;
     }
 
+
 	public String getVerificationId() {
 		return verificationId;
 	}
@@ -139,5 +149,5 @@ public class ClientStageVerificationDTO {
 	public void setVerificationId(String verificationId) {
 		this.verificationId = verificationId;
 	}
-   
+
 }

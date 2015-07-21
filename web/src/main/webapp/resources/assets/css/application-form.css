@@ -3,7 +3,7 @@
     color: black;
     padding-top: 40px;
     padding-bottom: 60px;
-    text-align: center;
+    text-align: left;
 }
 
 #clientFormBox {
@@ -43,4 +43,8 @@
 .form-control-feedback {
     top: 0;
     right: 15px;
+}
+.fa fa-3x fa-spinner fa-spin{
+	  text-align: center;
+	
 }

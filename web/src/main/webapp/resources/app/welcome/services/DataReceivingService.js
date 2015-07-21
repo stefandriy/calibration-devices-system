@@ -15,8 +15,8 @@ angular
             findLocalitiesByDistrictId: function (id) {
                 return getData('localities/' + id);
             },
-            findProvidersByDistrict: function (designation) {
-                return getData("providers/" + designation);
+            findProvidersByDistrict: function (district) {
+                return getData("providers/" + district);
             },
             findStreetsByLocalityId: function (id) {
                 return getData('streets/' + id);

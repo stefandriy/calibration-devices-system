@@ -144,6 +144,7 @@ angular
                     .success(function (providers) {
                     	$log.debug(providers);
                         $scope.providers = providers;
+                   $scope.selectedProvider=providers;
                     });
             	}
             };
@@ -185,12 +186,14 @@ angular
 
                 if ($scope.clientForm.$valid) {
                     $scope.formData.region = $scope.selectedRegion.designation;
-                    $scope.formData.device = $scope.selectedDevice;
+              /*      $scope.formData.device = $scope.selectedDevice;*/
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
                     $scope.formData.street = $scope.selectedStreet.designation;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
+                    $scope.formData.deviceId = $scope.selectedDevice.id;
+                    
 
                     dataSendingService.sendApplication($scope.formData)
                         .success(function (applicationCode) {
@@ -244,6 +247,7 @@ angular
             $scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
             $scope.BUILDING_REGEX=/^[1-9]{1}[0-9]{0,3}([A-Za-z])|([\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
             $scope.PHONE_REGEX=/^0[1-9]\d{8}$/;
+            $scope.PHONE_REGEX_SECOND=/^0[1-9]\d{8}$/;
             $scope.EMAIL_REGEX=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
           
             $scope.checkboxModel = false;

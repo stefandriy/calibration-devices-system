@@ -1,0 +1,18 @@
+<section id="chat">
+	<div class="modal-header">
+		<h3 class="modal-title">Детальна інформація
+			про повірку</h3>
+	</div>
+
+
+
+	<irontec-simple-chat messages="vm.messages" username="vm.username"
+		input-placeholder-text="You can write here"
+		submit-button-text="Send your message" title="Super Awesome Chat"
+		theme="material" submit-function="vm.sendMessage">
+	</irontec-simple-chat>
+
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="close()">Закрити</button>
+	</div>
+</section>

@@ -23,6 +23,10 @@ public class ProviderService {
     public List<Organization> findByDistrict(String district, String type) {
     	  return providerRepository.getByTypeAndDistrict(district, type);
     }
+   /* @Transactional (readOnly = true)
+    public List<Organization> findByDistrictId(Long id, String type) {
+    	  return providerRepository.getByTypeAndDistrictId(id, type);
+    }*/
     
     @Transactional(readOnly = true)
     public Organization findById(Long id) {

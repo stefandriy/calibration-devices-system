@@ -88,7 +88,41 @@ a {
 	text-align: center;
 	background: #fff;
 }
+#clientBox {
+    padding-top: 30px;
 
+    background: rgba(242, 246, 248, 1);
+    background: -moz-linear-gradient(left, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 246, 248, 1)), color-stop(0%, rgba(216, 225, 231, 1)), color-stop(51%, rgba(213, 220, 224, 1)), color-stop(100%, rgba(224, 239, 249, 1)));
+    background: -webkit-linear-gradient(left, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    background: -o-linear-gradient(left, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    background: linear-gradient(to right, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f6f8', endColorstr='#e0eff9', GradientType=1);
+
+    -webkit-box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
+    -moz-box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
+    box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
+}
+
+#feedBackSection {
+	padding-top: 30px;
+
+    background: rgba(242, 246, 248, 1);
+    background: -moz-linear-gradient(left, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 246, 248, 1)), color-stop(0%, rgba(216, 225, 231, 1)), color-stop(51%, rgba(213, 220, 224, 1)), color-stop(100%, rgba(224, 239, 249, 1)));
+    background: -webkit-linear-gradient(left, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    background: -o-linear-gradient(left, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    background: -ms-linear-gradient(left, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    background: linear-gradient(to right, rgba(242, 246, 248, 1) 0%, rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%, rgba(224, 239, 249, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f6f8', endColorstr='#e0eff9', GradientType=1);
+
+    -webkit-box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
+    -moz-box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
+    box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
+}
+
+}
 #loginTable {
 	position: relative;
 	width: 100%;
@@ -163,6 +197,15 @@ a {
 	padding: 15px 10px 15px 50px;
 	background-repeat: no-repeat;
 	background-position: 10px center;
+	-webkit-transition: background-color 0.1s;
+	-moz-transition: background-color 0.1s;
+	-o-transition: background-color 0.1s;
+	transition: background-color 0.1s;
+	transition-delay: 1s; /* delays for 1 second */
+	-webkit-transition-delay: 1s;
+	-moz-transition: background-color 0.1s;
+	-o-transition: background-color 0.1s;
+	transition: background-color 0.1s; /* for Safari & Chrome */
 }
 
 .notFoundStyle {
@@ -177,6 +220,15 @@ a {
 	padding: 15px 10px 15px 50px;
 	background-repeat: no-repeat;
 	background-position: 10px center;
+	-webkit-transition: background-color 0.1s;
+	-moz-transition: background-color 0.1s;
+	-o-transition: background-color 0.1s;
+	transition: background-color 0.1s;
+	transition-delay: 1s; /* delays for 1 second */
+	-webkit-transition-delay: 1s;
+	-moz-transition: background-color 0.1s;
+	-o-transition: background-color 0.1s;
+	transition: background-color 0.1s; /* for Safari & Chrome */
 }
 
 .doneStyle {
@@ -196,8 +248,16 @@ a {
 	background-color: #f2dede;
 	border-color: #eed3d7;
 }
-.center {
-     float: none;
-     margin-left: auto;
-     margin-right: auto;
+
+.infoStyle {
+	color: #3a87ad;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
 }
+
+.center {
+	float: none;
+	margin-left: auto;
+	margin-right: auto;
+}
+

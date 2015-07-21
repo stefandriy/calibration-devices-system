@@ -15,8 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface OrganizationRepository extends
-		CrudRepository<Organization, Long>, OrganizationRepositoryCustom {
+public interface OrganizationRepository extends CrudRepository<Organization, Long>, OrganizationRepositoryCustom {
 
 	Page<Organization> findAll(Pageable pageable);
 
@@ -29,8 +28,7 @@ public interface OrganizationRepository extends
 	Set<String> getOrganizationTypeById(@Param("id") Long id);
 
 	@Query("select o from Organization o inner join o.organizationTypes ot where o.address.district=:district and ot.type=:type")
-	List<Organization> getByTypeAndDistrict(@Param("district") String district,
-			@Param("type") String type);
+	List<Organization> getByTypeAndDistrict(@Param("district") String district, @Param("type") String type);
 
 	@Query("select o.address from Organization o where o.id=:id")
 	Address getOrganizationAddressById(@Param("id") Long id);
@@ -44,4 +42,6 @@ public interface OrganizationRepository extends
 	@Query("select o.email from Organization o where o.id=:id")
 	String getOrganizationEmailById(@Param("id") Long id);
 
+	/*@Query("select o from Organization o inner join o.organizationTypes ot where o.address.district.id=:district.id and ot.type=:type")
+	List<Organization> getByTypeAndDistrictId(@Param("id") Long id, @Param("type") String type);*/
 }

@@ -6,7 +6,7 @@
 			<h1>{{'APP_STATUS_TITLE' | translate}}</h1>
 		</div>
 
-		<div class="from-top">
+		<div class="from-top" id="clientBox">
 			<div ng-show="isShownForm" class="row col-md-10 centered">
 
 				<form class="form-horizontal" ng-submit="getClientForm()">
@@ -28,17 +28,19 @@
 					</div>
 				</form>
 			</div>
+			<div ng-show="!isShownForm ">
 
-			<div ng-hide="isShownForm"
-				ng-class="{'successStyle':verification.status != undefined , 'notFoundStyle' :verification.status == undefined}"
-				role="alert">
-				<button ng-click="closeAlert()" type="button"
-					class="close btn-close-alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				{{'APPLICATION_STATUS' | translate}} : {{status | translate}}
+				<div
+					ng-class="{'successStyle':verification.status !=undefined,'notFoundStyle':status=='NOTFOUND_TRANSLATION'}"
+					role="alert">
+					<button ng-click="closeAlert()" type="button"
+						class="close btn-close-alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					{{'APPLICATION_STATUS' | translate}} : {{status | translate}}
 
 
+				</div>
 			</div>
 			<div class="row " ng-if="verification.status">
 				<div class="col-md-12">
@@ -93,7 +95,7 @@
 				<div class="progress">
 					<div class="progress-bar progress-bar-striped active"
 						role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0"
-						aria-valuemax="100" style="width: {{progress">{{progress}}</div>
+						aria-valuemax="100" style="width: {{progress}}%;">{{progress}}</div>
 				</div>
 			</div>
 			<div class="container col-lg-12 well " ng-if="verification.status">
@@ -104,46 +106,45 @@
 							ng-show="verification.status === 'TEST_OK'"></span></td>
 						<td><span
 							class="glyphicon glyphicon-arrow-down col-sm-3 col-sm-offset-5"
-							ng-show="verification.status === 'SENT'"></span></td>
+							ng-show="verification.status == 'SENT'"></span></td>
 						<td><span
 							class="glyphicon glyphicon-arrow-down col-sm-3 col-sm-offset-5"
-							ng-show="verification.status === 'IN_PROGRESS'"></span></td>
+							ng-show="verification.status == 'IN_PROGRESS'"></span></td>
 						<td><span
 							class="glyphicon glyphicon-arrow-down col-sm-3 col-sm-offset-5"
-							ng-show="verification.status === 'SENT_TO_VERIFICATOR'"></span></td>
+							ng-show="verification.status == 'SENT_TO_VERIFICATOR'"></span></td>
 					</tr>
 					<tr
-						ng-class="{'doneStyle':verification.status === 'TEST_OK','progressStyle':verification.status === 'SENT','notYetStyle':verification.status === 'REJECTED'}">
+						ng-class="{'doneStyle':verification.status == 'TEST_OK','notYetStyle':verification.status == 'REJECTED'}">
 						<td class="col-sm-3  glyphicon glyphicon-user"
-							ng-class="{'progressStyle':verification.status === 'SENT_TO_VERIFICATOR', 'progressStyle':verification.status === 'IN_PROGRESS'}">Client</td>
+							ng-class="{'progressStyle':verification.status == 'SENT'||'IN_PROGRESS'||'SENT_TO_VERIFICATOR'}">Client</td>
 						<td class="col-sm-3  glyphicon glyphicon-tint"
-							ng-class="{ 'doneStyle':verification.status === 'SENT_TO_VERIFICATOR',  'doneStyle':verification.status === 'IN_PROGRESS'}">Provider</td>
+							ng-class="{ 'doneStyle':verification.status == 'IN_PROGRESS'||'SENT_TO_VERIFICATOR','progressStyle':verification.status == 'SENT'}">Provider</td>
 						<td class="col-sm-3  glyphicon glyphicon-scale"
-							ng-class="{'doneStyle':verification.status === 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status === 'SENT', 'progressStyle':verification.status === 'IN_PROGRESS'}">Calibrator</td>
+							ng-class="{'doneStyle':verification.status == 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status == 'SENT', 'progressStyle':verification.status == 'IN_PROGRESS'}">Calibrator</td>
 						<td class="col-sm-3  glyphicon glyphicon-home"
-							ng-class="{'progressStyle':verification.status == 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status == 'SENT', 'notYetStyle':verification.status == 'IN_PROGRESS'}">State
-							Verificator {{verification.status}}</td>
-						<!-- <td class="col-sm-3  glyphicon glyphicon-home doneStyle">State
-							Verificator {{verification.status}}</td> -->
+							ng-class="{'notYetStyle':verification.status == 'SENT'||'IN_PROGRESS' , 'progressStyle':verification.status == 'SENT_TO_VERIFICATOR'}">State
+							Verificator</td>
+
 					</tr>
 				</table>
 			</div>
+			
+			
+<!-- 			Button for chat TO DO  -->
+			
 
-		<!-- 	<div class="info-box bg-red">
-				<span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
-				<div class="info-box-content">
-					<span class="info-box-text">Likes</span> <span
-						class="info-box-number">41,410</span> <-- The progress section is
-					optional 
-					<div class="progress">
-						<div class="progress-bar" style="width: 70%"></div>
-					</div>
-					<span class="progress-description"> 70% Increase in 30 Days
-					</span>
-				</div>
-				/.info-box-content
-			</div>
-			/.info-box --> 
+			<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
+				data-target="#myModal" popover="Model feedback"
+				popover-trigger="mouseenter" ng-click="feedback()" ng-if="verification.status">
+				<span class=" glyphicon glyphicon-envelope"></span> Open Feedback
+				Modal
+			</button>
+			
+		
+
+
+			
 		</div>
 	</div>
 </section>
