@@ -8,6 +8,7 @@ import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
@@ -55,9 +56,8 @@ public class ProviderEmployeeController {
      */
 
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
-    public String verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        String s = providerEmployeeService.getRoleByUserName(user.getUsername());
-        return s;
+    public List<UserRole> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            return providerEmployeeService.getRoleByUserNam(user.getUsername());
     }
 
     /**

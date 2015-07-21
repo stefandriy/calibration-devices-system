@@ -6,7 +6,15 @@ angular
     	
     		userService.isAdmin()
     			.success(function (response) {
-    				if (response === 'PROVIDER_ADMIN'){
+    				var roles = response + '';
+    				var role = roles.split(',');
+    				var thereIsAdmin = 0;
+    				for (var i = 0; i<role.length; i++){
+    					if(role[i]==='PROVIDER_ADMIN') {
+    						thereIsAdmin++;
+    					}
+    				}
+    				if (thereIsAdmin > 0){
     					$scope.verificator = true;
     				}else{
     					$scope.accessLable = true;	

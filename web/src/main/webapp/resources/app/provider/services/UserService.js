@@ -3,13 +3,13 @@ angular
     .factory('UserService', function ($http) {
         return {
             isUsernameAvailable: function (username) {
-                return getData('provider/admin/users/available/' + username);
+                return getData('employee/admin/users/available/' + username);
             },
             saveUser: function (userData) {
-                return saveData('provider/admin/users/add', userData);
+                return saveData('employee/admin/users/add', userData);
             },
             isAdmin: function () {
-                return getData('provider/admin/users/verificator');
+                return getData('employee/admin/users/verificator');
             },
             getPage: function (currentPage, itemsPerPage, searchObj) {
 

@@ -34,6 +34,11 @@ public interface UserRepository extends CrudRepository<User, String> {
 			@Param("role") String role,
 			@Param("organizationId") Long organizationId,
 			@Param("lastName") String lastName, Pageable pageable);
+	
+	 // two next methods is the same !!!!!!!
+	
+	@Query("select r.role from UserRole r inner join r.users u where u.username=:username")
+	List<UserRole> getRoleByUserNam(@Param("username") String username);
 
 	@Query("select u from User u where u.username = :username")
 	User getUserByUserName(@Param("username") String username);

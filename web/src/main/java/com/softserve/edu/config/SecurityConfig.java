@@ -49,14 +49,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/uploadFile/**").fullyAuthenticated()
                 
                 .antMatchers("/resources/app/**").hasAnyAuthority("PROVIDER_EMPLOYEE", "PROVIDER_ADMIN", "CALIBRATOR_EMPLOYEE", "CALIBRATOR_ADMIN", "STATE_VERIFICATOR_EMPLOYEE", "STATE_VERIFICATOR_ADMIN")
+                .antMatchers("/employee/admin/**").hasAnyAuthority( "PROVIDER_ADMIN", "CALIBRATOR_ADMIN", "STATE_VERIFICATOR_ADMIN")
                 
-                .antMatchers("/resources/app/provider/**", "/provider", "/provider/employee/**").hasAnyAuthority("PROVIDER_EMPLOYEE", "PROVIDER_ADMIN") 
+                .antMatchers("/provider", "/provider/employee/**").hasAnyAuthority("PROVIDER_EMPLOYEE", "PROVIDER_ADMIN") 
                 .antMatchers("/provider/admin/**").hasAuthority("PROVIDER_ADMIN") 
 
-                .antMatchers("/resources/app/calibrator/**", "/calibrator", "/calibrator/employee/**").hasAnyAuthority("CALIBRATOR_EMPLOYEE", "CALIBRATOR_ADMIN")  
+                .antMatchers("/calibrator", "/calibrator/employee/**").hasAnyAuthority("CALIBRATOR_EMPLOYEE", "CALIBRATOR_ADMIN")  
                 .antMatchers("/calibrator/admin/**").hasAuthority("CALIBRATOR_ADMIN")
 
-                .antMatchers("/resources/app/verificator/**", "/verificator", "/verificator/employee/**").hasAnyAuthority("STATE_VERIFICATOR_EMPLOYEE", "STATE_VERIFICATOR_ADMIN") 
+                .antMatchers("/verificator", "/verificator/employee/**").hasAnyAuthority("STATE_VERIFICATOR_EMPLOYEE", "STATE_VERIFICATOR_ADMIN") 
                 .antMatchers("/verificator/admin/**").hasAuthority("STATE_VERIFICATOR_ADMIN")
 
                 .and()

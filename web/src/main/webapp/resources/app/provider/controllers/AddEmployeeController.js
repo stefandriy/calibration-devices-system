@@ -15,10 +15,36 @@ angular
     	
     		userService.isAdmin()
     			.success(function (response) {
-    				if (response === 'PROVIDER_ADMIN'){
-    					$scope.verificator = true;
+    				var includeCheckBox = false;
+    				var thereIsAdmin = 0;
+    				var roles = response + '';
+    				var role = roles.split(',');
+    				for (var i = 0; i<role.length; i++){
+    					if(role[i]==='PROVIDER_ADMIN' || role[i]==='CALIBRATOR_ADMIN' || role[i]==='STATE_VERIFICATOR_ADMIN')
+    						thereIsAdmin++; 
+    				}
+    				if (thereIsAdmin === 0){
+    					$scope.accessLable = true;
     				}else{
-    					$scope.accessLable = true;	
+    					$scope.verificator = true;
+    				}
+    				if (thereIsAdmin === 1){	
+        					if(role[0]==='PROVIDER_ADMIN')
+        						$scope.organizationTypeProvider = true;	
+        					if(role[0]==='CALIBRATOR_ADMIN')
+        						organizationTypeCalibrator = true;
+        					if(role[0]==='STATE_VERIFICATOR_ADMIN')
+        						organizationTypeVerificator = true;	
+    				}
+    				if (thereIsAdmin > 1){
+    					for (var i = 0; i<role.length; i++){
+        					if(role[i]==='PROVIDER_ADMIN')
+        						$scope.showProviderOrganization = true;
+        					if(role[i]==='CALIBRATOR_ADMIN')
+        						$scope.showCalibratorOrganization = true;
+        					if(role[i]==='STATE_VERIFICATOR_ADMIN')
+        						$scope.showVerificatorOrganization = true;
+        				}
     				}
     			});
 	       
@@ -100,7 +126,19 @@ angular
 
 
                     $log.info(employeeData);
+                    
+                    employeeData.userRoles = []
+                    
                     if (organizationTypeProvider === true){
+                    	employeeData.userRoles.push('PROVIDER_EMPLOYEE');
+                    }
+                    if (organizationTypeCalibrator === true){
+                    	employeeData.userRoles.push('CALIBRATOR_EMPLOYEE');
+                    }
+                    if (organizationTypeCalibrator === true){
+                    	employeeData.userRoles.push('STATE_VERIFICATOR_EMPLOYEE');
+                    }
+                    
                     userService.saveUser(employeeData)
                         .success(function (response) {
                             $log.info(response);
@@ -120,47 +158,9 @@ angular
                             $scope.resetForm();
                         });
                     }
-                }
-                if (organizationTypeCalibrator === true){
-                userServiceCalibrator.saveUser(employeeData)
-                .success(function (response) {
-                    $log.info(response);
-
-                    $modal.open({
-                        animation: true,
-                        templateUrl: '/resources/app/calibrator/views/modals/employee-adding-success.html',
-                        controller: function ($modalInstance) {
-                            this.ok = function () {
-                                $modalInstance.close();
-                            }
-                        },
-                        controllerAs: 'successController',
-                        size: 'md'
-                    });
-
-                    $scope.resetForm();
-                });
-                }
-                if (organizationTypeCalibrator === true){
-                userServiceVerificator.saveUser(employeeData)
-                .success(function (response) {
-                    $log.info(response);
-
-                    $modal.open({
-                        animation: true,
-                        templateUrl: '/resources/app/verificator/views/modals/employee-adding-success.html',
-                        controller: function ($modalInstance) {
-                            this.ok = function () {
-                                $modalInstance.close();
-                            }
-                        },
-                        controllerAs: 'successController',
-                        size: 'md'
-                    });
-
-                    $scope.resetForm();
-                });
-                }
+                
+               
+                
                 
                 
                 

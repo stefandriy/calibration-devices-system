@@ -68,7 +68,14 @@ public class ProviderEmployeeService {
     public User findByUserame(String userName) {
         return providerEmployeeRepository.findByUsername(userName);
     }
-
+    
+    // two next methods is the same !!!!!!!
+    
+    @Transactional
+    public List<UserRole> getRoleByUserNam(String username) {
+        return providerEmployeeRepository.getRoleByUserNam(username);
+    }
+    
     @Transactional
     public String getRoleByUserName(String username) {
         return providerEmployeeRepository.getRoleByUserName(username);
