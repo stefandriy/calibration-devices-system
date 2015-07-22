@@ -3,41 +3,39 @@
  */
 angular
     .module('employeeModule')
-    .controller('CalendarEmployeeProvider', ['$scope', 'UserService', '$modal', '$modalInstance', '$log', 'ngTableParams', '$timeout', '$filter',
-        function ($scope, userService, $modal, $modalInstance, $log, ngTableParams, $timeout, $filter) {
+    .controller('CalendarEmployeeProvider', ['$scope', '$controller', 'UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter',
+        function ($scope, $controller, userService, $modal, $log, ngTableParams, $timeout, $filter) {
+
+            var me = $scope;
+            $controller('GraficEmployeeProvider', {
+                $scope: $scope
+            });
 
             $scope.formattedDate = null;
             $scope.fcalendar = null;
             $scope.acalendar = null;
-            $scope.dataToSearch = {};
+            var date1 = new Date();
+            var date2 = new Date(2015, 00, 01);
+            $scope.dataToSearch = {
+                fromDate: date2,
+                toDate: date1
+            }
+
 
             $scope.cancel = function () {
-                $modalInstance.dismiss();
+                $modal.dismiss();
             };
 
             $scope.showGrafic = function () {
                 var dataToSearch = {
-                     fromDate: $scope.changeDateToSend($scope.dataToSearch.fromDate),
-                     toDate: $scope.changeDateToSend($scope.dataToSearch.toDate)
+                    fromDate: $scope.changeDateToSend($scope.dataToSearch.fromDate),
+                    toDate: $scope.changeDateToSend($scope.dataToSearch.toDate)
                 };
-
-                $modal.open({
-                    animation: true,
-                    templateUrl: '/resources/app/provider/views/employee/grafic-providerEmployee.html',
-                    controller: 'GraficEmployeeProvider',
-                    size: 'lg',
-                    resolve: {
-
-                        grafic: function () {
-                            return userService.getGraficData(dataToSearch)
-                                .success(function (data) {
-                                    return data;
-                                });
-                        }
-                    }
-                });
-
-            }
+                userService.getGraficData(dataToSearch)
+                    .success(function (data) {
+                        return me.displayGrafic(data);
+                    });
+            };
 
             /**
              *  Date picker and formatter setup
@@ -45,13 +43,19 @@ angular
              */
             $scope.firstCalendar = {};
             $scope.firstCalendar.isOpen = false;
+            $scope.secondCalendar = {};
+            $scope.secondCalendar.isOpen = false;
 
-            $scope.open = function ($event) {
+            $scope.open1 = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.firstCalendar.isOpen = true;
             };
-
+            $scope.open2 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.secondCalendar.isOpen = true;
+            };
 
             $scope.dateOptions = {
                 formatYear: 'yyyy',
@@ -69,9 +73,11 @@ angular
 
                 } else {
 
-                   return $filter('date')(value, 'dd-MM-yyyy');
+                    return $filter('date')(value, 'dd-MM-yyyy');
                 }
             }
+            $scope.showGrafic();
+
 
         }
     ]

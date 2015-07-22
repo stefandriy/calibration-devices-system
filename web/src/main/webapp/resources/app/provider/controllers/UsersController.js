@@ -51,16 +51,7 @@ angular
                 });
             };
 
-            $scope.openCalendarMenu = function () {
 
-                $modal.open({
-                    animation: true,
-                    templateUrl: '/resources/app/provider/views/employee/calendar-providerEmployee.html',
-                    controller: 'CalendarEmployeeProvider',
-                    size: 'md'
-
-                });
-            };
 
             $scope.onTableHandling = function () {
 

@@ -148,6 +148,12 @@
                         <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів повірок</a>
                     </li>
                		</sec:authorize>
+
+                    <sec:authorize url="/provider/admin/">
+                        <li ui-sref-active="active">
+                            <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>Статистика продуктивності працівників</a>
+                        </li>
+                    </sec:authorize>
                 </ul>
             </div>
         </div>

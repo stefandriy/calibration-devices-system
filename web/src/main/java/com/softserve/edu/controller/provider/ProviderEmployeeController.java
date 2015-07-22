@@ -114,11 +114,11 @@ public class ProviderEmployeeController {
     }
     @RequestMapping(value = "graphic", method = RequestMethod.GET)
     public List<ProviderEmployeeGraphic>  graphic
-            ( DataDtoField dataDtoField,
+            ( @RequestParam String fromDate,@RequestParam String toDate,
              @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user)
     {
         Long idOrganization = user.getOrganizationId();
-        List<ProviderEmployeeGraphic> list= providerEmployeeService.getgraphicProviderEmployee(dataDtoField.getFromDate(),dataDtoField.getToDate(),idOrganization) ;
+        List<ProviderEmployeeGraphic> list= providerEmployeeService.getgraphicProviderEmployee(fromDate,toDate,idOrganization);
         return list;
     }
 

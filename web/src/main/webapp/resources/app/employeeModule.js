@@ -59,7 +59,11 @@
                     templateUrl: '/resources/app/provider/views/settings-panel.html'
 
                 })
-            
+                    .state("statistic-show-providerEmployee", {
+                        url: '/provider/statistic/employee',
+                        templateUrl: '/resources/app/provider/views/employee/calendar-providerEmployee.html',
+                        controller: 'CalendarEmployeeProvider'
+                    })
                 	.state('main-panel-calibrator', {
                         url: '/calibrator/',
                         templateUrl: '/resources/app/calibrator/views/main-panel.html'

@@ -126,6 +126,7 @@ public class ProviderEmployeeService {
         }
         String providerUsername ="SELECT distinct providerEmployee_username as username FROM verification " +
                 " where provider_organizationId= ?1 and  providerEmployee_username is not null";
+
         String toGrafic = "select  count(v.providerEmployee_username) as data" +
                 " from verification v  " +
                 "  where v.providerEmployee_username= ?1 " +

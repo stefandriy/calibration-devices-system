@@ -536,3 +536,14 @@ input[type="radio"], input[type="checkbox"] {
 .panel-heading.calendarShow{
     text-align: right;
 }
+.formCalendar{
+    width: 100%;
+}
+.formCalendar  .calendar-wd{
+float:left;
+    padding-right: 1%;
+}
+.formCalendar.cal{
+    float: left;
+    padding-right: 2%;
+}
