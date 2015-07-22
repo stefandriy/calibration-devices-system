@@ -56,7 +56,7 @@ angular
                          var index = arrayObjectIndexOf($scope.localities, verificationData.data.locality, "designation");
                          $scope.selectedLocality = $scope.localities[index];
                          
-                         dataReceivingService.findProvidersByDistrictDesignation($scope.selectedDistrict.designation)
+                         dataReceivingService.findProvidersByDistrict($scope.selectedDistrict.designation)
                          .then(function (providers) {
                              $scope.providers = providers.data;
                             var index = arrayObjectIndexOf($scope.providers, verificationData.data.provider, "designation");
@@ -142,7 +142,7 @@ angular
                 //Receives providers corresponding this district
                 dataReceivingService.findProvidersByDistrict(selectedDistrict.designation)
                     .success(function (providers) {
-                    	$log.debug(providers);
+                    
                         $scope.providers = providers;
                    $scope.selectedProvider=providers;
                     });
@@ -217,12 +217,13 @@ angular
 	                    $scope.formData.street = $scope.selectedStreet.designation;
 	                    $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
 	                    $scope.formData.providerId = $scope.selectedProvider.id;
+	                    $scope.formData.deviceId = $scope.selectedDevice.id;
 	                    $scope.formData.verificationId = $stateParams.verificationId;
 	                    dataSendingService.editApplication($scope.formData)
 	                        .success(function (applicationCode) {
 	                            $scope.applicationCode = applicationCode;
 	                        });
-	
+
 	                    //hide form because application status is shown
 	                    $scope.isShownForm = false;
 	                }

@@ -192,9 +192,7 @@ $scope.openSendingModal = function () {
                 response: function () {
                     return verificationServiceProvider.getCalibrators()
                         .success(function (calibrators) {
-                        	 $log.debug('calibrators');
-                        	$log.debug(calibrators);
-                            
+                        	
                         	return calibrators;
                         }
                     );

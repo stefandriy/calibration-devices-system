@@ -1,7 +1,5 @@
 package com.softserve.edu.dto.provider;
 
-import com.softserve.edu.entity.Organization;
-
 import java.util.List;
 
 public class VerificationUpdatingDTO {

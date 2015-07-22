@@ -53,12 +53,9 @@ public class ClientApplicationController {
 	/*	Device device= deviceService.findById(verificationDTO.getDeviceId());*/
 
 		Verification verification = new Verification(new Date(), clientData, provider,/*device, */Status.SENT, ReadStatus.UNREAD);
-
 		verificationService.saveVerification(verification);
-
 		String name = clientData.getFirstName() + " " + clientData.getLastName();
 		mail.sendMail(clientData.getEmail(), name, verification.getId());
-
 		return verification.getId();
 	}
 	
@@ -66,15 +63,13 @@ public class ClientApplicationController {
 	public String editApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
 
 		ClientData clientData = new ClientData(verificationDTO.getFirstName(), verificationDTO.getLastName(),
-				verificationDTO.getMiddleName(), verificationDTO.getEmail(), verificationDTO.getPhone(),
+				verificationDTO.getMiddleName(), verificationDTO.getEmail(), verificationDTO.getPhone(), verificationDTO.getSecondPhone(),
 				new Address(verificationDTO.getRegion(), verificationDTO.getDistrict(), verificationDTO.getLocality(),
 						verificationDTO.getStreet(), verificationDTO.getBuilding(), verificationDTO.getFlat()));
 		Organization provider = providerService.findById(verificationDTO.getProviderId());
-		
-		verificationService.updateVerificationData(verificationDTO.getVerificationId(), clientData, provider);
 		String name = clientData.getFirstName() + " " + clientData.getLastName();
-		mail.sendMail(clientData.getEmail(), name, verificationDTO.getVerificationId());
-
+			verificationService.updateVerificationData(verificationDTO.getVerificationId(), clientData, provider);
+			mail.sendMail(clientData.getEmail(), name, verificationDTO.getVerificationId());
 		return verificationDTO.getVerificationId();
 	}
 
