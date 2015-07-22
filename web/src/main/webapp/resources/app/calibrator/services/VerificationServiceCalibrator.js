@@ -45,9 +45,6 @@ angular
         };
 
         function getData(url) {
-
-           // $log.info(url);
-
             return $http.get('calibrator/' + url)
                 .success(function (data) {
                     return data;

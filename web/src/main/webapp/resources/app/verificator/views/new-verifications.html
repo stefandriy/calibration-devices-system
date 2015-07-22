@@ -56,13 +56,11 @@
 											<td>{{ verification.surname }}</td>
 											<td>{{ verification.street }}</td>
 											<td class="text-center">
-											<a popover="Детальніше"
-												popover-trigger="mouseenter" 
-												ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
-                                            <i class="fa fa-info-circle"></i>
-											</a> 
+												<button type="button" class="btn btn-success btn-sm btn-block"
+														ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
+													<span class="glyphicon glyphicon-question-sign"></span>Детальніше</button>
 											<td class="text-center">
-											 <button type="button" class="btn btn-info btn-sm btn-block" 
+											 <button type="button" class="btn btn-success btn-sm btn-block"
 											 ng-click="testReview(calibrationTestId)">
 											 <span class="glyphicon glyphicon-search"></span>
                                           Переглянути тест
@@ -78,9 +76,10 @@
 									Оберіть хоча б одну пвірку
 								</p>
 
-								<div class="col-md-offset-11">
+								<div class="pull-right">
 									<button type="button" class="btn btn-primary"
-										ng-click="openSendingModal()">Надіслати</button>
+										ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
+										Надіслати</button>
 								</div>
 							</div>
 						</div>

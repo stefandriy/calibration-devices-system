@@ -97,19 +97,17 @@
 
                                     <td class="text-center" class="showInline">
                                         <span class="showInline">
-                                            <a popover="Детальніше"
-                                               popover-trigger="mouseenter"
-                                               ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus, verification.status)">
-                                                <i class="fa fa-info-circle"></i>
-                                            </a>
+                                          <button type="button" class="btn btn-success btn-sm btn-block"
+                                                  ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
+                                              <span class="glyphicon glyphicon-question-sign"></span>Детальніше</button>
 
                                             <button ng-show="!verification.providerEmployee"
-                                                    class="btn btn-success btn-sm"
+                                                    class="btn btn-success btn-sm btn-block"
                                                     ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
                                                 Взяти заявку
                                             </button>
                                             <button ng-show="verification.providerEmployee"
-                                                    class="btn btn-danger btn-sm"
+                                                    class="btn btn-danger btn-sm btn-block"
                                                     ng-click="removeProviderEmployee(verification.id)">
                                                 Скасувати
                                             </button>
@@ -137,9 +135,10 @@
                                         Оберіть хоча б одну повірку
                                     </p>
 
-                                    <div class="col-md-3 col-md-offset-10 sendButton">
+                                    <div class="pull-right">
                                         <button type="button" class="btn btn-primary"
-                                                ng-click="openSendingModal()">Надіслати
+                                                ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
+                                            Надіслати
                                         </button>
                                     </div>
                                     <ul class="pager ng-cloak">

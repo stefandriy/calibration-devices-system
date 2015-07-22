@@ -53,7 +53,7 @@ angular
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/new-verification-details.html',
-                    controller: 'DetailsModalController',
+                    controller: 'DetailsModalControllerCalibrator',
                     size: 'lg',
                     resolve: {
                         response: function () {
