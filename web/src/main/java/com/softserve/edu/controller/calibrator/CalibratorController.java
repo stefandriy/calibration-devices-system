@@ -97,8 +97,8 @@ public class CalibratorController {
     @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
     public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
     	List<Organization> list = verificatorService.findByDistrict( calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR" );
+    	
     	return list;
     }
 
@@ -106,7 +106,7 @@ public class CalibratorController {
     public void updateVerification(
             @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-        	Long idCalibrator = verificationUpdatingDTO.getIdsOfVerificators();
+        	Long idCalibrator = verificationUpdatingDTO.getVerificatorId();
         	 Organization calibrator = calibratorService.findById(idCalibrator);
             verificationService.sendVerificationTo(verificationId, calibrator, Status.SENT_TO_VERIFICATOR);
         }

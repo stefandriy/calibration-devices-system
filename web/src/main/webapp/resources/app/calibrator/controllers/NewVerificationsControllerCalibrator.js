@@ -53,7 +53,7 @@ angular
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/new-verification-details.html',
-                    controller: 'DetailsModalController',
+                    controller: 'DetailsModalControllerCalibrator',
                     size: 'lg',
                     resolve: {
                         response: function () {
@@ -99,7 +99,7 @@ angular
                     var modalInstance = $modal.open({
                         animation: true,
                         templateUrl: '/resources/app/calibrator/views/modals/verification-sending.html',
-                        controller: 'SendingModalController',
+                        controller: 'SendingModalControllerCalibrator',
                         size: 'md',
                         resolve: {
                             response: function () {
@@ -117,7 +117,7 @@ angular
                      
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
-                            verificator: verificator
+                            verificatorId: verificator.id
                         };
 
                         $log.debug(dataToSend);

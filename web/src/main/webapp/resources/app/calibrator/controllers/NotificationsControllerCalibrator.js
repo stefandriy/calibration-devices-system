@@ -41,12 +41,12 @@ angular
 				});
 		});
 		
-//		$rootScope.$on('test-is-created', function(event, args){
-//				$log.info("gotcha... verif was read "); 
-//		verificationServiceCalibrator.getCountOfNewVerifications().success(function (count) {
-//       		$scope.countOfUnreadVerifications = count;
-//			});
-//		});
+		$rootScope.$on('test-is-created', function(event, args){
+				$log.info("gotcha... verif was read "); 
+		verificationServiceCalibrator.getCountOfNewVerifications().success(function (count) {
+       		$scope.countOfUnreadVerifications = count;
+			});
+		});
 		
 		$scope.$on('$destroy', function () {
 			$scope.stopPolling();
