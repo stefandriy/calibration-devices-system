@@ -24,6 +24,7 @@ import com.softserve.edu.dto.state_verificator.VerificationUpdatingDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
+import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.util.Status;
@@ -118,8 +119,9 @@ public class StateVerificatorController {
 
         ClientData clientData = verification.getClientData();
         Address address = clientData.getClientAddress();
+ /*       Device device = verification.getDevice();*/
 
-        return new ClientStageVerificationDTO(clientData, address,  null, null);
+        return new ClientStageVerificationDTO(clientData, address,  null, /*device.getId(),*/null);
     }
     //TEMPORALY
 //    @RequestMapping(value = "show/{calibrationTestId}", method = RequestMethod.GET)

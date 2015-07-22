@@ -134,8 +134,9 @@ public class CalibratorController {
 
         ClientData clientData = verification.getClientData();
         Address address = clientData.getClientAddress();
+   /*     Device device=verification.getDevice();*/
 
-        return new ClientStageVerificationDTO(clientData, address,  null, null);
+        return new ClientStageVerificationDTO(clientData, address,  null, /*device.getId(),*/null);// TO DO
     }
 
     

@@ -7,6 +7,7 @@ import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.ProviderStageVerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
+import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.catalogue.District;
@@ -14,6 +15,7 @@ import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.DeviceService;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.catalogue.DistrictService;
@@ -47,7 +49,8 @@ public class ProviderApplicationController {
 
     @Autowired
     private DistrictService districtService;
-
+    @Autowired
+    private DeviceService deviceService;
     @Autowired
     private LocalityService localityService;
 
@@ -65,6 +68,7 @@ public class ProviderApplicationController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
+        Device device= verificationDTO.getDevice();
 
         Verification verification = new Verification(
                 new Date(),
@@ -81,7 +85,7 @@ public class ProviderApplicationController {
                                 verificationDTO.getStreet(),
                                 verificationDTO.getBuilding(),
                                 verificationDTO.getFlat())),
-                provider,
+                provider,/*device,*/
                 Status.IN_PROGRESS, ReadStatus.UNREAD, verificationDTO.getCalibrator());
         verificationService.saveVerification(verification);
     }

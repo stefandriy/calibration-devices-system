@@ -137,5 +137,9 @@
   	"EDIT_ERROR":"Sorry, but You cannot edit this verification anymore! It was edited and sent to service provider.",
   	"EDIT_ERROR_INFO":"Info about current state of Your verification You can check via link that was sent on Your email.",
   	"PLEASE_LEAVE_COMMENT":"Please ask question or leave a comment",
-  	"FEEDBACK_SENT":"Thank You! Your message was sent"
+  	"FEEDBACK_SENT":"Thank You! Your message was sent",
+
+  	"BOULEVARD":"boulevard",
+  	"AVENUE":"avenue",
+  	"SQUARE":"square"
 }

@@ -1,5 +1,6 @@
 package com.softserve.edu.dto.provider;
 
+import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 
@@ -16,6 +17,8 @@ public class ProviderStageVerificationDTO {
     private String building;
     private String flat;
     private Organization calibrator;
+    private Device device;
+    
     private User providerEmployee;
 
     public String getBuilding() {
@@ -121,4 +124,12 @@ public class ProviderStageVerificationDTO {
     public void setSecondPhone(String secondPhone) {
         this.secondPhone = secondPhone;
     }
+
+	public Device getDevice() {
+		return device;
+	}
+
+	public void setDevice(Device device) {
+		this.device = device;
+	}
 }

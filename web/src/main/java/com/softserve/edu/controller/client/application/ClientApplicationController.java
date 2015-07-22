@@ -50,9 +50,9 @@ public class ClientApplicationController {
 				new Address(verificationDTO.getRegion(), verificationDTO.getDistrict(), verificationDTO.getLocality(),
 						verificationDTO.getStreet(), verificationDTO.getBuilding(), verificationDTO.getFlat()));
 		Organization provider = providerService.findById(verificationDTO.getProviderId());
-	/*	Device device= deviceService.findById(verificationDTO.getDeviceId());*/
+	
+		Verification verification = new Verification(new Date(), clientData, provider,Status.SENT, ReadStatus.UNREAD);
 
-		Verification verification = new Verification(new Date(), clientData, provider,/*device, */Status.SENT, ReadStatus.UNREAD);
 		verificationService.saveVerification(verification);
 		String name = clientData.getFirstName() + " " + clientData.getLastName();
 		mail.sendMail(clientData.getEmail(), name, verification.getId());
