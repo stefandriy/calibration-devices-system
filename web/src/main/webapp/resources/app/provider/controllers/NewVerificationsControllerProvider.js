@@ -154,6 +154,8 @@ $scope.addProviderEmployee = function (verifId, providerEmployee) {
 $scope.idsOfVerifications = [];
 $scope.checkedItems = [];
 $scope.allIsEmpty = true;
+$scope.idsOfCalibrators = null;
+
 
 
 /**
@@ -207,7 +209,7 @@ $scope.openSendingModal = function () {
 
             var dataToSend = {
                 idsOfVerifications: $scope.idsOfVerifications,
-                calibrator: formData.calibrator
+                idsOfCalibrators: formData.calibrator.id
             };
 
             

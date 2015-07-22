@@ -1,5 +1,6 @@
 package com.softserve.edu.service.provider;
 
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
@@ -153,6 +154,7 @@ public class ProviderEmployeeService {
         }
         return resultList;
     }
+
 
 
 }

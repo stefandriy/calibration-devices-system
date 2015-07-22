@@ -5,11 +5,9 @@ import com.softserve.edu.entity.Organization;
 import java.util.List;
 
 public class VerificationUpdatingDTO {
-    String idVerification;
-    private List<String> idsOfVerifications;
-    private Organization calibrator;
 
-    private EmployeeProvider employeeProvider;
+    private List<String> idsOfVerifications;
+    private Long idsOfCalibrators;
 
     public List<String> getIdsOfVerifications() {
         return idsOfVerifications;
@@ -19,27 +17,12 @@ public class VerificationUpdatingDTO {
         this.idsOfVerifications = idsOfVerifications;
     }
 
-    public Organization getCalibrator() {
-        return calibrator;
+
+    public Long getIdsOfCalibrators() {
+        return idsOfCalibrators;
     }
 
-    public void setCalibrator(Organization calibrator) {
-        this.calibrator = calibrator;
-    }
-
-    public EmployeeProvider getEmployeeProvider() {
-        return employeeProvider;
-    }
-
-    public void setEmployeeProvider(EmployeeProvider employeeProvider) {
-        this.employeeProvider = employeeProvider;
-    }
-
-    public String getIdVerification() {
-        return idVerification;
-    }
-
-    public void setIdVerification(String idVerification) {
-        this.idVerification = idVerification;
+    public void setIdsOfCalibrators(Long idsOfCalibrators) {
+        this.idsOfCalibrators = idsOfCalibrators;
     }
 }

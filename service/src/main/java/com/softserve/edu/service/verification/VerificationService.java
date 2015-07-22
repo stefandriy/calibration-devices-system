@@ -34,267 +34,252 @@ import java.util.List;
 
 @Service
 public class VerificationService {
-	Logger logger = Logger.getLogger(VerificationService.class);
+    Logger logger = Logger.getLogger(VerificationService.class);
 
-	@Autowired
-	private VerificationRepository verificationRepository;
+    @Autowired
+    private VerificationRepository verificationRepository;
 
-	@Autowired
-	private CalibrationTestRepository calibrationTestRepository;
+    @Autowired
+    private CalibrationTestRepository calibrationTestRepository;
 
-	@PersistenceContext
-	private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
-	@Transactional
-	public void saveVerification(Verification verification) {
-		verificationRepository.save(verification);
-	}
+    @Transactional
+    public void saveVerification(Verification verification) {
+        verificationRepository.save(verification);
+    }
 
-	@Transactional(readOnly = true)
-	public Verification findById(String code) {
-		return verificationRepository.findOne(code);
-	}
+    @Transactional(readOnly = true)
+    public Verification findById(String code) {
+        return verificationRepository.findOne(code);
+    }
 
-	/**
-	 * Returns requested number(page) of Verification entities(itemsPerPage
-	 * parameter) that belongs to specific organization. Note: pagination starts
-	 * from 1 at client side, but Spring Data JPA from 0.
-	 *
-	 * @param pageNumber
-	 *            Number of partial data that will be returned.
-	 * @param itemsPerPage
-	 *            Number of Verification-s that will be present in one page(unit
-	 *            of partial data).
-	 * @return Requested page of Verification-s that belong to specific
-	 *         organization.
-	 */
-	@Transactional(readOnly = true)
-	public Page<Verification> findPageOfAllVerificationsByProviderId(Long providerId, int pageNumber,
-			int itemsPerPage) {
-		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		return verificationRepository.findByProviderId(providerId, pageRequest);
-	}
+    /**
+     * Returns requested number(page) of Verification entities(itemsPerPage
+     * parameter) that belongs to specific organization. Note: pagination starts
+     * from 1 at client side, but Spring Data JPA from 0.
+     *
+     * @param pageNumber   Number of partial data that will be returned.
+     * @param itemsPerPage Number of Verification-s that will be present in one page(unit
+     *                     of partial data).
+     * @return Requested page of Verification-s that belong to specific
+     * organization.
+     */
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfAllVerificationsByProviderId(Long providerId, int pageNumber,
+                                                                     int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByProviderId(providerId, pageRequest);
+    }
 
-	@Transactional(readOnly = true)
-	public Page<Verification> findPageOfAllVerificationsByCalibratorId(Long calibratorId, int pageNumber,
-			int itemsPerPage) {
-		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		return verificationRepository.findByCalibratorId(calibratorId, pageRequest);
-	}
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfAllVerificationsByCalibratorId(Long calibratorId, int pageNumber,
+                                                                       int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByCalibratorId(calibratorId, pageRequest);
+    }
 
-	@Transactional(readOnly = true)
-	public Page<Verification> findPageOfAllVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
-			int itemsPerPage) {
-		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		return verificationRepository.findByStateVerificatorId(stateVerificatorId, pageRequest);
-	}
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfAllVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
+                                                                             int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByStateVerificatorId(stateVerificatorId, pageRequest);
+    }
 
-	/**
-	 * Finds count of rows in database for verifications assigned to Calibrator with Read Status = 'UNREAD'.
-	 * Method is used for notification about unwatched verifications
-	 * 
-	 * @param calibratorId
-	 * @return 
-	 */
-	@Transactional(readOnly = true)
-	public Long findCountOfNewVerificationsByCalibratorId(Long calibratorId) {
-		return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS,
-				ReadStatus.UNREAD);
-	}
-	
-	/**
-	 * Finds count of rows in database for verifications assigned to Provider with Read Status = 'UNREAD'.
-	 * Method is used for notification about unwatched verifications
-	 * 
-	 * @param providerId
-	 * @return 
-	 */
-	@Transactional(readOnly = true)
-	public Long findCountOfNewVerificationsByProviderId(Long providerId) {
-		System.err.println();
-		return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
-				ReadStatus.UNREAD);
-	}
-	
-	/**
-	 * Finds count of rows in database for verifications assigned to State Verificator with Read Status = 'UNREAD'.
-	 * Method is used for notification about unwatched verifications
-	 * 
-	 * @param stateVerificatorId
-	 * @return 
-	 */
-	@Transactional(readOnly = true)
-	public Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
-		return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
-				ReadStatus.UNREAD);
-	}
+    /**
+     * Finds count of rows in database for verifications assigned to Calibrator with Read Status = 'UNREAD'.
+     * Method is used for notification about unwatched verifications
+     *
+     * @param calibratorId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Long findCountOfNewVerificationsByCalibratorId(Long calibratorId) {
+        return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS,
+                ReadStatus.UNREAD);
+    }
 
-	@Transactional(readOnly = true)
-	public Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber,
-			int itemsPerPage) {
-		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		return verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId, Status.SENT,
-				pageRequest);
-	}
+    /**
+     * Finds count of rows in database for verifications assigned to Provider with Read Status = 'UNREAD'.
+     * Method is used for notification about unwatched verifications
+     *
+     * @param providerId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Long findCountOfNewVerificationsByProviderId(Long providerId) {
+        System.err.println();
+        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
+                ReadStatus.UNREAD);
+    }
 
-	/**
-	 * Returns requested number(page) of Verification entities(itemsPerPage
-	 * parameter) that belongs to specific calibrator and have status received.
-	 * Note: pagination starts from 1 at client side, but Spring Data JPA from
-	 * 0.
-	 *
-	 * @param calibratorId
-	 *            id of calibrator.
-	 * @param pageNumber
-	 *            Number of partial data that will be returned.
-	 * @param itemsPerPage
-	 *            Number of Verification-s that will be present in one page(unit
-	 *            of partial data).
-	 * @return Requested page of Verification-s that belong to specific
-	 *         organization.
-	 */
-	@Transactional(readOnly = true)
-	public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber,
-			int itemsPerPage) {
-		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS,
-				pageRequest);
-	}
+    /**
+     * Finds count of rows in database for verifications assigned to State Verificator with Read Status = 'UNREAD'.
+     * Method is used for notification about unwatched verifications
+     *
+     * @param stateVerificatorId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
+        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
+                ReadStatus.UNREAD);
+    }
 
-	@Transactional(readOnly = true)
-	public Page<Verification> findPageOfSentVerificationsByCalibratorIdAndSearch(Long calibratorId, int pageNumber,
-			int itemsPerPage, String searchType, String searchText) {
-		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		switch (searchType) {
-		case "id":
-			return verificationRepository.findByCalibratorIdAndStatusAndIdLikeIgnoreCase(calibratorId, Status.IN_PROGRESS,
-					"%" + searchText + "%", pageRequest);
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber,
+                                                                      int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId, Status.SENT,
+                pageRequest);
+    }
 
-		case "lastName":
-			return verificationRepository.findByCalibratorIdAndStatusAndClientData_lastNameLikeIgnoreCase(calibratorId,
-					Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
+    /**
+     * Returns requested number(page) of Verification entities(itemsPerPage
+     * parameter) that belongs to specific calibrator and have status received.
+     * Note: pagination starts from 1 at client side, but Spring Data JPA from
+     * 0.
+     *
+     * @param calibratorId id of calibrator.
+     * @param pageNumber   Number of partial data that will be returned.
+     * @param itemsPerPage Number of Verification-s that will be present in one page(unit
+     *                     of partial data).
+     * @return Requested page of Verification-s that belong to specific
+     * organization.
+     */
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber,
+                                                                        int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS,
+                pageRequest);
+    }
 
-		case "street":
-			return verificationRepository.findByCalibratorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(
-					calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByCalibratorIdAndSearch(Long calibratorId, int pageNumber,
+                                                                                 int itemsPerPage, String searchType, String searchText) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        switch (searchType) {
+            case "id":
+                return verificationRepository.findByCalibratorIdAndStatusAndIdLikeIgnoreCase(calibratorId, Status.IN_PROGRESS,
+                        "%" + searchText + "%", pageRequest);
 
-		case "date":
+            case "lastName":
+                return verificationRepository.findByCalibratorIdAndStatusAndClientData_lastNameLikeIgnoreCase(calibratorId,
+                        Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
 
-			SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
-			Date date = null;
-			try {
-				date = form.parse(searchText);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			return verificationRepository.findByCalibratorIdAndStatusAndInitialDateLike(calibratorId, Status.IN_PROGRESS,
-					date, pageRequest);
+            case "street":
+                return verificationRepository.findByCalibratorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(
+                        calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
 
-		default:
-			return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId,
-					Status.IN_PROGRESS, pageRequest);
-		}
+            case "date":
 
-	}
+                SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = null;
+                try {
+                    date = form.parse(searchText);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return verificationRepository.findByCalibratorIdAndStatusAndInitialDateLike(calibratorId, Status.IN_PROGRESS,
+                        date, pageRequest);
 
-	@Transactional(readOnly = true)
-	public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
-			int itemsPerPage) {
-		Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-		return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
-				pageRequest);
-	}
+            default:
+                return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId,
+                        Status.IN_PROGRESS, pageRequest);
+        }
 
-	/**
-	 * Find page of new verifications for provider with search parameters specified
-	 * 
-	 * @param providerId  
-	 * 		ID of organization
-	 * @param pageNumber
-	 * 		number of page requested by user
-	 * @param itemsPerPage
-	 * 		desired number of rows to be displayed on page
-	 * @param dateToSearch
-	 * 		 search by initial date of verification
-	 * @param idToSearch
-	 * 		search by verification ID
-	 * @param lastNameToSearch
-	 * 		search by last name of client
-	 * @param streetToSearch
-	 * 		search by street where client lives
-	 * @param providerEmployee
-	 * 		restrict query by provider employee user name. Allows restrict query so that simple employee user
-	 * 		can only see verifications assigned to him and free verifications (not yet assigned)
-	 * @return ListToPageTransformer<Verification>
-	 */
-	@Transactional(readOnly = true)
-	 public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
-			 			int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-			 														String streetToSearch, User providerEmployee) {
+    }
 
-		CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
-			  																	lastNameToSearch, streetToSearch, providerEmployee, em);
-  
-		Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
-			  												streetToSearch, providerEmployee, em)).getSingleResult();
- 
-		TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
-		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-		typedQuery.setMaxResults(itemsPerPage);
-		List<Verification> verificationList = typedQuery.getResultList();
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
+                                                                              int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
+                pageRequest);
+    }
 
-		ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
-		result.setContent(verificationList);
-		result.setTotalItems(count);
-		return result;
-	 }
-	
-	@Transactional(readOnly = true)
-	public Verification findByIdAndProviderId(String id, Long providerId) {
-		Verification verification = verificationRepository.findByIdAndProviderId(id, providerId);
-		if (verification == null) {
-			throw new AccessDeniedException("You have not permission to get this data.");
-		}
-		return verification;
-	}
+    /**
+     * Find page of new verifications for provider with search parameters specified
+     *
+     * @param providerId       ID of organization
+     * @param pageNumber       number of page requested by user
+     * @param itemsPerPage     desired number of rows to be displayed on page
+     * @param dateToSearch     search by initial date of verification
+     * @param idToSearch       search by verification ID
+     * @param lastNameToSearch search by last name of client
+     * @param streetToSearch   search by street where client lives
+     * @param providerEmployee restrict query by provider employee user name. Allows restrict query so that simple employee user
+     *                         can only see verifications assigned to him and free verifications (not yet assigned)
+     * @return ListToPageTransformer<Verification>
+     */
+    @Transactional(readOnly = true)
+    public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
+                                                                                                        int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+                                                                                                        String streetToSearch, User providerEmployee) {
 
-	/**
-	 * Returns requested number(page) of Verification entities(itemsPerPage
-	 * parameter) that belongs to specific calibrator and have status received.
-	 * Note: pagination starts from 1 at client side, but Spring Data JPA from
-	 * 0.
-	 *
-	 * @param id
-	 *            Id of the verification
-	 * @param calibratorId
-	 *            Number id of provider assigned to this verification
-	 * @return Verification that belong to specific calibrator
-	 */
-	@Transactional(readOnly = true)
-	public Verification findByIdAndCalibratorId(String id, Long calibratorId) {
-		Verification verification = verificationRepository.findByIdAndCalibratorId(id, calibratorId);
-		if (verification == null) {
-			throw new AccessDeniedException("You have not permission to get this data.");
-		}
-		return verification;
-	}
+        CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
+                lastNameToSearch, streetToSearch, providerEmployee, em);
 
-	@Transactional(readOnly = true)
-	public Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId) {
-		Verification verification = verificationRepository.findByIdAndStateVerificatorId(id, stateVerificatorId);
-		if (verification == null) {
-			throw new AccessDeniedException("You have not permission to get this data.");
-		}
-		return verification;
-	}
+        Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
+                streetToSearch, providerEmployee, em)).getSingleResult();
 
-	/**
-	 * Find verification, add receive status to calibrator, add calibrator to
-	 * verification, set verification read status to 'UNREAD', 
-	 *  save verification
-	 *  
-	 *   NOT CURRENTLY USED
-	 */
+        TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<Verification> verificationList = typedQuery.getResultList();
+
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        result.setContent(verificationList);
+        result.setTotalItems(count);
+        return result;
+    }
+
+    @Transactional(readOnly = true)
+    public Verification findByIdAndProviderId(String id, Long providerId) {
+        Verification verification = verificationRepository.findByIdAndProviderId(id, providerId);
+        if (verification == null) {
+            throw new AccessDeniedException("You have not permission to get this data.");
+        }
+        return verification;
+    }
+
+    /**
+     * Returns requested number(page) of Verification entities(itemsPerPage
+     * parameter) that belongs to specific calibrator and have status received.
+     * Note: pagination starts from 1 at client side, but Spring Data JPA from
+     * 0.
+     *
+     * @param id           Id of the verification
+     * @param calibratorId Number id of provider assigned to this verification
+     * @return Verification that belong to specific calibrator
+     */
+    @Transactional(readOnly = true)
+    public Verification findByIdAndCalibratorId(String id, Long calibratorId) {
+        Verification verification = verificationRepository.findByIdAndCalibratorId(id, calibratorId);
+        if (verification == null) {
+            throw new AccessDeniedException("You have not permission to get this data.");
+        }
+        return verification;
+    }
+
+    @Transactional(readOnly = true)
+    public Verification findByIdAndStateVerificatorId(String id, Long stateVerificatorId) {
+        Verification verification = verificationRepository.findByIdAndStateVerificatorId(id, stateVerificatorId);
+        if (verification == null) {
+            throw new AccessDeniedException("You have not permission to get this data.");
+        }
+        return verification;
+    }
+
+    /**
+     * Find verification, add receive status to calibrator, add calibrator to
+     * verification, set verification read status to 'UNREAD',
+     *  save verification
+     *
+     *   NOT CURRENTLY USED
+     */
 //	@Transactional
 //	public void updateVerificationByprovider(String verificationId, Organization calibrator) {
 //		Verification verification = verificationRepository.findOne(verificationId);
@@ -308,32 +293,32 @@ public class VerificationService {
 //		verificationRepository.save(verification);
 //	}
 
-	/**
-	 * Changes verification read status to 'READ' when Provider or Calibrator or State Verificator reads it
-	 * @param verificationId
-	 * @param readStatus
-	 */
-	@Transactional
-	public void updateVerificationReadStatus(String verificationId, String readStatus) {
-		Verification verification = verificationRepository.findOne(verificationId);
-		if (verification == null) {
-			logger.error("verification haven't found");
-			return;
-		}
-		verification.setReadStatus(ReadStatus.READ);
-		verificationRepository.save(verification);
-	}
+    /**
+     * Changes verification read status to 'READ' when Provider or Calibrator or State Verificator reads it
+     *
+     * @param verificationId
+     * @param readStatus
+     */
+    @Transactional
+    public void updateVerificationReadStatus(String verificationId, String readStatus) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        if (verification == null) {
+            logger.error("verification haven't found");
+            return;
+        }
+        verification.setReadStatus(ReadStatus.READ);
+        verificationRepository.save(verification);
+    }
 
-	
-	
-	/**
-	 * Find verification, add IN_PROGRESS status to state verificator, add state
-	 * verificator to verification. /** Find verification, add SENT_TO_VERIFICATOR
-	 * status to state verificator, add stat verificator to verification. save
-	 * verification
-	 * 
-	 * NOT CURRENTLY USED
-	 */
+
+    /**
+     * Find verification, add IN_PROGRESS status to state verificator, add state
+     * verificator to verification. /** Find verification, add SENT_TO_VERIFICATOR
+     * status to state verificator, add stat verificator to verification. save
+     * verification
+     * <p>
+     * NOT CURRENTLY USED
+     */
 //	@Transactional
 //	public void updateVerificationByCalibrator(String verificationId, Organization stateVerificator) {
 //		Verification verification = verificationRepository.findOne(verificationId);
@@ -342,90 +327,85 @@ public class VerificationService {
 //		verification.setReadStatus(ReadStatus.UNREAD);
 //		verificationRepository.save(verification);
 //	}
-	
-	@Transactional
-	public void updateVerificationStatus (String verificationId, Status status) {
-		Verification verification = verificationRepository.findOne(verificationId);
-		verification.setStatus(status);
-		verificationRepository.save(verification);
-	}
-	
-	@Transactional
-	public void sendVerificationTo(String verificationId, Organization oraganization, Status status) {
-		Verification verification = verificationRepository.findOne(verificationId);
-		
-			if(status.equals(Status.IN_PROGRESS)) {
-				verification.setCalibrator(oraganization);
-			} else if (status.equals(Status.SENT_TO_VERIFICATOR)) {
-				verification.setStateVerificator(oraganization);
-			} else if ((status.equals(Status.TEST_OK))||(status.equals(Status.TEST_NOK))) {
-				verification.setProvider(oraganization);
-			}
-		verification.setStatus(status);
-		verification.setReadStatus(ReadStatus.UNREAD);
-		verificationRepository.save(verification);
-	}
-	
-	
-	/**
-	 * Find verification, add complete status to stateVerificator, add
-	 * stateVerificator to verification save verification
-	 */
-	@Transactional
-	public void updateVerification(String verificationId, Organization stateVerificator) {
-		Verification verification = verificationRepository.findOne(verificationId);
-		if (verification == null) {
-			logger.error("verification haven't found");
-			return;
-		}
-		verification.setStatus(Status.TEST_OK);
-		verification.setStateVerificator(stateVerificator);
-		verificationRepository.save(verification);
-	}
+    @Transactional
+    public void updateVerificationStatus(String verificationId, Status status) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        verification.setStatus(status);
+        verificationRepository.save(verification);
+    }
 
-	@Transactional
-	public void updateVerificationData(String id, ClientData clientData, Organization provider ) {
-		Verification verificationToEdit = verificationRepository.findOne(id);
-		verificationToEdit.setInitialDate(new Date());
-		verificationToEdit.setClientData(clientData);
-		verificationToEdit.setProvider(provider);
-		verificationToEdit.setStatus(Status.SENT);
-		verificationToEdit.setReadStatus(ReadStatus.UNREAD);
-		verificationRepository.save(verificationToEdit);
-	}
-	
-	/**
-	 * Returns calibration test assigned to verification
-	 *
-	 * @param verificationId
-	 *            Id of the verification
-	 * @param data
-	 *            all data filled by calibrator in test
-	 * @return test data with assigned verification that belong to specific
-	 *         calibrator
-	 * @throws NotAvailableException
-	 *             if there is no verification with such id
-	 */
-	@Transactional
-	public CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data) {
-		Verification updatedVerification = verificationRepository.findOne(verificationId);
-		if (updatedVerification == null) {
-			throw new NotAvailableException("Повірки з таким ID не існує");
-		}
-		CalibrationTest testData = calibrationTestRepository.save(data);
-		testData.setVerification(updatedVerification);
-		return testData;
-	}
-	
-	@Transactional(readOnly=true)
-	public CalibrationTest findByCalibrationTestId(Long id){
-		CalibrationTest calibrationTest = calibrationTestRepository.findById(id);
-		if(calibrationTest == null){
-			throw new AccessDeniedException("You have not permission to get this data");
-		}
-		return calibrationTest;
-	}
+    @Transactional
+    public void sendVerificationTo(String verificationId, Organization oraganization, Status status) {
+        Verification verification = verificationRepository.findOne(verificationId);
 
+        if (status.equals(Status.IN_PROGRESS)) {
+            verification.setCalibrator(oraganization);
+        } else if (status.equals(Status.SENT_TO_VERIFICATOR)) {
+            verification.setStateVerificator(oraganization);
+        } else if ((status.equals(Status.TEST_OK)) || (status.equals(Status.TEST_NOK))) {
+            verification.setProvider(oraganization);
+        }
+        verification.setStatus(status);
+        verification.setReadStatus(ReadStatus.UNREAD);
+        verificationRepository.save(verification);
+    }
+
+
+    /**
+     * Find verification, add complete status to stateVerificator, add
+     * stateVerificator to verification save verification
+     */
+    @Transactional
+    public void updateVerification(String verificationId, Organization stateVerificator) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        if (verification == null) {
+            logger.error("verification haven't found");
+            return;
+        }
+        verification.setStatus(Status.TEST_OK);
+        verification.setStateVerificator(stateVerificator);
+        verificationRepository.save(verification);
+    }
+
+    @Transactional
+    public void updateVerificationData(String id, ClientData clientData, Organization provider) {
+        Verification verificationToEdit = verificationRepository.findOne(id);
+        verificationToEdit.setInitialDate(new Date());
+        verificationToEdit.setClientData(clientData);
+        verificationToEdit.setProvider(provider);
+        verificationToEdit.setStatus(Status.SENT);
+        verificationToEdit.setReadStatus(ReadStatus.UNREAD);
+        verificationRepository.save(verificationToEdit);
+    }
+
+    /**
+     * Returns calibration test assigned to verification
+     *
+     * @param verificationId Id of the verification
+     * @param data           all data filled by calibrator in test
+     * @return test data with assigned verification that belong to specific
+     * calibrator
+     * @throws NotAvailableException if there is no verification with such id
+     */
+    @Transactional
+    public CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data) {
+        Verification updatedVerification = verificationRepository.findOne(verificationId);
+        if (updatedVerification == null) {
+            throw new NotAvailableException("Повірки з таким ID не існує");
+        }
+        CalibrationTest testData = calibrationTestRepository.save(data);
+        testData.setVerification(updatedVerification);
+        return testData;
+    }
+
+    @Transactional(readOnly = true)
+    public CalibrationTest findByCalibrationTestId(Long id) {
+        CalibrationTest calibrationTest = calibrationTestRepository.findById(id);
+        if (calibrationTest == null) {
+            throw new AccessDeniedException("You have not permission to get this data");
+        }
+        return calibrationTest;
+    }
 
 
 }
