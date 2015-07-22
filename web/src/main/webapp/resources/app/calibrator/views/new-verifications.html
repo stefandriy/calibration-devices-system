@@ -73,16 +73,13 @@
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
                                 <td class="text-center">
-                                        <a popover="Детальніше"
-                                           popover-trigger="mouseenter"
+                                        <button type="button" class="btn btn-success btn-sm btn-block"
                                            ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
-                                            <i class="fa fa-info-circle"></i>
-                                        </a>
-                                        <a popover="Створити тест"
-                                           popover-trigger="mouseenter"
-                                           ui-sref="calibration-test-calibrator">
-                                            <i class="fa fa-check-square-o"></i>
-                                        </a>
+                                           <span class="glyphicon glyphicon-question-sign"></span>Детальніше</button> 
+                                        
+                                    <button type="submit" class="btn btn-success btn-sm btn-block"
+                                            ng-click="openAddCalibrationTestModal()">
+                                            <span class="glyphicon glyphicon-plus-sign"></span>Створити тест</button>
                                     <td class="text-center">
                                         <input type="checkbox"
                                                ng-click="resolveVerificationId(verification.id)"/>

@@ -139,7 +139,7 @@ public class CalibratorController {
     }
 
     
-    @RequestMapping(value = "new/{verificationId}/calibration-test", method = RequestMethod.POST)
+    @RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)
     public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
     	HttpStatus httpStatus = HttpStatus.CREATED;
     	try {

@@ -15,7 +15,7 @@ angular
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);
             },
-            getVerificators: function (url) {
+            getProviders: function (url) {
                 return getData('verifications/new/providers');
             },
             sendVerificationsToCalibrator: function (data) {
@@ -45,19 +45,11 @@ angular
             searchNewVerifications : function(data) {
             	return sendDataWithParams('new/search', data);
             },
-//            for CalibrationTest
             getCalibraionTestDetails: function (calibrationTestId){
             	return getData('show/' + calibrationTestId )
             },
             
         };
-
-//       function getCalibraionTestDetails(id) {
-//			var url = 'verificator/verifications/show/' + id;
-//			return $http.get(url).then(function(result) {
-//				return result.data;
-//			});
-//		}
        
         function getData(url) {
 

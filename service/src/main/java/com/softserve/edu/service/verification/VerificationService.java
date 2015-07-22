@@ -327,6 +327,7 @@ public class VerificationService {
 //		verification.setReadStatus(ReadStatus.UNREAD);
 //		verificationRepository.save(verification);
 //	}
+
     @Transactional
     public void updateVerificationStatus(String verificationId, Status status) {
         Verification verification = verificationRepository.findOne(verificationId);
@@ -406,6 +407,5 @@ public class VerificationService {
         }
         return calibrationTest;
     }
-
 
 }

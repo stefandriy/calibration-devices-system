@@ -47,8 +47,6 @@ public class StateVerificatorController {
 	@Autowired
 	StateVerificatorService verificatorService;
 
-	private final Logger logger = Logger
-			.getLogger(StateVerificatorController.class);
 
 	@RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
 	public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorId(
