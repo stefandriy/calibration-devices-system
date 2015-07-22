@@ -184,6 +184,7 @@ public class ProviderVerificationController {
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         User providerEmployee = new User();
+        System.err.println("assign controller");
         String idVerification = verificationUpdatingDTO.getIdVerification();
         providerEmployee.setUsername(verificationUpdatingDTO.getEmployeeProvider().getUsername());
         verificationProviderEmployeeService.assignProviderEmployee(idVerification, providerEmployee);

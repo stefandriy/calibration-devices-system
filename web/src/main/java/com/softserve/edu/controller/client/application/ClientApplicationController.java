@@ -124,6 +124,6 @@ public class ClientApplicationController {
     	String sendFrom = verification.getClientData().getEmail();
     	mail.sendClientMail(sendFrom, name, surname, mailDto.getVerifID(), mailDto.getMsg());
     	
-		return "hello";
+		return "SUCCESS";
     }
 }

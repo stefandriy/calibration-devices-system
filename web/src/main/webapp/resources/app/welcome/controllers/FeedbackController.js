@@ -8,10 +8,14 @@ angular
             $modalInstance.dismiss();
         };
         
+        $scope.sendingStarted = false;
+        
         $scope.submit = function () {
+        	
             $scope.$broadcast('show-errors-check-validity');
             if ($scope.mailSendingForm.$valid){
-                $modalInstance.close($scope.formData);
+            	$scope.sendingStarted = false;
+                $modalInstance.close($scope.formData, $scope.sendingStarted);
 
             }
         }

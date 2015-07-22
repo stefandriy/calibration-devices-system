@@ -130,17 +130,37 @@
 				</table>
 			</div>
 			
+		<!-- 		Fix Me !!!!! Roman Chmelyck
+				<div ng-show="responseSuccess"  id="showFeedBackSuccess"
+				class="row col-md-10 alert alert-success alert-dismissible centered"
+				role="alert">
+					<button ng-click="closeAlert()" type="button"
+						class="close btn-close-alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+		
+					<div class="text-center" ng-show="responseSuccess">
+						{{'FEEDBACK_SENT' | translate}}
+					</div>
+	
+				</div>
 			
+				<div ng-show="showSendingAlert"  id="showFeedBackSending"
+				class="row col-md-10 alert alert-success alert-dismissible centered"
+				role="alert">
+					<i class="fa fa-3x fa-spinner fa-spin col-md-6 col-md-offset-5"></i>
+					
+				</div>	
+			 -->		
 <!-- 			Button for chat TO DO  -->
 			
-
+		<div>
 			<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
 				data-target="#myModal" popover="Model feedback"
 				popover-trigger="mouseenter" ng-click="feedbackModal(verification.id)" ng-if="verification.status">
-				<span class=" glyphicon glyphicon-envelope"></span> Open Feedback
-				Modal
+				<span class=" glyphicon glyphicon-envelope"></span> Open Feedback Modal
 			</button>
-			
+		</div>	
 	<!-- 		<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
 				data-target="#myModal" popover="Model chat"
 				popover-trigger="mouseenter" ng-click="chatOpen()" ng-if="verification.status">

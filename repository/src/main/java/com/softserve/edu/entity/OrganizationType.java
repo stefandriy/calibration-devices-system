@@ -2,6 +2,7 @@ package com.softserve.edu.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,9 +16,18 @@ public class OrganizationType {
 	private String type;
 
 
-	@ManyToMany(mappedBy = "organizationTypes")
-	private Set<Organization> organizations = new HashSet<Organization>();
+//	@ManyToMany(mappedBy = "organizationTypes")
+//	private Set<Organization> organizations = new HashSet<Organization>();
 
+	
+	
+	@JsonBackReference
+	 @ManyToMany
+     @JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = @JoinColumn(name = "organizationId"))
+ private Set<Organization> organizations = new HashSet<Organization>();
+	
+	
 	public void addOrganization(Organization organization) {
 		this.organizations.add(organization);
 	}

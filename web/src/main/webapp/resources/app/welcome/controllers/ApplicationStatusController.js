@@ -18,7 +18,7 @@ angular
 
 							$scope.isShownForm = true;
 
-							$log.info($stateParams);
+//							$log.info($stateParams);
 
 							$scope.code = $stateParams.clientCode;
 
@@ -26,7 +26,7 @@ angular
 							$scope.findCode = function() {
 								dataReceivingService.getVerificationStatusById(
 										$scope.code).success(function(status) {
-									$log.debug(status);
+//									$log.debug(status);
 									$scope.status = resolveStatus(status);
 
 								});
@@ -38,8 +38,8 @@ angular
 										.getVerificationById($scope.code)
 										.success(
 												function(verification) {
-													$log.debug('verif from func :'
-																	+ verification.status);
+//													$log.debug('verif from func :'
+//																	+ verification.status);
 													$scope.verification = verification;
 
 													if ($scope.verification.status == ('SENT'
@@ -116,21 +116,13 @@ angular
 										});
 							};
 
-							$scope.feedback = function(ID) {
-								$modal
-										.open({
-											animation : true,
-											templateUrl : '/resources/app/welcome/views/modals/feedback-window.html',
-											controller : 'FeedbackController',
-											size : 'lg'
-										});
-								$log.debug('mail modal func');
-								$log.debug(ID);
-							};
+							
 							
 							/**
-					            * Modal window used to explain the reason of verification rejection
+					            * Modal window used to send questions about verification status
 					            */
+							$scope.responseSuccess = false;
+							$scope.showSendingAlert = false;
 							$scope.feedbackModal = function (ID) {
 					        	   $log.debug('ID');
 					        	   $log.debug(ID);
@@ -145,21 +137,28 @@ angular
 					        	        /**
 					        	         * executes when modal closing
 					        	         */
-					        	        modalInstance.result.then(function (formData) {
-
+					        	        modalInstance.result.then(function (formData, sendingStarted) {
 					        	            var messageToSend = {
 					        	         		   verifID : ID,
 					        	         		   msg : formData.message
 					        	         	   };
 					        	 
-					        	           
+					        	            $scope.showSendingAlert = true;
 					        	            dataSendingService.sendMail (messageToSend)
-					         	            		.success(function (responseVal) {});
+					         	            		.success(function () {
+					         	            			$scope.responseSuccess = true;
+					         	            			$scope.showSendingAlert = false;
+					         	            			$log.debug('response val');
+					         	            			$log.debug($scope.responseSuccess);
+					         	            		});
 					        	         	   });
 					        	      
 					          	};
 							
-							
+							$scope.closeAlertW = function () {
+								$scope.responseSuccess = false;
+								$scope.showSendingAlert = false;
+							}
 							
 							
 							$scope.chatOpen = function() {

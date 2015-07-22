@@ -7,6 +7,19 @@ body {
 	padding-top: 50px;
 }
 
+#showFeedBackSending {
+	position: absolute;
+	top: 600px;
+	left: 200px
+	height: 100px;
+}
+
+#showFeedBackSuccess {
+	position: absolute;
+	top: 600px;
+	left: 200px
+	height: 100px;	
+}
 .ng-hide {
 	display: none;
 }

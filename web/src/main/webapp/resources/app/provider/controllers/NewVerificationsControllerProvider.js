@@ -190,7 +190,9 @@ $scope.openSendingModal = function () {
                 response: function () {
                     return verificationServiceProvider.getCalibrators()
                         .success(function (calibrators) {
-                            $log.debug(calibrators);
+                        	 $log.debug('calibrators');
+                        	$log.debug(calibrators);
+                            
                         	return calibrators;
                         }
                     );
@@ -208,11 +210,12 @@ $scope.openSendingModal = function () {
                 calibrator: formData.calibrator
             };
 
-            $log.debug('daat to send ' + dataToSend);
+            
 
             verificationServiceProvider
                 .sendVerificationsToCalibrator(dataToSend)
                 .success(function () {
+                	$log.debug('success sending');
                     $scope.tableParams.reload();
                     $rootScope.$broadcast('verification-sent-to-calibrator');
                 });

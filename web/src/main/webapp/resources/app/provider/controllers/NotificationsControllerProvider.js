@@ -11,21 +11,21 @@ angular
 	    		$rootScope.$broadcast('refresh-table');
 	    	}
 			
-            //$scope.startPolling = function(){
-			//		$scope.stopPolling();
-			//		if(angular.isDefined(promiseInterval)) return;
-			//		promiseInterval = $interval(function () {
-			//			verificationServiceProvider.getCountOfNewVerifications().success(function (count) {
-			//	       		$scope.countOfUnreadVerifications = count;
-			//				})
-			//		}, 5000);
-			//}
+            $scope.startPolling = function(){
+					$scope.stopPolling();
+					if(angular.isDefined(promiseInterval)) return;
+					promiseInterval = $interval(function () {
+						verificationServiceProvider.getCountOfNewVerifications().success(function (count) {
+				       		$scope.countOfUnreadVerifications = count;
+							})
+					}, 5000);
+			}
 
-	    	//$scope.stopPolling = function() {
-	    	//	$interval.cancel(promiseInterval);
-	    	//};
+	    	$scope.stopPolling = function() {
+	    		$interval.cancel(promiseInterval);
+	    	};
 	    	
-	  //  	$scope.startPolling();
+	    	$scope.startPolling();
 	    	
 			$rootScope.$on('verification-sent-to-calibrator', function(){
 				verificationServiceProvider.getCountOfNewVerifications().success(function (count) {
@@ -39,8 +39,8 @@ angular
 					});
 			});
 		
-			//$scope.$on('$destroy', function () {
-			//		$scope.stopPolling();
-			//});
+			$scope.$on('$destroy', function () {
+					$scope.stopPolling();
+			});
 
 	}]);
