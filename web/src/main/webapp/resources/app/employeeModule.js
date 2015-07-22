@@ -75,8 +75,8 @@
                     })
                     .state("calibration-test-calibrator", {
                         url: '/calibrator/verifications/calibration-test',
-                        templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
-                        controller: 'CalibrationTestControllerCalibrator'
+                        templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
+                        controller: 'CalibrationTestAddModalControllerCalibrator'
                     })
                     .state("employees-calibrator", {
                         url: '/calibrator/employees',
@@ -155,7 +155,7 @@
             'calibrator/controllers/NewVerificationsControllerCalibrator',
             'calibrator/controllers/DetailsModalControllerCalibrator',
             'calibrator/controllers/SendingModalControllerCalibrator',
-            'calibrator/controllers/CalibrationTestControllerCalibrator',
+            'calibrator/controllers/CalibrationTestAddModalControllerCalibrator',
             'calibrator/controllers/EmployeeControllerCalibrator',
             'calibrator/controllers/AddressModalControllerCalibrator',
             'calibrator/controllers/NotificationsControllerCalibrator',

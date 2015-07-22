@@ -22,7 +22,7 @@
                     })
                     .state("calibration-test", {
                         url: '/verifications/calibration-test',
-                        templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
+                        templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
                         controller: 'CalibrationTestController'
                     })
                     .state("employees", {

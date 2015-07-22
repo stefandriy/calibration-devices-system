@@ -71,6 +71,18 @@ angular
                 });
             };
 
+            /**
+             * Opens modal window for adding new calibration-test.
+             */
+            $scope.openAddCalibrationTestModal = function(){
+                var addTestModal = $modal
+                    .open({
+                        animation : true,
+                        controller : 'CalibrationTestAddModalControllerCalibrator',
+                        templateUrl : '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
+                    });
+            };
+
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;

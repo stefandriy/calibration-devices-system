@@ -112,6 +112,13 @@
   "ADD_EQUIPMENT":"Add equipment",
   "EDIT_OF_EQUIPMENT":"Edit of equipment",
   "FILL_IN_INFORMATION_ABOUT_EQUIPMENT":"Fill information about equipment",
+  "FILL_IN_INFORMATION_ABOUT_TEST":"Fill information about test",
+  "TEST_NAME":"Test name",
+  "TEMEPERATURE":"Temperature",
+  "SETTING_NUMBER":"Setting number",
+  "LATITUDE":"Latitude",
+  "LONGITUDE":"Longitude",
+  "TEST_RESULT":"Test result",
 			
 	"TEST_COMPLETED_TRASLATION":"A measure done.",
 		
