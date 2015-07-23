@@ -2,6 +2,8 @@ package com.softserve.edu.controller.state_verificator;
 
 import java.util.List;
 
+import com.softserve.edu.repository.CalibrationTestRepository;
+import com.softserve.edu.service.CalibrationTestService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +40,9 @@ public class StateVerificatorController {
 	@Autowired
 	VerificationService verificationService;
 
+    @Autowired
+    CalibrationTestService testService;
+
 	@Autowired
 	ProviderService providerService;
 
@@ -68,9 +73,7 @@ public class StateVerificatorController {
      * @return provider
      */
     @RequestMapping(value = "new/providers", method = RequestMethod.GET)
-    public List<Organization> getMatchingVerificators(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
+    public List<Organization> getMatchingVerificators(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         return providerService.findByDistrict(verificatorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
     }
     
@@ -83,13 +86,22 @@ public class StateVerificatorController {
     public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
     	 verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
     }
-    
+
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
-    public void sendVerification(
-            @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+    public void sendVerification(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
         for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            verificationService
-                    .sendVerificationTo(verificationId,verificationUpdatingDTO.getProvider(), Status.TEST_OK);
+            Long idProvider = verificationUpdatingDTO.getIdsOfProviders();
+            Organization provider = providerService.findById(idProvider);
+            verificationService.sendVerificationTo(verificationId, provider, Status.TEST_OK);
+        }
+    }
+
+    @RequestMapping(value = "new/notOk", method = RequestMethod.PUT)
+    public void sendWithNotOkStatus(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
+            Long idProvider = verificationUpdatingDTO.getIdsOfProviders();
+            Organization provider = providerService.findById(idProvider);
+            verificationService.sendVerificationTo(verificationId, provider, Status.TEST_NOK);
         }
     }
     
@@ -109,12 +121,20 @@ public class StateVerificatorController {
 
         return new ClientStageVerificationDTO(clientData, address,  null, null);
     }
-    
-    @RequestMapping(value = "show/{calibrationTestId}", method = RequestMethod.GET)
-    public CalibrationTestDTO getCalibraionTestDetails(@PathVariable Long calibrationTestId){
-		CalibrationTest calibrationTest = verificationService.findByCalibrationTestId(calibrationTestId);
+    //TEMPORALY
+//    @RequestMapping(value = "show/{calibrationTestId}", method = RequestMethod.GET)
+//    public CalibrationTestDTO getCalibraionTestDetails(@PathVariable Long calibrationTestId){
+//		CalibrationTest calibrationTest = verificationService.findByCalibrationTestId(calibrationTestId);
+//    	return new CalibrationTestDTO(calibrationTest);
+//
+//    }
+
+        @RequestMapping(value = "show/{verificationId}", method = RequestMethod.GET)
+    public CalibrationTestDTO getCalibraionTestDetails(@PathVariable String verificationId){
+		CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
     	return new CalibrationTestDTO(calibrationTest);
-    	
+
     }
+
 
 }

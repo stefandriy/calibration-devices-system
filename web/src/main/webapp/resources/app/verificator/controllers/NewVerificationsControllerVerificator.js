@@ -53,7 +53,7 @@ angular
                 });
             };
             //Temporaly
-            $scope.testReview = function(calibrationTestId){
+            $scope.testReview = function(verifId){
             	$modal.open({
             		animation: true,
             		templateUrl: '/resources/app/verificator/views/modals/testReview.html',
@@ -61,9 +61,9 @@ angular
             		size: 'lg',
             		resolve: {
             			response: function () {
-            				return VerificationServiceVerificator.getCalibraionTestDetails(calibrationTestId)
+            				return VerificationServiceVerificator.getCalibraionTestDetails(verifId)
             				.success(function(calibrationTest){
-            					calibrationTest.id = calibrationTestId;
+            					calibrationTest.id = verifId;
             					return calibrationTest;
             				})
             				.error(function(){
@@ -115,21 +115,60 @@ angular
                     });
 
                     //executes when modal closing
-                    modalInstance.result.then(function (verificator) {
-                        $log.info(verificator);
+                    modalInstance.result.then(function (formData) {
 
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
-                            verificator: verificator
+                            idsOfProviders: formData.provider.id
                         };
 
                         $log.info(dataToSend);
+                            VerificationServiceVerificator
+                                .sendVerificationsToProvider(dataToSend)
+                                .success(function () {
+                                    $scope.onTableHandling();
+                                });
+      
+                        $scope.idsOfVerifications = [];
+                        $scope.checkedItems = [];
+                    });
+                } else {
+                    $scope.isClicked = true;
+                }
+            };
+            //For NOT_OK!!!
+            $scope.openSendingModalNotOK = function () {
+                if (!$scope.allIsEmpty) {
+                    var modalInstance = $modal.open({
+                        animation: true,
+                        templateUrl: '/resources/app/verificator/views/modals/verification-sending.html',
+                        controller: 'SendingModalControllerVerificator',
+                        size: 'md',
+                        resolve: {
+                            response: function () {
+                                return VerificationServiceVerificator.getProviders()
+                                    .success(function (providers) {
+                                        return providers;
+                                    });
+                            }
+                        }
+                    });
 
-                        VerificationServiceVerificator
-                            .sendVerificationsToVerificator(dataToSend)
-                            .success(function () {
-                                $scope.onTableHandling();
-                            });
+                    //executes when modal closing
+                    modalInstance.result.then(function (formData) {
+
+                        var dataToSend = {
+                            idsOfVerifications: $scope.idsOfVerifications,
+                            idsOfProviders: formData.provider.id
+                        };
+
+                        $log.info(dataToSend);
+                            VerificationServiceVerificator
+                                .sendVerificationNotOkStatus(dataToSend)
+                                .success(function () {
+                                    $scope.onTableHandling();
+                                });
+      
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
                     });

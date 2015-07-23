@@ -10,4 +10,5 @@ import java.util.List;
 public interface CalibrationTestRepository  extends CrudRepository<CalibrationTest, Long> {
     List<CalibrationTest> findByName(String name);
     CalibrationTest findById(Long id);
+    CalibrationTest findByVerificationId(String verifId);
 }

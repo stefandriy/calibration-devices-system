@@ -7,23 +7,21 @@ import com.softserve.edu.entity.Organization;
 
 public class VerificationUpdatingDTO {
 	 private List<String> idsOfVerifications;
-	    private Organization provider;
+	 private Long idsOfProviders;
 
-	    public List<String> getIdsOfVerifications() {
-	        return idsOfVerifications;
-	    }
+	public Long getIdsOfProviders() {
+		return idsOfProviders;
+	}
 
-	    public void setIdsOfVerifications(List<String> idsOfVerifications) {
-	        this.idsOfVerifications = idsOfVerifications;
-	    }
+	public void setIdsOfProviders(Long idsOfProviders) {
+		this.idsOfProviders = idsOfProviders;
+	}
 
-		public Organization getProvider() {
-			return provider;
-		}
+	public List<String> getIdsOfVerifications() {
+		return idsOfVerifications;
+	}
 
-		public void setProvider(Organization provider) {
-			this.provider = provider;
-		}
-
-	  
+	public void setIdsOfVerifications(List<String> idsOfVerifications) {
+		this.idsOfVerifications = idsOfVerifications;
+	}
 }

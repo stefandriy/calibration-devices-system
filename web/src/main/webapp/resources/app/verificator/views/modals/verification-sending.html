@@ -11,12 +11,12 @@
 
 <div class="from-top form-group ">
     <form name="providerSelectionForm" class="form-group"
-          ng-submit="submit(selectedProvider)" novalidate>
+          ng-submit="submit()" novalidate>
 
         <div class="modal-body form-group" show-errors>
 
             <input name="provider" class="form-control"
-                   ng-model="selectedProvider"
+                   ng-model="formData.provider"
                    typeahead="provider as provider.name for provider in providers | filter: $viewValue"
                    typeahead-editable="false" required>
 

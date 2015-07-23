@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <meta charset="utf-8">
 </head>
 <body>
@@ -44,6 +48,7 @@
 											<th>Вулиця, на якій проживає клієнт</th>
 											<th>Дії<br /> <br /></th>
 											<th class="text-center">Тест</th>
+											<th>Відправити провайдеру</th>
 										</tr>
 									</thead>
 
@@ -61,26 +66,52 @@
 													<span class="glyphicon glyphicon-question-sign"></span>Детальніше</button>
 											<td class="text-center">
 											 <button type="button" class="btn btn-success btn-sm btn-block"
-											 ng-click="testReview(calibrationTestId)">
+											 ng-click="testReview(verification.id)">
 											 <span class="glyphicon glyphicon-search"></span>
                                           Переглянути тест
-                                          </button> 
-                                     
+                                          </button>
+										  <td class="text-center">
+												<input type="checkbox"
+													   ng-click="resolveVerificationId(verification.id)"/>
+										  </td>
 										</tr>
 									</tbody>
 								</table>
-
+								<div class="pull-center">
+								<div class="btn-group">
+        						<button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="glyphicon glyphicon-send"></span> Надіслати <span class="caret"></span></button>
+							        <ul class="dropdown-menu">
+							            <li><a  ng-click="openSendingModal()">
+										Тест придатний <span class="glyphicon glyphicon-thumbs-up"></span></a></li>
+							            <li><a ng-click="openSendingModalNotOK()">
+										Тест непридатний <span class="glyphicon glyphicon-thumbs-down"></a></li>
+							            <li class="divider"></li>
+							            <li><button type="button" class="btn btn-warning btn-sm btn-block"
+											 ng-click="testReview(calibrationTestId)">
+											 <span class="glyphicon glyphicon-search"></span>
+                                          Переглянути тест, ще раз
+                                          </button></li>
+							        </ul>
+							    </div>
+							    </div>
+								<div class="pull-left">
 								<p id="emptyError" ng-if="allIsEmpty && isClicked"
-									class="help-block pull-right">
+								   class="help-block pull-right">
 									<span class="glyphicon glyphicon-exclamation-sign"></span>
-									Оберіть хоча б одну пвірку
+									Оберіть хоча б одну пoвірку
 								</p>
-
-								<div class="pull-right">
+								</div>
+								<!--  div class="pull-right">
+									<div class="btn-group">
 									<button type="button" class="btn btn-primary"
 										ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
-										Надіслати</button>
-								</div>
+										Тест придатний</button>
+								
+									<button type="button" class="btn btn-danger" ng-click="openSendingModalNotOK()">
+										<span class="glyphicon glyphicon-send"></span>
+										Тест непридатний</button>
+									</div>
+								</div-->
 							</div>
 						</div>
 						<div class="row">

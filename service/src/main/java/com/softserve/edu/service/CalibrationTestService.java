@@ -32,6 +32,10 @@ public class CalibrationTestService {
     public CalibrationTest findTestById(Long testId){
         return testRepository.findOne(testId);
     }
+
+    public CalibrationTest findByVerificationId(String verifId){
+        return testRepository.findByVerificationId(verifId);
+    }
     
     public CalibrationTestList findAllCalibrationTests (){
     	List<CalibrationTest> list = (ArrayList<CalibrationTest>) testRepository.findAll();

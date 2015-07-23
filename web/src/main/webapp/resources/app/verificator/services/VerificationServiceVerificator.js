@@ -18,8 +18,11 @@ angular
             getProviders: function (url) {
                 return getData('verifications/new/providers');
             },
-            sendVerificationsToCalibrator: function (data) {
+            sendVerificationsToProvider: function (data) {
                 return updateData('new/update', data);
+            },
+            sendVerificationNotOkStatus: function (data) {
+                return updateData('new/notOk', data);
             },
             sendInitiatedVerification:function(form){
                 return sendData("send",form);
@@ -45,8 +48,8 @@ angular
             searchNewVerifications : function(data) {
             	return sendDataWithParams('new/search', data);
             },
-            getCalibraionTestDetails: function (calibrationTestId){
-            	return getData('show/' + calibrationTestId )
+            getCalibraionTestDetails: function (verificationId){
+            	return getData('show/' + verificationId);
             },
             
         };
