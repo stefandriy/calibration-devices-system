@@ -7,6 +7,14 @@ angular
 	    	var promiseTimeOut;
 	    	$scope.countOfUnreadVerifications = 0;
 	    	
+	    	$scope.initializeCounter = function () {
+	    		VerificationServiceVerificator.getCountOfNewVerifications().success(function (count) {
+		       		$scope.countOfUnreadVerifications = count;
+					});
+	    	}
+	    	
+	    	$scope.initializeCounter();
+	    	
 	    	$scope.reloadVerifications = function() {
 	    		$rootScope.$broadcast('refresh-table');
 	    	}

@@ -7,6 +7,14 @@ angular
 	    	var promiseTimeOut;
 	    $scope.countOfUnreadVerifications = 0;
 	    	
+	    $scope.initializeCounter = function () {
+	    	verificationServiceCalibrator.getCountOfNewVerifications().success(function (count) {
+	       		$scope.countOfUnreadVerifications = count;
+				});
+    	}
+    	
+    	$scope.initializeCounter();
+    	
 	    $scope.reloadVerifications = function() {
 			promiseTimeOut = $timeout(function() {
 						$state.reload();
