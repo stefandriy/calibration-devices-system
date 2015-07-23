@@ -332,6 +332,7 @@ public class VerificationService {
     public void updateVerificationStatus(String verificationId, Status status) {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setStatus(status);
+        verification.setReadStatus(ReadStatus.READ);
         verificationRepository.save(verification);
     }
 

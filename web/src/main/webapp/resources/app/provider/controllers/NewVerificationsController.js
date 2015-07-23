@@ -146,7 +146,7 @@ $scope.addProviderEmployee = function (verifId, providerEmployee) {
         verificationService
             .sendEmployeeProvider(dataToSend)
             .success(function () {
-                $scope.tableParams.reload();
+            	$scope.markAsRead(verifId);
             });
     });
 };

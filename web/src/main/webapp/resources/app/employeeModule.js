@@ -27,7 +27,8 @@
                 $stateProvider
                 .state('main-panel-provider', {
                     url: '/',
-                    templateUrl: '/resources/app/provider/views/main-panel.html'
+                    templateUrl: '/resources/app/provider/views/main-panel.html',
+                    controller: 'MainPanelControllerProvider'
                 })
                 .state("new-verifications-provider", {
                     url: '/provider/verifications/new',
