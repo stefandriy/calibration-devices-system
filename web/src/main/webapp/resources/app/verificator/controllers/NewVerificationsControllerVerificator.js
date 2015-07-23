@@ -52,9 +52,12 @@ angular
                     }
                 });
             };
-            //Temporaly
+
             $scope.testReview = function(verifId){
-            	$modal.open({
+            	$log.debug('VerifID');
+                $log.debug(verifId);
+                $modal.open({
+
             		animation: true,
             		templateUrl: '/resources/app/verificator/views/modals/testReview.html',
             		controller: 'CalibrationTestReviewControllerVerificator',
@@ -63,7 +66,9 @@ angular
             			response: function () {
             				return VerificationServiceVerificator.getCalibraionTestDetails(verifId)
             				.success(function(calibrationTest){
-            					calibrationTest.id = verifId;
+            					//calibrationTest.id = verifId;
+                                    $log.debug('CalibrationTest');
+                                    $log.debug(calibrationTest);
             					return calibrationTest;
             				})
             				.error(function(){

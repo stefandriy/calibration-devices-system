@@ -43,7 +43,9 @@
 												'start',
 												{
 													url : '/start',
-													templateUrl : '/resources/app/welcome/views/start.html'
+													templateUrl : '/resources/app/welcome/views/start.html',
+													controller: 'WelcomePageController'
+
 												})
 										.state(
 												'about',
@@ -84,6 +86,7 @@
 			'controllers/ApplicationStatusController',
 			'controllers/InternationalizationController',
 			'controllers/NavigationController',
+			'controllers/WelcomePageController',
 			'controllers/DetailsController', 'controllers/FeedbackController',
 			'controllers/ChatController', 'services/DataReceivingService',
 			'services/DataSendingService', 'directives/OnStartupMessage' ],

@@ -5,3 +5,54 @@
         </div>
     </div>
 </section>
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.css"
+          rel="stylesheet">
+
+    <script src="/resources/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+    <!--<style type="text/css">-->
+        <!--h2{-->
+            <!--margin: 0;-->
+            <!--color: #666;-->
+            <!--padding-top: 90px;-->
+            <!--font-size: 52px;-->
+            <!--font-family: "trebuchet ms", sans-serif;-->
+        <!--}-->
+        <!--.item{-->
+            <!--background: #333;-->
+            <!--text-align: center;-->
+            <!--height: 500px !important;-->
+        <!--}-->
+        <!--.carousel{-->
+            <!--margin-top: 20px;-->
+        <!--}-->
+        <!--.bs-example{-->
+            <!--margin: 20px;-->
+        <!--}-->
+    <!--</style>-->
+</head>
+
+<body ng-controller="WelcomePageController">
+    <div style="height: 305px">
+        <carousel interval="myInterval">
+            <slide ng-repeat="slide in slides" active="slide.active">
+                <img ng-src="{{slide.image}}" style="margin:auto;">
+                <div class="carousel-caption">
+
+                    <p>{{slide.text}}</p>
+                </div>
+            </slide>
+        </carousel>
+    </div>
+
+
+
+
+</body>
+     
+                          		

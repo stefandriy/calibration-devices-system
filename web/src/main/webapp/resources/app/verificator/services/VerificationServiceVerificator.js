@@ -49,7 +49,7 @@ angular
             	return sendDataWithParams('new/search', data);
             },
             getCalibraionTestDetails: function (verificationId){
-            	return getData('show/' + verificationId);
+            	return getData('verifications/show/' + verificationId);
             },
             
         };
