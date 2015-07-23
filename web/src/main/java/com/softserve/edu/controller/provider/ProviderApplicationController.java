@@ -68,7 +68,7 @@ public class ProviderApplicationController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
-        Device device= verificationDTO.getDevice();
+      Device device= verificationDTO.getDevice();
 
         Verification verification = new Verification(
                 new Date(),

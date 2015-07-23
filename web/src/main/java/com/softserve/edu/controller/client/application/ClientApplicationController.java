@@ -106,7 +106,7 @@ public class ClientApplicationController {
 	@RequestMapping(value = "devices", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getAll() {
         return deviceService.getAll().stream()
-				.map(device -> new ApplicationFieldDTO(device.getId(),device.getDeviceSign()))
+				.map(device -> new ApplicationFieldDTO(device.getId(),device.getDeviceName()))
 				.collect(Collectors.toList());
     }
 	

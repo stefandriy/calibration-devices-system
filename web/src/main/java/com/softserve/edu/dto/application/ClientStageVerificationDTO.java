@@ -24,8 +24,8 @@ public class ClientStageVerificationDTO {
 	protected ClientStageVerificationDTO() {
 	}
 
-	public ClientStageVerificationDTO(ClientData clientData, Address address, Long providerId,
-			Long deviceId,  String verificationId) {
+	public ClientStageVerificationDTO(ClientData clientData, Address address, Long providerId, Long deviceId,
+			String verificationId) {
 		this.firstName = clientData.getFirstName();
 		this.lastName = clientData.getLastName();
 		this.middleName = clientData.getMiddleName();

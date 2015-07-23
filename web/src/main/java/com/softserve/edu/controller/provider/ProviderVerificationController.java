@@ -209,7 +209,7 @@ public class ProviderVerificationController {
 
         ClientData clientData = verification.getClientData();
         Address address = clientData.getClientAddress();
-        Device device = verification.getDevice();
+       Device device = verification.getDevice();
         return new ClientStageVerificationDTO(clientData, address, null,device.getId(), null);
 
     }

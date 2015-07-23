@@ -69,7 +69,7 @@ public class Verification {
 		this(initialDate, clientData, provider, device, status, readStatus, null);
 	}
 
-	public Verification(Date initialDate, ClientData clientData, Organization provider, Device device, Status status,
+	public Verification(Date initialDate, ClientData clientData, Organization provider,Device device, Status status,
 			ReadStatus readStatus, Organization calibrator) {
 		this.id = UUID.randomUUID().toString();
 		this.initialDate = initialDate;

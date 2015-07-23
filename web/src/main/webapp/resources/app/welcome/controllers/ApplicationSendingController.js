@@ -108,6 +108,9 @@ angular
             dataReceivingService.findAllDevices()
                 .success(function (devices) {
                     $scope.devices = devices;
+                    $log.debug('device');
+                    $log.debug(devices);
+                    $scope.selectedDevice =""; 
                 });
             /**
              * Receives all possible districts.
@@ -192,15 +195,13 @@ angular
                     $scope.formData.street = $scope.selectedStreet.designation;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
-                    $scope.formData.deviceId = $scope.selectedDevice.id;
-                    
-
-                    dataSendingService.sendApplication($scope.formData)
+                    $scope.formData.deviceId = $scope.selectedDevice[0].id;
+                  
+                  dataSendingService.sendApplication($scope.formData)
                         .success(function (applicationCode) {
                             $scope.applicationCode = applicationCode;
                         });
-
-                    //hide form because application status is shown
+                     //hide form because application status is shown
                     $scope.isShownForm = false;
                 }
             }
