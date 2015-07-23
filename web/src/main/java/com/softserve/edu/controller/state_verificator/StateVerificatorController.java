@@ -119,9 +119,9 @@ public class StateVerificatorController {
 
         ClientData clientData = verification.getClientData();
         Address address = clientData.getClientAddress();
- /*       Device device = verification.getDevice();*/
+    Device device = verification.getDevice();
 
-        return new ClientStageVerificationDTO(clientData, address,  null, /*device.getId(),*/null);
+        return new ClientStageVerificationDTO(clientData, address,  null, device.getId(),null);
     }
     //TEMPORALY
 //    @RequestMapping(value = "show/{calibrationTestId}", method = RequestMethod.GET)

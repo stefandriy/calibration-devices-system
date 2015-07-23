@@ -85,7 +85,7 @@ public class ProviderApplicationController {
                                 verificationDTO.getStreet(),
                                 verificationDTO.getBuilding(),
                                 verificationDTO.getFlat())),
-                provider,/*device,*/
+                provider,device,
                 Status.IN_PROGRESS, ReadStatus.UNREAD, verificationDTO.getCalibrator());
         verificationService.saveVerification(verification);
     }

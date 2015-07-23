@@ -30,126 +30,114 @@ import java.util.List;
 @RequestMapping(value = "/calibrator/verifications/")
 public class CalibratorController {
 
-    @Autowired
-    VerificationService verificationService;
+	@Autowired
+	VerificationService verificationService;
 
-    @Autowired
-    ProviderService providerService;
+	@Autowired
+	ProviderService providerService;
 
-    @Autowired
-    CalibratorService calibratorService;
-    
-    @Autowired
-    CalibrationTestService testService;
+	@Autowired
+	CalibratorService calibratorService;
 
-    @Autowired
-    StateVerificatorService verificatorService;
+	@Autowired
+	CalibrationTestService testService;
 
-    private final Logger logger = Logger.getLogger(CalibratorController.class);
+	@Autowired
+	StateVerificatorService verificatorService;
 
-       
-    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
-    		@PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @PathVariable String searchType,
-            @PathVariable String searchText,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-    	
-    		if(!(searchText.equalsIgnoreCase("null"))){
-    			
-    			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-    		                .toDTO(verificationService
-    		                        .findPageOfSentVerificationsByCalibratorIdAndSearch(
-    		                                employeeUser.getOrganizationId(),
-    		                                pageNumber,
-    		                                itemsPerPage,
-    		                                searchType,
-    		                                searchText
-    		                                ));
+	private final Logger logger = Logger.getLogger(CalibratorController.class);
 
-    		        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    		} else {
-    			
-    			 Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-    		                .toDTO(verificationService
-    		                        .findPageOfSentVerificationsByCalibratorId(
-    		                                employeeUser.getOrganizationId(),
-    		                                pageNumber,
-    		                                itemsPerPage));
+	@RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
+	public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
+			@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String searchType,
+			@PathVariable String searchText,
+			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-    		        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    		}
-    		
-    }
+		if (!(searchText.equalsIgnoreCase("null"))) {
 
-    /**
-     * Finds count of verifications which have read status 'UNREAD' and are assigned to this organization
-     * 
-     * @param user
-     * @return Long
-     */
-    @RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
-    public Long getCountOfNewVerificationsByCalibratorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-    	return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
-    }
-    
-    @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
-    public List<Organization> getMatchingVerificators(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-    	List<Organization> list = verificatorService.findByDistrict( calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR" );
-    	
-    	return list;
-    }
+			Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+					.toDTO(verificationService.findPageOfSentVerificationsByCalibratorIdAndSearch(
+							employeeUser.getOrganizationId(), pageNumber, itemsPerPage, searchType, searchText));
 
-    @RequestMapping(value = "new/update", method = RequestMethod.PUT)
-    public void updateVerification(
-            @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-        	Long idCalibrator = verificationUpdatingDTO.getVerificatorId();
-        	 Organization calibrator = calibratorService.findById(idCalibrator);
-            verificationService.sendVerificationTo(verificationId, calibrator, Status.SENT_TO_VERIFICATOR);
-        }
-    }
-    
-    /**
-     * Update verification when user reads it
-     * @param verificationDto
-     */
-    @RequestMapping(value = "new/read", method = RequestMethod.PUT)
-    public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
-     verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
-    }
-        
-    @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
-    public ClientStageVerificationDTO getNewVerificationDetailsById(
-            @PathVariable String verificationId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+			return new PageDTO<>(page.getTotalElements(), page.getContent());
+		} else {
 
-        Verification verification = verificationService
-                .findByIdAndCalibratorId(
-                        verificationId,
-                        user.getOrganizationId()
-                );
+			Page<VerificationPageDTO> page = VerificationPageDTOTransformer.toDTO(
+					verificationService.findPageOfSentVerificationsByCalibratorId(employeeUser.getOrganizationId(),
+							pageNumber, itemsPerPage));
 
-        ClientData clientData = verification.getClientData();
-        Address address = clientData.getClientAddress();
-   /*     Device device=verification.getDevice();*/
+			return new PageDTO<>(page.getTotalElements(), page.getContent());
+		}
 
-        return new ClientStageVerificationDTO(clientData, address,  null, /*device.getId(),*/null);// TO DO
-    }
+	}
 
-    
-    @RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)
-    public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
-    	HttpStatus httpStatus = HttpStatus.CREATED;
-    	try {
+	/**
+	 * Finds count of verifications which have read status 'UNREAD' and are
+	 * assigned to this organization
+	 * 
+	 * @param user
+	 * @return Long
+	 */
+	@RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
+	public Long getCountOfNewVerificationsByCalibratorId(
+			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+		return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
+	}
+
+	@RequestMapping(value = "new/verificators", method = RequestMethod.GET)
+	public List<Organization> getMatchingVerificators(
+			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+		List<Organization> list = verificatorService.findByDistrict(
+				calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
+
+		return list;
+	}
+
+	@RequestMapping(value = "new/update", method = RequestMethod.PUT)
+	public void updateVerification(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+		for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
+			Long idCalibrator = verificationUpdatingDTO.getVerificatorId();
+			Organization calibrator = calibratorService.findById(idCalibrator);
+			verificationService.sendVerificationTo(verificationId, calibrator, Status.SENT_TO_VERIFICATOR);
+		}
+	}
+
+	/**
+	 * Update verification when user reads it
+	 * 
+	 * @param verificationDto
+	 */
+	@RequestMapping(value = "new/read", method = RequestMethod.PUT)
+	public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
+		verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(),
+				verificationDto.getReadStatus());
+	}
+
+	@RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
+	public ClientStageVerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId,
+			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+
+		Verification verification = verificationService.findByIdAndCalibratorId(verificationId,
+				user.getOrganizationId());
+
+		ClientData clientData = verification.getClientData();
+		Address address = clientData.getClientAddress();
+		Device device = verification.getDevice();
+
+		return new ClientStageVerificationDTO(clientData, address, null, device.getId(), null);// TO
+																								// DO
+	}
+
+	@RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)
+	public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
+		HttpStatus httpStatus = HttpStatus.CREATED;
+		try {
 			CalibrationTest createdTest = testDTO.saveCalibrationTest();
 			testService.createTest(createdTest);
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
 			httpStatus = HttpStatus.CONFLICT;
 		}
-    	return new ResponseEntity<>(httpStatus);
-    }
+		return new ResponseEntity<>(httpStatus);
+	}
 }

@@ -197,8 +197,8 @@
 						<select chosen id="region" name="region" type="text"
 							class="form-control " ng-model="selectedRegion"
 							ng-options="region as region.designation for region in regions |
-							filter: $viewValue" ng-change="receiveDistricts(selectedRegion)"
-							required>
+							filter: $viewValue"
+							ng-change="receiveDistricts(selectedRegion)" required>
 						</select>
 
 						<p class="help-block">
@@ -314,6 +314,8 @@
 						</p>
 					</div>
 				</div>
+
+
 				<div class="form-group" show-errors>
 					<label for="provider" class="col-md-2 control-label"> Index
 					</label>

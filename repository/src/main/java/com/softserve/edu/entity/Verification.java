@@ -11,185 +11,185 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Verification entity.
- * Contains data about whole business process of verification.
+ * Verification entity. Contains data about whole business process of
+ * verification.
  */
 @Entity
 @Table(name = "`VERIFICATION`")
 public class Verification {
 
-    @Id
-    private String id;
+	@Id
+	private String id;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+	@Enumerated(EnumType.STRING)
+	private Status status;
 
-    @Enumerated(EnumType.STRING)
-    private ReadStatus readStatus;
+	@Enumerated(EnumType.STRING)
+	private ReadStatus readStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "device_id")
-    private Device device;
+	@ManyToOne
+	@JoinColumn(name = "device_id")
+	private Device device;
 
-    @OneToMany
-    @JoinColumn(name = "verification_id")
-    private Set<CalibrationTest> calibrationTests;
+	@OneToMany
+	@JoinColumn(name = "verification_id")
+	private Set<CalibrationTest> calibrationTests;
 
-    @ManyToOne
-    private Organization provider;
+	@ManyToOne
+	private Organization provider;
 
-    @ManyToOne
-    private User providerEmployee;
+	@ManyToOne
+	private User providerEmployee;
 
-    @ManyToOne
-    private Organization calibrator;
+	@ManyToOne
+	private Organization calibrator;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User calibratorEmployee;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User calibratorEmployee;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Organization stateVerificator;
-    @ManyToOne
-    private User stateVerificatorEmployee;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Organization stateVerificator;
+	@ManyToOne
+	private User stateVerificatorEmployee;
 
-    @Embedded
-    private ClientData clientData;
+	@Embedded
+	private ClientData clientData;
 
-    @Temporal(TemporalType.DATE)
-    private Date initialDate;
+	@Temporal(TemporalType.DATE)
+	private Date initialDate;
 
-    @Temporal(TemporalType.DATE)
-    private Date expirationDate;
+	@Temporal(TemporalType.DATE)
+	private Date expirationDate;
 
-    public Verification() {}
+	public Verification() {
+	}
 
-    public Verification(Date initialDate, ClientData clientData, Organization provider, /*Device device,*/
-    		Status status, ReadStatus readStatus) {
-        this(initialDate, clientData, provider, /*device,*/status, readStatus, null);
-    }
+	public Verification(Date initialDate, ClientData clientData, Organization provider, Device device, Status status,
+			ReadStatus readStatus) {
+		this(initialDate, clientData, provider, device, status, readStatus, null);
+	}
 
-    public Verification(Date initialDate, ClientData clientData, Organization provider, /*Device device,*/Status
-            status, ReadStatus readStatus, Organization calibrator) {
-        this.id = UUID.randomUUID().toString();
-        this.initialDate = initialDate;
-        this.clientData = clientData;
-        this.provider = provider;
- /*       this.device=device;*/
-        this.status = status;
-        this.readStatus = readStatus;
-        this.calibrator = calibrator;
-    }
+	public Verification(Date initialDate, ClientData clientData, Organization provider, Device device, Status status,
+			ReadStatus readStatus, Organization calibrator) {
+		this.id = UUID.randomUUID().toString();
+		this.initialDate = initialDate;
+		this.clientData = clientData;
+		this.provider = provider;
+		this.device = device;
+		this.status = status;
+		this.readStatus = readStatus;
+		this.calibrator = calibrator;
+	}
 
+	public String getId() {
+		return id;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public Status getStatus() {
+		return status;
+	}
 
-    public Status getStatus() {
-        return status;
-    }
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public ReadStatus getReadStatus() {
+	public ReadStatus getReadStatus() {
 		return readStatus;
 	}
 
 	public void setReadStatus(ReadStatus readStatus) {
 		this.readStatus = readStatus;
 	}
-    
-    public Device getDevice() {
-        return device;
-    }
 
-    public void setDevice(Device device) {
-        this.device = device;
-    }
+	public Device getDevice() {
+		return device;
+	}
 
-    public Set<CalibrationTest> getCalibrationTests() {
-        return calibrationTests;
-    }
+	public void setDevice(Device device) {
+		this.device = device;
+	}
 
-    public void setCalibrationTests(Set<CalibrationTest> calibrationTests) {
-        this.calibrationTests = calibrationTests;
-    }
+	public Set<CalibrationTest> getCalibrationTests() {
+		return calibrationTests;
+	}
 
-    public Organization getProvider() {
-        return provider;
-    }
+	public void setCalibrationTests(Set<CalibrationTest> calibrationTests) {
+		this.calibrationTests = calibrationTests;
+	}
 
-    public void setProvider(Organization provider) {
-        this.provider = provider;
-    }
+	public Organization getProvider() {
+		return provider;
+	}
 
-    public User getProviderEmployee() {
-        return providerEmployee;
-    }
+	public void setProvider(Organization provider) {
+		this.provider = provider;
+	}
 
-    public void setProviderEmployee(User providerEmployee) {
-        this.providerEmployee = providerEmployee;
-    }
+	public User getProviderEmployee() {
+		return providerEmployee;
+	}
 
-    public Organization getCalibrator() {
-        return calibrator;
-    }
+	public void setProviderEmployee(User providerEmployee) {
+		this.providerEmployee = providerEmployee;
+	}
 
-    public void setCalibrator(Organization calibrator) {
-        this.calibrator = calibrator;
-    }
+	public Organization getCalibrator() {
+		return calibrator;
+	}
 
-    public User getCalibratorEmployee() {
-        return calibratorEmployee;
-    }
+	public void setCalibrator(Organization calibrator) {
+		this.calibrator = calibrator;
+	}
 
-    public void setCalibratorEmployee(User calibratorEmployee) {
-        this.calibratorEmployee = calibratorEmployee;
-    }
+	public User getCalibratorEmployee() {
+		return calibratorEmployee;
+	}
 
-    public Organization getStateVerificator() {
-        return stateVerificator;
-    }
+	public void setCalibratorEmployee(User calibratorEmployee) {
+		this.calibratorEmployee = calibratorEmployee;
+	}
 
-    public void setStateVerificator(Organization stateVerificator) {
-        this.stateVerificator = stateVerificator;
-    }
+	public Organization getStateVerificator() {
+		return stateVerificator;
+	}
 
-    public User getStateVerificatorEmployee() {
-        return stateVerificatorEmployee;
-    }
+	public void setStateVerificator(Organization stateVerificator) {
+		this.stateVerificator = stateVerificator;
+	}
 
-    public void setStateVerificatorEmployee(User stateVerificatorEmployee) {
-        this.stateVerificatorEmployee = stateVerificatorEmployee;
-    }
+	public User getStateVerificatorEmployee() {
+		return stateVerificatorEmployee;
+	}
 
-    public ClientData getClientData() {
-        return clientData;
-    }
+	public void setStateVerificatorEmployee(User stateVerificatorEmployee) {
+		this.stateVerificatorEmployee = stateVerificatorEmployee;
+	}
 
-    public void setClientData(ClientData clientData) {
-        this.clientData = clientData;
-    }
+	public ClientData getClientData() {
+		return clientData;
+	}
 
-    public Date getInitialDate() {
-        return initialDate;
-    }
+	public void setClientData(ClientData clientData) {
+		this.clientData = clientData;
+	}
 
-    public void setInitialDate(Date initialDate) {
-        this.initialDate = initialDate;
-    }
+	public Date getInitialDate() {
+		return initialDate;
+	}
 
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
+	public void setInitialDate(Date initialDate) {
+		this.initialDate = initialDate;
+	}
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
 }
