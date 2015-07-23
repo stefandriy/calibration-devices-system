@@ -13,7 +13,6 @@ import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
-import com.softserve.edu.service.utils.DataDtoField;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.ProviderEmployeeGraphic;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;

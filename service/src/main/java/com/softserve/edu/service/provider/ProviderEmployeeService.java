@@ -73,14 +73,14 @@ public class ProviderEmployeeService {
     public User findByUserame(String userName) {
         return providerEmployeeRepository.findByUsername(userName);
     }
-    
+
     // two next methods is the same !!!!!!!
-    
+
     @Transactional
     public List<UserRole> getRoleByUserNam(String username) {
         return providerEmployeeRepository.getRoleByUserNam(username);
     }
-    
+
     @Transactional
     public String getRoleByUserName(String username) {
         return providerEmployeeRepository.getRoleByUserName(username);
@@ -108,13 +108,14 @@ public class ProviderEmployeeService {
     }
 
     @Transactional
-    public List<ProviderEmployeeGraphic> getgraphicProviderEmployee(String fromDate,String toDate,Long idOrganization) {
+    public List<ProviderEmployeeGraphic> getgraphicProviderEmployee(String fromDate, String toDate, Long idOrganization) {
         List<Object[]> list = null;
-        List<ProviderEmployeeGraphic> resultList = new ArrayList<>() ;
-        List<Double> countOfWork = null ;
+        List<ProviderEmployeeGraphic> resultList = new ArrayList<>();
+        List<Double> countOfWork = null;
         Date dateFrom = null;
         Date dateTo = null;
-        List <String> listMonths= TransformStringsToMonths.transferToMonthArray(fromDate,toDate);
+        int[] arr = TransformStringsToMonths.parser(fromDate, toDate);
+        List<String> listMonths = TransformStringsToMonths.transferToMonthArray(fromDate, toDate);
         if (!(fromDate.equalsIgnoreCase("null") && toDate.equalsIgnoreCase("null"))) {
             SimpleDateFormat from = new SimpleDateFormat("dd-MM-yyyy");
             SimpleDateFormat to = new SimpleDateFormat("dd-MM-yyyy");
@@ -125,36 +126,55 @@ public class ProviderEmployeeService {
                 e.printStackTrace();
             }
         }
-        String providerUsername ="SELECT distinct providerEmployee_username as username FROM verification " +
+        String providerUsername = "SELECT distinct providerEmployee_username as username FROM verification " +
                 " where provider_organizationId= ?1 and  providerEmployee_username is not null";
 
-        String toGrafic = "select  count(v.providerEmployee_username) as data" +
+        String toGrafic = "select  count(v.providerEmployee_username) as data, month(initialDate) as months" +
                 " from verification v  " +
                 "  where v.providerEmployee_username= ?1 " +
                 " and  initialDate Between ?2 and ?3 " +
                 " group by month(initialDate) ";
-        Query queryEmployee =em.createNativeQuery(providerUsername);
+        Query queryEmployee = em.createNativeQuery(providerUsername);
         queryEmployee.setParameter(1, idOrganization);
         List empList = queryEmployee.getResultList();
-        for(Object employee :empList){
+        for (Object employee : empList) {
 
-        Query quer = em.createNativeQuery(toGrafic);
-        quer.setParameter(1, employee.toString());
-        quer.setParameter(2, dateFrom);
-        quer.setParameter(3, dateTo);
+            Query quer = em.createNativeQuery(toGrafic);
+            quer.setParameter(1, employee.toString());
+            quer.setParameter(2, dateFrom);
+            quer.setParameter(3, dateTo);
 
             list = quer.getResultList();
             countOfWork = new ArrayList<>();
+            double iterat = 0.0;
+            double d = 0.0;
 
-        for (int i = 0; i < list.size(); i++) {
-           double d= Double.valueOf(String.valueOf(list.get(i)));
-            countOfWork.add(d);
+            for (int i = arr[0]; i < arr[1] + 1; i++) {
+                boolean avaible = false;
+
+                if (list.size() == 0) {
+                    countOfWork.add(0.0);
+                    avaible=true;
+                }
+
+                for (int j = 0; j < list.size(); j++) {
+                    iterat = Integer.valueOf(String.valueOf(list.get(j)[1]));
+                    if (i == iterat) {
+                        d = Double.valueOf(String.valueOf(list.get(j)[0]));
+                        countOfWork.add(d);
+                        avaible = true;
+                        break;
+                    }
+                }
+                if (!avaible) {
+                    countOfWork.add(0.0);
+                }
+            }
+                resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
+            }
+
+            return resultList;
         }
-            resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
-        }
-        return resultList;
+
+
     }
-
-
-
-}

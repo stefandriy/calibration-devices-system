@@ -36,7 +36,7 @@ public class VerificationProviderEmployeeService {
             return;
         }
         verification.setProviderEmployee(providerEmployee);
-        verification.setStatus(Status.SENT);
+        verification.setStatus(Status.ACCEPTED);
         verification.setReadStatus(ReadStatus.READ);
 
         verificationRepository.save(verification);
@@ -57,11 +57,11 @@ public class VerificationProviderEmployeeService {
 
     @Transactional
     public List<Verification> getVerificationListbyProviderEmployee(String username) {
-        return verificationRepository.findByProviderEmployeeUsernameAndStatus(username, Status.SENT);
+        return verificationRepository.findByProviderEmployeeUsernameAndStatus(username, Status.ACCEPTED);
     }
 
     @Transactional
     public Long countByProviderEmployeeTasks(String username) {
-        return verificationRepository.countByProviderEmployee_usernameAndStatus(username, Status.SENT);
+        return verificationRepository.countByProviderEmployee_usernameAndStatus(username, Status.ACCEPTED);
     }
 }

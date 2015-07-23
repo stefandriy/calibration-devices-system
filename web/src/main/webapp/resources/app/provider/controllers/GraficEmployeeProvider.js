@@ -9,40 +9,47 @@ angular
                 $log.debug(graficData)
                 if (graficData.length > 0) {
                     $scope.chartConfig = {
-
-                        title: {
-                            text: 'Продуктивність працівників',
-                            x: -20 //center
-                        },
-                        subtitle: {
-                            text: 'Графік з кількості відпрацьованих заявок працівниками',
-                            x: -20
-                        },
-                        xAxis: {
-                            categories: graficData[0].listMonths
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Кількість виконаних заявок'
+                        options: {
+                            chart: {
+                                type: 'column'
                             },
-                            plotLines: [{
-                                value: 0,
-                                width: 1,
-                                color: '#808080'
-                            }]
-                        },
-                        tooltip: {
-                            valueSuffix: ''
-                        },
-                        legend: {
-                            layout: 'vertical',
-                            align: 'right',
-                            verticalAlign: 'middle',
-                            borderWidth: 0
-                        },
-                        series: graficData
-                    }
+                            title: {
+                                text: 'Продуктивність працівників',
+                                x: -20 //center
+                            },
+                            subtitle: {
+                                text: 'Графік з кількості відпрацьованих заявок працівниками',
+                                x: -20
+                            },
 
+                            xAxis: {
+                                categories: graficData[0].listMonths,
+                                crosshair: true
+                            },
+                            yAxis: {
+                                min: 0,
+                                title: {
+                                    text: 'Кількість виконаних заявок '
+                                }
+                            },
+                            tooltip: {
+                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y:.1f} опрацьовано заявок</b></td></tr>',
+                                footerFormat: '</table>',
+                                shared: true,
+                                useHTML: true
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            },
+                        },
+                            series: graficData
+
+                    }
                 } else {
                     $scope.chartConfig = {
                         title: {
@@ -54,3 +61,5 @@ angular
             }
         }
  ] );
+
+
