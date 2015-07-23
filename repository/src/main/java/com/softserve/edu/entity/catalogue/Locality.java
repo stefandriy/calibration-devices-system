@@ -18,7 +18,7 @@ public class Locality extends AbstractCatalogue {
     @ManyToOne
     @JoinColumn(name = "district_id", nullable = false)
     private District district;
-
+    private Long index;
     protected Locality() {}
 
     public Locality(District district, String designation) {
@@ -56,4 +56,12 @@ public class Locality extends AbstractCatalogue {
     public String toString() {
         return designation;
     }
+
+	public Long getIndex() {
+		return index;
+	}
+
+	public void setIndex(Long index) {
+		this.index = index;
+	}
 }
