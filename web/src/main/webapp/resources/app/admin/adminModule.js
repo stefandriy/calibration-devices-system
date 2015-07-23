@@ -3,7 +3,8 @@ angular
 				'adminModule',
 				[ 'spring-security-csrf-token-interceptor', 'ui.bootstrap',
 						'ui.router', 'ui.bootstrap.showErrors', 'ngTable',
-						'pascalprecht.translate', 'ngCookies', 'ui.multiselect' ])
+						'pascalprecht.translate', 'ngCookies',
+						'angularjs-dropdown-multiselect' ])
 
 		.config(
 				[

@@ -185,6 +185,7 @@ VALUES
 
 
 
+
 -- ------------------------------- СALIBRATION TESTS ---------------------------- --
 INSERT INTO `CALIBRATION_TEST` (`id`,`consumptionStatus`,`dateTest`,`latitude`,`longitude`,`document_name`,`document_sign`,`name`,`photoPath`,`settingNumber`,`temperature`,`testResult`,`verification_id`) VALUES (1,NULL,NULL,NULL,NULL,'Державна система забезпечення єдності вимірювань','ДСТУ 2681-94',NULL,NULL,NULL,NULL,NULL,'bcf8d225-9dd7-4563-a736-faca9acbb521');
 

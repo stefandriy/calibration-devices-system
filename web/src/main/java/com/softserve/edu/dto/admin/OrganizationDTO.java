@@ -38,20 +38,20 @@ public class OrganizationDTO {
 		this.email = email;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	public String[] getTypes() {
 		return types;
 	}
 
 	public void setTypes(String[] types) {
 		this.types = types;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getUsername() {

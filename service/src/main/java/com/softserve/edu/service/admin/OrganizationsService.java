@@ -67,14 +67,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public Organization getOrganizationById(Long id) {
-		Address address = organizationRepository.getOrganizationAddressById(id);
-		String name = organizationRepository.getOrganizationNameById(id);
-		String email = organizationRepository.getOrganizationEmailById(id);
-		String phone = organizationRepository.getOrganizationPhoneById(id);
-		Organization organization = new Organization(name, email, phone,
-				address);
-		return organization;
-		// return organizationRepository.findOne(id);
+		 return organizationRepository.findOne(id);
 	}
 
 	@Transactional
@@ -83,7 +76,17 @@ public class OrganizationsService {
 		Set<String> types = organizationRepository.getOrganizationTypeById(id);
 		String result = "";
 		for (String s : types) {
-			result += (s + " ");
+			switch (s) {
+			case "PROVIDER":
+				result += ("Постачальник послуг ");
+				break;
+			case "CALIBRATOR":
+				result += ("Повірочна організація ");
+				break;
+			case "STATE_VERIFICATOR":
+				result += ("Державний повірник ");
+				break;
+			}
 		}
 		return result;
 	}

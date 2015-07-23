@@ -6,23 +6,37 @@ angular
 						'$rootScope',
 						'$scope',
 						'$modalInstance',
+						'$filter',
 						'AddressService',
 						'OrganizationService',
 						'UserService',
-						function($rootScope, $scope, $modalInstance,
+						function($rootScope, $scope, $modalInstance, $filter,
 								addressService, organizationService,
 								userService) {
 
+							$scope.types = [];
+
 							$scope.typeData = [ {
-								type : 'PROVIDER',
-								name : 'Постачальник послуг'
+								id : 'PROVIDER',
+								label : 'Постачальник послуг'
 							}, {
-								type : 'CALIBRATOR',
-								name : 'Повірочна організація'
+								id : 'CALIBRATOR',
+								label : 'Повірочна організація'
 							}, {
-								type : 'STATE_VERIFICATOR',
-								name : 'Державний повірник'
+								id : 'STATE_VERIFICATOR',
+								label : 'Державний повірник'
 							} ];
+
+							$scope.typeDataSettings = {
+								selectionLimit : 2,
+								smartButtonMaxItems : 2,
+								smartButtonTextConverter : function(itemText,
+										originalItem) {
+									return itemText;
+								}
+
+							};
+
 
 							$scope.regions = null;
 							$scope.districts = [];
@@ -168,8 +182,9 @@ angular
 							}
 
 							function typeObjectToString() {
+								$scope.organizationFormData.types = $scope.types;
 								for ( var i in $scope.organizationFormData.types) {
-									$scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].type;
+									$scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].id;
 								}
 							}
 
