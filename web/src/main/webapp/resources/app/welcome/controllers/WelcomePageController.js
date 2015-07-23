@@ -1,7 +1,7 @@
 angular
     .module('welcomeModule')
     .controller('WelcomePageController', ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
-        $scope.myInterval = 4000;
+        $scope.myInterval = 2000;
         $scope.slides = [];
 
         //$scope.slides.push({
