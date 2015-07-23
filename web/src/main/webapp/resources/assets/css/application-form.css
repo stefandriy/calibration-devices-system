@@ -15,39 +15,31 @@
 }
 
 #typeStreet {
-	padding-top:3px;
+	
+	width: 80px !important;
+	height: 30px !important;
+}
+.chosen-container-single .chosen-single{
+	height: 34px !important;
+	
+}
+.chosen-container-multi .chosen-multi {
+	height: 34px !important;
+	
+}
+#counterNumber {
+
 	width: 80px !important;
 	height: 30px !important;
 }
 
-#counterNumber {
-	padding-top:2px;
-	width: 80px !important;
-	height: 30px !important;
-}
 
-#streetBox {
-    width: 500px;
-}
 
-#device {
-    width: 500px;
-}
 
-#typeStreet {
-    padding-top:3px;
-    width: 80px !important;
-    height: 30px !important;
-}
 
-#counterNumber {
-    padding-top:2px;
-    width: 80px !important;
-    height: 30px !important;
-}
 
 #clientFormBox {
-<<<<<<< Upstream, based on branch 'Lv-150.Java' of https://github.com/Social-Projects/calibration-devices-system.git
+
     padding-top: 30px;
     background: rgba(242, 246, 248, 1);
     background: -moz-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
@@ -74,34 +66,7 @@
     -webkit-box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
     -moz-box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
     box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
-=======
-	padding-top: 30px;
-	background: rgba(242, 246, 248, 1);
-	background: -moz-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
-		rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%,
-		rgba(224, 239, 249, 1) 100%);
-	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 246, 248,
-		1)), color-stop(0%, rgba(216, 225, 231, 1)),
-		color-stop(51%, rgba(213, 220, 224, 1)),
-		color-stop(100%, rgba(224, 239, 249, 1)));
-	background: -webkit-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
-		rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%,
-		rgba(224, 239, 249, 1) 100%);
-	background: -o-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
-		rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%,
-		rgba(224, 239, 249, 1) 100%);
-	background: -ms-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
-		rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%,
-		rgba(224, 239, 249, 1) 100%);
-	background: linear-gradient(to right, rgba(242, 246, 248, 1) 0%,
-		rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%,
-		rgba(224, 239, 249, 1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f6f8',
-		endColorstr='#e0eff9', GradientType=1);
-	-webkit-box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
-	-moz-box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
-	box-shadow: -1px 0px 48px 3px rgba(109, 138, 137, 1);
->>>>>>> a8e992c Add "formHelper",fix some ui bug
+
 }
 
 .form-group .help-block {
@@ -122,11 +87,8 @@
 }
 
 .form-control-feedback {
-<<<<<<< Upstream, based on branch 'Lv-150.Java' of https://github.com/Social-Projects/calibration-devices-system.git
-    top: 0;
-    right: 15px;
-=======
+
 	top: 0;
 	right: 15px;
->>>>>>> a8e992c Add "formHelper",fix some ui bug
+
 }
