@@ -564,3 +564,6 @@ float:left;
     float: left;
     padding-right: 2%;
 }
+.cursor-pointer{
+    cursor:pointer;
+}
