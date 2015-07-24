@@ -21,17 +21,8 @@
                                    class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                    <th class="col-md-2">Дата початку процесу повірки</th>
-                                    <th>Реєстраційний номер повірки</th>
-                                    <th>Прізвище клієнта</th>
-                                    <th>Вулиця, на якій проживає клієнт</th>
-                                    <th>Дії<br/> <br/></th>
-                                    <th>Відповідальна особа</th>
-                                    <th>Відправити калібратору</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
+                                	<td>
+                                </td>
                                     <td>
                                         <p class="input-group myDatePicker">
                                             <input type="text" class="form-control input-sm"
@@ -50,6 +41,7 @@
                                         </p>
                                     </td>
                                     <td>
+                                    
                                         <div class="btn-group">
                                             <input type="text" class="form-control input-sm" ng-model="search.idText"
                                                    ng-change=doSearch()>
@@ -69,7 +61,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="btn-group">
+                                            <div class="btn-group ">
                                                 <input type="text" class="form-control input-sm"
                                                        ng-model="search.streetText" ng-change=doSearch()>
                                                 <span id="searchclear" class="glyphicon glyphicon-remove-circle"
@@ -80,62 +72,71 @@
                                     <td class="text-center clearInput">
                                         <button class="btn btn-danger btn-sm" ng-click="clearAll()"
                                                 ng-show="search.streetText.length && search.lastNameText.length && search.idText.length">
-                                          {{'CLEAR_ALL | translate'}}
+                                          {{'CLEAR_ALL' | translate}}
                                         </button>
                                     </td>
                                     <td></td>
-                                    <td></td>
+                                    
                                 </tr>
+                                <tr>
+                                	<th><span class="glyphicon glyphicon-ok-sign"></span></th>
+                                    <th class="col-md-2">Дата початку процесу повірки</th>
+                                    <th>Реєстраційний номер повірки</th>
+                                    <th>Прізвище клієнта</th>
+                                    <th>Вулиця, на якій проживає клієнт</th>
+                                   
+                                    <th>Відповідальна особа</th>
+                                     <th class="text-center" >Дії<br/> <br/></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                
                                 <tr ng-repeat="verification in $data"
                                     ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
+                                    <td class="text-center">
+                                        <input type="checkbox" ng-show="verification.providerEmployee"
+                                               ng-click="resolveVerificationId(verification.id)"/>
+                                    
+                                    </td>
                                     <td>{{ verification.initialDate | date}}</td>
                                     <td class="verificationNumber">
                                         <span popover="{{verification.id}}" popover-trigger="mouseenter"
                                               popover-placement="up">{{ verification.id}}</span></td>
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
-
-                                    <td class="text-center" class="showInline">
-                                        <span class="showInline">
-                                          <button type="button" class="btn btn-success btn-sm btn-block"
-                                                  ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
-                                              <span class="glyphicon glyphicon-question-sign"></span>Детальніше</button>
-
-                                            <button ng-show="!verification.providerEmployee"
-                                                    class="btn btn-success btn-sm btn-block"
-                                                    ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
-                                                Взяти заявку
+									 <td> {{verification.providerEmployee}}</td>
+                                    <td >
+                                      
+                                       <div class="btn-group custom-btn-group">
+                                         	<button class="btn btn-xs btn-primary btn-actions-custom" popover="Детальніше"
+                                           		popover-trigger="mouseenter"
+	                                           	ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
+	                                            <i class="fa fa-info"></i>
+                                        	</button>
+                                    		<button ng-show="!verification.providerEmployee"
+                                                class="btn btn-xs btn-success btn-actions-custom" popover="Add employee"  popover-trigger="mouseenter"
+                                                ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
+                                             	 <span class="glyphicon glyphicon-plus-sign"></span>
                                             </button>
-                                            <button ng-show="verification.providerEmployee"
-                                                    class="btn btn-danger btn-sm btn-block"
+                                         	 <button ng-show="verification.providerEmployee"
+                                                    class="btn btn-xs btn-danger btn-actions-custom" popover="Remove employee"
+                                           			popover-trigger="mouseenter"
                                                     ng-click="removeProviderEmployee(verification.id)">
-                                                Скасувати
+                                                    <span class="glyphicon glyphicon-remove"></span>
                                             </button>
-                                        </span>
+                                        	<button class="btn btn-xs btn-danger btn-actions-custom"
+	                                        	popover="{{'REJECT' | translate}}" popover-trigger="mouseenter"
+	                                      		ng-click="openMailModal(verification.id)">
+	                                      		<span class="fa fa-reply"></span>
+                                    		</button>
+                                        </div>
                                     </td>
-
-
-                                    <td> {{verification.providerEmployee}}</td>
-
-                                    <td class="text-center">
-                                        <input type="checkbox" ng-show="verification.providerEmployee"
-                                               ng-click="resolveVerificationId(verification.id)"/>
-                                     <button ng-show="!verification.providerEmployee" class="btn btn-danger btn-sm"
-                                      ng-click="openMailModal(verification.id)">{{'REJECT' | translate}}
-                                     </button>
-                                    </td>
-                                </tr>
-                                </tbody>
+								</tr>
+                               </tbody>
                             </table>
                             <script type="text/ng-template" id="custom/pager">
                                 <div>
-                                    <p id="emptyError" ng-if="allIsEmpty && isClicked"
-                                       class="help-block col-md-3 col-md-offset-9">
-                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        Оберіть хоча б одну повірку
-                                    </p>
-
-                                    <ul class="pager ng-cloak">
+                                     <ul class="pager ng-cloak">
                                         <li ng-repeat="page in pages"
                                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
@@ -163,7 +164,12 @@
                                     </ul>
                                 </div>
                             </script>
-                            <div class="pull-right">
+                            <div class="pull-left">
+                            		<p id="emptyError" ng-if="allIsEmpty && isClicked"
+                                       class="help-block">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        Оберіть хоча б одну повірку
+                                    </p>
                                 <button type="button" class="btn btn-primary"
                                         ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span> Надіслати</button>
                             </div>

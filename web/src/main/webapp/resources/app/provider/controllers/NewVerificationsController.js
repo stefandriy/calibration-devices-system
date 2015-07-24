@@ -45,6 +45,7 @@ angular
         	 $scope.clearAll();
         }); 
        
+        $scope.totalCount = 0;
         $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10
@@ -57,12 +58,16 @@ angular
                     				.success(function (result) {
                     					$defer.resolve(result.content);
                     					params.total(result.totalItems);
+                    					$scope.totalCount = result.totalItems;
+                    					$log.debug('total inside call');
+                    					$log.debug($scope.totalCount);
                     				}, function (result) {
                     					$log.debug('error fetching data:', result);
                     				});
                  }
             });
-
+        $log.debug('total outside call');
+		$log.debug($scope.totalCount);
   
 	       $scope.markAsRead = function (id) {
 				 var dataToSend = {

@@ -8,6 +8,23 @@ body {
 .panel-title a {
     cursor: pointer;
 }
+.fa {
+	position: relative;
+	left: -1px;
+}
+.custom-btn-group {
+  display: flex;
+}
+
+.btn-actions-custom {
+	height:31px;
+	width:31px;
+}
+
+.glyphicon{
+	
+	font-size: 17px;
+}
 
 #searchclear {
     position: absolute;
