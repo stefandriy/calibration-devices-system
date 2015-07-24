@@ -8,7 +8,7 @@ import org.springframework.hateoas.ResourceSupport;
 import java.util.Date;
 
 
-public class CalibrationTestDTO extends ResourceSupport {
+public class CalibrationTestDTO  {
     private String name;
     private Date dateTest;
     private Integer temperature;
@@ -16,7 +16,7 @@ public class CalibrationTestDTO extends ResourceSupport {
     private Double latitude;
     private Double longitude;
     private String consumptionStatus;
-    private CalibrationTestResult testResult;
+    private String testResult;
     // private String photoPath;
 
     //added constructors by Konyk
@@ -92,11 +92,11 @@ public class CalibrationTestDTO extends ResourceSupport {
         this.consumptionStatus = consumptionStatus;
     }
 
-    public CalibrationTestResult getTestResult() {
+    public String getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(CalibrationTestResult testResult) {
+    public void setTestResult(String testResult) {
         this.testResult = testResult;
     }
 
@@ -109,7 +109,7 @@ public class CalibrationTestDTO extends ResourceSupport {
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
         calibrationTest.setConsumptionStatus(consumptionStatus);
-        calibrationTest.setTestResult(testResult);
+        calibrationTest.setTestResult(CalibrationTestResult.SUCCESS);
         return calibrationTest;
     }
 }

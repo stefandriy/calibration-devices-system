@@ -196,23 +196,23 @@ public class ProviderVerificationController {
         verificationProviderEmployeeService.assignProviderEmployee(idVerification, null);
     }
 
-    @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
-    public ClientStageVerificationDTO getNewVerificationDetailsById(
-            @PathVariable String verificationId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        Verification verification = verificationService
-                .findByIdAndProviderId(
-                        verificationId,
-                        user.getOrganizationId()
-                );
 
-        ClientData clientData = verification.getClientData();
-        Address address = clientData.getClientAddress();
-       Device device = verification.getDevice();
-        return new ClientStageVerificationDTO(clientData, address, null,device.getId(), null);
+        @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
+        public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
+            Verification verification = verificationService.findById(verificationId);
+            if (verification != null) {
+                return new VerificationDTO(verification.getClientData(), verification.getId(),
+                        verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
+                        verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
+                        verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+                        verification.getStateVerificatorEmployee());
+            } else {
+                return null;
+            }
+        }
 
-    }
+
 
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
     public VerificationDTO getArchivalVerificationDetailsById(

@@ -4,6 +4,7 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
+import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
@@ -113,19 +114,32 @@ public class CalibratorController {
 				verificationDto.getReadStatus());
 	}
 
+//	@RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
+//	public ClientStageVerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId,
+//			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+//
+//		Verification verification = verificationService.findByIdAndCalibratorId(verificationId,
+//				user.getOrganizationId());
+//
+//		ClientData clientData = verification.getClientData();
+//		Address address = clientData.getClientAddress();
+//		Device device = verification.getDevice();
+//
+//		return new ClientStageVerificationDTO(clientData, address, null, device.getId(), null);
+//	}
+
 	@RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
-	public ClientStageVerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId,
-			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
-		Verification verification = verificationService.findByIdAndCalibratorId(verificationId,
-				user.getOrganizationId());
-
-		ClientData clientData = verification.getClientData();
-		Address address = clientData.getClientAddress();
-		Device device = verification.getDevice();
-
-		return new ClientStageVerificationDTO(clientData, address, null, device.getId(), null);// TO
-																								// DO
+	public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
+		Verification verification = verificationService.findById(verificationId);
+		if (verification != null) {
+			return new VerificationDTO(verification.getClientData(), verification.getId(),
+					verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
+					verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
+					verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+					verification.getStateVerificatorEmployee());
+		} else {
+			return null;
+		}
 	}
 
 	@RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)

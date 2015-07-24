@@ -2,6 +2,7 @@ package com.softserve.edu.controller.state_verificator;
 
 import java.util.List;
 
+import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.service.CalibrationTestService;
 import org.apache.log4j.Logger;
@@ -105,31 +106,24 @@ public class StateVerificatorController {
             verificationService.sendVerificationTo(verificationId, provider, Status.TEST_NOK);
         }
     }
-    
+
+
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
-    public ClientStageVerificationDTO getNewVerificationDetailsById(
-            @PathVariable String verificationId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
-        Verification verification = verificationService
-                .findByIdAndStateVerificatorId(
-                        verificationId,
-                        user.getOrganizationId()
-                );
-
-        ClientData clientData = verification.getClientData();
-        Address address = clientData.getClientAddress();
-    Device device = verification.getDevice();
-
-        return new ClientStageVerificationDTO(clientData, address,  null, device.getId(),null);
+    public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
+        Verification verification = verificationService.findById(verificationId);
+        if (verification != null) {
+            return new VerificationDTO(verification.getClientData(), verification.getId(),
+                    verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
+                    verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
+                    verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+                    verification.getStateVerificatorEmployee());
+        } else {
+            return null;
+        }
     }
-    //TEMPORALY
-//    @RequestMapping(value = "show/{calibrationTestId}", method = RequestMethod.GET)
-//    public CalibrationTestDTO getCalibraionTestDetails(@PathVariable Long calibrationTestId){
-//		CalibrationTest calibrationTest = verificationService.findByCalibrationTestId(calibrationTestId);
-//    	return new CalibrationTestDTO(calibrationTest);
-//
-//    }
+
+
+
 
         @RequestMapping(value = "show/{verificationId}", method = RequestMethod.GET)
     public CalibrationTestDTO getCalibraionTestDetails(@PathVariable String verificationId){
