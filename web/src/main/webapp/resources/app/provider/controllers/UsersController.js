@@ -5,7 +5,7 @@ angular
     .module('employeeModule')
     .controller('UsersController', ['$scope', 'UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter',
         function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter) {
-
+            $scope.totalEmployee=0;
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 5
@@ -14,6 +14,7 @@ angular
                 getData: function ($defer, params) {
                     userService.getPage(params.page(), params.count(), params.filter())
                         .success(function (result) {
+                            $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
                         }, function (result) {

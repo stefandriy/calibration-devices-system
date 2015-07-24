@@ -2,6 +2,7 @@ package com.softserve.edu.service.verification;
 
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.UserRepository;
@@ -63,5 +64,10 @@ public class VerificationProviderEmployeeService {
     @Transactional
     public Long countByProviderEmployeeTasks(String username) {
         return verificationRepository.countByProviderEmployee_usernameAndStatus(username, Status.ACCEPTED);
+    }
+
+    @Transactional
+    public  Long countOfEmloyee(List<String> roles,Long ifOrganization){
+        return userRepository.getCountOfEmloyee(roles, ifOrganization);
     }
 }

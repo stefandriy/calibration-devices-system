@@ -98,6 +98,21 @@ public class UsersPageItem {
         this.countOfVarification = countOfVarification;
     }
 
+
+
+    public UsersPageItem(String username, String role, String firstName, String lastName,
+                         String middleName,String phone, String organization,
+                         Long countOfVarification) {
+        this.username = username;
+        this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.phone = phone;
+        this.organization = organization;
+        this.countOfVarification = countOfVarification;
+    }
+
     @Override
     public String toString() {
         return "UsersPageItem{" +
@@ -110,19 +125,7 @@ public class UsersPageItem {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", organization='" + organization + '\'' +
+                ", countOfVarification=" + countOfVarification +
                 '}';
     }
-    public UsersPageItem(String username, String role, String firstName, String lastName,String middleName,
-                         String phone, String organization,Long countOfVarification) {
-        this.username = username;
-        this.role = role;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName=middleName;
-        this.phone = phone;
-        this.organization = organization;
-        this.countOfVarification=countOfVarification;
-
-    }
-
 }

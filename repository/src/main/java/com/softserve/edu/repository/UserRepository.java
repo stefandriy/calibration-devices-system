@@ -47,9 +47,13 @@ public interface UserRepository extends CrudRepository<User, String> {
 	List<User> getAllProviderUsers(@Param("role") String role,
 			@Param("organizationId") Long organizationId);
 
-	public User findByUsername(String userName);
+	  User findByUsername(String userName);
 
 	@Query("select ur from UserRole ur where ur.role=:role")
 	UserRole getUserRole(@Param("role") String role);
+
+	@Query("select count(u) from User u inner join u.userRoles r where r.role in :role and u.organization.id = :organizationId ")
+	Long getCountOfEmloyee(@Param("role") List<String> role,
+						@Param("organizationId") Long organizationId);
 
 }

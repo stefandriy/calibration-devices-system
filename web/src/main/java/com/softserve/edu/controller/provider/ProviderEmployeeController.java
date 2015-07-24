@@ -106,7 +106,7 @@ public class ProviderEmployeeController {
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(), usersPageItem.getFirstName(),
                 usersPageItem.getLastName(), usersPageItem.getOrganization(), usersPageItem.getPhone());
-        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
+        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult,idOrganization);
 
          return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
 
@@ -124,7 +124,7 @@ public class ProviderEmployeeController {
 
 
 
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult,Long idOrganization) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(
@@ -136,7 +136,7 @@ public class ProviderEmployeeController {
                             providerEmployee.getPhone(),
                             providerEmployee.getOrganization().getName(),
                             verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername())
-                    )
+                     )
             );
         }
         return resultList;

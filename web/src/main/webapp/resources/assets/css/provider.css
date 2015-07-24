@@ -518,7 +518,7 @@ input[type="radio"], input[type="checkbox"] {
     white-space: nowrap;
     text-overflow: ellipsis;
     max-width: 1px;
-    width:40px;
+    width:20px;
 }
 .grid_actions {
     float: left;

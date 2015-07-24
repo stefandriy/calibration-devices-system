@@ -7,7 +7,7 @@
 
 
                 <div class="calendar-wd">
-                    <input type="text"
+                    <input readonly type="text"
                            datepicker-popup="{{format}}" ng-model="dataToSearch.fromDate"
                            ng-change="changeDateToSend(dataToSearch.fromDate)" is-open="firstCalendar.isOpen"
                            min-date="minDate" datepicker-options="dateOptions"
@@ -25,7 +25,7 @@
 
 
                 <div class="calendar-wd">
-                    <input type="text"
+                    <input readonly type="text"
                            datepicker-popup="{{format}}" ng-model="dataToSearch.toDate"
                            ng-change="changeDateToSend(dataToSearch.toDate)" is-open="secondCalendar.isOpen"
                            min-date="minDate" datepicker-options="dateOptions"
@@ -49,9 +49,6 @@
                 Відобразити
             </button>
 
-           <!-- <button class="btn btn-danger" type="button" ng-click="cancel()">
-                Відмінити
-            </button>-->
         </div>
     </form>
     <br>
