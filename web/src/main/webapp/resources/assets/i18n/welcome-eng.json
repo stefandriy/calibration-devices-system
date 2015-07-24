@@ -105,6 +105,7 @@
   "SENT_TO_VERIFICATOR_TRANSLATION":"The application brought against attorneys",
   "ACCEPTED_TRASLATION":"Application accepted performer.",
   "REJECTED_TRASLATION":"Application rejected performer.",
+  "FIND_BY_EQUIPMENT_NAME":"Find by equipment name:",
   "MEASURING_EQUIPMENTS":"Measuring equipments",
   "NAME":"Equipment name",
   "TYPE_OF_EQUIPMENT":"Type of Equipment",
