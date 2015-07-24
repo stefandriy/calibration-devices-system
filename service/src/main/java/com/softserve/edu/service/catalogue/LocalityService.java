@@ -16,6 +16,6 @@ public class LocalityService {
     private LocalityRepository localityRepository;
 
     public List<Locality> getLocalitiesCorrespondingDistrict(Long districtId) {
-        return localityRepository.findByDistrictId(districtId);
+        return localityRepository.findDistinctByDistrictId(districtId) ;
     }
 }

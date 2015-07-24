@@ -24,9 +24,17 @@
 <link rel="stylesheet"
 	href="/resources/assets/bower_components/angular-bootstrap-simple-chat/src/css/themes.css">
 
+
+<link rel="stylesheet" href="/resources/assets/bower_components/ui-select/dist/select.css">
+
+<link rel="stylesheet" href="/resources/assets/bower_components/select2/select2.css">
+
+<link rel="stylesheet" href="/resources/assets/bower_components/selectize/dist/css/selectize.default.css">
 <link rel="stylesheet"
+
 	href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
 </head>
+
 
 <body id="welcomeModule" ng-controller="NavigationController">
 
@@ -103,13 +111,14 @@
 		src="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/js/bootstrap-formhelpers.js"></script>
 	<script type="text/javascript">
 		$(".chzn-select").chosen();
-		$(".chzn-select-deselect").chosen({
-			allow_single_deselect : true
-		});
+		$(".chzn-select-deselect").chosen({allow_single_deselect : true });
+	
+		
+		 $("#form_field").trigger("chosen:updated");
 		$("#states").chosen();
 		$("[name='my-checkbox']").bootstrapSwitch();
 	</script>
-
+<script src="/resources/assets/bower_components/ui-select/dist/select.js"></script>
 
 
 

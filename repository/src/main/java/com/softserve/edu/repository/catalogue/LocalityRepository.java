@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface LocalityRepository extends CrudRepository<Locality, Long> {
-    List<Locality> findByDistrictId(Long id);
+    List<Locality> findDistinctByDistrictId(Long id);
 }
