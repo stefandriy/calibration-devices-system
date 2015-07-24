@@ -196,6 +196,7 @@
 					<div class="col-md-8">
 						<select chosen id="region" name="region" type="text"
 							class="form-control " ng-model="selectedRegion"
+							allow-single-deselect="true" 
 							ng-options="region as region.designation for region in regions | filter: $viewValue"
 							ng-change="receiveDistricts(selectedRegion)" required>
 						</select>
@@ -214,6 +215,7 @@
 					<div class="col-md-8">
 						<select chosen id="district" name="district" class="form-control "
 							type="text" ng-model="selectedDistrict"
+							allow-single-deselect="true" 
 							ng-options="district as district.designation for district in districts | filter: $viewValue"
 							ng-change="receiveLocalitiesAndProviders(selectedDistrict)"
 							required></select>
@@ -232,6 +234,7 @@
 					<div class="col-md-8">
 						<select chosen id="locality" name="locality" class="form-control"
 							ng-model="selectedLocality"
+							allow-single-deselect="true" 
 							ng-options="locality as locality.designation for locality in localities | filter: $viewValue"
 							ng-change="receiveStreets(selectedLocality)" required></select>
 
@@ -347,7 +350,7 @@
 						{{'TYPE_OF_COUNTER' | translate}} </label>
 					<div class="col-md-8">
 						<div class="pull-left" id="counterNumber" >
-							<select chosen data-placeholder=" How many counter"
+							<select chosen data-placeholder=" How many counter" style="	height: 34px !important;"
 								disable-search="true" id="counterNumber" name="typeStreet"
 								type="text" ng-model="selectedCount">
 								<option value="0">0</option>
