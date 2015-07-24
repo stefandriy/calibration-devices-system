@@ -89,7 +89,8 @@
 			'controllers/WelcomePageController',
 			'controllers/DetailsController', 'controllers/FeedbackController',
 			'controllers/ChatController', 'services/DataReceivingService',
-			'services/DataSendingService', 'directives/OnStartupMessage' ],
+			'services/DataSendingService', 'directives/OnStartupMessage',
+			'directives/unique'],
 			function() {
 			});
 })();
