@@ -102,7 +102,11 @@ public class ProviderApplicationController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
+        System.err.println("provider null ");
+        System.err.println(provider==null);
         Region region = regionService.getRegionByDesignation(provider.getAddress().getRegion());
+        System.err.println("region null ");
+        System.err.println(region==null);
         District district = districtService.findDistrictByDesignationAndRegion(
                 provider.getAddress().getDistrict(),
                 region.getId()
