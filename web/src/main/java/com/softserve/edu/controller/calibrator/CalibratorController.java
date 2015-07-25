@@ -1,30 +1,34 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.controller.file.storage.BbiFileUtils;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.application.ClientStageVerificationDTO;
+import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
-import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
-import com.softserve.edu.entity.*;
+import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.CalibrationTestService;
 import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.verification.VerificationService;
-
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -120,30 +124,44 @@ public class CalibratorController {
 	}
 
 
-	@RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
-	public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
-		Verification verification = verificationService.findById(verificationId);
-		if (verification != null) {
-			return new VerificationDTO(verification.getClientData(), verification.getId(),
-					verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
-					verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
-					verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-					verification.getStateVerificatorEmployee());
-		} else {
-			return null;
-		}
-	}
+    @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
+    public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
+        Verification verification = verificationService.findById(verificationId);
+        if (verification != null) {
+            return new VerificationDTO(verification.getClientData(), verification.getId(),
+                    verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
+                    verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
+                    verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+                    verification.getStateVerificatorEmployee());
+        } else {
+            return null;
+        }
+    }
 
-	@RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)
-	public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
-		HttpStatus httpStatus = HttpStatus.CREATED;
-		try {
-			CalibrationTest createdTest = testDTO.saveCalibrationTest();
-			testService.createTest(createdTest);
-		} catch (Exception e) {
-			logger.error("GOT EXCEPTION " + e.getMessage());
-			httpStatus = HttpStatus.CONFLICT;
-		}
-		return new ResponseEntity<>(httpStatus);
-	}
+    @RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)
+    public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
+        HttpStatus httpStatus = HttpStatus.CREATED;
+        try {
+            CalibrationTest createdTest = testDTO.saveCalibrationTest();
+            testService.createTest(createdTest);
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e.getMessage());
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
+    @RequestMapping(value = "new/upload", method = RequestMethod.POST)
+    public HttpStatus uploadFileBbi(@RequestBody MultipartFile file) {
+        HttpStatus httpStatus = HttpStatus.CREATED;
+        try {
+            File bbiFile = BbiFileUtils.multipartToFile(file);
+            calibratorService.upload(bbiFile);
+
+        } catch (Exception e) {
+            logger.error("Failed to load file "+ e.getMessage());
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return httpStatus;
+    }
 }

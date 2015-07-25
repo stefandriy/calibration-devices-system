@@ -53,7 +53,6 @@ angular
             };
 
 
-
             $scope.onTableHandling = function () {
 
                 userService.isAdmin()

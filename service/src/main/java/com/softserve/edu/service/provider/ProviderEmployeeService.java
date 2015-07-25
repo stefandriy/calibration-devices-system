@@ -88,7 +88,8 @@ public class ProviderEmployeeService {
 
     @Transactional
     public ListToPageTransformer<User>
-    findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, long idOrganization, String userName, String role, String firstName, String lastName, String organization,
+    findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, long idOrganization, String userName,
+                                                   String role, String firstName, String lastName, String organization,
                                                    String telephone) {
         CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
                 lastName, organization, telephone, em, idOrganization);
@@ -108,73 +109,43 @@ public class ProviderEmployeeService {
     }
 
     @Transactional
-    public List<ProviderEmployeeGraphic> getgraphicProviderEmployee(String fromDate, String toDate, Long idOrganization) {
-        List<Object[]> list = null;
-        List<ProviderEmployeeGraphic> resultList = new ArrayList<>();
-        List<Double> countOfWork = null;
-        Date dateFrom = null;
-        Date dateTo = null;
-        int[] arr = TransformStringsToMonths.parser(fromDate, toDate);
-        List<String> listMonths = TransformStringsToMonths.transferToMonthArray(fromDate, toDate);
-        if (!(fromDate.equalsIgnoreCase("null") && toDate.equalsIgnoreCase("null"))) {
-            SimpleDateFormat from = new SimpleDateFormat("dd-MM-yyyy");
-            SimpleDateFormat to = new SimpleDateFormat("dd-MM-yyyy");
-            try {
-                dateFrom = from.parse(fromDate);
-                dateTo = to.parse(toDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        String providerUsername = "SELECT distinct providerEmployee_username as username FROM verification " +
-                " where provider_organizationId= ?1 and  providerEmployee_username is not null";
+    public List<ProviderEmployeeGraphic> getgraphicProviderEmployee(String fromDate, String toDate, Long idOrganization) throws ParseException {
+        TransformStringsToMonths transformStringsToMonths = new TransformStringsToMonths();
 
-        String toGrafic = "select  count(v.providerEmployee_username) as data, month(initialDate) as months" +
-                " from verification v  " +
-                "  where v.providerEmployee_username= ?1 " +
-                " and  initialDate Between ?2 and ?3 " +
-                " group by month(initialDate) ";
+        List<String> listMonths = transformStringsToMonths.transferToMonthArray(fromDate, toDate);
+        Date dateFrom = transformStringsToMonths.convertToData(fromDate);
+        Date dateTo = transformStringsToMonths.convertToData(toDate);
+        String providerUsername = transformStringsToMonths.getQueryproviderUsername();
+        String toGrafic = transformStringsToMonths.getQuerytoGrafic();
+        int[] arr = transformStringsToMonths.parser(fromDate, toDate);
+
+        List<ProviderEmployeeGraphic> resultList = graficBuilder(providerUsername, toGrafic, idOrganization,
+                dateFrom, dateTo, arr, listMonths);
+        return resultList;
+    }
+
+
+    public List<ProviderEmployeeGraphic> graficBuilder(String providerUsername, String toGrafic,
+                                                       Long idOrganization, Date dateFrom, Date dateTo,
+                                                       int[] arr, List<String> listMonths) {
+        List<Object[]> list = null;
+        List<Double> countOfWork = null;
+        List<ProviderEmployeeGraphic> resultList = new ArrayList<>();
+        TransformStringsToMonths transformStringsToMonths = new TransformStringsToMonths();
         Query queryEmployee = em.createNativeQuery(providerUsername);
         queryEmployee.setParameter(1, idOrganization);
         List empList = queryEmployee.getResultList();
-        for (Object employee : empList) {
 
+        for (Object employee : empList) {
             Query quer = em.createNativeQuery(toGrafic);
             quer.setParameter(1, employee.toString());
             quer.setParameter(2, dateFrom);
             quer.setParameter(3, dateTo);
-
             list = quer.getResultList();
-            countOfWork = new ArrayList<>();
-            double iterat = 0.0;
-            double d = 0.0;
+            countOfWork = transformStringsToMonths.identifyProviderEmployee(arr,list);
 
-            for (int i = arr[0]; i < arr[1] + 1; i++) {
-                boolean avaible = false;
-
-                if (list.size() == 0) {
-                    countOfWork.add(0.0);
-                    avaible=true;
-                }
-
-                for (int j = 0; j < list.size(); j++) {
-                    iterat = Integer.valueOf(String.valueOf(list.get(j)[1]));
-                    if (i == iterat) {
-                        d = Double.valueOf(String.valueOf(list.get(j)[0]));
-                        countOfWork.add(d);
-                        avaible = true;
-                        break;
-                    }
-                }
-                if (!avaible) {
-                    countOfWork.add(0.0);
-                }
-            }
-                resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
-            }
-
-            return resultList;
+            resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
         }
-
-
+        return resultList;
     }
+}

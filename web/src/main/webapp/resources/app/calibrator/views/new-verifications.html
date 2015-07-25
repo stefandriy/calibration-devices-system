@@ -18,14 +18,19 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                      Останні дані
-                	</div>
-                	<div class="panel-body">
+                    <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+
+                </div>
+
+                <div class="panel-body">
                 		<div class="col-md-7 col-md-offset-0">
                 			<div class="row">
 								 <form name="form" class = "form-inline" ng-submit="doSearch()"> 
 									<div class="form-group">
 								 		<strong><p class="form-control-static">Search by: </p></strong>
 								 	</div>
+
+
 								 	<div class="form-group">
 		                                <select ng-model="search.type" ng-change="clearInput()" class="form-control">
 		                                    <option value="id" selected="selected">ID</option>

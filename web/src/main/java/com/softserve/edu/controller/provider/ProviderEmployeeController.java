@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class ProviderEmployeeController {
 
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
     public List<UserRole> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-            return providerEmployeeService.getRoleByUserNam(user.getUsername());
+        return providerEmployeeService.getRoleByUserNam(user.getUsername());
     }
 
     /**
@@ -103,28 +104,31 @@ public class ProviderEmployeeController {
             UsersPageItem usersPageItem,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
+
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(), usersPageItem.getFirstName(),
                 usersPageItem.getLastName(), usersPageItem.getOrganization(), usersPageItem.getPhone());
-        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult,idOrganization);
-
-         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
+        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult, idOrganization);
+        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
 
     }
+
     @RequestMapping(value = "graphic", method = RequestMethod.GET)
-    public List<ProviderEmployeeGraphic>  graphic
-            ( @RequestParam String fromDate,@RequestParam String toDate,
-             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user)
-    {
+    public List<ProviderEmployeeGraphic> graphic
+            (@RequestParam String fromDate, @RequestParam String toDate,
+             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
-        List<ProviderEmployeeGraphic> list= providerEmployeeService.getgraphicProviderEmployee(fromDate,toDate,idOrganization);
+        List<ProviderEmployeeGraphic> list = null;
+        try {
+            list = providerEmployeeService.getgraphicProviderEmployee(fromDate, toDate, idOrganization);
+        } catch (ParseException e) {
+            logger.error("Failed to get graphic data");
+        }
         return list;
     }
 
 
-
-
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult,Long idOrganization) {
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult, Long idOrganization) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(
@@ -136,7 +140,7 @@ public class ProviderEmployeeController {
                             providerEmployee.getPhone(),
                             providerEmployee.getOrganization().getName(),
                             verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername())
-                     )
+                    )
             );
         }
         return resultList;

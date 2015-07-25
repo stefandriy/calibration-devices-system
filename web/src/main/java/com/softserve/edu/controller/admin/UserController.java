@@ -66,8 +66,6 @@ public class UserController {
                                 if (user instanceof User) {
                                     usPage = new UsersPageItem();
                                     usPage.setUsername(user.getUsername());
-                                 //   usPage.setRole(userService.getUsersRole(user));
-
                                     usPage.setRole(userService.getRoleByUserName(user.getUsername()));
                                     usPage.setFirstName(((User) user).getFirstName());
                                     usPage.setLastName(((User) user).getLastName());
@@ -76,11 +74,7 @@ public class UserController {
                                         usPage.setOrganization(user.getOrganization().getName());
                                     }
                                     usPage.setPhone(((User) user).getPhone());
-                                } /*else if (user instanceof SystemAdmin) {
-                                     usPage = new UsersPageItem();
-                                    usPage.setUsername(user.getUsername());
-                                    usPage.setRole(user.getRole());
-                                }*/
+                                }
                                 return usPage;
                             }
                         }
