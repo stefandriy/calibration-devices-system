@@ -27,7 +27,7 @@
                 	});
                 },
         		getEquipmentWithId : function(id) {
-					var url = '/calibrator/mEquipment/getEquipment' + id;
+					var url = '/calibrator/mEquipment/getEquipment/' + id;
 					return $http.get(url).then(function(result) {
 						return result.data;
 					});

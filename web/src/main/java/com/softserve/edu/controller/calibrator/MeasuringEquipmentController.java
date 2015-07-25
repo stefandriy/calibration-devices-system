@@ -49,7 +49,7 @@ public class MeasuringEquipmentController {
 				.getMeasuringEquipmentsBySearchAndPagination(pageNumber, itemsPerPage, search)
 				.map(
 				measuringEquipment -> new MeasuringEquipmentPageItem(measuringEquipment.getId(), measuringEquipment.getName(),
-						measuringEquipment.getDeviceType().toString(), measuringEquipment.getManufacturer().toString(),
+						measuringEquipment.getDeviceType(), measuringEquipment.getManufacturer().toString(),
 						measuringEquipment.getVerificationInterval().toString()));
 		
 		return new PageDTO<>(page.getTotalElements(), page.getContent());
@@ -116,12 +116,12 @@ public class MeasuringEquipmentController {
 	 * @return a response body with http status {@literal OK} if MeasuringEquipment
 	 *         successfully edited or else http status {@literal CONFLICT}
 	 */
-	@RequestMapping(value = "/edit/{mEquipmentId}", method = RequestMethod.POST)
+	@RequestMapping(value = "edit/{mEquipmentId}", method = RequestMethod.POST)
 	public ResponseEntity editMeasuringEquipment(@RequestBody MeasuringEquipmentDTO mEquipmentDTO, @PathVariable Long mEquipmentId){
 		HttpStatus httpStatus = HttpStatus.OK;
 		try {
-			measuringEquipmentService.editMeasuringEquipment(mEquipmentId, mEquipmentDTO.getName(), 
-					mEquipmentDTO.getEquipmentType(), mEquipmentDTO.getManufacturer(), mEquipmentDTO.getVerificationInterval());
+			measuringEquipmentService.editMeasuringEquipment(mEquipmentId, mEquipmentDTO.getName(), mEquipmentDTO.getDeviceType(),
+					mEquipmentDTO.getManufacturer(), mEquipmentDTO.getVerificationInterval());
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
 			httpStatus = HttpStatus.CONFLICT;
@@ -135,7 +135,7 @@ public class MeasuringEquipmentController {
 	 * @return a response body with http status {@literal OK} if MeasuringEquipment
 	 *         successfully deleted
 	 */
-	 @RequestMapping(value = "/delete/{mEquipmentId}", method = RequestMethod.POST)
+	 @RequestMapping(value = "delete/{mEquipmentId}", method = RequestMethod.POST)
 	 public ResponseEntity deleteMeasuringEquipment(@PathVariable Long mEquipmentId){
 		 MeasuringEquipment measuringEquipment = measuringEquipmentService.deleteMeasuringEquipment(mEquipmentId);
 		 return new ResponseEntity<>(measuringEquipment, HttpStatus.OK);

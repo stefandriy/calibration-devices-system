@@ -3,12 +3,6 @@ angular.module('employeeModule')
 				   ['$rootScope', '$scope', '$modalInstance', 'MeasuringEquipmentServiceCalibrator',
 						function($rootScope, $scope, $modalInstance, MeasuringEquipmentServiceCalibrator) {
 
-							
-//					   $scope.name = name;
-//						$scope.equipmentType = equipmentType;
-//						$scope.manufacturer = manufacturer;
-//						$scope.verificationInterval = verificationInterval;
-
 						/**
 						 * Resets Equipment form
 						 */
@@ -30,7 +24,7 @@ angular.module('employeeModule')
 							$scope.editEquipment = function() {
 								var equipmentForm = {
 									name : $rootScope.equipment.name,
-									equipmentType : $rootScope.equipment.equipmentType,
+									deviceType : $rootScope.equipment.deviceType,
 									manufacturer : $rootScope.equipment.manufacturer,
 									verificationInterval : $rootScope.equipment.verificationInterval
 									

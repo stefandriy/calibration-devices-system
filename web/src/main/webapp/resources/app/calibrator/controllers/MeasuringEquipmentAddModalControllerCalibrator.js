@@ -4,7 +4,7 @@ angular.module('employeeModule')
 						function($rootScope, $scope, $modalInstance, MeasuringEquipmentServiceCalibrator) {
 
 							$scope.name = null;
-							$scope.equipmentType = null;
+							$scope.deviceType = null;
 							$scope.manufacturer = null;
 							$scope.verificationInterval = null;
 

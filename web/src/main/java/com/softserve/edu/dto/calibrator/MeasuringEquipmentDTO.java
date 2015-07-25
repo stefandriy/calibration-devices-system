@@ -6,7 +6,7 @@ public class MeasuringEquipmentDTO {
 
 	private Long id;
 	private String name;
-	private String equipmentType;
+	private String deviceType;
 	private String manufacturer;
 	private String verificationInterval;
 
@@ -29,12 +29,12 @@ public class MeasuringEquipmentDTO {
 		this.name = name;
 	}
 
-	public String getEquipmentType() {
-		return equipmentType;
+	public String getDeviceType() {
+		return deviceType;
 	}
 
-	public void setEquipmentType(String equipmentType) {
-		this.equipmentType = equipmentType;
+	public void setDeviceType(String deviceType) {
+		this.deviceType = deviceType;
 	}
 
 	public String getManufacturer() {
@@ -52,11 +52,11 @@ public class MeasuringEquipmentDTO {
 	public void setVerificationInterval(String verificationInterval) {
 		this.verificationInterval = verificationInterval;
 	}
-	
+
 	public MeasuringEquipment saveEquipment(){
 		MeasuringEquipment measuringEquipment = new MeasuringEquipment();
 		measuringEquipment.setName(name);
-		measuringEquipment.setDeviceType(equipmentType);
+		measuringEquipment.setDeviceType(deviceType);
 		measuringEquipment.setManufacturer(manufacturer);
 		measuringEquipment.setVerificationInterval(verificationInterval);
 		return measuringEquipment;
