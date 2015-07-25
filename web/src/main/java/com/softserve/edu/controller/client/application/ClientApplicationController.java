@@ -14,6 +14,7 @@ import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.DeviceService;
 import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
 
@@ -36,6 +37,8 @@ public class ClientApplicationController {
 
 	@Autowired
 	private ProviderService providerService;
+	@Autowired
+	private CalibratorService calibratorService;
 	@Autowired
 	private DeviceService deviceService;
 
@@ -103,6 +106,14 @@ public class ClientApplicationController {
 				.collect(Collectors.toList());
 	}
 
+	  @RequestMapping(value = "calibrators/{district}", method = RequestMethod.GET)
+		public List<ApplicationFieldDTO> getCalibratorsCorrespondingDistrict(@PathVariable String district) {
+
+			return calibratorService.findByDistrict(district, "CALIBRATOR").stream()
+					.map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
+					.collect(Collectors.toList());
+		}
+	
 	@RequestMapping(value = "devices", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getAll() {
         return deviceService.getAll().stream()

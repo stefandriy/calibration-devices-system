@@ -142,5 +142,8 @@
 
   	"BOULEVARD":"boulevard",
   	"AVENUE":"avenue",
-  	"SQUARE":"square"
+  	"SQUARE":"square",
+  	
+  	"APP_SENT_ORG":"You successfully created verification with code: ",
+  	"CALIBRATOR":"Calibrator"
 }

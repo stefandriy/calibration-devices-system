@@ -16,7 +16,16 @@ angular
             },
             findBuildingsByStreetId: function (id) {
                 return getData('buildings/' + id);
-            }
+            },
+            findAllDevices : function() {
+				return getData('devices');
+			},
+			findProvidersByDistrict : function(district) {
+				return getData("providers/" + district);
+			},
+			findCalibratorsByDistrict : function(district) {
+				return getData("calibrators/" + district);
+			}
         };
 
         function getData(url) {

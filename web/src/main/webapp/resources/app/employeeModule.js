@@ -134,7 +134,6 @@
             'provider/controllers/NewVerificationsControllerProvider',
             'provider/controllers/AddingVerificationsControllerProvider',
             'provider/controllers/DetailsModalControllerProvider',
-            'provider/controllers/DetailsModalController',
             'provider/controllers/SendingModalControllerProvider',
             'provider/controllers/AddEmployeeController',
             'provider/controllers/AddressModalControllerProvider',

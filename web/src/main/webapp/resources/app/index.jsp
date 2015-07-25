@@ -11,9 +11,29 @@
     <link href="/resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet"
-          href="/resources/assets/bower_components/chosen/chosen.min.css">
+    <link rel="stylesheet" href="/resources/assets/bower_components/chosen/chosen.min.css">
     <link href="/resources/assets/css/provider.css" rel="stylesheet">
+    
+    <link href="/resources/assets/css/application-form.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link href="/resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet">
+<link rel="stylesheet"href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
+<link rel="stylesheet" href="/resources/assets/css/loader.css">
+<script src="/resources/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+<script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
+<script src="/resources/assets/bower_components/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+<script src="/resources/assets/bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>	
+<script src="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/js/bootstrap-formhelpers.js"></script>
+<script type="text/javascript">
+		$(".chzn-select").chosen();
+		 $("#form_field").trigger("chosen:updated");
+		$("#states").chosen();
+		$("[name='my-checkbox']").bootstrapSwitch();
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/resources/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/resources/assets/js/main.js"></script>
+
 </head>
 
 <body>
