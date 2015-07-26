@@ -21,45 +21,71 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">Останні дані</div>
 
-					<div class="panel-body">
+				</div>
+				<div class="panel-body">
+					<div class="col-md-7 col-md-offset-0">
 						<div class="row">
-							<div class="col-md-offset-11">
-								<label> Показати по <select ng-model="itemsPerPage"
-									ng-change="onTableHandling()" class="form-control input-sm">
-										<option value="1">1</option>
-										<option value="3">3</option>
-										<option value="5">5</option>
-										<option value="10" selected>10</option>
-										<option value="25">25</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-								</select>
-								</label>
-							</div>
+							<form name="form" class = "form-inline" ng-submit="doSearch()">
+								<div class="form-group">
+									<strong><p class="form-control-static">Пошук по: </p></strong>
+								</div>
+								<div class="form-group">
+									<select ng-model="search.type" ng-change="clearInput()" class="form-control">
+										<option value="id" selected="selected">Реєстраційний номер</option>
+										<option value="lastName">Прізвище клієнта</option>
+										<option value="street">Вулиця</option>
+										<option value="date" >Початкова дата</option>
+									</select>
+								</div>
+
+								<div class="form-group" ng-hide="search.type =='date'">
+									<input name="otherTypes" type="text" class="form-control" ng-model="search.text" required>
+									<span ng-show="form.otherTypes.$error.required && search.type!=''">Введіть дані!</span>
+									<button class="btn btn-primary" ng-hide="form.$error.required" type="submit">Знайти</button>
+								</div>
+
+								<div class="form-group" ng-hide="search.type !='date'">
+									<input name="initDate" class="form-control"
+										   ng-pattern='/^(0?[1-9]|1\d|2[0-8]|29(?=[-]\d?\d[-](?!1[01345789]00|2[1235679]00)\d\d(?:[02468][048]|[13579][26]))|30(?![-]0?2)|31(?=[-]0?[13578]|[-]1[02]))[-](0?[1-9]|1[0-2])[-]([12]\d{3})$/'
+										   required ng-model="search.text" type="text">
+									<span ng-show="form.initDate.$error.required && search.type!=''">Cannot be empty!</span>
+									<span ng-show="form.initDate.$error.pattern">Format: DD-MM-YYYY</span>
+									<button class="btn btn-primary" ng-hide="!form.$valid" type="submit">Search</button>
+								</div>
+							</form>
 						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<table class="table table-bordered table-hover">
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+								<table ng-table="tableParams" template-pagination="custom/pager"
+									   class="table table-bordered table-hover">
 									<thead>
 										<tr>
-											<th>Дата початку процесу повірки</th>
+											<th><span class="glyphicon glyphicon-ok-sign"></span></th>
+											<th class="col-md-2">Дата початку процесу повірки</th>
 											<th>Реєстраційний номер повірки</th>
 											<th>Прізвище клієнта</th>
 											<th>Вулиця, на якій проживає клієнт</th>
 											<th class="text-center">Дії<br /> <br /></th>
 											<th class="text-center">Тест<br /> <br /></th>
-											<th>Відправити провайдеру</th>
 										</tr>
 									</thead>
 
 									<tbody>
 										<tr
-											ng-repeat="verification in pageData | orderBy:'-initialDate'"
+											ng-repeat="verification in $data"
 											  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
+											<td class="text-center">
+												<input type="checkbox"
+													   ng-click="resolveVerificationId(verification.id)"/>
+											</td>
 											<td>{{ verification.initialDate | date}}</td>
-											<td>{{ verification.id }}</td>
+											<td class="verificationNumber">
+											<span popover="{{verification.id}}" popover-trigger="mouseenter"
+													popover-placement="up">{{ verification.id }}</span>></td>
 											<td>{{ verification.surname }}</td>
 											<td>{{ verification.street }}</td>
+
 											<td class="text-center">
 												<button type="button" class="btn btn-success btn-sm btn-block"
 														ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
@@ -70,13 +96,42 @@
 											 <span class="glyphicon glyphicon-search"></span>
                                           Переглянути тест
                                           </button>
-										  <td class="text-center">
-												<input type="checkbox"
-													   ng-click="resolveVerificationId(verification.id)"/>
-										  </td>
+
 										</tr>
 									</tbody>
 								</table>
+
+							<script type="text/ng-template" id="custom/pager">
+								<div>
+									<ul class="pager ng-cloak">
+										<li ng-repeat="page in pages"
+											ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+											ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+											<a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+												Попередня</a>
+											<a ng-switch-when="next" ng-click="params.page(page.number)"
+											   href="">Наступна &raquo;</a>
+										</li>
+										<li>
+											<div class="btn-group">
+												<button type="button" ng-class="{'active':params.count() == 5}"
+														ng-click="params.count(5)" class="btn btn-default">5
+												</button>
+												<button type="button" ng-class="{'active':params.count() == 10}"
+														ng-click="params.count(10)" class="btn btn-default">10
+												</button>
+												<button type="button" ng-class="{'active':params.count() == 25}"
+														ng-click="params.count(25)" class="btn btn-default">25
+												</button>
+												<button type="button" ng-class="{'active':params.count() == 50}"
+														ng-click="params.count(50)" class="btn btn-default">50
+												</button>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</script>
+
 								<div class="pull-center">
 								<div class="btn-group">
         						<button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle"><span class="glyphicon glyphicon-send"></span> Надіслати <span class="caret"></span></button>
@@ -96,13 +151,6 @@
 									Оберіть хоча б одну пoвірку
 								</p>
 								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<pagination total-items="totalItems" ng-model="currentPage"
-									max-size="5" boundary-links="true" rotate="false"
-									ng-change="onTableHandling()" items-per-page="itemsPerPage"></pagination>
 							</div>
 						</div>
 					</div>

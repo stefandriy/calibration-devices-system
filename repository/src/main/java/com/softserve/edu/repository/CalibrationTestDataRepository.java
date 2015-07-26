@@ -10,7 +10,9 @@ import java.util.List;
 
 @Repository
 public interface CalibrationTestDataRepository extends CrudRepository<CalibrationTestData, Long> {
+
     @Query("SELECT d FROM CalibrationTestData d WHERE d.calibrationTest.id = :testId")
+
     List<CalibrationTestData> findByCalibrationTestId(@Param("testId") Long testId);
 
 }

@@ -114,19 +114,6 @@ public class CalibratorController {
 				verificationDto.getReadStatus());
 	}
 
-//	@RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
-//	public ClientStageVerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId,
-//			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-//
-//		Verification verification = verificationService.findByIdAndCalibratorId(verificationId,
-//				user.getOrganizationId());
-//
-//		ClientData clientData = verification.getClientData();
-//		Address address = clientData.getClientAddress();
-//		Device device = verification.getDevice();
-//
-//		return new ClientStageVerificationDTO(clientData, address, null, device.getId(), null);
-//	}
 
 	@RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
 	public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {

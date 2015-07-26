@@ -39,37 +39,48 @@ import com.softserve.edu.service.verification.VerificationService;
 @RequestMapping(value = "/verificator/verifications/")
 public class StateVerificatorController {
 
-	@Autowired
-	VerificationService verificationService;
+    @Autowired
+    VerificationService verificationService;
 
     @Autowired
     CalibrationTestService testService;
 
-	@Autowired
-	ProviderService providerService;
+    @Autowired
+    ProviderService providerService;
 
-	@Autowired
-	CalibratorService calibratorService;
+    @Autowired
+    CalibratorService calibratorService;
 
-	@Autowired
-	StateVerificatorService verificatorService;
+    @Autowired
+    StateVerificatorService verificatorService;
+
+    private final Logger logger = Logger.getLogger(StateVerificatorController.class);
+
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorIdAndSearch(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer itemsPerPage,
+            @PathVariable String searchType,
+            @PathVariable String searchText,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        if (!(searchText.equalsIgnoreCase("null"))) {
+            Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+                    .toDTO(verificationService
+                            .findPageOfSentVerificationsByStateVerificatorIdAndSearch(
+                                    employeeUser.getOrganizationId(), pageNumber, itemsPerPage, searchType, searchText));
+
+            return new PageDTO<>(page.getTotalElements(), page.getContent());
+        } else {
+            Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+                    .toDTO(verificationService
+                            .findPageOfSentVerificationsByStateVerificatorId(employeeUser.getOrganizationId(),
+                                    pageNumber, itemsPerPage));
+            return new PageDTO<>(page.getTotalElements(), page.getContent());
+        }
+    }
 
 
-	@RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-	public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorId(
-			@PathVariable Integer pageNumber,
-			@PathVariable Integer itemsPerPage,
-			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-		Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-				.toDTO(verificationService
-						.findPageOfSentVerificationsByStateVerificatorId(
-								employeeUser.getOrganizationId(), pageNumber,
-								itemsPerPage));
-
-		return new PageDTO<>(page.getTotalElements(), page.getContent());
-	}
-	
-	 /**
+    /**
      * Find providers by district which correspond stateVerificator district
      *
      * @return provider
@@ -78,15 +89,15 @@ public class StateVerificatorController {
     public List<Organization> getMatchingVerificators(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         return providerService.findByDistrict(verificatorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
     }
-    
+
     @RequestMapping(value = "new/count/verificator", method = RequestMethod.GET)
-    public Long getCountOfNewVerificationsByStateVerificatorId( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-    	return verificationService.findCountOfNewVerificationsByStateVerificatorId(user.getOrganizationId());
+    public Long getCountOfNewVerificationsByStateVerificatorId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        return verificationService.findCountOfNewVerificationsByStateVerificatorId(user.getOrganizationId());
     }
-    
+
     @RequestMapping(value = "new/read", method = RequestMethod.PUT)
     public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
-    	 verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
+        verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
@@ -123,12 +134,10 @@ public class StateVerificatorController {
     }
 
 
-
-
-        @RequestMapping(value = "show/{verificationId}", method = RequestMethod.GET)
-    public CalibrationTestDTO getCalibraionTestDetails(@PathVariable String verificationId){
-		CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-    	return new CalibrationTestDTO(calibrationTest);
+    @RequestMapping(value = "show/{verificationId}", method = RequestMethod.GET)
+    public CalibrationTestDTO getCalibraionTestDetails(@PathVariable String verificationId) {
+        CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
+        return new CalibrationTestDTO(calibrationTest);
 
     }
 

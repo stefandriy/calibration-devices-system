@@ -6,8 +6,8 @@ angular
             getArchivalVerifications: function (currentPage, itemsPerPage) {
                 return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
             },
-            getNewVerifications: function (currentPage, itemsPerPage) {
-                return getData('verifications/new/' + currentPage + '/' + itemsPerPage);
+            getNewVerifications: function (currentPage, itemsPerPage, searchType, searchText) {
+                return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' + searchType + '/' + searchText);
             },
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);

@@ -1,54 +1,54 @@
 angular
     .module('employeeModule')
     .controller('NewVerificationsControllerCalibrator', ['$scope', '$log',
-                                               '$modal', 'VerificationServiceCalibrator',
-                                               '$rootScope','ngTableParams',
+        '$modal', 'VerificationServiceCalibrator',
+        '$rootScope', 'ngTableParams',
         function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams) {
 
-            
+
             $scope.search = {
-            		text: null,
-            		type: null
+                text: null,
+                type: null
             }
-            
-            $scope.clearInput = function(){
-            	$scope.search.text=null;
+
+            $scope.clearInput = function () {
+                $scope.search.text = null;
             }
-            
-            $scope.doSearch = function() {
-               $scope.tableParams.reload();
+
+            $scope.doSearch = function () {
+                $scope.tableParams.reload();
             }
-            
-			$scope.tableParams = new ngTableParams({
-				page: 1, 
-				count: 10
-						}, {
-							total: 0,
-							getData: function($defer, params) {
-			        
-								verificationServiceCalibrator.getNewVerifications(params.page(), params.count(), $scope.search.type, $scope.search.text)
-								.success(function(result) {
-										$defer.resolve(result.content);
-										params.total(result.totalItems);
-									}, function(result) {
-											 $log.debug('error fetching data:', result);
-							  	}); 
-							}
-			});
-            
-                   
-			 $scope.markAsRead = function (id) {
-				 var dataToSend = {
-							verificationId: id,
-							readStatus: 'READ'
-						};
-				 verificationServiceCalibrator.markVerificationAsRead(dataToSend).success(function () {
-		         		$rootScope.$broadcast('verification-was-read');
-		         		$scope.tableParams.reload();
-		            });
-	         };
-			
-			
+
+            $scope.tableParams = new ngTableParams({
+                page: 1,
+                count: 10
+            }, {
+                total: 0,
+                getData: function ($defer, params) {
+
+                    verificationServiceCalibrator.getNewVerifications(params.page(), params.count(), $scope.search.type, $scope.search.text)
+                        .success(function (result) {
+                            $defer.resolve(result.content);
+                            params.total(result.totalItems);
+                        }, function (result) {
+                            $log.debug('error fetching data:', result);
+                        });
+                }
+            });
+
+
+            $scope.markAsRead = function (id) {
+                var dataToSend = {
+                    verificationId: id,
+                    readStatus: 'READ'
+                };
+                verificationServiceCalibrator.markVerificationAsRead(dataToSend).success(function () {
+                    $rootScope.$broadcast('verification-was-read');
+                    $scope.tableParams.reload();
+                });
+            };
+
+
             $scope.openDetails = function (verifId, verifDate, verifReadStatus) {
                 $modal.open({
                     animation: true,
@@ -61,10 +61,10 @@ angular
                                 .success(function (verification) {
                                     verification.id = verifId;
                                     verification.initialDate = verifDate;
-	                                  if(verifReadStatus=='UNREAD'){
-	                                	  $scope.markAsRead(verifId);
-	                                  } 
-                                   return verification;
+                                    if (verifReadStatus == 'UNREAD') {
+                                        $scope.markAsRead(verifId);
+                                    }
+                                    return verification;
                                 });
                         }
                     }
@@ -74,12 +74,12 @@ angular
             /**
              * Opens modal window for adding new calibration-test.
              */
-            $scope.openAddCalibrationTestModal = function(){
+            $scope.openAddCalibrationTestModal = function () {
                 var addTestModal = $modal
                     .open({
-                        animation : true,
-                        controller : 'CalibrationTestAddModalControllerCalibrator',
-                        templateUrl : '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
+                        animation: true,
+                        controller: 'CalibrationTestAddModalControllerCalibrator',
+                        templateUrl: '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
                     });
             };
 
@@ -117,8 +117,8 @@ angular
                             response: function () {
                                 return verificationServiceCalibrator.getVerificators()
                                     .success(function (verificators) {
-                                       $log.debug(verificators);
-                                    	return verificators;
+                                        $log.debug(verificators);
+                                        return verificators;
                                     });
                             }
                         }
@@ -126,7 +126,7 @@ angular
 
                     //executes when modal closing
                     modalInstance.result.then(function (verificator) {
-                     
+
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
                             verificatorId: verificator.id
@@ -138,8 +138,8 @@ angular
                         verificationServiceCalibrator
                             .sendVerificationsToCalibrator(dataToSend)
                             .success(function () {
-                            	$scope.tableParams.reload();
-                            	$rootScope.$broadcast('verification-sent-to-verifikator');
+                                $scope.tableParams.reload();
+                                $rootScope.$broadcast('verification-sent-to-verifikator');
                             });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];

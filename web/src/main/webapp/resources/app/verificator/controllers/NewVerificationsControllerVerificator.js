@@ -1,37 +1,52 @@
 angular
     .module('employeeModule')
     .controller('NewVerificationsControllerVerificator', ['$scope', '$log', '$modal', 'VerificationServiceVerificator', '$rootScope',
-        function ($scope, $log, $modal, VerificationServiceVerificator,  $rootScope) {
+        'ngTableParams', '$filter', '$timeout',
+        function ($scope, $log, $modal, VerificationServiceVerificator, $rootScope, ngTableParams, $filter, $timeout) {
 
-            $scope.totalItems = 0;
-            $scope.currentPage = 1;
-            $scope.itemsPerPage = 10;
-            $scope.pageData = [];
+            $scope.search = {
+                text: null,
+                type: null,
+            }
 
-            $scope.onTableHandling = function () {
-            	VerificationServiceVerificator
-                    .getNewVerifications($scope.currentPage, $scope.itemsPerPage)
-                    .success(function (verifications) {
-                        $scope.pageData = verifications.content;
-                        $scope.totalItems = verifications.totalItems;
-                    });
+            $scope.clearInput = function () {
+                $scope.search.text = null;
+            }
+
+            $scope.doSearch = function () {
+                $scope.tableParams.reload();
+            }
+
+            $scope.tableParams = new ngTableParams({
+                page: 1,
+                count: 10
+            }, {
+                total: 0,
+                getData: function ($defer, params) {
+
+                    VerificationServiceVerificator.getNewVerifications(params.page(), params.count(), $scope.search.type, $scope.search.text)
+                        .success(function (result) {
+                            $defer.resolve(result.content);
+                            params.total(result.totalItems);
+                        }, function (result) {
+                            $log.debug('error fetching data:', result);
+                        });
+                }
+            });
+
+            $scope.markAsRead = function (id) {
+                var dataToSend = {
+                    verificationId: id,
+                    readStatus: 'READ'
+                };
+
+                VerificationServiceVerificator.markVerificationAsRead(dataToSend).success(function () {
+                    $rootScope.$broadcast('verification-was-read');
+                    $scope.onTableHandling();
+                });
             };
 
-            $scope.onTableHandling();
-            
-            $scope.markAsRead = function (id) {
-				 var dataToSend = {
-							verificationId: id,
-							readStatus: 'READ'
-						};
-				
-				 VerificationServiceVerificator.markVerificationAsRead(dataToSend).success(function () {
-		         	$rootScope.$broadcast('verification-was-read');
-		         		$scope.onTableHandling();
-		            });
-	         };
-
-            $scope.openDetails = function ( verifId, verifDate, verifReadStatus ) {
+            $scope.openDetails = function (verifId, verifDate, verifReadStatus) {
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/verificator/views/modals/new-verification-details.html',
@@ -39,44 +54,43 @@ angular
                     size: 'lg',
                     resolve: {
                         response: function () {
-                        	   return VerificationServiceVerificator.getNewVerificationDetails(verifId)
-                               .success(function (verification) {
-                                   verification.id = verifId;
-                                   verification.initialDate = verifDate;
-                                   if (verifReadStatus == 'UNREAD') {
-                                       $scope.markAsRead(verifId);
-                                   }
-                                   return verification;
-                               });
+                            return VerificationServiceVerificator.getNewVerificationDetails(verifId)
+                                .success(function (verification) {
+                                    verification.id = verifId;
+                                    verification.initialDate = verifDate;
+                                    if (verifReadStatus == 'UNREAD') {
+                                        $scope.markAsRead(verifId);
+                                    }
+                                    return verification;
+                                });
                         }
                     }
                 });
             };
 
-            $scope.testReview = function(verifId){
-            	$log.debug('VerifID');
+            $scope.testReview = function (verifId) {
                 $log.debug(verifId);
                 $modal.open({
 
-            		animation: true,
-            		templateUrl: '/resources/app/verificator/views/modals/testReview.html',
-            		controller: 'CalibrationTestReviewControllerVerificator',
-            		size: 'lg',
-            		resolve: {
-            			response: function () {
-            				return VerificationServiceVerificator.getCalibraionTestDetails(verifId)
-            				.success(function(calibrationTest){
-            					//calibrationTest.id = verifId;
+                    animation: true,
+                    templateUrl: '/resources/app/verificator/views/modals/testReview.html',
+                    controller: 'CalibrationTestReviewControllerVerificator',
+                    size: 'lg',
+                    resolve: {
+                        response: function () {
+                            return VerificationServiceVerificator.getCalibraionTestDetails(verifId)
+                                .success(function (calibrationTest) {
+                                    //calibrationTest.id = verifId;
                                     $log.debug('CalibrationTest');
                                     $log.debug(calibrationTest);
-            					return calibrationTest;
-            				})
-            				.error(function(){
-            					console.log('ERROR');
-            				});
-            			}
-            		}
-            	});
+                                    return calibrationTest;
+                                })
+                                .error(function () {
+                                    console.log('ERROR');
+                                });
+                        }
+                    }
+                });
             };
 
             $scope.idsOfVerifications = [];
@@ -128,12 +142,12 @@ angular
                         };
 
                         $log.info(dataToSend);
-                            VerificationServiceVerificator
-                                .sendVerificationsToProvider(dataToSend)
-                                .success(function () {
-                                    $scope.onTableHandling();
-                                });
-      
+                        VerificationServiceVerificator
+                            .sendVerificationsToProvider(dataToSend)
+                            .success(function () {
+                                $scope.onTableHandling();
+                            });
+
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
                     });
@@ -168,12 +182,12 @@ angular
                         };
 
                         $log.info(dataToSend);
-                            VerificationServiceVerificator
-                                .sendVerificationNotOkStatus(dataToSend)
-                                .success(function () {
-                                    $scope.onTableHandling();
-                                });
-      
+                        VerificationServiceVerificator
+                            .sendVerificationNotOkStatus(dataToSend)
+                            .success(function () {
+                                $scope.onTableHandling();
+                            });
+
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
                     });
@@ -185,4 +199,40 @@ angular
             var checkForEmpty = function () {
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
+
+            /**
+             *  Date picker and formatter setup
+             *
+             */
+            $scope.openState = {};
+            $scope.openState.isOpen = false;
+
+            $scope.open = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.openState.isOpen = true;
+            };
+
+
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false'
+            };
+
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
+
+            $scope.changeDateToSend = function (val) {
+
+                if (angular.isUndefined(val)) {
+                    $scope.search.formattedDate = null;
+                    $scope.tableParams.reload();
+                } else {
+                    var datefilter = $filter('date');
+                    $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
+                    $scope.tableParams.reload();
+                }
+            }
+
         }]);

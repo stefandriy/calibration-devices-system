@@ -19,7 +19,6 @@ public class CalibrationTestDTO  {
     private String testResult;
     // private String photoPath;
 
-    //added constructors by Konyk
     public CalibrationTestDTO() {
     }
 

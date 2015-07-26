@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface CalibrationTestRepository extends CrudRepository<CalibrationTest, Long> {
+
     List<CalibrationTest> findByName(String name);
 
     CalibrationTest findById(Long id);

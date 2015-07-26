@@ -20,6 +20,7 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     
     Page<Verification> findByProviderIdAndStatusOrderByInitialDateDesc(Long providerId, Status status, Pageable pageable);
     Page<Verification> findByCalibratorIdAndStatusOrderByInitialDateDesc(Long calibratorId, Status status, Pageable pageable);
+    Page<Verification> findByStateVerificatorIdAndStatusOrderByInitialDateDesc(Long stateVerificatorId, Status status, Pageable pageable);
 
     Page<Verification> findByStateVerificatorId(Long stateVerificatorId, Pageable pageable);
     
@@ -40,7 +41,7 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     Page<Verification> findByProviderIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(Long providerId, Status status, String search, Pageable pageable);
     // search methods for verificator
     Page<Verification> findByStateVerificatorIdAndStatusAndIdLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
-    Page<Verification> findByStateVerificatorIdAndStatusAndInitialDate(Long stateVerificatorId, Status status, Date date, Pageable pageable);
+    Page<Verification> findByStateVerificatorIdAndStatusAndInitialDateLike(Long stateVerificatorId, Status status, Date date, Pageable pageable);
     Page<Verification> findByStateVerificatorIdAndStatusAndClientData_lastNameLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
     Page<Verification> findByStateVerificatorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(Long stateVerificatorId, Status status, String search, Pageable pageable);
 

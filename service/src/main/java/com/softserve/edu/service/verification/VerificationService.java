@@ -12,6 +12,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.QueryConstructor;
+import com.softserve.edu.service.utils.VerificationsQueryConstructorVerificator;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -192,14 +193,6 @@ public class VerificationService {
 
     }
 
-    @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
-                                                                              int itemsPerPage) {
-        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
-                pageRequest);
-    }
-
     /**
      * Find page of new verifications for provider with search parameters specified
      *
@@ -234,6 +227,50 @@ public class VerificationService {
         result.setContent(verificationList);
         result.setTotalItems(count);
         return result;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
+                                                                              int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
+                pageRequest);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByStateVerificatorIdAndSearch(Long stateVerificatorId, int pageNumber,
+                                                                                 int itemsPerPage, String searchType, String searchText) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        switch (searchType) {
+            case "id":
+                return verificationRepository.findByStateVerificatorIdAndStatusAndIdLikeIgnoreCase(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
+                        "%" + searchText + "%", pageRequest);
+
+            case "lastName":
+                return verificationRepository.findByStateVerificatorIdAndStatusAndClientData_lastNameLikeIgnoreCase(stateVerificatorId,
+                        Status.SENT_TO_VERIFICATOR, "%" + searchText + "%", pageRequest);
+
+            case "street":
+                return verificationRepository.findByStateVerificatorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(
+                        stateVerificatorId, Status.SENT_TO_VERIFICATOR, "%" + searchText + "%", pageRequest);
+
+            case "date":
+
+                SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = null;
+                try {
+                    date = form.parse(searchText);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return verificationRepository.findByStateVerificatorIdAndStatusAndInitialDateLike(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
+                        date, pageRequest);
+
+            default:
+                return verificationRepository.findByStateVerificatorIdAndStatusOrderByInitialDateDesc(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
+                        pageRequest);
+        }
+
     }
 
     @Transactional(readOnly = true)
