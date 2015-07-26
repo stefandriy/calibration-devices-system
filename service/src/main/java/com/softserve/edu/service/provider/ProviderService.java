@@ -8,6 +8,7 @@ import com.softserve.edu.entity.Organization;
 import com.softserve.edu.repository.OrganizationRepository;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,11 @@ public class ProviderService {
     public List<Organization> findByDistrictId(Long id, String type) {
     	  return providerRepository.getByTypeAndDistrictId(id, type);
     }*/
+    
+    @Transactional(readOnly = true)
+    public Set<String> getTypesById(Long id) {
+    	return providerRepository.getOrganizationTypeById(id);
+    }
     
     @Transactional(readOnly = true)
     public Organization findById(Long id) {

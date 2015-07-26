@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -102,6 +103,16 @@ public class ProviderApplicationController {
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
     }
     
+    @RequestMapping(value = "organizationType", method = RequestMethod.GET)
+	public Long checkOrganizationType( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {    	
+    	Set<String> types = providerService.getTypesById(user.getOrganizationId());
+    	for (String type : types) {
+			if(type.equalsIgnoreCase("CALIBRATOR")) {
+				return user.getOrganizationId();
+			}
+		}
+    	return (long) -1;
+	}
     
   
     

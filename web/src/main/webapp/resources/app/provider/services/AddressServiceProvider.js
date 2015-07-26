@@ -25,11 +25,24 @@ angular
 			},
 			findCalibratorsByDistrict : function(district) {
 				return getData("calibrators/" + district);
+			},
+			checkOrganizationType : function() {
+				return getDataAboutOrganization('organizationType');
 			}
         };
 
         function getData(url) {
             return $http.get('application/' + url)
+                .success(function (data) {
+                    return data;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        
+        function getDataAboutOrganization(url) {
+            return $http.get('provider/applications/' + url)
                 .success(function (data) {
                     return data;
                 })

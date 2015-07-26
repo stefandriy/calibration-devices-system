@@ -145,5 +145,7 @@
   	"SQUARE":"square",
   	
   	"APP_SENT_ORG":"You successfully created verification with code: ",
-  	"CALIBRATOR":"Calibrator"
+  	"CALIBRATOR":"Calibrator",
+  	"I_AM_CALIBRATOR":"This organization is calibrator"
+
 }
