@@ -146,6 +146,17 @@
   	
   	"APP_SENT_ORG":"You successfully created verification with code: ",
   	"CALIBRATOR":"Calibrator",
-  	"I_AM_CALIBRATOR":"This organization is calibrator"
+  	"I_AM_CALIBRATOR":"This organization is calibrator",
+"ADD_EMPLOYEE":"Add new employee",
+    "FILL_IN_INFORMATION_ABOUT_EMPLOYEE":"Fill in information about employee",
+    "EMPLOYEE_TYPE":"Chouse type of employee",
+
+    "INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  \u0412\u043e\u043b\u043e\u0434\u0438\u043c\u0438\u0440",
+    "INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  \u041f\u0435\u0442\u0440\u0435\u043d\u043a\u043e",
+    "INCORRECT_VALUE_MIDDLE_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  \u0410\u043d\u0434\u0440і\u0439\u043e\u0432\u0438\u0447",
+    "INCORRECT_VALUE_PHONE_ADD_EMPLOYEE" : "Incorrect value input example:  +380679354972",
+    "INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE" : "Incorrect value input example:  petrus@gmail.com",
+    "PASSWORDS_DID_NOT_MATCH" : "Password didn't match",
+    "INCORRECT_VALUE_INPUT_ADD_EMPLOYEE" : "Incorrect value input!"
 
 }

@@ -73,6 +73,17 @@ angular
     				}
     			});
             };
+
+
+            $scope.openAddEmployeeModal = function() {
+                var addEmployeeModal = $modal
+                    .open({
+                        animation : true,
+                        controller : 'AddEmployeeController',
+                        templateUrl : '/resources/app/provider/views/employee/employee-add-modal.html',
+                    });
+            };
+
             $scope.onTableHandling();
 
 

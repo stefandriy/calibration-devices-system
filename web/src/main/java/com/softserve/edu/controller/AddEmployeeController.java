@@ -1,9 +1,11 @@
 package com.softserve.edu.controller;
 
 
+import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
@@ -30,6 +32,9 @@ public class AddEmployeeController {
 
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
+    
+    @Autowired
+    private UserRepository userRepository;
 
 
 
@@ -64,12 +69,29 @@ public class AddEmployeeController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
-            @RequestBody User providerEmployee,
+             @RequestBody UserDTO providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            User newUser = new User();
+        System.out.println(providerEmployee.toString());
+            newUser.setAddress(providerEmployee.getAddress());
+            newUser.setFirstName(providerEmployee.getFirstName());
+            newUser.setLastName(providerEmployee.getLastName());
+            newUser.setMiddleName(providerEmployee.getMiddleName());
+            newUser.setEmail(providerEmployee.getEmail());
+            newUser.setPhone(providerEmployee.getPhone());
+            newUser.setUsername(providerEmployee.getUsername());
+            newUser.setPassword(providerEmployee.getPassword());
+        for (String tmp : providerEmployee.getUserRoles() ){
 
-        Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
-        providerEmployee.setOrganization(employeeOrganization);
-        providerEmployeeService.addEmployee(providerEmployee);
+                UserRole userRole = userRepository.getUserRole(tmp);
+            newUser.addUserRole(userRole);
+        }
+
+
+            Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
+            newUser.setOrganization(employeeOrganization);
+        System.out.println(providerEmployee.toString());
+             providerEmployeeService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 

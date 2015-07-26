@@ -1,3 +1,8 @@
+
+div.chosen-container {
+    width: 100% !important;
+}
+
 body {
     background-color: #f8f8f8;
 }
@@ -448,7 +453,7 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 .form-group .help-block {
-    display: none;
+  /*  display: none; */
 }
 
 .form-group .has-error .help-block {
