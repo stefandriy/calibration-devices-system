@@ -159,7 +159,9 @@
                             повірку</a>
                     </li>
 
+
                     <sec:authorize url="/employee/admin/">
+
                         <li ui-sref-active="active">
                             <a ui-sref="employee-show-provider"><i class="fa fa-users"></i>Переглянути усіх працівників</a>
                         </li>

@@ -36,22 +36,14 @@ public class Organization {
 	 */
 	private Date certificateGrantedDate;
 
-
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
 	private Set<User> users = new HashSet<User>(0);
 
-//	@ManyToMany
-//	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"),
-//	inverseJoinColumns = @JoinColumn(name = "typeId"))
-//	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
-
 	@JsonManagedReference
-	 @ManyToMany
-	 @JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"),
-	 inverseJoinColumns = @JoinColumn(name = "id"))
-	 private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
-	
-	
+	@ManyToMany
+	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), inverseJoinColumns = @JoinColumn(name = "id"))
+	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
+		
 	public void addOrganizationType(OrganizationType organizationType) {
 		this.organizationTypes.add(organizationType);
 	}

@@ -69,6 +69,7 @@
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerCalibrator'
                     })
+                   
                     .state("calibration-test-calibrator", {
                         url: '/calibrator/verifications/calibration-test',
                         templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',

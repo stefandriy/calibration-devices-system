@@ -15,19 +15,11 @@ public class OrganizationType {
 	private Integer id;
 	private String type;
 
-
-//	@ManyToMany(mappedBy = "organizationTypes")
-//	private Set<Organization> organizations = new HashSet<Organization>();
-
-	
-	
 	@JsonBackReference
-	 @ManyToMany
-     @JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "id"),
-            inverseJoinColumns = @JoinColumn(name = "organizationId"))
- private Set<Organization> organizations = new HashSet<Organization>();
-	
-	
+	@ManyToMany
+	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "organizationId"))
+	private Set<Organization> organizations = new HashSet<Organization>();
+
 	public void addOrganization(Organization organization) {
 		this.organizations.add(organization);
 	}

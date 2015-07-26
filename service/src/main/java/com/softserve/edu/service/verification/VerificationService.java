@@ -15,6 +15,7 @@ import com.softserve.edu.service.utils.QueryConstructor;
 import com.softserve.edu.service.utils.VerificationsQueryConstructorVerificator;
 
 import org.apache.log4j.Logger;
+import org.jboss.logging.Logger.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -97,8 +98,7 @@ public class VerificationService {
      */
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByCalibratorId(Long calibratorId) {
-        return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS,
-                ReadStatus.UNREAD);
+        return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS, ReadStatus.UNREAD);
     }
 
     /**
@@ -110,9 +110,7 @@ public class VerificationService {
      */
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByProviderId(Long providerId) {
-        System.err.println();
-        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,
-                ReadStatus.UNREAD);
+        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,  ReadStatus.UNREAD);
     }
 
     /**
@@ -124,16 +122,13 @@ public class VerificationService {
      */
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
-        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
-                ReadStatus.UNREAD);
+        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,  ReadStatus.UNREAD);
     }
 
     @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber,
-                                                                      int itemsPerPage) {
+    public Page<Verification> findPageOfSentVerificationsByProviderId(Long providerId, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId, Status.SENT,
-                pageRequest);
+        return verificationRepository.findByProviderIdAndStatusOrderByInitialDateDesc(providerId, Status.SENT, pageRequest);
     }
 
     /**
@@ -150,48 +145,48 @@ public class VerificationService {
      * organization.
      */
     @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber,
-                                                                        int itemsPerPage) {
+    public Page<Verification> findPageOfSentVerificationsByCalibratorId(Long calibratorId, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS,
-                pageRequest);
+        return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS, pageRequest);
     }
 
     @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByCalibratorIdAndSearch(Long calibratorId, int pageNumber,
-                                                                                 int itemsPerPage, String searchType, String searchText) {
+    public Page<Verification> findPageOfSentVerificationsByCalibratorIdAndSearch(Long calibratorId, int pageNumber, int itemsPerPage, String searchType, String searchText) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         switch (searchType) {
             case "id":
-                return verificationRepository.findByCalibratorIdAndStatusAndIdLikeIgnoreCase(calibratorId, Status.IN_PROGRESS,
-                        "%" + searchText + "%", pageRequest);
+                return verificationRepository.findByCalibratorIdAndStatusAndIdLikeIgnoreCase(calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
 
             case "lastName":
-                return verificationRepository.findByCalibratorIdAndStatusAndClientData_lastNameLikeIgnoreCase(calibratorId,
-                        Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
+                return verificationRepository.findByCalibratorIdAndStatusAndClientData_lastNameLikeIgnoreCase(calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
 
             case "street":
-                return verificationRepository.findByCalibratorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(
-                        calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
+                return verificationRepository.findByCalibratorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase( calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
 
             case "date":
 
                 SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
                 Date date = null;
-                try {
-                    date = form.parse(searchText);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                return verificationRepository.findByCalibratorIdAndStatusAndInitialDateLike(calibratorId, Status.IN_PROGRESS,
-                        date, pageRequest);
+				try {
+					date = form.parse(searchText);
+				} catch (ParseException pe) {
+					logger.error("Incorrect date format", pe);
+				}
+                return verificationRepository.findByCalibratorIdAndStatusAndInitialDateLike(calibratorId, Status.IN_PROGRESS,  date, pageRequest);
 
             default:
-                return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId,
-                        Status.IN_PROGRESS, pageRequest);
+                return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS, pageRequest);
         }
 
     }
+
+
+    @Transactional(readOnly = true)
+    public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber, int itemsPerPage) {
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR, pageRequest);
+    }
+
 
     /**
      * Find page of new verifications for provider with search parameters specified
@@ -212,11 +207,9 @@ public class VerificationService {
                                                                                                         int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
                                                                                                         String streetToSearch, User providerEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch,
-                lastNameToSearch, streetToSearch, providerEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, providerEmployee, em);
 
-        Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
-                streetToSearch, providerEmployee, em)).getSingleResult();
+        Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, providerEmployee, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -229,13 +222,6 @@ public class VerificationService {
         return result;
     }
 
-    @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber,
-                                                                              int itemsPerPage) {
-        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return verificationRepository.findByStateVerificatorIdAndStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
-                pageRequest);
-    }
 
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByStateVerificatorIdAndSearch(Long stateVerificatorId, int pageNumber,
@@ -310,25 +296,6 @@ public class VerificationService {
         return verification;
     }
 
-    /**
-     * Find verification, add receive status to calibrator, add calibrator to
-     * verification, set verification read status to 'UNREAD',
-     *  save verification
-     *
-     *   NOT CURRENTLY USED
-     */
-//	@Transactional
-//	public void updateVerificationByprovider(String verificationId, Organization calibrator) {
-//		Verification verification = verificationRepository.findOne(verificationId);
-//		if (verification == null) {
-//			logger.error("verification haven't found");
-//			return;
-//		}
-//		verification.setStatus(Status.IN_PROGRESS);
-//		verification.setCalibrator(calibrator);
-//		verification.setReadStatus(ReadStatus.UNREAD);
-//		verificationRepository.save(verification);
-//	}
 
     /**
      * Changes verification read status to 'READ' when Provider or Calibrator or State Verificator reads it
@@ -347,23 +314,6 @@ public class VerificationService {
         verificationRepository.save(verification);
     }
 
-
-    /**
-     * Find verification, add IN_PROGRESS status to state verificator, add state
-     * verificator to verification. /** Find verification, add SENT_TO_VERIFICATOR
-     * status to state verificator, add stat verificator to verification. save
-     * verification
-     * <p>
-     * NOT CURRENTLY USED
-     */
-//	@Transactional
-//	public void updateVerificationByCalibrator(String verificationId, Organization stateVerificator) {
-//		Verification verification = verificationRepository.findOne(verificationId);
-//		verification.setStatus(Status.SENT_TO_VERIFICATOR);
-//		verification.setStateVerificator(stateVerificator);
-//		verification.setReadStatus(ReadStatus.UNREAD);
-//		verificationRepository.save(verification);
-//	}
 
     @Transactional
     public void updateVerificationStatus(String verificationId, Status status) {
