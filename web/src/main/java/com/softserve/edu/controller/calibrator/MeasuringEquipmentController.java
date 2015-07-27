@@ -47,13 +47,11 @@ public class MeasuringEquipmentController {
 
 		Page<MeasuringEquipmentPageItem> page = measuringEquipmentService
 				.getMeasuringEquipmentsBySearchAndPagination(pageNumber, itemsPerPage, search)
-				.map(
-				measuringEquipment -> new MeasuringEquipmentPageItem(measuringEquipment.getId(), measuringEquipment.getName(),
-						measuringEquipment.getDeviceType(), measuringEquipment.getManufacturer().toString(),
-						measuringEquipment.getVerificationInterval().toString()));
-		
-		return new PageDTO<>(page.getTotalElements(), page.getContent());
+				.map(measuringEquipment -> new MeasuringEquipmentPageItem(measuringEquipment.getId(), measuringEquipment.getName(),
+						measuringEquipment.getDeviceType(), measuringEquipment.getManufacturer(), measuringEquipment.getVerificationInterval()));
+	return new PageDTO<>(page.getTotalElements(), page.getContent());
 	}
+
 
 	/**
 	 * Responds a page according to input data.
