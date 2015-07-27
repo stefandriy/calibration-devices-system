@@ -2,6 +2,10 @@ package com.softserve.edu.entity.catalogue;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
 import static com.softserve.edu.entity.catalogue.util.Checker.checkForNull;
 
@@ -54,6 +58,33 @@ public class District extends AbstractCatalogue {
 
     @Override
     public String toString() {
-        return designation;
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("designation", designation)
+                .append("region", region)
+                .toString();
+    }
+    
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder()
+        		.append(id)
+                .append(designation)
+                .append(region)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj){
+        if(obj instanceof District){
+            final District other = (District) obj;
+            return new EqualsBuilder()
+            		.append(id, other.id)
+                    .append(designation, other.designation)
+                    .append(region, other.region)
+                    .isEquals();
+        } else{
+            return false;
+        }
     }
 }

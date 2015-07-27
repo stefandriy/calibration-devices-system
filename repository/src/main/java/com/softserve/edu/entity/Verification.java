@@ -6,6 +6,10 @@ import com.softserve.edu.entity.util.Status;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -192,4 +196,52 @@ public class Verification {
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
+	
+	
+	@Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("initialDate", initialDate)
+                .append("clientData", clientData)
+                .append("provider", provider)
+                .append("device", device)
+                .append("status", status)
+                .append("readStatus", readStatus)
+                .append("calibrator", calibrator)
+                .toString();
+    }
+    
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder()
+        		.append(id)
+                .append(initialDate)
+                .append(clientData)
+                .append(provider)
+                .append(device)
+                .append(status)
+                .append(readStatus)
+                .append(calibrator)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj){
+        if(obj instanceof Verification){
+            final Verification other = (Verification) obj;
+            return new EqualsBuilder()
+            		.append(id, other.id)
+                    .append(initialDate, other.initialDate)
+                    .append(clientData, other.clientData)
+                    .append(provider, other.provider)
+                    .append(device, other.device)
+                    .append(status, other.status)
+                    .append(readStatus, other.readStatus)
+                    .append(calibrator, other.calibrator)
+                    .isEquals();
+        } else{
+            return false;
+        }
+    }
 }

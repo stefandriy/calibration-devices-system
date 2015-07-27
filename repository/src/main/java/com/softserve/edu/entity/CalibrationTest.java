@@ -3,6 +3,11 @@ package com.softserve.edu.entity;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 
 import javax.persistence.*;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -146,5 +151,58 @@ public class CalibrationTest {
     public void setMeteorologicalDocument(
             MeteorologicalDocument meteorologicalDocument) {
         this.meteorologicalDocument = meteorologicalDocument;
+    }
+  
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("name", name)
+                .append("dateTest", dateTest)
+                .append("temperature", temperature)
+                .append("settingNumber", settingNumber)
+                .append("latitude", latitude)
+                .append("longitude", longitude)
+                .append("consumptionStatus", consumptionStatus)
+                .append("testResult", testResult)
+                .append("photoPath", photoPath)
+                .toString();
+    }
+    
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder()
+        		.append( id)
+                .append(name)
+                .append(dateTest)
+                .append(temperature)
+                .append(settingNumber)
+                .append(latitude)
+                .append(longitude)
+                .append(consumptionStatus)
+                .append(testResult)
+                .append(photoPath)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj){
+        if(obj instanceof CalibrationTest){
+            final CalibrationTest other = (CalibrationTest) obj;
+            return new EqualsBuilder()
+            		.append(id, other.id)
+                    .append(name, other.name)
+                    .append(dateTest, other.dateTest)
+                    .append(temperature, other.temperature)
+                    .append(settingNumber, other.settingNumber)
+                    .append(latitude, other.latitude)
+                    .append(longitude, other.longitude)
+                    .append(consumptionStatus, other.consumptionStatus)
+                    .append(testResult, other.testResult)
+                    .append(photoPath, other.photoPath)
+                    .isEquals();
+        } else{
+            return false;
+        }
     }
 }
