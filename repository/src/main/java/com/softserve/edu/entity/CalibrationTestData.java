@@ -1,5 +1,9 @@
 package com.softserve.edu.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 
 
@@ -131,5 +135,64 @@ public class CalibrationTestData {
 
     public void setCalibrationTest(CalibrationTest calibrationTest) {
         this.calibrationTest = calibrationTest;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("givenConsumption", givenConsumption)
+                .append("acceptableError", acceptableError)
+                .append("volumeOfStandard", volumeOfStandard)
+                .append("initialValue", initialValue)
+                .append("endValue", endValue)
+                .append("volumeInDevice", volumeInDevice)
+                .append("testTime", testTime)
+                .append("actualConsumption", actualConsumption)
+                .append("consumptionStatus", consumptionStatus)
+                .append("calculationError", calculationError)
+                .append("testResult", testResult)
+                .toString();
+    }
+
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder()
+                .append(id)
+                .append(givenConsumption)
+                .append(acceptableError)
+                .append(volumeOfStandard)
+                .append(initialValue)
+                .append(endValue)
+                .append(volumeInDevice)
+                .append(testTime)
+                .append(actualConsumption)
+                .append(consumptionStatus)
+                .append(calculationError)
+                .append(testResult)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj){
+        if(obj instanceof CalibrationTestData){
+            final CalibrationTestData other = (CalibrationTestData) obj;
+            return new EqualsBuilder()
+                    .append(id, other.id)
+                    .append(givenConsumption, other.givenConsumption)
+                    .append(acceptableError, other.acceptableError)
+                    .append(volumeOfStandard, other.volumeOfStandard)
+                    .append(initialValue, other.initialValue)
+                    .append(endValue, other.endValue)
+                    .append(volumeInDevice, other.volumeInDevice)
+                    .append(testTime, other.testTime)
+                    .append(actualConsumption, other.actualConsumption)
+                    .append(consumptionStatus, other.consumptionStatus)
+                    .append(calculationError, other.calculationError)
+                    .append(testResult, other.testResult)
+                    .isEquals();
+        } else{
+            return false;
+        }
     }
 }

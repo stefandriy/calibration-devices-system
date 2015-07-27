@@ -1,5 +1,9 @@
 package com.softserve.edu.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
@@ -91,4 +95,45 @@ public class ClientData {
 	public void setSecondPhone(String secondPhone) {
 		this.secondPhone = secondPhone;
 	}
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
+                .append("middleName", middleName)
+                .append("email", email)
+                .append("phone", phone)
+                .append("secondPhone", secondPhone)
+                .toString();
+    }
+
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder()
+                .append(firstName)
+                .append(lastName)
+                .append(middleName)
+                .append(email)
+                .append(phone)
+                .append(secondPhone)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj){
+        if(obj instanceof ClientData){
+            final ClientData other = (ClientData) obj;
+            return new EqualsBuilder()
+                    .append(firstName, other.firstName)
+                    .append(lastName, other.lastName)
+                    .append(middleName, other.middleName)
+                    .append(email, other.email)
+                    .append(phone, other.phone)
+                    .append(secondPhone, other.secondPhone)
+                    .isEquals();
+        } else{
+            return false;
+        }
+    }
 }

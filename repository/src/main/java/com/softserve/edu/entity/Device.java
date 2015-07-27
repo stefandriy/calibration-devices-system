@@ -1,6 +1,9 @@
 package com.softserve.edu.entity;
 
 import com.softserve.edu.entity.util.DeviceType;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -103,5 +106,49 @@ public class Device {
 
 	public void setManufacturer(Manufacturer manufacturer) {
 		this.manufacturer = manufacturer;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.append("deviceName", deviceName)
+				.append("deviceType", deviceType)
+				.append("deviceSign", deviceSign)
+				.append("number", number)
+				.append("provider", provider)
+				.append("manufacturer", manufacturer)
+				.toString();
+	}
+
+	@Override
+	public int hashCode(){
+		return new HashCodeBuilder()
+				.append(id)
+				.append(deviceName)
+				.append(deviceType)
+				.append(deviceSign)
+				.append(number)
+				.append(provider)
+				.append(manufacturer)
+				.toHashCode();
+	}
+
+	@Override
+	public boolean equals(final Object obj){
+		if(obj instanceof Device){
+			final Device other = (Device) obj;
+			return new EqualsBuilder()
+					.append(id, other.id)
+					.append(deviceName, other.deviceName)
+					.append(deviceType, other.deviceType)
+					.append(deviceSign, other.deviceSign)
+					.append(number, other.number)
+					.append(provider, other.provider)
+					.append(manufacturer, other.manufacturer)
+					.isEquals();
+		} else{
+			return false;
+		}
 	}
 }
