@@ -1,5 +1,9 @@
 package com.softserve.edu.entity.user;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -52,8 +56,35 @@ public class UserRole {
     public UserRole(String role) {
         this.role = role;
     }
-    public UserRole(){
 
+    public UserRole() {
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("role", role).toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(id)
+                .append(role)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof UserRole) {
+            final UserRole other = (UserRole) obj;
+            return new EqualsBuilder()
+                    .append(id, other.id)
+                    .append(role, other.role)
+                    .isEquals();
+        } else {
+            return false;
+        }
+    }
 }
