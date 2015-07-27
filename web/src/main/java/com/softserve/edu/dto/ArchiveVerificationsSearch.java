@@ -1,16 +1,16 @@
 package com.softserve.edu.dto;
 
-public class NewVerificationsSearch {
-
+public class ArchiveVerificationsSearch {
+	
 	private String idText;
 	private String formattedDate;
 	private String lastNameText;
 	private String streetText;
 	private String status;
 	
-	public NewVerificationsSearch() {};
+	public ArchiveVerificationsSearch() {};
 	
-	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String status) {
+	public ArchiveVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String status) {
 
 		this.idText = idText;
 		this.formattedDate = formattedDate;
@@ -58,6 +58,4 @@ public class NewVerificationsSearch {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
-	
 }

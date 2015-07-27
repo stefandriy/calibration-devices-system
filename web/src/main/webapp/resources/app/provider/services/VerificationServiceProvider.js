@@ -7,8 +7,10 @@ angular
                 return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
             },
             getNewVerifications: function (currentPage, itemsPerPage, search) {
-
-                return getDataWithParams('provider/verifications/new/' + currentPage + '/' + itemsPerPage, search);
+            	return getDataWithParams('provider/verifications/new/' + currentPage + '/' + itemsPerPage, search);
+            },
+            getArchiveVerifications: function (currentPage, itemsPerPage, search) {
+            	return getDataWithParams('provider/verifications/archive/' + currentPage + '/' + itemsPerPage, search);
             },
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);

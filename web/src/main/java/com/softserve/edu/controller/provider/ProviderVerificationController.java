@@ -2,6 +2,7 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.dto.ArchiveVerificationsSearch;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
@@ -51,21 +52,25 @@ public class ProviderVerificationController {
     private final Logger logger = Logger.getLogger(ProviderVerificationController.class);
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllVerificationsByProviderId(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+    		ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-        Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-                .toDTO(verificationService
-                        .findPageOfAllVerificationsByProviderId(
-                                user.getOrganizationId(),
-                                pageNumber,
-                                itemsPerPage
-                        ));
-
-        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    }
+      User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByOrganizationId(
+              employeeUser.getOrganizationId(),
+              pageNumber,
+              itemsPerPage,
+              searchData.getFormattedDate(),
+              searchData.getIdText(),
+              searchData.getLastNameText(),
+              searchData.getStreetText(),
+              searchData.getStatus(),
+              providerEmployee
+      );
+      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+     System.err.println("inside controller new search");
+      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+  }
 
     /**
      * Find page of verifications by specific criterias
