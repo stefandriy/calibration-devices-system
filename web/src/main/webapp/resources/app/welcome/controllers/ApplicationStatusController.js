@@ -42,9 +42,14 @@ angular
 //																	+ verification.status);
 													$scope.verification = verification;
 
-													if ($scope.verification.status == ('SENT'
-															|| 'ACCEPTED' || 'REJECTED')) {
-														$scope.progress = '25';
+													if ($scope.verification.status == ('SENT')) {
+														$scope.progress = '10';
+													}
+													if ($scope.verification.status == ('ACCEPTED' )) {
+														$scope.progress = '20';
+													}
+													if ($scope.verification.status == ('REJECTED')) {
+														$scope.progress = '0';
 													}
 													if ($scope.verification.status == 'IN_PROGRESS') {
 														$scope.progress = '50';
@@ -52,8 +57,14 @@ angular
 													if ($scope.verification.status == ('SENT_TO_VERIFICATOR' || 'TEST_COMPLETED')) {
 														$scope.progress = '75';
 													}
+													if ($scope.verification.status == ( 'TEST_COMPLETED')) {
+														$scope.progress = '90';
+													}
 													if ($scope.verification.status == ('TEST_OK' || 'TEST_NOK')) {
 														$scope.progress = '100';
+													}
+													if ($scope.verification.status == ( 'TEST_NOK')) {
+														$scope.progress = '0';
 													}
 													/*
 													 * switch

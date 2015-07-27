@@ -12,13 +12,13 @@ angular
         scope.$watch('chosenModel', function (value) {
             element.trigger('chosen:updated');
         });
-      /*  scope.$watch(function(){
+       scope.$watch(function(){
             return element[0].length;
         }, function(newvalue, oldvalue){
             if (newvalue !== oldvalue) {
                 element.trigger("chosen:updated");
             }
-        });*/
+        });
         scope.$watch(attr.ngModel, function(newVal, oldVal) {
             if (newVal !== oldVal) {
                 stopLoading();

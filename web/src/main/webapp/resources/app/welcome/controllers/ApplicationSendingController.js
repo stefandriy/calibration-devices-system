@@ -85,7 +85,7 @@ angular
             /**
              * Receives all possible regions.
              */
-            $scope.selectedCount="0";
+            $scope.selectedCount="2";
             $scope.regions = [];
             $scope.receiveRegions = function () {
             dataReceivingService.findAllRegions()
@@ -195,6 +195,8 @@ angular
              * On-click handler in send button.
              */
             $scope.sendApplicationData = function () {
+                var i;
+                for (i=0;i< $scope.selectedCount;i++){
             	 if( !$stateParams.verificationId) {  
                 $scope.$broadcast('show-errors-check-validity');
 
@@ -206,7 +208,7 @@ angular
                     $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
-                    $scope.formData.deviceId = $scope.selectedDevice[0].id;
+                    $scope.formData.deviceId = $scope.selectedDevice[i].id;
 
                   dataSendingService.sendApplication($scope.formData)
                         .success(function (applicationCode) {
@@ -218,6 +220,7 @@ angular
                     $scope.isShownForm = false;
                 }
             }
+                }
             };
 
             $scope.editApplicationData = function () {
@@ -257,8 +260,7 @@ angular
              * 
              * 
              */
-
-
+            $scope.STREET_REGEX=/^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}){1}$/;
             $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/;
             $scope.MIDDLE_NAME_REGEX=/^[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}$/;
             $scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;

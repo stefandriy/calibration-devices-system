@@ -18,4 +18,7 @@ public class LocalityService {
     public List<Locality> getLocalitiesCorrespondingDistrict(Long districtId) {
         return localityRepository.findDistinctByDistrictId(districtId) ;
     }
+    public List<String> getMailIndexForLocality(Long id,Long districtId) {
+        return localityRepository.findMailIndexByLocalityIdAndDistrictId(id,districtId);
+    }
 }
