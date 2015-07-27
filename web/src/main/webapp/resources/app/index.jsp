@@ -30,8 +30,6 @@
 		$("#states").chosen();
 		$("[name='my-checkbox']").bootstrapSwitch();
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="/resources/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="/resources/assets/js/main.js"></script>
 
 </head>
@@ -207,5 +205,7 @@
     });
     $("#states").chosen();
 </script>
+<%--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>--%>
+<%--<script>window.jQuery || document.write('<script src="/resources/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>--%>
 </body>
 </html>
