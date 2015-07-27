@@ -3,10 +3,14 @@ package com.softserve.edu.entity;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.user.User;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "ORGANIZATION")
@@ -18,7 +22,6 @@ public class Organization {
 	private String name;
 	private String email;
 	private String phone;
-	private Boolean isAvailable;
 
 	@Embedded
 	private Address address;
@@ -127,12 +130,49 @@ public class Organization {
 		this.certificateGrantedDate = certificateGrantedDate;
 	}
 
-	public Boolean getIsAvailable() {
-		return isAvailable;
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.append("name", name)
+				.append("email", email)
+				.append("phone", phone)
+				.append("address", address)
+				.append("certificateNumber", certificateNumber)
+				.append("certificateGrantedDate", certificateGrantedDate)
+				.toString();
 	}
 
-	public void setIsAvailable(Boolean isAvailable) {
-		this.isAvailable = isAvailable;
+	@Override
+	public int hashCode(){
+		return new HashCodeBuilder()
+				.append(id)
+				.append(name)
+				.append(email)
+				.append(phone)
+				.append(address)
+				.append(certificateNumber)
+				.append(certificateGrantedDate)
+				.toHashCode();
+	}
+
+	@Override
+	public boolean equals(final Object obj){
+		if(obj instanceof Organization){
+			final Organization other = (Organization) obj;
+			return new EqualsBuilder()
+					.append(id, other.id)
+					.append(name, other.name)
+					.append(email, other.email)
+					.append(phone, other.phone)
+					.append(address, other.address)
+					.append(certificateNumber, other.certificateNumber)
+					.append(certificateGrantedDate, other.certificateGrantedDate)
+					.isEquals();
+		} else {
+			return false;
+		}
 	}
 
 }

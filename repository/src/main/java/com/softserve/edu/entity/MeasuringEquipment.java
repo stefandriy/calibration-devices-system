@@ -1,5 +1,9 @@
 package com.softserve.edu.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 
 
@@ -68,5 +72,44 @@ public class MeasuringEquipment {
 	public void setVerificationInterval(String verificationInterval) {
 		this.verificationInterval = verificationInterval;
 	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("id", id)
+				.append("name", name)
+				.append("deviceType", deviceType)
+				.append("manufacturer", manufacturer)
+				.append("verificationInterval", verificationInterval)
+				.toString();
+	}
+
+	@Override
+	public int hashCode(){
+		return new HashCodeBuilder()
+				.append(id)
+				.append(name)
+				.append(deviceType)
+				.append(manufacturer)
+				.append(verificationInterval)
+				.toHashCode();
+	}
+
+	@Override
+	public boolean equals(final Object obj){
+		if(obj instanceof MeasuringEquipment){
+			final MeasuringEquipment other = (MeasuringEquipment) obj;
+			return new EqualsBuilder()
+					.append(id, other.id)
+					.append(name, other.name)
+					.append(deviceType, other.deviceType)
+					.append(manufacturer, other.manufacturer)
+					.append(verificationInterval, other.verificationInterval)
+					.isEquals();
+		} else {
+			return false;
+		}
+	}
+
 
 }

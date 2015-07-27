@@ -1,5 +1,9 @@
 package com.softserve.edu.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.Embeddable;
 
 /**
@@ -24,5 +28,34 @@ public class MeteorologicalDocument {
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("name", name)
+                .append("sign", sign)
+                .toString();
+    }
+
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder()
+                .append(name)
+                .append(sign)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj){
+        if(obj instanceof MeteorologicalDocument){
+            final MeteorologicalDocument other = (MeteorologicalDocument) obj;
+            return new EqualsBuilder()
+                    .append(name, other.name)
+                    .append(sign, other.sign)
+                    .isEquals();
+        } else {
+            return false;
+        }
     }
 }
