@@ -6,9 +6,9 @@ angular
             getArchivalVerifications: function (currentPage, itemsPerPage) {
                 return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
             },
-            getNewVerifications: function (currentPage, itemsPerPage, searchByDate, searchById, searchByLastName, searchByStreet) {
-            	return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' + 
-            			searchByDate + '/' + searchById + '/' + searchByLastName + '/' + searchByStreet);
+            getNewVerifications: function (currentPage, itemsPerPage, search) {
+
+                return getDataWithParams('provider/verifications/new/' + currentPage + '/' + itemsPerPage, search);
             },
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);
@@ -69,6 +69,16 @@ angular
                 .error(function (err) {
                     return err;
                 });
+        }
+        
+        function getDataWithParams(url, params) {
+            return $http.get(url, {
+                params : params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
         }
 
         function updateData(url, data) {

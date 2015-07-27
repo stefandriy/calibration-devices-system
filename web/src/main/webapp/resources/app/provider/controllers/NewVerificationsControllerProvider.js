@@ -9,7 +9,8 @@ angular
         		idText:null,
         		formattedDate :null,
         		lastNameText:null,
-        		streetText: null
+        		streetText: null,
+        		status: null
         }
         
         $scope.clearAll = function(){
@@ -18,6 +19,7 @@ angular
         	$scope.dt = null;
         	$scope.search.lastNameText=null;
         	$scope.search.streetText=null;
+        	$scope.search.status = null;
         	$scope.tableParams.reload();
         }
         
@@ -33,7 +35,10 @@ angular
         	$scope.search.streetText = null;
         	$scope.tableParams.reload();
         }
-        
+        $scope.clearStatus = function () {
+        	$scope.search.status = null;
+        	$scope.tableParams.reload();
+        }
         var promiseSearchTimeOut;
         $scope.doSearch = function() {
         	promiseTimeOut = $timeout(function() {
@@ -46,23 +51,21 @@ angular
         }); 
        
         $scope.tableParams = new ngTableParams({
-                page: 1,
-                count: 10
-            			}, {
-                total: 0,
-                getData: function ($defer, params) {
+            page: 1,
+            count: 10
+        			}, {
+            total: 0,
+            getData: function ($defer, params) {
 
-                    verificationServiceProvider.getNewVerifications(params.page(), params.count(), $scope.search.formattedDate, $scope.search.idText, 
-                    				$scope.search.lastNameText, $scope.search.streetText)
-                    				.success(function (result) {
-                    					$defer.resolve(result.content);
-                    					params.total(result.totalItems);
-                    				}, function (result) {
-                    					$log.debug('error fetching data:', result);
-                    				});
-                 }
-            });
-
+                verificationServiceProvider.getNewVerifications(params.page(), params.count(), $scope.search)
+                				.success(function (result) {
+                					$defer.resolve(result.content);
+                					params.total(result.totalItems);
+                				}, function (result) {
+                					$log.debug('error fetching data:', result);
+                				});
+             }
+        });
   
 	       $scope.markAsRead = function (id) {
 				 var dataToSend = {

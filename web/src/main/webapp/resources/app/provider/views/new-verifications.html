@@ -25,12 +25,9 @@
                                 </td>
                                     <td>
                                         <p class="input-group myDatePicker">
-                                            <input type="text" class="form-control input-sm"
-                                                   datepicker-popup="{{format}}" ng-model="dt"
-                                                   ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
-                                                   min-date="minDate" datepicker-options="dateOptions"
-                                                   date-disabled="disabled(date, mode)" ng-required="true"
-                                                   close-text="Close"/>
+                                            <input type="text" class="form-control input-sm" datepicker-popup="{{format}}" ng-model="dt"
+                                                   ng-change="changeDateToSend(dt)" is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"
+                                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
 
 											  <span class="input-group-btn ">
 											     <button type="button" class="btn btn-default myGroupBtn"
@@ -69,14 +66,23 @@
                                                       ng-click="clearStreet()"></span>
                                             </div>
                                         </td>
+                                         <td>
+                                            <div class="btn-group ">
+                                                <input type="text" class="form-control input-sm"
+                                                       ng-model="search.status" ng-change=doSearch()>
+                                                <span id="searchclear" class="glyphicon glyphicon-remove-circle"
+                                                      ng-show="search.status.length"
+                                                      ng-click="clearStatus()"></span>
+                                            </div>
+                                        </td>
                                     <td class="text-center clearInput">
                                         <button class="btn btn-danger btn-sm" ng-click="clearAll()"
                                                 ng-show="search.streetText.length && search.lastNameText.length && search.idText.length">
                                           {{'CLEAR_ALL' | translate}}
                                         </button>
                                     </td>
-                                    <td></td>
                                     
+                                    <td></td>
                                 </tr>
                                 <tr>
                                 	<th><span class="glyphicon glyphicon-ok-sign"></span></th>
@@ -84,7 +90,7 @@
                                     <th>Реєстраційний номер повірки</th>
                                     <th>Прізвище клієнта</th>
                                     <th>Вулиця, на якій проживає клієнт</th>
-                                   
+                                   <th>Status</th>
                                     <th>Відповідальна особа</th>
                                      <th class="text-center" >Дії<br/> <br/></th>
                                 </tr>
@@ -104,6 +110,7 @@
                                               popover-placement="up">{{ verification.id}}</span></td>
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
+                                    <td>{{ verification.status }}</td>
 									 <td> {{verification.providerEmployee}}</td>
                                     <td >
                                       

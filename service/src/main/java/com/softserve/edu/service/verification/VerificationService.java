@@ -11,7 +11,7 @@ import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.QueryConstructor;
+import com.softserve.edu.service.utils.NewVerificationsQueryConstructorProvider;
 import com.softserve.edu.service.utils.VerificationsQueryConstructorVerificator;
 
 import org.apache.log4j.Logger;
@@ -205,11 +205,11 @@ public class VerificationService {
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId,
                                                                                                         int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                                        String streetToSearch, User providerEmployee) {
+                                                                                                        String streetToSearch, String status, User providerEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = QueryConstructor.buildSearchQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, providerEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorProvider.buildSearchQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, providerEmployee, em);
 
-        Long count = em.createQuery(QueryConstructor.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, providerEmployee, em)).getSingleResult();
+        Long count = em.createQuery(NewVerificationsQueryConstructorProvider.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, providerEmployee, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
