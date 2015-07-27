@@ -7,18 +7,28 @@
 }
 
 #streetBox {
-	width: 500px;
+    padding-right: 0px;
+
+
+}#typeStreet {
+
+     padding-left: 0px;
+
+ }
+#deviceBox {
+    padding-right: 0px;
+
+
+}
+#counterNumber {
+    padding-left: 0px;
+
+
+}
+#loadIcon{
+    text-align: center;
 }
 
-#device {
-	width: 500px;
-}
-
-#typeStreet {
-	
-	width: 80px !important;
-	height: 30px !important;
-}
 .chosen-container-single .chosen-single{
 	height: 34px !important;
 	
@@ -27,11 +37,7 @@
 	height: 34px !important;
 	
 }
-#counterNumber {
 
-	width: 80px !important;
-	height: 30px !important;
-}
 
 
 
@@ -45,8 +51,7 @@
     background: -moz-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
     rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%,
     rgba(224, 239, 249, 1) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 246, 248,
-    1)), color-stop(0%, rgba(216, 225, 231, 1)),
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 246, 248, 1)), color-stop(0%, rgba(216, 225, 231, 1)),
     color-stop(51%, rgba(213, 220, 224, 1)),
     color-stop(100%, rgba(224, 239, 249, 1)));
     background: -webkit-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
@@ -92,3 +97,18 @@
 	right: 15px;
 
 }
+.spinner {
+    display: inline-block;
+    opacity: 0;
+    width: 0;
+
+    -webkit-transition: opacity 0.25s, width 0.25s;
+    -moz-transition: opacity 0.25s, width 0.25s;
+    -o-transition: opacity 0.25s, width 0.25s;
+    transition: opacity 0.25s, width 0.25s;
+}
+
+.has-spinner.active {
+    cursor:progress;
+}
+

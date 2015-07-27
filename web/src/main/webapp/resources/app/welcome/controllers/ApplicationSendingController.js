@@ -85,7 +85,7 @@ angular
             /**
              * Receives all possible regions.
              */
-
+            $scope.selectedCount="0";
             $scope.regions = [];
             $scope.receiveRegions = function () {
             dataReceivingService.findAllRegions()
@@ -94,7 +94,11 @@ angular
                     $scope.selectedRegion = "";
                     $scope.selectedDistrict = "";
                     $scope.selectedLocality = "";
-                    $scope.selectedStreet = "";
+                    $scope.selectedLocality = "";
+                    $log.debug( $scope.selectedRegion);
+                    $log.debug( $scope.selectedDistrict);
+                    $log.debug( $scope.selectedLocality);
+                    $log.debug( $scope.selectedLocality);
                 });
              }
             if( !$stateParams.verificationId) {  
@@ -110,7 +114,8 @@ angular
                     $scope.devices = devices;
                     $log.debug('device');
                     $log.debug(devices);
-                    $scope.selectedDevice =""; 
+                    $scope.selectedDevice ="";
+                    $log.debug( $scope.selectedCount);
                 });
             /**
              * Receives all possible districts.
@@ -140,6 +145,12 @@ angular
                         $scope.localities = localities;
                         $scope.selectedLocality = "";
                         $scope.selectedStreet = "";
+                        $log.debug( "$scope.selectedRegion");
+                        $log.debug( $scope.selectedRegion);
+                        $log.debug( "$scope.selectedDistrict");
+                        $log.debug( $scope.selectedDistrict);
+                        $log.debug(" $scope.selectedLocality");
+                        $log.debug( $scope.selectedLocality);
                     });
 
                 //Receives providers corresponding this district
@@ -147,7 +158,7 @@ angular
                     .success(function (providers) {
                     
                         $scope.providers = providers;
-                   $scope.selectedProvider=providers;
+                   $scope.selectedProvider=providers[0];
                     });
             	}
             };
@@ -192,14 +203,16 @@ angular
               /*      $scope.formData.device = $scope.selectedDevice;*/
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
-                    $scope.formData.street = $scope.selectedStreet.designation;
+                    $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.selectedDevice[0].id;
-                  
+
                   dataSendingService.sendApplication($scope.formData)
                         .success(function (applicationCode) {
                             $scope.applicationCode = applicationCode;
+                          $log.debug($scope.formData);
+                          $log.debug( $scope.selectedCount);
                         });
                      //hide form because application status is shown
                     $scope.isShownForm = false;
@@ -208,7 +221,7 @@ angular
             };
 
             $scope.editApplicationData = function () {
-            	 if(( $stateParams.verificationId)&&(verificationData.data.status === 'REJECTED')) {  
+            	 if(( $stateParams.verificationId)&&(verificationData.data.status === 'REJECTED')) {
             		 $scope.$broadcast('show-errors-check-validity');
 
 	                if ($scope.clientForm.$valid) {
@@ -244,7 +257,8 @@ angular
              * 
              * 
              */
-            $scope.selectedCount='0';
+
+
             $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/;
             $scope.MIDDLE_NAME_REGEX=/^[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}$/;
             $scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
@@ -254,4 +268,9 @@ angular
             $scope.EMAIL_REGEX=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
           
             $scope.checkboxModel = false;
+
+
+
+
+
         }]);
