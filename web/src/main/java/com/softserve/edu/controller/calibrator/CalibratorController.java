@@ -1,6 +1,5 @@
 package com.softserve.edu.controller.calibrator;
 
-import com.softserve.edu.controller.file.storage.BbiFileUtils;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.PageDTO;
@@ -19,7 +18,6 @@ import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @RestController
@@ -152,15 +149,13 @@ public class CalibratorController {
     }
 
     @RequestMapping(value = "new/upload", method = RequestMethod.POST)
-    public HttpStatus uploadFileBbi(@RequestBody MultipartFile file) {
+    public HttpStatus uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
-            File bbiFile = BbiFileUtils.multipartToFile(file);
-            calibratorService.upload(bbiFile);
-
+            calibratorService.uploadBbi(file.getInputStream(),idVerification);
         } catch (Exception e) {
-            logger.error("Failed to load file "+ e.getMessage());
-            httpStatus = HttpStatus.CONFLICT;
+            logger.error("Failed to load file " + e.getMessage());
+            httpStatus = HttpStatus.BAD_REQUEST;
         }
         return httpStatus;
     }

@@ -100,7 +100,7 @@ public class ProviderApplicationController {
                 provider.getAddress().getDistrict(),
                 region.getId()
         );
-        return null/*CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()))*/;
+        return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
     }
     
     @RequestMapping(value = "organizationType", method = RequestMethod.GET)

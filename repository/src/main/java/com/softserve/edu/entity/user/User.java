@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
 @Table(name = "USER")
@@ -168,6 +169,17 @@ public class User {
 
 	public void setUserRoles(Set<UserRole> userRoles) {
 		this.userRoles = userRoles;
+	}
+
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this)
+				.append("username", username)
+				.append("password", password)
+				.append("firstName",firstName)
+				.append("lastName", lastName)
+				.append("middleName", middleName)
+				.append("email", email) .toString();
 	}
 
 }

@@ -153,16 +153,21 @@ angular
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
 
-            $scope.uploadFile = function(files) {
-                var fd = new FormData();
-                //Take the first selected file
-                fd.append("file", files[0]);
-                verificationServiceCalibrator.uploadFile(fd).success(function () {
-                    $rootScope.$broadcast('file was uploaded');
-                    $scope.tableParams.reload();
+
+            $scope.uploadBbiFile = function (idVerification) {
+
+                $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
+                    controller: 'UploadBbiFileController',
+                    size: 'lg',
+                    resolve: {
+                        verification: function () {
+                            return idVerification;
+
+                        }
+                    }
                 });
-
-
             };
 
 

@@ -15,8 +15,9 @@ require.config({
         highchartsAngular:  '../assets/bower_components/highcharts-ng/src/highcharts-ng',
         highcharts:  '../assets/bower_components/highcharts-release/highcharts.src',
         chosen : '../assets/bower_components/angular-chosen-localytics/chosen',
+        standalone:  '../assets/bower_components/highcharts-release/adapters/standalone-framework.src',
+        upload : '../assets/bower_components/ng-file-upload/ng-file-upload-all.min'
 
-        standalone:  '../assets/bower_components/highcharts-release/adapters/standalone-framework.src'
     },
     shim: {
         angular: {
@@ -64,10 +65,14 @@ require.config({
             exports : "chosen",
             deps : [ 'angular' ]
         },
+        upload : {
+            deps : [ 'angular' ],
+            exports : "upload"
+        },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
-                'showErrors', 'ngTable', 'highchartsAngular', 'chosen']
+                'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload']
         }
     }
 });

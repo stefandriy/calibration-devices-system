@@ -1,7 +1,6 @@
 package com.softserve.edu.entity;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 /**
  * Created by MAX on 25.07.2015.
@@ -17,6 +16,9 @@ public class BbiProtocol {
     @Lob
     @Column(length = 500000)
     private byte[] bbi;
+
+    @ManyToOne
+    private Verification verification;
 
     BbiProtocol() {
     }
@@ -37,7 +39,16 @@ public class BbiProtocol {
         this.bbi = bbi;
     }
 
-    public BbiProtocol(byte[] bbi) {
+    public Verification getVerification() {
+        return verification;
+    }
+
+    public void setVerification(Verification verification) {
+        this.verification = verification;
+    }
+
+    public BbiProtocol(byte[] bbi, Verification verification) {
         this.bbi = bbi;
+        this.verification = verification;
     }
 }

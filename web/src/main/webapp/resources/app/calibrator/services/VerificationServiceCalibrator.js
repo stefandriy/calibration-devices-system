@@ -41,9 +41,6 @@ angular
             },
             markVerificationAsRead : function(data) {
             	return updateData('new/read', data);
-            },
-            uploadFile :function(file){
-                return postData('calibrator/verifications/new/upload', file);
             }
         };
 
@@ -80,7 +77,7 @@ angular
             $http.post(url, file, {
                 withCredentials: true,
                 headers: {'Content-Type': undefined},
-                transformRequest: angular.identity
+               transformRequest: angular.identity
             }).success('s').error('er');
         }
 

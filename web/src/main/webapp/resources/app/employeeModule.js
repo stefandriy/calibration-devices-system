@@ -1,6 +1,6 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives', 'highcharts-ng'])
+        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives', 'highcharts-ng', 'ngFileUpload'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
@@ -148,6 +148,7 @@
             'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
            'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
             'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',   
+            'calibrator/controllers/UploadBbiFileController',
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',

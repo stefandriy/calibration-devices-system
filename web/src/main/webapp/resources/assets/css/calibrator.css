@@ -433,4 +433,22 @@ input[type="radio"], input[type="checkbox"] {
     color:red;
     padding-right: 5px;
 }
+ .uploadFile > .drop-box {
+    background: #F8F8F8;
+    border: 5px dashed #DDD;
+    width: 100%;
+    text-align: center;
+    padding: 25px;
+    box-sizing: border-box;
+    margin-top: 15px;
+}
+
+.uploadFile .progress span  {
+    color:  #000;
+}
+
+.uploadFile .alert {
+    margin-bottom: 0;
+    margin-top: 15px;
+}
 
