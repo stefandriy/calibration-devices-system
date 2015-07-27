@@ -40,11 +40,6 @@
                     templateUrl: '/resources/app/provider/views/adding-verifications.html',
                     controller: 'AddingVerificationsControllerProvider'
                 })
-                .state("add-employees", {
-                    url: '/resources/app/employee/add',
-                    templateUrl: '/resources/app/provider/views/employee/main-panel.html',
-                    controller: 'AddEmployeeController'
-                })
                 .state("employee-show-provider", {
                     url: '/provider/employee-show',
                     templateUrl: '/resources/app/provider/views/employee/show-employee.html',
@@ -79,11 +74,6 @@
                         templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
                         controller: 'CalibrationTestAddModalControllerCalibrator'
                     })
-                    .state("employees-calibrator", {
-                        url: '/calibrator/employees',
-                        templateUrl: '/resources/app/calibrator/views/employee/main-panel.html',
-                        controller: 'EmployeeControllerCalibrator'
-                    })
                     .state("verifications-archive-calibrator", {
                         url: '/calibrator/verifications/archive',
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
@@ -104,11 +94,6 @@
                         url: '/verifications/new',
                         templateUrl: '/resources/app/verificator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerVerificator'
-                    })
-                    .state("employees-verificator", {
-                        url: '/employees',
-                        templateUrl: '/resources/app/verificator/views/employee/main-panel.html',
-                        controller: 'EmployeeControllerVerificator'
                     })
                     .state("verifications-archive-verificator", {
                         url: '/verifications/archive',

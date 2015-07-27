@@ -65,6 +65,12 @@ angular
     					if(role[i]==='PROVIDER_ADMIN') {
     						thereIsAdmin++;
     					}
+                        if(role[i]==='CALIBRATOR_ADMIN') {
+                            thereIsAdmin++;
+                        }
+                        if(role[i]==='STATE_VERIFICATOR_ADMIN') {
+                            thereIsAdmin++;
+                        }
     				}
     				if (thereIsAdmin > 0){
     					$scope.verificator = true;

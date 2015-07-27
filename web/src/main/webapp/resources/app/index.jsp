@@ -159,12 +159,7 @@
                             повірку</a>
                     </li>
 
-                    <li ui-sref-active="active">
-                        <a ui-sref="add-employees"><i class="fa fa-user-plus"></i>Додати працівника</a>
-                    </li>
-
-
-                    <sec:authorize url="/provider/admin/">
+                    <sec:authorize url="/employee/admin/">
                         <li ui-sref-active="active">
                             <a ui-sref="employee-show-provider"><i class="fa fa-users"></i>Переглянути усіх працівників</a>
                         </li>
