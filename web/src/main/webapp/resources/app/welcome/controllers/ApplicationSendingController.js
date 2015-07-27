@@ -85,7 +85,7 @@ angular
             /**
              * Receives all possible regions.
              */
-            $scope.selectedCount="2";
+            $scope.selectedCount="1";
             $scope.regions = [];
             $scope.receiveRegions = function () {
             dataReceivingService.findAllRegions()
@@ -159,14 +159,27 @@ angular
                     
                         $scope.providers = providers;
                    $scope.selectedProvider=providers[0];
+
+
                     });
             	}
             };
+
+            /**
+             * Receives all possible indexes by selected locality and district.
+             *
+             */
+
+        /*    $scope.receiveIndexes=  function (selectedLocality,selectedDistrict){
+
+
+
+            }*/
             /**
              * Receives all possible streets.
              * On-select handler in locality input form element
              */
-            $scope.receiveStreets = function (selectedLocality) {
+            $scope.receiveStreets = function (selectedLocality ,selectedDistrict) {
             	if(!$scope.blockSearchFunctions) {
             	$scope.streets = [];
                 dataReceivingService.findStreetsByLocalityId(selectedLocality.id)
@@ -174,6 +187,12 @@ angular
                         $scope.streets = streets;
                         $scope.selectedStreet = "";
                     });
+                    $scope.indexes = [];
+                    dataReceivingService.findMailIndexByLocality(selectedLocality.designation,selectedDistrict.id)
+                        .success(function (indexes) {
+                            $scope.indexes = indexes;
+
+                        });
             	}
             };
             /**

@@ -14,6 +14,9 @@ angular.module('welcomeModule').factory('DataReceivingService',
 				findLocalitiesByDistrictId : function(id) {
 					return getData('localities/' + id);
 				},
+				findMailIndexByLocality : function(localityDesignation ,districtId) {
+					return getData('localities/' + localityDesignation+'/'+districtId);
+				},
 				findProvidersByDistrict : function(district) {
 					return getData("providers/" + district);
 				},

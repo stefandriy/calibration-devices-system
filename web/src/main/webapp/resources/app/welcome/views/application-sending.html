@@ -184,7 +184,7 @@
 						<select chosen  options="regions"  id="region" name="region" type="text"
 						
 							class="form-control " ng-model="selectedRegion"
-							allow-single-deselect="false"
+
 
 							ng-options="region as region.designation for region in regions | filter: $viewValue"
 							allow-single-deselect="true"
@@ -229,7 +229,7 @@
 							ng-model="selectedLocality" allow-single-deselect="true"
 
 							ng-options="locality as locality.designation for locality in localities | unique:'designation'"
-							on-change="receiveStreets(selectedLocality)"  width="'100%'"  required></select>
+							ng-change="receiveStreets(selectedLocality,selectedDistrict)"  width="'100%'"  required></select>
 
 						<p class="help-block">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -237,7 +237,20 @@
 						</p>
 					</div>
 				</div>
+				<div class="form-group" show-errors>
+					<label for="Index" class="col-md-2 control-label"> {{'INDEX' | translate}}
+					</label>
 
+					<div class="col-md-8">
+						<select chosen id="index" name="index" class="form-control"
+								ng-model="selectedIndex" allow-single-deselect="true"
+								disable-search="true"
+								ng-options="index as index.mailIndex for index in indexes | filter: $viewValue"
+
+								width="'100%'"  required></select>
+
+					</div>
+				</div>
 				<div class="form-group" show-errors>
 					<label for="street" class="col-md-2 control-label">
 						{{'STREET' | translate}} </label>
@@ -260,9 +273,9 @@
 								 typeahead-on-select="receiveBuildings(selectedStreet)"
 								 required>
 
-							<span
-								class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
+
 						</div>
+						<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
 
 					</div>
 					<p class="help-block col-md-offset-2">
@@ -309,16 +322,7 @@
 				</div>
 
 
-				<div class="form-group" show-errors>
-					<label for="provider" class="col-md-2 control-label"> Index
-					</label>
 
-					<div class="col-md-8">
-						<input id="indexBox" name="index" class="form-control"
-							ng-model="selectedLocality.index" readonly
-							placeholder={{selectedLocality.id}}>
-					</div>
-				</div>
 
 				<!--<div class="form-group" show-errors>
 					<label for="provider" class="col-md-2 control-label">

@@ -147,7 +147,7 @@
   	"APP_SENT_ORG":"You successfully created verification with code: ",
   	"CALIBRATOR":"Calibrator",
   	"I_AM_CALIBRATOR":"This organization is calibrator",
-"ADD_EMPLOYEE":"Add new employee",
+    "ADD_EMPLOYEE":"Add new employee",
     "FILL_IN_INFORMATION_ABOUT_EMPLOYEE":"Fill in information about employee",
     "EMPLOYEE_TYPE":"Chouse type of employee",
 
@@ -157,6 +157,7 @@
     "INCORRECT_VALUE_PHONE_ADD_EMPLOYEE" : "Incorrect value input example:  +380679354972",
     "INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE" : "Incorrect value input example:  petrus@gmail.com",
     "PASSWORDS_DID_NOT_MATCH" : "Password didn't match",
-    "INCORRECT_VALUE_INPUT_ADD_EMPLOYEE" : "Incorrect value input!"
+    "INCORRECT_VALUE_INPUT_ADD_EMPLOYEE" : "Incorrect value input!",
+     "INDEX":"Index"
 
 }

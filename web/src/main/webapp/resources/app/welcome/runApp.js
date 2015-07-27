@@ -2,7 +2,7 @@ require
 		.config({
 			paths : {
 				angular : '../../assets/bower_components/angular/angular.min',
-				angularJS:'../..assets/bower_components/angularjs/angular.min',
+
 				angularBootstrap : '../../assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
 				csrfInterceptor : '../../assets/bower_components/spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
 				angularTranslate : '../../assets/bower_components/angular-translate/angular-translate.min',
