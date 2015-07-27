@@ -28,7 +28,7 @@ public class OrganizationsService {
 	private UserRepository userRepository;
 
 	@PersistenceContext
-	private EntityManager em;
+	private EntityManager entityManager;
 
 	@Transactional
 	public void addOrganizationWithAdmin(String name, String email,

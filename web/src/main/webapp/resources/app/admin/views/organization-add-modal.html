@@ -1,7 +1,7 @@
 <div class="modal-header">
 	<h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_ORGANIZATION'
 		| translate}}</h3>
-	<h6>* Усі поля є обов’язковими для заповнення</h6>
+	<h6>{{'ALL_FIELDS_REQUIRED' | translate}}</h6>
 </div>
 
 <div class="modal-body">
@@ -22,8 +22,8 @@
 					class="form-control" required>
 
 				<p class="help-block" ng-if="organizationForm.name.$error.pattern">
-					<span class="glyphicon glyphicon-exclamation-sign"></span> Назва
-					організації повинна містити від 5 до 20 символів
+					<span class="glyphicon glyphicon-exclamation-sign"></span> {{'ORGANIZATION_NAME_LENGTH' |
+					translate }}
 				</p>
 
 			</div>
@@ -60,13 +60,14 @@
 							class="form-control col-md-8 "
 							ng-model="organizationFormData.phone" placeholder="0XXXXXXXXX"
 							ng-pattern="PHONE_REGEX" required>
-
-						<p class="help-block"
-							ng-if="organizationFormData.phone.$error.pattern">
-							<span class="glyphicon glyphicon-exclamation-sign"></span> номер
-							не відповідає шаблону!
-						</p>
 					</div>
+				</div>
+				<div class="form-group">
+					<p class="help-block col-md-8 col-md-offset-2"
+					   ng-if="organizationFormData.phone.$error.pattern">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'PHONE_NUMBER_ERROR' | translate}}
+					</p>
 				</div>
 			</div>
 		</div>
@@ -105,13 +106,13 @@
 						ng-pattern="USERNAME_REGEX" id="username" name="username"
 						class="form-control" required>
 
-					<p class="help-block" ng-if="!isUsernameAvailable">Логін
-						зайнятий!</p>
+					<p class="help-block" ng-if="!isUsernameAvailable">{{'LOGIN_ISNT_AVAILABLE' |
+						translate }}</p>
 
 					<p class="help-block"
 						ng-if="organizationForm.username.$error.pattern">
-						<span class="glyphicon glyphicon-exclamation-sign"></span> Логін
-						повинен містити від 3 до 16 символів
+						<span class="glyphicon glyphicon-exclamation-sign"></span> {{'LOGIN_HAS_INVALID_LENGTH' |
+						translate }}
 					</p>
 
 				</div>
@@ -128,8 +129,8 @@
 
 					<p class="help-block"
 						ng-if="organizationForm.password.$error.pattern">
-						<span class="glyphicon glyphicon-exclamation-sign"></span> не може
-						бути коротший за 4 символи
+						<span class="glyphicon glyphicon-exclamation-sign"></span> {{'PASSWORD_TOO_SHORT' |
+						translate }}
 					</p>
 
 				</div>
@@ -145,7 +146,8 @@
 						ng-change="checkRePassword()" name="rePassword"
 						class="form-control" required>
 
-					<p class="help-block" ng-if="!isPasswordsEqual">Паролі різні!</p>
+					<p class="help-block" ng-if="!isPasswordsEqual">{{'PASSWORDS_ISNT_EQUAL' |
+						translate }}</p>
 
 				</div>
 			</div>
@@ -158,108 +160,86 @@
 					<div class="panel-heading">{{'ADDRESS' | translate }}</div>
 					<div class="panel-body">
 						<div class="col-lg-12">
-
-							<div class="form-group" >
-								<div class="col-md-4">
+							<div class="row">
+								<div class="form-group col-md-4">
 									<label class="control-label">{{'REGION_TWO' |
 										translate}}</label>
 								</div>
-
-								<div class="col-md-8" show-errors>
-									<select chosen id="region" name="region" type="text"
-											class="form-control " ng-model="organizationFormData.region"
-											allow-single-deselect="false"
-											ng-options="region as region.designation for region in regions | filter: $viewValue"
-											ng-change="onRegionSelected(organizationFormData.region.id)"  required>
-									</select>
+								<div class="form-group col-md-8">
+									<input name="region" type="text"
+										   ng-model="organizationFormData.region"
+										   typeahead="region as region.designation for region in regions | filter: $viewValue"
+										   typeahead-on-select="onRegionSelected(organizationFormData.region.id)"
+										   typeahead-editable="false" class="form-control" required>
 								</div>
 							</div>
 
-							<div class="form-group" >
-								<div class="col-md-4">
+							<div class="row">
+								<div class="form-group col-md-4">
 									<label class="control-label">{{'DISTRICT_TWO' |
 										translate}}</label>
 								</div>
-
-								<div class="col-md-8" show-errors>
-									<select chosen id="district" name="district" class="form-control "
-											type="text" ng-model="organizationFormData.district"
-											allow-single-deselect="false"
-											ng-options="district as district.designation for district in districts | filter: $viewValue"
-											ng-change="onDistrictSelected(organizationFormData.district.id)"
-											required></select>
+								<div class="form-group col-md-8">
+									<input name="district" type="text"
+										   ng-model="organizationFormData.district"
+										   typeahead="district as district.designation for district in districts | filter: $viewValue"
+										   typeahead-on-select="onDistrictSelected(organizationFormData.district.id)"
+										   typeahead-editable="false" class="form-control" required>
 								</div>
 							</div>
 
-							<div class="form-group">
+
+							<div class="row">
 								<div class="form-group col-md-4">
 									<label class="control-label">{{'LOCALITY_TWO' |
 										translate}}</label>
 								</div>
-
-								<div class="col-md-8" show-errors>
-									<select chosen id="locality" name="locality" class="form-control"
-											ng-model="organizationFormData.locality" allow-single-deselect="false"
-											ng-options="locality as locality.designation for locality in localities | unique:'designation'"
-											ng-change="onLocalitySelected(organizationFormData.locality.id)"   required></select>
+								<div class="form-group col-md-8">
+									<input name="locality" type="text"
+										   ng-model="organizationFormData.locality"
+										   typeahead="locality as locality.designation for locality in localities | filter: $viewValue"
+										   typeahead-on-select="onLocalitySelected(organizationFormData.locality.id)"
+										   typeahead-editable="false" class="form-control" required>
 								</div>
 							</div>
 
-							<div class="form-group">
+							<div class="row">
 								<div class="form-group col-md-4">
 									<label class="control-label">{{'STREET_TWO' | translate
 										}}</label>
 								</div>
-
-								<div class="col-md-8" show-errors>
-
-									<div class="pull-left" id="typeStreet">
-										<select  chosen data-placeholder="Choose type of street"
-												 id="typeStreet">
-											<option value="STREET ">STREET</option>
-											<option value="AVENUE">AVENUE</option>
-											<option value="BOULEVARD">BOULEVARD</option>
-											<option value="SQUARE">SQUARE</option>
-										</select>
-									</div>
-									<div class="pull-right" id=streetBox>
-										<input id="street" name="street" class="form-control" type="text"
-											   id=streetBox ng-model="organizationFormData.street" required>
-										<!-- 	typeahead="street as street.designation for street in streets | filter: $viewValue"
-                                            typeahead-on-select="receiveBuildings(selectedStreet)" -->
-
-
-									</div>
+								<div class="form-group col-md-8">
+									<input name="street" type="text"
+										   ng-model="organizationFormData.street"
+										   typeahead="street as street.designation for street in streets | filter: $viewValue"
+										   typeahead-on-select="onStreetSelected(organizationFormData.street.id)"
+										   typeahead-editable="false" class="form-control" required>
 								</div>
 							</div>
 
-							<div class="form-group">
+							<div class="row">
 								<div class="form-group col-md-4">
 									<label class="control-label">{{'HOUSE_TWO' |
 										translate}}</label>
 								</div>
-
-								<div class="col-md-8" show-errors>
-
-									<input id="building" name="building" class="form-control"
+								<div class="form-group col-md-8">
+									<input name="building" type="text"
 										   ng-model="organizationFormData.building"
-										   typehead="building as building.designation for building in buildings | filter: $viewValue"
-										   ng-pattern="BUILDING_REGEX" required>
+										   typeahead="building as building.designation for building in buildings | filter: $viewValue"
+										   class="form-control" required>
 								</div>
 							</div>
 
-							<div class="form-group">
+							<div class="row">
 								<div class="form-group col-md-4">
 									<label class="control-label">{{'FLAT' | translate}}</label>
 								</div>
-
-								<div class="col-md-8" show-errors>
-									<input id="flat" name="flat" class="form-control"
-										   ng-model="organizationFormData.flat"
-										   ng-pattern="FLAT_REGEX" required>
+								<div class="form-group col-md-8">
+									<input name="flat" type="text"
+										   ng-model="organizationFormData.flat" class="form-control"
+										   required>
 								</div>
 							</div>
-
 						</div>
 					</div>
 				</div>

@@ -36,7 +36,8 @@
   "ALPHABETIC_ERROR": "This field can contain only alphabetic characters.",
   "PHONE_NUMBER_ERROR": "Phone number must be filled in format: 0{city/operator code}{phone number}",
   "PHONE_NUMBER_INFO":"This field is not mandatory , but to improve communications capabilities ask him to fill",
-  "PROVIDER": "Provider",
+  "PROVIDER": "Service provider",
+  "VERIFICATOR": "Authorized calibration laboratory",
   "PROVIDER_INFO": "Provider is a service that will handle your application. For instance 'Lvivvodokanal'. Start typing and choose one form drop-down list. It will correspond district that you have just selected",
   "INCORRECT": "Incorrect value input",
   "INCORRECT": "Incorrect value input",
@@ -145,7 +146,7 @@
   	"SQUARE":"square",
   	
   	"APP_SENT_ORG":"You successfully created verification with code: ",
-  	"CALIBRATOR":"Calibrator",
+  	"CALIBRATOR":"Measuring laboratory",
   	"I_AM_CALIBRATOR":"This organization is calibrator",
     "ADD_EMPLOYEE":"Add new employee",
     "FILL_IN_INFORMATION_ABOUT_EMPLOYEE":"Fill in information about employee",
@@ -158,6 +159,13 @@
     "INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE" : "Incorrect value input example:  petrus@gmail.com",
     "PASSWORDS_DID_NOT_MATCH" : "Password didn't match",
     "INCORRECT_VALUE_INPUT_ADD_EMPLOYEE" : "Incorrect value input!",
-     "INDEX":"Index"
 
+    "ALL_FIELDS_REQUIRED": "* All fields are required",
+
+  "ORGANIZATION_NAME_LENGTH":"Organization name should be 5 to 20 characters",
+  "LOGIN_ISNT_AVAILABLE":"Username isn`t available",
+  "LOGIN_HAS_INVALID_LENGTH":"Username must be from 3 to 16 characters length",
+  "PASSWORD_TOO_SHORT":"Password can not be shorter than 4 symbols",
+  "PASSWORDS_ISNT_EQUAL":"Passwords aren`t the equals",
+   "INDEX":"Index"
 }
