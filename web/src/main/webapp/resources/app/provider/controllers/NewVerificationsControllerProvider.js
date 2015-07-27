@@ -43,7 +43,7 @@ angular
         $scope.doSearch = function() {
         	promiseTimeOut = $timeout(function() {
             $scope.tableParams.reload();
-        	}, 1200);
+        	}, 2000);
         }
 
         $scope.$on('refresh-table', function () {

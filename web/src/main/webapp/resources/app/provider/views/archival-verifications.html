@@ -95,17 +95,21 @@
                                 <tbody>
                                 <tr ng-repeat="verification in $data">
                                     <td>{{ verification.initialDate | date}}</td>
-                                    <td>{{ verification.id }}</td>
+                                    <td class="verificationNumber">
+                                        <span popover="{{verification.id}}" popover-trigger="mouseenter"  popover-placement="up">
+                                        {{ verification.id}}
+                                        </span>
+                                    </td>
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
                                     <td>{{ verification.status }}</td>
                                     <td>{{verification.providerEmployee}}</td>
                                     <td class="text-center">
-                                        <a popover="Детальніше"
-                                           popover-trigger="mouseenter"
-                                           ng-click="openDetails($index)">
-                                            <i class="fa fa-info-circle"></i>
-                                        </a>
+                                       <button class="btn btn-xs btn-primary btn-actions-custom" popover="Детальніше"
+                                           		popover-trigger="mouseenter"
+	                                           	ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
+	                                            <i class="fa fa-info"></i>
+                                        	</button>
 
                                         <a ng-show="verification.status === 'COMPLETED'"
                                            popover="Завантажити тестові дані у форматі 'docx'"

@@ -135,6 +135,7 @@
             'provider/controllers/CapacityEmployeeControllerProvider',
             'provider/controllers/GraficEmployeeProvider',
             'provider/controllers/CalendarEmployeeProvider',
+            'provider/controllers/ArchivalDetailsModalController',
 
             'calibrator/controllers/TopNavBarControllerCalibrator',
             'calibrator/controllers/MainPanelControllerCalibrator',

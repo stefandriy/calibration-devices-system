@@ -132,8 +132,8 @@ public class NewVerificationsQueryConstructorProvider {
 				}
 			}
 
-			if((status != null)&&(status.equalsIgnoreCase("SENT"))) {
-				queryPredicate = cb.and(cb.equal(root.get("status"), Status.SENT), queryPredicate);		
+			if ((status != null)&&(status.equalsIgnoreCase("SENT"))) {
+				queryPredicate = cb.and(cb.equal(root.get("status"), Status.SENT), queryPredicate);
 			} else if ((status != null)&&(status.equalsIgnoreCase("ACCEPTED"))){
 				queryPredicate = cb.and(cb.equal(root.get("status"), Status.ACCEPTED), queryPredicate);
 			} else {

@@ -1,18 +1,47 @@
 angular
     .module('employeeModule')
-    .controller('ArchivalVerificationsControllerProvider', ['$scope', '$modal', '$log', 'VerificationServiceProvider', 'ngTableParams', '$filter', '$rootScope',
+    .controller('ArchivalVerificationsControllerProvider', ['$scope', '$modal', '$log', 'VerificationServiceProvider', 'ngTableParams', '$filter', '$rootScope', '$timeout',
 
-        function ($scope, $modal, $log, verificationServiceProvider, ngTableParams, $filter, $rootScope) {
+        function ($scope, $modal, $log, verificationServiceProvider, ngTableParams, $filter, $rootScope, $timeout) {
 
-//            $scope.totalItems = 0;
-//            $scope.currentPage = 1;
-//            $scope.itemsPerPage = 10;
-//            $scope.pageData = [];
 
-//            $scope.onTableHandling = function () {
-//                updatePage();
-//            };
+    	$scope.clearAll = function(){
+        	$scope.search.idText=null;
+        	$scope.search.formattedDate=null;
+        	$scope.dt = null;
+        	$scope.search.lastNameText=null;
+        	$scope.search.streetText=null;
+        	$scope.search.status = null;
+        	$scope.tableParams.reload();
+        }
+        
+        $scope.clearId = function () {
+        	$scope.search.idText = null;
+        	$scope.tableParams.reload();
+        }
+        $scope.clearLastName = function () {
+        	$scope.search.lastNameText = null;
+        	$scope.tableParams.reload();
+        }
+        $scope.clearStreet = function () {
+        	$scope.search.streetText = null;
+        	$scope.tableParams.reload();
+        }
+        $scope.clearStatus = function () {
+        	$scope.search.status = null;
+        	$scope.tableParams.reload();
+        }
+        var promiseSearchTimeOut;
+        $scope.doSearch = function() {
+        	promiseTimeOut = $timeout(function() {
+            $scope.tableParams.reload();
+        	}, 2000);
+        }
 
+        $scope.$on('refresh-table', function () {
+        	 $scope.clearAll();
+        }); 
+        
             $scope.search = {
             		idText:null,
             		formattedDate :null,
@@ -37,37 +66,23 @@ angular
                     				});
                  }
             });
-      
-            
-//            updatePage();
-//
-//            function updatePage() {
-//                verificationServiceProvider
-//                    .getArchivalVerifications($scope.currentPage, $scope.itemsPerPage)
-//                    .success(function (verifications) {
-//                        $scope.pageData = verifications.content;
-//                        $scope.totalItems = verifications.totalItems;
-//                    });
-//            }
 
             $scope.openDetails = function (verifId, verifDate, verifReadStatus, verifStatus) {
 
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/new-verification-details.html',
-                    controller: 'DetailsModalControllerProvider',
+                    templateUrl: '/resources/app/provider/views/modals/archival-verification-details.html',
+                    controller: 'ArchivalDetailsModalController',
                     size: 'lg',
                     resolve: {
                         response: function () {
-                            return verificationServiceProvider.getNewVerificationDetails(verifId)
+                            return verificationServiceProvider.getArchivalVerificationDetails(verifId)
                                 .success(function (verification) {
                                 	 $rootScope.verificationID = verifId;
                                     verification.id =   $rootScope.verificationID;
                                     verification.initialDate = verifDate;
                                     verification.status = verifStatus;
-                                    if (verifReadStatus == 'UNREAD') {
-                                        $scope.markAsRead(verifId);
-                                    }
+                                    
                                     return verification;
                                 });
                         }
