@@ -31,7 +31,7 @@ public class ProviderService {
     
     @Transactional(readOnly = true)
     public Set<String> getTypesById(Long id) {
-    	return providerRepository.getOrganizationTypeById(id);
+    	return providerRepository.getOrganizationTypesById(id);
     }
     
     @Transactional(readOnly = true)

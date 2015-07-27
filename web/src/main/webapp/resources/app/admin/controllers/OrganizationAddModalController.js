@@ -74,9 +74,9 @@ angular
 							 * for new user
 							 * 
 							 */
-							
+
 							$scope.isUsernameAvailable = true;
-							
+
 							$scope.checkIfUsernameIsAvailable = function() {
 								var username = $scope.organizationFormData.username;
 								userService.isUsernameAvailable(username).then(
@@ -84,9 +84,9 @@ angular
 											$scope.isUsernameAvailable = data;
 										})
 							}
-							
+
 							$scope.isPasswordsEqual = true;
-							
+
 							$scope.checkRePassword = function() {
 								var password = $scope.organizationFormData.password;
 								var rePassword = $scope.organizationFormData.rePassword;
@@ -217,4 +217,7 @@ angular
 							$scope.PHONE_REGEX = /^0[1-9]\d{8}$/;
 							$scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 							$scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
+							$scope.PASSWORD_REGEX = /^(?=.{4,255}$).*/;
+							$scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
+							$scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
 						} ]);
