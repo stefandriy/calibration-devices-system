@@ -36,13 +36,13 @@ angular
                     if (thereIsAdmin > 1) {
                         $scope.showListOfOrganization = true;
                         for (var i = 0; i < role.length; i++) {
-                            if (role[i] === 'PROVIDER_ADMIN')
-                                $scope.showProviderOrganization = true;
-                            if (role[i] === 'CALIBRATOR_ADMIN')
-                                $scope.showCalibratorOrganization = true;
-                            if (role[i] === 'STATE_VERIFICATOR_ADMIN')
-                                $scope.showVerificatorOrganization = true;
-                        }
+                            if ((role[0] === 'PROVIDER_ADMIN' && role[1] === 'CALIBRATOR_ADMIN') ||
+                                (role[1] === 'CALIBRATOR_ADMIN' && role[0] === 'PROVIDER_ADMIN'))
+                                $scope.showListOfOrganizationChousenOne = true;
+                            if ((role[0] === 'STATE_VERIFICATOR_ADMIN' && role[1] === 'CALIBRATOR_ADMIN') ||
+                                (role[1] === 'CALIBRATOR_ADMIN' && role[0] === 'STATE_VERIFICATOR_ADMIN'))
+                                $scope.showListOfOrganizationChousenTwo = true;
+                            }
                     }
                 });
             $scope.chouse = function (selectedEmployee) {
@@ -119,7 +119,7 @@ angular
                         case ('phone') :
                             var phone = $scope.employeeFormData.phone;
                             if (phone == null) {
-                            } else if (/[0-8]{4,11}/.test(phone)) {
+                            } else if (/[0-9]{4,11}/.test(phone)) {
                                 validator('phone', false);
                             } else {
                                 validator('phone', true);
@@ -354,12 +354,11 @@ angular
                                 employeeData).then(
                                 function (data) {
                                     if (data.status == 201) {
-                                        alert('success!')
                                         $scope.closeModal();
                                         $scope.resetEmployeeForm();
 
                                     }else{
-                                        alert(data);
+                                        alert('Error');
                                     }
                                 });
                         };

@@ -10,6 +10,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class UsersService {
 
@@ -43,10 +45,13 @@ public class UsersService {
                 pageRequest);
     }
 
-
+    //
     @Transactional
-    public String getRoleByUserName(String username){
-        return userRepository.getRoleByUserName(username);
+    public String getRoleByUserName(String username){return userRepository.getRoleByUserName(username);
     }
 
+    @Transactional
+    public List<UserRole> getRoleByUserNam(String username){
+        return userRepository.getRoleByUserNam(username);
+    }
 }

@@ -101,7 +101,7 @@ public class ProviderEmployeeController {
     public PageDTO<UsersPageItem> getPaginationUsers(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
-            UsersPageItem usersPageItem,
+             UsersPageItem usersPageItem,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
 

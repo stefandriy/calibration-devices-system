@@ -1,11 +1,14 @@
 package com.softserve.edu.dto.admin;
 
 
+import java.util.List;
+
 public class UsersPageItem {
 
     private String username;
-    private String role;
+    private List<String> roles;
     private String password;
+    private String role;
 
     private String firstName;
     private String lastName;
@@ -24,6 +27,14 @@ public class UsersPageItem {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 
     public String getRole() {
@@ -100,6 +111,18 @@ public class UsersPageItem {
 
 
 
+    public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
+                         String middleName,String phone, String organization,
+                         Long countOfVarification) {
+        this.username = username;
+        this.roles = roles;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.phone = phone;
+        this.organization = organization;
+        this.countOfVarification = countOfVarification;
+    }
     public UsersPageItem(String username, String role, String firstName, String lastName,
                          String middleName,String phone, String organization,
                          Long countOfVarification) {
@@ -112,12 +135,11 @@ public class UsersPageItem {
         this.organization = organization;
         this.countOfVarification = countOfVarification;
     }
-
     @Override
     public String toString() {
         return "UsersPageItem{" +
                 "username='" + username + '\'' +
-                ", role='" + role + '\'' +
+                ", roles='" + roles + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

@@ -453,7 +453,7 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 .form-group .help-block {
-  /*  display: none; */
+    /* display: none; */
 }
 
 .form-group .has-error .help-block {

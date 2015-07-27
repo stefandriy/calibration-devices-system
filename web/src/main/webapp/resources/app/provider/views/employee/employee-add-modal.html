@@ -8,42 +8,37 @@
 	<form name="employeeForm" novalidate show-errors>
 
 		<div class="row">
-			<div class="form-group col-md-4" ng-hide ="showListOfOrganization">
+			<div class="form-group col-md-4" ng-show ="showListOfOrganization">
 				<label class="control-label">{{'EMPLOYEE_TYPE' | translate }}</label>
 			</div>
 
+				<div id ="po" class="form-group col-md-8">
 
-
-				<div id ="po" class="form-group col-md-8" ng-hide ="showListOfOrganization">
-
+					 <div ng-show ="showListOfOrganizationChousenOne">
 					<select multiple chosen
 							data-placeholder="?"
 							ng-model="selectedEmployee"
 							ng-change = "chouse(selectedEmployee)"
 							required>
-
-						<div  ng-hide ="showProviderOrganization">
-							<option value = 'provider'> Provider </option>
-						</div>
-						<div  ng-hide ="showCalibratorOrganization">
-							<option value = 'calibrator'> Calibrator </option>
-						</div>
-						<div  ng-hide ="showCalibratorOrganization">
-							<option value = 'verificatot'> Verificator </option>
-						</div>
-
+						<option value = 'provider'> Provider </option>
+						<option value = 'calibrator'> Calibrator </option>
 					</select>
-
 				</div>
 
 
-
-
-			<!--div class="form-group col-md-4">
-				<multiselect ng-model="organizationFormData.types"
-							 options="c.name for c in typeData" data-multiple="true"></multiselect>
-			</div-->
+					<div ng-show ="showListOfOrganizationChousenTwo">
+					<select multiple chosen
+							data-placeholder="?"
+							ng-model="selectedEmployee"
+							ng-change = "chouse(selectedEmployee)"
+							required>
+							<option value = 'calibrator'> Calibrator </option>
+							<option value = 'verificatot'> Verificator </option>
+					</select>
+				</div>
 		</div>
+		</div>
+
 
 		<div class="row" show-errors>
 			<div class="form-group col-md-4">
