@@ -1,7 +1,6 @@
 package com.softserve.edu.entity;
 
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.HashSet;

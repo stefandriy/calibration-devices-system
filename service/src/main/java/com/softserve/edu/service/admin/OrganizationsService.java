@@ -13,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -71,24 +69,9 @@ public class OrganizationsService {
 	}
 
 	@Transactional
-	public String getOrganizationType(Organization organization) {
+	public Set<String> getOrganizationTypes(Organization organization) {
 		Long id = organization.getId();
-		Set<String> types = organizationRepository.getOrganizationTypeById(id);
-		String result = "";
-		for (String s : types) {
-			switch (s) {
-			case "PROVIDER":
-				result += ("Постачальник послуг ");
-				break;
-			case "CALIBRATOR":
-				result += ("Повірочна організація ");
-				break;
-			case "STATE_VERIFICATOR":
-				result += ("Державний повірник ");
-				break;
-			}
-		}
-		return result;
+		return organizationRepository.getOrganizationTypesById(id);
 	}
 
 	@Transactional

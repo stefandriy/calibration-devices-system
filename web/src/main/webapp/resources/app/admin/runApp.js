@@ -12,7 +12,8 @@ require
 				angularCookie : '../../assets/bower_components/angular-cookies/angular-cookies.min',
 				angularTranslateStorageLocal : '../../assets/bower_components/angular-translate-storage-local/angular-translate-storage-local.min',
 				angularTranslateStorageCookie : '../../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
-				ngDropdownMultiselect : '../../assets/bower_components/angularjs-dropdown-multiselect/src/angularjs-dropdown-multiselect',
+				chosen : '../../assets/bower_components/angular-chosen-localytics/chosen',
+
 				adminModule : 'adminModule'
 			},
 			shim : {
@@ -52,9 +53,9 @@ require
 					exports : "ngTable",
 					deps : [ 'angular' ]
 				},
-				
-				ngDropdownMultiselect : {
-					exports : "angularjsDropdownMultiselect",
+
+				chosen : {
+					exports : "chosen",
 					deps : [ 'angular' ]
 				},
 
@@ -66,7 +67,7 @@ require
 							'angularTranslateStorageLocal',
 							'angularTranslateLoaderStaticFiles',
 							'angularUIRouter', 'showErrors', 'ngTable',
-							'ngDropdownMultiselect' ]
+							'chosen' ]
 
 				}
 			}

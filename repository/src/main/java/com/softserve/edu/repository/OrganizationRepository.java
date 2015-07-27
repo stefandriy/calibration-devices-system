@@ -25,7 +25,7 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
 	OrganizationType getOrganizationType(@Param("type") String type);
 
 	@Query("select t.type from OrganizationType t inner join t.organizations o where o.id=:id")
-	Set<String> getOrganizationTypeById(@Param("id") Long id);
+	Set<String> getOrganizationTypesById(@Param("id") Long id);
 
 	@Query("select o from Organization o inner join o.organizationTypes ot where o.address.district=:district and ot.type=:type")
 	List<Organization> getByTypeAndDistrict(@Param("district") String district, @Param("type") String type);

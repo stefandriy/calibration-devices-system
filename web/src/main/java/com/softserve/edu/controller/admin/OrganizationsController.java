@@ -88,7 +88,7 @@ public class OrganizationsController {
 								.getId(), organization.getName(), organization
 								.getEmail(), organization.getPhone(),
 								organizationsService
-										.getOrganizationType(organization)));
+										.getOrganizationTypes(organization)));
 
 		return new PageDTO<>(page.getTotalElements(), page.getContent());
 	}

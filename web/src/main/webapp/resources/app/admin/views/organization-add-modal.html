@@ -8,14 +8,24 @@
 	<form name="organizationForm" novalidate>
 
 		<div class="row">
+
 			<div class="form-group col-md-4">
 				<label class="control-label">{{'ORGANIZATION_NAME_ADMIN' |
 					translate }}</label>
 			</div>
+
 			<div class="form-group col-md-8" show-errors>
-				<input type="text" ng-model="organizationFormData.name"
-					ng-minlength="3" id="name" name="name" class="form-control"
-					required>
+
+				<input type="text" ng-model="organizationFormData.name" id="name"
+					ng-pattern="ORGANIZATION_NAME_REGEX" name="name"
+					class="form-control" required> <span
+					class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+				<p class="help-block" ng-if="organizationForm.name.$error.pattern">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> Назва
+					організації повинна містити від 5 до 20 літер
+				</p>
+
 			</div>
 		</div>
 
@@ -24,9 +34,14 @@
 				<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN' |
 					translate }}</label>
 			</div>
-			<div class="form-group col-md-4">
-				<div ng-dropdown-multiselect="" options="typeData"
-					selected-model="types" extra-settings="typeDataSettings"></div>
+
+			<div class="form-group col-md-8">
+				<select multiple chosen type="text" class="form-control"
+					ng-model="organizationFormData.types" class="form-control"
+					data-placeholder="Choose type"
+					ng-change="toggle(organizationFormData.types)"
+					ng-options="type for type in typeData" required>
+				</select>
 			</div>
 		</div>
 
@@ -36,19 +51,44 @@
 				<label class="control-label">{{'ORGANIZATION_TELEPHON_NUMBER_ADMIN'
 					| translate }}</label>
 			</div>
+
 			<div class="form-group col-md-8" show-errors>
-				<input type="text" ng-model="organizationFormData.phone"
-					name="phone" class="form-control" required>
+				<div>
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon-code">+38</span> <input
+							id="phoneNumber" name="phoneNumber" type="tel"
+							class="form-control col-md-8 "
+							ng-model="organizationFormData.phone" placeholder="0XXXXXXXXX"
+							ng-pattern="PHONE_REGEX" required> <span
+							class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+						<p class="help-block col-md-8 col-md-offset-2"
+							ng-if="organizationFormData.phone.$error.pattern">
+							<span class="glyphicon glyphicon-exclamation-sign"></span> номер
+							не відповідає шаблону!
+						</p>
+
+					</div>
+				</div>
 			</div>
 		</div>
 
+
 		<div class="row">
-			<div class="form-group col-md-4" ng-class="usernameValidation.css">
+			<div class="form-group col-md-4">
 				<label class="control-label">{{'EMAIL' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8">
 				<input type="text" ng-model="organizationFormData.email"
-					name="email" class="form-control">
+					name="email" class="form-control" placeholder="example@gmail.com"
+					ng-pattern="EMAIL_REGEX" required>
+
+				<p class="help-block"
+					ng-if="organizationFormData.email.$error.pattern">
+					<span class="glyphicon glyphicon-exclamation-sign"></span>
+					{{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
+				</p>
+
 			</div>
 		</div>
 
@@ -61,12 +101,21 @@
 				<div class="form-group col-md-4">
 					<label class="control-label">{{'LOGIN_TWO' | translate }}</label>
 				</div>
-				<div class="form-group col-md-8" ng-class="usernameValidation.css">
+				<div class="form-group col-md-8">
 					<input type="text" ng-model="organizationFormData.username"
-						ng-model-options="{debounce: 350}" ng-change="checkUsername()"
-						id="username" name="username" class="form-control" required>
-					<p class="help-block" ng-if="!usernameValidation.isValid">{{
-						usernameValidation.message }}</p>
+						ng-change="checkIfUsernameIsAvailable()"
+						ng-pattern="USERNAME_REGEX" id="username" name="username"
+						class="form-control" required>
+
+					<p class="help-block" ng-if="!isUsernameAvailable">Логін
+						зайнятий!</p>
+
+					<p class="help-block"
+						ng-if="organizationForm.username.$error.pattern">
+						<span class="glyphicon glyphicon-exclamation-sign"></span> Логін
+						повинен містити від 3 до 16 символів
+					</p>
+
 				</div>
 			</div>
 
@@ -87,7 +136,11 @@
 				</div>
 				<div class="form-group col-md-8" show-errors>
 					<input type="password" ng-model="organizationFormData.rePassword"
+						ng-change="checkRePassword()"
 						name="rePassword" class="form-control" required>
+
+					<p class="help-block" ng-if="!isPasswordsEqual">Паролі різні!</p>
+
 				</div>
 			</div>
 		</div>
@@ -198,6 +251,5 @@
 					| translate}}</button>
 			</div>
 		</div>
-
 	</form>
 </div>

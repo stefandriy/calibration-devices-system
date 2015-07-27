@@ -1,7 +1,6 @@
 package com.softserve.edu.entity;
 
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.user.User;
 
@@ -43,7 +42,7 @@ public class Organization {
 	@ManyToMany
 	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), inverseJoinColumns = @JoinColumn(name = "id"))
 	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
-		
+
 	public void addOrganizationType(OrganizationType organizationType) {
 		this.organizationTypes.add(organizationType);
 	}

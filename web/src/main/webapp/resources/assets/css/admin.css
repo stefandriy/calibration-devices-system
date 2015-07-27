@@ -365,6 +365,7 @@ table.dataTable thead .sorting:after {
     color: green;
 }
 
+
 .form-control-feedback {
     top: 0;
     right: 15px;
@@ -378,4 +379,8 @@ table.dataTable thead .sorting:after {
 .modal .modal-body {
     max-height: 500px;
     overflow-y: auto;
+}
+
+div.chosen-container {
+    width: 100% !important;
 }

@@ -14,29 +14,41 @@ angular
 								addressService, organizationService,
 								userService) {
 
-							$scope.types = [];
+							$scope.typeData = [ 'PROVIDER', 'CALIBRATOR',
+									'STATE_VERIFICATOR' ];
 
-							$scope.typeData = [ {
-								id : 'PROVIDER',
-								label : 'Постачальник послуг'
-							}, {
-								id : 'CALIBRATOR',
-								label : 'Повірочна організація'
-							}, {
-								id : 'STATE_VERIFICATOR',
-								label : 'Державний повірник'
-							} ];
-
-							$scope.typeDataSettings = {
-								selectionLimit : 2,
-								smartButtonMaxItems : 2,
-								smartButtonTextConverter : function(itemText,
-										originalItem) {
-									return itemText;
+							$scope.toggle = function(form) {
+								var isProvider = false;
+								var isVerificator = false;
+								for ( var i in $scope.organizationFormData.types) {
+									if ($scope.organizationFormData.types[i] == "PROVIDER") {
+										isProvider = true;
+										var index = $scope.typeData
+												.indexOf('STATE_VERIFICATOR');
+										if (index > -1) {
+											$scope.typeData.splice(index, 1);
+										}
+									}
+									if ($scope.organizationFormData.types[i] == "STATE_VERIFICATOR") {
+										isVerificator = true;
+										var index = $scope.typeData
+												.indexOf('PROVIDER');
+										if (index > -1) {
+											$scope.typeData.splice(index, 1);
+										}
+									}
+								}
+								if (!isProvider
+										&& $scope.typeData
+												.indexOf('STATE_VERIFICATOR') < 0) {
+									$scope.typeData.push('STATE_VERIFICATOR');
+								}
+								if (!isVerificator
+										&& $scope.typeData.indexOf('PROVIDER') < 0) {
+									$scope.typeData.unshift('PROVIDER');
 								}
 
 							};
-
 
 							$scope.regions = null;
 							$scope.districts = [];
@@ -49,7 +61,6 @@ angular
 							 */
 							$scope.resetOrganizationForm = function() {
 								$scope.$broadcast('show-errors-reset');
-								$scope.usernameValidation = null;
 								$scope.organizationFormData = null;
 							};
 
@@ -59,46 +70,31 @@ angular
 							$scope.resetOrganizationForm();
 
 							/**
-							 * Validates username
-							 */
-							$scope.checkUsername = function() {
-								var username = $scope.organizationFormData.username;
-								if (username == null) {
-								} else if (/^[a-z0-9_-]{3,16}$/.test(username)) {
-									isUsernameAvailable(username)
-								} else {
-									validateUsername(false,
-											'К-сть символів не повинна бути меншою за 3\n і більшою за 16 ');
-								}
-							};
-
-							/**
-							 * Custom username field validation. Shows error
-							 * message in view if username isn't validated.
-							 * 
-							 * @param isValid
-							 * @param message
-							 */
-							function validateUsername(isValid, message) {
-								$scope.usernameValidation = {
-									isValid : isValid,
-									css : isValid ? 'has-success' : 'has-error',
-									message : isValid ? undefined : message
-								}
-							}
-
-							/**
 							 * Checks whereas given username is available to use
 							 * for new user
 							 * 
-							 * @param username
 							 */
-							function isUsernameAvailable(username) {
+							
+							$scope.isUsernameAvailable = true;
+							
+							$scope.checkIfUsernameIsAvailable = function() {
+								var username = $scope.organizationFormData.username;
 								userService.isUsernameAvailable(username).then(
 										function(data) {
-											validateUsername(data,
-													'Такий логін вже існує');
+											$scope.isUsernameAvailable = data;
 										})
+							}
+							
+							$scope.isPasswordsEqual = true;
+							
+							$scope.checkRePassword = function() {
+								var password = $scope.organizationFormData.password;
+								var rePassword = $scope.organizationFormData.rePassword;
+								if (password != rePassword) {
+									$scope.isPasswordsEqual = false;
+								} else {
+									$scope.isPasswordsEqual = true;
+								}
 							}
 
 							/**
@@ -181,23 +177,13 @@ angular
 								$scope.organizationFormData.flat = $scope.organizationFormData.flat;
 							}
 
-							function typeObjectToString() {
-								$scope.organizationFormData.types = $scope.types;
-								for ( var i in $scope.organizationFormData.types) {
-									$scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].id;
-								}
-							}
-
 							/**
 							 * Validates organization form before saving
 							 */
 							$scope.onOrganizationFormSubmit = function() {
 								$scope.$broadcast('show-errors-check-validity');
-								// TODO: add password match checking
-								if ($scope.organizationForm.$valid
-										&& $scope.usernameValidation.isValid) {
+								if ($scope.organizationForm.$valid) {
 									addressFormToOrganizationForm();
-									typeObjectToString();
 									saveOrganization();
 								}
 							};
@@ -227,4 +213,8 @@ angular
 								$modalInstance.close();
 							};
 
+							$scope.ORGANIZATION_NAME_REGEX = /^(?=.{5,20}$).*/;
+							$scope.PHONE_REGEX = /^0[1-9]\d{8}$/;
+							$scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+							$scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
 						} ]);
