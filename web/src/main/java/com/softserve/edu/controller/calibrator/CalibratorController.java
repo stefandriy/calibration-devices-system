@@ -82,7 +82,12 @@ public class CalibratorController {
 	@RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
 	public Long getCountOfNewVerificationsByCalibratorId(
 			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-		return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
+
+		if (user != null) {
+			return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
+		} else {
+			return null;
+		}
 	}
 
 	@RequestMapping(value = "new/verificators", method = RequestMethod.GET)

@@ -91,8 +91,12 @@ public class StateVerificatorController {
     }
 
     @RequestMapping(value = "new/count/verificator", method = RequestMethod.GET)
-    public Long getCountOfNewVerificationsByStateVerificatorId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return verificationService.findCountOfNewVerificationsByStateVerificatorId(user.getOrganizationId());
+    public Long getCountOfNewVerificationsByStateVerificatorId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) { 
+        if( user != null) {
+        	return verificationService.findCountOfNewVerificationsByStateVerificatorId(user.getOrganizationId());	
+        } else {
+        	return null;
+        }
     }
 
     @RequestMapping(value = "new/read", method = RequestMethod.PUT)
