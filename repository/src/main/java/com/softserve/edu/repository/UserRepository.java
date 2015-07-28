@@ -1,5 +1,6 @@
 package com.softserve.edu.repository;
 
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import org.springframework.data.domain.Page;

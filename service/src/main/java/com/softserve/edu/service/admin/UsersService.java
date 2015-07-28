@@ -2,6 +2,7 @@ package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class UsersService {
                 pageRequest);
     }
 
-    //
+
     @Transactional
     public String getRoleByUserName(String username){return userRepository.getRoleByUserName(username);
     }
@@ -61,5 +62,16 @@ public class UsersService {
     @Transactional
     public List<String> getRoles(String username){
         return userRoleRepository.getRoles(username);
+    }
+
+    @Transactional
+    public String getOrganization(String username,User user){
+       String nameOrganization="";
+      List<String> roles = getRoles(username);
+        if (roles.contains(Roles.SYS_ADMIN.name())) {
+        } else {
+           nameOrganization=user.getOrganization().getName();
+        }
+        return nameOrganization;
     }
 }

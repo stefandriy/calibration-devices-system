@@ -3,6 +3,7 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.service.admin.UsersService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,24 +65,19 @@ public class UserController {
                                 UsersPageItem usPage = null;
 
                                 if (user instanceof User) {
-                                    usPage = new UsersPageItem();
-                                    usPage.setUsername(user.getUsername());
-                                    usPage.setRole(userService.getRoleByUserName(user.getUsername()));
-                                    usPage.setFirstName(((User) user).getFirstName());
-                                    usPage.setLastName(((User) user).getLastName());
-                                    if (usPage.getRole().equalsIgnoreCase("SYS_ADMIN")) {
-                                    } else {
-                                        usPage.setOrganization(user.getOrganization().getName());
-                                    }
-                                    usPage.setPhone(((User) user).getPhone());
+                                    usPage = new UsersPageItem(
+                                            user.getUsername(), userService.getRoles(user.getUsername()),
+                                            user.getFirstName(), user.getLastName(), user.getMiddleName(), user.getPhone(),
+                                            userService.getOrganization(user.getUsername(), user), null
+                                    );
                                 }
                                 return usPage;
                             }
-                        }
-                );
+                        });
 
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
+
 
     /**
      * This method take data from web and invoke pageSearchUsers
