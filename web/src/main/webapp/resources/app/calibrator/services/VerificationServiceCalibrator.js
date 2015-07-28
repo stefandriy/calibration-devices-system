@@ -3,15 +3,9 @@ angular
     .factory('VerificationServiceCalibrator', ['$http', '$log', function ($http, $log) {
 
         return {
-            getArchivalVerifications: function (currentPage, itemsPerPage) {
-                return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
+            getArchivalVerificationDetails: function (verificationId) {
+                return getData('verifications/archive/' + verificationId);
             },
-//            getNewVerifications: function (currentPage, itemsPerPage, searchType, searchText) {
-//                return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' + searchType + '/' + searchText);
-//            },
-//            getArchivalVerificationDetails: function (verificationId) {
-//                return getData('verifications/archive/' + verificationId);
-//            },
             getNewVerifications: function (currentPage, itemsPerPage, search) {
             	return getDataWithParams('calibrator/verifications/new/' + currentPage + '/' + itemsPerPage, search);
             },

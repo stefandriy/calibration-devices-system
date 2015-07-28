@@ -208,26 +208,13 @@ public class ProviderVerificationController {
 
 
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
-    public VerificationDTO getArchivalVerificationDetailsById(
-            @PathVariable String verificationId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public VerificationDTO getArchivalVerificationDetailsById( @PathVariable String verificationId, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        Verification verification = verificationService
-                .findByIdAndProviderId(verificationId, user.getOrganizationId());
+        Verification verification = verificationService.findByIdAndProviderId(verificationId, user.getOrganizationId());
 
-        return new VerificationDTO(
-                verification.getClientData(),
-                verification.getId(),
-                verification.getInitialDate(),
-                verification.getExpirationDate(),
-                verification.getStatus(),
-                verification.getCalibrator(),
-                verification.getCalibratorEmployee(),
-                verification.getDevice(),
-                verification.getProvider(),
-                verification.getProviderEmployee(),
-                verification.getStateVerificator(),
-                verification.getStateVerificatorEmployee()
+        return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(), verification.getExpirationDate(),
+        							verification.getStatus(), verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
+        							verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(), verification.getStateVerificatorEmployee()
         );
     }
 }

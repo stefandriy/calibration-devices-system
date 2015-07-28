@@ -1,5 +1,21 @@
 package com.softserve.edu.controller.calibrator;
 
+import java.util.List;
+import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.ArchiveVerificationsSearch;
 import com.softserve.edu.dto.CalibrationTestDTO;
@@ -22,20 +38,6 @@ import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.xml.ws.Response;
-import java.util.List;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/calibrator/verifications/")
@@ -197,5 +199,16 @@ public class CalibratorController {
       List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
       return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
   }
+    
+    @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
+    public VerificationDTO getArchivalVerificationDetailsById( @PathVariable String verificationId, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+
+        Verification verification = verificationService.findByIdAndCalibratorId(verificationId, user.getOrganizationId());
+
+        return new VerificationDTO( verification.getClientData(), verification.getId(), verification.getInitialDate(), verification.getExpirationDate(),
+        							verification.getStatus(), verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
+        							verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(), verification.getStateVerificatorEmployee()
+        );
+    }
 
 }

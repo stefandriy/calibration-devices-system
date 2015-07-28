@@ -3,9 +3,6 @@ angular
     .factory('VerificationServiceProvider', ['$http', '$log', function ($http, $log) {
 
         return {
-            getArchivalVerifications: function (currentPage, itemsPerPage) {
-                return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
-            },
             getNewVerifications: function (currentPage, itemsPerPage, search) {
             	return getDataWithParams('provider/verifications/new/' + currentPage + '/' + itemsPerPage, search);
             },
