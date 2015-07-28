@@ -12,6 +12,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorCalibrator;
 import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorProvider;
+import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorVerificator;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorCalibrator;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorProvider;
@@ -235,7 +236,6 @@ public class VerificationService {
         return result;
     }
 
-    
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
                                                                                                         String streetToSearch, String status, String employeeName, User calibratorEmployee) {
@@ -254,6 +254,7 @@ public class VerificationService {
         result.setTotalItems(count);
         return result;
     }
+    
     
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByStateVerificatorIdAndSearch(Long stateVerificatorId, int pageNumber,
@@ -290,7 +291,27 @@ public class VerificationService {
         }
 
     }
+    
+    @Transactional(readOnly = true)
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+                                                                                                        String streetToSearch, String status, String employeeName, User verificatorEmployee) {
 
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorVerificator.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, verificatorEmployee, em);
+
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorVerificator.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, verificatorEmployee, em)).getSingleResult();
+
+        TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<Verification> verificationList = typedQuery.getResultList();
+
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        result.setContent(verificationList);
+        result.setTotalItems(count);
+        return result;
+    }
+    
+    
     @Transactional(readOnly = true)
     public Verification findByIdAndProviderId(String id, Long providerId) {
         Verification verification = verificationRepository.findByIdAndProviderId(id, providerId);

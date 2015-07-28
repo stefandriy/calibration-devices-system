@@ -99,7 +99,7 @@
                     .state("verifications-archive-verificator", {
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
-                        controller: 'ArchivalVerificationsControllerProvider'
+                        controller: 'ArchivalVerificationsControllerVerificator'
                     });
 
 
@@ -165,7 +165,8 @@
             'verificator/controllers/EmployeeControllerVerificator',
             'verificator/controllers/AddressModalControllerVerificator',
             'verificator/controllers/NotificationsControllerVerificator',
-            'verificator/controllers/CalibrationTestReviewControllerVerificator',    
+            'verificator/controllers/CalibrationTestReviewControllerVerificator',
+            'verificator/controllers/ArchivalVerificationsControllerVerificator',
             'verificator/services/AddressServiceVerificator',
             'verificator/services/UserServiceVerificator',
             'verificator/services/VerificationServiceVerificator'

@@ -3,9 +3,9 @@ angular
     .factory('VerificationServiceVerificator', ['$http', '$log', function ($http, $log) {
 
         return {
-            getArchivalVerifications: function (currentPage, itemsPerPage) {
-                return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
-            },
+        	 getArchiveVerifications: function (currentPage, itemsPerPage, search) {
+             	return getDataWithParams('verificator/verifications/archive/' + currentPage + '/' + itemsPerPage, search);
+             },
             getNewVerifications: function (currentPage, itemsPerPage, searchType, searchText) {
                 return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' + searchType + '/' + searchText);
             },
@@ -65,6 +65,16 @@ angular
                 .error(function (err) {
                     return err;
                 });
+        }
+        
+        function getDataWithParams(url, params) {
+            return $http.get(url, {
+                params : params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
         }
 
         function updateData(url, data) {

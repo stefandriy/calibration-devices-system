@@ -36,7 +36,7 @@ public class CalibratorEmployeeService {
 
     
     @Transactional
-    public User oneProviderEmployee(String username) {
+    public User oneCalibratorEmployee(String username) {
         return calibratorEmployeeRepository.getUserByUserName(username);
     }
 

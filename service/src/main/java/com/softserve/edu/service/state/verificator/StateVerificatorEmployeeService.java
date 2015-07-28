@@ -29,6 +29,11 @@ public class StateVerificatorEmployeeService {
 		stateVerificatorEmployeeRepository.save(stateVerificatorEmployee);
 	}
 	
+	 @Transactional
+	    public User oneVerificatorEmployee(String username) {
+	        return stateVerificatorEmployeeRepository.getUserByUserName(username);
+	    }
+
 //    @Transactional()
 //    public Employee findByUserame(String userName){
 //    	return stateVerificatorEmployeeRepository.findByUsername(userName);

@@ -3,7 +3,6 @@ package com.softserve.edu.service.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,10 +16,9 @@ import org.apache.log4j.Logger;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Status;
 
-public class ArchivalVerificationsQueryConstructorCalibrator {
+public class ArchivalVerificationsQueryConstructorVerificator {
 static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
 	
 	
@@ -32,9 +30,9 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
 
-			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
+			Join<Verification, Organization> calibratorJoin = root.join("stateVerificator");
 
-			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
+			Predicate predicate = ArchivalVerificationsQueryConstructorVerificator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
 																		lastNameToSearch, streetToSearch, status,
 																		employeeName, providerEmployee, calibratorJoin);
 			criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
@@ -51,10 +49,10 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
-			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
-			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
+			Join<Verification, Organization> verificatorJoin = root.join("stateVerificator");
+			Predicate predicate = ArchivalVerificationsQueryConstructorVerificator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
 																		lastNameToSearch, streetToSearch, status, employeeName, providerEmployee
-																		, calibratorJoin);
+																		, verificatorJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
@@ -62,10 +60,10 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	
 	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Long employeeId, String dateToSearch,String idToSearch, 
 																String lastNameToSearch, String streetToSearch, String searchStatus, 
-																String employeeName, User employee, Join<Verification, Organization> calibratorJoin) {
+																String employeeName, User employee, Join<Verification, Organization> verificatorJoin) {
 
 		Predicate queryPredicate = cb.conjunction();
-		queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
+		queryPredicate = cb.and(cb.equal(verificatorJoin.get("id"), employeeId), queryPredicate);
 							
 			if(searchStatus != null) {
 				for (Status status : Status.values()) {
@@ -96,12 +94,12 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 				   queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), queryPredicate);
 				 }
 				 if(employeeName != null) {
-					Join<Verification, User> joinCalibratorEmployee = root.join("calibratorEmployee");
-						Predicate searchByCalibratorName =cb.like(joinCalibratorEmployee.get("firstName"), "%" + employeeName + "%");
-						Predicate searchByCalibratorSurname = cb.like(joinCalibratorEmployee.get("lastName"), "%" + employeeName + "%");
-						Predicate searchByCalibratorLastName = cb.like(joinCalibratorEmployee.get("middleName"), "%" + employeeName + "%");
-						Predicate searchPredicateByCalibratorEmployeeName=cb.or(searchByCalibratorName, searchByCalibratorSurname, searchByCalibratorLastName);  
-						queryPredicate = cb.and(searchPredicateByCalibratorEmployeeName, queryPredicate);
+					Join<Verification, User> joinVerificatorEmployee = root.join("stateVerificatorEmployee");
+						Predicate searchByVerificatorName =cb.like(joinVerificatorEmployee.get("firstName"), "%" + employeeName + "%");
+						Predicate searchByVerificatorSurname = cb.like(joinVerificatorEmployee.get("lastName"), "%" + employeeName + "%");
+						Predicate searchByVerificatorLastName = cb.like(joinVerificatorEmployee.get("middleName"), "%" + employeeName + "%");
+						Predicate searchPredicateByVerificatorEmployeeName=cb.or(searchByVerificatorName,searchByVerificatorSurname, searchByVerificatorLastName);  
+						queryPredicate = cb.and(searchPredicateByVerificatorEmployeeName, queryPredicate);
 				 }
 	
 			return queryPredicate;

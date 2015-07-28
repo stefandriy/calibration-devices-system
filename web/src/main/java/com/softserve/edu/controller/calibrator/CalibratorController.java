@@ -69,7 +69,7 @@ public class CalibratorController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                            NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-    	 User calibratorEmployee = calibratorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+    	 User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
       ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(
               employeeUser.getOrganizationId(),
               pageNumber,
@@ -183,7 +183,7 @@ public class CalibratorController {
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                        ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-      User calibratorEmployee = calibratorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+      User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
       ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByCalibratorId(
               employeeUser.getOrganizationId(),
               pageNumber,
