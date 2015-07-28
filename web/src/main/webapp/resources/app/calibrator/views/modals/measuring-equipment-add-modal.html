@@ -12,34 +12,32 @@
 				<div class="form-group col-md-4">
 					<label class="control-label">{{'NAME' | translate }}</label>
 				</div>
-				<div class="form-group col-md-8" ng-class="usernameValidation.css">
-					<input type="text" ng-model="equipmentFormData.name"
-						ng-model-options="{debounce: 350}" ng-change="checkName()"
-						id="name" name="name" class="form-control" required>
-					<p class="help-block" ng-if="!nameValidation.isValid">{{
-						nameValidation.message }}</p>
+				<div class="form-group col-md-8" show-errors>
+
+					<input type="text" ng-model="equipmentFormData.name" id="name"
+						ng-pattern="EQUIPMENT_NAME_REGEX" name="name"
+						   class="form-control" required>
+
+					<p class="help-block-calibrator" ng-if="eqipmentForm.name.$error.pattern">
+						<span class="glyphicon glyphicon-exclamation-sign"></span> {{'EQUIPMENT_NAME_LENGTH' |
+						translate }}
+					</p>
 				</div>
 			</div>
 		</div>
-		
-		<!-- div class="row">
-			<div class="form-group col-md-4">
-				<label class="control-label">{{'NAME' |	translate }}</label>
-			</div>
-			<div class="form-group col-md-8" show-errors>
-				<input type="text" ng-model="equipmentFormData.name"
-					ng-minlength="3" id="name" name="name" class="form-control"
-					required>
-			</div>
-		</div-->
 
 		<div class="row">
 			<div class="form-group col-md-4">
 				<label class="control-label">{{'TYPE_OF_EQUIPMENT' |  translate }}</label>
 			</div>
-			<div class="form-group col-md-8">
-				<input type="text" ng-model="equipmentFormData.deviceType"
-				    name="deviceType" class="form-control" required>
+			<div class="form-group col-md-8" show-errors>
+				<input type="text" ng-model="equipmentFormData.deviceType" id="deviceType"
+					   ng-pattern="EQUIPMENT_TYPE_REGEX" name="deviceType"
+					   class="form-control" required>
+				<p class="help-block-calibrator" ng-if="eqipmentForm.deviceType.$error.pattern">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> {{'EQUIPMENT_TYPE_REGEX' |
+					translate }}
+				</p>
 			</div>
 		</div>
 
@@ -48,9 +46,14 @@
 			<div class="form-group col-md-4">
 				<label class="control-label">{{'MANUFACTURER' | translate }}</label>
 			</div>
-			<div class="form-group col-md-8">
-				<input type="text" ng-model="equipmentFormData.manufacturer"
-					name="manufacturer" class="form-control" required>
+			<div class="form-group col-md-8" show-errors>
+				<input type="text" ng-model="equipmentFormData.manufacturer" id="manufacturer"
+					ng-pattern="EQUIPMENT_MANUFACTURER_REGEX"  name="manufacturer"
+					   class="form-control" required>
+				<p class="help-block-calibrator" ng-if="eqipmentForm.manufacturer.$error.pattern">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> {{'MANUFACTURER_REGEX' |
+					translate }}
+				</p>
 			</div>
 		</div>
 			
@@ -58,9 +61,14 @@
 			<div class="form-group col-md-4">
 				<label class="control-label">{{'VERIFICATION_INTERVAL' | translate }}</label>
 			</div>
-			<div class="form-group col-md-8">
-				<input type="text" ng-model="equipmentFormData.verificationInterval"
+			<div class="form-group col-md-8" show-errors>
+				<input type="text" ng-model="equipmentFormData.verificationInterval" id="verificationInterval"
+					ng-pattern="EQUIPMENT_INTERVAL_REGEX"
 					name="verificationInterval" class="form-control" required>
+				<p class="help-block-calibrator" ng-if="eqipmentForm.verificationInterval.$error.pattern">
+					<span class="glyphicon glyphicon-exclamation-sign"></span> {{'EQUIPMENT_INTERVAL_REGEX' |
+					translate }}
+				</p>
 			</div>
 		</div>
 	

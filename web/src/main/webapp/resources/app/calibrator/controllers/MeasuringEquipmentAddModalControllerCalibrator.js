@@ -3,77 +3,31 @@ angular.module('employeeModule')
 				   ['$rootScope', '$scope', '$modalInstance', 'MeasuringEquipmentServiceCalibrator',
 						function($rootScope, $scope, $modalInstance, MeasuringEquipmentServiceCalibrator) {
 
-							$scope.name = null;
-							$scope.deviceType = null;
-							$scope.manufacturer = null;
-							$scope.verificationInterval = null;
-
 							/**
 							 * Resets Equipment form
 							 */
 							$scope.resetEquipmentForm = function() {
 								$scope.$broadcast('show-errors-reset');
-								$scope.nameValidation = null;
-								$scope.equipmentFormData = null;
+								//$scope.equipmentFormData = null;
+								$scope.equipmentFormData.name = null;
+								$scope.equipmentFormData.deviceType = null;
+								$scope.equipmentFormData.manufacturer = null;
+								$scope.equipmentFormData.verificationInterval = null;
+								$scope.EQUIPMENT_NAME_REGEX = null;
+								$scope.EQUIPMENT_TYPE_REGEX = null;
+								$scope.EQUIPMENT_MANUFACTURER_REGEX = null;
+								$scope.EQUIPMENT_INTERVAL_REGEX = null;
 							};
 
-							/**
-							 * Calls resetEquipmentForm after the view loaded
-							 */
-							$scope.resetEquipmentForm();
-
-							/**
-							 * Validates name
-							 */
-							$scope.checkName = function() {
-								var name = $scope.equipmentFormData.name;
-								if (name == null) {
-								} else if (/^[a-z0-9_-]{3,40}$/.test(name)) {
-									isNameAvailable(name)
-								} else {
-									validateName(false,
-											'К-сть символів не повинна бути меншою за 3\n і більшою за 40 ');
-								}
-							};
-
-							/**
-							 * Custom Name field validation. Shows error
-							 * message in view if Name isn't validated.
-							 * 
-							 * @param isValid
-							 * @param message
-							 */
-							function validateName(isValid, message) {
-								$scope.nameValidation = {
-									isValid : isValid,
-									css : isValid ? 'has-success' : 'has-error',
-									message : isValid ? undefined : message
-								}
-							}
-
-							/**
-							 * Checks whereas given Name is available to use
-							 * for new equipment
-							 * 
-							 * @param name
-							 */
-							function isNameAvailable(name) {
-								MeasuringEquipmentServiceCalibrator.isEquipmentNameAvailable(name).then(
-										function(data) {
-											validateName(data,
-													'Такий пристрій вже існує');
-										})
-							}
 
 							/**
 							 * Validates equipment form before saving
 							 */
 							$scope.onEquipmentFormSubmit = function() {
 								$scope.$broadcast('show-errors-check-validity');
-//								if ($scope.equipmentForm.$valid
-//										&& $scope.nameValidation.isValid) {
-//								}
-								saveEquipment();
+								if ($scope.eqipmentForm.$valid) {
+									saveEquipment();
+								}
 							};
 
 							/**
@@ -93,6 +47,7 @@ angular.module('employeeModule')
 										});
 							}
 
+
 							/**
 							 * Closes the modal window for adding new
 							 * equipment.
@@ -100,5 +55,10 @@ angular.module('employeeModule')
 							$rootScope.closeModal = function() {
 								$modalInstance.close();
 							};
+
+							$scope.EQUIPMENT_NAME_REGEX = /^[a-zA-Z0-9]{5,20}$/;
+							$scope.EQUIPMENT_TYPE_REGEX = /^[A-Z]{4,16}$/;
+							$scope.EQUIPMENT_MANUFACTURER_REGEX = /^[a-zA-Z0-9]{5,20}$/;
+							$scope.EQUIPMENT_INTERVAL_REGEX = /^\d{2,5}$/;
 
 						} ]);

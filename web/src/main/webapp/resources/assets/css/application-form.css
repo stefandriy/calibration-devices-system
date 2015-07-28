@@ -78,6 +78,13 @@
 	 display: none;
 }
 
+.form-group .help-block-calibrator {
+    color: #ff524d;
+}
+
+
+
+
 .form-group .has-error .help-block {
 	display: block;
 }

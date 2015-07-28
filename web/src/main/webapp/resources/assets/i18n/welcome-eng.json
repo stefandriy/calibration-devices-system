@@ -168,7 +168,13 @@
   "PASSWORD_TOO_SHORT":"Password can not be shorter than 4 symbols",
   "PASSWORDS_ISNT_EQUAL":"Passwords aren`t the equals",
    "INDEX":"Index",
+
   "CLIENT":"Client",
-  "FEEDBACK":"Feedback"
+  "FEEDBACK":"Feedback",
+
+  "EQUIPMENT_NAME_LENGTH":"Equipment name should be 5 to 20 characters",
+  "EQUIPMENT_TYPE_REGEX":"Equipment type should be only UpperCase and 4 to 16 characters",
+  "MANUFACTURER_REGEX":"Manufacturer should be 5 to 20 characters",
+  "EQUIPMENT_INTERVAL_REGEX":"Interval should be only numbers 2 to 5"
 
 }
