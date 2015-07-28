@@ -576,3 +576,7 @@ float:left;
     max-height: 600px;
     overflow-y: auto;
 }
+
+.validation-message {
+    color: red;
+}
