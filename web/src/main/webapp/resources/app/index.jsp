@@ -91,7 +91,7 @@
         <div class="navbar-default sidebar" role="navigation">
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
-                    <sec:authorize access="hasRole('ROLE_provider_admin')">
+                    <sec:authorize url="/provider">
                         <li ui-sref-active="active">
                             <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
                                 провайдер</a>

@@ -37,10 +37,10 @@ angular
                         $scope.showListOfOrganization = true;
                         for (var i = 0; i < role.length; i++) {
                             if ((role[0] === 'PROVIDER_ADMIN' && role[1] === 'CALIBRATOR_ADMIN') ||
-                                (role[1] === 'CALIBRATOR_ADMIN' && role[0] === 'PROVIDER_ADMIN'))
+                                (role[0] === 'CALIBRATOR_ADMIN' && role[1] === 'PROVIDER_ADMIN'))
                                 $scope.showListOfOrganizationChousenOne = true;
                             if ((role[0] === 'STATE_VERIFICATOR_ADMIN' && role[1] === 'CALIBRATOR_ADMIN') ||
-                                (role[1] === 'CALIBRATOR_ADMIN' && role[0] === 'STATE_VERIFICATOR_ADMIN'))
+                                (role[0] === 'CALIBRATOR_ADMIN' && role[1] === 'STATE_VERIFICATOR_ADMIN'))
                                 $scope.showListOfOrganizationChousenTwo = true;
                             }
                     }

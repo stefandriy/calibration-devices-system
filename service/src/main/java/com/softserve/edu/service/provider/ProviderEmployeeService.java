@@ -36,11 +36,7 @@ public class ProviderEmployeeService {
     public void addEmployee(User providerEmployee) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
         providerEmployee.setPassword(passwordEncoded);
-        UserRole r = userRoleRepository.findByRole(Roles.PROVIDER_EMPLOYEE.name());
-        providerEmployee.getUserRoles().add(r);
         providerEmployeeRepository.save(providerEmployee);
-        userRoleRepository.save(r);
-
     }
 
      @Transactional

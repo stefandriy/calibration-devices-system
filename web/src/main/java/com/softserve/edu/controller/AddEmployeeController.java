@@ -82,7 +82,6 @@ public class AddEmployeeController {
             newUser.setUsername(providerEmployee.getUsername());
             newUser.setPassword(providerEmployee.getPassword());
         for (String tmp : providerEmployee.getUserRoles() ){
-
                 UserRole userRole = userRepository.getUserRole(tmp);
             newUser.addUserRole(userRole);
         }
