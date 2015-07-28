@@ -1,6 +1,8 @@
 package com.softserve.edu.dto.admin;
 
 
+import com.softserve.edu.entity.user.UserRole;
+
 import java.util.List;
 
 public class UsersPageItem {
@@ -19,7 +21,8 @@ public class UsersPageItem {
     private String organization;
     private Long countOfVarification;
 
-    public UsersPageItem() {}
+    public UsersPageItem() {
+    }
 
     public String getUsername() {
         return username;
@@ -110,12 +113,18 @@ public class UsersPageItem {
     }
 
 
-
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
-                         String middleName,String phone, String organization,
+                         String middleName, String phone, String organization,
                          Long countOfVarification) {
         this.username = username;
-        this.roles = roles;
+        if (roles.size() == 1) {
+            role = roles.get(0);
+        } else {
+            for (int i = 0; i < roles.size(); i++) {
+                role =(role==null)?roles.get(i): role+ " "+roles.get(i);
+            }
+
+        }
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
@@ -123,8 +132,9 @@ public class UsersPageItem {
         this.organization = organization;
         this.countOfVarification = countOfVarification;
     }
+
     public UsersPageItem(String username, String role, String firstName, String lastName,
-                         String middleName,String phone, String organization,
+                         String middleName, String phone, String organization,
                          Long countOfVarification) {
         this.username = username;
         this.role = role;
@@ -135,6 +145,7 @@ public class UsersPageItem {
         this.organization = organization;
         this.countOfVarification = countOfVarification;
     }
+
     @Override
     public String toString() {
         return "UsersPageItem{" +

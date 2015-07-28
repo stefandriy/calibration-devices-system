@@ -133,7 +133,7 @@ public class ProviderEmployeeController {
         for (User providerEmployee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(
                             providerEmployee.getUsername(),
-                            userService.getRoleByUserName(providerEmployee.getUsername()),
+                            userService.tmp(providerEmployee.getUsername()),
                             providerEmployee.getFirstName(),
                             providerEmployee.getLastName(),
                             providerEmployee.getMiddleName(),

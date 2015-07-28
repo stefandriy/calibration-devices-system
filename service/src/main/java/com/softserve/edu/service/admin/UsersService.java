@@ -3,6 +3,7 @@ package com.softserve.edu.service.admin;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,9 @@ public class UsersService {
     @Autowired
     private UserRepository userRepository;
 
+
+    @Autowired
+    private UserRoleRepository userRoleRepository;
     /**
      * Check whereas user with {@code username} exist in database
      *
@@ -53,5 +57,10 @@ public class UsersService {
     @Transactional
     public List<UserRole> getRoleByUserNam(String username){
         return userRepository.getRoleByUserNam(username);
+    }
+
+    @Transactional
+    public List<String> tmp(String username){
+        return userRoleRepository.getRoles(username);
     }
 }
