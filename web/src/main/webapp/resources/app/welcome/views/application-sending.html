@@ -359,7 +359,7 @@
 								<option value="3">3</option>
 
 							</select>
-							{{selectedCount}}
+
 						</div>
 						<div class="col-md-9 pull-right" id="deviceBox" >
 							<select multiple chosen name="device" type="text"  width="'100%'"
@@ -403,8 +403,8 @@
 	         	<i ng-show="!applicationCode" id="loadIcon"
 				class="fa fa-3x fa-spinner fa-spin "></i>
 
-			<div class="text-center" ng-show="applicationCode"  ng-repeat="x in applicationCodes">
-				{{'APP_SENT' | translate}} <b>{{ x }} </b> <br>
+			<div class="text-center" ng-show="applicationCode" > <!-- ng-repeat="x in applicationCodes" -->
+				{{'APP_SENT' | translate}} <b>{{ applicationCode }} </b> <br>
 				{{'APP_SENT_INFO' | translate}}
 			</div>
 

@@ -167,5 +167,8 @@
   "LOGIN_HAS_INVALID_LENGTH":"Username must be from 3 to 16 characters length",
   "PASSWORD_TOO_SHORT":"Password can not be shorter than 4 symbols",
   "PASSWORDS_ISNT_EQUAL":"Passwords aren`t the equals",
-   "INDEX":"Index"
+   "INDEX":"Index",
+  "CLIENT":"Client",
+  "FEEDBACK":"Feedback"
+
 }

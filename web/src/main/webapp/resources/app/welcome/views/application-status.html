@@ -117,14 +117,14 @@
 					<tr
 						ng-class="{'doneStyle':verification.status == 'TEST_OK','notYetStyle':verification.status == 'REJECTED'}">
 						<td class="col-sm-3  glyphicon glyphicon-user"
-							ng-class="{'progressStyle':verification.status == 'SENT'||'IN_PROGRESS'||'SENT_TO_VERIFICATOR'}">Client</td>
+							ng-class="{'progressStyle':verification.status == 'SENT'||'IN_PROGRESS'||'SENT_TO_VERIFICATOR'}">  {{'CLIENT'| translate}}</td>
 						<td class="col-sm-3  glyphicon glyphicon-tint"
-							ng-class="{ 'doneStyle':verification.status == 'IN_PROGRESS'||'SENT_TO_VERIFICATOR','progressStyle':verification.status == 'SENT'}">{{'PROVIDER' | translate}}</td>
+							ng-class="{ 'doneStyle':verification.status == 'IN_PROGRESS'||'SENT_TO_VERIFICATOR','progressStyle':verification.status == 'SENT'}">  {{'PROVIDER' | translate}}</td>
 						<td class="col-sm-3  glyphicon glyphicon-scale"
-							ng-class="{'doneStyle':verification.status == 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status == 'SENT'||'ACCEPTED', 'progressStyle':verification.status == 'IN_PROGRESS'}">Calibrator</td>
+							ng-class="{'doneStyle':verification.status == 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status == 'SENT'||'ACCEPTED', 'progressStyle':verification.status == 'IN_PROGRESS'}">  {{'CALIBRATOR'| translate}}</td>
 						<td class="col-sm-3  glyphicon glyphicon-home"
-							ng-class="{'notYetStyle':verification.status == 'SENT'||'IN_PROGRESS' , 'progressStyle':verification.status == 'SENT_TO_VERIFICATOR'}">State
-							Verificator</td>
+							ng-class="{'notYetStyle':verification.status == 'SENT'||'IN_PROGRESS' , 'progressStyle':verification.status == 'SENT_TO_VERIFICATOR'}">  {{
+							'VERIFICATOR'| translate}}</td>
 
 					</tr>
 				</table>
@@ -156,9 +156,8 @@
 			
 		<div>
 			<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
-				data-target="#myModal" popover="Model feedback"
-				popover-trigger="mouseenter" ng-click="feedbackModal(verification.id)" ng-if="verification.status">
-				<span class=" glyphicon glyphicon-envelope"></span> Open Feedback Modal
+				data-target="#myModal"  ng-click="feedbackModal(verification.id)" ng-if="verification.status">
+				<span class=" glyphicon glyphicon-envelope"></span>  {{'FEEDBACK'| translate}
 			</button>
 		</div>	
 	<!-- 		<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
@@ -169,17 +168,7 @@
 			</button>
 			
 		
-<div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
-      <li role="presentation" class="divider"></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
-    </ul>
-  </div> -->
+ -->
 
 			
 		</div>

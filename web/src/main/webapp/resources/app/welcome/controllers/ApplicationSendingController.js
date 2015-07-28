@@ -237,8 +237,7 @@ angular
                           $log.debug( $scope.selectedCount);
                         });
                      //hide form because application status is shown
-                    $scope.isShownForm = false;
-                  }
+                    $scope.isShownForm = false;}
                  }
                 }
             };
