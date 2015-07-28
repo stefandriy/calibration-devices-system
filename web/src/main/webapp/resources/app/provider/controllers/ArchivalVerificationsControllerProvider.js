@@ -72,7 +72,7 @@ angular
                  }
             });
 
-            $scope.openDetails = function (verifId, verifDate, verifReadStatus, verifStatus) {
+            $scope.openDetails = function (verifId, verifDate) {
 
                 $modal.open({
                     animation: true,
@@ -83,11 +83,8 @@ angular
                         response: function () {
                             return verificationServiceProvider.getArchivalVerificationDetails(verifId)
                                 .success(function (verification) {
-                                	 $rootScope.verificationID = verifId;
-                                    verification.id =   $rootScope.verificationID;
-                                    verification.initialDate = verifDate;
-                                    verification.status = verifStatus;
-                                    
+                                	 verification.id = verifId;
+                                     verification.initialDate = verifDate;
                                     return verification;
                                 });
                         }

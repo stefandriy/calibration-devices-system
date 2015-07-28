@@ -83,7 +83,7 @@
                                         </td>
                                     <td class="text-center clearInput">
                                         <button class="btn btn-danger btn-sm" ng-click="clearAll()"
-                                                ng-show="search.streetText.length && search.lastNameText.length && search.idText.length">
+                                                ng-show="search.streetText.length && search.lastNameText.length && search.idText.length && search.status.length && search.employee.length">
                                           {{'CLEAR_ALL' | translate}}
                                         </button>
                                     </td>
@@ -116,7 +116,7 @@
                                     <td class="text-center">
                                        <button class="btn btn-xs btn-primary btn-actions-custom" popover="Детальніше"
                                            		popover-trigger="mouseenter"
-	                                           	ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
+	                                           	ng-click="openDetails(verification.id, verification.initialDate)">
 	                                            <i class="fa fa-info"></i>
                                         	</button>
 
