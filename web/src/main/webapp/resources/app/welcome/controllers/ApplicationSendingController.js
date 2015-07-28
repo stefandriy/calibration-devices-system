@@ -212,7 +212,7 @@ angular
             /**
              * Sends data to the server where Verification entity will be created.
              * On-click handler in send button.
-             */
+             */$scope.applicationCodes=[];
             $scope.sendApplicationData = function () {
 
 
@@ -230,14 +230,33 @@ angular
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.selectedDevice[i].id;
 
-                  dataSendingService.sendApplication($scope.formData)
-                        .success(function (applicationCode) {
-                            $scope.applicationCode = applicationCode;
-                          $log.debug($scope.formData);
-                          $log.debug( $scope.selectedCount);
-                        });
+                        $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
+                     //   $scope.applicationCodes=[];
+                       // applicationCodes[]=$q.all  dataSendingService.sendApplication($scope.formData)
+                       // .success(function (applicationCode) {
+                       //     $scope.applicationCode = applicationCode;
+                       //   $log.debug($scope.formData);
+                       //   $log.debug( $scope.selectedCount);
+                      //  });
                      //hide form because application status is shown
-                    $scope.isShownForm = false;}
+                   // $scope.isShownForm = false;
+                    }
+                    $scope.codes=[];
+                    $q.all($scope.applicationCodes).then(function(values){
+                       $log.debug('values');
+                        $log.debug(values);
+
+                        for ( var i=0; i< $scope.selectedCount;i++){
+
+                            $scope.codes[i]=values[i].data;
+
+
+
+                        }
+                        $scope.isShownForm = false;
+                        $log.debug('$scope.codes');
+                        $log.debug($scope.codes);
+                    });
                  }
                 }
             };

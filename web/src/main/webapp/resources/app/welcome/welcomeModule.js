@@ -70,7 +70,7 @@
 												         verificationData:  function($stateParams, DataReceivingService){
 												            return DataReceivingService.getVerificationById($stateParams.verificationId);
 												         }
-												      },
+												      }
 												})
 										.state(
 												'application-status',

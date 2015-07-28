@@ -392,7 +392,7 @@
 			</form>
 		</div>
 
-		<div ng-show="!isShownForm  && !errorEdit"
+		<div ng-show="!isShownForm  && !errorEdit" ng-repeat="code in codes"
 			class="row col-md-10 alert alert-success alert-dismissible centered"
 			role="alert">
 			<button ng-click="closeAlert()" type="button"
@@ -400,14 +400,15 @@
 				<span aria-hidden="true">&times;</span>
 			</button>
 
-	         	<i ng-show="!applicationCode" id="loadIcon"
+	         	<i ng-show="!codes" id="loadIcon"
 				class="fa fa-3x fa-spinner fa-spin "></i>
-
-			<div class="text-center" ng-show="applicationCode" > <!-- ng-repeat="x in applicationCodes" -->
-				{{'APP_SENT' | translate}} <b>{{ applicationCode }} </b> <br>
+			<br>
+			<div class="text-center" ng-show="codes"  >
+				{{'APP_SENT' | translate}} <b>{{ code }} </b> <br>
 				{{'APP_SENT_INFO' | translate}}
-			</div>
 
+			</div>
+			<br>
 		</div>
 		<div ng-show="!isShownForm  && errorEdit"
 			class="row col-md-10 alert alert-danger alert-dismissible centered"
