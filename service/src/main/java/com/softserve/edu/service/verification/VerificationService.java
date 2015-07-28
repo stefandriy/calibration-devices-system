@@ -153,37 +153,7 @@ public class VerificationService {
         return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS, pageRequest);
     }
 
-    @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByCalibratorIdAndSearch(Long calibratorId, int pageNumber, int itemsPerPage, String searchType, String searchText) {
-        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        switch (searchType) {
-            case "id":
-                return verificationRepository.findByCalibratorIdAndStatusAndIdLikeIgnoreCase(calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
-
-            case "lastName":
-                return verificationRepository.findByCalibratorIdAndStatusAndClientData_lastNameLikeIgnoreCase(calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
-
-            case "street":
-                return verificationRepository.findByCalibratorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase( calibratorId, Status.IN_PROGRESS, "%" + searchText + "%", pageRequest);
-
-            case "date":
-
-                SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = null;
-				try {
-					date = form.parse(searchText);
-				} catch (ParseException pe) {
-					logger.error("Incorrect date format", pe);
-				}
-                return verificationRepository.findByCalibratorIdAndStatusAndInitialDateLike(calibratorId, Status.IN_PROGRESS,  date, pageRequest);
-
-            default:
-                return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS, pageRequest);
-        }
-
-    }
-
-
+    
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
@@ -228,9 +198,8 @@ public class VerificationService {
     
     
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId,
-                                                                                                        int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                                        String streetToSearch, String status, String employeeName, User providerEmployee) {
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+                                                                                           String streetToSearch, String status, String employeeName, User providerEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, providerEmployee, em);
 
