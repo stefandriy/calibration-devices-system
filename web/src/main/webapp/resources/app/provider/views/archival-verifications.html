@@ -72,6 +72,15 @@
                                                       ng-click="clearStatus()"></span>
                                             </div>
                                         </td>
+                                         <td>
+                                            <div class="btn-group">
+                                                <input type="text" class="form-control input-sm"
+                                                       ng-model="search.employee" ng-change=doSearch()>
+                                                <span id="searchclear" class="glyphicon glyphicon-remove-circle"
+                                                      ng-show="search.employee.length"
+                                                      ng-click="clearEmployee()"></span>
+                                            </div>
+                                        </td>
                                     <td class="text-center clearInput">
                                         <button class="btn btn-danger btn-sm" ng-click="clearAll()"
                                                 ng-show="search.streetText.length && search.lastNameText.length && search.idText.length">
@@ -79,7 +88,7 @@
                                         </button>
                                     </td>
                                     
-                                    <td></td>
+                                 
                                 </tr>
                                 <tr>
                                     <th class="col-md-2">Дата початку процесу повірки</th>

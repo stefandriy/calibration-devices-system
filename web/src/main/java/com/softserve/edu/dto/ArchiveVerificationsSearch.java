@@ -7,16 +7,18 @@ public class ArchiveVerificationsSearch {
 	private String lastNameText;
 	private String streetText;
 	private String status;
+	private String employee;
 	
 	public ArchiveVerificationsSearch() {};
 	
-	public ArchiveVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String status) {
+	public ArchiveVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String status, String employee) {
 
 		this.idText = idText;
 		this.formattedDate = formattedDate;
 		this.lastNameText = lastNameText;
 		this.streetText = streetText;
 		this.status = status;
+		this.employee = employee;
 	}
 
 	public String getIdText() {
@@ -57,5 +59,13 @@ public class ArchiveVerificationsSearch {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(String employee) {
+		this.employee = employee;
 	}
 }

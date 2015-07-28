@@ -53,22 +53,23 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                        ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByOrganizationId(
-                employeeUser.getOrganizationId(),
-                pageNumber,
-                itemsPerPage,
-                searchData.getFormattedDate(),
-                searchData.getIdText(),
-                searchData.getLastNameText(),
-                searchData.getStreetText(),
-                searchData.getStatus(),
-                providerEmployee
-        );
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        System.err.println("inside controller new search");
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-    }
+
+      User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByOrganizationId(
+              employeeUser.getOrganizationId(),
+              pageNumber,
+              itemsPerPage,
+              searchData.getFormattedDate(),
+              searchData.getIdText(),
+              searchData.getLastNameText(),
+              searchData.getStreetText(),
+              searchData.getStatus(),
+              searchData.getEmployee(),
+              providerEmployee
+      );
+      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+  }
 
     /**
      * Find page of verifications by specific criterias
@@ -86,22 +87,22 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                            NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
-                employeeUser.getOrganizationId(),
-                pageNumber,
-                itemsPerPage,
-                searchData.getFormattedDate(),
-                searchData.getIdText(),
-                searchData.getLastNameText(),
-                searchData.getStreetText(),
-                searchData.getStatus(),
-                providerEmployee
-        );
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        System.err.println("inside controller new search");
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-    }
+      User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
+              employeeUser.getOrganizationId(),
+              pageNumber,
+              itemsPerPage,
+              searchData.getFormattedDate(),
+              searchData.getIdText(),
+              searchData.getLastNameText(),
+              searchData.getStreetText(),
+              searchData.getStatus(),
+              providerEmployee
+      );
+      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+  }
+
 
     /**
      * Find count of new verifications that have Read Status "UNREAD"

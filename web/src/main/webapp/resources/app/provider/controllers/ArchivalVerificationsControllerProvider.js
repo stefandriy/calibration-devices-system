@@ -12,6 +12,7 @@ angular
         	$scope.search.lastNameText=null;
         	$scope.search.streetText=null;
         	$scope.search.status = null;
+        	$scope.search.employee = null;
         	$scope.tableParams.reload();
         }
         
@@ -31,11 +32,15 @@ angular
         	$scope.search.status = null;
         	$scope.tableParams.reload();
         }
+        $scope.clearEmployee = function () {
+        	$scope.search.employee = null;
+        	$scope.tableParams.reload();
+        }
         var promiseSearchTimeOut;
         $scope.doSearch = function() {
         	promiseTimeOut = $timeout(function() {
             $scope.tableParams.reload();
-        	}, 2000);
+        	}, 1500);
         }
 
         $scope.$on('refresh-table', function () {
