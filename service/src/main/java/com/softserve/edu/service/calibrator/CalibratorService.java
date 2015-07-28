@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
@@ -33,6 +34,7 @@ public class CalibratorService {
     @Autowired
     private VerificationRepository verificationRepository;
 
+
     @Transactional(readOnly = true)
     public List<Organization> findByDistrict(String district, String type) {
         System.err.println("searching calibrators");
@@ -45,10 +47,11 @@ public class CalibratorService {
     }
 
     @Transactional
-    public void uploadBbi(InputStream fileInputStream,String idVerification) throws IOException {
-         byte[] bytesOfBbi = IOUtils.toByteArray(fileInputStream);
-          Verification verification= verificationRepository.findOne(idVerification);
-        BbiProtocol bbiProtocol = new BbiProtocol(bytesOfBbi,verification);
+    public void uploadBbi(InputStream file, String idVerification,String originalFileFullName) throws IOException {
+        String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
+        byte[] bytesOfBbi = IOUtils.toByteArray(file);
+        Verification verification = verificationRepository.findOne(idVerification);
+        BbiProtocol bbiProtocol = new BbiProtocol(bytesOfBbi, verification,filename);
         uploadBbiRepository.save(bbiProtocol);
     }
 

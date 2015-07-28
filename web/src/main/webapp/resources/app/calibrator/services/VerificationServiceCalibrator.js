@@ -73,13 +73,5 @@ angular
                     return err;
                 });
         }
-        function postData(url, file) {
-            $http.post(url, file, {
-                withCredentials: true,
-                headers: {'Content-Type': undefined},
-               transformRequest: angular.identity
-            }).success('s').error('er');
-        }
 
-   
     }]);

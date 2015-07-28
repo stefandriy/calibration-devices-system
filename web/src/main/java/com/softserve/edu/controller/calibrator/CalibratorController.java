@@ -17,6 +17,8 @@ import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.verification.VerificationService;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,99 +28,103 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.ws.Response;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/calibrator/verifications/")
 public class CalibratorController {
 
-	@Autowired
-	VerificationService verificationService;
+    @Autowired
+    VerificationService verificationService;
 
-	@Autowired
-	ProviderService providerService;
+    @Autowired
+    ProviderService providerService;
 
-	@Autowired
-	CalibratorService calibratorService;
+    @Autowired
+    CalibratorService calibratorService;
 
-	@Autowired
-	CalibrationTestService testService;
+    @Autowired
+    CalibrationTestService testService;
 
-	@Autowired
-	StateVerificatorService verificatorService;
+    @Autowired
+    StateVerificatorService verificatorService;
 
-	private final Logger logger = Logger.getLogger(CalibratorController.class);
+    private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
 
-	@RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
-	public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
-			@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String searchType,
-			@PathVariable String searchText,
-			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    private final Logger logger = Logger.getLogger(CalibratorController.class);
 
-		if (!(searchText.equalsIgnoreCase("null"))) {
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
+            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String searchType,
+            @PathVariable String searchText,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-			Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-					.toDTO(verificationService.findPageOfSentVerificationsByCalibratorIdAndSearch(
-							employeeUser.getOrganizationId(), pageNumber, itemsPerPage, searchType, searchText));
+        if (!(searchText.equalsIgnoreCase("null"))) {
 
-			return new PageDTO<>(page.getTotalElements(), page.getContent());
-		} else {
+            Page<VerificationPageDTO> page = VerificationPageDTOTransformer
+                    .toDTO(verificationService.findPageOfSentVerificationsByCalibratorIdAndSearch(
+                            employeeUser.getOrganizationId(), pageNumber, itemsPerPage, searchType, searchText));
 
-			Page<VerificationPageDTO> page = VerificationPageDTOTransformer.toDTO(
-					verificationService.findPageOfSentVerificationsByCalibratorId(employeeUser.getOrganizationId(),
-							pageNumber, itemsPerPage));
+            return new PageDTO<>(page.getTotalElements(), page.getContent());
+        } else {
 
-			return new PageDTO<>(page.getTotalElements(), page.getContent());
-		}
+            Page<VerificationPageDTO> page = VerificationPageDTOTransformer.toDTO(
+                    verificationService.findPageOfSentVerificationsByCalibratorId(employeeUser.getOrganizationId(),
+                            pageNumber, itemsPerPage));
 
-	}
+            return new PageDTO<>(page.getTotalElements(), page.getContent());
+        }
 
-	/**
-	 * Finds count of verifications which have read status 'UNREAD' and are
-	 * assigned to this organization
-	 * 
-	 * @param user
-	 * @return Long
-	 */
-	@RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
-	public Long getCountOfNewVerificationsByCalibratorId(
-			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    }
 
-		if (user != null) {
-			return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
-		} else {
-			return null;
-		}
-	}
+    /**
+     * Finds count of verifications which have read status 'UNREAD' and are
+     * assigned to this organization
+     *
+     * @param user
+     * @return Long
+     */
+    @RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
+    public Long getCountOfNewVerificationsByCalibratorId(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-	@RequestMapping(value = "new/verificators", method = RequestMethod.GET)
-	public List<Organization> getMatchingVerificators(
-			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-		List<Organization> list = verificatorService.findByDistrict(
-				calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
+        if (user != null) {
+            return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
+        } else {
+            return null;
+        }
+    }
 
-		return list;
-	}
+    @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
+    public List<Organization> getMatchingVerificators(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        List<Organization> list = verificatorService.findByDistrict(
+                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
 
-	@RequestMapping(value = "new/update", method = RequestMethod.PUT)
-	public void updateVerification(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-		for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-			Long idCalibrator = verificationUpdatingDTO.getVerificatorId();
-			Organization calibrator = calibratorService.findById(idCalibrator);
-			verificationService.sendVerificationTo(verificationId, calibrator, Status.SENT_TO_VERIFICATOR);
-		}
-	}
+        return list;
+    }
 
-	/**
-	 * Update verification when user reads it
-	 * 
-	 * @param verificationDto
-	 */
-	@RequestMapping(value = "new/read", method = RequestMethod.PUT)
-	public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
-		verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(),
-				verificationDto.getReadStatus());
-	}
+    @RequestMapping(value = "new/update", method = RequestMethod.PUT)
+    public void updateVerification(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
+            Long idCalibrator = verificationUpdatingDTO.getVerificatorId();
+            Organization calibrator = calibratorService.findById(idCalibrator);
+            verificationService.sendVerificationTo(verificationId, calibrator, Status.SENT_TO_VERIFICATOR);
+        }
+    }
+
+    /**
+     * Update verification when user reads it
+     *
+     * @param verificationDto
+     */
+    @RequestMapping(value = "new/read", method = RequestMethod.PUT)
+    public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
+        verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(),
+                verificationDto.getReadStatus());
+    }
 
 
     @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
@@ -149,13 +155,20 @@ public class CalibratorController {
     }
 
     @RequestMapping(value = "new/upload", method = RequestMethod.POST)
-    public HttpStatus uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
-        HttpStatus httpStatus = HttpStatus.CREATED;
+    public ResponseEntity<String> uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
+        ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
         try {
-            calibratorService.uploadBbi(file.getInputStream(),idVerification);
+            String originalFileFullName = file.getOriginalFilename();
+            String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
+            if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                calibratorService.uploadBbi(file.getInputStream(), idVerification, originalFileFullName);
+            } else {
+                logger.error("Failed to load file ");
+                httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
         } catch (Exception e) {
             logger.error("Failed to load file " + e.getMessage());
-            httpStatus = HttpStatus.BAD_REQUEST;
+            httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return httpStatus;
     }

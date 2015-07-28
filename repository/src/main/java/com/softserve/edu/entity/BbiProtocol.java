@@ -18,8 +18,9 @@ public class BbiProtocol {
     private Long id;
 
     @Lob
-    @Column(length = 500000)
     private byte[] bbi;
+
+    private String fileName;
 
     @ManyToOne
     private Verification verification;
@@ -51,15 +52,25 @@ public class BbiProtocol {
         this.verification = verification;
     }
 
-    public BbiProtocol(byte[] bbi, Verification verification) {
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public BbiProtocol(byte[] bbi, Verification verification,String fileName) {
         this.bbi = bbi;
         this.verification = verification;
+        this.fileName = fileName;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
+                .append("fileName", fileName)
                 .append("bbi", bbi).toString();
     }
 
@@ -68,6 +79,7 @@ public class BbiProtocol {
         return new HashCodeBuilder()
                 .append(id)
                 .append(bbi)
+                .append(fileName)
                 .toHashCode();
     }
 
@@ -78,6 +90,7 @@ public class BbiProtocol {
             return new EqualsBuilder()
                     .append(id, other.id)
                     .append(bbi, other.bbi)
+                    .append(fileName, other.fileName)
                     .isEquals();
         } else {
             return false;
