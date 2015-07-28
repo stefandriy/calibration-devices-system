@@ -8,10 +8,8 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -19,10 +17,8 @@ import org.apache.log4j.Logger;
 
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
-
-import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.user.User;
-
+import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Status;
 
 

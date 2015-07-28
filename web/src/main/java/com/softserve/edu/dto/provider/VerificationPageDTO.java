@@ -21,6 +21,8 @@ public class VerificationPageDTO {
     private String street;
     private Status status;
     private String providerEmployee;
+    private String calibratorEmployee;
+    private String stateVerificatorEmployee;
     private Long countOfWork;
     private ReadStatus readStatus;
 
@@ -28,7 +30,7 @@ public class VerificationPageDTO {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street,
-                               Status status, ReadStatus readStatus, User providerEmployee,
+                               Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee, 
                                String name, String district, String locality, String phone) {
 
         this.id = id;
@@ -42,6 +44,20 @@ public class VerificationPageDTO {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
             } else {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
+            }
+        };
+        if (calibratorEmployee != null) {
+            if (calibratorEmployee.getMiddleName() != null) {
+                this.calibratorEmployee = calibratorEmployee.getLastName() + " " + calibratorEmployee.getFirstName() + " " + calibratorEmployee.getMiddleName();
+            } else {
+                this.calibratorEmployee = calibratorEmployee.getLastName() + " " + calibratorEmployee.getFirstName();
+            }
+        };
+        if (stateVerificatorEmployee != null) {
+            if (stateVerificatorEmployee.getMiddleName() != null) {
+                this.stateVerificatorEmployee = stateVerificatorEmployee.getLastName() + " " + stateVerificatorEmployee.getFirstName() + " " + stateVerificatorEmployee.getMiddleName();
+            } else {
+                this.stateVerificatorEmployee = stateVerificatorEmployee.getLastName() + " " + stateVerificatorEmployee.getFirstName();
             }
         };
         this.name=name;
@@ -151,7 +167,23 @@ public class VerificationPageDTO {
         this.phone = phone;
     }
 
-    @Override
+    public String getCalibratorEmployee() {
+		return calibratorEmployee;
+	}
+
+	public void setCalibratorEmployee(String calibratorEmployee) {
+		this.calibratorEmployee = calibratorEmployee;
+	}
+
+	public String getStateVerificatorEmployee() {
+		return stateVerificatorEmployee;
+	}
+
+	public void setStateVerificatorEmployee(String stateVerificatorEmployee) {
+		this.stateVerificatorEmployee = stateVerificatorEmployee;
+	}
+
+	@Override
     public String toString() {
         return "VerificationPageDTO{" +
                 "id='" + id + '\'' +

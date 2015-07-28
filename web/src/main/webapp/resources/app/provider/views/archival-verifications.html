@@ -120,14 +120,14 @@
 	                                            <i class="fa fa-info"></i>
                                         	</button>
 
-                                        <a ng-show="verification.status === 'COMPLETED'"
+                                        <a ng-show="verification.status === 'TEST_OK'"
                                            popover="Завантажити тестові дані у форматі 'docx'"
                                            popover-trigger="mouseenter"
                                            href="{{'/doc/' + verification.id + '/docx'}}">
                                             <i class="fa fa-file-word-o"></i>
                                         </a>
 
-                                        <a ng-show="verification.status === 'COMPLETED'"
+                                        <a ng-show="verification.status === 'TEST_OK'"
                                            popover="Завантажити тестові дані у форматі 'pdf'"
                                            popover-trigger="mouseenter"
                                            href="{{'/doc/' + verification.id + '/pdf'}}">

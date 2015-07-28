@@ -53,9 +53,8 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                        ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-
       User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByOrganizationId(
+      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderId(
               employeeUser.getOrganizationId(),
               pageNumber,
               itemsPerPage,

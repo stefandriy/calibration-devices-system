@@ -78,7 +78,7 @@
                     .state("verifications-archive-calibrator", {
                         url: '/calibrator/verifications/archive',
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
-                        controller: 'ArchivalVerificationsControllerCalibrator'
+                        controller: 'ArchivalVerificationsControllerProvider'
                     })
                       .state("measuring-equipment-calibrator", {
                         url: '/calibrator/mEquipment/',
@@ -99,7 +99,7 @@
                     .state("verifications-archive-verificator", {
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
-                        controller: 'ArchivalVerificationsControllerVerificator'
+                        controller: 'ArchivalVerificationsControllerProvider'
                     });
 
 

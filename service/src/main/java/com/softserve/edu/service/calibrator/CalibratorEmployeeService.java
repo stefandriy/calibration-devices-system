@@ -35,6 +35,12 @@ public class CalibratorEmployeeService {
     }
 
     
+    @Transactional
+    public User oneProviderEmployee(String username) {
+        return calibratorEmployeeRepository.getUserByUserName(username);
+    }
+
+    
 //    @Transactional()
 //    public Employee findByUserame(String userName){
 //    	return calibratorEmployeeRepository.findByUsername(userName);

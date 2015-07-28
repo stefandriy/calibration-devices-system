@@ -174,7 +174,18 @@
                                 повірок</a>
                         </li>
                     </sec:authorize>
-
+					 <sec:authorize url="/calibrator">
+                        <li ui-sref-active="active">
+                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> Архів
+                                повірок</a>
+                        </li>
+                    </sec:authorize>
+                     <sec:authorize url="/verificator">
+                        <li ui-sref-active="active">
+                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> Архів
+                                повірок</a>
+                        </li>
+                    </sec:authorize>
                     <sec:authorize url="/provider/admin/">
                         <li ui-sref-active="active">
                             <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>Статистика

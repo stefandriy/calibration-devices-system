@@ -1,7 +1,9 @@
 package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
+import com.softserve.edu.dto.ArchiveVerificationsSearch;
 import com.softserve.edu.dto.CalibrationTestDTO;
+import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
@@ -10,12 +12,15 @@ import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.CalibrationTestService;
 import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -44,6 +49,9 @@ public class CalibratorController {
 
     @Autowired
     CalibratorService calibratorService;
+    
+    @Autowired
+    CalibratorEmployeeService calibratorEmployeeService;
 
     @Autowired
     CalibrationTestService testService;
@@ -55,29 +63,25 @@ public class CalibratorController {
 
     private final Logger logger = Logger.getLogger(CalibratorController.class);
 
-    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{searchType}/{searchText}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByCalibratorIdAndSearch(
-            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String searchType,
-            @PathVariable String searchText,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                           NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-        if (!(searchText.equalsIgnoreCase("null"))) {
-
-            Page<VerificationPageDTO> page = VerificationPageDTOTransformer
-                    .toDTO(verificationService.findPageOfSentVerificationsByCalibratorIdAndSearch(
-                            employeeUser.getOrganizationId(), pageNumber, itemsPerPage, searchType, searchText));
-
-            return new PageDTO<>(page.getTotalElements(), page.getContent());
-        } else {
-
-            Page<VerificationPageDTO> page = VerificationPageDTOTransformer.toDTO(
-                    verificationService.findPageOfSentVerificationsByCalibratorId(employeeUser.getOrganizationId(),
-                            pageNumber, itemsPerPage));
-
-            return new PageDTO<>(page.getTotalElements(), page.getContent());
-        }
-
-    }
+    	 User calibratorEmployee = calibratorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(
+              employeeUser.getOrganizationId(),
+              pageNumber,
+              itemsPerPage,
+              searchData.getFormattedDate(),
+              searchData.getIdText(),
+              searchData.getLastNameText(),
+              searchData.getStreetText(),
+              searchData.getStatus(),
+              calibratorEmployee
+      );
+      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+  }
 
     /**
      * Finds count of verifications which have read status 'UNREAD' and are
@@ -172,4 +176,26 @@ public class CalibratorController {
         }
         return httpStatus;
     }
+    
+    @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                       ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
+      User calibratorEmployee = calibratorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByCalibratorId(
+              employeeUser.getOrganizationId(),
+              pageNumber,
+              itemsPerPage,
+              searchData.getFormattedDate(),
+              searchData.getIdText(),
+              searchData.getLastNameText(),
+              searchData.getStreetText(),
+              searchData.getStatus(),
+              searchData.getEmployee(),
+              calibratorEmployee
+      );
+      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+  }
+
 }

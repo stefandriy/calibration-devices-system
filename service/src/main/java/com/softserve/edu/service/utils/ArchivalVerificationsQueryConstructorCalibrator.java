@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -21,21 +20,23 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Status;
 
-public class ArchivalVerificationsQueryConstructor {
-static Logger logger = Logger.getLogger(NewVerificationsQueryConstructorProvider.class);
+public class ArchivalVerificationsQueryConstructorCalibrator {
+static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
 	
 	
-	public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch,
+	public static CriteriaQuery<Verification> buildSearchQuery (Long employeeId, String dateToSearch,
 									String idToSearch, String lastNameToSearch, String streetToSearch, String status, String employeeName, 
 									User providerEmployee, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
-			Join<Verification, Organization> joinSearch = root.join("provider");
 
-			Predicate predicate = ArchivalVerificationsQueryConstructor.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, status, employeeName, providerEmployee);
+			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
+
+			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
+																		lastNameToSearch, streetToSearch, status,
+																		employeeName, providerEmployee, calibratorJoin);
 			criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 			criteriaQuery.select(root);
 			criteriaQuery.where(predicate);
@@ -43,41 +44,29 @@ static Logger logger = Logger.getLogger(NewVerificationsQueryConstructorProvider
 	}
 	
 	
-	public static CriteriaQuery<Long> buildCountQuery (Long providerId, String dateToSearch,
+	public static CriteriaQuery<Long> buildCountQuery (Long employeeId, String dateToSearch,
 							String idToSearch, String lastNameToSearch, String streetToSearch, String status, String employeeName,
 							User providerEmployee, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
-			Join<Verification, Organization> joinSearch = root.join("provider");
-			Predicate predicate = ArchivalVerificationsQueryConstructor.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, status, employeeName, providerEmployee);
+			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
+			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
+																		lastNameToSearch, streetToSearch, status, employeeName, providerEmployee
+																		, calibratorJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
 			}
 	
-	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long providerId, 
-																	String dateToSearch,String idToSearch, String lastNameToSearch,
-																	String streetToSearch, String searchStatus, String employeeName, User providerEmployee) {
-	
-		String userName = providerEmployee.getUsername();
-		Predicate queryPredicate = cb.conjunction();
-		Set<UserRole> roles= providerEmployee.getUserRoles();
-			for (UserRole userRole : roles) {
-				String role = userRole.getRole();
-				if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
-					Join<Verification, User> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
-					Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);
-					Predicate searchPredicateByEmptyField = cb.isNull(joinSearchProviderEmployee.get("username"));
-					Predicate searchPredicateByProviderEmployee=cb.or(searchPredicateByUsername,searchPredicateByEmptyField);
-					queryPredicate=cb.and(searchPredicateByProviderEmployee);
-				}
-			}
+	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Long employeeId, String dateToSearch,String idToSearch, 
+																String lastNameToSearch, String streetToSearch, String searchStatus, 
+																String employeeName, User employee, Join<Verification, Organization> calibratorJoin) {
 
-			queryPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), queryPredicate);
-						
+		Predicate queryPredicate = cb.conjunction();
+		queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
+							
 			if(searchStatus != null) {
 				for (Status status : Status.values()) {
 					if(status.toString().equalsIgnoreCase(searchStatus)){
