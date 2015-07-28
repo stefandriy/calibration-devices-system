@@ -1,5 +1,19 @@
 angular
 		.module('adminModule')
+		.filter('organizationFilter', function() {
+			return function(allTypes, currentTypes) {
+				var filtered = [ 'PROVIDER', 'CALIBRATOR',
+					'STATE_VERIFICATOR' ];
+
+				for (var i in currentTypes) {
+					if (currentTypes[i] != 'CALIBRATOR') {
+						var filtered = ['CALIBRATOR'];
+						filtered.push(currentTypes[i]);
+					}
+				}
+				return filtered;
+			}
+		})
 		.controller(
 				'OrganizationAddModalController',
 				[
@@ -16,39 +30,6 @@ angular
 
 							$scope.typeData = [ 'PROVIDER', 'CALIBRATOR',
 									'STATE_VERIFICATOR' ];
-
-							$scope.toggle = function(form) {
-								var isProvider = false;
-								var isVerificator = false;
-								for ( var i in $scope.organizationFormData.types) {
-									if ($scope.organizationFormData.types[i] == "PROVIDER") {
-										isProvider = true;
-										var index = $scope.typeData
-												.indexOf('STATE_VERIFICATOR');
-										if (index > -1) {
-											$scope.typeData.splice(index, 1);
-										}
-									}
-									if ($scope.organizationFormData.types[i] == "STATE_VERIFICATOR") {
-										isVerificator = true;
-										var index = $scope.typeData
-												.indexOf('PROVIDER');
-										if (index > -1) {
-											$scope.typeData.splice(index, 1);
-										}
-									}
-								}
-								if (!isProvider
-										&& $scope.typeData
-												.indexOf('STATE_VERIFICATOR') < 0) {
-									$scope.typeData.push('STATE_VERIFICATOR');
-								}
-								if (!isVerificator
-										&& $scope.typeData.indexOf('PROVIDER') < 0) {
-									$scope.typeData.unshift('PROVIDER');
-								}
-
-							};
 
 							$scope.regions = null;
 							$scope.districts = [];
@@ -217,7 +198,7 @@ angular
 							$scope.PHONE_REGEX = /^0[1-9]\d{8}$/;
 							$scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 							$scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
-							$scope.PASSWORD_REGEX = /^(?=.{4,255}$).*/;
+							$scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
 							$scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
 							$scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
 
