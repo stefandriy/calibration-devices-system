@@ -27,7 +27,7 @@ angular
                     }
                     if (thereIsAdmin === 1) {
                         if (role[0] === 'PROVIDER_ADMIN')
-                            $scope.organizationTypeProvider = true;
+                            organizationTypeProvider = true;
                         if (role[0] === 'CALIBRATOR_ADMIN')
                             organizationTypeCalibrator = true;
                         if (role[0] === 'STATE_VERIFICATOR_ADMIN')
