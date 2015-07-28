@@ -403,8 +403,8 @@
 	         	<i ng-show="!applicationCode" id="loadIcon"
 				class="fa fa-3x fa-spinner fa-spin "></i>
 
-			<div class="text-center" ng-show="applicationCode">
-				{{'APP_SENT' | translate}} <b>{{ applicationCode }} </b> <br>
+			<div class="text-center" ng-show="applicationCode"  ng-repeat="x in applicationCodes">
+				{{'APP_SENT' | translate}} <b>{{ x }} </b> <br>
 				{{'APP_SENT_INFO' | translate}}
 			</div>
 

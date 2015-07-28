@@ -198,7 +198,6 @@ public class User {
                     .append(password, other.password)
                     .append(firstName, other.firstName)
                     .append(phone, other.phone)
-                    .append(phone, other.phone)
                     .append(lastName, other.lastName)
                     .append(middleName, other.middleName)
                     .append(email, other.email)

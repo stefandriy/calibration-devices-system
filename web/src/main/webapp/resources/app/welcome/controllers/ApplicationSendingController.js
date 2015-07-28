@@ -85,7 +85,7 @@ angular
             /**
              * Receives all possible regions.
              */
-            $scope.selectedCount="1";
+            $scope.selectedCount="2";
             $scope.regions = [];
             $scope.receiveRegions = function () {
             dataReceivingService.findAllRegions()
@@ -214,14 +214,15 @@ angular
              * On-click handler in send button.
              */
             $scope.sendApplicationData = function () {
-                var i;
-                for (i=0;i< $scope.selectedCount;i++){
+
+
             	 if( !$stateParams.verificationId) {  
                 $scope.$broadcast('show-errors-check-validity');
 
                 if ($scope.clientForm.$valid) {
+                    for ( var i=0; i< $scope.selectedCount;i++){
                     $scope.formData.region = $scope.selectedRegion.designation;
-              /*      $scope.formData.device = $scope.selectedDevice;*/
+
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
                     $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
@@ -237,8 +238,8 @@ angular
                         });
                      //hide form because application status is shown
                     $scope.isShownForm = false;
-                }
-            }
+                  }
+                 }
                 }
             };
 

@@ -1,5 +1,9 @@
 package com.softserve.edu.entity.catalogue;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 
 import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
@@ -55,10 +59,7 @@ public class Locality extends AbstractCatalogue {
         this.district = district;
     }
 
-    @Override
-    public String toString() {
-        return designation;
-    }
+
 
 	public String getMailIndex() {
 		return mailIndex;
@@ -67,6 +68,42 @@ public class Locality extends AbstractCatalogue {
 	public void setMailIndex(String mailIndex) {
 		this.mailIndex = mailIndex;
 	}
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("designation", designation)
+                .append("district", district)
+                .append("mailIndex", mailIndex)
+                .toString();
+    }
+
+    @Override
+    public int hashCode(){
+        return new HashCodeBuilder()
+                .append(id)
+                .append(designation)
+                .append(district)
+                .append(mailIndex)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj){
+        if(obj instanceof Locality){
+            final Locality other = (Locality) obj;
+            return new EqualsBuilder()
+                    .append(id, other.id)
+                    .append(designation, other.designation)
+                    .append(district, other.district)
+                    .append(mailIndex, other.mailIndex)
+                    .isEquals();
+        } else{
+            return false;
+        }
+    }
+
 
 	
 	

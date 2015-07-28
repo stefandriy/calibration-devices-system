@@ -1,5 +1,9 @@
 package com.softserve.edu.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -70,5 +74,47 @@ public class Address {
 
     public void setFlat(String flat) {
         this.flat = flat;
+    }
+
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("region", region)
+                .append("district", district)
+                .append("locality", locality)
+                .append("street", street)
+                .append("building", building)
+                .append("flat", flat)
+                .toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(region)
+                .append(district)
+                .append(locality)
+                .append(street)
+                .append(building)
+                .append(flat)
+                 .toHashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj instanceof Address) {
+            final Address other = (Address) obj;
+            return new EqualsBuilder()
+                    .append(region, other.region)
+                    .append(district, other.district)
+                    .append(locality, other.locality)
+                    .append(street, other.street)
+                    .append(building, other.building)
+                    .append(flat, other.flat)
+                     .isEquals();
+        } else {
+            return false;
+        }
     }
 }
