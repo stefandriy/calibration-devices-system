@@ -48,71 +48,6 @@ public class ProviderEmployeeController {
     @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
 
-
-    /**
-     * Spatial security service
-     * Find the role of the login user
-     *
-     * @return role
-     */
-
-    @RequestMapping(value = "verificator", method = RequestMethod.GET)
-    public List<UserRole> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return providerEmployeeService.getRoleByUserNam(user.getUsername());
-    }
-
-    /**
-     * Check whereas {@code username} is available,
-     * i.e. it is possible to create new user with this {@code username}
-     *
-     * @param username username
-     * @return {@literal true} if {@code username} available or else {@literal false}
-     */
-    @RequestMapping(value = "available/{username}", method = RequestMethod.GET)
-    public Boolean isValidUsername(@PathVariable String username) {
-        boolean isAvailable = false;
-        if (username != null) {
-            isAvailable = userService.existsWithUsername(username);
-        }
-        return isAvailable;
-    }
-
-    @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> addEmployee(
-            @RequestBody User providerEmployee,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
-        Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
-        providerEmployee.setOrganization(employeeOrganization);
-        providerEmployeeService.addEmployee(providerEmployee);
-        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPaginationUsers(
-            @PathVariable String username) {
-        List<Verification> list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
-        return new PageDTO<>(content);
-    }
-
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<UsersPageItem> getPaginationUsers(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            UsersPageItem usersPageItem,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        Long idOrganization = user.getOrganizationId();
-
-        ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
-                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(),
-                usersPageItem.getFirstName(), usersPageItem.getLastName(), usersPageItem.getOrganization(),
-                usersPageItem.getPhone());
-        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult, idOrganization);
-        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
-
-    }
-
     @RequestMapping(value = "graphic", method = RequestMethod.GET)
     public List<ProviderEmployeeGraphic> graphic
             (@RequestParam String fromDate, @RequestParam String toDate,
@@ -128,21 +63,5 @@ public class ProviderEmployeeController {
     }
 
 
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult, Long idOrganization){
-        List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
-        for (User providerEmployee : queryResult.getContent()) {
-            resultList.add(new UsersPageItem(
-                            providerEmployee.getUsername(),
-                            userService.getRoles(providerEmployee.getUsername()),
-                            providerEmployee.getFirstName(),
-                            providerEmployee.getLastName(),
-                            providerEmployee.getMiddleName(),
-                            providerEmployee.getPhone(),
-                            providerEmployee.getOrganization().getName(),
-                            verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername())
-                    )
-            );
-        }
-        return resultList;
-    }
+
 }

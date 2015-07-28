@@ -13,10 +13,10 @@ angular
             },
             getPage: function (currentPage, itemsPerPage, searchObj) {
 
-                return getData('provider/admin/users/' + currentPage + '/' + itemsPerPage, searchObj);
+                return getData('employee/admin/users/' + currentPage + '/' + itemsPerPage, searchObj);
             },
             getCapacityOfWork: function(username){
-                return getData('provider/admin/users/capacityOfEmployee'+ '/'+username);
+                return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
             },
             getGraficData :function(dataToSearch){
                 return getData('provider/admin/users/graphic',dataToSearch);

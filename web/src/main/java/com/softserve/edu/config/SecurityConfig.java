@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/employee/admin/**").hasAnyAuthority( "PROVIDER_ADMIN", "CALIBRATOR_ADMIN", "STATE_VERIFICATOR_ADMIN")
                 
                 .antMatchers("/provider", "/provider/employee/**").hasAnyAuthority("PROVIDER_EMPLOYEE", "PROVIDER_ADMIN") 
-                .antMatchers("/provider/admin/**").hasAuthority("PROVIDER_ADMIN") 
+                .antMatchers("/provider/admin/**").hasAuthority("PROVIDER_ADMIN")
 
                 .antMatchers("/calibrator", "/calibrator/employee/**").hasAnyAuthority("CALIBRATOR_EMPLOYEE", "CALIBRATOR_ADMIN")  
                 .antMatchers("/calibrator/admin/**").hasAuthority("CALIBRATOR_ADMIN")

@@ -2,7 +2,12 @@ package com.softserve.edu.controller;
 
 
 import com.softserve.edu.controller.provider.util.UserDTO;
+import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
+import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.UsersPageItem;
+import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
@@ -10,12 +15,16 @@ import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,6 +44,9 @@ public class AddEmployeeController {
     
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private VerificationProviderEmployeeService verificationProviderEmployeeService;
 
 
 
@@ -85,13 +97,54 @@ public class AddEmployeeController {
                 UserRole userRole = userRepository.getUserRole(tmp);
             newUser.addUserRole(userRole);
         }
-
-
             Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
             newUser.setOrganization(employeeOrganization);
         System.out.println(providerEmployee.toString());
              providerEmployeeService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPaginationUsers(
+            @PathVariable String username) {
+        List<Verification> list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
+        return new PageDTO<>(content);
+    }
+
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<UsersPageItem> getPaginationUsers(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer itemsPerPage,
+            UsersPageItem usersPageItem,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        Long idOrganization = user.getOrganizationId();
+
+        ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
+                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(),
+                usersPageItem.getFirstName(), usersPageItem.getLastName(), usersPageItem.getOrganization(),
+                usersPageItem.getPhone());
+        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult, idOrganization);
+        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
+
+    }
+
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult, Long idOrganization){
+        List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
+        for (User providerEmployee : queryResult.getContent()) {
+            resultList.add(new UsersPageItem(
+                            providerEmployee.getUsername(),
+                            userService.getRoles(providerEmployee.getUsername()),
+                            providerEmployee.getFirstName(),
+                            providerEmployee.getLastName(),
+                            providerEmployee.getMiddleName(),
+                            providerEmployee.getPhone(),
+                            providerEmployee.getOrganization().getName(),
+                            verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername())
+                    )
+            );
+        }
+        return resultList;
     }
 
 
