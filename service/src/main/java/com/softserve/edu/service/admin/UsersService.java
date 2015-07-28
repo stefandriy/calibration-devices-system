@@ -7,7 +7,6 @@ import com.softserve.edu.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,7 +59,7 @@ public class UsersService {
     }
 
     @Transactional
-    public List<String> tmp(String username){
+    public List<String> getRoles(String username){
         return userRoleRepository.getRoles(username);
     }
 }

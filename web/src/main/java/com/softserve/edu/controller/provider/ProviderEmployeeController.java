@@ -1,6 +1,5 @@
 package com.softserve.edu.controller.provider;
 
-
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
@@ -101,13 +100,14 @@ public class ProviderEmployeeController {
     public PageDTO<UsersPageItem> getPaginationUsers(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
-             UsersPageItem usersPageItem,
+            UsersPageItem usersPageItem,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
 
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
-                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(), usersPageItem.getFirstName(),
-                usersPageItem.getLastName(), usersPageItem.getOrganization(), usersPageItem.getPhone());
+                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(),
+                usersPageItem.getFirstName(), usersPageItem.getLastName(), usersPageItem.getOrganization(),
+                usersPageItem.getPhone());
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult, idOrganization);
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
 
@@ -120,7 +120,7 @@ public class ProviderEmployeeController {
         Long idOrganization = user.getOrganizationId();
         List<ProviderEmployeeGraphic> list = null;
         try {
-            list = providerEmployeeService.getgraphicProviderEmployee(fromDate, toDate, idOrganization);
+            list = providerEmployeeService.getGraphicProviderEmployee(fromDate, toDate, idOrganization);
         } catch (ParseException e) {
             logger.error("Failed to get graphic data");
         }
@@ -128,12 +128,12 @@ public class ProviderEmployeeController {
     }
 
 
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult, Long idOrganization) {
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult, Long idOrganization){
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(
                             providerEmployee.getUsername(),
-                            userService.tmp(providerEmployee.getUsername()),
+                            userService.getRoles(providerEmployee.getUsername()),
                             providerEmployee.getFirstName(),
                             providerEmployee.getLastName(),
                             providerEmployee.getMiddleName(),

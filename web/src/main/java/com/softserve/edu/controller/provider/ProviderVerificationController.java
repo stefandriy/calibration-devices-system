@@ -5,29 +5,24 @@ import com.softserve.edu.dto.provider.*;
 import com.softserve.edu.dto.ArchiveVerificationsSearch;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.application.ClientStageVerificationDTO;
-import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.ClientData;
-import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
-import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.*;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -47,30 +42,33 @@ public class ProviderVerificationController {
     CalibratorService calibratorService;
 
     @Autowired
+    private UsersService userService;
+
+    @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
 
     private final Logger logger = Logger.getLogger(ProviderVerificationController.class);
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-    		ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                                       ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-      User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByOrganizationId(
-              employeeUser.getOrganizationId(),
-              pageNumber,
-              itemsPerPage,
-              searchData.getFormattedDate(),
-              searchData.getIdText(),
-              searchData.getLastNameText(),
-              searchData.getStreetText(),
-              searchData.getStatus(),
-              providerEmployee
-      );
-      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-     System.err.println("inside controller new search");
-      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-  }
+        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByOrganizationId(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                searchData.getFormattedDate(),
+                searchData.getIdText(),
+                searchData.getLastNameText(),
+                searchData.getStreetText(),
+                searchData.getStatus(),
+                providerEmployee
+        );
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        System.err.println("inside controller new search");
+        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+    }
 
     /**
      * Find page of verifications by specific criterias
@@ -86,24 +84,24 @@ public class ProviderVerificationController {
      */
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-    									NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                                           NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-      User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
-              employeeUser.getOrganizationId(),
-              pageNumber,
-              itemsPerPage,
-              searchData.getFormattedDate(),
-              searchData.getIdText(),
-              searchData.getLastNameText(),
-              searchData.getStreetText(),
-              searchData.getStatus(),
-              providerEmployee
-      );
-      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-     System.err.println("inside controller new search");
-      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-  }
+        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                searchData.getFormattedDate(),
+                searchData.getIdText(),
+                searchData.getLastNameText(),
+                searchData.getStreetText(),
+                searchData.getStatus(),
+                providerEmployee
+        );
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        System.err.println("inside controller new search");
+        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+    }
 
     /**
      * Find count of new verifications that have Read Status "UNREAD"
@@ -112,10 +110,10 @@ public class ProviderVerificationController {
      */
     @RequestMapping(value = "new/count/provider", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        if( user != null) {
-        	return verificationService.findCountOfNewVerificationsByProviderId(user.getOrganizationId());       	
+        if (user != null) {
+            return verificationService.findCountOfNewVerificationsByProviderId(user.getOrganizationId());
         } else {
-        	return null;
+            return null;
         }
     }
 
@@ -135,16 +133,9 @@ public class ProviderVerificationController {
     public List<EmployeeProvider> employeeVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = providerEmployeeService.oneProviderEmployee(user.getUsername());
-        String role = providerEmployeeService.getRoleByUserName(user.getUsername());
-        List<EmployeeProvider> providerListEmployee = new ArrayList<>();
-
-        if (role.equalsIgnoreCase("PROVIDER_ADMIN")) {
-            List<User> list = providerEmployeeService.getAllProviders("PROVIDER_EMPLOYEE", employee.getOrganization().getId());
-            providerListEmployee = EmployeeProvider.giveListOfProviders(list);
-        } else {
-            EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(), employee.getLastName(), employee.getMiddleName(), role);
-            providerListEmployee.add(userPage);
-        }
+        List<String> role = userService.getRoles(user.getUsername());
+        List<EmployeeProvider> providerListEmployee = providerEmployeeService
+                .getAllProviders(role, employee);
         return providerListEmployee;
     }
 
@@ -201,21 +192,19 @@ public class ProviderVerificationController {
     }
 
 
-
-        @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
-        public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
-            Verification verification = verificationService.findById(verificationId);
-            if (verification != null) {
-                return new VerificationDTO(verification.getClientData(), verification.getId(),
-                        verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
-                        verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
-                        verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-                        verification.getStateVerificatorEmployee());
-            } else {
-                return null;
-            }
+    @RequestMapping(value = "new/{verificationId}", method = RequestMethod.GET)
+    public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
+        Verification verification = verificationService.findById(verificationId);
+        if (verification != null) {
+            return new VerificationDTO(verification.getClientData(), verification.getId(),
+                    verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
+                    verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
+                    verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+                    verification.getStateVerificatorEmployee());
+        } else {
+            return null;
         }
-
+    }
 
 
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)

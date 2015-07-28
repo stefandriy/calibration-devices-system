@@ -1,5 +1,8 @@
 package com.softserve.edu.dto.provider;
 
+import com.softserve.edu.service.utils.*;
+import com.softserve.edu.service.utils.EmployeeProvider;
+
 import java.util.List;
 
 /**
@@ -18,7 +21,8 @@ public class VerificationProviderEmployeeDTO {
     public void setIdsOfVerifications(List<String> idsOfVerifications) {
         this.idsOfVerifications = idsOfVerifications;
     }
-     public EmployeeProvider getEmployeeProvider() {
+
+    public com.softserve.edu.service.utils.EmployeeProvider getEmployeeProvider() {
         return employeeProvider;
     }
 

@@ -1,17 +1,12 @@
 package com.softserve.edu.service.provider;
 
-import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.UserRoleRepository;
-import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.ProviderEmployeeGraphic;
-import com.softserve.edu.service.utils.ProviderEmployeeQuary;
-import com.softserve.edu.service.utils.TransformStringsToMonths;
+import com.softserve.edu.service.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +17,6 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,31 +36,31 @@ public class ProviderEmployeeService {
     public void addEmployee(User providerEmployee) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
         providerEmployee.setPassword(passwordEncoded);
-        UserRole r = userRoleRepository.findByRole("PROVIDER_EMPLOYEE");
+        UserRole r = userRoleRepository.findByRole(Roles.PROVIDER_EMPLOYEE.name());
         providerEmployee.getUserRoles().add(r);
         providerEmployeeRepository.save(providerEmployee);
         userRoleRepository.save(r);
 
     }
 
-    @Transactional
-    public Page<? extends User> getUsersPagination(Long idOrganization, int pageNumber, int itemsPerPage, String search, String role) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        if (search == null) {
-            return providerEmployeeRepository.findByRoleAndOrganizationId(role, idOrganization, pageRequest);
-        } else {
-            return providerEmployeeRepository.findByOrganizationIdAndRoleAndLastNameLikeIgnoreCase(role, idOrganization, "%" + search + "%", pageRequest);
-        }
-    }
-
-    @Transactional
+     @Transactional
     public User oneProviderEmployee(String username) {
         return providerEmployeeRepository.getUserByUserName(username);
     }
 
     @Transactional
-    public List<User> getAllProviders(String role, Long id) {
-        return providerEmployeeRepository.getAllProviderUsers(role, id);
+    public List<EmployeeProvider> getAllProviders(List<String> role, User employee) {
+        List<EmployeeProvider> providerListEmployee = new ArrayList<>();
+        if (role.contains(Roles.PROVIDER_ADMIN.name())) {
+            List<User> list = providerEmployeeRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(),
+                    employee.getOrganization().getId());
+            providerListEmployee = EmployeeProvider.giveListOfProviders(list);
+        } else {
+            EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(),
+                    employee.getLastName(), employee.getMiddleName(),role.get(0));
+            providerListEmployee.add(userPage);
+        }
+        return providerListEmployee;
     }
 
     @Transactional()
@@ -81,10 +75,6 @@ public class ProviderEmployeeService {
         return providerEmployeeRepository.getRoleByUserNam(username);
     }
 
-    @Transactional
-    public String getRoleByUserName(String username) {
-        return providerEmployeeRepository.getRoleByUserName(username);
-    }
 
     @Transactional
     public ListToPageTransformer<User>
@@ -109,7 +99,7 @@ public class ProviderEmployeeService {
     }
 
     @Transactional
-    public List<ProviderEmployeeGraphic> getgraphicProviderEmployee(String fromDate, String toDate, Long idOrganization) throws ParseException {
+    public List<ProviderEmployeeGraphic> getGraphicProviderEmployee(String fromDate, String toDate, Long idOrganization) throws ParseException {
         TransformStringsToMonths transformStringsToMonths = new TransformStringsToMonths();
 
         List<String> listMonths = transformStringsToMonths.transferToMonthArray(fromDate, toDate);
@@ -142,7 +132,7 @@ public class ProviderEmployeeService {
             quer.setParameter(2, dateFrom);
             quer.setParameter(3, dateTo);
             list = quer.getResultList();
-            countOfWork = transformStringsToMonths.identifyProviderEmployee(arr,list);
+            countOfWork = transformStringsToMonths.identifyProviderEmployee(arr, list);
 
             resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
         }

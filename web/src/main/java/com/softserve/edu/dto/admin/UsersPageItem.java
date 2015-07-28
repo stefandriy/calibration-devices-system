@@ -1,8 +1,4 @@
 package com.softserve.edu.dto.admin;
-
-
-import com.softserve.edu.entity.user.UserRole;
-
 import java.util.List;
 
 public class UsersPageItem {
