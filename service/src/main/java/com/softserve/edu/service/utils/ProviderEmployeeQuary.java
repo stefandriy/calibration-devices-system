@@ -27,7 +27,7 @@ public class ProviderEmployeeQuary {
                 role, firstName, lastName, organization, telephone, idOrganization);
 
         criteriaQuery.orderBy(cb.desc(root.get("lastName")));
-        criteriaQuery.select(root);
+        criteriaQuery.select(root).distinct(true);
         criteriaQuery.where(predicate);
         return criteriaQuery;
     }
@@ -41,23 +41,23 @@ public class ProviderEmployeeQuary {
 
         queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization), queryPredicate);
 
-        if (!(userName == null)) {
+        if (!(userName == null)&&!(userName == "")) {
             queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
         }
-        if (!(role == null)) {
+        if (!(role == null)&&!(role == "")){
             queryPredicate = cb.and(cb.like(joinRole.get("role"), "%" + role + "%"), queryPredicate);
 
         }
-        if (!(firstName == null)) {
+        if (!(firstName == null)&&!(firstName == "")) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
         }
-        if (!(lastName == null)) {
+        if (!(lastName == null)&&!(lastName == "")) {
             queryPredicate = cb.and(cb.like(root.get("lastName"), "%" + lastName + "%"), queryPredicate);
         }
-        if (!(organization == null)) {
+        if (!(organization == null)&&!(organization == "")) {
             queryPredicate = cb.and(cb.like(root.get("organization").get("name"), "%" + organization + "%"), queryPredicate);
         }
-        if (!(telephone == null)) {
+        if (!(telephone == null)&&!(telephone == "")) {
             queryPredicate = cb.and(cb.like(root.get("phone"), "%" + telephone + "%"), queryPredicate);
         }
 
@@ -75,7 +75,8 @@ public class ProviderEmployeeQuary {
         Join<User, UserRole> joinRole = root.join("userRoles");
         Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinRole, joinSearch, userName, role,
                 firstName, lastName, organization, telephone, idOrganization);
-        countQuery.select(cb.count(root));
+
+        countQuery.select(cb.countDistinct(root));
         countQuery.where(predicate);
         return countQuery;
 
