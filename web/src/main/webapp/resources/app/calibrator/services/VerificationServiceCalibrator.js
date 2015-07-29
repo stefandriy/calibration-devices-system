@@ -7,10 +7,10 @@ angular
                 return getData('verifications/archive/' + verificationId);
             },
             getNewVerifications: function (currentPage, itemsPerPage, search) {
-            	return getDataWithParams('calibrator/verifications/new/' + currentPage + '/' + itemsPerPage, search);
+                return getDataWithParams('calibrator/verifications/new/' + currentPage + '/' + itemsPerPage, search);
             },
             getArchiveVerifications: function (currentPage, itemsPerPage, search) {
-            	return getDataWithParams('calibrator/verifications/archive/' + currentPage + '/' + itemsPerPage, search);
+                return getDataWithParams('calibrator/verifications/archive/' + currentPage + '/' + itemsPerPage, search);
             },
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);
@@ -21,26 +21,32 @@ angular
             sendVerificationsToCalibrator: function (data) {
                 return updateData('new/update', data);
             },
-            sendInitiatedVerification:function(form){
-                return sendData("send",form);
+            sendInitiatedVerification: function (form) {
+                return sendData("send", form);
             },
-            getCalibratorsCorrespondingProvider:function(url){
+            getCalibratorsCorrespondingProvider: function (url) {
                 return getData("applications/calibrators");
             },
-            getLocalitiesCorrespondingProvider:function(url){
+            getLocalitiesCorrespondingProvider: function (url) {
                 return getData("applications/localities");
             },
-            getStreetsCorrespondingLocality:function(selectedLocality){
+            getStreetsCorrespondingLocality: function (selectedLocality) {
                 return getData("applications/streets/" + selectedLocality.id);
             },
-            getBuildingsCorrespondingStreet:function(selectedBuilding){
-                    return getData("applications/buildings/" + selectedBuilding.id);
+            getBuildingsCorrespondingStreet: function (selectedBuilding) {
+                return getData("applications/buildings/" + selectedBuilding.id);
             },
-            getCountOfNewVerifications: function(url) {
-            	return getData('verifications/new/count/calibrator');
+            getCountOfNewVerifications: function (url) {
+                return getData('verifications/new/count/calibrator');
             },
-            markVerificationAsRead : function(data) {
-            	return updateData('new/read', data);
+            markVerificationAsRead: function (data) {
+                return updateData('new/read', data);
+            },
+            cancelUploadFile: function (idVerification) {
+                return getData('verifications/cancel/uploadFile?idVerification=' + idVerification);
+            },
+            deleteBbiProtocol: function (idVerification) {
+                return sendDataProtocol("deleteBbiprotocol?idVerification="+ idVerification);
             }
         };
 
@@ -56,14 +62,14 @@ angular
 
         function getDataWithParams(url, params) {
             return $http.get(url, {
-                params : params
+                params: params
             }).success(function (data) {
                 return data;
             }).error(function (err) {
                 return err;
             });
         }
-        
+
         function updateData(url, data) {
             return $http.put('calibrator/verifications/' + url, data)
                 .success(function (responseData) {
@@ -76,6 +82,15 @@ angular
 
         function sendData(url, data) {
             return $http.post('calibrator/applications/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function sendDataProtocol(url, data) {
+            return $http.put('calibrator/verifications/' + url, data)
                 .success(function (responseData) {
                     return responseData;
                 })

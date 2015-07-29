@@ -38,6 +38,21 @@ import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.xml.ws.Response;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/calibrator/verifications/")
@@ -51,7 +66,7 @@ public class CalibratorController {
 
     @Autowired
     CalibratorService calibratorService;
-    
+
     @Autowired
     CalibratorEmployeeService calibratorEmployeeService;
 
@@ -210,5 +225,30 @@ public class CalibratorController {
         							verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(), verification.getStateVerificatorEmployee()
         );
     }
+
+
+    @RequestMapping(value = "cancel/uploadFile", method = RequestMethod.GET)
+    public List<String> getBbiFile(@RequestParam String idVerification) {
+        List<String> data = new ArrayList();
+        String fileName = calibratorService.findBbiFileByOrganizationId(idVerification);
+        data.add(idVerification);
+        data.add(fileName);
+        return data;
+    }
+
+
+    @RequestMapping(value = "deleteBbiprotocol", method = RequestMethod.PUT)
+    public ResponseEntity deleteBbiprotocol(@RequestParam String idVerification) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            calibratorService.deleteBbiFile(idVerification);
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e.getMessage());
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
+
+
 
 }

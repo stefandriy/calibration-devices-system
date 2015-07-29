@@ -47,12 +47,22 @@ public class CalibratorService {
     }
 
     @Transactional
-    public void uploadBbi(InputStream file, String idVerification,String originalFileFullName) throws IOException {
+    public void uploadBbi(InputStream file, String idVerification, String originalFileFullName) throws IOException {
         String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
         byte[] bytesOfBbi = IOUtils.toByteArray(file);
         Verification verification = verificationRepository.findOne(idVerification);
-        BbiProtocol bbiProtocol = new BbiProtocol(bytesOfBbi, verification,filename);
+        BbiProtocol bbiProtocol = new BbiProtocol(bytesOfBbi, verification, filename);
         uploadBbiRepository.save(bbiProtocol);
     }
 
+    @Transactional(readOnly = true)
+    public String findBbiFileByOrganizationId(String id) {
+        return uploadBbiRepository.findFileNameByVerificationId(id);
+    }
+
+    @Transactional
+    public void deleteBbiFile(String idVerification) {
+        BbiProtocol bbiProtocol = uploadBbiRepository.findByVerification(idVerification);
+        uploadBbiRepository.delete(bbiProtocol);
+    }
 }

@@ -151,6 +151,7 @@
            'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
             'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',   
             'calibrator/controllers/UploadBbiFileController',
+            'calibrator/controllers/CancelBbiProtocolCalibrator',
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',

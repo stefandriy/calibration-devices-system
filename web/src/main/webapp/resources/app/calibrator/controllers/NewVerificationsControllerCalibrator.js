@@ -199,6 +199,58 @@ angular
                 });
             };
 
+                      $scope.cancelBbiFile=function (verification) {
+                          var idVerification=verification;
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/calibrator/views/modals/cancel-bbiFile.html',
+                    controller: 'CancelBbiProtocolCalibrator',
+                    size: 'md',
+                     resolve: {
+                         verificationId: function () {
+                            return verificationServiceCalibrator.cancelUploadFile(idVerification)
+                                .success(function (bbiName) {
+                                    return bbiName;
+                                }
+                            );
+                        }
+                    }
+                })
+                /**
+                 * executes when modal closing
+                 */
+                modalInstance.result.then(function (formData) {
+                    idVerification = 0;
+                    var dataToSend = {
+                        idVerification: verifId,
+                        employeeProvider: formData.provider
+                    };
+                    $log.info(dataToSend);
+                    verificationServiceProvider
+                        .sendEmployeeProvider(dataToSend)
+                        .success(function () {
+                            $scope.tableParams.reload();
+                        });
+                });
+            };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             
             /**
              *  Date picker and formatter setup

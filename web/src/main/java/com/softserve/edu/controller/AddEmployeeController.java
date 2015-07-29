@@ -41,14 +41,12 @@ public class AddEmployeeController {
 
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
-    
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
-
-
 
 
     /**
@@ -60,7 +58,7 @@ public class AddEmployeeController {
 
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
     public List<UserRole> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-            return providerEmployeeService.getRoleByUserNam(user.getUsername());
+        return providerEmployeeService.getRoleByUserNam(user.getUsername());
     }
 
     /**
@@ -81,26 +79,26 @@ public class AddEmployeeController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
-             @RequestBody UserDTO providerEmployee,
+            @RequestBody UserDTO providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-            User newUser = new User();
+        User newUser = new User();
         System.out.println(providerEmployee.toString());
-            newUser.setAddress(providerEmployee.getAddress());
-            newUser.setFirstName(providerEmployee.getFirstName());
-            newUser.setLastName(providerEmployee.getLastName());
-            newUser.setMiddleName(providerEmployee.getMiddleName());
-            newUser.setEmail(providerEmployee.getEmail());
-            newUser.setPhone(providerEmployee.getPhone());
-            newUser.setUsername(providerEmployee.getUsername());
-            newUser.setPassword(providerEmployee.getPassword());
-        for (String tmp : providerEmployee.getUserRoles() ){
-                UserRole userRole = userRepository.getUserRole(tmp);
+        newUser.setAddress(providerEmployee.getAddress());
+        newUser.setFirstName(providerEmployee.getFirstName());
+        newUser.setLastName(providerEmployee.getLastName());
+        newUser.setMiddleName(providerEmployee.getMiddleName());
+        newUser.setEmail(providerEmployee.getEmail());
+        newUser.setPhone(providerEmployee.getPhone());
+        newUser.setUsername(providerEmployee.getUsername());
+        newUser.setPassword(providerEmployee.getPassword());
+        for (String tmp : providerEmployee.getUserRoles()) {
+            UserRole userRole = userRepository.getUserRole(tmp);
             newUser.addUserRole(userRole);
         }
-            Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
-            newUser.setOrganization(employeeOrganization);
+        Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
+        newUser.setOrganization(employeeOrganization);
         System.out.println(providerEmployee.toString());
-             providerEmployeeService.addEmployee(newUser);
+        providerEmployeeService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
@@ -129,7 +127,7 @@ public class AddEmployeeController {
 
     }
 
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult, Long idOrganization){
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult, Long idOrganization) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(
