@@ -303,11 +303,15 @@
                         </p>
                     </li>
                     <li class="user-footer" >
-                        <div class="pull-left" style="color: #2C1919 ">
-                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                        <div  style="width: 100%">
+                            <a href="#" class="btn btn-default" style="color: #2C1919 ">Profile</a>
                         </div>
-                        <div class="pull-right" style="color: #2C1919 ">
-                            <a ng-click="logout()" class="btn btn-default btn-flat">Sign out</a>
+                        <div  style="width: 100%">
+                            <a class="btn btn-default" style="color: #2C1919"> {{ 'SETTINGS' | translate }}</a>
+                        </div>
+                        <div  style="width: 100%" >
+                            <a ng-click="logout()" class="btn btn-default" style="color: #2C1919 ">{{ 'LOG_OUT' | translate
+                                }} </a>
                         </div>
                     </li>
                 </ul>
@@ -439,7 +443,7 @@
     $("#states").chosen();
 </script>
 <!-- AdminLTE App -->
-<script src="/resources/assets/AdminLTE-master/js/plugins/AdminLTE/app.js" type="text/javascript"></script>
+<script src="/resources/assets/AdminLTE-master/js/AdminLTE/app.js" type="text/javascript"></script>
 <script src="/resources/assets/js/vendor/modernizr-2.6.2.min.js"></script>
 <script src="/resources/assets/bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
 <script src="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/js/bootstrap-formhelpers.js"></script>
