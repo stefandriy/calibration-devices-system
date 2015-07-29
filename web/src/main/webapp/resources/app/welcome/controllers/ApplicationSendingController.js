@@ -85,7 +85,7 @@ angular
             /**
              * Receives all possible regions.
              */
-            $scope.selectedCount="2";
+
             $scope.regions = [];
             $scope.receiveRegions = function () {
             dataReceivingService.findAllRegions()
@@ -114,7 +114,7 @@ angular
                     $scope.devices = devices;
                     $log.debug('device');
                     $log.debug(devices);
-                    $scope.selectedDevice ="";
+                    $scope.selectedDevice =[];
                     $log.debug( $scope.selectedCount);
                 });
             /**
@@ -213,6 +213,7 @@ angular
              * Sends data to the server where Verification entity will be created.
              * On-click handler in send button.
              */$scope.applicationCodes=[];
+            $scope.codes=[];
             $scope.sendApplicationData = function () {
 
 
@@ -220,7 +221,8 @@ angular
                 $scope.$broadcast('show-errors-check-validity');
 
                 if ($scope.clientForm.$valid) {
-                    for ( var i=0; i< $scope.selectedCount;i++){
+                    $scope.isShownForm = false;
+                    for ( var i=0; i< $scope.selectedDevice.length;i++){
                     $scope.formData.region = $scope.selectedRegion.designation;
 
                     $scope.formData.district = $scope.selectedDistrict.designation;
@@ -229,34 +231,23 @@ angular
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.selectedDevice[i].id;
-
-                        $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
-                     //   $scope.applicationCodes=[];
-                       // applicationCodes[]=$q.all  dataSendingService.sendApplication($scope.formData)
-                       // .success(function (applicationCode) {
-                       //     $scope.applicationCode = applicationCode;
-                       //   $log.debug($scope.formData);
-                       //   $log.debug( $scope.selectedCount);
-                      //  });
-                     //hide form because application status is shown
-                   // $scope.isShownForm = false;
+                    $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
                     }
-                    $scope.codes=[];
+
                     $q.all($scope.applicationCodes).then(function(values){
                        $log.debug('values');
                         $log.debug(values);
 
-                        for ( var i=0; i< $scope.selectedCount;i++){
+                        for ( var i=0; i< $scope.selectedDevice.length;i++){
 
                             $scope.codes[i]=values[i].data;
 
-
-
                         }
-                        $scope.isShownForm = false;
+
                         $log.debug('$scope.codes');
                         $log.debug($scope.codes);
                     });
+
                  }
                 }
             };
@@ -298,6 +289,7 @@ angular
              * 
              * 
              */
+            $scope.selectedCount="2";
             $scope.STREET_REGEX=/^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}){1}$/;
             $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/;
             $scope.MIDDLE_NAME_REGEX=/^[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}$/;

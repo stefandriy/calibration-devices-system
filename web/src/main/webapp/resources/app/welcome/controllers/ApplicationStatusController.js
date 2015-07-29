@@ -66,29 +66,7 @@ angular
 													if ($scope.verification.status == ( 'TEST_NOK')) {
 														$scope.progress = '0';
 													}
-													/*
-													 * switch
-													 * ($scope.verification.status) {
-													 * case 'NOT_FOUND':
-													 * $scope.progress = '0';
-													 * case 'SENT':
-													 * $scope.progress = '10';
-													 * case 'IN_PROGRESS':
-													 * $scope.progress = '30';
-													 * case
-													 * 'SENT_TO_VERIFICATOR':
-													 * $scope.progress = '70';
-													 * case 'TEST_OK':
-													 * $scope.progress = '100';
-													 * case 'ACCEPTED':
-													 * $scope.progress = '20';
-													 * case 'REJECTED':
-													 * $scope.progress = '0';
-													 * case 'TEST_COMPLETED':
-													 * $scope.progress = '50';
-													 * case 'TEST_NOK':
-													 * $scope.progress = '0'; }
-													 */
+
 												});
 
 								$scope.isShownForm = false;
