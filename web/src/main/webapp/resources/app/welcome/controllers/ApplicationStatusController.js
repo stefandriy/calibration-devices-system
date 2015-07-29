@@ -11,10 +11,10 @@ angular
 						'$modal',
 						'$stateParams',
 						'DataReceivingService',
-						'DataSendingService',
+						'DataSendingService', '$location',
 
 						function($scope, $http, $translate, $state, $log,
-								$modal, $stateParams, dataReceivingService, dataSendingService) {
+								$modal, $stateParams, dataReceivingService, dataSendingService, $location) {
 
 							$scope.isShownForm = true;
 
@@ -105,7 +105,10 @@ angular
 										});
 							};
 
-							
+							$scope.createNew = function (ID) {
+								$location.path('/application-sending/' + ID);
+								
+							}
 							
 							/**
 					            * Modal window used to send questions about verification status

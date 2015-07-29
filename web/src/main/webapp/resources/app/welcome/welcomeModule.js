@@ -65,12 +65,12 @@
 												{
 													url : '/application-sending/{verificationId}',
 													templateUrl : '/resources/app/welcome/views/application-sending.html',
-													controller : 'ApplicationSendingController',
-													resolve:{
-												         verificationData:  function($stateParams, DataReceivingService){
-												            return DataReceivingService.getVerificationById($stateParams.verificationId);
-												         }
-												      }
+													controller : 'ApplicationSendingController'
+//													resolve:{
+//												         verificationData:  function($stateParams, DataReceivingService){
+//												            return DataReceivingService.getVerificationById($stateParams.verificationId);
+//												         }
+//												      }
 												})
 										.state(
 												'application-status',

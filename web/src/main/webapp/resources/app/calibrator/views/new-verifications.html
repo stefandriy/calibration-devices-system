@@ -40,7 +40,7 @@
                                     
                                         <div class="btn-group">
                                             <input type="text" class="form-control input-sm" ng-model="search.idText"
-                                                   ng-change=doSearch()>
+                                                   ng-change="doSearch()">
  		 									<span id="searchclear" class="glyphicon glyphicon-remove-circle"
                                                   ng-show="search.idText.length"
                                                   ng-click="clearId()"></span>
@@ -50,7 +50,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <input type="text" class="form-control input-sm"
-                                                       ng-model="search.lastNameText" ng-change=doSearch()>
+                                                       ng-model="search.lastNameText" ng-change="doSearch()">
                                                 <span id="searchclear" class="glyphicon glyphicon-remove-circle"
                                                       ng-show="search.lastNameText.length"
                                                       ng-click="clearLastName()"></span>
@@ -59,7 +59,7 @@
                                         <td>
                                             <div class="btn-group ">
                                                 <input type="text" class="form-control input-sm"
-                                                       ng-model="search.streetText" ng-change=doSearch()>
+                                                       ng-model="search.streetText" ng-change="doSearch()">
                                                 <span id="searchclear" class="glyphicon glyphicon-remove-circle"
                                                       ng-show="search.streetText.length"
                                                       ng-click="clearStreet()"></span>
@@ -67,11 +67,13 @@
                                         </td>
                                          <td>
                                             <div class="btn-group ">
-                                                <input type="text" class="form-control input-sm"
-                                                       ng-model="search.status" ng-change=doSearch()>
-                                                <span id="searchclear" class="glyphicon glyphicon-remove-circle"
-                                                      ng-show="search.status.length"
-                                                      ng-click="clearStatus()"></span>
+                                               <select  chosen  width="'90%'" class="form-control"  allow-single-deselect="true" 
+                                              	ng-model="search.status" disable-search="true" ng-change="doSearch()" >
+												<option value="IN_PROGRESS">IN PROGRESS </option>
+												<option value="TEST_PLACE_DETERMINED">TEST_PLACE_DETERMINED </option>
+												<option value="SENT_TO_TEST_DEVICE">SENT_TO_TEST_DEVICE </option>
+												<option value="TEST_COMPLETED">TEST_COMPLETED </option>
+												</select>
                                             </div>
                                         </td>
                                     <td class="text-center clearInput">

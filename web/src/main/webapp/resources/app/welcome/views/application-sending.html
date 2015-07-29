@@ -383,22 +383,15 @@
 
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-8">
-						<button type="submit"
-							class="btn btn-success text-uppercase pull-left"
-							ng-show="!showEditButton">{{'SEND_BTN' | translate}}</button>
-					</div>
-					<div class="col-md-offset-2 col-md-8">
-						<button class="btn btn-success text-uppercase pull-left"
-							ng-show="showEditButton" ng-click="editApplicationData()">
-							{{'EDIT' | translate}}</button>
+						<button type="submit" class="btn btn-success text-uppercase pull-left">
+						{{'SEND_BTN' | translate}}</button>
 					</div>
 				</div>
 			</form>
 		</div>
 
-		<div ng-show="!isShownForm  && !errorEdit" ng-repeat="code in codes"
-			class="row col-md-13 alert alert-success alert-dismissible centered"
-			role="alert">
+
+		<div ng-show="!isShownForm" ng-repeat="code in codes" class="row col-md-13 alert alert-success alert-dismissible centered" role="alert">
 			<button ng-click="closeAlert()" type="button"
 				class="close btn-close-alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
@@ -413,22 +406,7 @@
 
 			</div>
 			<br>
-		</div>
-		<div ng-show="!isShownForm  && errorEdit"
-			class="row col-md-10 alert alert-danger alert-dismissible centered"
-			role="alert">
-			<button ng-click="closeAlert()" type="button"
-				class="close btn-close-alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-
-			<div class="text-center">
-				{{'EDIT_ERROR' | translate}} <br> {{'EDIT_ERROR_INFO' |
-				translate}}
-			</div>
-
-		</div>
-
+		</div>		
 	</div>
 
 </section>

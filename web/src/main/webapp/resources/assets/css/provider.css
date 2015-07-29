@@ -43,6 +43,17 @@ body {
     color: #FF3000;
 }
 
+#dropDownClear {
+    position: absolute;
+    right: 55px;
+    top: 0;
+    bottom: 0;
+    height: 14px;
+    margin: auto;
+    font-size: 14px;
+    cursor: pointer;
+    color: #FF3000;
+}
 .sendButton{
 	position: relative;
 	left: 20px;

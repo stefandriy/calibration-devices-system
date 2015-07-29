@@ -171,7 +171,8 @@
             'verificator/controllers/ArchivalVerificationsControllerVerificator',
             'verificator/services/AddressServiceVerificator',
             'verificator/services/UserServiceVerificator',
-            'verificator/services/VerificationServiceVerificator'
+            'verificator/services/VerificationServiceVerificator',
+            'provider/filters/unique'
 
 
     ], function () {});

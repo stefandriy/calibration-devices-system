@@ -1,23 +1,12 @@
 angular
     .module('welcomeModule')
     .controller('ApplicationSendingController', ['$scope', '$q', '$state', '$http', '$log',
-        'DataReceivingService', 'DataSendingService', '$stateParams', '$window', '$rootScope', 'verificationData','$location',
+        'DataReceivingService', 'DataSendingService', '$stateParams', '$window', '$rootScope','$location',
 
-        function ($scope, $q, $state, $http, $log, dataReceivingService, dataSendingService, $stateParams, $window, $rootScope, verificationData, $location) {
+        function ($scope, $q, $state, $http, $log, dataReceivingService, dataSendingService, $stateParams, $window, $rootScope, $location) {
             $scope.isShownForm = true;
             $scope.blockSearchFunctions = false;
-            $scope.showEditButton = false;
-            $scope.errorEdit = false;
-            if (( $stateParams.verificationId)&&(!angular.equals(verificationData.data.status, 'REJECTED'))) {
-            	$scope.isShownForm = false;
-            	 $scope.errorEdit = true;
-            	 $scope.verificationId = $stateParams.verificationId;
-            }
-            	
             
-            if (( $stateParams.verificationId)&&(angular.equals(verificationData.data.status, 'REJECTED'))) {
-            	 $scope.showEditButton =  true;
-
             function arrayObjectIndexOf(myArray, searchTerm, property) {
                 for(var i = 0, len = myArray.length; i < len; i++) {
                     if (myArray[i][property] === searchTerm) return i;
@@ -30,57 +19,69 @@ angular
                 return (myArray.length-1);
             }
             
+            if ($stateParams.verificationId) {
+            dataReceivingService.getVerificationById($stateParams.verificationId).then(function (verification) {
+            			
+            $scope.verification = verification;
             $scope.formData = {};
-            $scope.formData.lastName = verificationData.data.lastName;
-            $scope.formData.firstName = verificationData.data.firstName;
-            $scope.formData.middleName = verificationData.data.middleName;
-            $scope.formData.email = verificationData.data.email;
-            $scope.formData.phone =  verificationData.data.phone;
-            $scope.formData.flat = verificationData.data.flat;
+            $scope.formData.lastName = $scope.verification.data.lastName;
+            $scope.formData.firstName = $scope.verification.data.firstName;
+            $scope.formData.middleName = $scope.verification.data.middleName;
+            $scope.formData.email = $scope.verification.data.email;
+            $scope.formData.phone =  $scope.verification.data.phone;
+            $scope.formData.flat = $scope.verification.data.flat;
      		 
             $scope.blockSearchFunctions = true;
             dataReceivingService.findAllRegions().then(function(respRegions) {	
             	$scope.regions = respRegions.data;
-            	var index = arrayObjectIndexOf($scope.regions, verificationData.data.region, "designation");
+            	var index = arrayObjectIndexOf($scope.regions,  $scope.verification.data.region, "designation");
                 $scope.selectedRegion = $scope.regions[index];
              
                 dataReceivingService.findDistrictsByRegionId( $scope.selectedRegion.id)
                 .then(function (districts) {
                 	$scope.districts = districts.data;
-                	var index = arrayObjectIndexOf($scope.districts, verificationData.data.district, "designation");
+                	var index = arrayObjectIndexOf($scope.districts,  $scope.verification.data.district, "designation");
                 	$scope.selectedDistrict = $scope.districts[index];
                 	
                 	dataReceivingService.findLocalitiesByDistrictId($scope.selectedDistrict.id)
                      .then(function (localities) {
                          $scope.localities = localities.data;
-                         var index = arrayObjectIndexOf($scope.localities, verificationData.data.locality, "designation");
+                         var index = arrayObjectIndexOf($scope.localities,  $scope.verification.data.locality, "designation");
                          $scope.selectedLocality = $scope.localities[index];
-                         
+
                          dataReceivingService.findProvidersByDistrict($scope.selectedDistrict.designation)
                          .then(function (providers) {
                              $scope.providers = providers.data;
-                            var index = arrayObjectIndexOf($scope.providers, verificationData.data.provider, "designation");
+                             var index = arrayObjectIndexOf($scope.providers,  $scope.verification.data.provider, "designation");
                               $scope.selectedProvider = $scope.providers[index];
                               
                               dataReceivingService.findStreetsByLocalityId( $scope.selectedLocality.id)
                               .then(function (streets) {
                                   $scope.streets = streets.data;
-                                	 var index = arrayObjectIndexOf($scope.streets, verificationData.data.street, "designation");
+                                	 var index = arrayObjectIndexOf($scope.streets,  $scope.verification.data.street, "designation");
                                 	 $scope.selectedStreet = $scope.streets[index];
                                 	 
                                 	 dataReceivingService.findBuildingsByStreetId( $scope.selectedStreet.id)
                                      .then(function (buildings) {
-                                         $scope.buildings = buildings.data;
-                                        var index = arrayObjectIndexOf($scope.buildings, verificationData.data.building, "designation");
-                                         $scope.selectedBuilding = $scope.buildings[index];
-                                         $scope.blockSearchFunctions = false;
+                                        $scope.buildings = buildings.data;
+                                        var index = arrayObjectIndexOf($scope.buildings,  $scope.verification.data.building, "designation");                                         
+                                        $scope.selectedBuilding = $scope.buildings[index].designation;
+
+                                         dataReceivingService.findMailIndexByLocality($scope.selectedLocality.designation, $scope.selectedDistrict.id)
+                                         .success(function (indexes) {
+                                             $scope.indexes = indexes;
+                                             $scope.selectedIndex = $scope.indexes[0];
+                                             $scope.blockSearchFunctions = false;
+                                         });
+                                         
                                      });
                               });
                          });
                      });
                });  	
-         });
-      }    
+            });
+       });
+    }    
          
             /**
              * Receives all possible regions.
@@ -215,9 +216,7 @@ angular
              */$scope.applicationCodes=[];
             $scope.codes=[];
             $scope.sendApplicationData = function () {
-
-
-            	 if( !$stateParams.verificationId) {  
+ 
                 $scope.$broadcast('show-errors-check-validity');
 
                 if ($scope.clientForm.$valid) {
@@ -231,7 +230,18 @@ angular
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.selectedDevice[i].id;
+
                     $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
+                     //   $scope.applicationCodes=[];
+                       // applicationCodes[]=$q.all  dataSendingService.sendApplication($scope.formData)
+                       // .success(function (applicationCode) {
+                       //     $scope.applicationCode = applicationCode;
+                       //   $log.debug($scope.formData);
+                       //   $log.debug( $scope.selectedCount);
+                      //  });
+                     //hide form because application status is shown
+   
+
                     }
 
                     $q.all($scope.applicationCodes).then(function(values){
@@ -249,38 +259,10 @@ angular
                     });
 
                  }
-                }
             };
 
-            $scope.editApplicationData = function () {
-            	 if(( $stateParams.verificationId)&&(verificationData.data.status === 'REJECTED')) {
-            		 $scope.$broadcast('show-errors-check-validity');
-
-	                if ($scope.clientForm.$valid) {
-	                    $scope.formData.region = $scope.selectedRegion.designation;
-	                    $scope.formData.district = $scope.selectedDistrict.designation;
-	                    $scope.formData.locality = $scope.selectedLocality.designation;
-	                    $scope.formData.street = $scope.selectedStreet.designation;
-	                    $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-	                    $scope.formData.providerId = $scope.selectedProvider.id;
-	                    $scope.formData.deviceId = $scope.selectedDevice.id;
-	                    $scope.formData.verificationId = $stateParams.verificationId;
-	                    dataSendingService.editApplication($scope.formData)
-	                        .success(function (applicationCode) {
-	                            $scope.applicationCode = applicationCode;
-	                        });
-
-	                    //hide form because application status is shown
-	                    $scope.isShownForm = false;
-	                }
-             }
-            };
-            
+          
             $scope.closeAlert = function () {
-               	$location.path('/resources/app/welcome/views/start.html');
-            }
-       
-            $scope.closeError = function() {
                	$location.path('/resources/app/welcome/views/start.html');
             }
             
@@ -300,9 +282,5 @@ angular
             $scope.EMAIL_REGEX=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
           
             $scope.checkboxModel = false;
-
-
-
-
 
         }]);

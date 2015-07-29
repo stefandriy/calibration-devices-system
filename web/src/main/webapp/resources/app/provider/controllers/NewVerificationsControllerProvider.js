@@ -4,15 +4,18 @@ angular
         '$modal', 'VerificationServiceProvider', '$rootScope', 'ngTableParams', '$filter', '$timeout',
         function ($scope, $log, $modal, verificationServiceProvider,
         		$rootScope, ngTableParams, $filter, $timeout) {
-                
-        $scope.search = {
+    	$scope.totalEmployee = 0;
+    	
+    	
+    	$scope.search = {
         		idText:null,
         		formattedDate :null,
         		lastNameText:null,
         		streetText: null,
         		status: null
         }
-        
+      
+       
         $scope.clearAll = function(){
         	$scope.search.idText=null;
         	$scope.search.formattedDate=null;
@@ -39,13 +42,14 @@ angular
         	$scope.search.status = null;
         	$scope.tableParams.reload();
         }
+      
         var promiseSearchTimeOut;
-        $scope.doSearch = function() {
+        $scope.doSearch = function() {       	
         	promiseTimeOut = $timeout(function() {
-            $scope.tableParams.reload();
+        		$scope.tableParams.reload();
         	}, 1500);
         }
-
+        
         $scope.$on('refresh-table', function () {
         	 $scope.clearAll();
         }); 
@@ -59,6 +63,7 @@ angular
 
                 verificationServiceProvider.getNewVerifications(params.page(), params.count(), $scope.search)
                 				.success(function (result) {
+                					 $scope.totalEmployee=result.totalItems;
                 					$defer.resolve(result.content);
                 					params.total(result.totalItems);
                 				}, function (result) {

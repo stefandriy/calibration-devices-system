@@ -10,7 +10,8 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Останні дані
+                   <span> Останні дані</span>
+                    <span class="pull-right"> На балансі {{totalEmployee}}</span>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -40,7 +41,7 @@
                                     
                                         <div class="btn-group">
                                             <input type="text" class="form-control input-sm" ng-model="search.idText"
-                                                   ng-change=doSearch()>
+                                                   ng-change="doSearch()">
  		 									<span id="searchclear" class="glyphicon glyphicon-remove-circle"
                                                   ng-show="search.idText.length"
                                                   ng-click="clearId()"></span>
@@ -50,7 +51,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <input type="text" class="form-control input-sm"
-                                                       ng-model="search.lastNameText" ng-change=doSearch()>
+                                                       ng-model="search.lastNameText" ng-change="doSearch()">
                                                 <span id="searchclear" class="glyphicon glyphicon-remove-circle"
                                                       ng-show="search.lastNameText.length"
                                                       ng-click="clearLastName()"></span>
@@ -59,19 +60,38 @@
                                         <td>
                                             <div class="btn-group ">
                                                 <input type="text" class="form-control input-sm"
-                                                       ng-model="search.streetText" ng-change=doSearch()>
+                                                       ng-model="search.streetText" ng-change="doSearch()">
                                                 <span id="searchclear" class="glyphicon glyphicon-remove-circle"
                                                       ng-show="search.streetText.length"
                                                       ng-click="clearStreet()"></span>
                                             </div>
                                         </td>
                                          <td>
-                                            <div class="btn-group ">
-                                                <input type="text" class="form-control input-sm"
-                                                       ng-model="search.status" ng-change=doSearch()>
-                                                <span id="searchclear" class="glyphicon glyphicon-remove-circle"
+                                            <div class="btn-group "> 
+                                          
+                                            <select chosen class="form-control input-sm" width="'80%'" disable-search="true"  name="typeStreet" type="text"
+										ng-model="search.status" class="form-control" ng-change="doSearch()">
+								<option value="?">Not sel</option>
+								<option value="SENT">Sent</option>
+								<option value="ACCEPTED">Accepted</option>
+							
+
+							</select> 
+							
+                                            <!--                                       	
+									 		<select class="form-control input-sm" ng-model="search.status" 
+									 		ng-change="doSearch()">
+            										
+													<option value="SENT">SENT</option>
+													<option value="ACCEPTED">ACCEPTED</option>
+   										 	</select>
+   										 	
+   										 	
+   										 	<span id="dropDownClear" class="glyphicon glyphicon-remove-circle"
                                                       ng-show="search.status.length"
-                                                      ng-click="clearStatus()"></span>
+                                                      ng-click="clearStatus()">
+                                             </span>
+   										  -->
                                             </div>
                                         </td>
                                     <td class="text-center clearInput">
@@ -119,11 +139,13 @@
 	                                           	ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
 	                                            <i class="fa fa-info"></i>
                                         	</button>
+                                        	<br>
                                     		<button ng-show="!verification.providerEmployee"
                                                 class="btn btn-xs btn-success btn-actions-custom" popover="Add employee"  popover-trigger="mouseenter"
                                                 ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
                                              	 <span class="glyphicon glyphicon-plus-sign"></span>
                                             </button>
+                                            <br>
                                          	 <button ng-show="verification.providerEmployee"
                                                     class="btn btn-xs btn-danger btn-actions-custom" popover="Remove employee"
                                            			popover-trigger="mouseenter"
