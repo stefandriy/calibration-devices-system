@@ -90,6 +90,7 @@ angular
             $scope.employeeFormData = {};
             $scope.selectedEmployee =[];
 
+
             $scope.changePassword = function(){
                 $scope.showPassword = !$scope.showPassword;
             }
@@ -329,12 +330,12 @@ angular
 
 
                 function addressFormToOrganizationForm() {
-                  $scope.employeeFormData.region = $scope.employeeFormData.region.designation;
-                   $scope.employeeFormData.district = $scope.employeeFormData.district.designation;
-                    $scope.employeeFormData.locality = $scope.employeeFormData.locality.designation;
-                    $scope.employeeFormData.street = $scope.employeeFormData.street;
-                    $scope.employeeFormData.building = $scope.employeeFormData.building;
-                   $scope.employeeFormData.flat = $scope.employeeFormData.flat;
+                  $scope.user.address.region = $scope.user.address.region.designation;
+                   $scope.user.address.district = $scope.user.address.district.designation;
+                    $scope.user.address.locality = $scope.user.address.locality.designation;
+                    $scope.user.address.street = $scope.user.address.street;
+                    $scope.user.address.building = $scope.user.address.building;
+                   $scope.user.address.flat = $scope.user.address.flat;
                 }
 
                 /**
@@ -379,7 +380,7 @@ angular
                     $scope.$broadcast('show-errors-check-validity');
                     //if( !$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
                     //&& !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
-                    //    addressFormToOrganizationForm();
+                       addressFormToOrganizationForm();
                         retranslater();
                         saveEmployee();
                     //} else {
