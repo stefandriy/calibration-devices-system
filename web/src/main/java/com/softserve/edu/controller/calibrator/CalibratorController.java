@@ -100,6 +100,7 @@ public class CalibratorController {
       return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
   }
 
+
     /**
      * Finds count of verifications which have read status 'UNREAD' and are
      * assigned to this organization
@@ -193,11 +194,10 @@ public class CalibratorController {
         }
         return httpStatus;
     }
-    
+
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                        ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
       User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
       ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByCalibratorId(
               employeeUser.getOrganizationId(),

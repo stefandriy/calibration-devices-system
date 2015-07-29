@@ -5,16 +5,45 @@ angular
         function ($scope, $log, $modal, VerificationServiceVerificator, $rootScope, ngTableParams, $filter, $timeout) {
 
             $scope.search = {
-                text: null,
-                type: null,
+                idText:null,
+                formattedDate :null,
+                lastNameText:null,
+                streetText: null,
+                status: null
             }
 
-            $scope.clearInput = function () {
-                $scope.search.text = null;
-            }
-
-            $scope.doSearch = function () {
+            $scope.clearAll = function(){
+                $scope.search.idText=null;
+                $scope.search.formattedDate=null;
+                $scope.dt = null;
+                $scope.search.lastNameText=null;
+                $scope.search.streetText=null;
+                $scope.search.status = null;
                 $scope.tableParams.reload();
+            }
+
+            $scope.clearId = function () {
+                $scope.search.idText = null;
+                $scope.tableParams.reload();
+            }
+            $scope.clearLastName = function () {
+                $scope.search.lastNameText = null;
+                $scope.tableParams.reload();
+            }
+            $scope.clearStreet = function () {
+                $scope.search.streetText = null;
+                $scope.tableParams.reload();
+            }
+            $scope.clearStatus = function () {
+                $scope.search.status = null;
+                $scope.tableParams.reload();
+            }
+
+            var promiseSearchTimeOut;
+            $scope.doSearch = function() {
+                promiseTimeOut = $timeout(function() {
+                    $scope.tableParams.reload();
+                }, 1500);
             }
 
             $scope.tableParams = new ngTableParams({
@@ -24,7 +53,7 @@ angular
                 total: 0,
                 getData: function ($defer, params) {
 
-                    VerificationServiceVerificator.getNewVerifications(params.page(), params.count(), $scope.search.type, $scope.search.text)
+                    VerificationServiceVerificator.getNewVerifications(params.page(), params.count(), $scope.search)
                         .success(function (result) {
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
@@ -42,7 +71,7 @@ angular
 
                 VerificationServiceVerificator.markVerificationAsRead(dataToSend).success(function () {
                     $rootScope.$broadcast('verification-was-read');
-                    $scope.onTableHandling();
+                    $scope.tableParams.reload();
                 });
             };
 
@@ -145,7 +174,8 @@ angular
                         VerificationServiceVerificator
                             .sendVerificationsToProvider(dataToSend)
                             .success(function () {
-                                $scope.onTableHandling();
+                                $scope.tableParams.reload();
+                                $rootScope.$broadcast('verification-sent-to-provider');
                             });
 
                         $scope.idsOfVerifications = [];
@@ -185,7 +215,8 @@ angular
                         VerificationServiceVerificator
                             .sendVerificationNotOkStatus(dataToSend)
                             .success(function () {
-                                $scope.onTableHandling();
+                                $scope.tableParams.reload();
+                                $rootScope.$broadcast('verification-sent-to-provider');
                             });
 
                         $scope.idsOfVerifications = [];

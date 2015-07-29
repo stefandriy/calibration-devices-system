@@ -16,10 +16,9 @@ import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorVeri
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorCalibrator;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorProvider;
-import com.softserve.edu.service.utils.VerificationsQueryConstructorVerificator;
+import com.softserve.edu.service.utils.NewVerificationsQueryConstructorVerificator;
 
 import org.apache.log4j.Logger;
-import org.jboss.logging.Logger.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -114,7 +113,7 @@ public class VerificationService {
      */
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByProviderId(Long providerId) {
-        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT,  ReadStatus.UNREAD);
+        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT, ReadStatus.UNREAD);
     }
 
     /**
@@ -126,7 +125,7 @@ public class VerificationService {
      */
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
-        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR,  ReadStatus.UNREAD);
+        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR, ReadStatus.UNREAD);
     }
 
     @Transactional(readOnly = true)
@@ -154,7 +153,7 @@ public class VerificationService {
         return verificationRepository.findByCalibratorIdAndStatusOrderByInitialDateDesc(calibratorId, Status.IN_PROGRESS, pageRequest);
     }
 
-    
+
     @Transactional(readOnly = true)
     public Page<Verification> findPageOfSentVerificationsByStateVerificatorId(Long stateVerificatorId, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
@@ -196,11 +195,10 @@ public class VerificationService {
         return result;
     }
 
-    
-    
+
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                           String streetToSearch, String status, String employeeName, User providerEmployee) {
+                                                                                          String streetToSearch, String status, String employeeName, User providerEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, providerEmployee, em);
 
@@ -216,10 +214,12 @@ public class VerificationService {
         result.setTotalItems(count);
         return result;
     }
-    
+
     @Transactional(readOnly = true)
+
     public ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
                                                                                                        String streetToSearch, String status, User calibratorEmployee) {
+
 
         CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(calibratorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, calibratorEmployee, em);
 
@@ -236,9 +236,10 @@ public class VerificationService {
         return result;
     }
 
+
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                                        String streetToSearch, String status, String employeeName, User calibratorEmployee) {
+                                                                                            String streetToSearch, String status, String employeeName, User calibratorEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, calibratorEmployee, em);
 
@@ -254,42 +255,25 @@ public class VerificationService {
         result.setTotalItems(count);
         return result;
     }
-    
-    
+
     @Transactional(readOnly = true)
-    public Page<Verification> findPageOfSentVerificationsByStateVerificatorIdAndSearch(Long stateVerificatorId, int pageNumber,
-                                                                                 int itemsPerPage, String searchType, String searchText) {
-        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        switch (searchType) {
-            case "id":
-                return verificationRepository.findByStateVerificatorIdAndStatusAndIdLikeIgnoreCase(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
-                        "%" + searchText + "%", pageRequest);
+    public ListToPageTransformer<Verification> findPageOfVerificationsByVerificatorIdAndCriteriaSearch(Long verificatorId,
+                                                                                                       int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+                                                                                                       String streetToSearch, String status, User verificatorEmployee) {
 
-            case "lastName":
-                return verificationRepository.findByStateVerificatorIdAndStatusAndClientData_lastNameLikeIgnoreCase(stateVerificatorId,
-                        Status.SENT_TO_VERIFICATOR, "%" + searchText + "%", pageRequest);
+        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorVerificator.buildSearchQuery(verificatorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, verificatorEmployee, em);
 
-            case "street":
-                return verificationRepository.findByStateVerificatorIdAndStatusAndClientDataClientAddressStreetLikeIgnoreCase(
-                        stateVerificatorId, Status.SENT_TO_VERIFICATOR, "%" + searchText + "%", pageRequest);
+        Long count = em.createQuery(NewVerificationsQueryConstructorVerificator.buildCountQuery(verificatorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, verificatorEmployee, em)).getSingleResult();
 
-            case "date":
+        TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<Verification> verificationList = typedQuery.getResultList();
 
-                SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = null;
-                try {
-                    date = form.parse(searchText);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                return verificationRepository.findByStateVerificatorIdAndStatusAndInitialDateLike(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
-                        date, pageRequest);
-
-            default:
-                return verificationRepository.findByStateVerificatorIdAndStatusOrderByInitialDateDesc(stateVerificatorId, Status.SENT_TO_VERIFICATOR,
-                        pageRequest);
-        }
-
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        result.setContent(verificationList);
+        result.setTotalItems(count);
+        return result;
     }
     
     @Transactional(readOnly = true)

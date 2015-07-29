@@ -6,6 +6,7 @@ angular
     .controller('UsersController', ['$scope', 'UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter',
         function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter) {
             $scope.totalEmployee=0;
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 5
