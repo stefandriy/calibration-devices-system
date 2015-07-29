@@ -20,6 +20,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private String calibratorEmployee;
     private String stateVerificator;
     private String stateVerificatorEmployee;
+    private boolean isUpload;
 
     protected VerificationDTO() {
     }
@@ -28,9 +29,9 @@ public class VerificationDTO extends ClientStageVerificationDTO {
             ClientData clientData, String id, Date initialDate, Date expirationDate,
             Status status, Organization calibrator, User calibratorEmployee,
             Device device, Organization provider, User providerEmployee,
-            Organization stateVerificator, User stateVerificatorEmployee) {
+            Organization stateVerificator, User stateVerificatorEmployee, boolean isUpload) {
 
-        super(clientData, clientData.getClientAddress(), null, null,null);
+        super(clientData, clientData.getClientAddress(), null, null, null);
         this.id = id;
         this.status = status;
         this.initialDate = initialDate;
@@ -41,7 +42,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
             if (providerEmployee.getMiddleName() != null) {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
             } else {
-                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
+                this.providerEmployee = providerEmployee.   getLastName() + " " + providerEmployee.getFirstName();
             }
         }
 
@@ -51,6 +52,8 @@ public class VerificationDTO extends ClientStageVerificationDTO {
         this.stateVerificator = stateVerificator == null ? "" : stateVerificator.getName();
         this.stateVerificatorEmployee = stateVerificatorEmployee == null ? "" : stateVerificatorEmployee.getFirstName() + " "
                 + stateVerificatorEmployee.getLastName();
+
+        this.isUpload = isUpload;
     }
 
     public String getId() {
@@ -139,6 +142,14 @@ public class VerificationDTO extends ClientStageVerificationDTO {
 
     public void setStateVerificatorEmployee(String stateVerificatorEmployee) {
         this.stateVerificatorEmployee = stateVerificatorEmployee;
+    }
+
+    public boolean isUpload() {
+        return isUpload;
+    }
+
+    public void setIsUpload(boolean isUpload) {
+        this.isUpload = isUpload;
     }
 
     @Override

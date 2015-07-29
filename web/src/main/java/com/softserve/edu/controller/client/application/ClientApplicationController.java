@@ -92,7 +92,7 @@ public class ClientApplicationController {
 					verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
 					verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
 					verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-					verification.getStateVerificatorEmployee());
+					verification.getStateVerificatorEmployee(),false);
 		} else {
 			return null;
 		}

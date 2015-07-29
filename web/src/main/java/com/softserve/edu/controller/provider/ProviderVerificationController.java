@@ -200,7 +200,7 @@ public class ProviderVerificationController {
                     verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
                     verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
                     verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-                    verification.getStateVerificatorEmployee());
+                    verification.getStateVerificatorEmployee(),false);
         } else {
             return null;
         }
@@ -212,9 +212,11 @@ public class ProviderVerificationController {
 
         Verification verification = verificationService.findByIdAndProviderId(verificationId, user.getOrganizationId());
 
-        return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(), verification.getExpirationDate(),
-        							verification.getStatus(), verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
-        							verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(), verification.getStateVerificatorEmployee()
+        return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(),
+                verification.getExpirationDate(),verification.getStatus(), verification.getCalibrator(),
+                verification.getCalibratorEmployee(), verification.getDevice(),verification.getProvider(),
+                verification.getProviderEmployee(), verification.getStateVerificator(),
+                verification.getStateVerificatorEmployee(),false
         );
     }
 }
