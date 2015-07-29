@@ -35,11 +35,12 @@
 					translate }}</label>
 			</div>
 
-			<div class="form-group col-md-8">
+			<div class="form-group col-md-8" show-errors>
 					<select multiple chosen type="text" class="form-control"
 							ng-model="organizationFormData.types"
 							data-placeholder="Choose type"
-							ng-options="type for type in typeData | organizationFilter:organizationFormData.types">
+							ng-options="type for type in typeData | organizationFilter:organizationFormData.types"
+							required>
 					</select>
 			</div>
 		</div>
@@ -88,6 +89,21 @@
 
 			</div>
 		</div>
+
+
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">{{'NUMBER_OF_EMPLOYEES' | translate}}</label>
+			</div>
+			<div class="form-group col-md-8" show-errors>
+
+				<input type="number" id="capacity"  name="capacity" class="form-control"
+					   ng-model="organizationFormData.employeesCapacity"  min="1" required>
+
+			</div>
+		</div>
+
+
 
 		<div>
 			<hr />
@@ -144,7 +160,8 @@
 						ng-change="checkRePassword()" name="rePassword"
 						class="form-control" required>
 
-					<p class="help-block" ng-if="!isPasswordsEqual">{{'PASSWORDS_ISNT_EQUAL' |
+					<p class="help-block" ng-class="{'unreadClass': verification.readStatus=='UNREAD'}"
+					   ng-if="!isPasswordsEqual">{{'PASSWORDS_ISNT_EQUAL' |
 						translate }}</p>
 
 				</div>

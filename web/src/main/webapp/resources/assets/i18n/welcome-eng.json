@@ -177,7 +177,10 @@
   "EQUIPMENT_INTERVAL_REGEX":"Interval should be only numbers 2 to 5",
   "CHANGE_PASSWORD":"Change password",
   "NEW_PASSWORD":"New password",
-  "EDIT_CHANGES":"Save changes"
+  "EDIT_CHANGES":"Save changes",
+  
+   "NUMBER_OF_EMPLOYEES":  "Maximum number of employees"
+
 
 
 }

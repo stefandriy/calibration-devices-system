@@ -22,6 +22,7 @@ public class Organization {
 	private String name;
 	private String email;
 	private String phone;
+	private Integer employeesCapacity;
 
 	@Embedded
 	private Address address;
@@ -59,10 +60,11 @@ public class Organization {
 		this.phone = phone;
 	}
 
-	public Organization(String name, String email, String phone, Address address) {
+	public Organization(String name, String email, String phone, Integer employeesCapacity, Address address) {
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
+		this.employeesCapacity = employeesCapacity;
 		this.address = address;
 	}
 
@@ -106,6 +108,14 @@ public class Organization {
 		this.phone = phone;
 	}
 
+	public Integer getEmployeesCapacity() {
+		return employeesCapacity;
+	}
+
+	public void setEmployeesCapacity(Integer employeesCapacity) {
+		this.employeesCapacity = employeesCapacity;
+	}
+
 	public Address getAddress() {
 		return address;
 	}
@@ -131,6 +141,7 @@ public class Organization {
 	}
 
 
+
 	@Override
 	public String toString() {
 		return new ToStringBuilder(this)
@@ -138,6 +149,7 @@ public class Organization {
 				.append("name", name)
 				.append("email", email)
 				.append("phone", phone)
+				.append("employeesCapacity", employeesCapacity)
 				.append("address", address)
 				.append("certificateNumber", certificateNumber)
 				.append("certificateGrantedDate", certificateGrantedDate)
@@ -151,6 +163,7 @@ public class Organization {
 				.append(name)
 				.append(email)
 				.append(phone)
+				.append(employeesCapacity)
 				.append(address)
 				.append(certificateNumber)
 				.append(certificateGrantedDate)
@@ -166,6 +179,7 @@ public class Organization {
 					.append(name, other.name)
 					.append(email, other.email)
 					.append(phone, other.phone)
+					.append(employeesCapacity, other.employeesCapacity)
 					.append(address, other.address)
 					.append(certificateNumber, other.certificateNumber)
 					.append(certificateGrantedDate, other.certificateGrantedDate)

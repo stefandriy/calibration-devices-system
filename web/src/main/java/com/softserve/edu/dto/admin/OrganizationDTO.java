@@ -7,6 +7,7 @@ public class OrganizationDTO {
 	private String email;
 	private String phone;
 	private String[] types;
+	private Integer employeesCapacity;
 
 	private String username;
 	private String password;
@@ -44,6 +45,14 @@ public class OrganizationDTO {
 
 	public void setTypes(String[] types) {
 		this.types = types;
+	}
+
+	public Integer getEmployeesCapacity() {
+		return employeesCapacity;
+	}
+
+	public void setEmployeesCapacity(Integer employeesCapacity) {
+		this.employeesCapacity = employeesCapacity;
 	}
 
 	public String getPhone() {

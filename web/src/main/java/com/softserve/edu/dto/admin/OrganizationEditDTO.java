@@ -4,6 +4,7 @@ public class OrganizationEditDTO {
 	private String name;
 	private String email;
 	private String phone;
+	private Integer employeesCapacity;
 
 	private String region;
 	private String locality;
@@ -34,6 +35,14 @@ public class OrganizationEditDTO {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public Integer getEmployeesCapacity() {
+		return employeesCapacity;
+	}
+
+	public void setEmployeesCapacity(Integer employeesCapacity) {
+		this.employeesCapacity = employeesCapacity;
 	}
 
 	public String getRegion() {

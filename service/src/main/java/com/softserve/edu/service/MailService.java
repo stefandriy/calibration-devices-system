@@ -22,7 +22,8 @@ import java.util.Map;
 import static org.springframework.ui.velocity.VelocityEngineUtils.mergeTemplateIntoString;
 
 @Service
-public class MailService {
+public class
+        MailService {
 
     @Autowired
     private JavaMailSender mailSender;

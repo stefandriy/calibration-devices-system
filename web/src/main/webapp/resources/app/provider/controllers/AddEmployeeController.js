@@ -331,7 +331,6 @@ angular
                 }
 
                 $scope.onEmployeeFormSubmit = function () {
-
                     $scope.$broadcast('show-errors-check-validity');
                     if( !$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
                     && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
@@ -354,9 +353,9 @@ angular
                                 employeeData).then(
                                 function (data) {
                                     if (data.status == 201) {
+                                        $rootScope.$broadcast('new-employee-added');
                                         $scope.closeModal();
                                         $scope.resetEmployeeForm();
-
                                     }else{
                                         alert('Error');
                                     }

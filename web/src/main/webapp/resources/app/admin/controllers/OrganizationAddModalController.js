@@ -37,18 +37,43 @@ angular
 							$scope.streets = [];
 							$scope.buildings = [];
 
+
 							/**
 							 * Resets organization form
 							 */
 							$scope.resetOrganizationForm = function() {
 								$scope.$broadcast('show-errors-reset');
-								$scope.organizationFormData = null;
+
+								//$scope.organizationFormData = null;
+
+								$scope.organizationFormData.name = null;
+								$scope.organizationFormData.types = null;
+								$scope.organizationFormData.phone = null;
+								$scope.organizationFormData.email = null;
+								$scope.organizationFormData.employeesCapacity = null;
+								$scope.organizationFormData.username = null;
+								$scope.organizationFormData.password = null;
+								$scope.organizationFormData.rePassword = null;
+								$scope.organizationFormData.region = null;
+								$scope.organizationFormData.district = null;
+								$scope.organizationFormData.locality = null;
+								$scope.organizationFormData.street = null;
+								$scope.organizationFormData.building = null;
+								$scope.organizationFormData.flat = null;
+								$scope.ORGANIZATION_NAME_REGEX =null;
+								$scope.PHONE_REGEX =null;
+								$scope.EMAIL_REGEX = null;
+								$scope.USERNAME_REGEX = null;
+								$scope.PASSWORD_REGEX = null;
+								$scope.BUILDING_REGEX = null;
+								$scope.FLAT_REGEX= null;
+
 							};
 
 							/**
 							 * Calls resetOrganizationForm after the view loaded
 							 */
-							$scope.resetOrganizationForm();
+							//$scope.resetOrganizationForm();
 
 							/**
 							 * Checks whereas given username is available to use

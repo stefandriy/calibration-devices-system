@@ -131,6 +131,7 @@ angular
 									name : $rootScope.organization.name,
 									phone : $rootScope.organization.phone,
 									email : $rootScope.organization.email,
+									employeesCapacity : $rootScope.organization.employeesCapacity,
 									region : $rootScope.organization.address.region,
 									locality : $rootScope.organization.address.locality,
 									district : $rootScope.organization.address.district,

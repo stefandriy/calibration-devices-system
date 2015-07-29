@@ -26,6 +26,9 @@ angular
             },
             updateUser: function(userData) {
                 return saveData('employee/admin/users/update', userData);
+            },
+            getOrganizationEmployeeCapacity : function() {
+                return getData('employee/admin/users/organizationCapacity');
             }
         };
 

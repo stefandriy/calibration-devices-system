@@ -47,9 +47,15 @@ public class AddEmployeeController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
+    
+@Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
+
+    @RequestMapping(value = "organizationCapacity", method = RequestMethod.GET)
+    public Integer getOrganizationCapacity(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        Long organizationId = user.getOrganizationId();
+        return organizationsService.getOrganizationEmployeesCapacity(organizationId);
+    }
 
 
     /**

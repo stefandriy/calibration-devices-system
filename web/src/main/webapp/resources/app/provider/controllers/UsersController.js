@@ -6,6 +6,7 @@ angular
     .controller('UsersController', ['$scope', 'UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
         function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
             $scope.totalEmployee=0;
+			$scope.cantAddEmployee;
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -18,11 +19,13 @@ angular
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
+                            $scope.cantAddNewEmployee();
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
                 }
             });
+
 
             $scope.isFilter = function () {
                 var obj = $scope.tableParams.filter();
@@ -55,7 +58,6 @@ angular
 
 
             $scope.onTableHandling = function () {
-
                 userService.isAdmin()
     			.success(function (response) {
     				var roles = response + '';
@@ -75,7 +77,7 @@ angular
     				if (thereIsAdmin > 0){
     					$scope.verificator = true;
     				}else{
-    					$scope.accessLable = true;	
+    					$scope.accessLable = true;
     				}
     			});
             };
@@ -106,6 +108,24 @@ angular
 
                     });
             };
+
+
+            $scope.cantAddNewEmployee = function() {
+                userService.getOrganizationEmployeeCapacity().success(
+                    function(data) {
+                        $scope.organizationEmployeesCapacity = data;
+                        if ($scope.totalEmployee < $scope.organizationEmployeesCapacity) {
+                            $scope.cantAddEmployee = false;
+                        } else {
+                            $scope.cantAddEmployee = true;
+                        }
+                    });
+            };
+
+
+            $scope.$on('new-employee-added', function() {
+                $scope.tableParams.reload();
+            });
 
 
         }]);
