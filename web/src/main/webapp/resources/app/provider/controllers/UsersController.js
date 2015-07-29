@@ -3,8 +3,8 @@
  */
 angular
     .module('employeeModule')
-    .controller('UsersController', ['$scope', 'UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter',
-        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter) {
+    .controller('UsersController', ['$scope', 'UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
+        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
             $scope.totalEmployee=0;
 
             $scope.tableParams = new ngTableParams({
@@ -91,6 +91,21 @@ angular
             };
 
             $scope.onTableHandling();
+
+            $scope.openEditEmployeeModal = function(username) {
+                userService.getUser(username)
+                    .success(function(data){
+                        $rootScope.user = data;
+                        $rootScope.$broadcast("roles_avaliable", {roles : $rootScope.user.userRoles});
+                    });
+                var addEmployeeModal = $modal
+                    .open({
+                        animation : true,
+                        controller : 'EditEmployeeController',
+                        templateUrl : '/resources/app/provider/views/employee/employee-edit-modal.html',
+
+                    });
+            };
 
 
         }]);

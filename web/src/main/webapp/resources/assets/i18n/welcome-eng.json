@@ -171,10 +171,13 @@
 
   "CLIENT":"Client",
   "FEEDBACK":"Feedback",
-
   "EQUIPMENT_NAME_LENGTH":"Equipment name should be 5 to 20 characters",
   "EQUIPMENT_TYPE_REGEX":"Equipment type should be only UpperCase and 4 to 16 characters",
   "MANUFACTURER_REGEX":"Manufacturer should be 5 to 20 characters",
-  "EQUIPMENT_INTERVAL_REGEX":"Interval should be only numbers 2 to 5"
+  "EQUIPMENT_INTERVAL_REGEX":"Interval should be only numbers 2 to 5",
+  "CHANGE_PASSWORD":"Change password",
+  "NEW_PASSWORD":"New password",
+  "EDIT_CHANGES":"Save changes"
+
 
 }

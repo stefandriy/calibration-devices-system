@@ -7,8 +7,8 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Користувачі  </h1>
-       <button type="submit" class="btn btn-primary"
-                    ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}</button>
+           <button type="submit" class="btn btn-primary"
+                        ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}</button>
         </div>
     </div>
 
@@ -50,6 +50,12 @@
                                          <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)" class="cursor-pointer"> {{
                                             user.countOfVarification }}</a>
                                          <span ng-if="!user.countOfVarification"> {{ user.countOfVarification}}    </span>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary"
+                                                ng-click="openEditEmployeeModal(user.username)">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
                                     </td>
                                 </tr>
                                 </tbody>

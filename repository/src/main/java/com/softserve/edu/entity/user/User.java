@@ -156,6 +156,8 @@ public class User {
         this.userRoles.add(userRole);
     }
 
+    public void deleteAllUsersRoles() {this.userRoles.clear();}
+
     public Set<UserRole> getUserRoles() {
         return userRoles;
     }

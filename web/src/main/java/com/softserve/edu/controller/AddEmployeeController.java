@@ -3,6 +3,7 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
+import com.softserve.edu.controller.provider.util.usernameDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
@@ -22,9 +23,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -75,6 +78,49 @@ public class AddEmployeeController {
             isAvailable = userService.existsWithUsername(username);
         }
         return isAvailable;
+    }
+
+    @RequestMapping(value = "getUser/{username}", method = RequestMethod.GET)
+    public UserDTO userEmployeeEdit(@PathVariable String username) {
+        User temporalUser = providerEmployeeService.oneProviderEmployee(username);
+        UserDTO userFromDataBase = new UserDTO();
+        userFromDataBase.setFirstName(temporalUser.getFirstName());
+        userFromDataBase.setLastName(temporalUser.getLastName());
+        userFromDataBase.setMiddleName(temporalUser.getMiddleName());
+        userFromDataBase.setPhone(temporalUser.getPhone());
+        userFromDataBase.setEmail(temporalUser.getEmail());
+        userFromDataBase.setAddress(temporalUser.getAddress());
+        userFromDataBase.setUsername(temporalUser.getUsername());
+        userFromDataBase.setUserRoles(new HashSet<String>(userService.getRoles(username)));
+        return(userFromDataBase);
+    }
+
+    @RequestMapping(value = "update", method = RequestMethod.POST)
+    public ResponseEntity<HttpStatus> updateEmployee(
+            @RequestBody UserDTO providerEmployee,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User newUser = providerEmployeeService.oneProviderEmployee(providerEmployee.getUsername());
+        System.out.println(providerEmployee.toString());
+        newUser.setAddress(providerEmployee.getAddress());
+        newUser.setFirstName(providerEmployee.getFirstName());
+        newUser.setLastName(providerEmployee.getLastName());
+        newUser.setMiddleName(providerEmployee.getMiddleName());
+        newUser.setEmail(providerEmployee.getEmail());
+        newUser.setPhone(providerEmployee.getPhone());
+        newUser.setUsername(providerEmployee.getUsername());
+        if(providerEmployee.getPassword() != null){
+            newUser.setPassword(providerEmployee.getPassword());
+        }
+        newUser.deleteAllUsersRoles();
+        for (String tmp : providerEmployee.getUserRoles() ){
+            UserRole userRole = userRepository.getUserRole(tmp);
+            newUser.addUserRole(userRole);
+        }
+//        Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
+//        newUser.setOrganization(employeeOrganization);
+//        System.out.println(providerEmployee.toString());
+      providerEmployeeService.addEmployee(newUser);
+        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)

@@ -18,8 +18,14 @@ angular
             getCapacityOfWork: function(username){
                 return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
             },
-            getGraficData :function(dataToSearch){
+            getGraficData: function(dataToSearch){
                 return getData('provider/admin/users/graphic',dataToSearch);
+            },
+            getUser: function(username){
+                return getData('employee/admin/users/getUser/' + username);
+            },
+            updateUser: function(userData) {
+                return saveData('employee/admin/users/update', userData);
             }
         };
 
