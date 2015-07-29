@@ -65,26 +65,13 @@
 
         <!-- Nav bar top right links -->
         <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown" dropdown>
-                <a class="dropdown-toggle" dropdown-toggle>
-                    <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a><i class="fa fa-user fa-fw"></i> Профіль</a>
-                    </li>
-                    <li><a><i class="fa fa-gear fa-fw"></i> Налаштування</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a ng-click="logout()"><i class="fa fa-sign-out fa-fw"></i> Вийти</a>
-                    </li>
-                </ul>
-            </li>
+
             <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-envelope"></i>
                     <span class="label label-success">4</span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu" >
                     <li class="header">You have 4 messages</li>
                     <li>
                         <!-- inner menu: contains the actual data -->
@@ -92,7 +79,7 @@
                             <li><!-- start message -->
                                 <a href="#">
                                     <div class="pull-left">
-                                        <img src="img/avatar3.png" class="img-circle" alt="User Image"/>
+                                        <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-circle" alt="User Image"/>
                                     </div>
                                     <h4>
                                         Support Team
@@ -299,7 +286,28 @@
                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                         </div>
                         <div class="pull-right">
-                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                            <a ng-click="logout()" class="btn btn-default btn-flat">Sign out</a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown" dropdown>
+                <a class="dropdown-toggle" dropdown-toggle>
+                    User name   <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user"  style="background-color: lightskyblue ">
+                    <li class="user-header bg-light-blue">
+                        <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-circle" alt="User Image" />
+                        <p>
+                           INPUT PARAM OF USER HERE
+                        </p>
+                    </li>
+                    <li class="user-footer" >
+                        <div class="pull-left" style="color: #2C1919 ">
+                            <a href="#" class="btn btn-default btn-flat">Profile</a>
+                        </div>
+                        <div class="pull-right" style="color: #2C1919 ">
+                            <a ng-click="logout()" class="btn btn-default btn-flat">Sign out</a>
                         </div>
                     </li>
                 </ul>
