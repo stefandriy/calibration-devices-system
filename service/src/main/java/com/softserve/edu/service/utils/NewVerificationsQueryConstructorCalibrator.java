@@ -128,20 +128,28 @@ import com.softserve.edu.entity.util.Status;
 					}
 				}
 
-				if ((status != null)&&(status.equalsIgnoreCase("IN_PROGRESS"))) {
-					queryPredicate = cb.and(cb.equal(root.get("status"), Status.IN_PROGRESS), queryPredicate);
-				} else if ((status != null)&&(status.equalsIgnoreCase("SENT_TO_TEST_DEVICE"))) {
-					queryPredicate = cb.and(cb.equal(root.get("status"), Status.SENT_TO_TEST_DEVICE), queryPredicate);
-				} else if ((status != null)&&(status.equalsIgnoreCase("TEST_PLACE_DETERMINED"))) {
-					queryPredicate = cb.and(cb.equal(root.get("status"), Status.TEST_PLACE_DETERMINED), queryPredicate);
-				} else if ((status != null)&&(status.equalsIgnoreCase("TEST_COMPLETED"))) {
-					queryPredicate = cb.and(cb.equal(root.get("status"), Status.TEST_COMPLETED), queryPredicate);	
-				} else {	
-					Predicate inProgress = cb.equal(root.get("status"), Status.IN_PROGRESS);
-					Predicate sentToTest = cb.equal(root.get("status"), Status.SENT_TO_TEST_DEVICE);
-					Predicate testPlaceDetermined = cb.equal(root.get("status"), Status.TEST_PLACE_DETERMINED);
-					Predicate testCompleted = cb.equal(root.get("status"), Status.TEST_COMPLETED);
-					queryPredicate = cb.and(cb.or(inProgress, sentToTest, testPlaceDetermined, testCompleted), queryPredicate);
+//				if ((status != null)&&(status.equalsIgnoreCase("IN_PROGRESS"))) {
+//					queryPredicate = cb.and(cb.equal(root.get("status"), Status.IN_PROGRESS), queryPredicate);
+//				} else if ((status != null)&&(status.equalsIgnoreCase("SENT_TO_TEST_DEVICE"))) {
+//					queryPredicate = cb.and(cb.equal(root.get("status"), Status.SENT_TO_TEST_DEVICE), queryPredicate);
+//				} else if ((status != null)&&(status.equalsIgnoreCase("TEST_PLACE_DETERMINED"))) {
+//					queryPredicate = cb.and(cb.equal(root.get("status"), Status.TEST_PLACE_DETERMINED), queryPredicate);
+//				} else if ((status != null)&&(status.equalsIgnoreCase("TEST_COMPLETED"))) {
+//					queryPredicate = cb.and(cb.equal(root.get("status"), Status.TEST_COMPLETED), queryPredicate);	
+//				} else {	
+//					Predicate inProgress = cb.equal(root.get("status"), Status.IN_PROGRESS);
+//					Predicate sentToTest = cb.equal(root.get("status"), Status.SENT_TO_TEST_DEVICE);
+//					Predicate testPlaceDetermined = cb.equal(root.get("status"), Status.TEST_PLACE_DETERMINED);
+//					Predicate testCompleted = cb.equal(root.get("status"), Status.TEST_COMPLETED);
+//					queryPredicate = cb.and(cb.or(inProgress, sentToTest, testPlaceDetermined, testCompleted), queryPredicate);
+//				}
+				
+				
+				if ((status != null)&&(!status.startsWith("?"))) {
+					queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(status.trim())), queryPredicate);
+				} else {
+					queryPredicate = cb.and(cb.or(Status.IN_PROGRESS.getQueryPredicate(root, cb), Status.SENT_TO_TEST_DEVICE.getQueryPredicate(root, cb), 
+							Status.TEST_PLACE_DETERMINED.getQueryPredicate(root, cb), Status.TEST_COMPLETED.getQueryPredicate(root, cb)), queryPredicate);
 				}
 			
 				queryPredicate = cb.and(cb.equal(joinSearch.get("id"), calibratorId), queryPredicate);

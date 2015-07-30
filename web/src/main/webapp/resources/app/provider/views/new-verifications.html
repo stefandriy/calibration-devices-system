@@ -82,28 +82,11 @@
                                             <div class="btn-group "> 
                                           
                                             <select chosen class="form-control input-sm" width="'80%'" disable-search="true"  name="typeStreet" type="text"
-										ng-model="search.status" class="form-control" ng-change="doSearch()">
-								<option value="?">Not sel</option>
-								<option value="SENT">Sent</option>
-								<option value="ACCEPTED">Accepted</option>
-							
-
-							</select> 
-							
-                                            <!--                                       	
-									 		<select class="form-control input-sm" ng-model="search.status" 
-									 		ng-change="doSearch()">
-            										
-													<option value="SENT">SENT</option>
-													<option value="ACCEPTED">ACCEPTED</option>
-   										 	</select>
-   										 	
-   										 	
-   										 	<span id="dropDownClear" class="glyphicon glyphicon-remove-circle"
-                                                      ng-show="search.status.length"
-                                                      ng-click="clearStatus()">
-                                             </span>
-   										  -->
+										 			allow-single-deselect="true"	ng-model="search.status" class="form-control" ng-change="doSearch()">
+												<option value="?">Not selected</option>
+												<option value="SENT">Sent</option>
+												<option value="ACCEPTED">Accepted</option>
+											</select>
                                             </div>
                                         </td>
                                     <td class="text-center clearInput">

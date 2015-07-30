@@ -52,7 +52,8 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> providerJoin = root.join("provider");
 			Predicate predicate = ArchivalVerificationsQueryConstructorProvider.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, status, employeeName, providerEmployee, providerJoin);
+																					lastNameToSearch, streetToSearch, status, employeeName, providerEmployee,
+																								providerJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
@@ -65,16 +66,13 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 
 		Predicate queryPredicate = cb.conjunction();		
 		queryPredicate = cb.and(cb.equal(providerJoin.get("id"), providerId), queryPredicate);
-						
-			if(searchStatus != null) {
-				for (Status status : Status.values()) {
-					if(status.toString().equalsIgnoreCase(searchStatus)){
-						queryPredicate =  cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.toUpperCase())), queryPredicate);
-					}
-				}				
-			}
+		
+		if ((searchStatus != null)&&(!searchStatus.startsWith("?"))) {
+			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
+		} 
 				
-				 if (dateToSearch != null) {
+		
+				if (dateToSearch != null) {
 					 SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
 					 Date date = null;
 					 try {

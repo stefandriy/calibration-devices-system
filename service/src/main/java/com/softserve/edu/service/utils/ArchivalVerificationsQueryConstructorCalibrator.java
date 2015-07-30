@@ -66,15 +66,11 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 
 		Predicate queryPredicate = cb.conjunction();
 		queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
-							
-			if(searchStatus != null) {
-				for (Status status : Status.values()) {
-					if(status.toString().equalsIgnoreCase(searchStatus)){
-						queryPredicate =  cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.toUpperCase())), queryPredicate);
-					}
-				}				
-			}
-				
+	
+		if ((searchStatus != null)&&(!searchStatus.startsWith("?"))) {
+			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
+		} 
+		
 				 if (dateToSearch != null) {
 					 SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
 					 Date date = null;

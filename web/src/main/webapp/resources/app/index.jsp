@@ -348,7 +348,7 @@
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
                             <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i>  Нові заявки (провайдер)
-                              <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"ng-cloak>
+                              <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications" ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
                             </a>
                         </li>
@@ -358,7 +358,7 @@
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i>   Нові заявки (калібратор)
-                           		<span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"ng-cloak>
+                           		<span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"  ng-show="countOfUnreadVerifications>0"  ng-cloak>
                               	</span>
                             </a>
                         </li>
@@ -376,7 +376,7 @@
                         <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
                             <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i> Нові заявки (веріфікатор)
-                                <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"ng-cloak>
+                                <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"  ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
                             </a>
                         </li>

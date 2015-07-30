@@ -64,13 +64,20 @@
                                             </div>
                                         </td>
                                          <td>
-                                            <div class="btn-group ">
-                                                <input type="text" class="form-control input-sm"
-                                                       ng-model="search.status" ng-change=doSearch()>
-                                                <span id="searchclear" class="glyphicon glyphicon-remove-circle"
-                                                      ng-show="search.status.length"
-                                                      ng-click="clearStatus()"></span>
-                                            </div>
+                                            <select chosen class="form-control input-sm" width="'80%'" disable-search="true"  name="typeStreet" type="text"
+										 			allow-single-deselect="true"	ng-model="search.status" class="form-control" ng-change="doSearch()">
+												<option value="?">Not selected</option>
+												<option value="SENT">Sent</option>
+												<option value="ACCEPTED">Accepted</option>
+												<option value="IN_PROGRESS">IN PROGRESS </option>
+												<option value="TEST_PLACE_DETERMINED">TEST_PLACE_DETERMINED </option>
+												<option value="SENT_TO_TEST_DEVICE">SENT_TO_TEST_DEVICE </option>
+												<option value="TEST_COMPLETED">TEST_COMPLETED </option>
+												<option value="SENT_TO_VERIFICATOR">SENT_TO_VERIFICATOR</option>
+												<option value="TEST_OK">TEST_OK </option>
+												<option value="TEST_NOK">TEST_NOK </option>
+											</select>
+                                         
                                         </td>
                                          <td>
                                             <div class="btn-group">

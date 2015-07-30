@@ -91,11 +91,13 @@
 									</td>
 									<td>
 										<div class="btn-group ">
-											<input type="text" class="form-control input-sm"
-												   ng-model="search.status" ng-change=doSearch()>
-                                                <span id="searchclear" class="glyphicon glyphicon-remove-circle"
-													  ng-show="search.status.length"
-													  ng-click="clearStatus()"></span>
+											  <select  chosen  width="'90%'" class="form-control input-sm"  allow-single-deselect="true" 
+                                              	ng-model="search.status" disable-search="true" ng-change="doSearch()" >
+												<option value="?">Not selected</option>
+												<option value="SENT_TO_VERIFICATOR">SENT_TO_VERIFICATOR</option>
+												<option value="TEST_OK">TEST_OK </option>
+												<option value="TEST_NOK">TEST_NOK </option>
+												</select>
 										</div>
 									</td>
 									<td class="text-center clearInput">

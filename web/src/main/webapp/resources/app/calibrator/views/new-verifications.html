@@ -79,8 +79,9 @@
                                         </td>
                                          <td>
                                             <div class="btn-group ">
-                                               <select  chosen  width="'90%'" class="form-control"  allow-single-deselect="true" 
+										         <select  chosen  width="'90%'" class="form-control input-sm"  allow-single-deselect="true" 
                                               	ng-model="search.status" disable-search="true" ng-change="doSearch()" >
+												<option value="?">Not selected</option>
 												<option value="IN_PROGRESS">IN PROGRESS </option>
 												<option value="TEST_PLACE_DETERMINED">TEST_PLACE_DETERMINED </option>
 												<option value="SENT_TO_TEST_DEVICE">SENT_TO_TEST_DEVICE </option>
