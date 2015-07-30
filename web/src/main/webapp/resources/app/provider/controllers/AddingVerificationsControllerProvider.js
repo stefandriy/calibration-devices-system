@@ -155,7 +155,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                         });
                     
                      //hide form because application status is shown
-//                    $scope.isShownForm = false;
+                    $scope.isShownForm = false;
                 }           
             };
             

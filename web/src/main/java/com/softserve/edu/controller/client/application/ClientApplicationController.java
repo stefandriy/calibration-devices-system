@@ -58,23 +58,23 @@ public class ClientApplicationController {
 		
 		verificationService.saveVerification(verification);
 		String name = clientData.getFirstName() + " " + clientData.getLastName();
-		mail.sendMail(clientData.getEmail(), name, verification.getId());
+		mail.sendMail(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(), verification.getDevice().getDeviceType().toString());
 		return verification.getId();
 	}
 	
-	@RequestMapping(value = "edit", method = RequestMethod.POST)
-	public String editApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
-
-		ClientData clientData = new ClientData(verificationDTO.getFirstName(), verificationDTO.getLastName(),
-				verificationDTO.getMiddleName(), verificationDTO.getEmail(), verificationDTO.getPhone(), verificationDTO.getSecondPhone(),
-				new Address(verificationDTO.getRegion(), verificationDTO.getDistrict(), verificationDTO.getLocality(),
-						verificationDTO.getStreet(), verificationDTO.getBuilding(), verificationDTO.getFlat()));
-		Organization provider = providerService.findById(verificationDTO.getProviderId());
-		String name = clientData.getFirstName() + " " + clientData.getLastName();
-			verificationService.updateVerificationData(verificationDTO.getVerificationId(), clientData, provider);
-			mail.sendMail(clientData.getEmail(), name, verificationDTO.getVerificationId());
-		return verificationDTO.getVerificationId();
-	}
+//	@RequestMapping(value = "edit", method = RequestMethod.POST)
+//	public String editApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
+//
+//		ClientData clientData = new ClientData(verificationDTO.getFirstName(), verificationDTO.getLastName(),
+//				verificationDTO.getMiddleName(), verificationDTO.getEmail(), verificationDTO.getPhone(), verificationDTO.getSecondPhone(),
+//				new Address(verificationDTO.getRegion(), verificationDTO.getDistrict(), verificationDTO.getLocality(),
+//						verificationDTO.getStreet(), verificationDTO.getBuilding(), verificationDTO.getFlat()));
+//		Organization provider = providerService.findById(verificationDTO.getProviderId());
+//		String name = clientData.getFirstName() + " " + clientData.getLastName();
+//			verificationService.updateVerificationData(verificationDTO.getVerificationId(), clientData, provider);
+//			mail.sendMail(clientData.getEmail(), name, verificationDTO.getVerificationId());
+//		return verificationDTO.getVerificationId();
+//	}
 
 
 	@RequestMapping(value = "check/{verificationId}", method = RequestMethod.GET)

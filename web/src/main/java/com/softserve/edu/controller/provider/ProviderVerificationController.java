@@ -9,6 +9,7 @@ import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -43,6 +44,9 @@ public class ProviderVerificationController {
 
     @Autowired
     private UsersService userService;
+    
+    @Autowired
+	private MailService mail;
 
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
@@ -162,8 +166,12 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "new/accept", method = RequestMethod.PUT)
     public void acceptVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
-        verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
+    	Verification verification =	verificationService.findById(verificationReadStatusUpdateDTO.getVerificationId());
+    	String deviceType = verification.getDevice().getDeviceType().toString();
+    	mail.sendAcceptMail(verification.getClientData().getEmail(), verificationReadStatusUpdateDTO.getVerificationId(), deviceType);
+    	verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
                 Status.valueOf(verificationReadStatusUpdateDTO.getStatus().toUpperCase()));
+        
     }
 
     /**

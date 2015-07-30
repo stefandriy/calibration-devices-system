@@ -384,13 +384,6 @@
                             </a>
                         </li>
                     </sec:authorize>
-
-                    <li ui-sref-active="active">
-                        <a ui-sref="adding-verifications-provider"><i class="fa fa-file-text-o"></i> Ініціювати
-                            повірку</a>
-                    </li>
-
-
                     <sec:authorize url="/employee/admin/">
 
                         <li ui-sref-active="active">

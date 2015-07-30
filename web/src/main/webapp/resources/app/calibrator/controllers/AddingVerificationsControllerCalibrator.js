@@ -147,7 +147,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerCalibr
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                    	$scope.formData.calibratorId = $scope.selectedCalibrator.id;                    	
-                    $scope.formData.deviceId = $scope.selectedDevice[0].id;
+                   	$scope.formData.deviceId = $scope.selectedDevice.id;
 
                     verificationServiceProvider.sendInitiatedVerification($scope.formData)
                         .success(function (applicationCode) {

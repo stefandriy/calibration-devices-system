@@ -1,10 +1,7 @@
 <html>
 	<body>
-		<span style="font-weight:bold">
-			Доброго дня, $name!  Ваша заявка була успішно відправлена.
-		</span>
-		<br>Ви можете перевірити статус вашої заявки за наступним посиланням:
-		<br>$protocol://$domain:8080/#/application-status/$applicationId
-		<br>Дякуємо, що користуєтесь нашим сервісом.
+			До $providerName $date від $name надійшла заявка на повірку $deviceType.<br>
+			Код Вашої заявки: $applicationId.
+		<br> Виконання Вашої заявки Ви можете перевірити за посиланням: $protocol://$domain:8080/#/application-status/$applicationId
 	</body>
 </html>

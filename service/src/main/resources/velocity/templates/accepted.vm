@@ -1,0 +1,7 @@
+<html>
+	<body>
+		<span style="font-weight:bold">
+			Доброго дня!  Вашу заявку $verificationId прийнято в роботу. Найближчим часом з Вами зв'яжеться працівник, <br>
+			який буде здійснювати повірку $deviceType.<br>
+	</body>
+</html>
