@@ -18,8 +18,8 @@
 			<div class="form-group col-md-8" show-errors>
 
 				<input type="text" ng-model="organizationFormData.name" id="name"
-					ng-pattern="ORGANIZATION_NAME_REGEX" name="name"
-					class="form-control" required>
+					   ng-pattern="ORGANIZATION_NAME_REGEX" name="name"
+					   class="form-control" required>
 
 				<p class="help-block" ng-if="organizationForm.name.$error.pattern">
 					<span class="glyphicon glyphicon-exclamation-sign"></span> {{'ORGANIZATION_NAME_LENGTH' |
@@ -35,13 +35,12 @@
 					translate }}</label>
 			</div>
 
-			<div class="form-group col-md-8" show-errors>
-					<select multiple chosen type="text" class="form-control"
-							ng-model="organizationFormData.types"
-							data-placeholder="Choose type"
-							ng-options="type for type in typeData | organizationFilter:organizationFormData.types"
-							required>
-					</select>
+			<div class="form-group col-md-8">
+				<select multiple chosen type="text" class="form-control"
+						ng-model="organizationFormData.types"
+						data-placeholder="Choose type"
+						ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types">
+				</select>
 			</div>
 		</div>
 
@@ -116,15 +115,15 @@
 				</div>
 				<div class="form-group col-md-8" show-errors>
 					<input type="text" ng-model="organizationFormData.username"
-						ng-change="checkIfUsernameIsAvailable()"
-						ng-pattern="USERNAME_REGEX" id="username" name="username"
-						class="form-control" required>
+						   ng-change="checkIfUsernameIsAvailable()"
+						   ng-pattern="USERNAME_REGEX" id="username" name="username"
+						   class="form-control" required>
 
 					<p class="help-block" ng-if="!isUsernameAvailable">{{'LOGIN_ISNT_AVAILABLE' |
 						translate }}</p>
 
 					<p class="help-block"
-						ng-if="organizationForm.username.$error.pattern">
+					   ng-if="organizationForm.username.$error.pattern">
 						<span class="glyphicon glyphicon-exclamation-sign"></span> {{'LOGIN_HAS_INVALID_LENGTH' |
 						translate }}
 					</p>
@@ -138,11 +137,11 @@
 				</div>
 				<div class="form-group col-md-8" show-errors>
 					<input type="password" ng-model="organizationFormData.password"
-						ng-pattern="PASSWORD_REGEX" name="password" class="form-control"
-						required>
+						   ng-pattern="PASSWORD_REGEX" name="password" class="form-control"
+						   required>
 
 					<p class="help-block"
-						ng-if="organizationForm.password.$error.pattern">
+					   ng-if="organizationForm.password.$error.pattern">
 						<span class="glyphicon glyphicon-exclamation-sign"></span> {{'PASSWORD_TOO_SHORT' |
 						translate }}
 					</p>
@@ -157,8 +156,8 @@
 				</div>
 				<div class="form-group col-md-8" show-errors>
 					<input type="password" ng-model="organizationFormData.rePassword"
-						ng-change="checkRePassword()" name="rePassword"
-						class="form-control" required>
+						   ng-change="checkRePassword()" name="rePassword"
+						   class="form-control" required>
 
 					<p class="help-block" ng-class="{'unreadClass': verification.readStatus=='UNREAD'}"
 					   ng-if="!isPasswordsEqual">{{'PASSWORDS_ISNT_EQUAL' |
@@ -264,7 +263,7 @@
 		<div class="row">
 			<div class="form-group col-md-10">
 				<button type="submit" class="btn btn-success"
-					ng-click="onOrganizationFormSubmit()">{{'ADD' |
+						ng-click="onOrganizationFormSubmit()">{{'ADD' |
 					translate}}</button>
 				<a class="btn btn-warning" ng-click="resetOrganizationForm()">{{'CLEAR_FORM'
 					| translate }}</a>

@@ -112,21 +112,21 @@
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
                             <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i>  Головна панель
-                                провайдер</a>
+                                (постачальник послуг)</a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
                             <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i>  Головна панель
-                                калібратор</a>
+                                (вимірювальна лабораторія)</a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
                             <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i>  Головна панель
-                                веріфікатор</a>
+                                (уповноважена повірочна лабораторія)</a>
                         </li>
                     </sec:authorize>
 
@@ -134,7 +134,7 @@
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
                             <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i>  Нові заявки (провайдер)
+                                    class="fa fa-list-alt fa-fw"></i>  Нові заявки (постачальник послуг)
                               <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications" ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
                             </a>
@@ -144,14 +144,14 @@
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i>   Нові заявки (калібратор)
+                                    class="fa fa-list-alt fa-fw"></i>   Нові заявки (вимірювальна лабораторія)
                            		<span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"  ng-show="countOfUnreadVerifications>0"  ng-cloak>
                               	</span>
                             </a>
                         </li>
                         <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
                             <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i>  Довідник засобів вимірювальної техніки (калібратор)
+                                    class="fa fa-desktop"></i>  Довідник засобів вимірювальної техніки (вимірювальна лабораторія)
                             </a>
                         </li>
 
@@ -162,7 +162,7 @@
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
                             <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (веріфікатор)
+                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна лабораторія)
                                 <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"  ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
                             </a>
