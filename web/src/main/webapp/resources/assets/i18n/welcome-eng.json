@@ -178,7 +178,10 @@
   "CHANGE_PASSWORD":"Change password",
   "NEW_PASSWORD":"New password",
   "EDIT_CHANGES":"Save changes", 
-   "NUMBER_OF_EMPLOYEES":  "Maximum number of employees",
-  "CREATE_BY_PATTERN":"Create by pattern"
+  "NUMBER_OF_EMPLOYEES":  "Maximum number of employees",
+  "EDIT_CHANGES":"Save changes",
+  "CREATE_BY_PATTERN":"Create by pattern",
+  "CREATE_NEW":"Create new verification",
+  "VERIFS_FOUND":"Matches found"
 
 }

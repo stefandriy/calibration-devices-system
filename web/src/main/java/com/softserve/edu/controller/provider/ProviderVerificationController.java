@@ -166,9 +166,6 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "new/accept", method = RequestMethod.PUT)
     public void acceptVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
-    	Verification verification =	verificationService.findById(verificationReadStatusUpdateDTO.getVerificationId());
-    	String deviceType = verification.getDevice().getDeviceType().toString();
-    	mail.sendAcceptMail(verification.getClientData().getEmail(), verificationReadStatusUpdateDTO.getVerificationId(), deviceType);
     	verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
                 Status.valueOf(verificationReadStatusUpdateDTO.getStatus().toUpperCase()));
         
@@ -187,10 +184,12 @@ public class ProviderVerificationController {
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
         User providerEmployee = new User();
-        System.err.println("assign controller");
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
+        Verification verification =	verificationService.findById(idVerification);
+        String deviceType = verification.getDevice().getDeviceType().toString();
         providerEmployee.setUsername(verificationProviderEmployeeDTO.getEmployeeProvider().getUsername());
         verificationProviderEmployeeService.assignProviderEmployee(idVerification, providerEmployee);
+        mail.sendAcceptMail(verification.getClientData().getEmail(), idVerification, deviceType);
     }
 
     @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)

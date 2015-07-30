@@ -74,6 +74,11 @@ body {
 	background: rgba(0, 255, 0, 0.2);
 	color: black;
 }
+
+#coloredBadge {
+	background: #00FF00;
+	color: black;
+}
 .myCircleButton {
 	position:relative;
 	left: 15px;

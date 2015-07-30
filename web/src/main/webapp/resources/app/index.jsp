@@ -348,9 +348,8 @@
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
                             <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i>  Нові заявки (провайдер)
-                                <button class="pull-right myCircleButton " ng-if="countOfUnreadVerifications > 0"
-                                        ng-bind="countOfUnreadVerifications" ng-cloak>
-                                </button>
+                              <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"ng-cloak>
+                              </span>
                             </a>
                         </li>
                     </sec:authorize>
@@ -359,9 +358,8 @@
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i>   Нові заявки (калібратор)
-                                <button class="pull-right myCircleButton " ng-if="countOfUnreadVerifications > 0"
-                                        ng-bind="countOfUnreadVerifications" ng-cloak>
-                                </button>
+                           		<span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"ng-cloak>
+                              	</span>
                             </a>
                         </li>
                         <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
@@ -378,9 +376,8 @@
                         <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
                             <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i> Нові заявки (веріфікатор)
-                                <button class="pull-right myCircleButton " ng-if="countOfUnreadVerifications > 0"
-                                        ng-bind="countOfUnreadVerifications" ng-cloak>
-                                </button>
+                                <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"ng-cloak>
+                              	</span>
                             </a>
                         </li>
                     </sec:authorize>
