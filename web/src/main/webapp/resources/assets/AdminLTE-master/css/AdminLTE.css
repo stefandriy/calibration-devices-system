@@ -63,12 +63,12 @@ body > .header {
 /*left side - contains sidebar*/
 .left-side {
   position: absolute;
-  width: 220px;
+  width: 250px;
   top: 0;
 }
 @media screen and (min-width: 992px) {
   .left-side {
-    top: 50px;
+    top: 54px;
   }
   /*Right side strech mode*/
   .right-side.strech {
