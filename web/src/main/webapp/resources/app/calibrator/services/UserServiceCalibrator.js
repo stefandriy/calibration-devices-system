@@ -7,13 +7,17 @@ angular
             },
             saveUser: function (userData) {
                 return saveData('calibrator/admin/users/add', userData);
-
             },
             isAdmin: function (){
             	return getData('calibrator/admin/users/verificator');
             },
             getCapacityOfWork: function(username){
-                return getData('calibrator/admin/users/capacityOfEmployee'+ '/'+username);
+                return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);            },
+            getPage: function (currentPage, itemsPerPage, searchObj) {
+                return getDataWithParam('employee/admin/users/' + currentPage + '/' + itemsPerPage, searchObj);
+            },
+            isAdmin: function () {
+                return getData('employee/admin/users/verificator');
             }
 
         };
@@ -23,6 +27,16 @@ angular
                 .success(function (result) {
                     return result;
                 });
+        }
+
+        function getDataWithParam(url, params) {
+            return $http.get(url, {
+                params : params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
         }
 
         function saveData(url, data) {

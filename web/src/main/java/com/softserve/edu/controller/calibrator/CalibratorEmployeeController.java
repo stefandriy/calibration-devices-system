@@ -79,18 +79,6 @@ public class CalibratorEmployeeController {
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
-
-    @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPaginationUsers(
-            @PathVariable String username) {
-        List<Verification> list = calibratorEmployeeService.getVerificationListbyCalibratorEmployee(username);
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
-        return new PageDTO<>(content);
-    }
-
-
-
-
 }
 
 

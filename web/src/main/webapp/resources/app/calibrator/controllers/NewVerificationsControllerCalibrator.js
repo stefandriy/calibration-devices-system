@@ -2,51 +2,51 @@ angular
     .module('employeeModule')
     .controller('NewVerificationsControllerCalibrator', ['$scope', '$log',
         '$modal', 'VerificationServiceCalibrator',
-        '$rootScope', 'ngTableParams','$timeout', '$filter',
+        '$rootScope', 'ngTableParams', '$timeout', '$filter',
         function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams, $timeout, $filter) {
 
-    	 $scope.resultsCount= 0;
-    	 $scope.search = {
-         		idText:null,
-         		formattedDate :null,
-         		lastNameText:null,
-         		streetText: null,
-         		status: null
-         }
-         
-         $scope.clearAll = function(){
-         	$scope.search.idText=null;
-         	$scope.search.formattedDate=null;
-         	$scope.dt = null;
-         	$scope.search.lastNameText=null;
-         	$scope.search.streetText=null;
-         	$scope.search.status = null;
-         	$scope.tableParams.reload();
-         }
+            $scope.resultsCount = 0;
+            $scope.search = {
+                idText: null,
+                formattedDate: null,
+                lastNameText: null,
+                streetText: null,
+                status: null
+            }
 
-    	 $scope.clearId = function () {
-         	$scope.search.idText = null;
-         	$scope.tableParams.reload();
-         }
-         $scope.clearLastName = function () {
-         	$scope.search.lastNameText = null;
-         	$scope.tableParams.reload();
-         }
-         $scope.clearStreet = function () {
-         	$scope.search.streetText = null;
-         	$scope.tableParams.reload();
-         }
-         $scope.clearStatus = function () {
-         	$scope.search.status = null;
-         	$scope.tableParams.reload();
-         }
-         
-    	 var promiseSearchTimeOut;
-         $scope.doSearch = function() {
-         	promiseTimeOut = $timeout(function() {
-             $scope.tableParams.reload();
-         	}, 1500);
-         }
+            $scope.clearAll = function () {
+                $scope.search.idText = null;
+                $scope.search.formattedDate = null;
+                $scope.dt = null;
+                $scope.search.lastNameText = null;
+                $scope.search.streetText = null;
+                $scope.search.status = null;
+                $scope.tableParams.reload();
+            }
+
+            $scope.clearId = function () {
+                $scope.search.idText = null;
+                $scope.tableParams.reload();
+            }
+            $scope.clearLastName = function () {
+                $scope.search.lastNameText = null;
+                $scope.tableParams.reload();
+            }
+            $scope.clearStreet = function () {
+                $scope.search.streetText = null;
+                $scope.tableParams.reload();
+            }
+            $scope.clearStatus = function () {
+                $scope.search.status = null;
+                $scope.tableParams.reload();
+            }
+
+            var promiseSearchTimeOut;
+            $scope.doSearch = function () {
+                promiseTimeOut = $timeout(function () {
+                    $scope.tableParams.reload();
+                }, 1500);
+            }
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -57,7 +57,7 @@ angular
 
                     verificationServiceCalibrator.getNewVerifications(params.page(), params.count(), $scope.search)
                         .success(function (result) {
-                        	 $scope.resultsCount=result.totalItems;
+                            $scope.resultsCount = result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
                         }, function (result) {
@@ -185,8 +185,7 @@ angular
 
 
             $scope.uploadBbiFile = function (idVerification) {
-
-                $modal.open({
+                var modalInstance = $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
                     controller: 'UploadBbiFileController',
@@ -198,17 +197,20 @@ angular
                         }
                     }
                 });
+                modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                })
             };
 
-                      $scope.cancelBbiFile=function (verification) {
-                          var idVerification=verification;
+            $scope.cancelBbiFile = function (verification) {
+                var idVerification = verification;
                 var modalInstance = $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/cancel-bbiFile.html',
                     controller: 'CancelBbiProtocolCalibrator',
                     size: 'md',
-                     resolve: {
-                         verificationId: function () {
+                    resolve: {
+                        verificationId: function () {
                             return verificationServiceCalibrator.cancelUploadFile(idVerification)
                                 .success(function (bbiName) {
                                     return bbiName;
@@ -216,46 +218,16 @@ angular
                             );
                         }
                     }
-                })
-                /**
-                 * executes when modal closing
-                 */
-                modalInstance.result.then(function (formData) {
-                    idVerification = 0;
-                    var dataToSend = {
-                        idVerification: verifId,
-                        employeeProvider: formData.provider
-                    };
-                    $log.info(dataToSend);
-                    verificationServiceProvider
-                        .sendEmployeeProvider(dataToSend)
-                        .success(function () {
-                            $scope.tableParams.reload();
-                        });
                 });
+                modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                })
             };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
             /**
              *  Date picker and formatter setup
-             * 
+             *
              */
             $scope.openState = {};
             $scope.openState.isOpen = false;
@@ -271,33 +243,33 @@ angular
                 formatYear: 'yyyy',
                 startingDay: 1,
                 showWeeks: 'false'
-              };
+            };
 
-           $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-           $scope.format = $scope.formats[2];
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
 
-           $scope.changeDateToSend = function(val){
-            	
-            	  if(angular.isUndefined(val)){
-            		  $scope.search.formattedDate = null;
-            		  $scope.tableParams.reload();
-            	  } else {
-            		  var datefilter = $filter('date');
-                	  $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
-                	  $scope.tableParams.reload();
-            	  }
-              };
-              
-              $scope.initiateVerification = function () {
-             	  
-       	        var modalInstance = $modal.open({
-       	            animation: true,
-       	            templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
-       	            controller: 'AddingVerificationsControllerProvider',
-       	            size: 'lg',
+            $scope.changeDateToSend = function (val) {
 
-       	        });      
-         	};
+                if (angular.isUndefined(val)) {
+                    $scope.search.formattedDate = null;
+                    $scope.tableParams.reload();
+                } else {
+                    var datefilter = $filter('date');
+                    $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
+                    $scope.tableParams.reload();
+                }
+            };
+
+            $scope.initiateVerification = function () {
+
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
+                    controller: 'AddingVerificationsControllerProvider',
+                    size: 'lg',
+
+                });
+            };
 
             $scope.removeCalibratorEmployee = function (verifId) {
                 var dataToSend = {

@@ -3,8 +3,8 @@
  */
 angular
     .module('employeeModule')
-    .controller('UsersControllerCalibrator', ['$scope', 'UserService','UserServiceCalibrator', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
-        function ($scope, userService,UserServiceCalibrator, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
+    .controller('UsersControllerCalibrator', ['$scope','UserServiceCalibrator','UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
+        function ($scope,UserServiceCalibrator,userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
             $scope.totalEmployee=0;
 
             $scope.tableParams = new ngTableParams({
@@ -13,7 +13,7 @@ angular
             }, {
                 total: 0,
                 getData: function ($defer, params) {
-                    userService.getPage(params.page(), params.count(), params.filter())
+                    UserServiceCalibrator.getPage(params.page(), params.count(), params.filter())
                         .success(function (result) {
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
@@ -56,7 +56,7 @@ angular
 
             $scope.onTableHandling = function () {
 
-                userService.isAdmin()
+                UserServiceCalibrator.isAdmin()
                     .success(function (response) {
                         var roles = response + '';
                         var role = roles.split(',');

@@ -3,12 +3,13 @@
     <i class="fa fa-times-circle-o"></i>
 </div>
 
-<div id="page-wrapper" ng-controller="UsersController" ng-show="verificator">
+<div id="page-wrapper" ng-controller="UsersControllerCalibrator" ng-show="verificator">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Користувачі  </h1>
+            <h1 class="page-header">Користувачі </h1>
             <button type="submit" class="btn btn-primary"
-                    ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}</button>
+                    ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}
+            </button>
         </div>
     </div>
 
@@ -47,9 +48,9 @@
                                     </td>
                                     <td data-title="'Номер телефону'" filter="{ 'phone': 'text' }">{{ user.phone }}</td>
                                     <td data-title="'Кількість заявок в роботі'">
-                                      <!--  <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)" class="cursor-pointer">
-                                            {{user.calibratorTasks }}</a>-->
-                                        <span ng-if="user.calibratorTasks"> {{ user.calibratorTasks}}    </span>
+                                        <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)"
+                                           class="cursor-pointer">
+                                            {{user.calibratorTasks }}</a>
                                         <span ng-if="!user.calibratorTasks"> {{ user.calibratorTasks}}    </span>
                                     </td>
                                     <td>

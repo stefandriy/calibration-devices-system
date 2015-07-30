@@ -4,14 +4,12 @@
 angular
     .module('employeeModule')
 
-    .controller('UploadBbiFileController', ['$scope','$route','$log', '$modalInstance',
-        'verification', 'Upload', '$timeout', function ($scope,$route, $log, $modalInstance, verification, Upload, $timeout) {
+    .controller('UploadBbiFileController', ['$scope', '$route', '$log', '$modalInstance',
+        'verification', 'Upload', '$timeout', function ($scope, $route, $log, $modalInstance, verification, Upload, $timeout) {
 
             $scope.cancel = function () {
-              //  $modalInstance.dismiss();
-                location.reload()
+                $modalInstance.close("cancel");
 
-                    //$route.reload;
 
             };
 
@@ -37,7 +35,7 @@ angular
 
                             $timeout(function () {
                                     if (status === 200) {
-                                        $scope.messageError=null;
+                                        $scope.messageError = null;
                                         $scope.messageSuccess = 'Ви успішно завантажили файл ' + config.file.name;
 
                                     } else {

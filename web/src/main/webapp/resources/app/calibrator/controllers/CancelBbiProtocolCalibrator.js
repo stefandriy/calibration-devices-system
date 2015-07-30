@@ -7,7 +7,7 @@ angular
             $scope.fileName = verificationId.data[1];
 
             $scope.cancel = function () {
-                $modalInstance.dismiss();
+                $modalInstance.close("cancel");
             };
 
             $scope.submit=function() {
@@ -15,7 +15,7 @@ angular
                 VerificationServiceCalibrator
                     .deleteBbiProtocol(idVerification)
                     .success(function () {
-                        location.reload()
+                        $modalInstance.close("cancel");
                     }).error(function () {
                     $scope.messageError = 'Не вдалось видалити файл' + fileName;
 
