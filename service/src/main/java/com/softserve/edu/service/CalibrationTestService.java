@@ -3,13 +3,18 @@ package com.softserve.edu.service;
 
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
+import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.util.CalibrationTestResult;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
+import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +24,6 @@ import java.util.List;
 
 
 @Service
-@Transactional
 public class CalibrationTestService {
 
     @Autowired
@@ -28,25 +32,48 @@ public class CalibrationTestService {
     @Autowired
     private CalibrationTestDataRepository dataRepository;
 
+    @Autowired
+    private VerificationRepository verificationRepository;
 
+    @Transactional
     public CalibrationTest findTestById(Long testId){
         return testRepository.findOne(testId);
     }
 
+    @Transactional
     public CalibrationTest findByVerificationId(String verifId){
         return testRepository.findByVerificationId(verifId);
     }
-    
+
+    @Transactional
     public CalibrationTestList findAllCalibrationTests (){
     	List<CalibrationTest> list = (ArrayList<CalibrationTest>) testRepository.findAll();
     	CalibrationTestList foundTests = new CalibrationTestList(list);
     	return foundTests;
     }
 
-    public CalibrationTest createTest(CalibrationTest test){
-    	return testRepository.save(test);
+    @Transactional
+    public Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber,
+                                                                                int itemsPerPage, String search) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return search == null ? testRepository.findAll(pageRequest)
+                : testRepository.findByNameLikeIgnoreCase("%" + search + "%",
+                pageRequest);
     }
-    
+
+    @Transactional
+    public CalibrationTest createTest(CalibrationTest test){return testRepository.save(test);
+    }
+
+   //IN PROGRESS!
+//    @Transactional
+//    public void createNewTest(CalibrationTest calibrationTest, String verificationId){
+//        Verification verification = verificationRepository.findOne(verificationId);
+//        CalibrationTest createdTest = new CalibrationTest(calibrationTest, verification);
+//        testRepository.save(createdTest);
+//    }
+
+    @Transactional
     public CalibrationTest editTest(Long testId, String name, Date dateTest, Integer temperature, Integer settingNumber,
     		Double latitude, Double longitude, String consumptionStatus){
         CalibrationTest calibrationTest = testRepository.findOne(testId);
@@ -60,6 +87,7 @@ public class CalibrationTestService {
         return calibrationTest;
     }
 
+    @Transactional
     public CalibrationTest deleteTest(Long testId){
     	CalibrationTest deletedCalibrationTest = testRepository.findOne(testId);
     	testRepository.delete(testId);
@@ -67,6 +95,7 @@ public class CalibrationTestService {
     }
     
     //TestData
+    @Transactional
     public CalibrationTestData createTestData(Long testId, CalibrationTestData data) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         if(calibrationTest == null) {
@@ -77,6 +106,7 @@ public class CalibrationTestService {
         return testData;
     }
 
+    @Transactional
     public CalibrationTestDataList findAllTestDataAsociatedWithTest(Long calibrationTestId){
         CalibrationTest calibrationTest = testRepository.findOne(calibrationTestId);
         if (calibrationTest == null){

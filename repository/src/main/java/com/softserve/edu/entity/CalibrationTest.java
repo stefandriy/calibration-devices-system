@@ -33,6 +33,7 @@ public class CalibrationTest {
     private CalibrationTestResult testResult;
     private String photoPath;
 
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "name",
@@ -46,7 +47,29 @@ public class CalibrationTest {
     private Verification verification;
 
     @OneToMany(mappedBy = "calibrationTest")
+    private Set<CalibrationTestIMG> testIMGs;
+
+    @OneToMany(mappedBy = "calibrationTest")
     private Set<CalibrationTestData> calibrationTestDatas;
+
+    public CalibrationTest() { }
+
+    public CalibrationTest(String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude,
+                           Double longitude, String consumptionStatus, CalibrationTestResult testResult, Verification verification) {
+        this.name = name;
+        this.dateTest = dateTest;
+        this.temperature = temperature;
+        this.settingNumber = settingNumber;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.consumptionStatus = consumptionStatus;
+        this.testResult = testResult;
+        this.verification = verification;
+    }
+
+    public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {
+        this.verification = verification;
+    }
 
     public Long getId() {
         return id;
@@ -142,6 +165,14 @@ public class CalibrationTest {
 
     public void setCalibrationTestDatas(Set<CalibrationTestData> calibrationTestDatas) {
         this.calibrationTestDatas = calibrationTestDatas;
+    }
+
+    public Set<CalibrationTestIMG> getTestIMGs() {
+        return testIMGs;
+    }
+
+    public void setTestIMGs(Set<CalibrationTestIMG> testIMGs) {
+        this.testIMGs = testIMGs;
     }
 
     public MeteorologicalDocument getMeteorologicalDocument() {

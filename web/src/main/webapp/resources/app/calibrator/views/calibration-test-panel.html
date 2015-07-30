@@ -1,84 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
+    <meta charset="utf-8">
 </head>
 <body>
 <div id="page-wrapper" ng-controller="CalibrationTestControllerCalibrator">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Тести лічильників </h1>
+            <h1 class="page-header">{{'CALIBRATION_TESTS' | translate}}</h1>
         </div>
-    </div>
-    <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                Додати тест
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <form role="form" ng-submit="saveCalibrationTest()">
-                                <div class="form-group">
-                                    <label>Назва тесту  *</label>
-                                    <input type="text" popover-trigger="focus" ng-model="addFormData.name" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Температура</label>
-                                    <input type="text" popover-trigger="focus" ng-model="addFormData.temperature" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label>Номер установки *</label>
-                                    <input type="text" class="form-control" required ng-model="addFormData.settingNumber">
-                                </div>
-                                <div class="form-group">
-                                    <label>Широта *</label>
-                                    <input type="text" class="form-control" required ng-model="addFormData.latitude">
-                                </div>
-                                <div class="form-group">
-                                    <label>Довгота *</label>
-                                    <input type="text" class="form-control" required ng-model="addFormData.longitude">
-                                </div>
-                                <div class="form-group">
-                                    <label>Результат тесту *</label>
-                                    <input type="text" class="form-control" required ng-model="addFormData.testResult">
-                                </div>
-
-                                <button type="submit" class="btn btn-success">Додати</button>
-                                <button type="reset" class="btn btn-warning">Скинути форму</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <table class="table">
-                <tr>
-                    <th>Test Name
-                    </th>
-                    <th>Setting number
-                    </th>
-                    <th>Test status
-                    </th>
-                </tr>
-                <tr ng-repeat="calibrationTest in calibrationTests">
-                    <td>
-                        {{ calibrationTest.name }}
-                    </td>
-                    <td>
-                        {{calibrationTest.settingNumber}}
-                    </td>
-                    <td>
-                        {{calibrationTest.testResult}}
-                    </td>
-                </tr>
-            </table>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            </div>
+            <button type="submit" class="btn btn-primary"
+                    ng-click="openTestAddModal()">{{'ADD_TEST' | translate}}
+            </button>
         </div>
+    </div>
+    <p></p>
+
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{'CALIBRATION_TESTS' | translate}}</div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>{{'FIND_BY_TEST_NAME' | translate}} <input type="text" ng-model="searchData"
+                            ng-change="onTableHandling()" ng-model-options="{debounce: 600}" class="form-control input-sm">
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-striped table-bordered table-hover"
+                                   id="devicesTable">
+                                <thead>
+                                <tr>
+                                    <th>{{'ID'| translate}}</th>
+                                    <th>{{'NAME' | translate}}</th>
+                                    <th>{{'INITIAL_DATE' | translate }}</th>
+                                    <th>{{'TEMPERATURE' | translate }}</th>
+                                    <th>{{'SETTING_NUMBER' | translate}}</th>
+                                    <th>{{'LATITUDE' | translate}}</th>
+                                    <th>{{'LONGITUDE' | translate}}</th>
+                                    <th>{{'CONSUMPTION_STATUS' | translate }}</th>
+                                    <th>{{'PHOTO_PATH' | translate}}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="calibrationTest in pageContent">
+                                    <td>{{ calibrationTest.id }}</td>
+                                    <td>{{ calibrationTest.name }}</td>
+                                    <td>{{ calibrationTest.dateTest }}</td>
+                                    <td>{{ calibrationTest.temperature }}</td>
+                                    <td>{{ calibrationTest.settingNumber }}</td>
+                                    <td>{{ calibrationTest.latitude }}</td>
+                                    <td>{{ calibrationTest.longitude }}</td>
+                                    <td>{{ calibrationTest.consumptionStatus }}</td>
+                                    <td>{{ calibrationTest.photoPath }}</td>
+                                    <div class="col-sm-offset-6">
+
+                                    </div>
+                                    <td>
+                                        <button type="button" class="btn btn-warning btn-sm"
+                                                ng-click="openEditEquipmentModal(measuringEquipment.id)">
+                                            <span class="glyphicon glyphicon-wrench"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <label>{{'DISPLAY_ON' | translate}} <select ng-model="itemsPerPage"
+                                                                ng-change="onTableHandling()"
+                                                                class="form-control input-sm">
+                        <option value="1">1</option>
+                        <option value="3">3</option>
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    </label>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <pagination total-items="totalItems" ng-model="currentPage"
+                                        max-size="5" boundary-links="true" rotate="false"
+                                        ng-change="onTableHandling()" items-per-page="itemsPerPage"></pagination>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-12 -->
     </div>
 </div>
 </body>

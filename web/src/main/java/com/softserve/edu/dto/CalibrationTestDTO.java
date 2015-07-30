@@ -1,6 +1,7 @@
 package com.softserve.edu.dto;
 
 import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 
 import org.springframework.hateoas.ResourceSupport;
@@ -17,7 +18,7 @@ public class CalibrationTestDTO  {
     private Double longitude;
     private String consumptionStatus;
     private String testResult;
-    // private String photoPath;
+    private Verification verification;
 
     public CalibrationTestDTO() {
     }
@@ -32,6 +33,7 @@ public class CalibrationTestDTO  {
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
+        this.verification = calibrationTest.getVerification();
     }
 
 
@@ -98,6 +100,10 @@ public class CalibrationTestDTO  {
     public void setTestResult(String testResult) {
         this.testResult = testResult;
     }
+
+    public Verification getVerification() { return verification; }
+
+    public void setVerification(Verification verification) { this.verification = verification; }
 
     public CalibrationTest saveCalibrationTest() {
         CalibrationTest calibrationTest = new CalibrationTest();

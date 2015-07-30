@@ -170,18 +170,18 @@ public class CalibratorController {
         }
     }
 
-    @RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)
-    public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
-        HttpStatus httpStatus = HttpStatus.CREATED;
-        try {
-            CalibrationTest createdTest = testDTO.saveCalibrationTest();
-            testService.createTest(createdTest);
-        } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
-            httpStatus = HttpStatus.CONFLICT;
-        }
-        return new ResponseEntity<>(httpStatus);
-    }
+//    @RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)
+//    public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
+//        HttpStatus httpStatus = HttpStatus.CREATED;
+//        try {
+//            CalibrationTest createdTest = testDTO.saveCalibrationTest();
+//            testService.createTest(createdTest);
+//        } catch (Exception e) {
+//            logger.error("GOT EXCEPTION " + e.getMessage());
+//            httpStatus = HttpStatus.CONFLICT;
+//        }
+//        return new ResponseEntity<>(httpStatus);
+//    }
 
     @RequestMapping(value = "new/upload", method = RequestMethod.POST)
     public ResponseEntity<String> uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
