@@ -12,6 +12,7 @@ import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping(value = "employee/admin/users/")
@@ -48,8 +50,11 @@ public class AddEmployeeController {
     @Autowired
     private UserRepository userRepository;
     
-@Autowired
+    @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
+
+    @Autowired
+    private MailService mail;
 
     @RequestMapping(value = "organizationCapacity", method = RequestMethod.GET)
     public Integer getOrganizationCapacity(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
@@ -57,6 +62,7 @@ public class AddEmployeeController {
         return organizationsService.getOrganizationEmployeesCapacity(organizationId);
     }
 
+    User temporalUser;
 
     /**
      * Spatial security service
@@ -88,7 +94,7 @@ public class AddEmployeeController {
 
     @RequestMapping(value = "getUser/{username}", method = RequestMethod.GET)
     public UserDTO userEmployeeEdit(@PathVariable String username) {
-        User temporalUser = providerEmployeeService.oneProviderEmployee(username);
+        temporalUser = providerEmployeeService.oneProviderEmployee(username);
         UserDTO userFromDataBase = new UserDTO();
         userFromDataBase.setFirstName(temporalUser.getFirstName());
         userFromDataBase.setLastName(temporalUser.getLastName());
@@ -105,7 +111,7 @@ public class AddEmployeeController {
     public ResponseEntity<HttpStatus> updateEmployee(
             @RequestBody UserDTO providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        User newUser = providerEmployeeService.oneProviderEmployee(providerEmployee.getUsername());
+        User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
         System.out.println(providerEmployee.toString());
         newUser.setFirstName(providerEmployee.getFirstName());
         newUser.setLastName(providerEmployee.getLastName());
@@ -116,17 +122,20 @@ public class AddEmployeeController {
         if (providerEmployee.getAddress().getDistrict() != null){
             newUser.setAddress(providerEmployee.getAddress());
         }
-        if(providerEmployee.getPassword() != null){
-            newUser.setPassword(providerEmployee.getPassword());
+        String pass = providerEmployee.getPassword();
+        String kod = "generate";
+        if(pass == null) {
+        }else{
+            Random rand = new Random();
+            int newPassword = rand.nextInt(10000);
+            newUser.setPassword(String.valueOf(newPassword));
+            mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), String.valueOf(newPassword));
         }
         newUser.deleteAllUsersRoles();
         for (String tmp : providerEmployee.getUserRoles() ){
             UserRole userRole = userRepository.getUserRole(tmp);
             newUser.addUserRole(userRole);
         }
-//        Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
-//        newUser.setOrganization(employeeOrganization);
-//        System.out.println(providerEmployee.toString());
       providerEmployeeService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }

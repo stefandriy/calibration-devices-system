@@ -98,27 +98,9 @@ angular
 
 
             $scope.changePassword = function(){
-                $scope.showPassword = !$scope.showPassword;
+                $scope.user.password = 'generate';
+                $scope.generationMessage = true;
             }
-
-
-
-
-            $scope.fully = function(){
-                $scope.employeeFormData.firstName =  $rootScope.user.firstName;
-                $scope.employeeFormData.lastName = $rootScope.user.lastName;
-                $scope.employeeFormData.middleName = $rootScope.user.middleName;
-                $scope.employeeFormData.phone = $rootScope.user.phone;
-                $scope.employeeFormData.email = $rootScope.user.email;
-                $scope.employeeFormData.region = $rootScope.user.addres.region;
-                $scope.employeeFormData.district = $rootScope.user.addres.district;
-                $scope.employeeFormData.locality = $rootScope.user.addres.locality;
-                $scope.employeeFormData.street = $rootScope.user.addres.street;
-                $scope.employeeFormData.building = $rootScope.user.addres.building;
-                $scope.employeeFormData.flat = $rootScope.user.addres.flat;
-            };
-
-
 
                 /**
                  * Validates

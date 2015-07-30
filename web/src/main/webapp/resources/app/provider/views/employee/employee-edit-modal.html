@@ -110,29 +110,15 @@
 
 				<div  class="form-group col-md-8">
 					<button type="submit" class="btn btn-warning"
-							ng-click="changePassword()">{{'CHANGE_PASSWORD' | translate}}</button>
+							ng-click="changePassword()" ng-hide = "generationMessage">{{'GENERATE_PASSWORD' | translate}}</button>
 				</div>
 
-				<div ng-show = "showPassword" class="form-group col-md-4">
-					<label class="control-label">{{'NEW_PASSWORD' | translate}}</label>
+				<div  class="form-group col-md-8" ng-show = "generationMessage"> {{'GENERATE_PASSWORD_OK' | translate}}</button>
 				</div>
-				<div ng-show = "showPassword" class="form-group col-md-8" ng-class="passwordValidation.css">
-					<input type="password" ng-model="user.password" ng-change="checkPasswords()"
-						name="password" class="form-control" required>
-				</div>
+
 			</div>
 
-			<div class="row">
-				<div ng-show = "showPassword" class="form-group col-md-4">
-					<label class="control-label">{{'REPEAT_PASSWORD' |
-						translate}}</label>
-				</div>
-				<div ng-show = "showPassword" class="form-group col-md-8" ng-class="passwordValidation.css">
-					<input type="password" ng-model="user.rePassword"
-						   ng-change="checkPasswords()" name="rePassword" class="form-control" required>
-					<p class="validation-message" ng-show="passwordValidation.isValid">{{'PASSWORDS_DID_NOT_MATCH' | translate}}</p>
-				</div>
-			</div>
+
 
 
 

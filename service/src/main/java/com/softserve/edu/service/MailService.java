@@ -9,8 +9,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
-import com.softserve.edu.service.verification.VerificationService;
-
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -74,6 +72,30 @@ public class
             }
         };
        this.mailSender.send(preparator);
+    }
+
+    public void sendNewPasswordMail(String employeeEmail, String employeeName, String newPassword) {
+
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(employeeEmail);
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Централізована система повірки лічильників"));
+                String domain = null;
+                try {
+                    domain = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException ue) {
+                    logger.error("Cannot get host address", ue);
+                }
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("name", employeeName);
+                templateVariables.put("password", newPassword);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/mailNewPasswordEmployee.vm", "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+            }
+        };
+        this.mailSender.send(preparator);
     }
     
     public void sendRejectMail(String to, String userName, String verificationId, String msg) {
