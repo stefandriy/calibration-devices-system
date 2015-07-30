@@ -35,11 +35,11 @@
                     templateUrl: '/resources/app/provider/views/new-verifications.html',
                     controller: 'NewVerificationsControllerProvider'
                 })
-                .state("adding-verifications-provider", {
-                    url: '/provider/verifications/add',
-                    templateUrl: '/resources/app/provider/views/adding-verifications.html',
-                    controller: 'AddingVerificationsControllerProvider'
-                })
+//                .state("adding-verifications-provider", {
+//                    url: '/provider/verifications/add',
+//                    templateUrl: '/resources/app/provider/views/adding-verifications.html',
+//                    controller: 'AddingVerificationsControllerProvider'
+//                })
                 .state("employee-show-provider", {
                     url: '/provider/employee-show',
                     templateUrl: '/resources/app/provider/views/employee/show-employee.html',
@@ -153,6 +153,7 @@
             'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',   
             'calibrator/controllers/UploadBbiFileController',
             'calibrator/controllers/CancelBbiProtocolCalibrator',
+            'calibrator/controllers/AddingVerificationsControllerCalibrator',
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',
@@ -169,6 +170,7 @@
             'verificator/controllers/NotificationsControllerVerificator',
             'verificator/controllers/CalibrationTestReviewControllerVerificator',
             'verificator/controllers/ArchivalVerificationsControllerVerificator',
+            'verificator/controllers/AddingVerificationsControllerVerificator',
             'verificator/services/AddressServiceVerificator',
             'verificator/services/UserServiceVerificator',
             'verificator/services/VerificationServiceVerificator',

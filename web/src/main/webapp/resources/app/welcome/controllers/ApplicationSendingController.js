@@ -213,7 +213,8 @@ angular
             /**
              * Sends data to the server where Verification entity will be created.
              * On-click handler in send button.
-             */$scope.applicationCodes=[];
+             */
+            $scope.applicationCodes=[];
             $scope.codes=[];
             $scope.sendApplicationData = function () {
  

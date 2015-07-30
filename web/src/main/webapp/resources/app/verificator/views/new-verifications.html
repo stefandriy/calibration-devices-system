@@ -18,8 +18,22 @@
 
 		<div class="row">
 			<div class="col-md-12">
+			 <div class="col-md-6">
+         	<div class="row">
+                    <div class="pull-left">
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="initiateVerification()">
+                                   <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
+                                   </button>
+                            </div>
+            </div>
+            </div>
+            <br/>
 				<div class="panel panel-default">
-					<div class="panel-heading">Останні дані</div>
+					<div class="panel-heading">
+					<span> РћСЃС‚Р°РЅРЅС– РґР°РЅС–</span>
+                    <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
+					</div>
 
 				</div>
 				<div class="panel-body">

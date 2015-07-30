@@ -28,6 +28,9 @@ angular
 			},
 			checkOrganizationType : function() {
 				return getDataAboutOrganization('organizationType');
+			},
+			findMailIndexByLocality : function(localityDesignation ,districtId) {
+				return getData('localities/' + localityDesignation+'/'+districtId);
 			}
         };
 

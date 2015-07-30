@@ -1,4 +1,4 @@
-angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$state', '$http', '$log',
+angular.module('employeeModule').controller('AddingVerificationsControllerCalibrator', ['$scope', '$state', '$http', '$log',
                                             'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
                                             '$rootScope', '$location', '$window','$modalInstance',
 
@@ -46,12 +46,12 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
              * Receives all possible devices.
              */
             	$scope.devices = [];
-            	addressServiceProvider.findAllDevices()
+                dataReceivingService.findAllDevices()
                     .success(function (devices) {
                         $scope.devices = devices;
                         $log.debug('device');
                         $log.debug(devices);
-                        $scope.selectedDevice = [];  //$scope.devices[0];
+                        $scope.selectedDevice =[];
                         $log.debug( $scope.selectedCount);
                     });
             /**
@@ -147,7 +147,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                    	$scope.formData.calibratorId = $scope.selectedCalibrator.id;                    	
-                   	$scope.formData.deviceId = $scope.selectedDevice.id;
+                    $scope.formData.deviceId = $scope.selectedDevice[0].id;
 
                     verificationServiceProvider.sendInitiatedVerification($scope.formData)
                         .success(function (applicationCode) {
@@ -155,11 +155,12 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                         });
                     
                      //hide form because application status is shown
-//                    $scope.isShownForm = false;
+                    $scope.isShownForm = false;
                 }           
             };
             
             $scope.closeAlert = function () {
+               	$location.path('/resources/app/calibrator/views/new-verifications.html');
                 $modalInstance.close();
             }
                    

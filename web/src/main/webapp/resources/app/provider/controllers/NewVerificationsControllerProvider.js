@@ -4,7 +4,7 @@ angular
         '$modal', 'VerificationServiceProvider', '$rootScope', 'ngTableParams', '$filter', '$timeout',
         function ($scope, $log, $modal, verificationServiceProvider,
         		$rootScope, ngTableParams, $filter, $timeout) {
-    	$scope.totalEmployee = 0;
+    	$scope.resultsCount = 0;
     	
     	
     	$scope.search = {
@@ -63,7 +63,7 @@ angular
 
                 verificationServiceProvider.getNewVerifications(params.page(), params.count(), $scope.search)
                 				.success(function (result) {
-                					 $scope.totalEmployee=result.totalItems;
+                					 $scope.resultsCount=result.totalItems;
                 					$defer.resolve(result.content);
                 					params.total(result.totalItems);
                 				}, function (result) {
@@ -319,6 +319,17 @@ var checkForEmpty = function () {
           		$log.debug(args.verifID);
           		 $scope.openMailModal(args.verifID);
           	});
+          	
+            $scope.initiateVerification = function () {
+         	  
+         	        var modalInstance = $modal.open({
+         	            animation: true,
+         	            templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
+         	            controller: 'AddingVerificationsControllerProvider',
+         	            size: 'lg',
+
+         	        });      
+           	};
 
         }]);
 

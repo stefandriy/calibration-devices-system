@@ -3,7 +3,9 @@ angular
     .controller('NewVerificationsControllerVerificator', ['$scope', '$log', '$modal', 'VerificationServiceVerificator', '$rootScope',
         'ngTableParams', '$filter', '$timeout',
         function ($scope, $log, $modal, VerificationServiceVerificator, $rootScope, ngTableParams, $filter, $timeout) {
-
+    	
+    	$scope.resultsCount = 0;
+    	
             $scope.search = {
                 idText:null,
                 formattedDate :null,
@@ -55,6 +57,7 @@ angular
 
                     VerificationServiceVerificator.getNewVerifications(params.page(), params.count(), $scope.search)
                         .success(function (result) {
+                        	 $scope.resultsCount=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
                         }, function (result) {
@@ -264,6 +267,17 @@ angular
                     $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
                     $scope.tableParams.reload();
                 }
-            }
+            };
+            
+            $scope.initiateVerification = function () {
+           	  
+     	        var modalInstance = $modal.open({
+     	            animation: true,
+     	            templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
+     	            controller: 'AddingVerificationsControllerVerificator',
+     	            size: 'lg',
+
+     	        });      
+       	};
 
         }]);
