@@ -22,7 +22,7 @@
 <link href="/resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet">
 <link rel="stylesheet"href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
 <link rel="stylesheet" href="/resources/assets/css/loader.css">
-
+<%--
     <!-- Ionicons -->
     <link href="/resources/assets/AdminLTE-master/css/ionicons.min.css" rel="stylesheet" type="text/css" />
 
@@ -37,16 +37,16 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="/resources/assets/AdminLTE-master/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="/resources/assets/AdminLTE-master/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/assets/AdminLTE-master/css/AdminLTE.css" rel="stylesheet" type="text/css" />--%>
 
 </head>
 
-<body  class="skin-blue">
+<body >
 
 <div id="employeeModule" class="wrapper">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-fixed-top" role="navigation"
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation"
          ng-controller="TopNavBarControllerProvider">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -55,7 +55,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand"style="color:#383838;">Централізована система повірки лічильників</a>
+            <a class="navbar-brand"style="color:honeydew;">Централізована система повірки лічильників</a>
         </div>
 
         <div ng-controller="InternationalizationController" >
@@ -104,11 +104,11 @@
         </ul>
 
         <!-- Sidebar -->
-        <div class="row-offcanvas row-offcanvas-left" role="navigation">
-            <div class="left-side sidebar-offcanvas">
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
 
-                <section class="sidebar">
-                <ul class="sidebar-menu" id="side-menu">
+
+                <ul class="nav" id="side-menu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
                             <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i>  Головна панель
@@ -206,7 +206,7 @@
                         </li>
                     </sec:authorize>
                 </ul>
-                </section>
+
             </div>
 
         </div>
@@ -216,7 +216,7 @@
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+<%--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>--%>
 <script   src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
         type="text/javascript"></script>
 <script type="text/javascript">
@@ -232,7 +232,7 @@
 <script src="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/js/bootstrap-formhelpers.js"></script>
 <script src="/resources/assets/js/main.js"></script>
 
-
+<%--
 <!-- jvectormap -->
 <script src="/resources/assets/AdminLTE-master/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
 <script src="/resources/assets/AdminLTE-master/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
@@ -247,6 +247,6 @@
 <!-- iCheck -->
 <script src="/resources/assets/AdminLTE-master/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
 !-- AdminLTE App -->
-<script src="/resources/assets/AdminLTE-master/js/AdminLTE/app.js" type="text/javascript"></script>
+<script src="/resources/assets/AdminLTE-master/js/AdminLTE/app.js" type="text/javascript"></script>--%>
 </body>
 </html>

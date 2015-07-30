@@ -18,19 +18,21 @@
 <link rel="stylesheet"
 	href="/resources/assets/bower_components/chosen/chosen.min.css">
 <link href="/resources/assets/css/admin.css" rel="stylesheet">
-	<!-- Ionicons -->
+<!--
+	 Ionicons
 <link href="/resources/assets/AdminLTE-master/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-	<!-- Theme style -->
+	&lt;!&ndash; Theme style &ndash;&gt;
 <link href="/resources/assets/AdminLTE-master/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+-->
 
 </head>
 
-<body class="skin-blue">
+<body>
 
 	<div id="adminModule" class="wrapper">
 
 		<!-- Navigation -->
-		<nav class="navbar  navbar-fixed-top" role="navigation"
+		<nav class="navbar navbar-inverse navbar-static-top" role="navigation"
 			style="margin-bottom: 0" ng-controller="TopNavBarController">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -39,7 +41,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" style="color:#383838">{{ 'HEAD_TITLE' | translate }}</a>
+				<a class="navbar-brand" style="color:beige">{{ 'HEAD_TITLE' | translate }}</a>
 			</div>
 
 			<div ng-controller="InternationalizationController">
@@ -86,10 +88,11 @@
 			</ul>
 
 			<!-- Sidebar -->
-			<div class="row-offcanvas row-offcanvas-left" role="navigation">
-				<div class="left-side sidebar-offcanvas">
-					<section class="sidebar" style="width: 250px;">
-					<ul class="sidebar-menu" id="side-menu">
+			<div class="navbar-default sidebar" role="navigation">
+				<div class="sidebar-nav navbar-collapse">
+
+
+					<ul class="nav" id="side-menu">
 						<li ui-sref-active="active"><a ui-sref="main"><i
 								class="icons fa fa-home fa-fw"></i>{{ 'MAIN_PANEL' | translate
 								}}</a></li>
@@ -105,7 +108,7 @@
 						<li ui-sref-active="active"><a ui-sref="users"><i
 								class="icons fa fa-users"></i> {{'EMPLOYEE' | translate }}</a></li>
 					</ul>
-						</section>
+
 				</div>
 				<!-- /.sidebar-collapse -->
 			</div>
@@ -116,7 +119,7 @@
 	<script type="text/javascript" data-main="/resources/app/admin/runApp"
 		src="/resources/assets/bower_components/requirejs/require.js"></script>
 	<script src="/resources/assets/bower_components/jquery/dist/jquery.js"	type="text/javascript"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>
+<!--	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>-->
 	<script	src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
 		type="text/javascript"></script>
 	<script type="text/javascript">
@@ -125,20 +128,20 @@
 			allow_single_deselect : true
 		});
 		$("#states").chosen();
-	</script><!-- jvectormap -->
+	</script><!--&lt;!&ndash; jvectormap &ndash;&gt;
 	<script src="/resources/assets/AdminLTE-master/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
 	<script src="/resources/assets/AdminLTE-master/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
-	<!-- fullCalendar -->
+	&lt;!&ndash; fullCalendar &ndash;&gt;
 	<script src="/resources/assets/AdminLTE-master/js/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-	<!-- jQuery Knob Chart -->
+	&lt;!&ndash; jQuery Knob Chart &ndash;&gt;
 	<script src="/resources/assets/AdminLTE-master/js/plugins/jqueryKnob/jquery.knob.js" type="text/javascript"></script>
-	<!-- daterangepicker -->
+	&lt;!&ndash; daterangepicker &ndash;&gt;
 	<script src="/resources/assets/AdminLTE-master/js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-	<!-- Bootstrap WYSIHTML5 -->
+	&lt;!&ndash; Bootstrap WYSIHTML5 &ndash;&gt;
 	<script src="/resources/assets/AdminLTE-master/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
-	<!-- iCheck -->
+	&lt;!&ndash; iCheck &ndash;&gt;
 	<script src="/resources/assets/AdminLTE-master/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-	!-- AdminLTE App -->
-	<script src="/resources/assets/AdminLTE-master/js/AdminLTE/app.js" type="text/javascript"></script>
+	!-- AdminLTE App &ndash;&gt;
+	<script src="/resources/assets/AdminLTE-master/js/AdminLTE/app.js" type="text/javascript"></script>-->
   </body>
 </html>
