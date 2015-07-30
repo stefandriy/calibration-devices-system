@@ -22,6 +22,9 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private String stateVerificatorEmployee;
     private boolean isUpload;
 
+    private Address providerAddress;
+    private Address calibratorAddress;
+
     protected VerificationDTO() {
     }
 
@@ -54,6 +57,9 @@ public class VerificationDTO extends ClientStageVerificationDTO {
                 + stateVerificatorEmployee.getLastName();
 
         this.isUpload = isUpload;
+
+        this.providerAddress = (calibrator == null) ? null : provider.getAddress();
+        this.calibratorAddress = (stateVerificator == null) ? null : calibrator.getAddress();
     }
 
     public String getId() {
@@ -150,6 +156,22 @@ public class VerificationDTO extends ClientStageVerificationDTO {
 
     public void setIsUpload(boolean isUpload) {
         this.isUpload = isUpload;
+    }
+
+    public Address getProviderAddress() {
+        return providerAddress;
+    }
+
+    public void setProviderAddress(Address providerAddress) {
+        this.providerAddress = providerAddress;
+    }
+
+    public Address getCalibratorAddress() {
+        return calibratorAddress;
+    }
+
+    public void setCalibratorAddress(Address calibratorAddress) {
+        this.calibratorAddress = calibratorAddress;
     }
 
     @Override
