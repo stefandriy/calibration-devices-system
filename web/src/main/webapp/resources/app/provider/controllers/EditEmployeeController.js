@@ -111,7 +111,7 @@ angular
                         case ('firstName') :
                             var firstName = $scope.user.firstName;
                             if (firstName == null) {
-                            } else if (/^[А-Я]{1}[а-я]{3,10}/.test(firstName)) {
+                            } else if (/^[А-ЯІ]{1}[а-яі]{1,10}/.test(firstName)) {
                                 validator('firstName', false);
                             } else {
                                 validator('firstName', true);
@@ -120,7 +120,7 @@ angular
                         case ('lastName') :
                             var lastName = $scope.user.lastName;
                             if (lastName == null) {
-                            } else if (/^[А-Я]{1}[а-я]{3,10}/.test(lastName)) {
+                            } else if (/^[А-ЯІ]{1}[а-яі]{1,10}/.test(lastName)) {
                                 validator('lastName', false);
                             } else {
                                 validator('lastName', true);
@@ -129,7 +129,7 @@ angular
                         case ('middleName') :
                             var middleName = $scope.user.middleName;
                             if (middleName == null) {
-                            } else if (/^[А-Я]{1}[а-я]{3,10}/.test(middleName)) {
+                            } else if (/^[А-ЯІ]{1}[а-яі]{1,10}/.test(middleName)) {
                                 validator('middleName', false);
                             } else {
                                 validator('middleName', true);
