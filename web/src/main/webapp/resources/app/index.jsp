@@ -2,11 +2,11 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xml:lang="uk,en,ru">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Language" content="uk,en,ru">
     <title>Виконавець послуг</title>
     <link href="/resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -168,18 +168,18 @@
                             </a>
                         </li>
                     </sec:authorize>
-                    <sec:authorize url="/employee/admin/">
 
+                    <sec:authorize url="/employee/admin/">
                         <li ui-sref-active="active">
                             <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> Переглянути усіх працівників</a>
                         </li>
                     </sec:authorize>
 
-                    <sec:authorize url="/calibrator">
-                        <li ui-sref-active="active">
-                            <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> Переглянути усіх працівників</a>
-                        </li>
-                    </sec:authorize>
+                    <%--<sec:authorize url="/calibrator">--%>
+                        <%--<li ui-sref-active="active">--%>
+                            <%--<a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> Переглянути усіх працівників</a>--%>
+                        <%--</li>--%>
+                    <%--</sec:authorize>--%>
 
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
@@ -249,4 +249,3 @@
 !-- AdminLTE App -->
 <script src="/resources/assets/AdminLTE-master/js/AdminLTE/app.js" type="text/javascript"></script>--%>
 </body>
-</html>
