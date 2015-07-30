@@ -183,6 +183,8 @@
   "EDIT_CHANGES":"Save changes",
   "CREATE_BY_PATTERN":"Create by pattern",
   "CREATE_NEW":"Create new verification",
-  "VERIFS_FOUND":"Matches found"
+  "VERIFS_FOUND":"Matches found",
+  "FIRE":"Fire",
+  "RESTORE":"Restore"
 
 }

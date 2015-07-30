@@ -19,6 +19,7 @@ public class UserDTO {
     private String middleName;
     private String email;
     private String phone;
+    private Boolean isAvaliable;
 
     private Address address;
 
@@ -96,6 +97,14 @@ public class UserDTO {
         this.userRoles = userRoles;
     }
 
+    public Boolean getIsAvaliable() {
+        return isAvaliable;
+    }
+
+    public void setIsAvaliable(Boolean isAvaliable) {
+        this.isAvaliable = isAvaliable;
+    }
+
     public UserDTO(){}
 
     @Override
@@ -108,10 +117,9 @@ public class UserDTO {
                 ", middleName='" + middleName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", isAvaliable=" + isAvaliable +
                 ", address=" + address +
                 ", userRoles=" + userRoles +
                 '}';
     }
-
-
 }

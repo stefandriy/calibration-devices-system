@@ -104,6 +104,7 @@ public class AddEmployeeController {
         userFromDataBase.setEmail(temporalUser.getEmail());
         userFromDataBase.setAddress(temporalUser.getAddress());
         userFromDataBase.setUsername(temporalUser.getUsername());
+        userFromDataBase.setIsAvaliable(temporalUser.getIsAvaliable());
         userFromDataBase.setUserRoles(new HashSet<String>(userService.getRoles(username)));
         return (userFromDataBase);
     }
@@ -113,7 +114,13 @@ public class AddEmployeeController {
             @RequestBody UserDTO providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
-        System.out.println(providerEmployee.toString());
+        if (providerEmployee.getIsAvaliable() == false){
+            newUser.setIsAvaliable(providerEmployee.getIsAvaliable());
+            providerEmployeeService.addEmployee(newUser);
+            return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+        }else{
+            newUser.setIsAvaliable(true);
+        }
         newUser.setFirstName(providerEmployee.getFirstName());
         newUser.setLastName(providerEmployee.getLastName());
         newUser.setMiddleName(providerEmployee.getMiddleName());
@@ -124,7 +131,6 @@ public class AddEmployeeController {
             newUser.setAddress(providerEmployee.getAddress());
         }
         String pass = providerEmployee.getPassword();
-        String kod = "generate";
         if(pass == null) {
         }else{
             Random rand = new Random();
@@ -155,6 +161,7 @@ public class AddEmployeeController {
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setUsername(providerEmployee.getUsername());
         newUser.setPassword(providerEmployee.getPassword());
+        newUser.setIsAvaliable(true);
         for (String tmp : providerEmployee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
             newUser.addUserRole(userRole);
@@ -212,7 +219,8 @@ public class AddEmployeeController {
                             providerEmployee.getPhone(),
                             providerEmployee.getOrganization().getName(),
                             verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
-                            verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername())
+                            verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
+                            providerEmployee.getIsAvaliable()
 
                     )
             );

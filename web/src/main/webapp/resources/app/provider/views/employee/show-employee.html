@@ -35,7 +35,7 @@
                                    class="table table-bordered table-hover users_table">
 
                                 <tbody>
-                                <tr ng-repeat="user in $data">
+                                <tr ng-repeat="user in $data" ng-class = "{incorrect : !user.isAvaliable}">
                                     <td data-title="'Псевдонім користувача'" filter="{ 'username': 'text' }">{{
                                         user.username }}
                                     </td>

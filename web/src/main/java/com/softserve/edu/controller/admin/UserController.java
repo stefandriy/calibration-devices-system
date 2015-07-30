@@ -68,8 +68,7 @@ public class UserController {
                                     usPage = new UsersPageItem(
                                             user.getUsername(), userService.getRoles(user.getUsername()),
                                             user.getFirstName(), user.getLastName(), user.getMiddleName(), user.getPhone(),
-                                            userService.getOrganization(user.getUsername(), user), null,null
-                                    );
+                                            userService.getOrganization(user.getUsername(), user), null,null , user.getIsAvaliable());
                                 }
                                 return usPage;
                             }

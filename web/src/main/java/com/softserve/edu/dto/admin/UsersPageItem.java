@@ -13,6 +13,7 @@ public class UsersPageItem {
     private String middleName;
     private String email;
     private String phone;
+    private Boolean isAvaliable;
 
     private String organization;
     private Long countOfVarification;
@@ -116,6 +117,7 @@ public class UsersPageItem {
         this.countOfVarification = countOfVarification;
     }
 
+
     public Long getCalibratorTasks() {
         return calibratorTasks;
     }
@@ -123,10 +125,19 @@ public class UsersPageItem {
     public void setCalibratorTasks(Long calibratorTasks) {
         this.calibratorTasks = calibratorTasks;
     }
+    public Boolean getIsAvaliable() {
+        return isAvaliable;
+    }
+
+    public void setIsAvaliable(Boolean isAvaliable) {
+        this.isAvaliable = isAvaliable;
+
+    }
 
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
                          String middleName, String phone, String organization,
-                         Long countOfVarification,Long calibratorTasks) {
+                         Long countOfVarification,Long calibratorTasks, Boolean isAvaliable) {
+
         this.username = username;
         if (roles.size() == 1) {
             role = roles.get(0);
@@ -143,6 +154,7 @@ public class UsersPageItem {
         this.organization = organization;
         this.countOfVarification = countOfVarification;
         this.calibratorTasks=calibratorTasks;
+        this.isAvaliable = isAvaliable;
     }
 
 
@@ -150,13 +162,15 @@ public class UsersPageItem {
     public String toString() {
         return "UsersPageItem{" +
                 "username='" + username + '\'' +
-                ", roles='" + roles + '\'' +
+                ", roles=" + roles +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", isAvaliable=" + isAvaliable +
                 ", organization='" + organization + '\'' +
                 ", countOfVarification=" + countOfVarification +
                 '}';

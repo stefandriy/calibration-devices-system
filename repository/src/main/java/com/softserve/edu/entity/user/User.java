@@ -22,6 +22,7 @@ public class User {
     private String middleName;
     private String email;
     private String phone;
+    private Boolean isAvaliable;
 
 
     @Embedded
@@ -166,6 +167,14 @@ public class User {
         this.userRoles = userRoles;
     }
 
+    public Boolean getIsAvaliable() {
+        return isAvaliable;
+    }
+
+    public void setIsAvaliable(Boolean isAvaliable) {
+        this.isAvaliable = isAvaliable;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -175,7 +184,8 @@ public class User {
                 .append("lastName", lastName)
                 .append("middleName", middleName)
                 .append("phone", phone)
-                .append("email", email).toString();
+                .append("email", email)
+                .append("isAvalisble", isAvaliable).toString();
     }
 
     @Override
@@ -188,6 +198,7 @@ public class User {
                 .append(lastName)
                 .append(middleName)
                 .append(email)
+                .append(isAvaliable)
                 .toHashCode();
     }
 
@@ -203,6 +214,7 @@ public class User {
                     .append(lastName, other.lastName)
                     .append(middleName, other.middleName)
                     .append(email, other.email)
+                    .append(isAvaliable,other.isAvaliable)
                     .isEquals();
         } else {
             return false;

@@ -30,6 +30,9 @@ body {
 	
 	font-size: 17px;
 }
+.incorrect{
+    color: rgba(0,0,0,0.35);
+}
 
 #searchclear {
     position: absolute;

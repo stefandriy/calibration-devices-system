@@ -5,7 +5,7 @@
 
 <div class="modal-body">
 
-	<form name="employeeForm" novalidate>
+	<form name="employeeForm" novalidate ng-hide = "showRestore">
 
 		<div class="row">
 			<div class="form-group col-md-4" ng-show ="showListOfOrganization">
@@ -215,11 +215,19 @@
 			<div class="form-group col-md-10">
 				<button type="submit" class="btn btn-success"
 					ng-click="onEmployeeFormSubmit()">{{'EDIT_CHANGES' | translate}}</button>
+				<a class="btn btn-danger" ng-click="fireEmployee('fire')">{{'FIRE' | translate }}</a>
 			</div>
 			<div class="form-group col-md-2">
 				<button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
 			</div>
+
 		</div>
 
 	</form>
+
+	<div class="row">
+	<div class="form-group col-md-2" ng-show = "showRestore">
+		<button class="btn btn-success" ng-click="fireEmployee('restore')">{{'RESTORE' | translate}}</button>
+	</div>
+		</div>
 </div>

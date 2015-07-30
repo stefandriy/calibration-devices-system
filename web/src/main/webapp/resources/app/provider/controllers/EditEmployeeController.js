@@ -9,7 +9,7 @@ angular
             var adresschanged = false;
             var employeeData = {};
 
-            $scope.$on('roles_avaliable', function(event, args) {
+            $scope.$on('info_about_editUser', function(event, args) {
 
 
                 for (var i = 0; i< args.roles.length; i++){
@@ -31,6 +31,14 @@ angular
                 $scope.checkFirstName('middleName');
                 $scope.checkFirstName('phone');
                 $scope.checkFirstName('email');
+
+                if(args.isAvaliable == true){
+                    $scope.showRestore = false;
+                } else {
+                    $scope.showRestore = true;
+                }
+
+
             });
 
             userService.isAdmin()
@@ -329,6 +337,7 @@ angular
                         username : $scope.user.username,
                         password : $scope.user.password,
                         userRoles : [],
+                        isAvaliable : true
                     }
 
                 if (adresschanged) {
@@ -352,6 +361,17 @@ angular
                     }
                     if (organizationTypeVerificator === true) {
                         employeeData.userRoles.push('STATE_VERIFICATOR_EMPLOYEE');
+                    }
+
+                }
+
+                $scope.fireEmployee = function(action){
+                    if (action === 'fire'){
+                        $scope.showRestore = true;
+                        employeeData.isAvaliable = false;
+                        updateEmployee();
+                    } else {
+                        $scope.showRestore = false;
                     }
 
                 }
@@ -382,7 +402,6 @@ angular
                                 function (data) {
                                     if (data.status == 201) {
                                         $scope.closeModal();
-                                   //     $scope.resetEmployeeForm();
 
                                     }else{
                                         alert('Error');

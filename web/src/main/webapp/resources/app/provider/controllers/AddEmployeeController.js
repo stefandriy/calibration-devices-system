@@ -102,7 +102,9 @@ angular
                         case ('lastName') :
                             var lastName = $scope.employeeFormData.lastName;
                             if (lastName == null) {
-                            } else if (/^[А-ЯІ]{1}[а-яі]{1,10}}/.test(lastName)) {
+
+                            } else if (/^[А-ЯІ]{1}[а-яі]{1,10}/.test(lastName)) {
+
                                 validator('lastName', false);
                             } else {
                                 validator('lastName', true);
