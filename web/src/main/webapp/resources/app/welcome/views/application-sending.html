@@ -189,7 +189,6 @@
 
 							ng-options="region as region.designation for region in regions | filter: $viewValue"
 							allow-single-deselect="true"
-
 							ng-change="receiveDistricts(selectedRegion)" width="'100%'"  required>
 						</select>
 
@@ -213,7 +212,7 @@
 
 							ng-change="receiveLocalitiesAndProviders(selectedDistrict)"  width="'100%'"
 							required></select>
-						<span class="glyphicon glyphicon-exclamation-sign pull-right" ng-if="!selectedProvider && selectedDistrict" style="color: firebrick">	No Provider for This District</span>
+						<span class="glyphicon glyphicon-exclamation-sign" ng-if="!selectedProvider && selectedDistrict" style="color: firebrick">	No Provider for This District</span>
 
 						<p class="help-block">
 
@@ -363,7 +362,7 @@
 								<option value="3">3</option>
 
 							</select>
-							{{selectedCount}}
+
 						</div>
 						<div class="col-md-9 pull-right" id="deviceBox" >
 							<select multiple chosen name="device" type="text"  width="'100%'"

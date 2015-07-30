@@ -44,7 +44,7 @@
 			</div>
 			<div class="row " ng-if="verification.status">
 				<div class="col-md-12">
-					<table class="table table-striped table-bordered table-hover">
+					<table class="table table-striped table-bordered table-hover" >
 						<thead>
 							<tr>
 								<th>Прізвище клієнта</th>
@@ -59,7 +59,7 @@
 						</thead>
 
 						<tbody>
-							<tr>
+							<tr >
 								<td>{{ verification.lastName}}</td>
 								<td>{{ verification.firstName}}</td>
 								<td>{{ verification.initialDate | date}}</td>
@@ -115,15 +115,15 @@
 							ng-show="verification.status == 'SENT_TO_VERIFICATOR'"></span></td>
 					</tr>
 					<tr
-						ng-class="{'doneStyle':verification.status == 'TEST_OK','notYetStyle':verification.status == 'REJECTED'}">
+						ng-class="{'doneStyle':verification.status == 'TEST_OK','notYetStyle':verification.status == 'REJECTED'}" >
 						<td class="col-sm-3  glyphicon glyphicon-user"
-							ng-class="{'progressStyle':verification.status == 'SENT'||'IN_PROGRESS'||'SENT_TO_VERIFICATOR'}">  {{'CLIENT'| translate}}</td>
+							ng-class="{'progressStyle':verification.status == 'SENT'||'IN_PROGRESS'||'SENT_TO_VERIFICATOR'}" style=" border-style:  solid  double;border-color: #696969">  {{'CLIENT'| translate}}</td>
 						<td class="col-sm-3  glyphicon glyphicon-tint"
-							ng-class="{ 'doneStyle':verification.status == 'IN_PROGRESS'||'SENT_TO_VERIFICATOR','progressStyle':verification.status == 'SENT'}">  {{'PROVIDER' | translate}}</td>
+							ng-class="{ 'doneStyle':verification.status == 'IN_PROGRESS'||'SENT_TO_VERIFICATOR','progressStyle':verification.status == 'SENT'}" style=" border-style:  solid  double;border-color: #696969;">  {{'PROVIDER' | translate}}</td>
 						<td class="col-sm-3  glyphicon glyphicon-scale"
-							ng-class="{'doneStyle':verification.status == 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status == 'SENT'||'ACCEPTED', 'progressStyle':verification.status == 'IN_PROGRESS'}">  {{'CALIBRATOR'| translate}}</td>
+							ng-class="{'doneStyle':verification.status == 'SENT_TO_VERIFICATOR', 'notYetStyle':verification.status == 'SENT'||'ACCEPTED', 'progressStyle':verification.status == 'IN_PROGRESS'}" style=" border-style:  solid  double;border-color: #696969">  {{'CALIBRATOR'| translate}}</td>
 						<td class="col-sm-3  glyphicon glyphicon-home"
-							ng-class="{'notYetStyle':verification.status == 'SENT'||'IN_PROGRESS' , 'progressStyle':verification.status == 'SENT_TO_VERIFICATOR'}">  {{
+							ng-class="{'notYetStyle':verification.status == 'SENT'||'IN_PROGRESS' , 'progressStyle':verification.status == 'SENT_TO_VERIFICATOR'}"style=" border-style:  solid  double ; border-color: #696969">  {{
 							'VERIFICATOR'| translate}}</td>
 
 					</tr>

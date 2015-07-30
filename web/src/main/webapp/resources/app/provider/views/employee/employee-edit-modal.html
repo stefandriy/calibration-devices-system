@@ -133,11 +133,12 @@
 									<label class="control-label">{{'REGION_TWO' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
-									<input name="region" type="text"
-										ng-model="user.address.region"
-										typeahead="region as region.designation for region in regions | filter: $viewValue"
-										typeahead-on-select="onRegionSelected(user.address.region.id)"
-										typeahead-editable="false" class="form-control" required>
+									<select chosen name="region" type="text"
+											ng-model="employeeFormData.region"
+											ng-options="region as region.designation for region in regions | filter: $viewValue"
+											allow-single-deselect="true"
+											ng-change="onRegionSelected(employeeFormData.region.id)"
+											class="form-control" required></select>
 								</div>
 							</div>
 
@@ -146,11 +147,11 @@
 									<label class="control-label">{{'DISTRICT_TWO' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
-									<input name="district" type="text"
-										ng-model="user.address.district"
-										typeahead="district as district.designation for district in districts | filter: $viewValue"
-										typeahead-on-select="onDistrictSelected(user.address.district.id)"
-										typeahead-editable="false" class="form-control" required>
+									<select chosen name="district" type="text"
+											ng-model="employeeFormData.district"
+											ng-options="district as district.designation for district in districts | filter: $viewValue"
+											ng-change="onDistrictSelected(employeeFormData.district.id)"
+											allow-single-deselect="true" class="form-control" required></select>
 								</div>
 							</div>
 
@@ -160,11 +161,11 @@
 									<label class="control-label">{{'LOCALITY_TWO' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
-									<input name="locality" type="text"
-										ng-model="user.address.locality"
-										typeahead="locality as locality.designation for locality in localities | filter: $viewValue"
-										typeahead-on-select="onLocalitySelected(user.address.locality.id)"
-										typeahead-editable="false" class="form-control" required>
+									<select chosen name="locality" type="text"
+											ng-model="employeeFormData.locality"
+											ng-options="locality as locality.designation for locality in localities | unique:'designation'"
+											ng-change="onLocalitySelected(employeeFormData.locality.id)"
+											allow-single-deselect="true" class="form-control" required></select>
 								</div>
 							</div>
 

@@ -309,11 +309,11 @@ angular
 
                 function addressFormToOrganizationForm() {
                   $scope.user.address.region = $scope.user.address.region.designation;
-                   $scope.user.address.district = $scope.user.address.district.designation;
-                    $scope.user.address.locality = $scope.user.address.locality.designation;
-                    $scope.user.address.street = $scope.user.address.street;
-                    $scope.user.address.building = $scope.user.address.building;
-                   $scope.user.address.flat = $scope.user.address.flat;
+                  $scope.user.address.district = $scope.user.address.district.designation;
+                  $scope.user.address.locality = $scope.user.address.locality.designation;
+                  $scope.user.address.street = $scope.user.address.street;
+                  $scope.user.address.building = $scope.user.address.building;
+                  $scope.user.address.flat = $scope.user.address.flat;
                 }
 
                 /**
