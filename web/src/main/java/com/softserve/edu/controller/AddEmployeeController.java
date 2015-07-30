@@ -107,13 +107,15 @@ public class AddEmployeeController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User newUser = providerEmployeeService.oneProviderEmployee(providerEmployee.getUsername());
         System.out.println(providerEmployee.toString());
-        newUser.setAddress(providerEmployee.getAddress());
         newUser.setFirstName(providerEmployee.getFirstName());
         newUser.setLastName(providerEmployee.getLastName());
         newUser.setMiddleName(providerEmployee.getMiddleName());
         newUser.setEmail(providerEmployee.getEmail());
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setUsername(providerEmployee.getUsername());
+        if (providerEmployee.getAddress().getDistrict() != null){
+            newUser.setAddress(providerEmployee.getAddress());
+        }
         if(providerEmployee.getPassword() != null){
             newUser.setPassword(providerEmployee.getPassword());
         }

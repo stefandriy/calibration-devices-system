@@ -6,6 +6,7 @@ angular
             var organizationTypeProvider = false;
             var organizationTypeCalibrator = false;
             var organizationTypeVerificator = false;
+            var adresschanged = false;
             var employeeData = {};
 
             $scope.$on('roles_avaliable', function(event, args) {
@@ -25,6 +26,11 @@ angular
                         organizationTypeVerificator = true;
                     }
                     }
+                $scope.checkFirstName('firstName');
+                $scope.checkFirstName('lastName');
+                $scope.checkFirstName('middleName');
+                $scope.checkFirstName('phone');
+                $scope.checkFirstName('email');
             });
 
             userService.isAdmin()
@@ -98,21 +104,6 @@ angular
 
 
 
-            /**
-             * Resets employee form
-             */
-
-            $scope.resetEmployeeForm = function() {
-                $scope.$broadcast('show-errors-reset');
-                $scope.usernameValidation = null;
-                $scope.employeeFormData = null;
-            };
-
-                /**
-                 * Calls resetOrganizationForm after the view loaded
-                 */
-             //      $scope.resetEmployeeForm();
-
             $scope.fully = function(){
                 $scope.employeeFormData.firstName =  $rootScope.user.firstName;
                 $scope.employeeFormData.lastName = $rootScope.user.lastName;
@@ -128,6 +119,7 @@ angular
             };
 
 
+
                 /**
                  * Validates
                  */
@@ -135,7 +127,7 @@ angular
                 $scope.checkFirstName = function(caseForValidation) {
                     switch (caseForValidation) {
                         case ('firstName') :
-                            var firstName = $scope.employeeFormData.firstName;
+                            var firstName = $scope.user.firstName;
                             if (firstName == null) {
                             } else if (/^[А-Я]{1}[а-я]{3,10}/.test(firstName)) {
                                 validator('firstName', false);
@@ -144,7 +136,7 @@ angular
                             }
                             break;
                         case ('lastName') :
-                            var lastName = $scope.employeeFormData.lastName;
+                            var lastName = $scope.user.lastName;
                             if (lastName == null) {
                             } else if (/^[А-Я]{1}[а-я]{3,10}/.test(lastName)) {
                                 validator('lastName', false);
@@ -153,7 +145,7 @@ angular
                             }
                             break;
                         case ('middleName') :
-                            var middleName = $scope.employeeFormData.middleName;
+                            var middleName = $scope.user.middleName;
                             if (middleName == null) {
                             } else if (/^[А-Я]{1}[а-я]{3,10}/.test(middleName)) {
                                 validator('middleName', false);
@@ -162,7 +154,7 @@ angular
                             }
                             break;
                         case ('phone') :
-                            var phone = $scope.employeeFormData.phone;
+                            var phone = $scope.user.phone;
                             if (phone == null) {
                             } else if (/[0-9]{4,11}/.test(phone)) {
                                 validator('phone', false);
@@ -171,7 +163,7 @@ angular
                             }
                             break;
                         case ('email') :
-                            var email = $scope.employeeFormData.email;
+                            var email = $scope.user.email;
                             if (email == null) {
                             } else if (/[0-9a-z_]+@[0-9a-z_]+\.[a-z]{2,5}/i.test(email)) {
                                 validator('email', false);
@@ -180,7 +172,7 @@ angular
                             }
                             break;
                         case ('login') :
-                            var username = $scope.employeeFormData.username;
+                            var username = $scope.user.username;
                             if (username == null) {
                             } else if (/^[a-z0-9_-]{3,16}$/.test(username)) {
                                 isUsernameAvailable(username)
@@ -279,6 +271,7 @@ angular
                  *            to identify region
                  */
                 $scope.onRegionSelected = function (regionId) {
+                    adresschanged = true;
                     addressServiceProvider
                         .findDistrictsByRegionId(regionId)
                         .then(function (data) {
@@ -293,6 +286,7 @@ angular
                  *            to identify district
                  */
                 $scope.onDistrictSelected = function (districtId) {
+                    adresschanged = true;
                     addressServiceProvider.findLocalitiesByDistrictId(
                         districtId).then(function (data) {
                             $scope.localities = data.data;
@@ -308,6 +302,7 @@ angular
                  *            to identify locality
                  */
                 //$scope.onLocalitySelected = function (localityId) {
+                //      adresschanged = true;
                 //    addressServiceProvider.findStreetsByLocalityId(
                 //        localityId).then(function (data) {
                 //            $scope.streets = data.data;
@@ -321,6 +316,7 @@ angular
                  *            to identify street
                  */
                 //$scope.onStreetSelected = function (streetId) {
+                //      adresschanged = true;
                 //    addressServiceProvider
                 //        .findBuildingsByStreetId(streetId)
                 //        .then(function (data) {
@@ -353,7 +349,7 @@ angular
                         userRoles : [],
                     }
 
-
+                if (adresschanged) {
                     employeeData.address = {
                         region: $scope.user.address.region,
                         district: $scope.user.address.district,
@@ -362,6 +358,9 @@ angular
                         building: $scope.user.address.building,
                         flat: $scope.user.address.flat,
                     }
+                } else {
+                    employeeData.address = {}
+                }
 
                     if (organizationTypeProvider === true) {
                         employeeData.userRoles.push('PROVIDER_EMPLOYEE');
@@ -378,14 +377,15 @@ angular
                 $scope.onEmployeeFormSubmit = function () {
 
                     $scope.$broadcast('show-errors-check-validity');
-                    //if( !$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
-                    //&& !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
+                    if( !$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
+                    && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
+                    if (adresschanged)
                        addressFormToOrganizationForm();
                         retranslater();
-                        saveEmployee();
-                    //} else {
-                    //    $scope.incorrectValue =true;
-                  //  }
+                        updateEmployee();
+                    } else {
+                        $scope.incorrectValue =true;
+                    }
                         };
 
 
@@ -394,7 +394,7 @@ angular
                          * If everything is ok then resets the organization
                          * form and updates table with organizations.
                          */
-                        function saveEmployee() {
+                        function updateEmployee() {
                             userService.updateUser(
                                 employeeData).then(
                                 function (data) {
