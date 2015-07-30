@@ -61,6 +61,7 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     Verification findOne(String id);
     
     Long countByProviderEmployee_usernameAndStatus(String providerEmployee_username, Status status);
+    Long countByCalibratorEmployee_usernameAndStatus(String providerEmployee_username, Status status);
     Long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
     Long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
     Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, ReadStatus readStatus);
@@ -69,4 +70,5 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     User getProviderEmployeeById(@Param("id") String id);
 
     List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
+    List<Verification> findByCalibratorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
 }

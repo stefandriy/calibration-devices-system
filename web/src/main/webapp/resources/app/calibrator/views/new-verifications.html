@@ -33,12 +33,15 @@
                                    class="table table-bordered table-hover">
                                 <thead>
                                 <tr>
-                                	<td></td>
+                                    <td></td>
                                     <td>
                                         <p class="input-group myDatePicker">
-                                            <input type="text" class="form-control input-sm" datepicker-popup="{{format}}" ng-model="dt"
-                                                   ng-change="changeDateToSend(dt)" is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"
-                                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                            <input type="text" class="form-control input-sm"
+                                                   datepicker-popup="{{format}}" ng-model="dt"
+                                                   ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
+                                                   min-date="minDate" datepicker-options="dateOptions"
+                                                   date-disabled="disabled(date, mode)" ng-required="true"
+                                                   close-text="Close"/>
 
 											  <span class="input-group-btn ">
 											     <button type="button" class="btn btn-default myGroupBtn"
@@ -49,7 +52,7 @@
                                         </p>
                                     </td>
                                     <td>
-                                    
+
                                         <div class="btn-group">
                                             <input type="text" class="form-control input-sm" ng-model="search.idText"
                                                    ng-change="doSearch()">
@@ -92,31 +95,31 @@
                                     <td class="text-center clearInput">
                                         <button class="btn btn-danger btn-sm" ng-click="clearAll()"
                                                 ng-show="search.streetText.length && search.lastNameText.length && search.idText.length && search.status.length">
-                                          {{'CLEAR_ALL' | translate}}
+                                            {{'CLEAR_ALL' | translate}}
                                         </button>
                                     </td>
-                                    
+
                                     <td></td>
                                 </tr>
                                 <tr>
-                                	<th><span class="glyphicon glyphicon-ok-sign"></span></th>
+                                    <th><span class="glyphicon glyphicon-ok-sign"></span></th>
                                     <th class="col-md-2">Дата початку процесу повірки</th>
                                     <th>Реєстраційний номер повірки</th>
                                     <th>Прізвище клієнта</th>
                                     <th>Вулиця, на якій проживає клієнт</th>
-                                   <th>Статус</th>
+                                    <th>Статус</th>
                                     <th>Відповідальна особа</th>
-                                     <th class="text-center" >Дії<br/> <br/></th>
+                                    <th class="text-center">Дії<br/> <br/></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                
+
                                 <tr ng-repeat="verification in $data"
                                     ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td class="text-center">
-                                        <input type="checkbox" 
+                                        <input type="checkbox"
                                                ng-click="resolveVerificationId(verification.id)"/>
-                                    
+
                                     </td>
                                     <td>{{ verification.initialDate | date}}</td>
                                     <td class="verificationNumber">
@@ -125,102 +128,111 @@
                                     <td>{{ verification.surname }}</td>
                                     <td>{{ verification.street }}</td>
                                     <td>{{ verification.status }}</td>
-									 <td> {{verification.providerEmployee}}</td>
+                                    <td> {{verification.calibratorEmployee}}</td>
                                     <td style="width: 12%">
-                                      
-                                       <br class="btn-group custom-btn-group">
-                                         	<button class="btn btn-xs btn-primary btn-actions-custom" popover="Детальніше"
-                                           		popover-trigger="mouseenter"
-	                                           	ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
-	                                            <i class="fa fa-info"></i>
-                                        	</button>
-                                    		<button ng-show="!verification.providerEmployee"
-                                                class="btn btn-xs btn-success btn-actions-custom" popover="Add employee"  popover-trigger="mouseenter"
-                                                ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
-                                             	 <span class="glyphicon glyphicon-plus-sign"></span>
-                                            </button>
-                                         	 <button ng-show="verification.providerEmployee"
-                                                    class="btn btn-xs btn-danger btn-actions-custom" popover="Remove employee"
-                                           			popover-trigger="mouseenter"
-                                                    ng-click="removeProviderEmployee(verification.id)">
-                                                    <span class="glyphicon glyphicon-remove"></span>
-                                            </button>
-                                        	<button class="btn btn-xs btn-danger btn-actions-custom"
-	                                        	popover="{{'REJECT' | translate}}" popover-trigger="mouseenter"
-	                                      		ng-click="openMailModal(verification.id)">
-	                                      		<span class="fa fa-reply"></span>
-                                    		</button>
+
+                                        <br class="btn-group custom-btn-group">
+                                        <button class="btn btn-xs btn-primary btn-actions-custom" popover="Детальніше"
+                                                popover-trigger="mouseenter"
+                                                ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
+                                            <i class="fa fa-info"></i>
+                                        </button>
+                                        <button ng-show="!verification.calibratorEmployee"
+                                                class="btn btn-xs btn-success btn-actions-custom"
+                                                popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                                ng-click="addCalibratorEmployee(verification.id)">
+                                            <span class="glyphicon glyphicon-plus-sign"></span>
+                                        </button>
+                                        <button ng-show="verification.calibratorEmployee"
+                                                class="btn btn-xs btn-danger btn-actions-custom"
+                                                popover="Видалити відповідальну особу"
+                                                popover-trigger="mouseenter"
+                                                ng-click="removeCalibratorEmployee(verification.id)">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                        <button class="btn btn-xs btn-danger btn-actions-custom"
+                                                popover="{{'REJECT' | translate}}" popover-trigger="mouseenter"
+                                                ng-click="openMailModal(verification.id)">
+                                            <span class="fa fa-reply"></span>
+                                        </button>
 
 
-                                           <br/>
-                                        <button class="btn btn-xs btn-primary btn-actions-custom" popover="Створити тест" popover-trigger="mouseenter"
+                                        <br/>
+                                        <button class="btn btn-xs btn-primary btn-actions-custom"
+                                                popover="Створити тест" popover-trigger="mouseenter"
                                                 ng-click="openAddCalibrationTestModal()">
                                             <span class="glyphicon glyphicon-plus-sign"></span>
 
                                         </button>
-                                           <button type="button" class="btn btn-info btn-actions-custom" popover="Завантажити файл"
-                                                   popover-trigger="mouseenter"
-                                                   ng-click="uploadBbiFile(verification.id)">
-                                               <span class="glyphicon glyphicon-save"></span>
-                                           </button>
+                                        <button ng-show="!verification.upload" type="button"
+                                                class="btn btn-info btn-actions-custom" popover="Завантажити файл"
+                                                popover-trigger="mouseenter"
+                                                ng-click="uploadBbiFile(verification.id)">
+                                            <span class="glyphicon glyphicon-save"></span>
+                                        </button>
 
-                                           <button type="button" class="btn btn-danger  btn-actions-custom" popover="Скасувати завантажений файл"
-                                                   popover-trigger="mouseenter"
-                                                   ng-click="cancelBbiFile(verification.id)">
-                                               <span class="glyphicon glyphicon-save"></span>
-
-                                        </div>
-                                    </td>
-								</tr>
-                               </tbody>
-                            </table>
-                            <script type="text/ng-template" id="custom/pager">
-                                <div>
-                                     <ul class="pager ng-cloak">
-                                        <li ng-repeat="page in pages"
-                                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-                                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-                                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                                Previous</a>
-                                            <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                               href="">Next &raquo;</a>
-                                        </li>
-                                        <li>
-                                            <div class="btn-group">
-                                                <button type="button" ng-class="{'active':params.count() == 5}"
-                                                        ng-click="params.count(5)" class="btn btn-default">5
-                                                </button>
-                                                <button type="button" ng-class="{'active':params.count() == 10}"
-                                                        ng-click="params.count(10)" class="btn btn-default">10
-                                                </button>
-                                                <button type="button" ng-class="{'active':params.count() == 25}"
-                                                        ng-click="params.count(25)" class="btn btn-default">25
-                                                </button>
-                                                <button type="button" ng-class="{'active':params.count() == 50}"
-                                                        ng-click="params.count(50)" class="btn btn-default">50
-                                                </button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </script>
-
-
-                            		<p id="emptyError" ng-if="allIsEmpty && isClicked"
-                                       class="help-block">
-                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        Оберіть хоча б одну повірку
-                                    </p>
-                            <div class="pull-left">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span> Надіслати</button>
-                            </div>
-                        
+                                        <button ng-show="verification.upload" type="button"
+                                                class="btn btn-danger  btn-actions-custom"
+                                                popover="Видалити завантажений файл"
+                                                popover-trigger="mouseenter"
+                                                ng-click="cancelBbiFile(verification.id)">
+                                            <span class="glyphicon glyphicon-save"></span>
+                                        </button>
                         </div>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                        <script type="text/ng-template" id="custom/pager">
+                            <div>
+                                <ul class="pager ng-cloak">
+                                    <li ng-repeat="page in pages"
+                                        ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                        ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                            Previous</a>
+                                        <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                           href="">Next &raquo;</a>
+                                    </li>
+                                    <li>
+                                        <div class="btn-group">
+                                            <button type="button" ng-class="{'active':params.count() == 5}"
+                                                    ng-click="params.count(5)" class="btn btn-default">5
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 10}"
+                                                    ng-click="params.count(10)" class="btn btn-default">10
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 25}"
+                                                    ng-click="params.count(25)" class="btn btn-default">25
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 50}"
+                                                    ng-click="params.count(50)" class="btn btn-default">50
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </script>
+
+
+                        <p id="emptyError" ng-if="allIsEmpty && isClicked"
+                           class="help-block">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            Оберіть хоча б одну повірку
+                        </p>
+
+                        <div class="pull-left">
+                            <button type="button" class="btn btn-primary"
+                                    ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
+                                Надіслати
+                            </button>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 

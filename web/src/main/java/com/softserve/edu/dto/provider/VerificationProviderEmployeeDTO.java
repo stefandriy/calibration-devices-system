@@ -14,6 +14,8 @@ public class VerificationProviderEmployeeDTO {
 
     private EmployeeProvider employeeProvider;
 
+    private EmployeeProvider employeeCalibrator;
+
     public List<String> getIdsOfVerifications() {
         return idsOfVerifications;
     }
@@ -22,7 +24,7 @@ public class VerificationProviderEmployeeDTO {
         this.idsOfVerifications = idsOfVerifications;
     }
 
-    public com.softserve.edu.service.utils.EmployeeProvider getEmployeeProvider() {
+    public EmployeeProvider getEmployeeProvider() {
         return employeeProvider;
     }
 
@@ -36,6 +38,14 @@ public class VerificationProviderEmployeeDTO {
 
     public void setIdVerification(String idVerification) {
         this.idVerification = idVerification;
+    }
+
+    public EmployeeProvider getEmployeeCalibrator() {
+        return employeeCalibrator;
+    }
+
+    public void setEmployeeCalibrator(EmployeeProvider employeeCalibrator) {
+        this.employeeCalibrator = employeeCalibrator;
     }
 }
 

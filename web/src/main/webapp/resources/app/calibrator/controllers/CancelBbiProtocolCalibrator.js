@@ -15,7 +15,7 @@ angular
                 VerificationServiceCalibrator
                     .deleteBbiProtocol(idVerification)
                     .success(function () {
-                        $modalInstance.close();
+                        location.reload()
                     }).error(function () {
                     $scope.messageError = 'Не вдалось видалити файл' + fileName;
 

@@ -20,7 +20,8 @@ import org.springframework.data.domain.Page;
                                 verification.getReadStatus(), verification.getProviderEmployee(), verification.getCalibratorEmployee(), verification.getStateVerificatorEmployee(),
                                 verification.getClientData().getFirstName(), verification.getClientData().getClientAddress().getDistrict(),
                                 verification.getClientData().getClientAddress().getLocality(),
-                                verification.getClientData().getPhone())
+                                verification.getClientData().getPhone(),
+                                verification.getBbiProtocol()==null?false:true)
                 );
     }
 
@@ -41,8 +42,9 @@ import org.springframework.data.domain.Page;
                                          verification.getReadStatus(), verification.getProviderEmployee(), verification.getCalibratorEmployee(), verification.getStateVerificatorEmployee(),
                                          verification.getClientData().getFirstName(), verification.getClientData().getClientAddress().getDistrict(),
                                          verification.getClientData().getClientAddress().getLocality(),
-                                         verification.getClientData().getPhone())
-                         );
+                                         verification.getClientData().getPhone(),
+                        verification.getBbiProtocol()==null?false:true)
+                        );
                     }
 			return resultList;
 		}

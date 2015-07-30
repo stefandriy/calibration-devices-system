@@ -1,8 +1,12 @@
 package com.softserve.edu.controller.calibrator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
+import com.softserve.edu.service.admin.UsersService;
+import com.softserve.edu.service.utils.EmployeeProvider;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,6 +79,9 @@ public class CalibratorController {
 
     @Autowired
     StateVerificatorService verificatorService;
+
+    @Autowired
+    UsersService userService;
 
     private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
 
@@ -157,7 +164,7 @@ public class CalibratorController {
                     verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
                     verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
                     verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-                    verification.getStateVerificatorEmployee(),false);
+                    verification.getStateVerificatorEmployee());
         } else {
             return null;
         }
@@ -225,17 +232,16 @@ public class CalibratorController {
                 verification.getStatus(), verification.getCalibrator(),
                 verification.getCalibratorEmployee(), verification.getDevice(),
                 verification.getProvider(), verification.getProviderEmployee(),
-                verification.getStateVerificator(), verification.getStateVerificatorEmployee(),false
+                verification.getStateVerificator(), verification.getStateVerificatorEmployee()
         );
     }
 
 
-    @RequestMapping(value = "cancel/uploadFile", method = RequestMethod.GET)
+    @RequestMapping(value = "find/uploadFile", method = RequestMethod.GET)
     public List<String> getBbiFile(@RequestParam String idVerification) {
         List<String> data = new ArrayList();
         String fileName = calibratorService.findBbiFileByOrganizationId(idVerification);
-        data.add(idVerification);
-        data.add(fileName);
+       data= Arrays.asList(idVerification,fileName);
         return data;
     }
 
@@ -250,6 +256,30 @@ public class CalibratorController {
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<>(httpStatus);
+    }
+    @RequestMapping(value = "new/calibratorEmployees", method = RequestMethod.GET)
+    public List<EmployeeProvider> employeeVerification(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User employee = calibratorService.oneProviderEmployee(user.getUsername());
+        List<String> role = userService.getRoles(user.getUsername());
+        List<EmployeeProvider> providerListEmployee = calibratorService
+                .getAllProviders(role, employee);
+        return providerListEmployee;
+    }
+
+    @RequestMapping(value = "assign/calibratorEmployee", method = RequestMethod.PUT)
+    public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
+        String userNameCalibrator = verificationProviderEmployeeDTO.getEmployeeCalibrator().getUsername();
+        String idVerification = verificationProviderEmployeeDTO.getIdVerification();
+        User employeeCalibrator = calibratorService.oneProviderEmployee(userNameCalibrator);
+
+        calibratorService.assignProviderEmployee(idVerification, employeeCalibrator);
+    }
+
+    @RequestMapping(value = "remove/calibratorEmployee", method = RequestMethod.PUT)
+    public void removeProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationUpdatingDTO) {
+        String idVerification = verificationUpdatingDTO.getIdVerification();
+        calibratorService.assignProviderEmployee(idVerification, null);
     }
 
 

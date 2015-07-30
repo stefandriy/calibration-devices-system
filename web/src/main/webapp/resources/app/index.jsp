@@ -175,6 +175,12 @@
                         </li>
                     </sec:authorize>
 
+                    <sec:authorize url="/calibrator">
+                        <li ui-sref-active="active">
+                            <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> Переглянути усіх працівників</a>
+                        </li>
+                    </sec:authorize>
+
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
                             <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i>   Архів

@@ -25,13 +25,14 @@ public class VerificationPageDTO {
     private String stateVerificatorEmployee;
     private Long countOfWork;
     private ReadStatus readStatus;
+    private boolean isUpload;
 
     public VerificationPageDTO() {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street,
                                Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee, 
-                               String name, String district, String locality, String phone) {
+                               String name, String district, String locality, String phone,boolean isUpload) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -64,6 +65,7 @@ public class VerificationPageDTO {
         this.district=district;
         this.locality=locality;
         this.phone=phone;
+        this.isUpload=isUpload;
     }
     public VerificationPageDTO(Long count) {
         this.countOfWork = count;
@@ -183,7 +185,15 @@ public class VerificationPageDTO {
 		this.stateVerificatorEmployee = stateVerificatorEmployee;
 	}
 
-	@Override
+    public boolean isUpload() {
+        return isUpload;
+    }
+
+    public void setIsUpload(boolean isUpload) {
+        this.isUpload = isUpload;
+    }
+
+    @Override
     public String toString() {
         return "VerificationPageDTO{" +
                 "id='" + id + '\'' +

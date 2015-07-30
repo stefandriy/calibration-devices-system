@@ -4,11 +4,15 @@
 angular
     .module('employeeModule')
 
-    .controller('UploadBbiFileController', ['$scope', '$log', '$modalInstance',
-        'verification', 'Upload', '$timeout', function ($scope, $log, $modalInstance, verification, Upload, $timeout) {
+    .controller('UploadBbiFileController', ['$scope','$route','$log', '$modalInstance',
+        'verification', 'Upload', '$timeout', function ($scope,$route, $log, $modalInstance, verification, Upload, $timeout) {
 
             $scope.cancel = function () {
-                $modalInstance.dismiss();
+              //  $modalInstance.dismiss();
+                location.reload()
+
+                    //$route.reload;
+
             };
 
             $scope.$watch('files', function () {

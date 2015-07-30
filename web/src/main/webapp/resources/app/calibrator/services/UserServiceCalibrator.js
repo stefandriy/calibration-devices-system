@@ -11,7 +11,10 @@ angular
             },
             isAdmin: function (){
             	return getData('calibrator/admin/users/verificator');
-            } 
+            },
+            getCapacityOfWork: function(username){
+                return getData('calibrator/admin/users/capacityOfEmployee'+ '/'+username);
+            }
 
         };
 

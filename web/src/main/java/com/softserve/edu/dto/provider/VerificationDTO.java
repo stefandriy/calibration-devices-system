@@ -20,7 +20,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private String calibratorEmployee;
     private String stateVerificator;
     private String stateVerificatorEmployee;
-    private boolean isUpload;
+
 
     private Address providerAddress;
     private Address calibratorAddress;
@@ -32,7 +32,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
             ClientData clientData, String id, Date initialDate, Date expirationDate,
             Status status, Organization calibrator, User calibratorEmployee,
             Device device, Organization provider, User providerEmployee,
-            Organization stateVerificator, User stateVerificatorEmployee, boolean isUpload) {
+            Organization stateVerificator, User stateVerificatorEmployee) {
 
         super(clientData, clientData.getClientAddress(), null, null, null);
         this.id = id;
@@ -56,7 +56,6 @@ public class VerificationDTO extends ClientStageVerificationDTO {
         this.stateVerificatorEmployee = stateVerificatorEmployee == null ? "" : stateVerificatorEmployee.getFirstName() + " "
                 + stateVerificatorEmployee.getLastName();
 
-        this.isUpload = isUpload;
 
         this.providerAddress = (calibrator == null) ? null : provider.getAddress();
         this.calibratorAddress = (stateVerificator == null) ? null : calibrator.getAddress();
@@ -150,13 +149,6 @@ public class VerificationDTO extends ClientStageVerificationDTO {
         this.stateVerificatorEmployee = stateVerificatorEmployee;
     }
 
-    public boolean isUpload() {
-        return isUpload;
-    }
-
-    public void setIsUpload(boolean isUpload) {
-        this.isUpload = isUpload;
-    }
 
     public Address getProviderAddress() {
         return providerAddress;

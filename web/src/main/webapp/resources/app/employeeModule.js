@@ -1,6 +1,7 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives', 'highcharts-ng', 'ngFileUpload'])
+        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
+        'highcharts-ng', 'ngFileUpload','ngRoute'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
@@ -80,9 +81,13 @@
                         templateUrl: '/resources/app/calibrator/views/measurement-equipments.html',
                         controller: 'MeasuringEquipmentControllerCalibrator'
                     })
-                    
-                    
-                    .state('main-panel-verificator', {
+                    .state("employee-show-calibrator", {
+                        url: '/calibrator/employee-show',
+                        templateUrl: '/resources/app/calibrator/views/employee/show-employee.html',
+                        controller: 'UsersControllerCalibrator'
+                    })
+
+                   .state('main-panel-verificator', {
                         url: '/',
                         templateUrl: '/resources/app/verificator/views/main-panel.html'
                     })
@@ -148,6 +153,9 @@
             'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',   
             'calibrator/controllers/UploadBbiFileController',
             'calibrator/controllers/CancelBbiProtocolCalibrator',
+            'calibrator/controllers/UsersControllerCalibrator',
+            'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
+            'calibrator/controllers/CapacityEmployeeControllerCalibrator',
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',

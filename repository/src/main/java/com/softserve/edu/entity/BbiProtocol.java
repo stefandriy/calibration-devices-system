@@ -22,7 +22,7 @@ public class BbiProtocol {
 
     private String fileName;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Verification verification;
 
     BbiProtocol() {

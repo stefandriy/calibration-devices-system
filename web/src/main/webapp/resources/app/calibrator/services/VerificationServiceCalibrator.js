@@ -43,11 +43,20 @@ angular
                 return updateData('new/read', data);
             },
             cancelUploadFile: function (idVerification) {
-                return getData('verifications/cancel/uploadFile?idVerification=' + idVerification);
+                return getData('verifications/find/uploadFile?idVerification=' + idVerification);
             },
             deleteBbiProtocol: function (idVerification) {
                 return sendDataProtocol("deleteBbiprotocol?idVerification="+ idVerification);
-            }
+            },
+            getCalibrators: function (url) {
+                return getData('verifications/new/calibratorEmployees');
+            },
+            sendEmployeeCalibrator: function (data) {
+                return updateData('assign/calibratorEmployee', data);
+            },
+            cleanCalibratorEmployeeField:function (data) {
+                return updateData('remove/calibratorEmployee', data);
+            },
         };
 
         function getData(url) {

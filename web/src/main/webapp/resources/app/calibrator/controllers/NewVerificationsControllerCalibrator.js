@@ -299,4 +299,49 @@ angular
        	        });      
          	};
 
+            $scope.removeCalibratorEmployee = function (verifId) {
+                var dataToSend = {
+                    idVerification: verifId
+                };
+                $log.info(dataToSend);
+                verificationServiceCalibrator.cleanCalibratorEmployeeField(dataToSend)
+                    .success(function () {
+                        $scope.tableParams.reload();
+                    });
+            };
+
+            $scope.addCalibratorEmployee = function (verifId) {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/calibrator/views/employee/adding-providerEmployee.html',
+                    controller: 'CalibratorEmployeeControllerCalibrator',
+                    size: 'md',
+                    resolve: {
+                        calibratorEmploy: function () {
+                            return verificationServiceCalibrator.getCalibrators()
+                                .success(function (calibrators) {
+                                    return calibrators;
+                                }
+                            );
+                        }
+                    }
+                })
+                /**
+                 * executes when modal closing
+                 */
+                modalInstance.result.then(function (formData) {
+                    idVerification = 0;
+                    var dataToSend = {
+                        idVerification: verifId,
+                        employeeCalibrator: formData.provider
+                    };
+                    $log.info(dataToSend);
+                    verificationServiceCalibrator
+                        .sendEmployeeCalibrator(dataToSend)
+                        .success(function () {
+                            $scope.tableParams.reload();
+                        });
+                });
+            };
+
         }]);

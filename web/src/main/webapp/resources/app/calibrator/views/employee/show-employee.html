@@ -7,8 +7,8 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Користувачі  </h1>
-       <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
-               ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}</button>
+            <button type="submit" class="btn btn-primary"
+                    ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}</button>
         </div>
     </div>
 
@@ -20,7 +20,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span> Працівники</span>
-                    <span class="pull-right"> На балансі {{totalEmployee}} зі {{organizationEmployeesCapacity}} можливих працівників </span>
+                    <span class="pull-right"> На балансі {{totalEmployee}} працівників </span>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -47,9 +47,10 @@
                                     </td>
                                     <td data-title="'Номер телефону'" filter="{ 'phone': 'text' }">{{ user.phone }}</td>
                                     <td data-title="'Кількість заявок в роботі'">
-                                         <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)" class="cursor-pointer"> {{
-                                            user.countOfVarification }}</a>
-                                         <span ng-if="!user.countOfVarification"> {{ user.countOfVarification}}</span>
+                                      <!--  <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)" class="cursor-pointer">
+                                            {{user.calibratorTasks }}</a>-->
+                                        <span ng-if="user.calibratorTasks"> {{ user.calibratorTasks}}    </span>
+                                        <span ng-if="!user.calibratorTasks"> {{ user.calibratorTasks}}    </span>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary"

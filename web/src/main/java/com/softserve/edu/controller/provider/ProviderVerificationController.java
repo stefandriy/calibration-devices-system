@@ -57,22 +57,22 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                        ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-      User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderId(
-              employeeUser.getOrganizationId(),
-              pageNumber,
-              itemsPerPage,
-              searchData.getFormattedDate(),
-              searchData.getIdText(),
-              searchData.getLastNameText(),
-              searchData.getStreetText(),
-              searchData.getStatus(),
-              searchData.getEmployee(),
-              providerEmployee
-      );
-      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-  }
+        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderId(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                searchData.getFormattedDate(),
+                searchData.getIdText(),
+                searchData.getLastNameText(),
+                searchData.getStreetText(),
+                searchData.getStatus(),
+                searchData.getEmployee(),
+                providerEmployee
+        );
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+    }
 
     /**
      * Find page of verifications by specific criterias
@@ -90,21 +90,21 @@ public class ProviderVerificationController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                            NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-      User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
-      ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
-              employeeUser.getOrganizationId(),
-              pageNumber,
-              itemsPerPage,
-              searchData.getFormattedDate(),
-              searchData.getIdText(),
-              searchData.getLastNameText(),
-              searchData.getStreetText(),
-              searchData.getStatus(),
-              providerEmployee
-      );
-      List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-      return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-  }
+        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                searchData.getFormattedDate(),
+                searchData.getIdText(),
+                searchData.getLastNameText(),
+                searchData.getStreetText(),
+                searchData.getStatus(),
+                providerEmployee
+        );
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+    }
 
 
     /**
@@ -183,13 +183,11 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
-        User providerEmployee = new User();
+        String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
-        Verification verification =	verificationService.findById(idVerification);
-        String deviceType = verification.getDevice().getDeviceType().toString();
-        providerEmployee.setUsername(verificationProviderEmployeeDTO.getEmployeeProvider().getUsername());
-        verificationProviderEmployeeService.assignProviderEmployee(idVerification, providerEmployee);
-        mail.sendAcceptMail(verification.getClientData().getEmail(), idVerification, deviceType);
+        User employeeCalibrator = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
+
+        verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeCalibrator);
     }
 
     @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
@@ -207,7 +205,7 @@ public class ProviderVerificationController {
                     verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
                     verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
                     verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-                    verification.getStateVerificatorEmployee(),false);
+                    verification.getStateVerificatorEmployee());
         } else {
             return null;
         }
@@ -215,15 +213,15 @@ public class ProviderVerificationController {
 
 
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
-    public VerificationDTO getArchivalVerificationDetailsById( @PathVariable String verificationId, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public VerificationDTO getArchivalVerificationDetailsById(@PathVariable String verificationId, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         Verification verification = verificationService.findByIdAndProviderId(verificationId, user.getOrganizationId());
 
         return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(),
-                verification.getExpirationDate(),verification.getStatus(), verification.getCalibrator(),
-                verification.getCalibratorEmployee(), verification.getDevice(),verification.getProvider(),
+                verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
+                verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
                 verification.getProviderEmployee(), verification.getStateVerificator(),
-                verification.getStateVerificatorEmployee(),false
+                verification.getStateVerificatorEmployee()
         );
     }
 }

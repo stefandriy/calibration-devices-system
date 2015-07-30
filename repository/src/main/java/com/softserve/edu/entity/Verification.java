@@ -65,6 +65,9 @@ public class Verification {
 	@Temporal(TemporalType.DATE)
 	private Date expirationDate;
 
+	@OneToOne
+	BbiProtocol bbiProtocol;
+
 	public Verification() {
 	}
 
@@ -196,8 +199,15 @@ public class Verification {
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
-	
-	
+
+	public BbiProtocol getBbiProtocol() {
+		return bbiProtocol;
+	}
+
+	public void setBbiProtocol(BbiProtocol bbiProtocol) {
+		this.bbiProtocol = bbiProtocol;
+	}
+
 	@Override
     public String toString() {
         return new ToStringBuilder(this)

@@ -16,6 +16,7 @@ public class UsersPageItem {
 
     private String organization;
     private Long countOfVarification;
+    private Long calibratorTasks;
 
     public UsersPageItem() {
     }
@@ -115,10 +116,17 @@ public class UsersPageItem {
         this.countOfVarification = countOfVarification;
     }
 
+    public Long getCalibratorTasks() {
+        return calibratorTasks;
+    }
+
+    public void setCalibratorTasks(Long calibratorTasks) {
+        this.calibratorTasks = calibratorTasks;
+    }
 
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
                          String middleName, String phone, String organization,
-                         Long countOfVarification) {
+                         Long countOfVarification,Long calibratorTasks) {
         this.username = username;
         if (roles.size() == 1) {
             role = roles.get(0);
@@ -134,6 +142,7 @@ public class UsersPageItem {
         this.phone = phone;
         this.organization = organization;
         this.countOfVarification = countOfVarification;
+        this.calibratorTasks=calibratorTasks;
     }
 
 

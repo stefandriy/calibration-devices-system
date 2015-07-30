@@ -1,8 +1,12 @@
 package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.provider.ProviderEmployeeController;
+import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
+import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
+import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
@@ -16,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -74,21 +80,17 @@ public class CalibratorEmployeeController {
     }
 
 
-//    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
-//    public Page<UsersPageItem> pageSearchUsers(
-//            @PathVariable Integer pageNumber,
-//            @PathVariable Integer itemsPerPage,
-//            @PathVariable String search) {
-//        Page<UsersPageItem> page =  null;
-//        return  page;
-//    }
-//
-//
-//    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-//    public Page<UsersPageItem> getUsersPage(@PathVariable Integer pageNumber,
-//                                            @PathVariable Integer itemsPerPage) {
-//        return pageSearchUsers(pageNumber, itemsPerPage, null);
-//    }
+    @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPaginationUsers(
+            @PathVariable String username) {
+        List<Verification> list = calibratorEmployeeService.getVerificationListbyCalibratorEmployee(username);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
+        return new PageDTO<>(content);
+    }
+
+
+
+
 }
 
 

@@ -11,6 +11,7 @@ import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
@@ -104,7 +105,7 @@ public class AddEmployeeController {
         userFromDataBase.setAddress(temporalUser.getAddress());
         userFromDataBase.setUsername(temporalUser.getUsername());
         userFromDataBase.setUserRoles(new HashSet<String>(userService.getRoles(username)));
-        return(userFromDataBase);
+        return (userFromDataBase);
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
@@ -132,7 +133,7 @@ public class AddEmployeeController {
             mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), String.valueOf(newPassword));
         }
         newUser.deleteAllUsersRoles();
-        for (String tmp : providerEmployee.getUserRoles() ){
+        for (String tmp : providerEmployee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
             newUser.addUserRole(userRole);
         }
@@ -168,7 +169,16 @@ public class AddEmployeeController {
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPaginationUsers(
             @PathVariable String username) {
-        List<Verification> list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
+        User employee = providerEmployeeService.oneProviderEmployee(username);
+        List<String> role = userService.getRoles(username);
+        List<Verification> list = null;
+        if (role.contains(Roles.PROVIDER_EMPLOYEE.name())) {
+            list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
+        }
+        if (role.contains(Roles.CALIBRATOR_EMPLOYEE.name())) {
+            list = verificationProviderEmployeeService.getVerificationListbyCalibratormployee(username);
+        }
+
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
         return new PageDTO<>(content);
     }
@@ -201,7 +211,9 @@ public class AddEmployeeController {
                             providerEmployee.getMiddleName(),
                             providerEmployee.getPhone(),
                             providerEmployee.getOrganization().getName(),
-                            verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername())
+                            verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
+                            verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername())
+
                     )
             );
         }

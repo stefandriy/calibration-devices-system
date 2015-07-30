@@ -60,14 +60,27 @@ public class VerificationProviderEmployeeService {
     public List<Verification> getVerificationListbyProviderEmployee(String username) {
         return verificationRepository.findByProviderEmployeeUsernameAndStatus(username, Status.ACCEPTED);
     }
+    @Transactional
+    public List<Verification> getVerificationListbyCalibratormployee(String username) {
+        return verificationRepository.findByCalibratorEmployeeUsernameAndStatus(username, Status.IN_PROGRESS);
+    }
 
     @Transactional
     public Long countByProviderEmployeeTasks(String username) {
         return verificationRepository.countByProviderEmployee_usernameAndStatus(username, Status.ACCEPTED);
     }
+    @Transactional
+    public Long countByCalibratorEmployeeTasks(String username) {
+        return verificationRepository.countByCalibratorEmployee_usernameAndStatus(username, Status.IN_PROGRESS);
+    }
 
     @Transactional
     public  Long countOfEmloyee(List<String> roles,Long ifOrganization){
         return userRepository.getCountOfEmloyee(roles, ifOrganization);
+    }
+
+    @Transactional
+    public User oneProviderEmployee(String username) {
+        return userRepository.getUserByUserName(username);
     }
 }
