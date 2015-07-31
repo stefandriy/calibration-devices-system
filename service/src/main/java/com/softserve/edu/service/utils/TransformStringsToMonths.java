@@ -18,14 +18,14 @@ public class TransformStringsToMonths {
         int to = parser(dataFrom, dataTo)[1];
         List list = new ArrayList();
         if (to >= from) {
-            for (int i = from; i < to + 1; i++) {
+            for (int i = from; i <= to; i++) {
                 list.add(getMonth(i));
             }
         } else {
-            for (int i = from; i < 13; i++) {
+            for (int i = from; i <= 12; i++) {
                 list.add(getMonth(i));
             }
-            for (int i = 1; i < to + 1; i++) {
+            for (int i = 1; i <= to; i++) {
                 list.add(getMonth(i));
             }
         }
@@ -78,11 +78,11 @@ public class TransformStringsToMonths {
         return newDate;
     }
 
-    public  List<Double> identifyProviderEmployee(int[]arr,List<Object[]> list ){
-        List<Double> countOfWork  = new ArrayList<>();
+    public List<Double> identifyProviderEmployee(int from, int to, List<Object[]> list) {
+        List<Double> countOfWork = new ArrayList<>();
         double iterat = 0.0;
         double d = 0.0;
-        for (int i = arr[0]; i < arr[1] + 1; i++) {
+        for (int i = from; i <= to; i++) {
             boolean avaible = false;
 
             if (list.size() == 0) {
@@ -103,6 +103,62 @@ public class TransformStringsToMonths {
                 countOfWork.add(0.0);
             }
         }
+        return countOfWork;
+    }
+
+
+    public List<Double> identifyProviderEmployeeMulty(int[] arr, List<Object[]> list) {
+        List<Double> countOfWork = new ArrayList<>();
+        double iterat = 0.0;
+        double d = 0.0;
+
+        //first iteration to find match between dataCalendar and listOfMonth
+        for (int i = arr[0]; i < 12; i++) {
+            boolean avaible = false;
+
+            if (list.size() == 0) {
+                countOfWork.add(0.0);
+                avaible = true;
+            }
+
+            for (int j = 0; j < list.size(); j++) {
+                iterat = Integer.valueOf(String.valueOf(list.get(j)[1]));
+                if (i == iterat) {
+                    d = Double.valueOf(String.valueOf(list.get(j)[0]));
+                    countOfWork.add(d);
+                    avaible = true;
+                    break;
+                }
+            }
+            if (!avaible) {
+                countOfWork.add(0.0);
+            }
+        }
+
+        //second iteration to find match between dataCalendar and listOfMonth
+        iterat = 0.0;
+        d = 0.0;
+        for (int i = 0; i <= arr[1]; i++) {
+            boolean avaible = false;
+
+            if (list.size() == 0) {
+                countOfWork.add(0.0);
+                avaible = true;
+            }
+            for (int j = 0; j < list.size(); j++) {
+                iterat = Integer.valueOf(String.valueOf(list.get(j)[1]));
+                if (i == iterat) {
+                    d = Double.valueOf(String.valueOf(list.get(j)[0]));
+                    countOfWork.add(d);
+                    avaible = true;
+                    break;
+                }
+            }
+            if (!avaible) {
+                countOfWork.add(0.0);
+            }
+        }
+
         return countOfWork;
     }
 

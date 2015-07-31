@@ -143,8 +143,11 @@ public class ProviderEmployeeService {
             quer.setParameter(2, dateFrom);
             quer.setParameter(3, dateTo);
             list = quer.getResultList();
-            countOfWork = transformStringsToMonths.identifyProviderEmployee(arr, list);
-
+            if(arr[0]<=arr[1]) {
+                countOfWork = transformStringsToMonths.identifyProviderEmployee(arr[0],arr[1], list);
+            }else{
+                countOfWork = transformStringsToMonths.identifyProviderEmployeeMulty(arr, list);
+            }
             resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
         }
         return resultList;
