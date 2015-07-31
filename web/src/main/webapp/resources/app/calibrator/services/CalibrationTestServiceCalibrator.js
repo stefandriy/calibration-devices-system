@@ -21,18 +21,18 @@ angular
                         return result.data;
                     });
             },
-            saveCalibrationTest: function(formData) {
-                return $http.post("/calibrationTests/add", formData)
-                    .then(function(result) {
-                        return result.status;
-                    });
-            }
-            ////IN PROGRESS!
-            //saveCalibrationTest: function(formData, verificationId) {
-            //    return $http.post("/calibrationTests/add", formData, verificationId)
+            //saveCalibrationTest: function(formData) {
+            //    return $http.post("/calibrationTests/add", formData)
             //        .then(function(result) {
             //            return result.status;
             //        });
             //}
+            ////IN PROGRESS!
+            saveCalibrationTest: function(formData, verificationId) {
+                return $http.post("/calibrationTests/add/" + verificationId, formData)
+                    .then(function(result) {
+                        return result.status;
+                    });
+            }
         }
     });

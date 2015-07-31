@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('CalibrationTestAddModalControllerCalibrator', ['$rootScope', '$scope', '$http', '$log', '$modalInstance', 'CalibrationTestServiceCalibrator',
-        function ($rootScope, $scope, $http, $log, $modalInstance, calibrationTestServiceCalibrator) {
+    .controller('CalibrationTestAddModalControllerCalibrator', ['$rootScope', '$scope', '$http', '$log', '$modalInstance', 'CalibrationTestServiceCalibrator', 'verification',
+        function ($rootScope, $scope, $http, $log, $modalInstance, calibrationTestServiceCalibrator, verification) {
 
             $scope.calibrationTests = [];
 
@@ -36,7 +36,7 @@ angular
              */
             $scope.saveCalibrationTest = function() {
                 calibrationTestServiceCalibrator
-                    .saveCalibrationTest($scope.TestFormData)
+                    .saveCalibrationTest($scope.TestFormData, verification)
                     .then(function (data) {
                         if (data == 201) {
                             $scope.closeModal();

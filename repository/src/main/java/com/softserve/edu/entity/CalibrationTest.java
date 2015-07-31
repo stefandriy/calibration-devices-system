@@ -55,7 +55,7 @@ public class CalibrationTest {
     public CalibrationTest() { }
 
     public CalibrationTest(String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude, String consumptionStatus, CalibrationTestResult testResult, Verification verification) {
+                           Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
         this.name = name;
         this.dateTest = dateTest;
         this.temperature = temperature;
@@ -64,7 +64,6 @@ public class CalibrationTest {
         this.longitude = longitude;
         this.consumptionStatus = consumptionStatus;
         this.testResult = testResult;
-        this.verification = verification;
     }
 
     public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {

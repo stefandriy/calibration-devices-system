@@ -72,33 +72,34 @@ public class CalibrationTestController {
     }
     
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity createCalibrationTest( @RequestBody CalibrationTestDTO testDTO) {
-
-    	HttpStatus httpStatus = HttpStatus.CREATED;
-    	try {
-			CalibrationTest createdTest = testDTO.saveCalibrationTest();
-			testService.createTest(createdTest);
-		} catch (Exception e) {
-			logger.error("GOT EXCEPTION " + e.getMessage());
-			httpStatus = HttpStatus.CONFLICT;
-		}
-    	return new ResponseEntity<>(httpStatus);
-    }
+//    @RequestMapping(value = "add", method = RequestMethod.POST)
+//    public ResponseEntity createCalibrationTest( @RequestBody CalibrationTestDTO testDTO) {
+//
+//    	HttpStatus httpStatus = HttpStatus.CREATED;
+//    	try {
+//			CalibrationTest createdTest = testDTO.saveCalibrationTest();
+//			testService.createTest(createdTest);
+//		} catch (Exception e) {
+//			logger.error("GOT EXCEPTION " + e.getMessage());
+//			httpStatus = HttpStatus.CONFLICT;
+//		}
+//    	return new ResponseEntity<>(httpStatus);
+//    }
 
     //IN PROGRESS!
-//    @RequestMapping(value = "add", method = RequestMethod.POST)
-//    public ResponseEntity createCalibrationTest( @RequestBody CalibrationTestDTO testDTO, @RequestParam String verificationId) {
-//        HttpStatus httpStatus = HttpStatus.CREATED;
-//        try {
-//            CalibrationTest createdTest = testDTO.saveCalibrationTest();
-//            testService.createNewTest(createdTest, verificationId);
-//        } catch (Exception e) {
-//            logger.error("GOT EXCEPTION " + e.getMessage());
-//            httpStatus = HttpStatus.CONFLICT;
-//        }
-//        return new ResponseEntity<>(httpStatus);
-//    }
+    @RequestMapping(value = "add/{verificationId}", method = RequestMethod.POST)
+    public ResponseEntity createCalibrationTest( @RequestBody CalibrationTestDTO testDTO, @PathVariable String verificationId) {
+        HttpStatus httpStatus = HttpStatus.CREATED;
+        try {
+            CalibrationTest createdTest = new CalibrationTest(testDTO.getName(), testDTO.getDateTest(), testDTO.getTemperature(),
+                    testDTO.getSettingNumber(), testDTO.getLatitude(), testDTO.getLongitude(), testDTO.getConsumptionStatus(), testDTO.getTestResult());
+            testService.createNewTest(createdTest, verificationId);
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e.getMessage());
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
+    }
     
     @RequestMapping(value = "edit/{calibrationTestId}", method = RequestMethod.POST)
     public ResponseEntity editCalibrationTest(@PathVariable Long calibrationTestId,  @RequestBody CalibrationTestDTO testDTO) {

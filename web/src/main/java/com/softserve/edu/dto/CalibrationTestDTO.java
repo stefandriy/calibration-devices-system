@@ -17,8 +17,7 @@ public class CalibrationTestDTO  {
     private Double latitude;
     private Double longitude;
     private String consumptionStatus;
-    private String testResult;
-    private Verification verification;
+    private CalibrationTestResult testResult;
 
     public CalibrationTestDTO() {
     }
@@ -33,7 +32,6 @@ public class CalibrationTestDTO  {
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
-        this.verification = calibrationTest.getVerification();
     }
 
 
@@ -93,17 +91,13 @@ public class CalibrationTestDTO  {
         this.consumptionStatus = consumptionStatus;
     }
 
-    public String getTestResult() {
+    public CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(String testResult) {
+    public void setTestResult(CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
-
-    public Verification getVerification() { return verification; }
-
-    public void setVerification(Verification verification) { this.verification = verification; }
 
     public CalibrationTest saveCalibrationTest() {
         CalibrationTest calibrationTest = new CalibrationTest();

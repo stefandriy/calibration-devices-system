@@ -2,8 +2,8 @@ angular
     .module('employeeModule')
     .controller('NewVerificationsControllerCalibrator', ['$scope', '$log',
         '$modal', 'VerificationServiceCalibrator',
-        '$rootScope', 'ngTableParams','$timeout', '$filter', '$window',
-        function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams, $timeout, $filter, $window) {
+        '$rootScope', 'ngTableParams','$timeout', '$filter', '$window', '$location',
+        function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams, $timeout, $filter, $window, $location) {
 
     	 $scope.resultsCount= 0;
     	 $scope.search = {
@@ -100,27 +100,12 @@ angular
                     }
                 });
             };
-            /**
-             *Opens window with information about calibration-tests.
-             */
-            //$scope.openCalibrationTest = function () {
-            //    var openTest = $location
-            //        .open({
-            //            controller : 'CalibrationTestControllerCalibrator',
-            //            templateUrl : '/resources/app/calibrator/views/calibration-panel.html',
-            //        });
-            //};
-            /**
-             * Opens modal window for adding new calibration-test.
-             */
-            $scope.openAddCalibrationTestModal = function () {
-                var addTestModal = $modal
-                    .open({
-                        animation: true,
-                        controller: 'CalibrationTestAddModalControllerCalibrator',
-                        templateUrl: '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
-                    });
-            };
+
+            $scope.openTests = function (verificationId) {
+                $rootScope.$broadcast("calibration-test", {verification : verificationId});
+                $log.debug("inside");
+                var url = $location.path('/calibrator/verifications/calibration-test/').search({param:verificationId});
+            }
 
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];

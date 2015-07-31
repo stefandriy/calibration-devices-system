@@ -61,17 +61,17 @@ public class CalibrationTestService {
                 pageRequest);
     }
 
-    @Transactional
-    public CalibrationTest createTest(CalibrationTest test){return testRepository.save(test);
-    }
+//    @Transactional
+//    public CalibrationTest createTest(CalibrationTest test){return testRepository.save(test);
+//    }
 
    //IN PROGRESS!
-//    @Transactional
-//    public void createNewTest(CalibrationTest calibrationTest, String verificationId){
-//        Verification verification = verificationRepository.findOne(verificationId);
-//        CalibrationTest createdTest = new CalibrationTest(calibrationTest, verification);
-//        testRepository.save(createdTest);
-//    }
+    @Transactional
+    public void createNewTest(CalibrationTest calibrationTest, String verificationId){
+        Verification verification = verificationRepository.findOne(verificationId);
+        calibrationTest.setVerification(verification);
+        testRepository.save(calibrationTest);
+    }
 
     @Transactional
     public CalibrationTest editTest(Long testId, String name, Date dateTest, Integer temperature, Integer settingNumber,

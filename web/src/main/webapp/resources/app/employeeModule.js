@@ -66,10 +66,15 @@
                         controller: 'NewVerificationsControllerCalibrator'
                     })
                    
-                    .state("calibration-test-calibrator", {
-                        url: '/calibrator/verifications/calibration-test',
-                        templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
-                        controller: 'CalibrationTestAddModalControllerCalibrator'
+                    //.state("calibration-test-calibrator", {
+                    //    url: '/calibrator/verifications/calibration-test',
+                    //    templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
+                    //    controller: 'CalibrationTestAddModalControllerCalibrator'
+                    //})
+                    .state("calibration-test", {
+                        url: '/calibrator/verifications/calibration-test/',
+                        templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
+                        controller: 'CalibrationTestControllerCalibrator'
                     })
                     .state("verifications-archive-calibrator", {
                         url: '/calibrator/verifications/archive',
@@ -144,6 +149,7 @@
             'calibrator/controllers/DetailsModalControllerCalibrator',
             'calibrator/controllers/SendingModalControllerCalibrator',
             'calibrator/controllers/CalibrationTestAddModalControllerCalibrator',
+            'calibrator/controllers/CalibrationTestControllerCalibrator',
             'calibrator/controllers/EmployeeControllerCalibrator',
             'calibrator/controllers/AddressModalControllerCalibrator',
             'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
