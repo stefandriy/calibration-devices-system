@@ -54,8 +54,7 @@ public class AddEmployeeController {
     @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
 
-    @Autowired
-    private MailService mail;
+
 
     @RequestMapping(value = "organizationCapacity", method = RequestMethod.GET)
     public Integer getOrganizationCapacity(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
@@ -116,7 +115,7 @@ public class AddEmployeeController {
         User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
         if (providerEmployee.getIsAvaliable() == false){
             newUser.setIsAvaliable(providerEmployee.getIsAvaliable());
-            providerEmployeeService.addEmployee(newUser);
+            providerEmployeeService.updateEmployee(newUser);
             return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
         }else{
             newUser.setIsAvaliable(true);
@@ -133,19 +132,18 @@ public class AddEmployeeController {
         String pass = providerEmployee.getPassword();
         if(pass == null) {
         }else{
-            Random rand = new Random();
-            int newPassword = rand.nextInt(10000);
-            newUser.setPassword(String.valueOf(newPassword));
-            mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), String.valueOf(newPassword));
+            newUser.setPassword("generate");
         }
         newUser.deleteAllUsersRoles();
         for (String tmp : providerEmployee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
             newUser.addUserRole(userRole);
         }
-      providerEmployeeService.addEmployee(newUser);
+      providerEmployeeService.updateEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
+
+
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(

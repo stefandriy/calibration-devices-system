@@ -30,7 +30,7 @@ public class SecurityUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     	
         User user = userRepository.findOne(username);
-        if (user == null) {
+        if (!user.getIsAvaliable() || user == null) {
             throw new UsernameNotFoundException("Username " + username + " not found");
         }
 

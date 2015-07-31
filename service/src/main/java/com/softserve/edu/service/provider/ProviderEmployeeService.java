@@ -5,7 +5,9 @@ import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.UserRoleRepository;
+import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.utils.*;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProviderEmployeeService {
@@ -27,6 +27,9 @@ public class ProviderEmployeeService {
     private UserRepository providerEmployeeRepository;
     @Autowired
     private UserRoleRepository userRoleRepository;
+
+    @Autowired
+    private MailService mail;
 
     @PersistenceContext
     private EntityManager em;
@@ -36,6 +39,18 @@ public class ProviderEmployeeService {
     public void addEmployee(User providerEmployee) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
         providerEmployee.setPassword(passwordEncoded);
+        providerEmployeeRepository.save(providerEmployee);
+    }
+
+    @Transactional
+    public void updateEmployee(User providerEmployee) {
+        if(providerEmployee.getPassword() == "generate") {
+            Random rand = new Random();
+            String newPassword = RandomStringUtils.randomAlphanumeric(5);
+            mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), newPassword);
+            String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
+            providerEmployee.setPassword(passwordEncoded);
+        }
         providerEmployeeRepository.save(providerEmployee);
     }
 
