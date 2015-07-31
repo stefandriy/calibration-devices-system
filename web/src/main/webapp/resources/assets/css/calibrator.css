@@ -7,6 +7,10 @@ body {
 	color: black;
 }
 
+.incorrect{
+    color: rgba(0,0,0,0.35);
+}
+
 #coloredBadge {
 	background: #00FF00;
 	color: black;

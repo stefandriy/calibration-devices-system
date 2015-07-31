@@ -134,7 +134,7 @@
 								</div>
 								<div class="form-group col-md-8">
 									<select chosen name="region" type="text"
-											ng-model="employeeFormData.region"
+											ng-model="employeeFormData.region.id"
 											ng-options="region as region.designation for region in regions | filter: $viewValue"
 											allow-single-deselect="true"
 											ng-change="onRegionSelected(employeeFormData.region.id)"
@@ -148,7 +148,7 @@
 								</div>
 								<div class="form-group col-md-8">
 									<select chosen name="district" type="text"
-											ng-model="employeeFormData.district"
+											ng-model="employeeFormData.district.id"
 											ng-options="district as district.designation for district in districts | filter: $viewValue"
 											ng-change="onDistrictSelected(employeeFormData.district.id)"
 											allow-single-deselect="true" class="form-control" required></select>
@@ -162,7 +162,7 @@
 								</div>
 								<div class="form-group col-md-8">
 									<select chosen name="locality" type="text"
-											ng-model="employeeFormData.locality"
+											ng-model="employeeFormData.locality.id"
 											ng-options="locality as locality.designation for locality in localities | unique:'designation'"
 											ng-change="onLocalitySelected(employeeFormData.locality.id)"
 											allow-single-deselect="true" class="form-control" required></select>

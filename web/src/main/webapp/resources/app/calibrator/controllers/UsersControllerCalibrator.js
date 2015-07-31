@@ -96,7 +96,9 @@ angular
                 userService.getUser(username)
                     .success(function(data){
                         $rootScope.user = data;
-                        $rootScope.$broadcast("roles_avaliable", {roles : $rootScope.user.userRoles});
+                        $rootScope.$broadcast("info_about_editUser", {roles : $rootScope.user.userRoles,
+                                                                      isAvaliable: $rootScope.user.isAvaliable
+                                                                        });
                     });
                 var addEmployeeModal = $modal
                     .open({
