@@ -10,7 +10,6 @@ angular
             $scope.cancel = function () {
                 $modalInstance.close("cancel");
 
-
             };
 
             $scope.$watch('files', function () {

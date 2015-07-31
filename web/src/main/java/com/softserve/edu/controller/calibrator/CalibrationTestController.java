@@ -1,26 +1,29 @@
-package com.softserve.edu.controller;
-
-import com.softserve.edu.dto.CalibrationTestPageItem;
-import com.softserve.edu.dto.PageDTO;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
+import com.softserve.edu.dto.CalibrationTestPageItem;
+import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.service.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-@Controller
-@RequestMapping("/calibrationTests/")
+import java.util.ArrayList;
+import java.util.List;
+
+
+@RestController
+@RequestMapping(value = "/calibrator/calibrationTests/")
 public class CalibrationTestController {
 
 	@Autowired
@@ -54,11 +57,16 @@ public class CalibrationTestController {
 
     @RequestMapping(value = "getTest/{calibrationTestId}", method = RequestMethod.GET)
     public ResponseEntity getCalibrationTest(@PathVariable Long calibrationTestId) {
-        CalibrationTest foundTest = testService.findTestById(calibrationTestId);
-        if (foundTest == null) {
-        	 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(foundTest, HttpStatus.OK);
+        CalibrationTest foundTest=null;
+        try {
+           foundTest = testService.findTestById(calibrationTestId);
+          if (foundTest == null) {
+              return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+      }catch (Throwable throwable){
+          throwable.getMessage();
+      }
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -72,19 +80,6 @@ public class CalibrationTestController {
     }
     
 
-//    @RequestMapping(value = "add", method = RequestMethod.POST)
-//    public ResponseEntity createCalibrationTest( @RequestBody CalibrationTestDTO testDTO) {
-//
-//    	HttpStatus httpStatus = HttpStatus.CREATED;
-//    	try {
-//			CalibrationTest createdTest = testDTO.saveCalibrationTest();
-//			testService.createTest(createdTest);
-//		} catch (Exception e) {
-//			logger.error("GOT EXCEPTION " + e.getMessage());
-//			httpStatus = HttpStatus.CONFLICT;
-//		}
-//    	return new ResponseEntity<>(httpStatus);
-//    }
 
     //IN PROGRESS!
     @RequestMapping(value = "add/{verificationId}", method = RequestMethod.POST)
@@ -141,4 +136,19 @@ public class CalibrationTestController {
             throw new com.softserve.edu.exceptions.NotFoundException(exception);
         }
     }
+
+    @RequestMapping(value = "uploadPhotos", method = RequestMethod.POST)
+    public ResponseEntity<String> uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
+        ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
+        try {
+            List<byte[]> arrByte = new ArrayList();
+            arrByte.add(file.getBytes());
+            System.out.println(arrByte.size());
+        } catch (Exception e) {
+            logger.error("Failed to load file " + e.getMessage());
+            httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return httpStatus;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.softserve.edu.controller;
 
 
+import com.softserve.edu.controller.calibrator.CalibrationTestController;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

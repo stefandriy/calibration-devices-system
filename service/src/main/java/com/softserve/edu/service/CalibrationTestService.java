@@ -37,7 +37,7 @@ public class CalibrationTestService {
 
     @Transactional
     public CalibrationTest findTestById(Long testId){
-        return testRepository.findOne(testId);
+        return testRepository.findById(testId);
     }
 
     @Transactional
