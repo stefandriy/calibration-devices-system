@@ -61,8 +61,7 @@ public class ProviderEmployeeService {
 
     @Transactional
     public void updateEmployee(User providerEmployee) {
-        if (providerEmployee.getPassword() == "generate") {
-            Random rand = new Random();
+        if(providerEmployee.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
             mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);

@@ -14,11 +14,11 @@
 
 				<div id ="po" class="form-group col-md-8">
 
-					 <div ng-show ="showListOfOrganizationChousenOne">
+					 <div ng-show ="showListOfOrganizationChosenOne">
 					<select multiple chosen
 							data-placeholder="?"
 							ng-model="selectedEmployee"
-							ng-change = "chouse(selectedEmployee)"
+							ng-change = "choose(selectedEmployee)"
 							required>
 						<option value = 'provider'> Provider </option>
 						<option value = 'calibrator'> Calibrator </option>
@@ -26,11 +26,11 @@
 				</div>
 
 
-					<div ng-show ="showListOfOrganizationChousenTwo">
+					<div ng-show ="showListOfOrganizationChosenTwo">
 					<select multiple chosen
 							data-placeholder="?"
 							ng-model="selectedEmployee"
-							ng-change = "chouse(selectedEmployee)"
+							ng-change = "choose(selectedEmployee)"
 							required>
 							<option value = 'calibrator'> Calibrator </option>
 							<option value = 'verificatot'> Verificator </option>

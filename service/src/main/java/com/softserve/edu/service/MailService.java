@@ -81,12 +81,6 @@ public class
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(employeeEmail);
                 message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Централізована система повірки лічильників"));
-                String domain = null;
-                try {
-                    domain = InetAddress.getLocalHost().getHostAddress();
-                } catch (UnknownHostException ue) {
-                    logger.error("Cannot get host address", ue);
-                }
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("name", employeeName);
                 templateVariables.put("password", newPassword);

@@ -6,11 +6,9 @@ angular
             var organizationTypeProvider = false;
             var organizationTypeCalibrator = false;
             var organizationTypeVerificator = false;
-            var adresschanged = false;
             var employeeData = {};
 
             $scope.$on('info_about_editUser', function(event, args) {
-
 
                 for (var i = 0; i< args.roles.length; i++){
                     if (args.roles[i] === 'PROVIDER_EMPLOYEE') {
@@ -69,14 +67,19 @@ angular
                         for (var i = 0; i < role.length; i++) {
                             if ((role[0] === 'PROVIDER_ADMIN' && role[1] === 'CALIBRATOR_ADMIN') ||
                                 (role[0] === 'CALIBRATOR_ADMIN' && role[1] === 'PROVIDER_ADMIN'))
-                                $scope.showListOfOrganizationChousenOne = true;
+                                $scope.showListOfOrganizationChosenOne = true;
                             if ((role[0] === 'STATE_VERIFICATOR_ADMIN' && role[1] === 'CALIBRATOR_ADMIN') ||
                                 (role[0] === 'CALIBRATOR_ADMIN' && role[1] === 'STATE_VERIFICATOR_ADMIN'))
-                                $scope.showListOfOrganizationChousenTwo = true;
+                                $scope.showListOfOrganizationChosenTwo = true;
                         }
                     }
                 });
-            $scope.chouse = function (selectedEmployee) {
+
+            /**
+             * Choose role of employee
+             * @param selectedEmployee
+             */
+            $scope.choose = function (selectedEmployee) {
                 organizationTypeProvider = false;
                 organizationTypeCalibrator = false;
                 organizationTypeVerificator = false;
@@ -95,7 +98,6 @@ angular
                 }
             }
 
-
             $scope.regions = null;
             $scope.districts = [];
             $scope.localities = [];
@@ -104,7 +106,9 @@ angular
             $scope.employeeFormData = {};
             $scope.selectedEmployee =[];
 
-
+            /**
+             * Change password
+             */
             $scope.changePassword = function(){
                 $scope.user.password = 'generate';
                 $scope.generationMessage = true;
@@ -167,132 +171,156 @@ angular
                             } else if (/^[a-z0-9_-]{3,16}$/.test(username)) {
                                 isUsernameAvailable(username)
                             } else {
-                                validateUsername(false,
-                                    'К-сть символів не повинна бути меншою за 3\n і більшою за 16 ');
+                                validator('loginValid', false);
                             }
                             break;
                     }
                 }
 
-                function validator(caseForValidation, isValid) {
+            /**
+             * Checks whereas given username is available to use
+             * for new user
+             *
+             * @param username
+             */
+            function isUsernameAvailable(username) {
+                userService.isUsernameAvailable(username).then(
+                    function (data) {
+                        validator('existLogin', data.data);
+                    })
+            }
 
-                    switch (caseForValidation) {
-                        case 'firstName':
-                            $scope.firstNameValidation = {
-                                isValid: isValid,
-                                css: isValid ? 'has-error' : 'has-success'
-                            }
-                            break;
-                        case 'lastName':
-                            $scope.lastNameValidation = {
-                                isValid: isValid,
-                                css: isValid ? 'has-error' : 'has-success'
-                            }
-                            break;
-                        case 'middleName':
-                            $scope.middleNameValidation = {
-                                isValid: isValid,
-                                css: isValid ? 'has-error' : 'has-success'
-                            }
-                            break;
-                        case 'phone':
-                            $scope.phoneNumberValidation = {
-                                isValid: isValid,
-                                css: isValid ? 'has-error' : 'has-success'
-                            }
-                            break;
-                        case 'email':
-                            $scope.emailValidation = {
-                                isValid: isValid,
-                                css: isValid ? 'has-error' : 'has-success'
-                            }
-                            break;
-                    }
+            function validator(caseForValidation, isValid) {
+
+                switch (caseForValidation) {
+                    case 'firstName':
+                        $scope.firstNameValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        }
+                        break;
+                    case 'lastName':
+                        $scope.lastNameValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        }
+                        break;
+                    case 'middleName':
+                        $scope.middleNameValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        }
+                        break;
+                    case 'phone':
+                        $scope.phoneNumberValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        }
+                        break;
+                    case 'email':
+                        $scope.emailValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        }
+                        break;
+                    case 'existLogin':
+                        $scope.usernameValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-success' : 'has-error',
+                            message: isValid ? undefined : 'Такий логін вже існує'
+                        }
+                        break;
+                    case 'loginValid':
+                        $scope.usernameValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-success' : 'has-error',
+                            message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
+                        }
+                        break;
                 }
+            }
 
                 /**
-                 * Custom username field validation. Shows error
-                 * message in view if username isn't validated.
-                 *
-                 * @param isValid
-                 * @param message
+                 * Check passwords for equivalent
                  */
-                function validateUsername(isValid, message) {
 
-                    $scope.usernameValidation = {
+                $scope.checkPasswords = function () {
+                    var first = $scope.employeeFormData.password;
+                    var second = $scope.employeeFormData.rePassword;
+                    $log.info(first);
+                    $log.info(second);
+                    var isValid = false;
+                    if (first != second) {
+                        isValid = true;
+                    }
+                    $scope.passwordValidation = {
                         isValid: isValid,
-                        css: isValid ? 'has-success' : 'has-error',
-                        message: isValid ? undefined : message
+                        css: isValid ? 'has-error' : 'has-success'
                     }
-                }
+                };
 
-                /**
-                 * Checks whereas given username is available to use
-                 * for new user
-                 *
-                 * @param username
-                 */
-                function isUsernameAvailable(username) {
-                    userService.isUsernameAvailable(username).then(
-                        function (data) {
-                            validateUsername(data.data,
-                                'Такий логін вже існує');
-                        })
+
+            function arrayObjectIndexOf(myArray, searchTerm, property) {
+                    for(var i = 0, len = myArray.length; i < len; i++) {
+                        if (myArray[i][property] === searchTerm) return i;
+                    }
+                    var elem = {
+                        id: length,
+                        designation: searchTerm
+                    }
+                    myArray.push(elem);
+                    return (myArray.length-1);
                 }
 
                 /**
                  * Finds all regions
                  */
-                function initFormData() {
-                    if (!$scope.regions) {
-                        addressServiceProvider.findAllRegions().then(
+                       addressServiceProvider.findAllRegions().then(
                             function (data) {
                                 $scope.regions = data.data;
+                                var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.region, "designation");
+                                $scope.employeeFormData.region = $scope.regions[index];
+                                $scope.onRegionSelected($scope.regions[index].id);
                             });
-                    }
-                }
-
-                initFormData();
 
                 /**
                  * Finds districts in a given region.
-                 *
                  * @param regionId
                  *            to identify region
                  */
                 $scope.onRegionSelected = function (regionId) {
-                    adresschanged = true;
                     addressServiceProvider
                         .findDistrictsByRegionId(regionId)
                         .then(function (data) {
                             $scope.districts = data.data;
+                            var index = arrayObjectIndexOf($scope.districts,  $scope.user.address.district, "designation");
+                            $scope.employeeFormData.district = $scope.districts[index];
+                            $scope.onDistrictSelected($scope.districts[index].id);
                         });
                 };
 
                 /**
                  * Finds localities in a given district.
-                 *
                  * @param districtId
                  *            to identify district
                  */
                 $scope.onDistrictSelected = function (districtId) {
-                    adresschanged = true;
                     addressServiceProvider.findLocalitiesByDistrictId(
                         districtId).then(function (data) {
                             $scope.localities = data.data;
+                            var index = arrayObjectIndexOf($scope.localities,  $scope.user.address.locality, "designation");
+                            $scope.employeeFormData.locality = $scope.localities[index];
                         });
                 };
 
                 /**
                  * There are no DB records for this methods.
-                 *
                  * Finds streets in a given locality.
                  *
                  * @param localityId
                  *            to identify locality
                  */
                 //$scope.onLocalitySelected = function (localityId) {
-                //      adresschanged = true;
                 //    addressServiceProvider.findStreetsByLocalityId(
                 //        localityId).then(function (data) {
                 //            $scope.streets = data.data;
@@ -301,12 +329,10 @@ angular
 
                 /**
                  * Finds buildings in a given street.
-                 *
                  * @param streetId
                  *            to identify street
                  */
                 //$scope.onStreetSelected = function (streetId) {
-                //      adresschanged = true;
                 //    addressServiceProvider
                 //        .findBuildingsByStreetId(streetId)
                 //        .then(function (data) {
@@ -314,18 +340,8 @@ angular
                 //        });
                 //};
 
-
-                function addressFormToOrganizationForm() {
-                  $scope.user.address.region = $scope.user.address.region.designation;
-                  $scope.user.address.district = $scope.user.address.district.designation;
-                  $scope.user.address.locality = $scope.user.address.locality.designation;
-                  $scope.user.address.street = $scope.user.address.street;
-                  $scope.user.address.building = $scope.user.address.building;
-                  $scope.user.address.flat = $scope.user.address.flat;
-                }
-
                 /**
-                 * Validates organization form before saving
+                 * Refactor data
                  */
                 function retranslater(){
                     employeeData = {
@@ -340,18 +356,14 @@ angular
                         isAvaliable : true
                     }
 
-                if (adresschanged) {
                     employeeData.address = {
-                        region: $scope.user.address.region,
-                        district: $scope.user.address.district,
-                        locality: $scope.user.address.locality,
+                        region:  $scope.employeeFormData.region.designation,
+                        district: $scope.employeeFormData.district.designation,
+                        locality: $scope.employeeFormData.locality.designation,
                         street: $scope.user.address.street,
                         building: $scope.user.address.building,
                         flat: $scope.user.address.flat,
                     }
-                } else {
-                    employeeData.address = {}
-                }
 
                     if (organizationTypeProvider === true) {
                         employeeData.userRoles.push('PROVIDER_EMPLOYEE');
@@ -365,6 +377,9 @@ angular
 
                 }
 
+                /*
+                    Fire employee
+                 */
                 $scope.fireEmployee = function(action){
                     if (action === 'fire'){
                         $scope.showRestore = true;
@@ -381,20 +396,15 @@ angular
                     $scope.$broadcast('show-errors-check-validity');
                     if( !$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
                     && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
-                    if (adresschanged)
-                       addressFormToOrganizationForm();
                         retranslater();
                         updateEmployee();
                     } else {
-                        $scope.incorrectValue =true;
+                        $scope.incorrectValue = true;
                     }
-                        };
-
+                };
 
                         /**
-                         * Saves new organization from the form in database.
-                         * If everything is ok then resets the organization
-                         * form and updates table with organizations.
+                         * Update new employee in database.
                          */
                         function updateEmployee() {
                             userService.updateUser(
@@ -410,32 +420,12 @@ angular
                         };
 
 
-                     /* Closes the modal window for adding new
-                     * organization.
+                     /* Closes the modal window
                      */
                     $rootScope.closeModal = function () {
                         $modalInstance.close();
                     };
 
-
-                        $scope.checkPasswords = function () {
-                            var first = $scope.employeeFormData.password;
-                            var second = $scope.employeeFormData.rePassword;
-                            $log.info(first);
-                            $log.info(second);
-                            var isValid = false;
-                            if (first != second) {
-                                isValid = true;
-                                }
-                            $scope.passwordValidation = {
-                                isValid: isValid,
-                                css: isValid ? 'has-error' : 'has-success'
-                            }
-                        };
-
-
                     //   $log.info(employeeFormData);
-
-
 
         }]);

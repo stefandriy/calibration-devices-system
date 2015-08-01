@@ -113,7 +113,7 @@ public class AddEmployeeController {
             @RequestBody UserDTO providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
-        if (providerEmployee.getIsAvaliable() == false){
+        if (providerEmployee.getIsAvaliable().equals(false)){
             newUser.setIsAvaliable(providerEmployee.getIsAvaliable());
             providerEmployeeService.updateEmployee(newUser);
             return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
@@ -126,14 +126,11 @@ public class AddEmployeeController {
         newUser.setEmail(providerEmployee.getEmail());
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setUsername(providerEmployee.getUsername());
-        if (providerEmployee.getAddress().getDistrict() != null){
-            newUser.setAddress(providerEmployee.getAddress());
-        }
-        String pass = providerEmployee.getPassword();
-        if(pass == null) {
-        }else{
-            newUser.setPassword("generate");
-        }
+        newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
+                            providerEmployee.getAddress() : newUser.getAddress() );
+        String p =providerEmployee.getPassword();
+            newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
+                    "generate" : newUser.getPassword());
         newUser.deleteAllUsersRoles();
         for (String tmp : providerEmployee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
@@ -149,25 +146,24 @@ public class AddEmployeeController {
     public ResponseEntity<HttpStatus> addEmployee(
             @RequestBody UserDTO providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        User newUser = new User();
-        System.out.println(providerEmployee.toString());
-        newUser.setAddress(providerEmployee.getAddress());
-        newUser.setFirstName(providerEmployee.getFirstName());
-        newUser.setLastName(providerEmployee.getLastName());
-        newUser.setMiddleName(providerEmployee.getMiddleName());
-        newUser.setEmail(providerEmployee.getEmail());
-        newUser.setPhone(providerEmployee.getPhone());
-        newUser.setUsername(providerEmployee.getUsername());
-        newUser.setPassword(providerEmployee.getPassword());
-        newUser.setIsAvaliable(true);
+        temporalUser = new User();
+        temporalUser.setAddress(providerEmployee.getAddress());
+        temporalUser.setFirstName(providerEmployee.getFirstName());
+        temporalUser.setLastName(providerEmployee.getLastName());
+        temporalUser.setMiddleName(providerEmployee.getMiddleName());
+        temporalUser.setEmail(providerEmployee.getEmail());
+        temporalUser.setPhone(providerEmployee.getPhone());
+        temporalUser.setUsername(providerEmployee.getUsername());
+        temporalUser.setPassword(providerEmployee.getPassword());
+        temporalUser.setIsAvaliable(true);
         for (String tmp : providerEmployee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.addUserRole(userRole);
+            temporalUser.addUserRole(userRole);
         }
         Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
-        newUser.setOrganization(employeeOrganization);
+        temporalUser.setOrganization(employeeOrganization);
         System.out.println(providerEmployee.toString());
-        providerEmployeeService.addEmployee(newUser);
+        providerEmployeeService.addEmployee(temporalUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
@@ -195,7 +191,6 @@ public class AddEmployeeController {
             UsersPageItem usersPageItem,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
-
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(),
                 usersPageItem.getFirstName(), usersPageItem.getLastName(), usersPageItem.getOrganization(),
