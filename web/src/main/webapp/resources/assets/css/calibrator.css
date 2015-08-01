@@ -32,22 +32,22 @@ body {
     text-align: center;
     border-radius: 15px;
     font-size: 13px;
-    
+
     border: none;
     margin-bottom: 0;
     margin-left: 0;
     margin-top: 0;
     margin-right: 0;
-    padding-bottom: 3;
+    padding-bottom: 3px;
     padding-top: 0;
     padding-left: 0;
     padding-right: 0;
     }
-    
+
   [ng\:cloak],[ng-cloak],.ng-cloak {
   	display:none !important;
  }
-  
+
 .nav,
 .pagination,
 .carousel,
@@ -462,3 +462,6 @@ input[type="radio"], input[type="checkbox"] {
     margin-top: 15px;
 }
 
+  h3 b{
+color:#003712;
+}

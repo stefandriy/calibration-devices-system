@@ -3,9 +3,24 @@
  */
 angular
     .module('employeeModule')
-       .controller('GraficEmployeeProvider', ['$scope', '$log',
+    .controller('GraficEmployeeProvider', ['$scope', '$log',
         function ($scope, $log) {
             $scope.displayGrafic = function (graficData) {
+
+                $scope.listMonth = [];
+                $scope.getXdata = function (monthNumber, year) {
+                    var monthNames = ['Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень',
+                        'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'];
+                    return monthNames[monthNumber] + ' ' + year;
+                };
+                if(!graficData.length==0) {
+                    for (var i = 0; i < graficData[0].monthList.length; i++) {
+                        $scope.listMonth.push($scope.getXdata(graficData[0].monthList[i].month, graficData[0].monthList[i].year));
+                    }
+                }else{
+                    $scope.listMonth.push("Немає даних по да");
+                }
+
                 $log.debug(graficData)
                 if (graficData.length > 0) {
                     $scope.chartConfig = {
@@ -23,7 +38,7 @@ angular
                             },
 
                             xAxis: {
-                                categories: graficData[0].listMonths,
+                                categories: $scope.listMonth,
                                 crosshair: true
                             },
                             yAxis: {
@@ -47,7 +62,7 @@ angular
                                 }
                             },
                         },
-                            series: graficData
+                        series: graficData
 
                     }
                 } else {
@@ -60,6 +75,6 @@ angular
                 }
             }
         }
- ] );
+    ]);
 
 

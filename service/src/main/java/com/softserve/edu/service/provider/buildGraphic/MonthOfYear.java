@@ -18,7 +18,6 @@ public class MonthOfYear {
 
         if (month != that.month) return false;
         return year == that.year;
-
     }
 
     @Override

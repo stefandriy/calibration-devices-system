@@ -9,8 +9,11 @@ import com.softserve.edu.repository.UserRoleRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.provider.buildGraphic.GraficBuilder;
+import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGrafic;
-import com.softserve.edu.service.utils.*;
+import com.softserve.edu.service.utils.EmployeeProvider;
+import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.ProviderEmployeeQuary;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -21,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.text.ParseException;
@@ -42,7 +44,7 @@ public class ProviderEmployeeService {
     private VerificationRepository verificationRepository;
 
     @Autowired
-    private  UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private MailService mail;
@@ -125,75 +127,32 @@ public class ProviderEmployeeService {
         return result;
     }
 
-   /* @Transactional
-    public List<ProviderEmployeeGraphic> getGraphicProviderEmployee(String fromDate, String toDate, Long idOrganization) throws ParseException {
-        TransformStringsToMonths transformStringsToMonths = new TransformStringsToMonths();
-
-        List<String> listMonths = transformStringsToMonths.transferToMonthArray(fromDate, toDate);
-        Date dateFrom = transformStringsToMonths.convertToDate(fromDate);
-        Date dateTo = transformStringsToMonths.convertToDate(toDate);
-        String providerUsername = transformStringsToMonths.getQueryProviderUsername();
-        String toGrafic = transformStringsToMonths.getQuerytoGrafic();
-        int[] arr = transformStringsToMonths.parser(fromDate, toDate);
-
-        List<ProviderEmployeeGraphic> resultList = graficBuilder(providerUsername, toGrafic, idOrganization,
-                dateFrom, dateTo, arr, listMonths);
-        return resultList;
-    }*/
-
-
- /*   public List<ProviderEmployeeGraphic> graficBuilder(String providerUsername, String toGrafic,
-                                                       Long idOrganization, Date dateFrom, Date dateTo,
-                                                       int[] arr, List<String> listMonths) {
-        List<Object[]> list = null;
-        List<Double> countOfWork = null;
-        List<ProviderEmployeeGraphic> resultList = new ArrayList<>();
-        TransformStringsToMonths transformStringsToMonths = new TransformStringsToMonths();
-        Query queryEmployee = em.createNativeQuery(providerUsername);
-        queryEmployee.setParameter(1, idOrganization);
-        List<Object> empList = queryEmployee.getResultList();
-
-        for (Object employee : empList) {
-            Query quer = em.createNativeQuery(toGrafic);
-            quer.setParameter(1, employee.toString());
-            quer.setParameter(2, dateFrom);
-            quer.setParameter(3, dateTo);
-            list = quer.getResultList();
-            if (arr[0] <= arr[1]) {
-                countOfWork = transformStringsToMonths.identifyProviderEmployee(arr[0], arr[1], list);
-            } else {
-                countOfWork = transformStringsToMonths.identifyProviderEmployeeMulty(arr, list);
-            }
-            resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
-        }
-        return resultList;
-    }*/
-
-
-
     @Transactional
     public List<ProviderEmployeeGrafic> buidGraphic(Date from, Date to, Long idOrganization) {
-        List<Verification> verifications =verificationRepository.findByProviderIsNotNullAndProviderEmployeeIsNotNullAndInitialDateBetween(from, to);
-        List<User> userList= userRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(),idOrganization);
+        List<Verification> verifications = verificationRepository.findByProviderIsNotNullAndProviderEmployeeIsNotNullAndInitialDateBetween(from, to);
         List<ProviderEmployeeGrafic> graficData = null;
+        List<MonthOfYear> monthList = null;
         try {
-           graficData = GraficBuilder.builder(from, to, verifications, userList);
+            monthList = GraficBuilder.listOfMonths(from, to);
+            graficData = GraficBuilder.builderData(verifications, monthList);
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return graficData;
     }
 
-    public Date convertToDate(String date) {
-      SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+    public Date convertToDate(String date) throws IllegalArgumentException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date result = null;
         if (StringUtils.isNotBlank(date)) {
             try {
-                result = DATE_FORMAT.parse(date);
+                result = dateFormat.parse(date);
             } catch (ParseException e) {
                 logger.error(e.getMessage());
             }
+        } else {
+            throw new IllegalArgumentException("input date is not correct");
         }
         return result;
     }

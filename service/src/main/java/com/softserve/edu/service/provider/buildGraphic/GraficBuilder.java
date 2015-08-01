@@ -1,22 +1,14 @@
 package com.softserve.edu.service.provider.buildGraphic;
 
-
 import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
 import org.apache.log4j.Logger;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class GraficBuilder {
-    Logger logger = Logger.getLogger(GraficBuilder.class);
 
-    public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-
-    public static List<ProviderEmployeeGrafic> builder(Date dateFrom,Date dateTo,List<Verification> verificationList, List<User> userList) throws ParseException {
-
-
+    public static List<MonthOfYear> listOfMonths(Date dateFrom, Date dateTo) throws ParseException {
         Calendar start = Calendar.getInstance();
         start.setTime(dateFrom);
         rollDateToFirstDayOfMonth(start);
@@ -26,43 +18,50 @@ public class GraficBuilder {
         rollDateToFirstDayOfMonth(end);
 
         List<MonthOfYear> months = new ArrayList<>();
-        Calendar cal = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         for (Date date = start.getTime(); start.before(end) || start.equals(end); start.add(Calendar.MONTH, 1), date = start.getTime()) {
-            cal.setTime(date);
-            MonthOfYear item = new MonthOfYear(cal.get(Calendar.MONTH), cal.get(Calendar.YEAR));
+            calendar.setTime(date);
+            MonthOfYear item = new MonthOfYear(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
             months.add(item);
         }
+        return months;
+    }
 
+    public static List<ProviderEmployeeGrafic> builderData(List<Verification> verificationList, List<MonthOfYear> months) throws ParseException {
         Map<String, ProviderEmployeeGrafic> employeeGraphicMap = new HashMap<>();
         Calendar initDateCal = Calendar.getInstance();
 
-
-        for (Verification v : verificationList) {
+        for (Verification verification : verificationList) {
             ProviderEmployeeGrafic graphicItem;
 
-            if (employeeGraphicMap.containsKey(v.getProviderEmployee().getUsername())) {
-                graphicItem = employeeGraphicMap.get(v.getProviderEmployee().getUsername());
+            if (employeeGraphicMap.containsKey(verification.getProviderEmployee().getUsername())) {
+                graphicItem = employeeGraphicMap.get(verification.getProviderEmployee().getUsername());
             } else {
                 graphicItem = new ProviderEmployeeGrafic();
                 graphicItem.monthList = months;
-                graphicItem.countOfWork = new int[months.size()];
-                graphicItem.userName = v.getProviderEmployee().getUsername();
-                employeeGraphicMap.put(v.getProviderEmployee().getUsername(), graphicItem);
+                graphicItem.data = new double[months.size()];
+                graphicItem.name = verification.getProviderEmployee().getUsername();
+                employeeGraphicMap.put(verification.getProviderEmployee().getUsername(), graphicItem);
             }
-
-            initDateCal.setTime(v.getInitialDate());
+            initDateCal.setTime(verification.getInitialDate());
             MonthOfYear item = new MonthOfYear(initDateCal.get(Calendar.MONTH), initDateCal.get(Calendar.YEAR));
             int indexOfMonth = months.indexOf(item);
-            graphicItem.countOfWork[indexOfMonth]++;
+            graphicItem.data[indexOfMonth]++;
         }
+        List<ProviderEmployeeGrafic> graphicItemsList = listOfProviderEmployeeGrafic(employeeGraphicMap);
 
+        return graphicItemsList;
+    }
+
+
+    public static List<ProviderEmployeeGrafic> listOfProviderEmployeeGrafic(Map<String, ProviderEmployeeGrafic> employeeGraphicMap) {
         List<ProviderEmployeeGrafic> graphicItemsList = new ArrayList<>();
         for (Map.Entry<String, ProviderEmployeeGrafic> item : employeeGraphicMap.entrySet()) {
             graphicItemsList.add(item.getValue());
-         }
+        }
         return graphicItemsList;
-
     }
+
 
     private static void rollDateToFirstDayOfMonth(Calendar calendar) {
         calendar.set(Calendar.DAY_OF_MONTH, 1);

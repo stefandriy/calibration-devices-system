@@ -14,11 +14,11 @@ angular
             $scope.formattedDate = null;
             $scope.fcalendar = null;
             $scope.acalendar = null;
-            var date1 = new Date();
-            var date2 = new Date(2015, 00, 01);
+            var date1 = new Date(new Date().getFullYear(), 0, 1);
+            var date2 = new Date();
             $scope.dataToSearch = {
-                fromDate: date2,
-                toDate: date1
+                fromDate: date1,
+                toDate: date2
             }
 
 
