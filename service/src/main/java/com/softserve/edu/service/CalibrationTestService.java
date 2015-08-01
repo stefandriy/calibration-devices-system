@@ -62,7 +62,7 @@ public class CalibrationTestService {
 
     public Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return search.equalsIgnoreCase("null") ? testRepository.findAll(pageRequest): testRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
+        return search.equalsIgnoreCase("null") ? testRepository.findAll(pageRequest) : testRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
     }
 
     @Transactional
@@ -117,7 +117,7 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public void uploadPhotos(InputStream file, String idVerification, String originalFileFullName) throws IOException {
+    public synchronized void uploadPhotos(InputStream file, String idVerification, String originalFileFullName) throws IOException {
         String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
         byte[] bytesOfImages = IOUtils.toByteArray(file);
         BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));

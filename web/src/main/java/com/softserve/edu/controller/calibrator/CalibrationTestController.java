@@ -5,7 +5,6 @@ import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.service.CalibrationTestService;
-import com.softserve.edu.service.VerificationPhotoService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
@@ -26,8 +25,6 @@ public class CalibrationTestController {
     private CalibrationTestService testService;
 
 
-    @Autowired
-    private VerificationPhotoService verificationPhotoService;
 
     private final Logger logger = Logger.getLogger(CalibrationTestController.class);
 
