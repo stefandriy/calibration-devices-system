@@ -40,7 +40,7 @@ angular
              */
             $scope.saveCalibrationTest = function() {
                 calibrationTestServiceCalibrator
-                    .saveCalibrationTest($scope.TestFormData, verification)
+                    .saveCalibrationTest($scope.TestFormData,  $scope.verId)
                     .then(function (data) {
                         if (data == 201) {
                             $scope.closeModal();

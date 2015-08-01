@@ -29,7 +29,7 @@ angular
             //}
             ////IN PROGRESS!
             saveCalibrationTest: function(formData, verificationId) {
-                return $http.post("/calibrationTests/add/" + verificationId, formData)
+                return $http.post("/calibrator/calibrationTests/add/" + verificationId, formData)
                     .then(function(result) {
                         return result.status;
                     });
