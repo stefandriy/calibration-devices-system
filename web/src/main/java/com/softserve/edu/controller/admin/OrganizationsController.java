@@ -1,28 +1,23 @@
 package com.softserve.edu.controller.admin;
 
-import com.softserve.edu.dto.PageDTO;
-
-import com.softserve.edu.dto.SearchDTO;
-import com.softserve.edu.dto.admin.OrganizationEditDTO;
-import com.softserve.edu.dto.admin.OrganizationPageItem;
-import com.softserve.edu.dto.admin.OrganizationDTO;
-import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.admin.OrganizationsService;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
-import java.util.List;
+import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.OrganizationDTO;
+import com.softserve.edu.dto.admin.OrganizationEditDTO;
+import com.softserve.edu.dto.admin.OrganizationPageItem;
+import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.service.admin.OrganizationsService;
 
 @RestController
 @RequestMapping(value = "/admin/organization/")

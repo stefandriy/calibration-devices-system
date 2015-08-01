@@ -1,20 +1,16 @@
 package com.softserve.edu.service.provider;
 
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
-import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.UserRoleRepository;
-import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.MailService;
-import com.softserve.edu.service.provider.buildGraphic.GraficBuilder;
-import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
-import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGrafic;
-import com.softserve.edu.service.utils.EmployeeProvider;
-import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.ProviderEmployeeQuary;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -23,28 +19,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.util.Roles;
+import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.provider.buildGraphic.GraficBuilder;
+import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
+import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGrafic;
+import com.softserve.edu.service.utils.EmployeeProvider;
+import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.ProviderEmployeeQuary;
 
 @Service
 public class ProviderEmployeeService {
     @Autowired
     private UserRepository providerEmployeeRepository;
-    @Autowired
-    private UserRoleRepository userRoleRepository;
-
+   
     @Autowired
     private VerificationRepository verificationRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+   
 
     @Autowired
     private MailService mail;

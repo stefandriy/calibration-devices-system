@@ -1,7 +1,5 @@
 package com.softserve.edu.dto.admin;
 
-import java.util.List;
-
 public class OrganizationDTO {
 	private String name;
 	private String email;

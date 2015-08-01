@@ -1,11 +1,8 @@
 package com.softserve.edu.controller.provider.util;
 
-import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.user.UserRole;
-
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
+import com.softserve.edu.entity.Address;
 
 /**
  * Created by Володя on 24.07.2015.

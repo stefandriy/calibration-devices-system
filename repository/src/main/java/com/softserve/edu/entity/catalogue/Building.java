@@ -1,15 +1,19 @@
 package com.softserve.edu.entity.catalogue;
 
-import javax.persistence.*;
+import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
+import static com.softserve.edu.entity.catalogue.util.Checker.checkForNull;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
-import com.softserve.edu.entity.Verification;
-
-import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
-import static com.softserve.edu.entity.catalogue.util.Checker.checkForNull;
 
 @Entity
 @Table(name="`BUILDING`")

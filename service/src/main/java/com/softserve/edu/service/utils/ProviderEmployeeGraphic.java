@@ -1,6 +1,5 @@
 package com.softserve.edu.service.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

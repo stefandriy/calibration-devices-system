@@ -1,8 +1,6 @@
 package com.softserve.edu.config;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Properties;
 
 import org.apache.velocity.app.VelocityEngine;

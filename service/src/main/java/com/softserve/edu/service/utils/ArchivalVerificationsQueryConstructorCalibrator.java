@@ -3,7 +3,6 @@ package com.softserve.edu.service.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,7 +16,6 @@ import org.apache.log4j.Logger;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Status;
 
 public class ArchivalVerificationsQueryConstructorCalibrator {

@@ -1,8 +1,7 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +9,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, String> {

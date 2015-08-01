@@ -1,9 +1,8 @@
 package com.softserve.edu.dto.provider;
 
-import com.softserve.edu.service.utils.*;
-import com.softserve.edu.service.utils.EmployeeProvider;
-
 import java.util.List;
+
+import com.softserve.edu.service.utils.EmployeeProvider;
 
 /**
  * Created by MAX on 22.07.2015.

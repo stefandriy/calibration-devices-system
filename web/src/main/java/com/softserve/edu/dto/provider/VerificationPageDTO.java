@@ -1,14 +1,11 @@
 package com.softserve.edu.dto.provider;
 
 
-import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
+import java.util.Date;
+
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
-
-import org.springframework.data.domain.Page;
-
-import java.util.Date;
 
 public class VerificationPageDTO {
     private String id;

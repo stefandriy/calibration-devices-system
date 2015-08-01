@@ -1,10 +1,25 @@
 package com.softserve.edu.controller.provider;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.ArchiveVerificationsSearch;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.dto.provider.VerificationDTO;
+import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
+import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.dto.provider.VerificationStatusUpdateDTO;
+import com.softserve.edu.dto.provider.VerificationUpdatingDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
@@ -19,12 +34,6 @@ import com.softserve.edu.service.utils.EmployeeProvider;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/provider/verifications/")
@@ -45,13 +54,10 @@ public class ProviderVerificationController {
     @Autowired
     private UsersService userService;
 
-    @Autowired
-    private MailService mail;
-
+       
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
 
-    private final Logger logger = Logger.getLogger(ProviderVerificationController.class);
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,

@@ -1,9 +1,19 @@
 package com.softserve.edu.controller.client.application;
 
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.ClientMailDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
-import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
@@ -18,19 +28,11 @@ import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping(value = "/application/")
 public class ClientApplicationController {
 
-	private Logger logger = Logger.getLogger(ClientApplicationController.class);
+
 
 	@Autowired
 	private VerificationService verificationService;

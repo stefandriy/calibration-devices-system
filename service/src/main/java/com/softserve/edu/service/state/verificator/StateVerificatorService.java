@@ -1,18 +1,14 @@
 package com.softserve.edu.service.state.verificator;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.repository.OrganizationRepository;
-
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 
 @Service

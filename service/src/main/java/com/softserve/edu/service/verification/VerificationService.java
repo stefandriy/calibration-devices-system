@@ -1,5 +1,22 @@
 package com.softserve.edu.service.verification;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Organization;
@@ -17,25 +34,6 @@ import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorCalibrator;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorProvider;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorVerificator;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class VerificationService {

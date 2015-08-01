@@ -1,18 +1,18 @@
 package com.softserve.edu.service.verification;
 
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationRepository;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.ReadStatus;
+import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.repository.VerificationRepository;
 
 /**
  * Created by Maksym.Hirnyak on 12.07.2015.

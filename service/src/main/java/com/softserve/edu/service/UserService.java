@@ -1,14 +1,13 @@
 package com.softserve.edu.service;
 
 
-import com.softserve.edu.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.repository.UserRepository;
 
 @Service
 public class UserService {

@@ -1,10 +1,5 @@
 package com.softserve.edu.controller.admin;
 
-import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.Roles;
-import com.softserve.edu.service.admin.UsersService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -13,6 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.UsersPageItem;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.admin.UsersService;
 
 
 @RestController
