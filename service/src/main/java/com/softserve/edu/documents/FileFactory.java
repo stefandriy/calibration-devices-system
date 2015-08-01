@@ -43,6 +43,25 @@ public class FileFactory {
         return runOperations(operations, fileParameters);
     }
 
+    public static FileObject buildInfoFile(FileParameters fileParameters) {
+        List<Operation> operations;
+        FileFormat fileFormat = fileParameters.getFileFormat();
+
+        switch (fileFormat) {
+            case DOCX:
+                operations = OperationChain.INFO_DOCX_CHAIN.getOperations();
+                break;
+            case PDF:
+                operations = OperationChain.INFO_PDF_CHAIN.getOperations();
+                break;
+            default:
+                throw new IllegalArgumentException(fileFormat.name() +
+                        " is not supported");
+        }
+
+        return runOperations(operations, fileParameters);
+    }
+
     /**
      * Runs all operations using info from parameters and returns
      * the resulting file.

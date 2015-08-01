@@ -218,4 +218,14 @@ public class DocumentsController {
             }
         });
     }
+    
+    @RequestMapping(value = "/info/{verificationCode}/{fileFormat}",
+            method = RequestMethod.GET)
+    public void getInfoDocument(HttpServletResponse response,
+                            @PathVariable String verificationCode,
+                            @PathVariable FileFormat fileFormat)
+            throws IOException, IllegalStateException {
+        FileObject file = documentsService.buildInfoFile(verificationCode, fileFormat);
+        sendFile(response, fileFormat, file);
+    }
 }

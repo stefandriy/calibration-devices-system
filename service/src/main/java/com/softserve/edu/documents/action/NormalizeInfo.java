@@ -14,7 +14,7 @@ import java.util.List;
  * Singleton.
  * Represents an operation that can be done on a document.
  */
-public enum Normalize implements Operation {
+public enum NormalizeInfo implements Operation {
     INSTANCE;
 
     @Override
@@ -22,8 +22,8 @@ public enum Normalize implements Operation {
                               FileParameters fileParameters) throws IOException {
         InputStream inputStream = sourceFile.getContent().getInputStream();
 
-        
-        
+
+
         XWPFDocument templateDocument = new XWPFDocument(inputStream);
         inputStream.close();
 
@@ -56,6 +56,8 @@ public enum Normalize implements Operation {
 
             if (runFontSize > fontSize) {
                 fontSize = runFontSize;
+            } else {
+                fontSize = 12;
             }
 
             sourceParagraph.removeRun(0);

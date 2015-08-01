@@ -5,7 +5,8 @@ package com.softserve.edu.documents.resources;
  */
 public enum DocumentType {
     VERIFICATION_CERTIFICATE,
-    UNFITNESS_CERTIFICATE;
+    UNFITNESS_CERTIFICATE,
+    INFO_DOCUMENT;
 
     /**
      * @return the template's name with format

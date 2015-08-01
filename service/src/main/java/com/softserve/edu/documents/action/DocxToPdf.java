@@ -44,7 +44,6 @@ public enum DocxToPdf implements Operation {
                 fileParameters.getFileName() + "_pdf");
 
         createPdfFile(sourceFile, filePdf);
-
         return filePdf;
     }
 
@@ -61,8 +60,9 @@ public enum DocxToPdf implements Operation {
         PdfWriter writer;
 
         resultPdfDocument = new Document();
+        System.err.println("pdfFile is null" + pdfFile == null);
         OutputStream outputStream = pdfFile.getContent().getOutputStream();
-
+       
         try {
             writer = PdfWriter.getInstance(resultPdfDocument, outputStream);
         } catch (DocumentException exception) {
@@ -124,7 +124,7 @@ public enum DocxToPdf implements Operation {
      * @throws IOException if font file is invalid
      */
     public Paragraph createParagraph(XWPFParagraph docxParagraph)
-            throws IOException, InvalidFormatException {
+            throws  IOException, InvalidFormatException {
         String text = docxParagraph.getText();
 
         XWPFRun run = docxParagraph.getRuns().get(0);
@@ -137,7 +137,7 @@ public enum DocxToPdf implements Operation {
                 Element.ALIGN_CENTER : Element.ALIGN_LEFT;
         int style = !run.isBold() ? 0 : Font.BOLD;
         style = !run.isItalic() ? style : Font.ITALIC;
-
+        
         Font font = DocumentFontFactory.INSTANCE.buildFont(DocumentFont.FREE_SERIF,
                 fontSize, style);
 
