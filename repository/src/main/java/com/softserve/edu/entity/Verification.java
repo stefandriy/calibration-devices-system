@@ -71,15 +71,16 @@ public class Verification {
 	public Verification() {
 	}
 
-	public Verification(Date initialDate, ClientData clientData, Organization provider, Device device, Status status,
+	public Verification(Date initialDate,Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,
 			ReadStatus readStatus) {
-		this(initialDate, clientData, provider, device, status, readStatus, null);
+		this(initialDate,expirationDate, clientData, provider, device, status, readStatus, null);
 	}
 
-	public Verification(Date initialDate, ClientData clientData, Organization provider,Device device, Status status,
+	public Verification(Date initialDate,Date expirationDate, ClientData clientData, Organization provider,Device device, Status status,
 			ReadStatus readStatus, Organization calibrator) {
 		this.id = UUID.randomUUID().toString();
 		this.initialDate = initialDate;
+		this.expirationDate = expirationDate;
 		this.clientData = clientData;
 		this.provider = provider;
 		this.device = device;

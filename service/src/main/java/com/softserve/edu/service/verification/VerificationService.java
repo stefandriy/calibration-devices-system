@@ -357,6 +357,7 @@ public class VerificationService {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setStatus(status);
         verification.setReadStatus(ReadStatus.READ);
+        verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
 
@@ -371,6 +372,7 @@ public class VerificationService {
         } else if ((status.equals(Status.TEST_OK)) || (status.equals(Status.TEST_NOK))) {
             verification.setProvider(oraganization);
         }
+        verification.setExpirationDate(new Date());
         verification.setStatus(status);
         verification.setReadStatus(ReadStatus.UNREAD);
         verification.setExpirationDate(new Date());

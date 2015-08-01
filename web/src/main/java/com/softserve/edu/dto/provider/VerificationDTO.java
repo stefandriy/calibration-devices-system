@@ -29,10 +29,18 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     }
 
     public VerificationDTO(
-            ClientData clientData, String id, Date initialDate, Date expirationDate,
-            Status status, Organization calibrator, User calibratorEmployee,
-            Device device, Organization provider, User providerEmployee,
-            Organization stateVerificator, User stateVerificatorEmployee) {
+            ClientData clientData,
+            String id,
+            Date initialDate,
+            Date expirationDate,
+            Status status,
+            Organization calibrator,
+            User calibratorEmployee,
+            Device device,
+            Organization provider,
+            User providerEmployee,
+            Organization stateVerificator,
+            User stateVerificatorEmployee) {
 
         super(clientData, clientData.getClientAddress(), null, null, null);
         this.id = id;

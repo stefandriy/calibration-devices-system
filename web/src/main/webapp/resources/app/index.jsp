@@ -22,22 +22,6 @@
 <link href="/resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet">
 <link rel="stylesheet"href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
 <link rel="stylesheet" href="/resources/assets/css/loader.css">
-<%--
-    <!-- Ionicons -->
-    <link href="/resources/assets/AdminLTE-master/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-
-
-
-    <!-- jvectormap -->
-    <link href="/resources/assets/AdminLTE-master/css/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
-    <!-- fullCalendar -->
-    <link href="/resources/assets/AdminLTE-master/css/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css" />
-    <!-- Daterange picker -->
-    <link href="/resources/assets/AdminLTE-master/css/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link href="/resources/assets/AdminLTE-master/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="/resources/assets/AdminLTE-master/css/AdminLTE.css" rel="stylesheet" type="text/css" />--%>
 
 </head>
 
@@ -216,7 +200,6 @@
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
-<%--<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js" type="text/javascript"></script>--%>
 <script   src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
         type="text/javascript"></script>
 <script type="text/javascript">
@@ -232,20 +215,5 @@
 <script src="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/js/bootstrap-formhelpers.js"></script>
 <script src="/resources/assets/js/main.js"></script>
 
-<%--
-<!-- jvectormap -->
-<script src="/resources/assets/AdminLTE-master/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
-<script src="/resources/assets/AdminLTE-master/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
-<!-- fullCalendar -->
-<script src="/resources/assets/AdminLTE-master/js/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<!-- jQuery Knob Chart -->
-<script src="/resources/assets/AdminLTE-master/js/plugins/jqueryKnob/jquery.knob.js" type="text/javascript"></script>
-<!-- daterangepicker -->
-<script src="/resources/assets/AdminLTE-master/js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-<!-- Bootstrap WYSIHTML5 -->
-<script src="/resources/assets/AdminLTE-master/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
-<!-- iCheck -->
-<script src="/resources/assets/AdminLTE-master/js/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-!-- AdminLTE App -->
-<script src="/resources/assets/AdminLTE-master/js/AdminLTE/app.js" type="text/javascript"></script>--%>
+
 </body>

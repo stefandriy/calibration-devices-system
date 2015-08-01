@@ -1,9 +1,9 @@
 angular
     .module('welcomeModule')
     .controller('ApplicationSendingController', ['$scope', '$q', '$state', '$http', '$log',
-        'DataReceivingService', 'DataSendingService', '$stateParams', '$window', '$rootScope','$location',
+        'DataReceivingService', 'DataSendingService', '$stateParams', '$window', '$rootScope','$location','$modal',
 
-        function ($scope, $q, $state, $http, $log, dataReceivingService, dataSendingService, $stateParams, $window, $rootScope, $location) {
+        function ($scope, $q, $state, $http, $log, dataReceivingService, dataSendingService, $stateParams, $window, $rootScope, $location,$modal) {
             $scope.isShownForm = true;
             $scope.blockSearchFunctions = false;
             
@@ -216,13 +216,25 @@ angular
              */
             $scope.applicationCodes=[];
             $scope.codes=[];
+            $scope.allSelectedDevices=[];
+
             $scope.sendApplicationData = function () {
- 
+                $scope.allSelectedDevices=$scope.selectedDevice1.concat($scope.selectedDevice,$scope.selectedDevice);
+            //$scope.allSelectedDevices.push($scope.selectedDevice1);
+              //  $scope.allSelectedDevices.push($scope.selectedDevice);
                 $scope.$broadcast('show-errors-check-validity');
 
+
+                $log.debug("$scope.selectedDevice1");
+                $log.debug($scope.selectedDevice1);
+                $log.debug("$scope.allSelectedDevices");
+                $log.debug($scope.allSelectedDevices);
+                $log.debug("$scope.allSelectedDevices.lenngth");
+                $log.debug($scope.allSelectedDevices.length);
                 if ($scope.clientForm.$valid) {
                     $scope.isShownForm = false;
-                    for ( var i=0; i< $scope.selectedDevice.length;i++){
+
+                    for ( var i=0; i< $scope.allSelectedDevices.length;i++){
                     $scope.formData.region = $scope.selectedRegion.designation;
 
                     $scope.formData.district = $scope.selectedDistrict.designation;
@@ -230,7 +242,8 @@ angular
                     $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
-                    $scope.formData.deviceId = $scope.selectedDevice[i].id;
+                    $scope.formData.deviceId = $scope.allSelectedDevices[i].id;
+
 
                     $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
                      //   $scope.applicationCodes=[];
@@ -249,7 +262,7 @@ angular
                        $log.debug('values');
                         $log.debug(values);
 
-                        for ( var i=0; i< $scope.selectedDevice.length;i++){
+                        for ( var i=0; i< $scope.allSelectedDevices.length;i++){
 
                             $scope.codes[i]=values[i].data;
 
@@ -272,6 +285,8 @@ angular
              * 
              * 
              */
+            $scope.selectedDevice1=[];
+            $scope.selectedDevice2=[];
             $scope.selectedCount="2";
             $scope.STREET_REGEX=/^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}){1}$/;
             $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/;
@@ -281,7 +296,47 @@ angular
             $scope.PHONE_REGEX=/^0[1-9]\d{8}$/;
             $scope.PHONE_REGEX_SECOND=/^0[1-9]\d{8}$/;
             $scope.EMAIL_REGEX=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-          
             $scope.checkboxModel = false;
+            /**
+             * Modal window used to send questions about verification status
+             */
+            $scope.responseSuccess = false;
+            $scope.showSendingAlert = false;
+            $scope.feedbackModalNoProvider = function (ID) {
+                $log.debug('ID');
+                $log.debug(ID);
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/welcome/views/modals/feedback-window.html',
+                    controller: 'FeedbackController',
+                    size: 'md',
+
+                });
+
+                /**
+                 * executes when modal closing
+                 */
+                modalInstance.result.then(function (formData, sendingStarted) {
+                    var messageToSend = {
+                        verifID : ID,
+                        msg : formData.message
+                    };
+
+                    $scope.showSendingAlert = true;
+                    dataSendingService.sendMail (messageToSend)
+                        .success(function () {
+                            $scope.responseSuccess = true;
+                            $scope.showSendingAlert = false;
+                            $log.debug('response val');
+                            $log.debug($scope.responseSuccess);
+                        });
+                });
+
+            };
+
+            $scope.closeAlertW = function () {
+                $scope.responseSuccess = false;
+                $scope.showSendingAlert = false;
+            }
 
         }]);

@@ -1,6 +1,6 @@
 <section id=applicationSection>
 
-	<div class="col-md-12 text-center" ng-hide="errorEdit">
+	<div class="col-md-12 text-center" ng-hide="errorEdit" ng-show="isShownForm">
 		<h1>{{ 'APP_SENDING_TITLE' | translate }}</h1>
 	</div>
 
@@ -124,10 +124,11 @@
 									class="form-control col-md-8 " ng-model="formData.phone"
 									placeholder="0XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
 								<span class="input-group-addon">{{'SECOND_PHONE' | translate}}</span> 
-									<span class="input-group-addon">
+									<div class="input-group-addon slideOne ">
 										<!--  <button type="button" ng-model="checkboxModel" ng-click="!checkboxModel" ><span class="input-group-addon glyphicon glyphicon-plus" ></span></button>-->
-									<input type="checkbox" ng-model="checkboxModel">
-								</span>
+									<input type="checkbox" ng-model="checkboxModel" id="slideOne">
+										<label for="slideOne"></label>
+								</div>
 							</div>
 							<!-- <span
 								class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span> -->
@@ -212,7 +213,8 @@
 
 							ng-change="receiveLocalitiesAndProviders(selectedDistrict)"  width="'100%'"
 							required></select>
-						<span class="glyphicon glyphicon-exclamation-sign" ng-if="!selectedProvider && selectedDistrict" style="color: firebrick">	No Provider for This District</span>
+					<a  ng-if="!selectedProvider && selectedDistrict && selectedLocality" style="color: #b27e77" ng-click="feedbackModalNoProvider(1)"> <i class="fa fa-info-circle"> Не існує постачальника послуг для даного району. Повідомте нам про це.</i>
+						</a>
 
 						<p class="help-block">
 
@@ -250,7 +252,7 @@
 								disable-search="true"
 								ng-options="index as index.mailIndex for index in indexes | filter: $viewValue"
 
-								width="'100%'"  required></select>
+								width="'100%'"  ></select>
 
 					</div>
 				</div>
@@ -262,10 +264,10 @@
 
 						<div class="pull-left col-lg-3" id="typeStreet">
 							<select  chosen data-placeholder="Choose type of street" width="'90%'" class="form-control"  ng-model="selectedStreet" disable-search="true" >
-							<option value="вулиця ">STREET</option>
-							<option value="проспект ">AVENUE</option>
-							<option value="бульвар ">BOULEVARD</option>
-							<option value="площа ">SQUARE</option>
+							<option value="вулиця ">Вулиця</option>
+							<option value="проспект ">Проспект</option>
+							<option value="бульвар ">Бульвар</option>
+							<option value="площа ">Площа</option>
 							</select>
 						</div>
 						<div class="col-md-9" id="streetBox" >
@@ -364,12 +366,83 @@
 							</select>
 
 						</div>
-						<div class="col-md-9 pull-right" id="deviceBox" >
+						<div class="col-md-9 pull-right input-group" id="deviceBox" >
 							<select multiple chosen name="device" type="text"  width="'100%'"
 								max-selected-options="selectedCount"
 								ng-model="selectedDevice" data-placeholder="Choose counter type"
 								ng-options="device as device.designation for device in devices | filter: $viewValue"
 								required> </select>
+							<span class="input-group-addon" >	<input type="checkbox" ng-model="otherDevice"class="pull-left"></span>
+
+
+						</div>
+						<p class="help-block">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'TYPEAHEAD_ERROR' | translate}}
+						</p>
+					</div>
+				</div>
+
+				<div class="form-group" show-errors ng-show="otherDevice">
+					<label for="device" class="col-md-2 control-label">
+						{{'TYPE_OF_COUNTER' | translate}} </label>
+					<div class="col-md-8 ">
+						<div class="pull-left col-lg-3" id="counterNumber">
+							<select chosen  width="'100%'"
+									disable-search="true"
+									name="typeStreet" type="text"
+									ng-model="selectedCount" class="form-control"  required >
+
+								<option value="0">0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+
+							</select>
+
+						</div>
+						<div class="col-md-9 pull-right input-group" id="deviceBox" >
+							<select multiple chosen name="device" type="text"  width="'100%'"
+									max-selected-options="selectedCount"
+									ng-model="selectedDevice1" data-placeholder="Choose counter type"
+									ng-options="device as device.designation for device in devices | filter: $viewValue"
+									> </select>
+							<span class="input-group-addon" >	<input type="checkbox" ng-model="otherDevice1" class="pull-left"></span>
+
+
+						</div>
+						<p class="help-block">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'TYPEAHEAD_ERROR' | translate}}
+						</p>
+					</div>
+				</div>
+				<div class="form-group" show-errors ng-show="otherDevice1">
+					<label for="device" class="col-md-2 control-label">
+						{{'TYPE_OF_COUNTER' | translate}} </label>
+					<div class="col-md-8 ">
+						<div class="pull-left col-lg-3" id="counterNumber">
+							<select chosen  width="'100%'"
+									disable-search="true"
+									name="typeStreet" type="text"
+									ng-model="selectedCount" class="form-control"  required >
+
+								<option value="0">0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+
+							</select>
+
+						</div>
+						<div class="col-md-9 pull-right input-group" id="deviceBox" >
+							<select multiple chosen name="device" type="text"  width="'100%'"
+									max-selected-options="selectedCount"
+									ng-model="selectedDevice2" data-placeholder="Choose counter type"
+									ng-options="device as device.designation for device in devices | filter: $viewValue"
+									> </select>
+							<span class="input-group-addon" >	<input type="checkbox" class="pull-left"></span>
+
 
 						</div>
 						<p class="help-block">
@@ -390,16 +463,16 @@
 		</div>
 
 
-		<div ng-show="!isShownForm" ng-repeat="code in codes" class="row col-md-13 alert alert-success alert-dismissible centered" role="alert">
+		<div ng-show="!isShownForm" ng-repeat="code in codes" class="row col-md-10 alert alert-success alert-dismissible centered" role="alert" style="text-align: center">
 			<button ng-click="closeAlert()" type="button"
 				class="close btn-close-alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 
-	         	<i ng-show="codes.length==0" id="loadIcon"
+	         	<i ng-show="!code" id="loadIcon"
 				class="fa fa-3x fa-spinner fa-spin "></i>
 			<br>
-			<div class="text-center" ng-show="codes"  >
+			<div class="text-center" ng-show="code"  >
 				{{'APP_SENT' | translate}} <b>{{ code }} </b> <br>
 				{{'APP_SENT_INFO' | translate}}
 

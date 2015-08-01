@@ -48,13 +48,22 @@ public class ClientApplicationController {
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	public String saveApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
 
-		ClientData clientData = new ClientData(verificationDTO.getFirstName(), verificationDTO.getLastName(),
-				verificationDTO.getMiddleName(), verificationDTO.getEmail(), verificationDTO.getPhone(),verificationDTO.getSecondPhone(),
-				new Address(verificationDTO.getRegion(), verificationDTO.getDistrict(), verificationDTO.getLocality(),
-						verificationDTO.getStreet(), verificationDTO.getBuilding(), verificationDTO.getFlat()));
+		ClientData clientData = new ClientData(verificationDTO.getFirstName(),
+				verificationDTO.getLastName(),
+				verificationDTO.getMiddleName(),
+				verificationDTO.getEmail(),
+				verificationDTO.getPhone(),
+				verificationDTO.getSecondPhone(),
+
+				new Address(verificationDTO.getRegion(),
+						verificationDTO.getDistrict(),
+						verificationDTO.getLocality(),
+						verificationDTO.getStreet(),
+						verificationDTO.getBuilding(),
+						verificationDTO.getFlat()));
 		Organization provider = providerService.findById(verificationDTO.getProviderId());
 		Device device =deviceService.getById(verificationDTO.getDeviceId());
-		Verification verification = new Verification(new Date(), clientData, provider,device,Status.SENT, ReadStatus.UNREAD);
+		Verification verification = new Verification(new Date(),new Date(), clientData, provider,device,Status.SENT, ReadStatus.UNREAD);
 		
 		verificationService.saveVerification(verification);
 		String name = clientData.getFirstName() + " " + clientData.getLastName();
@@ -88,10 +97,17 @@ public class ClientApplicationController {
 	public VerificationDTO getVerificationCode(@PathVariable String verificationId) {
 		Verification verification = verificationService.findById(verificationId);
 		if (verification != null) {
-			return new VerificationDTO(verification.getClientData(), verification.getId(),
-					verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
-					verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
-					verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+			return new VerificationDTO(verification.getClientData(),
+					verification.getId(),
+					verification.getInitialDate(),
+					verification.getExpirationDate(),
+					verification.getStatus(),
+					verification.getCalibrator(),
+					verification.getCalibratorEmployee(),
+					verification.getDevice(),
+					verification.getProvider(),
+					verification.getProviderEmployee(),
+					verification.getStateVerificator(),
 					verification.getStateVerificatorEmployee());
 		} else {
 			return null;

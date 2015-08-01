@@ -69,15 +69,23 @@ public class ProviderApplicationController {
      */
     @RequestMapping(value = "send", method = RequestMethod.POST)
     public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        ClientData clientData = new ClientData(verificationDTO.getFirstName(), verificationDTO.getLastName(), verificationDTO.getMiddleName(),
-        										verificationDTO.getEmail(), verificationDTO.getPhone(), verificationDTO.getSecondPhone(),
-												new Address(verificationDTO.getRegion(), verificationDTO.getDistrict(), verificationDTO.getLocality(),
-															verificationDTO.getStreet(), verificationDTO.getBuilding(), verificationDTO.getFlat()));
+        ClientData clientData = new ClientData(verificationDTO.getFirstName(),
+                verificationDTO.getLastName(),
+                verificationDTO.getMiddleName(),
+        		verificationDTO.getEmail(),
+                verificationDTO.getPhone(),
+                verificationDTO.getSecondPhone(),
+												new Address(verificationDTO.getRegion(),
+                                                        verificationDTO.getDistrict(),
+                                                        verificationDTO.getLocality(),
+														verificationDTO.getStreet(),
+                                                        verificationDTO.getBuilding(),
+                                                        verificationDTO.getFlat()));
         
         Organization provider = providerService.findById(verificationDTO.getProviderId());
 		Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 		Device device =deviceService.getById(verificationDTO.getDeviceId());
-		Verification verification = new Verification(new Date(), clientData, provider,device,Status.SENT, ReadStatus.UNREAD, calibrator);
+		Verification verification = new Verification(new Date(),null, clientData, provider,device,Status.SENT, ReadStatus.UNREAD, calibrator);
 		verificationService.saveVerification(verification);
 		
 		return verification.getId();

@@ -68,8 +68,10 @@ public class CalibratorController {
     private final Logger logger = Logger.getLogger(CalibratorController.class);
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                                           NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber,
+                                                                                           @PathVariable Integer itemsPerPage,
+                                                                                           NewVerificationsSearch searchData,
+                                                                                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
     	 User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
       ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(
@@ -163,10 +165,17 @@ public class CalibratorController {
     public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
         Verification verification = verificationService.findById(verificationId);
         if (verification != null) {
-            return new VerificationDTO(verification.getClientData(), verification.getId(),
-                    verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
-                    verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
-                    verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+            return new VerificationDTO(verification.getClientData(),
+                    verification.getId(),
+                    verification.getInitialDate(),
+                    verification.getExpirationDate(),
+                    verification.getStatus(),
+                    verification.getCalibrator(),
+                    verification.getCalibratorEmployee(),
+                    verification.getDevice(),
+                    verification.getProvider(),
+                    verification.getProviderEmployee(),
+                    verification.getStateVerificator(),
                     verification.getStateVerificatorEmployee());
         } else {
             return null;
@@ -218,12 +227,18 @@ public class CalibratorController {
 
         Verification verification = verificationService.findByIdAndCalibratorId(verificationId, user.getOrganizationId());
 
-        return new VerificationDTO( verification.getClientData(), verification.getId(),
-                verification.getInitialDate(), verification.getExpirationDate(),
-                verification.getStatus(), verification.getCalibrator(),
-                verification.getCalibratorEmployee(), verification.getDevice(),
-                verification.getProvider(), verification.getProviderEmployee(),
-                verification.getStateVerificator(), verification.getStateVerificatorEmployee()
+        return new VerificationDTO( verification.getClientData(),
+                verification.getId(),
+                verification.getInitialDate(),
+                verification.getExpirationDate(),
+                verification.getStatus(),
+                verification.getCalibrator(),
+                verification.getCalibratorEmployee(),
+                verification.getDevice(),
+                verification.getProvider(),
+                verification.getProviderEmployee(),
+                verification.getStateVerificator(),
+                verification.getStateVerificatorEmployee()
         );
     }
 

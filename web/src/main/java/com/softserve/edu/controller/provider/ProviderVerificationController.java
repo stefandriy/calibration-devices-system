@@ -201,10 +201,17 @@ public class ProviderVerificationController {
     public VerificationDTO getNewVerificationDetailsById(@PathVariable String verificationId) {
         Verification verification = verificationService.findById(verificationId);
         if (verification != null) {
-            return new VerificationDTO(verification.getClientData(), verification.getId(),
-                    verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
-                    verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
-                    verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
+            return new VerificationDTO(verification.getClientData(),
+                    verification.getId(),
+                    verification.getInitialDate(),
+                    verification.getExpirationDate(),
+                    verification.getStatus(),
+                    verification.getCalibrator(),
+                    verification.getCalibratorEmployee(),
+                    verification.getDevice(),
+                    verification.getProvider(),
+                    verification.getProviderEmployee(),
+                    verification.getStateVerificator(),
                     verification.getStateVerificatorEmployee());
         } else {
             return null;
@@ -217,10 +224,17 @@ public class ProviderVerificationController {
 
         Verification verification = verificationService.findByIdAndProviderId(verificationId, user.getOrganizationId());
 
-        return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(),
-                verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
-                verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
-                verification.getProviderEmployee(), verification.getStateVerificator(),
+        return new VerificationDTO(verification.getClientData(),
+                verification.getId(),
+                verification.getInitialDate(),
+                verification.getExpirationDate(),
+                verification.getStatus(),
+                verification.getCalibrator(),
+                verification.getCalibratorEmployee(),
+                verification.getDevice(),
+                verification.getProvider(),
+                verification.getProviderEmployee(),
+                verification.getStateVerificator(),
                 verification.getStateVerificatorEmployee()
         );
     }
