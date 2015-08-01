@@ -121,7 +121,7 @@ public class CalibrationTestService {
             throw new NotAvailableException("Тесту з таким ID не існує!");
         }else{
             return new CalibrationTestDataList(calibrationTestId
-                    , dataRepository.findByCalibrationTestId(calibrationTestId));
+                    ,dataRepository.findByCalibrationTestId(calibrationTestId));
         }
     }
 

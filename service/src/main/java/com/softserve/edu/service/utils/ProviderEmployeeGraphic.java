@@ -12,6 +12,9 @@ public class ProviderEmployeeGraphic {
     private  List<Double> data;
     private  List<String> listMonths;
 
+
+
+
     public ProviderEmployeeGraphic(double data) {
 
     }

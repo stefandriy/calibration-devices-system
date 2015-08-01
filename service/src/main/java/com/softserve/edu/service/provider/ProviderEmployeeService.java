@@ -1,13 +1,19 @@
 package com.softserve.edu.service.provider;
 
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.UserRoleRepository;
+import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.provider.buildGraphic.GraficBuilder;
+import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGrafic;
 import com.softserve.edu.service.utils.*;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +25,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +39,18 @@ public class ProviderEmployeeService {
     private UserRoleRepository userRoleRepository;
 
     @Autowired
+    private VerificationRepository verificationRepository;
+
+    @Autowired
+    private  UserRepository userRepository;
+
+    @Autowired
     private MailService mail;
 
     @PersistenceContext
     private EntityManager em;
 
+    Logger logger = Logger.getLogger(ProviderEmployeeService.class);
 
     @Transactional
     public void addEmployee(User providerEmployee) {
@@ -47,7 +61,7 @@ public class ProviderEmployeeService {
 
     @Transactional
     public void updateEmployee(User providerEmployee) {
-        if(providerEmployee.getPassword() == "generate") {
+        if (providerEmployee.getPassword() == "generate") {
             Random rand = new Random();
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
             mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), newPassword);
@@ -57,7 +71,7 @@ public class ProviderEmployeeService {
         providerEmployeeRepository.save(providerEmployee);
     }
 
-     @Transactional
+    @Transactional
     public User oneProviderEmployee(String username) {
         return providerEmployeeRepository.getUserByUserName(username);
     }
@@ -71,7 +85,7 @@ public class ProviderEmployeeService {
             providerListEmployee = EmployeeProvider.giveListOfProviders(list);
         } else {
             EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(),
-                    employee.getLastName(), employee.getMiddleName(),role.get(0));
+                    employee.getLastName(), employee.getMiddleName(), role.get(0));
             providerListEmployee.add(userPage);
         }
         return providerListEmployee;
@@ -112,7 +126,7 @@ public class ProviderEmployeeService {
         return result;
     }
 
-    @Transactional
+   /* @Transactional
     public List<ProviderEmployeeGraphic> getGraphicProviderEmployee(String fromDate, String toDate, Long idOrganization) throws ParseException {
         TransformStringsToMonths transformStringsToMonths = new TransformStringsToMonths();
 
@@ -126,10 +140,10 @@ public class ProviderEmployeeService {
         List<ProviderEmployeeGraphic> resultList = graficBuilder(providerUsername, toGrafic, idOrganization,
                 dateFrom, dateTo, arr, listMonths);
         return resultList;
-    }
+    }*/
 
 
-    public List<ProviderEmployeeGraphic> graficBuilder(String providerUsername, String toGrafic,
+ /*   public List<ProviderEmployeeGraphic> graficBuilder(String providerUsername, String toGrafic,
                                                        Long idOrganization, Date dateFrom, Date dateTo,
                                                        int[] arr, List<String> listMonths) {
         List<Object[]> list = null;
@@ -146,13 +160,42 @@ public class ProviderEmployeeService {
             quer.setParameter(2, dateFrom);
             quer.setParameter(3, dateTo);
             list = quer.getResultList();
-            if(arr[0]<=arr[1]) {
-                countOfWork = transformStringsToMonths.identifyProviderEmployee(arr[0],arr[1], list);
-            }else{
+            if (arr[0] <= arr[1]) {
+                countOfWork = transformStringsToMonths.identifyProviderEmployee(arr[0], arr[1], list);
+            } else {
                 countOfWork = transformStringsToMonths.identifyProviderEmployeeMulty(arr, list);
             }
             resultList.add(new ProviderEmployeeGraphic(employee.toString(), countOfWork, listMonths));
         }
         return resultList;
+    }*/
+
+
+
+    @Transactional
+    public List<ProviderEmployeeGrafic> buidGraphic(Date from, Date to, Long idOrganization) {
+        List<Verification> verifications =verificationRepository.findByProviderIsNotNullAndProviderEmployeeIsNotNullAndInitialDateBetween(from, to);
+        List<User> userList= userRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(),idOrganization);
+        List<ProviderEmployeeGrafic> graficData = null;
+        try {
+           graficData = GraficBuilder.builder(from, to, verifications, userList);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return graficData;
+    }
+
+    public Date convertToDate(String date) {
+      SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+        Date result = null;
+        if (StringUtils.isNotBlank(date)) {
+            try {
+                result = DATE_FORMAT.parse(date);
+            } catch (ParseException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        return result;
     }
 }

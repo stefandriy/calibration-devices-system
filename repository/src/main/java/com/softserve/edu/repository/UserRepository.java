@@ -51,4 +51,6 @@ public interface UserRepository extends CrudRepository<User, String> {
     Long getCountOfEmloyee(@Param("role") List<String> role,
                            @Param("organizationId") Long organizationId);
 
+
+
 }

@@ -142,7 +142,7 @@ public class CalibrationTestController {
     }
 
     @RequestMapping(value = "uploadPhotos", method = RequestMethod.POST)
-    public ResponseEntity<String> uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
+    public ResponseEntity<String> uploadFilePhoto(@RequestBody MultipartFile file, @RequestParam String idVerification) {
         ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
         try {
             String originalFileName = file.getOriginalFilename();
