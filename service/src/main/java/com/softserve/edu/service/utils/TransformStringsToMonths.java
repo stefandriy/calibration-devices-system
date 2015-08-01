@@ -1,5 +1,7 @@
 package com.softserve.edu.service.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,35 +9,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by MAX on 21.07.2015.
- */
+
 public class TransformStringsToMonths {
 
-    public List<String> transferToMonthArray(String dataFrom, String dataTo) {
 
-        int from = parser(dataFrom, dataTo)[0];
-        int to = parser(dataFrom, dataTo)[1];
-        List list = new ArrayList();
-        if (to >= from) {
-            for (int i = from; i <= to; i++) {
-                list.add(getMonth(i));
-            }
-        } else {
-            for (int i = from; i <= 12; i++) {
-                list.add(getMonth(i));
-            }
-            for (int i = 1; i <= to; i++) {
-                list.add(getMonth(i));
-            }
-        }
-        return list;
-    }
-
-
-    public String getMonth(int month) {
-        return new DateFormatSymbols().getMonths()[month - 1];
-    }
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     public int[] parser(String dataFrom, String dataTo) {
         int arr[] = new int[2];
@@ -45,37 +23,51 @@ public class TransformStringsToMonths {
         int to = Integer.valueOf(toDate);
         arr[0] = from;
         arr[1] = to;
+
         return arr;
 
     }
 
-    public String getQueryproviderUsername() {
-        String providerUsername = "SELECT distinct providerEmployee_username as username FROM verification " +
-                " where provider_organizationId= ?1 and  providerEmployee_username is not null";
-        return providerUsername;
+
+    public List<String> transferToMonthArray(String dataFrom, String dataTo) {
+        Date from = convertToDate(dataFrom);
+        Date to = convertToDate(dataTo);
+
+
+//        int from = parser(dataFrom, dataTo)[0];
+//        int to = parser(dataFrom, dataTo)[1];
+        List list = new ArrayList();
+//        if (to >= from) {
+//            for (int i = from; i <= to; i++) {
+//                list.add(getMonth(i));
+//            }
+//        } else {
+//            for (int i = from; i < 12; i++) {
+//                list.add(getMonth(i));
+//            }
+//            for (int i = 0; i <= to; i++) {
+//                list.add(getMonth(i));
+//            }
+//        }
+        return list;
     }
 
-    public String getQuerytoGrafic() {
-        String toGrafic = "select  count(v.providerEmployee_username) as data, month(initialDate) as months" +
-                " from verification v  " +
-                "  where v.providerEmployee_username= ?1 " +
-                " and  initialDate Between ?2 and ?3 " +
-                " group by month(initialDate) ";
-        return toGrafic;
+
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month - 1];
     }
 
 
-    public Date convertToData(String date) throws ParseException {
-        Date newDate = null;
-        if (!(date.equalsIgnoreCase("null"))) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    public Date convertToDate(String date) {
+        Date result = null;
+        if (StringUtils.isNotBlank(date)) {
             try {
-                newDate = dateFormat.parse(date);
+                result = DATE_FORMAT.parse(date);
             } catch (ParseException e) {
-                throw new ParseException(e.getMessage(), 75);
+                //logger add
             }
         }
-        return newDate;
+        return result;
     }
 
     public List<Double> identifyProviderEmployee(int from, int to, List<Object[]> list) {
@@ -119,6 +111,7 @@ public class TransformStringsToMonths {
             if (list.size() == 0) {
                 countOfWork.add(0.0);
                 avaible = true;
+
             }
 
             for (int j = 0; j < list.size(); j++) {
@@ -162,5 +155,19 @@ public class TransformStringsToMonths {
         return countOfWork;
     }
 
+    public String getQueryProviderUsername() {
+        String providerUsername = "SELECT distinct providerEmployee_username as username FROM verification " +
+                " where provider_organizationId= ?1 and  providerEmployee_username is not null";
+        return providerUsername;
+    }
+
+    public String getQuerytoGrafic() {
+        String toGrafic = "select  count(v) as data, month(initialDate) as months" +
+                " from verification v  " +
+                " where v.providerEmployee_username= ?1 " +
+                " and  initialDate Between ?2 and ?3 " +
+                " group by month(initialDate) ";
+        return toGrafic;
+    }
 }
 

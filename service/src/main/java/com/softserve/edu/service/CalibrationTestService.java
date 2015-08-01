@@ -1,6 +1,7 @@
 package com.softserve.edu.service;
 
 
+import com.softserve.edu.entity.BbiProtocol;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.entity.Verification;
@@ -12,12 +13,19 @@ import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -115,5 +123,13 @@ public class CalibrationTestService {
             return new CalibrationTestDataList(calibrationTestId
                     , dataRepository.findByCalibrationTestId(calibrationTestId));
         }
+    }
+
+    @Transactional
+    public void uploadPhotos(InputStream file, String idVerification, String originalFileFullName) throws IOException {
+        String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.')+1);
+        byte[] bytesOfImages = IOUtils.toByteArray(file);
+        BufferedImage bufferedImage= ImageIO.read(new ByteArrayInputStream(bytesOfImages));
+        ImageIO.write(bufferedImage, fileType, new File("D:\\", originalFileFullName));
     }
 }

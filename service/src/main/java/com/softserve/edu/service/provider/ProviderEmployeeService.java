@@ -19,7 +19,10 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class ProviderEmployeeService {
@@ -114,9 +117,9 @@ public class ProviderEmployeeService {
         TransformStringsToMonths transformStringsToMonths = new TransformStringsToMonths();
 
         List<String> listMonths = transformStringsToMonths.transferToMonthArray(fromDate, toDate);
-        Date dateFrom = transformStringsToMonths.convertToData(fromDate);
-        Date dateTo = transformStringsToMonths.convertToData(toDate);
-        String providerUsername = transformStringsToMonths.getQueryproviderUsername();
+        Date dateFrom = transformStringsToMonths.convertToDate(fromDate);
+        Date dateTo = transformStringsToMonths.convertToDate(toDate);
+        String providerUsername = transformStringsToMonths.getQueryProviderUsername();
         String toGrafic = transformStringsToMonths.getQuerytoGrafic();
         int[] arr = transformStringsToMonths.parser(fromDate, toDate);
 
@@ -135,7 +138,7 @@ public class ProviderEmployeeService {
         TransformStringsToMonths transformStringsToMonths = new TransformStringsToMonths();
         Query queryEmployee = em.createNativeQuery(providerUsername);
         queryEmployee.setParameter(1, idOrganization);
-        List empList = queryEmployee.getResultList();
+        List<Object> empList = queryEmployee.getResultList();
 
         for (Object employee : empList) {
             Query quer = em.createNativeQuery(toGrafic);
