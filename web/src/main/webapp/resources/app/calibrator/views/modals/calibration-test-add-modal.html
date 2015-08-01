@@ -76,11 +76,11 @@
 		<div class="modal-body">
 			<div class="uploadFile">
 				<button  class="btn btn-info" ng-model="file" ngf-select ngf-change="upload($files)"
-						accept=".jpg" ngf-multiple="true">Оберіть файл
+						accept="image/*" ngf-multiple="true">Оберіть файл
 				</button>
 
 				<div ng-hide="uploaded" ngf-drop ngf-select ng-model="files" class="drop-box" ngf-drag-over-class="dragover"
-					 ngf-allow-dir="false" accept=".jpg" ngf-multiple="true">Перетягніть файл сюди
+					 ngf-allow-dir="false" accept="image/*"  ngf-multiple="true">Перетягніть файл сюди
 				</div>
 
 				<progressbar value="progressPercentage" max="100" min="0" class="progress-striped active" type="success">
@@ -93,11 +93,11 @@
 				<div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
 			</div>
 		</div>
-		<div class="modal-footer">
+		<!--<div class="modal-footer">
 			<button ng-click="cancel()" class="btn btn-info pull-right" type="button">
 				Закрити
 			</button>
-		</div>
+		</div>-->
 
 
 
