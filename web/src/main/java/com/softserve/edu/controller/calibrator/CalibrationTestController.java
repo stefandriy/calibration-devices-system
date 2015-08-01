@@ -19,8 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 
@@ -149,8 +147,7 @@ public class CalibrationTestController {
             String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
             if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
                 testService.uploadPhotos(file.getInputStream(), idVerification, originalFileName);
-            }
-            else {
+            } else {
                 logger.error("Failed to load file ");
                 httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
