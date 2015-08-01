@@ -11,22 +11,15 @@ angular
                     });
             },
 
-            getPage: function (pageNumber, itemsPerPage, search) {
-                var url = '/calibrationTests/' + pageNumber + '/' + itemsPerPage;
-                if (search != null && search != undefined && search != "")
-                    url += '/' + search;
-
+            getPage: function (pageNumber, itemsPerPage, search, id) {
+                var url = '/calibrator/verifications/calibration-test/' + pageNumber + '/' + itemsPerPage +'/'+ search +'/'+ id;
+                //if (search != null && search != undefined && search != "")
+                //    url += '/' + search;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;
                     });
             },
-            //saveCalibrationTest: function(formData) {
-            //    return $http.post("/calibrationTests/add", formData)
-            //        .then(function(result) {
-            //            return result.status;
-            //        });
-            //}
             ////IN PROGRESS!
             saveCalibrationTest: function(formData, verificationId) {
                 return $http.post("/calibrator/calibrationTests/add/" + verificationId, formData)

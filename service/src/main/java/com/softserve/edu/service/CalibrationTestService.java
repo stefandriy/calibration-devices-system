@@ -58,19 +58,12 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber,
-                                                                          int itemsPerPage, String search) {
+
+    public Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return search == null ? testRepository.findAll(pageRequest)
-                : testRepository.findByNameLikeIgnoreCase("%" + search + "%",
-                pageRequest);
+        return search.equalsIgnoreCase("null") ? testRepository.findAll(pageRequest): testRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
     }
 
-//    @Transactional
-//    public CalibrationTest createTest(CalibrationTest test){return testRepository.save(test);
-//    }
-
-    //IN PROGRESS!
     @Transactional
     public void createNewTest(CalibrationTest calibrationTest, String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);

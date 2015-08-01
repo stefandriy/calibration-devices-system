@@ -2,8 +2,6 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
-import com.softserve.edu.dto.CalibrationTestPageItem;
-import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.service.CalibrationTestService;
@@ -13,14 +11,12 @@ import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.regex.Pattern;
-
 
 @RestController
 @RequestMapping(value = "/calibrator/calibrationTests/")
@@ -36,27 +32,6 @@ public class CalibrationTestController {
     private final Logger logger = Logger.getLogger(CalibrationTestController.class);
 
     private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|png|PNG|tif|TIF|)$";
-
-    /**
-     * Responds a page according to input data and search value
-     *
-     * @param pageNumber   current page number
-     * @param itemsPerPage count of elements per one page
-     * @param search       keyword for looking entities by CalibrationTest.name
-     * @return a page of CalibrationTests with their total amount
-     */
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
-    public PageDTO<CalibrationTestPageItem> pageCalibrationTestWithSearch(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage, @PathVariable String search) {
-
-        Page<CalibrationTestPageItem> page = testService
-                .getCalibrationTestsBySearchAndPagination(pageNumber, itemsPerPage, search)
-                .map(calibrationTest -> new CalibrationTestPageItem(calibrationTest.getId(), calibrationTest.getName(), calibrationTest.getDateTest().toString(),
-                        calibrationTest.getTemperature().toString(), calibrationTest.getSettingNumber().toString(), calibrationTest.getLatitude().toString(),
-                        calibrationTest.getLongitude().toString(), calibrationTest.getConsumptionStatus(), calibrationTest.getPhotoPath()));
-        return new PageDTO<>(page.getTotalElements(), page.getContent());
-    }
 
     @RequestMapping(value = "getTest/{calibrationTestId}", method = RequestMethod.GET)
     public ResponseEntity getCalibrationTest(@PathVariable Long calibrationTestId) {
@@ -81,7 +56,6 @@ public class CalibrationTestController {
             throw new com.softserve.edu.exceptions.NotFoundException(exception);
         }
     }
-
 
     //IN PROGRESS!
     @RequestMapping(value = "add/{verificationId}", method = RequestMethod.POST)
@@ -129,7 +103,7 @@ public class CalibrationTestController {
         }
     }
 
-    @RequestMapping(value = "/{calibrationTestId}/testData")
+    @RequestMapping(value = "/{calibrationTestId}/testData", method = RequestMethod.GET)
     public ResponseEntity findAllCalibrationTestData(@PathVariable Long calibrationTestId) {
         try {
             CalibrationTestDataList list = testService.findAllTestDataAsociatedWithTest(calibrationTestId);

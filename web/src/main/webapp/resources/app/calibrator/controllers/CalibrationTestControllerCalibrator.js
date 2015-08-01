@@ -12,9 +12,9 @@ angular
              * Updates the table with CalibrationTests.
              */
             $scope.verId = $location.search().param;
-
+            $scope.searchData = null;
             $rootScope.onTableHandling = function () {
-                calibrationTestServiceCalibrator.getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData)
+                calibrationTestServiceCalibrator.getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData, $scope.verId)
                     .then(function (data) {
                         $scope.pageContent = data.content;
                         $scope.totalItems = data.totalItems;
@@ -43,14 +43,14 @@ angular
                             }
                         });
                 };
-            $scope.openTestAddModal = function(){
-                var addEquipmentModal = $modal
-                    .open({
-                        animation : true,
-                        controller : 'CalibrationTestAddModalControllerCalibrator',
-                        templateUrl : '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
-                    });
-            };
+            //$scope.openTestAddModal = function(){
+            //    var addEquipmentModal = $modal
+            //        .open({
+            //            animation : true,
+            //            controller : 'CalibrationTestAddModalControllerCalibrator',
+            //            templateUrl : '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
+            //        });
+            //};
 
             function getCalibrationTests(){
                 calibrationTestServiceCalibrator

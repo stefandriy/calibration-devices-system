@@ -2,6 +2,7 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.ArchiveVerificationsSearch;
+import com.softserve.edu.dto.CalibrationTestPageItem;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
@@ -25,6 +26,7 @@ import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -85,6 +87,29 @@ public class CalibratorController {
       return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
   }
 
+
+    /**
+     * Responds a page according to input data and search value
+     *
+     * @param pageNumber
+     *            current page number
+     * @param itemsPerPage
+     *            count of elements per one page
+     * @param search
+     *            keyword for looking entities by CalibrationTest.name
+     * @return a page of CalibrationTests with their total amount
+     */
+    @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{search}/{verificationId}", method = RequestMethod.GET)
+    public PageDTO<CalibrationTestPageItem> pageCalibrationTestWithSearch(
+            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+            @PathVariable String search, @PathVariable String verificationId) {
+
+        Verification verification = verificationService.findById(verificationId);
+        Page<CalibrationTestPageItem> page = testService.getCalibrationTestsBySearchAndPagination(pageNumber, itemsPerPage, search)
+                .map(calibrationTest -> new CalibrationTestPageItem(calibrationTest.getId(), calibrationTest.getName(), calibrationTest.getDateTest(), calibrationTest.getTemperature(),
+                        calibrationTest.getSettingNumber(), calibrationTest.getLatitude(), calibrationTest.getLongitude(), calibrationTest.getConsumptionStatus(), calibrationTest.getTestResult()));
+        return new PageDTO<>(page.getTotalElements(), page.getContent());
+    }
 
     /**
      * Finds count of verifications which have read status 'UNREAD' and are
@@ -148,18 +173,6 @@ public class CalibratorController {
         }
     }
 
-//    @RequestMapping(value = "new/calibration-test", method = RequestMethod.POST)
-//    public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO) {
-//        HttpStatus httpStatus = HttpStatus.CREATED;
-//        try {
-//            CalibrationTest createdTest = testDTO.saveCalibrationTest();
-//            testService.createTest(createdTest);
-//        } catch (Exception e) {
-//            logger.error("GOT EXCEPTION " + e.getMessage());
-//            httpStatus = HttpStatus.CONFLICT;
-//        }
-//        return new ResponseEntity<>(httpStatus);
-//    }
 
     @RequestMapping(value = "new/upload", method = RequestMethod.POST)
     public ResponseEntity<String> uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
