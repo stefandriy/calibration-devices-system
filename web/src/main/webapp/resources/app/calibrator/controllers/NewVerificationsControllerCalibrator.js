@@ -102,7 +102,7 @@ angular
             };
 
             $scope.openTests = function (verificationId) {
-                $rootScope.$broadcast("calibration-test", {verification: verificationId});
+                //$rootScope.$broadcast("calibration-test", {verification : verificationId});
                 $log.debug("inside");
                 var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verificationId});
             }

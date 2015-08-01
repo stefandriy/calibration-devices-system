@@ -12,7 +12,7 @@ angular
             },
 
             getPage: function (pageNumber, itemsPerPage, search, id) {
-                var url = '/calibrator/verifications/calibration-test/' + pageNumber + '/' + itemsPerPage +'/'+ search +'/'+ id;
+                var url = '/calibrator/verifications/calibration-test/' + pageNumber + '/' + itemsPerPage +  '/' + search + '/' + id;
                 //if (search != null && search != undefined && search != "")
                 //    url += '/' + search;
                 return $http.get(url)
