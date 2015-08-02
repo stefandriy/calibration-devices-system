@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
  */
 public interface UploadBbiRepository extends CrudRepository<BbiProtocol, Long> {
 
-    @Query("select b.fileName from BbiProtocol b  where b.verification.id=:verificationId")
+    @Query("SELECT b.fileName FROM BbiProtocol b  WHERE b.verification.id=:verificationId")
     String findFileNameByVerificationId(@Param("verificationId") String verificationId);
 
     BbiProtocol findByVerification(Verification verification);
