@@ -81,6 +81,7 @@ public class StateVerificatorController {
                 searchData.getLastNameText(),
                 searchData.getStreetText(),
                 searchData.getStatus(),
+                searchData.getEmployee(),
                 verificatorEmployee
         );
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());

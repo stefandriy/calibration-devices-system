@@ -52,7 +52,8 @@ angular
             		formattedDate :null,
             		lastNameText:null,
             		streetText: null,
-            		status: null
+            		status: null,
+            		employee: null
             }
             
             $scope.tableParams = new ngTableParams({

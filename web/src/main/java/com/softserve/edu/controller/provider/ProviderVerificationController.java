@@ -106,6 +106,7 @@ public class ProviderVerificationController {
                 searchData.getLastNameText(),
                 searchData.getStreetText(),
                 searchData.getStatus(),
+                searchData.getEmployee(),
                 providerEmployee
         );
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());

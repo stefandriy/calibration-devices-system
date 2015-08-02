@@ -45,9 +45,8 @@ public class NewVerificationsQueryConstructorProvider {
 	 * 		EntityManager needed to have a possibility to create query
  	 * @return CriteriaQuery<Verification>
 	 */
-	public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch,
-									String idToSearch, String lastNameToSearch, String streetToSearch, String status, 
-									User providerEmployee, EntityManager em) {
+	public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch, String idToSearch, String lastNameToSearch,
+			String streetToSearch, String status, User providerEmployee, String employeeSearchName, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
@@ -55,7 +54,7 @@ public class NewVerificationsQueryConstructorProvider {
 			Join<Verification, Organization> joinSearch = root.join("provider");
 
 			Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, status, providerEmployee);
+																		lastNameToSearch, streetToSearch, status, providerEmployee, employeeSearchName);
 			criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 			criteriaQuery.select(root);
 			criteriaQuery.where(predicate);
@@ -82,16 +81,15 @@ public class NewVerificationsQueryConstructorProvider {
 	 * 		EntityManager needed to have a possibility to create query
  	 * @return CriteriaQuery<Long>
 	 */
-	public static CriteriaQuery<Long> buildCountQuery (Long providerId, String dateToSearch,
-							String idToSearch, String lastNameToSearch, String streetToSearch, String status,
-							User providerEmployee, EntityManager em) {
+	public static CriteriaQuery<Long> buildCountQuery (Long providerId, String dateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String status,
+															User providerEmployee, String employeeSearchName, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> joinSearch = root.join("provider");
 			Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, status, providerEmployee);
+																		lastNameToSearch, streetToSearch, status, providerEmployee, employeeSearchName);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
@@ -112,7 +110,7 @@ public class NewVerificationsQueryConstructorProvider {
 	 * @return Predicate 
 	 */
 	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long providerId, 
-												String dateToSearch,String idToSearch, String lastNameToSearch, String streetToSearch, String status, User providerEmployee) {
+												String dateToSearch,String idToSearch, String lastNameToSearch, String streetToSearch, String status, User providerEmployee, String employeeSearchName) {
 	
 		String userName = providerEmployee.getUsername();
 		Predicate queryPredicate = cb.conjunction();
@@ -128,34 +126,47 @@ public class NewVerificationsQueryConstructorProvider {
 				}
 			}
 
-			if ((status != null)&&(!status.startsWith("?"))) {
-				queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(status.trim())), queryPredicate);
-			} else {
-				queryPredicate = cb.and(cb.or(Status.SENT.getQueryPredicate(root, cb), Status.ACCEPTED.getQueryPredicate(root, cb)), queryPredicate);
+		if ((status != null) && (!status.startsWith("?"))) {
+			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(status.trim())), queryPredicate);
+		} else {
+			queryPredicate = cb.and(
+					cb.or(Status.SENT.getQueryPredicate(root, cb), Status.ACCEPTED.getQueryPredicate(root, cb)),
+					queryPredicate);
+		}
+
+		queryPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), queryPredicate);
+
+		if (dateToSearch != null) {
+			SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
+			Date date = null;
+			try {
+				date = form.parse(dateToSearch);
+			} catch (ParseException pe) {
+				logger.error("Cannot parse date", pe);
 			}
-			
-			queryPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), queryPredicate);
-				
-				 if (dateToSearch != null) {
-					 SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
-					 Date date = null;
-					 try {
-					    date = form.parse(dateToSearch);
-					 } catch (ParseException pe) {
-					    logger.error("Cannot parse date", pe);
-					 }
-					 queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
-				}
-	
-				 if (idToSearch != null) {
-					 queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
-				 }
-				 if (lastNameToSearch !=null) {
-				   queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), queryPredicate);
-				 }
-				 if (streetToSearch != null) {
-				   queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), queryPredicate);
-				 }
+			queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
+		}
+
+		if (idToSearch != null) {
+			queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
+		}
+		if (lastNameToSearch != null) {
+			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"),
+					queryPredicate);
+		}
+		if (streetToSearch != null) {
+			queryPredicate = cb.and(
+					cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
+					queryPredicate);
+		}
+		if (employeeSearchName != null) {
+			Join<Verification, User> joinProviderEmployee = root.join("providerEmployee");
+			Predicate searchByProviderName = cb.like(joinProviderEmployee.get("firstName"),"%" + employeeSearchName + "%");
+			Predicate searchByProviderSurname = cb.like(joinProviderEmployee.get("lastName"),"%" + employeeSearchName + "%");
+			Predicate searchByProviderLastName = cb.like(joinProviderEmployee.get("middleName"),"%" + employeeSearchName + "%");
+			Predicate searchPredicateByProviderEmployeeName = cb.or(searchByProviderName, searchByProviderSurname, searchByProviderLastName);
+			queryPredicate = cb.and(searchPredicateByProviderEmployeeName, queryPredicate);
+		}
 	
 			return queryPredicate;
 	}

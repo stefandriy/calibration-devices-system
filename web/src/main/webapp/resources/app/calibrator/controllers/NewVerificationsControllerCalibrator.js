@@ -11,7 +11,8 @@ angular
                 formattedDate: null,
                 lastNameText: null,
                 streetText: null,
-                status: null
+                status: null,
+                employee: null
             }
 
             $scope.clearAll = function () {
@@ -21,6 +22,7 @@ angular
                 $scope.search.lastNameText = null;
                 $scope.search.streetText = null;
                 $scope.search.status = null;
+                $scope.search.employee = null;
                 $scope.tableParams.reload();
             }
 
@@ -40,7 +42,10 @@ angular
                 $scope.search.status = null;
                 $scope.tableParams.reload();
             }
-
+            $scope.clearEmployee = function () {
+            	$scope.search.employee = null;
+            	$scope.tableParams.reload();
+            }
             var promiseSearchTimeOut;
             $scope.doSearch = function () {
                 promiseTimeOut = $timeout(function () {

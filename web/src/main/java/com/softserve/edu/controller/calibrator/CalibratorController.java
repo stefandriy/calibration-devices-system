@@ -71,16 +71,14 @@ public class CalibratorController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
             @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, NewVerificationsSearch searchData,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
-        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
-        ListToPageTransformer<Verification> queryResult = verificationService
-                .findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber,
-                        itemsPerPage, searchData.getFormattedDate(), searchData.getIdText(),
-                        searchData.getLastNameText(), searchData.getStreetText(), searchData.getStatus(),
-                        calibratorEmployee);
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-    }
+		User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+		ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
+						searchData.getFormattedDate(), searchData.getIdText(),
+						searchData.getLastNameText(), searchData.getStreetText(),
+						searchData.getStatus(), searchData.getEmployee(), calibratorEmployee);
+		List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+		return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+	}
 
     /**
      * Responds a page according to input data and search value
@@ -93,7 +91,6 @@ public class CalibratorController {
     @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{search}/{verificationId}", method = RequestMethod.GET)
     public PageDTO<CalibrationTestPageItem> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
                                                                           @PathVariable Integer itemsPerPage, @PathVariable String search, @PathVariable String verificationId) {
-
         Verification verification = verificationService.findById(verificationId);
         Page<CalibrationTestPageItem> page = testService
                 .getCalibrationTestsBySearchAndPagination(pageNumber, itemsPerPage, search)

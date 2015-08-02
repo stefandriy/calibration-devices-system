@@ -47,7 +47,7 @@ import com.softserve.edu.entity.util.Status;
 		 */
 		public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch,
 										String idToSearch, String lastNameToSearch, String streetToSearch, String status, 
-										User calibratorEmployee, EntityManager em) {
+										User calibratorEmployee, String employeeSearchName, EntityManager em) {
 
 				CriteriaBuilder cb = em.getCriteriaBuilder();
 				CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
@@ -55,7 +55,7 @@ import com.softserve.edu.entity.util.Status;
 				Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
 				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, providerId, dateToSearch, idToSearch,
-																			lastNameToSearch, streetToSearch, status, calibratorEmployee);
+																			lastNameToSearch, streetToSearch, status, calibratorEmployee, employeeSearchName);
 				criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 				criteriaQuery.select(root);
 				criteriaQuery.where(predicate);
@@ -84,14 +84,14 @@ import com.softserve.edu.entity.util.Status;
 		 */
 		public static CriteriaQuery<Long> buildCountQuery (Long calibratorId, String dateToSearch,
 								String idToSearch, String lastNameToSearch, String streetToSearch, String status,
-								User calibratorEmployee, EntityManager em) {
+								User calibratorEmployee, String employeeSearchName, EntityManager em) {
 			
 				CriteriaBuilder cb = em.getCriteriaBuilder();
 				CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 				Root<Verification> root = countQuery.from(Verification.class);
 				Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, calibratorId, dateToSearch, idToSearch,
-																			lastNameToSearch, streetToSearch, status, calibratorEmployee);
+																			lastNameToSearch, streetToSearch, status, calibratorEmployee, employeeSearchName);
 				countQuery.select(cb.count(root));
 				countQuery.where(predicate);
 				return countQuery;
@@ -112,7 +112,7 @@ import com.softserve.edu.entity.util.Status;
 		 * @return Predicate 
 		 */
 		private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long calibratorId, 
-													String dateToSearch,String idToSearch, String lastNameToSearch, String streetToSearch, String status, User calibratorEmployee) {
+													String dateToSearch,String idToSearch, String lastNameToSearch, String streetToSearch, String status, User calibratorEmployee, String employeeSearchName) {
 		
 			String userName = calibratorEmployee.getUsername();
 			Predicate queryPredicate = cb.conjunction();
@@ -158,6 +158,15 @@ import com.softserve.edu.entity.util.Status;
 					   queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), queryPredicate);
 					 }
 		
+					 if (employeeSearchName != null) {
+							Join<Verification, User> joinCalibratorEmployee = root.join("calibratorEmployee");
+							Predicate searchByCalibratorName = cb.like(joinCalibratorEmployee.get("firstName"),"%" + employeeSearchName + "%");
+							Predicate searchByCalibratorSurname = cb.like(joinCalibratorEmployee.get("lastName"),"%" + employeeSearchName + "%");
+							Predicate searchByCalibratorLastName = cb.like(joinCalibratorEmployee.get("middleName"),"%" + employeeSearchName + "%");
+							Predicate searchPredicateByCalibratorEmployeeName = cb.or(searchByCalibratorName, searchByCalibratorSurname, searchByCalibratorLastName);
+							queryPredicate = cb.and(searchPredicateByCalibratorEmployeeName, queryPredicate);
+						}
+					 
 				return queryPredicate;
 		}
 	}
