@@ -121,11 +121,13 @@
                                     <td>{{ verification.status }}</td>
                                     <td>{{verification.calibratorEmployee}}</td>
                                     <td class="text-center">
-                                       <button class="btn btn-xs btn-primary btn-actions-custom" popover="Детальніше"
-                                           		popover-trigger="mouseenter"
-	                                           	ng-click="openDetails(verification.id, verification.initialDate)">
-	                                            <i class="fa fa-info"></i>
-                                        	</button>
+                                        	<img src="/resources/assets/button-icons/details.png"  popover="Детальніше" popover-trigger="mouseenter"
+                                                ng-click="openDetails(verification.id, verification.initialDate)">
+                                        	</img>
+                                        	 <a popover="Завантажити тестові дані у форматі 'docx'" popover-trigger="mouseenter"
+                                           href="{{'/doc/info/' + verification.id + '/docx'}}">
+                                            <i class="fa fa-file-word-o"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 </tbody>

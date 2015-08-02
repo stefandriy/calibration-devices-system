@@ -1,12 +1,9 @@
 package com.softserve.edu.documents.document;
 
-import java.math.BigInteger;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import com.softserve.edu.documents.document.meta.Placeholder;
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
