@@ -128,8 +128,7 @@
 					</div>
 				</div>
 				<div class="form-group" show-errors ng-show="checkboxModel">
-					<label for="phoneNumberSecond" name="phoneNumberSecond"
-						   class="form-control" class="col-md-2 control-label">
+					<label for="phoneNumber1"  class="col-md-2 control-label">
 						{{'SECOND_PHONE' | translate}} </label>
 					<div class="col-md-8">
 						<div>
@@ -373,7 +372,7 @@
 			</form>
 		</div>
 		<i ng-show="codes.length=='0'" id="loadIcon"
-		   class="fa fa-3x fa-spinner fa-spin "></i>
+		   class="fa fa-3x fa-spinner fa-spin " style="text-align: center;"></i>
 		<div ng-hide="isShownForm" ng-repeat="code in codes" class="row col-md-10 alert alert-success alert-dismissible centered" role="alert" style="text-align: center">
 			<button ng-click="closeAlert()" type="button"
 				class="close btn-close-alert" aria-label="Close">
