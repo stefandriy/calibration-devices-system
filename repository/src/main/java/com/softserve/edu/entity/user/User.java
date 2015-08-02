@@ -1,15 +1,14 @@
 package com.softserve.edu.entity.user;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.*;
-
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "USER")
@@ -157,7 +156,9 @@ public class User {
         this.userRoles.add(userRole);
     }
 
-    public void deleteAllUsersRoles() {this.userRoles.clear();}
+    public void deleteAllUsersRoles() {
+        this.userRoles.clear();
+    }
 
     public Set<UserRole> getUserRoles() {
         return userRoles;
@@ -214,7 +215,7 @@ public class User {
                     .append(lastName, other.lastName)
                     .append(middleName, other.middleName)
                     .append(email, other.email)
-                    .append(isAvaliable,other.isAvaliable)
+                    .append(isAvaliable, other.isAvaliable)
                     .isEquals();
         } else {
             return false;

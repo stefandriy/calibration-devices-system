@@ -1,5 +1,9 @@
 package com.softserve.edu.controller.admin;
 
+import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.UsersPageItem;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.admin.UsersService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
@@ -8,11 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.admin.UsersService;
 
 
 @RestController
@@ -56,23 +55,21 @@ public class UserController {
             @PathVariable Integer itemsPerPage,
             @PathVariable String search) {
 
-        Page<UsersPageItem> page = userService
-                .getUsersBySearchAndPagination(pageNumber, itemsPerPage, search)
-                .map(
-                        new Converter<User, UsersPageItem>() {
-                            @Override
-                            public UsersPageItem convert(User user) {
-                                UsersPageItem usPage = null;
+        Page<UsersPageItem> page = userService.getUsersBySearchAndPagination(pageNumber, itemsPerPage, search)
+                .map(new Converter<User, UsersPageItem>() {
+            @Override
+            public UsersPageItem convert(User user) {
+                UsersPageItem usPage = null;
 
-                                if (user instanceof User) {
-                                    usPage = new UsersPageItem(
-                                            user.getUsername(), userService.getRoles(user.getUsername()),
-                                            user.getFirstName(), user.getLastName(), user.getMiddleName(), user.getPhone(),
-                                            userService.getOrganization(user.getUsername(), user), null,null , user.getIsAvaliable());
-                                }
-                                return usPage;
-                            }
-                        });
+                if (user instanceof User) {
+                    usPage = new UsersPageItem(
+                            user.getUsername(), userService.getRoles(user.getUsername()),
+                            user.getFirstName(), user.getLastName(), user.getMiddleName(), user.getPhone(),
+                            userService.getOrganization(user.getUsername(), user), null,null , user.getIsAvaliable());
+                }
+                return usPage;
+            }
+        });
 
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }

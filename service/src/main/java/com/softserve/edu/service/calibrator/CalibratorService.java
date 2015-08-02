@@ -74,7 +74,7 @@ public class CalibratorService {
     @Transactional
     public void deleteBbiFile(String idVerification) {
         Verification verification = verificationRepository.findOne(idVerification);
-        BbiProtocol bbiProtocol = uploadBbiRepository.findByVerification(idVerification);
+        BbiProtocol bbiProtocol = uploadBbiRepository.findByVerification(verification);
         verification.setBbiProtocol(null);
         verificationRepository.save(verification);
         uploadBbiRepository.delete(bbiProtocol);

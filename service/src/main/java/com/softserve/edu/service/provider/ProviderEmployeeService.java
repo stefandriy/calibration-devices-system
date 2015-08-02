@@ -11,6 +11,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.repository.OrganizationRepository;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -42,7 +44,8 @@ public class ProviderEmployeeService {
     @Autowired
     private VerificationRepository verificationRepository;
 
-   
+    @Autowired
+    private OrganizationRepository organizationRepository;
 
     @Autowired
     private MailService mail;
@@ -95,7 +98,6 @@ public class ProviderEmployeeService {
         return providerEmployeeRepository.findByUsername(userName);
     }
 
-    // two next methods is the same !!!!!!!
 
     @Transactional
     public List<UserRole> getRoleByUserNam(String username) {
@@ -127,9 +129,10 @@ public class ProviderEmployeeService {
 
     @Transactional
     public List<ProviderEmployeeGrafic> buidGraphic(Date from, Date to, Long idOrganization) {
+        Organization organization=organizationRepository.findOne(idOrganization);
         List<Verification> verifications = verificationRepository.
-                findByProviderIsNotNullAndProviderEmployeeIsNotNullAndStatusAndExpirationDateBetween
-                        (Status.IN_PROGRESS, from, to);
+                findByProviderEmployeeIsNotNullAndProviderAndAndStatusAndExpirationDateBetween
+                        (organization,Status.IN_PROGRESS, from, to);
         List<ProviderEmployeeGrafic> graficData = null;
         List<MonthOfYear> monthList = null;
         try {

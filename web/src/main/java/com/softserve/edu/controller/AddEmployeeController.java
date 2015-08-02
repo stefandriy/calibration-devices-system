@@ -1,22 +1,6 @@
 package com.softserve.edu.controller;
 
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
@@ -28,13 +12,22 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "employee/admin/users/")
@@ -53,10 +46,9 @@ public class AddEmployeeController {
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
-
 
 
     @RequestMapping(value = "organizationCapacity", method = RequestMethod.GET)
@@ -116,11 +108,11 @@ public class AddEmployeeController {
             @RequestBody UserDTO providerEmployee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
-        if (providerEmployee.getIsAvaliable().equals(false)){
+        if (providerEmployee.getIsAvaliable().equals(false)) {
             newUser.setIsAvaliable(providerEmployee.getIsAvaliable());
             providerEmployeeService.updateEmployee(newUser);
             return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
-        }else{
+        } else {
             newUser.setIsAvaliable(true);
         }
         newUser.setFirstName(providerEmployee.getFirstName());
@@ -130,19 +122,18 @@ public class AddEmployeeController {
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setUsername(providerEmployee.getUsername());
         newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
-                            providerEmployee.getAddress() : newUser.getAddress() );
-        String p =providerEmployee.getPassword();
-            newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
-                    "generate" : newUser.getPassword());
+                providerEmployee.getAddress() : newUser.getAddress());
+        String p = providerEmployee.getPassword();
+        newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
+                "generate" : newUser.getPassword());
         newUser.deleteAllUsersRoles();
         for (String tmp : providerEmployee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
             newUser.addUserRole(userRole);
         }
-      providerEmployeeService.updateEmployee(newUser);
+        providerEmployeeService.updateEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
-
 
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
@@ -171,9 +162,8 @@ public class AddEmployeeController {
     }
 
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPaginationUsers(
+    public PageDTO<VerificationPageDTO> capacityEmployeeData(
             @PathVariable String username) {
-        User employee = providerEmployeeService.oneProviderEmployee(username);
         List<String> role = userService.getRoles(username);
         List<Verification> list = null;
         if (role.contains(Roles.PROVIDER_EMPLOYEE.name())) {
@@ -198,12 +188,12 @@ public class AddEmployeeController {
                 pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(),
                 usersPageItem.getFirstName(), usersPageItem.getLastName(), usersPageItem.getOrganization(),
                 usersPageItem.getPhone());
-        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult, idOrganization);
+        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
 
     }
 
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult, Long idOrganization) {
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(

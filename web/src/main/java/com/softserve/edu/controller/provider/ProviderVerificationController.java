@@ -54,7 +54,7 @@ public class ProviderVerificationController {
     @Autowired
     private UsersService userService;
 
-       
+
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
 

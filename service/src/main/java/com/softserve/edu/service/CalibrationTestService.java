@@ -1,6 +1,5 @@
 package com.softserve.edu.service;
 
-
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.entity.CalibrationTestIMG;
@@ -12,7 +11,6 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
-
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -127,14 +125,14 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public synchronized void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
-        String fileName = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
+    public void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
+        String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
         byte[] bytesOfImages = IOUtils.toByteArray(file);
         BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-        ImageIO.write(bufferedImage, fileName, new File(localStorage, originalFileFullName));
+        ImageIO.write(bufferedImage, fileType, new File(localStorage, originalFileFullName));
+
         CalibrationTest calibrationTest = testRepository.findOne(idCalibrationTest);
-        Date initialDate = new Date();
-        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, fileName, initialDate);
+        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName, new Date());
         testIMGRepository.save(calibrationTestIMG);
     }
 }

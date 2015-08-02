@@ -133,11 +133,11 @@
 	                                           	ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
                                         	</img>
                                     		<img src="/resources/assets/button-icons/face2.png" ng-show="!verification.providerEmployee"
-                                                popover="Add employee"  popover-trigger="mouseenter"
+                                                popover="Вибрати відповідальну особу"  popover-trigger="mouseenter"
                                                 ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
                                             </img>
                                          	 <img src="/resources/assets/button-icons/close.png" ng-show="verification.providerEmployee"
-                                                    popover="Remove employee"
+                                                    popover="Скасувати відповідальну особу"
                                            			popover-trigger="mouseenter"
                                                     ng-click="removeProviderEmployee(verification.id)">
                                             </img>

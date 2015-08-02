@@ -3,6 +3,7 @@ package com.softserve.edu.repository;
 import java.util.Date;
 import java.util.List;
 
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
@@ -72,6 +73,6 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
     List<Verification> findByCalibratorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
 
-    List<Verification> findByProviderIsNotNullAndProviderEmployeeIsNotNullAndStatusAndExpirationDateBetween
-            (Status statusDate,Date dateFrom,Date DateTo);
+    List<Verification> findByProviderEmployeeIsNotNullAndProviderAndAndStatusAndExpirationDateBetween
+            (Organization organization,Status statusDate,Date dateFrom,Date DateTo);
 }
