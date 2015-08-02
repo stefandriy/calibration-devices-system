@@ -138,10 +138,15 @@ public class ClientApplicationController {
 				.map(device -> new ApplicationFieldDTO(device.getId(),device.getDeviceName()))
 				.collect(Collectors.toList());
     }
-	
+	@RequestMapping(value = "devices/{deviceType}", method = RequestMethod.GET)
+	public List<ApplicationFieldDTO> getAllByType(@PathVariable String deviceType) {
+		return deviceService.getAllByType(deviceType).stream()
+				.map(device -> new ApplicationFieldDTO(device.getId(),device.getDeviceName()))
+				.collect(Collectors.toList());
+	}
+
 	@RequestMapping(value = "clientMessage", method = RequestMethod.POST)
     public String sentMailFromClient(@RequestBody ClientMailDTO mailDto) {
-		System.err.println("inside client message ");
 		Verification verification = verificationService.findById(mailDto.getVerifID());
     	String name = verification.getClientData().getFirstName();
     	String surname = verification.getClientData().getLastName();
@@ -150,4 +155,11 @@ public class ClientApplicationController {
     	
 		return "SUCCESS";
     }
+	@RequestMapping(value = "clientMessageNoProvider", method = RequestMethod.POST)
+	public String sentMailFromClientNoprovider(@RequestBody ClientMailDTO mailDto) {
+
+		mail.sendClientMail(mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(), "заявка не знайдена", mailDto.getMsg());
+
+		return "SUCCESS";
+	}
 }

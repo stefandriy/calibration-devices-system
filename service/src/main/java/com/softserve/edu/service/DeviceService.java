@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.entity.Device;
+import com.softserve.edu.entity.util.DeviceType;
 import com.softserve.edu.repository.DeviceRepository;
+
 
 @Service
 public class DeviceService {
@@ -40,5 +42,9 @@ public class DeviceService {
 	    : deviceRepository.findByNumberLikeIgnoreCase("%" + search + "%",
 	  	      pageRequest);
 	 }
+
+	@Transactional
+	public List<Device> getAllByType(String device) {
+		return (List<Device>) deviceRepository.findByDeviceName(device);}
 
 }

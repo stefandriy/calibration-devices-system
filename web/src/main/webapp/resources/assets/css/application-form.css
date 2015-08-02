@@ -170,3 +170,10 @@
 .slideOne input[type=checkbox]:checked + label {
     left: 37px;
 }
+/*the first method: Using 2 tags with predefined bootstrap icons*/
+
+/*
+#addOnBtn{
+    height: 15px;
+    width: 15px;
+}*/

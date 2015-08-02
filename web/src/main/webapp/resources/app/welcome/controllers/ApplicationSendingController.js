@@ -96,28 +96,14 @@ angular
                     $scope.selectedDistrict = "";
                     $scope.selectedLocality = "";
                     $scope.selectedLocality = "";
-                    $log.debug( $scope.selectedRegion);
-                    $log.debug( $scope.selectedDistrict);
-                    $log.debug( $scope.selectedLocality);
-                    $log.debug( $scope.selectedLocality);
+                   
                 });
              }
             if( !$stateParams.verificationId) {  
             	$scope.receiveRegions();
             }
            
-            /**
-             * Receives all possible devices.
-             */
-            $scope.devices = [];
-            dataReceivingService.findAllDevices()
-                .success(function (devices) {
-                    $scope.devices = devices;
-                    $log.debug('device');
-                    $log.debug(devices);
-                    $scope.selectedDevice =[];
-                    $log.debug( $scope.selectedCount);
-                });
+           
             /**
              * Receives all possible districts.
              * On-select handler in region input form element.
@@ -146,15 +132,13 @@ angular
                         $scope.localities = localities;
                         $scope.selectedLocality = "";
                         $scope.selectedStreet = "";
-                        $log.debug( "$scope.selectedRegion");
-                        $log.debug( $scope.selectedRegion);
-                        $log.debug( "$scope.selectedDistrict");
-                        $log.debug( $scope.selectedDistrict);
-                        $log.debug(" $scope.selectedLocality");
-                        $log.debug( $scope.selectedLocality);
+
                     });
 
-                //Receives providers corresponding this district
+                /**
+                 *  Receives providers corresponding this district
+                 */
+               
                 dataReceivingService.findProvidersByDistrict(selectedDistrict.designation)
                     .success(function (providers) {
                     
@@ -171,11 +155,8 @@ angular
              *
              */
 
-        /*    $scope.receiveIndexes=  function (selectedLocality,selectedDistrict){
-
-
-
-            }*/
+            $scope.receiveIndexes=  function (selectedLocality,selectedDistrict){
+            }
             /**
              * Receives all possible streets.
              * On-select handler in locality input form element
@@ -209,74 +190,87 @@ angular
                     });
             	}
             };
+            /**
+             * Receives all possible devices.
+             */
+            $scope.devices = [];
+            $scope.selectedDevice1=[];
+            $scope.selectedDevice2=[];
+            $scope.selectedCount="";
+            $scope.devicesByType = [];
+            $scope.selectedType="";
+            $scope.devicesType=[];
+
+
+            dataReceivingService.findAllDevices()
+                .success(function (devices) {
+                      $scope.devices = devices;
+                      $scope.selectedDevice =[];
+                
+                });
+              /* $scope.deviceName=function(){
+                 for(var i=0;i<$scope.devices.length;i++){
+                  $scope.devicesType[i]=$scope.selectedDevice.deviceName[i];
+                     }
+               }
+            $log.debug("$scope.devicesType");
+            $log.debug($scope.devicesType);
+             */
+           /* dataReceivingService.findAllDevicesType()
+                .success(function (devicesType) {
+                $scope.devicesType = devicesType;
+                $log.debug("devicesType");
+                $log.debug($scope.devicesType);
+            });
+
+            dataReceivingService.findAllDevicesByType()
+                .success(function (devicesByType) {
+                    $scope.devicesByType = devicesByType;
+
+                });*/
 
             /**
              * Sends data to the server where Verification entity will be created.
              * On-click handler in send button.
              */
+            $log.debug( "$scope.devices");
+            $log.debug( $scope.devices);
             $scope.applicationCodes=[];
-            $scope.codes=[];
+
             $scope.allSelectedDevices=[];
 
             $scope.sendApplicationData = function () {
-                $scope.allSelectedDevices=$scope.selectedDevice1.concat($scope.selectedDevice,$scope.selectedDevice);
-            //$scope.allSelectedDevices.push($scope.selectedDevice1);
-              //  $scope.allSelectedDevices.push($scope.selectedDevice);
+                $scope.codes=[];
+                $log.debug( " $scope.codeslength");
+                $log.debug( $scope.codes.length);
+                $scope.allSelectedDevices=$scope.selectedDevice.concat($scope.selectedDevice1,$scope.selectedDevice2);
                 $scope.$broadcast('show-errors-check-validity');
-
-
-                $log.debug("$scope.selectedDevice1");
-                $log.debug($scope.selectedDevice1);
-                $log.debug("$scope.allSelectedDevices");
-                $log.debug($scope.allSelectedDevices);
-                $log.debug("$scope.allSelectedDevices.lenngth");
-                $log.debug($scope.allSelectedDevices.length);
                 if ($scope.clientForm.$valid) {
                     $scope.isShownForm = false;
-
+                    $log.debug( "$scope.selectedDevice");
+                    $log.debug( $scope.selectedDevice);
+                    $log.debug( "$scope.allSelectedDevices");
+                    $log.debug( $scope.allSelectedDevices);
                     for ( var i=0; i< $scope.allSelectedDevices.length;i++){
                     $scope.formData.region = $scope.selectedRegion.designation;
-
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
                     $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.allSelectedDevices[i].id;
-
-
                     $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
-                     //   $scope.applicationCodes=[];
-                       // applicationCodes[]=$q.all  dataSendingService.sendApplication($scope.formData)
-                       // .success(function (applicationCode) {
-                       //     $scope.applicationCode = applicationCode;
-                       //   $log.debug($scope.formData);
-                       //   $log.debug( $scope.selectedCount);
-                      //  });
-                     //hide form because application status is shown
-   
-
-                    }
-
+                          }
                     $q.all($scope.applicationCodes).then(function(values){
-                       $log.debug('values');
-                        $log.debug(values);
-
-                        for ( var i=0; i< $scope.allSelectedDevices.length;i++){
-
+                        for ( var i=0; i< $scope.allSelectedDevices.length;i++) {
                             $scope.codes[i]=values[i].data;
-
                         }
-
-                        $log.debug('$scope.codes');
-                        $log.debug($scope.codes);
-                    });
-
+                     });
+                    $log.debug( " $scope.codeslength");
+                    $log.debug( $scope.codes.length);
                  }
             };
-
-          
-            $scope.closeAlert = function () {
+                $scope.closeAlert = function () {
                	$location.path('/resources/app/welcome/views/start.html');
             }
             
@@ -285,9 +279,7 @@ angular
              * 
              * 
              */
-            $scope.selectedDevice1=[];
-            $scope.selectedDevice2=[];
-            $scope.selectedCount="2";
+
             $scope.STREET_REGEX=/^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}){1}$/;
             $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/;
             $scope.MIDDLE_NAME_REGEX=/^[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}$/;
@@ -298,18 +290,16 @@ angular
             $scope.EMAIL_REGEX=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
             $scope.checkboxModel = false;
             /**
-             * Modal window used to send questions about verification status
+             * Modal window used to send questions to administration
              */
             $scope.responseSuccess = false;
             $scope.showSendingAlert = false;
-            $scope.feedbackModalNoProvider = function (ID) {
-                $log.debug('ID');
-                $log.debug(ID);
-                var modalInstance = $modal.open({
+            $scope.feedbackModalNoProvider = function () {
+               var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/welcome/views/modals/feedback-window.html',
+                    templateUrl: '/resources/app/welcome/views/modals/feedBackWindow.html',
                     controller: 'FeedbackController',
-                    size: 'md',
+                    size: 'md'
 
                 });
 
@@ -318,12 +308,15 @@ angular
                  */
                 modalInstance.result.then(function (formData, sendingStarted) {
                     var messageToSend = {
-                        verifID : ID,
-                        msg : formData.message
+                        verifID : null,
+                        msg : formData.message,
+                        name:formData.firstName,
+                        surname:formData.lastName,
+                        email:formData.email
                     };
 
                     $scope.showSendingAlert = true;
-                    dataSendingService.sendMail (messageToSend)
+                    dataSendingService.sendMailNoProvider (messageToSend)
                         .success(function () {
                             $scope.responseSuccess = true;
                             $scope.showSendingAlert = false;

@@ -11,6 +11,9 @@ angular
             },
             sendMail: function (data) {
             	return sendData('clientMessage', data);
+            },
+            sendMailNoProvider: function (data) {
+                return sendData('clientMessageNoProvider', data);
             }
         };
 

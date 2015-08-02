@@ -17,20 +17,12 @@ angular
 								$modal, $stateParams, dataReceivingService, dataSendingService, $location) {
 
 							$scope.isShownForm = true;
-
-//							$log.info($stateParams);
-
 							$scope.code = $stateParams.clientCode;
-
-							
 							$scope.findCode = function() {
 								dataReceivingService.getVerificationStatusById(
 										$scope.code).success(function(status) {
-//									$log.debug(status);
-									$scope.status = resolveStatus(status);
-
+										$scope.status = resolveStatus(status);
 								});
-
 								$scope.isShownForm = false;
 							};
 							$scope.findVerification = function() {
@@ -38,9 +30,7 @@ angular
 										.getVerificationById($scope.code)
 										.success(
 												function(verification) {
-//													$log.debug('verif from func :'
-//																	+ verification.status);
-													$scope.verification = verification;
+											        	$scope.verification = verification;
 
 													if ($scope.verification.status == ('SENT')) {
 														$scope.progress = '10';
@@ -82,7 +72,6 @@ angular
 									reload : true
 								});
 							}
-
 							$scope.openDetails = function() {
 								$modal
 										.open({

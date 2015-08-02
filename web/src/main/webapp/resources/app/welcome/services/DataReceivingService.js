@@ -8,9 +8,16 @@ angular.module('welcomeModule').factory('DataReceivingService',
 				findAllDevices : function() {
 					return getData('devices');
 				},
+				findAllDevicesByType : function() {
+					return getData('devices/{typeDevice}');
+				},
+				findAllDevicesType : function() {
+					return getData('devicesName');
+				},
 				findDistrictsByRegionId : function(id) {
 					return getData('districts/' + id);
 				},
+
 				findLocalitiesByDistrictId : function(id) {
 					return getData('localities/' + id);
 				},
