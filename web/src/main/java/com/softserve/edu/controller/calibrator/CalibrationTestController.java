@@ -39,7 +39,7 @@ public class CalibrationTestController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Throwable throwable) {
-            throwable.getMessage();
+            logger.error("Got exception" + throwable);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -82,7 +82,7 @@ public class CalibrationTestController {
         return new ResponseEntity<>(httpStatus);
     }
 
-    @RequestMapping(value = "delete/{calibrationTestId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "delete/{calibrationTestId}", method = RequestMethod.POST)
     public ResponseEntity deleteCalibrationTest(@PathVariable Long calibrationTestId) {
         CalibrationTest calibrationTest = testService.deleteTest(calibrationTestId);
         return new ResponseEntity<>(calibrationTest, HttpStatus.OK);

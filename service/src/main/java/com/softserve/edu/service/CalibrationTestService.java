@@ -43,7 +43,7 @@ public class CalibrationTestService {
 
     @Transactional
     public CalibrationTest findTestById(Long testId) {
-        return testRepository.findById(testId);
+        return testRepository.findOne(testId);
     }
 
     @Transactional
@@ -121,6 +121,6 @@ public class CalibrationTestService {
         String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
         byte[] bytesOfImages = IOUtils.toByteArray(file);
         BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-        ImageIO.write(bufferedImage, fileType, new File("D:\\", originalFileFullName));
+        ImageIO.write(bufferedImage, fileType, new File("C:\\", originalFileFullName));
     }
 }

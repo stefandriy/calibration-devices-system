@@ -7,15 +7,14 @@
 <div id="page-wrapper" ng-controller="CalibrationTestControllerCalibrator">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">{{'CALIBRATION_TESTS' | translate}}</h1>
+            <h1 class="page-header">Повірочні тести</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <button class="btn btn-xs btn-primary btn-actions-custom"
-            popover="Створити тест" popover-trigger="mouseenter"
-            ng-click="openAddCalibrationTestModal(verification.id)">
-            <span class="glyphicon glyphicon-plus-sign"></span>
+            <button class="btn btn-primary"
+                    ng-click="openAddCalibrationTestModal(verification.id)">
+                <span class="glyphicon glyphicon-plus-sign"></span> Створити тест
             </button>
         </div>
     </div>
@@ -25,16 +24,17 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">{{'CALIBRATION_TESTS' | translate}}</div>
+                <div class="panel-heading">Останні дані для повірки № {{verId}}</div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label>{{'FIND_BY_TEST_NAME' | translate}} <input type="text" ng-model="searchData"
-                            ng-change="onTableHandling()" ng-model-options="{debounce: 600}" class="form-control input-sm">
+                            <label>Знайти за назвою тесту:<input type="text" ng-model="searchData"
+                                                                 ng-change="onTableHandling()"
+                                                                 ng-model-options="{debounce: 600}"
+                                                                 class="form-control input-sm">
                             </label>
                         </div>
-                    <p>{{verId}}</p>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -42,15 +42,17 @@
                                    id="devicesTable">
                                 <thead>
                                 <tr>
-                                    <th>{{'ID'| translate}}</th>
-                                    <th>{{'NAME' | translate}}</th>
-                                    <th>{{'INITIAL_DATE' | translate }}</th>
-                                    <th>{{'TEMPERATURE' | translate }}</th>
-                                    <th>{{'SETTING_NUMBER' | translate}}</th>
-                                    <th>{{'LATITUDE' | translate}}</th>
-                                    <th>{{'LONGITUDE' | translate}}</th>
-                                    <th>{{'CONSUMPTION_STATUS' | translate }}</th>
-                                    <th>{{'PHOTO_PATH' | translate}}</th>
+                                    <th>ID</th>
+                                    <th>Назва тесту</th>
+                                    <th>Початкова дата</th>
+                                    <th>Температура*</th>
+                                    <th>Номер установки</th>
+                                    <th>Широта*</th>
+                                    <th>Довгота*</th>
+                                    <th>Статус споживання</th>
+                                    <th>Результат тесту</th>
+                                    <th>Шлях до фото</th>
+                                    <th class="text-center">Дії</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -63,16 +65,22 @@
                                     <td>{{ calibrationTest.latitude }}</td>
                                     <td>{{ calibrationTest.longitude }}</td>
                                     <td>{{ calibrationTest.consumptionStatus }}</td>
+                                    <td>{{ calibrationTest.testResult }}</td>
                                     <td>{{ calibrationTest.photoPath }}</td>
                                     <div class="col-sm-offset-6">
-
                                     </div>
-                                    <td>
-                                        <button type="button" class="btn btn-warning btn-sm"
-                                                ng-click="openEditEquipmentModal(measuringEquipment.id)">
-                                            <span class="glyphicon glyphicon-wrench"></span>
-                                        </button>
-                                    </td>
+                                    <div>
+                                        <td class="text-center" style="width: 10%">
+                                            <img src="/resources/assets/button-icons/calibration-test%20icons/test-edit.png"
+                                                 popover="Редагувати тест" popover-trigger="mouseenter"
+                                                 ng-click="editCalibrationTest(calibrationTest.id)">
+                                            </img>
+                                            <img src="/resources/assets/button-icons/calibration-test%20icons/test-delete.png"
+                                                 popover="Видалити тест" popover-trigger="mouseenter"
+                                                 ng-click="deleteTest(calibrationTest.id)">
+                                            </img>
+                                        </td>
+                                    </div>
                                 </tr>
                                 </tbody>
                             </table>

@@ -47,9 +47,8 @@
 											<th>{{'NAME' | translate}}</th>
 											<th>{{'TYPE_OF_EQUIPMENT' | translate }}</th>
 											<th>{{ 'MANUFACTURER' | translate }}</th>
-											<th>{{'VERIFICATION_INTERVAL' | translate}}</th>
-											<th>{{'EDIT' | translate}}</th>
-											<th>{{'DELETE' | translate}}</th>
+											<th style="width: 16%">{{'VERIFICATION_INTERVAL' | translate}}</th>
+											<th class="text-center">Дії</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -58,21 +57,19 @@
 											<td>{{ measuringEquipment.name }}</td>
 											<td>{{ measuringEquipment.equipmentType }}</td>
 											<td>{{ measuringEquipment.manufacturer }}</td>
-											<td>{{ measuringEquipment.verificationInterval }}</td>
+											<td style="width: 16%">{{ measuringEquipment.verificationInterval }}</td>
 											<div class="col-sm-offset-6">
 
 											</div>
-											<td>
-											<button type="button" class="btn btn-warning btn-sm"
+											<td class="text-center" style="width: 10%">
+											<img src="/resources/assets/button-icons/calibration-test%20icons/test-edit.png"
+												 popover="Редагувати прилад" popover-trigger="mouseenter"
 												ng-click="openEditEquipmentModal(measuringEquipment.id)">
-												<span class="glyphicon glyphicon-wrench"></span>
-											</button>
-											</td>
-											<td>
-											<button type="button" class="btn btn-danger btn-sm"
+											</img>
+											<img src="/resources/assets/button-icons/calibration-test%20icons/test-delete.png"
+												 popover="Видалити прилад" popover-trigger="mouseenter"
 												ng-click="deleteEquipment(measuringEquipment.id)">
-												<span class="glyphicon glyphicon-remove"></span>
-											</button>
+											</img>
 											</td>
 										</tr>
 									</tbody>

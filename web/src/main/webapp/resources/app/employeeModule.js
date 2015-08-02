@@ -149,6 +149,7 @@
             'calibrator/controllers/DetailsModalControllerCalibrator',
             'calibrator/controllers/SendingModalControllerCalibrator',
             'calibrator/controllers/CalibrationTestAddModalControllerCalibrator',
+            'calibrator/controllers/CalibrationTestEditModalController',
             'calibrator/controllers/CalibrationTestControllerCalibrator',
             'calibrator/controllers/EmployeeControllerCalibrator',
             'calibrator/controllers/AddressModalControllerCalibrator',

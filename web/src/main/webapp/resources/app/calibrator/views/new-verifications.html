@@ -132,57 +132,39 @@
                                     <td>{{ verification.street }}</td>
                                     <td>{{ verification.status }}</td>
                                     <td> {{verification.calibratorEmployee}}</td>
-                                    <td style="width: 12%">
-                            <span style="display: inline">
-                                        <br class="btn-group custom-btn-group">
-                                        <button class="btn btn-xs btn-primary btn-actions-custom" popover="Детальніше"
+                                    <td style="width: 17%" class="text-center">
+                                        <img src="/resources/assets/button-icons/details.png"  popover="Детальніше"
                                                 popover-trigger="mouseenter"
                                                 ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
-                                            <i class="fa fa-info"></i>
-                                        </button>
-                                        <button ng-show="!verification.calibratorEmployee"
-                                                class="btn btn-xs btn-success btn-actions-custom"
+                                        </img>
+                                        <img src="/resources/assets/button-icons/face2.png" ng-show="!verification.calibratorEmployee"
                                                 popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
                                                 ng-click="addCalibratorEmployee(verification.id)">
-                                            <span class="glyphicon glyphicon-plus-sign"></span>
-                                        </button>
-                                        <button ng-show="verification.calibratorEmployee"
-                                                class="btn btn-xs btn-danger btn-actions-custom"
+                                        </img>
+                                        <img src="/resources/assets/button-icons/close.png" ng-show="verification.calibratorEmployee"
                                                 popover="Видалити відповідальну особу"
                                                 popover-trigger="mouseenter"
                                                 ng-click="removeCalibratorEmployee(verification.id)">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                        <button class="btn btn-xs btn-danger btn-actions-custom"
-                                                popover="{{'REJECT' | translate}}" popover-trigger="mouseenter"
-                                                ng-click="openMailModal(verification.id)">
-                                            <span class="fa fa-reply"></span>
-                                        </button>
-
-
-                                        <br/>
-                                        <button class="btn btn-xs btn-primary btn-actions-custom"
-                                        popover=" тест" popover-trigger="mouseenter"
+                                        </img>
+                                        <img src="/resources/assets/button-icons/reject.png"
+                                             popover="{{'REJECT' | translate}}" popover-trigger="mouseenter"
+                                             ng-click="openMailModal(verification.id)">
+                                        </img>
+                                        <img src="/resources/assets/button-icons/test.png"
+                                        popover="Повірочні Тести" popover-trigger="mouseenter"
                                         ng-click="openTests(verification.id)">
-                                        <span class="glyphicon glyphicon-plus-sign"></span>
-
-                                        </button>
-                                        <button ng-show="!verification.upload" type="button"
-                                                class="btn btn-info btn-actions-custom" popover="Завантажити файл"
+                                        </img>
+                                        <img src="/resources/assets/button-icons/upload.png" ng-show="!verification.upload" type="button"
+                                                 popover="Завантажити файл"
                                                 popover-trigger="mouseenter"
                                                 ng-click="uploadBbiFile(verification.id)">
-                                            <span class="glyphicon glyphicon-save"></span>
-                                        </button>
+                                        </img>
 
-                                        <button ng-show="verification.upload" type="button"
-                                                class="btn btn-danger  btn-actions-custom"
+                                        <img src="/resources/assets/button-icons/close.png" ng-show="verification.upload" type="button"
                                                 popover="Видалити завантажений файл"
                                                 popover-trigger="mouseenter"
                                                 ng-click="cancelBbiFile(verification.id)">
-                                            <span class="glyphicon glyphicon-save"></span>
-                                        </button>
-                                </span>
-                                    </td>
+                                        </img>
                                     </td>
                                 </tr>
                                 </tbody>
