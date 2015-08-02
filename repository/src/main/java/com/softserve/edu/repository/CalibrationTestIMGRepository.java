@@ -14,5 +14,5 @@ public interface CalibrationTestIMGRepository extends CrudRepository<Calibration
     String findImgNameByCalibrationTestId(@Param("calibrationTestId") String calibrationTestId);
 
     @Query("select i from CalibrationTestIMG i where i.calibrationTest.id=:calibrationTestId")
-    String findImgByCalibrationTestId(@Param("calibrationTestId") String calibrationTestId);
+    CalibrationTestIMG findImgByCalibrationTestId(@Param("calibrationTestId") Long calibrationTestId);
 }

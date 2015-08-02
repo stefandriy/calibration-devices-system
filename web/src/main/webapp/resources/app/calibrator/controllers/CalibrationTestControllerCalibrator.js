@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
     .controller('CalibrationTestControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
-        'CalibrationTestServiceCalibrator', '$location', '$stateParams',
-        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, $stateParams) {
+        'CalibrationTestServiceCalibrator', '$location', '$stateParams', 'Upload',
+        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload,$stateParams) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -78,6 +78,8 @@ angular
                     });
             };
 
+
+
             /**
              * Opens modal window for editing equipment.
              */
@@ -99,6 +101,25 @@ angular
             $scope.deleteTest = function (testId) {
                 calibrationTestServiceCalibrator.deleteCalibrationTest(testId)
                 $rootScope.onTableHandling();
+            };
+
+            $scope.uploadPhoto = function (testId) {
+
+                var modalInstance =  $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/calibrator/views/modals/upload-photo.html',
+                    controller: 'UploadPhotoController',
+                    size: 'lg',
+                    resolve: {
+                        calibrationTest: function () {
+                            return testId;
+
+                        }
+                    }
+                });
+                modalInstance.result.then(function () {
+                    $rootScope.onTableHandling();
+                });
             };
 
         }]);

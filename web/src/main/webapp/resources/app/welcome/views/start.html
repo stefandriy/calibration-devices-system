@@ -1,24 +1,18 @@
-<section id="startSection">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>{{ 'HEAD_TITLE' | translate }}</h1>
-        </div>
-    </div>
-</section>
-
-
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.css"
           rel="stylesheet">
 
     <script src="/resources/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
 </head>
 
 <body ng-controller="WelcomePageController">
     <div style="height: 305px">
-        <carousel interval="myInterval">
+        <carousel interval="myInterval" style="height: 180%">
+            <h1>{{ 'HEAD_TITLE' | translate }}</h1>
             <slide ng-repeat="slide in slides" active="slide.active">
                 <img ng-src="{{slide.image}}" style="margin:auto;">
                 <div class="carousel-caption">

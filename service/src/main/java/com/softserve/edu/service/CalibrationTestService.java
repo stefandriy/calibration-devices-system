@@ -3,8 +3,10 @@ package com.softserve.edu.service;
 
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
+import com.softserve.edu.entity.CalibrationTestIMG;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
+import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
@@ -13,6 +15,7 @@ import com.softserve.edu.service.utils.CalibrationTestList;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -32,8 +35,14 @@ import java.util.List;
 @Service
 public class CalibrationTestService {
 
+    @Value("${photo.storage.local}")
+    private String localStorage;
+
     @Autowired
     private CalibrationTestRepository testRepository;
+
+    @Autowired
+    private CalibrationTestIMGRepository testIMGRepository;
 
     @Autowired
     private CalibrationTestDataRepository dataRepository;
@@ -66,9 +75,10 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public void createNewTest(CalibrationTest calibrationTest, String verificationId) {
+    public void createNewTest(CalibrationTest calibrationTest, Date date, String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
         calibrationTest.setVerification(verification);
+        calibrationTest.setDateTest(date);
         testRepository.save(calibrationTest);
     }
 
@@ -117,10 +127,14 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public synchronized void uploadPhotos(InputStream file, String idVerification, String originalFileFullName) throws IOException {
-        String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
+    public synchronized void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
+        String fileName = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
         byte[] bytesOfImages = IOUtils.toByteArray(file);
         BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-        ImageIO.write(bufferedImage, fileType, new File("C:\\", originalFileFullName));
+        ImageIO.write(bufferedImage, fileName, new File(localStorage, originalFileFullName));
+        CalibrationTest calibrationTest = testRepository.findOne(idCalibrationTest);
+        Date initialDate = new Date();
+        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, fileName, initialDate);
+        testIMGRepository.save(calibrationTestIMG);
     }
 }

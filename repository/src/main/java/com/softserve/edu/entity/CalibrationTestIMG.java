@@ -22,6 +22,12 @@ public class CalibrationTestIMG {
     @Temporal(TemporalType.DATE)
     private Date initialDate;
 
+    public CalibrationTestIMG(CalibrationTest calibrationTest, String imgName, Date initialDate) {
+        this.calibrationTest = calibrationTest;
+        this.imgName = imgName;
+        this.initialDate = initialDate;
+    }
+
     public Long getId() {
         return Id;
     }

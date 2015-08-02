@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.regex.Pattern;
 
 @RestController
@@ -54,14 +55,14 @@ public class CalibrationTestController {
         }
     }
 
-    //IN PROGRESS!
     @RequestMapping(value = "add/{verificationId}", method = RequestMethod.POST)
     public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO, @PathVariable String verificationId) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
             CalibrationTest createdTest = new CalibrationTest(testDTO.getName(), testDTO.getDateTest(), testDTO.getTemperature(),
                     testDTO.getSettingNumber(), testDTO.getLatitude(), testDTO.getLongitude(), testDTO.getConsumptionStatus(), testDTO.getTestResult());
-            testService.createNewTest(createdTest, verificationId);
+            Date initialDate = new Date();
+            testService.createNewTest(createdTest, initialDate, verificationId);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
@@ -111,13 +112,13 @@ public class CalibrationTestController {
     }
 
     @RequestMapping(value = "uploadPhotos", method = RequestMethod.POST)
-    public ResponseEntity<String> uploadFilePhoto(@RequestBody MultipartFile file, @RequestParam String idVerification) {
+    public ResponseEntity<String> uploadFilePhoto(@RequestBody MultipartFile file, @RequestParam Long idCalibrationTest) {
         ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
         try {
             String originalFileName = file.getOriginalFilename();
             String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
             if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                testService.uploadPhotos(file.getInputStream(), idVerification, originalFileName);
+                testService.uploadPhotos(file.getInputStream(), idCalibrationTest, originalFileName);
             } else {
                 logger.error("Failed to load file ");
                 httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);

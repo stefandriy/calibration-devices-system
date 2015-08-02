@@ -159,6 +159,7 @@
            'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
             'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',   
             'calibrator/controllers/UploadBbiFileController',
+            'calibrator/controllers/UploadPhotoController',
             'calibrator/controllers/CancelBbiProtocolCalibrator',
             'calibrator/controllers/UsersControllerCalibrator',
             'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
