@@ -72,5 +72,6 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
     List<Verification> findByCalibratorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
 
-    List<Verification> findByProviderIsNotNullAndProviderEmployeeIsNotNullAndInitialDateBetween(Date dateFrom,Date DateTo);
+    List<Verification> findByProviderIsNotNullAndProviderEmployeeIsNotNullAndStatusAndExpirationDateBetween
+            (Status statusDate,Date dateFrom,Date DateTo);
 }

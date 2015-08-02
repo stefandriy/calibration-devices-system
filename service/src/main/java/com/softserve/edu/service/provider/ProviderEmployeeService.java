@@ -4,6 +4,7 @@ import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
+import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.UserRoleRepository;
 import com.softserve.edu.repository.VerificationRepository;
@@ -31,7 +32,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class ProviderEmployeeService {
@@ -63,7 +63,7 @@ public class ProviderEmployeeService {
 
     @Transactional
     public void updateEmployee(User providerEmployee) {
-        if(providerEmployee.getPassword().equals("generate")) {
+        if (providerEmployee.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
             mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
@@ -129,7 +129,9 @@ public class ProviderEmployeeService {
 
     @Transactional
     public List<ProviderEmployeeGrafic> buidGraphic(Date from, Date to, Long idOrganization) {
-        List<Verification> verifications = verificationRepository.findByProviderIsNotNullAndProviderEmployeeIsNotNullAndInitialDateBetween(from, to);
+        List<Verification> verifications = verificationRepository.
+                findByProviderIsNotNullAndProviderEmployeeIsNotNullAndStatusAndExpirationDateBetween
+                        (Status.IN_PROGRESS, from, to);
         List<ProviderEmployeeGrafic> graficData = null;
         List<MonthOfYear> monthList = null;
         try {

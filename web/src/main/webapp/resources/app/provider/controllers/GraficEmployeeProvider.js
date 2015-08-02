@@ -18,7 +18,7 @@ angular
                         $scope.listMonth.push($scope.getXdata(graficData[0].monthList[i].month, graficData[0].monthList[i].year));
                     }
                 }else{
-                    $scope.listMonth.push("Немає даних по да");
+                    $scope.listMonth.push('За даний період немає інформації про працівників');
                 }
 
                 $log.debug(graficData)
@@ -68,7 +68,7 @@ angular
                 } else {
                     $scope.chartConfig = {
                         title: {
-                            text: 'Наразі немає інформації про працівників',
+                            text: 'За даний період немає інформації про працівників',
                             x: -20 //center
                         }
                     }

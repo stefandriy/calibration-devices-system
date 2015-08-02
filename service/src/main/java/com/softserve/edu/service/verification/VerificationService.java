@@ -373,6 +373,7 @@ public class VerificationService {
         }
         verification.setStatus(status);
         verification.setReadStatus(ReadStatus.UNREAD);
+        verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
 

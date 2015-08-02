@@ -1,10 +1,10 @@
 package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
-import com.softserve.edu.dto.provider.*;
 import com.softserve.edu.dto.ArchiveVerificationsSearch;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.provider.*;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
@@ -15,10 +15,10 @@ import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
-import com.softserve.edu.service.utils.*;
+import com.softserve.edu.service.utils.EmployeeProvider;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,9 +44,9 @@ public class ProviderVerificationController {
 
     @Autowired
     private UsersService userService;
-    
+
     @Autowired
-	private MailService mail;
+    private MailService mail;
 
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
@@ -166,9 +166,9 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "new/accept", method = RequestMethod.PUT)
     public void acceptVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
-    	verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
+        verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
                 Status.valueOf(verificationReadStatusUpdateDTO.getStatus().toUpperCase()));
-        
+
     }
 
     /**

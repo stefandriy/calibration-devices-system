@@ -1,7 +1,6 @@
 package com.softserve.edu.service.provider.buildGraphic;
 
 import com.softserve.edu.entity.Verification;
-import org.apache.log4j.Logger;
 
 import java.text.ParseException;
 import java.util.*;
@@ -19,7 +18,8 @@ public class GraficBuilder {
 
         List<MonthOfYear> months = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
-        for (Date date = start.getTime(); start.before(end) || start.equals(end); start.add(Calendar.MONTH, 1), date = start.getTime()) {
+        for (Date date = start.getTime(); start.before(end) || start.equals(end);
+             start.add(Calendar.MONTH, 1), date = start.getTime()) {
             calendar.setTime(date);
             MonthOfYear item = new MonthOfYear(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
             months.add(item);
@@ -27,9 +27,10 @@ public class GraficBuilder {
         return months;
     }
 
-    public static List<ProviderEmployeeGrafic> builderData(List<Verification> verificationList, List<MonthOfYear> months) throws ParseException {
+    public static List<ProviderEmployeeGrafic> builderData(List<Verification> verificationList,
+                                                           List<MonthOfYear> months) throws ParseException {
         Map<String, ProviderEmployeeGrafic> employeeGraphicMap = new HashMap<>();
-        Calendar initDateCal = Calendar.getInstance();
+        Calendar expirDate = Calendar.getInstance();
 
         for (Verification verification : verificationList) {
             ProviderEmployeeGrafic graphicItem;
@@ -43,8 +44,8 @@ public class GraficBuilder {
                 graphicItem.name = verification.getProviderEmployee().getUsername();
                 employeeGraphicMap.put(verification.getProviderEmployee().getUsername(), graphicItem);
             }
-            initDateCal.setTime(verification.getInitialDate());
-            MonthOfYear item = new MonthOfYear(initDateCal.get(Calendar.MONTH), initDateCal.get(Calendar.YEAR));
+            expirDate.setTime(verification.getExpirationDate());
+            MonthOfYear item = new MonthOfYear(expirDate.get(Calendar.MONTH), expirDate.get(Calendar.YEAR));
             int indexOfMonth = months.indexOf(item);
             graphicItem.data[indexOfMonth]++;
         }
@@ -54,7 +55,8 @@ public class GraficBuilder {
     }
 
 
-    public static List<ProviderEmployeeGrafic> listOfProviderEmployeeGrafic(Map<String, ProviderEmployeeGrafic> employeeGraphicMap) {
+    public static List<ProviderEmployeeGrafic> listOfProviderEmployeeGrafic(Map<String,
+            ProviderEmployeeGrafic> employeeGraphicMap) {
         List<ProviderEmployeeGrafic> graphicItemsList = new ArrayList<>();
         for (Map.Entry<String, ProviderEmployeeGrafic> item : employeeGraphicMap.entrySet()) {
             graphicItemsList.add(item.getValue());
