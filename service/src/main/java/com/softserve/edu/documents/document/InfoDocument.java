@@ -10,15 +10,14 @@ import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.DeviceType;
+
 @com.softserve.edu.documents.document.meta.Document
 public class InfoDocument  implements Document {
 	  private Verification verification;
 	  
 	    public InfoDocument (Verification verification) {
 	        super();
-
 	        setVerification(verification);
-
 	    }
 
 	/**
@@ -43,7 +42,7 @@ public class InfoDocument  implements Document {
 	public String getDeviceId() {
 		Device device = getVerification().getDevice();
 		if(device != null) {
-		return String.valueOf(device.getId());
+			return String.valueOf(device.getId());
 		} 
 		return "Not found";
 	}
@@ -52,10 +51,8 @@ public class InfoDocument  implements Document {
 			String deviceName = "лічильник ";
 			Device device = getVerification().getDevice();
 			
-			if (device != null) {
-			
+			if (device != null) {			
 			DeviceType deviceType = device.getDeviceType();
-
 			switch (deviceType) {
 				case ELECTRICAL:
 					deviceName += "електрики";
@@ -97,8 +94,7 @@ public class InfoDocument  implements Document {
 		Device device = getVerification().getDevice();
 		if (device != null) {
 		return getVerification().getDevice().getManufacturer().getName();
-		}
-		
+		}		
 		return "Not found";
 	}
 
@@ -108,11 +104,7 @@ public class InfoDocument  implements Document {
 	@Placeholder(name = "OWNER_NAME")
 	public String getOwnerFullName() {
 		ClientData ownerData = getVerification().getClientData();
-
-		String fullName = ownerData.getLastName() + " " +
-				ownerData.getFirstName() + " " +
-				ownerData.getMiddleName();
-
+		String fullName = ownerData.getLastName() + " " + ownerData.getFirstName() + " " + ownerData.getMiddleName();
 		return fullName;
 	}
 
@@ -127,14 +119,11 @@ public class InfoDocument  implements Document {
 	}
 	
 	@Placeholder(name = "OWNER_ADDRESS")
-	public String getOwnerAddress() {
-		
+	public String getOwnerAddress() {		
 		Address address = getVerification().getClientData().getClientAddress();
 		StringBuilder sb = new StringBuilder();
-		sb.append("обл.").append(address.getRegion()).append("; район ").append(address.getDistrict()).
-		append("; місто ").append(address.getLocality()).append("; вулиця ").append(address.getStreet()).
-		append("; будинок ").append(address.getBuilding()).append("; квартира ").append(address.getFlat());
-		
+		sb.append("обл.").append(address.getRegion()).append("; район ").append(address.getDistrict()).append("; місто ").append(address.getLocality())
+		.append("; вулиця ").append(address.getStreet()).append("; будинок ").append(address.getBuilding()).append("; квартира ").append(address.getFlat());	
 		return sb.toString();
 	}
 
@@ -162,10 +151,8 @@ public class InfoDocument  implements Document {
 	public String getProviderAddress() {
 		Address address = getVerification().getProvider().getAddress();
 		StringBuilder sb = new StringBuilder();
-		sb.append("обл.").append(address.getRegion()).append("; район ").append(address.getDistrict()).
-		append("; місто ").append(address.getLocality()).append("; вулиця ").append(address.getStreet()).
-		append("; будинок ").append(address.getBuilding()).append("; квартира ").append(address.getFlat());
-		
+		sb.append("обл.").append(address.getRegion()).append("; район ").append(address.getDistrict()).append("; місто ").append(address.getLocality())
+		.append("; вулиця ").append(address.getStreet()).append("; будинок ").append(address.getBuilding()).append("; квартира ").append(address.getFlat());	
 		return sb.toString();
 	}
 	
@@ -203,7 +190,7 @@ public class InfoDocument  implements Document {
 	public String getCalibrator() {
 		Organization calibrator = getVerification().getCalibrator();
 		if (calibrator != null) {
-			calibrator.getName();
+			return calibrator.getName();
 		}
 		return "None";
 	}
@@ -212,7 +199,7 @@ public class InfoDocument  implements Document {
 	public String getCalibratorId() {		
 		Organization calibrator = getVerification().getCalibrator();
 		if (calibrator != null) {
-			String.valueOf(calibrator.getId());
+			return String.valueOf(calibrator.getId());
 		}
 		return "None";
 	}
@@ -221,7 +208,7 @@ public class InfoDocument  implements Document {
 	public String getCalibratorPhone() {
 		Organization calibrator = getVerification().getCalibrator();
 		if (calibrator != null) {
-			calibrator.getPhone();
+			return calibrator.getPhone();
 		}
 		return "None";
 	}
@@ -230,7 +217,7 @@ public class InfoDocument  implements Document {
 	public String getCalibratorMail() {
 		Organization calibrator = getVerification().getCalibrator();
 		if (calibrator != null) {
-			calibrator.getEmail();
+			return calibrator.getEmail();
 		}
 		return "None";
 	}
@@ -241,10 +228,8 @@ public class InfoDocument  implements Document {
 		if (calibrator != null) {
 		Address address = calibrator.getAddress();
 		StringBuilder sb = new StringBuilder();
-		sb.append("обл.").append(address.getRegion()).append("; район ").append(address.getDistrict()).
-		append("; місто ").append(address.getLocality()).append("; вулиця ").append(address.getStreet()).
-		append("; будинок ").append(address.getBuilding()).append("; квартира ").append(address.getFlat());
-		
+		sb.append("обл.").append(address.getRegion()).append("; район ").append(address.getDistrict()).append("; місто ").append(address.getLocality())
+		.append("; вулиця ").append(address.getStreet()).append("; будинок ").append(address.getBuilding()).append("; квартира ").append(address.getFlat());		
 		return sb.toString();
 		}
 		return "None";
@@ -282,7 +267,7 @@ public class InfoDocument  implements Document {
 	public String getVerificator() {
 		Organization verificator = getVerification().getStateVerificator();
 		if (verificator != null) {
-			verificator.getName();
+			return verificator.getName();
 		}
 		return "None";
 	}
@@ -291,7 +276,7 @@ public class InfoDocument  implements Document {
 	public String getVerificatorId() {
 		Organization verificator = getVerification().getStateVerificator();
 		if (verificator != null) {
-			String.valueOf(verificator.getId());
+			return String.valueOf(verificator.getId());
 		}
 		return "None";
 	}
@@ -300,7 +285,7 @@ public class InfoDocument  implements Document {
 	public String getVerificatorPhone() {
 		Organization verificator = getVerification().getStateVerificator();
 		if (verificator != null) {
-			verificator.getPhone();
+			return verificator.getPhone();
 		}
 		return "None";
 	}
@@ -309,7 +294,7 @@ public class InfoDocument  implements Document {
 	public String getVerificatorMail() {
 		Organization verificator = getVerification().getStateVerificator();
 		if (verificator != null) {
-			verificator.getEmail();
+			return verificator.getEmail();
 		}
 		return "None";
 	}
@@ -320,10 +305,8 @@ public class InfoDocument  implements Document {
 		if (verificator != null) {
 		Address address = verificator.getAddress();
 		StringBuilder sb = new StringBuilder();
-		sb.append("обл.").append(address.getRegion()).append("; район ").append(address.getDistrict()).
-		append("; місто ").append(address.getLocality()).append("; вулиця ").append(address.getStreet()).
-		append("; будинок ").append(address.getBuilding()).append("; квартира ").append(address.getFlat());
-		
+		sb.append("обл.").append(address.getRegion()).append("; район ").append(address.getDistrict()).append("; місто ").append(address.getLocality())
+		.append("; вулиця ").append(address.getStreet()).append("; будинок ").append(address.getBuilding()).append("; квартира ").append(address.getFlat());		
 		return sb.toString();
 		}
 		return "None";
@@ -362,7 +345,7 @@ public class InfoDocument  implements Document {
 	        this.verification = verification;
 	    }
 
-	    protected Verification getVerification() {
+	protected Verification getVerification() {
 	        return verification;
 	    }	   
 }

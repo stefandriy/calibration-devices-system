@@ -12,6 +12,9 @@ angular
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);
             },
+            getArchivalVerificationDetails: function (verificationId) {
+                return getData('verifications/archive/' + verificationId);
+            },
             getProviders: function (url) {
                 return getData('verifications/new/providers');
             },
