@@ -156,7 +156,6 @@ public class AddEmployeeController {
         }
         Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
         temporalUser.setOrganization(employeeOrganization);
-        System.out.println(providerEmployee.toString());
         providerEmployeeService.addEmployee(temporalUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }

@@ -288,6 +288,7 @@ angular
                     templateUrl: '/resources/app/calibrator/views/employee/adding-providerEmployee.html',
                     controller: 'CalibratorEmployeeControllerCalibrator',
                     size: 'md',
+                    windowClass: 'xx-dialog',
                     resolve: {
                         calibratorEmploy: function () {
                             return verificationServiceCalibrator.getCalibrators()

@@ -89,8 +89,8 @@ public class CalibratorService {
     public List<EmployeeProvider> getAllProviders(List<String> role, User employee) {
         List<EmployeeProvider> providerListEmployee = new ArrayList<>();
         if (role.contains(Roles.CALIBRATOR_ADMIN.name())) {
-            List<User> list = userRepository.getAllProviderUsers(Roles.CALIBRATOR_EMPLOYEE.name(),
-                    employee.getOrganization().getId());
+            List<User> list = userRepository.getAllProviderUsersList(Roles.CALIBRATOR_EMPLOYEE.name(),
+                    employee.getOrganization().getId(),true);
             providerListEmployee = EmployeeProvider.giveListOfProviders(list);
         } else {
             EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(),

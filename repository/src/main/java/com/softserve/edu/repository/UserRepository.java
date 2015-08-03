@@ -39,8 +39,13 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Query("SELECT u FROM User u WHERE u.username = :username")
     User getUserByUserName(@Param("username") String username);
 
-    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =  :role AND u.organization.id = :organizationId ")
+    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =  :role AND u.organization.id = :organizationId")
     List<User> getAllProviderUsers(@Param("role") String role, @Param("organizationId") Long organizationId);
+
+    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =  :role AND u.organization.id = :organizationId " +
+            " AND u.isAvaliable= :isAvaliable")
+    List<User> getAllProviderUsersList(@Param("role") String role, @Param("organizationId") Long organizationId,
+                                       @Param("isAvaliable") boolean isAvaliable);
 
     User findByUsername(String userName);
 

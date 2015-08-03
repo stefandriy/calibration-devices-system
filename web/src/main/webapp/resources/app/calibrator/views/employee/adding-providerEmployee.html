@@ -4,7 +4,7 @@
 
 <div class="modal-footer">
     <h3 class="modal-title pull-left">Вибрати відповідальну особу: </h3>
-    <select class="form-control" name="provider"
+    <select class="form-control" chosen options="provider"
             ng-model="formData.provider"
             ng-options="provider as providerFullName(provider) for provider in providers track by provider.firstName">
     </select>

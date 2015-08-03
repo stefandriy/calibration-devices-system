@@ -27,7 +27,7 @@ body {
 }
 
 .glyphicon{
-	
+
 	font-size: 17px;
 }
 .incorrect{
@@ -64,7 +64,7 @@ body {
 }
 .myDatepicker .input-group-btn{
 	height:  30px;
-	
+
 }
 
 .myGroupBtn {
@@ -93,7 +93,7 @@ body {
     text-align: center;
     border-radius: 15px;
     font-size: 13px;
-    
+
     border: none;
     margin-bottom: 0;
     margin-left: 0;
@@ -104,7 +104,7 @@ body {
     padding-left: 0;
     padding-right: 0;
     }
-    
+
  [ng\:cloak],[ng-cloak],.ng-cloak {
   	display:none !important;
   }
@@ -235,7 +235,7 @@ body {
         position: absolute;
         width: 250px;
         margin-top: 51px;
-      
+
     }
 
     .navbar-top-links .dropdown-messages,
@@ -360,7 +360,7 @@ table.dataTable thead .sorting:after {
 }
 
 .btn-circle {
-	
+
     width: 30px;
     height: 30px;
     padding: 6px 0;
@@ -532,11 +532,21 @@ input[type="radio"], input[type="checkbox"] {
     text-align: left;
     margin-bottom: 10px;
 }
-.providerEmployee .modal-footer.form-group{
-    margin-bottom: 0;
+  .modal-footer.form-group{
+    padding-bottom: 0;
+
 }
+
 .providerEmployee .modal-content{
     margin-left: 18%;
+}
+
+
+.xx-dialog .modal-dialog {
+    width :30%;
+    min-width: 350px;
+    height: 18%;
+    min-height: 150px;
 }
 .verificationNumber {
     overflow: hidden!important;
