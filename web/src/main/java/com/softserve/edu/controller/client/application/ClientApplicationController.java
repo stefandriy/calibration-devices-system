@@ -73,20 +73,6 @@ public class ClientApplicationController {
 		return verification.getId();
 	}
 	
-//	@RequestMapping(value = "edit", method = RequestMethod.POST)
-//	public String editApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
-//
-//		ClientData clientData = new ClientData(verificationDTO.getFirstName(), verificationDTO.getLastName(),
-//				verificationDTO.getMiddleName(), verificationDTO.getEmail(), verificationDTO.getPhone(), verificationDTO.getSecondPhone(),
-//				new Address(verificationDTO.getRegion(), verificationDTO.getDistrict(), verificationDTO.getLocality(),
-//						verificationDTO.getStreet(), verificationDTO.getBuilding(), verificationDTO.getFlat()));
-//		Organization provider = providerService.findById(verificationDTO.getProviderId());
-//		String name = clientData.getFirstName() + " " + clientData.getLastName();
-//			verificationService.updateVerificationData(verificationDTO.getVerificationId(), clientData, provider);
-//			mail.sendMail(clientData.getEmail(), name, verificationDTO.getVerificationId());
-//		return verificationDTO.getVerificationId();
-//	}
-
 
 	@RequestMapping(value = "check/{verificationId}", method = RequestMethod.GET)
 	public String getClientCode(@PathVariable String verificationId) {
