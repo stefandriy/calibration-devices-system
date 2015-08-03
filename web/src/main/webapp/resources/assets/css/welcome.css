@@ -221,11 +221,11 @@ a {
 .notFoundStyle {
 	color: #b94a48;
 	background-color: #f2dede;
-	border-color: #eed3d7;
+
 	height: 50px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 16px;
-	border: 1px solid;
+
 	margin: 10px 0px;
 	padding: 15px 10px 15px 50px;
 	
@@ -234,25 +234,25 @@ a {
 .doneStyle {
 	color: #468847;
 	background-color: #dff0d8;
-	border-color: #d6e9c6;
+
 }
 
 .progressStyle {
 	color: #9F6000;
 	background-color: #FEEFB3;
-	border-color: #eed3d7;
+
 }
 
 .notYetStyle {
 	color: #b94a48;
 	background-color: #f2dede;
-	border-color: #eed3d7;
+
 }
 
 .infoStyle {
 	color: #3a87ad;
 	background-color: #d9edf7;
-	border-color: #bce8f1;
+
 }
 
 .center {

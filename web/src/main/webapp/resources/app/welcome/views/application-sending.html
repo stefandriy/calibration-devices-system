@@ -312,7 +312,7 @@
 									disable-search="true"
 									data-placeholder="Кількість"
 									name="typeStreet" type="text"
-									ng-model="selectedCount1" class="form-control"  required >
+									ng-model="selectedCount1" class="form-control">
 								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -342,7 +342,7 @@
 									data-placeholder="Кількість"
 									disable-search="true"
 									name="typeStreet" type="text"
-									ng-model="selectedCount2" class="form-control"  required >
+									ng-model="selectedCount2" class="form-control">
 								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -379,7 +379,7 @@
 			</form>
 		</div>
 
-		<div class="progress col-md-8 col-md-offset-2"ng-show="codes.length=='0'" style="padding-left:0px;padding-right:0px;height: 30px">
+		<div class="progress col-md-8 col-md-offset-2"ng-show="!isShownForm && codes.length=='0'" style="padding-left:0px;padding-right:0px;height: 30px">
 
 			<div class="progress-bar progress-bar-striped active"
 				 role="progressbar" aria-valuenow="100" aria-valuemin="0"
