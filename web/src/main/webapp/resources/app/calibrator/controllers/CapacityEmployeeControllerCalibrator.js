@@ -9,9 +9,6 @@ angular
 
             $scope.verifications = capacity.data.content;
 
-
-            //     $scope.employee = $scope.verifications[0].providerEmployee;
-
             $log.info($scope.verifications);
 
             $scope.close = function () {

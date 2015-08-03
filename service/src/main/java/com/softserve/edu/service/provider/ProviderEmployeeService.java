@@ -50,8 +50,14 @@ public class ProviderEmployeeService {
     @Autowired
     private MailService mail;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @PersistenceContext
     private EntityManager em;
+
+    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+
 
     Logger logger = Logger.getLogger(ProviderEmployeeService.class);
 
@@ -128,16 +134,15 @@ public class ProviderEmployeeService {
     }
 
     @Transactional
-    public List<ProviderEmployeeGrafic> buidGraphic(Date from, Date to, Long idOrganization) {
+    public List<ProviderEmployeeGrafic> buidGraphic(Date from, Date to, Long idOrganization,List<User>listOfEmployee) {
         Organization organization=organizationRepository.findOne(idOrganization);
         List<Verification> verifications = verificationRepository.
-                findByProviderEmployeeIsNotNullAndProviderAndAndStatusAndExpirationDateBetween
-                        (organization,Status.IN_PROGRESS, from, to);
+                findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween
+                        (organization, from, to);
         List<ProviderEmployeeGrafic> graficData = null;
-        List<MonthOfYear> monthList = null;
         try {
-            monthList = GraficBuilder.listOfMonths(from, to);
-            graficData = GraficBuilder.builderData(verifications, monthList);
+            List<MonthOfYear> monthList = GraficBuilder.listOfMonths(from, to);
+            graficData = GraficBuilder.builderData(verifications, monthList,listOfEmployee);
 
         } catch (ParseException e) {
             logger.error(e.getMessage());
@@ -146,11 +151,10 @@ public class ProviderEmployeeService {
     }
 
     public Date convertToDate(String date) throws IllegalArgumentException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         Date result = null;
         if (StringUtils.isNotBlank(date)) {
             try {
-                result = dateFormat.parse(date);
+                result = DATE_FORMAT.parse(date);
             } catch (ParseException e) {
                 logger.error(e.getMessage());
             }
@@ -158,5 +162,11 @@ public class ProviderEmployeeService {
             throw new IllegalArgumentException("input date is not correct");
         }
         return result;
+    }
+
+
+    @Transactional
+    public List<User> getAllProviderEmployee(Long idOrganization){
+       return userRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(),idOrganization);
     }
 }

@@ -1,6 +1,7 @@
 package com.softserve.edu.controller.provider;
 
 
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGrafic;
@@ -36,7 +37,8 @@ public class ProviderEmployeeController {
         try {
             Date dateFrom = providerEmployeeService.convertToDate(fromDate);
             Date dateTo = providerEmployeeService.convertToDate(toDate);
-            list = providerEmployeeService.buidGraphic(dateFrom, dateTo, idOrganization);
+            List<User> providerEmployee= providerEmployeeService.getAllProviderEmployee(idOrganization);
+            list = providerEmployeeService.buidGraphic(dateFrom, dateTo, idOrganization,providerEmployee);
         } catch (Exception e) {
             logger.error("Failed to get graphic data");
         }

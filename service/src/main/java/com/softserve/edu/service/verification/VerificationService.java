@@ -363,6 +363,7 @@ public class VerificationService {
 
         if (status.equals(Status.IN_PROGRESS)) {
             verification.setCalibrator(oraganization);
+            verification.setSentToCalibratorDate(new Date());
         } else if (status.equals(Status.SENT_TO_VERIFICATOR)) {
             verification.setStateVerificator(oraganization);
         } else if ((status.equals(Status.TEST_OK)) || (status.equals(Status.TEST_NOK))) {
