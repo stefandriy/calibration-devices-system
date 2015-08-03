@@ -48,7 +48,7 @@ public class
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(to);
-                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Централізована система повірки лічильників"));
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
                 String domain = null;	
 				try {
 					domain = InetAddress.getLocalHost().getHostAddress();
@@ -80,7 +80,7 @@ public class
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(employeeEmail);
-                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Централізована система повірки лічильників"));
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("name", employeeName);
                 templateVariables.put("password", newPassword);
@@ -98,7 +98,7 @@ public class
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(to);
-                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Централізована система повірки лічильників"));
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
                 String domain = null;	
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("name", userName);
@@ -122,7 +122,7 @@ public class
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(to);
-                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Централізована система повірки лічильників"));
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
                 String domain = null;	
 				try {
 					domain = InetAddress.getLocalHost().getHostAddress();

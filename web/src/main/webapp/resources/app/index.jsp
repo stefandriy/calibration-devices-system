@@ -153,13 +153,13 @@
                         </li>
                     </sec:authorize>
 
-                    <sec:authorize url="/provider">
+                    <sec:authorize url="/provider/admin/">
                         <li ui-sref-active="active">
                             <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> Переглянути усіх працівників</a>
                         </li>
                     </sec:authorize>
 
-                    <sec:authorize url="/calibrator">
+                    <sec:authorize url="/calibrator/admin/">
                         <li ui-sref-active="active">
                             <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> Переглянути усіх працівників</a>
                         </li>
