@@ -208,26 +208,6 @@ angular
                       $scope.selectedDevice =[];
                 
                 });
-              /* $scope.deviceName=function(){
-                 for(var i=0;i<$scope.devices.length;i++){
-                  $scope.devicesType[i]=$scope.selectedDevice.deviceName[i];
-                     }
-               }
-            $log.debug("$scope.devicesType");
-            $log.debug($scope.devicesType);
-             */
-           /* dataReceivingService.findAllDevicesType()
-                .success(function (devicesType) {
-                $scope.devicesType = devicesType;
-                $log.debug("devicesType");
-                $log.debug($scope.devicesType);
-            });
-
-            dataReceivingService.findAllDevicesByType()
-                .success(function (devicesByType) {
-                    $scope.devicesByType = devicesByType;
-
-                });*/
 
             /**
              * Sends data to the server where Verification entity will be created.

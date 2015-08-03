@@ -50,7 +50,7 @@ angular
 													if ($scope.verification.status == ( 'TEST_COMPLETED')) {
 														$scope.progress = '90';
 													}
-													if ($scope.verification.status == ('TEST_OK' || 'TEST_NOK')) {
+													if ($scope.verification.status == ('TEST_OK' )) {
 														$scope.progress = '100';
 													}
 													if ($scope.verification.status == ( 'TEST_NOK')) {
