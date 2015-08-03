@@ -88,7 +88,7 @@ angular
                 calibrationTestServiceCalibrator.getCalibrationTestWithId(
                     $rootScope.testId).then(
                     function (data) {
-                        $rootScope.calibratioTest = data;
+                        $rootScope.calibrationTest = data;
                     });
                 var testDTOModal = $modal
                     .open({

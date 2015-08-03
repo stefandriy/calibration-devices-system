@@ -23,10 +23,10 @@ angular.module('employeeModule')
 							 */
 							$scope.editEquipment = function() {
 								var equipmentForm = {
-									name : $rootScope.equipment.name,
-									deviceType : $rootScope.equipment.deviceType,
-									manufacturer : $rootScope.equipment.manufacturer,
-									verificationInterval : $rootScope.equipment.verificationInterval
+									name : $scope.equipment.name,
+									deviceType : $scope.equipment.deviceType,
+									manufacturer : $scope.equipment.manufacturer,
+									verificationInterval : $scope.equipment.verificationInterval
 									
 								}
 								MeasuringEquipmentServiceCalibrator.editEquipment(

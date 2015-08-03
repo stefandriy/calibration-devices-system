@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="modal-body">
-    <form name="testFormEdit" novalidate>
+    <form name="calibrationTestFormEdit" novalidate>
 
         <div class="row">
             <div class="form-group col-md-4">
@@ -14,8 +14,8 @@
             </div>
             <div class="form-group col-md-8" show-errors>
                 <input type="text"
-                       ng-model="$root.test.name"
-                       ng-minlength="3" id="name" name="name" class="form-control"	required>
+                       ng-model="calibrationTest.name"
+                       name="name" class="form-control">
             </div>
         </div>
 
@@ -25,8 +25,8 @@
             </div>
             <div class="form-group col-md-8" show-errors>
                 <input type="text"
-                       ng-model="$root.test.temperature"
-                       name="temperature" class="form-control" required>
+                       ng-model="calibrationTest.temperature"
+                       name="temperature" class="form-control">
             </div>
         </div>
         <div class="row">
@@ -34,7 +34,7 @@
                 <label class="control-label">Номер установки:</label>
             </div>
             <div class="form-group col-md-8">
-                <input type="text" ng-model="$root.test.settingNumber" name="settingNumber" class="form-control">
+                <input type="text" ng-model="calibrationTest.settingNumber" name="settingNumber" class="form-control">
             </div>
         </div>
         <div class="row">
@@ -42,7 +42,7 @@
                 <label class="control-label">Широта:</label>
             </div>
             <div class="form-group col-md-8">
-                <input type="text" ng-model="$root.test.latitude" name="latitude" class="form-control">
+                <input type="text" ng-model="calibrationTest.latitude" name="latitude" class="form-control">
             </div>
         </div>
         <div class="row">
@@ -50,7 +50,15 @@
                 <label class="control-label">Довгота:</label>
             </div>
             <div class="form-group col-md-8">
-                <input type="text" ng-model="$root.test.longitude" name="longitude" class="form-control">
+                <input type="text" ng-model="calibrationTest.longitude" name="longitude" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">Статус споживання:</label>
+            </div>
+            <div class="form-group col-md-8">
+                <input type="text" ng-model="calibrationTest.consumptionStatus" name="consumptionStatus" class="form-control">
             </div>
         </div>
         <div class="row">
@@ -58,14 +66,11 @@
                 <label class="control-label">Результат тесту:</label>
             </div>
             <div class="form-group col-md-8">
-                <input type="text" ng-model="$root.test.testResult" name="testResult" class="form-control">
+                <input type="text" ng-model="calibrationTest.testResult" name="testResult" class="form-control">
             </div>
         </div>
-
-
         <div class="row">
             <div class="form-group col-md-10">
-
                 <button class="btn btn-success" ng-click="editTest()">Редагувати тест</button>
                 <a class="btn btn-warning" ng-click="resetTestForm()">Скинути форму</a>
             </div>

@@ -31,18 +31,12 @@ public class CalibrationTestController {
 
     private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|png|PNG|tif|TIF|)$";
 
-    @RequestMapping(value = "getTest/{calibrationTestId}", method = RequestMethod.GET)
-    public ResponseEntity getCalibrationTest(@PathVariable Long calibrationTestId) {
-        CalibrationTest foundTest = null;
-        try {
-            foundTest = testService.findTestById(calibrationTestId);
-            if (foundTest == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Throwable throwable) {
-            logger.error("Got exception" + throwable);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+    @RequestMapping(value = "getTest/{testId}", method = RequestMethod.GET)
+    public CalibrationTestDTO getCalibrationTest(@PathVariable Long testId) {
+        CalibrationTest foundTest = testService.findTestById(testId);
+        CalibrationTestDTO testDTO =  new CalibrationTestDTO(foundTest.getName(), foundTest.getTemperature(), foundTest.getSettingNumber(),
+                foundTest.getLatitude(), foundTest.getLongitude(), foundTest.getConsumptionStatus(), foundTest.getTestResult());
+        return testDTO;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -74,8 +68,8 @@ public class CalibrationTestController {
     public ResponseEntity editCalibrationTest(@PathVariable Long calibrationTestId, @RequestBody CalibrationTestDTO testDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            testService.editTest(calibrationTestId, testDTO.getName(), testDTO.getDateTest(), testDTO.getTemperature(),
-                    testDTO.getSettingNumber(), testDTO.getLatitude(), testDTO.getLongitude(), testDTO.getConsumptionStatus());
+            testService.editTest(calibrationTestId, testDTO.getName(), testDTO.getTemperature(),
+                    testDTO.getSettingNumber(), testDTO.getLatitude(), testDTO.getLongitude(), testDTO.getConsumptionStatus(), testDTO.getTestResult());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
@@ -107,6 +101,7 @@ public class CalibrationTestController {
             CalibrationTestDataList list = testService.findAllTestDataAsociatedWithTest(calibrationTestId);
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (NotAvailableException exception) {
+            logger.error("Not found " + exception);
             throw new com.softserve.edu.exceptions.NotFoundException(exception);
         }
     }

@@ -60,6 +60,16 @@
 
         <div class="row">
             <div class="form-group col-md-4">
+                <label class="control-label">{{'CONSUMPTION_STATUS' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8">
+                <input type="text" ng-model="TestFormData.consumptionStatus"
+                       name="consumptionStatus" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
                 <label class="control-label">{{'TEST_RESULT' | translate }}</label>
             </div>
             <div class="form-group col-md-8">
@@ -67,36 +77,6 @@
                        name="testResult" class="form-control" required>
             </div>
         </div>
-
-        {{verId}}
-        <div class="modal-header">
-            <h4 class="modal-title">Завантаження документа</h4>
-        </div>
-
-        <div class="modal-body">
-            <div class="uploadFile">
-                <button class="btn btn-info" ng-model="file" ngf-select ngf-change="upload($files)"
-                        accept="image/*" ngf-multiple="true">Оберіть файл
-                </button>
-
-                <div ng-hide="uploaded" ngf-drop ngf-select ng-model="files" class="drop-box"
-                     ngf-drag-over-class="dragover"
-                     ngf-allow-dir="false" accept="image/*" ngf-multiple="true">Перетягніть файл сюди
-                </div>
-
-                <progressbar value="progressPercentage" max="100" min="0" class="progress-striped active"
-                             type="success">
-                    {{progressPercentage}}%
-                </progressbar>
-
-                <div ng-show="messageSuccess" class="alert alert-success" role="alert">{{messageSuccess}}</div>
-                <div ng-show="messageError" class="alert alert-danger" role="alert">{{messageError}}</div>
-
-                <div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
-            </div>
-        </div>
-
-        <hr/>
 
         <div class="row">
             <div class="form-group col-md-10">

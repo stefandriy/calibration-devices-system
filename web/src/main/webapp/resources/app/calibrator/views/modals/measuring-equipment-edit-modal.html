@@ -11,7 +11,7 @@
 			</div>
 			<div class="form-group col-md-8" show-errors>
 				<input type="text"
-					ng-model="$root.equipment.name"
+					ng-model="equipment.name"
 					ng-minlength="3" id="name" name="name" class="form-control"	required>
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 			</div>
 			<div class="form-group col-md-8" show-errors>
 				<input type="text"
-					ng-model="$root.equipment.deviceType"
+					ng-model="equipment.deviceType"
 					name="equipmentType" class="form-control" required>
 			</div>
 		</div>
@@ -31,7 +31,7 @@
     			<label class="control-label">{{'MANUFACTURER' | translate }}</label>
    			</div>
    			<div class="form-group col-md-8">
-    			<input type="text" ng-model="$root.equipment.manufacturer" name="manufacturer" class="form-control">
+    			<input type="text" ng-model="equipment.manufacturer" name="manufacturer" class="form-control">
    			</div>
   		</div>
 		<div class="row">
@@ -39,7 +39,7 @@
     			<label class="control-label">{{'VERIFICATION_INTERVAL' | translate }}</label>
    			</div>
    			<div class="form-group col-md-8">
-    			<input type="text" ng-model="$root.equipment.verificationInterval" name="verificationInterval" class="form-control">
+    			<input type="text" ng-model="equipment.verificationInterval" name="verificationInterval" class="form-control">
    			</div>
   		</div>
 

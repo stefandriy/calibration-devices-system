@@ -20,6 +20,16 @@ public class CalibrationTestDTO  {
     public CalibrationTestDTO() {
     }
 
+    public CalibrationTestDTO(String name, Integer temperature, Integer settingNumber, Double latitude,
+                              Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
+        this.name = name;
+        this.temperature = temperature;
+        this.settingNumber = settingNumber;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.consumptionStatus = consumptionStatus;
+        this.testResult = testResult;
+    }
 
     public CalibrationTestDTO(CalibrationTest calibrationTest) {
         super();
@@ -46,7 +56,7 @@ public class CalibrationTestDTO  {
     }
 
     public void setDateTest(Date dateTest) {
-        this.dateTest = dateTest;
+        this.dateTest = new Date();
     }
 
     public Integer getTemperature() {

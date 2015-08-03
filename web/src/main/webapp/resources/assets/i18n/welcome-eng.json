@@ -122,6 +122,7 @@
   "LATITUDE":"Latitude",
   "LONGITUDE":"Longitude",
   "TEST_RESULT":"Test result",
+  "CONSUMPTION_STATUS":"Consumption status",
 
 			
 	"TEST_COMPLETED_TRASLATION":"A measure done.",

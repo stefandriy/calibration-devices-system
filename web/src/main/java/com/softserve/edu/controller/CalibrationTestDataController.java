@@ -31,6 +31,7 @@ public class CalibrationTestDataController {
         if (foundtestData != null) {
             return new ResponseEntity<>(foundtestData, HttpStatus.OK);
         } else {
+            logger.error("Not found");
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

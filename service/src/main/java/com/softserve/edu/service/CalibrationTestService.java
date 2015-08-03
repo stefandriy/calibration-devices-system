@@ -4,6 +4,7 @@ import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.entity.CalibrationTestIMG;
 import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.util.CalibrationTestResult;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
@@ -81,16 +82,17 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public CalibrationTest editTest(Long testId, String name, Date dateTest, Integer temperature, Integer settingNumber,
-                                    Double latitude, Double longitude, String consumptionStatus) {
+    public CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
+                                    Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
+        testResult = CalibrationTestResult.SUCCESS;
         calibrationTest.setName(name);
-        calibrationTest.setDateTest(dateTest);
         calibrationTest.setTemperature(temperature);
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
         calibrationTest.setConsumptionStatus(consumptionStatus);
+        calibrationTest.setTestResult(testResult);
         return calibrationTest;
     }
 

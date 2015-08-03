@@ -1,17 +1,15 @@
 package com.softserve.edu.service;
 
 
-import java.util.List;
-
+import com.softserve.edu.entity.Device;
+import com.softserve.edu.repository.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.util.DeviceType;
-import com.softserve.edu.repository.DeviceRepository;
+import java.util.List;
 
 
 @Service

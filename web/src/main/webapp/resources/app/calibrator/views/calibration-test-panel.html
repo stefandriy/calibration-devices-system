@@ -44,14 +44,13 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Назва тесту</th>
-                                    <th>Початкова дата</th>
+                                    <!--<th>Початкова дата</th>-->
                                     <th>Температура*</th>
                                     <th>Номер установки</th>
                                     <th>Широта*</th>
                                     <th>Довгота*</th>
                                     <th>Статус споживання</th>
                                     <th>Результат тесту</th>
-                                    <th>Шлях до фото</th>
                                     <th class="text-center">Дії</th>
                                 </tr>
                                 </thead>
@@ -59,23 +58,21 @@
                                 <tr ng-repeat="calibrationTest in pageContent">
                                     <td>{{ calibrationTest.id }}</td>
                                     <td>{{ calibrationTest.name }}</td>
-                                    <td>{{ calibrationTest.dateTest }}</td>
+                                    <!--<td>{{ calibrationTest.dateTest }}</td>-->
                                     <td>{{ calibrationTest.temperature }}</td>
                                     <td>{{ calibrationTest.settingNumber }}</td>
                                     <td>{{ calibrationTest.latitude }}</td>
                                     <td>{{ calibrationTest.longitude }}</td>
                                     <td>{{ calibrationTest.consumptionStatus }}</td>
                                     <td>{{ calibrationTest.testResult }}</td>
-                                    <td>{{ calibrationTest.photoPath }}</td>
-                                    <div class="col-sm-offset-6">
-                                    </div>
-                                    <div>
-                                        <td class="text-center" style="width: 10%">
-                                            <img src="/resources/assets/button-icons/calibration-test%20icons/test-edit.png"
+                                    <td style="width: 15%">
+                                    <img>
+                                        <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
+                                            <img src="/resources/assets/button-icons/calibration-test%20icons/edit.png"
                                                  popover="Редагувати тест" popover-trigger="mouseenter"
                                                  ng-click="editCalibrationTest(calibrationTest.id)">
                                             </img>
-                                            <img src="/resources/assets/button-icons/calibration-test%20icons/test-delete.png"
+                                            <img src="/resources/assets/button-icons/calibration-test%20icons/delete.png"
                                                  popover="Видалити тест" popover-trigger="mouseenter"
                                                  ng-click="deleteTest(calibrationTest.id)">
                                             </img>
@@ -84,9 +81,10 @@
                                                  popover-trigger="mouseenter"
                                                  ng-click="uploadPhoto(calibrationTest.id)">
                                             </img>
-
-                                        </td>
+                                                <a href="http://localhost/img/" style="align-self: auto" popover="Переглянути фото"
+                                                   popover-trigger="mouseenter"> <i class="fa fa-file-image-o"></i> </a>
                                     </div>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
