@@ -65,12 +65,12 @@ public class ProviderApplicationController {
     @RequestMapping(value = "send", method = RequestMethod.POST)
     public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         ClientData clientData = new ClientData(verificationDTO.getFirstName(),
-                verificationDTO.getLastName(),
-                verificationDTO.getMiddleName(),
-        		verificationDTO.getEmail(),
-                verificationDTO.getPhone(),
-                verificationDTO.getSecondPhone(),
-												new Address(verificationDTO.getRegion(),
+										                verificationDTO.getLastName(),
+										                verificationDTO.getMiddleName(),
+										        		verificationDTO.getEmail(),
+										                verificationDTO.getPhone(),
+										                verificationDTO.getSecondPhone(),
+										                new Address(verificationDTO.getRegion(),
                                                         verificationDTO.getDistrict(),
                                                         verificationDTO.getLocality(),
 														verificationDTO.getStreet(),
@@ -116,15 +116,13 @@ public class ProviderApplicationController {
 		}
     	return (long) -1;
 	}
-    
-  
-    
+      
     @RequestMapping(value = "new/mail", method = RequestMethod.POST)
 	public String sendReject(@RequestBody RejectMailDTO reject) {
 		Verification verification = verificationService.findById(reject.getVerifID());
     	String name = verification.getClientData().getFirstName();
     	String sendTo = verification.getClientData().getEmail();
-    	mail.sendRejectMail(sendTo, name, reject.getVerifID(), reject.getMsg());
+    	mail.sendRejectMail(sendTo, name, reject.getVerifID(), reject.getMsg(), verification.getDevice().getDeviceType().toString());
     	return reject.getVerifID();
 	}
 }

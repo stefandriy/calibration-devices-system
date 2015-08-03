@@ -92,7 +92,7 @@ public class
         this.mailSender.send(preparator);
     }
     
-    public void sendRejectMail(String to, String userName, String verificationId, String msg) {
+    public void sendRejectMail(String to, String userName, String verificationId, String msg, String deviceType) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -100,16 +100,12 @@ public class
                 message.setTo(to);
                 message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Централізована система повірки лічильників"));
                 String domain = null;	
-				try {
-					domain = InetAddress.getLocalHost().getHostAddress();
-				} catch (UnknownHostException ue) {
-					logger.error("Cannot get host address", ue);
-				}
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("name", userName);
                 templateVariables.put("protocol", protocol);
                 templateVariables.put("domain", domain);
                 templateVariables.put("verificationId", verificationId);
+                templateVariables.put("deviceType", deviceType);
                 templateVariables.put("message", msg);
                 String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/rejectVerification.vm", "UTF-8", templateVariables);
                 message.setText(body, true);
