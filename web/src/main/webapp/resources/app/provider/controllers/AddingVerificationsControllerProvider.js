@@ -15,12 +15,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 for(var i = 0, len = myArray.length; i < len; i++) {
                     if (myArray[i][property] === searchTerm) return i;
                 }
-                var elem = {
-                		id: length,
-                		designation: searchTerm
-                }
-                myArray.push(elem);
-                return (myArray.length-1);
+               
+                return 0;
             }
 
             /**
@@ -96,6 +92,9 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 	                		var index = arrayObjectIndexOf($scope.calibrators, $scope.isCalibrator, "id");
 	                		$scope.selectedCalibrator= $scope.calibrators[index];
 	                	}
+	                	 $log.debug('calibrators');
+	                        $log.debug($scope.calibrators);
+	                        $log.debug($scope.isCalibrator);
 	                });           	
             };
             /**

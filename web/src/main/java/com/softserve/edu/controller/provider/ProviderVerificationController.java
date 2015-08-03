@@ -58,7 +58,9 @@ public class ProviderVerificationController {
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
 
-
+    @Autowired
+	private MailService mailService;
+    
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                        ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
@@ -191,10 +193,12 @@ public class ProviderVerificationController {
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
         String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
+       
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
         User employeeCalibrator = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
-
+        Verification verification = verificationService.findById(idVerification);
         verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeCalibrator);
+        mailService.sendAcceptMail(verification.getClientData().getEmail(), idVerification, verification.getDevice().getDeviceType().toString());
     }
 
     @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
