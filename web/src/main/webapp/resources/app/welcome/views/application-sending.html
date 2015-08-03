@@ -159,6 +159,7 @@
 					<div class="col-md-8">
 						<select chosen  options="regions"  id="region" name="region" type="text"
 							class="form-control " ng-model="selectedRegion"
+							data-placeholder="Оберіть область"
 							ng-options="region as region.designation for region in regions | filter: $viewValue"
 							allow-single-deselect="true"
 							ng-change="receiveDistricts(selectedRegion)" width="'100%'"  required>
@@ -177,6 +178,7 @@
 					<div class="col-md-8">
 						<select chosen id="district" name="district" class="form-control "
 							type="text" ng-model="selectedDistrict"
+							data-placeholder="Оберіть район"
 							ng-options="district as district.designation for district in districts | filter: $viewValue"
 							allow-single-deselect="true"
 							ng-change="receiveLocalitiesAndProviders(selectedDistrict)"  width="'100%'"
@@ -192,6 +194,7 @@
 						{{'LOCALITY' | translate}} </label>
 					<div class="col-md-8">
 						<select chosen id="locality" name="locality" class="form-control"
+							data-placeholder="Оберіть населений пункт"
 							ng-model="selectedLocality" allow-single-deselect="true"
 							ng-options="locality as locality.designation for locality in localities | unique:'designation'"
 							ng-change="receiveStreets(selectedLocality,selectedDistrict)"  width="'100%'"  required>
@@ -210,6 +213,7 @@
 						<select chosen id="index" name="index" class="form-control"
 								ng-model="selectedIndex" allow-single-deselect="true"
 								disable-search="true"
+								data-placeholder="Поштовий індекс"
 								ng-options="index as index.mailIndex for index in indexes | filter: $viewValue"
 								width="'100%'"  ></select>
 					</div>
@@ -219,7 +223,7 @@
 						{{'STREET' | translate}} </label>
 					<div class="col-md-8">
 						<div class="pull-left col-lg-3" id="typeStreet">
-							<select  chosen data-placeholder="Choose type of street" width="'90%'" class="form-control"  ng-model="selectedStreet" disable-search="true" >
+							<select  chosen data-placeholder="Тип вулиці" width="'90%'" class="form-control"  ng-model="selectedStreet" disable-search="true" >
 							<option value="вулиця ">Вулиця</option>
 							<option value="проспект ">Проспект</option>
 							<option value="бульвар ">Бульвар</option>
@@ -275,7 +279,7 @@
 						{{'TYPE_OF_COUNTER' | translate}} </label>
 					<div class="col-md-8 ">
 						<div class="pull-left col-lg-3" id="counterNumber">
-							<select chosen  width="'100%'"
+							<select chosen  width="'100%'" data-placeholder="Кількість"
 								 disable-search="true"
 								 name="typeStreet" type="text"
 								ng-model="selectedCount" class="form-control"  required >
@@ -288,7 +292,7 @@
 					<div class="col-md-9 pull-right input-group" id="deviceBox" >
 							<select multiple chosen name="device" type="text"  width="'100%'"
 								ng-model="selectedDevice" 
-								data-placeholder="Choose counter type"
+								data-placeholder="Тип лічильника"
 								ng-options="device as device.designation for device in devices | filter: $viewValue"
 								required> </select>
 							<span class="input-group-addon" >	<input type="checkbox" ng-model="otherDevice"class="pull-left"></span>
@@ -306,8 +310,9 @@
 						<div class="pull-left col-lg-3" id="counterNumber">
 							<select chosen  width="'100%'"
 									disable-search="true"
+									data-placeholder="Кількість"
 									name="typeStreet" type="text"
-									ng-model="selectedCount" class="form-control"  required >
+									ng-model="selectedCount1" class="form-control"  required >
 								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
@@ -317,7 +322,7 @@
 						<div class="col-md-9 pull-right input-group" id="deviceBox" >
 							<select multiple chosen name="device" type="text"  width="'100%'"
 									ng-model="selectedDevice1"
-									data-placeholder="Choose counter type"
+									data-placeholder="Тип лічильника"
 									ng-options="device as device.designation for device in devices | filter: $viewValue">
 							</select>
 							<span class="input-group-addon" >	<input type="checkbox" ng-model="otherDevice1" class="pull-left"></span>
@@ -328,24 +333,26 @@
 						</p>
 					</div>
 				</div>
-				<!--<div class="form-group" show-errors ng-show="otherDevice1">
+				<div class="form-group" show-errors ng-show="otherDevice1">
 					<label for="device" class="col-md-2 control-label">
 						{{'TYPE_OF_COUNTER' | translate}} </label>
 					<div class="col-md-8 ">
 						<div class="pull-left col-lg-3" id="counterNumber">
 							<select chosen  width="'100%'"
+									data-placeholder="Кількість"
 									disable-search="true"
 									name="typeStreet" type="text"
-									ng-model="selectedCount" class="form-control"  required >
+									ng-model="selectedCount2" class="form-control"  required >
 								<option value="0">0</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
 							</select>
 						</div>
-					<div class="col-md-3" id="deviceBox" >
+					<div class="col-md-4" id="deviceBox" >
 						<select  chosen name="device" type="text"  width="'100%'"
-								 data-placeholder="Type"
+								 data-placeholder="Категорія лічильника"
+								 disable-search="true"
 								 ng-model="selectedDeviceType"
 								 ng-options="device as device.designation for device in devices | filter: $viewValue">
 						</select>
@@ -353,7 +360,7 @@
 					<div class="col-md-5 pull-right " id="deviceBox" >
 							<select chosen name="device" type="text"  width="'100%'"
 									ng-model="selectedDevice2"
-									data-placeholder="Choose counter type"
+									data-placeholder="Тип лічильника"
 									ng-options="device as device.designation for device in devices | filter: $viewValue">
 							</select>
 					</div>
@@ -362,7 +369,7 @@
 							{{'TYPEAHEAD_ERROR' | translate}}
 						</p>
 					</div>
-				</div>-->
+				</div>
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-8">
 						<button type="submit" class="btn btn-success text-uppercase pull-left">
@@ -371,8 +378,13 @@
 				</div>
 			</form>
 		</div>
-		<i ng-show="codes.length=='0'" id="loadIcon"
-		   class="fa fa-3x fa-spinner fa-spin " style="text-align: center;"></i>
+
+		<div class="progress col-md-8 col-md-offset-2"ng-show="codes.length=='0'" style="padding-left:0px;padding-right:0px;height: 30px">
+
+			<div class="progress-bar progress-bar-striped active"
+				 role="progressbar" aria-valuenow="100" aria-valuemin="0"
+				 aria-valuemax="100" style="width:100%;height: 30px">Відбувається оброка даних...</div>
+		</div>
 		<div ng-hide="isShownForm" ng-repeat="code in codes" class="row col-md-10 alert alert-success alert-dismissible centered" role="alert" style="text-align: center">
 			<button ng-click="closeAlert()" type="button"
 				class="close btn-close-alert" aria-label="Close">
