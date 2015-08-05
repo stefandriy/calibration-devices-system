@@ -13,7 +13,9 @@ import com.softserve.edu.entity.Device;
 public interface DeviceRepository extends CrudRepository<Device, Long> {
 
 	public Page<Device> findAll(Pageable pageable);
+
 	Page<Device> findByNumberLikeIgnoreCase(String number, Pageable pageable);
+
 	public List<Device> findByDeviceName(String deviceName );
 
 

@@ -33,12 +33,9 @@ public class DeviceService {
 		return (List<Device>) deviceRepository.findAll(); 
 	}
 	@Transactional
-	  public Page<Device> getDevicesBySearchAndPagination(int pageNumber,
-	   int itemsPerPage, String search) {
+	  public Page<Device> getDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String search) {
 	  PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-	  return search == null ? deviceRepository.findAll(pageRequest)
-	    : deviceRepository.findByNumberLikeIgnoreCase("%" + search + "%",
-	  	      pageRequest);
+	  return search == null ? deviceRepository.findAll(pageRequest) : deviceRepository.findByNumberLikeIgnoreCase("%" + search + "%", pageRequest);
 	 }
 
 	@Transactional

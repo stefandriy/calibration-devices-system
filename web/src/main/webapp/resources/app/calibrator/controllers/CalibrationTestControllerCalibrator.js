@@ -44,15 +44,6 @@ angular
                         }
                     });
             };
-            //$scope.openTestAddModal = function(){
-            //    var addEquipmentModal = $modal
-            //        .open({
-            //            animation : true,
-            //            controller : 'CalibrationTestAddModalControllerCalibrator',
-            //            templateUrl : '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
-            //        });
-            //};
-
 
             function getCalibrationTests() {
                 calibrationTestServiceCalibrator

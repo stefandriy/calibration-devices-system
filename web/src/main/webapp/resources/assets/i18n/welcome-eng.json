@@ -22,6 +22,7 @@
   "BUILDING": "Building",
   "FLAT": "Flat",
   "POSTCODE": "Postcode",
+  "VERIFICATION_STATUS":"Verification Status",
   "SEND_BTN": "Send",
   "APP_SENT": "Thank you! Your application was sent. Your code is: ",
   "APP_SENT_INFO": "Also this code was sent on your email. Have a nice day!",

@@ -41,12 +41,10 @@ public class MeasuringEquipmentController {
 	 * @return a page of MeasuringEquipments with their total amount
 	 */
 	@RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
-	public PageDTO<MeasuringEquipmentPageItem> pageMeasuringEquipmentsWithSearch(
-			@PathVariable Integer pageNumber,
+	public PageDTO<MeasuringEquipmentPageItem> pageMeasuringEquipmentsWithSearch(@PathVariable Integer pageNumber,
 			@PathVariable Integer itemsPerPage, @PathVariable String search) {
 
-		Page<MeasuringEquipmentPageItem> page = measuringEquipmentService
-				.getMeasuringEquipmentsBySearchAndPagination(pageNumber, itemsPerPage, search)
+		Page<MeasuringEquipmentPageItem> page = measuringEquipmentService.getMeasuringEquipmentsBySearchAndPagination(pageNumber, itemsPerPage, search)
 				.map(measuringEquipment -> new MeasuringEquipmentPageItem(measuringEquipment.getId(), measuringEquipment.getName(),
 						measuringEquipment.getDeviceType(), measuringEquipment.getManufacturer(), measuringEquipment.getVerificationInterval()));
 	return new PageDTO<>(page.getTotalElements(), page.getContent());
@@ -67,8 +65,7 @@ public class MeasuringEquipmentController {
 	 * @return a page of MeasuringEquipments with their total amount
 	 */
 	@RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-	public PageDTO<MeasuringEquipmentPageItem> getMeasuringEquipmentsPage(
-			@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
+	public PageDTO<MeasuringEquipmentPageItem> getMeasuringEquipmentsPage(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
 		return pageMeasuringEquipmentsWithSearch(pageNumber, itemsPerPage, null);
 	}
 	

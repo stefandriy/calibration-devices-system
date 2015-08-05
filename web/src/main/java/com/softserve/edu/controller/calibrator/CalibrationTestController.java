@@ -31,6 +31,12 @@ public class CalibrationTestController {
 
     private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|png|PNG|tif|TIF|)$";
 
+
+    /**
+     * Returns calibration-test by ID
+     * @param testId
+     * @return calibration-test
+     */
     @RequestMapping(value = "getTest/{testId}", method = RequestMethod.GET)
     public CalibrationTestDTO getCalibrationTest(@PathVariable Long testId) {
         CalibrationTest foundTest = testService.findTestById(testId);
@@ -39,6 +45,11 @@ public class CalibrationTestController {
         return testDTO;
     }
 
+
+    /**
+     * Finds all calibration-tests form database
+     * @return a list of calibration-tests
+     */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity findAllCalibrationTests() {
         try {
@@ -49,6 +60,15 @@ public class CalibrationTestController {
         }
     }
 
+    /**
+     * Saves calibration-test in database
+     *
+     * @param testDTO object with calibration-test data
+     * @param verificationId String of verification ID for saving calibration-test
+     * @return a response body with http status {@literal CREATED} if everything
+     *         calibration-test successfully created or else http
+     *         status {@literal CONFLICT}
+     */
     @RequestMapping(value = "add/{verificationId}", method = RequestMethod.POST)
     public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO, @PathVariable String verificationId) {
         HttpStatus httpStatus = HttpStatus.CREATED;
@@ -64,6 +84,15 @@ public class CalibrationTestController {
         return new ResponseEntity<>(httpStatus);
     }
 
+    /**
+     * Edit calibration-test in database
+     *
+     * @param testDTO
+     *            object with calibration-test data
+     * @param calibrationTestId
+     * @return a response body with http status {@literal OK} if calibration-test
+     *         successfully edited or else http status {@literal CONFLICT}
+     */
     @RequestMapping(value = "edit/{calibrationTestId}", method = RequestMethod.POST)
     public ResponseEntity editCalibrationTest(@PathVariable Long calibrationTestId, @RequestBody CalibrationTestDTO testDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
@@ -77,6 +106,12 @@ public class CalibrationTestController {
         return new ResponseEntity<>(httpStatus);
     }
 
+    /**
+     * Deletes selected calibration-test by Id
+     * @param calibrationTestId
+     * @return a response body with http status {@literal OK} if calibration-test
+     *         successfully deleted
+     */
     @RequestMapping(value = "delete/{calibrationTestId}", method = RequestMethod.POST)
     public ResponseEntity deleteCalibrationTest(@PathVariable Long calibrationTestId) {
         CalibrationTest calibrationTest = testService.deleteTest(calibrationTestId);
@@ -84,6 +119,15 @@ public class CalibrationTestController {
     }
 
 
+    /**
+     * Saves calibration-test data in database
+     *
+     * @param testDataDTO object with calibration-test data
+     * @param calibrationTestId String of calibration-test ID for saving calibration-test data
+     * @return a response body with http status {@literal CREATED} if everything
+     *         calibration-test data successfully created or else http
+     *         status {@literal CONFLICT}
+     */
     @RequestMapping(value = "/{calibrationTestId}/testData", method = RequestMethod.POST)
     public ResponseEntity createTestData(@PathVariable Long calibrationTestId, @RequestBody CalibrationTestDataDTO testDataDTO) {
         CalibrationTestData createdTestData;
@@ -95,6 +139,11 @@ public class CalibrationTestController {
         }
     }
 
+
+    /**
+     * Finds all calibration-tests data form database
+     * @return a list of calibration-tests data
+     */
     @RequestMapping(value = "/{calibrationTestId}/testData", method = RequestMethod.GET)
     public ResponseEntity findAllCalibrationTestData(@PathVariable Long calibrationTestId) {
         try {
@@ -106,6 +155,12 @@ public class CalibrationTestController {
         }
     }
 
+    /**
+     * Uploads a photoes to chosen directory bu calibration-test ID
+     * @param file chosen file oject
+     * @param idCalibrationTest
+     * @return httpStatus 200 OK if everything did well
+     */
     @RequestMapping(value = "uploadPhotos", method = RequestMethod.POST)
     public ResponseEntity<String> uploadFilePhoto(@RequestBody MultipartFile file, @RequestParam Long idCalibrationTest) {
         ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);

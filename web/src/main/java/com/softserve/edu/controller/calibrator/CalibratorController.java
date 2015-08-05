@@ -89,16 +89,12 @@ public class CalibratorController {
      * @return a page of CalibrationTests with their total amount
      */
     @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{search}/{verificationId}", method = RequestMethod.GET)
-    public PageDTO<CalibrationTestPageItem> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
-                                                                          @PathVariable Integer itemsPerPage, @PathVariable String search, @PathVariable String verificationId) {
+    public PageDTO<CalibrationTestPageItem> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String search, @PathVariable String verificationId) {
         Verification verification = verificationService.findById(verificationId);
-        Page<CalibrationTestPageItem> page = testService
-                .getCalibrationTestsBySearchAndPagination(pageNumber, itemsPerPage, search)
-                .map(calibrationTest -> new CalibrationTestPageItem(calibrationTest.getId(), calibrationTest.getName(),
-                        calibrationTest.getDateTest(), calibrationTest.getTemperature(),
-                        calibrationTest.getSettingNumber(), calibrationTest.getLatitude(),
-                        calibrationTest.getLongitude(), calibrationTest.getConsumptionStatus(),
-                        calibrationTest.getTestResult()));
+        Page<CalibrationTestPageItem> page = testService.getCalibrationTestsBySearchAndPagination(pageNumber, itemsPerPage, search)
+                .map(calibrationTest -> new CalibrationTestPageItem(calibrationTest.getId(), calibrationTest.getName(), calibrationTest.getDateTest(),
+                        calibrationTest.getTemperature(), calibrationTest.getSettingNumber(), calibrationTest.getLatitude(),
+                        calibrationTest.getLongitude(), calibrationTest.getConsumptionStatus(),  calibrationTest.getTestResult()));
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
 

@@ -25,7 +25,6 @@ public class StateVerificatorEmployeeService {
 		
 		String passwordEncoded = new BCryptPasswordEncoder().encode(stateVerificatorEmployee.getPassword());
 		stateVerificatorEmployee.setPassword(passwordEncoded);
-//		stateVerificatorEmployee.setRole(STATE_VERIFICATOR_EMPLOYEE);
 		stateVerificatorEmployeeRepository.save(stateVerificatorEmployee);
 	}
 
@@ -33,8 +32,5 @@ public class StateVerificatorEmployeeService {
 	public User oneProviderEmployee(String username) {
 		return stateVerificatorEmployeeRepository.getUserByUserName(username);
 	}
-//    @Transactional()
-//    public Employee findByUserame(String userName){
-//    	return stateVerificatorEmployeeRepository.findByUsername(userName);
-//    }
+
 }

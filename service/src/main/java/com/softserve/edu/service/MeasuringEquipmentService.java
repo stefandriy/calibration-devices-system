@@ -26,9 +26,7 @@ public class MeasuringEquipmentService {
     public Page<MeasuringEquipment> getMeasuringEquipmentsBySearchAndPagination(int pageNumber,
                                                                                 int itemsPerPage, String search) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return search == null ? measuringEquipmentRepository.findAll(pageRequest)
-                : measuringEquipmentRepository.findByNameLikeIgnoreCase("%" + search + "%",
-                pageRequest);
+        return search == null ? measuringEquipmentRepository.findAll(pageRequest) : measuringEquipmentRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
     }
 
     @Transactional

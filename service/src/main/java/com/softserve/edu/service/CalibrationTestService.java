@@ -103,7 +103,6 @@ public class CalibrationTestService {
         return deletedCalibrationTest;
     }
 
-    //TestData
     @Transactional
     public CalibrationTestData createTestData(Long testId, CalibrationTestData data) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
@@ -134,7 +133,7 @@ public class CalibrationTestService {
         ImageIO.write(bufferedImage, fileType, new File(localStorage, originalFileFullName));
 
         CalibrationTest calibrationTest = testRepository.findOne(idCalibrationTest);
-        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName, new Date());
+        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
         testIMGRepository.save(calibrationTestIMG);
     }
 }
