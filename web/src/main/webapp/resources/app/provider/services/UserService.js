@@ -11,9 +11,10 @@ angular
             isAdmin: function () {
                 return getData('employee/admin/users/verificator');
             },
-            getPage: function (currentPage, itemsPerPage, searchObj) {
-
-                return getData('employee/admin/users/' + currentPage + '/' + itemsPerPage, searchObj);
+            getPage: function (currentPage, itemsPerPage, searchObj,filterObj) {
+                var lastName=0;
+                filterObj.lastName=='asc'?lastName=1:lastName=-1;
+                return getData('employee/admin/users/' + currentPage + '/' + itemsPerPage + '/' + lastName,  searchObj);
             },
             getCapacityOfWork: function(username){
                 return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);

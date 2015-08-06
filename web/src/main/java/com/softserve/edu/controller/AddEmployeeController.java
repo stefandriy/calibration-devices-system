@@ -176,17 +176,18 @@ public class AddEmployeeController {
         return new PageDTO<>(content);
     }
 
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortingLastName}", method = RequestMethod.GET)
     public PageDTO<UsersPageItem> getPaginationUsers(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
-            UsersPageItem usersPageItem,
+            @PathVariable String sortingLastName,
+            UsersPageItem search,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
-                pageNumber, itemsPerPage, idOrganization, usersPageItem.getUsername(), usersPageItem.getRole(),
-                usersPageItem.getFirstName(), usersPageItem.getLastName(), usersPageItem.getOrganization(),
-                usersPageItem.getPhone());
+                pageNumber, itemsPerPage, idOrganization, search.getUsername(), search.getRole(),
+                search.getFirstName(), search.getLastName(), search.getOrganization(),
+                search.getPhone(),sortingLastName);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
 

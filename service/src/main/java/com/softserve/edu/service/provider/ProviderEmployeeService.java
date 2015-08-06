@@ -115,9 +115,9 @@ public class ProviderEmployeeService {
     public ListToPageTransformer<User>
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, long idOrganization, String userName,
                                                    String role, String firstName, String lastName, String organization,
-                                                   String telephone) {
+                                                   String telephone,String sortingLastName) {
         CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
-                lastName, organization, telephone, em, idOrganization);
+                lastName, organization, telephone, em, idOrganization,sortingLastName);
 
         Long count = em.createQuery(ProviderEmployeeQuary.buildCountQuery(userName, role, firstName,
                 lastName, organization, telephone, idOrganization, em)).getSingleResult();

@@ -14,7 +14,8 @@ public class ProviderEmployeeQuary {
 
     public static CriteriaQuery<User> buildSearchQuery(String userName, String role, String firstName,
                                                        String lastName, String organization, String telephone,
-                                                       EntityManager em, Long idOrganization) {
+                                                       EntityManager em, Long idOrganization, String sortingLastName) {
+        int sortLastName = Integer.valueOf(sortingLastName);
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
@@ -25,8 +26,12 @@ public class ProviderEmployeeQuary {
 
         Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinRole, joinSearch, userName,
                 role, firstName, lastName, organization, telephone, idOrganization);
+        if (sortLastName < 0) {
+            criteriaQuery.orderBy(cb.desc(root.get("lastName")));
+        } else {
+            criteriaQuery.orderBy(cb.asc(root.get("lastName")));
+        }
 
-        criteriaQuery.orderBy(cb.desc(root.get("lastName")));
         criteriaQuery.select(root).distinct(true);
         criteriaQuery.where(predicate);
         return criteriaQuery;
@@ -41,23 +46,23 @@ public class ProviderEmployeeQuary {
 
         queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization), queryPredicate);
 
-        if (!(userName == null)&&!(userName == "")) {
+        if (!(userName == null) && !(userName == "")) {
             queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
         }
-        if (!(role == null)&&!(role == "")){
+        if (!(role == null) && !(role == "")) {
             queryPredicate = cb.and(cb.like(joinRole.get("role"), "%" + role + "%"), queryPredicate);
 
         }
-        if (!(firstName == null)&&!(firstName == "")) {
+        if (!(firstName == null) && !(firstName == "")) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
         }
-        if (!(lastName == null)&&!(lastName == "")) {
+        if (!(lastName == null) && !(lastName == "")) {
             queryPredicate = cb.and(cb.like(root.get("lastName"), "%" + lastName + "%"), queryPredicate);
         }
-        if (!(organization == null)&&!(organization == "")) {
+        if (!(organization == null) && !(organization == "")) {
             queryPredicate = cb.and(cb.like(root.get("organization").get("name"), "%" + organization + "%"), queryPredicate);
         }
-        if (!(telephone == null)&&!(telephone == "")) {
+        if (!(telephone == null) && !(telephone == "")) {
             queryPredicate = cb.and(cb.like(root.get("phone"), "%" + telephone + "%"), queryPredicate);
         }
 
