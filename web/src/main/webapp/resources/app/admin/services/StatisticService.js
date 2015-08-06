@@ -11,6 +11,7 @@ angular
             organizations: function() { return getData('organizations'); },
             users: function() { return getData('users'); },
             devices: function() { return getData('devices'); },
-            verifications: function() { return getData('verifications'); }
+            verifications: function() { return getData('verifications'); },
+            employee: function() { return getData('employee'); }
         }
     });

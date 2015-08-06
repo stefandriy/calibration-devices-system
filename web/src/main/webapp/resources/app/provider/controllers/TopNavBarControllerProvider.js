@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('TopNavBarControllerProvider', ['$scope', '$http', function ($scope, $http) {
+    .controller('TopNavBarControllerProvider', ['$scope', '$http','UserService', function ($scope, $http, UserService) {
         $scope.logout = function () {
             $http({
                 method: 'POST',
@@ -9,4 +9,10 @@ angular
                 window.location.replace("/");
             });
         };
+
+        $scope.employee=null;
+        UserService.loggedInUser().
+            then(function (data) {
+                $scope.employee = data;
+            });
     }]);

@@ -100,7 +100,7 @@ public class AddEmployeeController {
         userFromDataBase.setUsername(temporalUser.getUsername());
         userFromDataBase.setIsAvaliable(temporalUser.getIsAvaliable());
         userFromDataBase.setUserRoles(new HashSet<String>(userService.getRoles(username)));
-        return (userFromDataBase);
+        return userFromDataBase;
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)

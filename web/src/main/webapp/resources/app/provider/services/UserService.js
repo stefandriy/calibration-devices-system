@@ -29,8 +29,19 @@ angular
             },
             getOrganizationEmployeeCapacity : function() {
                 return getData('employee/admin/users/organizationCapacity');
+            },
+
+            loggedInUser: function() {
+                return getLoginUser();
             }
         };
+
+        function getLoginUser() {
+            return $http.get('/loginuser')
+                .then(function(result) {
+                    return result.data;
+                });
+        }
 
         function getData(url, params) {
             return $http.get(url, {

@@ -1,11 +1,13 @@
 package com.softserve.edu.service.admin;
 
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.DeviceRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class StatisticService {
@@ -36,5 +38,10 @@ public class StatisticService {
 
     public Long countVerifications() {
         return verificationRepository.count();
+    }
+
+    @Transactional
+    public User employeeExist(String username) {
+        return userRepository.getUserByUserName(username);
     }
 }
