@@ -341,62 +341,6 @@ angular
                 //};
 
 
-          /*  function arrayObjectIndexOf(myArray, searchTerm, property) {
-                for(var i = 0, len = myArray.length; i < len; i++) {
-                    if (myArray[i][property] === searchTerm) return i;
-                }
-                var elem = {
-                    id: length,
-                    designation: searchTerm
-                }
-                myArray.push(elem);
-                return (myArray.length-1);
-            }*/
-
-
-
-
-              /*      $scope.blockSearchFunctions = true;
-            addressServiceProvider.findAllRegions().then(function(data) {
-                        $scope.regions = data.data;
-                        var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.data.region, "designation");
-                        $scope.user.address.region = $scope.regions[index];
-
-                addressServiceProvider.findDistrictsByRegionId( $scope.selectedRegion.id)
-                            .then(function (districts) {
-                                $scope.districts = districts.data;
-                                var index = arrayObjectIndexOf($scope.districts,  $scope.user.address.data.district, "designation");
-                                $scope.user.address.district = $scope.districts[index];
-
-                        addressServiceProvider.findLocalitiesByDistrictId($scope.selectedDistrict.id)
-                                    .then(function (localities) {
-                                        $scope.localities = localities.data;
-                                        var index = arrayObjectIndexOf($scope.localities,  $scope.user.address.data.locality, "designation");
-                                        $scope.user.address.locality = $scope.localities[index];
-
-
-                                        addressServiceProvider.findStreetsByLocalityId( $scope.user.address.id)
-                                                    .then(function (streets) {
-                                                        $scope.streets = streets.data;
-                                                        var index = arrayObjectIndexOf($scope.streets,  $scope.user.address.data.street, "designation");
-                                                        $scope.user.address.street = $scope.streets[index];
-
-                                                addressServiceProvider.findBuildingsByStreetId( $scope.selectedStreet.id)
-                                                            .then(function (buildings) {
-                                                                $scope.buildings = buildings.data;
-                                                                var index = arrayObjectIndexOf($scope.buildings,  $scope.user.address.data.building, "designation");
-                                                                $scope.user.address.building = $scope.buildings[index].designation;
-
-
-
-                                                            });
-                                                    });
-                                            });
-                                    });
-                            });*/
-
-
-
 
             function addressFormToOrganizationForm() {
                   $scope.user.address.region = $scope.user.address.region.designation;
@@ -484,8 +428,9 @@ angular
                                 employeeData).then(
                                 function (data) {
                                     if (data.status == 201) {
+                                        $rootScope.$broadcast('new-employee-added');
                                         $scope.closeModal();
-
+                                        $scope.resetEmployeeForm();
                                     }else{
                                         alert('Error');
                                     }

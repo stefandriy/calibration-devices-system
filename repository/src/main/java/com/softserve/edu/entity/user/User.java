@@ -1,5 +1,6 @@
 package com.softserve.edu.entity.user;
 
+import com.softserve.edu.entity.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -33,6 +34,18 @@ public class User {
     @ManyToMany
     @JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<UserRole> userRoles = new HashSet<UserRole>();
+
+    public User(AddEmployeeBuilderNew builder){
+        username = builder.username;
+        password = builder.password;
+        firstName = builder.firstName;
+        lastName = builder.lastName;
+        middleName = builder.middleName;
+        email = builder.email;
+        phone = builder.phone;
+        address = builder.address;
+        isAvaliable =builder.isAveliable;
+    }
 
     /**
      * Required constructor for saving employee in database. Employee cannot

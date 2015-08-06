@@ -6,6 +6,7 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.entity.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
@@ -138,25 +139,24 @@ public class AddEmployeeController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
-            @RequestBody UserDTO providerEmployee,
+            @RequestBody UserDTO employee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        temporalUser = new User();
-        temporalUser.setAddress(providerEmployee.getAddress());
-        temporalUser.setFirstName(providerEmployee.getFirstName());
-        temporalUser.setLastName(providerEmployee.getLastName());
-        temporalUser.setMiddleName(providerEmployee.getMiddleName());
-        temporalUser.setEmail(providerEmployee.getEmail());
-        temporalUser.setPhone(providerEmployee.getPhone());
-        temporalUser.setUsername(providerEmployee.getUsername());
-        temporalUser.setPassword(providerEmployee.getPassword());
-        temporalUser.setIsAvaliable(true);
-        for (String tmp : providerEmployee.getUserRoles()) {
+        User newUser = new AddEmployeeBuilderNew().username(employee.getUsername())
+                .password(employee.getPassword())
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .middleName(employee.getMiddleName())
+                .phone(employee.getPhone())
+                .email(employee.getEmail())
+                .address(employee.getAddress())
+                .isAveliable(employee.getIsAvaliable())
+                .build();
+        for (String tmp : employee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
-            temporalUser.addUserRole(userRole);
+            newUser.addUserRole(userRole);
         }
-        Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
-        temporalUser.setOrganization(employeeOrganization);
-        providerEmployeeService.addEmployee(temporalUser);
+        newUser.setOrganization(organizationsService.getOrganizationById(user.getOrganizationId()));
+        providerEmployeeService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
