@@ -1,4 +1,3 @@
-
 # Calibration devices system 
 
 Centralized system for calibration of measurement devices. Enterprise open-source project intended to optimize process of verification calibration devices. The main goal of the project is to create centralized system of measurement devices for calibration and verification processes in Ukraine.
@@ -35,34 +34,9 @@ To get an admin page login with the following credentials:
 
     username: admin
     password: password
-	
-To get an provider page login with the following credentials:
-	
-	username: provider-lv
-	password: pass
 
-To get an provider page login with the following credentials:
-	
-	username: calibrator-lv
-	password: pass	
-	
-To get an provider page login with the following credentials:
-	
-	username: verificator-lv
-	password: pass
-	
 Check `database_script.sql` for additional information about other users such as provider, calibrator etc.
 
-### Some overview
-
-> TODO
-
-
-### REST API
-
-
-> TODO
-=======
 ### Team members
 ##### LV-144 Java:
 Експерт: Михайло Партика
@@ -76,22 +50,7 @@ Check `database_script.sql` for additional information about other users such as
  - Іван Романів 
  - Олег Чернигевич
  - Олександр Виблов
- 
-##### LV-150 Java:
-Експерт: Микола Марчик
 
-Викладач: Вікторія Ряжська
-
-Учасники:
- - Михайло Коник
- - Оксана Михалець
- - Володимир Франів
- - Роман Чмелик
- - Максим Гірняк
- - Михайло Матвіїшин
- - Богдан Горох
- 
 ### REST API
 
 > TODO
-

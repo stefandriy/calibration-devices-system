@@ -1,38 +1,23 @@
 package com.softserve.edu.controller.provider;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
-import com.softserve.edu.dto.application.RejectMailDTO;
-import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
-import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.ClientData;
-import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.dto.provider.ProviderStageVerificationDTO;
+import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
-import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.DeviceService;
-import com.softserve.edu.service.MailService;
-import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
-import com.softserve.edu.service.catalogue.DistrictService;
-import com.softserve.edu.service.catalogue.LocalityService;
-import com.softserve.edu.service.catalogue.RegionService;
+import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.catalogue.*;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/provider/applications/")
@@ -43,19 +28,16 @@ public class ProviderApplicationController {
 
     @Autowired
     private VerificationService verificationService;
-    @Autowired
-	private CalibratorService calibratorService;
+
     @Autowired
     private ProviderService providerService;
+
     @Autowired
     private DistrictService districtService;
-    @Autowired
-    private DeviceService deviceService;
+
     @Autowired
     private LocalityService localityService;
 
-	@Autowired
-	private MailService mail;
 
     /**
      * Save verification in database
@@ -63,27 +45,29 @@ public class ProviderApplicationController {
      * @param verificationDTO object with verification data
      */
     @RequestMapping(value = "send", method = RequestMethod.POST)
-    public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        ClientData clientData = new ClientData(verificationDTO.getFirstName(),
-										                verificationDTO.getLastName(),
-										                verificationDTO.getMiddleName(),
-										        		verificationDTO.getEmail(),
-										                verificationDTO.getPhone(),
-										                verificationDTO.getSecondPhone(),
-										                new Address(verificationDTO.getRegion(),
-                                                        verificationDTO.getDistrict(),
-                                                        verificationDTO.getLocality(),
-														verificationDTO.getStreet(),
-                                                        verificationDTO.getBuilding(),
-                                                        verificationDTO.getFlat()));
-        
-        Organization provider = providerService.findById(verificationDTO.getProviderId());
-		Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
-		Device device =deviceService.getById(verificationDTO.getDeviceId());
-		Verification verification = new Verification(new Date(),null, clientData, provider,device,Status.SENT, ReadStatus.UNREAD, calibrator);
-		verificationService.saveVerification(verification);
-		
-		return verification.getId();
+    public void getInitiateVerification(
+            @RequestBody ProviderStageVerificationDTO verificationDTO,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
+        Provider provider = providerService.findById(employeeUser.getOrganizationId());
+
+        Verification verification = new Verification(
+                new Date(),
+                new ClientData(
+                        verificationDTO.getName(),
+                        verificationDTO.getSurname(),
+                        verificationDTO.getMiddleName(),
+                        verificationDTO.getPhone(),
+                        new Address(
+                                provider.getAddress().getRegion(),
+                                provider.getAddress().getDistrict(),
+                                verificationDTO.getLocality(),
+                                verificationDTO.getStreet(),
+                                verificationDTO.getBuilding(),
+                                verificationDTO.getFlat())),
+                provider,
+                Status.RECEIVED, verificationDTO.getCalibrator());
+        verificationService.saveVerification(verification);
     }
 
     /**
@@ -97,7 +81,7 @@ public class ProviderApplicationController {
     public List<ApplicationFieldDTO> getLocalityCorrespondingProvider(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-        Organization provider = providerService.findById(employeeUser.getOrganizationId());
+        Provider provider = providerService.findById(employeeUser.getOrganizationId());
         Region region = regionService.getRegionByDesignation(provider.getAddress().getRegion());
         District district = districtService.findDistrictByDesignationAndRegion(
                 provider.getAddress().getDistrict(),
@@ -105,24 +89,4 @@ public class ProviderApplicationController {
         );
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
     }
-    
-    @RequestMapping(value = "organizationType", method = RequestMethod.GET)
-	public Long checkOrganizationType( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {    	
-    	Set<String> types = providerService.getTypesById(user.getOrganizationId());
-    	for (String type : types) {
-			if(type.equalsIgnoreCase("CALIBRATOR")) {
-				return user.getOrganizationId();
-			}
-		}
-    	return (long) -1;
-	}
-      
-    @RequestMapping(value = "new/mail", method = RequestMethod.POST)
-	public String sendReject(@RequestBody RejectMailDTO reject) {
-		Verification verification = verificationService.findById(reject.getVerifID());
-    	String name = verification.getClientData().getFirstName();
-    	String sendTo = verification.getClientData().getEmail();
-    	mail.sendRejectMail(sendTo, name, reject.getVerifID(), reject.getMsg(), verification.getDevice().getDeviceType().toString());
-    	return reject.getVerifID();
-	}
 }

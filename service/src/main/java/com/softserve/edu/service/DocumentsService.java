@@ -148,20 +148,4 @@ public class DocumentsService {
 
         return FileFactory.buildFile(fileParameters);
     }
-    
-    
-    public FileObject buildInfoFile(String verificationCode, FileFormat fileFormat) {
-        Verification verification = verificationRepository.findOne(verificationCode);
-       
-        DocumentType documentType = DocumentType.INFO_DOCUMENT;
-        Document document = DocumentFactory.buildInfoDoc(documentType, verification);
-
-        FileParameters fileParameters = new FileParameters(document, documentType,
-                fileFormat);
-        fileParameters.setFileSystem(FileSystem.RAM);
-        fileParameters.setFileName(documentType.toString());
-
-        return FileFactory.buildInfoFile(fileParameters);
-    }
-
 }

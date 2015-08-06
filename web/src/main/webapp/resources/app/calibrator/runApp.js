@@ -5,7 +5,6 @@ require.config({
         angularBootstrap: '../../assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         angularUIRouter: '../../assets/bower_components/angular-ui-router/release/angular-ui-router.min',
         showErrors: '../../assets/bower_components/angular-bootstrap-show-errors/src/showErrors.min',
-        ngTable: '../../assets/bower_components/ng-table/ng-table',
         calibratorModule: 'calibratorModule'
     },
     shim: {
@@ -24,13 +23,9 @@ require.config({
         showErrors: {
             deps: ['angular']
         },
-        ngTable: {
-        	exports:"ngTable",
-        	 deps: [ 'angular' ]
-        },
         calibratorModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularUIRouter',
-                'showErrors', 'ngTable']
+                'showErrors']
         }
     }
 });

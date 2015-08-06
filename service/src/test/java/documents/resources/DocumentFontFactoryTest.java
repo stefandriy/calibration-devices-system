@@ -1,4 +1,4 @@
-package documents.resources;
+package resources;
 
 import com.softserve.edu.documents.resources.DocumentFont;
 import com.softserve.edu.documents.resources.DocumentFontFactory;

@@ -3,11 +3,6 @@ package com.softserve.edu.entity;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 
 import javax.persistence.*;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -33,7 +28,6 @@ public class CalibrationTest {
     private CalibrationTestResult testResult;
     private String photoPath;
 
-
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "name",
@@ -47,28 +41,7 @@ public class CalibrationTest {
     private Verification verification;
 
     @OneToMany(mappedBy = "calibrationTest")
-    private Set<CalibrationTestIMG> testIMGs;
-
-    @OneToMany(mappedBy = "calibrationTest")
     private Set<CalibrationTestData> calibrationTestDatas;
-
-    public CalibrationTest() { }
-
-    public CalibrationTest(String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
-        this.name = name;
-        this.dateTest = dateTest;
-        this.temperature = temperature;
-        this.settingNumber = settingNumber;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.consumptionStatus = consumptionStatus;
-        this.testResult = testResult;
-    }
-
-    public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {
-        this.verification = verification;
-    }
 
     public Long getId() {
         return id;
@@ -166,14 +139,6 @@ public class CalibrationTest {
         this.calibrationTestDatas = calibrationTestDatas;
     }
 
-    public Set<CalibrationTestIMG> getTestIMGs() {
-        return testIMGs;
-    }
-
-    public void setTestIMGs(Set<CalibrationTestIMG> testIMGs) {
-        this.testIMGs = testIMGs;
-    }
-
     public MeteorologicalDocument getMeteorologicalDocument() {
         return meteorologicalDocument;
     }
@@ -181,60 +146,5 @@ public class CalibrationTest {
     public void setMeteorologicalDocument(
             MeteorologicalDocument meteorologicalDocument) {
         this.meteorologicalDocument = meteorologicalDocument;
-    }
-
-
-  
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("name", name)
-                .append("dateTest", dateTest)
-                .append("temperature", temperature)
-                .append("settingNumber", settingNumber)
-                .append("latitude", latitude)
-                .append("longitude", longitude)
-                .append("consumptionStatus", consumptionStatus)
-                .append("testResult", testResult)
-                .append("photoPath", photoPath)
-                .toString();
-    }
-    
-    @Override
-    public int hashCode(){
-        return new HashCodeBuilder()
-        		.append( id)
-                .append(name)
-                .append(dateTest)
-                .append(temperature)
-                .append(settingNumber)
-                .append(latitude)
-                .append(longitude)
-                .append(consumptionStatus)
-                .append(testResult)
-                .append(photoPath)
-                .toHashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof CalibrationTest){
-            final CalibrationTest other = (CalibrationTest) obj;
-            return new EqualsBuilder()
-            		.append(id, other.id)
-                    .append(name, other.name)
-                    .append(dateTest, other.dateTest)
-                    .append(temperature, other.temperature)
-                    .append(settingNumber, other.settingNumber)
-                    .append(latitude, other.latitude)
-                    .append(longitude, other.longitude)
-                    .append(consumptionStatus, other.consumptionStatus)
-                    .append(testResult, other.testResult)
-                    .append(photoPath, other.photoPath)
-                    .isEquals();
-        } else{
-            return false;
-        }
     }
 }

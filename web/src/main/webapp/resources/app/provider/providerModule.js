@@ -1,26 +1,15 @@
 angular
     .module('providerModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies'])
+        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors'])
 
-    .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','$translateProvider',
+    .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
-        function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider, $translateProvider) {
+        function ($stateProvider, $urlRouterProvider, showErrorsConfigProvider) {
 
             showErrorsConfigProvider.showSuccess(true);
 
+            $urlRouterProvider.otherwise('/');
 
-        	/**
-			 * i18n configuration.
-			 */
-			$translateProvider.useStaticFilesLoader({
-				prefix : '/resources/assets/i18n/welcome-',
-				suffix : '.json'
-			});
-			$translateProvider.useLocalStorage();
-			$translateProvider.useSanitizeValueStrategy('escaped');
-			$translateProvider.preferredLanguage('ukr');
-			
-			$urlRouterProvider.otherwise('/');
             $stateProvider
                 .state('main-panel', {
                     url: '/',
@@ -41,11 +30,6 @@ angular
                     templateUrl: '/resources/app/provider/views/employee/main-panel.html',
                     controller: 'EmployeeController'
                 })
-                .state("employee-show", {
-                    url: '/employee-show',
-                    templateUrl: '/resources/app/provider/views/employee/show-employee.html',
-                    controller: 'UsersController'
-                })
                 .state("verifications-archive", {
                     url: '/verifications/archive',
                     templateUrl: '/resources/app/provider/views/archival-verifications.html',
@@ -54,7 +38,6 @@ angular
                 .state('settings', {
                     url: '/settings',
                     templateUrl: '/resources/app/provider/views/settings-panel.html'
-
                 });
 
         }]);
@@ -64,7 +47,7 @@ angular.module('providerModule').run(function (paginationConfig) {
     paginationConfig.previousText = 'Попередня';
     paginationConfig.nextText = 'Наступна';
     paginationConfig.lastText = 'Остання';
-        });
+});
 
 define([
     'controllers/TopNavBarController',
@@ -76,16 +59,9 @@ define([
     'controllers/SendingModalController',
     'controllers/EmployeeController',
     'controllers/AddressModalController',
-    'controllers/UsersController',
     'controllers/SettingsController',
-    'controllers/NotificationsController',
-    'controllers/ProviderEmployeeController',
-    'controllers/CapacityEmployeeController',
-    'controllers/MailSendingModalController',
-    
     'services/VerificationService',
     'services/AddressService',
     'services/SettingsService',
     'services/UserService'
-], function () {}
-    );
+], function () {});

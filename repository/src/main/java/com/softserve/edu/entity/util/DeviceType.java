@@ -6,8 +6,5 @@ package com.softserve.edu.entity.util;
  *
  */
 public enum DeviceType {
-    ELECTRICAL,
-    GASEOUS, 
-    WATER,
-    THERMAL
+    ELECTRICAL, GASEOUS, WATER, THERMAL
 }

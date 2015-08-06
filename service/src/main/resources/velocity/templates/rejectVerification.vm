@@ -1,8 +1,0 @@
-<html>
-	<body>
-		<span style="font-weight:bold">
-			Доброго дня, $name!
-		</span>
-		<br>   Вашу заявку $verificationId на повірку лічильника $deviceType було відхилено! Причина відхилення: $message.
-	</body>
-</html>

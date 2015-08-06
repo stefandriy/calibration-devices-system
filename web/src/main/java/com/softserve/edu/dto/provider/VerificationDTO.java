@@ -2,7 +2,9 @@ package com.softserve.edu.dto.provider;
 
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.entity.*;
-import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.CalibratorEmployee;
+import com.softserve.edu.entity.user.ProviderEmployee;
+import com.softserve.edu.entity.user.StateVerificatorEmployee;
 import com.softserve.edu.entity.util.Status;
 
 import java.util.Date;
@@ -21,52 +23,28 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private String stateVerificator;
     private String stateVerificatorEmployee;
 
-
-    private Address providerAddress;
-    private Address calibratorAddress;
-
-    protected VerificationDTO() {
-    }
+    protected VerificationDTO() {}
 
     public VerificationDTO(
-            ClientData clientData,
-            String id,
-            Date initialDate,
-            Date expirationDate,
-            Status status,
-            Organization calibrator,
-            User calibratorEmployee,
-            Device device,
-            Organization provider,
-            User providerEmployee,
-            Organization stateVerificator,
-            User stateVerificatorEmployee) {
+            ClientData clientData, String id, Date initialDate, Date expirationDate,
+            Status status, Calibrator calibrator, CalibratorEmployee calibratorEmployee,
+            Device device, Provider provider, ProviderEmployee providerEmployee,
+            StateVerificator stateVerificator, StateVerificatorEmployee stateVerificatorEmployee) {
 
-        super(clientData, clientData.getClientAddress(), null, null, null);
+        super(clientData, clientData.getClientAddress(), null);
         this.id = id;
         this.status = status;
         this.initialDate = initialDate;
         this.expirationDate = expirationDate;
         this.device = device == null ? "" : device.getDeviceType().name() + " : " + device.getNumber();
         this.provider = provider == null ? "" : provider.getName();
-        if (providerEmployee != null) {
-            if (providerEmployee.getMiddleName() != null) {
-                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
-            } else {
-                this.providerEmployee = providerEmployee.   getLastName() + " " + providerEmployee.getFirstName();
-            }
-        }
-
+        this.providerEmployee = providerEmployee == null ? "" : providerEmployee.getFirstName() + " " + providerEmployee.getLastName();
         this.calibrator = calibrator == null ? "" : calibrator.getName();
         this.calibratorEmployee = calibratorEmployee == null ? "" : calibratorEmployee.getFirstName() + " "
-                + calibratorEmployee.getLastName() + " " + calibratorEmployee.getMiddleName();
+                + calibratorEmployee.getLastName();
         this.stateVerificator = stateVerificator == null ? "" : stateVerificator.getName();
         this.stateVerificatorEmployee = stateVerificatorEmployee == null ? "" : stateVerificatorEmployee.getFirstName() + " "
                 + stateVerificatorEmployee.getLastName();
-
-
-        this.providerAddress = (calibrator == null) ? null : provider.getAddress();
-        this.calibratorAddress = (stateVerificator == null) ? null : calibrator.getAddress();
     }
 
     public String getId() {
@@ -155,23 +133,6 @@ public class VerificationDTO extends ClientStageVerificationDTO {
 
     public void setStateVerificatorEmployee(String stateVerificatorEmployee) {
         this.stateVerificatorEmployee = stateVerificatorEmployee;
-    }
-
-
-    public Address getProviderAddress() {
-        return providerAddress;
-    }
-
-    public void setProviderAddress(Address providerAddress) {
-        this.providerAddress = providerAddress;
-    }
-
-    public Address getCalibratorAddress() {
-        return calibratorAddress;
-    }
-
-    public void setCalibratorAddress(Address calibratorAddress) {
-        this.calibratorAddress = calibratorAddress;
     }
 
     @Override

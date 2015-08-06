@@ -1,9 +1,5 @@
 package com.softserve.edu.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
@@ -14,7 +10,6 @@ public class ClientData {
     private String middleName;
     private String email;
     private String phone;
-    private String secondPhone;
 
     @Embedded
     private Address clientAddress;
@@ -23,22 +18,19 @@ public class ClientData {
     }
 
     public ClientData(String firstName, String lastName, String middleName,
-                      String phone,String secondPhone, Address clientAddress) {
-        this(firstName, lastName, middleName, null, phone,secondPhone, clientAddress);
+                      String phone, Address clientAddress) {
+        this(firstName, lastName, middleName, null, phone, clientAddress);
     }
 
     public ClientData(String firstName, String lastName, String middleName, String email,
-                      String phone,String secondPhone, Address clientAddress) {
+                      String phone, Address clientAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.email = email;
         this.phone = phone;
-        this.setSecondPhone(secondPhone);
         this.clientAddress = clientAddress;
     }
-
-
 
     public Address getClientAddress() {
         return clientAddress;
@@ -86,54 +78,5 @@ public class ClientData {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-	public String getSecondPhone() {
-		return secondPhone;
-	}
-
-	public void setSecondPhone(String secondPhone) {
-		this.secondPhone = secondPhone;
-	}
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("firstName", firstName)
-                .append("lastName", lastName)
-                .append("middleName", middleName)
-                .append("email", email)
-                .append("phone", phone)
-                .append("secondPhone", secondPhone)
-                .toString();
-    }
-
-    @Override
-    public int hashCode(){
-        return new HashCodeBuilder()
-                .append(firstName)
-                .append(lastName)
-                .append(middleName)
-                .append(email)
-                .append(phone)
-                .append(secondPhone)
-                .toHashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof ClientData){
-            final ClientData other = (ClientData) obj;
-            return new EqualsBuilder()
-                    .append(firstName, other.firstName)
-                    .append(lastName, other.lastName)
-                    .append(middleName, other.middleName)
-                    .append(email, other.email)
-                    .append(phone, other.phone)
-                    .append(secondPhone, other.secondPhone)
-                    .isEquals();
-        } else{
-            return false;
-        }
     }
 }

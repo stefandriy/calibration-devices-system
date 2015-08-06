@@ -1,70 +1,26 @@
 angular
-    .module('employeeModule')
+    .module('providerModule')
     .factory('UserService', function ($http) {
         return {
             isUsernameAvailable: function (username) {
-                return getData('employee/admin/users/available/' + username);
+                return getData('provider/admin/users/available/' + username);
             },
             saveUser: function (userData) {
-                return saveData('employee/admin/users/add', userData);
-            },
-            isAdmin: function () {
-                return getData('employee/admin/users/verificator');
-            },
-            getPage: function (currentPage, itemsPerPage, searchObj) {
-
-                return getData('employee/admin/users/' + currentPage + '/' + itemsPerPage, searchObj);
-            },
-            getCapacityOfWork: function(username){
-                return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
-            },
-            getGraficData: function(dataToSearch){
-                return getData('provider/admin/users/graphic',dataToSearch);
-            },
-            getUser: function(username){
-                return getData('employee/admin/users/getUser/' + username);
-            },
-            updateUser: function(userData) {
-                return saveData('employee/admin/users/update', userData);
-            },
-            getOrganizationEmployeeCapacity : function() {
-                return getData('employee/admin/users/organizationCapacity');
-            },
-
-            loggedInUser: function() {
-                return getLoginUser();
+                return saveData('provider/admin/users/add', userData);
             }
         };
 
-        function getLoginUser() {
-            return $http.get('/loginuser')
-                .then(function(result) {
-                    return result.data;
+        function getData(url) {
+            return $http.get(url)
+                .success(function (result) {
+                    return result;
                 });
         }
-
-        function getData(url, params) {
-            return $http.get(url, {
-                params : params
-            }).success(function (data) {
-                return data;
-            }).error(function (err) {
-                return err;
-            });
-        }
-
 
         function saveData(url, data) {
             return $http.post(url, data)
                 .success(function (response) {
                     return response;
-                })
-                .error(function (err) {
-                    alert(err);
-                    alert("in error");
-                    return err;
                 });
         }
-
-
     });

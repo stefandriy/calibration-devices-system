@@ -1,8 +1,7 @@
 package com.softserve.edu.dto;
 
 public class SearchDTO {
-   
-	private String data;
+    private String data;
 
     public SearchDTO(String data) {
         this.data = data;

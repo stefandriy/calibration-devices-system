@@ -1,6 +1,6 @@
 angular
     .module('adminModule')
-    .controller('TopNavBarController', ['$scope', '$http', 'StatisticService', function ($scope, $http, StatisticService) {
+    .controller('TopNavBarController', ['$scope', '$http', function ($scope, $http) {
         $scope.logout = function () {
             $http({
                 method: 'POST',
@@ -10,9 +10,4 @@ angular
             });
 
         };
-        $scope.employee=null;
-        StatisticService.employee().then(function (data) {
-            $scope.employee = data;
-        });
-
     }]);

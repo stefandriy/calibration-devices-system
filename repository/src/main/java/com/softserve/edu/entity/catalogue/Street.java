@@ -1,9 +1,5 @@
 package com.softserve.edu.entity.catalogue;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import javax.persistence.*;
 
 import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
@@ -60,33 +56,6 @@ public class Street extends AbstractCatalogue {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("designation", designation)
-                .append("locality", locality)
-                .toString();
-    }
-
-    @Override
-    public int hashCode(){
-        return new HashCodeBuilder()
-                .append(id)
-                .append(designation)
-                .append(locality)
-                .toHashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof Street){
-            final Street other = (Street) obj;
-            return new EqualsBuilder()
-                    .append(id, other.id)
-                    .append(designation, other.designation)
-                    .append(locality, other.locality)
-                    .isEquals();
-        } else{
-            return false;
-        }
+        return designation;
     }
 }

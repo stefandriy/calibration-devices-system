@@ -1,8 +1,10 @@
 package com.softserve.edu.controller;
 
 
-import com.softserve.edu.controller.calibrator.CalibrationTestController;
-import org.apache.log4j.Logger;
+import com.softserve.edu.dto.CalibrationTestDataDTO;
+import com.softserve.edu.dto.asm.CalibrationTestDataDTOAsm;
+import com.softserve.edu.entity.CalibrationTestData;
+import com.softserve.edu.service.CalibrationTestDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,47 +14,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.softserve.edu.dto.CalibrationTestDataDTO;
-import com.softserve.edu.entity.CalibrationTestData;
-import com.softserve.edu.service.CalibrationTestDataService;
-
 @Controller
-@RequestMapping("/calibrationTestData/")
+@RequestMapping("/calibrationTestData")
 public class CalibrationTestDataController {
 
     @Autowired
     private CalibrationTestDataService service;
-    
-    private final Logger logger = Logger.getLogger(CalibrationTestController.class);
 
-    @RequestMapping(value = "{testDataId}", method = RequestMethod.GET)
-    public ResponseEntity getTestData(@PathVariable Long testDataId) {
-        CalibrationTestData foundtestData = service.findTestData(testDataId);
-        if (foundtestData != null) {
-            return new ResponseEntity<>(foundtestData, HttpStatus.OK);
+    @RequestMapping(value = "/{testDataId}", method = RequestMethod.GET)
+    public ResponseEntity<CalibrationTestDataDTO> getTestData(
+            @PathVariable Long testDataId) {
+        CalibrationTestData testData = service.findTestData(testDataId);
+        if (testData != null) {
+            CalibrationTestDataDTO resource = new CalibrationTestDataDTOAsm()
+                    .toResource(testData);
+            return new ResponseEntity<>(resource, HttpStatus.OK);
         } else {
-            logger.error("Not found");
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @RequestMapping(value = "edit/{testDataId}", method = RequestMethod.POST)
-    public ResponseEntity editTestData(@PathVariable Long testDataId, @RequestBody CalibrationTestDataDTO testDataDTO) {
-    	HttpStatus httpStatus = HttpStatus.OK;
-    	try {
-    		CalibrationTestData updatedTestData = service.editTestData(testDataId, testDataDTO.saveTestData());
-		} catch (Exception e) {
-			logger.error("GOT EXCEPTION " + e.getMessage());
-			httpStatus = HttpStatus.CONFLICT;
-		}
-    	return new ResponseEntity<>(httpStatus);
-    }
-    
-    @RequestMapping(value = "delete/{testDataId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteTestData(@PathVariable Long testDataId) {
+    @RequestMapping(value = "/{testDataId}", method = RequestMethod.DELETE)
+    public ResponseEntity<CalibrationTestDataDTO> deleteTestData(
+            @PathVariable Long testDataId) {
         CalibrationTestData testData = service.deleteTestData(testDataId);
-        return new ResponseEntity<>(testData, HttpStatus.OK);
+        if (testData != null) {
+            CalibrationTestDataDTO res = new CalibrationTestDataDTOAsm().toResource(testData);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
+    @RequestMapping(value = "/{testDataId}", method = RequestMethod.PUT)
+    public ResponseEntity<CalibrationTestDataDTO> updateTestData(
+            @PathVariable Long testDataId, @RequestBody CalibrationTestDataDTO sentTestData) {
+        CalibrationTestData updatedTestData = service.updateTestData(testDataId,
+                sentTestData.toTestData());
+        if (updatedTestData != null) {
+            CalibrationTestDataDTO res = new CalibrationTestDataDTOAsm()
+                    .toResource(updatedTestData);
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
 }

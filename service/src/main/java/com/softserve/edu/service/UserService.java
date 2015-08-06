@@ -1,13 +1,12 @@
 package com.softserve.edu.service;
 
-
+import com.softserve.edu.entity.user.Employee;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -16,7 +15,6 @@ public class UserService {
     private UserRepository userRepository;
 
     /**
-     * Check whereas user with {@code username} exist in database
      * Checks whereas user with {@code username} exist in database
      *
      * @param username must not be non {@literal null}
@@ -26,21 +24,20 @@ public class UserService {
         return userRepository.findOne(username) == null;
     }
 
-
     /**
      * Changes given type of user's field
      *
      * @param username must not be non {@literal null}
      * @param newField new value
-     * @param type     of user's field
+     * @param type of user's field
      * @return {@literal true} if changed, else - {@literal false}
      */
     public boolean changeField(String username, String newField, String type) {
         boolean isChanged = false;
         if (type != null && username != null && newField != null) {
             User user = userRepository.findOne(username);
-            if (user instanceof User) {
-            	User employee = (User) user;
+            if (user instanceof Employee) {
+                Employee employee = (Employee) user;
                 switch (type) {
                     case "firstName":
                         employee.setFirstName(newField);
@@ -78,14 +75,14 @@ public class UserService {
      * @return employee entity
      * @throws ClassCastException if username isn't a employee
      */
-    public User getEmployee(String username) throws ClassCastException {
-        return (User) userRepository.findOne(username);
+    public Employee getEmployee(String username) throws ClassCastException {
+        return (Employee) userRepository.findOne(username);
     }
 
     /**
      * Changes user's password
      *
-     * @param username    must not be non {@literal null}
+     * @param username must not be non {@literal null}
      * @param oldPassword old password
      * @param newPassword new password
      * @return {@literal true} if changed, if not or passwords don't match - {@literal false}

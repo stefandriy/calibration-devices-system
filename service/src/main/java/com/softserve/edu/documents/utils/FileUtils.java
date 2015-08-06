@@ -1,9 +1,6 @@
 package com.softserve.edu.documents.utils;
 
 import com.softserve.edu.documents.parameter.FileSystem;
-import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.documents.resources.ResourcesFolder;
-
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemException;
 import org.apache.commons.vfs2.FileSystemManager;
@@ -11,7 +8,6 @@ import org.apache.commons.vfs2.VFS;
 import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
@@ -23,8 +19,8 @@ public class FileUtils {
     /**
      * Separator used to mark the file system part of path.
      */
-    private static final String FILE_SYSTEM_SEPARATOR = "://"; 
-    
+    private static final String FILE_SYSTEM_SEPARATOR = "://";
+
     /**
      * Creates a file.
      *

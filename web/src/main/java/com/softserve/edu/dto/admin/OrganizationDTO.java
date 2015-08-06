@@ -1,135 +1,126 @@
 package com.softserve.edu.dto.admin;
 
 public class OrganizationDTO {
-	private String name;
-	private String email;
-	private String phone;
-	private String[] types;
-	private Integer employeesCapacity;
+    private String name;
+    private String email;
+    private String phone;
+    private String type;
 
-	private String username;
-	private String password;
-	private String rePassword;
+    private String username;
+    private String password;
+    private String rePassword;
 
-	private String region;
-	private String locality;
-	private String district;
-	private String street;
-	private String building;
-	private String flat;
+    private String region;
+    private String locality;
+    private String district;
+    private String street;
+    private String building;
+    private String flat;
 
-	public OrganizationDTO() {
-	}
+    public OrganizationDTO() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String[] getTypes() {
-		return types;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setTypes(String[] types) {
-		this.types = types;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public Integer getEmployeesCapacity() {
-		return employeesCapacity;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setEmployeesCapacity(Integer employeesCapacity) {
-		this.employeesCapacity = employeesCapacity;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getRePassword() {
+        return rePassword;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setRePassword(String rePassword) {
+        this.rePassword = rePassword;
+    }
 
-	public String getRePassword() {
-		return rePassword;
-	}
+    public String getRegion() {
+        return region;
+    }
 
-	public void setRePassword(String rePassword) {
-		this.rePassword = rePassword;
-	}
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
-	public String getRegion() {
-		return region;
-	}
+    public String getLocality() {
+        return locality;
+    }
 
-	public void setRegion(String region) {
-		this.region = region;
-	}
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
 
-	public String getLocality() {
-		return locality;
-	}
+    public String getDistrict() {
+        return district;
+    }
 
-	public void setLocality(String locality) {
-		this.locality = locality;
-	}
+    public void setDistrict(String district) {
+        this.district = district;
+    }
 
-	public String getDistrict() {
-		return district;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public String getBuilding() {
+        return building;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public void setBuilding(String building) {
+        this.building = building;
+    }
 
-	public String getBuilding() {
-		return building;
-	}
+    public String getFlat() {
+        return flat;
+    }
 
-	public void setBuilding(String building) {
-		this.building = building;
-	}
-
-	public String getFlat() {
-		return flat;
-	}
-
-	public void setFlat(String flat) {
-		this.flat = flat;
-	}
+    public void setFlat(String flat) {
+        this.flat = flat;
+    }
 }

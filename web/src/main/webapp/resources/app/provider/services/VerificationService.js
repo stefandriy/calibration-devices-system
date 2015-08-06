@@ -6,9 +6,8 @@ angular
             getArchivalVerifications: function (currentPage, itemsPerPage) {
                 return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
             },
-            getNewVerifications: function (currentPage, itemsPerPage, searchByDate, searchById, searchByLastName, searchByStreet) {
-            	return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' + 
-            			searchByDate + '/' + searchById + '/' + searchByLastName + '/' + searchByStreet);
+            getNewVerifications: function (currentPage, itemsPerPage) {
+                return getData('verifications/new/' + currentPage + '/' + itemsPerPage);
             },
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);
@@ -19,52 +18,32 @@ angular
             getCalibrators: function (url) {
                 return getData('verifications/new/calibrators');
             },
-            getProviders: function (url) {
-                return getData('verifications/new/providerEmployees');
-            },
             sendVerificationsToCalibrator: function (data) {
-               return updateData('new/update', data);
-            },
-            sendEmployeeProvider: function (data) {
-                return updateData('assign/providerEmployee', data);
-            },
-            cleanProviderEmployeeField:function (data) {
-                return updateData('remove/providerEmployee', data);
+                return updateData('new/update', data);
             },
             sendInitiatedVerification:function(form){
-                return sendData('send',form);
+                return sendData("send",form);
             },
             getLocalitiesCorrespondingProvider:function(url){
-                return getData('applications/localities');
+                return getData("applications/localities");
             },
             getStreetsCorrespondingLocality:function(selectedLocality){
-                return getDataFromCatalog('streets/' + selectedLocality.id);
+                return getDataFromCatalog("streets/" + selectedLocality.id);
             },
             getBuildingsCorrespondingStreet:function(selectedBuilding){
-                    return getDataFromCatalog('buildings/' + selectedBuilding.id);
-            },
-            getCountOfNewVerifications: function(url) {
-            	return getData('verifications/new/count/provider');
-            },
-            markVerificationAsRead : function(data) {
-            	return updateData('new/read', data);
-            },
-            acceptVerification : function(data) {
-            	return updateData('new/accept', data);
-            },
-            rejectVerification : function(data) {
-            	return updateData('new/reject', data);
-            },
-            sendMail : function(data) {
-            	return sendData ('new/mail', data);
-            }
+                    return getDataFromCatalog("buildings/" + selectedBuilding.id);
+                }
+
+
         };
 
         function getData(url) {
 
+            $log.info(url);
+
             return $http.get('provider/' + url)
                 .success(function (data) {
-                	return data;
+                    return data;
                 })
                 .error(function (err) {
                     return err;
@@ -74,8 +53,7 @@ angular
         function updateData(url, data) {
             return $http.put('provider/verifications/' + url, data)
                 .success(function (responseData) {
-                   $log.info('response'  + responseData);
-                	return responseData;
+                    return responseData;
                 })
                 .error(function (err) {
                     return err;
@@ -91,7 +69,6 @@ angular
                     return err;
                 });
         }
-       
         function getDataFromCatalog(url) {
             return $http.get('application/' + url)
                 .success(function (data) {

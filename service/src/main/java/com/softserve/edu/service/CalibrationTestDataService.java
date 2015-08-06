@@ -25,10 +25,9 @@ public class CalibrationTestDataService {
         dataRepository.delete(id);
         return deletedTestData;
     }
-    
-   
-    public CalibrationTestData editTestData(Long testDataId, CalibrationTestData testData){
-        CalibrationTestData updatedCalibrationTestData = dataRepository.findOne(testDataId);
+
+    public CalibrationTestData updateTestData(Long id, CalibrationTestData testData){
+        CalibrationTestData updatedCalibrationTestData = dataRepository.findOne(id);
         updatedCalibrationTestData.setGivenConsumption(testData.getGivenConsumption());
         updatedCalibrationTestData.setAcceptableError(testData.getAcceptableError());
         updatedCalibrationTestData.setVolumeOfStandard(testData.getVolumeOfStandard());

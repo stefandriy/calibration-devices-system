@@ -28,7 +28,6 @@ public class MailConfig {
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setDefaultEncoding("UTF-8");
-		
 		mailSender.setHost(env.getProperty("mail.config.host"));
 		mailSender.setPort(env.getProperty("mail.config.port", Integer.class, 25));
 		mailSender.setProtocol(env.getProperty("mail.config.protocol"));
@@ -59,8 +58,4 @@ public class MailConfig {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-
 }
-
-
-

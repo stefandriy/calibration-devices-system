@@ -1,25 +1,19 @@
 package com.softserve.edu.dto.provider;
 
-import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.Calibrator;
 
 public class ProviderStageVerificationDTO {
     private String surname;
     private String name;
     private String middleName;
     private String phone;
-    private String secondPhone;
     private String region;
     private String district;
     private String locality;
     private String street;
     private String building;
     private String flat;
-    private Organization calibrator;
-    private Device device;
-    
-    private User providerEmployee;
+    private Calibrator calibrator;
 
     public String getBuilding() {
         return building;
@@ -101,35 +95,11 @@ public class ProviderStageVerificationDTO {
         this.flat = flat;
     }
 
-    public Organization getCalibrator() {
+    public Calibrator getCalibrator() {
         return calibrator;
     }
 
-    public void setCalibrator(Organization calibrator) {
+    public void setCalibrator(Calibrator calibrator) {
         this.calibrator = calibrator;
     }
-
-    public User getProviderEmployee() {
-        return providerEmployee;
-    }
-
-    public void setProviderEmployee(User providerEmployee) {
-        this.providerEmployee = providerEmployee;
-    }
-
-    public String getSecondPhone() {
-        return secondPhone;
-    }
-
-    public void setSecondPhone(String secondPhone) {
-        this.secondPhone = secondPhone;
-    }
-
-	public Device getDevice() {
-		return device;
-	}
-
-	public void setDevice(Device device) {
-		this.device = device;
-	}
 }

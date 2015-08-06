@@ -1,4 +1,4 @@
-package documents.utils;
+package utils;
 
 import com.softserve.edu.documents.utils.FormattingTokens;
 import com.softserve.edu.documents.utils.RegEx;

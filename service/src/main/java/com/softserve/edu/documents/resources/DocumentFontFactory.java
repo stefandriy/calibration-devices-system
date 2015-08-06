@@ -94,7 +94,8 @@ public enum DocumentFontFactory {
                 baseFontObject = BaseFont.createFont(path,
                         BaseFont.IDENTITY_H, false);
             } catch (DocumentException exception) {
-            	exception.printStackTrace();
+                exception.printStackTrace();
+                throw new IOException("couldn't read font");
             }
 
             baseFontMap.put(font, baseFontObject);

@@ -35,9 +35,29 @@ public class Router {
      *
      * @return provider page
      */
-    @RequestMapping(value = "/employee", method = RequestMethod.GET)
+    @RequestMapping(value = "/provider", method = RequestMethod.GET)
     public String provider() {
-        return "/resources/app/index.jsp";
+        return "/resources/app/provider/index.html";
+    }
+
+    /**
+     * Displays calibrator page
+     *
+     * @return calibrator page
+     */
+    @RequestMapping(value = "/calibrator", method = RequestMethod.GET)
+    public String calibrator() {
+        return "/resources/app/calibrator/index.html";
+    }
+
+    /**
+     * Displays verificator page
+     *
+     * @return verificator page
+     */
+    @RequestMapping(value = "/verificator", method = RequestMethod.GET)
+    public String verificator() {
+        return "/resources/app/verificator/index.html";
     }
 
 }

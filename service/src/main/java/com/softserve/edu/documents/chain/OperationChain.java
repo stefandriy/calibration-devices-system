@@ -41,36 +41,6 @@ public enum OperationChain {
             operations = new ArrayList<>(DOCX_CHAIN.getOperations());
             operations.add(DocxToPdf.INSTANCE);
         }
-    },
-    INFO_DOCX_CHAIN {
-        /**
-         * Initialize this constant's operations.
-         * Replacement of the default constructor.
-         */
-        @Override
-        public void init() {
-            operations = new ArrayList<>();
-
-            operations.add(LoadTemplate.INSTANCE);
-            operations.add(NormalizeInfo.INSTANCE);
-            operations.add(InsertText.INSTANCE);
-            operations.add(FormatText.INSTANCE);
-            operations.add(Cleanse.INSTANCE);
-        }
-    },
-    /**
-     * Chain of actions to generate a pdf file.
-     */
-    INFO_PDF_CHAIN {
-        /**
-         * Initialize this constant's operations.
-         * Replacement of the default constructor.
-         */
-        @Override
-        public void init() {
-            operations = new ArrayList<>(INFO_DOCX_CHAIN.getOperations());
-            operations.add(DocxToPdf.INSTANCE);
-        }
     };
 
     protected List<Operation> operations = new ArrayList<>();
@@ -89,5 +59,5 @@ public enum OperationChain {
 
     public List<Operation> getOperations() {
         return operations;
-    };
+    }
 }

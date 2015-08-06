@@ -2,52 +2,6 @@ body {
     background-color: #f8f8f8;
 }
 
-.unreadClass {
-	background: rgba(0, 255, 0, 0.2);
-	color: black;
-}
-
-.incorrect{
-    color: rgba(0,0,0,0.35);
-}
-
-#coloredBadge {
-	background: #00FF00;
-	color: black;
-}
-
-.sendButton {
-	position: relative;
-	top: -10px;
-}
-
- .myCircleButton {
-	position:relative;
-	left: 15px;
-	top: -10px;
-	background: #00FF00;
-	color: black;
-	width: 25px;
-    height: 25px;
-    text-align: center;
-    border-radius: 15px;
-    font-size: 13px;
-
-    border: none;
-    margin-bottom: 0;
-    margin-left: 0;
-    margin-top: 0;
-    margin-right: 0;
-    padding-bottom: 3px;
-    padding-top: 0;
-    padding-left: 0;
-    padding-right: 0;
-    }
-
-  [ng\:cloak],[ng-cloak],.ng-cloak {
-  	display:none !important;
- }
-
 .nav,
 .pagination,
 .carousel,
@@ -406,9 +360,8 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 .form-group .help-block {
-    /*display: none; */
+    display: none;
 }
-
 
 .form-group .has-error .help-block {
     display: block;
@@ -436,32 +389,4 @@ input[type="radio"], input[type="checkbox"] {
 .fa {
     font-size: 1.5em;
     padding-right: 5px;
-}
-
-.fa-times-circle-o {
-    font-size: 6.5em;
-    color:red;
-    padding-right: 5px;
-}
- .uploadFile > .drop-box {
-    background: #F8F8F8;
-    border: 5px dashed #DDD;
-    width: 100%;
-    text-align: center;
-    padding: 25px;
-    box-sizing: border-box;
-    margin-top: 15px;
-}
-
-.uploadFile .progress span  {
-    color:  #000;
-}
-
-.uploadFile .alert {
-    margin-bottom: 0;
-    margin-top: 15px;
-}
-
-  h3 b{
-color:#003712;
 }

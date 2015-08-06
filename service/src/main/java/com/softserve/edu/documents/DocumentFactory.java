@@ -1,7 +1,6 @@
 package com.softserve.edu.documents;
 
 import com.softserve.edu.documents.document.Document;
-import com.softserve.edu.documents.document.InfoDocument;
 import com.softserve.edu.documents.document.UnfitnessCertificate;
 import com.softserve.edu.documents.document.VerificationCertificate;
 import com.softserve.edu.documents.resources.DocumentType;
@@ -42,14 +41,4 @@ public class DocumentFactory {
 
         return document;
     }
-    
-	public static Document buildInfoDoc(DocumentType documentType, Verification verification) {
-		
-		Assert.notNull(verification, Verification.class.getSimpleName() + " can't be null");
-		Assert.notNull(documentType, CalibrationTest.class.getSimpleName() + " can't be null");
-
-		Document document;
-		document = new InfoDocument(verification);
-		return document;
-	}
 }

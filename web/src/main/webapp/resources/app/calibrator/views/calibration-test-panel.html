@@ -1,122 +1,77 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-</head>
-<body>
-<div id="page-wrapper" ng-controller="CalibrationTestControllerCalibrator">
+<div id="page-wrapper" ng-controller="CalibrationTestController">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Повірочні тести</h1>
+            <h1 class="page-header">Тести лічильників </h1>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <button class="btn btn-primary"
-                    ng-click="openAddCalibrationTestModal(verification.id)">
-                <span class="glyphicon glyphicon-plus-sign"></span> Створити тест
-            </button>
-        </div>
-    </div>
-    <p></p>
-
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Останні дані для повірки № {{verId}}</div>
-                <!-- /.panel-heading -->
+        <div class="col-lg-8">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    Додати тест
+                </div>
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <label>Знайти за назвою тесту:<input type="text" ng-model="searchData"
-                                                                 ng-change="onTableHandling()"
-                                                                 ng-model-options="{debounce: 600}"
-                                                                 class="form-control input-sm">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table class="table table-striped table-bordered table-hover"
-                                   id="devicesTable">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Назва тесту</th>
-                                    <!--<th>Початкова дата</th>-->
-                                    <th>Температура*</th>
-                                    <th>Номер установки</th>
-                                    <th>Широта*</th>
-                                    <th>Довгота*</th>
-                                    <th>Статус споживання</th>
-                                    <th>Результат тесту</th>
-                                    <th class="text-center">Дії</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="calibrationTest in pageContent">
-                                    <td>{{ calibrationTest.id }}</td>
-                                    <td>{{ calibrationTest.name }}</td>
-                                    <!--<td>{{ calibrationTest.dateTest }}</td>-->
-                                    <td>{{ calibrationTest.temperature }}</td>
-                                    <td>{{ calibrationTest.settingNumber }}</td>
-                                    <td>{{ calibrationTest.latitude }}</td>
-                                    <td>{{ calibrationTest.longitude }}</td>
-                                    <td>{{ calibrationTest.consumptionStatus }}</td>
-                                    <td>{{ calibrationTest.testResult }}</td>
-                                    <td style="width: 15%">
-                                    <img>
-                                        <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
-                                            <img src="/resources/assets/button-icons/calibration-test%20icons/edit.png"
-                                                 popover="Редагувати тест" popover-trigger="mouseenter"
-                                                 ng-click="editCalibrationTest(calibrationTest.id)">
-                                            </img>
-                                            <img src="/resources/assets/button-icons/calibration-test%20icons/delete.png"
-                                                 popover="Видалити тест" popover-trigger="mouseenter"
-                                                 ng-click="deleteTest(calibrationTest.id)">
-                                            </img>
-                                            <img src="/resources/assets/button-icons/upload.png"
-                                                 popover="Завантажити фото"
-                                                 popover-trigger="mouseenter"
-                                                 ng-click="uploadPhoto(calibrationTest.id)">
-                                            </img>
-                                                <a href="http://localhost/img/" target="_blank" style="align-self: auto" popover="Переглянути фото"
-                                                   popover-trigger="mouseenter"> <i class="fa fa-file-image-o"></i> </a>
-                                    </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <label>{{'DISPLAY_ON' | translate}} <select ng-model="itemsPerPage"
-                                                                ng-change="onTableHandling()"
-                                                                class="form-control input-sm">
-                        <option value="1">1</option>
-                        <option value="3">3</option>
-                        <option value="5" selected>5</option>
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    </label>
+                        <div class="col-lg-12">
+                            <form role="form" ng-submit="onCalibrationTestAddFormSubmit()">
+                                <div class="form-group">
+                                    <label>Назва тесту  *</label>
+                                    <input type="text" popover-trigger="focus" ng-model="addFormData.name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Температура</label>
+                                    <input type="text" popover-trigger="focus" ng-model="addFormData.temperature" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>Номер установки *</label>
+                                    <input type="text" class="form-control" required ng-model="addFormData.settingNumber">
+                                </div>
+                                <div class="form-group">
+                                    <label>Широта *</label>
+                                    <input type="text" class="form-control" required ng-model="addFormData.latitude">
+                                </div>
+                                <div class="form-group">
+                                    <label>Довгота *</label>
+                                    <input type="text" class="form-control" required ng-model="addFormData.longitude">
+                                </div>
+                                <div class="form-group">
+                                    <label>Результат тесту *</label>
+                                    <input type="text" class="form-control" required ng-model="addFormData.testResult">
+                                </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <pagination total-items="totalItems" ng-model="currentPage"
-                                        max-size="5" boundary-links="true" rotate="false"
-                                        ng-change="onTableHandling()" items-per-page="itemsPerPage"></pagination>
+                                <button type="submit" class="btn btn-success">Додати</button>
+                                <button type="reset" class="btn btn-warning">Скинути форму</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
+            <table class="table">
+                <tr>
+                    <th>Test Name
+                    </th>
+                    <th>Setting number
+                    </th>
+                    <th>Test status
+                    </th>
+                </tr>
+                <tr ng-repeat="calibrationTest in calibrationTests">
+                    <td>
+                        {{ calibrationTest.name }}
+                    </td>
+                    <td>
+                        {{calibrationTest.settingNumber}}
+                    </td>
+                    <td>
+                        {{calibrationTest.testResult}}
+                    </td>
+                </tr>
+            </table>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            </div>
         </div>
-        <!-- /.col-lg-12 -->
     </div>
 </div>
-</body>
-</html>

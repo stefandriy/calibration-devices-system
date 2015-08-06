@@ -21,9 +21,4 @@ public class LocalityController {
     public List<ApplicationFieldDTO> getLocalitiesCorrespondingDistrict(@PathVariable Long districtId) {
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(districtId));
     }
-    @RequestMapping(value = "application/localities/{locationDesignation}/{districtId}", method = RequestMethod.GET)
-    public List<String> getMailIndexForLocality(@PathVariable String locationDesignation,@PathVariable Long districtId) {
-        return (localityService.getMailIndexForLocality(locationDesignation,districtId));
-    }
-
 }
