@@ -6,7 +6,7 @@ import com.softserve.edu.entity.user.User;
 import java.text.ParseException;
 import java.util.*;
 
-public class GraficBuilder {
+public class GraphicBuilder {
     private static StringBuilder strBuild;
 
     public static List<MonthOfYear> listOfMonths(Date dateFrom, Date dateTo) throws ParseException {
@@ -29,18 +29,18 @@ public class GraficBuilder {
         return months;
     }
 
-    public static List<ProviderEmployeeGrafic> builderData(List<Verification> verificationList,
+    public static List<ProviderEmployeeGraphic> builderData(List<Verification> verificationList,
                                                            List<MonthOfYear> months, List<User> listOfEmployee) throws ParseException {
-        Map<String, ProviderEmployeeGrafic> employeeGraphicMap = new HashMap<>();
+        Map<String, ProviderEmployeeGraphic> employeeGraphicMap = new HashMap<>();
 
         for (Verification verification : verificationList) {
             Calendar expirDate = Calendar.getInstance();
-            ProviderEmployeeGrafic graphicItem;
+            ProviderEmployeeGraphic graphicItem;
 
             if (employeeGraphicMap.containsKey(verification.getProviderEmployee().getUsername())) {
                 graphicItem = employeeGraphicMap.get(verification.getProviderEmployee().getUsername());
             } else {
-                graphicItem = new ProviderEmployeeGrafic();
+                graphicItem = new ProviderEmployeeGraphic();
                 graphicItem.monthList = months;
                 graphicItem.data = new double[months.size()];
                 graphicItem.name = verification.getProviderEmployee().getUsername();
@@ -51,19 +51,19 @@ public class GraficBuilder {
             int indexOfMonth = months.indexOf(item);
             graphicItem.data[indexOfMonth]++;
         }
-        List<ProviderEmployeeGrafic> graphicItemsList = listOfProviderEmployeeGrafic(employeeGraphicMap, listOfEmployee);
+        List<ProviderEmployeeGraphic> graphicItemsList = listOfProviderEmployeeGrafic(employeeGraphicMap, listOfEmployee);
 
         return graphicItemsList;
     }
 
 
-    public static List<ProviderEmployeeGrafic> listOfProviderEmployeeGrafic(Map<String,
-            ProviderEmployeeGrafic> employeeGraphicMap, List<User> listOfEmployee) {
-        List<ProviderEmployeeGrafic> graphicItemsList = new ArrayList<>();
-        for (Map.Entry<String, ProviderEmployeeGrafic> item : employeeGraphicMap.entrySet()) {
+    public static List<ProviderEmployeeGraphic> listOfProviderEmployeeGrafic(Map<String,
+            ProviderEmployeeGraphic> employeeGraphicMap, List<User> listOfEmployee) {
+        List<ProviderEmployeeGraphic> graphicItemsList = new ArrayList<>();
+        for (Map.Entry<String, ProviderEmployeeGraphic> item : employeeGraphicMap.entrySet()) {
             graphicItemsList.add(item.getValue());
         }
-        for (ProviderEmployeeGrafic provEmp : graphicItemsList) {
+        for (ProviderEmployeeGraphic provEmp : graphicItemsList) {
             for (User user : listOfEmployee) {
                 if (provEmp.name.equals(user.getUsername())) {
                     strBuild = new StringBuilder();
@@ -74,7 +74,6 @@ public class GraficBuilder {
                 }
             }
         }
-
         return graphicItemsList;
     }
 

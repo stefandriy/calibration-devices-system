@@ -14,8 +14,8 @@ public class ProviderEmployeeQuary {
 
     public static CriteriaQuery<User> buildSearchQuery(String userName, String role, String firstName,
                                                        String lastName, String organization, String telephone,
-                                                       EntityManager em, Long idOrganization, String sortingLastName) {
-        int sortLastName = Integer.valueOf(sortingLastName);
+                                                       EntityManager em, Long idOrganization, String fieldToSort) {
+
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
@@ -23,15 +23,23 @@ public class ProviderEmployeeQuary {
         Join<User, Organization> joinSearch = root.join("organization");
         Join<User, UserRole> joinRole = root.join("userRoles");
 
-
         Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinRole, joinSearch, userName,
                 role, firstName, lastName, organization, telephone, idOrganization);
-        if (sortLastName < 0) {
-            criteriaQuery.orderBy(cb.desc(root.get("lastName")));
-        } else {
-            criteriaQuery.orderBy(cb.asc(root.get("lastName")));
+        if (fieldToSort.length() > 0) {
+            if (fieldToSort.substring(0, 1).equals("-")) {
+                if (fieldToSort.substring(1, fieldToSort.length()).equals("role")) {
+                    criteriaQuery.orderBy(cb.desc(joinRole.get(fieldToSort.substring(1, fieldToSort.length()))));
+                } else {
+                    criteriaQuery.orderBy(cb.desc(root.get(fieldToSort.substring(1, fieldToSort.length()))));
+                }
+            } else {
+                if (fieldToSort.equals("role")) {
+                    criteriaQuery.orderBy(cb.asc(joinRole.get(fieldToSort)));
+                } else {
+                    criteriaQuery.orderBy(cb.asc(root.get(fieldToSort)));
+                }
+            }
         }
-
         criteriaQuery.select(root).distinct(true);
         criteriaQuery.where(predicate);
         return criteriaQuery;
@@ -51,7 +59,6 @@ public class ProviderEmployeeQuary {
         }
         if (!(role == null) && !(role.isEmpty())) {
             queryPredicate = cb.and(cb.like(joinRole.get("role"), "%" + role + "%"), queryPredicate);
-
         }
         if (!(firstName == null) && !(firstName.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
@@ -65,7 +72,6 @@ public class ProviderEmployeeQuary {
         if (!(telephone == null) && !(telephone.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("phone"), "%" + telephone + "%"), queryPredicate);
         }
-
         return queryPredicate;
     }
 

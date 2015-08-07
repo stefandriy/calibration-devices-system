@@ -4,7 +4,7 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
-import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGrafic;
+import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,16 +29,16 @@ public class ProviderEmployeeController {
 
 
     @RequestMapping(value = "graphic", method = RequestMethod.GET)
-    public List<ProviderEmployeeGrafic> graphic
+    public List<ProviderEmployeeGraphic> graphic
             (@RequestParam String fromDate, @RequestParam String toDate,
              @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
-        List<ProviderEmployeeGrafic> list = null;
+        List<ProviderEmployeeGraphic> list = null;
         try {
             Date dateFrom = providerEmployeeService.convertToDate(fromDate);
             Date dateTo = providerEmployeeService.convertToDate(toDate);
             List<User> providerEmployee= providerEmployeeService.getAllProviderEmployee(idOrganization);
-            list = providerEmployeeService.buidGraphic(dateFrom, dateTo, idOrganization,providerEmployee);
+            list = providerEmployeeService.buildGraphic(dateFrom, dateTo, idOrganization, providerEmployee);
         } catch (Exception e) {
             logger.error("Failed to get graphic data");
         }

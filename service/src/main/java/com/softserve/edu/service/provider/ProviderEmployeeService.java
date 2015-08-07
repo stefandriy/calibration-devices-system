@@ -1,18 +1,20 @@
 package com.softserve.edu.service.provider;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.OrganizationRepository;
+import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.provider.buildGraphic.GraphicBuilder;
+import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
+import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
+import com.softserve.edu.service.utils.EmployeeProvider;
+import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.ProviderEmployeeQuary;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -21,26 +23,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
-import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.MailService;
-import com.softserve.edu.service.provider.buildGraphic.GraficBuilder;
-import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
-import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGrafic;
-import com.softserve.edu.service.utils.EmployeeProvider;
-import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.ProviderEmployeeQuary;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class ProviderEmployeeService {
     @Autowired
     private UserRepository providerEmployeeRepository;
-   
+
     @Autowired
     private VerificationRepository verificationRepository;
 
@@ -89,7 +86,7 @@ public class ProviderEmployeeService {
         List<EmployeeProvider> providerListEmployee = new ArrayList<>();
         if (role.contains(Roles.PROVIDER_ADMIN.name())) {
             List<User> list = providerEmployeeRepository.getAllProviderUsersList(Roles.PROVIDER_EMPLOYEE.name(),
-                    employee.getOrganization().getId(),true);
+                    employee.getOrganization().getId(), true);
             providerListEmployee = EmployeeProvider.giveListOfProviders(list);
         } else {
             EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(),
@@ -115,9 +112,9 @@ public class ProviderEmployeeService {
     public ListToPageTransformer<User>
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, long idOrganization, String userName,
                                                    String role, String firstName, String lastName, String organization,
-                                                   String telephone,String sortingLastName) {
+                                                   String telephone, String fieldToSort) {
         CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
-                lastName, organization, telephone, em, idOrganization,sortingLastName);
+                lastName, organization, telephone, em, idOrganization, fieldToSort);
 
         Long count = em.createQuery(ProviderEmployeeQuary.buildCountQuery(userName, role, firstName,
                 lastName, organization, telephone, idOrganization, em)).getSingleResult();
@@ -134,15 +131,15 @@ public class ProviderEmployeeService {
     }
 
     @Transactional
-    public List<ProviderEmployeeGrafic> buidGraphic(Date from, Date to, Long idOrganization,List<User>listOfEmployee) {
-        Organization organization=organizationRepository.findOne(idOrganization);
+    public List<ProviderEmployeeGraphic> buildGraphic(Date from, Date to, Long idOrganization, List<User> listOfEmployee) {
+        Organization organization = organizationRepository.findOne(idOrganization);
         List<Verification> verifications = verificationRepository.
                 findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween
                         (organization, from, to);
-        List<ProviderEmployeeGrafic> graficData = null;
+        List<ProviderEmployeeGraphic> graficData = null;
         try {
-            List<MonthOfYear> monthList = GraficBuilder.listOfMonths(from, to);
-            graficData = GraficBuilder.builderData(verifications, monthList,listOfEmployee);
+            List<MonthOfYear> monthList = GraphicBuilder.listOfMonths(from, to);
+            graficData = GraphicBuilder.builderData(verifications, monthList, listOfEmployee);
 
         } catch (ParseException e) {
             logger.error(e.getMessage());
@@ -166,7 +163,7 @@ public class ProviderEmployeeService {
 
 
     @Transactional
-    public List<User> getAllProviderEmployee(Long idOrganization){
-       return userRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(),idOrganization);
+    public List<User> getAllProviderEmployee(Long idOrganization) {
+        return userRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(), idOrganization);
     }
 }

@@ -7,7 +7,6 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.AddEmployeeBuilderNew;
-import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
@@ -176,18 +175,18 @@ public class AddEmployeeController {
         return new PageDTO<>(content);
     }
 
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortingLastName}", method = RequestMethod.GET)
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{fieldToSort}", method = RequestMethod.GET)
     public PageDTO<UsersPageItem> getPaginationUsers(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
-            @PathVariable String sortingLastName,
+            @PathVariable String fieldToSort,
             UsersPageItem search,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, idOrganization, search.getUsername(), search.getRole(),
                 search.getFirstName(), search.getLastName(), search.getOrganization(),
-                search.getPhone(),sortingLastName);
+                search.getPhone(), fieldToSort);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
 

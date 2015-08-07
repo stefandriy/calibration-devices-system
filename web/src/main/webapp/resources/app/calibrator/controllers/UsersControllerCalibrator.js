@@ -9,11 +9,14 @@ angular
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
-                count: 5
+                count: 5,
+                sorting: {
+                    lastName: 'asc'     // initial sorting
+                }
             }, {
                 total: 0,
                 getData: function ($defer, params) {
-                    UserServiceCalibrator.getPage(params.page(), params.count(), params.filter())
+                    UserServiceCalibrator.getPage(params.page(), params.count(),params.filter(),params.sorting())
                         .success(function (result) {
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);

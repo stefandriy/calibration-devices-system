@@ -11,42 +11,48 @@ angular
             isAdmin: function () {
                 return getData('employee/admin/users/verificator');
             },
-            getPage: function (currentPage, itemsPerPage, searchObj,filterObj) {
-                var lastName=0;
-                filterObj.lastName=='asc'?lastName=1:lastName=-1;
-                return getData('employee/admin/users/' + currentPage + '/' + itemsPerPage + '/' + lastName,  searchObj);
+            getPage: function (currentPage, itemsPerPage, searchObj, filterObj) {
+                var field;
+                var value;
+                for (var key in filterObj) {
+                    field = key;
+                    value = filterObj[field];
+                }
+                value=='asc'?field=field:field="-"+field;
+                return getData('employee/admin/users/' + currentPage + '/' + itemsPerPage + '/' +
+                    field, searchObj);
             },
-            getCapacityOfWork: function(username){
-                return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
+            getCapacityOfWork: function (username) {
+                return getData('employee/admin/users/capacityOfEmployee' + '/' + username);
             },
-            getGraficData: function(dataToSearch){
-                return getData('provider/admin/users/graphic',dataToSearch);
+            getGraficData: function (dataToSearch) {
+                return getData('provider/admin/users/graphic', dataToSearch);
             },
-            getUser: function(username){
+            getUser: function (username) {
                 return getData('employee/admin/users/getUser/' + username);
             },
-            updateUser: function(userData) {
+            updateUser: function (userData) {
                 return saveData('employee/admin/users/update', userData);
             },
-            getOrganizationEmployeeCapacity : function() {
+            getOrganizationEmployeeCapacity: function () {
                 return getData('employee/admin/users/organizationCapacity');
             },
 
-            loggedInUser: function() {
+            loggedInUser: function () {
                 return getLoginUser();
             }
         };
 
         function getLoginUser() {
             return $http.get('/loginuser')
-                .then(function(result) {
+                .then(function (result) {
                     return result.data;
                 });
         }
 
         function getData(url, params) {
             return $http.get(url, {
-                params : params
+                params: params
             }).success(function (data) {
                 return data;
             }).error(function (err) {

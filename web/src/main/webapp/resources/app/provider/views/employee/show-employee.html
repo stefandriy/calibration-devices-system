@@ -6,9 +6,10 @@
 <div id="page-wrapper" ng-controller="UsersController" ng-show="verificator">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Користувачі  </h1>
-       <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
-               ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}</button>
+            <h1 class="page-header">Користувачі </h1>
+            <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
+                    ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}
+            </button>
         </div>
     </div>
 
@@ -35,22 +36,32 @@
                                    class="table table-bordered table-hover users_table">
 
                                 <tbody>
-                                <tr ng-repeat="user in $data" ng-class = "{incorrect : !user.isAvaliable}">
-                                    <td data-title="'Псевдонім користувача'" filter="{ 'username': 'text' }">{{
+                                <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
+                                    <td data-title="'Псевдонім користувача'" sortable="'username'"
+                                        filter="{ 'username': 'text' }">{{
                                         user.username }}
                                     </td>
-                                    <td data-title="'Роль'" filter="{ 'role': 'text' }">{{ user.role }}</td>
-                                    <td data-title="'Імя'"   filter="{ 'firstName': 'text' }">{{ user.firstName }}</td>
-                                    <td data-title="'Прізвище'" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{ user.lastName }}</td>
-                                    <td data-title="'Організація'" filter="{ 'organization': 'text' }">{{
+                                    <td data-title="'Роль'" sortable="'role'" filter="{ 'role': 'text' }">{{ user.role
+                                        }}
+                                    </td>
+                                    <td data-title="'Імя'" sortable="'firstName'" filter="{ 'firstName': 'text' }">{{
+                                        user.firstName }}
+                                    </td>
+                                    <td data-title="'Прізвище'" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{
+                                        user.lastName }}
+                                    </td>
+                                    <td data-title="'Організація'" sortable="'organization'" filter="{ 'organization': 'text' }">{{
                                         user.organization }}
                                     </td>
-                                    <td data-title="'Номер телефону'" filter="{ 'phone': 'text' }">{{ user.phone }}</td>
+                                    <td data-title="'Номер телефону'" sortable="'phone'" filter="{ 'phone': 'text' }">{{
+                                        user.phone }}
+                                    </td>
                                     <td data-title="'Кількість заявок в роботі'">
-                                         <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)" class="cursor-pointer"
-                                           >
-                                             {{user.countOfVarification }}</a>
-                                         <span ng-if="!user.countOfVarification"> {{ user.countOfVarification}}</span>
+                                        <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)"
+                                           class="cursor-pointer"
+                                                >
+                                            {{user.countOfVarification }}</a>
+                                        <span ng-if="!user.countOfVarification"> {{ user.countOfVarification}}</span>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary"

@@ -12,9 +12,18 @@ angular
             	return getData('calibrator/admin/users/verificator');
             },
             getCapacityOfWork: function(username){
-                return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);            },
-            getPage: function (currentPage, itemsPerPage, searchObj) {
-                return getDataWithParam('employee/admin/users/' + currentPage + '/' + itemsPerPage, searchObj);
+                return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
+            },
+            getPage: function (currentPage, itemsPerPage, searchObj, filterObj) {
+                var field;
+                var value;
+                for (var key in filterObj) {
+                    field = key;
+                    value = filterObj[field];
+                }
+                value=='asc'?field=field:field="-"+field;
+                return getData('employee/admin/users/' + currentPage + '/' + itemsPerPage + '/' +
+                    field, searchObj);
             },
             isAdmin: function () {
                 return getData('employee/admin/users/verificator');

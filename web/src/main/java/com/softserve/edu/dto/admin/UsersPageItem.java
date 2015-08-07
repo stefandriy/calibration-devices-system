@@ -1,4 +1,6 @@
 package com.softserve.edu.dto.admin;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class UsersPageItem {
@@ -7,6 +9,8 @@ public class UsersPageItem {
     private List<String> roles;
     private String password;
     private String role;
+
+    private String ln;
 
     private String firstName;
     private String lastName;
@@ -134,6 +138,15 @@ public class UsersPageItem {
 
     }
 
+
+    public String getLn() {
+        return ln;
+    }
+
+    public void setLn(String ln) {
+        this.ln = ln;
+    }
+
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
                          String middleName, String phone, String organization,
                          Long countOfVarification,Long calibratorTasks, Boolean isAvaliable) {
@@ -175,4 +188,7 @@ public class UsersPageItem {
                 ", countOfVarification=" + countOfVarification +
                 '}';
     }
+
+  public static List allField= Arrays.asList("username","role","firstName","lastName","organization","phone");
+
 }
