@@ -46,23 +46,23 @@ public class ProviderEmployeeQuary {
 
         queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization), queryPredicate);
 
-        if (!(userName == null) && !(userName == "")) {
+        if (!(userName == null) && !(userName.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
         }
-        if (!(role == null) && !(role == "")) {
+        if (!(role == null) && !(role.isEmpty())) {
             queryPredicate = cb.and(cb.like(joinRole.get("role"), "%" + role + "%"), queryPredicate);
 
         }
-        if (!(firstName == null) && !(firstName == "")) {
+        if (!(firstName == null) && !(firstName.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
         }
-        if (!(lastName == null) && !(lastName == "")) {
+        if (!(lastName == null) && !(lastName.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("lastName"), "%" + lastName + "%"), queryPredicate);
         }
-        if (!(organization == null) && !(organization == "")) {
+        if (!(organization == null) && !(organization.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("organization").get("name"), "%" + organization + "%"), queryPredicate);
         }
-        if (!(telephone == null) && !(telephone == "")) {
+        if (!(telephone == null) && !(telephone.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("phone"), "%" + telephone + "%"), queryPredicate);
         }
 
