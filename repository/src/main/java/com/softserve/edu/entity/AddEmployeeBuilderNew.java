@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class AddEmployeeBuilderNew {
 
-
-
     public String firstName;
     public String lastName;
     public String middleName;
@@ -21,12 +19,7 @@ public class AddEmployeeBuilderNew {
     public String password;
     public Address address;
     public Boolean isAveliable;
-    User newUser;
 
-
-    //    public AddEmployeeBuilderNew(){
-//        newUser = new User();
-//    }
     public AddEmployeeBuilderNew firstName(String firstName){
         this.firstName = firstName;
         return this;
@@ -66,6 +59,5 @@ public class AddEmployeeBuilderNew {
     public User build(){
         return new User(this);
     }
-
 
 }

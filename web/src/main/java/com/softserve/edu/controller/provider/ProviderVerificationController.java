@@ -117,6 +117,40 @@ public class ProviderVerificationController {
 
 
     /**
+     * Find page of verifications by specific criterias on main panel
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param verifDate    (optional)
+     * @param verifId      (optional)
+     * @param lastName     (optional)
+     * @param street       (optional)
+     * @param employeeUser
+     * @return PageDTO<VerificationPageDTO>
+     */
+    @RequestMapping(value = "new/mainpanel/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearchOnMainPanel(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                           NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
+        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderIdOnMainPanel(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                searchData.getFormattedDate(),
+                searchData.getIdText(),
+                searchData.getLastNameText(),
+                searchData.getStreetText(),
+                searchData.getStatus(),
+                searchData.getEmployee(),
+                providerEmployee
+        );
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+    }
+
+
+    /**
      * Find count of new verifications that have Read Status "UNREAD"
      *
      * @return Long count

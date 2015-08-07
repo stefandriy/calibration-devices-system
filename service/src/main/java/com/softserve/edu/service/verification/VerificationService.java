@@ -213,6 +213,25 @@ public class VerificationService {
     }
 
     @Transactional(readOnly = true)
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+                                                                                          String streetToSearch, String status, String employeeName, User providerEmployee) {
+
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, providerEmployee, em);
+
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, providerEmployee, em)).getSingleResult();
+
+        TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<Verification> verificationList = typedQuery.getResultList();
+
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        result.setContent(verificationList);
+        result.setTotalItems(count);
+        return result;
+    }
+
+    @Transactional(readOnly = true)
 
     public ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
                                                                                                        String streetToSearch, String status, String employeeName, User calibratorEmployee) {

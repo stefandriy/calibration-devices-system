@@ -6,6 +6,9 @@ angular
             getNewVerifications: function (currentPage, itemsPerPage, search) {
             	return getDataWithParams('provider/verifications/new/' + currentPage + '/' + itemsPerPage, search);
             },
+            getNewVerificationsForMainPanel: function (currentPage, itemsPerPage, search) {
+                return getDataWithParams('provider/verifications/new/mainpanel/' + currentPage + '/' + itemsPerPage, search);
+            },
             getArchiveVerifications: function (currentPage, itemsPerPage, search) {
             	return getDataWithParams('provider/verifications/archive/' + currentPage + '/' + itemsPerPage, search);
             },

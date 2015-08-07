@@ -2,9 +2,122 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Main panel provider</h1>
+            <h1 class="page-header">{{'MAIN_PANEL_PROVIDER' | translate}}</h1>
         </div>
     </div>
+    <table id = "main-panel-table">
+    <tr>
+        <td>
+            ewew
+        </td>
+        <td>
+            <!-- New verifications-->
+            <table ng-table="tableParamsVerifications" template-pagination="custom/pager" class="table table-bordered table-hover" style = "width : 50%">
+                <thead>
+                    <tr>
+                        <th class="col-md-2">Дата початку</th>
+                        <th>Прізвище</th>
+                        <th>Вулиця</th>
+                        <th>Дії</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="verification in $data">
+                    <td  align="center">{{ verification.initialDate | date}}</td>
+                    <td>{{ verification.surname }}</td>
+                    <td>{{ verification.street }}</td>
+                    <td style="width: 15%"  align="center">
+                        <img src="/resources/assets/button-icons/face2.png" ng-show="!verification.providerEmployee"
+                             popover="Вибрати відповідальну особу"  popover-trigger="mouseenter"
+                             ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
+                        </img>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <script type="text/ng-template" id="custom/pager">
+                <div>
+                    <ul class="pager ng-cloak" style = "width : 50%">
+                        <li ng-repeat="page in pages"
+                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                Previous</a>
+                            <a ng-switch-when="next" ng-click="params.page(page.number)"
+                               href="">Next &raquo;</a>
+                        </li>
+                        <li>
+                            <div class="btn-groups">
+                                <button type="button" ng-class="{'active':params.count() == 5}"
+                                        ng-click="params.count(5)" class="btn btn-default">5
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 10}"
+                                        ng-click="params.count(10)" class="btn btn-default">10
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 25}"
+                                        ng-click="params.count(25)" class="btn btn-default">25
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 50}"
+                                        ng-click="params.count(50)" class="btn btn-default">50
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </script>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            sdfk
+        </td>
+        <td>
+        <!--Table employee-->
+            <table  ng-table="tableParamsEmployee" template-pagination="employee/pager" class="table table-bordered table-hover users_table" style = "width : 50%">
+                <tr ng-repeat="user in $data">
+                    <td data-title="'Роль'" align="center" style = "width : 30%">{{ user.role }}</td>
+                    <td data-title="'Імя'">{{ user.firstName }}</td>
+                    <td data-title="'Прізвище'">{{ user.lastName }}</td>
+                    <td data-title="'Номер телефону'" align="center">{{ user.phone }}</td>
+                    <td data-title="'Кількість заявок в роботі'" align="center" style = "width : 15%">
+                        <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)" class="cursor-pointer"> {{
+                            user.countOfVarification }}</a>
+                        <span ng-if="!user.countOfVarification"> {{ user.countOfVarification}}</span>
+                    </td>
+                </tr>
+            </table>
+            <script type="text/ng-template" id="employee/pager">
+                <div>
+                    <ul class="pager ng-cloak" style = "width : 50%">
+                        <li ng-repeat="page in pages"
+                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                Previous</a>
+                            <a ng-switch-when="next" ng-click="params.page(page.number)"
+                               href="">Next &raquo;</a>
+                        </li>
+                        <li>
+                            <div class="btn-groups">
+                                <button type="button" ng-class="{'active':params.count() == 5}"
+                                        ng-click="params.count(5)" class="btn btn-default">5
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 10}"
+                                        ng-click="params.count(10)" class="btn btn-default">10
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 25}"
+                                        ng-click="params.count(25)" class="btn btn-default">25
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 50}"
+                                        ng-click="params.count(50)" class="btn btn-default">50
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </script>
+        </td>
+    </tr>
+    </table>
 
-    <div class="row"></div>
 </div>

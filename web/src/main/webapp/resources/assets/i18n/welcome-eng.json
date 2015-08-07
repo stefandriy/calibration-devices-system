@@ -187,6 +187,7 @@
   "CREATE_NEW":"Create new verification",
   "VERIFS_FOUND":"Matches found",
   "FIRE":"Fire",
-  "RESTORE":"Restore"
+  "RESTORE":"Restore",
+  "MAIN_PANEL_PROVIDER":"Main panel provider"
 
 }
