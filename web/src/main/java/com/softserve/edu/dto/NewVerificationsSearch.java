@@ -11,7 +11,7 @@ public class NewVerificationsSearch {
 	
 	public NewVerificationsSearch() {};
 	
-	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String status) {
+	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String status, String employee) {
 
 		this.idText = idText;
 		this.formattedDate = formattedDate;

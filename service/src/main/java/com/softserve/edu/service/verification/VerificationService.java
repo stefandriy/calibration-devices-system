@@ -175,9 +175,15 @@ public class VerificationService {
      */
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                                        String streetToSearch, String status, String employeeName, User providerEmployee) {
+                                                                                                        String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorProvider.buildSearchQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, providerEmployee, employeeName, em);
+    	System.err.println("date" + dateToSearch);
+    	
+        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorProvider.buildSearchQuery(providerId, dateToSearch, 
+        		idToSearch, lastNameToSearch, streetToSearch,
+        		status, providerEmployee,
+        		sortCriteria, sortOrder,
+        		employeeName, em);
 
         Long count = em.createQuery(NewVerificationsQueryConstructorProvider.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, providerEmployee, employeeName, em)).getSingleResult();
 

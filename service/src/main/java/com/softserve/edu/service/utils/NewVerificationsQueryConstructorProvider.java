@@ -2,7 +2,10 @@ package com.softserve.edu.service.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -10,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -46,8 +50,11 @@ public class NewVerificationsQueryConstructorProvider {
  	 * @return CriteriaQuery<Verification>
 	 */
 	public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch, String idToSearch, String lastNameToSearch,
-			String streetToSearch, String status, User providerEmployee, String employeeSearchName, EntityManager em) {
+			String streetToSearch, String status, User providerEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
+		System.err.println(sortCriteria + " " + sortOrder);
+		
+		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
@@ -55,7 +62,13 @@ public class NewVerificationsQueryConstructorProvider {
 
 			Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
 																		lastNameToSearch, streetToSearch, status, providerEmployee, employeeSearchName);
-			criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
+		
+			
+//			String str = "date";
+//			Order ord = SortCriteria.valueOf(str.toUpperCase()).getSortOrder(root, cb, sortOrder);
+//			System.err.println("order" + ord == null);
+			criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+//			criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 			criteriaQuery.select(root);
 			criteriaQuery.where(predicate);
 			return criteriaQuery;
@@ -126,21 +139,27 @@ public class NewVerificationsQueryConstructorProvider {
 				}
 			}
 
+	
 		if ((status != null) && (!status.startsWith("?"))) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(status.trim())), queryPredicate);
 		} else {
-			queryPredicate = cb.and(
-					cb.or(Status.SENT.getQueryPredicate(root, cb), Status.ACCEPTED.getQueryPredicate(root, cb)),
-					queryPredicate);
+			queryPredicate = cb.and(cb.or(Status.SENT.getQueryPredicate(root, cb), Status.ACCEPTED.getQueryPredicate(root, cb)), queryPredicate);
 		}
 
 		queryPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), queryPredicate);
 
-		if (dateToSearch != null) {
-			SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
+		if (dateToSearch != null) {		
+			SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");	
 			Date date = null;
 			try {
-				date = form.parse(dateToSearch);
+				date = form.parse(dateToSearch.substring(0, 10));
+				System.err.println("date before" + date);
+				Calendar c = Calendar.getInstance();
+				c.setTime(date);
+				c.add(Calendar.DATE, 1);
+				date = c.getTime();
+				System.err.println("date after" + date);
+
 			} catch (ParseException pe) {
 				logger.error("Cannot parse date", pe);
 			}
@@ -169,5 +188,24 @@ public class NewVerificationsQueryConstructorProvider {
 		}
 	
 			return queryPredicate;
+	}
+	
+	private static List<Order> buildSortRestriction(Integer idSort, Integer lastNameSort, Root<Verification> root, CriteriaBuilder cb) {
+		List<Order> orderList = new ArrayList<Order>();
+		if((idSort != null)&&(idSort == 0)) {
+			orderList.add(cb.desc(root.get("id")));
+		} else if ((idSort != null)&&(idSort == 1)) {
+			orderList.add(cb.asc(root.get("id")));
+		}
+		
+		if((lastNameSort != null)&&(lastNameSort == 0)) {
+			orderList.add(cb.desc(root.get("clientData").get("lastName")));
+		} else if ((lastNameSort != null)&&(lastNameSort == 1)) {
+			orderList.add(cb.asc(root.get("clientData").get("lastName")));
+		}
+		
+		System.err.println("size of" + orderList.size());
+		System.err.println("last name sort " + lastNameSort);
+		return orderList;
 	}
 }

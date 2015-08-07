@@ -49,11 +49,11 @@
 											  </span>
                                         </p>
                                     </td>
-                                    <td>
+                                    <td sortable="'search.idSort'">
                                     
                                         <div class="btn-group">
                                             <input type="text" class="form-control input-sm" ng-model="search.idText"
-                                                   ng-change="doSearch()">
+                                                  sortable="'search.idText'" ng-change="doSearch()">
  		 									<span id="searchclear" class="glyphicon glyphicon-remove-circle"
                                                   ng-show="search.idText.length"
                                                   ng-click="clearId()"></span>

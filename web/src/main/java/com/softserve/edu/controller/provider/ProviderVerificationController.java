@@ -1,5 +1,6 @@
 package com.softserve.edu.controller.provider;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.ArchiveVerificationsSearch;
+import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
@@ -94,23 +96,28 @@ public class ProviderVerificationController {
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
      */
-    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                                           NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
+    		@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+    		@PathVariable String sortCriteria, @PathVariable String sortOrder,
+    		NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    	 
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
                 employeeUser.getOrganizationId(),
                 pageNumber,
                 itemsPerPage,
-                searchData.getFormattedDate(),
-                searchData.getIdText(),
-                searchData.getLastNameText(),
-                searchData.getStreetText(),
+                searchData.getDate(),
+                searchData.getId(),
+                searchData.getClient_last_name(),
+                searchData.getStreet(),
                 searchData.getStatus(),
-                searchData.getEmployee(),
+                searchData.getEmployee_last_name(),
+                sortCriteria,
+                sortOrder,
                 providerEmployee
         );
+       
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }

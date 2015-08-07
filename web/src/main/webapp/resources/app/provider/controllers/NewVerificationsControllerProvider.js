@@ -7,47 +7,49 @@ angular
     	$scope.resultsCount = 0;
     	
     	
-    	$scope.search = {
-        		idText:null,
-        		formattedDate :null,
-        		lastNameText:null,
-        		streetText: null,
-        		status: null,
-        		employee: null
-        }
-      
-       
-        $scope.clearAll = function(){
-        	$scope.search.idText=null;
-        	$scope.search.formattedDate=null;
-        	$scope.dt = null;
-        	$scope.search.lastNameText=null;
-        	$scope.search.streetText=null;
-        	$scope.search.status = null;
-        	$scope.search.employee = null;
-        	$scope.tableParams.reload();
-        }
-        
-        $scope.clearId = function () {
-        	$scope.search.idText = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearLastName = function () {
-        	$scope.search.lastNameText = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearStreet = function () {
-        	$scope.search.streetText = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearStatus = function () {
-        	$scope.search.status = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearEmployee = function () {
-        	$scope.search.employee = null;
-        	$scope.tableParams.reload();
-        }
+//    	$scope.search = {
+//        		idText:null,
+//        		formattedDate :null,
+//        		lastNameText:null,
+//        		streetText: null,
+//        		status: null,
+//        		employee: null,
+//        		sortCriteria: date,
+//        		sortOrder: 0
+//        }
+//      
+//       
+//        $scope.clearAll = function(){
+//        	$scope.search.idText=null;
+//        	$scope.search.formattedDate=null;
+//        	$scope.dt = null;
+//        	$scope.search.lastNameText=null;
+//        	$scope.search.streetText=null;
+//        	$scope.search.status = null;
+//        	$scope.search.employee = null;
+//        	$scope.tableParams.reload();
+//        }
+//        
+//        $scope.clearId = function () {
+//        	$scope.search.idText = null;
+//        	$scope.tableParams.reload();
+//        }
+//        $scope.clearLastName = function () {
+//        	$scope.search.lastNameText = null;
+//        	$scope.tableParams.reload();
+//        }
+//        $scope.clearStreet = function () {
+//        	$scope.search.streetText = null;
+//        	$scope.tableParams.reload();
+//        }
+//        $scope.clearStatus = function () {
+//        	$scope.search.status = null;
+//        	$scope.tableParams.reload();
+//        }
+//        $scope.clearEmployee = function () {
+//        	$scope.search.employee = null;
+//        	$scope.tableParams.reload();
+//        }
         var promiseSearchTimeOut;
         $scope.doSearch = function() {       	
         	promiseTimeOut = $timeout(function() {
@@ -55,18 +57,36 @@ angular
         	}, 1500);
         }
         
-        $scope.$on('refresh-table', function () {
-        	 $scope.clearAll();
-        }); 
+//        $scope.$on('refresh-table', function () {
+//        	 $scope.clearAll();
+//        }); 
+        
+//        $scope.filters = {
+//        		  id: ''
+//        		};
        
         $scope.tableParams = new ngTableParams({
             page: 1,
-            count: 10
-        			}, {
+            count: 10,
+            sorting: {
+                date: 'asc'     
+            }
+            	}, {
             total: 0,
+
             getData: function ($defer, params) {
 
-                verificationServiceProvider.getNewVerifications(params.page(), params.count(), $scope.search)
+            	$log.debug('sort');
+            	$log.debug(params.sorting());
+            	var sortCriteria = Object.keys(params.sorting())[0];
+            	$log.debug('sort val');
+           
+            	$log.debug(sortCriteria);
+            	var sortOrder = params.sorting()[sortCriteria];
+            	$log.debug('order got ');
+            	$log.debug(sortOrder);
+            	
+                verificationServiceProvider.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                 				.success(function (result) {
                 					 $scope.resultsCount=result.totalItems;
                 					$defer.resolve(result.content);

@@ -3,8 +3,9 @@ angular
     .factory('VerificationServiceProvider', ['$http', '$log', function ($http, $log) {
 
         return {
-            getNewVerifications: function (currentPage, itemsPerPage, search) {
-            	return getDataWithParams('provider/verifications/new/' + currentPage + '/' + itemsPerPage, search);
+            getNewVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
+            	
+            	return getDataWithParams('provider/verifications/new/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             getNewVerificationsForMainPanel: function (currentPage, itemsPerPage, search) {
                 return getDataWithParams('provider/verifications/new/mainpanel/' + currentPage + '/' + itemsPerPage, search);
