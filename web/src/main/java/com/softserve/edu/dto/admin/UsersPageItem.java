@@ -10,8 +10,6 @@ public class UsersPageItem {
     private String password;
     private String role;
 
-    private String ln;
-
     private String firstName;
     private String lastName;
     private String middleName;
@@ -136,15 +134,6 @@ public class UsersPageItem {
     public void setIsAvaliable(Boolean isAvaliable) {
         this.isAvaliable = isAvaliable;
 
-    }
-
-
-    public String getLn() {
-        return ln;
-    }
-
-    public void setLn(String ln) {
-        this.ln = ln;
     }
 
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
