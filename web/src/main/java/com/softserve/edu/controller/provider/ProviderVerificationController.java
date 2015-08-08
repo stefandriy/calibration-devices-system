@@ -1,6 +1,5 @@
 package com.softserve.edu.controller.provider;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,10 +96,8 @@ public class ProviderVerificationController {
      * @return PageDTO<VerificationPageDTO>
      */
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
-    		@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-    		@PathVariable String sortCriteria, @PathVariable String sortOrder,
-    		NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch( @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+    										NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
     	 
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
