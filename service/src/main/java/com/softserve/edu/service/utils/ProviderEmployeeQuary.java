@@ -51,9 +51,9 @@ public class ProviderEmployeeQuary {
                                             String firstName, String lastName, String organization, String telephone,
                                             Long idOrganization) {
         Predicate queryPredicate = cb.conjunction();
-
-        queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization), queryPredicate);
-
+        if (idOrganization != null) {
+            queryPredicate = cb.and(cb.equal(joinSearch.get("id"), idOrganization), queryPredicate);
+        }
         if (!(userName == null) && !(userName.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
         }

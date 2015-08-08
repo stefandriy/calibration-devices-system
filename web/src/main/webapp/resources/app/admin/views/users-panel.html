@@ -1,84 +1,99 @@
 <div id="page-wrapper" ng-controller="UsersController">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">{{'USERS' | translate}}</h1>
+            <h1 class="page-header">Користувачі </h1>
         </div>
     </div>
+
+    <br/>
 
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    {{'USERS' | translate}}
+                    <span> Працівники</span>
+                    <span class="pull-right"> На балансі {{totalEmployee}} працівників </span>
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-sm-10">
-                            <label>{{'FIND_BY_ROLE' | translate }}
-
-                                <input type="text" ng-model="searchData" ng-change="onTableHandling()"
-                                       ng-model-options="{debounce: 600}" class="form-control input-sm">
-                            </label>
-                        </div>
-                        <div class="col-sm-offset-6">
-                            <label>{{'DISPLAY_ON' | translate}}
-                                <select ng-model="itemsPerPage" ng-change="onTableHandling()"
-                                        class="form-control input-sm">
-                                    <option value="1">1</option>
-                                    <option value="3">3</option>
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="col-sm-12">
-                            <table class="table table-striped table-bordered table-hover" id="usersTable">
-                                <thead>
-                                <tr>
-                                    <th>{{'LOGIN' | translate}}</th>
-                                    <th>{{'ROLE' | translate}}</th>
-                                    <th>{{'FIRST_NAME'| translate}}</th>
-                                    <th>{{'LAST_NAME'| translate}}</th>
-                                    <th>{{'ORGANIZATION'| translate}}</th>
-                                    <th>{{'PHONE_NUMBER'| translate}}</th>
-                                </tr>
-                                </thead>
+                            <button ng-click="tableParams.filter({})" ng-show="isFilter()"
+                                    class="btn btn-warning pull-right is-filter">Скинути пошук
+                            </button>
+
+                            <table show-filter="true" ng-table="tableParams" template-pagination="employee/pager"
+                                   class="table table-bordered table-hover users_table">
+
                                 <tbody>
-                                <tr ng-repeat="user in pageContent">
-                                    <td>{{ user.username }}</td>
-                                    <td>{{ user.role }}</td>
-                                    <td>{{ user.firstName }}</td>
-                                    <td>{{ user.lastName }}</td>
-                                    <td>{{ user.organization }}</td>
-                                    <td>{{ user.phone }}</td>
+                                <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
+                                    <td data-title="'Псевдонім користувача'" sortable="'username'"
+                                        filter="{ 'username': 'text' }">{{
+                                        user.username }}
+                                    </td>
+                                    <td data-title="'Роль'" sortable="'role'" filter="{ 'role': 'text' }">{{ user.role
+                                        }}
+                                    </td>
+                                    <td data-title="'Імя'" sortable="'firstName'" filter="{ 'firstName': 'text' }">{{
+                                        user.firstName }}
+                                    </td>
+                                    <td data-title="'Прізвище'" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{
+                                        user.lastName }}
+                                    </td>
+                                    <td data-title="'Організація'" sortable="'organization'" filter="{ 'organization': 'text' }">{{
+                                        user.organization }}
+                                    </td>
+                                    <td data-title="'Номер телефону'" sortable="'phone'" filter="{ 'phone': 'text' }">{{
+                                        user.phone }}
+                                    </td>
+
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <pagination total-items="totalItems" ng-model="currentPage" max-size="5"
-                                        boundary-links="true"
-                                        rotate="false" ng-change="onTableHandling()"
-                                        items-per-page="itemsPerPage"></pagination>
+                    <script type="text/ng-template" id="employee/pager">
+                        <div>
+                            <ul class="pager ng-cloak">
+                                <li ng-repeat="page in pages"
+                                    ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                    ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                    <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                        Previous</a>
+                                    <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                       href="">Next &raquo;</a>
+                                </li>
+                                <li>
+                                    <div class="btn-groups">
+                                        <button type="button" ng-class="{'active':params.count() == 5}"
+                                                ng-click="params.count(5)" class="btn btn-default">5
+                                        </button>
+                                        <button type="button" ng-class="{'active':params.count() == 10}"
+                                                ng-click="params.count(10)" class="btn btn-default">10
+                                        </button>
+                                        <button type="button" ng-class="{'active':params.count() == 25}"
+                                                ng-click="params.count(25)" class="btn btn-default">25
+                                        </button>
+                                        <button type="button" ng-class="{'active':params.count() == 50}"
+                                                ng-click="params.count(50)" class="btn btn-default">50
+                                        </button>
+                                        <button type="button" ng-class="{'active':params.count() == 100}"
+                                                ng-click="params.count(100)" class="btn btn-default">100
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                    </div>
+                    </script>
+
                 </div>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
+            <!-- /.panel-body -->
         </div>
-        <!-- /.col-lg-12 -->
+        <!-- /.panel -->
     </div>
+    <!-- /.col-lg-12 -->
 </div>
-<!-- /#page-wrapper -->
-<div class="page-header">
+
 </div>

@@ -192,7 +192,7 @@ public class AddEmployeeController {
 
     }
 
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
+    private  List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(

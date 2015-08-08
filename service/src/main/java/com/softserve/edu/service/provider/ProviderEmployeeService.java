@@ -110,7 +110,7 @@ public class ProviderEmployeeService {
 
     @Transactional
     public ListToPageTransformer<User>
-    findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, long idOrganization, String userName,
+    findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, Long idOrganization, String userName,
                                                    String role, String firstName, String lastName, String organization,
                                                    String telephone, String fieldToSort) {
         CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
