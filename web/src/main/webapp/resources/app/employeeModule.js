@@ -33,7 +33,7 @@
                 })
                 .state("new-verifications-provider", {
                     url: '/provider/verifications/new',
-                    templateUrl: '/resources/app/provider/views/testSort.html',
+                    templateUrl: '/resources/app/provider/views/new-verifications.html',
                     controller: 'NewVerificationsControllerProvider'
                 })
                 .state("employee-show-provider", {
