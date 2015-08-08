@@ -1,11 +1,11 @@
 package com.softserve.edu.documents.resources;
 
-import com.softserve.edu.documents.parameter.FileSystem;
-import com.softserve.edu.documents.utils.FileUtils;
+import java.util.EnumMap;
+
 import org.apache.commons.vfs2.FileObject;
 
-import java.io.File;
-import java.util.EnumMap;
+import com.softserve.edu.documents.parameter.FileSystem;
+import com.softserve.edu.documents.utils.FileUtils;
 
 /**
  * Singleton.

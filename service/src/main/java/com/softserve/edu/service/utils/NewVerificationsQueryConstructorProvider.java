@@ -142,13 +142,10 @@ public class NewVerificationsQueryConstructorProvider {
 			Date date = null;
 			try {
 				date = form.parse(dateToSearch.substring(0, 10));
-				System.err.println("date before" + date);
 				Calendar c = Calendar.getInstance();
 				c.setTime(date);
 				c.add(Calendar.DATE, 1);
 				date = c.getTime();
-				System.err.println("date after" + date);
-
 			} catch (ParseException pe) {
 				logger.error("Cannot parse date", pe);
 			}

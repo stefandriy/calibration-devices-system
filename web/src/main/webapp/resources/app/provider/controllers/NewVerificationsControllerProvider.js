@@ -5,20 +5,12 @@ angular
         function ($scope, $log, $modal, verificationServiceProvider, $rootScope, ngTableParams, $filter, $timeout) {
     	
     	$scope.resultsCount = 0;
-
-        var promiseSearchTimeOut;
-        $scope.doSearch = function() {       	
-        	promiseTimeOut = $timeout(function() {
-        		$scope.tableParams.reload();
-        	}, 1500);
-        }
-        
-
+       
         $scope.tableParams = new ngTableParams({
             page: 1,
             count: 10,
             sorting: {
-                date: 'asc'     
+                date: 'desc'     
             }
             	}, {
             total: 0,
@@ -38,6 +30,16 @@ angular
                 				});
              }
         });
+        
+        $scope.checkFilters = function () {       	 
+            var obj = $scope.tableParams.filter();
+            for (var i in obj) {
+                if (obj.hasOwnProperty(i) && obj[i]) {
+                    return true;
+                }
+            }
+            return false;         
+   };
   
 	       $scope.markAsRead = function (id) {
 				 var dataToSend = {
@@ -234,17 +236,6 @@ var checkForEmpty = function () {
            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
            $scope.format = $scope.formats[2];
 
-           $scope.changeDateToSend = function(val){
-            	
-            	  if(angular.isUndefined(val)){
-            		  $scope.search.formattedDate = null;
-            		  $scope.tableParams.reload();
-            	  } else {
-            		  var datefilter = $filter('date');
-                	  $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
-                	  $scope.tableParams.reload();
-            	  }
-              }
            
            /**
             * Modal window used to explain the reason of verification rejection

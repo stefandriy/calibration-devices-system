@@ -176,9 +176,7 @@ public class VerificationService {
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
                                                                                                         String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee) {
-
-    	System.err.println("date" + dateToSearch);
-    	
+   	
         CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorProvider.buildSearchQuery(providerId, dateToSearch, 
         		idToSearch, lastNameToSearch, streetToSearch,
         		status, providerEmployee,
@@ -201,9 +199,9 @@ public class VerificationService {
 
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                          String streetToSearch, String status, String employeeName, User providerEmployee) {
+                                                                                          String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, providerEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, providerEmployee, em);
 
         Long count = em.createQuery(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, providerEmployee, em)).getSingleResult();
 
@@ -222,7 +220,7 @@ public class VerificationService {
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
                                                                                           String streetToSearch, String status, String employeeName, User providerEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, providerEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, null, null, providerEmployee, em);
 
         Long count = em.createQuery(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, providerEmployee, em)).getSingleResult();
 

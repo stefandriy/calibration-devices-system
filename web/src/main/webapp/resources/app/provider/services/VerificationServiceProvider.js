@@ -10,8 +10,8 @@ angular
             getNewVerificationsForMainPanel: function (currentPage, itemsPerPage, search) {
                 return getDataWithParams('provider/verifications/new/mainpanel/' + currentPage + '/' + itemsPerPage, search);
             },
-            getArchiveVerifications: function (currentPage, itemsPerPage, search) {
-            	return getDataWithParams('provider/verifications/archive/' + currentPage + '/' + itemsPerPage, search);
+            getArchiveVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
+            	return getDataWithParams('provider/verifications/archive/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);

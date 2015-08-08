@@ -3,7 +3,6 @@ package com.softserve.edu.dto;
 import java.util.Date;
 
 import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 
 
