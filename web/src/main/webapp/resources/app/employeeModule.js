@@ -1,12 +1,13 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
         'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
-        'highcharts-ng', 'ngFileUpload','ngRoute'])
+        'highcharts-ng', 'ngFileUpload','ngRoute','angular-loading-bar'])
 
-        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
+        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider',
 
-            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider) {
-
+            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider) {
+                cfpLoadingBarProvider.includeSpinner = true;
+                cfpLoadingBarProvider.latencyThreshold = 500;
                 showErrorsConfigProvider.showSuccess(true);
                
                 /**

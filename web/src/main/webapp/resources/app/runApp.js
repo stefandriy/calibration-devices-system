@@ -17,7 +17,10 @@ require.config({
         chosen : '../assets/angular-chosen-localytics/chosen',
         standalone:  '../assets/bower_components/highcharts-release/adapters/standalone-framework.src',
         upload : '../assets/bower_components/ng-file-upload/ng-file-upload-all.min',
-        ngRoute : '../assets/bower_components/angular-route/angular-route.min'
+        ngRoute : '../assets/bower_components/angular-route/angular-route.min',
+        angularLoadingBar : '../assets/bower_components/angular-loading-bar/build/loading-bar'
+
+
 
     },
     shim: {
@@ -74,10 +77,14 @@ require.config({
             deps : [ 'angular' ],
             exports : "ngRoute"
         },
+        angularLoadingBar : {
+            deps : [ 'angular' ],
+            exports : "angularLoadingBar"
+        },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
-                'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload','ngRoute']
+                'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload','ngRoute','angularLoadingBar']
         }
     }
 });
