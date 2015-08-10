@@ -1,5 +1,6 @@
 package com.softserve.edu.service.verification;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -39,7 +40,7 @@ public class VerificationProviderEmployeeService {
         verification.setProviderEmployee(providerEmployee);
         verification.setStatus(Status.ACCEPTED);
         verification.setReadStatus(ReadStatus.READ);
-
+        verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
 

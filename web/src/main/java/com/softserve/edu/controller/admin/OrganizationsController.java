@@ -49,7 +49,7 @@ public class OrganizationsController {
 		try {
 			organizationsService.addOrganizationWithAdmin(
 					organizationDTO.getName(), organizationDTO.getEmail(),
-					organizationDTO.getPhone(), organizationDTO.getTypes(), organizationDTO.getEmployeesCapacity(),
+					organizationDTO.getPhone(), organizationDTO.getTypes(), organizationDTO.getEmployeesCapacity(), organizationDTO.getMaxProcessTime(),
 					organizationDTO.getUsername(),
 					organizationDTO.getPassword(), address);
 		} catch (Exception e) {
@@ -134,7 +134,7 @@ public class OrganizationsController {
 		try {
 			organizationsService.editOrganization(organizationId,
 					organization.getName(), organization.getPhone(),
-					organization.getEmail(), organization.getEmployeesCapacity(), address);
+					organization.getEmail(), organization.getEmployeesCapacity(), organization.getMaxProcessTime(), address);
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
 			httpStatus = HttpStatus.CONFLICT;

@@ -12,10 +12,13 @@ import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.softserve.edu.service.utils.ProcessTimeChecker;
 
 /**
  * Spring MVC config for the servlet context in the application.
@@ -24,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 @Configuration
 @EnableWebMvc
+@EnableScheduling
 @ComponentScan("com.softserve.edu.controller")
 @PropertySource("classpath:/properties/mail.properties")
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
@@ -63,5 +67,9 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
         return new PropertySourcesPlaceholderConfigurer();
     }
     
+    @Bean
+    public  ProcessTimeChecker  getChecker() {
+        return new ProcessTimeChecker();
+    }
   
 }

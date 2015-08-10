@@ -23,7 +23,8 @@ public class Organization {
 	private String email;
 	private String phone;
 	private Integer employeesCapacity;
-
+	private Integer maxProcessTime;
+	
 	@Embedded
 	private Address address;
 
@@ -60,11 +61,12 @@ public class Organization {
 		this.phone = phone;
 	}
 
-	public Organization(String name, String email, String phone, Integer employeesCapacity, Address address) {
+	public Organization(String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, Address address) {
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
 		this.employeesCapacity = employeesCapacity;
+		this.maxProcessTime = maxProcessTime;
 		this.address = address;
 	}
 
@@ -141,6 +143,14 @@ public class Organization {
 	}
 
 
+
+	public Integer getMaxProcessTime() {
+		return maxProcessTime;
+	}
+
+	public void setMaxProcessTime(Integer maxProcessTime) {
+		this.maxProcessTime = maxProcessTime;
+	}
 
 	@Override
 	public String toString() {

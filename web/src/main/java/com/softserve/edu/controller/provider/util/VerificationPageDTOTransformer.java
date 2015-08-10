@@ -25,7 +25,8 @@ import org.springframework.data.domain.Page;
                                 verification.getClientData().getClientAddress().getDistrict(),
                                 verification.getClientData().getClientAddress().getLocality(),
                                 verification.getClientData().getPhone(),
-                                verification.getBbiProtocol()==null?false:true)
+                                verification.getBbiProtocol()==null?false:true,
+                                		verification.getProcessTimeExceeding())
                 );
     }
 
@@ -51,7 +52,8 @@ import org.springframework.data.domain.Page;
                                          verification.getClientData().getClientAddress().getDistrict(),
                                          verification.getClientData().getClientAddress().getLocality(),
                                          verification.getClientData().getPhone(),
-                        verification.getBbiProtocol()==null?false:true)
+                        verification.getBbiProtocol()==null?false:true,
+                        		verification.getProcessTimeExceeding())
                         );
                     }
 			return resultList;

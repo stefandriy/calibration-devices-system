@@ -98,12 +98,9 @@ public class
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(to);
-                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
-                String domain = null;	
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));	
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("name", userName);
-                templateVariables.put("protocol", protocol);
-                templateVariables.put("domain", domain);
                 templateVariables.put("verificationId", verificationId);
                 templateVariables.put("deviceType", deviceType);
                 templateVariables.put("message", msg);
@@ -130,8 +127,6 @@ public class
 					logger.error("Cannot get host address", ue);
 				}
                 Map<String, Object> templateVariables = new HashMap<>();
-                templateVariables.put("protocol", protocol);
-                templateVariables.put("domain", domain);
                 templateVariables.put("verificationId", verificationId);
                 templateVariables.put("deviceType", deviceType);
                 String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/accepted.vm", "UTF-8", templateVariables);
@@ -150,15 +145,13 @@ public class
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo("metrology.calibration.devices@gmail.com");
-                message.setFrom(new InternetAddress(from));
-                
+                message.setFrom(new InternetAddress(from));               
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("firstName", userFirstName);
                 templateVariables.put("lastName", userLastName);
                 templateVariables.put("mailAddress", from);
                 templateVariables.put("message", msg);
                 templateVariables.put("applicationId", verificationId);
-
                 String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/clientMail.vm", "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
@@ -166,5 +159,23 @@ public class
             }
         };
        this.mailSender.send(preparator);
+    }
+    
+    public void sendTimeExceededMail (String verificationId, int processTimeExceeding, int maxProcessTime, String mailTo) {
+    	MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+            	MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+            	message.setTo(mailTo);
+            	message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+            	Map<String, Object> templateVariables = new HashMap<>();
+            	templateVariables.put("processTimeExceeding", processTimeExceeding);
+            	templateVariables.put("verificationId", verificationId);
+            	templateVariables.put("maxProcessTime", maxProcessTime);
+            	String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/processTimeExceeded.vm", "UTF-8", templateVariables);
+            	message.setText(body, true);
+            	message.setSubject("Important notification");
+            }
+        };
+        this.mailSender.send(preparator);
     }
 }

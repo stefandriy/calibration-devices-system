@@ -6,7 +6,8 @@ public class OrganizationDTO {
 	private String phone;
 	private String[] types;
 	private Integer employeesCapacity;
-
+	private Integer maxProcessTime;
+	
 	private String username;
 	private String password;
 	private String rePassword;
@@ -131,5 +132,13 @@ public class OrganizationDTO {
 
 	public void setFlat(String flat) {
 		this.flat = flat;
+	}
+	
+	public Integer getMaxProcessTime() {
+		return maxProcessTime;
+	}
+
+	public void setMaxProcessTime(Integer maxProcessTime) {
+		this.maxProcessTime = maxProcessTime;
 	}
 }

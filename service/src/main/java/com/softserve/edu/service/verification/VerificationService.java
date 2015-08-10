@@ -392,7 +392,6 @@ public class VerificationService {
         } else if ((status.equals(Status.TEST_OK)) || (status.equals(Status.TEST_NOK))) {
             verification.setProvider(oraganization);
         }
-        verification.setExpirationDate(new Date());
         verification.setStatus(status);
         verification.setReadStatus(ReadStatus.UNREAD);
         verification.setExpirationDate(new Date());

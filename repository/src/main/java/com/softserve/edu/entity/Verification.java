@@ -69,6 +69,8 @@ public class Verification {
     private Date sentToCalibratorDate;
     @OneToOne
     BbiProtocol bbiProtocol;
+    
+    private Integer processTimeExceeding;
 
     public Verification() {
     }
@@ -219,7 +221,15 @@ public class Verification {
         this.sentToCalibratorDate = sentToCalibratorDate;
     }
 
-    @Override
+    public Integer getProcessTimeExceeding() {
+		return processTimeExceeding;
+	}
+
+	public void setProcessTimeExceeding(Integer processTimeExceeding) {
+		this.processTimeExceeding = processTimeExceeding;
+	}
+
+	@Override
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)

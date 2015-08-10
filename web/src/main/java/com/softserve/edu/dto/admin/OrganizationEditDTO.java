@@ -5,6 +5,7 @@ public class OrganizationEditDTO {
 	private String email;
 	private String phone;
 	private Integer employeesCapacity;
+	private Integer maxProcessTime;
 
 	private String region;
 	private String locality;
@@ -92,4 +93,13 @@ public class OrganizationEditDTO {
 	public void setFlat(String flat) {
 		this.flat = flat;
 	}
+
+	public Integer getMaxProcessTime() {
+		return maxProcessTime;
+	}
+
+	public void setMaxProcessTime(Integer maxProcessTime) {
+		this.maxProcessTime = maxProcessTime;
+	}
+	
 }

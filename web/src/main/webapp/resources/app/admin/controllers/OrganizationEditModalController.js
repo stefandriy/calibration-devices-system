@@ -132,6 +132,7 @@ angular
 									phone : $rootScope.organization.phone,
 									email : $rootScope.organization.email,
 									employeesCapacity : $rootScope.organization.employeesCapacity,
+									maxProcessTime: $root.organization.maxProcessTime,
 									region : $rootScope.organization.address.region,
 									locality : $rootScope.organization.address.locality,
 									district : $rootScope.organization.address.district,

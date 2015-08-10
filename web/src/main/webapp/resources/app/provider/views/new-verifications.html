@@ -43,6 +43,9 @@
                                 <tbody>
                                 <tr ng-repeat="verification in $data"  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td data-title="''"> <input type="checkbox" ng-show="verification.providerEmployee" ng-click="resolveVerificationId(verification.id)"/>
+                                    <img src="/resources/assets/button-icons/excl.jpg" popover="Process time exceeded!!!"
+                                           		popover-trigger="mouseenter" ng-show="verification.processTimeExceeding>0">
+                                        	</img>
                                     </td>
                                     <td data-title="'Initial date'" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}</td>
                                     <td data-title="'Verification ID'"  sortable="'id'" filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}</td>

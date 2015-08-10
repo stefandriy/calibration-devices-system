@@ -23,13 +23,14 @@ public class VerificationPageDTO {
     private Long countOfWork;
     private ReadStatus readStatus;
     private boolean isUpload;
+    private Integer processTimeExceeding;
 
     public VerificationPageDTO() {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street,
                                Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee, 
-                               String name, String district, String locality, String phone,boolean isUpload) {
+                               String name, String district, String locality, String phone,boolean isUpload, Integer processTimeExceeding) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -63,6 +64,7 @@ public class VerificationPageDTO {
         this.locality=locality;
         this.phone=phone;
         this.isUpload=isUpload;
+        this.processTimeExceeding = processTimeExceeding;
     }
     public VerificationPageDTO(Long count) {
         this.countOfWork = count;
@@ -189,8 +191,16 @@ public class VerificationPageDTO {
     public void setIsUpload(boolean isUpload) {
         this.isUpload = isUpload;
     }
+    
+    public Integer getProcessTimeExceeding() {
+		return processTimeExceeding;
+	}
 
-    @Override
+	public void setProcessTimeExceeding(Integer processTimeExceeding) {
+		this.processTimeExceeding = processTimeExceeding;
+	}
+
+	@Override
     public String toString() {
         return "VerificationPageDTO{" +
                 "id='" + id + '\'' +

@@ -102,7 +102,14 @@
 			</div>
 		</div>
 
-
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">Max process time</label>
+			</div>
+			<div class="form-group col-md-8" show-errors>
+				<input type="number" id="processTime"  name="processTime" class="form-control" ng-model="organizationFormData.maxProcessTime" min="1" required>
+			</div>
+		</div>
 
 		<div>
 			<hr />
