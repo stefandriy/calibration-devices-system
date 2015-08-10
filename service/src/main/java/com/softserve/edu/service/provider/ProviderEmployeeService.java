@@ -1,11 +1,20 @@
 package com.softserve.edu.service.provider;
 
 import com.softserve.edu.entity.Organization;
+
+import com.softserve.edu.repository.OrganizationRepository;
+import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
-import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.MailService;
@@ -15,14 +24,6 @@ import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.utils.EmployeeProvider;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.ProviderEmployeeQuary;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -140,6 +141,23 @@ public class ProviderEmployeeService {
         try {
             List<MonthOfYear> monthList = GraphicBuilder.listOfMonths(from, to);
             graficData = GraphicBuilder.builderData(verifications, monthList, listOfEmployee);
+
+        } catch (ParseException e) {
+            logger.error(e.getMessage());
+        }
+        return graficData;
+    }
+
+    @Transactional
+    public List<ProviderEmployeeGraphic> buidGraphicMainPanel(Date from, Date to, Long idOrganization) {
+        Organization organization=organizationRepository.findOne(idOrganization);
+        List<Verification> verifications = verificationRepository.
+                findByProviderAndInitialDateBetween
+                        (organization, from, to);
+        List<ProviderEmployeeGraphic> graficData = null;
+        try {
+            List<MonthOfYear> monthList = GraphicBuilder.listOfMonths(from, to);
+            graficData = GraphicBuilderMainPanel.builderData(verifications, monthList, organization);
 
         } catch (ParseException e) {
             logger.error(e.getMessage());

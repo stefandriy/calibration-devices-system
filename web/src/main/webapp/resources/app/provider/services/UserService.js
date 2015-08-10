@@ -28,7 +28,13 @@ angular
             getGraficData: function (dataToSearch) {
                 return getData('provider/admin/users/graphic', dataToSearch);
             },
-            getUser: function (username) {
+            getGraficDataMainPanel: function(dataToSearch) {
+                return getData('provider/admin/users/graphicmainpanel', dataToSearch);
+            },
+            getPieDataMainPanel: function(){
+                return getData('provider/admin/users/piemainpanel');
+            },
+            getUser: function(username){
                 return getData('employee/admin/users/getUser/' + username);
             },
             updateUser: function (userData) {

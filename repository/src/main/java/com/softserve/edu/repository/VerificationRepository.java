@@ -75,4 +75,7 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     List<Verification> findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween
             (Organization organization,Date dateFrom,Date DateTo);
+
+    List<Verification> findByProviderAndInitialDateBetween
+            (Organization organization,Date dateFrom,Date DateTo);
 }

@@ -140,6 +140,8 @@
             'provider/services/UserService',
             'provider/controllers/CapacityEmployeeControllerProvider',
             'provider/controllers/GraficEmployeeProvider',
+            'provider/controllers/GraphicEmployeeProviderMainPanel',
+            'provider/controllers/PieProviderEmployee',
             'provider/controllers/CalendarEmployeeProvider',
             'provider/controllers/ArchivalDetailsModalController',
             'provider/controllers/EditEmployeeController',
