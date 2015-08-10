@@ -152,6 +152,49 @@ angular
                 checkForEmpty();
             };
 
+            $scope.openRejectTest  = function () {
+                if (!$scope.allIsEmpty) {
+                    var modalInstance = $modal.open({
+                        animation: true,
+                        templateUrl: '/resources/app/verificator/views/modals/test-rejecting.html',
+                        controller: 'TestRejectControllerVerificator',
+                        size: 'md',
+                        resolve: {
+                            response: function () {
+                                return VerificationServiceVerificator.getCalibrators()
+                                    .success(function (calibrators) {
+                                        return calibrators;
+                                    }
+                                );
+                            }
+                        }
+                    });
+                    /**
+                     * executes when modal closing
+                     */
+                    modalInstance.result.then(function (formData) {
+
+                        var dataToSend = {
+                            idsOfVerifications: $scope.idsOfVerifications,
+                            idsOfCalibrators: formData.calibrator.id
+                        };
+
+                        VerificationServiceVerificator
+                            .rejectTestToCalibrator(dataToSend)
+                            .success(function () {
+                                $log.debug('success sending');
+                                $scope.tableParams.reload();
+                                $rootScope.$broadcast('verification-sent-to-calibrator');
+                            });
+                        $scope.idsOfVerifications = [];
+                        $scope.checkedItems = [];
+
+                    });
+                } else {
+                    $scope.isClicked = true;
+                }
+            };
+
 
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {

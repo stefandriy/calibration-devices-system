@@ -18,6 +18,12 @@ angular
             getProviders: function (url) {
                 return getData('verifications/new/providers');
             },
+            getCalibrators: function (url) {
+                return getData('verifications/new/calibrators');
+            },
+            rejectTestToCalibrator: function (data) {
+                return updateData('new/reject', data);
+            },
             sendVerificationsToProvider: function (data) {
                 return updateData('new/update', data);
             },

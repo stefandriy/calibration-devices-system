@@ -179,6 +179,7 @@
             'verificator/controllers/EmployeeControllerVerificator',
             'verificator/controllers/AddressModalControllerVerificator',
             'verificator/controllers/NotificationsControllerVerificator',
+            'verificator/controllers/TestRejectControllerVerificator',
             'verificator/controllers/CalibrationTestReviewControllerVerificator',
             'verificator/controllers/ArchivalVerificationsControllerVerificator',
             'verificator/services/AddressServiceVerificator',

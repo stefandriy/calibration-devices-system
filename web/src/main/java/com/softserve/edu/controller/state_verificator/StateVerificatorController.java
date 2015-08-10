@@ -9,6 +9,7 @@ import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.dto.state_verificator.VerificationUpdatingDTO;
+import com.softserve.edu.dto.state_verificator.VerificationUpdatingDTOProvider;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
@@ -87,6 +88,16 @@ public class StateVerificatorController {
     }
 
     /**
+     * Find calibrators by district which correspond provider district
+     *
+     * @return calibrator
+     */
+    @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
+    public List<Organization> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
+    }
+
+    /**
      * Shows count of new verifications assigned on state-verificator
      * @param user
      * @return count of new verifications
@@ -132,6 +143,19 @@ public class StateVerificatorController {
             Long idProvider = verificationUpdatingDTO.getIdsOfProviders();
             Organization provider = providerService.findById(idProvider);
             verificationService.sendVerificationTo(verificationId, provider, Status.TEST_NOK);
+        }
+    }
+
+    /**
+     * Updates status of verification to IN_PROGRESS and sent it to calibrator
+     * @param updatingDTOProvider
+     */
+    @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
+    public void rejectVerification(@RequestBody VerificationUpdatingDTOProvider updatingDTOProvider) {
+        for (String verificationId : updatingDTOProvider.getIdsOfVerifications()) {
+            Long idCalibrator = updatingDTOProvider.getIdsOfCalibrators();
+            Organization calibrator = calibratorService.findById(idCalibrator);
+            verificationService.sendVerificationTo(verificationId, calibrator, Status.IN_PROGRESS);
         }
     }
 
