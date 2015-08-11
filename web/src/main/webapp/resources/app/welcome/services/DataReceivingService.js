@@ -30,6 +30,9 @@ angular.module('welcomeModule').factory('DataReceivingService',
 				findStreetsByLocalityId : function(id) {
 					return getData('streets/' + id);
 				},
+				findStreetsTypes : function() {
+					return getData('streetsTypes/');
+				},
 				findBuildingsByStreetId : function(id) {
 					return getData('buildings/' + id);
 				},

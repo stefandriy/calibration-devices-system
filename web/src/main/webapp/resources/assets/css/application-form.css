@@ -33,9 +33,8 @@
 	height: 34px !important;
 	
 }
-.chosen-container-multi .chosen-choices {
-	height: 34px !important;
-	
+.chosen-container-multi .chosen-choices{
+    height: 34px !important;
 }
 
 #clientFormBox {
@@ -184,3 +183,4 @@ input[type=radio   ]:not(old){
     background: #FF0000;
     height: 4px;
 }
+

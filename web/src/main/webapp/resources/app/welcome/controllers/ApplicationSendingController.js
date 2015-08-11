@@ -150,17 +150,25 @@ angular
             	}
             };
 
-            /**
-             * Receives all possible indexes by selected locality and district.
-             *
-             */
 
-            $scope.receiveIndexes=  function (selectedLocality,selectedDistrict){
-            }
             /**
              * Receives all possible streets.
              * On-select handler in locality input form element
              */
+            $scope.streetsTypes = [];
+            $scope.selectedStreetType="";
+
+                dataReceivingService.findStreetsTypes()
+                    .success(function (streetsTypes) {
+                        $scope.streetsTypes = streetsTypes;
+                        $scope.selectedStreetType = "";
+                        $log.debug("$scope.streetsTypes");
+                        $log.debug($scope.streetsTypes);
+
+                    });
+
+
+
             $scope.receiveStreets = function (selectedLocality ,selectedDistrict) {
             	if(!$scope.blockSearchFunctions) {
             	$scope.streets = [];
@@ -168,11 +176,17 @@ angular
                     .success(function (streets) {
                         $scope.streets = streets;
                         $scope.selectedStreet = "";
+                        $log.debug("$scope.streets");
+                        $log.debug($scope.streets);
+
                     });
+
                     $scope.indexes = [];
                     dataReceivingService.findMailIndexByLocality(selectedLocality.designation,selectedDistrict.id)
                         .success(function (indexes) {
                             $scope.indexes = indexes;
+                            $log.debug("$scope.indexes");
+                            $log.debug($scope.indexes);
 
                         });
             	}
