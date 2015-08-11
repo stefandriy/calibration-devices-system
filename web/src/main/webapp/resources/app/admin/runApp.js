@@ -13,6 +13,7 @@ require
 				angularTranslateStorageLocal : '../../assets/bower_components/angular-translate-storage-local/angular-translate-storage-local.min',
 				angularTranslateStorageCookie : '../../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
 				chosen : '../../assets/bower_components/angular-chosen-localytics/chosen',
+				angularLoadingBars : '../../assets/bower_components/angular-loading-bar/build/loading-bar',
 
 				adminModule : 'adminModule'
 			},
@@ -58,6 +59,10 @@ require
 					exports : "chosen",
 					deps : [ 'angular' ]
 				},
+				angularLoadingBars : {
+					deps : [ 'angular' ],
+					exports : "angularLoadingBars"
+				},
 
 				adminModule : {
 
@@ -67,7 +72,7 @@ require
 							'angularTranslateStorageLocal',
 							'angularTranslateLoaderStaticFiles',
 							'angularUIRouter', 'showErrors', 'ngTable',
-							'chosen' ]
+							'chosen','angularLoadingBars' ]
 
 				}
 			}

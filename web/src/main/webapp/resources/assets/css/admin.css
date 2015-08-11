@@ -385,4 +385,8 @@ div.chosen-container {
     width: 100% !important;
 }
 
+#loading-bar .bar{
+    background: #FF0000;
+    height: 4px;
+}
 

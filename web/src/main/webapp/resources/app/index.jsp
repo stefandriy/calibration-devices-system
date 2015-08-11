@@ -63,13 +63,21 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown" dropdown>
                 <a class="dropdown-toggle" dropdown-toggle>
-                  {{employee.username}}   <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                    {{employee.firstName}}
+                    {{employee.lastName}}
+                    ({{employee.username}})
+
+
+                    <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user"  style="background-color: lightskyblue ">
                     <li class="user-header bg-light-blue">
                         <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-circle" alt="User Image" />
                         <p>
-                               INPUT PARAM OF USER HERE
+                            {{employee.firstName}}
+                            {{employee.lastName}}
+                            {{employee.middleName}}
+                            ({{employee.username}})
                         </p>
                     </li>
                     <li class="user-footer" >
