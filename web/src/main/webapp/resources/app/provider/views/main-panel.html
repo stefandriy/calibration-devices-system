@@ -5,11 +5,14 @@
             <h1 class="page-header">{{'MAIN_PANEL_PROVIDER' | translate}}</h1>
         </div>
     </div>
-    <table id = "main-panel-table">
-    <tr>
-        <td>
+
             <!--Graph of verifications-->
-            <div  ng-controller="GraphicEmployeeProviderMainPanel">
+                <div class="col-lg-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-bar-chart-o fa-fw"></li> Графік кількості поступлених заяво
+                    </div>
+                    <div  ng-controller="GraphicEmployeeProviderMainPanel">
 
                 <div class="modal-header-capacity">
                     <h3 class="capacity-employee">Виберіть дату для пошуку інформації</h3>
@@ -67,11 +70,17 @@
                 <br>
                 <highchart id="chart1" config="chartConfig" class="span10"></highchart>
 
+
             </div>
-        </td>
-        <td>
+            </div>
+                </div>
             <!-- New verifications-->
-            <table ng-table="tableParamsVerifications" template-pagination="custom/pager" class="table table-bordered table-hover" style = "width : 50%">
+            <div class="col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-align-justify fa-fw"></li> Нові заявки
+                    </div>
+            <table ng-table="tableParamsVerifications" template-pagination="custom/pager" class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th class="col-md-2">Дата початку</th>
@@ -96,7 +105,7 @@
             </table>
             <script type="text/ng-template" id="custom/pager">
                 <div>
-                    <ul class="pager ng-cloak" style = "width : 50%">
+                    <ul class="pager ng-cloak" >
                         <li ng-repeat="page in pages"
                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
@@ -124,25 +133,30 @@
                     </ul>
                 </div>
             </script>
-        </td>
-    </tr>
-    <tr>
-        <td>
+            </div>
+            </div>
+
             <!--Pie of ????-->
+            <div class="col-lg-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-hand-o-right fa-fw"></li>Діаграма зайнятості підприємства
+                    </div>
             <div  ng-controller="PieProviderEmployee">
 
                 <highchart id="chart2" config="chartConfic" class="span10"></highchart>
 
             </div>
+            </div>
+                </div>
 
-
-
-
-
-        </td>
-        <td>
         <!--Table employee-->
-            <table  ng-table="tableParamsEmployee" template-pagination="employee/pager" class="table table-bordered table-hover users_table" style = "width : 50%">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <li class="fa fa-align-justify fa-fw"></li> Працівники
+                </div>
+            <table  ng-table="tableParamsEmployee" template-pagination="employee/pager" class="table table-bordered table-hover users_table" >
                 <tr ng-repeat="user in $data">
                     <td data-title="'Роль'" align="center" style = "width : 30%">{{ user.role }}</td>
                     <td data-title="'Імя'">{{ user.firstName }}</td>
@@ -157,7 +171,7 @@
             </table>
             <script type="text/ng-template" id="employee/pager">
                 <div>
-                    <ul class="pager ng-cloak" style = "width : 50%">
+                    <ul class="pager ng-cloak">
                         <li ng-repeat="page in pages"
                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
@@ -185,8 +199,7 @@
                     </ul>
                 </div>
             </script>
-        </td>
-    </tr>
-    </table>
+    </div>
+    </div>
 
 </div>

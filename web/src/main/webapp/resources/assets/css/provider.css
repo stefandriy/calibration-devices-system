@@ -120,7 +120,7 @@ body {
 
 #page-wrapper {
     padding: 0 15px;
-    min-height: 568px;
+    min-height: 2000px !important;
     background-color: #fff;
 }
 
@@ -615,3 +615,5 @@ float:left;
 .validation-message {
     color: red;
 }
+
+

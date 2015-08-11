@@ -12,10 +12,12 @@
     <link href="/resources/assets/bower_components/angular-loading-bar/build/loading-bar.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/resources/assets/bower_components/chosen/chosen.min.css">
+    <link rel="stylesheet" href="/resources/assets/bower_components/chosen/chosen.min.css" rel="stylesheet">
 
     <link href="/resources/assets/css/provider.css" rel="stylesheet">
     <link href="/resources/assets/css/calibrator.css" rel="stylesheet">
+    <link href="/resources/assets/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/resources/assets/css/timeline.css" rel="stylesheet">
 
 
     <link href="/resources/assets/css/application-form.css" rel="stylesheet">
