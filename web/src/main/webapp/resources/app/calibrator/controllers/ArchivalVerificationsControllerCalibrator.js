@@ -4,7 +4,9 @@ angular
 
         function ($scope, $modal, $log, verificationServiceCalibrator, ngTableParams, $filter, $rootScope, $timeout) {
 
-            $scope.tableParams = new ngTableParams({
+    	 $scope.resultsCount = 0;    
+    	
+    	$scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
                 sorting: {

@@ -2,6 +2,7 @@ package com.softserve.edu.service.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -24,7 +25,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	
 	public static CriteriaQuery<Verification> buildSearchQuery (Long employeeId, String dateToSearch,
 									String idToSearch, String lastNameToSearch, String streetToSearch, String status, String employeeName, 
-									User providerEmployee, EntityManager em) {
+									String sortCriteria, String sortOrder, User providerEmployee, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
@@ -35,7 +36,11 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Predicate predicate = ArchivalVerificationsQueryConstructorVerificator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
 																		lastNameToSearch, streetToSearch, status,
 																		employeeName, providerEmployee, calibratorJoin);
-			criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
+			if((sortCriteria != null)&&(sortOrder != null)) {
+				criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+			} else {
+				criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
+			}
 			criteriaQuery.select(root);
 			criteriaQuery.where(predicate);
 			return criteriaQuery;
@@ -65,39 +70,49 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		Predicate queryPredicate = cb.conjunction();
 		queryPredicate = cb.and(cb.equal(verificatorJoin.get("id"), employeeId), queryPredicate);
 							
-		if ((searchStatus != null)&&(!searchStatus.startsWith("?"))) {
+		if ((searchStatus != null) && (!searchStatus.startsWith("?"))) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
-		} 
-		
-				 if (dateToSearch != null) {
-					 SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
-					 Date date = null;
-					 try {
-					    date = form.parse(dateToSearch);
-					 } catch (ParseException pe) {
-					    logger.error("Cannot parse date", pe);
-					 }
-					 queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
-				}
-	
-				 if (idToSearch != null) {
-					 queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
-				 }
-				 if (lastNameToSearch !=null) {
-				   queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), queryPredicate);
-				 }
-				 if (streetToSearch != null) {
-				   queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), queryPredicate);
-				 }
-				 if(employeeName != null) {
-					Join<Verification, User> joinVerificatorEmployee = root.join("stateVerificatorEmployee");
-						Predicate searchByVerificatorName =cb.like(joinVerificatorEmployee.get("firstName"), "%" + employeeName + "%");
-						Predicate searchByVerificatorSurname = cb.like(joinVerificatorEmployee.get("lastName"), "%" + employeeName + "%");
-						Predicate searchByVerificatorLastName = cb.like(joinVerificatorEmployee.get("middleName"), "%" + employeeName + "%");
-						Predicate searchPredicateByVerificatorEmployeeName=cb.or(searchByVerificatorName,searchByVerificatorSurname, searchByVerificatorLastName);  
-						queryPredicate = cb.and(searchPredicateByVerificatorEmployeeName, queryPredicate);
-				 }
-	
-			return queryPredicate;
+		}
+
+		if (dateToSearch != null) {
+			Date date = null;
+			try {
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(dateToSearch.substring(0, 10));
+				Calendar c = Calendar.getInstance();
+				c.setTime(date);
+				c.add(Calendar.DATE, 1);
+				date = c.getTime();
+			} catch (ParseException pe) {
+				logger.error("Cannot parse date", pe);
+			}
+			queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
+		}
+
+		if ((idToSearch != null)&&(idToSearch.length()>0)) {
+			queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
+		}
+		if ((lastNameToSearch != null)&&(lastNameToSearch.length()>0)) {
+			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"),
+					queryPredicate);
+		}
+		if ((streetToSearch != null)&&(streetToSearch.length()>0)) {
+			queryPredicate = cb.and(
+					cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
+					queryPredicate);
+		}
+		if ((employeeName != null)&&(employeeName.length()>0)) {
+			Join<Verification, User> joinVerificatorEmployee = root.join("stateVerificatorEmployee");
+			Predicate searchByVerificatorName = cb.like(joinVerificatorEmployee.get("firstName"),
+					"%" + employeeName + "%");
+			Predicate searchByVerificatorSurname = cb.like(joinVerificatorEmployee.get("lastName"),
+					"%" + employeeName + "%");
+			Predicate searchByVerificatorLastName = cb.like(joinVerificatorEmployee.get("middleName"),
+					"%" + employeeName + "%");
+			Predicate searchPredicateByVerificatorEmployeeName = cb.or(searchByVerificatorName,
+					searchByVerificatorSurname, searchByVerificatorLastName);
+			queryPredicate = cb.and(searchPredicateByVerificatorEmployeeName, queryPredicate);
+		}
+
+		return queryPredicate;
 	}
 }

@@ -21,10 +21,8 @@ public class ProcessTimeChecker {
 	
 	@Autowired
 	private  VerificationRepository verificationRepository;
-	
-	private static  final long DAY_LENGTH_MILLIS = 24 * 60 * 60 * 1000; 
-	
-	@Scheduled(fixedDelay = DAY_LENGTH_MILLIS)
+
+	@Scheduled(cron="0 0 23 * * *")
 	public void runProcessTimeCheck() {
 		System.out.println("scheduler running");
 		List<Verification> verificationList = (List<Verification>) verificationRepository.findAll();

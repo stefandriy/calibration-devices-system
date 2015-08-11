@@ -1,8 +1,10 @@
 package com.softserve.edu.controller.state_verificator;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
+import com.softserve.edu.dto.ArchiveVerificationsFilterAndSort;
 import com.softserve.edu.dto.ArchiveVerificationsSearch;
 import com.softserve.edu.dto.CalibrationTestDTO;
+import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
@@ -64,15 +66,22 @@ public class StateVerificatorController {
      * @param itemsPerPage count of elements per one page
      * @return a page of new verifications assign on state-verificator with their total amount
      */
-    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                         NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+    		NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         User verificatorEmployee = verificatorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByVerificatorIdAndCriteriaSearch(
-                employeeUser.getOrganizationId(), pageNumber, itemsPerPage, searchData.getFormattedDate(), searchData.getIdText(),
-                searchData.getLastNameText(), searchData.getStreetText(), searchData.getStatus(), searchData.getEmployee(), verificatorEmployee
-        );
+                employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
+                searchData.getDate(),
+                searchData.getId(),
+                searchData.getClient_last_name(),
+                searchData.getStreet(),
+                searchData.getStatus(),
+                searchData.getEmployee_last_name(),
+                sortCriteria,
+                sortOrder,
+	verificatorEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }
@@ -198,15 +207,22 @@ public class StateVerificatorController {
      * @param employeeUser
      * @return
      */
-    @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                                       ArchiveVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+    		ArchiveVerificationsFilterAndSort searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         User verificatorEmployee = employeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByVerificatorId(
-                employeeUser.getOrganizationId(), pageNumber, itemsPerPage, searchData.getFormattedDate(), searchData.getIdText(), searchData.getLastNameText(),
-                searchData.getStreetText(), searchData.getStatus(), searchData.getEmployee(), verificatorEmployee
-        );
+                employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
+                searchData.getDate(),
+                searchData.getId(),
+                searchData.getClient_last_name(),
+                searchData.getStreet(),
+                searchData.getStatus(),
+                searchData.getEmployee_last_name(),
+                sortCriteria,
+                sortOrder,
+                verificatorEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }

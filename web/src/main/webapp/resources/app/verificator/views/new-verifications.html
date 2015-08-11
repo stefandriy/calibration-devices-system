@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <meta charset="utf-8">
-</head>
-<body>
 <div id="page-wrapper">
 
     <div class="row">
@@ -18,137 +8,55 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="">
-                <div class="row">
+			<div class="">
+         		<div class="row">
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-primary"
-                                ng-click="initiateVerification()">
-                            <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
-                        </button>
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="initiateVerification()">
+                                   <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
+                                   </button>
+                            </div>
+                    
+                    <div class="clearfix col-md-offset-10">
+                                <button type="button" class="btn btn-danger" ng-click="tableParams.filter({})" ng-show="checkFilters()">
+                                  {{'CLEAR_ALL' | translate }}
+                                </button>
                     </div>
                 </div>
-            </div>
-            <br/>
-
+           </div>
+                   
+                    <br/>
             <div class="panel panel-default">
+           
                 <div class="panel-heading">
-                    <span> Останні дані </span>
+                   <span> Останні дані</span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
+                
+                <div class="panel-body">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                             <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
+                                   class="table table-bordered table-hover users_table">
 
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <table ng-table="tableParams" template-pagination="custom/pager"
-                               class="table table-bordered table-hover">
-                            <thead>
-                            <tr>
-                                <td></td>
-                                <td>
-                                    <p class="input-group myDatePicker">
-                                        <input type="text" class="form-control input-sm" datepicker-popup="{{format}}"
-                                               ng-model="dt"
-                                               ng-change="changeDateToSend(dt)" is-open="openState.isOpen"
-                                               min-date="minDate" datepicker-options="dateOptions"
-                                               date-disabled="disabled(date, mode)" ng-required="true"
-                                               close-text="Close"/>
-
-											  <span class="input-group-btn ">
-											     <button type="button" class="btn btn-default myGroupBtn"
-                                                         ng-click="open($event)">
-                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                 </button>
-											  </span>
-                                    </p>
-                                </td>
-                                <td>
-
-                                    <div class="btn-group">
-                                        <input type="text" class="form-control input-sm" ng-model="search.idText"
-                                               ng-change=doSearch()>
- 		 									<span id="searchclear" class="glyphicon glyphicon-remove-circle"
-                                                  ng-show="search.idText.length"
-                                                  ng-click="clearId()"></span>
-                                    </div>
-
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <input type="text" class="form-control input-sm"
-                                               ng-model="search.lastNameText" ng-change=doSearch()>
-                                                <span id="searchclear" class="glyphicon glyphicon-remove-circle"
-                                                      ng-show="search.lastNameText.length"
-                                                      ng-click="clearLastName()"></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="btn-group ">
-                                        <input type="text" class="form-control input-sm"
-                                               ng-model="search.streetText" ng-change=doSearch()>
-                                                <span id="searchclear" class="glyphicon glyphicon-remove-circle"
-                                                      ng-show="search.streetText.length"
-                                                      ng-click="clearStreet()"></span>
-                                    </div>
-                                </td>
-                                <td ng-hide="true">
-                                    <div class="btn-group ">
-                                        <select chosen width="'90%'" class="form-control input-sm"
-                                                allow-single-deselect="true"
-                                                ng-model="search.status" disable-search="true" ng-change="doSearch()">
-                                            <option value="?">Not selected</option>
-                                            <option value="SENT_TO_VERIFICATOR">SENT_TO_VERIFICATOR</option>
-                                            <option value="TEST_OK">TEST_OK</option>
-                                            <option value="TEST_NOK">TEST_NOK</option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                      <input type="text" class="form-control input-sm" ng-model="search.employee" ng-change=doSearch()>
-                                      <span id="searchclear" class="glyphicon glyphicon-remove-circle" ng-show="search.employee.length" ng-click="clearEmployee()"></span>
-                                   </div>
-                                </td>
-                                <td class="text-center clearInput">
-                                    <button class="btn btn-danger btn-sm" ng-click="clearAll()"
-                                            ng-show="search.streetText.length && search.lastNameText.length && search.idText.length && search.status.length">
-                                        {{'CLEAR_ALL' | translate}}
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><span class="glyphicon glyphicon-ok-sign"></span></th>
-                                <th class="col-md-2">Дата початку процесу повірки</th>
-                                <th>Реєстраційний номер повірки</th>
-                                <th>Прізвище клієнта</th>
-                                <th>Вулиця, на якій проживає клієнт</th>
-                                <th>{{'VERIFICATION_STATUS' | translate}}</th>
-                                <th>Відповідальна особа</th>
-                                <th class="text-center">Дії<br/> <br/></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-
-                            <tr ng-repeat="verification in $data"
-                                ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                <td class="text-center">
-                                    <input type="checkbox"
-                                           ng-click="resolveVerificationId(verification.id)"/>
-
-                                </td>
-                                <td>{{ verification.initialDate | date}}</td>
-                                <td class="verificationNumber">
-                                        <span popover="{{verification.id}}" popover-trigger="mouseenter"
-                                              popover-placement="up">{{ verification.id}}</span></td>
-                                <td>{{ verification.surname }}</td>
-                                <td>{{ verification.street }}</td>
-                                <td class="text-center">{{ verification.status }}</td>
-                                <td> {{verification.stateVerificatorEmployee}}</td>
-                                <td style="width: 13%">
-                                    <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
-                                        <img src="/resources/assets/button-icons/details.png" popover="Детальніше"
+                                <tbody>
+                                <tr ng-repeat="verification in $data"  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
+                                    <td data-title="''"> <input type="checkbox" ng-show="verification.providerEmployee" ng-click="resolveVerificationId(verification.id)"/>
+                                    <img src="/resources/assets/button-icons/excl.jpg" popover="Process time exceeded!!!"
+                                           		popover-trigger="mouseenter" ng-show="verification.processTimeExceeding>0">
+                                        	</img>
+                                    </td>
+                                    <td data-title="'Initial date'" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}</td>
+                                    <td data-title="'Verification ID'"  sortable="'id'" filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}</td>
+                                    <td data-title="'Client last name'" sortable="'client_last_name'" filter="{ 'client_last_name': 'text' }">{{ verification.surname }}</td>
+                                    <td data-title="'Client street'"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
+                                    <td data-title="'Status'"  sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status }}</td>
+                                    <td data-title="'Assigned employee'"  sortable="'employee_last_name'" filter="{ 'employee_last_name': 'text' }">{{ verification.stateVerificatorEmployee }}</td>
+                                    <td data-title="'Actions'" style="width: 13%">
+                                     
+                                       <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
+                                         	 <img src="/resources/assets/button-icons/details.png" popover="����������"
                                              popover-trigger="mouseenter"
                                              ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
                                         </img>
@@ -164,74 +72,91 @@
                                              ng-click="removeProviderEmployee(verification.id)">
                                         </img>
                                         <img src="/resources/assets/button-icons/testReview.png"
-                                             popover="Переглянути тест" popover-trigger="mouseenter"
+                                             popover="����������� ����" popover-trigger="mouseenter"
                                              ng-click="testReview(verification.id)">
                                         </img>
                                         <img src="/resources/assets/button-icons/reject.png"
-                                        popover="Відхилити тест" popover-trigger="mouseenter"
+                                        popover="³������� ����" popover-trigger="mouseenter"
                                         ng-click="openRejectTest()">
                                         </img>
                                         <a popover="Download doc in 'docx' format" popover-trigger="mouseenter"
                                            href="{{'/doc/info/' + verification.id + '/docx'}}">
                                             <i class="fa fa-file-word-o"></i>
                                         </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                       </div>
+                                 
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <script type="text/ng-template" id="custom/pager">
+                                <div>
+                                     <ul class="pager ng-cloak">
+                                        <li ng-repeat="page in pages"
+                                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                                Previous</a>
+                                            <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                               href="">Next &raquo;</a>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <button type="button" ng-class="{'active':params.count() == 5}"
+                                                        ng-click="params.count(5)" class="btn btn-default">5
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 10}"
+                                                        ng-click="params.count(10)" class="btn btn-default">10
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 25}"
+                                                        ng-click="params.count(25)" class="btn btn-default">25
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 50}"
+                                                        ng-click="params.count(50)" class="btn btn-default">50
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </script>
+				 <script type="text/ng-template" id="ng-table/filters/date.html">
+     			 
 
-                        <script type="text/ng-template" id="custom/pager">
-                            <div>
-                                <ul class="pager ng-cloak">
-                                    <li ng-repeat="page in pages"
-                                        ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-                                        ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                            Попередня</a>
-                                        <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                           href="">Наступна &raquo;</a>
-                                    </li>
-                                    <li>
-                                        <div class="btn-group">
-                                            <button type="button" ng-class="{'active':params.count() == 5}"
-                                                    ng-click="params.count(5)" class="btn btn-default">5
-                                            </button>
-                                            <button type="button" ng-class="{'active':params.count() == 10}"
-                                                    ng-click="params.count(10)" class="btn btn-default">10
-                                            </button>
-                                            <button type="button" ng-class="{'active':params.count() == 25}"
-                                                    ng-click="params.count(25)" class="btn btn-default">25
-                                            </button>
-                                            <button type="button" ng-class="{'active':params.count() == 50}"
-                                                    ng-click="params.count(50)" class="btn btn-default">50
-                                            </button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </script>
+					<div class="input-group myDatePicker">
+                        <input type="text" class="form-control input-md" datepicker-popup="{{format}}" ng-model="params.filter()[name]" name="filter-date"
+											 is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"
+                                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
 
-                        <div class="pull-center">
-                            <div class="btn-group">
-                                <button type="button" data-toggle="dropdown" class="btn btn-primary dropdown-toggle">
-                                    <span class="glyphicon glyphicon-send"></span> Надіслати <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a ng-click="openSendingModal()">
-                                        Тест придатний <span class="glyphicon glyphicon-thumbs-up"></span></a></li>
-                                    <li class="divider"></li>
-                                    <li><a ng-click="openSendingModalNotOK()">
-                                        Тест непридатний <span class="glyphicon glyphicon-thumbs-down"></span></a></li>
-                                </ul>
+											  <span class="input-group-btn ">
+											     <button type="button" class="btn btn-default myGroupBtn"
+                                                         ng-click="open($event)">
+                                                     <i class="glyphicon glyphicon-calendar"></i>
+                                                 </button>
+											  </span>
+                 </div>
+   				 </script>
+   				  <script type="text/ng-template" id="ng-table/filters/status.html">
+     			 
+
+					<select chosen class="form-control input-sm" width="'80%'" disable-search="true" type="text"
+										 			allow-single-deselect="true"	ng-model="params.filter()[name]" name="filter-status" >
+												<option value="?">Not selected</option>
+                                            <option value="SENT_TO_VERIFICATOR">SENT_TO_VERIFICATOR</option>
+                                            <option value="TEST_OK">TEST_OK</option>
+                                            <option value="TEST_NOK">TEST_NOK</option>
+											</select>
+   				 </script>
+
+                            		<p id="emptyError" ng-if="allIsEmpty && isClicked"
+                                       class="help-block">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        Оберіть хоча б одну повірку
+                                    </p>
+                            <div class="pull-left">
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span> Надіслати</button>
                             </div>
-                        </div>
-                        <div class="pull-left">
-                            <p id="emptyError" ng-if="allIsEmpty && isClicked"
-                               class="help-block pull-right">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                Оберіть хоча б одну пoвірку
-                            </p>
+                        
                         </div>
                     </div>
                 </div>
@@ -239,7 +164,4 @@
         </div>
     </div>
 </div>
-</div>
 
-</body>
-</html>

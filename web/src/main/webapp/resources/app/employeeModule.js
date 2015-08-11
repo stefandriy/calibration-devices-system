@@ -107,8 +107,6 @@
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
                     });
-
-
             }]);
 
     angular.module('employeeModule').run(function (paginationConfig) {

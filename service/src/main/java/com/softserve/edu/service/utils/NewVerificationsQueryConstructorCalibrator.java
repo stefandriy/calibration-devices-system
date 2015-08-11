@@ -161,7 +161,7 @@ import com.softserve.edu.entity.util.Status;
 		if ((idToSearch != null)&&(idToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
 		}
-		if ((lastNameToSearch != null)&&(lastNameToSearch.length()>0)) {
+		if ((lastNameToSearch != null)&&(idToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"),
 					queryPredicate);
 		}

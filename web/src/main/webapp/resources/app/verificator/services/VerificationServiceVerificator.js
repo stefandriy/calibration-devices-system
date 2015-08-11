@@ -3,11 +3,11 @@ angular
     .factory('VerificationServiceVerificator', ['$http', '$log', function ($http, $log) {
 
         return {
-        	getArchiveVerifications: function (currentPage, itemsPerPage, search) {
-            	return getDataWithParams('verificator/verifications/archive/' + currentPage + '/' + itemsPerPage, search);
+        	getArchiveVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
+            	return getDataWithParams('verificator/verifications/archive/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
-            getNewVerifications: function (currentPage, itemsPerPage, search) {
-                return getDataWithParams('verificator/verifications/new/' + currentPage + '/' + itemsPerPage, search);
+            getNewVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
+                return getDataWithParams('verificator/verifications/new/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);
