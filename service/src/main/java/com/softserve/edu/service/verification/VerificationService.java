@@ -238,10 +238,10 @@ public class VerificationService {
     @Transactional(readOnly = true)
 
     public ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                                       String streetToSearch, String status, String employeeName, User calibratorEmployee) {
+            String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User calibratorEmployee) {
 
 
-        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(calibratorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, calibratorEmployee, employeeName, em);
+        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(calibratorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, calibratorEmployee, sortCriteria, sortOrder, employeeName, em);
 
         Long count = em.createQuery(NewVerificationsQueryConstructorCalibrator.buildCountQuery(calibratorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, calibratorEmployee, employeeName, em)).getSingleResult();
 
@@ -259,9 +259,9 @@ public class VerificationService {
 
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                            				String streetToSearch, String status, String employeeName, User calibratorEmployee) {
+            String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User calibratorEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, calibratorEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, calibratorEmployee, em);
 
         Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, calibratorEmployee, em)).getSingleResult();
 

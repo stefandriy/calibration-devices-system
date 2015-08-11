@@ -4,74 +4,40 @@ angular
 
         function ($scope, $modal, $log, verificationServiceCalibrator, ngTableParams, $filter, $rootScope, $timeout) {
 
-
-    	$scope.clearAll = function(){
-        	$scope.search.idText=null;
-        	$scope.search.formattedDate=null;
-        	$scope.dt = null;
-        	$scope.search.lastNameText=null;
-        	$scope.search.streetText=null;
-        	$scope.search.status = null;
-        	$scope.search.employee = null;
-        	$scope.tableParams.reload();
-        }
-        
-        $scope.clearId = function () {
-        	$scope.search.idText = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearLastName = function () {
-        	$scope.search.lastNameText = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearStreet = function () {
-        	$scope.search.streetText = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearStatus = function () {
-        	$scope.search.status = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearEmployee = function () {
-        	$scope.search.employee = null;
-        	$scope.tableParams.reload();
-        }
-        var promiseSearchTimeOut;
-        $scope.doSearch = function() {
-        	promiseTimeOut = $timeout(function() {
-            $scope.tableParams.reload();
-        	}, 1500);
-        }
-
-        $scope.$on('refresh-table', function () {
-        	 $scope.clearAll();
-        }); 
-        
-            $scope.search = {
-            		idText:null,
-            		formattedDate :null,
-            		lastNameText:null,
-            		streetText: null,
-            		status: null
-            }
-            
             $scope.tableParams = new ngTableParams({
                 page: 1,
-                count: 10
+                count: 10,
+                sorting: {
+                    date: 'desc'     
+                }
             			}, {
                 total: 0,
+                filterDelay: 1500,
                 getData: function ($defer, params) {
 
-                	verificationServiceCalibrator.getArchiveVerifications(params.page(), params.count(), $scope.search)
-                    				.success(function (result) {
+                	var sortCriteria = Object.keys(params.sorting())[0];
+                	var sortOrder = params.sorting()[sortCriteria];
+                	
+                	verificationServiceCalibrator.getArchiveVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
+                    					 $scope.resultsCount=result.totalItems;
                     					$defer.resolve(result.content);
                     					params.total(result.totalItems);
                     				}, function (result) {
                     					$log.debug('error fetching data:', result);
-                    				});
-                 }
+                    });
+                }
             });
-
+            
+            $scope.checkFilters = function () {       	 
+                var obj = $scope.tableParams.filter();
+                for (var i in obj) {
+                    if (obj.hasOwnProperty(i) && obj[i]) {
+                        return true;
+                    }
+                }
+                return false;         
+            };
+            
             $scope.openDetails = function (verifId, verifDate) {
 
                 $modal.open({
@@ -115,16 +81,4 @@ angular
            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
            $scope.format = $scope.formats[2];
 
-           $scope.changeDateToSend = function(val){
-            	
-            	  if(angular.isUndefined(val)){
-            		  $scope.search.formattedDate = null;
-            		  $scope.tableParams.reload();
-            	  } else {
-            		  var datefilter = $filter('date');
-                	  $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
-                	  $scope.tableParams.reload();
-            	  }
-             } 
-           
         }]);

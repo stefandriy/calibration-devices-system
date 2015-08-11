@@ -57,7 +57,11 @@ public class NewVerificationsQueryConstructorProvider {
 			Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
 																		lastNameToSearch, streetToSearch, status, providerEmployee, employeeSearchName);
 
-			criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+			if((sortCriteria != null)&&(sortOrder != null)) {
+				criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+			} else {
+				criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
+			}
 			criteriaQuery.select(root);
 			criteriaQuery.where(predicate);
 			return criteriaQuery;

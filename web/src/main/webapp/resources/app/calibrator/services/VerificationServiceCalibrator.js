@@ -6,11 +6,11 @@ angular
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);
             },
-            getNewVerifications: function (currentPage, itemsPerPage, search) {
-                return getDataWithParams('calibrator/verifications/new/' + currentPage + '/' + itemsPerPage, search);
+            getNewVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
+                return getDataWithParams('calibrator/verifications/new/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
-            getArchiveVerifications: function (currentPage, itemsPerPage, search) {
-                return getDataWithParams('calibrator/verifications/archive/' + currentPage + '/' + itemsPerPage, search);
+            getArchiveVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
+                return getDataWithParams('calibrator/verifications/archive/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);

@@ -90,19 +90,19 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
 		}
 
-		if (idToSearch != null) {
+		if ((idToSearch != null)&&(idToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
 		}
-		if (lastNameToSearch != null) {
+		if ((lastNameToSearch != null)&&(lastNameToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"),
 					queryPredicate);
 		}
-		if (streetToSearch != null) {
+		if ((streetToSearch != null)&&(streetToSearch.length()>0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
 					queryPredicate);
 		}
-		if (employeeName != null) {
+		if ((employeeName != null)&&(employeeName.length()>0)) {
 			Join<Verification, User> joinProviderEmployee = root.join("providerEmployee");
 			Predicate searchByProviderName = cb.like(joinProviderEmployee.get("firstName"), "%" + employeeName + "%");
 			Predicate searchByProviderSurname = cb.like(joinProviderEmployee.get("lastName"), "%" + employeeName + "%");
