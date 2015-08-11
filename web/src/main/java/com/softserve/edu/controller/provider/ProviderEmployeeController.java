@@ -37,7 +37,7 @@ public class ProviderEmployeeController {
             (@RequestParam String fromDate, @RequestParam String toDate,
              @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
-        List<ProviderEmployeeGraphic> list = null;
+            List<ProviderEmployeeGraphic> list = null;
         try {
             Date dateFrom = providerEmployeeService.convertToDate(fromDate);
             Date dateTo = providerEmployeeService.convertToDate(toDate);

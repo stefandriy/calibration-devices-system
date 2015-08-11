@@ -179,3 +179,8 @@ input[type=radio   ]:not(old){
     border-radius: 24px;
     padding-right: 8px;
 }
+
+#loading-bar .bar{
+    background: #FF0000;
+    height: 4px;
+}
