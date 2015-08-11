@@ -38,12 +38,6 @@
 	
 }
 
-
-
-
-
-
-
 #clientFormBox {
 
     padding-top: 30px;
@@ -169,11 +163,19 @@
 
 .slideOne input[type=checkbox]:checked + label {
     left: 37px;
-}
-/*the first method: Using 2 tags with predefined bootstrap icons*/
 
-/*
-#addOnBtn{
-    height: 15px;
-    width: 15px;
-}*/
+}
+.popover{
+    width: 150%; /* Max Width of the popover (depending on the container!) */
+}
+input[type=checkbox]:not(old),
+input[type=radio   ]:not(old){
+    width   : 1px;
+    margin  : 0;
+    padding : 0;
+    opacity : 0;
+}
+.input-group-addon {
+    border-radius: 24px;
+    padding-right: 8px;
+}

@@ -144,7 +144,7 @@ public class ClientApplicationController {
 	@RequestMapping(value = "clientMessageNoProvider", method = RequestMethod.POST)
 	public String sentMailFromClientNoprovider(@RequestBody ClientMailDTO mailDto) {
 
-		mail.sendClientMail(mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(), "заявка не знайдена", mailDto.getMsg());
+		mail.sendClientMail(mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(),  mailDto.getVerifID(), mailDto.getMsg());
 
 		return "SUCCESS";
 	}

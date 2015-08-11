@@ -109,9 +109,9 @@
 									class="form-control col-md-8 " ng-model="formData.phone"
 									placeholder="0XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
 								<span class="input-group-addon">{{'SECOND_PHONE' | translate}}</span> 
-									<div class="input-group-addon">
-										<input type="checkbox" ng-model="checkboxModel" id="slideOne">
-						         </div>
+
+										<div  class="input-group-addon btn btn-default btn-circle"><label for="checkboxModel"><i class="glyphicon glyphicon-plus"/></label>	<input type="checkbox" ng-model="checkboxModel" id="checkboxModel"> </div>
+
 				           </div>
 					   </div>
 					</div>
@@ -233,10 +233,10 @@
 						<div class="col-md-9" id="streetBox" >
 							<input  name="street" class="form-control" type="text"
 								 ng-model="selectedStreet"
-								 typeahead="street as street.designation for street in streets | filter: $viewValue"
-								 ng-pattern="STREET_REGEX"
+								 typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
+
 								 typeahead-on-select="receiveBuildings(selectedStreet)"
-							     required>
+							     required><!-- ng-pattern="STREET_REGEX"-->
 						</div>
 						<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
 					</div>
@@ -251,7 +251,7 @@
 					<div class="col-md-8">
 						<input id="building" name="building" class="form-control"
 							ng-model=" selectedBuilding"
-							typehead="building as building.designation for building in buildings | filter: $viewValue"
+							typehead="building as building.designation for building in buildings | filter: $viewValue | limitTo: 4"
 							ng-pattern="BUILDING_REGEX" required><span
 							class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
 						<p class="help-block">
@@ -394,7 +394,7 @@
 			</button>
 	      	<br>
 			<div class="text-center" ng-show="codes"  >
-				{{'APP_SENT' | translate}} <b>{{ code }} </b> <br>
+				{{'APP_SENT' | translate}}<a href="http://localhost:8080/#/application-status/{{code}}"> <b>{{ code }} </b> </a>><br>
 				{{'APP_SENT_INFO' | translate}}
 
 			</div>

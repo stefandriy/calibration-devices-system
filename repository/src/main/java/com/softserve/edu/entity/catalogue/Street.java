@@ -22,12 +22,18 @@ public class Street extends AbstractCatalogue {
     @ManyToOne(optional = false)
     @JoinColumn(name = "locality_id", nullable = false)
     private Locality locality;
+    @ManyToOne
+    @JoinColumn(name = "streetType")
+    private StreetType streetType;
+
 
     protected Street() {}
 
-    public Street(Locality locality, String designation) {
-        setLocality(locality);
+
+    public Street(String designation,Locality locality, StreetType streetType) {
         setDesignation(designation);
+        setLocality(locality);
+        setStreetType(streetType);
     }
 
     @Override
@@ -57,6 +63,15 @@ public class Street extends AbstractCatalogue {
         checkForNull(locality);
         this.locality = locality;
     }
+    public StreetType getStreetType() {
+        return streetType;
+    }
+
+    public void setStreetType(StreetType streetType) {
+
+        this.streetType = streetType;
+    }
+
 
     @Override
     public String toString() {
@@ -64,6 +79,7 @@ public class Street extends AbstractCatalogue {
                 .append("id", id)
                 .append("designation", designation)
                 .append("locality", locality)
+                .append("streetType", streetType)
                 .toString();
     }
 
@@ -73,6 +89,7 @@ public class Street extends AbstractCatalogue {
                 .append(id)
                 .append(designation)
                 .append(locality)
+                .append(streetType)
                 .toHashCode();
     }
 
@@ -84,6 +101,7 @@ public class Street extends AbstractCatalogue {
                     .append(id, other.id)
                     .append(designation, other.designation)
                     .append(locality, other.locality)
+                    .append(streetType, other.streetType)
                     .isEquals();
         } else{
             return false;

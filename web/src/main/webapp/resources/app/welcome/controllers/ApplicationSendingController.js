@@ -288,7 +288,7 @@ angular
                  */
                 modalInstance.result.then(function (formData, sendingStarted) {
                     var messageToSend = {
-                        verifID : null,
+                        verifID : " ",
                         msg : formData.message,
                         name:formData.firstName,
                         surname:formData.lastName,
