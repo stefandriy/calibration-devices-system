@@ -42,14 +42,14 @@ public class GraphicBuilderMainPanel {
             Calendar expirDate = Calendar.getInstance();
             ProviderEmployeeGraphic graphicItem;
 
-            if (employeeGraphicMap.containsKey("petro")) {
-                graphicItem = employeeGraphicMap.get("petro");
+            if (employeeGraphicMap.containsKey(organization.getName())) {
+                graphicItem = employeeGraphicMap.get(organization.getName());
             } else {
                 graphicItem = new ProviderEmployeeGraphic();
                 graphicItem.monthList = months;
                 graphicItem.data = new double[months.size()];
-                graphicItem.name = "petro";
-                employeeGraphicMap.put("petro", graphicItem);
+                graphicItem.name = organization.getName();
+                employeeGraphicMap.put(organization.getName(), graphicItem);
             }
             expirDate.setTime(verification.getInitialDate());
             MonthOfYear item = new MonthOfYear(expirDate.get(Calendar.MONTH), expirDate.get(Calendar.YEAR));
