@@ -10,6 +10,7 @@ import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,6 +31,9 @@ public class ProviderEmployeeController {
 
     @Autowired
     private OrganizationsService organizationsService;
+
+    @Autowired
+    private VerificationService verificationService;
 
 
     @RequestMapping(value = "graphic", method = RequestMethod.GET)
@@ -74,8 +78,8 @@ public class ProviderEmployeeController {
         Long idOrganization = user.getOrganizationId();
         Organization organization = organizationsService.getOrganizationById(idOrganization);
         Map tmp = new HashMap<>();
-        tmp.put("notOnWork", 5);
-        tmp.put("onWork",20);
+        tmp.put("SENT", verificationService.findCountOfAllSentVerifications(organization));
+        tmp.put("ACCEPTED",verificationService.findCountOfAllAcceptedVerification(organization));
         return tmp;
     }
 

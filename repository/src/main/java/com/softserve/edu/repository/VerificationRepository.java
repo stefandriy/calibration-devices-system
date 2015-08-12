@@ -78,4 +78,11 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     List<Verification> findByProviderAndInitialDateBetween
             (Organization organization,Date dateFrom,Date DateTo);
+    @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'SENT' and u.provider = :provider")
+    int getCountOfAllSentVerifications(@Param("provider") Organization provider);
+
+    @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'ACCEPTED' and u.provider = :provider")
+    int getCountOfAllAcceptedVerifications(@Param("provider") Organization provider);
 }
+
+

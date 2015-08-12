@@ -80,7 +80,7 @@ angular
 
 
             /**
-             * Pie of ???
+             * Pie of sent and accepted
              */
             var mo = $scope;
             $controller('PieProviderEmployee', {
@@ -97,21 +97,6 @@ angular
 
 
             $scope.showGraficTwo();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             /**
              * Table of unread verifications
              */
@@ -165,6 +150,7 @@ angular
                         .success(function () {
                             $scope.tableParamsVerifications.reload();
                             $scope.tableParamsEmployee.reload();
+                            $scope.showGraficTwo();
                         });
                 });
             }

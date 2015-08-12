@@ -455,4 +455,14 @@ public class VerificationService {
         return calibrationTest;
     }
 
+    @Transactional
+    public int findCountOfAllSentVerifications(Organization organization){
+      return verificationRepository.getCountOfAllSentVerifications(organization);
+    }
+
+    @Transactional
+    public int findCountOfAllAcceptedVerification(Organization organization) {
+        return verificationRepository.getCountOfAllAcceptedVerifications(organization);
+    }
+
 }

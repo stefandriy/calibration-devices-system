@@ -12,7 +12,7 @@ angular
                                 type: 'pie'
                             },
                             title: {
-                                text: 'Діаграма працездатності підприємства',
+                                text: 'Діаграма загруженості підприємства',
                                 x: -20 //center
                             },
 
@@ -33,7 +33,7 @@ angular
                         },
                         series:
                             [{
-                            data: [['Не у зайнятості',data.notOnWork],['На робочому місті',data.onWork]]
+                            data: [['Заявок поступило',data.SENT],['Заявок на опрацюванні',data.ACCEPTED]]
                         }]
 
 
