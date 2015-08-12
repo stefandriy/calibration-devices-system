@@ -38,9 +38,13 @@ public class VerificationProviderEmployeeService {
             return;
         }
         verification.setProviderEmployee(providerEmployee);
-        verification.setStatus(Status.ACCEPTED);
+        if (providerEmployee.equals(null)) {
+            verification.setStatus(Status.SENT);
+        } else {
+            verification.setStatus(Status.ACCEPTED);
+        }
         verification.setReadStatus(ReadStatus.READ);
-        verification.setExpirationDate(new Date());
+        //       verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
 
@@ -61,6 +65,7 @@ public class VerificationProviderEmployeeService {
     public List<Verification> getVerificationListbyProviderEmployee(String username) {
         return verificationRepository.findByProviderEmployeeUsernameAndStatus(username, Status.ACCEPTED);
     }
+
     @Transactional
     public List<Verification> getVerificationListbyCalibratormployee(String username) {
         return verificationRepository.findByCalibratorEmployeeUsernameAndStatus(username, Status.IN_PROGRESS);
@@ -70,13 +75,14 @@ public class VerificationProviderEmployeeService {
     public Long countByProviderEmployeeTasks(String username) {
         return verificationRepository.countByProviderEmployee_usernameAndStatus(username, Status.ACCEPTED);
     }
+
     @Transactional
     public Long countByCalibratorEmployeeTasks(String username) {
         return verificationRepository.countByCalibratorEmployee_usernameAndStatus(username, Status.IN_PROGRESS);
     }
 
     @Transactional
-    public  Long countOfEmloyee(List<String> roles,Long ifOrganization){
+    public Long countOfEmloyee(List<String> roles, Long ifOrganization) {
         return userRepository.getCountOfEmloyee(roles, ifOrganization);
     }
 

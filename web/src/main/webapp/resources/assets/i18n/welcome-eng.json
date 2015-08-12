@@ -195,6 +195,6 @@
   "CLIENT_LAST_NAME":"Client last name",
   "EMPLOYEE_LAST_NAME":"Employee last name",
   "VERIFICATION_ID":"Verification ID",
-  "ACTIONS":"Actions"
-
+  "ACTIONS":"Actions",
+  "STATISTIC_OF_EMPLOYEE_CAPACITY":"Statistic of employee capacity"
 }

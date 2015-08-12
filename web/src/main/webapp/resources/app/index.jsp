@@ -48,8 +48,8 @@
         <div ng-controller="InternationalizationController" >
             <ul class="nav navbar-nav">
                 <li class="dropdown" dropdown on-toggle="toggled(open)">
-                    <a class="dropdown-toggle" dropdown-toggle>
-                        {{ 'LANG' | translate }} <span class="caret"></span>
+                    <a class="dropdown-toggle" dropdown-toggle translate="LANG">
+                        <span class="caret"></span>
                     </a>
 
                     <ul class="dropdown-menu">
@@ -65,9 +65,8 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown" dropdown>
                 <a class="dropdown-toggle" dropdown-toggle>
-                    {{employee.firstName}}
-                    {{employee.lastName}}
-                    ({{employee.username}})
+                    <label translate="{{employee.firstName}} {{employee.lastName}}
+                     {{employee.middleName}} ({{employee.username}})" />
 
 
                     <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
@@ -75,23 +74,18 @@
                 <ul class="dropdown-menu dropdown-user"  style="background-color: lightskyblue ">
                     <li class="user-header bg-light-blue">
                         <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-circle" alt="User Image" />
-                        <p>
-                            {{employee.firstName}}
-                            {{employee.lastName}}
-                            {{employee.middleName}}
-                            ({{employee.username}})
-                        </p>
+                        <label translate="{{employee.firstName}} {{employee.lastName}}
+                     {{employee.middleName}} ({{employee.username}})" />
                     </li>
                     <li class="user-footer" >
                         <div  style="width: 100%">
                             <a href="#" class="btn btn-default" style="color: #2C1919 ;width:230px">Profile</a>
                         </div>
                         <div  style="width: 100%">
-                            <a class="btn btn-default" style="color: #2C1919;width:230px"> {{ 'SETTINGS' | translate }}</a>
+                            <a class="btn btn-default" style="color: #2C1919;width:230px" translate="SETTING"></a>
                         </div>
                         <div  style="width: 100%" >
-                            <a ng-click="logout()" class="btn btn-default" style="color: #2C1919 ;width:230px">{{ 'LOG_OUT' | translate
-                                }} </a>
+                            <a ng-click="logout()" class="btn btn-default" style="color: #2C1919 ;width:230px" translate="LOG_OUT"> </a>
                         </div>
                     </li>
                 </ul>
@@ -166,13 +160,13 @@
 
                     <sec:authorize url="/provider/admin/">
                         <li ui-sref-active="active">
-                            <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> Переглянути усіх працівників</a>
+                            <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <label translate="EMPLOYEE"></label></a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator/admin/">
                         <li ui-sref-active="active">
-                            <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> Переглянути усіх працівників</a>
+                            <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span translate="EMPLOYEE"></span></a>
                         </li>
                     </sec:authorize>
 
@@ -196,8 +190,9 @@
                     </sec:authorize>
                     <sec:authorize url="/provider/admin/">
                         <li ui-sref-active="active">
-                            <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>   Статистика
-                                продуктивності працівників</a>
+                            <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>
+                            <span translate="STATISTIC_OF_EMPLOYEE_CAPACITY"> </span>
+                            </a>
                         </li>
                     </sec:authorize>
                 </ul>

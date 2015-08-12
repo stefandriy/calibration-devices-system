@@ -235,9 +235,9 @@ public class ProviderVerificationController {
         String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
        
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
-        User employeeCalibrator = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
+        User employeeProvider = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
         Verification verification = verificationService.findById(idVerification);
-        verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeCalibrator);
+        verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeProvider);
         mailService.sendAcceptMail(verification.getClientData().getEmail(), idVerification, verification.getDevice().getDeviceType().toString());
     }
 

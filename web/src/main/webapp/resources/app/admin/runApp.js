@@ -15,6 +15,7 @@ require
 				chosen : '../../assets/bower_components/angular-chosen-localytics/chosen',
 				angularLoadingBars : '../../assets/bower_components/angular-loading-bar/build/loading-bar',
 
+
 				adminModule : 'adminModule'
 			},
 			shim : {
@@ -64,6 +65,7 @@ require
 					exports : "angularLoadingBars"
 				},
 
+
 				adminModule : {
 
 					deps : [ 'angular', 'csrfInterceptor', 'angularBootstrap',
@@ -72,7 +74,7 @@ require
 							'angularTranslateStorageLocal',
 							'angularTranslateLoaderStaticFiles',
 							'angularUIRouter', 'showErrors', 'ngTable',
-							'chosen','angularLoadingBars' ]
+							'chosen','angularLoadingBars']
 
 				}
 			}

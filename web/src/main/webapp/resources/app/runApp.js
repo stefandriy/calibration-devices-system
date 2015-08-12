@@ -19,9 +19,6 @@ require.config({
         upload : '../assets/bower_components/ng-file-upload/ng-file-upload-all.min',
         ngRoute : '../assets/bower_components/angular-route/angular-route.min',
         angularLoadingBar : '../assets/bower_components/angular-loading-bar/build/loading-bar'
-
-
-
     },
     shim: {
         angular: {
