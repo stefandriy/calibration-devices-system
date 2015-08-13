@@ -104,14 +104,10 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public CalibrationTestData createTestData(Long testId, CalibrationTestData data) {
+    public void  createTestData(Long testId, CalibrationTestData testData) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
-        if (calibrationTest == null) {
-            throw new NotAvailableException();
-        }
-        CalibrationTestData testData = dataRepository.save(data);
         testData.setCalibrationTest(calibrationTest);
-        return testData;
+        dataRepository.save(testData);
     }
 
     @Transactional

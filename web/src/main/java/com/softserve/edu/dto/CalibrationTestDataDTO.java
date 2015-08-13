@@ -1,6 +1,7 @@
 package com.softserve.edu.dto;
 
 import com.softserve.edu.entity.CalibrationTestData;
+import com.softserve.edu.entity.util.CalibrationTestResult;
 import org.springframework.hateoas.ResourceSupport;
 
 
@@ -16,7 +17,7 @@ public class CalibrationTestDataDTO extends ResourceSupport {
     private Double actualConsumption;
     private String consumptionStatus;
     private Double calculationError;
-    private String testResult;
+    private CalibrationTestResult testResult;
 
     public Double getGivenConsumption() {
         return givenConsumption;
@@ -98,11 +99,11 @@ public class CalibrationTestDataDTO extends ResourceSupport {
         this.calculationError = calculationError;
     }
 
-    public String getTestResult() {
+    public CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(String testResult) {
+    public void setTestResult(CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 
@@ -114,11 +115,10 @@ public class CalibrationTestDataDTO extends ResourceSupport {
         calibrationTestData.setInitialValue(initialValue);
         calibrationTestData.setEndValue(endValue);
         calibrationTestData.setVolumeInDevice(volumeInDevice);
-        calibrationTestData.setTestTime(testTime);
         calibrationTestData.setActualConsumption(actualConsumption);
         calibrationTestData.setConsumptionStatus(consumptionStatus);
         calibrationTestData.setCalculationError(calculationError);
-        calibrationTestData.setTestResult(testResult);
+        calibrationTestData.setTestResult(CalibrationTestResult.SUCCESS);
         return calibrationTestData;
     }
 }

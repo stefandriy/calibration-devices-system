@@ -120,27 +120,6 @@ public class CalibrationTestController {
 
 
     /**
-     * Saves calibration-test data in database
-     *
-     * @param testDataDTO object with calibration-test data
-     * @param calibrationTestId String of calibration-test ID for saving calibration-test data
-     * @return a response body with http status {@literal CREATED} if everything
-     *         calibration-test data successfully created or else http
-     *         status {@literal CONFLICT}
-     */
-    @RequestMapping(value = "/{calibrationTestId}/testData", method = RequestMethod.POST)
-    public ResponseEntity createTestData(@PathVariable Long calibrationTestId, @RequestBody CalibrationTestDataDTO testDataDTO) {
-        CalibrationTestData createdTestData;
-        try {
-            createdTestData = testService.createTestData(calibrationTestId, testDataDTO.saveTestData());
-            return new ResponseEntity<>(createdTestData, HttpStatus.CREATED);
-        } catch (NotAvailableException e) {
-            throw new com.softserve.edu.exceptions.NotFoundException(e);
-        }
-    }
-
-
-    /**
      * Finds all calibration-tests data form database
      * @return a list of calibration-tests data
      */

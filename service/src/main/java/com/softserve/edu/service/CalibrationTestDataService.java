@@ -10,23 +10,24 @@ import org.springframework.transaction.annotation.Transactional;
  * Service that implements CRUD operations for test data.
  */
 @Service
-@Transactional
 public class CalibrationTestDataService {
 
     @Autowired
     private CalibrationTestDataRepository dataRepository;
 
+    @Transactional
     public CalibrationTestData findTestData(Long id){
         return dataRepository.findOne(id);
     }
 
+    @Transactional
     public CalibrationTestData deleteTestData(Long id){
         CalibrationTestData deletedTestData = dataRepository.findOne(id);
         dataRepository.delete(id);
         return deletedTestData;
     }
-    
-   
+
+    @Transactional
     public CalibrationTestData editTestData(Long testDataId, CalibrationTestData testData){
         CalibrationTestData updatedCalibrationTestData = dataRepository.findOne(testDataId);
         updatedCalibrationTestData.setGivenConsumption(testData.getGivenConsumption());

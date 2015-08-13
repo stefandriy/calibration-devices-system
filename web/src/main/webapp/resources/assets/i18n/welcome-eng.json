@@ -142,6 +142,16 @@
   	"EDIT_ERROR_INFO":"Info about current state of Your verification You can check via link that was sent on Your email.",
   	"PLEASE_LEAVE_COMMENT":"Please ask question or leave a comment",
   	"FEEDBACK_SENT":"Thank You! Your message was sent",
+    "FILL_TEST_DATA":"Fill Test Data",
+    "GIVEN_CONSUMPTION":"Given consumption",
+    "ACCEPTABLE_ERROR":"Acceptable error",
+    "VOLUME_OF_STANDART":"Volume of standart",
+    "INITIAL_VALUE":"Initial value",
+    "END_VALUE":"End value",
+    "VOLUME_IN_DEVICE":"Volume in device",
+    "ACTUAL_CONSUMPTION":"Actual  consumption",
+    "CALCULATION_ERROR":"Calculation error",
+
 
   	"BOULEVARD":"boulevard",
   	"AVENUE":"avenue",

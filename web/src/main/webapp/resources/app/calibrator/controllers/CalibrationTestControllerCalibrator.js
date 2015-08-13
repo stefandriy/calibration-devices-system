@@ -113,4 +113,20 @@ angular
                 });
             };
 
+            $scope.openAddCalibrationTestDataModal = function(testId){
+                var addTestDataModal = $modal
+                    .open({
+                        animation: true,
+                        controller: 'CalibrationTestDataAddModalControllerCalibrator',
+                        templateUrl: '/resources/app/calibrator/views/modals/calibration-testData-add-modal.html',
+                        resolve: {
+                            calibrationTest: function () {
+                                return testId;
+
+                            }
+                        }
+                    });
+
+            }
+
         }]);

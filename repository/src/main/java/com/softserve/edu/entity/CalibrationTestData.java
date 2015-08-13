@@ -1,10 +1,12 @@
 package com.softserve.edu.entity;
 
+import com.softserve.edu.entity.util.CalibrationTestResult;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 /**
@@ -23,15 +25,34 @@ public class CalibrationTestData {
     private Double initialValue;
     private Double endValue;
     private Double volumeInDevice;
-    private Double testTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date testTime;
     private Double actualConsumption;
     private String consumptionStatus;
     private Double calculationError;
-    private String testResult;
+    private CalibrationTestResult testResult;
 
     @ManyToOne
     @JoinColumn(name = "calibrationTest_id")
     private CalibrationTest calibrationTest;
+
+    public CalibrationTestData(){}
+
+    public CalibrationTestData(Double givenConsumption, Integer acceptableError, Integer volumeOfStandard, Double initialValue,
+                               Double endValue, Double volumeInDevice, Double actualConsumption, String consumptionStatus, Double calculationError, CalibrationTestResult testResult, CalibrationTest calibrationTest) {
+        this.givenConsumption = givenConsumption;
+        this.acceptableError = acceptableError;
+        this.volumeOfStandard = volumeOfStandard;
+        this.initialValue = initialValue;
+        this.endValue = endValue;
+        this.volumeInDevice = volumeInDevice;
+        this.testTime = new Date();
+        this.actualConsumption = actualConsumption;
+        this.consumptionStatus = consumptionStatus;
+        this.calculationError = calculationError;
+        this.testResult = testResult;
+        this.calibrationTest = calibrationTest;
+    }
 
     public Long getId() {
         return id;
@@ -89,11 +110,11 @@ public class CalibrationTestData {
         this.volumeInDevice = volumeInDevice;
     }
 
-    public Double getTestTime() {
+    public Date getTestTime() {
         return testTime;
     }
 
-    public void setTestTime(Double testTime) {
+    public void setTestTime(Date testTime) {
         this.testTime = testTime;
     }
 
@@ -121,11 +142,11 @@ public class CalibrationTestData {
         this.calculationError = calculationError;
     }
 
-    public String getTestResult() {
+    public CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(String testResult) {
+    public void setTestResult(CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 

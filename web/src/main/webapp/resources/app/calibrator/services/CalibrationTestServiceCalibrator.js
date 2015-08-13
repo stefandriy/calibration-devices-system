@@ -13,19 +13,22 @@ angular
 
             getPage: function (pageNumber, itemsPerPage, search, id) {
                 var url = '/calibrator/verifications/calibration-test/' + pageNumber + '/' + itemsPerPage + '/' + search + '/' + id;
-                //if (search != null && search != undefined && search != "")
-                //    url += '/' + search;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;
                     });
             },
-            ////IN PROGRESS!
             saveCalibrationTest: function (formData, verificationId) {
                 return $http.post("/calibrator/calibrationTests/add/" + verificationId, formData)
                     .then(function (result) {
                         return result.status;
                     });
+            },
+            saveCalibrationTestData: function  (formdata, testId) {
+              return $http.post("/calibrator/calibrationTestData/addTestData/" + testId, formdata)
+                  .then(function(result) {
+                    return result.status;
+                });
             },
             deleteCalibrationTest: function (testId) {
                 var url = '/calibrator/calibrationTests/delete/' + testId;

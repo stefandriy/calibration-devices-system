@@ -152,6 +152,7 @@
             'calibrator/controllers/CalibrationTestAddModalControllerCalibrator',
             'calibrator/controllers/CalibrationTestEditModalController',
             'calibrator/controllers/CalibrationTestControllerCalibrator',
+            'calibrator/controllers/CalibrationTestDataAddModalControllerCalibrator',
             'calibrator/controllers/EmployeeControllerCalibrator',
             'calibrator/controllers/AddressModalControllerCalibrator',
             'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
