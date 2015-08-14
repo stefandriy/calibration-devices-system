@@ -17,6 +17,7 @@
  }
 #deviceBox {
     padding-right: 0px;
+    margin: 0px;
 
 
 }
@@ -32,9 +33,6 @@
 .chosen-container-single .chosen-single{
 	height: 34px !important;
 	
-}
-.chosen-container-multi .chosen-choices{
-    height: 34px !important;
 }
 
 #clientFormBox {
@@ -183,4 +181,5 @@ input[type=radio   ]:not(old){
     background: #FF0000;
     height: 4px;
 }
+.chosen-container-multi .chosen-choices{height: 50px !important;}
 

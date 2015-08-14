@@ -326,7 +326,7 @@
 									data-placeholder="Тип лічильника"
 									ng-options="device as device.designation for device in devices | filter: $viewValue">
 							</select>
-							<div class="input-group-addon">	<label for="otherDeviceCheck1"><i class="glyphicon glyphicon-plus"/></label>	<input type="checkbox" ng-model="otherDevice1" id="otherDeviceCheck1 "></div>
+							<div class="input-group-addon  btn btn-default btn-circle" ><label for="otherDeviceCheck1"><i class="glyphicon glyphicon-plus"/></label>	<input type="checkbox" ng-model="otherDevice1" id="otherDeviceCheck1"></div>
 						</div>
 						<p class="help-block">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -395,7 +395,7 @@
 			</button>
 	      	<br>
 			<div class="text-center" ng-show="codes"  >
-				{{'APP_SENT' | translate}}<a href="http://localhost:8080/#/application-status/{{code}}"> <b>{{ code }} </b> </a>><br>
+				{{'APP_SENT' | translate}}<a href="http://localhost:8080/#/application-status/{{code}}"> <b>{{code}} </b> </a>><br>
 				{{'APP_SENT_INFO' | translate}}
 
 			</div>
