@@ -82,7 +82,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             	addressServiceProvider.findProvidersByDistrict(selectedDistrict.designation)
                     .success(function (providers) {
                     	$scope.providers = providers;
-                    	$scope.selectedProvider="";
+                    	 $scope.selectedProvider=providers[0];
                     });           	
             	addressServiceProvider.findCalibratorsByDistrict(selectedDistrict.designation)
 	                .success(function (calibrators) {
@@ -92,11 +92,20 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 	                		var index = arrayObjectIndexOf($scope.calibrators, $scope.isCalibrator, "id");
 	                		$scope.selectedCalibrator= $scope.calibrators[index];
 	                	}
-	                	 $log.debug('calibrators');
-	                        $log.debug($scope.calibrators);
-	                        $log.debug($scope.isCalibrator);
+
 	                });           	
             };
+            
+            $scope.streetsTypes = [];
+            $scope.selectedStreetType="";
+
+            addressServiceProvider.findStreetsTypes().success(function (streetsTypes) {
+                        $scope.streetsTypes = streetsTypes;
+                        $scope.selectedStreetType = "";
+                        $log.debug("$scope.streetsTypes");
+                        $log.debug($scope.streetsTypes);
+
+                    });
             /**
              * Receives all possible streets.
              * On-select handler in locality input form element

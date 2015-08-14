@@ -31,6 +31,9 @@ angular
 			},
 			findMailIndexByLocality : function(localityDesignation ,districtId) {
 				return getData('localities/' + localityDesignation+'/'+districtId);
+			},
+			findStreetsTypes : function() {
+				return getData('streetsTypes/');
 			}
         };
 
