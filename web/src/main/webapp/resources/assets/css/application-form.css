@@ -30,6 +30,12 @@
     text-align: center;
 }
 
+#createByPattern{
+	position: absolute;
+	top: 70px;
+    left: 90px;
+}
+
 .chosen-container-single .chosen-single{
 	height: 34px !important;
 	
