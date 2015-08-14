@@ -232,12 +232,11 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
-        String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
-       
+        String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();       
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
         User employeeProvider = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
         Verification verification = verificationService.findById(idVerification);
-        verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeProvider);
+        verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeProvider);   
         mailService.sendAcceptMail(verification.getClientData().getEmail(), idVerification, verification.getDevice().getDeviceType().toString());
     }
 

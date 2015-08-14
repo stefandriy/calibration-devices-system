@@ -20,7 +20,7 @@
     <link href="/resources/assets/css/timeline.css" rel="stylesheet">
 
 
-    <link href="/resources/assets/css/application-form.css" rel="stylesheet">
+   
 <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 <link href="/resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet">
 <link rel="stylesheet"href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
