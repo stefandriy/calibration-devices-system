@@ -95,3 +95,6 @@ Check `database_script.sql` for additional information about other users such as
 
 > TODO
 # Пишіть тут сервіси, які ви тестили
+### Назар Івашків
+ - DeviceService
+ - CalibrationTestService
