@@ -99,29 +99,29 @@ Check `database_script.sql` for additional information about other users such as
 
 >Загальна стуктура
 
-
-
-Учасники:
- - Михайло Осипов
- - Дмитро Добровольський
- - Олесь Онищак
- - Іван Романів 
- - Олег Чернигевич
- - Олександр Виблов
-
+service
+src
+main
+java
+ ...
+service
+admin:
+- OrganizationService.java
+- StatisticService.java
+- UsersService.java
 calibrator:
- - CalibratorEmployeeService.java
+  - CalibratorEmployeeService.java
   - CalibratorService.java
- catalogue
+ catalogue:
   - BuildingService.java
   - District.java
   - LocalityService.java
   - RegionService.java
   - StreetService.java
   - StreetTypeService.java
- exceptions
+ exceptions:
   - NotAvailableException.java
- provider
+ provider:
   buildingGraphic 
   - GraphicBuilder.java
   - GraphicBuilderMainPanel.java
@@ -129,16 +129,16 @@ calibrator:
   - ProviderEmployeeGraphic.java 
   - ProviderEmployeeService.java
   - ProviderService.java
- state.verification
+ state.verification:
   - StateVerificatorEmployeeService.java
   - StateVerificatorService.java
- storage
-  impl
+ storage:
+  - impl
   - FileOperationImpl.java
   - FileSearch.java
   - SaveOptions.java
   - FileOperations.java
-  utils
+  utils:
   - ArchivalVerificationsQueryConstructorCalibrator.java
   - ArchivalVerificationsQueryConstructorProvider.java
   - ArchivalVerificationsQueryConstructorVerificator.java
@@ -153,7 +153,7 @@ calibrator:
   - ProviderEmployeeGraphic.java
   - ProviderEmployeeQuary.java
   - TransformStrinsToMonths
-  verification
+  verification:
   - VerificationProviderEmployeeService.java
   - VerificationService.java
   - CalibrationTestDataService.java
@@ -177,19 +177,19 @@ java
  ...
 service
 
- calibrator
+calibrator:
   - CalibratorEmployeeService.java
   - CalibratorService.java
- catalogue
+ catalogue:
   - BuildingService.java
   - District.java
   - LocalityService.java
   - RegionService.java
   - StreetService.java
   - StreetTypeService.java
- exceptions
+ exceptions:
   - NotAvailableException.java
- provider
+ provider:
   buildingGraphic 
   - GraphicBuilder.java
   - GraphicBuilderMainPanel.java
@@ -197,16 +197,16 @@ service
   - ProviderEmployeeGraphic.java 
   - ProviderEmployeeService.java
   - ProviderService.java
- state.verification
+ state.verification:
   - StateVerificatorEmployeeService.java
   - StateVerificatorService.java
- storage
-  impl
+ storage:
+  - impl
   - FileOperationImpl.java
   - FileSearch.java
   - SaveOptions.java
   - FileOperations.java
-  utils
+  utils:
   - ArchivalVerificationsQueryConstructorCalibrator.java
   - ArchivalVerificationsQueryConstructorProvider.java
   - ArchivalVerificationsQueryConstructorVerificator.java
@@ -221,7 +221,7 @@ service
   - ProviderEmployeeGraphic.java
   - ProviderEmployeeQuary.java
   - TransformStrinsToMonths
-  verification
+  verification:
   - VerificationProviderEmployeeService.java
   - VerificationService.java
   - CalibrationTestDataService.java
@@ -236,9 +236,9 @@ service
 
 >Список тих, хто робить і що робить
 
-1) Брилюк Д.А.
+### Брилюк Д.А.
 service
-admin
+admin:
 - OrganizationService.java
 - StatisticService.java
 - UsersService.java
