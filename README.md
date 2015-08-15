@@ -108,67 +108,63 @@ Check `database_script.sql` for additional information about other users such as
  - Іван Романів 
  - Олег Чернигевич
  - Олександр Виблов
-src:
-main:
-java:
- ...
-service:
- calibrator:
-  -CalibratorEmployeeService.java
-  -CalibratorService.java
+
+calibrator:
+ - CalibratorEmployeeService.java
+  - CalibratorService.java
  catalogue
-  -BuildingService.java
-  -District.java
-  -LocalityService.java
-  -RegionService.java
-  -StreetService.java
-  -StreetTypeService.java
+  - BuildingService.java
+  - District.java
+  - LocalityService.java
+  - RegionService.java
+  - StreetService.java
+  - StreetTypeService.java
  exceptions
-  -NotAvailableException.java
+  - NotAvailableException.java
  provider
   buildingGraphic 
-  -GraphicBuilder.java
-  -GraphicBuilderMainPanel.java
-  -MonthOfYear.java
-  -ProviderEmployeeGraphic.java 
-  -ProviderEmployeeService.java
-  -ProviderService.java
+  - GraphicBuilder.java
+  - GraphicBuilderMainPanel.java
+  - MonthOfYear.java
+  - ProviderEmployeeGraphic.java 
+  - ProviderEmployeeService.java
+  - ProviderService.java
  state.verification
-  -StateVerificatorEmployeeService.java
-  -StateVerificatorService.java
+  - StateVerificatorEmployeeService.java
+  - StateVerificatorService.java
  storage
   impl
-  -FileOperationImpl.java
-  -FileSearch.java
-  -SaveOptions.java
-  -FileOperations.java
+  - FileOperationImpl.java
+  - FileSearch.java
+  - SaveOptions.java
+  - FileOperations.java
   utils
-  -ArchivalVerificationsQueryConstructorCalibrator.java
-  -ArchivalVerificationsQueryConstructorProvider.java
-  -ArchivalVerificationsQueryConstructorVerificator.java
-  -CalibrationTestDataList.java
-  -CalibrationTestList.java
-  -DataDtoField.java
-  -EmployeeProvider.java    
-  -ListToPageTransformer.java
-  -NewVerficationsQueryConstructorCalibrator.java
-  -NewVerficationsQueryConstructorProvider.java
-  -NewVerficationsQueryConstructorVerificator.java
-  -ProviderEmployeeGraphic.java
-  -ProviderEmployeeQuary.java
-  -TransformStrinsToMonths
+  - ArchivalVerificationsQueryConstructorCalibrator.java
+  - ArchivalVerificationsQueryConstructorProvider.java
+  - ArchivalVerificationsQueryConstructorVerificator.java
+  - CalibrationTestDataList.java
+  - CalibrationTestList.java
+  - DataDtoField.java
+  - EmployeeProvider.java    
+  - ListToPageTransformer.java
+  - NewVerficationsQueryConstructorCalibrator.java
+  - NewVerficationsQueryConstructorProvider.java
+  - NewVerficationsQueryConstructorVerificator.java
+  - ProviderEmployeeGraphic.java
+  - ProviderEmployeeQuary.java
+  - TransformStrinsToMonths
   verification
-  -VerificationProviderEmployeeService.java
-  -VerificationService.java
-  -CalibrationTestDataService.java
-  -CalibrationTestService.java
-  -DeviceService.java
-  -DocumentsService.java
-  -MailService.java
-  -MeasuringEquipmentService.java
-  -SecurityUserDetailsService.java
-  -UserService.java
-  -VerificationPhotoService.java
+  - VerificationProviderEmployeeService.java
+  - VerificationService.java
+  - CalibrationTestDataService.java
+  - CalibrationTestService.java
+  - DeviceService.java
+  - DocumentsService.java
+  - MailService.java
+  - MeasuringEquipmentService.java
+  - SecurityUserDetailsService.java
+  - UserService.java
+  - VerificationPhotoService.java
     
 >Ті класи які треба брати тестити
 
@@ -182,70 +178,70 @@ java
 service
 
  calibrator
-  -CalibratorEmployeeService.java
-  -CalibratorService.java
+  - CalibratorEmployeeService.java
+  - CalibratorService.java
  catalogue
-  -BuildingService.java
-  -District.java
-  -LocalityService.java
-  -RegionService.java
-  -StreetService.java
-  -StreetTypeService.java
+  - BuildingService.java
+  - District.java
+  - LocalityService.java
+  - RegionService.java
+  - StreetService.java
+  - StreetTypeService.java
  exceptions
-  -NotAvailableException.java
+  - NotAvailableException.java
  provider
   buildingGraphic 
-  -GraphicBuilder.java
-  -GraphicBuilderMainPanel.java
-  -MonthOfYear.java
-  -ProviderEmployeeGraphic.java 
-  -ProviderEmployeeService.java
-  -ProviderService.java
+  - GraphicBuilder.java
+  - GraphicBuilderMainPanel.java
+  - MonthOfYear.java
+  - ProviderEmployeeGraphic.java 
+  - ProviderEmployeeService.java
+  - ProviderService.java
  state.verification
-  -StateVerificatorEmployeeService.java
-  -StateVerificatorService.java
+  - StateVerificatorEmployeeService.java
+  - StateVerificatorService.java
  storage
   impl
-  -FileOperationImpl.java
-  -FileSearch.java
-  -SaveOptions.java
-  -FileOperations.java
+  - FileOperationImpl.java
+  - FileSearch.java
+  - SaveOptions.java
+  - FileOperations.java
   utils
-  -ArchivalVerificationsQueryConstructorCalibrator.java
-  -ArchivalVerificationsQueryConstructorProvider.java
-  -ArchivalVerificationsQueryConstructorVerificator.java
-  -CalibrationTestDataList.java
-  -CalibrationTestList.java
-  -DataDtoField.java
-  -EmployeeProvider.java    
-  -ListToPageTransformer.java
-  -NewVerficationsQueryConstructorCalibrator.java
-  -NewVerficationsQueryConstructorProvider.java
-  -NewVerficationsQueryConstructorVerificator.java
-  -ProviderEmployeeGraphic.java
-  -ProviderEmployeeQuary.java
-  -TransformStrinsToMonths
+  - ArchivalVerificationsQueryConstructorCalibrator.java
+  - ArchivalVerificationsQueryConstructorProvider.java
+  - ArchivalVerificationsQueryConstructorVerificator.java
+  - CalibrationTestDataList.java
+  - CalibrationTestList.java
+  - DataDtoField.java
+  - EmployeeProvider.java    
+  - ListToPageTransformer.java
+  - NewVerficationsQueryConstructorCalibrator.java
+  - NewVerficationsQueryConstructorProvider.java
+  - NewVerficationsQueryConstructorVerificator.java
+  - ProviderEmployeeGraphic.java
+  - ProviderEmployeeQuary.java
+  - TransformStrinsToMonths
   verification
-  -VerificationProviderEmployeeService.java
-  -VerificationService.java
-  -CalibrationTestDataService.java
-  -CalibrationTestService.java
-  -DeviceService.java
-  -DocumentsService.java
-  -MailService.java
-  -MeasuringEquipmentService.java
-  -SecurityUserDetailsService.java
-  -UserService.java
-  -VerificationPhotoService.java
+  - VerificationProviderEmployeeService.java
+  - VerificationService.java
+  - CalibrationTestDataService.java
+  - CalibrationTestService.java
+  - DeviceService.java
+  - DocumentsService.java
+  - MailService.java
+  - MeasuringEquipmentService.java
+  - SecurityUserDetailsService.java
+  - UserService.java
+  - VerificationPhotoService.java
 
 >Список тих, хто робить і що робить
 
 1) Брилюк Д.А.
 service
 admin
--OrganizationService.java
--StatisticService.java
--UsersService.java
+- OrganizationService.java
+- StatisticService.java
+- UsersService.java
 
 >Те що зроблено
 
