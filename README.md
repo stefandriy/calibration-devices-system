@@ -95,9 +95,9 @@ Check `database_script.sql` for additional information about other users such as
 
 
 
-#### Checklist те, що Lv-157.Java має тестити
+# Checklist те, що Lv-157.Java має тестити
 
->Загальна стуктура
+## Загальна стуктура
 
 service-src-main-java...-service:
 - OrganizationService.java
@@ -150,7 +150,7 @@ service-src-main-java...-service:
 - UserService.java
 - VerificationPhotoService.java
     
->Ті класи які треба брати тестити
+## Ті класи які треба брати тестити
 
 Хто вже взяв якісь видаляєте звідси і записуєте в "Список тих, хто робить і що робить" 
 
@@ -203,7 +203,7 @@ service-src-main-java...-service:
 - VerificationPhotoService.java
     
 
->Список тих, хто робить і що робить
+## Список тих, хто робить і що робить
 
 ### Брилюк Д.А.
 admin:
@@ -211,7 +211,12 @@ admin:
 - StatisticService.java
 - UsersService.java
 
->Те що зроблено
+### Мельничук Назарій
+- GraphicBuilder.java
+- GraphicBuilderMainPanel.java
+- MonthOfYear.java
+
+## Те що зроблено
 
 Сюди копіюйте, ті назви класів які ви завершили робити
 ### Назар Івашків
