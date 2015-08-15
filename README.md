@@ -99,7 +99,15 @@ Check `database_script.sql` for additional information about other users such as
 
 >Загальна стуктура
 
-service:
+
+
+Учасники:
+ - Михайло Осипов
+ - Дмитро Добровольський
+ - Олесь Онищак
+ - Іван Романів 
+ - Олег Чернигевич
+ - Олександр Виблов
 src:
 main:
 java:
