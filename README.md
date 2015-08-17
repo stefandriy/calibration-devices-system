@@ -206,11 +206,6 @@ admin:
 - StatisticService.java
 - UsersService.java
 
-### Мельничук Назарій
-- GraphicBuilder.java
-- GraphicBuilderMainPanel.java
-- MonthOfYear.java
-
 ### Чопик Василь
 - VerificationProviderEmployeeService.java
 - VerificationService.java
@@ -230,3 +225,8 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
+
+ ### Мельничук Назарій
+ - GraphicBuilder.java
+ - GraphicBuilderMainPanel.java
+
