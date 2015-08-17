@@ -222,3 +222,8 @@ admin:
 ### Назар Івашків
  - DeviceService
  - CalibrationTestService
+
+### Володимир Ігнатьєв
+ - DeviceService
+ - CalibrationTestService
+ - CalibratioтTestDataService
