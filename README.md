@@ -224,3 +224,4 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
+ - ProviderService

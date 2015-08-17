@@ -192,9 +192,6 @@ service-src-main-java...-service:
 - TransformStrinsToMonths
 - VerificationProviderEmployeeService.java
 - VerificationService.java
-- CalibrationTestDataService.java
-- CalibrationTestService.java
-- DeviceService.java
 - DocumentsService.java
 - MailService.java
 - MeasuringEquipmentService.java
