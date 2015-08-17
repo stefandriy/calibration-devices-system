@@ -138,8 +138,6 @@ service-src-main-java...-service:
 - ProviderEmployeeGraphic.java
 - ProviderEmployeeQuary.java
 - TransformStrinsToMonths
-- VerificationProviderEmployeeService.java
-- VerificationService.java
 - CalibrationTestDataService.java
 - CalibrationTestService.java
 - DeviceService.java
@@ -208,10 +206,13 @@ admin:
 - StatisticService.java
 - UsersService.java
 
-### Мельничук Назарій
-- GraphicBuilder.java
-- GraphicBuilderMainPanel.java
-- MonthOfYear.java
+### Чопик Василь
+- VerificationProviderEmployeeService.java
+- VerificationService.java
+
+### Іван Циба
+- CalibratorEmployeeService.java
+- CalibratorService.java
 
 ## Те що зроблено
 
@@ -225,3 +226,8 @@ admin:
  - CalibrationTestService
  - CalibratioтTestDataService
  - ProviderService
+
+ ### Мельничук Назарій
+ - GraphicBuilder.java
+ - GraphicBuilderMainPanel.java
+
