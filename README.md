@@ -215,6 +215,10 @@ admin:
 - VerificationProviderEmployeeService.java
 - VerificationService.java
 
+### Іван Циба
+- CalibratorEmployeeService.java
+- CalibratorService.java
+
 ## Те що зроблено
 
 Сюди копіюйте, ті назви класів які ви завершили робити
