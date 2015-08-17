@@ -167,7 +167,6 @@ service-src-main-java...-service:
 - MonthOfYear.java
 - ProviderEmployeeGraphic.java 
 - ProviderEmployeeService.java
-- ProviderService.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
 - FileOperationImpl.java

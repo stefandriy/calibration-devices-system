@@ -167,7 +167,6 @@ service-src-main-java...-service:
 - MonthOfYear.java
 - ProviderEmployeeGraphic.java 
 - ProviderEmployeeService.java
-- ProviderService.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
 - FileOperationImpl.java
@@ -225,12 +224,9 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
-<<<<<<< HEAD
  - ProviderService
-=======
 
  ### Мельничук Назарій
  - GraphicBuilder.java
  - GraphicBuilderMainPanel.java
 
->>>>>>> e88213683d12c15e0429adf73967821c91967877
