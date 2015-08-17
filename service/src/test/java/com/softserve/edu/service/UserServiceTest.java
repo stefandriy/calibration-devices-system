@@ -2,7 +2,6 @@ package com.softserve.edu.service;
 
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -10,10 +9,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
  * Created by Volodya NT on 12.08.2015.
+ * Modified by Nazariy Melnychuk on 17.08.2015
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
@@ -41,6 +42,18 @@ public class UserServiceTest {
 
 
         boolean isChanged =  userService.changePassword(user.getUsername(), new_pasword, new_pasword);
-        Assert.assertEquals(true, isChanged);
+        assertEquals(true, isChanged);
+    }
+
+    @Test
+    public void testChangeFieldIfWrongType() throws Exception{
+        String username = "Petro";
+        String newFieldValue = "some";
+        String type = "abba";
+
+        when(userRepository.findOne(anyString())).thenReturn(user);
+        boolean isChanged = userService.changeField(username, newFieldValue, type);
+        assertFalse(isChanged);
+        verify(userRepository, never()).save(any(User.class));
     }
 }
