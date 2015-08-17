@@ -1,7 +1,7 @@
 package com.softserve.edu.service.provider.buildGraphic;
 
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,8 +12,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
-public class GraphicBuilderTest {
+public class GraphicBuilderMainPanelTest {
 
     @Test
     public void testListOfMonths() throws Exception {
@@ -53,18 +52,16 @@ public class GraphicBuilderTest {
         months.add(month);
         months.add(month2);
 
-        List<User> userList = new ArrayList<>();
-        User petro = mock(User.class);
-        userList.add(petro);
-        when(petro.getUsername()).thenReturn("Petro");
-        when(petro.getLastName()).thenReturn("Petrenko");
-        when(petro.getFirstName()).thenReturn("Petro");
-        when(petro.getMiddleName()).thenReturn("Petrovich");
+
+        Organization petroOrganization = mock(Organization.class);
+        String organizationName = "Petro Organization";
+        when(petroOrganization.getName()).thenReturn("Petro Organization");
+
 
         List<Verification> verifications = new ArrayList<>();
         Verification verification = mock(Verification.class);
-        when(verification.getProviderEmployee()).thenReturn(petro);
-        when(verification.getSentToCalibratorDate())
+
+        when(verification.getInitialDate())
                 .thenReturn(new Date(2015 - 1900, 1, 20))
                 .thenReturn(new Date(2015 - 1900, 2, 25))
                 .thenReturn(new Date(2015 - 1900, 2, 31));
@@ -73,11 +70,12 @@ public class GraphicBuilderTest {
         verifications.add(verification);
 
 
-        List<ProviderEmployeeGraphic> providerEmployeeGraphicList = GraphicBuilder.builderData(verifications, months, userList);
+        List<ProviderEmployeeGraphic> providerEmployeeGraphicList = GraphicBuilderMainPanel.builderData(verifications, months, petroOrganization);
         assertNotEquals(providerEmployeeGraphicList, null);
         assertEquals(1, providerEmployeeGraphicList.size());
+
         assertArrayEquals(providerEmployeeGraphicList.get(0).data, new double[]{1.0, 2.0}, 0);
-        assertEquals("Petrenko Petro Petrovich", providerEmployeeGraphicList.get(0).name); //current code fails this one
+        assertEquals(organizationName, providerEmployeeGraphicList.get(0).name);
         assertEquals(1, providerEmployeeGraphicList.get(0).monthList.get(0).month);
         assertEquals(2, providerEmployeeGraphicList.get(0).monthList.get(1).month);
     }
