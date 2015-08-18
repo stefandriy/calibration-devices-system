@@ -37,7 +37,8 @@ import com.softserve.edu.service.utils.NewVerificationsQueryConstructorVerificat
 
 @Service
 public class VerificationService {
-    Logger logger = Logger.getLogger(VerificationService.class);
+    
+	Logger logger = Logger.getLogger(VerificationService.class);
 
     @Autowired
     private VerificationRepository verificationRepository;
