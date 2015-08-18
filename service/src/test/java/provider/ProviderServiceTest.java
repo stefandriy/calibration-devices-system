@@ -2,6 +2,7 @@ package provider;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import static org.mockito.Mockito.*;
 
 import com.softserve.edu.entity.Organization;
@@ -37,16 +39,18 @@ public class ProviderServiceTest {
 		final Organization organization = Mockito.mock(Organization.class);
 		final List<Organization> organizations = Collections.singletonList(organization);
 		
-		when(mock)
+		when(mockProviderRepository.getByTypeAndDistrict(anyString(), anyString())).thenReturn(organizations);
+		
 		providerService.findByDistrict(district, type);
 		
 		ArgumentCaptor<String> distinctArg = ArgumentCaptor.forClass(String.class);
 		ArgumentCaptor<String> typeArg = ArgumentCaptor.forClass(String.class);
+		
 		Mockito.verify(mockProviderRepository).getByTypeAndDistrict(distinctArg.capture(), typeArg.capture());
 		
 		Assert.assertEquals(district, distinctArg.getValue()); 
-		Assert.assertEquals(type, typeArg.getValue()); 
-		
+		Assert.assertEquals(type, typeArg.getValue());
+		Assert.assertEquals(organizations, providerService.findByDistrict(district, type));
 	}
 
 	//@Test
