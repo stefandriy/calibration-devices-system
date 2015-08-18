@@ -185,7 +185,6 @@ service-src-main-java...-service:
 - EmployeeProvider.java    
 - ListToPageTransformer.java
 - NewVerficationsQueryConstructorCalibrator.java
-- NewVerficationsQueryConstructorProvider.java
 - NewVerficationsQueryConstructorVerificator.java
 - ProviderEmployeeGraphic.java
 - ProviderEmployeeQuary.java
@@ -210,6 +209,9 @@ admin:
 
 ### Чопик Василь
 - VerificationService.java
+
+### Володимир Ігнатьєв
+- NewVerificationsQueryConstructorProvider
 
 ### Іван Циба
 - CalibratorEmployeeService.java
