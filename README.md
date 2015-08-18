@@ -162,12 +162,7 @@ service-src-main-java...-service:
 - StreetService.java
 - StreetTypeService.java
 - NotAvailableException.java
-- GraphicBuilder.java
-- GraphicBuilderMainPanel.java
-- MonthOfYear.java
-- ProviderEmployeeGraphic.java 
 - ProviderEmployeeService.java
-- ProviderService.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
 - FileOperationImpl.java
@@ -206,13 +201,12 @@ admin:
 - StatisticService.java
 - UsersService.java
 
-### Мельничук Назарій
-- GraphicBuilder.java
-- GraphicBuilderMainPanel.java
-- MonthOfYear.java
-
 ### Чопик Василь
 - VerificationService.java
+
+### Іван Циба
+- CalibratorEmployeeService.java
+- CalibratorService.java
 
 ## Те що зроблено
 
@@ -228,3 +222,13 @@ admin:
 
 ## Чопик Василь
 - VerificationProviderEmployeeService.java
+
+### Мельничук Назарій
+ - GraphicBuilder.java
+ - GraphicBuilderMainPanel.java
+
+### Назаркевич Володимир
+ - UserService
+ - BuildingService
+ - DistrictService
+
