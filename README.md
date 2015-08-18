@@ -212,7 +212,6 @@ admin:
 - MonthOfYear.java
 
 ### Чопик Василь
-- VerificationProviderEmployeeService.java
 - VerificationService.java
 
 ## Те що зроблено
@@ -226,3 +225,6 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
+
+## Чопик Василь
+- VerificationProviderEmployeeService.java
