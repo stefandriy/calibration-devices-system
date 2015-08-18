@@ -163,7 +163,6 @@ service-src-main-java...-service:
 - StreetTypeService.java
 - NotAvailableException.java
 - ProviderEmployeeService.java
-- ProviderService.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
 - FileOperationImpl.java
@@ -221,8 +220,13 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
+ - ProviderService
 
- ### Мельничук Назарій
+### Мельничук Назарій
  - GraphicBuilder.java
  - GraphicBuilderMainPanel.java
 
+### Назаркевич Володимир
+ - UserService
+ - BuildingService
+ - DistrictService
