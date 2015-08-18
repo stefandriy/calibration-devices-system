@@ -226,7 +226,11 @@ admin:
  - CalibratioтTestDataService
  - ProviderService
 
- ### Мельничук Назарій
+### Мельничук Назарій
  - GraphicBuilder.java
  - GraphicBuilderMainPanel.java
 
+### Назаркевич Володимир
+ - UserService
+ - BuildingService
+ - DistrictService
