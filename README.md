@@ -138,8 +138,6 @@ service-src-main-java...-service:
 - ProviderEmployeeGraphic.java
 - ProviderEmployeeQuary.java
 - TransformStrinsToMonths
-- VerificationProviderEmployeeService.java
-- VerificationService.java
 - CalibrationTestDataService.java
 - CalibrationTestService.java
 - DeviceService.java
@@ -164,10 +162,14 @@ service-src-main-java...-service:
 - StreetService.java
 - StreetTypeService.java
 - NotAvailableException.java
+<<<<<<< HEAD
 - GraphicBuilder.java
 - GraphicBuilderMainPanel.java
 - MonthOfYear.java
 - ProviderEmployeeGraphic.java 
+=======
+- ProviderEmployeeService.java
+>>>>>>> b65a38a29931922f2ad71344d42a146c899fcc0e
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
 - FileOperationImpl.java
@@ -206,10 +208,12 @@ admin:
 - StatisticService.java
 - UsersService.java
 
-### Мельничук Назарій
-- GraphicBuilder.java
-- GraphicBuilderMainPanel.java
-- MonthOfYear.java
+### Чопик Василь
+- VerificationService.java
+
+### Іван Циба
+- CalibratorEmployeeService.java
+- CalibratorService.java
 
 ### Конончук Богдан
 - ProviderEmployeeService
@@ -226,3 +230,16 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
+
+## Чопик Василь
+- VerificationProviderEmployeeService.java
+
+### Мельничук Назарій
+ - GraphicBuilder.java
+ - GraphicBuilderMainPanel.java
+
+### Назаркевич Володимир
+ - UserService
+ - BuildingService
+ - DistrictService
+
