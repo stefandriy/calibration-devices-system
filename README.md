@@ -219,7 +219,6 @@ admin:
 
 ### Конончук Богдан
 - ProviderEmployeeService
-- ProviderService
 
 ## Те що зроблено
 
@@ -239,6 +238,9 @@ admin:
 ### Мельничук Назарій
  - GraphicBuilder.java
  - GraphicBuilderMainPanel.java
+ 
+### Конончук Богдан
+ - ProviderService
 
 ### Назаркевич Володимир
  - UserService
