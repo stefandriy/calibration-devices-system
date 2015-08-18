@@ -78,7 +78,7 @@ Check `database_script.sql` for additional information about other users such as
  - Олександр Виблов
  
 ##### LV-150 Java:
-Експерт: Микола Марчик
+Експерт: Микола Марчук
 
 Викладач: Вікторія Ряжська
 

@@ -169,7 +169,7 @@
 
 }
 .popover{
-    width: 150%; /* Max Width of the popover (depending on the container!) */
+    width: 80%; /* Max Width of the popover (depending on the container!) */
 }
 input[type=checkbox]:not(old),
 input[type=radio   ]:not(old){
