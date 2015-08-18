@@ -38,7 +38,7 @@ public class VerificationProviderEmployeeService {
             return;
         }
         verification.setProviderEmployee(providerEmployee);
-        if (providerEmployee.equals(null)) {
+        if (providerEmployee == null) {
             verification.setStatus(Status.SENT);
         } else {
             verification.setStatus(Status.ACCEPTED);

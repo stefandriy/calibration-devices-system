@@ -162,10 +162,6 @@ service-src-main-java...-service:
 - StreetService.java
 - StreetTypeService.java
 - NotAvailableException.java
-- GraphicBuilder.java
-- GraphicBuilderMainPanel.java
-- MonthOfYear.java
-- ProviderEmployeeGraphic.java 
 - ProviderEmployeeService.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
@@ -205,7 +201,6 @@ admin:
 - UsersService.java
 
 ### Чопик Василь
-- VerificationProviderEmployeeService.java
 - VerificationService.java
 
 ### Володимир Ігнатьєв
@@ -227,7 +222,15 @@ admin:
  - CalibrationTestService
  - CalibratioтTestDataService
 
- ### Мельничук Назарій
+## Чопик Василь
+- VerificationProviderEmployeeService.java
+
+### Мельничук Назарій
  - GraphicBuilder.java
  - GraphicBuilderMainPanel.java
+
+### Назаркевич Володимир
+ - UserService
+ - BuildingService
+ - DistrictService
 
