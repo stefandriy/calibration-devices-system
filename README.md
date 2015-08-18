@@ -168,8 +168,6 @@ service-src-main-java...-service:
 - GraphicBuilderMainPanel.java
 - MonthOfYear.java
 - ProviderEmployeeGraphic.java 
-- ProviderEmployeeService.java
-- ProviderService.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
 - FileOperationImpl.java
@@ -212,6 +210,10 @@ admin:
 - GraphicBuilder.java
 - GraphicBuilderMainPanel.java
 - MonthOfYear.java
+
+### Конончук Богдан
+- ProviderEmployeeService
+- ProviderService
 
 ## Те що зроблено
 
