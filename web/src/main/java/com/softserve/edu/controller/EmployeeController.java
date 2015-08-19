@@ -31,9 +31,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "employee/admin/users/")
-public class AddEmployeeController {
+public class EmployeeController {
 
-    Logger logger = Logger.getLogger(AddEmployeeController.class);
+    Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
     private UsersService userService;
@@ -170,7 +170,6 @@ public class AddEmployeeController {
         if (role.contains(Roles.CALIBRATOR_EMPLOYEE.name())) {
             list = verificationProviderEmployeeService.getVerificationListbyCalibratormployee(username);
         }
-
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
         return new PageDTO<>(content);
     }
@@ -189,7 +188,6 @@ public class AddEmployeeController {
                 search.getPhone(), fieldToSort);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
-
     }
 
     private  List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
@@ -206,7 +204,6 @@ public class AddEmployeeController {
                             verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
                             verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
                             providerEmployee.getIsAvaliable()
-
                     )
             );
         }

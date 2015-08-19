@@ -161,7 +161,7 @@
 
                     <sec:authorize url="/provider/admin/">
                         <li ui-sref-active="active">
-                            <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <label translate="EMPLOYEE"></label></a>
+                            <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <span translate="EMPLOYEE"></span></a>
                         </li>
                     </sec:authorize>
 

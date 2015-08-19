@@ -38,13 +38,12 @@ public class VerificationProviderEmployeeService {
             return;
         }
         verification.setProviderEmployee(providerEmployee);
-        if (providerEmployee == null) {
+        if (providerEmployee==null) {
             verification.setStatus(Status.SENT);
         } else {
             verification.setStatus(Status.ACCEPTED);
         }
         verification.setReadStatus(ReadStatus.READ);
-        verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
 
