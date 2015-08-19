@@ -5,10 +5,12 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -84,14 +86,7 @@ public class CalibrationTestServiceTest {
 	public void testCreateNewTest() {
 		when(verificationRepository.findOne(verificationId)).thenReturn(verification);
 		calibrationTestService.createNewTest(calibrationTest, date, verificationId);
-		verify(verificationRepository.findOne(verificationId));
-	}
-
-	@Test
-	public void testEditTest() {
-		when(testRepository.findOne(testId)).thenReturn(calibrationTest);
-		calibrationTestService.editTest(testId, "a", 1, 1, 1d, 1d, "status", CalibrationTestResult.SUCCESS);
-		verify(testRepository.findOne(testId));
+		verify(verificationRepository).findOne(verificationId);
 	}
 
 	@Test
@@ -101,9 +96,18 @@ public class CalibrationTestServiceTest {
 
 	@Test
 	public void testCreateTestData() {
-		when(testRepository.findOne(testId)).thenReturn(null);
+		ArgumentCaptor<Long> id = ArgumentCaptor.forClass(Long.class);
 		calibrationTestService.createTestData(testId, data);
-		verify(dataRepository).save(data);
+		verify(testRepository).findOne(id.capture());
+		assertEquals(testId, id.getValue());
+	}
+	
+	
+	@Test
+	public void testEditTest() {
+		when(testRepository.findOne(testId)).thenReturn(calibrationTest);
+		CalibrationTest calibrationTest =  calibrationTestService.editTest(testId, "a", 1, 1, 1d, 1d, "status", CalibrationTestResult.SUCCESS);
+		assertEquals(testId, calibrationTest.getId());
 	}
 
 	/**
