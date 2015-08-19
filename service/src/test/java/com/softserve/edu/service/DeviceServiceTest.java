@@ -3,6 +3,7 @@ package com.softserve.edu.service;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
+import com.softserve.edu.entity.Device;
 import com.softserve.edu.repository.DeviceRepository;
 
 import org.junit.Assert;
@@ -15,17 +16,30 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageRequest;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public class DeviceServiceTest {
 
+	private static final String deviceName = "Test";
+
+	private static final Long testId = 123L;
+
+	private static final Long nullId = null;
+
 	@InjectMocks
-	DeviceService deviceService;
+	private DeviceService deviceService;
 
 	@Mock
 	private DeviceRepository deviceRepository;
 
 	@Mock
-	PageRequest pageRequest;
+	private List<Device> devices;
+
+	@Mock
+	private Device device;
+
+	@Mock
+	private PageRequest pageRequest;
 
 	@Before
 	public void init() {
@@ -34,16 +48,30 @@ public class DeviceServiceTest {
 
 	@Test
 	public void testExistsWithDeviceid() throws FileNotFoundException {
-		Long id = 1L;
-		when(deviceRepository.findOne(id)).thenReturn(null);
-		Assert.assertFalse(deviceService.existsWithDeviceid(id));
+		when(deviceRepository.findOne(testId)).thenReturn(null);
+		Assert.assertFalse(deviceService.existsWithDeviceid(testId));
 
 	}
 
-	@Ignore
+	@Test(expected  = NullPointerException.class)
+	public void testExceptionExistsWithDeviceid() throws FileNotFoundException {
+		DeviceService d = new DeviceService();
+		d.existsWithDeviceid(nullId);
+	}
+
+
+	@Test(expected  = NullPointerException.class)
+	public void testExceptionGetById() throws NullPointerException {
+		DeviceService deviceService = new DeviceService();
+		deviceService.existsWithDeviceid(testId);
+	}
+
 	@Test
-	public void testGetById() {
-		fail("Not yet implemented"); // TODO
+	public void testGetById() throws Exception {
+		when(deviceRepository.findOne(testId )).thenReturn(device);
+		deviceService.getById(testId);
+		verify(deviceRepository).findOne(testId);
+		Assert.assertEquals(device, deviceService.getById(testId));
 	}
 
 	/**
@@ -53,7 +81,12 @@ public class DeviceServiceTest {
 	public void testGetAll() {
 		when(deviceRepository.findAll()).thenReturn(null);
 		Assert.assertNull(deviceService.getAll());
+	}
 
+	@Test
+	public void testSecondGetAll() {
+		when(deviceRepository.findAll()).thenReturn(devices);
+		Assert.assertEquals(deviceRepository.findAll(), deviceService.getAll());
 	}
 
 	@Test
@@ -74,9 +107,14 @@ public class DeviceServiceTest {
 
 	@Test
 	public void testGetAllByType() {
-		String deviceName = "Test";
 		when(deviceRepository.findByDeviceName(deviceName)).thenReturn(null);
 		Assert.assertNull(deviceService.getAllByType(deviceName));
+	}
+
+	@Test
+	public void testSecondGetAllByType() {
+		when(deviceRepository.findByDeviceName(deviceName)).thenReturn(devices);
+		Assert.assertEquals(deviceRepository.findByDeviceName(deviceName), deviceService.getAllByType(deviceName));
 	}
 
 }
