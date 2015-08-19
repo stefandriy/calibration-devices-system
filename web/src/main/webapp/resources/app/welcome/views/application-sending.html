@@ -6,6 +6,11 @@
 	<div class="row">
 		<div class="col-md-12"></div>
 	</div>
+	<div class="col-md-10" id="createByPattern" ng-show="!isShownForm && codes[0]">
+			<button type="button" class="btn btn-info btn-lg" ng-click="createNew(codes[0])">
+				<span class="glyphicon glyphicon-duplicate"></span>  {{'CREATE_BY_PATTERN'| translate}}
+			</button>
+		</div>
 	<div class="from-top form-group ">
 		<div id="clientFormBox" ng-show="isShownForm"
 			class="row col-md-8 centered">
@@ -381,8 +386,8 @@
 				</div>
 			</form>
 		</div>
-
-		<div class="progress col-md-8 col-md-offset-2"ng-show="!isShownForm && codes.length=='0'" style="padding-left:0px;padding-right:0px;height: 30px">
+		
+		<div class="progress col-md-8 col-md-offset-2" ng-show="!isShownForm && codes.length=='0'" style="padding-left:0px;padding-right:0px;height: 30px">
 
 			<div class="progress-bar progress-bar-striped active"
 				 role="progressbar" aria-valuenow="100" aria-valuemin="0"

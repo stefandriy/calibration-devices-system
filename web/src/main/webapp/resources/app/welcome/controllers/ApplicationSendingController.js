@@ -7,6 +7,10 @@ angular
             $scope.isShownForm = true;
             $scope.blockSearchFunctions = false;
             
+            $scope.createNew = function (ID) {
+				$location.path('/application-sending/' + ID);
+			}
+            
             function arrayObjectIndexOf(myArray, searchTerm, property) {
                 for(var i = 0, len = myArray.length; i < len; i++) {
                     if (myArray[i][property] === searchTerm) return i;
@@ -249,7 +253,7 @@ angular
                     $scope.formData.region = $scope.selectedRegion.designation;
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
-                    $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
+                    $scope.formData.street = ($scope.selectedStreetType.designation+" "+$scope.selectedStreet.designation) ||($scope.selectedStreetType.designation + " "+$scope.selectedStreet) ;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.allSelectedDevices[i].id;

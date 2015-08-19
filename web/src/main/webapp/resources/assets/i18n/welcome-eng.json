@@ -206,5 +206,7 @@
   "EMPLOYEE_LAST_NAME":"Employee last name",
   "VERIFICATION_ID":"Verification ID",
   "ACTIONS":"Actions",
-  "STATISTIC_OF_EMPLOYEE_CAPACITY":"Statistic of employee capacity"
+  "STATISTIC_OF_EMPLOYEE_CAPACITY":"Statistic of employee capacity",
+  "TIME_EXCEEDED":"Verification processing time exceeded for",
+  "DAYS":"Days"
 }

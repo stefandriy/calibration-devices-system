@@ -14,7 +14,7 @@
 					<div class="col-md-8">
 						<input id="lastName" name="lastName" class="form-control" type="text" ng-model="formData.lastName" popover="{{'ALPHABETIC_INFO' | translate}}"
 							popover-trigger="focus" popover-placement="right" ng-pattern="FIRST_LAST_NAME_REGEX" required> 
-							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign">
+							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack">
 							</span>
 						<p class="help-block" ng-if="clientForm.lastName.$error.required">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -32,7 +32,7 @@
 					<div class="col-md-8">
 						<input id="firstName" name="firstName" class="form-control" ng-model="formData.firstName"
 							popover="{{'ALPHABETIC_INFO' | translate}}" popover-trigger="focus" popover-placement="right" ng-pattern="FIRST_LAST_NAME_REGEX" required> 
-							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign">
+							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack">
 							</span>
 						<p class="help-block" ng-if="clientForm.firstName.$error.required">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -50,7 +50,7 @@
 					<div class="col-md-8">
 						<input id="middleName" name="middleName" type="text" class="form-control" ng-model="formData.middleName"
 							popover="{{'MIDDLE_NAME_INFO' | translate}}" popover-trigger="focus" popover-placement="right" ng-pattern="MIDDLE_NAME_REGEX" required>
-							 <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
+							 <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
 						<p class="help-block" ng-if="clientForm.middleName.$error.required">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
 							{{'REQUIRED' | translate}}
@@ -67,7 +67,7 @@
 					<div class="col-md-8">
 						<input id="email" name="email" type="email" class="form-control" ng-model="formData.email" placeholder="example@gmail.com"
 							ng-pattern="EMAIL_REGEX" required>
-							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign">
+							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack">
 							</span>
 						<p class="help-block" ng-if="clientForm.email.$error.email">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -117,9 +117,7 @@
 									placeholder="0XXXXXXXXX" ng-pattern="PHONE_REGEX_SECOND" popover="{{'PHONE_NUMBER_INFO' | translate}}"
 									popover-trigger="focus" popover-placement="right">
 							</div>
-							<span
-								class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"
-								ng-show="checkboxModel"></span>
+							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack" ng-show="checkboxModel"></span>
 						</div>
 					</div>
 					<div class="form-group">
@@ -179,10 +177,7 @@
 						<select chosen id="index" name="index" class="form-control"
 								ng-model="selectedIndex" allow-single-deselect="true"
 								disable-search="true"
-								ng-options="index as index.mailIndex for index in indexes | filter: $viewValue"
-
-								width="'100%'"  required></select>
-
+								ng-options="index as index.mailIndex for index in indexes | filter: $viewValue" width="'100%'" required></select>
 					</div>
 				</div>
 				<div class="form-group" show-errors>
@@ -190,14 +185,9 @@
 						{{'STREET' | translate}} </label>
 
 					<div class="col-md-8">
-
 						<div class="pull-left col-lg-3" id="typeStreet">
-							<select  chosen data-placeholder="Choose type of street" width="'90%'" class="form-control"  ng-model="selectedStreet" disable-search="true" >
-							<option value="вулиця ">STREET</option>
-							<option value="проспект ">AVENUE</option>
-							<option value="бульвар ">BOULEVARD</option>
-							<option value="площа ">SQUARE</option>
-							</select>
+							<select  chosen data-placeholder="Тип вулиці" width="'90%'" class="form-control" ng-model="selectedStreetType"
+									 disable-search="true" ng-options="streetsType as streetsType.designation for streetsType in streetsTypes | filter: $viewValue"></select>
 						</div>
 						<div class="col-md-9" id="streetBox" >
 							<input  name="street" class="form-control" type="text"
@@ -209,7 +199,7 @@
 
 
 						</div>
-						<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
+						<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
 
 					</div>
 					<p class="help-block col-md-offset-2">
@@ -223,7 +213,7 @@
 					<div class="col-md-8">
 						<input id="building" name="building" class="form-control" ng-model=" selectedBuilding"
 							typehead="building as building.designation for building in buildings | filter: $viewValue" ng-pattern="BUILDING_REGEX" required>
-							<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
+							<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
 						<p class="help-block">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
 							{{'REQUIRED' | translate}}
@@ -237,22 +227,14 @@
 							ng-model="formData.flat" popover="{{'FLAT_INFO' | translate}}"
 							popover-trigger="focus" popover-placement="right"
 							ng-pattern="FLAT_REGEX" required> <span
-							class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
+							class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
 						<p class="help-block" ng-if="clientForm.flat.$error.required">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
 							{{'REQUIRED' | translate}}
 						</p>
 					</div>
 				</div>
-				<div class="form-group" show-errors>
-					<label for="provider" class="col-md-2 control-label">
-						{{'PROVIDER' | translate}} </label>
-					<div class="col-md-8">
-						<select chosen id="provider" name="provider" class="form-control" ng-model="selectedProvider"
-							ng-options="provider as provider.designation for provider in providers | filter: $viewValue" required>
-						</select>
-					</div>			
-				</div>
+				
 				<div class="form-group" ng-show="isCalibrator>0">
 					<label for="provider" class="col-md-2 control-label">
 					{{'I_AM_CALIBRATOR' | translate}}

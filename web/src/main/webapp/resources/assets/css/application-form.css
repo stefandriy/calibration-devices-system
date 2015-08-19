@@ -30,6 +30,12 @@
     text-align: center;
 }
 
+#createByPattern{
+	position: absolute;
+	top: 70px;
+    left: 90px;
+}
+
 .chosen-container-single .chosen-single{
 	height: 34px !important;
 	
@@ -163,7 +169,7 @@
 
 }
 .popover{
-    width: 150%; /* Max Width of the popover (depending on the container!) */
+    width: 80%; /* Max Width of the popover (depending on the container!) */
 }
 input[type=checkbox]:not(old),
 input[type=radio   ]:not(old){

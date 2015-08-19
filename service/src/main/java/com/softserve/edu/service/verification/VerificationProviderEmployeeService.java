@@ -44,7 +44,7 @@ public class VerificationProviderEmployeeService {
             verification.setStatus(Status.ACCEPTED);
         }
         verification.setReadStatus(ReadStatus.READ);
-        //       verification.setExpirationDate(new Date());
+        verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
 

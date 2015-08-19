@@ -42,12 +42,10 @@
 
                                 <tbody>
                                 <tr ng-repeat="verification in $data"  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                    <td data-title="''"> <input type="checkbox" ng-show="verification.providerEmployee" ng-click="resolveVerificationId(verification.id)"/>
-                                    <img src="/resources/assets/button-icons/excl.jpg" popover="Process time exceeded!!!"
-                                           		popover-trigger="mouseenter" ng-show="verification.processTimeExceeding>0">
-                                        	</img>
+                                    <td data-title="''"><input type="checkbox" ng-show="verification.providerEmployee" ng-click="resolveVerificationId(verification.id)"/></td>
+                                    <td data-title="'Initial date'" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}
+                                    	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
                                     </td>
-                                    <td data-title="'Initial date'" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}</td>
                                     <td data-title="'Verification ID'"  sortable="'id'" filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}</td>
                                     <td data-title="'Client last name'" sortable="'client_last_name'" filter="{ 'client_last_name': 'text' }">{{ verification.surname }}</td>
                                     <td data-title="'Client street'"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
