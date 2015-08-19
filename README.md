@@ -164,9 +164,6 @@ service-src-main-java...-service:
 - NotAvailableException.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
-- FileOperationImpl.java
-- FileSearch.java
-- SaveOptions.java
 - FileOperations.java
 - ArchivalVerificationsQueryConstructorCalibrator.java
 - ArchivalVerificationsQueryConstructorProvider.java
@@ -214,6 +211,11 @@ admin:
 
 ### Олег Косар
 - MeasuringEquipmentService.java
+
+### Тарас Паничок
+- FileSearch.java
+- FileOperationImpl.java
+- SaveOptions.java
 
 ## Те що зроблено
 
