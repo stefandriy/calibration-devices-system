@@ -4,10 +4,17 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
+import com.softserve.edu.service.exceptions.NotAvailableException;
+import com.softserve.edu.service.utils.CalibrationTestDataList;
+import com.softserve.edu.service.utils.CalibrationTestList;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -28,7 +35,9 @@ import com.softserve.edu.repository.VerificationRepository;
 public class CalibrationTestServiceTest {
 
 	private static final String verificationId = "123";
+
 	private static final Date date = new Date();
+
 	private static final Long testId = 1L;
 
 	@InjectMocks
@@ -53,6 +62,12 @@ public class CalibrationTestServiceTest {
 	private CalibrationTestDataRepository dataRepository;
 
 	@Mock
+	private List<CalibrationTestData> listCalibrationTestData;
+
+	@Mock
+	private ArrayList<CalibrationTest> list;
+
+	@Mock
 	private CalibrationTestIMGRepository testIMGRepository;
 
 	@Mock
@@ -63,41 +78,46 @@ public class CalibrationTestServiceTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
-	@Ignore
 	@Test
-	public void testFindTestById() {
-		fail("Not yet implemented"); // TODO
+	public void testFindTestById() throws Exception {
+		when(testRepository.findOne(testId)).thenReturn(calibrationTest);
+		Assert.assertEquals(calibrationTest, calibrationTestService.findTestById(testId));
 	}
 
-	@Ignore
 	@Test
-	public void testFindByVerificationId() {
-		fail("Not yet implemented"); // TODO
+	public void testFindByVerificationId() throws Exception {
+		when(testRepository.findByVerificationId(verificationId)).thenReturn(calibrationTest);
+		Assert.assertEquals(calibrationTestService.findByVerificationId(verificationId), calibrationTest);
 	}
 
-	@Ignore
 	@Test
-	public void testFindAllCalibrationTests() {
-		fail("Not yet implemented"); // TODO
+	public void testFindAllCalibrationTests() throws Exception {
+		when(testRepository.findAll()).thenReturn(list);
+		CalibrationTestList foundTests = new CalibrationTestList(list);
+		Assert.assertEquals(foundTests.getCalibrationTests(), calibrationTestService.findAllCalibrationTests().getCalibrationTests());
 	}
-
+/*
 	@Ignore
 	@Test
 	public void testGetCalibrationTestsBySearchAndPagination() {
 		fail("Not yet implemented"); // TODO
-	}
+	}*/
 
 	@Test
 	public void testCreateNewTest() {
 		when(verificationRepository.findOne(verificationId)).thenReturn(verification);
 		calibrationTestService.createNewTest(calibrationTest, date, verificationId);
 		verify(verificationRepository).findOne(verificationId);
+		verify(calibrationTest).setVerification(verification);
+		verify(calibrationTest).setDateTest(date);
+		verify(testRepository).save(calibrationTest);
 	}
 
-	@Ignore
 	@Test
 	public void testDeleteTest() {
-		fail("Not yet implemented"); // TODO
+		when(testRepository.findOne(testId)).thenReturn(calibrationTest);
+		Assert.assertEquals(calibrationTest, calibrationTestService.deleteTest(testId));
+		verify(testRepository).delete(testId);
 	}
 
 	@Test
@@ -122,19 +142,18 @@ public class CalibrationTestServiceTest {
 	/**
 	 * 
 	 */
-	@Test
-	public void testFindAllTestDataAsociatedWithTest() {
-
-		Long calibrationTestId = 1L;
-		when(testRepository.findOne(calibrationTestId)).thenReturn(calibrationTest);
-		when(dataRepository.findByCalibrationTestId(calibrationTestId)).thenReturn(null);
-
-		calibrationTestService.findAllTestDataAsociatedWithTest(calibrationTestId);
-		verify(dataRepository).findByCalibrationTestId(calibrationTestId);
+	@Test(expected = NotAvailableException.class)
+	public void testFindAllTestDataAsociatedWithTest() throws Exception {
+		when(testRepository.findOne(testId)).thenReturn(null);
+		calibrationTestService.findAllTestDataAsociatedWithTest(testId);
 	}
 
-	@Test(expected = NullPointerException.class)
-	public void testUploadPhotos() throws IOException {
-		calibrationTestService.uploadPhotos(null, 1L, "aaa");
+	@Test
+	public void testSecondFindAllTestDataAsociatedWithTest() throws Exception {
+		when(testRepository.findOne(testId)).thenReturn(calibrationTest);
+		when(dataRepository.findByCalibrationTestId(testId)).thenReturn(listCalibrationTestData);
+		CalibrationTestDataList calibrationTestDataList = calibrationTestService.findAllTestDataAsociatedWithTest(testId);
+		Assert.assertEquals(testId, calibrationTestDataList.getTestId());
+		Assert.assertEquals(listCalibrationTestData, calibrationTestDataList.getListTestData());
 	}
 }
