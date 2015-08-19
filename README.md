@@ -212,6 +212,9 @@ admin:
 ### Конончук Богдан
 - ProviderEmployeeService
 
+### Олег Косар
+- MeasuringEquipmentService.java
+
 ## Те що зроблено
 
 Сюди копіюйте, ті назви класів які ви завершили робити
@@ -239,3 +242,5 @@ admin:
  - BuildingService
  - DistrictService
 
+### Олег Косар
+- MeasuringEquipmentService.java
