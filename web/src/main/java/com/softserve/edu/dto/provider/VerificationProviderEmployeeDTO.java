@@ -12,6 +12,7 @@ public class VerificationProviderEmployeeDTO {
     private List<String> idsOfVerifications;
 
     private EmployeeDTO employeeDTO;
+    private  EmployeeDTO employeeProvider;
 
     private EmployeeDTO employeeCalibrator;
 
@@ -45,6 +46,14 @@ public class VerificationProviderEmployeeDTO {
 
     public void setEmployeeCalibrator(EmployeeDTO employeeCalibrator) {
         this.employeeCalibrator = employeeCalibrator;
+    }
+
+    public EmployeeDTO getEmployeeProvider() {
+        return employeeProvider;
+    }
+
+    public void setEmployeeProvider(EmployeeDTO employeeProvider) {
+        this.employeeProvider = employeeProvider;
     }
 }
 
