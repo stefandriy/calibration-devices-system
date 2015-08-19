@@ -9,6 +9,7 @@ import java.util.Date;
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -62,21 +63,25 @@ public class CalibrationTestServiceTest {
 		MockitoAnnotations.initMocks(this);
 	}
 
+	@Ignore
 	@Test
 	public void testFindTestById() {
 		fail("Not yet implemented"); // TODO
 	}
 
+	@Ignore
 	@Test
 	public void testFindByVerificationId() {
 		fail("Not yet implemented"); // TODO
 	}
 
+	@Ignore
 	@Test
 	public void testFindAllCalibrationTests() {
 		fail("Not yet implemented"); // TODO
 	}
 
+	@Ignore
 	@Test
 	public void testGetCalibrationTestsBySearchAndPagination() {
 		fail("Not yet implemented"); // TODO
@@ -89,6 +94,7 @@ public class CalibrationTestServiceTest {
 		verify(verificationRepository).findOne(verificationId);
 	}
 
+	@Ignore
 	@Test
 	public void testDeleteTest() {
 		fail("Not yet implemented"); // TODO
@@ -101,13 +107,16 @@ public class CalibrationTestServiceTest {
 		verify(testRepository).findOne(id.capture());
 		assertEquals(testId, id.getValue());
 	}
-	
-	
+
 	@Test
 	public void testEditTest() {
+		final String name = "name";
+		ArgumentCaptor<String> nameArg = ArgumentCaptor.forClass(String.class);
 		when(testRepository.findOne(testId)).thenReturn(calibrationTest);
-		CalibrationTest calibrationTest =  calibrationTestService.editTest(testId, "a", 1, 1, 1d, 1d, "status", CalibrationTestResult.SUCCESS);
-		assertEquals(testId, calibrationTest.getId());
+		CalibrationTest calibrationTest = calibrationTestService.editTest(testId, name, 1, 1, 1d, 1d, "status",
+				CalibrationTestResult.SUCCESS);
+		verify(calibrationTest).setName(nameArg.capture());
+		assertEquals(name, nameArg.getValue());
 	}
 
 	/**
