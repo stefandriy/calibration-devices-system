@@ -28,23 +28,23 @@
 
                                 <tbody>
                                 <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
-                                    <td data-title="'Псевдонім користувача'" sortable="'username'"
+                                    <td data-title="'USERNAME'|translate " sortable="'username'"
                                         filter="{ 'username': 'text' }">{{
                                         user.username }}
                                     </td>
-                                    <td data-title="'Роль'" sortable="'role'" filter="{ 'role': 'text' }">{{ user.role
+                                    <td data-title="'ROLE' |translate" sortable="'role'" filter="{ 'role': 'text' }">{{ user.role
                                         }}
                                     </td>
-                                    <td data-title="'Імя'" sortable="'firstName'" filter="{ 'firstName': 'text' }">{{
+                                    <td data-title="'FIRST_NAME'|translate" sortable="'firstName'" filter="{ 'firstName': 'text' }">{{
                                         user.firstName }}
                                     </td>
-                                    <td data-title="'Прізвище'" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{
+                                    <td data-title="'LAST_NAME'|translate" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{
                                         user.lastName }}
                                     </td>
-                                    <td data-title="'Організація'" sortable="'organization'" filter="{ 'organization': 'text' }">{{
+                                    <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'" filter="{ 'organization': 'text' }">{{
                                         user.organization }}
                                     </td>
-                                    <td data-title="'Номер телефону'" sortable="'phone'" filter="{ 'phone': 'text' }">{{
+                                    <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'" filter="{ 'phone': 'text' }">{{
                                         user.phone }}
                                     </td>
 
