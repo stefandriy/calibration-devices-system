@@ -21,7 +21,6 @@ angular
             $scope.Test1 = function(){
                 $log.debug("in Case 1");
                 $log.debug($scope.Case1, $scope.Case2,  $scope.Case3, $scope.Case4,  $scope.Case5,  $scope.Case6);
-
                 $scope.Case1 = true;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
