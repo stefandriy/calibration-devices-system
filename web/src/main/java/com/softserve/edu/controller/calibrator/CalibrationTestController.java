@@ -25,8 +25,6 @@ public class CalibrationTestController {
     @Autowired
     private CalibrationTestService testService;
 
-
-
     private final Logger logger = Logger.getLogger(CalibrationTestController.class);
 
     private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|png|PNG|tif|TIF|)$";

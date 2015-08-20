@@ -6,7 +6,7 @@
 <div id="page-wrapper" ng-controller="UsersControllerCalibrator" ng-show="verificator">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header" translate="USERS"> </h1>
+            <h1 class="page-header" translate="USERS"></h1>
             <button type="submit" class="btn btn-primary"
                     ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}
             </button>
@@ -21,14 +21,13 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span translate="EMPLOYEE"> </span>
-                    <span class="pull-right"> На балансі {{totalEmployee}} працівників </span>
+                    <!--     <span class="pull-right"> На балансі {{totalEmployee}} працівників </span>-->
                 </div>
-                <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
                             <button ng-click="tableParams.filter({})" ng-show="isFilter()"
-                                    class="btn btn-warning pull-right is-filter"translate="DROP_SEARCH">
+                                    class="btn btn-warning pull-right is-filter" translate="DROP_SEARCH">
                             </button>
 
 
@@ -41,19 +40,24 @@
                                         filter="{ 'username': 'text' }">{{
                                         user.username }}
                                     </td>
-                                    <td data-title="'ROLE' |translate" sortable="'role'" filter="{ 'role': 'text' }">{{ user.role
+                                    <td data-title="'ROLE' |translate" sortable="'role'" filter="{ 'role': 'text' }">{{
+                                        user.role
                                         }}
                                     </td>
-                                    <td data-title="'FIRST_NAME'|translate" sortable="'firstName'" filter="{ 'firstName': 'text' }">{{
+                                    <td data-title="'FIRST_NAME'|translate" sortable="'firstName'"
+                                        filter="{ 'firstName': 'text' }">{{
                                         user.firstName }}
                                     </td>
-                                    <td data-title="'LAST_NAME'|translate" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{
+                                    <td data-title="'LAST_NAME'|translate" sortable="'lastName'"
+                                        filter="{ 'lastName': 'text' }">{{
                                         user.lastName }}
                                     </td>
-                                    <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'" filter="{ 'organization': 'text' }">{{
+                                    <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'"
+                                        filter="{ 'organization': 'text' }">{{
                                         user.organization }}
                                     </td>
-                                    <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'" filter="{ 'phone': 'text' }">{{
+                                    <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'"
+                                        filter="{ 'phone': 'text' }">{{
                                         user.phone }}
                                     </td>
                                     <td data-title="'EMPLOYEE_CAPACITY'|translate">

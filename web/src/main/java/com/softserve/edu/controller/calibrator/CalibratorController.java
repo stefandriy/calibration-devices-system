@@ -164,6 +164,12 @@ public class CalibratorController {
         }
     }
 
+    /**
+     * Current method received bbi file and save in system
+     * @param file
+     * @param idVerification
+     * @return status witch depends on loading file
+     */
     @RequestMapping(value = "new/upload", method = RequestMethod.POST)
     public ResponseEntity<String> uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
         ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
@@ -217,6 +223,11 @@ public class CalibratorController {
                 verification.getStateVerificatorEmployee());
     }
 
+    /**
+     * Current method search for file name witch user decided to delete
+     * @param idVerification
+     * @return name of file and corresponding verification ID
+     */
     @RequestMapping(value = "find/uploadFile", method = RequestMethod.GET)
     public List<String> getBbiFile(@RequestParam String idVerification) {
         List<String> data = new ArrayList();
@@ -225,6 +236,11 @@ public class CalibratorController {
         return data;
     }
 
+    /**
+     * Current method delete file
+     * @param idVerification
+     * @return status of deletion
+     */
     @RequestMapping(value = "deleteBbiprotocol", method = RequestMethod.PUT)
     public ResponseEntity deleteBbiprotocol(@RequestParam String idVerification) {
         HttpStatus httpStatus = HttpStatus.OK;
