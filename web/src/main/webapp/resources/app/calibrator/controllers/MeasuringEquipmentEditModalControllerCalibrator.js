@@ -48,4 +48,77 @@ angular.module('employeeModule')
 								$modalInstance.close();
 							};
 
+							$scope.checkAll = function (caseForValidation) {
+								switch (caseForValidation)  {
+									case ('name'):
+										var name = $scope.equipment.name;
+										if(name ==  null){
+
+										} else if(/^[a-zA-Z0-9]{5,20}$/.test(name)) {
+                                            validator('name', false);
+										} else {
+                                            validator('name', true);
+                                        }
+                                        break;
+                                    case ('deviceType'):
+                                        var deviceType = $scope.equipment.deviceType;
+                                        if(deviceType == null) {
+
+                                        } else if(/^[A-Z]{4,16}$/.test(deviceType)) {
+                                            validator('deviceType', false);
+                                        } else {
+                                            validator('deviceType',true);
+                                        }
+                                        break;
+                                    case ('manufacturer'):
+                                        var manufacturer = $scope.equipment.manufacturer;
+                                        if(manufacturer == null){}
+                                        else if(/^[a-zA-Z0-9]{5,20}$/.test(manufacturer)){
+                                            validator('manufacturer', false);
+                                        } else {
+                                            validator('manufacturer', true);
+                                        }
+                                        break;
+                                    case ('verificationInterval'):
+                                        var verificationInterval = $scope.equipment.verificationInterval;
+                                        if(verificationInterval == null){}
+                                        else  if (/^\d{2,5}$/.test(verificationInterval)) {
+                                            validator('verificationInterval', false);
+                                        } else {
+                                            validator('verificationInterval', true);
+                                        }
+                                        break;
+								}
+
+							}
+
+                            function validator(caseForValidation, isValid) {
+                                switch (caseForValidation)  {
+                                    case ('name'):
+                                       $scope.nameValidation = {
+                                           isValid: isValid,
+                                           css: isValid ? 'has-error' : 'has-success'
+                                       }
+                                        break;
+                                    case ('deviceType'):
+                                        $scope.deviceTypeValidation = {
+                                            isValid: isValid,
+                                            css: isValid ? 'has-error' : 'has-success'
+                                        }
+                                        break;
+                                    case ('manufacturer'):
+                                        $scope.manufacturerValidation = {
+                                            isValid: isValid,
+                                            css: isValid ? 'has-error' : 'has-success'
+                                        }
+                                        break;
+                                    case ('verificationInterval'):
+                                        $scope.verificationIntervalValidation = {
+                                            isValid: isValid,
+                                            css: isValid ? 'has-error' : 'has-success'
+                                        }
+                                        break;
+                                }
+                            }
+
 						} ]);
