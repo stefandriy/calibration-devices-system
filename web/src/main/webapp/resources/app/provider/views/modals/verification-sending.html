@@ -1,9 +1,6 @@
 <div class="modal-header">
     <h3 class="modal-title">Будь ласка, виберіть працівника вимірювальної лабораторії</h3>
-    <a popover="Почніть вводити і виберіть відповідний варіант з випадаючого списку"
-       popover-trigger="mouseenter">
-        <i class="fa fa-question-circle"></i>
-    </a>
+
 </div>
 
 
@@ -11,19 +8,15 @@
     <form id="providerSelectionForm" name="calibratorSelectionForm" class="form-group"
           ng-submit="submit()" novalidate>
 
-        <div class="modal-body form-group has-feedback" show-errors>
+        <div class="modal-body form-group has-feedback">
 
-            <input name="calibrator" class="form-control"
-                   ng-model="formData.calibrator"
-                   typeahead="calibrator as calibrator.name for calibrator in calibrators | filter: $viewValue"
-                   typeahead-editable="false" required>
 
-            <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
+            <select name="calibrator" class="form-control" chosen options="calibrator.name"
+                    ng-model="formData.calibrator"
+                    ng-options="calibrator as calibrator.name for calibrator in calibrators | filter: $viewValue"
+                    typeahead-editable="false" required>
+            </select>
 
-            <p class="help-block">
-                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                Почніть вводити і виберіть відповідний варіант з випадаючого списку
-            </p>
 
         </div>
 
