@@ -7,7 +7,8 @@ angular
         'CalibrationTestServiceCalibrator', '$location', '$stateParams',
         function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, $stateParams) {
 
-            $scope.AllForms = [];
+            $scope.smallForm = [];
+
 
             $scope.testId = $location.search().param;
 
@@ -124,17 +125,19 @@ angular
             $scope.saveCalibrationTest = function () {
                 console.log("T1" + $scope.TestDataFormData1);
 
-                $scope.AllForms.push($scope.TestDataFormData1, $scope.TestDataFormData2, $scope.TestDataFormData3,
-                    $scope.TestDataFormData4, $scope.TestDataFormData5, $scope.TestDataFormData6, $scope.TestFormData);
+                $scope.smallForm.push($scope.TestDataFormData1, $scope.TestDataFormData2, $scope.TestDataFormData3,
+                    $scope.TestDataFormData4, $scope.TestDataFormData5, $scope.TestDataFormData6);
 
-                calibrationTestServiceCalibrator
-                    .saveCalibrationTest($scope.AllForms, $scope.testId)
-                    .then(function (data) {
-                        if (data == 201) {
-                            $scope.resetTestForm();
-                            $rootScope.onTableHandling();
-                        }
-                    });
+                $scope.generalForms={TestFormData:$scope.TestFormData ,smallForm: $scope.smallForm};
+                        calibrationTestServiceCalibrator
+                            .saveCalibrationTest($scope.generalForms, $scope.testId)
+                            .then(function (data) {
+                                if (data == 201) {
+                                    $scope.resetTestForm();
+                                    $rootScope.onTableHandling();
+                                }
+                            });
+
             }
 
         }]);

@@ -1,10 +1,8 @@
 package com.softserve.edu.dto.calibrator;
 
-import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Konyk on 21.08.2015.
@@ -19,13 +17,13 @@ public class GlobalCalibrationTestDTO {
     private String consumptionStatus;
     private CalibrationTestResult testResult;
 
-    private List<CalibrationTestDataDTO> listTestData;
+   // private List<CalibrationTestDataDTO> smallForm;
 
 
     public GlobalCalibrationTestDTO(){};
 
     public GlobalCalibrationTestDTO(String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus,
-                                    CalibrationTestResult testResult, List<CalibrationTestDataDTO> listTestData) {
+                                    CalibrationTestResult testResult) {
         this.name = name;
         this.dateTest = dateTest;
         this.temperature = temperature;
@@ -34,7 +32,7 @@ public class GlobalCalibrationTestDTO {
         this.longitude = longitude;
         this.consumptionStatus = consumptionStatus;
         this.testResult = testResult;
-        this.listTestData = listTestData;
+
     }
 
     public String getName() {
@@ -101,11 +99,4 @@ public class GlobalCalibrationTestDTO {
         this.testResult = testResult;
     }
 
-    public List<CalibrationTestDataDTO> getListTestData() {
-        return listTestData;
-    }
-
-    public void setListTestData(List<CalibrationTestDataDTO> listTestData) {
-        this.listTestData = listTestData;
-    }
 }

@@ -2,6 +2,8 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
+import com.softserve.edu.dto.calibrator.GlobalCalibrationTestDTO;
+import com.softserve.edu.dto.calibrator.TestGenerallDTO;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.service.CalibrationTestService;
@@ -63,25 +65,28 @@ public class CalibrationTestController {
     /**
      * Saves calibration-test in database
      *
-     * @param testDTO        object with calibration-test data
-     * @param verificationId String of verification ID for saving calibration-test
+     * @param globalTestDTO        object with calibration-test data
+     * @param testId Long of calibration-test ID for saving calibration-test
      * @return a response body with http status {@literal CREATED} if everything
      * calibration-test successfully created or else http
      * status {@literal CONFLICT}
      */
-    @RequestMapping(value = "add/{verificationId}", method = RequestMethod.POST)
-    public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO, @PathVariable String verificationId) {
-        HttpStatus httpStatus = HttpStatus.CREATED;
-        try {
-            CalibrationTest createdTest = new CalibrationTest(testDTO.getName(), testDTO.getDateTest(), testDTO.getTemperature(),
-                    testDTO.getSettingNumber(), testDTO.getLatitude(), testDTO.getLongitude(), testDTO.getConsumptionStatus(), testDTO.getTestResult());
-            Date initialDate = new Date();
-            testService.createNewTest(createdTest, initialDate, verificationId);
-        } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
-            httpStatus = HttpStatus.CONFLICT;
-        }
-        return new ResponseEntity<>(httpStatus);
+    @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
+    public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
+
+//        HttpStatus httpStatus = HttpStatus.CREATED;
+//        try {
+//            CalibrationTest createdTest = new CalibrationTest(globalTestDTO.getName(), globalTestDTO.getDateTest(), globalTestDTO.getTemperature(),
+//                    globalTestDTO.getSettingNumber(), globalTestDTO.getLatitude(), globalTestDTO.getLongitude(), globalTestDTO.getConsumptionStatus(), globalTestDTO.getTestResult());
+//            Date initialDate = new Date();
+////           for (GlobalCalibrationTestDTO element : globalTestDTO){}
+////            testService.createNewTest(createdTest, initialDate, verificationId);
+//        } catch (Exception e) {
+//            logger.error("GOT EXCEPTION " + e.getMessage());
+//            httpStatus = HttpStatus.CONFLICT;
+//        }
+//        return new ResponseEntity<>(httpStatus);
+        System.out.println("");
     }
 
     /**
@@ -168,5 +173,7 @@ public class CalibrationTestController {
         Long testId = test.getId();
         return testId;
     }
+
+
 }
 
