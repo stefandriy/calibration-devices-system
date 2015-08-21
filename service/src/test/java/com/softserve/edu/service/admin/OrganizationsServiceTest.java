@@ -91,7 +91,7 @@ public class OrganizationsServiceTest {
 
     }
 
-    @Ignore
+
     @Test
     public void testGetOrganizationsBySearchAndPagination() throws Exception {
         final int pageNumber = 5;
@@ -100,10 +100,12 @@ public class OrganizationsServiceTest {
         final Page<Organization> pageOrganizations = (Page<Organization>) mock(Page.class);
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
 
-        when(mockOrganizationRepository.findAll(any(PageRequest.class))).thenReturn(pageOrganizations);
-        when(mockOrganizationRepository.findByNameLikeIgnoreCase(anyString(), any(PageRequest.class))).thenReturn(pageOrganizations);
+        when(mockOrganizationRepository.findAll(pageRequest)).thenReturn(pageOrganizations);
+        when(mockOrganizationRepository.findByNameLikeIgnoreCase("%" + search
+                + "%", pageRequest)).thenReturn(pageOrganizations);
 
         ArgumentCaptor<PageRequest> pageRequestArg = ArgumentCaptor.forClass(PageRequest.class);
+
 
         organizationsService.getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, null);
 
@@ -112,11 +114,13 @@ public class OrganizationsServiceTest {
         assertEquals(pageOrganizations, organizationsService
                 .getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, null));
 
+        ArgumentCaptor<PageRequest> pageRequestArg2 = ArgumentCaptor.forClass(PageRequest.class);
+
         organizationsService.getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, search);
 
-        verify(mockOrganizationRepository).findByNameLikeIgnoreCase("%" + search
-                + "%", pageRequestArg.capture());
+        verify(mockOrganizationRepository).findByNameLikeIgnoreCase(anyString(), pageRequestArg2.capture());
         assertEquals(pageRequest.first(), pageRequestArg.getValue().first());
+        assertEquals(pageRequest.first(), pageRequestArg2.getValue().first());
         assertEquals(pageOrganizations, organizationsService
                 .getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, search));
 
