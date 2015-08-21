@@ -132,4 +132,24 @@ public class CalibrationTestService {
         CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
         testIMGRepository.save(calibrationTestIMG);
     }
+
+
+    @Transactional
+    public void createEmptyTest( String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+       CalibrationTest  calibrationTest = new CalibrationTest();
+        calibrationTest.setVerification(verification);
+        testRepository.save(calibrationTest);
+    }
+//    @Transactional
+//    public CalibrationTest findTestByIdVerif(String verificationId) {
+//        Verification verification = verificationRepository.findOne(verificationId);
+//        CalibrationTest calibrationTest= testRepository.findByVerificationId(verification);
+//        return  calibrationTest;
+//    }
+
+    @Transactional
+    public CalibrationTest findByVerification(Verification verif) {
+        return testRepository.findByVerification(verif);
+    }
 }

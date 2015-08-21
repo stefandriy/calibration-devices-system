@@ -10,6 +10,7 @@ angular
 
 
             $scope.verId = $location.search().param;
+
             /**
              * Resets Test form
              */

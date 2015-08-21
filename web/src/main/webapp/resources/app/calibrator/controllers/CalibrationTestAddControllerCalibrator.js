@@ -6,11 +6,12 @@ angular
     .controller('CalibrationTestAddControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
         'CalibrationTestServiceCalibrator', '$location', '$stateParams',
         function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, $stateParams) {
-            $scope.calibrationTests = [];
 
+            $scope.AllForms = [];
 
-            $scope.verId = $location.search().param;
+            $scope.testId = $location.search().param;
 
+            $log.debug($scope.TestFormData);
             $scope.Case1 = true;
             $scope.Case2 = false;
             $scope.Case3 = false;
@@ -18,9 +19,10 @@ angular
             $scope.Case5 = false;
             $scope.Case6 = false;
 
-            $scope.Test1 = function(){
+
+            $scope.Test1 = function () {
                 $log.debug("in Case 1");
-                $log.debug($scope.Case1, $scope.Case2,  $scope.Case3, $scope.Case4,  $scope.Case5,  $scope.Case6);
+                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = true;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
@@ -30,9 +32,9 @@ angular
 
             };
 
-            $scope.Test2 = function(){
+            $scope.Test2 = function () {
                 $log.debug("in Case 2");
-                $log.debug($scope.Case1, $scope.Case2,  $scope.Case3, $scope.Case4,  $scope.Case5,  $scope.Case6);
+                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = true;
                 $scope.Case3 = false;
@@ -42,9 +44,9 @@ angular
 
             };
 
-            $scope.Test3 = function(){
+            $scope.Test3 = function () {
                 $log.debug("in Case 3");
-                $log.debug($scope.Case1, $scope.Case2,  $scope.Case3, $scope.Case4,  $scope.Case5,  $scope.Case6);
+                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = false;
                 $scope.Case3 = true;
@@ -54,9 +56,9 @@ angular
 
             };
 
-            $scope.Test4 = function(){
+            $scope.Test4 = function () {
                 $log.debug("in Case 4");
-                $log.debug($scope.Case1, $scope.Case2,  $scope.Case3, $scope.Case4,  $scope.Case5,  $scope.Case6);
+                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
@@ -66,9 +68,9 @@ angular
 
             };
 
-            $scope.Test5 = function(){
+            $scope.Test5 = function () {
                 $log.debug("in Case 5");
-                $log.debug($scope.Case1, $scope.Case2,  $scope.Case3, $scope.Case4,  $scope.Case5,  $scope.Case6);
+                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
@@ -78,9 +80,9 @@ angular
 
             };
 
-            $scope.Test6 = function(){
+            $scope.Test6 = function () {
                 $log.debug("in Case 6");
-                $log.debug($scope.Case1, $scope.Case2,  $scope.Case3, $scope.Case4,  $scope.Case5,  $scope.Case6);
+                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
@@ -92,7 +94,7 @@ angular
             /**
              * Resets Test form
              */
-            $scope.resetTestForm = function() {
+            $scope.resetTestForm = function () {
                 $scope.$broadcast('show-errors-reset');
                 $scope.TestFormData = null;
             };
@@ -102,10 +104,11 @@ angular
              */
             $scope.resetTestForm();
 
-            function getCalibrationTests(){
+            function getCalibrationTests() {
                 calibrationTestServiceCalibrator
                     .getCalibrationTests()
-                    .then(function(data){;
+                    .then(function (data) {
+                        ;
                         $scope.calibrationTests = data.calibrationTests;
                     })
             }
@@ -118,9 +121,14 @@ angular
              * If everything is ok then resets the test
              * form and updates table with tests.
              */
-            $scope.saveCalibrationTest = function() {
+            $scope.saveCalibrationTest = function () {
+                console.log("T1" + $scope.TestDataFormData1);
+
+                $scope.AllForms.push($scope.TestDataFormData1, $scope.TestDataFormData2, $scope.TestDataFormData3,
+                    $scope.TestDataFormData4, $scope.TestDataFormData5, $scope.TestDataFormData6, $scope.TestFormData);
+
                 calibrationTestServiceCalibrator
-                    .saveCalibrationTest($scope.TestFormData,  $scope.verId)
+                    .saveCalibrationTest($scope.AllForms, $scope.testId)
                     .then(function (data) {
                         if (data == 201) {
                             $scope.resetTestForm();

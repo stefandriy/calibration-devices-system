@@ -1,7 +1,7 @@
 angular.module('employeeModule')
 		.controller('MeasuringEquipmentEditModalControllerCalibrator',
-				   ['$rootScope', '$scope', '$modalInstance', 'MeasuringEquipmentServiceCalibrator',
-						function($rootScope, $scope, $modalInstance, MeasuringEquipmentServiceCalibrator) {
+				   ['$rootScope', '$scope', '$modalInstance', 'MeasuringEquipmentServiceCalibrator', '$log',
+						function($rootScope, $scope, $modalInstance, MeasuringEquipmentServiceCalibrator, $log) {
 
 						/**
 						 * Resets Equipment form
@@ -40,7 +40,7 @@ angular.module('employeeModule')
 											}
 										});
 							}
-
+                            $log.debug($rootScope.equipment);
 							/**
 							 * Closes edit modal window.
 							 */

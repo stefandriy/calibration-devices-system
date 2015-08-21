@@ -12,6 +12,7 @@ angular
              * Updates the table with CalibrationTests.
              */
             $scope.verId = $location.search().param;
+            $log.debug($scope.verId);
             $scope.searchData = null;
 
             $rootScope.onTableHandling = function () {
@@ -45,9 +46,13 @@ angular
 //                    });
 //            };
             
-            $scope.openAddTest = function (verificationId) {
-                $log.debug("inside");
-                var url = $location.path('/calibrator/verifications/calibration-test-add/').search({param: verificationId});
+            $scope.openAddTest = function (verId) {
+                calibrationTestServiceCalibrator
+                    .getEmptyTest(verId)
+                    .then(function (IdTest) {
+                        $log.debug("inside");
+                        var url = $location.path('/calibrator/verifications/calibration-test-add/').search({param: IdTest});
+                    } )
             }
 
             function getCalibrationTests() {

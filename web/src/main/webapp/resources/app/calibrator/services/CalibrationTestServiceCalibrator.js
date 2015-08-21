@@ -18,8 +18,8 @@ angular
                         return result.data;
                     });
             },
-            saveCalibrationTest: function (formData, verificationId) {
-                return $http.post("/calibrator/calibrationTests/add/" + verificationId, formData)
+            saveCalibrationTest: function (formData, testId) {
+                return $http.post("/calibrator/calibrationTests/add/" + testId, formData)
                     .then(function (result) {
                         return result.status;
                     });
@@ -35,6 +35,13 @@ angular
                 return $http.post(url)
                     .then(function (result) {
                         return result.status;
+                    });
+            },
+            getEmptyTest: function (verificationId) {
+                var url = '/calibrator/calibrationTests/createEmptyTest/' + verificationId;
+                return $http.get(url)
+                    .then(function (result) {
+                        return result.data;
                     });
             },
 

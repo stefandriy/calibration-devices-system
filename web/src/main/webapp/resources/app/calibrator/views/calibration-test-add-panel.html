@@ -21,6 +21,7 @@
 <div id="page-wrapper">
     <div>
         <h2 class="text-center">Заповніть інформацію про тести:</h2>
+        {{testId}}
     </div>
     <form name="CalibrationTestForm" novalidate style="padding-top: 10px">
         <div class="first-column">
@@ -119,7 +120,7 @@
                             <!--First Test -->
                             <div ng-show="Case1" id="Case1" class="tab-pane fade in active">
                                 <div>
-                                    <form name="T1">
+                                  <!--  <form name="T1">-->
                                         <div class="row">
                                             <div class="form-group col-md-4">
                                                 <label class="control-label">{{'GIVEN_CONSUMPTION' |
@@ -127,10 +128,11 @@
                                             </div>
                                             <div class="form-group col-md-8" show-errors>
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.givenConsumption"
+                                                       ng-model="TestDataFormData1.givenConsumption"
                                                        ng-minlength="3" id="givenConsumption" name="givenConsumption"
                                                        class="form-control"
-                                                       required/>
+                                                       required>
+                                                {{TestDataFormData1}}
                                             </div>
                                         </div>
                                         <div class="row">
@@ -140,10 +142,10 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.acceptableError"
+                                                       ng-model="TestDataFormData1.acceptableError"
                                                        ng-minlength="3"
                                                        id="acceptableError"
-                                                       name="acceptableError" class="form-control" required/>
+                                                       name="acceptableError" class="form-control" required>
                                             </div>
                                         </div>
 
@@ -154,7 +156,7 @@
                                                     | translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.settingNumber"
+                                                <input type="text" ng-model="TestDataFormData1.settingNumber"
                                                        ng-minlength="3"
                                                        id="settingNumber"
                                                        name="settingNumber" class="form-control" required>
@@ -167,7 +169,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.initialValue"
+                                                <input type="text" ng-model="TestDataFormData1.initialValue"
                                                        ng-minlength="3"
                                                        id="initialValue"
                                                        name="initialValue" class="form-control" required>
@@ -180,7 +182,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.endValue"
+                                                <input type="text" ng-model="TestDataFormData1.endValue"
                                                        ng-minlength="3"
                                                        id="endValue"
                                                        name="endValue" class="form-control" required>
@@ -194,7 +196,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.volumeInDevice"
+                                                       ng-model="TestDataFormData1.volumeInDevice"
                                                        ng-minlength="3"
                                                        id="volumeInDevice"
                                                        name="volumeInDevice" class="form-control" required>
@@ -208,7 +210,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.actualConsumption"
+                                                       ng-model="TestDataFormData1.actualConsumption"
                                                        ng-minlength="3"
                                                        id="actualConsumption"
                                                        name="actualConsumption" class="form-control" required>
@@ -222,7 +224,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.consumptionStatus"
+                                                       ng-model="TestDataFormData1.consumptionStatus"
                                                        ng-minlength="3"
                                                        id="consumptionStatus"
                                                        name="consumptionStatus" class="form-control" required>
@@ -236,7 +238,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.calculationError"
+                                                       ng-model="TestDataFormData1.calculationError"
                                                        ng-minlength="3"
                                                        id="calculationError"
                                                        name="testResult" class="form-control" required>
@@ -249,16 +251,17 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.testResult"
+                                                <input type="text" ng-model="TestDataFormData1.testResult"
                                                        ng-minlength="3"
                                                        id="testResult"
                                                        name="testResult" class="form-control" required>
                                             </div>
                                         </div>
-                                    </form>
+                                 <!--   </form>-->
 
                                 </div>
                             </div>
+
                             <!--Second Te
                             st -->
 
@@ -273,7 +276,7 @@
                                             </div>
                                             <div class="form-group col-md-8" show-errors>
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.givenConsumption"
+                                                       ng-model="TestDataFormData2.givenConsumption"
                                                        ng-minlength="3" id="givenConsumption" name="givenConsumption"
                                                        class="form-control"
                                                        required/>
@@ -286,7 +289,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.acceptableError"
+                                                       ng-model="TestDataFormData2.acceptableError"
                                                        ng-minlength="3"
                                                        id="acceptableError"
                                                        name="acceptableError" class="form-control" required/>
@@ -300,7 +303,7 @@
                                                     | translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.settingNumber"
+                                                <input type="text" ng-model="TestDataFormData2.settingNumber"
                                                        ng-minlength="3"
                                                        id="settingNumber"
                                                        name="settingNumber" class="form-control" required>
@@ -313,7 +316,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.initialValue"
+                                                <input type="text" ng-model="TestDataFormData2.initialValue"
                                                        ng-minlength="3"
                                                        id="initialValue"
                                                        name="initialValue" class="form-control" required>
@@ -326,7 +329,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.endValue"
+                                                <input type="text" ng-model="TestDataFormData2.endValue"
                                                        ng-minlength="3"
                                                        id="endValue"
                                                        name="endValue" class="form-control" required>
@@ -340,7 +343,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.volumeInDevice"
+                                                       ng-model="TestDataFormData2.volumeInDevice"
                                                        ng-minlength="3"
                                                        id="volumeInDevice"
                                                        name="volumeInDevice" class="form-control" required>
@@ -354,7 +357,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.actualConsumption"
+                                                       ng-model="TestDataFormData2.actualConsumption"
                                                        ng-minlength="3"
                                                        id="actualConsumption"
                                                        name="actualConsumption" class="form-control" required>
@@ -368,7 +371,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.consumptionStatus"
+                                                       ng-model="TestDataFormData2.consumptionStatus"
                                                        ng-minlength="3"
                                                        id="consumptionStatus"
                                                        name="consumptionStatus" class="form-control" required>
@@ -382,7 +385,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.calculationError"
+                                                       ng-model="TestDataFormData2.calculationError"
                                                        ng-minlength="3"
                                                        id="calculationError"
                                                        name="testResult" class="form-control" required>
@@ -395,7 +398,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.testResult"
+                                                <input type="text" ng-model="TestDataFormData2.testResult"
                                                        ng-minlength="3"
                                                        id="testResult"
                                                        name="testResult" class="form-control" required>
@@ -415,7 +418,7 @@
                                             </div>
                                             <div class="form-group col-md-8" show-errors>
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.givenConsumption"
+                                                       ng-model="TestDataFormData3.givenConsumption"
                                                        ng-minlength="3" id="givenConsumption" name="givenConsumption"
                                                        class="form-control"
                                                        required/>
@@ -428,7 +431,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.acceptableError"
+                                                       ng-model="TestDataFormData3.acceptableError"
                                                        ng-minlength="3"
                                                        id="acceptableError"
                                                        name="acceptableError" class="form-control" required/>
@@ -442,7 +445,7 @@
                                                     | translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.settingNumber"
+                                                <input type="text" ng-model="TestDataFormData3.settingNumber"
                                                        ng-minlength="3"
                                                        id="settingNumber"
                                                        name="settingNumber" class="form-control" required>
@@ -455,7 +458,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.initialValue"
+                                                <input type="text" ng-model="TestDataFormData3.initialValue"
                                                        ng-minlength="3"
                                                        id="initialValue"
                                                        name="initialValue" class="form-control" required>
@@ -468,7 +471,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.endValue"
+                                                <input type="text" ng-model="TestDataFormData3.endValue"
                                                        ng-minlength="3"
                                                        id="endValue"
                                                        name="endValue" class="form-control" required>
@@ -482,7 +485,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.volumeInDevice"
+                                                       ng-model="TestDataFormData3.volumeInDevice"
                                                        ng-minlength="3"
                                                        id="volumeInDevice"
                                                        name="volumeInDevice" class="form-control" required>
@@ -496,7 +499,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.actualConsumption"
+                                                       ng-model="TestDataFormData3.actualConsumption"
                                                        ng-minlength="3"
                                                        id="actualConsumption"
                                                        name="actualConsumption" class="form-control" required>
@@ -510,7 +513,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.consumptionStatus"
+                                                       ng-model="TestDataFormData3.consumptionStatus"
                                                        ng-minlength="3"
                                                        id="consumptionStatus"
                                                        name="consumptionStatus" class="form-control" required>
@@ -524,7 +527,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.calculationError"
+                                                       ng-model="TestDataFormData3.calculationError"
                                                        ng-minlength="3"
                                                        id="calculationError"
                                                        name="testResult" class="form-control" required>
@@ -537,7 +540,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.testResult"
+                                                <input type="text" ng-model="TestDataFormData3.testResult"
                                                        ng-minlength="3"
                                                        id="testResult"
                                                        name="testResult" class="form-control" required>
@@ -546,6 +549,7 @@
                                     </form>
                                 </div>
                             </div>
+
                             <!--Fourth Test -->
                             <div ng-show="Case4" id="Case4" class="tab-pane fade in active">
                                 <div>
@@ -557,7 +561,7 @@
                                             </div>
                                             <div class="form-group col-md-8" show-errors>
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.givenConsumption"
+                                                       ng-model="TestDataFormData4.givenConsumption"
                                                        ng-minlength="3" id="givenConsumption" name="givenConsumption"
                                                        class="form-control"
                                                        required/>
@@ -570,7 +574,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.acceptableError"
+                                                       ng-model="TestDataFormData4.acceptableError"
                                                        ng-minlength="3"
                                                        id="acceptableError"
                                                        name="acceptableError" class="form-control" required/>
@@ -584,7 +588,7 @@
                                                     | translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.settingNumber"
+                                                <input type="text" ng-model="TestDataFormData4.settingNumber"
                                                        ng-minlength="3"
                                                        id="settingNumber"
                                                        name="settingNumber" class="form-control" required>
@@ -597,7 +601,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.initialValue"
+                                                <input type="text" ng-model="TestDataFormData4.initialValue"
                                                        ng-minlength="3"
                                                        id="initialValue"
                                                        name="initialValue" class="form-control" required>
@@ -610,7 +614,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.endValue"
+                                                <input type="text" ng-model="TestDataFormData4.endValue"
                                                        ng-minlength="3"
                                                        id="endValue"
                                                        name="endValue" class="form-control" required>
@@ -624,7 +628,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.volumeInDevice"
+                                                       ng-model="TestDataFormData4.volumeInDevice"
                                                        ng-minlength="3"
                                                        id="volumeInDevice"
                                                        name="volumeInDevice" class="form-control" required>
@@ -638,7 +642,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.actualConsumption"
+                                                       ng-model="TestDataFormData4.actualConsumption"
                                                        ng-minlength="3"
                                                        id="actualConsumption"
                                                        name="actualConsumption" class="form-control" required>
@@ -652,7 +656,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.consumptionStatus"
+                                                       ng-model="TestDataFormData4.consumptionStatus"
                                                        ng-minlength="3"
                                                        id="consumptionStatus"
                                                        name="consumptionStatus" class="form-control" required>
@@ -666,7 +670,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.calculationError"
+                                                       ng-model="TestDataFormData4.calculationError"
                                                        ng-minlength="3"
                                                        id="calculationError"
                                                        name="testResult" class="form-control" required>
@@ -679,7 +683,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.testResult"
+                                                <input type="text" ng-model="TestDataFormData4.testResult"
                                                        ng-minlength="3"
                                                        id="testResult"
                                                        name="testResult" class="form-control" required>
@@ -700,7 +704,7 @@
                                             </div>
                                             <div class="form-group col-md-8" show-errors>
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.givenConsumption"
+                                                       ng-model="TestDataFormData5.givenConsumption"
                                                        ng-minlength="3" id="givenConsumption" name="givenConsumption"
                                                        class="form-control"
                                                        required/>
@@ -713,7 +717,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.acceptableError"
+                                                       ng-model="TestDataFormData5.acceptableError"
                                                        ng-minlength="3"
                                                        id="acceptableError"
                                                        name="acceptableError" class="form-control" required/>
@@ -727,7 +731,7 @@
                                                     | translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.settingNumber"
+                                                <input type="text" ng-model="TestDataFormData5.settingNumber"
                                                        ng-minlength="3"
                                                        id="settingNumber"
                                                        name="settingNumber" class="form-control" required>
@@ -740,7 +744,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.initialValue"
+                                                <input type="text" ng-model="TestDataFormData5.initialValue"
                                                        ng-minlength="3"
                                                        id="initialValue"
                                                        name="initialValue" class="form-control" required>
@@ -753,7 +757,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.endValue"
+                                                <input type="text" ng-model="TestDataFormData5.endValue"
                                                        ng-minlength="3"
                                                        id="endValue"
                                                        name="endValue" class="form-control" required>
@@ -767,7 +771,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.volumeInDevice"
+                                                       ng-model="TestDataFormData5.volumeInDevice"
                                                        ng-minlength="3"
                                                        id="volumeInDevice"
                                                        name="volumeInDevice" class="form-control" required>
@@ -781,7 +785,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.actualConsumption"
+                                                       ng-model="TestDataFormData5.actualConsumption"
                                                        ng-minlength="3"
                                                        id="actualConsumption"
                                                        name="actualConsumption" class="form-control" required>
@@ -795,7 +799,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.consumptionStatus"
+                                                       ng-model="TestDataFormData5.consumptionStatus"
                                                        ng-minlength="3"
                                                        id="consumptionStatus"
                                                        name="consumptionStatus" class="form-control" required>
@@ -809,7 +813,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.calculationError"
+                                                       ng-model="TestDataFormData5.calculationError"
                                                        ng-minlength="3"
                                                        id="calculationError"
                                                        name="testResult" class="form-control" required>
@@ -822,7 +826,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.testResult"
+                                                <input type="text" ng-model="TestDataFormData5.testResult"
                                                        ng-minlength="3"
                                                        id="testResult"
                                                        name="testResult" class="form-control" required>
@@ -843,7 +847,7 @@
                                             </div>
                                             <div class="form-group col-md-8" show-errors>
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.givenConsumption"
+                                                       ng-model="TestDataFormData6.givenConsumption"
                                                        ng-minlength="3" id="givenConsumption" name="givenConsumption"
                                                        class="form-control"
                                                        required/>
@@ -856,7 +860,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.acceptableError"
+                                                       ng-model="TestDataFormData6.acceptableError"
                                                        ng-minlength="3"
                                                        id="acceptableError"
                                                        name="acceptableError" class="form-control" required/>
@@ -870,7 +874,7 @@
                                                     | translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.settingNumber"
+                                                <input type="text" ng-model="TestDataFormData6.settingNumber"
                                                        ng-minlength="3"
                                                        id="settingNumber"
                                                        name="settingNumber" class="form-control" required>
@@ -883,7 +887,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.initialValue"
+                                                <input type="text" ng-model="TestDataFormData6.initialValue"
                                                        ng-minlength="3"
                                                        id="initialValue"
                                                        name="initialValue" class="form-control" required>
@@ -896,7 +900,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.endValue"
+                                                <input type="text" ng-model="TestDataFormData6.endValue"
                                                        ng-minlength="3"
                                                        id="endValue"
                                                        name="endValue" class="form-control" required>
@@ -910,7 +914,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.volumeInDevice"
+                                                       ng-model="TestDataFormData6.volumeInDevice"
                                                        ng-minlength="3"
                                                        id="volumeInDevice"
                                                        name="volumeInDevice" class="form-control" required>
@@ -924,7 +928,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.actualConsumption"
+                                                       ng-model="TestDataFormData6.actualConsumption"
                                                        ng-minlength="3"
                                                        id="actualConsumption"
                                                        name="actualConsumption" class="form-control" required>
@@ -938,7 +942,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.consumptionStatus"
+                                                       ng-model="TestDataFormData6.consumptionStatus"
                                                        ng-minlength="3"
                                                        id="consumptionStatus"
                                                        name="consumptionStatus" class="form-control" required>
@@ -952,7 +956,7 @@
                                             </div>
                                             <div class="form-group col-md-8">
                                                 <input type="text"
-                                                       ng-model="TestDataFormData.calculationError"
+                                                       ng-model="TestDataFormData6.calculationError"
                                                        ng-minlength="3"
                                                        id="calculationError"
                                                        name="testResult" class="form-control" required>
@@ -965,7 +969,7 @@
                                                     translate }}</label>
                                             </div>
                                             <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData.testResult"
+                                                <input type="text" ng-model="TestDataFormData6.testResult"
                                                        ng-minlength="3"
                                                        id="testResult"
                                                        name="testResult" class="form-control" required>

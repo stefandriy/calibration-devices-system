@@ -32,13 +32,14 @@ public class CalibrationTestController {
 
     /**
      * Returns calibration-test by ID
+     *
      * @param testId
      * @return calibration-test
      */
     @RequestMapping(value = "getTest/{testId}", method = RequestMethod.GET)
     public CalibrationTestDTO getCalibrationTest(@PathVariable Long testId) {
         CalibrationTest foundTest = testService.findTestById(testId);
-        CalibrationTestDTO testDTO =  new CalibrationTestDTO(foundTest.getName(), foundTest.getTemperature(), foundTest.getSettingNumber(),
+        CalibrationTestDTO testDTO = new CalibrationTestDTO(foundTest.getName(), foundTest.getTemperature(), foundTest.getSettingNumber(),
                 foundTest.getLatitude(), foundTest.getLongitude(), foundTest.getConsumptionStatus(), foundTest.getTestResult());
         return testDTO;
     }
@@ -46,6 +47,7 @@ public class CalibrationTestController {
 
     /**
      * Finds all calibration-tests form database
+     *
      * @return a list of calibration-tests
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -61,11 +63,11 @@ public class CalibrationTestController {
     /**
      * Saves calibration-test in database
      *
-     * @param testDTO object with calibration-test data
+     * @param testDTO        object with calibration-test data
      * @param verificationId String of verification ID for saving calibration-test
      * @return a response body with http status {@literal CREATED} if everything
-     *         calibration-test successfully created or else http
-     *         status {@literal CONFLICT}
+     * calibration-test successfully created or else http
+     * status {@literal CONFLICT}
      */
     @RequestMapping(value = "add/{verificationId}", method = RequestMethod.POST)
     public ResponseEntity createCalibrationTest(@RequestBody CalibrationTestDTO testDTO, @PathVariable String verificationId) {
@@ -85,11 +87,10 @@ public class CalibrationTestController {
     /**
      * Edit calibration-test in database
      *
-     * @param testDTO
-     *            object with calibration-test data
+     * @param testDTO           object with calibration-test data
      * @param calibrationTestId
      * @return a response body with http status {@literal OK} if calibration-test
-     *         successfully edited or else http status {@literal CONFLICT}
+     * successfully edited or else http status {@literal CONFLICT}
      */
     @RequestMapping(value = "edit/{calibrationTestId}", method = RequestMethod.POST)
     public ResponseEntity editCalibrationTest(@PathVariable Long calibrationTestId, @RequestBody CalibrationTestDTO testDTO) {
@@ -106,9 +107,10 @@ public class CalibrationTestController {
 
     /**
      * Deletes selected calibration-test by Id
+     *
      * @param calibrationTestId
      * @return a response body with http status {@literal OK} if calibration-test
-     *         successfully deleted
+     * successfully deleted
      */
     @RequestMapping(value = "delete/{calibrationTestId}", method = RequestMethod.POST)
     public ResponseEntity deleteCalibrationTest(@PathVariable Long calibrationTestId) {
@@ -119,6 +121,7 @@ public class CalibrationTestController {
 
     /**
      * Finds all calibration-tests data form database
+     *
      * @return a list of calibration-tests data
      */
     @RequestMapping(value = "/{calibrationTestId}/testData", method = RequestMethod.GET)
@@ -134,7 +137,8 @@ public class CalibrationTestController {
 
     /**
      * Uploads a photoes to chosen directory bu calibration-test ID
-     * @param file chosen file oject
+     *
+     * @param file              chosen file oject
      * @param idCalibrationTest
      * @return httpStatus 200 OK if everything did well
      */
@@ -157,5 +161,12 @@ public class CalibrationTestController {
         return httpStatus;
     }
 
+    @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
+    public Long createEmptyTest(@PathVariable String verificationId) {
+        testService.createEmptyTest(verificationId);
+        CalibrationTest test = testService.findByVerificationId(verificationId);
+        Long testId = test.getId();
+        return testId;
+    }
 }
 
