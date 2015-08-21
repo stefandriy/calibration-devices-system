@@ -225,10 +225,6 @@ admin:
 ### Назар Івашків
  - DeviceService
  - CalibrationTestService
- - LocalityService.java
- - RegionService.java
- - StreetService.java
- - StreetTypeService.java
 
 ### Володимир Ігнатьєв
  - DeviceService
