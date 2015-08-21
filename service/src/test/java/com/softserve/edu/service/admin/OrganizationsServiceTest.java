@@ -9,11 +9,18 @@ import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.*;
 import org.mockito.internal.util.StringJoiner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
@@ -84,28 +91,120 @@ public class OrganizationsServiceTest {
 
     }
 
+    @Ignore
     @Test
     public void testGetOrganizationsBySearchAndPagination() throws Exception {
+        final int pageNumber = 5;
+        final int itemsPerPage = 10;
+        final String search = "calib";
+        final Page<Organization> pageOrganizations = (Page<Organization>) mock(Page.class);
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+
+        when(mockOrganizationRepository.findAll(any(PageRequest.class))).thenReturn(pageOrganizations);
+        when(mockOrganizationRepository.findByNameLikeIgnoreCase(anyString(), any(PageRequest.class))).thenReturn(pageOrganizations);
+
+        ArgumentCaptor<PageRequest> pageRequestArg = ArgumentCaptor.forClass(PageRequest.class);
+
+        organizationsService.getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, null);
+
+        verify(mockOrganizationRepository).findAll(pageRequestArg.capture());
+        assertEquals(pageRequest.first(), pageRequestArg.getValue().first());
+        assertEquals(pageOrganizations, organizationsService
+                .getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, null));
+
+        organizationsService.getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, search);
+
+        verify(mockOrganizationRepository).findByNameLikeIgnoreCase("%" + search
+                + "%", pageRequestArg.capture());
+        assertEquals(pageRequest.first(), pageRequestArg.getValue().first());
+        assertEquals(pageOrganizations, organizationsService
+                .getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, search));
 
     }
 
     @Test
     public void testGetOrganizationById() throws Exception {
+        final Long id = 100000L;
+        final Organization organization = mock(Organization.class);
+
+        when(mockOrganizationRepository.findOne(id)).thenReturn(organization);
+        ArgumentCaptor<Long> idArg = ArgumentCaptor.forClass(Long.class);
+
+        organizationsService.getOrganizationById(id);
+
+        assertEquals(organization, organizationsService.getOrganizationById(id));
 
     }
 
     @Test
     public void testGetOrganizationTypes() throws Exception {
+        final Long id = 1L;
+        final Organization organization = mock(Organization.class);
+        final Set<String> mockedSet = mock(Set.class);
+        ArgumentCaptor<Long> idArg = ArgumentCaptor.forClass(Long.class);
+
+        when(organization.getId()).thenReturn(id);
+        when(mockOrganizationRepository.getOrganizationTypesById(anyLong())).thenReturn(mockedSet);
+
+        organizationsService.getOrganizationTypes(organization);
+
+        verify(mockOrganizationRepository).getOrganizationTypesById(idArg.capture());
+        assertEquals(id, idArg.getValue());
+        assertEquals(mockedSet, organizationsService.getOrganizationTypes(organization));
 
     }
 
     @Test
     public void testEditOrganization() throws Exception {
+        final Long organizationId = 1L;
+        final String name = "name";
+        final String phone = "phone";
+        final String email = "email";
+        final Integer employeesCapacity = 123;
+        final Integer maxProcessTime = 456;
+        final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
+        final Organization organization = mock(Organization.class);
 
+        when(mockOrganizationRepository.findOne(organizationId)).thenReturn(organization);
+
+        ArgumentCaptor<String> nameArg = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> phoneArg = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> emailArg = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Integer> employeesCapacityArg = ArgumentCaptor.forClass(Integer.class);
+        ArgumentCaptor<Integer> maxProcessTimeArg = ArgumentCaptor.forClass(Integer.class);
+        ArgumentCaptor<Address> addressArg = ArgumentCaptor.forClass(Address.class);
+
+        organizationsService.editOrganization(organizationId, name, phone, email,
+                employeesCapacity, maxProcessTime, address);
+
+        verify(organization).setName(nameArg.capture());
+        verify(organization).setPhone(phoneArg.capture());
+        verify(organization).setEmail(emailArg.capture());
+        verify(organization).setEmployeesCapacity(employeesCapacityArg.capture());
+        verify(organization).setMaxProcessTime(maxProcessTimeArg.capture());
+        verify(organization).setAddress(addressArg.capture());
+
+        assertEquals(name, nameArg.getValue());
+        assertEquals(phone, phoneArg.getValue());
+        assertEquals(email, emailArg.getValue());
+        assertEquals(employeesCapacity, employeesCapacityArg.getValue());
+        assertEquals(maxProcessTime, maxProcessTimeArg.getValue());
+        assertEquals(address.getBuilding(), addressArg.getValue().getBuilding());
     }
 
     @Test
     public void testGetOrganizationEmployeesCapacity() throws Exception {
+        final Long organizationId = 1L;
+        Integer someInt = 123;
+        when(mockOrganizationRepository.getOrganizationEmployeesCapacity(organizationId)).thenReturn(someInt);
 
+        ArgumentCaptor<Long> organizationIdArg = ArgumentCaptor.forClass(Long.class);
+
+        organizationsService.getOrganizationEmployeesCapacity(organizationId);
+
+        verify(mockOrganizationRepository).getOrganizationEmployeesCapacity(organizationIdArg.capture());
+
+        assertEquals(organizationId, organizationIdArg.getValue());
+        assertEquals(someInt, organizationsService.getOrganizationEmployeesCapacity(organizationId));
     }
 }
