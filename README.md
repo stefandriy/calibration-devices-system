@@ -157,10 +157,6 @@ service-src-main-java...-service:
 - CalibratorService.java
 - BuildingService.java
 - District.java
-- LocalityService.java
-- RegionService.java
-- StreetService.java
-- StreetTypeService.java
 - NotAvailableException.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
@@ -223,6 +219,10 @@ admin:
 ### Назар Івашків
  - DeviceService
  - CalibrationTestService
+ - LocalityService.java
+ - RegionService.java
+ - StreetService.java
+ - StreetTypeService.java
 
 ### Володимир Ігнатьєв
  - DeviceService
