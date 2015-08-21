@@ -2,10 +2,9 @@ package com.softserve.edu.dto;
 
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.entity.util.CalibrationTestResult;
-import org.springframework.hateoas.ResourceSupport;
 
 
-public class CalibrationTestDataDTO extends ResourceSupport {
+public class CalibrationTestDataDTO {
 
     private Double givenConsumption;
     private Integer acceptableError;

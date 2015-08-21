@@ -8,7 +8,7 @@ angular.module('employeeModule')
 						 */
 						$scope.resetEquipmentForm = function() {
 							$scope.$broadcast('show-errors-reset');
-							$rootScope.equipment = null;
+							$scope.equipment = null;
 						};
 
 						/**
