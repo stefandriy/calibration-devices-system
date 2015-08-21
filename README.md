@@ -213,6 +213,12 @@ admin:
 - FileOperationImpl.java
 - SaveOptions.java
 
+### Назар Івашків
+ - LocalityService.java
+ - RegionService.java
+ - StreetService.java
+ - StreetTypeService.java
+
 ## Те що зроблено
 
 Сюди копіюйте, ті назви класів які ви завершили робити
