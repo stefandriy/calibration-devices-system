@@ -49,10 +49,8 @@ public class MeasuringEquipmentService {
     }
 
     @Transactional
-    public MeasuringEquipment deleteMeasuringEquipment(Long equipmentId) {
-        MeasuringEquipment deletedEquipment = measuringEquipmentRepository.findOne(equipmentId);
+    public void deleteMeasuringEquipment(Long equipmentId) {
         measuringEquipmentRepository.delete(equipmentId);
-        return deletedEquipment;
     }
 
 }

@@ -20,7 +20,7 @@ public class GlobalCalibrationTestDTO {
    // private List<CalibrationTestDataDTO> smallForm;
 
 
-    public GlobalCalibrationTestDTO(){};
+    public GlobalCalibrationTestDTO(){}
 
     public GlobalCalibrationTestDTO(String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus,
                                     CalibrationTestResult testResult) {

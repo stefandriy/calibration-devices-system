@@ -128,7 +128,7 @@ angular
                 $scope.smallForm.push($scope.TestDataFormData1, $scope.TestDataFormData2, $scope.TestDataFormData3,
                     $scope.TestDataFormData4, $scope.TestDataFormData5, $scope.TestDataFormData6);
 
-                $scope.generalForms={TestFormData:$scope.TestFormData ,smallForm: $scope.smallForm};
+                $scope.generalForms={TestFormData:$scope.TestFormData, smallForm: $scope.smallForm};
                         calibrationTestServiceCalibrator
                             .saveCalibrationTest($scope.generalForms, $scope.testId)
                             .then(function (data) {
