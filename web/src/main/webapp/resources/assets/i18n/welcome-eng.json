@@ -230,5 +230,6 @@
   "TEST_COMPLETED":"Test completed",
   "SENT_TO_VERIFICATOR":"Sent to verificator",
   "TEST_OK":"Tested OK",
-  "TEST_NOK":"Tested NOK"
+  "TEST_NOK":"Tested NOK",
+  "MAX_PROCESS_TIME":"Max verification processing time, days"
 }

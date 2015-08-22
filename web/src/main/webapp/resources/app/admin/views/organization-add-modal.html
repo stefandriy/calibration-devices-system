@@ -103,17 +103,17 @@
 
 		<div class="row">
 			<div class="form-group col-md-4">
-				<label class="control-label">Max process time</label>
+				<label class="control-label">{{'MAX_PROCESS_TIME' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
-				<input type="number" id="processTime"  name="processTime" class="form-control" ng-model="organizationFormData.maxProcessTime" min="1" required>
+				<input type="number" id="processTime"  name="processTime" class="form-control" ng-model="organizationFormData.maxProcessTime" 
+				ng-init="organizationFormData.maxProcessTime=5" min="1" required>
 			</div>
 		</div>
 
 		<div>
 			<hr />
-			<p class="help-block">{{'FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION'
-				| translate }}</p>
+			<p class="help-block">{{'FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION'| translate }}</p>
 
 			<div class="row">
 				<div class="form-group col-md-4">
