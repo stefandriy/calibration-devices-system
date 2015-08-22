@@ -1,10 +1,51 @@
 angular
     .module('employeeModule')
-    .controller('NewVerificationsControllerProvider', ['$scope', '$log',
-        '$modal', 'VerificationServiceProvider', '$rootScope', 'ngTableParams', '$filter', '$timeout',
-        function ($scope, $log, $modal, verificationServiceProvider, $rootScope, ngTableParams, $filter, $timeout) {
+    .controller('NewVerificationsControllerProvider', ['$scope', '$log', '$modal', 'VerificationServiceProvider', '$rootScope', 'ngTableParams', '$filter', '$timeout', '$translate',
+        function ($scope, $log, $modal, verificationServiceProvider, $rootScope, ngTableParams, $filter, $timeout, $translate) {
 
     	$scope.resultsCount = 0;
+
+    	$scope.clearAll = function() {
+    		$scope.selectedStatus.name=null;
+    		$scope.tableParams.filter({});   		
+    	}
+
+    	$scope.doSearch = function() {
+    		$scope.tableParams.reload();
+    	}
+    	
+    	$scope.selectedStatus = {
+    		name : ''
+    	}
+	
+    	$scope.statusData = [
+    	   				{
+    	   					id : 'SENT',
+    	   					label : null
+    	   				},
+    	   				{
+    	   					id : 'ACCEPTED',
+    	   					label : null
+    	   				}
+    	   			];
+
+    	   			$scope.setTypeDataLanguage = function () {
+    	   				var lang = $translate.use();
+    	   				if (lang === 'ukr') {
+    	   					$scope.statusData[0].label = 'Надійшла';
+    	   					$scope.statusData[1].label = 'Прийнята';
+    	   					
+    	   				} else if (lang === 'eng') {
+    	   					$scope.statusData[0].label = 'Sent';
+    	   					$scope.statusData[1].label = 'Accepted';
+    	   					
+    	   				} else {
+    	   					console.error(lang);
+    	   				}
+    	   			};
+
+    	   			$scope.setTypeDataLanguage();
+    	
 
         $scope.tableParams = new ngTableParams({
             page: 1,
@@ -19,6 +60,10 @@ angular
 
             	var sortCriteria = Object.keys(params.sorting())[0];
             	var sortOrder = params.sorting()[sortCriteria];
+
+            	if($scope.selectedStatus.name != null) {
+            		params.filter().status = $scope.selectedStatus.name.id;
+            	}
 
                 verificationServiceProvider.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                 				.success(function (result) {

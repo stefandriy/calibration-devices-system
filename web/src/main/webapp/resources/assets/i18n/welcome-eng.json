@@ -210,6 +210,7 @@
   "STATISTIC_OF_EMPLOYEE_CAPACITY":"Statistic of employee capacity",
   "TIME_EXCEEDED":"Verification processing time exceeded for",
   "DAYS":"Days",
+
   "PHONE_NUMBER":"Phone number",
   "EMPLOYEE_CAPACITY":"Work in progress",
   "CHOOSE_THE_DATE_TO_SEARCH_INFORMATION":"Choose the date to search information",
@@ -218,5 +219,16 @@
   "USERS":"Users",
   "ON_BALANCE":"On balance",
   "FROM":"from",
-  "AVAILABLE_USERS":"available users"
+  "AVAILABLE_USERS":"available users",
+
+  "SENT":"Sent",
+  "ACCEPTED":"Accepted",
+  "REJECTED":"Rejected",
+  "IN_PROGRESS":"In progress",
+  "TEST_PLACE_DETERMINED":"Test place determined",
+  "SENT_TO_TEST_DEVICE":"Sent to test device",
+  "TEST_COMPLETED":"Test completed",
+  "SENT_TO_VERIFICATOR":"Sent to verificator",
+  "TEST_OK":"Tested OK",
+  "TEST_NOK":"Tested NOK"
 }
