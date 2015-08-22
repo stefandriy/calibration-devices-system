@@ -1,11 +1,26 @@
 package com.softserve.edu.controller.provider;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.ArchiveVerificationsFilterAndSort;
 import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.dto.VerificationUpdateDTO;
+import com.softserve.edu.dto.provider.VerificationDTO;
+import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
+import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.dto.provider.VerificationStatusUpdateDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
@@ -20,11 +35,6 @@ import com.softserve.edu.service.utils.EmployeeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/provider/verifications/")
@@ -187,10 +197,10 @@ public class ProviderVerificationController {
      */
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
-            @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+            @RequestBody VerificationUpdateDTO verificationUpdateDTO) {
 
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            Long idCalibrator = verificationUpdatingDTO.getIdsOfCalibrators();
+        for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
+            Long idCalibrator = verificationUpdateDTO.getOrganizationId();
             Organization calibrator = calibratorService.findById(idCalibrator);
             verificationService.sendVerificationTo(verificationId, calibrator, Status.IN_PROGRESS);
         }
@@ -262,6 +272,10 @@ public class ProviderVerificationController {
 
         Verification verification = verificationService.findByIdAndProviderId(verificationId, user.getOrganizationId());
 
-        return verificationDTO;
+        return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(),
+                verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
+                verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
+                verification.getProviderEmployee(), verification.getStateVerificator(),
+                verification.getStateVerificatorEmployee());
     }
 }

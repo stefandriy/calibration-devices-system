@@ -16,7 +16,7 @@ angular
     	}
     	
     	$scope.selectedStatus = {
-    		name : ''
+    		name : null
     	}
    	
        	$scope.statusData = [ 
@@ -233,8 +233,8 @@ $scope.checkFilters = function () {
                     modalInstance.result.then(function (formData) {
 
                         var dataToSend = {
-                            idsOfVerifications: $scope.idsOfVerifications,
-                            idsOfProviders: formData.provider.id
+                        	idsOfVerifications: $scope.idsOfVerifications,
+                        	organizationId: formData.provider.id
                         };
 
                         $log.info(dataToSend);
@@ -274,8 +274,8 @@ $scope.checkFilters = function () {
                     modalInstance.result.then(function (formData) {
 
                         var dataToSend = {
-                            idsOfVerifications: $scope.idsOfVerifications,
-                            idsOfProviders: formData.provider.id
+                        	idsOfVerifications: $scope.idsOfVerifications,
+                            organizationId: formData.provider.id
                         };
 
                         $log.info(dataToSend);
@@ -320,19 +320,6 @@ $scope.checkFilters = function () {
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
-
-//            $scope.changeDateToSend = function (val) {
-//
-//                if (angular.isUndefined(val)) {
-//                    $scope.search.formattedDate = null;
-//                    $scope.tableParams.reload();
-//                } else {
-//                    var datefilter = $filter('date');
-//                    $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
-//                    $scope.tableParams.reload();
-//                }
-//            };
-            
             $scope.initiateVerification = function () {
            	  
      	        var modalInstance = $modal.open({

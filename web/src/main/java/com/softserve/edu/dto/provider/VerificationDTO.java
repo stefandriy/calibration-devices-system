@@ -28,6 +28,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private Address providerAddress;
     private Address calibratorAddress;
 
+    public VerificationDTO() {};
 
     public VerificationDTO(
             ClientData clientData,

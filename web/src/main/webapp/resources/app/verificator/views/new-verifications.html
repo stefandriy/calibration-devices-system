@@ -134,14 +134,13 @@
                  </div>
    				 </script>
    				 
-   				 <script type="text/ng-template" id="ng-table/filters/status.html">
+   				<script type="text/ng-template" id="ng-table/filters/status.html">
      			 		<select chosen class="form-control input-sm" width="'80%'" disable-search="true" type="text" allow-single-deselect="false"	ng-model="selectedStatus.name"  ng-change="doSearch()"
  							name="filter-status" ng-options="status as status.label for status in statusData" >
-										</select>
-					</script>    
+						</select>
+				</script>    
 
-                            		<p id="emptyError" ng-if="allIsEmpty && isClicked"
-                                       class="help-block">
+                            		<p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         Оберіть хоча б одну повірку
                                     </p>

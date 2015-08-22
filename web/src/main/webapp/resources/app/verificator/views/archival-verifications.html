@@ -96,26 +96,10 @@
 											  </span>
                 		</div>
    					</script>
-   					<!-- 
-		   			<script type="text/ng-template" id="ng-table/filters/status.html">
-						<select chosen class="form-control input-sm" width="'80%'" disable-search="true" type="text" allow-single-deselect="true" ng-model="params.filter()[name]" name="filter-status" >
-												<option value="?">Not selected</option>
-												<option value="SENT">Sent</option>
-												<option value="ACCEPTED">Accepted</option>
-												<option value="IN_PROGRESS">IN PROGRESS </option>
-												<option value="TEST_PLACE_DETERMINED">TEST_PLACE_DETERMINED </option>
-												<option value="SENT_TO_TEST_DEVICE">SENT_TO_TEST_DEVICE </option>
-												<option value="TEST_COMPLETED">TEST_COMPLETED </option>
-												<option value="SENT_TO_VERIFICATOR">SENT_TO_VERIFICATOR</option>
-												<option value="TEST_OK">TEST_OK </option>
-												<option value="TEST_NOK">TEST_NOK </option>
-											</select>
-   				 					</script>  
-   				 					 -->	
-   				 					<script type="text/ng-template" id="ng-table/filters/status.html">
+   				 	<script type="text/ng-template" id="ng-table/filters/status.html">
      			 		<select chosen class="form-control input-sm" width="'80%'" disable-search="true" type="text" allow-single-deselect="false"	ng-model="selectedStatus.name"  ng-change="doSearch()"
  							name="filter-status" ng-options="status as status.label for status in statusData" >
-										</select>
+						</select>
 					</script>     
                         </div>
                     </div>

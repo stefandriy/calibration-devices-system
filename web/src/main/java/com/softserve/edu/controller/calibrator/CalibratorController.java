@@ -1,14 +1,32 @@
 package com.softserve.edu.controller.calibrator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.ArchiveVerificationsFilterAndSort;
 import com.softserve.edu.dto.CalibrationTestPageItem;
 import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.calibrator.VerificationUpdatingDTO;
+import com.softserve.edu.dto.VerificationUpdateDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
@@ -21,22 +39,8 @@ import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
-import com.softserve.edu.service.utils.EmployeeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/calibrator/verifications/")
@@ -131,9 +135,9 @@ public class CalibratorController {
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
-    public void updateVerification(@RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            Long idCalibrator = verificationUpdatingDTO.getVerificatorId();
+    public void updateVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
+        for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
+            Long idCalibrator = verificationUpdateDTO.getOrganizationId();
             Organization calibrator = calibratorService.findById(idCalibrator);
             verificationService.sendVerificationTo(verificationId, calibrator, Status.SENT_TO_VERIFICATOR);
         }

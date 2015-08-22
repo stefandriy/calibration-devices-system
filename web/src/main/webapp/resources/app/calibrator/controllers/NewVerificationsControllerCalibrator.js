@@ -171,8 +171,8 @@ angular
                     modalInstance.result.then(function (verificator) {
 
                         var dataToSend = {
-                            idsOfVerifications: $scope.idsOfVerifications,
-                            verificatorId: verificator.id
+                        		idsOfVerifications: $scope.idsOfVerifications,
+                            organizationId: verificator.id
                         };
 
                         $log.debug(dataToSend);

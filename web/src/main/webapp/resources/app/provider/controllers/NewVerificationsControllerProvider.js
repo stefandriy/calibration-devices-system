@@ -15,19 +15,13 @@ angular
     	}
     	
     	$scope.selectedStatus = {
-    		name : ''
+    		name : null
     	}
 	
     	$scope.statusData = [
-    	   				{
-    	   					id : 'SENT',
-    	   					label : null
-    	   				},
-    	   				{
-    	   					id : 'ACCEPTED',
-    	   					label : null
-    	   				}
-    	   			];
+    	   				{ id : 'SENT', label : null },
+    	   				{ id : 'ACCEPTED', label : null }
+    	];
 
     	   			$scope.setTypeDataLanguage = function () {
     	   				var lang = $translate.use();
@@ -228,8 +222,8 @@ $scope.openSendingModal = function () {
         modalInstance.result.then(function (formData) {
 
             var dataToSend = {
-                idsOfVerifications: $scope.idsOfVerifications,
-                idsOfCalibrators: formData.calibrator.id
+            	idsOfVerifications: $scope.idsOfVerifications,
+                organizationId: formData.calibrator.id
             };
 
 

@@ -16,7 +16,7 @@ angular
     	}
     	
     	$scope.selectedStatus = {
-    		name : ''
+    		name : null
     	}
 	
     	$scope.statusData = [ { id : 'SENT', label : null }, 
