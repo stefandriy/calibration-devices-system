@@ -112,10 +112,6 @@ angular
 				$rootScope.organization = null;
 			};
 
-			/**
-			 * Calls resetOrganizationForm after the view loaded
-			 */
-			$scope.resetOrganizationForm();
 
 			/**
 			 * Convert address data to string

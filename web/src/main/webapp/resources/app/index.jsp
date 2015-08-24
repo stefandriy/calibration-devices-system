@@ -72,13 +72,13 @@
 
                     <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-user"  style="background-color: lightskyblue ">
+                <ul class="dropdown-menu dropdown-user"  style="background-color: lightskyblue">
                     <li class="user-header bg-light-blue">
                         <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-circle" alt="User Image" />
                         <label translate="{{employee.firstName}} {{employee.lastName}}
                      {{employee.middleName}} ({{employee.username}})" />
                     </li>
-                    <li class="user-footer" >
+                    <li class="user-footer">
                         <div  style="width: 100%">
                             <a href="#" class="btn btn-default" style="color: #2C1919 ;width:230px">Profile</a>
                         </div>
