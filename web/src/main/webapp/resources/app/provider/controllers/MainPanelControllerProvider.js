@@ -12,6 +12,8 @@ angular
                 var organizationTypeCalibrator = false;
                 var organizationTypeVerificator = false;
                 var thereIsProvider = 0;
+                var thereIsCalibrator = 0;
+                var thereIsStateVerificator = 0;
 
                 userService.isAdmin()
                     .success(function (response) {
@@ -20,9 +22,16 @@ angular
                         for (var i = 0; i < role.length; i++) {
                             if (role[i] === 'PROVIDER_ADMIN' || role[i] === 'PROVIDER_EMPLOYEE')
                                 thereIsProvider++;
-                        }
-                        if (thereIsProvider > 0) {
-                            $scope.providerViews = true;
+                            if (role[i] === 'CALIBRATOR_ADMIN' || role[i] === 'CALIBRATOR_EMPLOYEE')
+                                thereIsCalibrator++;
+                            if (role[i] === 'STATE_VERIFICATOR_ADMIN' || role[i] === 'STATE_VERIFICATOR_EMPLOYEE')
+                                thereIsStateVerificator++;
+                            if (thereIsProvider > 0)
+                                $scope.providerViews = true;
+                            if (thereIsCalibrator > 0)
+                                $scope.calibratorViews = true;
+                            if (thereIsStateVerificator > 0)
+                                $scope.stateVerificatorViews = true;
                         }
                     });
 
