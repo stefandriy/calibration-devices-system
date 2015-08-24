@@ -5,6 +5,11 @@ import com.softserve.edu.entity.util.CalibrationTestResult;
 
 
 public class CalibrationTestDataDTO {
+    private String name;
+    private Integer temperature;
+    private Integer settingNumber;
+    private Double latitude;
+    private Double longitude;
 
     private Double givenConsumption;
     private Integer acceptableError;
@@ -104,6 +109,46 @@ public class CalibrationTestDataDTO {
 
     public void setTestResult(CalibrationTestResult testResult) {
         this.testResult = testResult;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Integer temperature) {
+        this.temperature = temperature;
+    }
+
+    public Integer getSettingNumber() {
+        return settingNumber;
+    }
+
+    public void setSettingNumber(Integer settingNumber) {
+        this.settingNumber = settingNumber;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public CalibrationTestData saveTestData() {

@@ -181,11 +181,7 @@ public class ProviderVerificationController {
         return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
     }
 
-    /**
-     * This method return list of provider employee and display in UI for then assign to verification
-     * @param user
-     * @return
-     */
+
     @RequestMapping(value = "new/providerEmployees", method = RequestMethod.GET)
     public List<EmployeeDTO> employeeVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
