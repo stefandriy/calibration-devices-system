@@ -151,7 +151,9 @@ public class CalibrationTestService {
                                     Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = CalibrationTestResult.SUCCESS;
+        Date initial = new Date();
         calibrationTest.setName(name);
+        calibrationTest.setDateTest(initial);
         calibrationTest.setTemperature(temperature);
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);

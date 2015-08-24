@@ -12,7 +12,6 @@ angular
 
             $scope.testId = $location.search().param;
 
-            $log.debug($scope.TestFormData);
             $scope.Case1 = true;
             $scope.Case2 = false;
             $scope.Case3 = false;
@@ -23,7 +22,6 @@ angular
 
             $scope.Test1 = function () {
                 $log.debug("in Case 1");
-                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = true;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
@@ -35,7 +33,6 @@ angular
 
             $scope.Test2 = function () {
                 $log.debug("in Case 2");
-                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = true;
                 $scope.Case3 = false;
@@ -47,7 +44,6 @@ angular
 
             $scope.Test3 = function () {
                 $log.debug("in Case 3");
-                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = false;
                 $scope.Case3 = true;
@@ -59,7 +55,6 @@ angular
 
             $scope.Test4 = function () {
                 $log.debug("in Case 4");
-                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
@@ -71,7 +66,6 @@ angular
 
             $scope.Test5 = function () {
                 $log.debug("in Case 5");
-                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
@@ -83,7 +77,6 @@ angular
 
             $scope.Test6 = function () {
                 $log.debug("in Case 6");
-                $log.debug($scope.Case1, $scope.Case2, $scope.Case3, $scope.Case4, $scope.Case5, $scope.Case6);
                 $scope.Case1 = false;
                 $scope.Case2 = false;
                 $scope.Case3 = false;
@@ -95,15 +88,17 @@ angular
             /**
              * Resets Test form
              */
-            //$scope.resetTestForm = function () {
-            //    $scope.$broadcast('show-errors-reset');
-            //    $scope.TestFormData = null;
-            //};
+            $scope.resetTestForm = function () {
+                $scope.$broadcast('show-errors-reset');
+                $scope.TestForm = null;
+                $scope.TestDataFormData1  = null;
+                $scope.TestDataFormData2 = null;
+                $scope.TestDataFormData3  = null;
+                $scope.TestDataFormData4 = null;
+                $scope.TestDataFormData5  = null;
+                $scope.TestDataFormData6 = null;
+            };
 
-            /**
-             * Calls resetTestForm after the view loaded
-             */
-            //$scope.resetTestForm();
 
             function getCalibrationTests() {
                 calibrationTestServiceCalibrator
@@ -123,7 +118,6 @@ angular
              * form and updates table with tests.
              */
             $scope.saveCalibrationTest = function () {
-                console.log("T1" + $scope.TestDataFormData1);
 
                 $scope.smallForm.push($scope.TestDataFormData1, $scope.TestDataFormData2, $scope.TestDataFormData3,
                     $scope.TestDataFormData4, $scope.TestDataFormData5, $scope.TestDataFormData6);
@@ -133,7 +127,6 @@ angular
                             .saveCalibrationTest($scope.generalForms, $scope.testId)
                             .then(function (data) {
                                 if (data == 201) {
-                                    //$scope.resetTestForm();
                                     $rootScope.onTableHandling();
                                 }
                             });
@@ -142,6 +135,7 @@ angular
                                 templateUrl: '/resources/app/calibrator/views/modals/calibration-test-adding-success.html',
                                 controller: function ($modalInstance) {
                                     this.ok = function () {
+                                        $scope.resetTestForm();
                                         $modalInstance.close();
                                     }
                                 },

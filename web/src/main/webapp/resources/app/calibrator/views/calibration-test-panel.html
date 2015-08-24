@@ -12,10 +12,6 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <!--  button class="btn btn-primary"
-                    ng-click="openAddCalibrationTestModal(verification.id)">
-                <span class="glyphicon glyphicon-plus-sign"></span> Створити тест
-            </button-->
             <button class="btn btn-primary"
                     ng-click="openAddTest(verId)">
                 <span class="glyphicon glyphicon-plus-sign"></span> Створити тест
@@ -24,12 +20,10 @@
     </div>
     <p></p>
 
-    <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Останні дані для повірки № {{verId}}</div>
-                <!-- /.panel-heading -->
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-6">
@@ -80,10 +74,6 @@
                                                  popover="Видалити тест" popover-trigger="mouseenter"
                                                  ng-click="deleteTest(calibrationTest.id)">
                                             </img>
-                                            <img src="/resources/assets/button-icons/calibration-test%20icons/test-Data.png"
-                                                 popover="Додати тестові дані" popover-trigger="mouseenter"
-                                                 ng-click="openAddCalibrationTestDataModal(calibrationTest.id)">
-                                            </img>
                                             <img src="/resources/assets/button-icons/upload.png"
                                                  popover="Завантажити фото"
                                                  popover-trigger="mouseenter"
@@ -119,11 +109,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- /.panel-body -->
             </div>
-            <!-- /.panel -->
         </div>
-        <!-- /.col-lg-12 -->
     </div>
 </div>
 </body>

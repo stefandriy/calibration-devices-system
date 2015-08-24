@@ -12,7 +12,6 @@ angular
              * Updates the table with CalibrationTests.
              */
             $scope.verId = $location.search().param;
-            $log.debug($scope.verId);
             $scope.searchData = null;
 
             $rootScope.onTableHandling = function () {
@@ -27,24 +26,6 @@ angular
 
             $scope.calibrationTests = [];
 
-
-            /**
-             // * Opens modal window for adding new calibration-test.
-             // */
-//            $scope.openAddCalibrationTestModal = function (verificationId) {
-//                var addTestModal = $modal
-//                    .open({
-//                        animation: true,
-//                        controller: 'CalibrationTestAddModalControllerCalibrator',
-//                        templateUrl: '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
-//                        resolve: {
-//                            verification: function () {
-//                                return verificationId;
-//
-//                            }
-//                        }
-//                    });
-//            };
             
             $scope.openAddTest = function (verId) {
                 calibrationTestServiceCalibrator

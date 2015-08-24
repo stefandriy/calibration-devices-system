@@ -17,11 +17,6 @@ angular.module('employeeModule')
             };
 
             /**
-             * Calls resetEquipmentForm after the view loaded
-             */
-            //$scope.resetEquipmentForm();
-
-            /**
              * Edit equipment. If everything is ok then
              * resets the equipment form and closes modal
              * window.

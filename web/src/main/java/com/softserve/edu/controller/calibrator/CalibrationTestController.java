@@ -64,13 +64,10 @@ public class CalibrationTestController {
     }
 
     /**
-     * Saves calibration-test in database
-     *
-     * @param formdata object with calibration-test data
-     * @param testId        Long of calibration-test ID for saving calibration-test
-     * @return a response body with http status {@literal CREATED} if everything
-     * calibration-test successfully created or else http
-     * status {@literal CONFLICT}
+     * Saves calibration-test and  it`s test-datas to DB
+     * @param formdata
+     * @param testId
+     * Takes an object which contains 2 objects with data(Buy the way second object contains 6 objects  with  data).
      */
     @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
     public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
@@ -175,6 +172,12 @@ public class CalibrationTestController {
         return httpStatus;
     }
 
+
+    /**
+     * creates an empty test instead ID generating for test-datas
+     * @param verificationId
+     * @return testId
+     */
     @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
     public Long createEmptyTest(@PathVariable String verificationId) {
         testService.createEmptyTest(verificationId);
