@@ -7,9 +7,9 @@ angular
 		'$scope',
 		'$modalInstance',
 		'AddressService',
-		'OrganizationService',
+		'OrganizationService','$log',
 		function($rootScope, $scope, $modalInstance,
-				 addressService, organizationService) {
+				 addressService, organizationService,$log) {
 
 
 			function arrayObjectIndexOf(myArray, searchTerm, property) {
@@ -24,7 +24,7 @@ angular
 				return (myArray.length-1);
 			}
 
-			$scope.regions = [];
+			$scope.regions = null;
 			$scope.districts = [];
 			$scope.localities = [];
 			$scope.streets = [];
@@ -37,13 +37,17 @@ angular
 				if (!$scope.regions) {
 					addressService.findAllRegions().then(
 						function(respRegions) {
-							$scope.regions = respRegions.data;
-							var index = arrayObjectIndexOf($scope.regions,  $rootScope.organization.address.region.designation, "designation");
+							$log.debug($rootScope.organization);
+							$scope.regions = respRegions;
+						/*	var index = arrayObjectIndexOf($scope.regions,  $rootScope.organization.address.region.designation, "designation");
 							$rootScope.organization.address.region = $scope.regions[index];
+							*//*$scope.onRegionSelected($scope.regions[index].id);*/
 						});
 				}
 			}
-
+			/*var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.region, "designation");
+			$scope.employeeFormData.region = $scope.regions[index];
+			$scope.onRegionSelected($scope.regions[index].id);*/
 			initFormData();
 
 			/**

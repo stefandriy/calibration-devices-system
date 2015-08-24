@@ -32,7 +32,7 @@ angular.module('adminModule').factory(
 							.then(function(result) {
 								return result.status;
 							});
-				},
+				}
 
 			}
 		});
