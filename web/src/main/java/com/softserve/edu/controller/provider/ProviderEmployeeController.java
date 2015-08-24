@@ -1,6 +1,5 @@
 package com.softserve.edu.controller.provider;
 
-
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
