@@ -312,7 +312,9 @@ angular
                         surname:formData.lastName,
                         email:formData.email
                     };
-
+                    var idInfo=function(){
+                            return $filter('translate')('PHONE')
+                    };
                     $scope.showSendingAlert = true;
                     dataSendingService.sendMailNoProvider (messageToSend)
                         .success(function () {

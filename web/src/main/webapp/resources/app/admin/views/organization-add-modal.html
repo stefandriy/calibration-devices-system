@@ -7,7 +7,9 @@
 <div class="modal-body">
 
 	<form name="organizationForm" novalidate>
-
+		<div class="panel panel-primary">
+			<div class="panel-heading">Загальна інформація</div>
+			<div class="panel-body">
 		<div class="row">
 
 			<div class="form-group col-md-4">
@@ -106,14 +108,21 @@
 				<label class="control-label">{{'MAX_PROCESS_TIME' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
+
 				<input type="number" id="processTime"  name="processTime" class="form-control" ng-model="organizationFormData.maxProcessTime" 
 				ng-init="organizationFormData.maxProcessTime=5" min="1" required>
+
+		
+
 			</div>
 		</div>
 
 		<div>
-			<hr />
-			<p class="help-block">{{'FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION'| translate }}</p>
+
+		    	<hr />
+			  <div class="panel panel-primary">
+  			<div class="panel-heading">{{'FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION'  | translate }}</div>
+			<div class="panel-body">
 
 			<div class="row">
 				<div class="form-group col-md-4">
@@ -133,10 +142,8 @@
 						<span class="glyphicon glyphicon-exclamation-sign"></span> {{'LOGIN_HAS_INVALID_LENGTH' |
 						translate }}
 					</p>
-
-				</div>
 			</div>
-
+          </div>
 			<div class="row">
 				<div class="form-group col-md-4">
 					<label class="control-label">{{'PASSWORD_TWO' | translate}}</label>
@@ -170,9 +177,11 @@
 						translate }}</p>
 
 				</div>
-			</div>
+			  </div>
+		    </div>
+		  </div>
 		</div>
-		<hr />
+		<hr/>
 
 		<div class="row">
 			<div class="col-lg-12">
@@ -217,7 +226,7 @@
 								<div class="form-group col-md-8">
 									<select chosen name="locality" type="text"
 										   ng-model="organizationFormData.locality"
-										   ng-options="locality as locality.designation for locality in localities | filter: $viewValue"
+										   ng-options="locality as locality.designation for locality in localities | unique:'designation'"
 										   ng-change="onLocalitySelected(organizationFormData.locality.id)"
 										   typeahead-editable="false" class="form-control" required></select>
 								</div>
@@ -225,8 +234,8 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'STREET_TWO' | translate
-										}}</label>
+									<label class="control-label">{{'STREET_TWO' | translate }}
+									</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="street" type="text"
@@ -239,8 +248,8 @@
 
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'HOUSE_TWO' |
-										translate}}</label>
+									<label class="control-label">{{'HOUSE_TWO' | translate}}
+									</label>
 								</div>
 								<div class="form-group col-md-8">
 									<input name="building" type="text"
@@ -255,9 +264,7 @@
 									<label class="control-label">{{'FLAT' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
-									<input name="flat" type="text"
-										   ng-model="organizationFormData.flat" class="form-control"
-										   required>
+									<input name="flat" type="text" ng-model="organizationFormData.flat" class="form-control" required>
 								</div>
 							</div>
 						</div>
