@@ -204,7 +204,6 @@ angular
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
-                            $scope.cantAddNewEmployee();
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
