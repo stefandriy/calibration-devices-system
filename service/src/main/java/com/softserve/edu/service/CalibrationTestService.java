@@ -97,14 +97,12 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public CalibrationTest deleteTest(Long testId) {
-        CalibrationTest deletedCalibrationTest = testRepository.findOne(testId);
+    public void deleteTest(Long testId) {
         testRepository.delete(testId);
-        return deletedCalibrationTest;
     }
 
     @Transactional
-    public void  createTestData(Long testId, CalibrationTestData testData) {
+    public void createTestData(Long testId, CalibrationTestData testData) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testData.setCalibrationTest(calibrationTest);
         dataRepository.save(testData);
@@ -135,21 +133,16 @@ public class CalibrationTestService {
 
 
     @Transactional
-    public void createEmptyTest( String verificationId) {
+    public void createEmptyTest(String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
-       CalibrationTest  calibrationTest = new CalibrationTest();
+        CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setVerification(verification);
         testRepository.save(calibrationTest);
     }
-//    @Transactional
-//    public CalibrationTest findTestByIdVerif(String verificationId) {
-//        Verification verification = verificationRepository.findOne(verificationId);
-//        CalibrationTest calibrationTest= testRepository.findByVerificationId(verification);
-//        return  calibrationTest;
-//    }
 
     @Transactional
-    public CalibrationTest findByVerification(Verification verif) {
-        return testRepository.findByVerification(verif);
+    public void createNewCalibrationTestData(CalibrationTestData calibrationTestData){
+        dataRepository.save(calibrationTestData);
     }
+
 }

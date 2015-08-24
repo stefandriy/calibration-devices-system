@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @RestController
@@ -65,27 +66,36 @@ public class CalibrationTestController {
     /**
      * Saves calibration-test in database
      *
-     * @param globalTestDTO        object with calibration-test data
-     * @param testId Long of calibration-test ID for saving calibration-test
+     * @param globalTestDTO object with calibration-test data
+     * @param testId        Long of calibration-test ID for saving calibration-test
      * @return a response body with http status {@literal CREATED} if everything
      * calibration-test successfully created or else http
      * status {@literal CONFLICT}
      */
     @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
     public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
+        CalibrationTest calibrationTest = testService.findTestById(testId);
+        List<CalibrationTestDataDTO> testDatas = formdata.getSmallForm();
+        System.out.println(testDatas.size());
+        for (CalibrationTestDataDTO data : testDatas) {
+            CalibrationTestData testData = new CalibrationTestData();
+            testData.setGivenConsumption(data.getGivenConsumption());
+            testData.setAcceptableError(data.getAcceptableError());
+            testData.setVolumeOfStandard(data.getVolumeOfStandart());
+            testData.setInitialValue(data.getInitialValue());
+            testData.setEndValue(data.getEndValue());
+            testData.setVolumeInDevice(data.getVolumeInDevice());
+            testData.setActualConsumption(data.getActualConsumption());
+            testData.setConsumptionStatus(data.getConsumptionStatus());
+            testData.setCalculationError(data.getCalculationError());
+            testData.setTestResult(data.getTestResult());
+            testData.setCalibrationTest(calibrationTest);
+            testService.createNewCalibrationTestData(testData);
+        }
 
-//        HttpStatus httpStatus = HttpStatus.CREATED;
-//        try {
-//            CalibrationTest createdTest = new CalibrationTest(globalTestDTO.getName(), globalTestDTO.getDateTest(), globalTestDTO.getTemperature(),
-//                    globalTestDTO.getSettingNumber(), globalTestDTO.getLatitude(), globalTestDTO.getLongitude(), globalTestDTO.getConsumptionStatus(), globalTestDTO.getTestResult());
-//            Date initialDate = new Date();
-////           for (GlobalCalibrationTestDTO element : globalTestDTO){}
-////            testService.createNewTest(createdTest, initialDate, verificationId);
-//        } catch (Exception e) {
-//            logger.error("GOT EXCEPTION " + e.getMessage());
-//            httpStatus = HttpStatus.CONFLICT;
-//        }
-//        return new ResponseEntity<>(httpStatus);
+
+//        calibrationTest = new CalibrationTest(formdata.getTestFormData().getName(), formdata.getTestFormData().getTemperature(), formdata.getTestFormData().getSettingNumber(), formdata.getTestFormData().getLatitude(),
+//                formdata.getTestFormData().getLongitude(), formdata.getTestFormData().getConsumptionStatus(), formdata.getTestFormData().getTestResult());
         System.out.println("");
     }
 
@@ -118,9 +128,8 @@ public class CalibrationTestController {
      * successfully deleted
      */
     @RequestMapping(value = "delete/{calibrationTestId}", method = RequestMethod.POST)
-    public ResponseEntity deleteCalibrationTest(@PathVariable Long calibrationTestId) {
-        CalibrationTest calibrationTest = testService.deleteTest(calibrationTestId);
-        return new ResponseEntity<>(calibrationTest, HttpStatus.OK);
+    public void deleteCalibrationTest(@PathVariable Long calibrationTestId) {
+        testService.deleteTest(calibrationTestId);
     }
 
 

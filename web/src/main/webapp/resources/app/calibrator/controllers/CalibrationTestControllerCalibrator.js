@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
     .controller('CalibrationTestControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
-        'CalibrationTestServiceCalibrator', '$location', '$stateParams', 'Upload',
-        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload,$stateParams) {
+        'CalibrationTestServiceCalibrator', '$location', 'Upload', '$timeout',
+        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload, $timeout) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -74,8 +74,6 @@ angular
 
                         $log.debug("saved!");
 
-//                        $scope.addFormData = null;
-
                     });
             };
 
@@ -100,8 +98,12 @@ angular
             };
 
             $scope.deleteTest = function (testId) {
-                calibrationTestServiceCalibrator.deleteCalibrationTest(testId)
-                $rootScope.onTableHandling();
+                $rootScope.testId = testId;
+                calibrationTestServiceCalibrator.deleteCalibrationTest(testId);
+                $timeout(function() {
+                    console.log('delete with timeout');
+                    $rootScope.onTableHandling();
+                }, 700);
             };
 
             $scope.uploadPhoto = function (testId) {

@@ -4,8 +4,8 @@
 angular
     .module('employeeModule')
     .controller('CalibrationTestAddControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
-        'CalibrationTestServiceCalibrator', '$location', '$stateParams',
-        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, $stateParams) {
+        'CalibrationTestServiceCalibrator', '$location', '$timeout',
+        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, $timeout) {
 
             $scope.smallForm = [];
 
@@ -137,6 +137,17 @@ angular
                                     $rootScope.onTableHandling();
                                 }
                             });
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/calibrator/views/modals/calibration-test-adding-success.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'successController',
+                                size: 'md'
+                });
 
             }
 

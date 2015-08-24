@@ -16,12 +16,13 @@
             border-left: 4px solid #333;
         }
     </style>
+
 </head>
 <body>
 <div id="page-wrapper">
     <div>
         <h2 class="text-center">Заповніть інформацію про тести:</h2>
-        {{testId}}
+       <p style="font-family:'Helvetica Neue' ">ID тесту: {{testId}}</p>
     </div>
     <form name="CalibrationTestForm" novalidate style="padding-top: 10px">
         <div class="first-column">
@@ -100,6 +101,28 @@
                            name="testResult" class="form-control" required>
                 </div>
             </div>
+        <div>
+            <table  class="table table-bordered table-hover">
+                <tr style="height: 80px">
+                    <td><img src="/resources/assets/AdminLTE-master/Lichul.jpg" width="200px" height="100"></td>
+                    <td><img src="/resources/assets/AdminLTE-master/Lich2.jpg" width="200px" height="100"></td>
+                </tr>
+                <tr style="height: 80px">
+                    <td><img src="/resources/assets/AdminLTE-master/Lich3.jpg" width="200px" height="100"></td>
+
+                    <td><img src="/resources/assets/AdminLTE-master/Lich4.jpg" width="200px" height="100"></td>
+                </tr>
+                <tr style="height: 80px">
+                    <td><img src="/resources/assets/AdminLTE-master/Lich5.jpg" width="200px" height="100"></td>
+
+                    <td><img src="/resources/assets/AdminLTE-master/Lich6.jpg" width="200px" height="100"></td>
+                </tr>
+
+
+            </table>
+
+        </div>
+
         </div>
 
 
@@ -989,11 +1012,6 @@
             <div class="form-group col-md-10">
                 <button type="submit" class="btn btn-success"
                         ng-click="saveCalibrationTest()">{{'ADD' | translate}}
-                </button>
-            </div>
-            <div class="form-group col-md-2">
-                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
-                    | translate}}
                 </button>
             </div>
         </div>

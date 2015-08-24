@@ -30,8 +30,8 @@ angular
                     return result.status;
                 });
             },
-            deleteCalibrationTest: function (testId) {
-                var url = '/calibrator/calibrationTests/delete/' + testId;
+            deleteCalibrationTest: function (calibrationTestId) {
+                var url = '/calibrator/calibrationTests/delete/' + calibrationTestId;
                 return $http.post(url)
                     .then(function (result) {
                         return result.status;
