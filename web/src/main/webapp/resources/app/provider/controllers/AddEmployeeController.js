@@ -278,12 +278,12 @@ angular
                  * @param localityId
                  *            to identify locality
                  */
-                //$scope.onLocalitySelected = function (localityId) {
-                //    addressServiceProvider.findStreetsByLocalityId(
-                //        localityId).then(function (data) {
-                //            $scope.streets = data.data;
-                //        });
-                //};
+                $scope.onLocalitySelected = function (localityId) {
+                    addressServiceProvider.findStreetsByLocalityId(
+                       localityId).then(function (data) {
+                           $scope.streets = data.data;
+                        });
+                };
 
                 /**
                  * Finds buildings in a given street.

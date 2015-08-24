@@ -616,3 +616,6 @@ float:left;
 }
 
 
+.modal .modal-body {
+    max-height: 1500px;
+}

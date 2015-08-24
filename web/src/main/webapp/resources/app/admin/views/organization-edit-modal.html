@@ -4,7 +4,9 @@
 
 <div class="modal-body">
 	<form name="organizationFormEdit" novalidate>
-
+		<div class="panel panel-primary">
+			<div class="panel-heading">Загальна інформація</div>
+			<div class="panel-body">
 		<div class="row">
 			<div class="form-group col-md-4">
 				<label class="control-label">{{'ORGANIZATION_NAME_ADMIN'| translate}}</label>
@@ -54,6 +56,8 @@
 
 			</div>
 		</div>
+	</div>
+</div>
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
@@ -109,7 +113,7 @@
 								<div class="form-group col-md-8">
 									<input  name="street" type="text"
 										ng-model="$root.organization.address.street"
-										typehead="street as street.designation for street in streets | filter: $viewValue"
+										typehead="street as street.designation for street in streets | filter: $viewValue |limitTo: 4"
 										typehead-on-select="onStreetSelected(organization.address.street.id)"
 										typeahead-editable="false" class="form-control" required>
 								</div>

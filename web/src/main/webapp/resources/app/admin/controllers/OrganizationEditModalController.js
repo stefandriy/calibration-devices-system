@@ -12,7 +12,19 @@ angular
 				 addressService, organizationService) {
 
 
-			$scope.regions = null;
+			function arrayObjectIndexOf(myArray, searchTerm, property) {
+				for(var i = 0, len = myArray.length; i < len; i++) {
+					if (myArray[i][property] === searchTerm) return i;
+				}
+				var elem = {
+					id: length,
+					designation: searchTerm
+				}
+				myArray.push(elem);
+				return (myArray.length-1);
+			}
+
+			$scope.regions = [];
 			$scope.districts = [];
 			$scope.localities = [];
 			$scope.streets = [];
@@ -24,8 +36,10 @@ angular
 			function initFormData() {
 				if (!$scope.regions) {
 					addressService.findAllRegions().then(
-						function(data) {
-							$scope.regions = data;
+						function(respRegions) {
+							$scope.regions = respRegions.data;
+							var index = arrayObjectIndexOf($scope.regions,  $rootScope.organization.address.region.designation, "designation");
+							$rootScope.organization.address.region = $scope.regions[index];
 						});
 				}
 			}
@@ -158,4 +172,6 @@ angular
 				$modalInstance.close();
 			};
 
-		} ]);
+		}
+
+	]);
