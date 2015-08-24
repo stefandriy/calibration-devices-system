@@ -145,4 +145,9 @@ public class CalibrationTestService {
         dataRepository.save(calibrationTestData);
     }
 
+    @Transactional
+    public void createNewCalibrationTest(CalibrationTest calibrationTest){
+        testRepository.save(calibrationTest);
+    }
+
 }

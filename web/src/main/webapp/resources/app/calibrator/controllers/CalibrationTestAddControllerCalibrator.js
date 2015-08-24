@@ -95,15 +95,15 @@ angular
             /**
              * Resets Test form
              */
-            $scope.resetTestForm = function () {
-                $scope.$broadcast('show-errors-reset');
-                $scope.TestFormData = null;
-            };
+            //$scope.resetTestForm = function () {
+            //    $scope.$broadcast('show-errors-reset');
+            //    $scope.TestFormData = null;
+            //};
 
             /**
              * Calls resetTestForm after the view loaded
              */
-            $scope.resetTestForm();
+            //$scope.resetTestForm();
 
             function getCalibrationTests() {
                 calibrationTestServiceCalibrator
@@ -133,7 +133,7 @@ angular
                             .saveCalibrationTest($scope.generalForms, $scope.testId)
                             .then(function (data) {
                                 if (data == 201) {
-                                    $scope.resetTestForm();
+                                    //$scope.resetTestForm();
                                     $rootScope.onTableHandling();
                                 }
                             });

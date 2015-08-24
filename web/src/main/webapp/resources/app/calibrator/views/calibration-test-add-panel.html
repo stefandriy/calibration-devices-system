@@ -131,15 +131,15 @@
                 <div class="form-group col-md-10">
                     <div class="row">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" ng-click="Test1()">Test1</a></li>
-                            <li><a data-toggle="tab" ng-click="Test2()">Test2</a></li>
-                            <li><a data-toggle="tab" ng-click="Test3()">Test3</a></li>
-                            <li><a data-toggle="tab" ng-click="Test4()">Test4</a></li>
-                            <li><a data-toggle="tab" ng-click="Test5()">Test5</a></li>
-                            <li><a data-toggle="tab" ng-click="Test6()">Test6</a></li>
+                            <li ng-class="{'active' : Case1 == true}"><a data-toggle="tab" ng-click="Test1()">Test1</a></li>
+                            <li ng-class="{'active' : Case2 == true}"><a data-toggle="tab" ng-click="Test2()">Test2</a></li>
+                            <li ng-class="{'active' : Case3 == true}"><a data-toggle="tab" ng-click="Test3()">Test3</a></li>
+                            <li ng-class="{'active' : Case4 == true}"><a data-toggle="tab" ng-click="Test4()">Test4</a></li>
+                            <li ng-class="{'active' : Case5 == true}"><a data-toggle="tab" ng-click="Test5()">Test5</a></li>
+                            <li ng-class="{'active' : Case6 == true}"><a data-toggle="tab" ng-click="Test6()">Test6</a></li>
                         </ul>
 
-                        <div class="tab-content">
+                        <div class="tab-content"  style="padding-top: 20px">
                             <!--First Test -->
                             <div ng-show="Case1" id="Case1" class="tab-pane fade in active">
                                 <div>

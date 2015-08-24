@@ -93,9 +93,8 @@ public class CalibrationTestController {
             testService.createNewCalibrationTestData(testData);
         }
 
-
-//        calibrationTest = new CalibrationTest(formdata.getTestFormData().getName(), formdata.getTestFormData().getTemperature(), formdata.getTestFormData().getSettingNumber(), formdata.getTestFormData().getLatitude(),
-//                formdata.getTestFormData().getLongitude(), formdata.getTestFormData().getConsumptionStatus(), formdata.getTestFormData().getTestResult());
+        calibrationTest = new CalibrationTest();
+        testService.createNewCalibrationTest(calibrationTest);
         System.out.println("");
     }
 
