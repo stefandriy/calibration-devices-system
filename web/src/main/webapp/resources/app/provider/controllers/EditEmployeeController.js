@@ -424,13 +424,8 @@ angular
 
                     $scope.$broadcast('show-errors-check-validity');
                     if (bValidation()) {
-                        if (!$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
-                            && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
                             retranslater();
                             updateEmployee();
-                        } else {
-                            $scope.incorrectValue = true;
-                        }
                     }
                 };
 
@@ -444,7 +439,6 @@ angular
                                     if (data.status == 201) {
                                         $rootScope.$broadcast('new-employee-added');
                                         $scope.closeModal();
-                                        $scope.resetEmployeeForm();
                                     }else{
                                         alert('Error');
                                     }
