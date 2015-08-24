@@ -6,7 +6,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -464,5 +468,51 @@ public class VerificationService {
     public int findCountOfAllAcceptedVerification(Organization organization) {
         return verificationRepository.getCountOfAllAcceptedVerifications(organization);
     }
+    
+    @Transactional(readOnly = true)
+    public List<Object[]> getProcessTimeProvider() {   	 	
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
+		Root<Verification> root = q.from(Verification.class);
+		Join<Verification, Organization> provider = root.join("provider");
+		q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
+		Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("SENT")), cb.equal(root.get("status"), Status.valueOf("ACCEPTED")));
+		q.where(statusPredicate);
+
+		List<Object[]> results = em.createQuery(q).getResultList();
+		return results;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Object[]> getProcessTimeCalibrator() {   	 	
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
+		Root<Verification> root = q.from(Verification.class);
+		Join<Verification, Organization> provider = root.join("calibrator");
+		q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
+		Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("IN_PROGRESS")), cb.equal(root.get("status"), Status.valueOf("TEST_PLACE_DETERMINED")),
+				cb.equal(root.get("status"), Status.valueOf("SENT_TO_TEST_DEVICE")), cb.equal(root.get("status"), Status.valueOf("TEST_COMPLETED")));
+		q.where(statusPredicate);
+
+		List<Object[]> results = em.createQuery(q).getResultList();
+		return results;
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<Object[]> getProcessTimeVerificator() {   	 	
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
+		Root<Verification> root = q.from(Verification.class);
+		Join<Verification, Organization> provider = root.join("stateVerificator");
+		q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
+		Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("SENT_TO_VERIFICATOR")), cb.equal(root.get("status"), Status.valueOf("TEST_OK")), cb.equal(root.get("status"), Status.valueOf("TEST_NOK")));
+		q.where(statusPredicate);
+
+		List<Object[]> results = em.createQuery(q).getResultList();
+		return results;
+
+    }
+
 
 }
