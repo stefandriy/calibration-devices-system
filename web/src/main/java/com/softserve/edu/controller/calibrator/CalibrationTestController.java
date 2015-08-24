@@ -66,7 +66,7 @@ public class CalibrationTestController {
     /**
      * Saves calibration-test in database
      *
-     * @param globalTestDTO object with calibration-test data
+     * @param formdata object with calibration-test data
      * @param testId        Long of calibration-test ID for saving calibration-test
      * @return a response body with http status {@literal CREATED} if everything
      * calibration-test successfully created or else http
@@ -74,7 +74,12 @@ public class CalibrationTestController {
      */
     @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
     public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
+
         CalibrationTest calibrationTest = testService.findTestById(testId);
+        CalibrationTestDataDTO testFormData = formdata.getTestForm();
+        testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
+                testFormData.getLatitude(), testFormData.getLongitude(), testFormData.getConsumptionStatus(), testFormData.getTestResult());
+
         List<CalibrationTestDataDTO> testDatas = formdata.getSmallForm();
         System.out.println(testDatas.size());
         for (CalibrationTestDataDTO data : testDatas) {
@@ -92,10 +97,6 @@ public class CalibrationTestController {
             testData.setCalibrationTest(calibrationTest);
             testService.createNewCalibrationTestData(testData);
         }
-
-        calibrationTest = new CalibrationTest();
-        testService.createNewCalibrationTest(calibrationTest);
-        System.out.println("");
     }
 
     /**

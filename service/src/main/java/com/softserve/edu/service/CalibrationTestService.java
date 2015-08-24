@@ -145,9 +145,20 @@ public class CalibrationTestService {
         dataRepository.save(calibrationTestData);
     }
 
+
     @Transactional
-    public void createNewCalibrationTest(CalibrationTest calibrationTest){
-        testRepository.save(calibrationTest);
+    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
+                                    Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
+        CalibrationTest calibrationTest = testRepository.findOne(testId);
+        testResult = CalibrationTestResult.SUCCESS;
+        calibrationTest.setName(name);
+        calibrationTest.setTemperature(temperature);
+        calibrationTest.setSettingNumber(settingNumber);
+        calibrationTest.setLatitude(latitude);
+        calibrationTest.setLongitude(longitude);
+        calibrationTest.setConsumptionStatus(consumptionStatus);
+        calibrationTest.setTestResult(testResult);
+        return calibrationTest;
     }
 
 }
