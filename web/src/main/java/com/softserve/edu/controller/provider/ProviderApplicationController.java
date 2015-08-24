@@ -75,9 +75,8 @@ public class ProviderApplicationController {
         Organization provider = providerService.findById(verificationDTO.getProviderId());
 		Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 		Device device =deviceService.getById(verificationDTO.getDeviceId());
-		Verification verification = new Verification(new Date(),null, clientData, provider,device,Status.SENT, ReadStatus.UNREAD, calibrator);
-		verificationService.saveVerification(verification);
-		
+		Verification verification = new Verification(new Date(), new Date(), clientData, provider, device,Status.IN_PROGRESS, ReadStatus.UNREAD, calibrator);
+		verificationService.saveVerification(verification);	
 		return verification.getId();
     }
 

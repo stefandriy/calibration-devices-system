@@ -305,15 +305,16 @@ var checkForEmpty = function () {
         	            		status: 'REJECTED'
         	            };
         	            verificationServiceProvider.rejectVerification(dataToSend).success(function () {
-        	            		$rootScope.$broadcast('refresh-table');
         	            		verificationServiceProvider.sendMail (messageToSend)
-         	            		.success(function (responseVal) {});
+         	            		.success(function (responseVal) {
+         	                       $scope.tableParams.reload();
+         	            		});
         	         	   });
         	        });
           	};
 
           	$scope.$on('verification_rejected', function(event, args) {
-          		$log.debug(args.verifID);
+          		
           		 $scope.openMailModal(args.verifID);
           	});
 

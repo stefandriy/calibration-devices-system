@@ -24,8 +24,6 @@ public class ProcessTimeChecker {
 	@Autowired
 	private  VerificationService verificationService;
 
-
-//	@Scheduled(fixedRate=50000)
 	@Scheduled(cron="0 0 23 * * *")
 	public void runProcessTimeCheck() {		
 		List<Object[]> providerList = verificationService.getProcessTimeProvider();
@@ -34,7 +32,6 @@ public class ProcessTimeChecker {
 		processTime(calibratorList);
 		List<Object[]> verificatorList = verificationService.getProcessTimeVerificator();
 		processTime(verificatorList);
-
 	}
 	
 	private  void processTime(List<Object[]> list) {
