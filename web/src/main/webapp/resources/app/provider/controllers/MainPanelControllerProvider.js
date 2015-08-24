@@ -3,6 +3,29 @@ angular
     .controller('MainPanelControllerProvider', ['$scope', '$log','VerificationServiceProvider','ngTableParams','$modal', 'UserService', '$controller', '$filter',
         function ($scope, $log, verificationServiceProvider, ngTableParams, $modal, userService, $controller, $filter) {
         	$log.debug('inside main pan ctrl provider');
+
+            /**
+             * Role
+             */
+
+                var organizationTypeProvider = false;
+                var organizationTypeCalibrator = false;
+                var organizationTypeVerificator = false;
+                var thereIsProvider = 0;
+
+                userService.isAdmin()
+                    .success(function (response) {
+                        var roles = response + '';
+                        var role = roles.split(',');
+                        for (var i = 0; i < role.length; i++) {
+                            if (role[i] === 'PROVIDER_ADMIN' || role[i] === 'PROVIDER_EMPLOYEE')
+                                thereIsProvider++;
+                        }
+                        if (thereIsProvider > 0) {
+                            $scope.providerViews = true;
+                        }
+                    });
+
             /**
              * Graph of verifications
              */
