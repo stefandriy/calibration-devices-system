@@ -66,6 +66,7 @@ public class NewVerificationsQueryConstructorProvider {
 			criteriaQuery.where(predicate);
 			return criteriaQuery;
 	}
+
 	
 	/**
 	 * Method dynamically builds query to database depending on input parameters specified. 

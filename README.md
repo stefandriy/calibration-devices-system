@@ -182,7 +182,6 @@ service-src-main-java...-service:
 - VerificationService.java
 - DocumentsService.java
 - MailService.java
-- MeasuringEquipmentService.java
 - SecurityUserDetailsService.java
 - UserService.java
 - VerificationPhotoService.java
@@ -201,6 +200,7 @@ admin:
 
 ### Володимир Ігнатьєв
 - NewVerificationsQueryConstructorProvider
+- MeasuringEquipmentService.java
 
 ### Іван Циба
 - CalibratorEmployeeService.java
