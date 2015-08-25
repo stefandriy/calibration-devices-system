@@ -157,10 +157,6 @@ service-src-main-java...-service:
 - CalibratorService.java
 - BuildingService.java
 - District.java
-- LocalityService.java
-- RegionService.java
-- StreetService.java
-- StreetTypeService.java
 - NotAvailableException.java
 - StateVerificatorEmployeeService.java
 - StateVerificatorService.java
@@ -182,7 +178,6 @@ service-src-main-java...-service:
 - VerificationService.java
 - DocumentsService.java
 - MailService.java
-- MeasuringEquipmentService.java
 - SecurityUserDetailsService.java
 - UserService.java
 - VerificationPhotoService.java
@@ -216,6 +211,12 @@ admin:
 - FileSearch.java
 - FileOperationImpl.java
 - SaveOptions.java
+
+### Назар Івашків
+ - LocalityService.java
+ - RegionService.java
+ - StreetService.java
+ - StreetTypeService.java
 
 ## Те що зроблено
 

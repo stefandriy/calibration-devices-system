@@ -119,7 +119,6 @@ service-src-main-java...-service:
 - ProviderEmployeeService.java
 - ProviderService.java
 - StateVerificatorEmployeeService.java
-- StateVerificatorService.java
 - FileOperationImpl.java
 - FileSearch.java
 - SaveOptions.java
@@ -196,7 +195,7 @@ admin:
 
 ### Володимир Ігнатьєв
 - NewVerificationsQueryConstructorProvider
-- MeasuringEquipmentService.java
+- StateVerificatorService.java
 
 ### Іван Циба
 - CalibratorEmployeeService.java
