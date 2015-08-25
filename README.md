@@ -195,7 +195,6 @@ admin:
 
 ### Володимир Ігнатьєв
 - NewVerificationsQueryConstructorProvider
-- StateVerificatorService.java
 
 ### Іван Циба
 - CalibratorEmployeeService.java
@@ -229,6 +228,7 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
+ - StateVerificatorService.java
 
 ### Чопик Василь
 - VerificationProviderEmployeeService.java
