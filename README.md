@@ -157,8 +157,6 @@ service-src-main-java...-service:
 - BuildingService.java
 - District.java
 - NotAvailableException.java
-- StateVerificatorEmployeeService.java
-- StateVerificatorService.java
 - FileOperations.java
 - ArchivalVerificationsQueryConstructorCalibrator.java
 - ArchivalVerificationsQueryConstructorProvider.java
@@ -229,6 +227,7 @@ admin:
  - CalibrationTestService
  - CalibratioтTestDataService
  - StateVerificatorService.java
+ - StateVerificatorEmployeeService.java
 
 ### Чопик Василь
 - VerificationProviderEmployeeService.java
