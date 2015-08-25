@@ -7,6 +7,7 @@ import org.dbunit.PropertiesBasedJdbcDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -14,8 +15,8 @@ import java.util.Properties;
 /**
  * Created by Loc on 17.08.2015.
  */
-public class DBUnitConfig extends DBTestCase {
-    protected IDatabaseTester tester;
+public class DBUnitConfig {//extends DBTestCase {
+   /* protected IDatabaseTester tester;
     private Properties prop;
     protected IDataSet beforeData;
 
@@ -43,6 +44,11 @@ public class DBUnitConfig extends DBTestCase {
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, "");
     }
 
+    @Test
+    public void testT() {
+    	assertTrue(true);
+    }
+    
     @Override
     protected IDataSet getDataSet() throws Exception {
         return beforeData;
@@ -51,6 +57,6 @@ public class DBUnitConfig extends DBTestCase {
     @Override
     protected DatabaseOperation getTearDownOperation() throws Exception {
         return DatabaseOperation.DELETE_ALL;
-    }
+    }*/
 
 }

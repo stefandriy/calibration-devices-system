@@ -3,12 +3,15 @@ package com.softserve.edu.entity;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.repository.catalogue.RegionRepository;
 import com.softserve.edu.service.catalogue.RegionService;
+
 import config.DBUnitConfig;
+
 import org.dbunit.Assertion;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
@@ -18,9 +21,14 @@ import java.util.List;
  */
 public class RegionTest extends DBUnitConfig{
 
-    private RegionService service = new RegionService();
-  //  private EntityManager em = Persistence.createEntityManagerFactory("DBUnitEx").createEntityManager();
-  //private RegionRepository regionRepository;
+	public RegionTest(String name) {
+		//super(name);
+		// TODO Auto-generated constructor stub
+	}
+
+	//  private EntityManager em = Persistence.createEntityManagerFactory("DBUnitEx").createEntityManager();
+	//private RegionRepository regionRepository;
+   /* private RegionService service = new RegionService();
 
     @Before
     public void setUp() throws Exception {
@@ -48,7 +56,7 @@ public class RegionTest extends DBUnitConfig{
         IDataSet actualData = tester.getConnection().createDataSet();
         Assertion.assertEquals(expectedData, actualData);
         Assert.assertEquals(expectedData.getTable("Region").getRowCount(), Regions.size());
-    }
+    }*/
 
    /* @Test
     public void testSave() throws Exception {
