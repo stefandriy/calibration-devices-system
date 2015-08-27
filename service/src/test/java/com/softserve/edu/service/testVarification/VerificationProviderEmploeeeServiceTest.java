@@ -15,7 +15,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -96,9 +95,7 @@ public class VerificationProviderEmploeeeServiceTest {
 	@Test
 	public void testGetProviderEmployeeById() {
 		User mockUser = mock(User.class);
-		when(
-				this.mockVerificationRepository
-						.getProviderEmployeeById(anyString())).thenReturn(
+		when(this.mockVerificationRepository.getProviderEmployeeById(anyString())).thenReturn(
 				mockUser);
 		User expected = employeeService.getProviderEmployeeById(anyString());
 		Assert.assertEquals(expected, mockUser);
@@ -108,8 +105,7 @@ public class VerificationProviderEmploeeeServiceTest {
 	public void testGetVerificationListbyProviderEmployee() {
 		List<Verification> expected = new ArrayList<Verification>();
 		String userName = "user";
-		when(
-				mockVerificationRepository
+		when(mockVerificationRepository
 						.findByProviderEmployeeUsernameAndStatus(userName,
 								Status.ACCEPTED)).thenReturn(expected);
 		List<Verification> actual = employeeService
