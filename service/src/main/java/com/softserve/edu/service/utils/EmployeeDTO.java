@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by MAX on 29.06.2015.
  */
-public class EmployeeProvider {
+public class EmployeeDTO {
 
     private String username;
     private String firstName;
@@ -17,7 +17,7 @@ public class EmployeeProvider {
     private String role;
 
 
-    public EmployeeProvider() {
+    public EmployeeDTO() {
     }
 
     public String getRole() {
@@ -60,7 +60,7 @@ public class EmployeeProvider {
         this.middleName = middleName;
     }
 
-    public EmployeeProvider(String username, String firstName, String lastName, String middleName, String role) {
+    public EmployeeDTO(String username, String firstName, String lastName, String middleName, String role) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,7 +70,7 @@ public class EmployeeProvider {
 
     @Override
     public String toString() {
-        return "EmployeeProvider{" +
+        return "EmployeeDTO{" +
                 "username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -79,10 +79,10 @@ public class EmployeeProvider {
 
     }
 
-    public static List<EmployeeProvider> giveListOfProviders(List<User> list) {
-        List<EmployeeProvider> listEmployee = new ArrayList<>();
+    public static List<EmployeeDTO> giveListOfProviders(List<User> list) {
+        List<EmployeeDTO> listEmployee = new ArrayList<>();
         for (User providEmployee : list) {
-            listEmployee.add(new EmployeeProvider(providEmployee.getUsername(),
+            listEmployee.add(new EmployeeDTO(providEmployee.getUsername(),
                     providEmployee.getFirstName(), providEmployee.getLastName(),
                     providEmployee.getMiddleName(),null));
         }

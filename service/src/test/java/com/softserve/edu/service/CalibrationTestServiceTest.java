@@ -36,7 +36,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CalibrationTestServiceTest {
-
+/*
 	private static final String verificationId = "123";
 
 	private static final Date date = new Date();
@@ -99,12 +99,12 @@ public class CalibrationTestServiceTest {
 		CalibrationTestList foundTests = new CalibrationTestList(list);
 		Assert.assertEquals(foundTests.getCalibrationTests(), calibrationTestService.findAllCalibrationTests().getCalibrationTests());
 	}
-/*
+
 	@Ignore
 	@Test
 	public void testGetCalibrationTestsBySearchAndPagination() {
 		fail("Not yet implemented"); // TODO
-	}*/
+	}
 
 	@Test
 	public void testCreateNewTest() {
@@ -142,9 +142,7 @@ public class CalibrationTestServiceTest {
 		assertEquals(name, nameArg.getValue());
 	}
 
-	/**
-	 * 
-	 */
+	
 	@Test(expected = NotAvailableException.class)
 	public void testFindAllTestDataAsociatedWithTest() throws Exception {
 		when(testRepository.findOne(testId)).thenReturn(null);
@@ -158,5 +156,5 @@ public class CalibrationTestServiceTest {
 		CalibrationTestDataList calibrationTestDataList = calibrationTestService.findAllTestDataAsociatedWithTest(testId);
 		Assert.assertEquals(testId, calibrationTestDataList.getTestId());
 		Assert.assertEquals(listCalibrationTestData, calibrationTestDataList.getListTestData());
-	}
+	}*/
 }

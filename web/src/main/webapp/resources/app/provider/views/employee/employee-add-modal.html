@@ -38,7 +38,9 @@
 				</div>
 		</div>
 		</div>
-
+		<div class="panel panel-primary">
+			<div class="panel-heading">Загальна інформація</div>
+			<div class="panel-body">
 		<div class="row" >
 			<div class="form-group col-md-4">
 				<label class="control-label">{{'FIRST_NAME' |translate }}</label>
@@ -89,7 +91,14 @@
 					   id = "email" name="email" class="form-control" required>
 				<p class="validation-message" ng-show="emailValidation.isValid">{{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}</p>
 			</div>
-			
+		</div>
+	   </div>
+	</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">Загальна інформація</div>
+				<div class="panel-body">
+					<div class="row" >
 				<div class="form-group col-md-4">
 					<label class="control-label">{{'LOGIN_TWO' | translate }}</label>
 				</div>
@@ -123,8 +132,9 @@
 						   ng-change="checkPasswords()" name="rePassword" class="form-control" required>
 					<p class="validation-message" ng-show="passwordValidation.isValid">{{'PASSWORDS_DID_NOT_MATCH' | translate}}</p>
 				</div>
-			</div>
-
+		    </div>
+         </div>
+	</div>
 
 
 		<div class="row">
@@ -168,7 +178,7 @@
 								<div class="form-group col-md-8">
 									<select chosen name="locality" type="text"
 										ng-model="employeeFormData.locality"
-										ng-options="locality as locality.designation for locality in localities | unique:'designation'"
+										ng-options="locality as locality.designation for locality in localities | unique:'designation' "
 										ng-change="onLocalitySelected(employeeFormData.locality.id)"
 										allow-single-deselect="true" class="form-control" required></select>
 								</div>
@@ -180,10 +190,10 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="street" type="text"
-										ng-model="employeeFormData.street" class="form-control" required>
-										<!--typeahead="street as street.designation for street in streets | filter: $viewValue" //To do
+										ng-model="employeeFormData.street" class="form-control"
+										typeahead="street as street.designation for street in streets | filter: $viewValue |limitTo: 4"
 										typeahead-on-select="onStreetSelected(employeeFormData.street.id)"
-										typeahead-editable="false" -->
+										typeahead-editable="false"required>
 								</div>
 							</div>
 

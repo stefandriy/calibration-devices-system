@@ -2,7 +2,7 @@ package com.softserve.edu.dto.provider;
 
 import java.util.List;
 
-import com.softserve.edu.service.utils.EmployeeProvider;
+import com.softserve.edu.service.utils.EmployeeDTO;
 
 /**
  * Created by MAX on 22.07.2015.
@@ -11,9 +11,10 @@ public class VerificationProviderEmployeeDTO {
     String idVerification;
     private List<String> idsOfVerifications;
 
-    private EmployeeProvider employeeProvider;
+    private EmployeeDTO employeeDTO;
+    private  EmployeeDTO employeeProvider;
 
-    private EmployeeProvider employeeCalibrator;
+    private EmployeeDTO employeeCalibrator;
 
     public List<String> getIdsOfVerifications() {
         return idsOfVerifications;
@@ -23,12 +24,12 @@ public class VerificationProviderEmployeeDTO {
         this.idsOfVerifications = idsOfVerifications;
     }
 
-    public EmployeeProvider getEmployeeProvider() {
-        return employeeProvider;
+    public EmployeeDTO getEmployeeDTO() {
+        return employeeDTO;
     }
 
-    public void setEmployeeProvider(EmployeeProvider employeeProvider) {
-        this.employeeProvider = employeeProvider;
+    public void setEmployeeDTO(EmployeeDTO employeeDTO) {
+        this.employeeDTO = employeeDTO;
     }
 
     public String getIdVerification() {
@@ -39,12 +40,20 @@ public class VerificationProviderEmployeeDTO {
         this.idVerification = idVerification;
     }
 
-    public EmployeeProvider getEmployeeCalibrator() {
+    public EmployeeDTO getEmployeeCalibrator() {
         return employeeCalibrator;
     }
 
-    public void setEmployeeCalibrator(EmployeeProvider employeeCalibrator) {
+    public void setEmployeeCalibrator(EmployeeDTO employeeCalibrator) {
         this.employeeCalibrator = employeeCalibrator;
+    }
+
+    public EmployeeDTO getEmployeeProvider() {
+        return employeeProvider;
+    }
+
+    public void setEmployeeProvider(EmployeeDTO employeeProvider) {
+        this.employeeProvider = employeeProvider;
     }
 }
 

@@ -132,7 +132,7 @@ import com.softserve.edu.entity.util.Status;
 			}
 		}
 
-		if ((status != null) && (!status.startsWith("?"))) {
+		if (status != null) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(status.trim())), queryPredicate);
 		} else {
 			queryPredicate = cb.and(cb.or(Status.IN_PROGRESS.getQueryPredicate(root, cb),

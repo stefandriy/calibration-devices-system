@@ -23,7 +23,7 @@ import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UploadBbiRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.utils.EmployeeProvider;
+import com.softserve.edu.service.utils.EmployeeDTO;
 
 @Service
 public class CalibratorService {
@@ -81,19 +81,19 @@ public class CalibratorService {
     }
 
     @Transactional
-    public User oneProviderEmployee(String username) {
+    public User oneCalibratorEmployee(String username) {
         return userRepository.getUserByUserName(username);
     }
 
     @Transactional
-    public List<EmployeeProvider> getAllProviders(List<String> role, User employee) {
-        List<EmployeeProvider> providerListEmployee = new ArrayList<>();
+    public List<EmployeeDTO> getAllCalibratorEmployee(List<String> role, User employee) {
+        List<EmployeeDTO> providerListEmployee = new ArrayList<>();
         if (role.contains(Roles.CALIBRATOR_ADMIN.name())) {
             List<User> list = userRepository.getAllProviderUsersList(Roles.CALIBRATOR_EMPLOYEE.name(),
                     employee.getOrganization().getId(),true);
-            providerListEmployee = EmployeeProvider.giveListOfProviders(list);
+            providerListEmployee = EmployeeDTO.giveListOfProviders(list);
         } else {
-            EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(),
+            EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
                     employee.getLastName(), employee.getMiddleName(),role.get(0));
             providerListEmployee.add(userPage);
         }
@@ -101,7 +101,7 @@ public class CalibratorService {
     }
 
     @Transactional
-    public void assignProviderEmployee(String verificationId, User calibratorEmployee) {
+    public void assignCalibratorEmployee(String verificationId, User calibratorEmployee) {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setCalibratorEmployee(calibratorEmployee);
         verification.setReadStatus(ReadStatus.READ);

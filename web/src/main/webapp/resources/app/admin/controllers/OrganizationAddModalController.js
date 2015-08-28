@@ -186,8 +186,8 @@ angular
 				$scope.organizationFormData.region = $scope.organizationFormData.region.designation;
 				$scope.organizationFormData.district = $scope.organizationFormData.district.designation;
 				$scope.organizationFormData.locality = $scope.organizationFormData.locality.designation;
-				$scope.organizationFormData.street = $scope.organizationFormData.street.designation;
-				$scope.organizationFormData.building = $scope.organizationFormData.building.designation;
+				$scope.organizationFormData.street = $scope.organizationFormData.street.designation ;
+				$scope.organizationFormData.building = $scope.organizationFormData.building;
 				$scope.organizationFormData.flat = $scope.organizationFormData.flat;
 			}
 

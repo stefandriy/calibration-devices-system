@@ -1,17 +1,12 @@
 package com.softserve.edu.service.calibrator;
 
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.UserRepository;
-
-import java.util.List;
 
 
 /**
@@ -48,13 +43,4 @@ public class CalibratorEmployeeService {
         return calibratorEmployeeRepository.getUserByUserName(username);
     }
 
-    @Transactional
-    public List<Verification> getVerificationListbyCalibratorEmployee(String username) {
-        return verificationRepository.findByCalibratorEmployeeUsernameAndStatus(username, Status.ACCEPTED);
-    }
-    
-//    @Transactional()
-//    public Employee findByUserame(String userName){
-//    	return calibratorEmployeeRepository.findByUsername(userName);
-//}
 }
