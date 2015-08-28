@@ -43,8 +43,7 @@ public class BuildingServiceTest {
         List<Building> b = mock(ArrayList.class);
 
         final Long streetId = 11l;
-        when(buildingRepository.findByStreetId(112l)).thenThrow(new Exception());
-        b = buildingRepository.findByStreetId(112l);
+
 
 
 
@@ -57,5 +56,7 @@ public class BuildingServiceTest {
         Assert.assertEquals(b, buildingRepository.findByStreetId((long) 1));
 
 
+        when(buildingRepository.findByStreetId(112l)).thenThrow(new Exception());
+        b = buildingRepository.findByStreetId(112l);
     }
 }

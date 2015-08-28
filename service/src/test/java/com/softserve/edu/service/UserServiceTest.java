@@ -33,16 +33,18 @@ public class UserServiceTest {
     @Test
     public void testChangePassword() throws Exception {
         String username = "Petro";
-        String old_pasword = "$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2";
-        String new_pasword = "pass";
+        String hash_of_password = "$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2";
+        String old_pasword = "pass";
+        String new_pasword = "ddd";
 
-        when(user.getPassword()).thenReturn(old_pasword);
+        when(user.getPassword()).thenReturn(hash_of_password);
         when(user.getUsername()).thenReturn(username);
         when(userRepository.findOne(username)).thenReturn(user);
 
 
-        boolean isChanged =  userService.changePassword(user.getUsername(), new_pasword, new_pasword);
+        boolean isChanged =  userService.changePassword(user.getUsername(), old_pasword, new_pasword);
         assertEquals(true, isChanged);
+        verify(user, times(1)).setPassword(anyString());
     }
 
     @Test
