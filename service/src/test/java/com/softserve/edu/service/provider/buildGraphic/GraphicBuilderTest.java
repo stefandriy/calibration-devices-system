@@ -46,7 +46,6 @@ public class GraphicBuilderTest {
     }
 
 
-    @Ignore
     @Test
     public void testBuilderData() throws Exception {
         List<MonthOfYear> months = new ArrayList<>();
