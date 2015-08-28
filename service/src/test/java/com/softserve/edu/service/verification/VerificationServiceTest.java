@@ -14,6 +14,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VerificationServiceTest {
@@ -45,5 +46,13 @@ public class VerificationServiceTest {
 	public void test2() {
 		when(calibrationTestRepository.findById(-1L)).thenReturn(null);
 		verificationService.findByCalibrationTestId(-1L);
+	}
+	
+
+	@Test
+	public void test3() {
+		Verification a=new Verification();
+		verificationService.saveVerification(a);
+		verify(verificationRepository).save(a);
 	}
 }
