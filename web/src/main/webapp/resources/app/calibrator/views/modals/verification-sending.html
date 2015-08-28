@@ -9,17 +9,11 @@
 
         <div class="modal-body form-group" show-errors>
 
-            <input name="verificator" class="form-control"
-                   ng-model="selectedVerificator"
-                   typeahead="verificator as verificator.name for verificator in verificators | filter: $viewValue"
-                   typeahead-editable="false" required>
-
-            <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
-
-            <p class="help-block">
-                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                Почніть вводити і виберіть відповідний варіант з випадаючого списку
-            </p>
+            <select name="verificator" class="form-control" chosen options="verificator.name"
+                    ng-model="selectedVerificator"
+                    ng-options="verificator as verificator.name for verificator in verificators | filter: $viewValue"
+                    typeahead-editable="false" required>
+            </select>
 
         </div>
 

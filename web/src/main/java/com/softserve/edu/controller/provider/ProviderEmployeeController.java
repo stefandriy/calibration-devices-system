@@ -1,22 +1,24 @@
 package com.softserve.edu.controller.provider;
 
-
-import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
-import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -36,7 +38,7 @@ public class ProviderEmployeeController {
     private VerificationService verificationService;
 
 
-    @RequestMapping(value = "graphic", method = RequestMethod.GET)
+    @RequestMapping(value = "graphicCapacity", method = RequestMethod.GET)
     public List<ProviderEmployeeGraphic> graphic
             (@RequestParam String fromDate, @RequestParam String toDate,
              @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {

@@ -39,7 +39,7 @@ public class VerificationServiceTest {
 	public void test1() {
 		when(verificationRepository.findOne("123")).thenReturn(new Verification());
 		Verification get=verificationService.findById("123");
-		assertEquals(get, new Verification());
+		assertEquals(new Verification(),get);
 	}
 	
 	@Test(expected = AccessDeniedException.class)

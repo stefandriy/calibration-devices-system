@@ -42,16 +42,24 @@ public class OrganizationsController {
 	public ResponseEntity addOrganization(
 			@RequestBody OrganizationDTO organizationDTO) {
 		HttpStatus httpStatus = HttpStatus.CREATED;
-		Address address = new Address(organizationDTO.getRegion(),
-				organizationDTO.getDistrict(), organizationDTO.getLocality(),
-				organizationDTO.getStreet(), organizationDTO.getBuilding(),
+		Address address = new Address(
+				organizationDTO.getRegion(),
+				organizationDTO.getDistrict(),
+				organizationDTO.getLocality(),
+				organizationDTO.getStreet(),
+				organizationDTO.getBuilding(),
 				organizationDTO.getFlat());
 		try {
 			organizationsService.addOrganizationWithAdmin(
-					organizationDTO.getName(), organizationDTO.getEmail(),
-					organizationDTO.getPhone(), organizationDTO.getTypes(), organizationDTO.getEmployeesCapacity(), organizationDTO.getMaxProcessTime(),
+					organizationDTO.getName(),
+					organizationDTO.getEmail(),
+					organizationDTO.getPhone(),
+					organizationDTO.getTypes(),
+					organizationDTO.getEmployeesCapacity(),
+					organizationDTO.getMaxProcessTime(),
 					organizationDTO.getUsername(),
-					organizationDTO.getPassword(), address);
+					organizationDTO.getPassword(),
+					address);
 		} catch (Exception e) {
 			// TODO
 			logger.error("GOT EXCEPTION " + e.getMessage());
@@ -103,14 +111,15 @@ public class OrganizationsController {
 	 */
 	@RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
 	public PageDTO<OrganizationPageItem> getOrganizationsPage(
-			@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
+			@PathVariable Integer pageNumber,
+			@PathVariable Integer itemsPerPage) {
 		return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null);
 	}
 	
 	@RequestMapping(value = "getOrganization/{id}")
 	public Organization getOrganization(@PathVariable("id") Long id) {
-		Organization organization = organizationsService
-				.getOrganizationById(id);
+		//OrganizationDTO	organizationDTO=new OrganizationDTO();
+		Organization organization = organizationsService.getOrganizationById(id);
 		return organization;
 	}
 
@@ -127,14 +136,22 @@ public class OrganizationsController {
 			@RequestBody OrganizationEditDTO organization,
 			@PathVariable Long organizationId) {
 		HttpStatus httpStatus = HttpStatus.OK;
-		Address address = new Address(organization.getRegion(),
-				organization.getDistrict(), organization.getLocality(),
-				organization.getStreet(), organization.getBuilding(),
+		Address address = new Address(
+				organization.getRegion(),
+				organization.getDistrict(),
+				organization.getLocality(),
+				organization.getStreet(),
+				organization.getBuilding(),
 				organization.getFlat());
 		try {
-			organizationsService.editOrganization(organizationId,
-					organization.getName(), organization.getPhone(),
-					organization.getEmail(), organization.getEmployeesCapacity(), organization.getMaxProcessTime(), address);
+			organizationsService.editOrganization(
+					organizationId,
+					organization.getName(),
+					organization.getPhone(),
+					organization.getEmail(),
+					organization.getEmployeesCapacity(),
+					organization.getMaxProcessTime(),
+					address);
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
 			httpStatus = HttpStatus.CONFLICT;

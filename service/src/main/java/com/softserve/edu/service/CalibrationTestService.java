@@ -97,14 +97,12 @@ public class CalibrationTestService {
     }
 
     @Transactional
-    public CalibrationTest deleteTest(Long testId) {
-        CalibrationTest deletedCalibrationTest = testRepository.findOne(testId);
+    public void deleteTest(Long testId) {
         testRepository.delete(testId);
-        return deletedCalibrationTest;
     }
 
     @Transactional
-    public void  createTestData(Long testId, CalibrationTestData testData) {
+    public void createTestData(Long testId, CalibrationTestData testData) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testData.setCalibrationTest(calibrationTest);
         dataRepository.save(testData);
@@ -132,4 +130,37 @@ public class CalibrationTestService {
         CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
         testIMGRepository.save(calibrationTestIMG);
     }
+
+
+    @Transactional
+    public void createEmptyTest(String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        CalibrationTest calibrationTest = new CalibrationTest();
+        calibrationTest.setVerification(verification);
+        testRepository.save(calibrationTest);
+    }
+
+    @Transactional
+    public void createNewCalibrationTestData(CalibrationTestData calibrationTestData){
+        dataRepository.save(calibrationTestData);
+    }
+
+
+    @Transactional
+    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
+                                    Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
+        CalibrationTest calibrationTest = testRepository.findOne(testId);
+        testResult = CalibrationTestResult.SUCCESS;
+        Date initial = new Date();
+        calibrationTest.setName(name);
+        calibrationTest.setDateTest(initial);
+        calibrationTest.setTemperature(temperature);
+        calibrationTest.setSettingNumber(settingNumber);
+        calibrationTest.setLatitude(latitude);
+        calibrationTest.setLongitude(longitude);
+        calibrationTest.setConsumptionStatus(consumptionStatus);
+        calibrationTest.setTestResult(testResult);
+        return calibrationTest;
+    }
+
 }

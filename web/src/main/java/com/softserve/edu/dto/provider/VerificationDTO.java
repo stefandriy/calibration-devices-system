@@ -1,7 +1,10 @@
 package com.softserve.edu.dto.provider;
 
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
-import com.softserve.edu.entity.*;
+import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.ClientData;
+import com.softserve.edu.entity.Device;
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 
@@ -25,8 +28,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private Address providerAddress;
     private Address calibratorAddress;
 
-    protected VerificationDTO() {
-    }
+    public VerificationDTO() {};
 
     public VerificationDTO(
             ClientData clientData,

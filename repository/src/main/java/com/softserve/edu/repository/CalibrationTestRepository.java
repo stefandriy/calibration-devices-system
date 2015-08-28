@@ -1,6 +1,7 @@
 package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.Verification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -24,7 +25,10 @@ public interface CalibrationTestRepository extends CrudRepository<CalibrationTes
     CalibrationTest findById(Long id);
 
     CalibrationTest findByVerificationId(String verifId);
+    CalibrationTest findByVerification(Verification verification);
+
 
     public Page<CalibrationTest> findAll(Pageable pageable);
     Page<CalibrationTest> findByNameLikeIgnoreCase(String name, Pageable pageable);
+
 }
