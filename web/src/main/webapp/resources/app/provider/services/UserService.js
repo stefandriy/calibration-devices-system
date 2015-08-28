@@ -26,7 +26,7 @@ angular
                 return getData('employee/admin/users/capacityOfEmployee' + '/' + username);
             },
             getGraficData: function (dataToSearch) {
-                return getData('provider/admin/users/graphic', dataToSearch);
+                return getData('provider/admin/users/graphicCapacity', dataToSearch);
             },
             getGraficDataMainPanel: function(dataToSearch) {
                 return getData('provider/admin/users/graphicmainpanel', dataToSearch);

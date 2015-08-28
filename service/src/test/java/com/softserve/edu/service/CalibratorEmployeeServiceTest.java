@@ -18,6 +18,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CalibratorEmployeeServiceTest {
+	/*
 	@Mock private UserRepository calibratorEmployeeRepository;
 	@Mock private VerificationRepository verificationRepository;
 	@InjectMocks private CalibratorEmployeeService calibratorEmployeeService;
@@ -41,6 +42,6 @@ public class CalibratorEmployeeServiceTest {
 	@Test
 	public void testAddEmployee (){
 		// TODO
-	}
+	}*/
 
 }

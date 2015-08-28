@@ -12,10 +12,12 @@
             <div class="form-group col-md-4">
                 <label class="control-label">Назва тесту:</label>
             </div>
-            <div class="form-group col-md-8" show-errors>
+            <div class="form-group col-md-8" ng-class="nameValidation.css">
                 <input type="text"
                        ng-model="calibrationTest.name"
-                       name="name" class="form-control">
+                       ng-change="checkAll('name')"
+                       id="name" name="name" class="form-control">
+                <p class="validation-message" ng-show="nameValidation.isValid">{{'TEST_NAME_REGEX' | translate}}</p>
             </div>
         </div>
 
@@ -23,52 +25,76 @@
             <div class="form-group col-md-4">
                 <label class="control-label">Температура*:</label>
             </div>
-            <div class="form-group col-md-8" show-errors>
+            <div class="form-group col-md-8" ng-class="temperatureValidation.css">
                 <input type="text"
                        ng-model="calibrationTest.temperature"
-                       name="temperature" class="form-control">
+                       ng-change="checkAll('temperature')"
+                       id="temperature"  name="temperature" class="form-control">
+                <p class="validation-message" ng-show="temperatureValidation.isValid">{{'TEMPERATURE_REGEX' | translate}}</p>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="control-label">Номер установки:</label>
             </div>
-            <div class="form-group col-md-8">
-                <input type="text" ng-model="calibrationTest.settingNumber" name="settingNumber" class="form-control">
+            <div class="form-group col-md-8" ng-class="settingNumberValidation.css">
+                <input type="text"
+                       ng-model="calibrationTest.settingNumber"
+                       ng-change="checkAll('settingNumber')"
+                       id="settingNumber" name="settingNumber" class="form-control">
+                <p class="validation-message" ng-show="settingNumberValidation.isValid">{{'SETTING_NUMBER_REGEX' | translate}}</p>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="control-label">Широта:</label>
             </div>
-            <div class="form-group col-md-8">
-                <input type="text" ng-model="calibrationTest.latitude" name="latitude" class="form-control">
+            <div class="form-group col-md-8" ng-class="latitudeValidation.css">
+                <input type="text"
+                       ng-model="calibrationTest.latitude"
+                       ng-change="checkAll('latitude')"
+                       id="latitude" name="latitude" class="form-control">
+                <p class="validation-message" ng-show="latitudeValidation.isValid">{{'LATITUDE_REGEX' | translate}}</p>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="control-label">Довгота:</label>
             </div>
-            <div class="form-group col-md-8">
-                <input type="text" ng-model="calibrationTest.longitude" name="longitude" class="form-control">
+            <div class="form-group col-md-8"  ng-class="longitudeValidation.css">
+                <input type="text"
+                       ng-model="calibrationTest.longitude"
+                       ng-change="checkAll('longitude')"
+                       id="longitude" name="longitude" class="form-control">
+                <p class="validation-message" ng-show="longitudeValidation.isValid">{{'LONGITUDE_REGEX' | translate}}</p>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="control-label">Статус споживання:</label>
             </div>
-            <div class="form-group col-md-8">
-                <input type="text" ng-model="calibrationTest.consumptionStatus" name="consumptionStatus" class="form-control">
+            <div class="form-group col-md-8" ng-class="consumptionStatusValidation.css">
+                <input type="text"
+                       ng-model="calibrationTest.consumptionStatus"
+                       ng-change="checkAll('consumptionStatus')"
+                       id="consumptionStatus" name="consumptionStatus" class="form-control">
+                <p class="validation-message" ng-show="consumptionStatusValidation.isValid">{{'CONSUMPTION_STATUS_REGEX' | translate}}</p>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-4">
                 <label class="control-label">Результат тесту:</label>
             </div>
-            <div class="form-group col-md-8">
-                <input type="text" ng-model="calibrationTest.testResult" name="testResult" class="form-control">
+            <div class="form-group col-md-8" ng-class="testResultValidation.css">
+                <input type="text"
+                       ng-model="calibrationTest.testResult"
+                       ng-change="checkAll('testResult')"
+                       id="testResult" name="testResult" class="form-control">
+                <p class="validation-message" ng-show="testResultValidation.isValid">{{'TEST_STATUS_REGEX' | translate}}</p>
             </div>
+            <h4 ng-show="incorrectValue" style="color: red;  text-align: center" class="ng-binding">Неправильно введені дані!</h4>
         </div>
+
         <div class="row">
             <div class="form-group col-md-10">
                 <button class="btn btn-success" ng-click="editTest()">Редагувати тест</button>

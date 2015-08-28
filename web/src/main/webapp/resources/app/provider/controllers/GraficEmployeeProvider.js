@@ -29,7 +29,7 @@ angular
                                 type: 'column'
                             },
                             title: {
-                                text: 'Продуктивність працівників',
+                                text: "'Продуктивність працівників'",
                                 x: -20 //center
                             },
                             subtitle: {

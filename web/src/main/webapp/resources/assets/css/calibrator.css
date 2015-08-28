@@ -465,3 +465,6 @@ input[type="radio"], input[type="checkbox"] {
   h3 b{
 color:#003712;
 }
+.modal .modal-body {
+    max-height: 1500px;
+}

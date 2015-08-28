@@ -1,16 +1,51 @@
 angular
     .module('employeeModule')
-    .controller('NewVerificationsControllerProvider', ['$scope', '$log',
-        '$modal', 'VerificationServiceProvider', '$rootScope', 'ngTableParams', '$filter', '$timeout',
-        function ($scope, $log, $modal, verificationServiceProvider, $rootScope, ngTableParams, $filter, $timeout) {
-    	
+    .controller('NewVerificationsControllerProvider', ['$scope', '$log', '$modal', 'VerificationServiceProvider', '$rootScope', 'ngTableParams', '$filter', '$timeout', '$translate',
+        function ($scope, $log, $modal, verificationServiceProvider, $rootScope, ngTableParams, $filter, $timeout, $translate) {
+
     	$scope.resultsCount = 0;
-       
+
+    	$scope.clearAll = function() {
+    		$scope.selectedStatus.name=null;
+    		$scope.tableParams.filter({});   		
+    	}
+
+    	$scope.doSearch = function() {
+    		$scope.tableParams.reload();
+    	}
+    	
+    	$scope.selectedStatus = {
+    		name : null
+    	}
+	
+    	$scope.statusData = [
+    	   				{ id : 'SENT', label : null },
+    	   				{ id : 'ACCEPTED', label : null }
+    	];
+
+    	   			$scope.setTypeDataLanguage = function () {
+    	   				var lang = $translate.use();
+    	   				if (lang === 'ukr') {
+    	   					$scope.statusData[0].label = 'Надійшла';
+    	   					$scope.statusData[1].label = 'Прийнята';
+    	   					
+    	   				} else if (lang === 'eng') {
+    	   					$scope.statusData[0].label = 'Sent';
+    	   					$scope.statusData[1].label = 'Accepted';
+    	   					
+    	   				} else {
+    	   					console.error(lang);
+    	   				}
+    	   			};
+
+    	   			$scope.setTypeDataLanguage();
+    	
+
         $scope.tableParams = new ngTableParams({
             page: 1,
             count: 10,
             sorting: {
-                date: 'desc'     
+                date: 'desc'
             }
             	}, {
             total: 0,
@@ -19,7 +54,11 @@ angular
 
             	var sortCriteria = Object.keys(params.sorting())[0];
             	var sortOrder = params.sorting()[sortCriteria];
-            	
+
+            	if($scope.selectedStatus.name != null) {
+            		params.filter().status = $scope.selectedStatus.name.id;
+            	}
+
                 verificationServiceProvider.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                 				.success(function (result) {
                 					 $scope.resultsCount=result.totalItems;
@@ -30,23 +69,23 @@ angular
                 				});
              }
         });
-        
-        $scope.checkFilters = function () {       	 
+
+        $scope.checkFilters = function () {
             var obj = $scope.tableParams.filter();
             for (var i in obj) {
                 if (obj.hasOwnProperty(i) && obj[i]) {
                     return true;
                 }
             }
-            return false;         
+            return false;
    };
-  
+
 	       $scope.markAsRead = function (id) {
 				 var dataToSend = {
 							verificationId: id,
 							readStatus: 'READ'
 						};
-				
+
 		         	verificationServiceProvider.markVerificationAsRead(dataToSend).success(function () {
 		         		$rootScope.$broadcast('verification-was-read');
 	                    $scope.tableParams.reload();
@@ -169,7 +208,7 @@ $scope.openSendingModal = function () {
                 response: function () {
                     return verificationServiceProvider.getCalibrators()
                         .success(function (calibrators) {
-                        	
+
                         	return calibrators;
                         }
                     );
@@ -183,11 +222,11 @@ $scope.openSendingModal = function () {
         modalInstance.result.then(function (formData) {
 
             var dataToSend = {
-                idsOfVerifications: $scope.idsOfVerifications,
-                idsOfCalibrators: formData.calibrator.id
+            	idsOfVerifications: $scope.idsOfVerifications,
+                organizationId: formData.calibrator.id
             };
 
-            
+
 
             verificationServiceProvider
                 .sendVerificationsToCalibrator(dataToSend)
@@ -215,7 +254,7 @@ var checkForEmpty = function () {
 
             /**
              *  Date picker and formatter setup
-             * 
+             *
              */
             $scope.openState = {};
             $scope.openState.isOpen = false;
@@ -236,7 +275,7 @@ var checkForEmpty = function () {
            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
            $scope.format = $scope.formats[2];
 
-           
+
            /**
             * Modal window used to explain the reason of verification rejection
             */
@@ -260,33 +299,34 @@ var checkForEmpty = function () {
         	         		   verifID : ID,
         	         		   msg : formData.message
         	         	   };
-        	 
+
         	            var dataToSend = {
         	            		verificationId: ID,
         	            		status: 'REJECTED'
         	            };
         	            verificationServiceProvider.rejectVerification(dataToSend).success(function () {
-        	            		$rootScope.$broadcast('refresh-table');
         	            		verificationServiceProvider.sendMail (messageToSend)
-         	            		.success(function (responseVal) {});
+         	            		.success(function (responseVal) {
+         	                       $scope.tableParams.reload();
+         	            		});
         	         	   });
         	        });
           	};
 
           	$scope.$on('verification_rejected', function(event, args) {
-          		$log.debug(args.verifID);
+          		
           		 $scope.openMailModal(args.verifID);
           	});
-          	
+
             $scope.initiateVerification = function () {
-         	  
+
          	        var modalInstance = $modal.open({
          	            animation: true,
          	            templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
          	            controller: 'AddingVerificationsControllerProvider',
          	            size: 'lg',
 
-         	        });      
+         	        });
            	};
 
         }]);

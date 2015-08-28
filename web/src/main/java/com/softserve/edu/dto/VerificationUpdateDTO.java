@@ -1,23 +1,25 @@
-package com.softserve.edu.dto.calibrator;
+package com.softserve.edu.dto;
 
 import java.util.List;
 
-public class VerificationUpdatingDTO {
+public class VerificationUpdateDTO {
 
 	private List<String> idsOfVerifications;
-	private Long verificatorId;
-	
+	private Long organizationId;
+
 	public List<String> getIdsOfVerifications() {
 		return idsOfVerifications;
 	}
+
 	public void setIdsOfVerifications(List<String> idsOfVerifications) {
 		this.idsOfVerifications = idsOfVerifications;
 	}
-	public Long getVerificatorId() {
-		return verificatorId;
-	}
-	public void setVerificatorId(Long verificatorId) {
-		this.verificatorId = verificatorId;
+
+	public Long getOrganizationId() {
+		return organizationId;
 	}
 
+	public void setOrganizationId(Long organizationId) {
+		this.organizationId = organizationId;
+	}
 }

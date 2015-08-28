@@ -83,6 +83,8 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'ACCEPTED' and u.provider = :provider")
     int getCountOfAllAcceptedVerifications(@Param("provider") Organization provider);
+    
+    
 }
 
 

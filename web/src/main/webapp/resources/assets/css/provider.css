@@ -609,7 +609,6 @@ float:left;
 }
 .modal .modal-body {
     max-height: 600px;
-    overflow-y: auto;
 }
 
 .validation-message {
@@ -617,3 +616,6 @@ float:left;
 }
 
 
+.modal .modal-body {
+    max-height: 1500px;
+}

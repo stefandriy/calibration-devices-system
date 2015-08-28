@@ -132,7 +132,6 @@ public class
                 String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/accepted.vm", "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
-
             }
         };
         this.mailSender.send(preparator);

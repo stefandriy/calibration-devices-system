@@ -67,7 +67,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		Predicate queryPredicate = cb.conjunction();
 		queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
 	
-		if ((searchStatus != null)&&(!searchStatus.startsWith("?"))) {
+		if (searchStatus != null) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
 		} 
 		

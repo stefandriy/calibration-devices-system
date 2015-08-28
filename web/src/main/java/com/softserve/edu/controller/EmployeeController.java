@@ -31,9 +31,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "employee/admin/users/")
-public class AddEmployeeController {
+public class EmployeeController {
 
-    Logger logger = Logger.getLogger(AddEmployeeController.class);
+    Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
     private UsersService userService;
@@ -87,6 +87,11 @@ public class AddEmployeeController {
         return isAvailable;
     }
 
+    /**
+     * Find user for update
+     * @param username
+     * @return DTO
+     */
     @RequestMapping(value = "getUser/{username}", method = RequestMethod.GET)
     public UserDTO userEmployeeEdit(@PathVariable String username) {
         temporalUser = providerEmployeeService.oneProviderEmployee(username);
@@ -102,6 +107,13 @@ public class AddEmployeeController {
         userFromDataBase.setUserRoles(new HashSet<String>(userService.getRoles(username)));
         return userFromDataBase;
     }
+
+    /**
+     * Update user
+     * @param providerEmployee
+     * @param user
+     * @return status
+     */
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> updateEmployee(
@@ -135,6 +147,12 @@ public class AddEmployeeController {
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
+    /**
+     * Add new employee
+     * @param employee
+     * @param user
+     * @return status
+     */
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
@@ -170,7 +188,6 @@ public class AddEmployeeController {
         if (role.contains(Roles.CALIBRATOR_EMPLOYEE.name())) {
             list = verificationProviderEmployeeService.getVerificationListbyCalibratormployee(username);
         }
-
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
         return new PageDTO<>(content);
     }
@@ -189,7 +206,6 @@ public class AddEmployeeController {
                 search.getPhone(), fieldToSort);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
-
     }
 
     private  List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
@@ -206,7 +222,6 @@ public class AddEmployeeController {
                             verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
                             verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
                             providerEmployee.getIsAvaliable()
-
                     )
             );
         }

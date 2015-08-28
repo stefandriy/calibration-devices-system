@@ -6,6 +6,7 @@ angular
 
             $scope.calibrators = response.data;
             $scope.formData={};
+            $scope.formData.calibrator= $scope.calibrators[0];
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();

@@ -24,6 +24,7 @@
 					<div class="col-md-8">
 						<input id="lastName" name="lastName" class="form-control"
 							type="text" ng-model="formData.lastName"
+
 							popover="{{'ALPHABETIC_INFO' | translate}}"
 							popover-trigger="focus" popover-placement="right"
 							ng-pattern="FIRST_LAST_NAME_REGEX" required> <span
@@ -113,7 +114,7 @@
 								<input id="phoneNumber" name="phoneNumber" type="tel"
 									class="form-control col-md-8 " ng-model="formData.phone"
 									placeholder="0XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
-								<span class="input-group-addon">{{'SECOND_PHONE' | translate}}</span> 
+
 
 										<div  class="input-group-addon btn btn-default btn-circle"><label for="checkboxModel"><i class="glyphicon glyphicon-plus"/></label>	<input type="checkbox" ng-model="checkboxModel" id="checkboxModel"> </div>
 
@@ -166,6 +167,7 @@
 							class="form-control " ng-model="selectedRegion"
 							data-placeholder="Оберіть область"
 							ng-options="region as region.designation for region in regions | filter: $viewValue"
+
 							allow-single-deselect="true"
 							ng-change="receiveDistricts(selectedRegion)" width="'100%'"  required>
 						</select>
@@ -218,6 +220,7 @@
 						<select chosen id="index" name="index" class="form-control"
 								ng-model="selectedIndex" allow-single-deselect="true"
 								disable-search="true"
+
 								data-placeholder="Поштовий індекс"
 								ng-options="index as index.mailIndex for index in indexes | filter: $viewValue"
 								ng-change="receiveStreetsTypes()"
