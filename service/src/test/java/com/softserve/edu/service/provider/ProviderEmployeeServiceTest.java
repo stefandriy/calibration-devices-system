@@ -80,7 +80,7 @@ public class ProviderEmployeeServiceTest {
 	@Test
 	public void testUpdateEmployee() {
 		final String name = "name";
-		final String password = "generate";
+		final String password = "generated";
 		final User finalProviderEmployee = new User(name, password);
 		User mockProviderEmployee = Mockito.mock(User.class);
 
