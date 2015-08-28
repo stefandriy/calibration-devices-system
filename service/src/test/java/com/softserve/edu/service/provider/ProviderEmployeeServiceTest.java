@@ -61,18 +61,18 @@ public class ProviderEmployeeServiceTest {
 	public void testAddEmployee() {
 		final String name = "name";
 		final String password = "pass";
-		final User finalProviderEmployee = new User(name, password);
-		User mockProviderEmployee = Mockito.mock(User.class);
+		final User finalProviderEmployee = Mockito.spy(new User(name, password));
+		//User mockProviderEmployee = Mockito.mock(User.class);
 
 		providerEmployeeService.addEmployee(finalProviderEmployee);
 
 		ArgumentCaptor<String> passwordEncodedArg = ArgumentCaptor
 				.forClass(String.class);
-		mockProviderEmployee.setPassword(passwordEncodedArg.capture());
+		//mockProviderEmployee.setPassword(passwordEncodedArg.capture());
 
-		verify(mockProviderEmployee).setPassword(passwordEncodedArg.capture());
+		verify(finalProviderEmployee).setPassword(passwordEncodedArg.capture());
 
-		Assert.assertEquals(mockProviderEmployee.getPassword(),
+		Assert.assertEquals(finalProviderEmployee.getPassword(),
 				passwordEncodedArg.getValue());
 
 	}
@@ -90,9 +90,9 @@ public class ProviderEmployeeServiceTest {
 				.forClass(String.class);
 		mockProviderEmployee.setPassword(passwordEncodedArg.capture());
 
-		verify(mockProviderEmployee).setPassword(passwordEncodedArg.capture());
+		verify(finalProviderEmployee).setPassword(passwordEncodedArg.capture());
 
-		Assert.assertEquals(mockProviderEmployee.getPassword(),
+		Assert.assertEquals(finalProviderEmployee.getPassword(),
 				passwordEncodedArg.getValue());
 
 	}

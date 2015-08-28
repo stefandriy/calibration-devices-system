@@ -30,10 +30,10 @@ public class MeasuringEquipmentServiceTest {
 	@Mock
 	MeasuringEquipment meseq;
 	
-	@Before
-	public void init() {
-		MockitoAnnotations.initMocks(this);
-	}
+//	@Before
+//	public void init() {
+//		MockitoAnnotations.initMocks(this);
+//	}
 
 	// for deleteMeasuringEquipment
 	@Test
@@ -50,7 +50,7 @@ public class MeasuringEquipmentServiceTest {
 		ArgumentCaptor<Long> par1 = ArgumentCaptor.forClass(Long.class);
 		mes.deleteMeasuringEquipment(123L);
 		verify(measuringEquipmentRepository).findOne(par1.capture());
-		assertEquals((Long) 123L, par1.getValue());
+		assertEquals((Long)123L, par1.getValue());
 	}
 
 	// for getMeasuringEquipmentById
