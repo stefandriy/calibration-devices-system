@@ -81,11 +81,12 @@ public class ProviderEmployeeServiceTest {
 	public void testUpdateEmployee() {
 		final String name = "name";
 		final String password = "generated";
+		final String newPassword = "newPass";
 		final User finalProviderEmployee = new User(name, password);
 		User mockProviderEmployee = Mockito.mock(User.class);
 
 		providerEmployeeService.updateEmployee(finalProviderEmployee);
-
+		
 		ArgumentCaptor<String> passwordEncodedArg = ArgumentCaptor
 				.forClass(String.class);
 		mockProviderEmployee.setPassword(passwordEncodedArg.capture());
@@ -118,7 +119,7 @@ public class ProviderEmployeeServiceTest {
 	}
 
 	@Test()
-	public void testFindByUserame() { 
+	public void testFindByUserame() {
 		final String username = "userName";
 		final User mockUser = Mockito.mock(User.class);
 
@@ -130,7 +131,7 @@ public class ProviderEmployeeServiceTest {
 	}
 
 	@Test
-	public void testGetRoleByUserNam() {      
+	public void testGetRoleByUserNam() {
 		final String usernam = "usernam";
 		final UserRole mockUser = Mockito.mock(UserRole.class);
 		final List<UserRole> mockList = Collections.singletonList(mockUser);
