@@ -2,6 +2,7 @@ package com.softserve.edu.service.provider.buildGraphic;
 
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
+@Ignore
 public class GraphicBuilderTest {
 
     @Test

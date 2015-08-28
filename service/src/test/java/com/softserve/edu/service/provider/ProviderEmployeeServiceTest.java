@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -38,6 +39,7 @@ import com.softserve.edu.service.utils.EmployeeProvider;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.ProviderEmployeeQuary;
 
+@Ignore
 public class ProviderEmployeeServiceTest {
 
 	@InjectMocks
