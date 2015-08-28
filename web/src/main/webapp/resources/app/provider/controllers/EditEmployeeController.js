@@ -408,15 +408,24 @@ angular
 
                 }
 
+                bValidation = function(){
+                    if(( $scope.user.firstName === undefined)|| ($scope.user.lastName === undefined)
+                        || ($scope.user.middleName === undefined) || ($scope.user.phone === undefined)
+                        || ($scope.employeeFormData.region === undefined) || ($scope.employeeFormData.district === undefined)
+                        || ($scope.employeeFormData.locality === undefined)) {
+                        $scope.incorrectValue = true;
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }
+
                 $scope.onEmployeeFormSubmit = function () {
 
                     $scope.$broadcast('show-errors-check-validity');
-                    if( !$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
-                    && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
-                        retranslater();
-                        updateEmployee();
-                    } else {
-                        $scope.incorrectValue = true;
+                    if (bValidation()) {
+                            retranslater();
+                            updateEmployee();
                     }
                 };
 
@@ -430,7 +439,6 @@ angular
                                     if (data.status == 201) {
                                         $rootScope.$broadcast('new-employee-added');
                                         $scope.closeModal();
-                                        $scope.resetEmployeeForm();
                                     }else{
                                         alert('Error');
                                     }

@@ -81,7 +81,7 @@ require.config({
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
-                'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload','ngRoute','angularLoadingBar']
+                   'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload','ngRoute','angularLoadingBar']
         }
     }
 });

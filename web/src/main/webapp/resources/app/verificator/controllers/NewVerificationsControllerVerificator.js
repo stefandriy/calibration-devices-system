@@ -1,65 +1,51 @@
 angular
     .module('employeeModule')
     .controller('NewVerificationsControllerVerificator', ['$scope', '$log', '$modal', 'VerificationServiceVerificator', '$rootScope',
-        'ngTableParams', '$filter', '$timeout',
-        function ($scope, $log, $modal, VerificationServiceVerificator, $rootScope, ngTableParams, $filter, $timeout) {
+        'ngTableParams', '$filter', '$timeout', '$translate',
+        function ($scope, $log, $modal, VerificationServiceVerificator, $rootScope, ngTableParams, $filter, $timeout, $translate) {
     	
     	$scope.resultsCount = 0;
     	
-//            $scope.search = {
-//                idText:null,
-//                formattedDate :null,
-//                lastNameText:null,
-//                streetText: null,
-//                status: null,
-//                employee: null
-//            }
-//
-//            $scope.clearAll = function(){
-//                $scope.search.idText=null;
-//                $scope.search.formattedDate=null;
-//                $scope.dt = null;
-//                $scope.search.lastNameText=null;
-//                $scope.search.streetText=null;
-//                $scope.search.status = null;
-//                $scope.search.employee = null;
-//                $scope.tableParams.reload();
-//            }
-//
-//            $scope.clearId = function () {
-//                $scope.search.idText = null;
-//                $scope.tableParams.reload();
-//            }
-//            $scope.clearLastName = function () {
-//                $scope.search.lastNameText = null;
-//                $scope.tableParams.reload();
-//            }
-//            $scope.clearStreet = function () {
-//                $scope.search.streetText = null;
-//                $scope.tableParams.reload();
-//            }
-//            $scope.clearStatus = function () {
-//                $scope.search.status = null;
-//                $scope.tableParams.reload();
-//            }
-//            $scope.clearEmployee = function () {
-//            	$scope.search.employee = null;
-//            	$scope.tableParams.reload();
-//            }
-//            var promiseSearchTimeOut;
-//            $scope.doSearch = function() {
-//                promiseTimeOut = $timeout(function() {
-//                    $scope.tableParams.reload();
-//                }, 1500);
-//            }
-//
-//            $scope.tableParams = new ngTableParams({
-//                page: 1,
-//                count: 10
-//            }, {
-//                total: 0,
-//                getData: function ($defer, params) {
+    	$scope.clearAll = function() {
+    		$scope.selectedStatus.name=null;
+    		$scope.tableParams.filter({});   		
+    	}
 
+    	$scope.doSearch = function() {
+    		$scope.tableParams.reload();
+    	}
+    	
+    	$scope.selectedStatus = {
+    		name : null
+    	}
+   	
+       	$scope.statusData = [ 
+       	                      { id : 'SENT_TO_VERIFICATOR', label : null },
+       	                      { id : 'TEST_OK', label : null }, 
+       	                      { id : 'TEST_NOK', label : null }    	   				
+       	];
+
+       	   			$scope.setTypeDataLanguage = function () {
+       	   				var lang = $translate.use();
+       	   				if (lang === 'ukr') {
+       	   					
+       	   					$scope.statusData[0].label = 'Предявлено повірнику';
+       	   					$scope.statusData[1].label = 'Перевірено придатний';
+       	   					$scope.statusData[2].label = 'Перевірено непридатний';
+       	   					
+       	   				} else if (lang === 'eng') {
+       	   					
+       	   					$scope.statusData[0].label = 'Sent to verificator';
+       	   					$scope.statusData[1].label = 'Tested OK';
+       	   					$scope.statusData[2].label = 'Tested NOK';
+       	   					
+       	   				} else {
+       	   					console.error(lang);
+       	   				}
+       	   			};
+
+       	   			$scope.setTypeDataLanguage();
+     	 
 
 $scope.tableParams = new ngTableParams({
     page: 1,
@@ -74,6 +60,10 @@ $scope.tableParams = new ngTableParams({
 
     	var sortCriteria = Object.keys(params.sorting())[0];
     	var sortOrder = params.sorting()[sortCriteria];
+    	
+    	if($scope.selectedStatus.name != null) {
+    		params.filter().status = $scope.selectedStatus.name.id;
+    	}
     	
     	VerificationServiceVerificator.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
         				.success(function (result) {
@@ -243,8 +233,8 @@ $scope.checkFilters = function () {
                     modalInstance.result.then(function (formData) {
 
                         var dataToSend = {
-                            idsOfVerifications: $scope.idsOfVerifications,
-                            idsOfProviders: formData.provider.id
+                        	idsOfVerifications: $scope.idsOfVerifications,
+                        	organizationId: formData.provider.id
                         };
 
                         $log.info(dataToSend);
@@ -284,8 +274,8 @@ $scope.checkFilters = function () {
                     modalInstance.result.then(function (formData) {
 
                         var dataToSend = {
-                            idsOfVerifications: $scope.idsOfVerifications,
-                            idsOfProviders: formData.provider.id
+                        	idsOfVerifications: $scope.idsOfVerifications,
+                            organizationId: formData.provider.id
                         };
 
                         $log.info(dataToSend);
@@ -330,19 +320,6 @@ $scope.checkFilters = function () {
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
-
-//            $scope.changeDateToSend = function (val) {
-//
-//                if (angular.isUndefined(val)) {
-//                    $scope.search.formattedDate = null;
-//                    $scope.tableParams.reload();
-//                } else {
-//                    var datefilter = $filter('date');
-//                    $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
-//                    $scope.tableParams.reload();
-//                }
-//            };
-            
             $scope.initiateVerification = function () {
            	  
      	        var modalInstance = $modal.open({

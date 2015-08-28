@@ -49,13 +49,13 @@ angular
                 return sendDataProtocol("deleteBbiprotocol?idVerification="+ idVerification);
             },
             getCalibrators: function (url) {
-                return getData('verifications/new/calibratorEmployees');
+                return getEmployeeData('new/calibratorEmployees');
             },
             sendEmployeeCalibrator: function (data) {
-                return updateData('assign/calibratorEmployee', data);
+                return employeeUpdateData('assign/calibratorEmployee', data);
             },
             cleanCalibratorEmployeeField:function (data) {
-                return updateData('remove/calibratorEmployee', data);
+                return employeeUpdateData('remove/calibratorEmployee', data);
             },
         };
 
@@ -89,6 +89,24 @@ angular
                 });
         }
 
+        function employeeUpdateData(url, data) {
+            return $http.put('calibrator/admin/users/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function getEmployeeData(url) {
+            return $http.get('calibrator/admin/users/' + url)
+                .success(function (data) {
+                    return data;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
         function sendData(url, data) {
             return $http.post('calibrator/applications/' + url, data)
                 .success(function (responseData) {

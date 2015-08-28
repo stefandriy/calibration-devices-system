@@ -45,6 +45,8 @@ public class GraphicBuilderTest {
         assertEquals(0, one_month_day.get(0).month);
     }
 
+
+    @Ignore
     @Test
     public void testBuilderData() throws Exception {
         List<MonthOfYear> months = new ArrayList<>();

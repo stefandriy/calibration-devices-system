@@ -4,6 +4,8 @@ angular
         function ($scope, $log, $modalInstance, response, $rootScope) {
 
             $scope.verificators = response.data;
+            $scope.selectedVerificator= $scope.verificators[0];
+
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();

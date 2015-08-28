@@ -1,5 +1,22 @@
-<div id="page-wrapper">
+<div id="page-wrapper" >
 
+       <div ng-show = "stateVerificatorViews" >
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Головна панель</h1>
+            </div>
+        </div>
+        </div>
+
+        <div ng-show = "calibratorViews" >
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Main panel calibrator</h1>
+            </div>
+        </div>
+        </div>
+
+        <div ng-show = "providerViews" >
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">{{'MAIN_PANEL_PROVIDER' | translate}}</h1>
@@ -7,7 +24,7 @@
     </div>
 
             <!--Graph of verifications-->
-                <div class="col-lg-8">
+                <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-bar-chart-o fa-fw"></li> Графік надходження заявок
@@ -75,7 +92,7 @@
             </div>
                 </div>
             <!-- New verifications-->
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-align-justify fa-fw"></li> Нові заявки
@@ -137,7 +154,7 @@
             </div>
 
             <!--Pie of ????-->
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-hand-o-right fa-fw"></li>Діаграма зайнятості підприємства
@@ -151,17 +168,18 @@
                 </div>
 
         <!--Table employee-->
-        <div class="col-lg-4">
+        <div class="col-lg-5">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <li class="fa fa-align-justify fa-fw"></li> Працівники
                 </div>
+                <div class="panel-body">
             <table  ng-table="tableParamsEmployee" template-pagination="employee/pager" class="table table-bordered table-hover users_table" >
                 <tr ng-repeat="user in $data">
-                    <td data-title="'Роль'" align="center" style = "width : 30%">{{ user.role }}</td>
+
                     <td data-title="'Імя'">{{ user.firstName }}</td>
                     <td data-title="'Прізвище'" sortable="'lastName'">{{ user.lastName }}</td>
-                    <td data-title="'Номер телефону'" align="center">{{ user.phone }}</td>
+
                     <td data-title="'Кількість заявок в роботі'" align="center" style = "width : 15%">
                         <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)" class="cursor-pointer"> {{
                             user.countOfVarification }}</a>
@@ -188,9 +206,7 @@
                                 <button type="button" ng-class="{'active':params.count() == 10}"
                                         ng-click="params.count(10)" class="btn btn-default">10
                                 </button>
-                                <button type="button" ng-class="{'active':params.count() == 25}"
-                                        ng-click="params.count(25)" class="btn btn-default">25
-                                </button>
+
                                 <button type="button" ng-class="{'active':params.count() == 50}"
                                         ng-click="params.count(50)" class="btn btn-default">50
                                 </button>
@@ -201,5 +217,7 @@
             </script>
     </div>
     </div>
+            </div>
+       </div>
 
 </div>

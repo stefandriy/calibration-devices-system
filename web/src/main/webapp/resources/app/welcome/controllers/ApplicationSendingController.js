@@ -1,9 +1,9 @@
 angular
     .module('welcomeModule')
     .controller('ApplicationSendingController', ['$scope', '$q', '$state', '$http', '$log',
-        'DataReceivingService', 'DataSendingService', '$stateParams', '$window', '$rootScope','$location','$modal',
+        'DataReceivingService', 'DataSendingService', '$stateParams', '$window', '$rootScope','$location','$modal','$filter',
 
-        function ($scope, $q, $state, $http, $log, dataReceivingService, dataSendingService, $stateParams, $window, $rootScope, $location,$modal) {
+        function ($scope, $q, $state, $http, $log, dataReceivingService, dataSendingService, $stateParams, $window, $rootScope, $location,$modal,$filter) {
             $scope.isShownForm = true;
             $scope.blockSearchFunctions = false;
             
@@ -189,6 +189,8 @@ angular
                     dataReceivingService.findMailIndexByLocality(selectedLocality.designation,selectedDistrict.id)
                         .success(function (indexes) {
                             $scope.indexes = indexes;
+                            if (indexes.length>0){
+                            $scope.selectedIndex=indexes[0];}
                             $log.debug("$scope.indexes");
                             $log.debug($scope.indexes);
 
@@ -306,13 +308,15 @@ angular
                  */
                 modalInstance.result.then(function (formData, sendingStarted) {
                     var messageToSend = {
-                        verifID : " ",
+                        verifID :  $filter('translate')('NOTFOUND_TRANSLATION'),
                         msg : formData.message,
                         name:formData.firstName,
                         surname:formData.lastName,
                         email:formData.email
                     };
-
+                    var idInfo=function(){
+                            return $filter('translate')('PHONE')
+                    };
                     $scope.showSendingAlert = true;
                     dataSendingService.sendMailNoProvider (messageToSend)
                         .success(function () {
@@ -329,5 +333,6 @@ angular
                 $scope.responseSuccess = false;
                 $scope.showSendingAlert = false;
             }
+
 
         }]);
