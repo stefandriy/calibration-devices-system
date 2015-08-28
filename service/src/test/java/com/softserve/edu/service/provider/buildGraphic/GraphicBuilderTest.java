@@ -2,6 +2,7 @@ package com.softserve.edu.service.provider.buildGraphic;
 
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class GraphicBuilderTest {
         assertEquals(0, one_month_day.get(0).month);
     }
 
+
+    @Ignore
     @Test
     public void testBuilderData() throws Exception {
         List<MonthOfYear> months = new ArrayList<>();
