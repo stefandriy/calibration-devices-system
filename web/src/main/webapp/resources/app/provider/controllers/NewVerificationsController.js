@@ -3,83 +3,98 @@
     .controller('NewVerificationsController', ['$scope', '$log',
         '$modal', 'VerificationService', '$rootScope', 'ngTableParams', '$filter', '$timeout', '$window',
         function ($scope, $log, $modal, verificationService,
-        		$rootScope, ngTableParams, $filter, $timeout, $window) {
-                
-        $scope.search = {
-        		idText:null,
-        		formattedDate :null,
-        		lastNameText:null,
-        		streetText: null
-        }
-        
-        $scope.clearAll = function(){
-        	$scope.search.idText=null;
-        	$scope.search.formattedDate=null;
-        	$scope.dt = null;
-        	$scope.search.lastNameText=null;
-        	$scope.search.streetText=null;
-        	$scope.tableParams.reload();
-        }
-        
-        $scope.clearId = function () {
-        	$scope.search.idText = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearLastName = function () {
-        	$scope.search.lastNameText = null;
-        	$scope.tableParams.reload();
-        }
-        $scope.clearStreet = function () {
-        	$scope.search.streetText = null;
-        	$scope.tableParams.reload();
-        }
-        
-        var promiseSearchTimeOut;
-        $scope.doSearch = function() {
-        	promiseTimeOut = $timeout(function() {
-            $scope.tableParams.reload();
-        	}, 1200);
-        }
+                  $rootScope, ngTableParams, $filter, $timeout, $window) {
 
-        $scope.$on('refresh-table', function () {
-        	 $scope.clearAll();
-        }); 
-       
-        $scope.totalCount = 0;
-        $scope.tableParams = new ngTableParams({
+            $scope.search = {
+                idText:null,
+                formattedDate :null,
+                lastNameText:null,
+                streetText: null
+            }
+
+            $scope.clearAll = function(){
+                $scope.search.idText=null;
+                $scope.search.formattedDate=null;
+                $scope.dt = null;
+                $scope.search.lastNameText=null;
+                $scope.search.streetText=null;
+                $scope.tableParams.reload();
+            }
+
+            $scope.clearId = function () {
+                $scope.search.idText = null;
+                $scope.tableParams.reload();
+            }
+            $scope.clearLastName = function () {
+                $scope.search.lastNameText = null;
+                $scope.tableParams.reload();
+            }
+            $scope.clearStreet = function () {
+                $scope.search.streetText = null;
+                $scope.tableParams.reload();
+            }
+
+            var promiseSearchTimeOut;
+            $scope.doSearch = function() {
+                promiseTimeOut = $timeout(function() {
+                    $scope.tableParams.reload();
+                }, 1200);
+            }
+
+            $scope.$on('refresh-table', function () {
+                $scope.clearAll();
+            });
+
+            $scope.totalCount = 0;
+            $scope.filter = {
+                id: undefined,
+                client_last_name: undefined,
+                street: undefined,
+                employee_last_name: undefined
+            };
+            $scope.tableParams = new ngTableParams({
                 page: 1,
-                count: 10
-            			}, {
+                count: 10,
+                filter: $scope.filter
+            }, {
                 total: 0,
                 getData: function ($defer, params) {
 
-                    verificationService.getNewVerifications(params.page(), params.count(), $scope.search.formattedDate, $scope.search.idText, 
-                    				$scope.search.lastNameText, $scope.search.streetText)
-                    				.success(function (result) {
-                    					$defer.resolve(result.content);
-                    					params.total(result.totalItems);
-                    					$scope.totalCount = result.totalItems;
-                    					$log.debug('total inside call');
-                    					$log.debug($scope.totalCount);
-                    				}, function (result) {
-                    					$log.debug('error fetching data:', result);
-                    				});
-                 }
+                    verificationService.getNewVerifications(params.page(), params.count(), $scope.search.formattedDate, $scope.search.idText,
+                        $scope.search.lastNameText, $scope.search.streetText)
+                        .success(function (result) {
+                            var data = result.content;
+                            //data is filtered here
+                            var orderedData = params.filter() ?
+                                $filter('filter')(data, params.filter()) :
+                                data;
+
+                            //TODO: doesn't filter cyrrilic data
+                            params.total(orderedData.totalItems);
+                            $scope.totalCount = orderedData.totalItems;
+                            $defer.resolve(orderedData); //made available to ng-table
+
+                            $log.debug('total inside call');
+                            $log.debug($scope.totalCount);
+                        }, function (result) {
+                            $log.debug('error fetching data:', result);
+                        });
+                }
             });
-        $log.debug('total outside call');
-		$log.debug($scope.totalCount);
-  
-	       $scope.markAsRead = function (id) {
-				 var dataToSend = {
-							verificationId: id,
-							readStatus: 'READ'
-						};
-				
-		         	verificationService.markVerificationAsRead(dataToSend).success(function () {
-		         		$rootScope.$broadcast('verification-was-read');
-	                    $scope.tableParams.reload();
-		            });
-	         };
+            $log.debug('total outside call');
+            $log.debug($scope.totalCount);
+
+            $scope.markAsRead = function (id) {
+                var dataToSend = {
+                    verificationId: id,
+                    readStatus: 'READ'
+                };
+
+                verificationService.markVerificationAsRead(dataToSend).success(function () {
+                    $rootScope.$broadcast('verification-was-read');
+                    $scope.tableParams.reload();
+                });
+            };
 
 
             /**
@@ -96,7 +111,8 @@
                         response: function () {
                             return verificationService.getNewVerificationDetails(verifId)
                                 .success(function (verification) {
-                                	 $rootScope.verificationID = verifId;
+                                    //TODO: cyrillic letters become ?
+                                    $rootScope.verificationID = verifId;
                                     verification.id =   $rootScope.verificationID;
                                     verification.initialDate = verifDate;
                                     verification.status = verifStatus;
@@ -121,126 +137,126 @@
                     });
             };
 
-$scope.addProviderEmployee = function (verifId, providerEmployee) {
-    var modalInstance = $modal.open({
-        animation: true,
-        templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
-        controller: 'ProviderEmployeeController',
-        size: 'md',
-        windowClass: "providerEmployee",
-        resolve: {
-            providerEmploy: function () {
-                return verificationService.getProviders()
-                    .success(function (providers) {
-                        return providers;
-                    }
-                );
-            }
-        }
-    })
-    /**
-     * executes when modal closing
-     */
-    modalInstance.result.then(function (formData) {
-        idVerification = 0;
-        var dataToSend = {
-            idVerification: verifId,
-            employeeProvider: formData.provider
-        };
-        $log.info(dataToSend);
-        verificationService
-            .sendEmployeeProvider(dataToSend)
-            .success(function () {
-            	$scope.markAsRead(verifId);
-            });
-    });
-};
-
-$scope.idsOfVerifications = [];
-$scope.checkedItems = [];
-$scope.allIsEmpty = true;
-
-
-/**
- * push verification id to array
- */
-$scope.resolveVerificationId = function (id) {
-    var index = $scope.idsOfVerifications.indexOf(id);
-    if (index === -1) {
-        $scope.idsOfVerifications.push(id);
-        index = $scope.idsOfVerifications.indexOf(id);
-    }
-
-    if (!$scope.checkedItems[index]) {
-        $scope.idsOfVerifications.splice(index, 1, id);
-        $scope.checkedItems.splice(index, 1, true);
-    } else {
-        $scope.idsOfVerifications.splice(index, 1);
-        $scope.checkedItems.splice(index, 1);
-    }
-    checkForEmpty();
-};
-
-/**
- * open modal
- */
-$scope.openSendingModal = function () {
-    if (!$scope.allIsEmpty) {
-        var modalInstance = $modal.open({
-            animation: true,
-            templateUrl: '/resources/app/provider/views/modals/verification-sending.html',
-            controller: 'SendingModalController',
-            size: 'md',
-            resolve: {
-                response: function () {
-                    return verificationService.getCalibrators()
-                        .success(function (calibrators) {
-                            $log.debug(calibrators);
-                        	return calibrators;
+            $scope.addProviderEmployee = function (verifId, providerEmployee) {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
+                    controller: 'ProviderEmployeeController',
+                    size: 'md',
+                    windowClass: "providerEmployee",
+                    resolve: {
+                        providerEmploy: function () {
+                            return verificationService.getProviders()
+                                .success(function (providers) {
+                                    return providers;
+                                }
+                            );
                         }
-                    );
-                }
-            }
-        });
-
-        /**
-         * executes when modal closing
-         */
-        modalInstance.result.then(function (formData) {
-
-            var dataToSend = {
-                idsOfVerifications: $scope.idsOfVerifications,
-                calibrator: formData.calibrator
+                    }
+                })
+                /**
+                 * executes when modal closing
+                 */
+                modalInstance.result.then(function (formData) {
+                    idVerification = 0;
+                    var dataToSend = {
+                        idVerification: verifId,
+                        employeeProvider: formData.provider
+                    };
+                    $log.info(dataToSend);
+                    verificationService
+                        .sendEmployeeProvider(dataToSend)
+                        .success(function () {
+                            $scope.markAsRead(verifId);
+                        });
+                });
             };
 
-            $log.debug('daat to send ' + dataToSend);
-
-            verificationService
-                .sendVerificationsToCalibrator(dataToSend)
-                .success(function () {
-                    $scope.tableParams.reload();
-                    $rootScope.$broadcast('verification-sent-to-calibrator');
-                });
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
+            $scope.allIsEmpty = true;
 
-        });
-    } else {
-        $scope.isClicked = true;
-    }
-};
 
-/**
- * check if idsOfVerifications array is empty
- */
-var checkForEmpty = function () {
-    $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
-};
+            /**
+             * push verification id to array
+             */
+            $scope.resolveVerificationId = function (id) {
+                var index = $scope.idsOfVerifications.indexOf(id);
+                if (index === -1) {
+                    $scope.idsOfVerifications.push(id);
+                    index = $scope.idsOfVerifications.indexOf(id);
+                }
+
+                if (!$scope.checkedItems[index]) {
+                    $scope.idsOfVerifications.splice(index, 1, id);
+                    $scope.checkedItems.splice(index, 1, true);
+                } else {
+                    $scope.idsOfVerifications.splice(index, 1);
+                    $scope.checkedItems.splice(index, 1);
+                }
+                checkForEmpty();
+            };
+
+            /**
+             * open modal
+             */
+            $scope.openSendingModal = function () {
+                if (!$scope.allIsEmpty) {
+                    var modalInstance = $modal.open({
+                        animation: true,
+                        templateUrl: '/resources/app/provider/views/modals/verification-sending.html',
+                        controller: 'SendingModalController',
+                        size: 'md',
+                        resolve: {
+                            response: function () {
+                                return verificationService.getCalibrators()
+                                    .success(function (calibrators) {
+                                        $log.debug(calibrators);
+                                        return calibrators;
+                                    }
+                                );
+                            }
+                        }
+                    });
+
+                    /**
+                     * executes when modal closing
+                     */
+                    modalInstance.result.then(function (formData) {
+
+                        var dataToSend = {
+                            idsOfVerifications: $scope.idsOfVerifications,
+                            calibrator: formData.calibrator
+                        };
+
+                        $log.debug('daat to send ' + dataToSend);
+
+                        verificationService
+                            .sendVerificationsToCalibrator(dataToSend)
+                            .success(function () {
+                                $scope.tableParams.reload();
+                                $rootScope.$broadcast('verification-sent-to-calibrator');
+                            });
+                        $scope.idsOfVerifications = [];
+                        $scope.checkedItems = [];
+
+                    });
+                } else {
+                    $scope.isClicked = true;
+                }
+            };
+
+            /**
+             * check if idsOfVerifications array is empty
+             */
+            var checkForEmpty = function () {
+                $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
+            };
 
 
             /**
              *  Date picker and formatter setup
-             * 
+             *
              */
             $scope.openState = {};
             $scope.openState.isOpen = false;
@@ -256,61 +272,61 @@ var checkForEmpty = function () {
                 formatYear: 'yyyy',
                 startingDay: 1,
                 showWeeks: 'false'
-              };
+            };
 
-           $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-           $scope.format = $scope.formats[2];
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
 
-           $scope.changeDateToSend = function(val){
-            	
-            	  if(angular.isUndefined(val)){
-            		  $scope.search.formattedDate = null;
-            		  $scope.tableParams.reload();
-            	  } else {
-            		  var datefilter = $filter('date');
-                	  $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
-                	  $scope.tableParams.reload();
-            	  }
-              }
-           /**
-            * Modal window used to explain the reason of verification rejection
-            */
-           $scope.openMailModal = function (ID) {
-        	   $log.debug('ID');
-        	   $log.debug(ID);
-        	        var modalInstance = $modal.open({
-        	            animation: true,
-        	            templateUrl: '/resources/app/provider/views/modals/mailComment.html',
-        	            controller: 'MailSendingModalController',
-        	            size: 'md',
+            $scope.changeDateToSend = function(val){
 
-        	        });
+                if(angular.isUndefined(val)){
+                    $scope.search.formattedDate = null;
+                    $scope.tableParams.reload();
+                } else {
+                    var datefilter = $filter('date');
+                    $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
+                    $scope.tableParams.reload();
+                }
+            }
+            /**
+             * Modal window used to explain the reason of verification rejection
+             */
+            $scope.openMailModal = function (ID) {
+                $log.debug('ID');
+                $log.debug(ID);
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/provider/views/modals/mailComment.html',
+                    controller: 'MailSendingModalController',
+                    size: 'md',
 
-        	        /**
-        	         * executes when modal closing
-        	         */
-        	        modalInstance.result.then(function (formData) {
+                });
 
-        	            var messageToSend = {
-        	         		   verifID : ID,
-        	         		   msg : formData.message
-        	         	   };
-        	 
-        	            var dataToSend = {
-        	            		verificationId: ID,
-        	            		status: 'REJECTED'
-        	            };
-        	         	verificationService.rejectVerification(dataToSend).success(function () {
-        	            		$rootScope.$broadcast('refresh-table');
-         	            		verificationService.sendMail (messageToSend)
-         	            		.success(function (responseVal) {});
-        	         	   });
-        	        });
-          	};
+                /**
+                 * executes when modal closing
+                 */
+                modalInstance.result.then(function (formData) {
 
-          	$scope.$on('verification_rejected', function(event, args) {
-          		$log.debug(args.verifID);
-          		 $scope.openMailModal(args.verifID);
-          	});
-       }]);
+                    var messageToSend = {
+                        verifID : ID,
+                        msg : formData.message
+                    };
+
+                    var dataToSend = {
+                        verificationId: ID,
+                        status: 'REJECTED'
+                    };
+                    verificationService.rejectVerification(dataToSend).success(function () {
+                        $rootScope.$broadcast('refresh-table');
+                        verificationService.sendMail (messageToSend)
+                            .success(function (responseVal) {});
+                    });
+                });
+            };
+
+            $scope.$on('verification_rejected', function(event, args) {
+                $log.debug(args.verifID);
+                $scope.openMailModal(args.verifID);
+            });
+        }]);
 
