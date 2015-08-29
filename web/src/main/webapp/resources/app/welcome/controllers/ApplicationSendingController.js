@@ -255,7 +255,7 @@ angular
                     $scope.formData.region = $scope.selectedRegion.designation;
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
-                    $scope.formData.street = ($scope.selectedStreetType.designation+" "+$scope.selectedStreet.designation) ||($scope.selectedStreetType.designation + " "+$scope.selectedStreet) ;
+                    $scope.formData.street = ($scope.selectedStreet.designation+" "+$scope.selectedStreetType.designation) ||($scope.selectedStreet + " "+$scope.selectedStreetType.designation) ;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.allSelectedDevices[i].id;
@@ -280,9 +280,9 @@ angular
              * 
              */
 
-            $scope.STREET_REGEX=/^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}){1}$/;
-            $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/;
-            $scope.MIDDLE_NAME_REGEX=/^[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}$/;
+            $scope.STREET_REGEX=/^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}){1}$/;
+            $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20})$/;
+            $scope.MIDDLE_NAME_REGEX=/^[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}$/;
             $scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
             $scope.BUILDING_REGEX=/^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
             $scope.PHONE_REGEX=/^0[1-9]\d{8}$/;
