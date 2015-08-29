@@ -1,4 +1,4 @@
-angular
+ angular
     .module('providerModule')
     .controller('NewVerificationsController', ['$scope', '$log',
         '$modal', 'VerificationService', '$rootScope', 'ngTableParams', '$filter', '$timeout', '$window',
