@@ -78,7 +78,7 @@ Check `database_script.sql` for additional information about other users such as
  - Олександр Виблов
  
 ##### LV-150 Java:
-Експерт: Микола Марчик
+Експерт: Микола Марчук
 
 Викладач: Вікторія Ряжська
 
@@ -119,7 +119,6 @@ service-src-main-java...-service:
 - ProviderEmployeeService.java
 - ProviderService.java
 - StateVerificatorEmployeeService.java
-- StateVerificatorService.java
 - FileOperationImpl.java
 - FileSearch.java
 - SaveOptions.java
@@ -157,21 +156,8 @@ service-src-main-java...-service:
 - CalibratorService.java
 - BuildingService.java
 - District.java
-- LocalityService.java
-- RegionService.java
-- StreetService.java
-- StreetTypeService.java
 - NotAvailableException.java
-- GraphicBuilder.java
-- GraphicBuilderMainPanel.java
-- MonthOfYear.java
-- ProviderEmployeeGraphic.java 
-- ProviderEmployeeService.java
 - StateVerificatorEmployeeService.java
-- StateVerificatorService.java
-- FileOperationImpl.java
-- FileSearch.java
-- SaveOptions.java
 - FileOperations.java
 - ArchivalVerificationsQueryConstructorCalibrator.java
 - ArchivalVerificationsQueryConstructorProvider.java
@@ -182,7 +168,6 @@ service-src-main-java...-service:
 - EmployeeProvider.java    
 - ListToPageTransformer.java
 - NewVerficationsQueryConstructorCalibrator.java
-- NewVerficationsQueryConstructorProvider.java
 - NewVerficationsQueryConstructorVerificator.java
 - ProviderEmployeeGraphic.java
 - ProviderEmployeeQuary.java
@@ -191,7 +176,6 @@ service-src-main-java...-service:
 - VerificationService.java
 - DocumentsService.java
 - MailService.java
-- MeasuringEquipmentService.java
 - SecurityUserDetailsService.java
 - UserService.java
 - VerificationPhotoService.java
@@ -206,12 +190,31 @@ admin:
 - UsersService.java
 
 ### Чопик Василь
-- VerificationProviderEmployeeService.java
 - VerificationService.java
+
+### Володимир Ігнатьєв
+- NewVerificationsQueryConstructorProvider
 
 ### Іван Циба
 - CalibratorEmployeeService.java
 - CalibratorService.java
+
+### Конончук Богдан
+- ProviderEmployeeService
+
+### Олег Косар
+- MeasuringEquipmentService.java
+
+### Тарас Паничок
+- FileSearch.java
+- FileOperationImpl.java
+- SaveOptions.java
+
+### Назар Івашків
+ - LocalityService.java
+ - RegionService.java
+ - StreetService.java
+ - StreetTypeService.java
 
 ## Те що зроблено
 
@@ -224,11 +227,26 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
- - ProviderService
-
- ### Мельничук Назарій
- - GraphicBuilder.java
- - GraphicBuilderMainPanel.java
+ - StateVerificatorService.java
 
 ### Чопик Василь
 - VerificationProviderEmployeeService.java
+
+### Мельничук Назарій
+ - GraphicBuilder.java
+ - GraphicBuilderMainPanel.java
+ 
+### Конончук Богдан
+ - ProviderService
+
+### Чопик Василь
+- VerificationProviderEmployeeService.java
+
+### Назаркевич Володимир
+ - UserService
+ - BuildingService
+ - DistrictService
+
+### Олег Косар
+- MeasuringEquipmentService.java
+

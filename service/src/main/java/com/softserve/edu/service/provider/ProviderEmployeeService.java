@@ -4,6 +4,7 @@ import com.softserve.edu.entity.Organization;
 
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
+import com.softserve.edu.service.utils.EmployeeDTO;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -21,7 +22,6 @@ import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilder;
 import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
-import com.softserve.edu.service.utils.EmployeeProvider;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.ProviderEmployeeQuary;
 import javax.persistence.EntityManager;
@@ -83,14 +83,14 @@ public class ProviderEmployeeService {
     }
 
     @Transactional
-    public List<EmployeeProvider> getAllProviders(List<String> role, User employee) {
-        List<EmployeeProvider> providerListEmployee = new ArrayList<>();
+    public List<EmployeeDTO> getAllProviders(List<String> role, User employee) {
+        List<EmployeeDTO> providerListEmployee = new ArrayList<>();
         if (role.contains(Roles.PROVIDER_ADMIN.name())) {
             List<User> list = providerEmployeeRepository.getAllProviderUsersList(Roles.PROVIDER_EMPLOYEE.name(),
                     employee.getOrganization().getId(), true);
-            providerListEmployee = EmployeeProvider.giveListOfProviders(list);
+            providerListEmployee = EmployeeDTO.giveListOfProviders(list);
         } else {
-            EmployeeProvider userPage = new EmployeeProvider(employee.getUsername(), employee.getFirstName(),
+            EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
                     employee.getLastName(), employee.getMiddleName(), role.get(0));
             providerListEmployee.add(userPage);
         }

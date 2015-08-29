@@ -51,6 +51,16 @@ public class UserController {
         return isAvailable;
     }
 
+    /**
+     * The method return all employee which are registered in the system
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param fieldToSort
+     * @param search
+     * @param user
+     * @return list of employees
+     */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{fieldToSort}", method = RequestMethod.GET)
     public PageDTO<UsersPageItem> getPaginationUsers(
             @PathVariable Integer pageNumber,
@@ -66,21 +76,25 @@ public class UserController {
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
     }
 
-
+    /**
+     * Current method transform list of users to List DTO
+     *
+     * @param queryResult
+     * @return full information witch connect with employees
+     */
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
-        for (User providerEmployee : queryResult.getContent()) {
+        for (User employee : queryResult.getContent()) {
             resultList.add(new UsersPageItem(
-                            providerEmployee.getUsername(),
-                            userService.getRoles(providerEmployee.getUsername()),
-                            providerEmployee.getFirstName(),
-                            providerEmployee.getLastName(),
-                            providerEmployee.getMiddleName(),
-                            providerEmployee.getPhone(),
-                            providerEmployee.getOrganization().getName(),
-                            verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
-                            verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
-                            providerEmployee.getIsAvaliable())
+                            employee.getUsername(),
+                            userService.getRoles(employee.getUsername()),
+                            employee.getFirstName(),
+                            employee.getLastName(),
+                            employee.getMiddleName(),
+                            employee.getPhone(),
+                            employee.getOrganization().getName(),
+                            null, null,
+                            employee.getIsAvaliable())
             );
         }
         return resultList;

@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
     .controller('CalibrationTestControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
-        'CalibrationTestServiceCalibrator', '$location', '$stateParams', 'Upload',
-        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload,$stateParams) {
+        'CalibrationTestServiceCalibrator', '$location', 'Upload', '$timeout',
+        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload, $timeout) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -26,24 +26,15 @@ angular
 
             $scope.calibrationTests = [];
 
-
-            /**
-             // * Opens modal window for adding new calibration-test.
-             // */
-            $scope.openAddCalibrationTestModal = function (verificationId) {
-                var addTestModal = $modal
-                    .open({
-                        animation: true,
-                        controller: 'CalibrationTestAddModalControllerCalibrator',
-                        templateUrl: '/resources/app/calibrator/views/modals/calibration-test-add-modal.html',
-                        resolve: {
-                            verification: function () {
-                                return verificationId;
-
-                            }
-                        }
-                    });
-            };
+            
+            $scope.openAddTest = function (verId) {
+                calibrationTestServiceCalibrator
+                    .getEmptyTest(verId)
+                    .then(function (IdTest) {
+                        $log.debug("inside");
+                        var url = $location.path('/calibrator/verifications/calibration-test-add/').search({param: IdTest});
+                    } )
+            }
 
             function getCalibrationTests() {
                 calibrationTestServiceCalibrator
@@ -63,8 +54,6 @@ angular
                     .then(function (data) {
 
                         $log.debug("saved!");
-
-//                        $scope.addFormData = null;
 
                     });
             };
@@ -90,8 +79,12 @@ angular
             };
 
             $scope.deleteTest = function (testId) {
-                calibrationTestServiceCalibrator.deleteCalibrationTest(testId)
-                $rootScope.onTableHandling();
+                $rootScope.testId = testId;
+                calibrationTestServiceCalibrator.deleteCalibrationTest(testId);
+                $timeout(function() {
+                    console.log('delete with timeout');
+                    $rootScope.onTableHandling();
+                }, 700);
             };
 
             $scope.uploadPhoto = function (testId) {

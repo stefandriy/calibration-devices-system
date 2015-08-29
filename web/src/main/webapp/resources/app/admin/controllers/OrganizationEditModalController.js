@@ -7,10 +7,22 @@ angular
 		'$scope',
 		'$modalInstance',
 		'AddressService',
-		'OrganizationService',
+		'OrganizationService','$log',
 		function($rootScope, $scope, $modalInstance,
-				 addressService, organizationService) {
+				 addressService, organizationService,$log) {
 
+
+			function arrayObjectIndexOf(myArray, searchTerm, property) {
+				for(var i = 0, len = myArray.length; i < len; i++) {
+					if (myArray[i][property] === searchTerm) return i;
+				}
+				var elem = {
+					id: length,
+					designation: searchTerm
+				}
+				myArray.push(elem);
+				return (myArray.length-1);
+			}
 
 			$scope.regions = null;
 			$scope.districts = [];
@@ -24,12 +36,18 @@ angular
 			function initFormData() {
 				if (!$scope.regions) {
 					addressService.findAllRegions().then(
-						function(data) {
-							$scope.regions = data;
+						function(respRegions) {
+							$log.debug($rootScope.organization);
+							$scope.regions = respRegions;
+						/*	var index = arrayObjectIndexOf($scope.regions,  $rootScope.organization.address.region.designation, "designation");
+							$rootScope.organization.address.region = $scope.regions[index];
+							*//*$scope.onRegionSelected($scope.regions[index].id);*/
 						});
 				}
 			}
-
+			/*var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.region, "designation");
+			$scope.employeeFormData.region = $scope.regions[index];
+			$scope.onRegionSelected($scope.regions[index].id);*/
 			initFormData();
 
 			/**
@@ -89,15 +107,11 @@ angular
 			/**
 			 * Resets organization form
 			 */
-			$scope.resetOrganizationForm = function() {
+			/*$scope.resetOrganizationForm = function() {
 				$scope.$broadcast('show-errors-reset');
 				$rootScope.organization = null;
-			};
+			};*/
 
-			/**
-			 * Calls resetOrganizationForm after the view loaded
-			 */
-			$scope.resetOrganizationForm();
 
 			/**
 			 * Convert address data to string
@@ -158,4 +172,6 @@ angular
 				$modalInstance.close();
 			};
 
-		} ]);
+		}
+
+	]);

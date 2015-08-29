@@ -15,12 +15,12 @@ import com.softserve.edu.dto.ArchiveVerificationsFilterAndSort;
 import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.NewVerificationsSearch;
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.VerificationUpdateDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.dto.provider.VerificationStatusUpdateDTO;
-import com.softserve.edu.dto.provider.VerificationUpdatingDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
@@ -31,7 +31,7 @@ import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
-import com.softserve.edu.service.utils.EmployeeProvider;
+import com.softserve.edu.service.utils.EmployeeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -183,11 +183,11 @@ public class ProviderVerificationController {
 
 
     @RequestMapping(value = "new/providerEmployees", method = RequestMethod.GET)
-    public List<EmployeeProvider> employeeVerification(
+    public List<EmployeeDTO> employeeVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = providerEmployeeService.oneProviderEmployee(user.getUsername());
         List<String> role = userService.getRoles(user.getUsername());
-        List<EmployeeProvider> providerListEmployee = providerEmployeeService
+        List<EmployeeDTO> providerListEmployee = providerEmployeeService
                 .getAllProviders(role, employee);
         return providerListEmployee;
     }
@@ -197,10 +197,10 @@ public class ProviderVerificationController {
      */
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void updateVerification(
-            @RequestBody VerificationUpdatingDTO verificationUpdatingDTO) {
+            @RequestBody VerificationUpdateDTO verificationUpdateDTO) {
 
-        for (String verificationId : verificationUpdatingDTO.getIdsOfVerifications()) {
-            Long idCalibrator = verificationUpdatingDTO.getIdsOfCalibrators();
+        for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
+            Long idCalibrator = verificationUpdateDTO.getOrganizationId();
             Organization calibrator = calibratorService.findById(idCalibrator);
             verificationService.sendVerificationTo(verificationId, calibrator, Status.IN_PROGRESS);
         }
@@ -232,12 +232,10 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
-        String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();       
+        String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
         User employeeProvider = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
-        Verification verification = verificationService.findById(idVerification);
-        verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeProvider);   
-        mailService.sendAcceptMail(verification.getClientData().getEmail(), idVerification, verification.getDevice().getDeviceType().toString());
+        verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeProvider);
     }
 
     @RequestMapping(value = "remove/providerEmployee", method = RequestMethod.PUT)
@@ -270,22 +268,14 @@ public class ProviderVerificationController {
 
 
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
-    public VerificationDTO getArchivalVerificationDetailsById(@PathVariable String verificationId, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public VerificationDTO getArchivalVerificationDetailsById(@PathVariable String verificationId, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user, VerificationDTO verificationDTO) {
 
         Verification verification = verificationService.findByIdAndProviderId(verificationId, user.getOrganizationId());
 
-        return new VerificationDTO(verification.getClientData(),
-                verification.getId(),
-                verification.getInitialDate(),
-                verification.getExpirationDate(),
-                verification.getStatus(),
-                verification.getCalibrator(),
-                verification.getCalibratorEmployee(),
-                verification.getDevice(),
-                verification.getProvider(),
-                verification.getProviderEmployee(),
-                verification.getStateVerificator(),
-                verification.getStateVerificatorEmployee()
-        );
+        return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(),
+                verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
+                verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
+                verification.getProviderEmployee(), verification.getStateVerificator(),
+                verification.getStateVerificatorEmployee());
     }
 }

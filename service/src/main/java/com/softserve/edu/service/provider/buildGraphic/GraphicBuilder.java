@@ -69,7 +69,7 @@ public class GraphicBuilder {
                     strBuild = new StringBuilder();
                     strBuild.append(user.getLastName()).append(" ");
                     strBuild.append(user.getFirstName()).append(" ");
-                    strBuild.append(user.getMiddleName()).append(" ");
+                    strBuild.append(user.getMiddleName());
                     provEmp.name = strBuild.toString();
                 }
             }

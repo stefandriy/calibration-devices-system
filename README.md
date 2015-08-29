@@ -119,7 +119,6 @@ service-src-main-java...-service:
 - ProviderEmployeeService.java
 - ProviderService.java
 - StateVerificatorEmployeeService.java
-- StateVerificatorService.java
 - FileOperationImpl.java
 - FileSearch.java
 - SaveOptions.java
@@ -158,8 +157,6 @@ service-src-main-java...-service:
 - BuildingService.java
 - District.java
 - NotAvailableException.java
-- StateVerificatorEmployeeService.java
-- StateVerificatorService.java
 - FileOperations.java
 - ArchivalVerificationsQueryConstructorCalibrator.java
 - ArchivalVerificationsQueryConstructorProvider.java
@@ -178,7 +175,6 @@ service-src-main-java...-service:
 - VerificationService.java
 - DocumentsService.java
 - MailService.java
-- MeasuringEquipmentService.java
 - SecurityUserDetailsService.java
 - UserService.java
 - VerificationPhotoService.java
@@ -230,6 +226,8 @@ admin:
  - DeviceService
  - CalibrationTestService
  - CalibratioтTestDataService
+ - StateVerificatorService.java
+ - StateVerificatorEmployeeService.java
 
 ### Чопик Василь
 - VerificationProviderEmployeeService.java

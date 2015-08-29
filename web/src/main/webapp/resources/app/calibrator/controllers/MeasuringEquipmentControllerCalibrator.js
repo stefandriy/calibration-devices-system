@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('MeasuringEquipmentControllerCalibrator', ['$rootScope','$scope', '$modal','MeasuringEquipmentServiceCalibrator',
-        function ($rootScope, $scope, $modal, equipmentServiceCalibrator) {
+    .controller('MeasuringEquipmentControllerCalibrator', ['$rootScope','$scope', '$modal','MeasuringEquipmentServiceCalibrator', '$timeout',
+        function ($rootScope, $scope, $modal, equipmentServiceCalibrator, $timeout) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -51,8 +51,13 @@ angular
 			};
 			
 			$scope.deleteEquipment = function (equipmentId) {
-				equipmentServiceCalibrator.deleteEquipment(equipmentId)
+				$rootScope.equipmentId = equipmentId;
+				equipmentServiceCalibrator.deleteEquipment(equipmentId);
+                $timeout(function() {
+                    console.log('delete with timeout');
                     $rootScope.onTableHandling();
+                }, 700);
+
             };
 			
 			

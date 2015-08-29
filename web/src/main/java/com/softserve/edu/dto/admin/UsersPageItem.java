@@ -1,6 +1,5 @@
 package com.softserve.edu.dto.admin;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class UsersPageItem {
@@ -177,7 +176,5 @@ public class UsersPageItem {
                 ", countOfVarification=" + countOfVarification +
                 '}';
     }
-
-  public static List allField= Arrays.asList("username","role","firstName","lastName","organization","phone");
 
 }

@@ -90,7 +90,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/OrganizationService', 'services/StatisticService',
     'services/UserService', 'services/AddressService',
     'services/DeviceService', 'services/DevicesService',
-    'services/SettingsService', 'services/UsersService'
+    'services/SettingsService', 'services/UsersService','directives/unique'
 
 ], function () {
 });

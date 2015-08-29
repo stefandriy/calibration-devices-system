@@ -1,9 +1,9 @@
 angular
     .module('welcomeModule')
     .controller('ApplicationSendingController', ['$scope', '$q', '$state', '$http', '$log',
-        'DataReceivingService', 'DataSendingService', '$stateParams', '$window', '$rootScope','$location','$modal',
+        'DataReceivingService', 'DataSendingService', '$stateParams', '$window', '$rootScope','$location','$modal','$filter',
 
-        function ($scope, $q, $state, $http, $log, dataReceivingService, dataSendingService, $stateParams, $window, $rootScope, $location,$modal) {
+        function ($scope, $q, $state, $http, $log, dataReceivingService, dataSendingService, $stateParams, $window, $rootScope, $location,$modal,$filter) {
             $scope.isShownForm = true;
             $scope.blockSearchFunctions = false;
             
@@ -189,6 +189,8 @@ angular
                     dataReceivingService.findMailIndexByLocality(selectedLocality.designation,selectedDistrict.id)
                         .success(function (indexes) {
                             $scope.indexes = indexes;
+                            if (indexes.length>0){
+                            $scope.selectedIndex=indexes[0];}
                             $log.debug("$scope.indexes");
                             $log.debug($scope.indexes);
 
@@ -253,7 +255,7 @@ angular
                     $scope.formData.region = $scope.selectedRegion.designation;
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
-                    $scope.formData.street = ($scope.selectedStreetType.designation+" "+$scope.selectedStreet.designation) ||($scope.selectedStreetType.designation + " "+$scope.selectedStreet) ;
+                    $scope.formData.street = ($scope.selectedStreet.designation+" "+$scope.selectedStreetType.designation) ||($scope.selectedStreet + " "+$scope.selectedStreetType.designation) ;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.allSelectedDevices[i].id;
@@ -278,9 +280,9 @@ angular
              * 
              */
 
-            $scope.STREET_REGEX=/^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}){1}$/;
-            $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}|[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20})$/;
-            $scope.MIDDLE_NAME_REGEX=/^[A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457]{1,20}$/;
+            $scope.STREET_REGEX=/^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}){1}$/;
+            $scope.FIRST_LAST_NAME_REGEX=/^([A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20})$/;
+            $scope.MIDDLE_NAME_REGEX=/^[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}$/;
             $scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
             $scope.BUILDING_REGEX=/^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
             $scope.PHONE_REGEX=/^0[1-9]\d{8}$/;
@@ -306,13 +308,15 @@ angular
                  */
                 modalInstance.result.then(function (formData, sendingStarted) {
                     var messageToSend = {
-                        verifID : " ",
+                        verifID :  $filter('translate')('NOTFOUND_TRANSLATION'),
                         msg : formData.message,
                         name:formData.firstName,
                         surname:formData.lastName,
                         email:formData.email
                     };
-
+                    var idInfo=function(){
+                            return $filter('translate')('PHONE')
+                    };
                     $scope.showSendingAlert = true;
                     dataSendingService.sendMailNoProvider (messageToSend)
                         .success(function () {
@@ -329,5 +333,6 @@ angular
                 $scope.responseSuccess = false;
                 $scope.showSendingAlert = false;
             }
+
 
         }]);

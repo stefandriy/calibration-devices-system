@@ -419,3 +419,6 @@ input[type="radio"], input[type="checkbox"] {
     top: 25px;
     right: 15px;
 }
+.modal .modal-body {
+    max-height: 1500px;
+}

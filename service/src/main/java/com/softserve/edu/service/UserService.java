@@ -1,13 +1,12 @@
 package com.softserve.edu.service;
 
 
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -31,40 +30,39 @@ public class UserService {
      * Changes given type of user's field
      *
      * @param username must not be non {@literal null}
-     * @param newField new value
-     * @param type     of user's field
+     * @param newValue new value
+     * @param typeOfField   type  of user's field
      * @return {@literal true} if changed, else - {@literal false}
      */
-    public boolean changeField(String username, String newField, String type) {
+    public boolean changeField(String username, String newValue, String typeOfField) {
         boolean isChanged = false;
-        if (type != null && username != null && newField != null) {
-            User user = userRepository.findOne(username);
-            if (user instanceof User) {
-            	User employee = (User) user;
-                switch (type) {
+        if (typeOfField != null && username != null && newValue != null) {
+            User user = userRepository.findByUsername(username);
+            if (user != null) {
+                switch (typeOfField) {
                     case "firstName":
-                        employee.setFirstName(newField);
+                        user.setFirstName(newValue);
                         isChanged = true;
                         break;
                     case "lastName":
-                        employee.setLastName(newField);
+                        user.setLastName(newValue);
                         isChanged = true;
                         break;
                     case "middleName":
-                        employee.setMiddleName(newField);
+                        user.setMiddleName(newValue);
                         isChanged = true;
                         break;
                     case "email":
-                        employee.setEmail(newField);
+                        user.setEmail(newValue);
                         isChanged = true;
                         break;
                     case "phone":
-                        employee.setPhone(newField);
+                        user.setPhone(newValue);
                         isChanged = true;
                         break;
                 }
                 if (isChanged) {
-                    userRepository.save(employee);
+                    userRepository.save(user);
                 }
             }
         }
@@ -79,7 +77,7 @@ public class UserService {
      * @throws ClassCastException if username isn't a employee
      */
     public User getEmployee(String username) throws ClassCastException {
-        return (User) userRepository.findOne(username);
+        return userRepository.findOne(username);
     }
 
     /**

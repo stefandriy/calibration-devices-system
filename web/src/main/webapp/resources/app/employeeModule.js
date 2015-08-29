@@ -77,6 +77,11 @@
                         templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
                         controller: 'CalibrationTestControllerCalibrator'
                     })
+                     .state("calibration-test-add", {
+                        url: '/calibrator/verifications/calibration-test-add/',
+                        templateUrl: '/resources/app/calibrator/views/calibration-test-add-panel.html',
+                        controller: 'CalibrationTestAddControllerCalibrator'
+                    })
                     .state("verifications-archive-calibrator", {
                         url: '/calibrator/verifications/archive',
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
@@ -149,14 +154,13 @@
             'calibrator/controllers/NewVerificationsControllerCalibrator',
             'calibrator/controllers/DetailsModalControllerCalibrator',
             'calibrator/controllers/SendingModalControllerCalibrator',
-            'calibrator/controllers/CalibrationTestAddModalControllerCalibrator',
             'calibrator/controllers/CalibrationTestEditModalController',
             'calibrator/controllers/CalibrationTestControllerCalibrator',
-            'calibrator/controllers/CalibrationTestDataAddModalControllerCalibrator',
             'calibrator/controllers/EmployeeControllerCalibrator',
             'calibrator/controllers/AddressModalControllerCalibrator',
             'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
             'calibrator/controllers/NotificationsControllerCalibrator',
+            'calibrator/controllers/CalibrationTestAddControllerCalibrator',
             'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
            'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
             'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',   

@@ -8,6 +8,7 @@ angular
             var organizationTypeVerificator = false;
             var employeeData = {};
 
+
             userService.isAdmin()
                 .success(function (response) {
                     var includeCheckBox = false;
@@ -277,12 +278,12 @@ angular
                  * @param localityId
                  *            to identify locality
                  */
-                //$scope.onLocalitySelected = function (localityId) {
-                //    addressServiceProvider.findStreetsByLocalityId(
-                //        localityId).then(function (data) {
-                //            $scope.streets = data.data;
-                //        });
-                //};
+                $scope.onLocalitySelected = function (localityId) {
+                    addressServiceProvider.findStreetsByLocalityId(
+                       localityId).then(function (data) {
+                           $scope.streets = data.data;
+                        });
+                };
 
                 /**
                  * Finds buildings in a given street.
@@ -334,14 +335,29 @@ angular
 
                 }
 
+                bValidation = function(){
+                    if(( $scope.firstNameValidation === undefined)|| ($scope.lastNameValidation === undefined)
+                        || ($scope.middleNameValidation === undefined) || ($scope.emailValidation === undefined)
+                        || ($scope.passwordValidation === undefined) || ($scope.usernameValidation === undefined)
+                        || ($scope.employeeFormData.region === undefined) || ($scope.employeeFormData.district === undefined)
+                        || ($scope.employeeFormData.locality === undefined)) {
+                        $scope.incorrectValue = true;
+                        return false;
+                    }else{
+                        return true;
+                    }
+                }
+
                 $scope.onEmployeeFormSubmit = function () {
                     $scope.$broadcast('show-errors-check-validity');
-                    if( !$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
-                    && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
-                        retranslater();
-                        saveEmployee();
-                    } else {
-                        $scope.incorrectValue =true;
+                    if(bValidation()){
+                            if (!$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
+                            && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
+                            retranslater();
+                            saveEmployee();
+                        } else {
+                            $scope.incorrectValue = true;
+                        }
                     }
                         };
 

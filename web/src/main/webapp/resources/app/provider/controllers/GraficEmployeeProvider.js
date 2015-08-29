@@ -29,7 +29,7 @@ angular
                                 type: 'column'
                             },
                             title: {
-                                text: 'Продуктивність працівників',
+                                text: "'Продуктивність працівників'",
                                 x: -20 //center
                             },
                             subtitle: {
@@ -68,7 +68,7 @@ angular
                 } else {
                     $scope.chartConfig = {
                         title: {
-                            text: 'За даний період немає інформації про працівників',
+                            text: 'За вказаний період заявки не надходили',
                             x: -20 //center
                         }
                     }
