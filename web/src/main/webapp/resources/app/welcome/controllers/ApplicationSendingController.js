@@ -255,7 +255,7 @@ angular
                     $scope.formData.region = $scope.selectedRegion.designation;
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
-                    $scope.formData.street = ($scope.selectedStreet.designation+" "+$scope.selectedStreetType.designation) ||($scope.selectedStreet + " "+$scope.selectedStreetType.designation) ;
+                    $scope.formData.street = ($scope.selectedStreet.designation+" "+angular.lowercase($scope.selectedStreetType.designation)) ||($scope.selectedStreet + " "+angular.lowercase($scope.selectedStreetType.designation)) ;
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
                     $scope.formData.deviceId = $scope.allSelectedDevices[i].id;
