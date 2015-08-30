@@ -107,10 +107,10 @@ angular
 			/**
 			 * Resets organization form
 			 */
-			$scope.resetOrganizationForm = function() {
+			/*$scope.resetOrganizationForm = function() {
 				$scope.$broadcast('show-errors-reset');
 				$rootScope.organization = null;
-			};
+			};*/
 
 
 			/**

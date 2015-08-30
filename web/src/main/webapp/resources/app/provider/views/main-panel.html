@@ -27,7 +27,7 @@
                 <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <li class="fa fa-bar-chart-o fa-fw"></li> Графік кількості поступлених заяво
+                        <li class="fa fa-bar-chart-o fa-fw"></li> Графік надходження заявок
                     </div>
                     <div  ng-controller="GraphicEmployeeProviderMainPanel">
 
@@ -110,7 +110,7 @@
                 <tr ng-repeat="verification in $data">
                     <td  align="center">{{ verification.initialDate | date}}</td>
                     <td>{{ verification.surname }}</td>
-                    <td>{{ verification.street }}</td>
+                    <td ng-if="verification.street">{{ verification.street }}</td>
                     <td style="width: 15%"  align="center">
                         <img src="/resources/assets/button-icons/face2.png" ng-show="!verification.providerEmployee"
                              popover="Вибрати відповідальну особу"  popover-trigger="mouseenter"

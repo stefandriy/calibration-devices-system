@@ -42,7 +42,7 @@ import com.softserve.edu.service.utils.NewVerificationsQueryConstructorVerificat
 @Service
 public class VerificationService {
     
-	Logger logger = Logger.getLogger(VerificationService.class);
+	private Logger logger = Logger.getLogger(VerificationService.class);
 
     @Autowired
     private VerificationRepository verificationRepository;
@@ -379,6 +379,10 @@ public class VerificationService {
     @Transactional
     public void updateVerificationStatus(String verificationId, Status status) {
         Verification verification = verificationRepository.findOne(verificationId);
+        if (verification == null) {
+            logger.error("verification haven't found");
+            return;
+        }
         verification.setStatus(status);
         verification.setReadStatus(ReadStatus.READ);
         verification.setExpirationDate(new Date());
@@ -388,7 +392,10 @@ public class VerificationService {
     @Transactional
     public void sendVerificationTo(String verificationId, Organization oraganization, Status status) {
         Verification verification = verificationRepository.findOne(verificationId);
-
+        if (verification == null) {
+            logger.error("verification haven't found");
+            return;
+        }
         if (status.equals(Status.IN_PROGRESS)) {
             verification.setCalibrator(oraganization);
             verification.setSentToCalibratorDate(new Date());
@@ -440,6 +447,7 @@ public class VerificationService {
      * calibrator
      * @throws NotAvailableException if there is no verification with such id
      */
+    
     @Transactional
     public CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data) {
         Verification updatedVerification = verificationRepository.findOne(verificationId);
@@ -515,5 +523,6 @@ public class VerificationService {
 
     }
 
-
 }
+
+

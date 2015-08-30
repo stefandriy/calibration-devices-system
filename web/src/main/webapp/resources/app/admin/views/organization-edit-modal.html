@@ -18,6 +18,14 @@
 					required>
 			</div>
 		</div>
+				<div class="row">
+					<div class="form-group col-md-4">
+						<label class="control-label">{{'EMAIL' | translate }}</label>
+					</div>
+					<div class="form-group col-md-8">
+						<input type="text" ng-model="$root.organization.email" name="email" class="form-control">
+					</div>
+				</div>
 
 		<div class="row">
 			<div class="form-group col-md-4">
@@ -29,14 +37,7 @@
 					name="phone" class="form-control" required>
 			</div>
 		</div>
-		<div class="row">
-  			<div class="form-group col-md-4">
-    			<label class="control-label">{{'EMAIL' | translate }}</label>
-   			</div>
-   			<div class="form-group col-md-8">
-    			<input type="text" ng-model="$root.organization.email" name="email" class="form-control">
-   			</div>
-  		</div>
+
 
 		<div class="row">
 			<div class="form-group col-md-4">
@@ -152,7 +153,7 @@
 			<div class="form-group col-md-10">
 
 				<button class="btn btn-success" ng-click="editOrganization()">{{'EDIT' | translate}}</button>
-				<a class="btn btn-warning" ng-click="resetOrganizationForm()">{{'CLEAR_FORM' | translate }}</a>
+				<!--<a class="btn btn-warning" ng-click="resetOrganizationForm()">{{'CLEAR_FORM' | translate }}</a>-->
 			</div>
 			<div class="form-group col-md-2">
 				<button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}</button>

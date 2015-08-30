@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +14,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -28,17 +29,21 @@ public class JPAConfig {
     private Environment env;
 
     @Bean
-    public DriverManagerDataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("db.driver"));
+    public DataSource dataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(env.getProperty("db.driverClassName"));
         dataSource.setUrl(env.getProperty("db.url"));
         dataSource.setUsername(env.getProperty("db.username"));
         dataSource.setPassword(env.getProperty("db.password"));
+        dataSource.setConnectionProperties(env.getProperty("db.connectionProperties"));
+        dataSource.setInitialSize(env.getProperty("db.initialSize", Integer.class));
+        dataSource.setMaxIdle(env.getProperty("db.maxIdle", Integer.class));
+        dataSource.setMaxTotal(env.getProperty("db.maxTotal", Integer.class));
         return dataSource;
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DriverManagerDataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
        // entityManagerFactoryBean.setPersistenceUnitName("mySql");
@@ -51,7 +56,7 @@ public class JPAConfig {
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory,
-                                                         DriverManagerDataSource dataSource) {
+                                                         DataSource dataSource) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         transactionManager.setDataSource(dataSource);
@@ -61,8 +66,6 @@ public class JPAConfig {
     private Map<String, String> jpaProperties() {
         Map<String, String> jpaProperties = new HashMap<>();
         jpaProperties.put("hibernate.dialect", env.getProperty("hb.dialect"));
-        jpaProperties.put("hibernate.connection.useUnicode", env.getProperty("hb.conn.useUnicode"));
-        jpaProperties.put("hibernate.connection.characterEncoding", env.getProperty("hb.conn.characterEncoding"));
         jpaProperties.put("hibernate.show_sql", env.getProperty("hb.showSql"));
         jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hb.hbm2ddl.auto"));
         jpaProperties.put("hibernate.format_sql", env.getProperty("hb.formatSql"));

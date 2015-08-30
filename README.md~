@@ -239,6 +239,9 @@ admin:
 ### Конончук Богдан
  - ProviderService
 
+### Чопик Василь
+- VerificationProviderEmployeeService.java
+
 ### Назаркевич Володимир
  - UserService
  - BuildingService
@@ -246,3 +249,4 @@ admin:
 
 ### Олег Косар
 - MeasuringEquipmentService.java
+

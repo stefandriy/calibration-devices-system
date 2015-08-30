@@ -2,6 +2,7 @@ package com.softserve.edu.service.provider.buildGraphic;
 
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-
+@Ignore
 public class GraphicBuilderTest {
 
     @Test
@@ -43,6 +44,7 @@ public class GraphicBuilderTest {
         assertEquals(1, one_month_day.size());
         assertEquals(0, one_month_day.get(0).month);
     }
+
 
     @Test
     public void testBuilderData() throws Exception {
