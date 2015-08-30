@@ -125,8 +125,9 @@ public class ProviderEmployeeServiceTest {
 		List<EmployeeDTO> spyProviderListEmployee = Mockito
 				.spy(new ArrayList<>());
 
-		final User spyEmployee = Mockito.spy(new User("1", "1", new Organization("1", "1", "1")));
-		
+		final User spyEmployee = Mockito.spy(new User("1", "1",
+				new Organization("1", "1", "1")));
+
 		List<User> spyUserList = Mockito.spy(new ArrayList<>());
 		spyUserList.add(spyEmployee);
 
@@ -143,9 +144,9 @@ public class ProviderEmployeeServiceTest {
 		spyProviderListEmployee.add(finalEmpDTO);
 
 		verify(spyProviderListEmployee).add(finalEmpDTO);
-		
-		Assert.assertNotNull(providerEmployeeService
-				.getAllProviders(spyRoleList, spyEmployee));
+
+		Assert.assertNotNull(providerEmployeeService.getAllProviders(
+				spyRoleList, spyEmployee));
 	}
 
 	@Test
@@ -158,9 +159,9 @@ public class ProviderEmployeeServiceTest {
 
 		EmployeeDTO userPage = Mockito.mock(EmployeeDTO.class);
 		List<EmployeeDTO> providerListEmployee = Mockito.mock(List.class);
-		
-		Assert.assertNotNull(providerEmployeeService
-				.getAllProviders(spyRoleList, spyEmployee));
+
+		Assert.assertNotNull(providerEmployeeService.getAllProviders(
+				spyRoleList, spyEmployee));
 	}
 
 	@Test
