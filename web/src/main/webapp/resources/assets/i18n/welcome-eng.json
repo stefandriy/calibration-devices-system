@@ -234,5 +234,8 @@
   "TEST_NOK":"Tested NOK",
   "MAX_PROCESS_TIME":"Max verification processing time, days",
 
-  "AMOUNT" : "Amount"
+
+  "AMOUNT" : "Amount",
+  "STATUS_SELECT_PLACEHOLDER":"Select a status"
+
 }

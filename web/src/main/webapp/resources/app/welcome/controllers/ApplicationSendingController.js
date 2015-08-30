@@ -247,23 +247,25 @@ angular
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.clientForm.$valid) {
                     $scope.isShownForm = false;
-                    $log.debug("$scope.selectedDevice");
-                    $log.debug($scope.selectedDevice);
-                    $log.debug("$scope.allSelectedDevices");
-                    $log.debug($scope.allSelectedDevices);
-                    for (var i = 0; i < $scope.allSelectedDevices.length; i++) {
-                        $scope.formData.region = $scope.selectedRegion.designation;
-                        $scope.formData.district = $scope.selectedDistrict.designation;
-                        $scope.formData.locality = $scope.selectedLocality.designation;
-                        $scope.formData.street = ($scope.selectedStreet.designation + " " + $scope.selectedStreetType.designation) || ($scope.selectedStreet + " " + $scope.selectedStreetType.designation);
-                        $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-                        $scope.formData.providerId = $scope.selectedProvider.id;
-                        $scope.formData.deviceId = $scope.allSelectedDevices[i].id;
-                        $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
-                    }
-                    $q.all($scope.applicationCodes).then(function (values) {
-                        for (var i = 0; i < $scope.allSelectedDevices.length; i++) {
-                            $scope.codes[i] = values[i].data;
+
+                    $log.debug( "$scope.selectedDevice");
+                    $log.debug( $scope.selectedDevice);
+                    $log.debug( "$scope.allSelectedDevices");
+                    $log.debug( $scope.allSelectedDevices);
+                    for ( var i=0; i< $scope.allSelectedDevices.length;i++){
+                    $scope.formData.region = $scope.selectedRegion.designation;
+                    $scope.formData.district = $scope.selectedDistrict.designation;
+                    $scope.formData.locality = $scope.selectedLocality.designation;
+                    $scope.formData.street = ($scope.selectedStreet.designation+" "+angular.lowercase($scope.selectedStreetType.designation)) ||($scope.selectedStreet + " "+angular.lowercase($scope.selectedStreetType.designation)) ;
+                    $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
+                    $scope.formData.providerId = $scope.selectedProvider.id;
+                    $scope.formData.deviceId = $scope.allSelectedDevices[i].id;
+                    $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
+                          }
+                    $q.all($scope.applicationCodes).then(function(values){
+                        for ( var i=0; i< $scope.allSelectedDevices.length;i++) {
+                            $scope.codes[i]=values[i].data;
+
                         }
                     });
                     $log.debug(" $scope.codeslength");

@@ -34,9 +34,9 @@
                                     class="btn btn-warning pull-right is-filter" translate="DROP_SEARCH">
                             </button>
 
-
+                            <div class="table-responsive">
                             <table show-filter="true" ng-table="tableParams" template-pagination="employee/pager"
-                                   class="table table-bordered table-hover users_table">
+                                   class="table table-bordered table-hover table-responsive users_table">
 
                                 <tbody>
                                 <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
@@ -75,6 +75,7 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </div>
                     <script type="text/ng-template" id="employee/pager">
