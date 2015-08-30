@@ -10,7 +10,7 @@
                 formattedDate :null,
                 lastNameText:null,
                 streetText: null
-            }
+            };
 
             $scope.clearAll = function(){
                 $scope.search.idText=null;
@@ -19,27 +19,27 @@
                 $scope.search.lastNameText=null;
                 $scope.search.streetText=null;
                 $scope.tableParams.reload();
-            }
+            };
 
             $scope.clearId = function () {
                 $scope.search.idText = null;
                 $scope.tableParams.reload();
-            }
+            };
             $scope.clearLastName = function () {
                 $scope.search.lastNameText = null;
                 $scope.tableParams.reload();
-            }
+            };
             $scope.clearStreet = function () {
                 $scope.search.streetText = null;
                 $scope.tableParams.reload();
-            }
+            };
 
             var promiseSearchTimeOut;
             $scope.doSearch = function() {
                 promiseTimeOut = $timeout(function() {
                     $scope.tableParams.reload();
                 }, 1200);
-            }
+            };
 
             $scope.$on('refresh-table', function () {
                 $scope.clearAll();
@@ -69,7 +69,6 @@
                                 $filter('filter')(data, params.filter()) :
                                 data;
 
-                            //TODO: doesn't filter cyrrilic data
                             params.total(orderedData.totalItems);
                             $scope.totalCount = orderedData.totalItems;
                             $defer.resolve(orderedData); //made available to ng-table
@@ -111,7 +110,6 @@
                         response: function () {
                             return verificationService.getNewVerificationDetails(verifId)
                                 .success(function (verification) {
-                                    //TODO: cyrillic letters become ?
                                     $rootScope.verificationID = verifId;
                                     verification.id =   $rootScope.verificationID;
                                     verification.initialDate = verifDate;
@@ -153,7 +151,7 @@
                             );
                         }
                     }
-                })
+                });
                 /**
                  * executes when modal closing
                  */
@@ -258,6 +256,10 @@
              *  Date picker and formatter setup
              *
              */
+
+            $scope.pickerDate = {startDate: null, endDate: null};
+
+            /*old configs*/
             $scope.openState = {};
             $scope.openState.isOpen = false;
 
@@ -287,7 +289,7 @@
                     $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
                     $scope.tableParams.reload();
                 }
-            }
+            };
             /**
              * Modal window used to explain the reason of verification rejection
              */

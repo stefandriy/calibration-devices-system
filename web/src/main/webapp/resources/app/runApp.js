@@ -18,7 +18,11 @@ require.config({
         standalone:  '../assets/bower_components/highcharts-release/adapters/standalone-framework.src',
         upload : '../assets/bower_components/ng-file-upload/ng-file-upload-all.min',
         ngRoute : '../assets/bower_components/angular-route/angular-route.min',
-        angularLoadingBar : '../assets/bower_components/angular-loading-bar/build/loading-bar'
+        angularLoadingBar: '../assets/bower_components/angular-loading-bar/build/loading-bar',
+        jquery: '../assets/bower_components/jquery/dist/jquery.js',
+        moment: "../assets/bower_components/moment/min/moment.min",
+        bootstrapDateRangePicker: "../assets/bower_components/bootstrap-daterangepicker/daterangepicker",
+        angularDateRangePicker: "../assets/bower_components/angular-daterangepicker/js/angular-daterangepicker.min"
     },
     shim: {
         angular: {
@@ -78,10 +82,16 @@ require.config({
             deps : [ 'angular' ],
             exports : "angularLoadingBar"
         },
+
+        angularDateRangePicker: {
+            deps: ['angular', 'moment', 'bootstrapDateRangePicker'],
+            exports: 'angularDateRangePicker'
+        },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
-                   'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload','ngRoute','angularLoadingBar']
+                'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload', 'ngRoute', 'angularLoadingBar',
+                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker']
         }
     }
 });

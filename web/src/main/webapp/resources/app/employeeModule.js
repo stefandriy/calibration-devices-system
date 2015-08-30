@@ -1,7 +1,7 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
         'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
-        'highcharts-ng', 'ngFileUpload','ngRoute','angular-loading-bar'])
+        'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider',
 
