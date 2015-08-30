@@ -231,5 +231,6 @@
   "SENT_TO_VERIFICATOR":"Sent to verificator",
   "TEST_OK":"Tested OK",
   "TEST_NOK":"Tested NOK",
-  "MAX_PROCESS_TIME":"Max verification processing time, days"
+  "MAX_PROCESS_TIME":"Max verification processing time, days",
+  "STATUS_SELECT_PLACEHOLDER":"Select a status"
 }
