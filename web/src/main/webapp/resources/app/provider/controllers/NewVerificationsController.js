@@ -156,7 +156,7 @@
                  * executes when modal closing
                  */
                 modalInstance.result.then(function (formData) {
-                    idVerification = 0;
+                    var idVerification = 0;
                     var dataToSend = {
                         idVerification: verifId,
                         employeeProvider: formData.provider
@@ -258,6 +258,9 @@
              */
 
             $scope.pickerDate = {startDate: null, endDate: null};
+            $scope.$watch('pickerDate', function (newDate) {
+                $log.debug('New date set: ', newDate);
+            }, false);
 
             /*old configs*/
             $scope.openState = {};

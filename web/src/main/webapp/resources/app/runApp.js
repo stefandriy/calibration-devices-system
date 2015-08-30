@@ -20,7 +20,7 @@ require.config({
         ngRoute : '../assets/bower_components/angular-route/angular-route.min',
         angularLoadingBar: '../assets/bower_components/angular-loading-bar/build/loading-bar',
         jquery: '../assets/bower_components/jquery/dist/jquery.js',
-        moment: "../assets/bower_components/moment/min/moment.min",
+        moment: "../assets/bower_components/moment/min/moment-with-locales.min",
         bootstrapDateRangePicker: "../assets/bower_components/bootstrap-daterangepicker/daterangepicker",
         angularDateRangePicker: "../assets/bower_components/angular-daterangepicker/js/angular-daterangepicker.min"
     },

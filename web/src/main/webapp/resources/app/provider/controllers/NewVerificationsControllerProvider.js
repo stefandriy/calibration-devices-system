@@ -7,16 +7,16 @@ angular
 
     	$scope.clearAll = function() {
     		$scope.selectedStatus.name=null;
-    		$scope.tableParams.filter({});   		
-    	}
+    		$scope.tableParams.filter({});
+        };
 
     	$scope.doSearch = function() {
     		$scope.tableParams.reload();
-    	}
+        };
     	
     	$scope.selectedStatus = {
     		name : null
-    	}
+        };
 	
     	$scope.statusData = [
     	   				{ id : 'SENT', label : null },
@@ -148,7 +148,7 @@ $scope.addProviderEmployee = function (verifId, providerEmployee) {
                 );
             }
         }
-    })
+    });
     /**
      * executes when modal closing
      */
@@ -250,12 +250,46 @@ $scope.openSendingModal = function () {
 var checkForEmpty = function () {
     $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
 };
-
-
             /**
              *  Date picker and formatter setup
              *
              */
+
+
+            $scope.pickerDate = {startDate: null, endDate: null};
+            $scope.$watch('pickerDate', function (newDate) {
+                $log.debug('New date set: ', newDate);
+            }, false);
+
+            /*TODO: i18n*/
+
+            moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+            $scope.opts = {
+                format: 'DD-MM-YYYY',
+                locale: {
+                    firstDay: 1,
+                    fromLabel: 'Від',
+                    toLabel: 'До',
+                    applyLabel: "Прийняти",
+                    cancelLabel: "Відмінити",
+                    customRangeLabel: "Обрати самостійно"
+                },
+                ranges: {
+                    'Сьогодні': [moment(), moment()],
+                    'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+                    'Цього тижня': [moment().startOf('week'), moment()],
+                    'Цього місяця': [moment().startOf('month'), moment()],
+                    'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                eventHandlers: {
+                    'apply.daterangepicker': function (ev, picker) {
+                        $log.debug($scope.pickerDate);
+                        $log.debug(picker.startDate.format('YYYY-MM-DD'));
+                    }
+                }
+            };
+
+
             $scope.openState = {};
             $scope.openState.isOpen = false;
 

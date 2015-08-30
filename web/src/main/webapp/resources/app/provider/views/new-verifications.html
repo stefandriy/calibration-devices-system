@@ -15,7 +15,7 @@
                                         ng-click="initiateVerification()">
                                    <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
                                    </button>
-                        <input date-range-picker class="form-control date-picker" type="text" ng-model="pickerDate"/>
+
                             </div>
                     
                     <div class="clearfix col-md-offset-10">
@@ -117,9 +117,11 @@
      			 
 
 					<div class="input-group myDatePicker">
-                        <input type="text" class="form-control input-md" datepicker-popup="{{format}}" ng-model="params.filter()[name]" name="filter-date"
-											 is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"
-                                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                        <input date-range-picker="opts" class="form-control date-picker" type="text"
+                               ng-model="pickerDate" options="opts" readonly/>
+                        <!--<input type="text" class="form-control input-md" datepicker-popup="{{format}}" ng-model="params.filter()[name]" name="filter-date"-->
+                        <!--is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"-->
+                        <!--date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>-->
 
 											  <span class="input-group-btn ">
 											     <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
