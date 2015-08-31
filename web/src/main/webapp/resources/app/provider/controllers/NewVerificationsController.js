@@ -46,16 +46,10 @@
             });
 
             $scope.totalCount = 0;
-            $scope.filter = {
-                id: undefined,
-                client_last_name: undefined,
-                street: undefined,
-                employee_last_name: undefined
-            };
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
-                count: 10,
-                filter: $scope.filter
+                count: 10
             }, {
                 total: 0,
                 getData: function ($defer, params) {
@@ -64,15 +58,9 @@
                         $scope.search.lastNameText, $scope.search.streetText)
                         .success(function (result) {
                             var data = result.content;
-                            //data is filtered here
-                            var orderedData = params.filter() ?
-                                $filter('filter')(data, params.filter()) :
-                                data;
-
-                            params.total(orderedData.totalItems);
-                            $scope.totalCount = orderedData.totalItems;
-                            $defer.resolve(orderedData); //made available to ng-table
-
+                            params.total(data.totalItems);
+                            $scope.totalCount = data.totalItems;
+                            $defer.resolve(data); //made available to ng-table
                             $log.debug('total inside call');
                             $log.debug($scope.totalCount);
                         }, function (result) {
@@ -257,12 +245,7 @@
              *
              */
 
-            $scope.pickerDate = {startDate: null, endDate: null};
-            $scope.$watch('pickerDate', function (newDate) {
-                $log.debug('New date set: ', newDate);
-            }, false);
 
-            /*old configs*/
             $scope.openState = {};
             $scope.openState.isOpen = false;
 

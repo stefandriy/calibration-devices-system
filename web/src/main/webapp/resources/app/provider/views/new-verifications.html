@@ -44,7 +44,9 @@
                                 <tbody>
                                 <tr ng-repeat="verification in $data"  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td data-title="''"><input type="checkbox" ng-click="resolveVerificationId(verification.id)"/></td>
-                                    <td data-title="'INITIAL_DATE' | translate" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate | date : 'dd-MM-yyyy'}}
+                                    <td data-title="'INITIAL_DATE' | translate" class="col-md-2" sortable="'date'"
+                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
+                                        'dd-MM-yyyy'}}
                                     	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
                                     </td>
                                     <td data-title="'VERIFICATION_ID' | translate"  sortable="'id'" filter="{'id' :'text'}">{{ verification.id }}</td>
@@ -113,12 +115,12 @@
                                     </ul>
                                 </div>
                             </script>
-				 <script type="text/ng-template" id="ng-table/filters/date.html">
+                            <script type="text/ng-template" id="ng-table/filters/daterange.html">
      			 
 
 					<div class="input-group myDatePicker">
                         <input date-range-picker="opts" class="form-control date-picker" type="text"
-                               ng-model="pickerDate" options="opts" readonly/>
+                               ng-model="myDatePicker.pickerDate" ng-change="doSearch()" options="opts" readonly/>
                         <!--<input type="text" class="form-control input-md" datepicker-popup="{{format}}" ng-model="params.filter()[name]" name="filter-date"-->
                         <!--is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"-->
                         <!--date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>-->
@@ -128,6 +130,8 @@
                                                      <i class="glyphicon glyphicon-calendar"></i>
                                                  </button>
 											  </span>
+
+                        <p>{{params.filter() | json}}</p>
                  </div>
    				 </script>
    				 	<script type="text/ng-template" id="ng-table/filters/status.html">

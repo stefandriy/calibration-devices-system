@@ -1,26 +1,19 @@
 package com.softserve.edu.service.utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.apache.log4j.Logger;
-
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Status;
+import org.apache.log4j.Logger;
+
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Set;
 
 
 public class NewVerificationsQueryConstructorProvider {
@@ -141,16 +134,18 @@ public class NewVerificationsQueryConstructorProvider {
 		}
 
 		queryPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), queryPredicate);
-
-		if (dateToSearch != null) {		
-			SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");	
+		//TODO: change parsing of date, timezone here is not used, add seconf part of date
+		if (dateToSearch != null) {
+			SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 			Date date = null;
 			try {
-				date = form.parse(dateToSearch.substring(0, 10));
+				System.out.println(dateToSearch);
+				date = form.parse(dateToSearch);
 				Calendar c = Calendar.getInstance();
 				c.setTime(date);
-				c.add(Calendar.DATE, 1);
+				//c.add(Calendar.DATE, 1);
 				date = c.getTime();
+				System.out.println("Parsed date: " + date);
 			} catch (ParseException pe) {
 				logger.error("Cannot parse date", pe);
 			}
