@@ -14,6 +14,16 @@ angular
                 $scope.tableParams.filter({});
             };
 
+            $scope.clearDate = function () {
+                $scope.myDatePicker.pickerDate = {
+                    startDate: null,
+                    endDate: null
+                };
+                $scope.tableParams.filter()['date'] = null;
+                $scope.tableParams.filter()['endDate'] = null;
+                $scope.tableParams.reload();
+            };
+
             $scope.doSearch = function () {
                 $scope.tableParams.reload();
             };
@@ -26,6 +36,11 @@ angular
             $scope.myDatePicker.pickerDate = {
                 startDate: null,
                 endDate: null
+            };
+
+            $scope.showPicker = function ($event) {
+                //$event.target
+                angular.element("#datepickerfield").trigger("click");
             };
 
             $scope.statusData = [
@@ -277,42 +292,26 @@ angular
                     fromLabel: 'Від',
                     toLabel: 'До',
                     applyLabel: "Прийняти",
-                    cancelLabel: "Відмінити",
+                    clearLabel: "Очистити",
+                    //cancelLabel: "Відмінити",
                     customRangeLabel: "Обрати самостійно"
                 },
                 ranges: {
                     'Сьогодні': [moment(), moment()],
                     'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
-                    'Цього тижня': [moment().startOf('week'), moment()],
-                    'Цього місяця': [moment().startOf('month'), moment()],
+                    'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
+                    'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
                     'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
                 },
                 eventHandlers: {
                     'apply.daterangepicker': function (ev, picker) {
                         $log.debug(picker.startDate.format("DD-MM-YYYY") + "-" + picker.endDate.format("DD-MM-YYYY"));
+                    },
+                    'cancel.daterangepicker': function (ev, picker) {
+                        $scope.clearDate();
                     }
                 }
             };
-
-
-            //$scope.openState = {};
-            //$scope.openState.isOpen = false;
-            //
-            //$scope.open = function ($event) {
-            //    $event.preventDefault();
-            //    $event.stopPropagation();
-            //    $scope.openState.isOpen = true;
-            //};
-            //
-            //
-            //$scope.dateOptions = {
-            //    formatYear: 'yyyy',
-            //    startingDay: 1,
-            //    showWeeks: 'false'
-            //};
-            //
-            //$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-            //$scope.format = $scope.formats[2];
 
 
             /**

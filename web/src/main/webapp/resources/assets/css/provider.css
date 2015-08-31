@@ -623,3 +623,24 @@ float:left;
 @-moz-document url-prefix() {
     fieldset { display: table-cell; }
 }
+
+/*puts calendar glypicon to the left of daterangepicker input */
+.right-inner-addon {
+    position: relative;
+}
+
+.right-inner-addon input {
+    padding-left: 35px;
+}
+
+#calendar_icon {
+    position: absolute;
+    left: 10px;
+    padding-right: 22px;
+    padding-top: 10px;
+    z-index: 100;
+}
+
+#datepickerfield:read-only {
+    background-color: white;
+}
