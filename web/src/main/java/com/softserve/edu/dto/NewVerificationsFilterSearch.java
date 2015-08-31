@@ -6,6 +6,9 @@ public class NewVerificationsFilterSearch {
 	private String date;
 	private String client_last_name;
 	private String street;
+	private String region;
+	private String district;
+	private String locality;
 	private String status;
 	private String employee_last_name;
 	
@@ -33,6 +36,29 @@ public class NewVerificationsFilterSearch {
 	public void setStreet(String street) {
 		this.street = street;
 	}
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
+
 	public String getStatus() {
 		return status;
 	}

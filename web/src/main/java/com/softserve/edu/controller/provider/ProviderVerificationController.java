@@ -75,6 +75,9 @@ public class ProviderVerificationController {
                 searchData.getId(),
                 searchData.getClient_last_name(),
                 searchData.getStreet(),
+                searchData.getRegion(),
+                searchData.getDistrict(),
+                searchData.getLocality(),
                 searchData.getStatus(),
                 searchData.getEmployee_last_name(),
                 sortCriteria,
@@ -110,14 +113,21 @@ public class ProviderVerificationController {
                 searchData.getId(),
                 searchData.getClient_last_name(),
                 searchData.getStreet(),
+                searchData.getRegion(),
+                searchData.getDistrict(),
+                searchData.getLocality(),
                 searchData.getStatus(),
                 searchData.getEmployee_last_name(),
                 sortCriteria,
                 sortOrder,
                 providerEmployee
         );
-       
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+
+        List<Verification> verificationList = queryResult.getContent();
+        for (Verification verification : verificationList){
+            System.out.println(verification.getClientData().getClientAddress().getRegion());
+        }
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(verificationList);
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }
 
@@ -147,6 +157,9 @@ public class ProviderVerificationController {
                 searchData.getIdText(),
                 searchData.getLastNameText(),
                 searchData.getStreetText(),
+                searchData.getRegion(),
+                searchData.getDistrict(),
+                searchData.getLocality(),
                 searchData.getStatus(),
                 searchData.getEmployee(),
                 providerEmployee

@@ -34,7 +34,7 @@
                 </div>
                 
                 <div class="panel-body">
-                    
+
                     <div class="row">
                         <div class="col-md-12">
                              <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
@@ -48,6 +48,11 @@
                                     </td>
                                     <td data-title="'VERIFICATION_ID' | translate"  sortable="'id'" filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}</td>
                                     <td data-title="'CLIENT_LAST_NAME' | translate" sortable="'client_last_name'" filter="{ 'client_last_name': 'text' }">{{ verification.surname }}</td>
+
+                                    <td data-title="'REGION' | translate"  sortable="'region'" filter="{ 'region': 'text' }">{{ verification.region}}</td>
+                                    <td data-title="'DISTRICT' | translate"  sortable="'district'" filter="{ 'district': 'text' }">{{ verification.district}}</td>
+                                    <td data-title="'LOCALITY' | translate"  sortable="'locality'" filter="{ 'locality': 'text' }">{{ verification.locality}}</td>
+
                                     <td data-title="'CLIENT_STREET' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
                                     <td data-title="'STATUS' | translate"  sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status | translate }}</td>
                                     <td data-title="'EMPLOYEE_LAST_NAME' | translate"  sortable="'employee_last_name'" filter="{ 'employee_last_name': 'text' }">{{ verification.providerEmployee }}</td>
