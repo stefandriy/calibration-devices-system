@@ -1,26 +1,5 @@
 package com.softserve.edu.service.verification;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Organization;
@@ -31,13 +10,22 @@ import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
-import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorCalibrator;
-import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorProvider;
-import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorVerificator;
-import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.NewVerificationsQueryConstructorCalibrator;
-import com.softserve.edu.service.utils.NewVerificationsQueryConstructorProvider;
-import com.softserve.edu.service.utils.NewVerificationsQueryConstructorVerificator;
+import com.softserve.edu.service.utils.*;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class VerificationService {
@@ -167,28 +155,29 @@ public class VerificationService {
     /**
      * Find page of new verifications for provider with search parameters specified
      *
+     * @param initialDateToSearch     search by initial date of verification
      * @param providerId       ID of organization
      * @param pageNumber       number of page requested by user
      * @param itemsPerPage     desired number of rows to be displayed on page
-     * @param dateToSearch     search by initial date of verification
-     * @param idToSearch       search by verification ID
+     *
+     *@param idToSearch       search by verification ID
      * @param lastNameToSearch search by last name of client
      * @param streetToSearch   search by street where client lives
      * @param providerEmployee restrict query by provider employee user name. Allows restrict query so that simple employee user
      *                         can only see verifications assigned to him and free verifications (not yet assigned)
-     * @return ListToPageTransformer<Verification>
+     * @param endDateToSearch     @return ListToPageTransformer<Verification>
      */
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+    public ListToPageTransformer<Verification> findPageOfSentVerificationsByProviderIdAndCriteriaSearch(Long providerId, int pageNumber, int itemsPerPage, String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch,
                                                                                                         String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee) {
-   	
-        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorProvider.buildSearchQuery(providerId, dateToSearch, 
-        		idToSearch, lastNameToSearch, streetToSearch,
+
+        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorProvider.buildSearchQuery(providerId, initialDateToSearch, endDateToSearch,
+                idToSearch, lastNameToSearch, streetToSearch,
         		status, providerEmployee,
         		sortCriteria, sortOrder,
         		employeeName, em);
 
-        Long count = em.createQuery(NewVerificationsQueryConstructorProvider.buildCountQuery(providerId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, providerEmployee, employeeName, em)).getSingleResult();
+        Long count = em.createQuery(NewVerificationsQueryConstructorProvider.buildCountQuery(providerId, initialDateToSearch, endDateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, providerEmployee, employeeName, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -203,12 +192,12 @@ public class VerificationService {
 
 
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String lastNameToSearch,
                                                                                           String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, providerEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, initialDateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, providerEmployee, em);
 
-        Long count = em.createQuery(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, providerEmployee, em)).getSingleResult();
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, providerEmployee, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -222,12 +211,12 @@ public class VerificationService {
     }
 
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String lastNameToSearch,
                                                                                           String streetToSearch, String status, String employeeName, User providerEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, null, null, providerEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, initialDateToSearch, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, null, null, providerEmployee, em);
 
-        Long count = em.createQuery(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, providerEmployee, em)).getSingleResult();
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, lastNameToSearch, streetToSearch, "SENT", employeeName, providerEmployee, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -240,6 +229,8 @@ public class VerificationService {
         return result;
     }
 
+
+    //TODO: refactor methods of other guys (not only provider) to include endDateToSearch
     @Transactional(readOnly = true)
 
     public ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,

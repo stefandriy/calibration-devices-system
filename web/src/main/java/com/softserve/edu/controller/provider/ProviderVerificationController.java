@@ -90,6 +90,7 @@ public class ProviderVerificationController {
                 pageNumber,
                 itemsPerPage,
                 searchData.getDate(),
+                searchData.getEndDate(),
                 searchData.getId(),
                 searchData.getClient_last_name(),
                 searchData.getStreet(),
@@ -100,10 +101,6 @@ public class ProviderVerificationController {
                 providerEmployee
         );
         List<Verification> verifications = queryResult.getContent();
-        for (Verification v : verifications) {
-            System.out.println(v.getInitialDate());
-        }
-        System.out.println("Found: " + verifications.size());
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(verifications);
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }

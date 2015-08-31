@@ -9,10 +9,8 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
 
@@ -22,33 +20,34 @@ public class NewVerificationsQueryConstructorProvider {
 	
 	/**
 	 * Method dynamically builds query to database depending on input parameters specified. 
-	 * 
+	 *
+	 * @param initialDateToSearch
+	 * 		search by initial date of verification (optional)
 	 * @param providerId
 	 * 		search by organization ID
-	 * @param dateToSearch
-	 * 		search by initial date of verification (optional)
+	 *
+	 *@param endDateToSearch
 	 * @param idToSearch
 	 * 		search by verification ID
 	 * @param lastNameToSearch
-	 * 		search by client's last name 
+	 * 		search by client's last name
 	 * @param streetToSearch
 	 * 		search by client's street
 	 * @param providerEmployee
 	 * 		used to additional query restriction if logged user is simple employee (not admin)
 	 * @param em
-	 * 		EntityManager needed to have a possibility to create query
- 	 * @return CriteriaQuery<Verification>
+	 * 		EntityManager needed to have a possibility to create query     @return CriteriaQuery<Verification>
 	 */
-	public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch, String idToSearch, String lastNameToSearch,
-			String streetToSearch, String status, User providerEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
+	public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch,
+															   String streetToSearch, String status, User providerEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
 			Join<Verification, Organization> joinSearch = root.join("provider");
 
-			Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, status, providerEmployee, employeeSearchName);
+		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, initialDateToSearch, endDateToSearch,
+				idToSearch, lastNameToSearch, streetToSearch, status, providerEmployee, employeeSearchName);
 
 			if((sortCriteria != null)&&(sortOrder != null)) {
 				criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
@@ -67,29 +66,29 @@ public class NewVerificationsQueryConstructorProvider {
 	 * 
 	 * @param providerId
 	 * 		search by organization ID
-	 * @param dateToSearch
+	 * @param initialDateToSearch
 	 * 		search by initial date of verification (optional)
-	 * @param idToSearch
+	 * @param endDateToSearch
+	 *@param idToSearch
 	 * 		search by verification ID
 	 * @param lastNameToSearch
-	 * 		search by client's last name 
+	 * 		search by client's last name
 	 * @param streetToSearch
 	 * 		search by client's street
 	 * @param providerEmployee
 	 * 		used to additional query restriction if logged user is simple employee (not admin)
 	 * @param em
-	 * 		EntityManager needed to have a possibility to create query
- 	 * @return CriteriaQuery<Long>
+	 * 		EntityManager needed to have a possibility to create query     @return CriteriaQuery<Long>
 	 */
-	public static CriteriaQuery<Long> buildCountQuery (Long providerId, String dateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String status,
-															User providerEmployee, String employeeSearchName, EntityManager em) {
+	public static CriteriaQuery<Long> buildCountQuery(Long providerId, String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String status,
+													  User providerEmployee, String employeeSearchName, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> joinSearch = root.join("provider");
-			Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, dateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, status, providerEmployee, employeeSearchName);
+		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, initialDateToSearch, endDateToSearch,
+				idToSearch, lastNameToSearch, streetToSearch, status, providerEmployee, employeeSearchName);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
@@ -97,20 +96,21 @@ public class NewVerificationsQueryConstructorProvider {
 	/**
 	 * Method builds list of predicates depending on parameters passed
 	 * Rule for predicates compounding - conjunction (AND)
-	 * 
+	 *
+	 *
 	 * @param root
 	 * @param cb
 	 * @param joinSearch
 	 * @param providerId
-	 * @param dateToSearch
+	 * @param initialDateToSearch
+	 *@param endDateToSearch
 	 * @param idToSearch
 	 * @param lastNameToSearch
 	 * @param streetToSearch
-	 * @param providerEmployee
-	 * @return Predicate 
+	 * @param providerEmployee     @return Predicate
 	 */
-	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long providerId, 
-												String dateToSearch,String idToSearch, String lastNameToSearch, String streetToSearch, String status, User providerEmployee, String employeeSearchName) {
+	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long providerId,
+											String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String status, User providerEmployee, String employeeSearchName) {
 	
 		String userName = providerEmployee.getUsername();
 		Predicate queryPredicate = cb.conjunction();
@@ -126,7 +126,7 @@ public class NewVerificationsQueryConstructorProvider {
 				}
 			}
 
-	
+
 		if (status != null) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(status.trim())), queryPredicate);
 		} else {
@@ -134,22 +134,21 @@ public class NewVerificationsQueryConstructorProvider {
 		}
 
 		queryPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), queryPredicate);
-		//TODO: change parsing of date, timezone here is not used, add seconf part of date
-		if (dateToSearch != null) {
-			SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-			Date date = null;
+		if (initialDateToSearch != null && endDateToSearch != null) {
+			DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+			LocalDate initialDate = null;
+			LocalDate endDate = null;
 			try {
-				System.out.println(dateToSearch);
-				date = form.parse(dateToSearch);
-				Calendar c = Calendar.getInstance();
-				c.setTime(date);
-				//c.add(Calendar.DATE, 1);
-				date = c.getTime();
-				System.out.println("Parsed date: " + date);
-			} catch (ParseException pe) {
-				logger.error("Cannot parse date", pe);
+				initialDate = LocalDate.parse(initialDateToSearch, dbDateTimeFormatter);
+				endDate = LocalDate.parse(endDateToSearch, dbDateTimeFormatter);
 			}
-			queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
+			catch (Exception pe) {
+				logger.error("Cannot parse date", pe); //TODO: add exception catching
+			}
+			//verifications with date between these two dates
+			queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(initialDate), java.sql.Date.valueOf(endDate)), queryPredicate);
+
 		}
 
 		if ((idToSearch != null)&&(idToSearch.length()>0)) {

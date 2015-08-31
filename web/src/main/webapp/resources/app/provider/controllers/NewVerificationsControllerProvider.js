@@ -69,20 +69,15 @@ angular
                     }
 
                     if ($scope.myDatePicker.pickerDate.startDate != null && $scope.myDatePicker.pickerDate.endDate != null) {
-                        params.filter().date = $scope.myDatePicker.pickerDate.startDate.toISOString(); //TODO: send data in UTC format
-                        params.filter().endDate = $scope.myDatePicker.pickerDate.startDate.toISOString();
+                        params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                        params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
                     }
 
                     verificationServiceProvider.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                         .success(function (result) {
                             $scope.resultsCount = result.totalItems;
-
-                            var filteredData = params.filter() ?
-                                $filter('filter')(result.content, params.filter()) :
-                                result.content;
-
-                            $defer.resolve(filteredData);
-                            params.total(filteredData.totalItems);
+                            $defer.resolve(result.content);
+                            params.total(result.totalItems);
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
