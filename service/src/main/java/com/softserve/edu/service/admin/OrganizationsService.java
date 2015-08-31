@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
 import java.util.Set;
 
 @Service
@@ -75,7 +76,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-			String phone, String email, Integer employeesCapacity, Integer maxProcessTime, Address address) {
+			String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		organization.setName(name);
@@ -84,6 +85,16 @@ public class OrganizationsService {
 		organization.setEmployeesCapacity(employeesCapacity);
 		organization.setMaxProcessTime(maxProcessTime);
 		organization.setAddress(address);
+
+		Set<OrganizationType> organizationTypes = Collections.emptySet();
+
+		for (String strType : types) {
+			OrganizationType type = organizationRepository
+					.getOrganizationType(strType);
+			organizationTypes.add(type);
+		}
+
+		organization.setOrganizationTypes(organizationTypes);
 	}
 
 

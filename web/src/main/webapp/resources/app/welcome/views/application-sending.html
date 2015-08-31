@@ -231,11 +231,7 @@
                             <option>
                             <option>
                         </select>
-                        <a ng-if="!selectedProvider && selectedDistrict && selectedLocality" style="color: #b27e77"
-                           ng-click="feedbackModalNoProvider()"> <i class="fa fa-info-circle">
-                            <ins>Не існує постачальника послуг для даного району. Повідомте нам про це.</ins>
-                        </i>
-                        </a>
+                       
 
                         <p class="help-block">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -299,6 +295,11 @@
                                ng-pattern="BUILDING_REGEX" required><span
                             class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
 
+                        <a ng-if="!selectedProvider && selectedDistrict && selectedLocality && selectedIndex && selectedStreetType && selectedStreet && selectedBuilding" style="color: #b27e77"
+                           ng-click="feedbackModalNoProvider()"> <i class="fa fa-info-circle">
+                            <ins>Не існує постачальника послуг для даного району. Повідомте нам про це.</ins>
+                        </i>
+                        </a>
                         <p class="help-block">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}

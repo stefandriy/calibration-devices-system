@@ -149,6 +149,7 @@ public class OrganizationsController {
 					organization.getName(),
 					organization.getPhone(),
 					organization.getEmail(),
+					organization.getTypes(),
 					organization.getEmployeesCapacity(),
 					organization.getMaxProcessTime(),
 					address);
