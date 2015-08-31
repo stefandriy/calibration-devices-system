@@ -4,6 +4,7 @@ public class OrganizationEditDTO {
 	private String name;
 	private String email;
 	private String phone;
+	private String[] types;
 	private Integer employeesCapacity;
 	private Integer maxProcessTime;
 
@@ -36,6 +37,14 @@ public class OrganizationEditDTO {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String[] getTypes() {
+		return types;
+	}
+
+	public void setTypes(String[] types) {
+		this.types = types;
 	}
 
 	public Integer getEmployeesCapacity() {

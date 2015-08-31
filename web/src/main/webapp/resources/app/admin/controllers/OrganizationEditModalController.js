@@ -1,14 +1,31 @@
 angular
 	.module('adminModule')
+	.filter('organizationFilter', function() {
+		return function(allTypes, currentTypes) {
+			var filtered = allTypes;
+
+			for (var i in currentTypes) {
+				if (currentTypes[i].id != 'CALIBRATOR') {
+					var filtered = [];
+					filtered.push(allTypes[1]);
+					filtered.push(currentTypes[i]);
+				}
+			}
+
+			return filtered;
+		}
+	})
 	.controller(
 	'OrganizationEditModalController',
 	[
 		'$rootScope',
 		'$scope',
+		'$translate',
 		'$modalInstance',
+		'$filter',
 		'AddressService',
 		'OrganizationService','$log',
-		function($rootScope, $scope, $modalInstance,
+		function($rootScope, $scope, $translate, $modalInstance, $filter,
 				 addressService, organizationService,$log) {
 
 
@@ -23,6 +40,38 @@ angular
 				myArray.push(elem);
 				return (myArray.length-1);
 			}
+
+			$scope.typeData = [
+				{
+					id : 'PROVIDER',
+					label : null
+				},
+				{
+					id : 'CALIBRATOR',
+					label : null
+				},
+				{
+					id : 'STATE_VERIFICATOR',
+					label : null
+				}
+			];
+
+			$scope.setTypeDataLanguage = function () {
+				var lang = $translate.use();
+				if (lang === 'ukr') {
+					$scope.typeData[0].label = 'Постачальник послуг';
+					$scope.typeData[1].label = 'Вимірювальна лабораторія';
+					$scope.typeData[2].label = 'Уповноважена повірочна лабораторія';
+				} else if (lang === 'eng') {
+					$scope.typeData[0].label = 'Service provider';
+					$scope.typeData[1].label = 'Measuring laboratory';
+					$scope.typeData[2].label = 'Authorized calibration laboratory';
+				} else {
+					console.error(lang);
+				}
+			};
+
+			$scope.setTypeDataLanguage();
 
 			$scope.regions = null;
 			$scope.districts = [];
@@ -145,6 +194,7 @@ angular
 					name : $rootScope.organization.name,
 					phone : $rootScope.organization.phone,
 					email : $rootScope.organization.email,
+					types: $rootScope.organization.types,
 					employeesCapacity : $rootScope.organization.employeesCapacity,
 					region : $rootScope.organization.address.region,
 					locality : $rootScope.organization.address.locality,
