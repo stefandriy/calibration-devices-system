@@ -250,7 +250,7 @@
 								<div class="form-group col-md-8">
 									<input name="street" type="text"
 										ng-model="organizationFormData.street"
-										typeahead="street as street.designation for street in streets | filter: $viewValue |limitTo: 4"
+										typeahead="street as street.designation for street in streets | filter:  { designation: $viewValue} | limitTo: 4"
 										typeahead-on-select="onStreetSelected(organizationFormData.street.id)"
 										typeahead-editable="false" class="form-control" required>
 										<a ng-if="!organizationFormData.street" style="color: #b27e77"
