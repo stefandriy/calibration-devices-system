@@ -71,13 +71,12 @@ public class CalibrationTestController {
      */
     @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
     public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
-
-        CalibrationTest calibrationTest = testService.findTestById(testId);
-        CalibrationTestDataDTO testFormData = formdata.getTestForm();
-        testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
+        System.out.println("id test " + testId);
+        CalibrationTestDTO testFormData = formdata.getTestForm();
+        CalibrationTest calibrationTest = testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
                 testFormData.getLatitude(), testFormData.getLongitude(), testFormData.getConsumptionStatus(), testFormData.getTestResult());
-
         List<CalibrationTestDataDTO> testDatas = formdata.getSmallForm();
+        System.out.println(testDatas);
         System.out.println(testDatas.size());
         for (CalibrationTestDataDTO data : testDatas) {
             CalibrationTestData testData = new CalibrationTestData();
@@ -180,8 +179,7 @@ public class CalibrationTestController {
      */
     @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
     public Long createEmptyTest(@PathVariable String verificationId) {
-        testService.createEmptyTest(verificationId);
-        CalibrationTest test = testService.findByVerificationId(verificationId);
+        CalibrationTest test = testService.createEmptyTest(verificationId);
         Long testId = test.getId();
         return testId;
     }

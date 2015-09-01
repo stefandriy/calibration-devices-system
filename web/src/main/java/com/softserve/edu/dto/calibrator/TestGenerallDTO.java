@@ -1,12 +1,13 @@
 package com.softserve.edu.dto.calibrator;
 
+import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
 
 import java.util.List;
 
 public class TestGenerallDTO {
     private List<CalibrationTestDataDTO> smallForm;
-    private CalibrationTestDataDTO testForm;
+    private CalibrationTestDTO testForm;
 
     public TestGenerallDTO() {
 
@@ -20,11 +21,11 @@ public class TestGenerallDTO {
         this.smallForm = smallForm;
     }
 
-    public CalibrationTestDataDTO getTestForm() {
+    public CalibrationTestDTO getTestForm() {
         return testForm;
     }
 
-    public void setTestForm(CalibrationTestDataDTO testForm) {
+    public void setTestForm(CalibrationTestDTO testForm) {
         this.testForm = testForm;
     }
 }

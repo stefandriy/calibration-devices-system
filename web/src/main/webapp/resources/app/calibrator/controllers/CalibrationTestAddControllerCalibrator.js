@@ -104,7 +104,6 @@ angular
                 calibrationTestServiceCalibrator
                     .getCalibrationTests()
                     .then(function (data) {
-                        ;
                         $scope.calibrationTests = data.calibrationTests;
                     })
             }
@@ -122,7 +121,10 @@ angular
                 $scope.smallForm.push($scope.TestDataFormData1, $scope.TestDataFormData2, $scope.TestDataFormData3,
                     $scope.TestDataFormData4, $scope.TestDataFormData5, $scope.TestDataFormData6);
 
+
+
                 $scope.generalForms={testForm:$scope.TestForm, smallForm: $scope.smallForm};
+                $log.debug($scope.generalForms);
                         calibrationTestServiceCalibrator
                             .saveCalibrationTest($scope.generalForms, $scope.testId)
                             .then(function (data) {

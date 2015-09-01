@@ -133,11 +133,12 @@ public class CalibrationTestService {
 
 
     @Transactional
-    public void createEmptyTest(String verificationId) {
+    public CalibrationTest createEmptyTest(String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
         CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setVerification(verification);
         testRepository.save(calibrationTest);
+        return calibrationTest;
     }
 
     @Transactional
