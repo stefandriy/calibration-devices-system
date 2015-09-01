@@ -5,23 +5,76 @@ angular
 
             $scope.resultsCount = 0;
 
+
+            $scope.myDatePicker = {};
+            $scope.myDatePicker.pickerDate = null;
+            $scope.defaultDate = null;
+
+            verificationServiceProvider.getNewVerificationEarliestDate().success(function (date) {
+                $scope.myDatePicker.pickerDate = {
+                    startDate: moment(date, "YYYY-MM-DD"), //earliest day of  all the verifications available in table
+                    endDate: moment() // current day
+                };
+                if ($scope.defaultDate == null) {
+                    $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
+                    $scope.defaultDateStart = $scope.defaultDate.startDate.format("YYYY-MM-DD");
+                    $scope.defaultDateEnd = $scope.defaultDate.endDate.format("YYYY-MM-DD");
+                }
+                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                $scope.opts = {
+                    format: 'DD-MM-YYYY',
+                    autoUpdateInput: false,
+                    locale: {
+                        firstDay: 1,
+                        fromLabel: 'Від',
+                        toLabel: 'До',
+                        applyLabel: "Прийняти",
+                        cancelLabel: "Зачинити",
+                        customRangeLabel: "Обрати самостійно"
+                    },
+                    ranges: {
+                        'Сьогодні': [moment(), moment()],
+                        'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+                        'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
+                        'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
+                        'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                        'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
+                    },
+                    eventHandlers: {
+                        'apply.daterangepicker': function (ev, picker) {
+                            $log.debug(picker.startDate.format("DD-MM-YYYY") + "-" + picker.endDate.format("DD-MM-YYYY"));
+                        }
+                    }
+                };
+                $scope.tableParams.reload();
+            });
+
+            $scope.isDateDefault = function () {
+                if ($scope.myDatePicker.pickerDate.startDate.isSame($scope.defaultDate.startDate)
+                    && $scope.myDatePicker.pickerDate.endDate.isSame($scope.defaultDate.endDate)) {
+                    //comparing if dates (momentjs objects) are same
+                    $log.debug("Yeah!");
+                    return true;
+                }
+                $log.debug("Nope!");
+                return false;
+            };
+
+            //$log.debug($scope.myDatePicker.pickerDate);
+
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
-                $scope.myDatePicker.pickerDate = {
-                    startDate: null,
-                    endDate: null
-                };
                 $scope.tableParams.filter({});
+                $scope.clearDate(); // sets all time range
             };
 
             $scope.clearDate = function () {
-                $scope.myDatePicker.pickerDate = {
-                    startDate: null,
-                    endDate: null
-                };
-                $scope.tableParams.filter()['date'] = null;
-                $scope.tableParams.filter()['endDate'] = null;
-                $scope.tableParams.reload();
+                //daterangepicker doesn't support null dates
+                $scope.myDatePicker.pickerDate = $scope.defaultDate;
+                //setting corresponding filters with 'all time' range
+                $scope.tableParams.filter()['date'] = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                $scope.tableParams.filter()['endDate'] = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+
             };
 
             $scope.doSearch = function () {
@@ -32,14 +85,8 @@ angular
                 name: null
             };
 
-            $scope.myDatePicker = {};
-            $scope.myDatePicker.pickerDate = {
-                startDate: null,
-                endDate: null
-            };
 
             $scope.showPicker = function ($event) {
-                //$event.target
                 angular.element("#datepickerfield").trigger("click");
             };
 
@@ -83,10 +130,24 @@ angular
                         params.filter().status = $scope.selectedStatus.name.id;
                     }
 
-                    if ($scope.myDatePicker.pickerDate.startDate != null && $scope.myDatePicker.pickerDate.endDate != null) {
-                        params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                        params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-                    }
+                    //if ($scope.myDatePicker.pickerDate == null) {
+                    //    verificationServiceProvider.getNewVerificationEarliestDate().success(function (date) {
+                    //        $scope.myDatePicker.pickerDate = {
+                    //            startDate: moment(date, "YYYY-MM-DD"), //earliest day of  all the verifications available in table
+                    //            endDate: moment() // current day
+                    //        };
+                    //        if ($scope.defaultDate == null) {
+                    //            $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
+                    //            $scope.defaultDateStart = $scope.defaultDate.startDate.format("YYYY-MM-DD");
+                    //            $scope.defaultDateEnd = $scope.defaultDate.endDate.format("YYYY-MM-DD");
+                    //        }
+                    //    });
+                    //}
+
+                    //sets ng-table filters with default or changed values (which are then converted into format string and sent to backend)
+                    params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                    params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+
 
                     verificationServiceProvider.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                         .success(function (result) {
@@ -103,8 +164,18 @@ angular
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
                     if (obj.hasOwnProperty(i) && obj[i]) {
+                        if (i == 'date' || i == 'endDate')
+                            continue; //check for these filters is in another function
                         return true;
                     }
+                    }
+                return false;
+            };
+
+            $scope.checkDateFilters = function () {
+                var obj = $scope.tableParams.filter();
+                if (obj.date != $scope.defaultDateStart && obj.endDate != $scope.defaultDateEnd) {
+                    return true;
                 }
                 return false;
             };
@@ -283,35 +354,6 @@ angular
              */
 
             /*TODO: i18n*/
-
-            moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
-            $scope.opts = {
-                format: 'DD-MM-YYYY',
-                locale: {
-                    firstDay: 1,
-                    fromLabel: 'Від',
-                    toLabel: 'До',
-                    applyLabel: "Прийняти",
-                    clearLabel: "Очистити",
-                    //cancelLabel: "Відмінити",
-                    customRangeLabel: "Обрати самостійно"
-                },
-                ranges: {
-                    'Сьогодні': [moment(), moment()],
-                    'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
-                    'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
-                    'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
-                    'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                },
-                eventHandlers: {
-                    'apply.daterangepicker': function (ev, picker) {
-                        $log.debug(picker.startDate.format("DD-MM-YYYY") + "-" + picker.endDate.format("DD-MM-YYYY"));
-                    },
-                    'cancel.daterangepicker': function (ev, picker) {
-                        $scope.clearDate();
-                    }
-                }
-            };
 
 
             /**

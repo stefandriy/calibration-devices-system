@@ -515,6 +515,10 @@ public class VerificationService {
 
     }
 
+    @Transactional(readOnly = true)
+    public java.sql.Date getVerificationEarliestDateByProvider(Organization organization) {
+        return verificationRepository.getEarliestDateOfAllAcceptedOrSentVerifications(organization);
+    }
 }
 
 

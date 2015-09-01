@@ -9,6 +9,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -21,6 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -32,14 +37,14 @@ public class ProviderVerificationController {
 
     @Autowired
     ProviderService providerService;
-
     @Autowired
     ProviderEmployeeService providerEmployeeService;
-
     @Autowired
     CalibratorService calibratorService;
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
+    @Autowired
+    private OrganizationsService organizationService;
     @Autowired
     private UsersService userService;
     @Autowired
@@ -149,6 +154,25 @@ public class ProviderVerificationController {
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }
 
+    /**
+     * Fiend date of earliest verification
+     *
+     * @param user
+     * @return String date
+     */
+    @RequestMapping(value = "new/earliest_date/provider", method = RequestMethod.GET)
+    public String getVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        if (user != null) {
+            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            java.util.Date date = new Date(verificationService.getVerificationEarliestDateByProvider(organization).getTime());
+            DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+            String isoLocalDateString = localDate.format(dbDateTimeFormatter);
+            return isoLocalDateString;
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Find count of new verifications that have Read Status "UNREAD"
