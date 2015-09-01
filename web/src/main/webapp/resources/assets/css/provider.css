@@ -648,3 +648,11 @@ float:left;
 #datepickerfield {
     width: 100%;
 }
+
+th .filter .ng-scope {
+    max-width: 300px;
+}
+
+th .header .sortable :hover {
+    background-color: #fafafa;
+}
