@@ -178,12 +178,13 @@
 
     "ALL_FIELDS_REQUIRED": "* All fields are required",
 
-  "ORGANIZATION_NAME_LENGTH":"Organization name should be 5 to 20 characters",
+  "ORGANIZATION_NAME_LENGTH":"Organization name should be 5 to 50 characters",
   "LOGIN_ISNT_AVAILABLE":"Username isn`t available",
   "LOGIN_HAS_INVALID_LENGTH":"Username must be from 3 to 16 characters length",
   "PASSWORD_TOO_SHORT":"Password can not be shorter than 4 symbols",
   "PASSWORDS_ISNT_EQUAL":"Passwords aren`t the equals",
-   "INDEX":"Index",
+  "ORGANIZATION_INVALID_STREET": "Street can't be found",
+  "INDEX":"Index",
 
   "CLIENT":"Client",
   "FEEDBACK":"Feedback",
