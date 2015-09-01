@@ -649,10 +649,14 @@ float:left;
     width: 100%;
 }
 
-th .filter .ng-scope {
+th.filter {
     max-width: 300px;
 }
 
-th .header .sortable :hover {
-    background-color: #fafafa;
+th.filter::after {
+    max-width: 300px;
+}
+
+th .header .sortable:hover::after {
+    background-color: aqua;
 }
