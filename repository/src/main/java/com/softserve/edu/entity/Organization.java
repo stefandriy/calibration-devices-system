@@ -160,6 +160,7 @@ public class Organization {
 				.append("email", email)
 				.append("phone", phone)
 				.append("employeesCapacity", employeesCapacity)
+				.append("")
 				.append("address", address)
 				.append("certificateNumber", certificateNumber)
 				.append("certificateGrantedDate", certificateGrantedDate)

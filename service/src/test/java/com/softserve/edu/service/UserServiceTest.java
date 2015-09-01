@@ -43,8 +43,9 @@ public class UserServiceTest {
 
 
         boolean isChanged =  userService.changePassword(user.getUsername(), old_pasword, new_pasword);
-        assertEquals(true, isChanged);
+        assertTrue(isChanged);
         verify(user, times(1)).setPassword(anyString());
+        verify(userRepository, times(1)).save(user);
     }
 
     @Test

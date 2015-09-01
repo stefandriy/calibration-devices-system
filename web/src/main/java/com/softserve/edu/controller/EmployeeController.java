@@ -133,8 +133,8 @@ public class EmployeeController {
         newUser.setEmail(providerEmployee.getEmail());
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setUsername(providerEmployee.getUsername());
-        newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
-                providerEmployee.getAddress() : newUser.getAddress());
+        //newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
+          //      providerEmployee.getAddress() : newUser.getAddress());
         String p = providerEmployee.getPassword();
         newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
                 "generate" : newUser.getPassword());

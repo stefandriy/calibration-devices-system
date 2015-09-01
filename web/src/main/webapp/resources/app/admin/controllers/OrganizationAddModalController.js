@@ -195,6 +195,8 @@ angular
 				for (var i in $scope.organizationFormData.types) {
 					$scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].id;
 				}
+
+
 			}
 
 			/**
@@ -215,6 +217,7 @@ angular
 			 * form and updates table with organizations.
 			 */
 			function saveOrganization() {
+				console.log($scope.organizationFormData);
 				organizationService.saveOrganization(
 					$scope.organizationFormData).then(
 					function(data) {

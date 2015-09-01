@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -50,7 +52,7 @@ public class OrganizationsService {
 
 		organizationRepository.save(organization);
 		userRepository.save(employeeAdmin);
-	}
+}
 
 	@Transactional
 	public Page<Organization> getOrganizationsBySearchAndPagination(
@@ -75,15 +77,27 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-			String phone, String email, Integer employeesCapacity, Integer maxProcessTime, Address address) {
+			String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
+		System.out.println(organization);
 		organization.setName(name);
 		organization.setPhone(phone);
 		organization.setEmail(email);
 		organization.setEmployeesCapacity(employeesCapacity);
 		organization.setMaxProcessTime(maxProcessTime);
 		organization.setAddress(address);
+		HashSet<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
+
+		for (String strType : types) {
+			OrganizationType type = organizationRepository
+					.getOrganizationType(strType);
+			organizationTypes.add(type);
+		}
+		for (OrganizationType type : organizationTypes){
+			System.out.println(type);
+		}
+		organization.setOrganizationTypes(organizationTypes);
 	}
 
 

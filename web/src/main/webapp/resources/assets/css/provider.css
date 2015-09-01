@@ -623,3 +623,9 @@ float:left;
 @-moz-document url-prefix() {
     fieldset { display: table-cell; }
 }
+
+.images{
+    width: auto;
+    margin-top: auto;
+    text-align: center;
+}

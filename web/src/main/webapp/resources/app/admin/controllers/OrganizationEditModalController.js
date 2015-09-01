@@ -1,14 +1,31 @@
 angular
 	.module('adminModule')
+	.filter('organizationFilter', function() {
+		return function(allTypes, currentTypes) {
+			var filtered = allTypes;
+
+			for (var i in currentTypes) {
+				if (currentTypes[i].id != 'CALIBRATOR') {
+					var filtered = [];
+					filtered.push(allTypes[1]);
+					filtered.push(currentTypes[i]);
+				}
+			}
+
+			return filtered;
+		}
+	})
 	.controller(
 	'OrganizationEditModalController',
 	[
 		'$rootScope',
 		'$scope',
+		'$translate',
 		'$modalInstance',
+		'$filter',
 		'AddressService',
 		'OrganizationService','$log',
-		function($rootScope, $scope, $modalInstance,
+		function($rootScope, $scope, $translate, $modalInstance, $filter,
 				 addressService, organizationService,$log) {
 
 
@@ -23,6 +40,38 @@ angular
 				myArray.push(elem);
 				return (myArray.length-1);
 			}
+
+			$scope.typeData = [
+				{
+					id : 'PROVIDER',
+					label : null
+				},
+				{
+					id : 'CALIBRATOR',
+					label : null
+				},
+				{
+					id : 'STATE_VERIFICATOR',
+					label : null
+				}
+			];
+
+			$scope.setTypeDataLanguage = function () {
+				var lang = $translate.use();
+				if (lang === 'ukr') {
+					$scope.typeData[0].label = 'Постачальник послуг';
+					$scope.typeData[1].label = 'Вимірювальна лабораторія';
+					$scope.typeData[2].label = 'Уповноважена повірочна лабораторія';
+				} else if (lang === 'eng') {
+					$scope.typeData[0].label = 'Service provider';
+					$scope.typeData[1].label = 'Measuring laboratory';
+					$scope.typeData[2].label = 'Authorized calibration laboratory';
+				} else {
+					console.error(lang);
+				}
+			};
+
+			$scope.setTypeDataLanguage();
 
 			$scope.regions = null;
 			$scope.districts = [];
@@ -107,10 +156,10 @@ angular
 			/**
 			 * Resets organization form
 			 */
-			/*$scope.resetOrganizationForm = function() {
+			$scope.resetOrganizationForm = function() {
 				$scope.$broadcast('show-errors-reset');
 				$rootScope.organization = null;
-			};*/
+			};
 
 
 			/**
@@ -134,6 +183,13 @@ angular
 				}
 			}
 
+			function objectTypesToStringTypes() {
+				for (var i in $rootScope.organization.types) {
+					$rootScope.organization.types[i] = $rootScope.organization.types[i].id;
+				}
+			}
+
+
 			/**
 			 * Edit organization. If everything is ok then
 			 * resets the organization form and closes modal
@@ -141,11 +197,14 @@ angular
 			 */
 			$scope.editOrganization = function() {
 				addressFormToOrganizationForm();
+				objectTypesToStringTypes();
 				var organizationForm = {
 					name : $rootScope.organization.name,
 					phone : $rootScope.organization.phone,
 					email : $rootScope.organization.email,
+					types: $rootScope.organization.types,
 					employeesCapacity : $rootScope.organization.employeesCapacity,
+					maxProcessTime: $rootScope.organization.maxProcessTime,
 					region : $rootScope.organization.address.region,
 					locality : $rootScope.organization.address.locality,
 					district : $rootScope.organization.address.district,
