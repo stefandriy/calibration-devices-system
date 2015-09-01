@@ -64,6 +64,8 @@
   "ORGANIZATION_CHOOSE_TYPE_ADMIN":"Choose type of organization",
   "ORGANIZATION_TELEPHON_NUMBER_ADMIN":"Organization phone number",
   "FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION":"Fill you system administaration fir organization",
+  "ACCOUNT_INFORMATION":"Account information",
+  "GENERAL_INFORMATION":"General information",
   "LOGIN_TWO":"Login",
   "PASSWORD_TWO":"Password",
   "REPEAT_PASSWORD":"Repeat password",
@@ -166,9 +168,9 @@
     "FILL_IN_INFORMATION_ABOUT_EMPLOYEE":"Fill in information about employee",
     "EMPLOYEE_TYPE":"Chouse type of employee",
 
-    "INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  \u0412\u043e\u043b\u043e\u0434\u0438\u043c\u0438\u0440",
-    "INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  \u041f\u0435\u0442\u0440\u0435\u043d\u043a\u043e",
-    "INCORRECT_VALUE_MIDDLE_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  \u0410\u043d\u0434\u0440і\u0439\u043e\u0432\u0438\u0447",
+    "INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  Volodymyr",
+    "INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  Petrenko",
+    "INCORRECT_VALUE_MIDDLE_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  Andriyovych",
     "INCORRECT_VALUE_PHONE_ADD_EMPLOYEE" : "Incorrect value input example:  +380679354972",
     "INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE" : "Incorrect value input example:  petrus@gmail.com",
     "PASSWORDS_DID_NOT_MATCH" : "Password didn't match",
@@ -212,6 +214,9 @@
   "STATISTIC_OF_EMPLOYEE_CAPACITY":"Statistic of employee capacity",
   "TIME_EXCEEDED":"Verification processing time exceeded for",
   "DAYS":"Days",
+
+
+  "SELECT_TYPE_OF_ORGANIZATION": "Select type",
 
   "PHONE_NUMBER":"Phone number",
   "EMPLOYEE_CAPACITY":"Work in progress",

@@ -10,13 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by Volodya NT on 18.08.2015.
@@ -28,35 +25,23 @@ public class BuildingServiceTest {
     @InjectMocks
     BuildingService buildingService;
 
-    //@Mock
-    //Building building;
-//    @Rule
-//    public ExpectedException expectedEx = ExpectedException.none();
-
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void testGetBuildingsCorrespondingStreet() throws Exception {
-        List<Building> b = mock(ArrayList.class);
-
+        List<Building> b = mock(List.class);
         final Long streetId = 11l;
 
-
-
-
         ArgumentCaptor<Long> streetIdArgumentCapture = ArgumentCaptor.forClass(Long.class);
-        buildingRepository.findByStreetId(streetId);
+        buildingService.getBuildingsCorrespondingStreet(streetId);
         verify(buildingRepository).findByStreetId(streetIdArgumentCapture.capture());
         Assert.assertEquals(streetId, streetIdArgumentCapture.getValue());
+        verify(buildingRepository, times(1)).findByStreetId(streetId);
 
         when(buildingRepository.findByStreetId(anyLong())).thenReturn(b);
-        Assert.assertEquals(b, buildingRepository.findByStreetId((long) 1));
-
-
-        when(buildingRepository.findByStreetId(112l)).thenThrow(new Exception());
-        b = buildingRepository.findByStreetId(112l);
+        Assert.assertEquals(b, buildingService.getBuildingsCorrespondingStreet((long) 1));
     }
 }
