@@ -215,6 +215,9 @@
   "TIME_EXCEEDED":"Verification processing time exceeded for",
   "DAYS":"Days",
 
+
+  "SELECT_TYPE_OF_ORGANIZATION": "Select type",
+
   "PHONE_NUMBER":"Phone number",
   "EMPLOYEE_CAPACITY":"Work in progress",
   "CHOOSE_THE_DATE_TO_SEARCH_INFORMATION":"Choose the date to search information",
