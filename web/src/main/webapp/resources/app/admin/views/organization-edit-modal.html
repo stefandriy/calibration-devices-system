@@ -5,7 +5,7 @@
 <div class="modal-body">
 	<form name="organizationFormEdit" novalidate>
 		<div class="panel panel-primary">
-			<div class="panel-heading">Загальна інформація</div>
+			<div class="panel-heading">{{'GENERAL_INFORMATION' | translate}}</div>
 			<div class="panel-body">
 		<div class="row">
 			<div class="form-group col-md-4">
@@ -20,6 +20,20 @@
 		</div>
 				<div class="row">
 					<div class="form-group col-md-4">
+						<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN' | translate }}</label>
+					</div>
+
+					<div class="form-group col-md-8">
+						<select multiple chosen type="text" class="form-control"
+								ng-model="$root.organization.types"
+								data-placeholder="Choose type"
+								ng-options="type as type.label for type in typeData | organizationFilter:$root.organization.types">
+						</select>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="form-group col-md-4">
 						<label class="control-label">{{'EMAIL' | translate }}</label>
 					</div>
 					<div class="form-group col-md-8">
@@ -32,9 +46,15 @@
 				<label class="control-label">{{'PHONE_NUMBER' | translate }}</label>
 			</div>
 			<div class="form-group col-md-8" show-errors>
-				<input type="text"
-					ng-model="$root.organization.phone"
-					name="phone" class="form-control" required>
+				<div>
+					<div class="input-group">
+						<span class="input-group-addon" id="basic-addon-code">+38</span>
+						<input type="text" class="form-control col-md-8 "
+							   ng-model="$root.organization.phone" placeholder="0XXXXXXXXX"
+							   ng-pattern="PHONE_REGEX"
+							   name="phone" class="form-control" required>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -101,7 +121,7 @@
 								<div class="form-group col-md-8">
 									<select chosen name="locality" type="text"
 										ng-model="$root.organization.address.locality"
-										ng-options="locality as locality.designation for locality in localities | filter: $viewValue"
+										ng-options="locality as locality.designation for locality in localities | unique:'designation'"
 										ng-change="onLocalitySelected(organization.address.locality.id)"
 										typeahead-editable="false" class="form-control" required></select>
 								</div>

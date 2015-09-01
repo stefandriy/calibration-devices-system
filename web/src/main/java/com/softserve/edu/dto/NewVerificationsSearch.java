@@ -6,17 +6,23 @@ public class NewVerificationsSearch {
 	private String formattedDate;
 	private String lastNameText;
 	private String streetText;
+	private String region;
+	private String district;
+	private String locality;
 	private String status;
 	private String employee;
 	
 	public NewVerificationsSearch() {};
 	
-	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String status, String employee) {
+	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String region,String district, String locality, String status, String employee) {
 
 		this.idText = idText;
 		this.formattedDate = formattedDate;
 		this.lastNameText = lastNameText;
 		this.streetText = streetText;
+		this.region = region;
+		this.district = district;
+		this.locality = locality;
 		this.status = status;
 		this.employee = employee;
 	}
@@ -51,6 +57,30 @@ public class NewVerificationsSearch {
 
 	public void setStreetText(String streetText) {
 		this.streetText = streetText;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
 	}
 
 	public String getStatus() {

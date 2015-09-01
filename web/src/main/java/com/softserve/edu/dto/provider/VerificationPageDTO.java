@@ -16,6 +16,7 @@ public class VerificationPageDTO {
     private String locality;
     private String phone;
     private String street;
+    private String region;
     private Status status;
     private String providerEmployee;
     private String calibratorEmployee;
@@ -28,7 +29,7 @@ public class VerificationPageDTO {
     public VerificationPageDTO() {
     }
 
-    public VerificationPageDTO(String id, Date initialDate, String surname, String street,
+    public VerificationPageDTO(String id, Date initialDate, String surname, String street,String region,
                                Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee, 
                                String name, String district, String locality, String phone,boolean isUpload, Integer processTimeExceeding) {
 
@@ -36,6 +37,7 @@ public class VerificationPageDTO {
         this.initialDate = initialDate;
         this.surname = surname;
         this.street = street;
+        this.region = region;
         this.status = status;
         this.readStatus = readStatus;
         if (providerEmployee != null) {
@@ -101,6 +103,14 @@ public class VerificationPageDTO {
 
     public void setStreet(String street) {
         this.street = street;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public Status getStatus() {
@@ -207,6 +217,9 @@ public class VerificationPageDTO {
                 ", initialDate=" + initialDate +
                 ", surname='" + surname + '\'' +
                 ", street='" + street + '\'' +
+                ", region='" + region + '\'' +
+                ", district='" + district + '\'' +
+                ", locality='" + locality + '\'' +
                 ", status=" + status +
                 '}';
     }

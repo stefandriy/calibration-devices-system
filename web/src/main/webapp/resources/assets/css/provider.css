@@ -624,6 +624,12 @@ float:left;
     fieldset { display: table-cell; }
 }
 
+.images{
+    width: auto;
+    margin-top: auto;
+    text-align: center;
+}
+
 /*puts calendar glypicon to the left of daterangepicker input */
 .right-inner-addon {
     position: relative;

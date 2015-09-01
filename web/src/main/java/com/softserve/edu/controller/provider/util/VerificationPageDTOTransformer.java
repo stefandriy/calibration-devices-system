@@ -15,6 +15,7 @@ import java.util.List;
 			                     verification.getInitialDate(),
 			                     verification.getClientData().getLastName(),
 			                     verification.getClientData().getClientAddress().getStreet(),
+                                         verification.getClientData().getClientAddress().getRegion(),
                                  verification.getStatus(),
                                          verification.getReadStatus(),
                                          verification.getProviderEmployee(),

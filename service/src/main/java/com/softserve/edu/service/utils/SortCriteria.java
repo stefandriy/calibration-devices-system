@@ -47,6 +47,16 @@ public enum SortCriteria {
 	    		}
 	        }
 	    },
+	REGION() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return cb.asc(root.get("clientData").get("clientAddress").get("region"));
+			} else {
+				return cb.desc(root.get("clientData").get("clientAddress").get("region"));
+			}
+		}
+	},
 	STATUS() {
 	    	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 	 

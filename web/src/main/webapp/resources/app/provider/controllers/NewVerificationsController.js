@@ -9,8 +9,11 @@
                 idText:null,
                 formattedDate :null,
                 lastNameText:null,
-                streetText: null
-            };
+                streetText: null,
+                districtText: null,
+                regionText : null,
+                localityText : null
+            }
 
             $scope.clearAll = function(){
                 $scope.search.idText=null;
@@ -18,6 +21,9 @@
                 $scope.dt = null;
                 $scope.search.lastNameText=null;
                 $scope.search.streetText=null;
+                $scope.search.districtText=null;
+                $scope.search.regionText=null;
+                $scope.search.localityText=null;
                 $scope.tableParams.reload();
             };
 
@@ -55,7 +61,7 @@
                 getData: function ($defer, params) {
 
                     verificationService.getNewVerifications(params.page(), params.count(), $scope.search.formattedDate, $scope.search.idText,
-                        $scope.search.lastNameText, $scope.search.streetText)
+                        $scope.search.lastNameText, $scope.search.streetText, $scope.search.regionText, $scope.search.districtText, $scope.search.localityText)
                         .success(function (result) {
                             var data = result.content;
                             params.total(data.totalItems);
@@ -244,8 +250,6 @@
              *  Date picker and formatter setup
              *
              */
-
-
             $scope.openState = {};
             $scope.openState.isOpen = false;
 
