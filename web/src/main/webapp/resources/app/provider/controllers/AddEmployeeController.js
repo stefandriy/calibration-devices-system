@@ -75,11 +75,17 @@ angular
              * Resets employee form
              */
 
-            $scope.resetEmployeeForm = function() {
-                $scope.$broadcast('show-errors-reset');
+            $scope.resetEmployeeForm = function () {
+                // $scope.$broadcast('show-errors-reset');
+                if ($scope.employeeForm) {
+                    $scope.employeeForm.$setPristine();
+                    $scope.employeeForm.$setUntouched();
+                }
                 $scope.usernameValidation = null;
                 $scope.employeeFormData = null;
             };
+
+            $scope.resetEmployeeForm();
 
             /**
              * Calls resetOrganizationForm after the view loaded
@@ -125,7 +131,7 @@ angular
                     case ('phone') :
                         var phone = $scope.employeeFormData.phone;
                         if (phone == null) {
-                        } else if ($scope.PNOHE_REGEX.test(phone)) {
+                        } else if ($scope.PHONE_REGEX.test(phone)) {
                             validator('phone', false);
                         } else {
                             validator('phone', true);
@@ -134,7 +140,7 @@ angular
                     case ('email') :
                         var email = $scope.employeeFormData.email;
                         if (email == null) {
-                        } else if (/[0-9a-z_]+@[0-9a-z_]+\.[a-z]{2,5}/i.test(email)) {
+                        } else if ($scope.EMAIL_REGEX.test(email)) {
                             validator('email', false);
                         } else {
                             validator('email', true);
@@ -143,7 +149,7 @@ angular
                     case ('login') :
                         var username = $scope.employeeFormData.username;
                         if (username == null) {
-                        } else if (/^[a-z0-9_-]{3,16}$/.test(username)) {
+                        } else if ($scope.USERNAME_REGEX.test(username)) {
                             isUsernameAvailable(username)
                         } else {
                             validator('loginValid', false);
@@ -163,7 +169,6 @@ angular
                         validator('existLogin', data.data);
                     })
             }
-
 
 
             function validator(caseForValidation, isValid) {
@@ -338,7 +343,7 @@ angular
             }
 
             bValidation = function () {
-                if ((( $scope.firstNameValidation === undefined)&&($scope.firstNameValidation === ""))  || ($scope.lastNameValidation === undefined)
+                if (( $scope.firstNameValidation === undefined) || ($scope.lastNameValidation === undefined)
                     || ($scope.middleNameValidation === undefined) || ($scope.emailValidation === undefined)
                     || ($scope.passwordValidation === undefined) || ($scope.usernameValidation === undefined)
                 //|| ($scope.employeeFormData.region === undefined) || ($scope.employeeFormData.district === undefined)
@@ -381,9 +386,19 @@ angular
                     });
             };
 
+            /**
+             * Receives all regex for input fields
+             *
+             *
+             */
+
             $scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0404]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20})$/;
             $scope.MIDDLE_NAME_REGEX = /^[A-Z\u0410-\u042f\u0407\u0406\u0404]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}$/;
-            $scope.PNOHE_REGEX = /^[+]380[1-9]\d{8}$/;
+            $scope.PNOHE_REGEX_MY = /^0[1-9]\d{8}$/;
+            $scope.PHONE_REGEX = /^0[1-9]\d{8}$/;
+            $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+            $scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
+
 
             /* Closes the modal window
              */
