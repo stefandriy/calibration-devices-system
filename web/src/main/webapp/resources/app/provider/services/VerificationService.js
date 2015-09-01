@@ -7,8 +7,8 @@ angular
                 return getData('verifications/archive/' + currentPage + '/' + itemsPerPage);
             },
             getNewVerifications: function (currentPage, itemsPerPage, searchByDate, searchById, searchByLastName, searchByStreet, region) {
-            	return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' + 
-            			searchByDate + '/' + searchById + '/' + searchByLastName + '/' + searchByStreet + '/' + searchByRegion + '/' + searchByDistrict + '/'+ searchByLocality + '/');
+                return getData('verifications/new/' + currentPage + '/' + itemsPerPage + '/' +
+                    searchByDate + '/' + searchById + '/' + searchByLastName + '/' + searchByStreet + '/' + searchByRegion + '/' + searchByDistrict + '/' + searchByLocality + '/');
             },
             getArchivalVerificationDetails: function (verificationId) {
                 return getData('verifications/archive/' + verificationId);

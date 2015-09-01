@@ -1,30 +1,7 @@
 package com.softserve.edu.controller.calibrator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
-import com.softserve.edu.dto.ArchiveVerificationsFilterAndSort;
-import com.softserve.edu.dto.CalibrationTestPageItem;
-import com.softserve.edu.dto.NewVerificationsFilterSearch;
-import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.VerificationUpdateDTO;
+import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
@@ -41,35 +18,40 @@ import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/calibrator/verifications/")
 public class CalibratorController {
 
+    private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
+    private final Logger logger = Logger.getLogger(CalibratorController.class);
     @Autowired
     VerificationService verificationService;
-
     @Autowired
     ProviderService providerService;
-
     @Autowired
     CalibratorService calibratorService;
-
     @Autowired
     CalibratorEmployeeService calibratorEmployeeService;
-
     @Autowired
     CalibrationTestService testService;
-
     @Autowired
     StateVerificatorService verificatorService;
-
     @Autowired
     UsersService userService;
-
-    private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
-
-    private final Logger logger = Logger.getLogger(CalibratorController.class);
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
@@ -81,14 +63,14 @@ public class CalibratorController {
 	                searchData.getId(),
 	                searchData.getClient_last_name(),
 	                searchData.getStreet(),
-                    searchData.getRegion(),
-                    searchData.getDistrict(),
-                    searchData.getLocality(),
-	                searchData.getStatus(),
-	                searchData.getEmployee_last_name(),
-                    sortCriteria,
-	                sortOrder, calibratorEmployee);
-		List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+                searchData.getRegion(),
+                searchData.getDistrict(),
+                searchData.getLocality(),
+                searchData.getStatus(),
+                searchData.getEmployee_last_name(),
+                sortCriteria,
+                sortOrder, calibratorEmployee);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
 		return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
 	}
 

@@ -1,11 +1,11 @@
 package com.softserve.edu.dto.provider;
 
 
-import java.util.Date;
-
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
+
+import java.util.Date;
 
 public class VerificationPageDTO {
     private String id;
@@ -29,7 +29,7 @@ public class VerificationPageDTO {
     public VerificationPageDTO() {
     }
 
-    public VerificationPageDTO(String id, Date initialDate, String surname, String street,String region,
+    public VerificationPageDTO(String id, Date initialDate, String surname, String street, String region,
                                Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee, 
                                String name, String district, String locality, String phone,boolean isUpload, Integer processTimeExceeding) {
 
@@ -46,21 +46,21 @@ public class VerificationPageDTO {
             } else {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
             }
-        };
+        }
         if (calibratorEmployee != null) {
             if (calibratorEmployee.getMiddleName() != null) {
                 this.calibratorEmployee = calibratorEmployee.getLastName() + " " + calibratorEmployee.getFirstName() + " " + calibratorEmployee.getMiddleName();
             } else {
                 this.calibratorEmployee = calibratorEmployee.getLastName() + " " + calibratorEmployee.getFirstName();
             }
-        };
+        }
         if (stateVerificatorEmployee != null) {
             if (stateVerificatorEmployee.getMiddleName() != null) {
                 this.stateVerificatorEmployee = stateVerificatorEmployee.getLastName() + " " + stateVerificatorEmployee.getFirstName() + " " + stateVerificatorEmployee.getMiddleName();
             } else {
                 this.stateVerificatorEmployee = stateVerificatorEmployee.getLastName() + " " + stateVerificatorEmployee.getFirstName();
             }
-        };
+        }
         this.name=name;
         this.district=district;
         this.locality=locality;

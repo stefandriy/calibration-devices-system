@@ -77,12 +77,12 @@
   "CLEAR_FORM":"Clear form",
   "CLOSE":"Close", 
   "FIND_BY_NUMBER":"Find by number:",
-  "DISPLAY_ON":"Display on:",
+  "DISPLAY_ON": "Display on:",
   "ID":"Id",
   "SIGN_OF_COUNTER":"Sign of counter",
   "COUNTER_NUMBER":"Number",
   "TYPE_OF_COUNTER":"Type of counter",
-  "COUNTER_CATEGORY" : "Counter category",
+  "COUNTER_CATEGORY": "Counter category",
   "DEVICE_NAME":"Device name",
   "CHOOSE_THE_TYPE":"Choose the type...",
   "PHONE_NUMBER_TWO":"Phone number",
@@ -98,7 +98,7 @@
   "FIND_BY_ROLE":"Find by role:",
   "ROLE":"Role",
   "ORGANIZATION":"Organization",
-  "GENERAL_INFORMATION":"General information",
+  "GENERAL_INFORMATION": "General information",
   "EDIT_OF_ORGANIZATION":"Edit of organization",
   "LOGIN":"Login",
   "WIDGET_TITLE":"Position requests in real time:",
@@ -236,5 +236,5 @@
   "MAX_PROCESS_TIME":"Max verification processing time, days",
   "STATUS_SELECT_PLACEHOLDER": "Select a status",
   "DATERANGEPICKER_PLACEHOLDER": "Select a range",
-  "AMOUNT" : "Amount"
+  "AMOUNT": "Amount"
 }

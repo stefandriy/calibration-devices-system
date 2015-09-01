@@ -121,7 +121,7 @@
 								<div class="form-group col-md-8">
 									<select chosen name="locality" type="text"
 										ng-model="$root.organization.address.locality"
-										ng-options="locality as locality.designation for locality in localities | unique:'designation'"
+											ng-options="locality as locality.designation for locality in localities | unique:'designation'"
 										ng-change="onLocalitySelected(organization.address.locality.id)"
 										typeahead-editable="false" class="form-control" required></select>
 								</div>

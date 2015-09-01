@@ -34,13 +34,12 @@ angular
                         $log.debug("inside");
                         var url = $location.path('/calibrator/verifications/calibration-test-add/').search({param: IdTest});
                     } )
-            }
+            };
 
             function getCalibrationTests() {
                 calibrationTestServiceCalibrator
                     .getCalibrationTests()
                     .then(function (data) {
-                        ;
                         $scope.calibrationTests = data.calibrationTests;
                     })
             }

@@ -39,16 +39,16 @@ public class NewVerificationsQueryConstructorProvider {
 	 * 		EntityManager needed to have a possibility to create query     
 	 * 		@return CriteriaQuery<Verification>
 	 */
-	public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch, String idToSearch, String lastNameToSearch,
-			String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
+	public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch,
+															   String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
 			Join<Verification, Organization> joinSearch = root.join("provider");
 
-			Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, initialDateToSearch, endDateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, employeeSearchName);
+		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, initialDateToSearch, endDateToSearch, idToSearch,
+				lastNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, employeeSearchName);
 
 			if((sortCriteria != null)&&(sortOrder != null)) {
 				criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
@@ -129,7 +129,7 @@ public class NewVerificationsQueryConstructorProvider {
 				}
 			}
 
-	
+
 		if (status != null) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(status.trim())), queryPredicate);
 		} else {
@@ -166,17 +166,17 @@ public class NewVerificationsQueryConstructorProvider {
 					cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
 					queryPredicate);
 		}
-		if ((region != null)&&(region.length()>0)) {
+		if ((region != null) && (region.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("region"), "%" + region + "%"),
 					queryPredicate);
 		}
-		if ((district != null)&&(district.length()>0)) {
+		if ((district != null) && (district.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("district"), "%" + district + "%"),
 					queryPredicate);
 		}
-		if ((locality != null)&&(locality.length()>0)) {
+		if ((locality != null) && (locality.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("locality"), "%" + locality + "%"),
 					queryPredicate);

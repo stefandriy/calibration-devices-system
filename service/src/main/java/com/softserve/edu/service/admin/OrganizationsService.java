@@ -76,7 +76,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-			String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		organization.setName(name);

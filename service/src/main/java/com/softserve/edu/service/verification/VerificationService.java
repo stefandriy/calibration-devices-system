@@ -165,7 +165,7 @@ public class VerificationService {
      * @param streetToSearch   search by street where client lives
      * @param providerEmployee restrict query by provider employee user name. Allows restrict query so that simple employee user
      *                         can only see verifications assigned to him and free verifications (not yet assigned)
-     * @param endDateToSearch     
+     * @param endDateToSearch     end date
      * @return ListToPageTransformer<Verification>
      */
     @Transactional(readOnly = true)
@@ -174,8 +174,8 @@ public class VerificationService {
 
         CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorProvider.buildSearchQuery(providerId, initialDateToSearch, endDateToSearch,
                 idToSearch, lastNameToSearch, streetToSearch, region, district, locality,
-        		status, providerEmployee,
-        		sortCriteria, sortOrder,
+                status, providerEmployee,
+                sortCriteria, sortOrder,
         		employeeName, em);
 
         Long count = em.createQuery(NewVerificationsQueryConstructorProvider.buildCountQuery(providerId, initialDateToSearch, endDateToSearch, idToSearch, lastNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, employeeName, em)).getSingleResult();
@@ -193,7 +193,7 @@ public class VerificationService {
 
 
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String lastNameToSearch,
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderId(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch,
                                                                                           String streetToSearch, String region, String district, String locality, String status, String employeeName, String sortCriteria, String sortOrder, User providerEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, initialDateToSearch, idToSearch, lastNameToSearch, streetToSearch, region, district, locality, status, employeeName, sortCriteria, sortOrder, providerEmployee, em);
@@ -213,7 +213,7 @@ public class VerificationService {
 
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String lastNameToSearch,
-                                                                                          String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee) {
+                                                                                                     String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, initialDateToSearch, idToSearch, lastNameToSearch, streetToSearch, region, district, locality, "SENT", employeeName, null, null, providerEmployee, em);
 

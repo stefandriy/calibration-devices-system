@@ -1,10 +1,10 @@
 package com.softserve.edu.service.utils;
 
+import com.softserve.edu.entity.Verification;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
-
-import com.softserve.edu.entity.Verification;
 
 public enum SortCriteria {
 	ID() {
@@ -50,7 +50,7 @@ public enum SortCriteria {
 	REGION() {
 		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 
-			if(sortOrder.equalsIgnoreCase("asc")) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
 				return cb.asc(root.get("clientData").get("clientAddress").get("region"));
 			} else {
 				return cb.desc(root.get("clientData").get("clientAddress").get("region"));

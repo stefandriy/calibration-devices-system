@@ -1,16 +1,5 @@
 package com.softserve.edu.controller.admin;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.admin.OrganizationEditDTO;
@@ -18,16 +7,21 @@ import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.service.admin.OrganizationsService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/admin/organization/")
 public class OrganizationsController {
 
-	@Autowired
-	private OrganizationsService organizationsService;
-
 	private final Logger logger = Logger
 			.getLogger(OrganizationsController.class);
+	@Autowired
+	private OrganizationsService organizationsService;
 
 	/**
 	 * Saves organization and its administrator employee in database

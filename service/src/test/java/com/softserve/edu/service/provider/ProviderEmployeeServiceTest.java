@@ -1,27 +1,5 @@
 package com.softserve.edu.service.provider;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
@@ -29,6 +7,20 @@ import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.utils.EmployeeDTO;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.mockito.*;
+
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Ignore
 public class ProviderEmployeeServiceTest {

@@ -55,6 +55,7 @@ public class ProviderVerificationController {
                 pageNumber,
                 itemsPerPage,
                 searchData.getDate(),
+                null,
                 searchData.getId(),
                 searchData.getClient_last_name(),
                 searchData.getStreet(),

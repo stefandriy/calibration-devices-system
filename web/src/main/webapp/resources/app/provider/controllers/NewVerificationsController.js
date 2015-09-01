@@ -11,9 +11,9 @@
                 lastNameText:null,
                 streetText: null,
                 districtText: null,
-                regionText : null,
-                localityText : null
-            }
+                regionText: null,
+                localityText: null
+            };
 
             $scope.clearAll = function(){
                 $scope.search.idText=null;
@@ -21,9 +21,9 @@
                 $scope.dt = null;
                 $scope.search.lastNameText=null;
                 $scope.search.streetText=null;
-                $scope.search.districtText=null;
-                $scope.search.regionText=null;
-                $scope.search.localityText=null;
+                $scope.search.districtText = null;
+                $scope.search.regionText = null;
+                $scope.search.localityText = null;
                 $scope.tableParams.reload();
             };
 
