@@ -644,3 +644,7 @@ float:left;
 #datepickerfield:read-only {
     background-color: white;
 }
+
+#datepickerfield {
+    width: 100%;
+}

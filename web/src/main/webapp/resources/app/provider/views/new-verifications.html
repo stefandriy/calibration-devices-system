@@ -47,7 +47,7 @@
                                     ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td data-title="''"><input type="checkbox"
                                                                ng-click="resolveVerificationId(verification.id)"/></td>
-                                    <td data-title="'INITIAL_DATE' | translate" class="col-md-2" sortable="'date'"
+                                    <td data-title="'INITIAL_DATE' | translate" class="col-md-3" sortable="'date'"
                                         filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
                                         'dd-MM-yyyy'}}
                                         <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
@@ -134,7 +134,7 @@
                             </script>
                             <script type="text/ng-template" id="ng-table/filters/daterange.html">
 
-                                <div class="input-group right-inner-addon">
+                                <div class="input-group right-inner-addon" style="width: 100%">
                                     <i id="calendar_icon" class="glyphicon glyphicon-calendar"
                                        ng-click="showPicker($event)"></i>
                                     <input date-range-picker="opts" class="form-control date-picker" type="text"
