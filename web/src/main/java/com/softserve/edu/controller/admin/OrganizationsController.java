@@ -144,6 +144,11 @@ public class OrganizationsController {
 				organization.getBuilding(),
 				organization.getFlat());
 		try {
+			if(organization.getTypes().equals(null)){System.out.println("Nothing here");}
+			for (String strType : organization.getTypes()){
+				System.out.println(strType);
+			}
+
 			organizationsService.editOrganization(
 					organizationId,
 					organization.getName(),

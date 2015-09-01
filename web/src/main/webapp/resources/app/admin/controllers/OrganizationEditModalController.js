@@ -156,10 +156,10 @@ angular
 			/**
 			 * Resets organization form
 			 */
-			/*$scope.resetOrganizationForm = function() {
+			$scope.resetOrganizationForm = function() {
 				$scope.$broadcast('show-errors-reset');
 				$rootScope.organization = null;
-			};*/
+			};
 
 
 			/**
@@ -183,6 +183,13 @@ angular
 				}
 			}
 
+			function objectTypesToStringTypes() {
+				for (var i in $rootScope.organization.types) {
+					$rootScope.organization.types[i] = $rootScope.organization.types[i].id;
+				}
+			}
+
+
 			/**
 			 * Edit organization. If everything is ok then
 			 * resets the organization form and closes modal
@@ -190,12 +197,14 @@ angular
 			 */
 			$scope.editOrganization = function() {
 				addressFormToOrganizationForm();
+				objectTypesToStringTypes();
 				var organizationForm = {
 					name : $rootScope.organization.name,
 					phone : $rootScope.organization.phone,
 					email : $rootScope.organization.email,
 					types: $rootScope.organization.types,
 					employeesCapacity : $rootScope.organization.employeesCapacity,
+					maxProcessTime: $rootScope.organization.maxProcessTime,
 					region : $rootScope.organization.address.region,
 					locality : $rootScope.organization.address.locality,
 					district : $rootScope.organization.address.district,
