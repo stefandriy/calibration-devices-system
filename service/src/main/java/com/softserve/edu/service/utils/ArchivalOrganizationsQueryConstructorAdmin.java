@@ -15,7 +15,7 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
     static Logger logger = Logger.getLogger(ArchivalOrganizationsQueryConstructorAdmin.class);
 
     public static CriteriaQuery<Organization> buildSearchQuery(String name,
-                                                               String email, String number, String type, String sortCriteria, String sortOrder,EntityManager em) {
+                                                               String email, String number, String type, String sortCriteria, String sortOrder, EntityManager em) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Organization> criteriaQuery = cb.createQuery(Organization.class);
         Root<Organization> root = criteriaQuery.from(Organization.class);
@@ -33,6 +33,19 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
         return criteriaQuery;
     }
 
+    public static CriteriaQuery<Long> buildCountQuery (String name,
+                                                       String email, String number, String type, String sortCriteria, String sortOrder,EntityManager em) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Organization> root = countQuery.from(Organization.class);
+        Join<Organization, OrganizationType> organizationTypeJoin = root.join("organizationId");
+
+        Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(name, email, type, number,root, cb, organizationTypeJoin);
+        countQuery.select(cb.count(root));
+        countQuery.where(predicate);
+        return countQuery;
+    }
     private static Predicate buildPredicate( String name,
                                              String email, String number, String type, Root<Organization> root, CriteriaBuilder cb, Join<Organization, OrganizationType> organizationTypeJoin ) {
         Predicate queryPredicate = cb.conjunction();

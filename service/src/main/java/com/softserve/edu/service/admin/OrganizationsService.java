@@ -70,11 +70,12 @@ public class OrganizationsService {
 	}*/
 
 	@Transactional(readOnly = true)
-	public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination() {
+	public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage,String name,
+																					 String email, String number, String type, String sortCriteria, String sortOrder) {
 
-		CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(entityManager);
+		CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, type, sortCriteria, sortOrder, entityManager);
 
-		Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin.buildCountQuery()).getSingleResult();
+		Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin.buildCountQuery(name, email, number, type, sortCriteria, sortOrder, entityManager)).getSingleResult();
 
 		TypedQuery<Organization> typedQuery = entityManager.createQuery(criteriaQuery);
 		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);

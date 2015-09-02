@@ -95,7 +95,14 @@ public class OrganizationsController {
 		return new PageDTO<>(page.getTotalElements(), page.getContent());*/
 
 		ListToPageTransformer<Organization> queryResult = organizationsService.getOrganizationsBySearchAndPagination(
-
+				pageNumber,
+				itemsPerPage,
+				searchData.getName_admin(),
+				searchData.getEmail(),
+				searchData.getPhone_number(),
+				searchData.getType_admin(),
+				sortCriteria,
+				sortOrder
 		);
 		return new PageDTO();
 	}

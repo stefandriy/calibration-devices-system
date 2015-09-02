@@ -30,7 +30,6 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
-
 			Join<Verification, Organization> calibratorJoin = root.join("stateVerificator");
 
 			Predicate predicate = ArchivalVerificationsQueryConstructorVerificator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
