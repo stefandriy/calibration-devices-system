@@ -3,7 +3,15 @@ angular
 
     .controller('MailSendingModalControllerProvider', ['$scope', '$log', '$modalInstance','$rootScope',
         function ($scope, $log, $modalInstance,  $rootScope) {
-          $scope.formData={};
+    	
+	    	/**
+	         * Closes modal window on browser's back/forward button click.
+	         */ 
+	    	$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+    	
+          	$scope.formData={};
             $scope.cancel = function () {
                 $modalInstance.dismiss();
             };

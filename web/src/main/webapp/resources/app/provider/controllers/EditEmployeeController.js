@@ -8,6 +8,13 @@ angular
             var organizationTypeVerificator = false;
             var employeeData = {};
 
+            /**
+             * Closes modal window on browser's back/forward button click.
+             */ 
+        	$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+            
             $scope.$on('info_about_editUser', function(event, args) {
 
                 for (var i = 0; i< args.roles.length; i++){

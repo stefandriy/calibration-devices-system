@@ -7,6 +7,13 @@ angular
     .controller('UploadBbiFileController', ['$scope', '$route', '$log', '$modalInstance',
         'verification', 'Upload', '$timeout', function ($scope, $route, $log, $modalInstance, verification, Upload, $timeout) {
 
+	    	/**
+	         * Closes modal window on browser's back/forward button click.
+	         */ 
+	    	$scope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+    	
             $scope.cancel = function () {
                 $modalInstance.close("cancel");
 

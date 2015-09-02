@@ -22,7 +22,14 @@ angular.module('employeeModule').controller('AddingVerificationsControllerCalibr
                 myArray.push(elem);
                 return (myArray.length-1);
             }
-
+            
+            /**
+             * Closes modal window on browser's back/forward button click.
+             */
+        	$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+            
             /**
              * Receives all possible regions.
              */

@@ -8,7 +8,14 @@ angular
             var organizationTypeVerificator = false;
             var employeeData = {};
 
-
+            /**
+             * Closes modal window on browser's back/forward button click.
+             */
+            
+        	$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+            
             userService.isAdmin()
                 .success(function (response) {
                     var includeCheckBox = false;

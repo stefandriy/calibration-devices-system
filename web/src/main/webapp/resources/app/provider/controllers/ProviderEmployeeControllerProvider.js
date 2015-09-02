@@ -4,6 +4,13 @@ angular
     .controller('ProviderEmployeeControllerProvider', ['$scope', '$log', '$modalInstance','providerEmploy', '$rootScope',
         function ($scope, $log, $modalInstance, providerEmploy, $rootScope) {
 
+	    	/**
+	         * Closes modal window on browser's back/forward button click.
+	         */ 
+	    	$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+    	
             $scope.providers = providerEmploy.data;
             $scope.formData={};
             $scope.formData.provider= $scope.providers[0];
