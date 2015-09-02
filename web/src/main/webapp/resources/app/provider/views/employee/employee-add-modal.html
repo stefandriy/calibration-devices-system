@@ -12,9 +12,7 @@
             <div class="form-group col-md-4" ng-show="showListOfOrganization">
                 <label class="control-label">{{'EMPLOYEE_TYPE' | translate }}</label>
             </div>
-
             <div id="po" class="form-group col-md-8">
-
                 <div ng-show="showListOfOrganizationChosenOne">
                     <select multiple chosen
                             data-placeholder="{{'SELECT_TYPE_OF_ORGANIZATION' | translate}}"
@@ -53,7 +51,6 @@
                                type="text" ng-model="employeeFormData.lastName"
                                ng-change="checkFirstName('lastName')"
                                ng-pattern="FIRST_LAST_NAME_REGEX" required>
-
                         <div ng-show="employeeForm.$submitted || employeeForm.lastName.$touched">
                             <p class="validation-message" ng-if="employeeForm.lastName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -153,6 +150,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -312,16 +310,23 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="form-group col-md-10">
-                <button type="submit" class="btn btn-success"
-                        >{{'ADD' | translate}}
-                </button>
-                <a class="btn btn-warning" ng-click="resetEmployeeForm()">{{'CLEAR_FORM' | translate }}</a>
-            </div>
-            <div class="form-group col-md-2">
-                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
+        <div class="panel panel-primary">
+            <div class="panel-heading"></div>
+            <div class="panel-body">
+                <div class="row">
+                        <div class="form-group col-md-10">
+                            <button type="submit" class="btn btn-success"
+                                    >{{'ADD' | translate}}
+                            </button>
+                            <button type="reset" class="btn btn-warning" ng-click="resetEmployeeForm()">
+                                {{'CLEAR_FORM' | translate }}
+                            </button>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}
+                            </button>
+                        </div>
+                    </div>
             </div>
         </div>
 
