@@ -149,7 +149,8 @@ public class CalibrationTestService {
 
     @Transactional
     public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
-                                    Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
+                                    Double latitude, Double longitude/*, String consumptionStatus, CalibrationTestResult testResult*/) {
+        CalibrationTestResult testResult;
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = CalibrationTestResult.SUCCESS;
         Date initial = new Date();
@@ -159,7 +160,7 @@ public class CalibrationTestService {
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
-        calibrationTest.setConsumptionStatus(consumptionStatus);
+        //calibrationTest.setConsumptionStatus(consumptionStatus);
         calibrationTest.setTestResult(testResult);
         return calibrationTest;
     }
