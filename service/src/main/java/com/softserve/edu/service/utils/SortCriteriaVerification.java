@@ -47,6 +47,17 @@ public enum SortCriteriaVerification {
 	    		}
 	        }
 	    },
+	DISTRICT() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return cb.asc(root.get("clientData").get("clientAddress").get("district"));
+			} else {
+				return cb.desc(root.get("clientData").get("clientAddress").get("district"));
+			}
+		}
+	},
+
 	REGION() {
 		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 

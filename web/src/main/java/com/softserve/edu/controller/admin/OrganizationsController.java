@@ -104,6 +104,7 @@ public class OrganizationsController {
 				sortCriteria,
 				sortOrder
 		);
+		System.out.println(searchData.getName_admin());
 		return new PageDTO();
 	}
 

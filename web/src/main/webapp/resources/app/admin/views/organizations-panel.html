@@ -109,8 +109,9 @@
 				<table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
 					   class="table table-bordered table-hover users_table">
 					<tbody>
-					<td data-title="ORGANIZATION_ID " sortable="'id'"
-						filter="{ 'id': 'text' }" ng-model="filters.id">
+					<tr ng-repeat="organization in $data">
+					<td data-title="ORGANIZATION_ID "> <!--sortable="'id'"
+						filter="{ 'id': 'text' }" ng-model="filters.id" -->
 						{{ organization.id }}
 					</td>
 						<td data-title="'NAME_ADMIN' | translate" sortable="'name_admin'"
