@@ -49,7 +49,7 @@
                                     ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td data-title="''"><input type="checkbox"
                                                                ng-click="resolveVerificationId(verification.id)"/></td>
-                                    <td data-title="'INITIAL_DATE' | translate" class="col-md-3" sortable="'date'"
+                                    <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
                                         filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
                                         'dd-MM-yyyy'}}
                                         <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
@@ -62,7 +62,9 @@
                                     <td data-title="'CLIENT_LAST_NAME' | translate" sortable="'client_last_name'"
                                         filter="{ 'client_last_name': 'text' }">{{ verification.surname }}
                                     </td>
-
+                                    <td data-title="'CLIENT_FIRST_NAME' | translate" sortable="'client_first_name'"
+                                        filter="{ 'client_first_name': 'text' }">{{ verification.name }}
+                                    </td>
                                     <td data-title="'REGION' | translate" sortable="'region'"
                                         filter="{ 'region': 'text' }">{{ verification.region}}
                                     </td>

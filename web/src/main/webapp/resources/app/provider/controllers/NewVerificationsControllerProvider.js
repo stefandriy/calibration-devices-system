@@ -10,7 +10,8 @@ angular
             $scope.myDatePicker.pickerDate = null;
             $scope.defaultDate = null;
 
-            verificationServiceProvider.getNewVerificationEarliestDate().success(function (date) {
+
+            $scope.initDatePicker = function (date) {
                 $scope.myDatePicker.pickerDate = {
                     startDate: moment(date, "YYYY-MM-DD"), //earliest day of  all the verifications available in table
                     endDate: moment() // current day
@@ -23,6 +24,7 @@ angular
                 moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
                 $scope.opts = {
                     format: 'DD-MM-YYYY',
+                    showDropdowns: true,
                     autoUpdateInput: false,
                     locale: {
                         firstDay: 1,
@@ -40,27 +42,31 @@ angular
                         'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
                         'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
                     },
-                    eventHandlers: {
-                        'apply.daterangepicker': function (ev, picker) {
-                            $log.debug(picker.startDate.format("DD-MM-YYYY") + "-" + picker.endDate.format("DD-MM-YYYY"));
-                        }
-                    }
+                    eventHandlers: {}
                 };
                 $scope.tableParams.reload();
-            });
-
-            $scope.isDateDefault = function () {
-                if ($scope.myDatePicker.pickerDate.startDate.isSame($scope.defaultDate.startDate)
-                    && $scope.myDatePicker.pickerDate.endDate.isSame($scope.defaultDate.endDate)) {
-                    //comparing if dates (momentjs objects) are same
-                    $log.debug("Yeah!");
-                    return true;
-                }
-                $log.debug("Nope!");
-                return false;
             };
 
-            //$log.debug($scope.myDatePicker.pickerDate);
+            verificationServiceProvider.getNewVerificationEarliestDate().success($scope.initDatePicker);
+
+
+            $scope.isDateDefault = function () {
+                var pickerDate = $scope.myDatePicker.pickerDate;
+
+                if (pickerDate == null || $scope.defaultDate == null) { //moment when page is just loaded
+                    $log.debug("Just loaded");
+                    return true;
+                }
+                if (pickerDate.startDate.isSame($scope.defaultDate.startDate, 'day') //compare by day
+                    && pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day')) {
+                    return true;
+                }
+
+                $log.debug("what is " + pickerDate.startDate.format("DD") + " default:" + $scope.defaultDate.startDate.format("DD"));
+                $log.debug("what is " + pickerDate.endDate.format("DD") + " default:" + $scope.defaultDate.endDate.format("DD"));
+
+                return false;
+            };
 
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
@@ -130,19 +136,9 @@ angular
                         params.filter().status = $scope.selectedStatus.name.id;
                     }
 
-                    //if ($scope.myDatePicker.pickerDate == null) {
-                    //    verificationServiceProvider.getNewVerificationEarliestDate().success(function (date) {
-                    //        $scope.myDatePicker.pickerDate = {
-                    //            startDate: moment(date, "YYYY-MM-DD"), //earliest day of  all the verifications available in table
-                    //            endDate: moment() // current day
-                    //        };
-                    //        if ($scope.defaultDate == null) {
-                    //            $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
-                    //            $scope.defaultDateStart = $scope.defaultDate.startDate.format("YYYY-MM-DD");
-                    //            $scope.defaultDateEnd = $scope.defaultDate.endDate.format("YYYY-MM-DD");
-                    //        }
-                    //    });
-                    //}
+                    if ($scope.myDatePicker.pickerDate == null) {
+                        verificationServiceProvider.getNewVerificationEarliestDate().success($scope.initDatePicker);
+                    }
 
                     //sets ng-table filters with default or changed values (which are then converted into format string and sent to backend)
                     params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
@@ -168,13 +164,15 @@ angular
                             continue; //check for these filters is in another function
                         return true;
                     }
-                    }
+                }
                 return false;
             };
 
             $scope.checkDateFilters = function () {
                 var obj = $scope.tableParams.filter();
-                if (obj.date != $scope.defaultDateStart && obj.endDate != $scope.defaultDateEnd) {
+                if ($scope.isDateDefault())
+                    return false;
+                else if (obj.date != $scope.defaultDateStart || obj.endDate != $scope.defaultDateEnd) {
                     return true;
                 }
                 return false;
@@ -253,7 +251,7 @@ angular
                  * executes when modal closing
                  */
                 modalInstance.result.then(function (formData) {
-                    idVerification = 0;
+                    var idVerification = 0;
                     var dataToSend = {
                         idVerification: verifId,
                         employeeProvider: formData.provider
