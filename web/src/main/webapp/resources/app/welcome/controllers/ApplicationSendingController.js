@@ -340,13 +340,13 @@ angular
              * Resets form
              */
             $scope.resetApplicationForm = function () {
-                angular.element('.clientFormBox').focus();
+               // angular.element('.clientFormBox').focus();
                 $scope.$broadcast('show-errors-reset');
                // if($scope.clientForm) {
                     $scope.clientForm.$setPristine();
                     $scope.clientForm.$setUntouched();
               //  }
-                $scope.formData.firstName.$setUntouched();
+               // $scope.formData.firstName.$setUntouched();
                 $scope.formData = null;
                 $scope.selectedDevice = [];
                 $scope.selectedDevice1 = [];
