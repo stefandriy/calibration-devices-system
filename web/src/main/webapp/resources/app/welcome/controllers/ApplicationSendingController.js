@@ -340,20 +340,22 @@ angular
              * Resets form
              */
             $scope.resetApplicationForm = function () {
+               // angular.element('.clientFormBox').focus();
                 $scope.$broadcast('show-errors-reset');
+               // if($scope.clientForm) {
+                    $scope.clientForm.$setPristine();
+                    $scope.clientForm.$setUntouched();
+              //  }
+               // $scope.formData.firstName.$setUntouched();
                 $scope.formData = null;
-                $scope.devices = [];
+                $scope.selectedDevice = [];
                 $scope.selectedDevice1 = [];
                 $scope.selectedDevice2 = [];
                 $scope.selectedCount = "";
-                $scope.devicesByType = [];
                 $scope.selectedType = "";
-                $scope.devicesType = [];
-                $scope.regions = [];
                 $scope.selectedRegion = "";
                 $scope.selectedDistrict = "";
                 $scope.selectedLocality = "";
-                $scope.streetsTypes = [];
                 $scope.selectedStreetType = "";
                 $scope.selectedStreet = "";
                 $scope.selectedBuilding = "";

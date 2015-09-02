@@ -74,11 +74,12 @@ public class CalibrationTestController {
         System.out.println("id test " + testId);
         CalibrationTestDTO testFormData = formdata.getTestForm();
         CalibrationTest calibrationTest = testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
-                testFormData.getLatitude(), testFormData.getLongitude(), testFormData.getConsumptionStatus(), testFormData.getTestResult());
+                testFormData.getLatitude(), testFormData.getLongitude()/*, testFormData.getConsumptionStatus(), testFormData.getTestResult()*/);
         List<CalibrationTestDataDTO> testDatas = formdata.getSmallForm();
         System.out.println(testDatas);
         System.out.println(testDatas.size());
         for (CalibrationTestDataDTO data : testDatas) {
+            if (data == null) break;
             CalibrationTestData testData = new CalibrationTestData();
             testData.setGivenConsumption(data.getGivenConsumption());
             testData.setAcceptableError(data.getAcceptableError());
@@ -88,8 +89,8 @@ public class CalibrationTestController {
             testData.setVolumeInDevice(data.getVolumeInDevice());
             testData.setActualConsumption(data.getActualConsumption());
             testData.setConsumptionStatus(data.getConsumptionStatus());
-            testData.setCalculationError(data.getCalculationError());
-            testData.setTestResult(data.getTestResult());
+            //testData.setCalculationError(data.getCalculationError());
+            //testData.setTestResult(data.getTestResult());
             testData.setCalibrationTest(calibrationTest);
             testService.createNewCalibrationTestData(testData);
         }

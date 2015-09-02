@@ -49,7 +49,7 @@ angular
             $scope.saveCalibrationTest = function () {
 
                 calibrationTestServiceCalibrator
-                    .saveCalibrationTest($scope.formData)
+                    .saveCalibrationTest($scope.FormData)
                     .then(function (data) {
 
                         $log.debug("saved!");

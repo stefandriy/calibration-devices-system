@@ -49,7 +49,7 @@ public class CalibrationTest {
     @OneToMany(mappedBy = "calibrationTest")
     private Set<CalibrationTestIMG> testIMGs;
 
-    @OneToMany(mappedBy = "calibrationTest")
+    @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL)
     private Set<CalibrationTestData> calibrationTestDatas;
 
     public CalibrationTest() { }

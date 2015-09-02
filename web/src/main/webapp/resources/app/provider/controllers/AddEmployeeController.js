@@ -75,11 +75,16 @@ angular
              * Resets employee form
              */
 
+
             $scope.resetEmployeeForm = function () {
-                // $scope.$broadcast('show-errors-reset');
+                 $scope.$broadcast('show-errors-reset');
                 if ($scope.employeeForm) {
+                    //$scope.employeeForm.$setValidity(true);
                     $scope.employeeForm.$setPristine();
                     $scope.employeeForm.$setUntouched();
+                   // $scope.employeeForm.lastName.dataset = {};
+                    //$scope.employeeForm.$rollbackViewValue();
+                    //$scope.employeeFormData.lastName="";
                 }
                 $scope.usernameValidation = null;
                 $scope.employeeFormData = null;
@@ -91,7 +96,7 @@ angular
              * Calls resetOrganizationForm after the view loaded
              */
 
-            $scope.resetEmployeeForm();
+            //$scope.resetEmployeeForm();
 
             /**
              * Validates
