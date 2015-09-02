@@ -51,7 +51,7 @@ public class NewVerificationsQueryConstructorProvider {
 				lastNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, employeeSearchName);
 
 			if((sortCriteria != null)&&(sortOrder != null)) {
-				criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+				criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 			} else {
 				criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 			}

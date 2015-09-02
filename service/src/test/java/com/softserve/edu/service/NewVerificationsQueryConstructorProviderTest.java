@@ -1,13 +1,8 @@
 package com.softserve.edu.service;
 
-import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorProvider;
-import com.softserve.edu.service.utils.SortCriteria;
-import junit.framework.Assert;
-import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,15 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by vova on 20.08.15.

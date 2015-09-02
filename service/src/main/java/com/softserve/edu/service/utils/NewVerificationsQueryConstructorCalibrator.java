@@ -52,7 +52,7 @@
 				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, providerId, dateToSearch, idToSearch,
 						lastNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
 				if((sortCriteria != null)&&(sortOrder != null)) {
-					criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+					criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 				} else {
 					criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 				}

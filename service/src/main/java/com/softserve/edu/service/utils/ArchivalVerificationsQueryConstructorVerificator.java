@@ -37,7 +37,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 																		lastNameToSearch, streetToSearch, status,
 																		employeeName, providerEmployee, calibratorJoin);
 			if((sortCriteria != null)&&(sortOrder != null)) {
-				criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+				criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 			} else {
 				criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 			}
