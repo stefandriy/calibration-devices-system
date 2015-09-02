@@ -160,7 +160,7 @@ public class CalibrationTestService {
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
-        //calibrationTest.setConsumptionStatus(consumptionStatus);
+        calibrationTest.setConsumptionStatus("Придатний");
         calibrationTest.setTestResult(testResult);
         return calibrationTest;
     }
