@@ -427,7 +427,7 @@ angular
                     $scope.$broadcast('show-errors-check-validity');
                     if (bValidation()) {
                         if (!$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
-                            && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid && !$scope.phoneNumberValidation.isValid) {
+                            && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
                             retranslater();
                             updateEmployee();
                         }
