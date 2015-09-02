@@ -1,6 +1,8 @@
 package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.OrganizationType;
+import com.softserve.edu.entity.user.User;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -12,14 +14,15 @@ import javax.persistence.criteria.*;
 public class ArchivalOrganizationsQueryConstructorAdmin {
     static Logger logger = Logger.getLogger(ArchivalOrganizationsQueryConstructorAdmin.class);
 
-    public static CriteriaQuery<Organization> buildSearchQuery(String sortCriteria, String sortOrder,EntityManager em) {
+    public static CriteriaQuery<Organization> buildSearchQuery(String name,
+                                                               String email, String number, String type, String sortCriteria, String sortOrder,EntityManager em) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Organization> criteriaQuery = cb.createQuery(Organization.class);
         Root<Organization> root = criteriaQuery.from(Organization.class);
 
-        Join<Organization, Organization> calibratorJoin = root.join("stateVerificator");
+        Join<Organization, OrganizationType> organizationTypeJoin = root.join("organizationId");
 
-        Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(root, cb, calibratorJoin);
+        Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(name, email, type, number,root, cb, organizationTypeJoin);
         if((sortCriteria != null)&&(sortOrder != null)) {
             criteriaQuery.orderBy(SortCriteriaOrganization.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
         } else {
@@ -30,7 +33,30 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
         return criteriaQuery;
     }
 
-    private static Predicate buildPredicate(Root<Organization> root, CriteriaBuilder cb, Join<Organization, Organization> calibratorJoin) {
-        return null;
+    private static Predicate buildPredicate( String name,
+                                             String email, String number, String type, Root<Organization> root, CriteriaBuilder cb, Join<Organization, OrganizationType> organizationTypeJoin ) {
+        Predicate queryPredicate = cb.conjunction();
+       // queryPredicate = cb.and(cb.equal(organizationTypeJoin .get(""), employeeId), queryPredicate);
+
+        if ((name != null)&&(name.length()>0)) {
+            queryPredicate = cb.and(cb.like(root.get("name"), "%" + name + "%"), queryPredicate);
+        }
+        if ((email != null)&&(email.length()>0)) {
+            queryPredicate = cb.and(cb.like(root.get("email"), "%" + email + "%"),
+                    queryPredicate);
+        }
+        if ((number != null)&&(number.length()>0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("number"), "%" + number + "%"),
+                    queryPredicate);
+        }
+       /* if ((type != null)&&(type.length()>0)) {
+            Join<Organization, OrganizationType> joinOrganizationType = root.join("organizationId");
+            Predicate searchByOrganizationType = cb.like(joinOrganizationType.get("type"),
+                    "%" + type + "%");
+            queryPredicate = cb.and(searchByOrganizationType, queryPredicate);
+        }*/
+
+        return queryPredicate;
     }
 }
