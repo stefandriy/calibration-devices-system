@@ -54,17 +54,12 @@ angular
                 var pickerDate = $scope.myDatePicker.pickerDate;
 
                 if (pickerDate == null || $scope.defaultDate == null) { //moment when page is just loaded
-                    $log.debug("Just loaded");
                     return true;
                 }
                 if (pickerDate.startDate.isSame($scope.defaultDate.startDate, 'day') //compare by day
                     && pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day')) {
                     return true;
                 }
-
-                $log.debug("what is " + pickerDate.startDate.format("DD") + " default:" + $scope.defaultDate.startDate.format("DD"));
-                $log.debug("what is " + pickerDate.endDate.format("DD") + " default:" + $scope.defaultDate.endDate.format("DD"));
-
                 return false;
             };
 
