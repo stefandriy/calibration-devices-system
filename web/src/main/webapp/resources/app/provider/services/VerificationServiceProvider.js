@@ -60,6 +60,9 @@ angular
             },
             sendMail : function(data) {
             	return sendData ('new/mail', data);
+            },
+            getNewVerificationEarliestDate: function () {
+                return getData('verifications/new/earliest_date/provider');
             }
         };
 

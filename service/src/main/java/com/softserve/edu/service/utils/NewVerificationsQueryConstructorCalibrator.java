@@ -1,26 +1,19 @@
 	package com.softserve.edu.service.utils;
 
+	import com.softserve.edu.entity.Organization;
+	import com.softserve.edu.entity.Verification;
+	import com.softserve.edu.entity.user.User;
+	import com.softserve.edu.entity.user.UserRole;
+	import com.softserve.edu.entity.util.Status;
+	import org.apache.log4j.Logger;
+
+	import javax.persistence.EntityManager;
+	import javax.persistence.criteria.*;
 	import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.apache.log4j.Logger;
-
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Status;
+	import java.text.SimpleDateFormat;
+	import java.util.Calendar;
+	import java.util.Date;
+	import java.util.Set;
 
 
 	public class NewVerificationsQueryConstructorCalibrator {
@@ -47,8 +40,8 @@ import com.softserve.edu.entity.util.Status;
 	 	 * @return CriteriaQuery<Verification>
 		 */
 		public static CriteriaQuery<Verification> buildSearchQuery (Long providerId, String dateToSearch,
-										String idToSearch, String lastNameToSearch, String streetToSearch, String region ,
-																	String district, String locality,String status,
+																	String idToSearch, String lastNameToSearch, String streetToSearch, String region,
+																	String district, String locality, String status,
 										User calibratorEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
 				CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -57,7 +50,7 @@ import com.softserve.edu.entity.util.Status;
 				Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
 				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, providerId, dateToSearch, idToSearch,
-																			lastNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
+						lastNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
 				if((sortCriteria != null)&&(sortOrder != null)) {
 					criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 				} else {
@@ -88,8 +81,8 @@ import com.softserve.edu.entity.util.Status;
 		 * 		EntityManager needed to have a possibility to create query
 	 	 * @return CriteriaQuery<Long>
 		 */
-		public static CriteriaQuery<Long> buildCountQuery (Long calibratorId, String dateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String region ,
-														   String district, String locality,String status,
+		public static CriteriaQuery<Long> buildCountQuery(Long calibratorId, String dateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String region,
+														  String district, String locality, String status,
 								User calibratorEmployee, String employeeSearchName, EntityManager em) {
 			
 				CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -97,7 +90,7 @@ import com.softserve.edu.entity.util.Status;
 				Root<Verification> root = countQuery.from(Verification.class);
 				Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, calibratorId, dateToSearch, idToSearch,
-																			lastNameToSearch, streetToSearch, region , district, locality, status, calibratorEmployee, employeeSearchName);
+						lastNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
 				countQuery.select(cb.count(root));
 				countQuery.where(predicate);
 				return countQuery;
@@ -118,7 +111,7 @@ import com.softserve.edu.entity.util.Status;
 		 * @return Predicate 
 		 */
 	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long calibratorId, String dateToSearch, String idToSearch,
-											String lastNameToSearch, String streetToSearch, String region , String district, String locality, String status, User calibratorEmployee, String employeeSearchName) {
+											String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status, User calibratorEmployee, String employeeSearchName) {
 
 		String userName = calibratorEmployee.getUsername();
 		Predicate queryPredicate = cb.conjunction();
@@ -172,17 +165,17 @@ import com.softserve.edu.entity.util.Status;
 					cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
 					queryPredicate);
 		}
-		if ((region != null)&&(region.length()>0)) {
+		if ((region != null) && (region.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("region"), "%" + region + "%"),
 					queryPredicate);
 		}
-		if ((district != null)&&(district.length()>0)) {
+		if ((district != null) && (district.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("district"), "%" + district + "%"),
 					queryPredicate);
 		}
-		if ((locality != null)&&(locality.length()>0)) {
+		if ((locality != null) && (locality.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("locality"), "%" + locality + "%"),
 					queryPredicate);

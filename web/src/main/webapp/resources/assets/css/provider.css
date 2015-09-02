@@ -624,8 +624,41 @@ float:left;
     fieldset { display: table-cell; }
 }
 
-.images{
+.images {
     width: auto;
     margin-top: auto;
     text-align: center;
+}
+
+/*puts calendar glypicon to the left of daterangepicker input */
+.right-inner-addon {
+    position: relative;
+}
+
+.right-inner-addon input {
+    padding-left: 35px;
+}
+
+#calendar_icon {
+    position: absolute;
+    left: 10px;
+    padding-right: 22px;
+    padding-top: 10px;
+    z-index: 100;
+}
+
+#datepickerfield:read-only {
+    background-color: white;
+}
+
+#datepickerfield {
+    width: 100%;
+}
+
+th.filter {
+    max-width: 700px;
+}
+
+th.filter::after {
+    max-width: 700px;
 }

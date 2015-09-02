@@ -9,8 +9,11 @@
                 idText:null,
                 formattedDate :null,
                 lastNameText:null,
-                streetText: null
-            }
+                streetText: null,
+                districtText: null,
+                regionText: null,
+                localityText: null
+            };
 
             $scope.clearAll = function(){
                 $scope.search.idText=null;
@@ -18,62 +21,52 @@
                 $scope.dt = null;
                 $scope.search.lastNameText=null;
                 $scope.search.streetText=null;
+                $scope.search.districtText = null;
+                $scope.search.regionText = null;
+                $scope.search.localityText = null;
                 $scope.tableParams.reload();
-            }
+            };
 
             $scope.clearId = function () {
                 $scope.search.idText = null;
                 $scope.tableParams.reload();
-            }
+            };
             $scope.clearLastName = function () {
                 $scope.search.lastNameText = null;
                 $scope.tableParams.reload();
-            }
+            };
             $scope.clearStreet = function () {
                 $scope.search.streetText = null;
                 $scope.tableParams.reload();
-            }
+            };
 
             var promiseSearchTimeOut;
             $scope.doSearch = function() {
                 promiseTimeOut = $timeout(function() {
                     $scope.tableParams.reload();
                 }, 1200);
-            }
+            };
 
             $scope.$on('refresh-table', function () {
                 $scope.clearAll();
             });
 
             $scope.totalCount = 0;
-            $scope.filter = {
-                id: undefined,
-                client_last_name: undefined,
-                street: undefined,
-                employee_last_name: undefined
-            };
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
-                count: 10,
-                filter: $scope.filter
+                count: 10
             }, {
                 total: 0,
                 getData: function ($defer, params) {
 
                     verificationService.getNewVerifications(params.page(), params.count(), $scope.search.formattedDate, $scope.search.idText,
-                        $scope.search.lastNameText, $scope.search.streetText)
+                        $scope.search.lastNameText, $scope.search.streetText, $scope.search.regionText, $scope.search.districtText, $scope.search.localityText)
                         .success(function (result) {
                             var data = result.content;
-                            //data is filtered here
-                            var orderedData = params.filter() ?
-                                $filter('filter')(data, params.filter()) :
-                                data;
-
-                            //TODO: doesn't filter cyrrilic data
-                            params.total(orderedData.totalItems);
-                            $scope.totalCount = orderedData.totalItems;
-                            $defer.resolve(orderedData); //made available to ng-table
-
+                            params.total(data.totalItems);
+                            $scope.totalCount = data.totalItems;
+                            $defer.resolve(data); //made available to ng-table
                             $log.debug('total inside call');
                             $log.debug($scope.totalCount);
                         }, function (result) {
@@ -111,7 +104,6 @@
                         response: function () {
                             return verificationService.getNewVerificationDetails(verifId)
                                 .success(function (verification) {
-                                    //TODO: cyrillic letters become ?
                                     $rootScope.verificationID = verifId;
                                     verification.id =   $rootScope.verificationID;
                                     verification.initialDate = verifDate;
@@ -153,12 +145,12 @@
                             );
                         }
                     }
-                })
+                });
                 /**
                  * executes when modal closing
                  */
                 modalInstance.result.then(function (formData) {
-                    idVerification = 0;
+                    var idVerification = 0;
                     var dataToSend = {
                         idVerification: verifId,
                         employeeProvider: formData.provider
@@ -287,7 +279,7 @@
                     $scope.search.formattedDate = datefilter(val, 'dd-MM-yyyy');
                     $scope.tableParams.reload();
                 }
-            }
+            };
             /**
              * Modal window used to explain the reason of verification rejection
              */

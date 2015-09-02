@@ -1,7 +1,7 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
         'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
-        'highcharts-ng', 'ngFileUpload','ngRoute','angular-loading-bar'])
+        'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider',
 
@@ -119,6 +119,20 @@
         paginationConfig.previousText = 'Попередня';
         paginationConfig.nextText = 'Наступна';
         paginationConfig.lastText = 'Остання';
+    });
+
+
+    angular.module('employeeModule').directive('chosen', function () {
+        return {
+            priority: 1,
+            restrict: 'A',
+            link: {
+                pre: function (scope, element, attr, ngModel) {
+                    var defaultText = attr.placeholder;
+                    angular.element(element[0]).attr('data-placeholder', defaultText);
+                }
+            }
+        }
     });
 
     define([

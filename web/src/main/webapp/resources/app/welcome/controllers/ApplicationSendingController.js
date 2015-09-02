@@ -9,7 +9,7 @@ angular
 
             $scope.createNew = function (ID) {
                 $location.path('/application-sending/' + ID);
-            }
+            };
 
             function arrayObjectIndexOf(myArray, searchTerm, property) {
                 for (var i = 0, len = myArray.length; i < len; i++) {
@@ -18,7 +18,7 @@ angular
                 var elem = {
                     id: length,
                     designation: searchTerm
-                }
+                };
                 myArray.push(elem);
                 return (myArray.length - 1);
             }
@@ -102,7 +102,7 @@ angular
                         $scope.selectedLocality = "";
 
                     });
-            }
+            };
             if (!$stateParams.verificationId) {
                 $scope.receiveRegions();
             }
@@ -274,7 +274,7 @@ angular
             };
             $scope.closeAlert = function () {
                 $location.path('/resources/app/welcome/views/start.html');
-            }
+            };
 
             /**
              * Receives all regex for input fields
@@ -334,7 +334,7 @@ angular
             $scope.closeAlertW = function () {
                 $scope.responseSuccess = false;
                 $scope.showSendingAlert = false;
-            }
+            };
 
             /**
              * Resets form

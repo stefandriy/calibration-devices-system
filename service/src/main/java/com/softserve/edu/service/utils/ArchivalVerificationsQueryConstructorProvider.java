@@ -1,40 +1,33 @@
 package com.softserve.edu.service.utils;
 
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.Status;
+import org.apache.log4j.Logger;
+
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
-import org.apache.log4j.Logger;
-
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.Status;
-
 public class ArchivalVerificationsQueryConstructorProvider {
 static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
-	
-	
-	public static CriteriaQuery<Verification> buildSearchQuery (Long employeeId, String dateToSearch,
-									String idToSearch, String lastNameToSearch,
-									String streetToSearch, String region, String district, String locality, String status,
-									String employeeName, String sortCriteria, String sortOrder, 
-									User providerEmployee, EntityManager em) {
+
+
+	public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String initialDateToSearch,
+															   String idToSearch, String lastNameToSearch,
+															   String streetToSearch, String region, String district, String locality, String status,
+															   String employeeName, String sortCriteria, String sortOrder,
+															   User providerEmployee, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
 			Join<Verification, Organization> providerJoin = root.join("provider");
-			Predicate predicate = ArchivalVerificationsQueryConstructorProvider.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
-																		lastNameToSearch, streetToSearch, region, district , locality, status,
+		Predicate predicate = ArchivalVerificationsQueryConstructorProvider.buildPredicate(root, cb, employeeId, initialDateToSearch, idToSearch, lastNameToSearch, streetToSearch, region, district, locality, status,
 																		employeeName, providerEmployee, providerJoin);
 			
 			if((sortCriteria != null)&&(sortOrder != null)) {
@@ -46,19 +39,18 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			criteriaQuery.where(predicate);
 			return criteriaQuery;
 	}
-	
-	
-	public static CriteriaQuery<Long> buildCountQuery (Long employeeId, String dateToSearch,
-							String idToSearch, String lastNameToSearch, String streetToSearch, String region,
-													   String district, String locality, String status, String employeeName,
-							User providerEmployee, EntityManager em) {
+
+
+	public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String initialDateToSearch,
+													  String endDateToSeach, String idToSearch, String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status, String employeeName,
+													  User providerEmployee, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> providerJoin = root.join("provider");
-			Predicate predicate = ArchivalVerificationsQueryConstructorProvider.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
-																					lastNameToSearch, streetToSearch, region, district , locality, status, employeeName, providerEmployee,
+		Predicate predicate = ArchivalVerificationsQueryConstructorProvider.buildPredicate(root, cb, employeeId, initialDateToSearch, idToSearch,
+				lastNameToSearch, streetToSearch, region, district, locality, status, employeeName, providerEmployee,
 																								providerJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
@@ -67,7 +59,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	
 	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Long providerId, 
 																	String dateToSearch,String idToSearch, String lastNameToSearch,
-																	String streetToSearch,String region, String district, String locality, String searchStatus, String employeeName, User employee,
+											 String streetToSearch, String region, String district, String locality, String searchStatus, String employeeName, User employee,
 																		Join<Verification, Organization> providerJoin) {
 
 		Predicate queryPredicate = cb.conjunction();		
@@ -103,19 +95,19 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 					cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
 					queryPredicate);
 		}
-		if ((region != null)&&(region.length()>0)) {
+		if ((region != null) && (region.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("region"), "%" + region + "%"),
 					queryPredicate);
 		}
 
-		if ((district != null)&&(district.length()>0)) {
+		if ((district != null) && (district.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("district"), "%" + district + "%"),
 					queryPredicate);
 		}
 
-		if ((locality != null)&&(locality.length()>0)) {
+		if ((locality != null) && (locality.length() > 0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("locality"), "%" + locality + "%"),
 					queryPredicate);

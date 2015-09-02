@@ -1,32 +1,15 @@
 package com.softserve.edu.controller.provider;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
-import com.softserve.edu.dto.ArchiveVerificationsFilterAndSort;
-import com.softserve.edu.dto.NewVerificationsFilterSearch;
-import com.softserve.edu.dto.NewVerificationsSearch;
-import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.VerificationUpdateDTO;
-import com.softserve.edu.dto.provider.VerificationDTO;
-import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
-import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
-import com.softserve.edu.dto.provider.VerificationStatusUpdateDTO;
+import com.softserve.edu.dto.*;
+import com.softserve.edu.dto.provider.*;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.admin.OrganizationsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -35,6 +18,15 @@ import com.softserve.edu.service.utils.EmployeeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import com.softserve.edu.service.verification.VerificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/provider/verifications/")
@@ -45,20 +37,16 @@ public class ProviderVerificationController {
 
     @Autowired
     ProviderService providerService;
-
     @Autowired
     ProviderEmployeeService providerEmployeeService;
-
     @Autowired
     CalibratorService calibratorService;
-
-    @Autowired
-    private UsersService userService;
-
-
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
-
+    @Autowired
+    private OrganizationsService organizationService;
+    @Autowired
+    private UsersService userService;
     @Autowired
 	private MailService mailService;
     
@@ -72,6 +60,7 @@ public class ProviderVerificationController {
                 pageNumber,
                 itemsPerPage,
                 searchData.getDate(),
+                null,
                 searchData.getId(),
                 searchData.getClient_last_name(),
                 searchData.getStreet(),
@@ -110,6 +99,7 @@ public class ProviderVerificationController {
                 pageNumber,
                 itemsPerPage,
                 searchData.getDate(),
+                searchData.getEndDate(),
                 searchData.getId(),
                 searchData.getClient_last_name(),
                 searchData.getStreet(),
@@ -122,12 +112,8 @@ public class ProviderVerificationController {
                 sortOrder,
                 providerEmployee
         );
-
-        List<Verification> verificationList = queryResult.getContent();
-        for (Verification verification : verificationList){
-            System.out.println(verification.getClientData().getClientAddress().getRegion());
-        }
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(verificationList);
+        List<Verification> verifications = queryResult.getContent();
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(verifications);
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }
 
@@ -168,6 +154,25 @@ public class ProviderVerificationController {
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }
 
+    /**
+     * Fiend date of earliest verification
+     *
+     * @param user
+     * @return String date
+     */
+    @RequestMapping(value = "new/earliest_date/provider", method = RequestMethod.GET)
+    public String getVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        if (user != null) {
+            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            java.util.Date date = new Date(verificationService.getVerificationEarliestDateByProvider(organization).getTime());
+            DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+            String isoLocalDateString = localDate.format(dbDateTimeFormatter);
+            return isoLocalDateString;
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Find count of new verifications that have Read Status "UNREAD"

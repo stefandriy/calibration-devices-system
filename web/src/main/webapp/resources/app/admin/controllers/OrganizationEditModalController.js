@@ -1,7 +1,7 @@
 angular
 	.module('adminModule')
-	.filter('organizationFilter', function() {
-		return function(allTypes, currentTypes) {
+	.filter('organizationFilter', function () {
+		return function (allTypes, currentTypes) {
 			var filtered = allTypes;
 
 			for (var i in currentTypes) {
@@ -25,7 +25,7 @@ angular
 		'$filter',
 		'AddressService',
 		'OrganizationService','$log',
-		function($rootScope, $scope, $translate, $modalInstance, $filter,
+		function ($rootScope, $scope, $translate, $modalInstance, $filter,
 				 addressService, organizationService,$log) {
 
 
@@ -36,23 +36,23 @@ angular
 				var elem = {
 					id: length,
 					designation: searchTerm
-				}
+				};
 				myArray.push(elem);
 				return (myArray.length-1);
 			}
 
 			$scope.typeData = [
 				{
-					id : 'PROVIDER',
-					label : null
+					id: 'PROVIDER',
+					label: null
 				},
 				{
-					id : 'CALIBRATOR',
-					label : null
+					id: 'CALIBRATOR',
+					label: null
 				},
 				{
-					id : 'STATE_VERIFICATOR',
-					label : null
+					id: 'STATE_VERIFICATOR',
+					label: null
 				}
 			];
 
@@ -211,7 +211,7 @@ angular
 					street : $rootScope.organization.address.street,
 					building : $rootScope.organization.address.building,
 					flat : $rootScope.organization.address.flat
-				}
+				};
 				organizationService.editOrganization(
 					organizationForm,
 					$rootScope.organizationId).then(
@@ -222,7 +222,7 @@ angular
 							$rootScope.onTableHandling();
 						}
 					});
-			}
+			};
 
 			/**
 			 * Closes edit modal window.

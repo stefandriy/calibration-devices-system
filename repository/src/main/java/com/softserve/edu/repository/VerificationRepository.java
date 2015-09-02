@@ -1,19 +1,18 @@
 package com.softserve.edu.repository;
 
-import java.util.Date;
-import java.util.List;
-
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Date;
+import java.util.List;
 
 public interface VerificationRepository extends PagingAndSortingRepository<Verification, String> {
     Page<Verification> findByProviderId(Long providerId, Pageable pageable);
@@ -83,7 +82,15 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'ACCEPTED' and u.provider = :provider")
     int getCountOfAllAcceptedVerifications(@Param("provider") Organization provider);
-    
+
+    @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE u.status = 'SENT' and u.provider = :provider")
+    java.sql.Date getEarliestDateOfAllSentVerifications(@Param("provider") Organization provider);
+
+    @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE u.status = 'ACCEPTED' and u.provider = :provider")
+    java.sql.Date getEarliestDateOfAllAcceptedVerifications(@Param("provider") Organization provider);
+
+    @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE (u.status = 'ACCEPTED' or u.status = 'SENT') and u.provider = :provider")
+    java.sql.Date getEarliestDateOfAllAcceptedOrSentVerifications(@Param("provider") Organization provider);
     
 }
 

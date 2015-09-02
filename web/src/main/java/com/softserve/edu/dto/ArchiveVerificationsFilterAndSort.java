@@ -37,9 +37,11 @@ public class ArchiveVerificationsFilterAndSort {
 	public void setStreet(String street) {
 		this.street = street;
 	}
+
 	public String getRegion() {
 		return region;
 	}
+
 	public void setRegion(String region) {
 		this.region = region;
 	}

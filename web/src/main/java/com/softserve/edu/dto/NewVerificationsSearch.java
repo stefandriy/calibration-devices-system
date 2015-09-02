@@ -11,10 +11,11 @@ public class NewVerificationsSearch {
 	private String locality;
 	private String status;
 	private String employee;
-	
-	public NewVerificationsSearch() {};
-	
-	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String region,String district, String locality, String status, String employee) {
+
+	public NewVerificationsSearch() {
+	}
+
+	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String region, String district, String locality, String status, String employee) {
 
 		this.idText = idText;
 		this.formattedDate = formattedDate;
