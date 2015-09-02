@@ -1,16 +1,9 @@
-angular.module('adminModule').factory(
-		'OrganizationService',
-		function($http) {
-			return {
-				getPage : function(pageNumber, itemsPerPage, search) {
-					var url = '/admin/organization/' + pageNumber + '/'
-							+ itemsPerPage;
-					if (search != null && search != undefined && search != "")
-						url += '/' + search;
+angular.module('adminModule')
+	.factory('OrganizationService', ['$http', '$log', function ($http, $log) {
 
-					return $http.get(url).then(function(result) {
-						return result.data;
-					});
+			return {
+				getPage : function(currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
+					return getDataWithParams('/admin/organization/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
 				},
 				saveOrganization : function(formData) {
 					return $http.post("/admin/organization/add", formData)
@@ -34,5 +27,15 @@ angular.module('adminModule').factory(
 							});
 				}
 
+			};
+			function getDataWithParams(url, params) {
+				return $http.get(url, {
+					params : params
+				}).success(function (data) {
+					return data;
+				}).error(function (err) {
+					return err;
+				});
 			}
-		});
+
+		}]);

@@ -242,5 +242,7 @@
   "MAX_PROCESS_TIME":"Max verification processing time, days",
   "STATUS_SELECT_PLACEHOLDER": "Select a status",
   "DATERANGEPICKER_PLACEHOLDER": "Select a range",
-  "AMOUNT": "Amount"
+  "AMOUNT": "Amount",
+  "FIND_BY_ADRESS" : "Find by adress",
+  "FIND_BY_ORG_TYPE" : "Find by organization type"
 }

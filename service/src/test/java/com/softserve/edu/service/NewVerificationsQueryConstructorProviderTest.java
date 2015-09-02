@@ -48,6 +48,11 @@ public class NewVerificationsQueryConstructorProviderTest {
     final static String userName = "userName";
     final static String sortCriteria = "str";
     final static String sortOrder = "str2";
+    final static String sortCriteriaNull = null;
+    final static String sortOrderNull = null;
+    final static  String region = "region";
+    final static  String district = "district";
+    final static  String locality = "locality";
 
     @InjectMocks
     private NewVerificationsQueryConstructorProvider newVerificationsQueryConstructorProvider;
@@ -83,7 +88,17 @@ public class NewVerificationsQueryConstructorProviderTest {
 
     @Test
     public void testBuildSearchQuery() throws Exception {
-      /*  CriteriaQuery<Verification> query = newVerificationsQueryConstructorProvider.buildSearchQuery( providerId,  dateToSearch, idToSearch, lastNameToSearch,
+       /*
+        when(em.getCriteriaBuilder()).thenReturn(cb);
+        when(cb.createQuery(Verification.class)).thenReturn(criteriaQuery);
+        when(criteriaQuery.from(Verification.class)).thenReturn(root);
+
+        newVerificationsQueryConstructorProvider.buildSearchQuery(providerId, dateToSearch, idToSearch, lastNameToSearch,
+                streetToSearch, region, district, locality, status, providerEmployee, sortCriteria, sortOrder, employeeSearchName, em);
+        verify(em).getCriteriaBuilder();
+        verify(cb).createQuery(Verification.class);
+        verify(criteriaQuery.from(Verification.class));
+        CriteriaQuery<Verification> query = newVerificationsQueryConstructorProvider.buildSearchQuery( providerId,  dateToSearch, idToSearch, lastNameToSearch,
                 streetToSearch, status, providerEmployee, sortCriteria, sortOrder, employeeSearchName, em);
         Set<String> params = new HashSet<String>(Arrays.<String>asList( dateToSearch, idToSearch, lastNameToSearch,
                 streetToSearch, status, sortCriteria, sortOrder, employeeSearchName));
@@ -92,7 +107,7 @@ public class NewVerificationsQueryConstructorProviderTest {
 
     @Test
     public void testBuildCountQuery() throws Exception {
-    /*    when(em.getCriteriaBuilder()).thenReturn(cb);
+   /* when(em.getCriteriaBuilder()).thenReturn(cb);
         when(cb.createQuery(Long.class)).thenReturn(countQuery);
         when(criteriaQuery.from(Verification.class)).thenReturn(root);
         when(root.join("provider")).thenReturn(joinSearch);
