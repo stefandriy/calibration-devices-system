@@ -68,6 +68,18 @@ public enum SortCriteriaVerification {
 			}
 		}
 	},
+
+	LOCALITY() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return cb.asc(root.get("clientData").get("clientAddress").get("locality"));
+			} else {
+				return cb.desc(root.get("clientData").get("clientAddress").get("locality"));
+			}
+		}
+	},
+
 	STATUS() {
 	    	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 	 
