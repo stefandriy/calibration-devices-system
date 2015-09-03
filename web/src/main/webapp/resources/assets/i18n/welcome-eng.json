@@ -171,7 +171,7 @@
     "INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  Volodymyr",
     "INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  Petrenko",
     "INCORRECT_VALUE_MIDDLE_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  Andriyovych",
-    "INCORRECT_VALUE_PHONE_ADD_EMPLOYEE" : "Incorrect value input example:  +380679354972",
+    "INCORRECT_VALUE_PHONE_ADD_EMPLOYEE" : "Incorrect value input example:  +380 679354972",
     "INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE" : "Incorrect value input example:  petrus@gmail.com",
     "PASSWORDS_DID_NOT_MATCH" : "Password didn't match",
     "INCORRECT_VALUE_INPUT_ADD_EMPLOYEE" : "Incorrect value input!",
