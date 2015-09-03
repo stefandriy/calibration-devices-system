@@ -12,6 +12,12 @@ angular
 
 
             $scope.initDatePicker = function (date) {
+                /**
+                 *  Date picker and formatter setup
+                 *
+                 */
+
+                /*TODO: i18n*/
                 $scope.myDatePicker.pickerDate = {
                     startDate: moment(date, "YYYY-MM-DD"), //earliest day of  all the verifications available in table
                     endDate: moment() // current day
@@ -341,12 +347,6 @@ angular
             var checkForEmpty = function () {
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
-            /**
-             *  Date picker and formatter setup
-             *
-             */
-
-            /*TODO: i18n*/
 
 
             /**
