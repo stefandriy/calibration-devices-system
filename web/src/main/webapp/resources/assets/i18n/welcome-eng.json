@@ -35,7 +35,7 @@
   "EMAIL_ERROR": "Email must contatin '@' character. For instance: ",
   "TYPEAHEAD_ERROR": "Select the appropriate option from the drop down list",
   "ALPHABETIC_ERROR": "This field can contain only alphabetic characters.",
-  "PHONE_NUMBER_ERROR": "Phone number must be filled in format: 0{city/operator code}{phone number}",
+  "PHONE_NUMBER_ERROR": "Phone number must be filled in format: {city/operator code}{phone number}",
   "PHONE_NUMBER_INFO":"This field is not mandatory , but to improve communications capabilities ask him to fill",
   "PROVIDER": "Service provider",
   "VERIFICATOR": "Authorized calibration laboratory",
