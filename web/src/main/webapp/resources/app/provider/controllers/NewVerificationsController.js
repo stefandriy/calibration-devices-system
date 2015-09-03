@@ -301,7 +301,7 @@
 
                     var messageToSend = {
                         verifID : ID,
-                        msg : formData.message
+                        msg : formData.message //here message from form mailComment
                     };
 
                     var dataToSend = {

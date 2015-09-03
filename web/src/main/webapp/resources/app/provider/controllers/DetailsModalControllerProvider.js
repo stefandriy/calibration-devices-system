@@ -11,7 +11,7 @@ angular
 			});
     	
     		$scope.verificationData = response.data;
-		  
+
 		    $scope.acceptVerification = function () {
 		    	 var dataToSend = {
 							verificationId: $rootScope.verificationID,

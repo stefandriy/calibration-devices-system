@@ -82,7 +82,7 @@ define([
     'controllers/ProviderEmployeeController',
     'controllers/CapacityEmployeeController',
     'controllers/MailSendingModalController',
-    
+
     'services/VerificationService',
     'services/AddressService',
     'services/SettingsService',
