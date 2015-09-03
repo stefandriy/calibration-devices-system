@@ -666,3 +666,7 @@ th.filter {
 th.filter::after {
     max-width: 700px;
 }
+
+#no_new_verifs_message {
+    padding: 5px 10px;
+}
