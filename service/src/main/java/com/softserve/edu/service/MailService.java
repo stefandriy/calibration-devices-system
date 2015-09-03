@@ -91,7 +91,7 @@ public class
         };
         this.mailSender.send(preparator);
     }
-    
+
     public void sendRejectMail(String to, String userName, String verificationId, String msg, String deviceType) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {

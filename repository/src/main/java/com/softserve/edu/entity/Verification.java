@@ -3,13 +3,11 @@ package com.softserve.edu.entity;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
-
-import javax.persistence.*;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -67,6 +65,17 @@ public class Verification {
 
     @Temporal(TemporalType.DATE)
     private Date sentToCalibratorDate;
+
+    private String rejectedMessage;
+
+    public String getRejectedMessage() {
+        return rejectedMessage;
+    }
+
+    public void setRejectedMessage(String rejectedMessage) {
+        this.rejectedMessage = rejectedMessage;
+    }
+
     @OneToOne
     BbiProtocol bbiProtocol;
     
