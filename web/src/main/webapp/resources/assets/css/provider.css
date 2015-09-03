@@ -657,6 +657,7 @@ float:left;
 
 .datecolumn {
     width: 280px;
+    min-width: 280px;
 }
 
 th.filter {
@@ -665,4 +666,9 @@ th.filter {
 
 th.filter::after {
     max-width: 700px;
+}
+
+#no_new_verifs_message p {
+    margin: 15px;
+    text-align: center;
 }
