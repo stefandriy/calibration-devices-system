@@ -30,14 +30,13 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
-
 			Join<Verification, Organization> calibratorJoin = root.join("stateVerificator");
 
 			Predicate predicate = ArchivalVerificationsQueryConstructorVerificator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
 																		lastNameToSearch, streetToSearch, status,
 																		employeeName, providerEmployee, calibratorJoin);
 			if((sortCriteria != null)&&(sortOrder != null)) {
-				criteriaQuery.orderBy(SortCriteria.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+				criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 			} else {
 				criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
 			}

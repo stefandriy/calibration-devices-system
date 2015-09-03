@@ -7,6 +7,8 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -54,16 +59,34 @@ public class OrganizationsService {
 		userRepository.save(employeeAdmin);
 }
 
-	@Transactional
+/*	@Transactional
 	public Page<Organization> getOrganizationsBySearchAndPagination(
-			int pageNumber, int itemsPerPage, String search) {
-		/* pagination starts from 1 at client side, but Spring Data JPA from 0 */
+			int pageNumber, int itemsPerPage, String search/*, String adress, String type ) {
+		/* pagination starts from 1 at client side, but Spring Data JPA from 0
 		PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
 		return search == null ? organizationRepository.findAll(pageRequest)
 				: organizationRepository.findByNameLikeIgnoreCase("%" + search
 						+ "%", pageRequest);
-	}
+	}*/
 
+	@Transactional(readOnly = true)
+	public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage,String name,
+																					 String email, String number, String type, String sortCriteria, String sortOrder) {
+
+		CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, /*type,*/ sortCriteria, sortOrder, entityManager);
+
+		Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin.buildCountQuery(name, email, number,/* type,*/ sortCriteria, sortOrder, entityManager)).getSingleResult();
+
+		TypedQuery<Organization> typedQuery = entityManager.createQuery(criteriaQuery);
+		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+		typedQuery.setMaxResults(itemsPerPage);
+		List<Organization> OrganizationList = typedQuery.getResultList();
+
+		ListToPageTransformer<Organization> result = new ListToPageTransformer<Organization>();
+		result.setContent(OrganizationList);
+		result.setTotalItems(count);
+		return result;
+	}
 	@Transactional
 	public Organization getOrganizationById(Long id) {
 		 return organizationRepository.findOne(id);

@@ -1,18 +1,26 @@
 package com.softserve.edu.controller.admin;
 
+import com.softserve.edu.controller.admin.util.OrganizationPageDTOTransformer;
+import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.admin.OrganizationEditDTO;
+import com.softserve.edu.dto.admin.OrganizationPageDTO;
 import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin/organization/")
@@ -63,31 +71,46 @@ public class OrganizationsController {
 	}
 
 	/**
-	 * Responds a page according to input data and search value
 	 *
 	 * @param pageNumber
-	 *            current page number
 	 * @param itemsPerPage
-	 *            count of elements per one page
-	 * @param search
-	 *            keyword for looking entities by Organization.name
-	 * @return a page of organizations with their total amount
+	 * @param sortCriteria
+	 * @param sortOrder
+	 * @param searchData
+	 * @return
 	 */
-	@RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
+	@RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+	//currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search
 	public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(
-			@PathVariable Integer pageNumber,
-			@PathVariable Integer itemsPerPage, @PathVariable String search) {
+			@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+			NewOrganizationFilterSearch searchData , @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user
+	) {
 
-		Page<OrganizationPageItem> page = organizationsService
+
+	/*	Page<OrganizationPageItem> page = organizationsService
 				.getOrganizationsBySearchAndPagination(pageNumber,
-						itemsPerPage, search).map(
+						itemsPerPage, search/*, adress, type).map(
 						organization -> new OrganizationPageItem(organization
 								.getId(), organization.getName(), organization
 								.getEmail(), organization.getPhone(),
 								organizationsService
 										.getOrganizationTypes(organization)));
 
-		return new PageDTO<>(page.getTotalElements(), page.getContent());
+		return new PageDTO<>(page.getTotalElements(), page.getContent());*/
+
+		ListToPageTransformer<Organization> queryResult = organizationsService.getOrganizationsBySearchAndPagination(
+				pageNumber,
+				itemsPerPage,
+				searchData.getName_admin(),
+				searchData.getEmail(),
+				searchData.getPhone_number(),
+				searchData.getType_admin(),
+				sortCriteria,
+				sortOrder
+		);
+		System.out.println(searchData.getName_admin());
+		List<OrganizationPageDTO> content = OrganizationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+		return new PageDTO(queryResult.getTotalItems(), content);
 	}
 
 	/**
@@ -107,7 +130,7 @@ public class OrganizationsController {
 	public PageDTO<OrganizationPageItem> getOrganizationsPage(
 			@PathVariable Integer pageNumber,
 			@PathVariable Integer itemsPerPage) {
-		return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null);
+		return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null, null, null, null);
 	}
 	
 	@RequestMapping(value = "getOrganization/{id}")

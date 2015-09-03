@@ -6,7 +6,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-public enum SortCriteria {
+public enum SortCriteriaVerification {
 	ID() {
 	    	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 	    	
@@ -47,6 +47,17 @@ public enum SortCriteria {
 	    		}
 	        }
 	    },
+	DISTRICT() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return cb.asc(root.get("clientData").get("clientAddress").get("district"));
+			} else {
+				return cb.desc(root.get("clientData").get("clientAddress").get("district"));
+			}
+		}
+	},
+
 	REGION() {
 		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 
@@ -57,6 +68,18 @@ public enum SortCriteria {
 			}
 		}
 	},
+
+	LOCALITY() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return cb.asc(root.get("clientData").get("clientAddress").get("locality"));
+			} else {
+				return cb.desc(root.get("clientData").get("clientAddress").get("locality"));
+			}
+		}
+	},
+
 	STATUS() {
 	    	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 	 
