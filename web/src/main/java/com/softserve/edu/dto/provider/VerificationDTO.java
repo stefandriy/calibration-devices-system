@@ -28,7 +28,18 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private Address providerAddress;
     private Address calibratorAddress;
 
-    public VerificationDTO() {};
+    public String getRejectedMessage() {
+        return rejectedMessage;
+    }
+
+    public void setRejectedMessage(String rejectedMessage) {
+        this.rejectedMessage = rejectedMessage;
+    }
+
+    private String rejectedMessage;
+
+    public VerificationDTO() {
+    }
 
     public VerificationDTO(
             ClientData clientData,
@@ -55,7 +66,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
             if (providerEmployee.getMiddleName() != null) {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
             } else {
-                this.providerEmployee = providerEmployee.   getLastName() + " " + providerEmployee.getFirstName();
+                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
             }
         }
 
@@ -69,6 +80,25 @@ public class VerificationDTO extends ClientStageVerificationDTO {
 
         this.providerAddress = (calibrator == null) ? null : provider.getAddress();
         this.calibratorAddress = (stateVerificator == null) ? null : calibrator.getAddress();
+    }
+    //add new constructor for delegation rejected message
+    public VerificationDTO(
+            ClientData clientData,
+            String id,
+            Date initialDate,
+            Date expirationDate,
+            Status status,
+            Organization calibrator,
+            User calibratorEmployee,
+            Device device,
+            Organization provider,
+            User providerEmployee,
+            Organization stateVerificator,
+            User stateVerificatorEmployee,
+            String rejectedMessage) {
+
+        this(clientData,id,initialDate,expirationDate,status,calibrator,calibratorEmployee,device,provider,providerEmployee,stateVerificator,stateVerificatorEmployee);
+        this.rejectedMessage = rejectedMessage;
     }
 
     public String getId() {
