@@ -97,6 +97,9 @@
                     <div class="panel-heading">
                         <li class="fa fa-align-justify fa-fw"></li> Нові заявки
                     </div>
+                    <p ng-show="!checkIfNewVerificationsAvailable()">Відсутні нові заявки</p>
+
+                    <div ng-show="checkIfNewVerificationsAvailable()">
             <table ng-table="tableParamsVerifications" template-pagination="custom/pager" class="table table-bordered table-hover">
                 <thead>
                     <tr>
@@ -150,6 +153,7 @@
                     </ul>
                 </div>
             </script>
+                    </div>
             </div>
             </div>
 

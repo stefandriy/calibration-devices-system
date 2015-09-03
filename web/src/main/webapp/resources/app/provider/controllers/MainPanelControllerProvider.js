@@ -54,7 +54,7 @@ angular
                 $scope.dataToSearch = {
                     fromDate: date1,
                     toDate: date2
-                }
+                };
 
 
                 $scope.cancel = function () {
@@ -110,11 +110,11 @@ angular
 
                         return $filter('date')(value, 'dd-MM-yyyy');
                     }
-                }
+                };
                 var provider = function() {
                     $scope.showGrafic();
                     $scope.showGraficTwo();
-                }
+                };
 
                 /**
                  * Pie of sent and accepted
@@ -133,7 +133,10 @@ angular
                 };
 
 
+            $scope.checkIfNewVerificationsAvailable = function () {
+                return $scope.resultsCount != 0;
 
+            };
                 /**
                  * Table of unread verifications
                  */
@@ -171,7 +174,7 @@ angular
                                 );
                             }
                         }
-                    })
+                    });
                     /**
                      * executes when modal closing
                      */
@@ -190,7 +193,7 @@ angular
                                 $scope.showGraficTwo();
                             });
                     });
-                }
+                };
 
                 /**
                  * Table of employee
