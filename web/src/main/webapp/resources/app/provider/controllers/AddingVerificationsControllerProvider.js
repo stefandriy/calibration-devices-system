@@ -7,6 +7,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.isCalibrator = -1;
             $scope.calibratorDefined= false;
             
+            /**
+             * Closes modal window on browser's back/forward button click.
+             */ 
+        	$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+            
             addressServiceProvider.checkOrganizationType().success(function (response) {
             	$scope.isCalibrator = response;
             });

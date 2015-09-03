@@ -40,7 +40,7 @@ angular
 				myArray.push(elem);
 				return (myArray.length-1);
 			}
-
+			
 			$scope.typeData = [
 				{
 					id: 'PROVIDER',
@@ -70,7 +70,14 @@ angular
 					console.error(lang);
 				}
 			};
-
+			
+			 /**
+             * Closes modal window on browser's back/forward button click.
+             */
+			$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+			
 			$scope.setTypeDataLanguage();
 
 			$scope.regions = null;

@@ -3,7 +3,14 @@ angular
 
     .controller('CalibratorEmployeeControllerCalibrator', ['$scope', '$log', '$modalInstance','calibratorEmploy', '$rootScope',
         function ($scope, $log, $modalInstance, calibratorEmploy, $rootScope) {
-
+	    	
+    		/**
+	        * Closes modal window on browser's back/forward button click.
+	        */  
+	    	$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+    	
             $scope.providers = calibratorEmploy.data;
             $scope.formData={};
             $scope.formData.provider= $scope.providers[0];

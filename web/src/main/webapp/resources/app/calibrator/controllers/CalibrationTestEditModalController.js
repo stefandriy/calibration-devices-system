@@ -2,6 +2,14 @@ angular.module('employeeModule')
     .controller('CalibrationTestEditModalController',
     ['$rootScope', '$scope', '$modalInstance', 'CalibrationTestServiceCalibrator',
         function ($rootScope, $scope, $modalInstance, CalibrationTestServiceCalibrator) {
+    	
+	    	 /**
+	         * Closes modal window on browser's back/forward button click.
+	         */     
+	    	$rootScope.$on('$locationChangeStart', function() {
+			    $modalInstance.close();
+			});
+    	
             /**
              * Edit test. If everything is ok then
              * resets the test form and closes modal
