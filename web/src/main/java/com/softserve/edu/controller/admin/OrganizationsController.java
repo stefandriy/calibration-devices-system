@@ -1,9 +1,11 @@
 package com.softserve.edu.controller.admin;
 
+import com.softserve.edu.controller.admin.util.OrganizationPageDTOTransformer;
 import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.admin.OrganizationEditDTO;
+import com.softserve.edu.dto.admin.OrganizationPageDTO;
 import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
@@ -17,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin/organization/")
@@ -105,7 +109,8 @@ public class OrganizationsController {
 				sortOrder
 		);
 		System.out.println(searchData.getName_admin());
-		return new PageDTO();
+		List<OrganizationPageDTO> content = OrganizationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+		return new PageDTO(queryResult.getTotalItems(), content);
 	}
 
 	/**

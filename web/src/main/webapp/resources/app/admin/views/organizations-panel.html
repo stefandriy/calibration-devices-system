@@ -110,17 +110,17 @@
 					   class="table table-bordered table-hover users_table">
 					<tbody>
 					<tr ng-repeat="organization in $data">
-					<td data-title="ORGANIZATION_ID "> <!--sortable="'id'"
-						filter="{ 'id': 'text' }" ng-model="filters.id" -->
-						{{ organization.id }}
+					<td data-title="ORGANIZATION_ID " sortable="'id'"
+						filter="{ 'id': 'text' }" ng-model="filters.id"
+						{{ organization.id }}>
 					</td>
 						<td data-title="'NAME_ADMIN' | translate" sortable="'name_admin'"
 							filter="{ 'name_admin': 'text' }" >
 							{{ organization.name }}
 						</td>
-						<td data-title="'TYPE_ADMIN' | translate " sortable="'type_admin'"
+					<!--	<td data-title="'TYPE_ADMIN' | translate " sortable="'type_admin'"
 							filter="{ 'type_admin': 'text' }">{{ organization.types }}
-						</td>
+						</td>-->
 
 						<td data-title="'EMAIL' | translate" sortable="'email'"
 							filter="{ 'email': 'text' }">{{ organization.email }}
@@ -128,7 +128,7 @@
 						<td data-title="'PHONE_NUMBER' | translate" sortable="'phone_number'"
 							filter="{ 'phone_number': 'text' }">{{ organization.phone }}
 						</td>
-						<td data-title="'EDIT' | translate" sortable="'district'">
+						<td data-title="'EDIT' | translate">
 							<button type="button" class="btn btn-primary"
 									ng-click="openEditOrganizationModal(organization.id)">
 								<span class="glyphicon glyphicon-pencil"></span>

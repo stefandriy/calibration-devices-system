@@ -11,6 +11,16 @@ public class NewOrganizationFilterSearch {
     private String email;
     private String phone_number;
 
+    public NewOrganizationFilterSearch (){}
+
+    public NewOrganizationFilterSearch(String id, String name_admin, String type_admin, String email, String phone_number) {
+        this.id = id;
+        this.name_admin = name_admin;
+        this.type_admin = type_admin;
+        this.email = email;
+        this.phone_number = phone_number;
+    }
+
     public String getId() {
         return id;
     }
