@@ -245,7 +245,7 @@ angular
 			};
 
 			$scope.ORGANIZATION_NAME_REGEX = /^(?=.{5,50}$).*/;
-			$scope.PHONE_REGEX = /^0[1-9]\d{8}$/;
+			$scope.PHONE_REGEX = /^[1-9]\d{8}$/;
 			$scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 			$scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
 			$scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
