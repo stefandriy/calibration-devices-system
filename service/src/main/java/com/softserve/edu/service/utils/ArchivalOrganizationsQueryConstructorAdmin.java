@@ -74,22 +74,22 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
         }
         if ((streetToSearch != null)&&(streetToSearch.length()>0)) {
             queryPredicate = cb.and(
-                    cb.like(root.get("address").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
+                    cb.like(root.get("address").get("street"), "%" + streetToSearch + "%"),
                     queryPredicate);
         }
         if ((region != null) && (region.length() > 0)) {
             queryPredicate = cb.and(
-                    cb.like(root.get("address").get("clientAddress").get("region"), "%" + region + "%"),
+                    cb.like(root.get("address").get("region"), "%" + region + "%"),
                     queryPredicate);
         }
         if ((district != null) && (district.length() > 0)) {
             queryPredicate = cb.and(
-                    cb.like(root.get("address").get("clientAddress").get("district"), "%" + district + "%"),
+                    cb.like(root.get("address").get("district"), "%" + district + "%"),
                     queryPredicate);
         }
         if ((locality != null) && (locality.length() > 0)) {
             queryPredicate = cb.and(
-                    cb.like(root.get("address").get("clientAddress").get("locality"), "%" + locality + "%"),
+                    cb.like(root.get("address").get("locality"), "%" + locality + "%"),
                     queryPredicate);
         }
 
