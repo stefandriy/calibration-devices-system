@@ -10,15 +10,55 @@ public class OrganizationPageDTO {
         private String email;
         private String phone;
         private String[] types;
+        private String district;
+        private String locality;
+        private String street;
+        private String region;
 
     public OrganizationPageDTO(){}
 
-    public OrganizationPageDTO(Long id, String name, String email, String[] types, String phone) {
+    public OrganizationPageDTO(Long id, String name, String email, String[] types, String phone, String region, String locality, String district,  String street) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.types = types;
         this.phone = phone;
+        this.region = region;
+        this.locality = locality;
+        this.district = district;
+        this.street = street;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public String getName() {

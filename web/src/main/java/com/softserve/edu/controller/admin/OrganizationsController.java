@@ -105,6 +105,10 @@ public class OrganizationsController {
 				searchData.getEmail(),
 				searchData.getPhone_number(),
 				searchData.getType_admin(),
+				searchData.getRegion(),
+				searchData.getDistrict(),
+				searchData.getLocality(),
+				searchData.getStreet(),
 				sortCriteria,
 				sortOrder
 		);
