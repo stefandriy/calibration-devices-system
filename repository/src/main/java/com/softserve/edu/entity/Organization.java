@@ -24,7 +24,6 @@ public class Organization {
 	private String phone;
 	private Integer employeesCapacity;
 	private Integer maxProcessTime;
-	private  Integer organizationId;
 	
 	@Embedded
 	private Address address;
@@ -141,14 +140,6 @@ public class Organization {
 
 	public void setCertificateGrantedDate(Date certificateGrantedDate) {
 		this.certificateGrantedDate = certificateGrantedDate;
-	}
-
-	public Integer getOrganizationId() {
-		return organizationId;
-	}
-
-	public void setOrganizationId(Integer organizationId) {
-		this.organizationId = organizationId;
 	}
 
 	public Integer getMaxProcessTime() {
