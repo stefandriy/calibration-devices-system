@@ -117,15 +117,16 @@
 							filter="{ 'name_admin': 'text' }" >
 							{{ organization.name }}
 						</td>
-					<!--	<td data-title="'TYPE_ADMIN' | translate " sortable="'type_admin'"
+						<td data-title="'TYPE_ADMIN' | translate " sortable="'type_admin'"
 							filter="{ 'type_admin': 'text' }">{{ organization.types }}
-						</td>-->
+						</td>
 
 						<td data-title="'EMAIL' | translate" sortable="'email'"
 							filter="{ 'email': 'text' }">{{ organization.email }}
 						</td>
-						<td data-title="'PHONE_NUMBER' | translate" sortable="'phone_number'"
-							filter="{ 'phone_number': 'text' }">{{ organization.phone }}
+						<!--sortable="'phone_number'"
+							filter="{ 'phone_number': 'text' }"-->
+						<td data-title="'PHONE_NUMBER' | translate" >{{ organization.phone }}
 						</td>
 						<td data-title="'EDIT' | translate">
 							<button type="button" class="btn btn-primary"

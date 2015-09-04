@@ -9,14 +9,15 @@ public class OrganizationPageDTO {
         private String name;
         private String email;
         private String phone;
-      //  private String[] types;
+        private String[] types;
 
     public OrganizationPageDTO(){}
 
-    public OrganizationPageDTO(Long id, String name, String email, String phone) {
+    public OrganizationPageDTO(Long id, String name, String email, String[] types, String phone) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.types = types;
         this.phone = phone;
     }
 
@@ -36,13 +37,13 @@ public class OrganizationPageDTO {
             this.email = email;
         }
 
-   /*     public String[] getTypes() {
+       public String[] getTypes() {
             return types;
         }
 
         public void setTypes(String[] types) {
             this.types = types;
-        }*/
+        }
 
         public String getPhone() {
             return phone;
