@@ -3,25 +3,38 @@
     <i class="fa fa-times-circle-o"></i>
 </div>
 
-<div id="page-wrapper" ng-controller="UsersController" ng-show="verificator">
+<div id="page-wrapper" ng-controller="UsersController" ng-show="verificator" class="container-fluid">
     <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header" translate="USERS"> </h1>
+        <div class="col-md-12">
+            <h1 class="page-header" translate="USERS"></h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
             <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
                     ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}
             </button>
         </div>
+        <div class="col-xs-6 col-md-6">
+            <button ng-click="tableParams.filter({})" ng-show="isFilter()"
+                    class="btn btn-danger pull-right">
+                {{'CLEAR_ALL' | translate }}
+            </button>
+        </div>
     </div>
-
-    <br/>
 
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
+
+            <br/>
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span translate="EMPLOYEE"> </span>
-                    <span class="pull-right"><span translate="ON_BALANCE"></span> {{totalEmployee}} <span translate="FROM"></span>
+                    <span class="pull-right"><span translate="ON_BALANCE"></span> {{totalEmployee}} <span
+                            translate="FROM"></span>
                         {{organizationEmployeesCapacity}}
                         <span translate="AVAILABLE_USERS"></span>
                     </span>
@@ -30,51 +43,52 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <button ng-click="tableParams.filter({})" ng-show="isFilter()"
-                                    class="btn btn-warning pull-right is-filter" translate="DROP_SEARCH">
-                            </button>
-
                             <div class="table-responsive">
-                            <table show-filter="true" ng-table="tableParams" template-pagination="employee/pager"
-                                   class="table table-bordered table-hover table-responsive users_table">
+                                <table show-filter="true" ng-table="tableParams" template-pagination="employee/pager"
+                                       class="table table-bordered table-hover table-responsive users_table">
 
-                                <tbody>
-                                <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
-                                    <td data-title="'USERNAME'|translate " sortable="'username'"
-                                        filter="{ 'username': 'text' }">{{
-                                        user.username }}
-                                    </td>
-                                    <td data-title="'ROLE' |translate" sortable="'role'" filter="{ 'role': 'text' }">{{ user.role
-                                        }}
-                                    </td>
-                                    <td data-title="'FIRST_NAME'|translate" sortable="'firstName'" filter="{ 'firstName': 'text' }">{{
-                                        user.firstName }}
-                                    </td>
-                                    <td data-title="'LAST_NAME'|translate" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{
-                                        user.lastName }}
-                                    </td>
-                                    <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'" filter="{ 'organization': 'text' }">{{
-                                        user.organization }}
-                                    </td>
-                                    <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'" filter="{ 'phone': 'text' }">{{
-                                        user.phone }}
-                                    </td>
-                                    <td data-title="'EMPLOYEE_CAPACITY'|translate">
-                                        <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)"
-                                           class="cursor-pointer"
-                                                >
-                                            {{user.countOfVarification }}</a>
-                                        <span ng-if="!user.countOfVarification"> {{ user.countOfVarification}}</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary"
-                                                ng-click="openEditEmployeeModal(user.username)">
-                                            <span class="glyphicon glyphicon-pencil"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                    <tbody>
+                                    <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
+                                        <td data-title="'USERNAME'|translate " sortable="'username'"
+                                            filter="{ 'username': 'text' }">{{
+                                            user.username }}
+                                        </td>
+                                        <td data-title="'ROLE' |translate" sortable="'role'"
+                                            filter="{ 'role': 'text' }">{{ user.role
+                                            }}
+                                        </td>
+                                        <td data-title="'FIRST_NAME'|translate" sortable="'firstName'"
+                                            filter="{ 'firstName': 'text' }">{{
+                                            user.firstName }}
+                                        </td>
+                                        <td data-title="'LAST_NAME'|translate" sortable="'lastName'"
+                                            filter="{ 'lastName': 'text' }">{{
+                                            user.lastName }}
+                                        </td>
+                                        <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'"
+                                            filter="{ 'organization': 'text' }">{{
+                                            user.organization }}
+                                        </td>
+                                        <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'"
+                                            filter="{ 'phone': 'text' }">{{
+                                            user.phone }}
+                                        </td>
+                                        <td data-title="'EMPLOYEE_CAPACITY'|translate">
+                                            <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)"
+                                               class="cursor-pointer"
+                                                    >
+                                                {{user.countOfVarification }}</a>
+                                            <span ng-if="!user.countOfVarification"> {{ user.countOfVarification}}</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary"
+                                                    ng-click="openEditEmployeeModal(user.username)">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
