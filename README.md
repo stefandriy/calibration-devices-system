@@ -20,7 +20,7 @@ Run the following command on the root folder of the repository:
 
 ### Building and starting the server
 
-Before running the app, create MySQL database called `measurement_devices` with charset encoding UTF-8. 
+Before running the app, create a MySQL database called `measurement_devices` with charset encoding UTF-8 (more specifically with collation `utf8_unicode_ci`). 
 Then run the following command on the root folder of the repository:
 
     mvn clean install tomcat7:run-war

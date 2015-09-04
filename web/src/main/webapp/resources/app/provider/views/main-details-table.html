@@ -8,9 +8,9 @@
         <th>Реєстраційний номер повірки</th>
         <th>{{verificationData.id}}</th>
     </tr>
-    <!--TODO: verification hide row-->
-    <tr>
-        <th>Причина відхилання повірки</th>
+
+    <tr ng-show="verificationData.rejectedMessage">
+        <th>Причина відхилення повірки</th>
         <th>{{verificationData.rejectedMessage}}</th>
     </tr>
 
