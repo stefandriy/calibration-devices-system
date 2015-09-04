@@ -1,4 +1,4 @@
-<div id="page-wrapper">
+<div id="page-wrapper" class="container-fluid">
 
     <div class="row">
         <div class="col-md-12">
@@ -7,27 +7,27 @@
     </div>
 
     <div class="row">
+        <div class="col-xs-6 col-md-6"></div>
+        <div class="col-xs-6 col-md-6">
+            <button type="button" class="btn btn-danger pull-right" ng-click="clearAll()" ng-show="checkFilters()">
+                {{'CLEAR_ALL' | translate }}
+            </button>
+        </div>
+    </div>
+
+
+    <div class="row">
         <div class="col-md-12">
-			<div class="">
-         		<div class="row">
-                    <div class="clearfix col-md-offset-11">
-                                <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
-                                  {{'CLEAR_ALL' | translate }}
-                                </button>
-                    </div>
-                </div>
-           </div>
-                   
                     <br/>
             <div class="panel panel-default">
-           
+
                 <div class="panel-heading">
                    <span> Останні дані</span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
-                
+
                 <div class="panel-body">
-                    
+
                     <div class="row">
                         <div class="col-md-12">
                              <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
@@ -42,8 +42,8 @@
                                     <td data-title="'STATUS' | translate"  sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status | translate }}</td>
                                     <td data-title="'EMPLOYEE_LAST_NAME' | translate"  sortable="'employee_last_name'" filter="{ 'employee_last_name': 'text' }">{{ verification.providerEmployee }}</td>
                                     <td data-title="'ACTIONS' | translate"  style="width: 7%">
-                                     
-                                       <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
+
+                                    <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
                                          	<img src="/resources/assets/button-icons/details.png"  popover="Детальніше" popover-trigger="mouseenter"
                                                 ng-click="openDetails(verification.id, verification.initialDate)">
                                         </img>
@@ -56,7 +56,7 @@
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
                                        </div>
-                                 
+
                                     </td>
                                 </tr>
                                 </tbody>
@@ -91,8 +91,8 @@
                                     </ul>
                                 </div>
                             </script>
-                            
-					 <script type="text/ng-template" id="ng-table/filters/date.html">
+
+                            <script type="text/ng-template" id="ng-table/filters/date.html">
 						<div class="input-group myDatePicker">
                         	<input type="text" class="form-control input-md" datepicker-popup="{{format}}" ng-model="params.filter()[name]" name="filter-date" is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"
                                                    date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
@@ -103,12 +103,12 @@
                                                  </button>
 											  </span>
                 		</div>
-   					</script>			
+                            </script>
    				 	<script type="text/ng-template" id="ng-table/filters/status.html">
      			 		<select chosen class="form-control input-sm" width="'80%'" disable-search="true" type="text" allow-single-deselect="false"	ng-model="selectedStatus.name"  ng-change="doSearch()"
  							name="filter-status" ng-options="status as status.label for status in statusData" >
 						</select>
-					</script>  
+                    </script>
                         </div>
                     </div>
                 </div>

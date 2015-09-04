@@ -3,7 +3,7 @@
     <i class="fa fa-times-circle-o"></i>
 </div>
 
-<div id="page-wrapper" ng-controller="UsersController" ng-show="verificator">
+<div id="page-wrapper" ng-controller="UsersController" ng-show="verificator" class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-header" translate="USERS"></h1>
@@ -11,30 +11,22 @@
     </div>
 
     <div class="row">
-
+        <div class="col-xs-6 col-md-6">
+            <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
+                    ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}
+            </button>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <button ng-click="tableParams.filter({})" ng-show="isFilter()"
+                    class="btn btn-danger pull-right">
+                {{'CLEAR_ALL' | translate }}
+            </button>
+        </div>
     </div>
-
-
-    <br/>
 
     <!-- /.row -->
     <div class="row">
         <div class="col-md-12">
-            <div class="">
-                <div class="row">
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
-                                ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}
-                        </button>
-                    </div>
-                    <div class="clearfix col-md-offset-11">
-                        <button ng-click="tableParams.filter({})" ng-show="isFilter()"
-                                class="btn btn-danger">
-                            {{'CLEAR_ALL' | translate }}
-                        </button>
-                    </div>
-                </div>
-            </div>
 
             <br/>
 
