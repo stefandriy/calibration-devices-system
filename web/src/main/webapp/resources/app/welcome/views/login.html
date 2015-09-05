@@ -5,7 +5,7 @@
                 <h1>{{ 'SIGN_IN' | translate }}</h1>
             </div>
             <div class="col-lg-12">
-                <form ng-submit="login()" class="form-signin centered">
+                <form ng-submit="login()" class="form-signin centered" AutoCompleteType="Disabled" autocomplete="off">
                 <table id ="loginTable">
                 <tr>
                 <td>
@@ -13,7 +13,7 @@
                 </td>                           
                 <td>
                    <input ng-model="loginForm.username" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}"  type="text" class="form-control"
-                           placeholder="{{ 'USERNAME' | translate }}" required>  
+                           placeholder="{{ 'USERNAME' | translate }}" required>
                  </td>
                  </tr>
                  <tr>
@@ -21,14 +21,17 @@
                    <h5 class="incorrectLoginPass"  ng-class="{'incorStyle': incorrectStyle==true}">{{'INCORRECT_PASSWORD' | translate}}</h5> 
                 </td>                           
                 <td>
-                    
+                    <div class="hidden">
+                       <input type="password">
+                    </div>
+
                     <input ng-model="loginForm.password" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}" type="password" id="inputPassword" class="form-control"
                            placeholder="{{ 'PASSWORD' | translate }}" required>
                  </td>
                  </tr>
                 </table> 
                    <h5 id="incorrectLoginMessage" ng-show="loginCorrect"  class="incortLebStyle">{{'INCORRECT' | translate}}</h5>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'LOG_IN' | translate }}</button>
+                    <button class="btn btn-lg btn-primary btn-block withoutBorder" type="submit">{{ 'LOG_IN' | translate }}</button>
                 </form>
             </div>
         </div>

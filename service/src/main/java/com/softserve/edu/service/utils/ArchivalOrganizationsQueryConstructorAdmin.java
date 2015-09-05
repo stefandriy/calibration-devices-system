@@ -17,15 +17,12 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
     public static CriteriaQuery<Organization> buildSearchQuery(/*Long id,*/ String name,
                                                                String email, String phone, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder, EntityManager em) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        System.out.println(sortCriteria);
         CriteriaQuery<Organization> criteriaQuery = cb.createQuery(Organization.class);
         Root<Organization> root = criteriaQuery.from(Organization.class);
         //Join<Organization, OrganizationType> organizationTypeJoin = root.join("organizationId");
 
         Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(/*id,*/ name, email, type, phone, region, district, locality, streetToSearch, root, cb/*, organizationTypeJoin*/);
-        System.out.println(predicate);
         if((sortCriteria != null)&&(sortOrder != null)) {
-            System.out.println(SortCriteriaOrganization.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
             criteriaQuery.orderBy(SortCriteriaOrganization.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
         } else {
             criteriaQuery.orderBy(cb.desc(root.get("id")));

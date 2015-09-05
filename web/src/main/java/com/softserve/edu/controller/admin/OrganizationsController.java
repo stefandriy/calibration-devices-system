@@ -112,7 +112,6 @@ public class OrganizationsController {
 				sortCriteria,
 				sortOrder
 		);
-		System.out.println(searchData.getName_admin());
 		List<OrganizationPageDTO> content = OrganizationPageDTOTransformer.toDtoFromList(queryResult.getContent());
 		return new PageDTO(queryResult.getTotalItems(), content);
 	}

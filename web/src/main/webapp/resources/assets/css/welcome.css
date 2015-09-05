@@ -261,3 +261,8 @@ a {
 	margin-right: auto;
 }
 
+.hidden {
+	display: none;
+}
+
+button:focus { outline:0 !important; }
