@@ -27,7 +27,11 @@ public class OrganizationPageDTOTransformer {
                             organization.getName(),
                     organization.getEmail(),
                     arrayOrganizationTypes,
-                    organization.getPhone()
+                    organization.getPhone(),
+                    organization.getAddress().getRegion(),
+                    organization.getAddress().getLocality(),
+                    organization.getAddress().getDistrict(),
+                    organization.getAddress().getStreet()
             ));
         }
         return resultList;

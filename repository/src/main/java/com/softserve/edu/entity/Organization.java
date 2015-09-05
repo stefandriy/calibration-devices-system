@@ -142,8 +142,6 @@ public class Organization {
 		this.certificateGrantedDate = certificateGrantedDate;
 	}
 
-
-
 	public Integer getMaxProcessTime() {
 		return maxProcessTime;
 	}

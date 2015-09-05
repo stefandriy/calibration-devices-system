@@ -10,6 +10,10 @@ public class NewOrganizationFilterSearch {
     private String type_admin;
     private String email;
     private String phone_number;
+    private String street;
+    private String region;
+    private String district;
+    private String locality;
 
     public NewOrganizationFilterSearch (){}
 
@@ -19,6 +23,38 @@ public class NewOrganizationFilterSearch {
         this.type_admin = type_admin;
         this.email = email;
         this.phone_number = phone_number;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
     }
 
     public String getId() {

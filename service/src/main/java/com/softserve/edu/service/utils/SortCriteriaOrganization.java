@@ -1,8 +1,10 @@
 package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.OrganizationType;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
@@ -45,16 +47,15 @@ public enum SortCriteriaOrganization {
             }
         }
     },
-  /*  TYPE_ADMIN() {
+    TYPE_ADMIN() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
-
             if (sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("").get("type"));
+                return cb.asc(root.join("organizationTypes").get("type"));
             } else {
-                return cb.desc(root.join("").get("type"));
+                return cb.desc(root.join("organizationTypes").get("type"));
             }
         }
-    },*/
+    },
     PHONE_NUMBER() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
 
@@ -62,6 +63,48 @@ public enum SortCriteriaOrganization {
                 return cb.asc(root.get("phone"));
             } else {
                 return cb.desc(root.get("phone"));
+            }
+        }
+    },
+    STREET() {
+        public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
+
+            if(sortOrder.equalsIgnoreCase("asc")) {
+                return cb.asc(root.get("address").get("street"));
+            } else {
+                return cb.desc(root.get("address").get("street"));
+            }
+        }
+    },
+    DISTRICT() {
+        public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
+
+            if (sortOrder.equalsIgnoreCase("asc")) {
+                return cb.asc(root.get("address").get("district"));
+            } else {
+                return cb.desc(root.get("address").get("district"));
+            }
+        }
+    },
+
+    REGION() {
+        public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
+
+            if (sortOrder.equalsIgnoreCase("asc")) {
+                return cb.asc(root.get("address").get("region"));
+            } else {
+                return cb.desc(root.get("address").get("region"));
+            }
+        }
+    },
+
+    LOCALITY() {
+        public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
+
+            if (sortOrder.equalsIgnoreCase("asc")) {
+                return cb.asc(root.get("address").get("locality"));
+            } else {
+                return cb.desc(root.get("address").get("locality"));
             }
         }
     };
