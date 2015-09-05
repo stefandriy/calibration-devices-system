@@ -19,14 +19,18 @@ public class OrganizationPageDTOTransformer {
             Set<OrganizationType> organizationTypes = organization.getOrganizationTypes();
             List<String> listOrganizationTypes = new ArrayList<String>();
             organizationTypes.forEach(organizationType -> listOrganizationTypes.add(organizationType.getType()));
+            String stringOrganizationTypes = String.join(",", listOrganizationTypes);
+
+            /*
             String[] arrayOrganizationTypes = new String[listOrganizationTypes.size()];
             arrayOrganizationTypes = listOrganizationTypes.toArray(arrayOrganizationTypes);
+            */
 
             resultList.add(new OrganizationPageDTO(
                             organization.getId(),
                             organization.getName(),
                     organization.getEmail(),
-                    arrayOrganizationTypes,
+                    stringOrganizationTypes,
                     organization.getPhone(),
                     organization.getAddress().getRegion(),
                     organization.getAddress().getLocality(),

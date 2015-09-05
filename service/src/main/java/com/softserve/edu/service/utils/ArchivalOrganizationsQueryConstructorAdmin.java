@@ -67,7 +67,7 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
                     queryPredicate);
         }*/
         if ((type != null)&&(type.length()>0)) {
-            Join<Organization, OrganizationType> joinOrganizationType = root.join("organizationId");
+            Join<Organization, OrganizationType> joinOrganizationType = root.join("organizationTypes");
             Predicate searchByOrganizationType = cb.like(joinOrganizationType.get("type"),
                     "%" + type + "%");
             queryPredicate = cb.and(searchByOrganizationType, queryPredicate);

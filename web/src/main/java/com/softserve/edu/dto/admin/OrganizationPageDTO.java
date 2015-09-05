@@ -9,7 +9,7 @@ public class OrganizationPageDTO {
         private String name;
         private String email;
         private String phone;
-        private String[] types;
+        private String types;
         private String district;
         private String locality;
         private String street;
@@ -17,7 +17,7 @@ public class OrganizationPageDTO {
 
     public OrganizationPageDTO(){}
 
-    public OrganizationPageDTO(Long id, String name, String email, String[] types, String phone, String region, String locality, String district,  String street) {
+    public OrganizationPageDTO(Long id, String name, String email, String types, String phone, String region, String locality, String district,  String street) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -77,11 +77,11 @@ public class OrganizationPageDTO {
             this.email = email;
         }
 
-       public String[] getTypes() {
+       public String getTypes() {
             return types;
         }
 
-        public void setTypes(String[] types) {
+        public void setTypes(String types) {
             this.types = types;
         }
 
