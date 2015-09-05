@@ -1,5 +1,20 @@
 package com.softserve.edu.service.admin;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.OrganizationType;
@@ -9,25 +24,12 @@ import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Service
 public class OrganizationsService {
 
+	private final Logger logger = Logger.getLogger(OrganizationsService.class);
+	
 	@Autowired
 	private OrganizationRepository organizationRepository;
 
@@ -103,7 +105,7 @@ public class OrganizationsService {
 								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
-		System.out.println(organization);
+		logger.debug(organization);
 		organization.setName(name);
 		organization.setPhone(phone);
 		organization.setEmail(email);
@@ -118,7 +120,7 @@ public class OrganizationsService {
 			organizationTypes.add(type);
 		}
 		for (OrganizationType type : organizationTypes){
-			System.out.println(type);
+			logger.debug(type);
 		}
 		organization.setOrganizationTypes(organizationTypes);
 	}
