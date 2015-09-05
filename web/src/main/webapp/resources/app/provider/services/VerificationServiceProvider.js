@@ -63,6 +63,9 @@ angular
             },
             getNewVerificationEarliestDate: function () {
                 return getData('verifications/new/earliest_date/provider');
+            },
+            getArchivalVerificationEarliestDate: function () {
+                return getData('verifications/archive/earliest_date/provider');
             }
         };
 

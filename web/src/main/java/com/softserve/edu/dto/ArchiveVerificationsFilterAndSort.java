@@ -4,6 +4,7 @@ public class ArchiveVerificationsFilterAndSort {
 	
 	private String id;
 	private String date;
+	private String endDate;
 	private String client_last_name;
 	private String street;
 	private String region;
@@ -73,6 +74,13 @@ public class ArchiveVerificationsFilterAndSort {
 	}
 	public void setEmployee_last_name(String employee_last_name) {
 		this.employee_last_name = employee_last_name;
-	}	
-	
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 }

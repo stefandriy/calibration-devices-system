@@ -21,7 +21,7 @@ public class NewVerificationsQueryConstructorProvider {
 	/**
 	 * Method dynamically builds query to database depending on input parameters specified. 
 	 *
-	 * @param initialDateToSearch
+	 * @param startDateToSearch
 	 * 		search by initial date of verification (optional)
 	 * @param providerId
 	 * 		search by organization ID
@@ -39,7 +39,7 @@ public class NewVerificationsQueryConstructorProvider {
 	 * 		EntityManager needed to have a possibility to create query     
 	 * 		@return CriteriaQuery<Verification>
 	 */
-	public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch,
+	public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String startDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch,
 															   String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -47,7 +47,7 @@ public class NewVerificationsQueryConstructorProvider {
 			Root<Verification> root = criteriaQuery.from(Verification.class);
 			Join<Verification, Organization> joinSearch = root.join("provider");
 
-		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, initialDateToSearch, endDateToSearch, idToSearch,
+		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, startDateToSearch, endDateToSearch, idToSearch,
 				lastNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, employeeSearchName);
 
 			if((sortCriteria != null)&&(sortOrder != null)) {
@@ -67,7 +67,7 @@ public class NewVerificationsQueryConstructorProvider {
 	 * 
 	 * @param providerId
 	 * 		search by organization ID
-	 * @param initialDateToSearch
+	 * @param startDateToSearch
 	 * 		search by initial date of verification (optional)
 	 * @param endDateToSearch
 	 *@param idToSearch
@@ -81,14 +81,14 @@ public class NewVerificationsQueryConstructorProvider {
 	 * @param em
 	 * 		EntityManager needed to have a possibility to create query     @return CriteriaQuery<Long>
 	 */
-	public static CriteriaQuery<Long> buildCountQuery(Long providerId, String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status,
+	public static CriteriaQuery<Long> buildCountQuery(Long providerId, String startDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status,
 													  User providerEmployee, String employeeSearchName, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> joinSearch = root.join("provider");
-		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, initialDateToSearch, endDateToSearch,
+		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, startDateToSearch, endDateToSearch,
 				idToSearch, lastNameToSearch, streetToSearch, region, district, locality,
 				status, providerEmployee, employeeSearchName);
 			countQuery.select(cb.count(root));
@@ -104,7 +104,7 @@ public class NewVerificationsQueryConstructorProvider {
 	 * @param cb
 	 * @param joinSearch
 	 * @param providerId
-	 * @param initialDateToSearch
+	 * @param startDateToSearch
 	 *@param endDateToSearch
 	 * @param idToSearch
 	 * @param lastNameToSearch
@@ -113,7 +113,7 @@ public class NewVerificationsQueryConstructorProvider {
 	 * @return Predicate 
 	 */
 	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long providerId,
-											String initialDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String employeeSearchName) {
+											String startDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String employeeSearchName) {
 	
 		String userName = providerEmployee.getUsername();
 		Predicate queryPredicate = cb.conjunction();
@@ -137,20 +137,20 @@ public class NewVerificationsQueryConstructorProvider {
 		}
 
 		queryPredicate = cb.and(cb.equal(joinSearch.get("id"), providerId), queryPredicate);
-		if (initialDateToSearch != null && endDateToSearch != null) {
+		if (startDateToSearch != null && endDateToSearch != null) {
 			DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
 
-			LocalDate initialDate = null;
+			LocalDate startDate = null;
 			LocalDate endDate = null;
 			try {
-				initialDate = LocalDate.parse(initialDateToSearch, dbDateTimeFormatter);
+				startDate = LocalDate.parse(startDateToSearch, dbDateTimeFormatter);
 				endDate = LocalDate.parse(endDateToSearch, dbDateTimeFormatter);
 			}
 			catch (Exception pe) {
 				logger.error("Cannot parse date", pe); //TODO: add exception catching
 			}
 			//verifications with date between these two dates
-			queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(initialDate), java.sql.Date.valueOf(endDate)), queryPredicate);
+			queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate)), queryPredicate);
 
 		}
 
