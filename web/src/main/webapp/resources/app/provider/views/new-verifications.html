@@ -34,7 +34,7 @@
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
 
-                <div class="panel-body">
+                <div class="panel-body" ng-show="loadingInfoFinished">
 
                     <div class="row">
                         <div class="col-md-12">
@@ -167,7 +167,6 @@
                                        ng-click="showPicker($event)"></i>
                                     <input date-range-picker="opts" class="form-control date-picker" type="text"
                                            ng-model="myDatePicker.pickerDate" ng-change="doSearch()" options="opts"
-                                           placeholder="{{ 'DATERANGEPICKER_PLACEHOLDER' | translate}}"
                                            id="datepickerfield" readonly/>
 
                                         <span class="input-group-btn">

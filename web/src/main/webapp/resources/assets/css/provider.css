@@ -655,9 +655,10 @@ float:left;
     width: 100%;
 }
 
+
 .datecolumn {
-    width: 280px;
-    min-width: 280px;
+    width: 265px;
+    min-width: 265px;
 }
 
 th.filter {
