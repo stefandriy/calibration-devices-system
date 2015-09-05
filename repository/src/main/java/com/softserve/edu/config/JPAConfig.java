@@ -1,11 +1,5 @@
 package com.softserve.edu.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +13,11 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableTransactionManagement
@@ -37,6 +36,7 @@ public class JPAConfig {
         dataSource.setPassword(env.getProperty("db.password"));
         dataSource.setConnectionProperties(env.getProperty("db.connectionProperties"));
         dataSource.setInitialSize(env.getProperty("db.initialSize", Integer.class));
+        dataSource.setMinIdle(env.getProperty("db.minIdle", Integer.class));
         dataSource.setMaxIdle(env.getProperty("db.maxIdle", Integer.class));
         dataSource.setMaxTotal(env.getProperty("db.maxTotal", Integer.class));
         return dataSource;
