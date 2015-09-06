@@ -180,7 +180,7 @@ public class ProviderVerificationController {
      * @param user
      * @return String date
      */
-    @RequestMapping(value = "archive//earliest_date/provider", method = RequestMethod.GET)
+    @RequestMapping(value = "archive/earliest_date/provider", method = RequestMethod.GET)
     public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
             Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
