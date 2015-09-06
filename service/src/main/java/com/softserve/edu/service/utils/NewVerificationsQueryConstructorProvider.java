@@ -21,26 +21,27 @@ public class NewVerificationsQueryConstructorProvider {
 	/**
 	 * Method dynamically builds query to database depending on input parameters specified. 
 	 *
-	 * @param startDateToSearch
-	 * 		search by initial date of verification (optional)
 	 * @param providerId
 	 * 		search by organization ID
-	 *
-	 *@param endDateToSearch
+	 * @param startDateToSearch
+ * 		search by initial date of verification (optional)
+	 * @param endDateToSearch
 	 * @param idToSearch
-	 * 		search by verification ID
+* 		search by verification ID
 	 * @param lastNameToSearch
-	 * 		search by client's last name
+* 		search by client's last name
+	 * @param firstNameToSearch
 	 * @param streetToSearch
 	 * 		search by client's street
 	 * @param providerEmployee
-	 * 		used to additional query restriction if logged user is simple employee (not admin)
+ * 		used to additional query restriction if logged user is simple employee (not admin)
 	 * @param em
-	 * 		EntityManager needed to have a possibility to create query     
-	 * 		@return CriteriaQuery<Verification>
+* 		EntityManager needed to have a possibility to create query
+	 *
+	 * @return CriteriaQuery<Verification>
 	 */
 	public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String startDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch,
-															   String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
+															   String firstNameToSearch, String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
@@ -48,7 +49,7 @@ public class NewVerificationsQueryConstructorProvider {
 			Join<Verification, Organization> joinSearch = root.join("provider");
 
 		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, startDateToSearch, endDateToSearch, idToSearch,
-				lastNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, employeeSearchName);
+				lastNameToSearch, firstNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, employeeSearchName);
 
 			if((sortCriteria != null)&&(sortOrder != null)) {
 				criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
@@ -64,24 +65,23 @@ public class NewVerificationsQueryConstructorProvider {
 	/**
 	 * Method dynamically builds query to database depending on input parameters specified. 
 	 * Needed to get max count of rows with current predicates for pagination 
-	 * 
-	 * @param providerId
+	 *  @param providerId
 	 * 		search by organization ID
 	 * @param startDateToSearch
 	 * 		search by initial date of verification (optional)
 	 * @param endDateToSearch
-	 *@param idToSearch
-	 * 		search by verification ID
+	 * @param idToSearch
+* 		search by verification ID
 	 * @param lastNameToSearch
-	 * 		search by client's last name
+* 		search by client's last name
+	 * @param firstNameToSearch
 	 * @param streetToSearch
 	 * 		search by client's street
 	 * @param providerEmployee
-	 * 		used to additional query restriction if logged user is simple employee (not admin)
+ * 		used to additional query restriction if logged user is simple employee (not admin)
 	 * @param em
-	 * 		EntityManager needed to have a possibility to create query     @return CriteriaQuery<Long>
-	 */
-	public static CriteriaQuery<Long> buildCountQuery(Long providerId, String startDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status,
+	 * */
+	public static CriteriaQuery<Long> buildCountQuery(Long providerId, String startDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String region, String district, String locality, String status,
 													  User providerEmployee, String employeeSearchName, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -89,8 +89,8 @@ public class NewVerificationsQueryConstructorProvider {
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> joinSearch = root.join("provider");
 		Predicate predicate = NewVerificationsQueryConstructorProvider.buildPredicate(root, cb, joinSearch, providerId, startDateToSearch, endDateToSearch,
-				idToSearch, lastNameToSearch, streetToSearch, region, district, locality,
-				status, providerEmployee, employeeSearchName);
+				idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, region, district,
+				locality, status, providerEmployee, employeeSearchName);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
@@ -99,21 +99,21 @@ public class NewVerificationsQueryConstructorProvider {
 	 * Method builds list of predicates depending on parameters passed
 	 * Rule for predicates compounding - conjunction (AND)
 	 *
-	 *
-	 * @param root
+	 *  @param root
 	 * @param cb
 	 * @param joinSearch
 	 * @param providerId
 	 * @param startDateToSearch
-	 *@param endDateToSearch
+	 * @param endDateToSearch
 	 * @param idToSearch
 	 * @param lastNameToSearch
+	 * @param firstNameToSearch
 	 * @param streetToSearch
 	 * @param providerEmployee
-	 * @return Predicate 
+	 * @return Predicate
 	 */
 	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long providerId,
-											String startDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String employeeSearchName) {
+											String startDateToSearch, String endDateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String region, String district, String locality, String status, User providerEmployee, String employeeSearchName) {
 	
 		String userName = providerEmployee.getUsername();
 		Predicate queryPredicate = cb.conjunction();
@@ -159,6 +159,10 @@ public class NewVerificationsQueryConstructorProvider {
 		}
 		if ((lastNameToSearch != null)&&(lastNameToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"),
+					queryPredicate);
+		}
+		if ((firstNameToSearch != null)&&(firstNameToSearch.length()>0)) {
+			queryPredicate = cb.and(cb.like(root.get("clientData").get("firstName"), "%" + firstNameToSearch + "%"),
 					queryPredicate);
 		}
 		if ((streetToSearch != null)&&(streetToSearch.length()>0)) {

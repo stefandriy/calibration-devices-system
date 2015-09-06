@@ -6,6 +6,7 @@ public class ArchiveVerificationsFilterAndSort {
 	private String date;
 	private String endDate;
 	private String client_last_name;
+	private String client_first_name;
 	private String street;
 	private String region;
 	private String district;
@@ -82,5 +83,13 @@ public class ArchiveVerificationsFilterAndSort {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getClient_first_name() {
+		return client_first_name;
+	}
+
+	public void setClient_first_name(String client_first_name) {
+		this.client_first_name = client_first_name;
 	}
 }
