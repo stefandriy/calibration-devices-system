@@ -390,3 +390,7 @@ div.chosen-container {
     height: 4px !important;;
 }
 
+.hidden {
+    display: none;
+}
+
