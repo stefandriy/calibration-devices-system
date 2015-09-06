@@ -103,6 +103,10 @@
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
                         </p>
+                        <p class="help-block" ng-if="clientForm.email.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
+                        </p>
 
                         <p class="help-block" ng-if="clientForm.email.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
