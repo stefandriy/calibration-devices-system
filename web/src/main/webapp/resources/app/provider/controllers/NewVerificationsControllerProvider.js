@@ -8,7 +8,7 @@ angular
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
-                $scope.clearDate(); // sets all time range
+                $scope.clearDate(); // sets 'all time' timerange
             };
 
             $scope.clearDate = function () {

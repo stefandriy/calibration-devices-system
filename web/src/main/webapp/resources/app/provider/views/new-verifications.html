@@ -34,7 +34,7 @@
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
 
-                <div class="panel-body" ng-show="loadingInfoFinished">
+                <div class="panel-body">
 
                     <div class="row">
                         <div class="col-md-12">
@@ -81,10 +81,9 @@
                                         <td data-title="'STATUS' | translate" sortable="'status'"
                                             filter="{ 'status': 'status' }">{{ verification.status | translate }}
                                         </td>
-                                        <td data-title="'EMPLOYEE_LAST_NAME' | translate"
+                                        <td data-title="'EMPLOYEE_SINGLE' | translate"
                                             sortable="'employee_last_name'"
-                                            filter="{ 'employee_last_name': 'text' }">{{ verification.providerEmployee
-                                            }}
+                                            filter="{ 'employee_last_name': 'text' }">{{ verification.providerEmployee}}
                                         </td>
                                         <td data-title="'ACTIONS' | translate" style="width: 15%">
 

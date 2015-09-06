@@ -91,7 +91,9 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE (u.status = 'ACCEPTED' or u.status = 'SENT') and u.provider = :provider")
     java.sql.Date getEarliestDateOfAllAcceptedOrSentVerifications(@Param("provider") Organization provider);
-    
+
+    @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE  u.status NOT IN ('ACCEPTED', 'SENT') and u.provider = :provider")
+    java.sql.Date getEarliestDateOfArchivalVerifications(@Param("provider") Organization provider);
 }
 
 

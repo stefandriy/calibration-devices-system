@@ -5,6 +5,7 @@ public class NewVerificationsSearch {
 	private String idText;
 	private String formattedDate;
 	private String lastNameText;
+	private String firstNameText;
 	private String streetText;
 	private String region;
 	private String district;
@@ -99,6 +100,13 @@ public class NewVerificationsSearch {
 	public void setEmployee(String employee) {
 		this.employee = employee;
 	}
-	
-	
+
+
+	public String getFirstNameText() {
+		return firstNameText;
+	}
+
+	public void setFirstNameText(String firstNameText) {
+		this.firstNameText = firstNameText;
+	}
 }
