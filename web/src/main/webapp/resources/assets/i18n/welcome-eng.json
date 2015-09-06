@@ -37,6 +37,8 @@
   "ALPHABETIC_ERROR": "This field can contain only alphabetic characters.",
   "PHONE_NUMBER_ERROR": "Phone number must be filled in format: {city/operator code}{phone number}",
   "PHONE_NUMBER_INFO":"This field is not mandatory , but to improve communications capabilities ask him to fill",
+  "FLAT_ERROR":"This field must contain numbers between 0-9999",
+  "BUILDING_ERROR":"This field must contain numbers between 0-9999 and not necessarily one alphabetic character",
   "PROVIDER": "Service provider",
   "VERIFICATOR": "Authorized calibration laboratory",
   "PROVIDER_INFO": "Provider is a service that will handle your application. For instance 'Lvivvodokanal'. Start typing and choose one form drop-down list. It will correspond district that you have just selected",

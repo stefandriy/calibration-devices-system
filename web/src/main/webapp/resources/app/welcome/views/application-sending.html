@@ -301,10 +301,14 @@
                             <ins>Не існує постачальника послуг для даного району. Повідомте нам про це.</ins>
                         </i>
                         </a>
-
-                        <p class="help-block">
+                        <p class="help-block" ng-if="clientForm.building.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
+                        </p>
+                        <p class="help-block"
+                           ng-if="clientForm.building.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'BUILDING_ERROR' | translate}}
                         </p>
                     </div>
                 </div>
@@ -317,13 +321,17 @@
                                popover-trigger="focus" popover-placement="right"
                                ng-pattern="FLAT_REGEX" required>
                         <span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
-
                         <p class="help-block" ng-if="clientForm.flat.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
+                            <p class="help-block"
+                               ng-if="clientForm.flat.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'FLAT_ERROR' | translate}}
+                            </p>
+                        </div>
                     </div>
-                </div>
                 <div class="form-group" show-errors>
                     <label for="device" class="col-md-2 control-label">
                         {{'COUNTER_CATEGORY' | translate}} </label>
