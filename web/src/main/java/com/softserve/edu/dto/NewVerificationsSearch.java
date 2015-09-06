@@ -5,6 +5,7 @@ public class NewVerificationsSearch {
 	private String idText;
 	private String formattedDate;
 	private String lastNameText;
+	private String firstNameText;
 	private String streetText;
 	private String region;
 	private String district;
@@ -15,17 +16,26 @@ public class NewVerificationsSearch {
 	public NewVerificationsSearch() {
 	}
 
-	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String streetText, String region, String district, String locality, String status, String employee) {
+	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String firstNameText, String streetText, String region, String district, String locality, String status, String employee) {
 
 		this.idText = idText;
 		this.formattedDate = formattedDate;
 		this.lastNameText = lastNameText;
+		this.firstNameText = firstNameText;
 		this.streetText = streetText;
 		this.region = region;
 		this.district = district;
 		this.locality = locality;
 		this.status = status;
 		this.employee = employee;
+	}
+
+	public String getFirstNameText() {
+		return firstNameText;
+	}
+
+	public void setFirstNameText(String firstNameText) {
+		this.firstNameText = firstNameText;
 	}
 
 	public String getIdText() {

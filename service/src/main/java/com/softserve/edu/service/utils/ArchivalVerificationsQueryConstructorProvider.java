@@ -18,7 +18,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 
 
 	public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String initialDateToSearch,
-															   String idToSearch, String lastNameToSearch,
+															   String idToSearch, String lastNameToSearch, String firstNameToSearch,
 															   String streetToSearch, String region, String district, String locality, String status,
 															   String employeeName, String sortCriteria, String sortOrder,
 															   User providerEmployee, EntityManager em) {
@@ -27,7 +27,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
 			Root<Verification> root = criteriaQuery.from(Verification.class);
 			Join<Verification, Organization> providerJoin = root.join("provider");
-		Predicate predicate = ArchivalVerificationsQueryConstructorProvider.buildPredicate(root, cb, employeeId, initialDateToSearch, idToSearch, lastNameToSearch, streetToSearch, region, district, locality, status,
+		Predicate predicate = ArchivalVerificationsQueryConstructorProvider.buildPredicate(root, cb, employeeId, initialDateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, region, district, locality, status,
 																		employeeName, providerEmployee, providerJoin);
 			
 			if((sortCriteria != null)&&(sortOrder != null)) {
@@ -42,7 +42,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 
 
 	public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String initialDateToSearch,
-													  String endDateToSeach, String idToSearch, String lastNameToSearch, String streetToSearch, String region, String district, String locality, String status, String employeeName,
+													  String endDateToSeach, String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String region, String district, String locality, String status, String employeeName,
 													  User providerEmployee, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -50,7 +50,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> providerJoin = root.join("provider");
 		Predicate predicate = ArchivalVerificationsQueryConstructorProvider.buildPredicate(root, cb, employeeId, initialDateToSearch, idToSearch,
-				lastNameToSearch, streetToSearch, region, district, locality, status, employeeName, providerEmployee,
+				lastNameToSearch, firstNameToSearch, streetToSearch, region, district, locality, status, employeeName, providerEmployee,
 																								providerJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
@@ -58,7 +58,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			}
 	
 	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Long providerId, 
-																	String dateToSearch,String idToSearch, String lastNameToSearch,
+																	String dateToSearch,String idToSearch, String lastNameToSearch, String firstNameToSearch,
 											 String streetToSearch, String region, String district, String locality, String searchStatus, String employeeName, User employee,
 																		Join<Verification, Organization> providerJoin) {
 
@@ -88,6 +88,10 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		}
 		if ((lastNameToSearch != null)&&(lastNameToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"),
+					queryPredicate);
+		}
+		if ((firstNameToSearch != null)&&(firstNameToSearch.length()>0)) {
+			queryPredicate = cb.and(cb.like(root.get("clientData").get("firstName"), "%" + firstNameToSearch + "%"),
 					queryPredicate);
 		}
 		if ((streetToSearch != null)&&(streetToSearch.length()>0)) {

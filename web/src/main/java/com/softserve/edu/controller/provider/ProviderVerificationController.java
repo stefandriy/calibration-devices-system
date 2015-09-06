@@ -63,6 +63,7 @@ public class ProviderVerificationController {
                 null,
                 searchData.getId(),
                 searchData.getClient_last_name(),
+                searchData.getClient_first_name(),
                 searchData.getStreet(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
@@ -85,6 +86,7 @@ public class ProviderVerificationController {
      * @param verifDate    (optional)
      * @param verifId      (optional)
      * @param lastName     (optional)
+     * @param firstName    (optional)
      * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
@@ -102,6 +104,7 @@ public class ProviderVerificationController {
                 searchData.getEndDate(),
                 searchData.getId(),
                 searchData.getClient_last_name(),
+                searchData.getClient_first_name(),
                 searchData.getStreet(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
@@ -126,6 +129,7 @@ public class ProviderVerificationController {
      * @param verifDate    (optional)
      * @param verifId      (optional)
      * @param lastName     (optional)
+     * @param firstName    (optional)
      * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
@@ -142,6 +146,7 @@ public class ProviderVerificationController {
                 searchData.getFormattedDate(),
                 searchData.getIdText(),
                 searchData.getLastNameText(),
+                searchData.getFirstNameText(),
                 searchData.getStreetText(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
