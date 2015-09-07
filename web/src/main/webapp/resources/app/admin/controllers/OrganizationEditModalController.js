@@ -238,7 +238,7 @@ angular
 				$modalInstance.close();
 			};
 
-			$scope.PHONE_REGEX = /^0[1-9]\d{8}$/;
+			$scope.PHONE_REGEX = /^[1-9]\d{8}$/;
 
 		}
 

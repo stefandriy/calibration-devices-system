@@ -37,6 +37,16 @@ public enum SortCriteriaVerification {
 	    		}
 	        }
 	    },
+	CLIENT_FIRST_NAME() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return cb.asc(root.get("clientData").get("firstName"));
+			} else {
+				return cb.desc(root.get("clientData").get("firstName"));
+			}
+		}
+	},
 	STREET() {
 	    	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 	    
