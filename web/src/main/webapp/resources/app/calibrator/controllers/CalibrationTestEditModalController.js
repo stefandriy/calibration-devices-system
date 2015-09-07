@@ -1,7 +1,7 @@
 angular.module('employeeModule')
     .controller('CalibrationTestEditModalController',
     ['$rootScope', '$scope', '$modalInstance', 'CalibrationTestServiceCalibrator',
-        function ($rootScope, $scope, $modalInstance, CalibrationTestServiceCalibrator) {
+        function ($rootScope, $scope, $modalInstance, calibrationTestServiceCalibrator) {
     	
 	    	 /**
 	         * Closes modal window on browser's back/forward button click.
@@ -17,6 +17,7 @@ angular.module('employeeModule')
              */
 
             $scope.editTest = function () {
+
                 var testForm = {
                     name: $scope.calibrationTest.name,
                     temperature: $scope.calibrationTest.temperature,
@@ -26,12 +27,13 @@ angular.module('employeeModule')
                     consumptionStatus: $scope.calibrationTest.consumptionStatus,
                     testResult: $scope.calibrationTest.testResult
                 }
-                if (!$scope.nameValidation.isValid && !$scope.temperatureValidation.isValid && !$scope.settingNumberValidation.isValid
+
+               console.log(testForm);
+
+                if (!$scope.calibrationTestFormEdit.isValid /*&& !$scope.temperatureValidation.isValid && !$scope.settingNumberValidation.isValid
                     && !$scope.latitudeValidation.isValid && !$scope.longitudeValidation.isValid && !$scope.consumptionStatusValidation.isValid
-                    && !$scope.testResultValidation.isValid) {
-                    CalibrationTestServiceCalibrator.editCalibrationTest(
-                        testForm,
-                        $rootScope.testId).then(
+                    && !$scope.testResultValidation.isValid*/) {
+                    calibrationTestServiceCalibrator.editCalibrationTest(testForm, $rootScope.testId).then(
                         function (data) {
                             if (data == 200) {
                                 $scope.closeModal();

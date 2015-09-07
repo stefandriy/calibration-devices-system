@@ -60,9 +60,10 @@ public class ProviderVerificationController {
                 pageNumber,
                 itemsPerPage,
                 searchData.getDate(),
-                null,
+                searchData.getEndDate(),
                 searchData.getId(),
                 searchData.getClient_last_name(),
+                searchData.getClient_first_name(),
                 searchData.getStreet(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
@@ -102,6 +103,7 @@ public class ProviderVerificationController {
                 searchData.getEndDate(),
                 searchData.getId(),
                 searchData.getClient_last_name(),
+                searchData.getClient_first_name(),
                 searchData.getStreet(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
@@ -142,29 +144,49 @@ public class ProviderVerificationController {
                 searchData.getFormattedDate(),
                 searchData.getIdText(),
                 searchData.getLastNameText(),
+                searchData.getFirstNameText(),
                 searchData.getStreetText(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
                 searchData.getLocality(),
                 searchData.getStatus(),
                 searchData.getEmployee(),
-                providerEmployee
-        );
+                providerEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
     }
 
     /**
-     * Fiend date of earliest verification
+     * Find date of earliest new verification
      *
      * @param user
      * @return String date
      */
     @RequestMapping(value = "new/earliest_date/provider", method = RequestMethod.GET)
-    public String getVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public String getNewVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
             Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
-            java.util.Date date = new Date(verificationService.getVerificationEarliestDateByProvider(organization).getTime());
+            java.util.Date date = new Date(verificationService.getNewVerificationEarliestDateByProvider(organization).getTime());
+            DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+            String isoLocalDateString = localDate.format(dbDateTimeFormatter);
+            return isoLocalDateString;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Find date of earliest new verification
+     *
+     * @param user
+     * @return String date
+     */
+    @RequestMapping(value = "archive/earliest_date/provider", method = RequestMethod.GET)
+    public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        if (user != null) {
+            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            java.util.Date date = new Date(verificationService.getArchivalVerificationEarliestDateByProvider(organization).getTime());
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
             LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
             String isoLocalDateString = localDate.format(dbDateTimeFormatter);

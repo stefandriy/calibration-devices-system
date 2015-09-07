@@ -673,3 +673,5 @@ th.filter::after {
     margin: 15px;
     text-align: center;
 }
+
+button:focus { outline:0 !important; }

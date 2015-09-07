@@ -86,7 +86,7 @@ angular
             };
 
 
-            $scope.openAddEmployeeModal = function() {
+            $scope.openAddUserModal = function() {
                 var addEmployeeModal = $modal
                     .open({
                         animation : true,
