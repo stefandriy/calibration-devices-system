@@ -675,3 +675,23 @@ th.filter::after {
 }
 
 button:focus { outline:0 !important; }
+
+/*add style for page with information about profile*/
+
+.userlabel {
+     margin-bottom: 0px;
+}
+
+/*centering information*/
+.profile_information_labal {
+    width: 100%; text-align: center
+}
+
+.ref_style_label {
+    color: #2C1919;
+    width:230px;
+}
+
+.dropdown_style {
+    background-color: lightskyblue;
+}
