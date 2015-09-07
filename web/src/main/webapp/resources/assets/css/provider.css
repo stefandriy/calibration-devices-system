@@ -659,6 +659,7 @@ float:left;
 
 #datepickerfield {
     width: 100%;
+    background-color: white;
 }
 
 
@@ -682,18 +683,35 @@ th.filter::after {
 
 button:focus { outline:0 !important; }
 
+.cancel_icon:hover{
+    color: #C9302C;
+}
 .cancel_icon{
     color: #d9534f;
+    cursor: pointer;
 }
 
-.remove_attached_user_icon{
+.remove_attached_user_icon:hover{
     color: #e38d13;
+}
+.remove_attached_user_icon{
+    color: #EC971F;
+    cursor: pointer;
+}
+
+.add_attached_user_icon:hover {
+    color: #449D44;
 }
 
 .add_attached_user_icon{
     color: #5cb85c;
+    cursor: pointer;
 }
 
+.info_icon:hover{
+    color: #31B0D5;
+}
 .info_icon{
     color: #5bc0de;
+    cursor: pointer;
 }
