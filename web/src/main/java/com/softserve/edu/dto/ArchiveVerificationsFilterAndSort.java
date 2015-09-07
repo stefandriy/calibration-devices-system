@@ -14,16 +14,7 @@ public class ArchiveVerificationsFilterAndSort {
 	private String status;
 	private String employee_last_name;
 
-	public String getClient_first_name() {
-		return client_first_name;
-	}
 
-	public void setClient_first_name(String client_first_name) {
-		this.client_first_name = client_first_name;
-	}
-
-
-	
 	public String getId() {
 		return id;
 	}

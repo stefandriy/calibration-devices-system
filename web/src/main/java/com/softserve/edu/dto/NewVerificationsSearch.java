@@ -110,12 +110,4 @@ public class NewVerificationsSearch {
 		this.employee = employee;
 	}
 
-
-	public String getFirstNameText() {
-		return firstNameText;
-	}
-
-	public void setFirstNameText(String firstNameText) {
-		this.firstNameText = firstNameText;
-	}
 }

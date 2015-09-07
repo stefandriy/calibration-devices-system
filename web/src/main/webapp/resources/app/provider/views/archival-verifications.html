@@ -37,7 +37,7 @@
 
                                 <tbody>
                                 <tr ng-repeat="verification in $data" >
-                                    <td data-title="'INITIAL_DATE' | translate"  class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}</td>
+                                    <td data-title="'INITIAL_DATE' | translate"  class="datecolumn"  sortable="'date'" filter="{ 'date': 'daterange' }">{{ verification.initialDate }}</td>
                                     <td data-title="'VERIFICATION_ID' | translate"  sortable="'id'" filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}</td>
                                     <td data-title="'CLIENT_LAST_NAME' | translate"  sortable="'client_last_name'" filter="{ 'client_last_name': 'text' }">{{ verification.surname }}</td>
                                     <td data-title="'CLIENT_FIRST_NAME' | translate" sortable="'client_first_name'"
@@ -71,56 +71,6 @@
                                         </a>
                                        </div>
                                  
-                                    </td>
-                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
-                                        filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
-                                    </td>
-                                    <td data-title="'CLIENT_LAST_NAME' | translate" sortable="'client_last_name'"
-                                        filter="{ 'client_last_name': 'text' }">{{ verification.surname }}
-                                    </td>
-                                    <td data-title="'CLIENT_FIRST_NAME' | translate" sortable="'client_first_name'"
-                                        filter="{ 'client_first_name': 'text' }">{{ verification.name }}
-                                    </td>
-                                    <td data-title="'REGION' | translate" sortable="'region'"
-                                        filter="{ 'region': 'text' }">{{ verification.region}}
-                                    </td>
-                                    <td data-title="'DISTRICT' | translate" sortable="'district'"
-                                        filter="{ 'district': 'text' }">{{ verification.district}}
-                                    </td>
-                                    <td data-title="'LOCALITY' | translate" sortable="'locality'"
-                                        filter="{ 'locality': 'text' }">{{ verification.locality}}
-                                    </td>
-
-                                    <td data-title="'CLIENT_STREET' | translate" sortable="'street'"
-                                        filter="{ 'street': 'text' }">{{ verification.street }}
-                                    </td>
-                                    <td data-title="'STATUS' | translate" sortable="'status'"
-                                        filter="{ 'status': 'status' }">{{ verification.status | translate }}
-                                    </td>
-                                    <td data-title="'EMPLOYEE_SINGLE' | translate" sortable="'employee_last_name'"
-                                        filter="{ 'employee_last_name': 'text' }">{{ verification.providerEmployee}}
-                                    </td>
-                                    <td data-title="'ACTIONS' | translate" style="width: 7%">
-
-                                        <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
-                                            <img src="/resources/assets/button-icons/details.png" popover="Детальніше"
-                                                 popover-trigger="mouseenter"
-                                                 ng-click="openDetails(verification.id, verification.initialDate)">
-                                            </img>
-                                            <a ng-show="verification.status === 'TEST_OK'"
-                                               popover="Завантажити тестові дані у форматі 'docx'"
-                                               popover-trigger="mouseenter"
-                                               href="{{'/doc/' + verification.id + '/docx'}}">
-                                                <i class="fa fa-file-word-o"></i>
-                                            </a>
-                                            <a ng-show="verification.status === 'TEST_OK'"
-                                               popover="Завантажити тестові дані у форматі 'pdf'"
-                                               popover-trigger="mouseenter"
-                                               href="{{'/doc/test/' + verification.id + '/pdf'}}">
-                                                <i class="fa fa-file-pdf-o"></i>
-                                            </a>
-                                        </div>
-
                                     </td>
                                 </tr>
                                 </tbody>
