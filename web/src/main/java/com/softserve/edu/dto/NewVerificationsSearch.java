@@ -109,5 +109,4 @@ public class NewVerificationsSearch {
 	public void setEmployee(String employee) {
 		this.employee = employee;
 	}
-
 }

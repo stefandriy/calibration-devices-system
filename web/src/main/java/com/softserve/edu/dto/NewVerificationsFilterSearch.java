@@ -92,5 +92,4 @@ public class NewVerificationsFilterSearch {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-
 }
