@@ -66,6 +66,9 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		if (searchStatus != null) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
 		}
+		else {
+			queryPredicate = cb.and(cb.not(cb.or(Status.SENT.getQueryPredicate(root, cb), Status.ACCEPTED.getQueryPredicate(root, cb))), queryPredicate);
+		}
 
 		if (startDateToSearch != null && endDateToSearch != null) {
 			DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
