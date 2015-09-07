@@ -16,7 +16,7 @@
                 <input type="text"
                        ng-model="calibrationTest.name"
                        ng-change="checkAll('name')"
-                       id="name" name="name" class="form-control">
+                       id="name" name="name" class="form-control" required>
                 <p class="validation-message" ng-show="nameValidation.isValid">{{'TEST_NAME_REGEX' | translate}}</p>
             </div>
         </div>
