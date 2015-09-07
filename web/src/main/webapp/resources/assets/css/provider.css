@@ -624,10 +624,16 @@ float:left;
     fieldset { display: table-cell; }
 }
 
-.images {
-    width: auto;
-    margin-top: auto;
+.table > tbody > tr > td{
+    vertical-align: middle;
+}
+
+.control_buttons{
     text-align: center;
+}
+
+.control_buttons i{
+    font-size: 30px;
 }
 
 /*puts calendar glypicon to the left of daterangepicker input */
@@ -675,3 +681,19 @@ th.filter::after {
 }
 
 button:focus { outline:0 !important; }
+
+.cancel_icon{
+    color: #d9534f;
+}
+
+.remove_attached_user_icon{
+    color: #e38d13;
+}
+
+.add_attached_user_icon{
+    color: #5cb85c;
+}
+
+.info_icon{
+    color: #5bc0de;
+}
