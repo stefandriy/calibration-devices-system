@@ -233,14 +233,13 @@ public class VerificationService {
 
     //TODO: refactor methods of other guys (not only provider) to include endDateToSearch and name
     @Transactional(readOnly = true)
-
-    public ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+    public ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch,
                                                                                                       String streetToSearch, String region, String district, String locality, String status, String employeeName, String sortCriteria, String sortOrder, User calibratorEmployee) {
 
 
-        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(calibratorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeName, em);
+        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(calibratorId, dateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeName, em);
 
-        Long count = em.createQuery(NewVerificationsQueryConstructorCalibrator.buildCountQuery(calibratorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeName, em)).getSingleResult();
+        Long count = em.createQuery(NewVerificationsQueryConstructorCalibrator.buildCountQuery(calibratorId, dateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeName, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -255,12 +254,12 @@ public class VerificationService {
 
 
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch,
             String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User calibratorEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, calibratorEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, calibratorEmployee, em);
 
-        Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, calibratorEmployee, em)).getSingleResult();
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, status, employeeName, calibratorEmployee, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -274,12 +273,12 @@ public class VerificationService {
     }
 
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Verification> findPageOfVerificationsByVerificatorIdAndCriteriaSearch(Long verificatorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+    public ListToPageTransformer<Verification> findPageOfVerificationsByVerificatorIdAndCriteriaSearch(Long verificatorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch,
                                                                                                        		String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorVerificator.buildSearchQuery(verificatorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, verificatorEmployee, sortCriteria, sortOrder, employeeName, em);
+        CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorVerificator.buildSearchQuery(verificatorId, dateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, status, verificatorEmployee, sortCriteria, sortOrder, employeeName, em);
 
-        Long count = em.createQuery(NewVerificationsQueryConstructorVerificator.buildCountQuery(verificatorId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, verificatorEmployee, employeeName, em)).getSingleResult();
+        Long count = em.createQuery(NewVerificationsQueryConstructorVerificator.buildCountQuery(verificatorId, dateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, status, verificatorEmployee, employeeName, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -293,12 +292,12 @@ public class VerificationService {
     }
     
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch,
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch,
                                                                                                         String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee) {
 
-        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorVerificator.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, verificatorEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorVerificator.buildSearchQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, verificatorEmployee, em);
 
-        Long count = em.createQuery(ArchivalVerificationsQueryConstructorVerificator.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, streetToSearch, status, employeeName, verificatorEmployee, em)).getSingleResult();
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorVerificator.buildCountQuery(organizationId, dateToSearch, idToSearch, lastNameToSearch, firstNameToSearch, streetToSearch, status, employeeName, verificatorEmployee, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
