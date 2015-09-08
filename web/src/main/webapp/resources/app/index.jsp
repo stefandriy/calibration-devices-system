@@ -68,8 +68,7 @@
             <li class="dropdown" dropdown>
                 <a class="dropdown-toggle" dropdown-toggle>
                     <div>
-                        <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}}
-                     {{employee.middleName}} ({{employee.username}}) {{employee.organization.name}}"></label>
+                        <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}}"></label>
                         <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                     </div>
 
@@ -79,7 +78,7 @@
                 <ul class="dropdown-menu dropdown-user dropdown_style">
                     <li class="user-header bg-light-blue">
                         <div class="profile_information_labal">
-                            <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-rounded"
+                            <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-rounded" style="border-radius: 30px"
                                  alt="User Image"/>
                             <label translate="{{employee.firstName}} {{employee.lastName}}
                         {{employee.middleName}} ({{employee.username}})"/>
@@ -87,7 +86,7 @@
                     </li>
                     <li class="user-footer">
                         <div class="profile_information_labal">
-                            <a href="#" class="btn btn-default ref_style_label" >Profile</a>
+                            <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
                         </div>
                         <div class="profile_information_labal">
                             <a class="btn btn-default ref_style_label"  translate="SETTING"></a>

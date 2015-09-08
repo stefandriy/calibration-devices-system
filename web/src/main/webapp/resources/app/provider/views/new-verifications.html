@@ -45,8 +45,13 @@
                                     <tbody>
                                     <tr ng-repeat="verification in $data"
                                         ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                        <td data-title="''"><input type="checkbox"
-                                                                   ng-click="resolveVerificationId(verification.id)"/>
+                                        <!--<td data-title="''" popover="Спочатку оберіть працівника" popover-trigger="{{ filterCells(verification.providerEmployee) }}">-->
+                                        <td data-title="''">
+                                            <div>
+                                                <input type="checkbox"
+                                                       ng-click="resolveVerificationId(verification.id)"
+                                                       ng-disabled="!verification.providerEmployee"/>
+                                            </div>
                                         </td>
                                         <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
                                             filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
@@ -85,7 +90,8 @@
                                             sortable="'employee_last_name'"
                                             filter="{ 'employee_last_name': 'text' }">{{ verification.providerEmployee}}
                                         </td>
-                                        <td data-title="'ACTIONS' | translate" style="width: 12%" class="control_buttons">
+                                        <td data-title="'ACTIONS' | translate" style="width: 12%"
+                                            class="control_buttons">
                                             <i class="fa fa-info-circle info_icon"
                                                popover="Детальніше"
                                                popover-trigger="mouseenter"

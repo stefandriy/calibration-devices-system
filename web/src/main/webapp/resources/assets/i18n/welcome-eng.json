@@ -49,7 +49,8 @@
   "ALPHABETIC_INFO":"This field can contain only their own name, so the name must begin with a letter.If proper name consists of two words , both words begin with a capital letter and should contain between dash.",
   "MIDDLE_NAME_INFO":"This field can contain only their own name, so the name must begin with a letter.",
   "DOUBLE_NAME_ERROR":"This field can contain only alphabetic characters, apostrophes and dashes.",
-  "FLAT_INFO":"If you lives in a private house type 0.", 
+  "FLAT_INFO":"If you lives in a private house type 0.",
+  "PROFILE": "Profile",
   "SETTINGS":"Settings",
   "LOG_OUT":"Log out",
   "MAIN_PANEL":"Main panel",
@@ -209,7 +210,7 @@
   "RESTORE":"Restore",
   "MAIN_PANEL_PROVIDER":"Main panel provider",
   "STATUS":"Status",
-  "INITIAL_DATE":"Initial date",
+  "INITIAL_DATE":"Receiving        date",
   "CLIENT_STREET":"Client street",
   "CLIENT_LAST_NAME":"Client last name",
   "CLIENT_FIRST_NAME": "Client first name",
@@ -220,7 +221,7 @@
   "TIME_EXCEEDED":"Verification processing time exceeded for",
   "DAYS":"Days",
 
-
+  "ADD_USER":"Add user",
   "SELECT_TYPE_OF_ORGANIZATION": "Select type",
 
   "PHONE_NUMBER":"Phone number",
