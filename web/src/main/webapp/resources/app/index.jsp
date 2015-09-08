@@ -86,7 +86,7 @@
                     </li>
                     <li class="user-footer">
                         <div class="profile_information_labal">
-                            <a href="#" class="btn btn-default ref_style_label" >Profile</a>
+                            <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
                         </div>
                         <div class="profile_information_labal">
                             <a class="btn btn-default ref_style_label"  translate="SETTING"></a>
