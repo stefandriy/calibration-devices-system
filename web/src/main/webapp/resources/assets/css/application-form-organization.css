@@ -78,6 +78,11 @@
 
 }
 
+#clientForm{
+    width: 820px;
+    margin-left: 7%;
+}
+
 .form-group .help-block {
 	 display: none;
 }
