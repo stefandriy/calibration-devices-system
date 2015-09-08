@@ -13,7 +13,8 @@ public class ArchiveVerificationsFilterAndSort {
 	private String locality;
 	private String status;
 	private String employee_last_name;
-	
+
+
 	public String getId() {
 		return id;
 	}

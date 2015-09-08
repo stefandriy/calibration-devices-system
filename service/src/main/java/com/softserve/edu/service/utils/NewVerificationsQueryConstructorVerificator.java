@@ -46,7 +46,7 @@ public class NewVerificationsQueryConstructorVerificator {
      * 		EntityManager needed to have a possibility to create query
      * @return CriteriaQuery<Verification>
      */
-    public static CriteriaQuery<Verification> buildSearchQuery (Long verificatorID, String dateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String status,
+    public static CriteriaQuery<Verification> buildSearchQuery (Long verificatorID, String dateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String status,
                                                                 							User verificatorEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -55,7 +55,7 @@ public class NewVerificationsQueryConstructorVerificator {
         Join<Verification, Organization> verificatorJoin = root.join("stateVerificator");
 
         Predicate predicate = NewVerificationsQueryConstructorVerificator.buildPredicate(root, cb, verificatorJoin, verificatorID, dateToSearch, idToSearch,
-                														lastNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
+                														lastNameToSearch, firstNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
         if((sortCriteria != null)&&(sortOrder != null)) {
 			criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 		} else {
@@ -86,7 +86,7 @@ public class NewVerificationsQueryConstructorVerificator {
      * 		EntityManager needed to have a possibility to create query
      * @return CriteriaQuery<Long>
      */
-    public static CriteriaQuery<Long> buildCountQuery (Long verificatorID, String dateToSearch, String idToSearch, String lastNameToSearch, String streetToSearch, String status,
+    public static CriteriaQuery<Long> buildCountQuery (Long verificatorID, String dateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String status,
                                                        User verificatorEmployee, String employeeSearchName, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -94,7 +94,7 @@ public class NewVerificationsQueryConstructorVerificator {
         Root<Verification> root = countQuery.from(Verification.class);
         Join<Verification, Organization> verificatorJoin = root.join("stateVerificator");
         Predicate predicate = NewVerificationsQueryConstructorVerificator.buildPredicate(root, cb, verificatorJoin, verificatorID, dateToSearch, idToSearch,
-                lastNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
+                lastNameToSearch, firstNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
         return countQuery;
@@ -115,7 +115,7 @@ public class NewVerificationsQueryConstructorVerificator {
      * @return Predicate
      */
     private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long verificatorId,
-                                             String dateToSearch,String idToSearch, String lastNameToSearch, String streetToSearch, String status, User verificatorEmployee, String employeeSearchName) {
+                                             String dateToSearch,String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String status, User verificatorEmployee, String employeeSearchName) {
 
         String userName = verificatorEmployee.getUsername();
         Predicate queryPredicate = cb.conjunction();
@@ -161,6 +161,9 @@ public class NewVerificationsQueryConstructorVerificator {
         }
         if ((lastNameToSearch !=null)&&(lastNameToSearch.length()>0)) {
             queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), queryPredicate);
+        }
+        if ((firstNameToSearch !=null)&&(firstNameToSearch.length()>0)) {
+            queryPredicate = cb.and(cb.like(root.get("clientData").get("firstName"), "%" + firstNameToSearch + "%"), queryPredicate);
         }
         if ((streetToSearch != null)&&(streetToSearch.length()>0)) {
             queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), queryPredicate);

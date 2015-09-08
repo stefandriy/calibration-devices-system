@@ -4,6 +4,7 @@ angular
         function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
 
 
+            $scope.cantAddEmployee;
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -34,6 +35,32 @@ angular
                     }
                 }
                 return false;
+            };
+
+            $scope.openAddUserModal = function() {
+                var addEmployeeModal = $modal
+                    .open({
+                        animation : true,
+                        controller : 'UserAddModalController',
+                        templateUrl : '/resources/app/admin/views/modals/user-add-modal.html',
+                    });
+            };
+
+
+
+
+
+
+            $scope.cantAddNewEmployee = function() {
+                userService.getOrganizationEmployeeCapacity().success(
+                    function(data) {
+                        $scope.organizationEmployeesCapacity = data;
+                        if ($scope.totalEmployee < $scope.organizationEmployeesCapacity) {
+                            $scope.cantAddEmployee = false;
+                        } else {
+                            $scope.cantAddEmployee = true;
+                        }
+                    });
             };
 
         }]);

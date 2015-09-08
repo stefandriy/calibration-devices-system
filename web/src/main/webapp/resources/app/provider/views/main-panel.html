@@ -116,10 +116,10 @@
                     <td>{{ verification.surname }}</td>
                     <td ng-if="verification.street">{{ verification.street }}</td>
                     <td style="width: 15%"  align="center">
-                        <img src="/resources/assets/button-icons/face2.png" ng-show="!verification.providerEmployee"
+                        <i class="fa fa-user add_attached_user_icon" ng-show="!verification.providerEmployee"
                              popover="Вибрати відповідальну особу"  popover-trigger="mouseenter"
                              ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
-                        </img>
+                        </i>
                     </td>
                 </tr>
                 </tbody>

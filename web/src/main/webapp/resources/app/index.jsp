@@ -21,15 +21,16 @@
     <link href="/resources/assets/css/timeline.css" rel="stylesheet">
 
 
-   
-<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-<link href="/resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet">
-<link rel="stylesheet"href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
-<link rel="stylesheet" href="/resources/assets/css/loader.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <link href="/resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"
+          rel="stylesheet">
+    <link rel="stylesheet"
+          href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
+    <link rel="stylesheet" href="/resources/assets/css/loader.css">
 
 </head>
 
-<body >
+<body>
 
 <div id="employeeModule" class="wrapper">
 
@@ -43,10 +44,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand"style="color:honeydew;">Централізована система повірки лічильників</a>
+            <a class="navbar-brand" style="color:honeydew;">Централізована система повірки лічильників</a>
         </div>
 
-        <div ng-controller="InternationalizationController" >
+        <div ng-controller="InternationalizationController">
             <ul class="nav navbar-nav">
                 <li class="dropdown" dropdown on-toggle="toggled(open)">
                     <a class="dropdown-toggle" dropdown-toggle translate="LANG">
@@ -66,27 +67,34 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown" dropdown>
                 <a class="dropdown-toggle" dropdown-toggle>
-                    <label translate="{{employee.firstName}} {{employee.lastName}}
-                     {{employee.middleName}} ({{employee.username}})" />
+                    <div>
+                        <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}}
+                     {{employee.middleName}} ({{employee.username}}) {{employee.organization.name}}"></label>
+                        <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                    </div>
 
-
-                    <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-user"  style="background-color: lightskyblue">
+
+
+                <ul class="dropdown-menu dropdown-user dropdown_style">
                     <li class="user-header bg-light-blue">
-                        <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-circle" alt="User Image" />
-                        <label translate="{{employee.firstName}} {{employee.lastName}}
-                     {{employee.middleName}} ({{employee.username}})" />
+                        <div class="profile_information_labal">
+                            <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-rounded"
+                                 alt="User Image"/>
+                            <label translate="{{employee.firstName}} {{employee.lastName}}
+                        {{employee.middleName}} ({{employee.username}})"/>
+                        </div>
                     </li>
                     <li class="user-footer">
-                        <div  style="width: 100%">
-                            <a href="#" class="btn btn-default" style="color: #2C1919 ;width:230px">Profile</a>
+                        <div class="profile_information_labal">
+                            <a href="#" class="btn btn-default ref_style_label" >Profile</a>
                         </div>
-                        <div  style="width: 100%">
-                            <a class="btn btn-default" style="color: #2C1919;width:230px" translate="SETTING"></a>
+                        <div class="profile_information_labal">
+                            <a class="btn btn-default ref_style_label"  translate="SETTING"></a>
                         </div>
-                        <div  style="width: 100%" >
-                            <a ng-click="logout()" class="btn btn-default" style="color: #2C1919 ;width:230px" translate="LOG_OUT"> </a>
+                        <div class="profile_information_labal">
+                            <a ng-click="logout()" class="btn btn-default ref_style_label"
+                               translate="LOG_OUT"> </a>
                         </div>
                     </li>
                 </ul>
@@ -101,21 +109,21 @@
                 <ul class="nav" id="side-menu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i>  Головна панель
+                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
                                 (постачальник послуг)</a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i>  Головна панель
+                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> Головна панель
                                 (вимірювальна лабораторія)</a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i>  Головна панель
+                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> Головна панель
                                 (уповноважена повірочна лабораторія)</a>
                         </li>
                     </sec:authorize>
@@ -124,8 +132,9 @@
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
                             <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i>  Нові заявки (постачальник послуг)
-                              <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications" ng-show="countOfUnreadVerifications>0" ng-cloak>
+                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
+                              <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                                    ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
                             </a>
                         </li>
@@ -134,14 +143,16 @@
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i>   Нові заявки (вимірювальна лабораторія)
-                           		<span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"  ng-show="countOfUnreadVerifications>0"  ng-cloak>
+                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (вимірювальна лабораторія)
+                           		<span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                                      ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
                             </a>
                         </li>
                         <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
                             <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i>  Довідник засобів вимірювальної техніки (вимірювальна лабораторія)
+                                    class="fa fa-desktop"></i> Довідник засобів вимірювальної техніки (вимірювальна
+                                лабораторія)
                             </a>
                         </li>
 
@@ -153,7 +164,8 @@
                         <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
                             <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна лабораторія)
-                                <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"  ng-show="countOfUnreadVerifications>0" ng-cloak>
+                                <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                                      ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
                             </a>
                         </li>
@@ -161,29 +173,31 @@
 
                     <sec:authorize url="/provider/admin/">
                         <li ui-sref-active="active">
-                            <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <span translate="EMPLOYEE"></span></a>
+                            <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <span
+                                    translate="EMPLOYEE"></span></a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator/admin/">
                         <li ui-sref-active="active">
-                            <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span translate="EMPLOYEE"></span></a>
+                            <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span
+                                    translate="EMPLOYEE"></span></a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i>   Архів
+                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
                                 повірок</a>
                         </li>
                     </sec:authorize>
-					 <sec:authorize url="/calibrator">
+                    <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
                             <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> Архів
                                 повірок</a>
                         </li>
                     </sec:authorize>
-                     <sec:authorize url="/verificator">
+                    <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
                             <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> Архів
                                 повірок</a>
@@ -192,7 +206,7 @@
                     <sec:authorize url="/provider/admin/">
                         <li ui-sref-active="active">
                             <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>
-                            <span translate="STATISTIC_OF_EMPLOYEE_CAPACITY"> </span>
+                                <span translate="STATISTIC_OF_EMPLOYEE_CAPACITY"> </span>
                             </a>
                         </li>
                     </sec:authorize>
@@ -207,7 +221,7 @@
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
-<script   src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
+<script src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
         type="text/javascript"></script>
 <script type="text/javascript">
     $(".chzn-select").chosen();
