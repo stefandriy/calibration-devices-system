@@ -1,4 +1,4 @@
-package com.softserve.edu.service.testVarification;
+package com.softserve.edu.service.testVerification;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;

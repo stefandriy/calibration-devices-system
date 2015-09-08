@@ -5,8 +5,7 @@ public class ArchiveVerificationsFilterAndSort {
 	private String id;
 	private String date;
 	private String endDate;
-	private String client_last_name;
-	private String client_first_name;
+	private String client_full_name;
 	private String street;
 	private String region;
 	private String district;
@@ -28,12 +27,7 @@ public class ArchiveVerificationsFilterAndSort {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getClient_last_name() {
-		return client_last_name;
-	}
-	public void setClient_last_name(String client_last_name) {
-		this.client_last_name = client_last_name;
-	}
+
 	public String getStreet() {
 		return street;
 	}
@@ -86,11 +80,12 @@ public class ArchiveVerificationsFilterAndSort {
 		this.endDate = endDate;
 	}
 
-	public String getClient_first_name() {
-		return client_first_name;
+
+	public String getClient_full_name() {
+		return client_full_name;
 	}
 
-	public void setClient_first_name(String client_first_name) {
-		this.client_first_name = client_first_name;
+	public void setClient_full_name(String client_full_name) {
+		this.client_full_name = client_full_name;
 	}
 }

@@ -214,6 +214,7 @@
   "CLIENT_STREET":"Client street",
   "CLIENT_LAST_NAME":"Client last name",
   "CLIENT_FIRST_NAME": "Client first name",
+  "CLIENT_FULL_NAME" : "Client full name",
   "EMPLOYEE_LAST_NAME":"Employee last name",
   "VERIFICATION_ID":"Verification ID",
   "ACTIONS":"Actions",
