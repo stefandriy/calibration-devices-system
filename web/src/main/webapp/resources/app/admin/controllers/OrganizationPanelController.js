@@ -74,7 +74,7 @@ angular
 										.open({
 											animation : true,
 											controller : 'OrganizationAddModalController',
-											templateUrl : '/resources/app/admin/views/organization-add-modal.html',
+											templateUrl : '/resources/app/admin/views/modals/organization-add-modal.html',
 										});
 							};
 
@@ -93,7 +93,7 @@ angular
 										.open({
 											animation : true,
 											controller : 'OrganizationEditModalController',
-											templateUrl : '/resources/app/admin/views/organization-edit-modal.html',
+											templateUrl : '/resources/app/admin/views/modals/organization-edit-modal.html',
 										});
 							};
 

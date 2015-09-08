@@ -75,9 +75,10 @@ public class StateVerificatorController {
         User verificatorEmployee = verificatorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByVerificatorIdAndCriteriaSearch(
                 employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
-                searchData.getDate(),
+                searchData.getDate(),//should here add first_name??? TODO:sortByName
                 searchData.getId(),
                 searchData.getClient_last_name(),
+                searchData.getClient_first_name(),
                 searchData.getStreet(),
                 searchData.getStatus(),
                 searchData.getEmployee_last_name(),
@@ -219,6 +220,7 @@ public class StateVerificatorController {
                 searchData.getDate(),
                 searchData.getId(),
                 searchData.getClient_last_name(),
+                searchData.getClient_first_name(),
                 searchData.getStreet(),
                 searchData.getStatus(),
                 searchData.getEmployee_last_name(),

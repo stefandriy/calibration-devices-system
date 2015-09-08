@@ -20,7 +20,7 @@
                     ng-show="checkFilters() || checkDateFilters()">
                 {{'CLEAR_ALL' | translate }}
             </button>
-            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -85,45 +85,38 @@
                                             sortable="'employee_last_name'"
                                             filter="{ 'employee_last_name': 'text' }">{{ verification.providerEmployee}}
                                         </td>
-                                        <td data-title="'ACTIONS' | translate" style="width: 15%">
+                                        <td data-title="'ACTIONS' | translate" style="width: 12%" class="control_buttons">
+                                            <i class="fa fa-info-circle info_icon"
+                                               popover="Детальніше"
+                                               popover-trigger="mouseenter"
+                                               ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus, verification.status)">
+                                            </i>
 
-                                            <div class="images">
-                                         	<span><img src="/resources/assets/button-icons/details.png"
-                                                       popover="Детальніше"
-                                                       popover-trigger="mouseenter"
-                                                       ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus, verification.status)">
-                                                </img>
-                                           </span>
-                                           <span>
-                                    		<img src="/resources/assets/button-icons/face2.png"
-                                                 ng-show="!verification.providerEmployee"
-                                                 popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
-                                                 ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
-                                               </img>
-                                            </span>
-                                           <span>
-                                         	 <img src="/resources/assets/button-icons/close.png"
-                                                  ng-show="verification.providerEmployee"
-                                                  popover="Скасувати відповідальну особу"
-                                                  popover-trigger="mouseenter"
-                                                  ng-click="removeProviderEmployee(verification.id)">
-                                               </img>
-                                           </span>
-                                           <span>
-                                        	<img src="/resources/assets/button-icons/reject.png"
-                                                 popover="{{'REJECT' | translate}}" popover-trigger="mouseenter"
-                                                 ng-click="openMailModal(verification.id)">
-                                               </img>
-                                          </span>
-                                           <span>
-                                         <a popover="Download doc in 'docx' format"
-                                            popover-trigger="mouseenter"
-                                            href="{{'/doc/info/' + verification.id + '/docx'}}">
-                                             <i class="fa fa-file-word-o"></i>
-                                         </a>
-                                       </span>
-                                            </div>
+                                            <i class="fa fa-user add_attached_user_icon"
+                                               ng-show="!verification.providerEmployee"
+                                               popover="Вибрати відповідальну особу"
+                                               popover-trigger="mouseenter"
+                                               ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
+                                            </i>
 
+
+                                            <i class="fa fa-times-circle remove_attached_user_icon"
+                                               ng-show="verification.providerEmployee"
+                                               popover="Скасувати відповідальну особу"
+                                               popover-trigger="mouseenter"
+                                               ng-click="removeProviderEmployee(verification.id)">
+                                            </i>
+
+                                            <i class="fa fa-ban cancel_icon"
+                                               popover="{{'REJECT' | translate}}" popover-trigger="mouseenter"
+                                               ng-click="openMailModal(verification.id)">
+                                            </i>
+
+                                            <a popover="Download doc in 'docx' format"
+                                               popover-trigger="mouseenter"
+                                               href="{{'/doc/info/' + verification.id + '/docx'}}">
+                                                <i class="fa fa-file-word-o"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                     </tbody>

@@ -86,6 +86,7 @@ public class ProviderVerificationController {
      * @param verifDate    (optional)
      * @param verifId      (optional)
      * @param lastName     (optional)
+     * @param firstName    (optional)
      * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
@@ -128,6 +129,7 @@ public class ProviderVerificationController {
      * @param verifDate    (optional)
      * @param verifId      (optional)
      * @param lastName     (optional)
+     * @param firstName    (optional)
      * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
