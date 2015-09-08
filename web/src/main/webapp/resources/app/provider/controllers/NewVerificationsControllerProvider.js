@@ -238,6 +238,11 @@ angular
                     });
             };
 
+            /*function that determines if the tooltip is shown on disable checkbox*/
+            $scope.filterCells = function(employee){
+                return employee ? 'none' :  'mouseenter';
+            };
+
             $scope.addProviderEmployee = function (verifId, providerEmployee) {
                 var modalInstance = $modal.open({
                     animation: true,
