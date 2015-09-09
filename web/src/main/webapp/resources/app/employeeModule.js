@@ -3,9 +3,9 @@
         'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
         'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize'])
 
-        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider',
+        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
 
-            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider) {
+            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
                 cfpLoadingBarProvider.includeSpinner = false;
                 cfpLoadingBarProvider.latencyThreshold = 500;
                 showErrorsConfigProvider.showSuccess(true);
@@ -112,6 +112,38 @@
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
                     });
+
+
+                /*
+                Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
+                When translation of page will end, items of select (on the scope) will be changed too.
+                Then we refresh the items of select to get them from scope.
+               */
+                $provide.decorator('uiSelectDirective', function( $delegate, $parse, $injector) {
+                    var some_directive = $delegate[ 0],
+                        preCompile = some_directive.compile;
+
+                    some_directive.compile = function compile() {
+                        var link = preCompile.apply( this, arguments );
+
+                        return function( scope, element, attrs, controller ) {
+                            link.apply( this, arguments );
+
+                            var $select = controller[ 0 ];
+
+                            var rootScope= $injector.get('$rootScope');
+
+                            rootScope.$on('$translateChangeEnd', function(event){
+                                    scope.setTypeDataLanguage();
+                                    $select.refreshItems();
+                            });
+
+                        };
+                    };
+
+                    return $delegate;
+                });
+
             }]);
 
     angular.module('employeeModule').run(function (paginationConfig) {
