@@ -17,9 +17,9 @@ public class ArchivalVerificationsQueryConstructorVerificator {
 static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
 	
 	
-	public static CriteriaQuery<Verification> buildSearchQuery (Long employeeId, String dateToSearch,
-									String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String status, String employeeName,
-									String sortCriteria, String sortOrder, User providerEmployee, EntityManager em) {
+	public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String dateToSearch,
+															   String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
+															   String sortCriteria, String sortOrder, User providerEmployee, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
@@ -27,8 +27,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Join<Verification, Organization> calibratorJoin = root.join("stateVerificator");
 
 			Predicate predicate = ArchivalVerificationsQueryConstructorVerificator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
-																		lastNameToSearch, firstNameToSearch, streetToSearch, status,
-																		employeeName, providerEmployee, calibratorJoin);
+					fullNameToSearch, streetToSearch, status, employeeName, providerEmployee, calibratorJoin);
 			if((sortCriteria != null)&&(sortOrder != null)) {
 				criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 			} else {
@@ -40,25 +39,25 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	}
 	
 	
-	public static CriteriaQuery<Long> buildCountQuery (Long employeeId, String dateToSearch,
-							String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String status, String employeeName,
-							User providerEmployee, EntityManager em) {
+	public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String dateToSearch,
+													  String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
+													  User providerEmployee, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> verificatorJoin = root.join("stateVerificator");
 			Predicate predicate = ArchivalVerificationsQueryConstructorVerificator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
-																		lastNameToSearch, firstNameToSearch, streetToSearch, status, employeeName, providerEmployee
+					fullNameToSearch, streetToSearch, status, employeeName, providerEmployee
 																		, verificatorJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
 			}
 	
-	private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Long employeeId, String dateToSearch,String idToSearch, 
-																String lastNameToSearch, String firstNameToSearch, String streetToSearch, String searchStatus,
-																String employeeName, User employee, Join<Verification, Organization> verificatorJoin) {
+	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId, String dateToSearch, String idToSearch,
+											String fullNameToSearch, String streetToSearch, String searchStatus,
+											String employeeName, User employee, Join<Verification, Organization> verificatorJoin) {
 
 		Predicate queryPredicate = cb.conjunction();
 		queryPredicate = cb.and(cb.equal(verificatorJoin.get("id"), employeeId), queryPredicate);
@@ -84,14 +83,18 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		if ((idToSearch != null)&&(idToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
 		}
-		if ((lastNameToSearch != null)&&(lastNameToSearch.length()>0)) {
-			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"),
+		if ((fullNameToSearch != null)&&(fullNameToSearch.length()>0)) {
+			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%"),
 					queryPredicate);
 		}
-		if ((firstNameToSearch != null)&&(firstNameToSearch.length()>0)) {
-			queryPredicate = cb.and(cb.like(root.get("clientData").get("firstName"), "%" + firstNameToSearch + "%"),
-					queryPredicate);
+		if ((fullNameToSearch != null)&&(fullNameToSearch.length()>0)) {
+			Predicate searchByClientFirstName = cb.like(root.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
+			Predicate searchByClientLastName = cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
+			Predicate searchByClientMiddleName = cb.like(root.get("clientData").get("middleName"), "%" + fullNameToSearch + "%");
+			Predicate searchPredicateByClientFullName = cb.or(searchByClientFirstName, searchByClientLastName, searchByClientMiddleName);
+			queryPredicate = cb.and(searchPredicateByClientFullName, queryPredicate);
 		}
+
 		if ((streetToSearch != null)&&(streetToSearch.length()>0)) {
 			queryPredicate = cb.and(
 					cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),

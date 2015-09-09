@@ -1,20 +1,5 @@
 angular
     .module('adminModule')
-    .filter('organizationFilter', function() {
-        return function(allTypes, currentTypes) {
-            var filtered = allTypes;
-
-            for (var i in currentTypes) {
-                if (currentTypes[i].id != 'CALIBRATOR') {
-                    var filtered = [];
-                    filtered.push(allTypes[1]);
-                    filtered.push(currentTypes[i]);
-                }
-            }
-
-            return filtered;
-        }
-    })
     .controller(
     'UserAddModalController',
     [
@@ -31,10 +16,25 @@ angular
                  addressService, organizationService,
                  userService) {
             //$rootScope, $scope, $modalInstance, $log, $state, $http, userService, addressServiceProvider
-            var organizationTypeProvider = false;
-            var organizationTypeCalibrator = false;
-            var organizationTypeVerificator = false;
             var employeeData = {};
+
+            $scope.regions = null;
+            $scope.districts = [];
+            $scope.localities = [];
+            $scope.streets = [];
+            $scope.buildings = [];
+
+
+            function initFormData() {
+                if (!$scope.regions) {
+                    addressService.findAllRegions().then(
+                        function(data) {
+                            $scope.regions = data;
+                        });
+                }
+            }
+
+            initFormData();
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -43,62 +43,7 @@ angular
             $rootScope.$on('$locationChangeStart', function() {
                 $modalInstance.close();
             });
-
-            userService.isAdmin()
-                .success(function (response) {
-                    var includeCheckBox = false;
-                    var thereIsAdmin = 0;
-                    var roles = response + '';
-                    var role = roles.split(',');
-                    for (var i = 0; i < role.length; i++) {
-                        if (role[i] === 'PROVIDER_ADMIN' || role[i] === 'CALIBRATOR_ADMIN' || role[i] === 'STATE_VERIFICATOR_ADMIN')
-                            thereIsAdmin++;
-                    }
-                    if (thereIsAdmin === 0) {
-                        $scope.accessLable = true;
-                    } else {
-                        $scope.verificator = true;
-                    }
-                    if (thereIsAdmin === 1) {
-                        if (role[0] === 'PROVIDER_ADMIN')
-                            organizationTypeProvider = true;
-                        if (role[0] === 'CALIBRATOR_ADMIN')
-                            organizationTypeCalibrator = true;
-                        if (role[0] === 'STATE_VERIFICATOR_ADMIN')
-                            organizationTypeVerificator = true;
-                    }
-                    if (thereIsAdmin > 1) {
-                        $scope.showListOfOrganization = true;
-                        for (var i = 0; i < role.length; i++) {
-                            if ((role[0] === 'PROVIDER_ADMIN' && role[1] === 'CALIBRATOR_ADMIN') ||
-                                (role[0] === 'CALIBRATOR_ADMIN' && role[1] === 'PROVIDER_ADMIN'))
-                                $scope.showListOfOrganizationChosenOne = true;
-                            if ((role[0] === 'STATE_VERIFICATOR_ADMIN' && role[1] === 'CALIBRATOR_ADMIN') ||
-                                (role[0] === 'CALIBRATOR_ADMIN' && role[1] === 'STATE_VERIFICATOR_ADMIN'))
-                                $scope.showListOfOrganizationChouenTwo = true;
-                        }
-                    }
-                });
-
             /**
-             * Choose role of employee
-             * @param selectedEmployee
-             */
-            $scope.choose = function (selectedEmployee) {
-                var employee = selectedEmployee + '';
-                var resaultEmployee = employee.split(',');
-                for (var i = 0; i < resaultEmployee.length; i++) {
-                    if (resaultEmployee[i] === 'provider') {
-                        organizationTypeProvider = true;
-                    }
-                    if (resaultEmployee[i] === 'calibrator') {
-                        organizationTypeCalibrator = true;
-                    }
-                    if (resaultEmployee[i] === 'verificatot') {
-                        organizationTypeVerificator = true
-                    }
-                }
-            }
 
             $scope.regions = null;
             $scope.districts = [];
@@ -203,10 +148,13 @@ angular
              * for new user
              * @param username
              */
-            function isUsernameAvailable(username) {
+            $scope.isUsernameAvailable = true;
+
+            $scope.checkIfUsernameIsAvailable = function() {
+                var username = $scope.employeeFormData.username;
                 userService.isUsernameAvailable(username).then(
-                    function (data) {
-                        validator('existLogin', data.data);
+                    function(data) {
+                        $scope.isUsernameAvailable = data;
                     })
             }
 
@@ -285,50 +233,51 @@ angular
              */
             function initFormData() {
                 if (!$scope.regions) {
-                    addressServiceProvider.findAllRegions().then(
-                        function (data) {
-                            $scope.regions = data.data;
+                    addressService.findAllRegions().then(
+                        function(data) {
+                            $scope.regions = data;
                         });
                 }
             }
 
-            //initFormData();
+            initFormData();
 
             /**
              * Finds districts in a given region.
              * @param regionId
              *            to identify region
              */
-            $scope.onRegionSelected = function (regionId) {
-                addressServiceProvider
+            $scope.onRegionSelected = function(regionId) {
+                addressService
                     .findDistrictsByRegionId(regionId)
-                    .then(function (data) {
-                        $scope.districts = data.data;
+                    .then(function(data) {
+                        $scope.districts = data;
                     });
             };
 
             /**
              * Finds localities in a given district.
+             *
              * @param districtId
              *            to identify district
              */
-            $scope.onDistrictSelected = function (districtId) {
-                addressServiceProvider.findLocalitiesByDistrictId(
-                    districtId).then(function (data) {
-                        $scope.localities = data.data;
+            $scope.onDistrictSelected = function(districtId) {
+                addressService.findLocalitiesByDistrictId(
+                    districtId).then(function(data) {
+                        $scope.localities = data;
                     });
             };
 
             /**
-             * There are no DB records for this methods.
              * Finds streets in a given locality.
+             *
              * @param localityId
              *            to identify locality
              */
-            $scope.onLocalitySelected = function (localityId) {
-                addressServiceProvider.findStreetsByLocalityId(
-                    localityId).then(function (data) {
-                        $scope.streets = data.data;
+            $scope.onLocalitySelected = function(localityId) {
+                addressService.findStreetsByLocalityId(
+                    localityId).then(function(data) {
+                        $scope.streets = data;
                     });
             };
 
@@ -338,18 +287,27 @@ angular
              * @param streetId
              *            to identify street
              */
-            //$scope.onStreetSelected = function (streetId) {
-            //    addressServiceProvider
-            //        .findBuildingsByStreetId(streetId)
-            //        .then(function (data) {
-            //            $scope.buildings = data.data;
-            //        });
-            //};
+            $scope.onStreetSelected = function(streetId) {
+                addressService
+                    .findBuildingsByStreetId(streetId)
+                    .then(function(data) {
+                        $scope.buildings = data;
+                    });
+            };
 
             /**
+             * Convert address data to string
              * Refactor data
              */
             function retranslater() {
+                $scope.employeeFormData.address = {
+                    region : $scope.employeeFormData.region.designation,
+                    district : $scope.employeeFormData.district.designation,
+                    locality : $scope.employeeFormData.locality.designation,
+                    street : $scope.employeeFormData.street.designation,
+                    building :$scope.employeeFormData.building,
+                    flat : $scope.employeeFormData.flat
+                },
                 employeeData = {
                     firstName: $scope.employeeFormData.firstName,
                     lastName: $scope.employeeFormData.lastName,
@@ -358,7 +316,8 @@ angular
                     email: $scope.employeeFormData.email,
                     username: $scope.employeeFormData.username,
                     password: $scope.employeeFormData.password,
-                    userRoles: [],
+                    userRoles: ['SYS_ADMIN'],
+                    address : $scope.employeeFormData.address
                 }
 
 //                    employeeData.address = {
@@ -370,15 +329,6 @@ angular
 //                        flat: $scope.employeeFormData.flat,
 //                    }
 
-                if (organizationTypeProvider === true) {
-                    employeeData.userRoles.push('PROVIDER_EMPLOYEE');
-                }
-                if (organizationTypeCalibrator === true) {
-                    employeeData.userRoles.push('CALIBRATOR_EMPLOYEE');
-                }
-                if (organizationTypeVerificator === true) {
-                    employeeData.userRoles.push('STATE_VERIFICATOR_EMPLOYEE');
-                }
 
             }
 
@@ -438,6 +388,8 @@ angular
             $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
             $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
             $scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
+            $scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
+            $scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
 
 
             /* Closes the modal window

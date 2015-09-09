@@ -10,8 +10,9 @@ import java.util.Date;
 public class VerificationPageDTO {
     private String id;
     private Date initialDate;
-    private String surname;
+    private String surname; //TODO: surname and name not needed anymore
     private String name;
+    private String fullName;
     private String district;
     private String locality;
     private String phone;
@@ -31,11 +32,12 @@ public class VerificationPageDTO {
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street, String region,
                                Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee, 
-                               String name, String district, String locality, String phone,boolean isUpload, Integer processTimeExceeding) {
+                               String name, String fullName, String district, String locality, String phone,boolean isUpload, Integer processTimeExceeding) {
 
         this.id = id;
         this.initialDate = initialDate;
         this.surname = surname;
+        this.name = name;
         this.street = street;
         this.region = region;
         this.status = status;
@@ -61,7 +63,7 @@ public class VerificationPageDTO {
                 this.stateVerificatorEmployee = stateVerificatorEmployee.getLastName() + " " + stateVerificatorEmployee.getFirstName();
             }
         }
-        this.name=name;
+        this.fullName=fullName;
         this.district=district;
         this.locality=locality;
         this.phone=phone;
@@ -222,6 +224,14 @@ public class VerificationPageDTO {
                 ", locality='" + locality + '\'' +
                 ", status=" + status +
                 '}';
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }
 

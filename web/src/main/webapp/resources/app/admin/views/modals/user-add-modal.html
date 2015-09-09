@@ -1,41 +1,12 @@
 <div class="modal-header">
-    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_EMPLOYEE'
+    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_SYS_ADMIN'
         | translate}}</h3>
 </div>
 
 <div class="modal-body">
 
     <form name="employeeForm" novalidate ng-submit="!employeeForm.phone.$error.pattern && !employeeForm.rePassword.$error.required
-    && !employeeForm.password.$error.required && onEmployeeFormSubmit()">
-
-        <div class="row">
-            <div class="form-group col-md-4" ><!-- ng-show="showListOfOrganization" -->
-                <label class="control-label">{{'EMPLOYEE_TYPE' | translate }}</label>
-            </div>
-            <div id="po" class="form-group col-md-8">
-                <div ><!-- ng-show="showListOfOrganizationChosenOne" -->
-                    <select data-placeholder="{{'SELECT_TYPE_OF_ORGANIZATION' | translate}}"
-                            ng-model="selectedEmployee"
-                            ng-change="choose(selectedEmployee)"
-                            required>
-                        <option value='provider'> Provider</option>
-                        <option value='calibrator'> Calibrator</option>
-                    </select>
-                </div>
-
-
-                <div ng-show="showListOfOrganizationChosenTwo">
-                    <select multiple chosen
-                            data-placeholder="{{'SELECT_TYPE_OF_ORGANIZATION' | translate}}"
-                            ng-model="selectedEmployee"
-                            ng-change="choose(selectedEmployee)"
-                            required>
-                        <option value='calibrator'> Calibrator</option>
-                        <option value='verificatot'> Verificator</option>
-                    </select>
-                </div>
-            </div>
-        </div>
+    && !employeeForm.password.$error.required && onEmployeeFormSubmit()&&!employeeForm.username.$error.required&&!employeeForm.lastName.$error.required">
 
         <div class="panel panel-primary">
             <div class="panel-heading">{{'GENERAL_INFORMATION' | translate }}</div>
@@ -162,7 +133,7 @@
                     </div>
                     <div class="form-group col-md-8" ng-class="usernameValidation.css" show-errors>
                         <input type="text" ng-model="employeeFormData.username"
-                               ng-change="checkFirstName('login')"
+                               ng-change="checkIfUsernameIsAvailable()"
                                ng-model-options="{debounce: 350}"
                                id="username" name="username" class="form-control" required>
 
@@ -175,9 +146,8 @@
                             <!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
                             <!--{{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}-->
                             <!--</p>-->
-                            <p class="validation-message" ng-if="!usernameValidation.isValid">
-                                {{usernameValidation.message }}
-                            </p>
+                            <p class="help-block" ng-if="!isUsernameAvailable">{{'LOGIN_ISNT_AVAILABLE'
+                                | translate }}</p>
                         </div>
                     </div>
                 </div>
@@ -188,6 +158,7 @@
                         <label class="control-label">{{'PASSWORD_TWO' | translate}}*</label>
                     </div>
                     <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
+                        <input type="password" ng-model="employeeFormData.Password" style="display: none">
                         <input type="password" ng-model="employeeFormData.password" ng-change="checkPasswords()"
                                name="password" class="form-control" required>
                     </div>
@@ -222,74 +193,82 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-primary" ng-hide="true">
+                <div class="panel panel-primary">
                     <div class="panel-heading">{{'ADDRESS' | translate }}</div>
                     <div class="panel-body">
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">{{'REGION_TWO' | translate}}</label>
+                                    <label class="control-label">{{'REGION_TWO' |
+                                        translate}}</label>
                                 </div>
                                 <div class="form-group col-md-8">
                                     <select chosen name="region" type="text"
                                             ng-model="employeeFormData.region"
-                                            ng-options="region as region.designation for region in regions"
-
-                                            allow-single-deselect="true"
+                                            ng-options="region as region.designation for region in regions | filter: $viewValue"
                                             ng-change="onRegionSelected(employeeFormData.region.id)"
-                                            class="form-control"></select>
+                                            typeahead-editable="false" class="form-control" required></select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">{{'DISTRICT_TWO' | translate}}</label>
+                                    <label class="control-label">{{'DISTRICT_TWO' |
+                                        translate}}</label>
                                 </div>
                                 <div class="form-group col-md-8">
                                     <select chosen name="district" type="text"
                                             ng-model="employeeFormData.district"
                                             ng-options="district as district.designation for district in districts | filter: $viewValue"
                                             ng-change="onDistrictSelected(employeeFormData.district.id)"
-                                            allow-single-deselect="true" class="form-control"></select>
+                                            typeahead-editable="false" class="form-control" required></select>
                                 </div>
                             </div>
 
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">{{'LOCALITY_TWO' | translate}}</label>
+                                    <label class="control-label">{{'LOCALITY_TWO' |
+                                        translate}}</label>
                                 </div>
                                 <div class="form-group col-md-8">
                                     <select chosen name="locality" type="text"
                                             ng-model="employeeFormData.locality"
                                             ng-options="locality as locality.designation for locality in localities | unique:'designation' "
                                             ng-change="onLocalitySelected(employeeFormData.locality.id)"
-                                            allow-single-deselect="true" class="form-control"></select>
+                                            typeahead-editable="false" class="form-control" required></select>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">{{'STREET_TWO' | translate }}</label>
+                                    <label class="control-label">{{'STREET_TWO' | translate
+                                        }} </label>
                                 </div>
                                 <div class="form-group col-md-8">
                                     <input name="street" type="text"
-                                           ng-model="employeeFormData.street" class="form-control"
-                                           typeahead="street as street.designation for street in streets | filter: $viewValue |limitTo: 4"
+                                           ng-model="employeeFormData.street"
+                                           typeahead="street as street.designation for street in streets | filter:  { designation: $viewValue} | limitTo: 4"
                                            typeahead-on-select="onStreetSelected(employeeFormData.street.id)"
-                                           typeahead-editable="false">
+                                           typeahead-editable="false" class="form-control" required>
+                                    <a ng-if="!employeeFormData.street" style="color: #b27e77"
+                                       ng-click="feedbackModalNoProvider()"> <i
+                                            class="fa fa-info-circle"> <ins>{{'ORGANIZATION_INVALID_STREET'
+                                        | translate }} </ins></i>
+                                    </a>
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label class="control-label">{{'HOUSE_TWO' | translate}}</label>
+                                    <label class="control-label">{{'HOUSE_TWO' |
+                                        translate}} </label>
                                 </div>
                                 <div class="form-group col-md-8">
                                     <input name="building" type="text"
-                                           ng-model="employeeFormData.building" class="form-control">
-                                    <!--typeahead="building as building.designation for building in buildings | filter: $viewValue" // To do -->
-
+                                           ng-model="employeeFormData.building"
+                                           typeahead="building as building.designation for building in buildings | filter: $viewValue"
+                                           class="form-control" required>
                                 </div>
                             </div>
 
@@ -300,8 +279,7 @@
                                 <div class="form-group col-md-8">
                                     <input name="flat" type="text"
                                            ng-model="employeeFormData.flat" class="form-control"
-                                            >
-
+                                           required>
                                 </div>
                             </div>
                         </div>

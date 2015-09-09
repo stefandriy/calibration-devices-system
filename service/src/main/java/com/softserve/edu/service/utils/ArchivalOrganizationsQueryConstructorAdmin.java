@@ -58,11 +58,11 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
             queryPredicate = cb.and(cb.like(root.get("email"), "%" + email + "%"),
                     queryPredicate);
         }
-       /* if ((phone != null)&&(phone.length()>0)) {
+        if ((phone != null)&&(phone.length()>0)) {
             queryPredicate = cb.and(
                     cb.like(root.get("phone"), "%" + phone + "%"),
                     queryPredicate);
-        }*/
+        }
         if ((type != null)&&(type.length()>0)) {
             Join<Organization, OrganizationType> joinOrganizationType = root.join("organizationTypes");
             Predicate searchByOrganizationType = cb.like(joinOrganizationType.get("type"),

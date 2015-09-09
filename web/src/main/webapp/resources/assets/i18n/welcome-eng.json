@@ -73,6 +73,7 @@
   "LOGIN_TWO":"Login",
   "PASSWORD_TWO":"Password",
   "REPEAT_PASSWORD":"Repeat password",
+  "USERNAME_INFO":"Login should not contain spaces",
   "ADDRESS":"Address",
   "REGION_TWO":"Region",
   "DISTRICT_TWO":"District",
@@ -112,7 +113,7 @@
   "SENT_TRANSLATION":"Application received.",
   "IN_PROGRESS_TRANSLATION":"Application in progress.",
   "TEST_OK_TRANSLATION":"Application completed.",
-  "SENT_TO_VERIFICATOR_TRANSLATION":"The application brought against attorneys",
+  "SENT_TO_VERIFICATOR_TRANSLATION":"The application brought against state attorneys",
   "ACCEPTED_TRASLATION":"Application accepted performer.",
   "REJECTED_TRASLATION":"Application rejected performer.",
   "FIND_BY_EQUIPMENT_NAME":"Find by equipment name:",
@@ -170,6 +171,7 @@
   	"I_AM_CALIBRATOR":"This organization is calibrator",
     "ADD_EMPLOYEE":"Add new employee",
     "FILL_IN_INFORMATION_ABOUT_EMPLOYEE":"Fill in information about employee",
+    "FILL_IN_INFORMATION_ABOUT_SYS_ADMIN" : "Fill in information about sysadmin",
     "EMPLOYEE_TYPE":"Chouse type of employee",
 
     "INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  Volodymyr",
@@ -210,10 +212,11 @@
   "RESTORE":"Restore",
   "MAIN_PANEL_PROVIDER":"Main panel provider",
   "STATUS":"Status",
-  "INITIAL_DATE":"Receiving        date",
+  "INITIAL_DATE":"Receiving date",
   "CLIENT_STREET":"Client street",
   "CLIENT_LAST_NAME":"Client last name",
   "CLIENT_FIRST_NAME": "Client first name",
+  "CLIENT_FULL_NAME" : "Client full name",
   "EMPLOYEE_LAST_NAME":"Employee last name",
   "VERIFICATION_ID":"Verification ID",
   "ACTIONS":"Actions",
@@ -250,5 +253,14 @@
   "AMOUNT": "Amount",
   "ORGANIZATION_ID " : "Organization id",
   "FIND_BY_ADRESS" : "Find by adress",
-  "FIND_BY_ORG_TYPE" : "Find by organization type"
+  "FIND_BY_ORG_TYPE" : "Find by organization type",
+
+
+  "REJECT_MESSAGE" : "Reject message",
+  "EXPIRATION_DATE" : "Expiration Date",
+
+  
+  "VERIFICATION_PROTOCOLS": "Verification protocols",
+  "CREATE_TEST": "Create test"
+
 }

@@ -36,7 +36,7 @@ public class NewVerificationsQueryConstructorVerificator {
      * 		search by initial date of verification (optional)
      * @param idToSearch
      * 		search by verification ID
-     * @param lastNameToSearch
+     * @param fullNameToSearch
      * 		search by client's last name
      * @param streetToSearch
      * 		search by client's street
@@ -46,8 +46,8 @@ public class NewVerificationsQueryConstructorVerificator {
      * 		EntityManager needed to have a possibility to create query
      * @return CriteriaQuery<Verification>
      */
-    public static CriteriaQuery<Verification> buildSearchQuery (Long verificatorID, String dateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String status,
-                                                                							User verificatorEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
+    public static CriteriaQuery<Verification> buildSearchQuery(Long verificatorID, String dateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status,
+                                                               User verificatorEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
@@ -55,7 +55,7 @@ public class NewVerificationsQueryConstructorVerificator {
         Join<Verification, Organization> verificatorJoin = root.join("stateVerificator");
 
         Predicate predicate = NewVerificationsQueryConstructorVerificator.buildPredicate(root, cb, verificatorJoin, verificatorID, dateToSearch, idToSearch,
-                														lastNameToSearch, firstNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
+                fullNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
         if((sortCriteria != null)&&(sortOrder != null)) {
 			criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 		} else {
@@ -70,31 +70,31 @@ public class NewVerificationsQueryConstructorVerificator {
      * Method dynamically builds query to database depending on input parameters specified.
      * Needed to get max count of rows with current predicates for pagination
      *
+     * @param lastNameToSearch
+     * 		search by client's last name
      * @param verificatorID
      * 		search by organization ID
      * @param dateToSearch
      * 		search by initial date of verification (optional)
      * @param idToSearch
      * 		search by verification ID
-     * @param lastNameToSearch
-     * 		search by client's last name
-     * @param streetToSearch
+     * @param fullNameToSearch
+     *@param streetToSearch
      * 		search by client's street
      * @param verificatorEmployee
-     * 		used to additional query restriction if logged user is simple employee (not admin)
+ * 		used to additional query restriction if logged user is simple employee (not admin)
      * @param em
-     * 		EntityManager needed to have a possibility to create query
-     * @return CriteriaQuery<Long>
+* 		EntityManager needed to have a possibility to create query    @return CriteriaQuery<Long>
      */
-    public static CriteriaQuery<Long> buildCountQuery (Long verificatorID, String dateToSearch, String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String status,
-                                                       User verificatorEmployee, String employeeSearchName, EntityManager em) {
+    public static CriteriaQuery<Long> buildCountQuery(Long verificatorID, String dateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status,
+                                                      User verificatorEmployee, String employeeSearchName, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Verification> root = countQuery.from(Verification.class);
         Join<Verification, Organization> verificatorJoin = root.join("stateVerificator");
         Predicate predicate = NewVerificationsQueryConstructorVerificator.buildPredicate(root, cb, verificatorJoin, verificatorID, dateToSearch, idToSearch,
-                lastNameToSearch, firstNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
+                fullNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
         return countQuery;
@@ -103,19 +103,19 @@ public class NewVerificationsQueryConstructorVerificator {
      * Method builds list of predicates depending on parameters passed
      * Rule for predicates compounding - conjunction (AND)
      *
+     * @param verificatorID
      * @param root
      * @param cb
      * @param joinSearch
-     * @param verificatorID
      * @param dateToSearch
      * @param idToSearch
-     * @param lastNameToSearch
+     * @param fullNameToSearch
      * @param streetToSearch
      * @param verificatorEmployee
      * @return Predicate
      */
-    private static Predicate buildPredicate (Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long verificatorId,
-                                             String dateToSearch,String idToSearch, String lastNameToSearch, String firstNameToSearch, String streetToSearch, String status, User verificatorEmployee, String employeeSearchName) {
+    private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long verificatorId,
+                                            String dateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, User verificatorEmployee, String employeeSearchName) {
 
         String userName = verificatorEmployee.getUsername();
         Predicate queryPredicate = cb.conjunction();
@@ -159,11 +159,15 @@ public class NewVerificationsQueryConstructorVerificator {
         if ((idToSearch != null)&&(idToSearch.length()>0)) {
             queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
         }
-        if ((lastNameToSearch !=null)&&(lastNameToSearch.length()>0)) {
-            queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastNameToSearch + "%"), queryPredicate);
+        if ((fullNameToSearch !=null)&&(fullNameToSearch.length()>0)) {
+            queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%"), queryPredicate);
         }
-        if ((firstNameToSearch !=null)&&(firstNameToSearch.length()>0)) {
-            queryPredicate = cb.and(cb.like(root.get("clientData").get("firstName"), "%" + firstNameToSearch + "%"), queryPredicate);
+        if ((fullNameToSearch != null)&&(fullNameToSearch.length()>0)) {
+            Predicate searchByClientFirstName = cb.like(root.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
+            Predicate searchByClientLastName = cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
+            Predicate searchByClientMiddleName = cb.like(root.get("clientData").get("middleName"), "%" + fullNameToSearch + "%");
+            Predicate searchPredicateByClientFullName = cb.or(searchByClientFirstName, searchByClientLastName, searchByClientMiddleName);
+            queryPredicate = cb.and(searchPredicateByClientFullName, queryPredicate);
         }
         if ((streetToSearch != null)&&(streetToSearch.length()>0)) {
             queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), queryPredicate);

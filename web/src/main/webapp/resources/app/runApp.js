@@ -22,7 +22,9 @@ require.config({
         jquery: '../assets/bower_components/jquery/dist/jquery.js',
         moment: "../assets/bower_components/moment/min/moment-with-locales.min",
         bootstrapDateRangePicker: "../assets/bower_components/bootstrap-daterangepicker/daterangepicker",
-        angularDateRangePicker: "../assets/bower_components/angular-daterangepicker/js/angular-daterangepicker.min"
+        angularDateRangePicker: "../assets/bower_components/angular-daterangepicker/js/angular-daterangepicker.min",
+        angularUISelect: "../assets/bower_components/ui-select/dist/select.min",
+        ngSanitize: "../assets/bower_components/angular-sanitize/angular-sanitize.min"
     },
     shim: {
         angular: {
@@ -87,11 +89,20 @@ require.config({
             deps: ['angular', 'moment', 'bootstrapDateRangePicker'],
             exports: 'angularDateRangePicker'
         },
+
+        angularUISelect: {
+            deps:['angular'],
+            exports: 'angularUISelect'
+        },
+
+        ngSanitize:{
+            deps:['angular']
+        },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
                 'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload', 'ngRoute', 'angularLoadingBar',
-                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker']
+                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize']
         }
     }
 });

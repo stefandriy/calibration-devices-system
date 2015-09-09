@@ -12,7 +12,7 @@ angular
                                 type: 'pie'
                             },
                             title: {
-                                text: 'Діаграма завантаженості підприємства',
+                                text: '',
                                 x: -20 //center
                             },
 
@@ -29,7 +29,7 @@ angular
                                     pointPadding: 0.2,
                                     borderWidth: 0
                                 }
-                            },
+                            }
                         },
                         series:
                             [{
