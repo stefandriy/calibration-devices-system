@@ -2,14 +2,25 @@ angular
     .module('adminModule')
     .factory('UserService', function ($http) {
         return {
-            isAdmin: function () {
-                return getData('employee/admin/users/verificator');
-            },
-            isUsernameAvailable: function(username){
-                return getData('/admin/users/available/', username)
+            isUsernameAvailable: function (username) {
+                var url = '/admin/users/available/' + username;
+                return $http.get(url)
+                    .then(function(result) {
+                        return result.data;
+                    });
             },
             saveUser: function (userData) {
-                return saveData('employee/admin/users/add', userData);
+
+                return $http.post('/admin/users/add', userData)
+                    .success(function (response, status) {
+                        console.log("Done status: " + status);
+                        return response;
+                    })
+                    .error(function (err) {
+                        alert(err);
+                        alert("in error");
+                        return err;
+                    });
             }
 
           /*      function (username) {

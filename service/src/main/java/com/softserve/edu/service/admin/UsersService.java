@@ -1,8 +1,10 @@
 package com.softserve.edu.service.admin;
 
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.UserRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,4 +35,10 @@ public class UsersService {
         return userRoleRepository.getRoles(username);
     }
 
+    @Transactional
+    public void addEmployee(User user) {
+        String passwordEncoded = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(passwordEncoded);
+        userRepository.save(user);
+    }
 }
