@@ -251,5 +251,7 @@
   "AMOUNT": "Amount",
   "ORGANIZATION_ID " : "Organization id",
   "FIND_BY_ADRESS" : "Find by adress",
-  "FIND_BY_ORG_TYPE" : "Find by organization type"
+  "FIND_BY_ORG_TYPE" : "Find by organization type",
+  
+  "VERIFICATION_PROTOCOLS": "Verification protocols"
 }
