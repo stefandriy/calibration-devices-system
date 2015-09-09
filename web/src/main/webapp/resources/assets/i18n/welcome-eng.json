@@ -252,5 +252,6 @@
   "FIND_BY_ADRESS" : "Find by adress",
   "FIND_BY_ORG_TYPE" : "Find by organization type",
   
-  "VERIFICATION_PROTOCOLS": "Verification protocols"
+  "VERIFICATION_PROTOCOLS": "Verification protocols",
+  "CREATE_TEST": "Create test"
 }
