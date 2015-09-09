@@ -81,7 +81,7 @@
                                             filter="{ 'street': 'text' }">{{ verification.street }}
                                         </td>
                                         <td data-title="'STATUS' | translate" sortable="'status'"
-                                            filter="{ 'status': 'status' }">{{ verification.status | translate }}
+                                            filter="{ 'status': 'status' }" width="200">{{ verification.status | translate }}
                                         </td>
                                         <td data-title="'EMPLOYEE_SINGLE' | translate"
                                             sortable="'employee_last_name'"
@@ -174,13 +174,24 @@
                                 </div>
                             </script>
                             <script type="text/ng-template" id="ng-table/filters/status.html">
-                                <select chosen class="form-control input-sm" width="'80%'" disable-search="true"
-                                        type="text" allow-single-deselect="false" ng-model="selectedStatus.name"
-                                        ng-change="doSearch()"
-                                        name="filter-status"
-                                        ng-options="status as status.label for status in statusData"
-                                        data-placeholder="{{ 'STATUS_SELECT_PLACEHOLDER' | translate }}">
-                                </select>
+                                <!--<select chosen class="form-control input-sm" width="'80%'" disable-search="true"-->
+                                <!--type="text" allow-single-deselect="false" ng-model="selectedStatus.name"-->
+                                <!--ng-change="doSearch()"-->
+                                <!--name="filter-status"-->
+                                <!--ng-options="status as status.label for status in statusData"-->
+                                <!--data-placeholder="{{ 'STATUS_SELECT_PLACEHOLDER' | translate }}">-->
+                                <!--</select>-->
+                                <ui-select ng-model="selectedStatus.name" theme="bootstrap" on-select='doSearch()' name="filter-status">   
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+
+                                    <ui-select-choices
+                                            repeat="status in statusData">
+                                        <span ng-bind-html="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <p></p>
                             </script>
                             <p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
