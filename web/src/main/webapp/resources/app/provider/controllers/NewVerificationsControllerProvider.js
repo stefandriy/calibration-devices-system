@@ -167,6 +167,9 @@ angular
                             if ($scope.selectedStatus.name != null) {
                                 params.filter().status = $scope.selectedStatus.name.id;
                             }
+                            else{
+                                params.filter().status = null; //case when the filter is cleared with a button on the select
+                            }
 
                             params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                             params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
