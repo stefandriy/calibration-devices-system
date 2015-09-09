@@ -1,8 +1,12 @@
 package com.softserve.edu.controller.admin;
 
+import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
+import com.softserve.edu.entity.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -10,11 +14,10 @@ import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,9 @@ public class UserController {
 
     @Autowired
     private UsersService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
@@ -99,5 +105,32 @@ public class UserController {
         }
         return resultList;
     }
+    /**
+     * Add new employee
+     * @param employee
+     * @param user
+     * @return status
+     */
 
+    @RequestMapping(value = "add", method = RequestMethod.POST)
+    public ResponseEntity<HttpStatus> addEmployee(
+            @RequestBody UserDTO employee,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User newUser = new AddEmployeeBuilderNew().username(employee.getUsername())
+                .password(employee.getPassword())
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .middleName(employee.getMiddleName())
+                .phone(employee.getPhone())
+                .email(employee.getEmail())
+                .address(employee.getAddress())
+                .isAveliable(employee.getIsAvaliable())
+                .build();
+        for (String tmp : employee.getUserRoles()) {
+            UserRole userRole = userRepository.getUserRole(tmp);
+            newUser.addUserRole(userRole);
+        }
+        userService.addEmployee(newUser);
+        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+    }
 }
