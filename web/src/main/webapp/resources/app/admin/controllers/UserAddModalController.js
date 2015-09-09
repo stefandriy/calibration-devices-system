@@ -305,8 +305,8 @@ angular
                     district : $scope.employeeFormData.district.designation,
                     locality : $scope.employeeFormData.locality.designation,
                     street : $scope.employeeFormData.street.designation,
-                    building :$scope.employeeFormData.building.designation,
-                    flat : $scope.employeeFormData.flat.designation
+                    building :$scope.employeeFormData.building,
+                    flat : $scope.employeeFormData.flat
                 },
                 employeeData = {
                     firstName: $scope.employeeFormData.firstName,
