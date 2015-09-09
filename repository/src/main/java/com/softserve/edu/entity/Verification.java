@@ -78,6 +78,9 @@ public class Verification {
 
     @OneToOne
     BbiProtocol bbiProtocol;
+
+    @OneToOne(mappedBy = "verification")
+    private CalibrationPlanningTask task;
     
     private Integer processTimeExceeding;
 
