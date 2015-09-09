@@ -7,14 +7,14 @@
 <div id="page-wrapper" ng-controller="CalibrationTestControllerCalibrator">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Повірочні тести</h1>
+            <h1 class="page-header">{{ 'VERIFICATION_PROTOCOLS' | translate }}</h1>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <button class="btn btn-primary"
                     ng-click="openAddTest(verId)">
-                <span class="glyphicon glyphicon-plus-sign"></span> Створити тест
+                <span class="glyphicon glyphicon-plus-sign"></span> {{ 'CREATE_TEST' | translate }}
             </button>
         </div>
     </div>
@@ -41,12 +41,12 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Назва тесту</th>
+                                    <th>№ протоколу</th>
                                     <!--<th>Початкова дата</th>-->
-                                    <th>Температура*</th>
+                                    <th>Дата протоколу</th>
                                     <th>Номер установки</th>
-                                    <th>Широта*</th>
-                                    <th>Довгота*</th>
+                                    
+                                    
                                     <th>Статус споживання</th>
                                     <th>Результат тесту</th>
                                     <th class="text-center">Дії</th>
@@ -57,17 +57,16 @@
                                     <td>{{ calibrationTest.id }}</td>
                                     <td>{{ calibrationTest.name }}</td>
                                     <!--<td>{{ calibrationTest.dateTest }}</td>-->
-                                    <td>{{ calibrationTest.temperature }}</td>
+                                    <td>{{ calibration.dateTest }} </td>
                                     <td>{{ calibrationTest.settingNumber }}</td>
-                                    <td>{{ calibrationTest.latitude }}</td>
-                                    <td>{{ calibrationTest.longitude }}</td>
+                                    
                                     <td>{{ calibrationTest.consumptionStatus }}</td>
                                     <td>{{ calibrationTest.testResult }}</td>
                                     <td style="width: 17%">
                                     <img>
                                         <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
                                             <img src="/resources/assets/button-icons/calibration-test%20icons/edit.png"
-                                                 popover="Редагувати тест" popover-trigger="mouseenter"
+                                                 popover="Редагувати протокол" popover-trigger="mouseenter"
                                                  ng-click="editCalibrationTest(calibrationTest.id)">
                                             </img>
                                             <img src="/resources/assets/button-icons/calibration-test%20icons/delete.png"

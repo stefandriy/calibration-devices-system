@@ -170,6 +170,7 @@
   	"I_AM_CALIBRATOR":"This organization is calibrator",
     "ADD_EMPLOYEE":"Add new employee",
     "FILL_IN_INFORMATION_ABOUT_EMPLOYEE":"Fill in information about employee",
+    "FILL_IN_INFORMATION_ABOUT_SYS_ADMIN" : "Fill in information about sysadmin",
     "EMPLOYEE_TYPE":"Chouse type of employee",
 
     "INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE" : "Incorrect value input example:  Volodymyr",
@@ -252,6 +253,12 @@
   "FIND_BY_ADRESS" : "Find by adress",
   "FIND_BY_ORG_TYPE" : "Find by organization type",
 
+
   "REJECT_MESSAGE" : "Reject message",
-  "EXPIRATION_DATE" : "Expiration Date"
+  "EXPIRATION_DATE" : "Expiration Date",
+
+  
+  "VERIFICATION_PROTOCOLS": "Verification protocols",
+  "CREATE_TEST": "Create test"
+
 }
