@@ -1,20 +1,5 @@
 angular
     .module('adminModule')
-    .filter('organizationFilter', function() {
-        return function(allTypes, currentTypes) {
-            var filtered = allTypes;
-
-            for (var i in currentTypes) {
-                if (currentTypes[i].id != 'CALIBRATOR') {
-                    var filtered = [];
-                    filtered.push(allTypes[1]);
-                    filtered.push(currentTypes[i]);
-                }
-            }
-
-            return filtered;
-        }
-    })
     .controller(
     'UserAddModalController',
     [
@@ -32,6 +17,24 @@ angular
                  userService) {
             //$rootScope, $scope, $modalInstance, $log, $state, $http, userService, addressServiceProvider
             var employeeData = {};
+
+            $scope.regions = null;
+            $scope.districts = [];
+            $scope.localities = [];
+            $scope.streets = [];
+            $scope.buildings = [];
+
+
+            function initFormData() {
+                if (!$scope.regions) {
+                    addressService.findAllRegions().then(
+                        function(data) {
+                            $scope.regions = data;
+                        });
+                }
+            }
+
+            initFormData();
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -230,50 +233,51 @@ angular
              */
             function initFormData() {
                 if (!$scope.regions) {
-                    addressServiceProvider.findAllRegions().then(
-                        function (data) {
-                            $scope.regions = data.data;
+                    addressService.findAllRegions().then(
+                        function(data) {
+                            $scope.regions = data;
                         });
                 }
             }
 
-            //initFormData();
+            initFormData();
 
             /**
              * Finds districts in a given region.
              * @param regionId
              *            to identify region
              */
-            $scope.onRegionSelected = function (regionId) {
-                addressServiceProvider
+            $scope.onRegionSelected = function(regionId) {
+                addressService
                     .findDistrictsByRegionId(regionId)
-                    .then(function (data) {
-                        $scope.districts = data.data;
+                    .then(function(data) {
+                        $scope.districts = data;
                     });
             };
 
             /**
              * Finds localities in a given district.
+             *
              * @param districtId
              *            to identify district
              */
-            $scope.onDistrictSelected = function (districtId) {
-                addressServiceProvider.findLocalitiesByDistrictId(
-                    districtId).then(function (data) {
-                        $scope.localities = data.data;
+            $scope.onDistrictSelected = function(districtId) {
+                addressService.findLocalitiesByDistrictId(
+                    districtId).then(function(data) {
+                        $scope.localities = data;
                     });
             };
 
             /**
-             * There are no DB records for this methods.
              * Finds streets in a given locality.
+             *
              * @param localityId
              *            to identify locality
              */
-            $scope.onLocalitySelected = function (localityId) {
-                addressServiceProvider.findStreetsByLocalityId(
-                    localityId).then(function (data) {
-                        $scope.streets = data.data;
+            $scope.onLocalitySelected = function(localityId) {
+                addressService.findStreetsByLocalityId(
+                    localityId).then(function(data) {
+                        $scope.streets = data;
                     });
             };
 
@@ -283,14 +287,19 @@ angular
              * @param streetId
              *            to identify street
              */
-            //$scope.onStreetSelected = function (streetId) {
-            //    addressServiceProvider
-            //        .findBuildingsByStreetId(streetId)
-            //        .then(function (data) {
-            //            $scope.buildings = data.data;
-            //        });
-            //};
+            $scope.onStreetSelected = function(streetId) {
+                addressService
+                    .findBuildingsByStreetId(streetId)
+                    .then(function(data) {
+                        $scope.buildings = data;
+                    });
+            };
 
+            /**
+             * Convert address data to string
+             */
+
+            
             /**
              * Refactor data
              */
@@ -374,6 +383,8 @@ angular
             $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
             $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
             $scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
+            $scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
+            $scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
 
 
             /* Closes the modal window
