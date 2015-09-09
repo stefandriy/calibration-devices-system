@@ -112,7 +112,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="verification in $data">
-                    <td  align="center">{{ verification.initialDate | date}}</td>
+                    <td  align="center">{{ verification.initialDate | date : 'dd-MM-yyyy' }}</td>
                     <td>{{ verification.surname }}</td>
                     <td ng-if="verification.street">{{ verification.street }}</td>
                     <td style="width: 15%"  align="center">
