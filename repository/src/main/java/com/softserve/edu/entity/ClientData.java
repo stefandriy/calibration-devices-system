@@ -38,7 +38,9 @@ public class ClientData {
         this.clientAddress = clientAddress;
     }
 
-
+    public String getFullName(){
+        return this.lastName + " " + this.firstName + " " + this.middleName;
+    }
 
     public Address getClientAddress() {
         return clientAddress;

@@ -31,13 +31,15 @@
 			<div ng-show="!isShownForm ">
 
 				<div
-					ng-class="{'successStyle':verification.status !=undefined,'notFoundStyle':status=='NOTFOUND_TRANSLATION'}"
+					ng-class="{'successStyle' : verification.status != undefined,'notFoundStyle' :  status == 'REJECTED_TRASLATION' || status == 'NOTFOUND_TRANSLATION' }"
 					role="alert">
 					<button ng-click="closeAlert()" type="button"
 						class="close btn-close-alert" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 					{{'APPLICATION_STATUS' | translate}} : {{status | translate}}
+					<div ng-show="rejectMessage != null">{{'REJECT_MESSAGE' | translate}} : {{rejectMessage}}</div>
+					<div ng-show="expirationDate != null">{{'EXPIRATION_DATE' | translate}} : {{expirationDate}}</div>
 
 
 				</div>

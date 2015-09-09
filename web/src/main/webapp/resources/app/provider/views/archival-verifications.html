@@ -44,11 +44,8 @@
                                     <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
                                         filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
                                     </td>
-                                    <td data-title="'CLIENT_LAST_NAME' | translate" sortable="'client_last_name'"
-                                        filter="{ 'client_last_name': 'text' }">{{ verification.surname }}
-                                    </td>
-                                    <td data-title="'CLIENT_FIRST_NAME' | translate" sortable="'client_first_name'"
-                                        filter="{ 'client_first_name': 'text' }">{{ verification.name }}
+                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
+                                        filter="{ 'client_last_name': 'text' }">{{ verification.fullName }}
                                     </td>
                                     <td data-title="'REGION' | translate" sortable="'region'"
                                         filter="{ 'region': 'text' }">{{ verification.region}}

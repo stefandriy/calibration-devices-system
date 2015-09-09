@@ -7,6 +7,10 @@
 
     <form name="employeeForm" novalidate ng-hide="showRestore"
           ng-submit="!employeeForm.phone.$error.pattern
+          && !employeeForm.email.$error.pattern && !employeeForm.email.$error.required
+          && !employeeForm.firstName.$error.pattern && !employeeForm.firstName.$error.required
+          && !employeeForm.lastName.$error.pattern && !employeeForm.lastName.$error.required
+          && !employeeForm.middleName.$error.pattern && !employeeForm.middleName.$error.required
           && onEmployeeFormSubmit()">
 
         <div class="row">
@@ -49,7 +53,9 @@
                     </div>
                     <div class="form-group col-md-8" show-errors>
                         <input type="text" ng-model="user.lastName"
-                               ng-change="checkFirstName('lastName')"
+
+                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="right"
                                ng-pattern="FIRST_LAST_NAME_REGEX"
                                id="lastName" name="lastName" class="form-control" required>
 
@@ -71,7 +77,9 @@
                     </div>
                     <div class="form-group col-md-8" ng-class="firstNameValidation.css" show-errors>
                         <input type="text" ng-model="user.firstName"
-                               ng-change="checkFirstName('firstName')"
+
+                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="right"
                                id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
                                name="firstName" class="form-control" required>
 
@@ -94,7 +102,9 @@
                     <div class="form-group col-md-8" ng-class="middleNameValidation.css" show-errors>
                         <input type="text" ng-model="user.middleName"
                                ng-pattern="MIDDLE_NAME_REGEX"
-                               ng-change="checkFirstName('middleName')"
+
+                               popover="{{'MIDDLE_NAME_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="right"
                                id="middleName" name="middleName" class="form-control" required>
                         <div ng-show="employeeForm.$submitted || employeeForm.middleName.$touched">
                             <p class="validation-message" ng-if="employeeForm.middleName.$error.required">
@@ -136,7 +146,8 @@
                     <div class="form-group col-md-8" ng-class="emailValidation.css" show-errors>
                         <input type="text" ng-model="user.email"
                                ng-pattern="EMAIL_REGEX"
-                               ng-change="checkFirstName('email')"
+
+                               placeholder="example@gmail.com"
                                id="email" name="email" class="form-control" required>
 
                         <div ng-show="employeeForm.$submitted || employeeForm.email.$touched">

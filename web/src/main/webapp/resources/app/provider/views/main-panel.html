@@ -34,7 +34,7 @@
                 <div class="modal-header-capacity">
                     <h3 class="capacity-employee">Виберіть період часу для пошуку інформації</h3>
                 </div>
-                <form name="myForm" novalidate class="formCalendar">
+                        <form name="myForm" novalidate class="formCalendar">
 
 
                     <div class="calendar-wd">
@@ -95,10 +95,10 @@
             <div class="col-lg-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <li class="fa fa-align-justify fa-fw"></li> Нові заявки
+                        <li class="fa fa-align-justify fa-fw"></li> Непризначені заявки
                     </div>
                     <div id="no_new_verifs_message" ng-show="!checkIfNewVerificationsAvailable()">
-                        <p>Відсутні нові заявки</p>
+                        <p>Непризначені заявки відсутні</p>
                     </div>
                     <div ng-show="checkIfNewVerificationsAvailable()">
             <table ng-table="tableParamsVerifications" template-pagination="custom/pager" class="table table-bordered table-hover">
@@ -112,7 +112,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="verification in $data">
-                    <td  align="center">{{ verification.initialDate | date}}</td>
+                    <td  align="center">{{ verification.initialDate | date : 'dd-MM-yyyy' }}</td>
                     <td>{{ verification.surname }}</td>
                     <td ng-if="verification.street">{{ verification.street }}</td>
                     <td style="width: 15%"  align="center">
@@ -162,7 +162,7 @@
             <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <li class="fa fa-hand-o-right fa-fw"></li>Діаграма завантаженості підприємства
+                        <li class="fa fa-hand-o-right fa-fw"></li>Графік завантаженості підприємства
                     </div>
             <div  ng-controller="PieProviderEmployee">
 
@@ -186,9 +186,9 @@
                     <td data-title="'Прізвище'" sortable="'lastName'">{{ user.lastName }}</td>
 
                     <td data-title="'Кількість заявок в роботі'" align="center" style = "width : 15%">
-                        <a ng-if="user.countOfVarification" ng-click="showCapacity(user.username)" class="cursor-pointer"> {{
-                            user.countOfVarification }}</a>
-                        <span ng-if="!user.countOfVarification"> {{ user.countOfVarification}}</span>
+                        <a ng-if="user.countOfVerification" ng-click="showCapacity(user.username)" class="cursor-pointer"> {{
+                            user.countOfVerification }}</a>
+                        <span ng-if="!user.countOfVerification"> {{ user.countOfVerification}}</span>
                     </td>
                 </tr>
             </table>

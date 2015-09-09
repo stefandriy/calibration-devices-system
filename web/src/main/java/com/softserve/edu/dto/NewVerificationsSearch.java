@@ -4,8 +4,7 @@ public class NewVerificationsSearch {
 
 	private String idText;
 	private String formattedDate;
-	private String lastNameText;
-	private String firstNameText;
+	private String client_full_name;
 	private String streetText;
 	private String region;
 	private String district;
@@ -16,12 +15,11 @@ public class NewVerificationsSearch {
 	public NewVerificationsSearch() {
 	}
 
-	public NewVerificationsSearch(String idText, String formattedDate, String lastNameText, String firstNameText, String streetText, String region, String district, String locality, String status, String employee) {
+	public NewVerificationsSearch(String idText, String formattedDate, String client_full_name, String streetText, String region, String district, String locality, String status, String employee) {
 
 		this.idText = idText;
 		this.formattedDate = formattedDate;
-		this.lastNameText = lastNameText;
-		this.firstNameText = firstNameText;
+		this.client_full_name = client_full_name;
 		this.streetText = streetText;
 		this.region = region;
 		this.district = district;
@@ -30,13 +28,7 @@ public class NewVerificationsSearch {
 		this.employee = employee;
 	}
 
-	public String getFirstNameText() {
-		return firstNameText;
-	}
 
-	public void setFirstNameText(String firstNameText) {
-		this.firstNameText = firstNameText;
-	}
 
 	public String getIdText() {
 		return idText;
@@ -54,13 +46,6 @@ public class NewVerificationsSearch {
 		this.formattedDate = formattedDate;
 	}
 
-	public String getLastNameText() {
-		return lastNameText;
-	}
-
-	public void setLastNameText(String lastNameText) {
-		this.lastNameText = lastNameText;
-	}
 
 	public String getStreetText() {
 		return streetText;
@@ -108,5 +93,14 @@ public class NewVerificationsSearch {
 
 	public void setEmployee(String employee) {
 		this.employee = employee;
+	}
+
+
+	public String getClient_full_name() {
+		return client_full_name;
+	}
+
+	public void setClient_full_name(String client_full_name) {
+		this.client_full_name = client_full_name;
 	}
 }

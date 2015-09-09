@@ -30,9 +30,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProviderEmployeeService {
@@ -128,6 +126,9 @@ public class ProviderEmployeeService {
         ListToPageTransformer<User> result = new ListToPageTransformer<User>();
         result.setContent(providerEmployeeList);
         result.setTotalItems(count);
+
+        //TODO: corect showing on the pages information about current employees
+
         return result;
     }
 

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,7 @@ import com.softserve.edu.service.verification.VerificationService;
 @RequestMapping(value = "/application/")
 public class ClientApplicationController {
 
-
+	Logger logger = Logger.getLogger(ClientApplicationController.class);
 
 	@Autowired
 	private VerificationService verificationService;
@@ -66,13 +67,13 @@ public class ClientApplicationController {
 		Organization provider = providerService.findById(verificationDTO.getProviderId());
 		Device device =deviceService.getById(verificationDTO.getDeviceId());
 		Verification verification = new Verification(new Date(),new Date(), clientData, provider,device,Status.SENT, ReadStatus.UNREAD);
-		
+
 		verificationService.saveVerification(verification);
 		String name = clientData.getFirstName() + " " + clientData.getLastName();
 		mail.sendMail(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(), verification.getDevice().getDeviceType().toString());
 		return verification.getId();
 	}
-	
+
 
 	@RequestMapping(value = "check/{verificationId}", method = RequestMethod.GET)
 	public String getClientCode(@PathVariable String verificationId) {
@@ -85,6 +86,7 @@ public class ClientApplicationController {
 	public VerificationDTO getVerificationCode(@PathVariable String verificationId) {
 		Verification verification = verificationService.findById(verificationId);
 		if (verification != null) {
+			logger.trace(verification.getRejectedMessage());
 			return new VerificationDTO(verification.getClientData(),
 					verification.getId(),
 					verification.getInitialDate(),
@@ -96,7 +98,8 @@ public class ClientApplicationController {
 					verification.getProvider(),
 					verification.getProviderEmployee(),
 					verification.getStateVerificator(),
-					verification.getStateVerificatorEmployee());
+					verification.getStateVerificatorEmployee(),
+					verification.getRejectedMessage());
 		} else {
 			return null;
 		}
@@ -117,7 +120,7 @@ public class ClientApplicationController {
 					.map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
 					.collect(Collectors.toList());
 		}
-	
+
 	@RequestMapping(value = "devices", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getAll() {
         return deviceService.getAll().stream()
@@ -138,7 +141,7 @@ public class ClientApplicationController {
     	String surname = verification.getClientData().getLastName();
     	String sendFrom = verification.getClientData().getEmail();
     	mail.sendClientMail(sendFrom, name, surname, mailDto.getVerifID(), mailDto.getMsg());
-    	
+
 		return "SUCCESS";
     }
 	@RequestMapping(value = "clientMessageNoProvider", method = RequestMethod.POST)
