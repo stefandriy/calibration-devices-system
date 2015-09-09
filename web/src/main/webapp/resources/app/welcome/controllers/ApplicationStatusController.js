@@ -17,6 +17,8 @@ angular
 								$modal, $stateParams, dataReceivingService, dataSendingService, $location) {
 
 							$scope.isShownForm = true;
+							$scope.rejectMessage = null;
+							$scope.expirationDate = null;
 							$scope.code = $stateParams.clientCode;
 							$scope.findCode = function() {
 								dataReceivingService.getVerificationStatusById(
@@ -40,6 +42,7 @@ angular
 													}
 													if ($scope.verification.status == ('REJECTED')) {
 														$scope.progress = '0';
+														$scope.rejectMessage = $scope.verification.rejectedMessage;
 													}
 													if ($scope.verification.status == 'IN_PROGRESS') {
 														$scope.progress = '50';
@@ -51,6 +54,7 @@ angular
 														$scope.progress = '90';
 													}
 													if ($scope.verification.status == ('TEST_OK' )) {
+														$scope.expirationDate = $scope.verification.expirationDate;
 														$scope.progress = '100';
 													}
 													if ($scope.verification.status == ( 'TEST_NOK')) {
@@ -111,7 +115,7 @@ angular
 					        	            animation: true,
 					        	            templateUrl: '/resources/app/welcome/views/modals/feedback-window.html',
 					        	            controller: 'FeedbackController',
-					        	            size: 'md',
+					        	            size: 'md'
 
 					        	        });
 

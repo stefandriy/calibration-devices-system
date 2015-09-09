@@ -176,7 +176,7 @@ public class EmployeeController {
         providerEmployeeService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
-
+        //TODO: maybe here should add STATE_VERIFICATION
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> capacityEmployeeData(
             @PathVariable String username) {
@@ -211,19 +211,24 @@ public class EmployeeController {
     private  List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
-            resultList.add(new UsersPageItem(
-                            providerEmployee.getUsername(),
-                            userService.getRoles(providerEmployee.getUsername()),
-                            providerEmployee.getFirstName(),
-                            providerEmployee.getLastName(),
-                            providerEmployee.getMiddleName(),
-                            providerEmployee.getPhone(),
-                            providerEmployee.getOrganization().getName(),
-                            verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
-                            verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
-                            providerEmployee.getIsAvaliable()
-                    )
-            );
+            //hide information about PROVIDER_ADMIN and CALIBRATOR_ADMIN
+            Boolean isProviderAdmin = userService.getRoles(providerEmployee.getUsername()).contains(Roles.PROVIDER_ADMIN.name());
+            Boolean isCalibratorAdmin = userService.getRoles(providerEmployee.getUsername()).contains(Roles.CALIBRATOR_ADMIN.name());
+            if (!isProviderAdmin && !isCalibratorAdmin) {
+                resultList.add(new UsersPageItem(
+                                providerEmployee.getUsername(),
+                                userService.getRoles(providerEmployee.getUsername()),
+                                providerEmployee.getFirstName(),
+                                providerEmployee.getLastName(),
+                                providerEmployee.getMiddleName(),
+                                providerEmployee.getPhone(),
+                                providerEmployee.getOrganization().getName(),
+                                verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
+                                verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
+                                providerEmployee.getIsAvaliable()
+                        )
+                );
+            }
         }
         return resultList;
     }

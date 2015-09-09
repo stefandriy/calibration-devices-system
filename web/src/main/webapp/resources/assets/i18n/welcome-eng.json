@@ -73,6 +73,7 @@
   "LOGIN_TWO":"Login",
   "PASSWORD_TWO":"Password",
   "REPEAT_PASSWORD":"Repeat password",
+  "USERNAME_INFO":"Login should not contain spaces",
   "ADDRESS":"Address",
   "REGION_TWO":"Region",
   "DISTRICT_TWO":"District",
@@ -112,7 +113,7 @@
   "SENT_TRANSLATION":"Application received.",
   "IN_PROGRESS_TRANSLATION":"Application in progress.",
   "TEST_OK_TRANSLATION":"Application completed.",
-  "SENT_TO_VERIFICATOR_TRANSLATION":"The application brought against attorneys",
+  "SENT_TO_VERIFICATOR_TRANSLATION":"The application brought against state attorneys",
   "ACCEPTED_TRASLATION":"Application accepted performer.",
   "REJECTED_TRASLATION":"Application rejected performer.",
   "FIND_BY_EQUIPMENT_NAME":"Find by equipment name:",
@@ -252,7 +253,13 @@
   "ORGANIZATION_ID " : "Organization id",
   "FIND_BY_ADRESS" : "Find by adress",
   "FIND_BY_ORG_TYPE" : "Find by organization type",
+
+
+  "REJECT_MESSAGE" : "Reject message",
+  "EXPIRATION_DATE" : "Expiration Date",
+
   
   "VERIFICATION_PROTOCOLS": "Verification protocols",
   "CREATE_TEST": "Create test"
+
 }
