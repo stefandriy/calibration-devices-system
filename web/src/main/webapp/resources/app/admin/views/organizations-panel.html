@@ -133,12 +133,11 @@
 						<td data-title="'CLIENT_STREET' | translate" sortable="'street'"
 							filter="{ 'street': 'text' }">{{ organization.street }}
 						</td>
-						<td data-title="'EMAIL' | translate" sortable="'email'"
-							filter="{ 'email': 'text' }">{{ organization.email }}
-						</td>
+
 						<!--sortable="'phone_number'"
 							filter="{ 'phone_number': 'text' }"-->
-						<td data-title="'PHONE_NUMBER' | translate" >{{ organization.phone }}
+						<td data-title="'PHONE_NUMBER' | translate" sortable="'PHONE_NUMBER'"
+							filter="{ 'phone_number': 'text' }">{{ organization.phone }}
 						</td>
 						<td data-title="'EDIT' | translate">
 							<button type="button" class="btn btn-primary"
