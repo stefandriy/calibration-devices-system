@@ -134,11 +134,3 @@ public class UserController {
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 }
-/*            $scope.employeeFormData.address = {
-                region : $scope.employeeFormData.region.designation,
-                district : $scope.employeeFormData.district.designation,
-                locality : $scope.employeeFormData.locality.designation,
-                street : $scope.employeeFormData.street.designation,
-                building :$scope.employeeFormData.building.designation,
-                flat : $scope.employeeFormData.flat.designation
-            }*/

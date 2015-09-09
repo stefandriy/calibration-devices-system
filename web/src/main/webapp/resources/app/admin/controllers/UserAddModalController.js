@@ -297,13 +297,17 @@ angular
 
             /**
              * Convert address data to string
-             */
-
-            
-            /**
              * Refactor data
              */
             function retranslater() {
+                $scope.employeeFormData.address = {
+                    region : $scope.employeeFormData.region.designation,
+                    district : $scope.employeeFormData.district.designation,
+                    locality : $scope.employeeFormData.locality.designation,
+                    street : $scope.employeeFormData.street.designation,
+                    building :$scope.employeeFormData.building.designation,
+                    flat : $scope.employeeFormData.flat.designation
+                },
                 employeeData = {
                     firstName: $scope.employeeFormData.firstName,
                     lastName: $scope.employeeFormData.lastName,
@@ -313,6 +317,7 @@ angular
                     username: $scope.employeeFormData.username,
                     password: $scope.employeeFormData.password,
                     userRoles: ['SYS_ADMIN'],
+                    address : $scope.employeeFormData.address
                 }
 
 //                    employeeData.address = {
