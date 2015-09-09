@@ -1,309 +1,307 @@
-
-		<div id="clientFormBox" ng-show="isShownForm" class="row col-md-12 centered">
+<div id="clientFormBox" ng-show="isShownForm" class="row col-md-12 centered">
 		<div class="row">
-            <div class="col-md-12">
-                <h1 class="page-header">Додати повірку</h1>
-            </div>
-   		</div>
-			<form id="clientForm" name="clientForm" class="form-horizontal form-group" ng-submit="sendApplicationData()" novalidate>
-				<div class="form-group" show-errors>
-					<label for="lastName" class="col-md-2 control-label">
-						{{'LAST_NAME' | translate}} </label>
-					<div class="col-md-8">
-						<input id="lastName" name="lastName" class="form-control" type="text" ng-model="formData.lastName" popover="{{'ALPHABETIC_INFO' | translate}}"
-							popover-trigger="focus" popover-placement="right" ng-pattern="FIRST_LAST_NAME_REGEX" required> 
+			<div class="col-md-12">
+				<h1 class="page-header">Додати повірку</h1>
+			</div>
+		</div>
+		<form id="clientForm" name="clientForm" class="form-horizontal form-group" ng-submit="sendApplicationData()" novalidate>
+			<div class="form-group" show-errors>
+				<label for="lastName" class="col-md-2 control-label">
+					{{'LAST_NAME' | translate}} </label>
+				<div class="col-md-8">
+					<input id="lastName" name="lastName" class="form-control" type="text" ng-model="formData.lastName" popover="{{'ALPHABETIC_INFO' | translate}}"
+						   popover-trigger="focus" popover-placement="right" ng-pattern="FIRST_LAST_NAME_REGEX" required>
 							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack">
 							</span>
-						<p class="help-block" ng-if="clientForm.lastName.$error.required">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'REQUIRED' | translate}}
-						</p>
-						<p class="help-block" ng-if="clientForm.lastName.$error.pattern">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'DOUBLE_NAME_ERROR' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="firstName" class="col-md-2 control-label">
-						{{'FIRST_NAME' | translate}} </label>
-					<div class="col-md-8">
-						<input id="firstName" name="firstName" class="form-control" ng-model="formData.firstName"
-							popover="{{'ALPHABETIC_INFO' | translate}}" popover-trigger="focus" popover-placement="right" ng-pattern="FIRST_LAST_NAME_REGEX" required> 
-							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack">
-							</span>
-						<p class="help-block" ng-if="clientForm.firstName.$error.required">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'REQUIRED' | translate}}
-						</p>
-						<p class="help-block" ng-if="clientForm.firstName.$error.pattern">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'DOUBLE_NAME_ERROR' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="middleName" class="col-md-2 control-label">
-						{{'MIDDLE_NAME' | translate}} </label>
-					<div class="col-md-8">
-						<input id="middleName" name="middleName" type="text" class="form-control" ng-model="formData.middleName"
-							popover="{{'MIDDLE_NAME_INFO' | translate}}" popover-trigger="focus" popover-placement="right" ng-pattern="MIDDLE_NAME_REGEX" required>
-							 <span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
-						<p class="help-block" ng-if="clientForm.middleName.$error.required">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'REQUIRED' | translate}}
-						</p>
-						<p class="help-block" ng-if="clientForm.middleName.$error.pattern">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'ALPHABETIC_ERROR' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="email" class="col-md-2 control-label">
-						{{'EMAIL' | translate}} </label>
-					<div class="col-md-8">
-						<input id="email" name="email" type="email" class="form-control" ng-model="formData.email" placeholder="example@gmail.com"
-							ng-pattern="EMAIL_REGEX" required>
-							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack">
-							</span>
-						<p class="help-block" ng-if="clientForm.email.$error.email">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
-						</p>
-						<p class="help-block" ng-if="clientForm.email.$error.required">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'REQUIRED' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="phoneNumber" class="col-md-2 control-label">
-						{{'PHONE_NUMBER' | translate}} </label>
-					<div class="col-md-8">
-						<div>
-							<div class="input-group">
-								<span class="input-group-addon" id="basic-addon-code">+380</span>
-								<input id="phoneNumber" name="phoneNumber" type="tel" class="form-control col-md-8 " ng-model="formData.phone"
-									placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
-								<span class="input-group-addon">{{'SECOND_PHONE' |translate}}</span>
-								<span class="input-group-addon"> 
-								 	<input type="checkbox" ng-model="checkboxModel">
-								</span>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<p class="help-block col-md-8 col-md-offset-2" ng-if="clientForm.phoneNumber.$error.pattern">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'PHONE_NUMBER_ERROR' | translate}}
-						<p class="help-block col-md-8 col-md-offset-2" ng-if="clientForm.email.$error.required">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'REQUIRED' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors ng-show="checkboxModel">
-					<label for="phoneNumber1" class="col-md-2 control-label">
-						{{'SECOND_PHONE' | translate}} </label>
-					<div class="col-md-8">
-						<div>
-							<div class="input-group" ng-show="checkboxModel">
-
-								<span class="input-group-addon" id="basic-addon-code">+380</span>
-								<input id="phoneNumberSecond" name="phoneNumberSecond" class="form-control" ng-model="formData.secondPhone"
-									placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX_SECOND" popover="{{'PHONE_NUMBER_INFO' | translate}}"
-									popover-trigger="focus" popover-placement="right">
-							</div>
-							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack" ng-show="checkboxModel"></span>
-						</div>
-					</div>
-					<div class="form-group">
-						<p class="help-block col-md-8 col-md-offset-2"
-							ng-if="clientForm.phoneNumberSecond.$error.pattern">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'PHONE_NUMBER_ERROR' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="region" class="col-md-2 control-label">
-						{{'REGION' | translate}} </label>
-					<div class="col-md-8">
-						<select chosen id="region" name="region" type="text" class="form-control " ng-model="selectedRegion"
-							allow-single-deselect="false" ng-options="region as region.designation for region in regions | filter: $viewValue"
-							ng-change="receiveDistricts(selectedRegion)"  required>
-						</select>
-						<p class="help-block">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'TYPEAHEAD_ERROR' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="district" class="col-md-2 control-label">
-						{{'DISTRICT' | translate}} </label>
-					<div class="col-md-8">
-						<select chosen id="district" name="district" class="form-control" type="text" ng-model="selectedDistrict"
-							allow-single-deselect="false" ng-options="district as district.designation for district in districts | filter: $viewValue"
-							ng-change="receiveLocalitiesAndProviders(selectedDistrict)" required>
-						</select>
-						<p class="help-block">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'TYPEAHEAD_ERROR' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="locality" class="col-md-2 control-label">
-						{{'LOCALITY' | translate}} </label>
-					<div class="col-md-8">
-						<select chosen id="locality" name="locality" class="form-control" ng-model="selectedLocality" allow-single-deselect="false"
-							ng-options="locality as locality.designation for locality in localities | filter: $viewValue" ng-change="receiveStreets(selectedLocality,selectedDistrict)"   required>
-						</select>
-						<p class="help-block">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'TYPEAHEAD_ERROR' | translate}}
-						</p>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="Index" class="col-md-2 control-label"> {{'INDEX' | translate}}
-					</label>
-
-					<div class="col-md-8">
-						<select chosen id="index" name="index" class="form-control"
-								ng-model="selectedIndex" allow-single-deselect="true"
-								disable-search="true"
-								ng-options="index as index.mailIndex for index in indexes | filter: $viewValue" width="'100%'" required></select>
-					</div>
-				</div>
-				<div class="form-group" show-errors>
-					<label for="street" class="col-md-2 control-label">
-						{{'STREET' | translate}} </label>
-
-					<div class="col-md-8">
-						<div class="pull-left col-lg-3" id="typeStreet">
-							<select  chosen data-placeholder="Тип вулиці" width="'90%'" class="form-control" ng-model="selectedStreetType"
-									 disable-search="true" ng-options="streetsType as streetsType.designation for streetsType in streetsTypes | filter: $viewValue"></select>
-						</div>
-						<div class="col-md-9" id="streetBox" >
-							<input  name="street" class="form-control" type="text"
-								 ng-model="selectedStreet"
-								 typeahead="street as street.designation for street in streets | filter: $viewValue"
-								 ng-pattern="STREET_REGEX"
-								 typeahead-on-select="receiveBuildings(selectedStreet)"
-								 required>
-
-
-						</div>
-						<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
-
-					</div>
-					<p class="help-block col-md-offset-2">
+					<p class="help-block" ng-if="clientForm.lastName.$error.required">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'REQUIRED' | translate}}
+					</p>
+					<p class="help-block" ng-if="clientForm.lastName.$error.pattern">
 						<span class="glyphicon glyphicon-exclamation-sign"></span>
 						{{'DOUBLE_NAME_ERROR' | translate}}
 					</p>
 				</div>
-				<div class="form-group" show-errors>
-					<label for="building" class="col-md-2 control-label">
-						{{'BUILDING' | translate}} </label>
-					<div class="col-md-8">
-						<input id="building" name="building" class="form-control" ng-model=" selectedBuilding"
-							typehead="building as building.designation for building in buildings | filter: $viewValue" ng-pattern="BUILDING_REGEX" required>
-							<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
-						<p class="help-block">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'REQUIRED' | translate}}
-						</p>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="firstName" class="col-md-2 control-label">
+					{{'FIRST_NAME' | translate}} </label>
+				<div class="col-md-8">
+					<input id="firstName" name="firstName" class="form-control" ng-model="formData.firstName"
+						   popover="{{'ALPHABETIC_INFO' | translate}}" popover-trigger="focus" popover-placement="right" ng-pattern="FIRST_LAST_NAME_REGEX" required>
+							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack">
+							</span>
+					<p class="help-block" ng-if="clientForm.firstName.$error.required">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'REQUIRED' | translate}}
+					</p>
+					<p class="help-block" ng-if="clientForm.firstName.$error.pattern">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'DOUBLE_NAME_ERROR' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="middleName" class="col-md-2 control-label">
+					{{'MIDDLE_NAME' | translate}} </label>
+				<div class="col-md-8">
+					<input id="middleName" name="middleName" type="text" class="form-control" ng-model="formData.middleName"
+						   popover="{{'MIDDLE_NAME_INFO' | translate}}" popover-trigger="focus" popover-placement="right" ng-pattern="MIDDLE_NAME_REGEX" required>
+					<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
+					<p class="help-block" ng-if="clientForm.middleName.$error.required">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'REQUIRED' | translate}}
+					</p>
+					<p class="help-block" ng-if="clientForm.middleName.$error.pattern">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'ALPHABETIC_ERROR' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="email" class="col-md-2 control-label">
+					{{'EMAIL' | translate}} </label>
+				<div class="col-md-8">
+					<input id="email" name="email" type="email" class="form-control" ng-model="formData.email" placeholder="example@gmail.com"
+						   ng-pattern="EMAIL_REGEX" required>
+							<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack">
+							</span>
+					<p class="help-block" ng-if="clientForm.email.$error.email">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
+					</p>
+					<p class="help-block" ng-if="clientForm.email.$error.required">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'REQUIRED' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="phoneNumber" class="col-md-2 control-label">
+					{{'PHONE_NUMBER' | translate}} </label>
+				<div class="col-md-8">
+					<div>
+						<div class="input-group">
+							<span class="input-group-addon" id="basic-addon-code">+380</span>
+							<input id="phoneNumber" name="phoneNumber" type="tel" class="form-control col-md-8 " ng-model="formData.phone"
+								   placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
+							<span class="input-group-addon">{{'SECOND_PHONE' |translate}}</span>
+								<span class="input-group-addon">
+								 	<input type="checkbox" ng-model="checkboxModel">
+								</span>
+						</div>
 					</div>
 				</div>
-				<div class="form-group" show-errors>
-					<label for="flat" class="col-md-2 control-label">{{'FLAT' | translate}}</label>
-					<div class="col-md-8">
-						<input id="flat" name="flat" class="form-control"
-							ng-model="formData.flat" popover="{{'FLAT_INFO' | translate}}"
-							popover-trigger="focus" popover-placement="right"
-							ng-pattern="FLAT_REGEX" required> <span
-							class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
-						<p class="help-block" ng-if="clientForm.flat.$error.required">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'REQUIRED' | translate}}
-						</p>
+				<div class="form-group">
+					<p class="help-block col-md-8 col-md-offset-2" ng-if="clientForm.phoneNumber.$error.pattern">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'PHONE_NUMBER_ERROR' | translate}}
+					<p class="help-block col-md-8 col-md-offset-2" ng-if="clientForm.email.$error.required">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'REQUIRED' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors ng-show="checkboxModel">
+				<label for="phoneNumber1" class="col-md-2 control-label">
+					{{'SECOND_PHONE' | translate}} </label>
+				<div class="col-md-8">
+					<div>
+						<div class="input-group" ng-show="checkboxModel">
+
+							<span class="input-group-addon" id="basic-addon-code">+38</span>
+							<input id="phoneNumberSecond" name="phoneNumberSecond" class="form-control" ng-model="formData.secondPhone"
+								   placeholder="0XXXXXXXXX" ng-pattern="PHONE_REGEX_SECOND" popover="{{'PHONE_NUMBER_INFO' | translate}}"
+								   popover-trigger="focus" popover-placement="right">
+						</div>
+						<span class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack" ng-show="checkboxModel"></span>
 					</div>
 				</div>
-				
-				<div class="form-group" ng-show="isCalibrator>0">
-					<label for="provider" class="col-md-2 control-label">
+				<div class="form-group">
+					<p class="help-block col-md-8 col-md-offset-2"
+					   ng-if="clientForm.phoneNumberSecond.$error.pattern">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'PHONE_NUMBER_ERROR' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="region" class="col-md-2 control-label">
+					{{'REGION' | translate}} </label>
+				<div class="col-md-8">
+					<select chosen id="region" name="region" type="text" class="form-control " ng-model="selectedRegion"
+							allow-single-deselect="false" ng-options="region as region.designation for region in regions | filter: $viewValue"
+							ng-change="receiveDistricts(selectedRegion)"  required>
+					</select>
+					<p class="help-block">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'TYPEAHEAD_ERROR' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="district" class="col-md-2 control-label">
+					{{'DISTRICT' | translate}} </label>
+				<div class="col-md-8">
+					<select chosen id="district" name="district" class="form-control" type="text" ng-model="selectedDistrict"
+							allow-single-deselect="false" ng-options="district as district.designation for district in districts | filter: $viewValue"
+							ng-change="receiveLocalitiesAndProviders(selectedDistrict)" required>
+					</select>
+					<p class="help-block">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'TYPEAHEAD_ERROR' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="locality" class="col-md-2 control-label">
+					{{'LOCALITY' | translate}} </label>
+				<div class="col-md-8">
+					<select chosen id="locality" name="locality" class="form-control" ng-model="selectedLocality" allow-single-deselect="false"
+							ng-options="locality as locality.designation for locality in localities | filter: $viewValue" ng-change="receiveStreets(selectedLocality,selectedDistrict)"   required>
+					</select>
+					<p class="help-block">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'TYPEAHEAD_ERROR' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="Index" class="col-md-2 control-label"> {{'INDEX' | translate}}
+				</label>
+
+				<div class="col-md-8">
+					<select chosen id="index" name="index" class="form-control"
+							ng-model="selectedIndex" allow-single-deselect="true"
+							disable-search="true"
+							ng-options="index as index.mailIndex for index in indexes | filter: $viewValue" width="'100%'" required></select>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="street" class="col-md-2 control-label">
+					{{'STREET' | translate}} </label>
+
+				<div class="col-md-8">
+					<div class="pull-left col-lg-3" id="typeStreet">
+						<select  chosen data-placeholder="Тип вулиці" width="'90%'" class="form-control" ng-model="selectedStreetType"
+								 disable-search="true" ng-options="streetsType as streetsType.designation for streetsType in streetsTypes | filter: $viewValue"></select>
+					</div>
+					<div class="col-md-9" id="streetBox" >
+						<input  name="street" class="form-control" type="text"
+								ng-model="selectedStreet"
+								typeahead="street as street.designation for street in streets | filter: $viewValue"
+								ng-pattern="STREET_REGEX"
+								typeahead-on-select="receiveBuildings(selectedStreet)"
+								required>
+
+
+					</div>
+					<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
+
+				</div>
+				<p class="help-block col-md-offset-2">
+					<span class="glyphicon glyphicon-exclamation-sign"></span>
+					{{'DOUBLE_NAME_ERROR' | translate}}
+				</p>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="building" class="col-md-2 control-label">
+					{{'BUILDING' | translate}} </label>
+				<div class="col-md-8">
+					<input id="building" name="building" class="form-control" ng-model=" selectedBuilding"
+						   typehead="building as building.designation for building in buildings | filter: $viewValue" ng-pattern="BUILDING_REGEX" required>
+					<span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
+					<p class="help-block">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'REQUIRED' | translate}}
+					</p>
+				</div>
+			</div>
+			<div class="form-group" show-errors>
+				<label for="flat" class="col-md-2 control-label">{{'FLAT' | translate}}</label>
+				<div class="col-md-8">
+					<input id="flat" name="flat" class="form-control"
+						   ng-model="formData.flat" popover="{{'FLAT_INFO' | translate}}"
+						   popover-trigger="focus" popover-placement="right"
+						   ng-pattern="FLAT_REGEX" required> <span
+						class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign" id="okFeedBack"></span>
+					<p class="help-block" ng-if="clientForm.flat.$error.required">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'REQUIRED' | translate}}
+					</p>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="isCalibrator>0">
+				<label for="provider" class="col-md-2 control-label">
 					{{'I_AM_CALIBRATOR' | translate}}
-					</label>
-					<div class="col-md-1" >
-						<input  type="checkbox" class="form-control" ng-model="calibratorDefined" >
-					</div>	
+				</label>
+				<div class="col-md-1" >
+					<input  type="checkbox" class="form-control" ng-model="calibratorDefined" >
 				</div>
-				<div class="form-group" show-errors  ng-hide="calibratorDefined">
-					<label for="calibrator" class="col-md-2 control-label">
-						{{'CALIBRATOR' | translate}} </label>
-					<div class="col-md-8 "  >
-						<select chosen id="calibrator" name="calibrator" class="form-control" ng-model="selectedCalibrator" allow-single-deselect="false"
+			</div>
+			<div class="form-group" show-errors  ng-hide="calibratorDefined">
+				<label for="calibrator" class="col-md-2 control-label">
+					{{'CALIBRATOR' | translate}} </label>
+				<div class="col-md-8 "  >
+					<select chosen id="calibrator" name="calibrator" class="form-control" ng-model="selectedCalibrator" allow-single-deselect="false"
 							ng-options="calibrator as calibrator.designation for calibrator in calibrators | filter: $viewValue" required>
-						</select>	
-					</div>				
+					</select>
 				</div>
-				<div class="form-group" ng-show="calibratorDefined">
-					<label for="calibrator" class="col-md-2 control-label">
-						{{'CALIBRATOR' | translate}} </label>
-					<div class="col-md-8 " >
-						<input id="calibratorInfo" name="calibratorInfo"  class="form-control" ng-model="selectedCalibrator.designation" placeholder={{selectedCalibrator.designation}} readonly>
-					</div>
+			</div>
+			<div class="form-group" ng-show="calibratorDefined">
+				<label for="calibrator" class="col-md-2 control-label">
+					{{'CALIBRATOR' | translate}} </label>
+				<div class="col-md-8 " >
+					<input id="calibratorInfo" name="calibratorInfo"  class="form-control" ng-model="selectedCalibrator.designation" placeholder={{selectedCalibrator.designation}} readonly>
 				</div>
-				<div class="form-group" show-errors>
-					<label for="device" class="col-md-2 control-label">
-						{{'TYPE_OF_COUNTER' | translate}} </label>
-					<div class="col-md-8 ">
-						<div class="pull-left col-lg-3" id="counterNumber">
-							<select chosen  width="'100%'"
-								 disable-search="true"
-								 name="typeStreet" type="text"
+			</div>
+			<div class="form-group" show-errors>
+				<label for="device" class="col-md-2 control-label">
+					{{'TYPE_OF_COUNTER' | translate}} </label>
+				<div class="col-md-8 ">
+					<div class="pull-left col-lg-3" id="counterNumber">
+						<select chosen  width="'100%'"
+								disable-search="true"
+								name="typeStreet" type="text"
 								ng-model="selectedCount" class="form-control"  required >
 
-								<option value="0">0</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
+							<option value="0">0</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
 
-							</select>
-							
-						</div>
-						<div class="col-md-9 pull-right" id="deviceBox" >
-							<select chosen name="device" type="text"  width="'100%'"
+						</select>
+
+					</div>
+					<div class="col-md-9 pull-right" id="deviceBox" >
+						<select chosen name="device" type="text"  width="'100%'"
 								ng-model="selectedDevice" data-placeholder="Choose counter type"
 								ng-options="device as device.designation for device in devices | filter: $viewValue"
 								required> </select>
 
-						</div>
-						<p class="help-block">
-							<span class="glyphicon glyphicon-exclamation-sign"></span>
-							{{'TYPEAHEAD_ERROR' | translate}}
-						</p>
 					</div>
+					<p class="help-block">
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						{{'TYPEAHEAD_ERROR' | translate}}
+					</p>
 				</div>
-				<div class="form-group">
-					<div class="col-md-offset-2 col-md-8">
-						<button type="submit" class="btn btn-success text-uppercase pull-left" ng-show="!showEditButton">
-						{{'SEND_BTN' | translate}}
-						</button>
-					</div>
-				</div>
-			</form>
-		</div>
-		<div ng-show="!isShownForm " class="row col-md-12 alert alert-success alert-dismissible centered" role="alert">
-			<button ng-click="closeAlert()" type="button" class="close btn-close-alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<i ng-show="!applicationCode" class="fa fa-3x fa-spinner fa-spin col-md-6 col-md-offset-5"></i>
-			<div class="text-center" ng-show="applicationCode">
-				{{'APP_SENT_ORG' | translate}} <b>{{ applicationCode }} </b> <br>
 			</div>
-		</div>	
-
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-8">
+					<button type="submit" class="btn btn-success text-uppercase pull-left" ng-show="!showEditButton">
+						{{'SEND_BTN' | translate}}
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div ng-show="!isShownForm " class="row col-md-12 alert alert-success alert-dismissible centered" role="alert">
+		<button ng-click="closeAlert()" type="button" class="close btn-close-alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<i ng-show="!applicationCode" class="fa fa-3x fa-spinner fa-spin col-md-6 col-md-offset-5"></i>
+		<div class="text-center" ng-show="applicationCode">
+			{{'APP_SENT_ORG' | translate}} <b>{{ applicationCode }} </b> <br>
+		</div>
+	</div>

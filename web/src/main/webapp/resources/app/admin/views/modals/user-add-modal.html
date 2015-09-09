@@ -9,13 +9,12 @@
     && !employeeForm.password.$error.required && onEmployeeFormSubmit()">
 
         <div class="row">
-            <div class="form-group col-md-4" ng-show="showListOfOrganization">
+            <div class="form-group col-md-4" ><!-- ng-show="showListOfOrganization" -->
                 <label class="control-label">{{'EMPLOYEE_TYPE' | translate }}</label>
             </div>
             <div id="po" class="form-group col-md-8">
-                <div ng-show="showListOfOrganizationChosenOne">
-                    <select multiple chosen
-                            data-placeholder="{{'SELECT_TYPE_OF_ORGANIZATION' | translate}}"
+                <div ><!-- ng-show="showListOfOrganizationChosenOne" -->
+                    <select data-placeholder="{{'SELECT_TYPE_OF_ORGANIZATION' | translate}}"
                             ng-model="selectedEmployee"
                             ng-change="choose(selectedEmployee)"
                             required>
@@ -76,7 +75,7 @@
 
                         <div ng-show="employeeForm.$submitted || employeeForm.firstName.$touched">
                             <p class="validation-message" ng-if="employeeForm.firstName.$error.required">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                <span class="glyphicon glyphicon-exclamation-sign "></span>
                                 {{'REQUIRED' | translate}}
                             </p>
 

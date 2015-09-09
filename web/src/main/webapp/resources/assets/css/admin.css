@@ -356,6 +356,10 @@ table.dataTable thead .sorting:after {
 
 /* Form validation */
 
+.form-group .has-error .help-block {
+    display: block;
+}
+
 .form-group .glyphicon-ok-sign {
     display: none;
 }
@@ -363,6 +367,10 @@ table.dataTable thead .sorting:after {
 .form-group .has-success .glyphicon-ok-sign {
     display: block;
     color: green;
+}
+
+.validation-message {
+    color: red;
 }
 
 

@@ -210,7 +210,7 @@
   "RESTORE":"Restore",
   "MAIN_PANEL_PROVIDER":"Main panel provider",
   "STATUS":"Status",
-  "INITIAL_DATE":"Initial date",
+  "INITIAL_DATE":"Receiving        date",
   "CLIENT_STREET":"Client street",
   "CLIENT_LAST_NAME":"Client last name",
   "CLIENT_FIRST_NAME": "Client first name",
