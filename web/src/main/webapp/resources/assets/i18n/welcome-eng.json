@@ -261,6 +261,7 @@
 
   
   "VERIFICATION_PROTOCOLS": "Verification protocols",
-  "CREATE_TEST": "Create test"
+  "CREATE_TEST": "Create test",
+  "ADD_NEW_SYS_ADMIN" : "Add new system admin"
 
 }
