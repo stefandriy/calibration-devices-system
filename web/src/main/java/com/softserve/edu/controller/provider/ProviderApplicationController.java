@@ -116,12 +116,12 @@ public class ProviderApplicationController {
 		Verification verification = verificationService.findById(reject.getVerifID());
     	String name = verification.getClientData().getFirstName();
     	String sendTo = verification.getClientData().getEmail();
-    	mail.sendRejectMail(sendTo, name, reject.getVerifID(), reject.getMsg(), verification.getDevice().getDeviceType().toString());
         //saving rejectMessage in database if verification is rejected
         if (verification.getStatus() == Status.REJECTED) {
             verification.setRejectedMessage(reject.getMsg());
             verificationService.saveVerification(verification);
         }
+    	mail.sendRejectMail(sendTo, name, reject.getVerifID(), reject.getMsg(), verification.getDevice().getDeviceType().toString());
     	return reject.getVerifID();
 	}
 }
