@@ -69,8 +69,9 @@
                                                 ng-click="removeCalibratorEmployee(verification.id)">
                                         </img>                                   
                                         <img src="/resources/assets/button-icons/test.png"
-                                        popover="{{'VERIFICATION_PROTOCOLS' | translate}}" popover-trigger="mouseenter"
-                                        ng-click="openTests(verification.id)">
+                                            popover="Протокол повірки" popover-trigger="mouseenter"
+                                            popover="{{'VERIFICATION_PROTOCOLS' | translate}}" popover-trigger="mouseenter"
+                                            ng-click="openTests(verification.id)">
                                         </img>
                                         <img src="/resources/assets/button-icons/upload.png" ng-show="!verification.upload" type="button"
                                                  popover="Завантажити файл"
@@ -83,11 +84,17 @@
                                                 popover-trigger="mouseenter"
                                                 ng-click="cancelBbiFile(verification.id)">
                                         </img>
-                                         <a popover="Download doc in 'docx' format"
+
+                                        <a popover="Download doc in 'docx' format"
                                            popover-trigger="mouseenter"
                                            href="{{'/doc/info/' + verification.id + '/docx'}}">
                                             <i class="fa fa-file-word-o"></i>
                                         </a>
+
+                                        <span style="color: forestgreen;" popover="Планування завдання"
+                                              popover-trigger="mouseenter" >
+                                            <i class="fa fa-tasks"></i>
+                                        </span>
                                        </div>
                                  
                                     </td>
