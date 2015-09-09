@@ -17,7 +17,7 @@ public class UsersPageItem {
     private Boolean isAvaliable;
 
     private String organization;
-    private Long countOfVarification;
+    private Long countOfVerification;
     private Long calibratorTasks;
 
     public UsersPageItem() {
@@ -110,12 +110,12 @@ public class UsersPageItem {
         this.organization = organization;
     }
 
-    public Long getCountOfVarification() {
-        return countOfVarification;
+    public Long getCountOfVerification() {
+        return countOfVerification;
     }
 
-    public void setCountOfVarification(Long countOfVarification) {
-        this.countOfVarification = countOfVarification;
+    public void setCountOfVerification(Long countOfVerification) {
+        this.countOfVerification = countOfVerification;
     }
 
 
@@ -137,7 +137,7 @@ public class UsersPageItem {
 
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
                          String middleName, String phone, String organization,
-                         Long countOfVarification,Long calibratorTasks, Boolean isAvaliable) {
+                         Long countOfVerification,Long calibratorTasks, Boolean isAvaliable) {
 
         this.username = username;
         if (roles.size() == 1) {
@@ -153,7 +153,7 @@ public class UsersPageItem {
         this.middleName = middleName;
         this.phone = phone;
         this.organization = organization;
-        this.countOfVarification = countOfVarification;
+        this.countOfVerification = countOfVerification;
         this.calibratorTasks=calibratorTasks;
         this.isAvaliable = isAvaliable;
     }
@@ -173,7 +173,7 @@ public class UsersPageItem {
                 ", phone='" + phone + '\'' +
                 ", isAvaliable=" + isAvaliable +
                 ", organization='" + organization + '\'' +
-                ", countOfVarification=" + countOfVarification +
+                ", countOfVerification=" + countOfVerification +
                 '}';
     }
 

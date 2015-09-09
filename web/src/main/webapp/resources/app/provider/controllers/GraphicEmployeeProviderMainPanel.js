@@ -32,11 +32,6 @@ angular
                                 text: 'Кількість заявок, що надійшли до організації',
                                 x: -20 //center
                             },
-                            subtitle: {
-                                text: 'Графік з загальної кількості заявок, що надійшли до організації',
-                                x: -20
-                            },
-
                             xAxis: {
                                 categories: $scope.listMonth,
                                 crosshair: true
