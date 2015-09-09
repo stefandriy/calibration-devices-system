@@ -30,6 +30,7 @@
     "ng-file-upload": "5.0.9",
     "ng-table": "0.3.1",
     "requirejs": "2.1.17",
+    "select2-bootstrap-css": "~1.4.6",
     "spring-security-csrf-token-interceptor": "0.1.5",
     "ui-select": "angular-ui-select#~0.12.1"
   },
