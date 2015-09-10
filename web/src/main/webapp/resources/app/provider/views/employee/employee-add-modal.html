@@ -200,9 +200,11 @@
                         <label class="control-label">{{'PASSWORD_TWO' | translate}}*</label>
                     </div>
                     <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
+                        <input type="password" ng-model="employeeFormData.password" style="display: none">
                         <input type="password" ng-model="employeeFormData.password" ng-change="checkPasswords()"
                                name="password" class="form-control" required>
                     </div>
+
                 </div>
 
                 <div class="row">
