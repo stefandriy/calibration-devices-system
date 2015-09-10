@@ -19,6 +19,7 @@
           href="/resources/assets/bower_components/chosen/chosen.min.css">
     <link href="/resources/assets/css/admin.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/angular-loading-bar/build/loading-bar.css" rel="stylesheet">
+    <link rel="stylesheet" href="/resources/assets/css/provider.css"/>
 
 
 
@@ -60,34 +61,33 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown" dropdown>
                 <a class="dropdown-toggle" dropdown-toggle>
+                    <div>
+                        <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}}"></label>
+                        <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
+                    </div>
 
-                    <label translate="{{employee.firstName}} {{employee.lastName}}
-                     {{employee.middleName}} ({{employee.username}})" >
-
-
-                    </label>
-
-                    <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-user" style="background-color: lightskyblue ">
-                    <li class="user-header bg-light-blue">
-                        <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-circle"
-                             alt="User Image"/>
 
-                        <label translate="{{employee.firstName}} {{employee.lastName}}
-                     {{employee.middleName}} ({{employee.username}})" >
-                        </label>
+
+                <ul class="dropdown-menu dropdown-user dropdown_style">
+                    <li class="user-header bg-light-blue">
+                        <div class="profile_information_labal">
+                            <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-rounded" style="border-radius: 30px"
+                                 alt="User Image"/>
+                            <label translate="{{employee.firstName}} {{employee.lastName}}
+                        {{employee.middleName}} ({{employee.username}})"/>
+                        </div>
                     </li>
                     <li class="user-footer">
-                        <div style="width: 100%">
-                            <a href="#" class="btn btn-default" style="color: #2C1919 ;width:230px">Profile</a>
+                        <div class="profile_information_labal">
+                            <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
                         </div>
-                        <div style="width: 100%">
-                            <a class="btn btn-default" style="color: #2C1919;width:230px" translate="SETTINGS"></a>
+                        <div class="profile_information_labal">
+                            <a class="btn btn-default ref_style_label"  translate="SETTING"></a>
                         </div>
-                        <div style="width: 100%">
-                            <a ng-click="logout()" class="btn btn-default" style="color: #2C1919 ;width:230px"
-                                    translate="LOG_OUT"> </a>
+                        <div class="profile_information_labal">
+                            <a ng-click="logout()" class="btn btn-default ref_style_label"
+                               translate="LOG_OUT"> </a>
                         </div>
                     </li>
                 </ul>
