@@ -8,103 +8,124 @@
 
     <div class="row">
         <div class="col-md-12">
-			<div class="">
-         		<div class="row">
+            <div class="">
+                <div class="row">
                     <div class="col-md-6">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="initiateVerification()">
-                                   <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
-                                   </button>
-                            </div>
-                    
+                        <button type="button" class="btn btn-primary"
+                                ng-click="initiateVerification()">
+                            <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
+                        </button>
+                    </div>
+
                     <div class="clearfix col-md-offset-10">
-                                <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
-                                  {{'CLEAR_ALL' | translate }}
-                                </button>
+                        <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
+                            {{'CLEAR_ALL' | translate }}
+                        </button>
                     </div>
                 </div>
-           </div>
-                   
-                    <br/>
+            </div>
+
+            <br/>
+
             <div class="panel panel-default">
-           
+
                 <div class="panel-heading">
-                   <span> Останні дані</span>
+                    <span> Останні дані</span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
-                
+
                 <div class="panel-body">
-                    
+
                     <div class="row">
                         <div class="col-md-12">
-                             <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
+                            <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                                    class="table table-bordered table-hover users_table">
 
                                 <tbody>
-                                <tr ng-repeat="verification in $data"  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                    <td data-title="''"> <input type="checkbox" ng-show="verification.calibratorEmployee" ng-click="resolveVerificationId(verification.id)"/></td>
-                                    <td data-title="'INITIAL_DATE' | translate" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}
-                                    	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
+                                <tr ng-repeat="verification in $data"
+                                    ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
+                                    <td data-title="''"><input type="checkbox" ng-show="verification.calibratorEmployee"
+                                                               ng-click="resolveVerificationId(verification.id)"/></td>
+                                    <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
+                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
+                                        'dd-MM-yyyy'}}
+                                        <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
+                                            translate}} {{verification.processTimeExceeding}} {{'DAYS' |
+                                            translate}}</b>
+                                        </div>
                                     </td>
-                                    <td data-title="'VERIFICATION_ID' | translate"  sortable="'id'" filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}</td>
+                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
+                                        filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
+                                    </td>
                                     <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
                                         filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
                                     </td>
-                                    <td data-title="'CLIENT_STREET' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
-                                    <td data-title="'STATUS' | translate" sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status | translate }}</td>
-                                    <td data-title="'EMPLOYEE_LAST_NAME' | translate"  sortable="'employee_last_name'" filter="{ 'employee_last_name': 'text' }">{{ verification.calibratorEmployee }}</td>
+                                    <td data-title="'CLIENT_STREET' | translate" sortable="'street'"
+                                        filter="{ 'street': 'text' }">{{ verification.street }}
+                                    </td>
+                                    <td data-title="'STATUS' | translate" sortable="'status'"
+                                        filter="{ 'status': 'status' }">{{ verification.status | translate }}
+                                    </td>
+                                    <td data-title="'EMPLOYEE_SINGLE' | translate" sortable="'employee_last_name'"
+                                        filter="{ 'employee_last_name': 'text' }">{{ verification.calibratorEmployee }}
+                                    </td>
                                     <td data-title="'ACTIONS' | translate" style="width: 15%">
-                                     
-                                       <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
-                                         	<img src="/resources/assets/button-icons/details.png"  popover="Детальніше"
-                                                popover-trigger="mouseenter"
-                                                ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
-                                        </img>
-                                        <img src="/resources/assets/button-icons/face2.png" ng-show="!verification.calibratorEmployee"
-                                                popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
-                                                ng-click="addCalibratorEmployee(verification.id)">
-                                        </img>
-                                        <img src="/resources/assets/button-icons/close.png" ng-show="verification.calibratorEmployee"
-                                                popover="Скасувати відповідальну особу"
-                                                popover-trigger="mouseenter"
-                                                ng-click="removeCalibratorEmployee(verification.id)">
-                                        </img>                                   
-                                        <img src="/resources/assets/button-icons/test.png"
-                                            popover="Протокол повірки" popover-trigger="mouseenter"
-                                            popover="{{'VERIFICATION_PROTOCOLS' | translate}}" popover-trigger="mouseenter"
-                                            ng-click="openTests(verification.id)">
-                                        </img>
-                                        <img src="/resources/assets/button-icons/upload.png" ng-show="!verification.upload" type="button"
+
+                                        <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
+                                            <img src="/resources/assets/button-icons/details.png" popover="Детальніше"
+                                                 popover-trigger="mouseenter"
+                                                 ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
+                                            </img>
+                                            <img src="/resources/assets/button-icons/face2.png"
+                                                 ng-show="!verification.calibratorEmployee"
+                                                 popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                                 ng-click="addCalibratorEmployee(verification.id)">
+                                            </img>
+                                            <img src="/resources/assets/button-icons/close.png"
+                                                 ng-show="verification.calibratorEmployee"
+                                                 popover="Скасувати відповідальну особу"
+                                                 popover-trigger="mouseenter"
+                                                 ng-click="removeCalibratorEmployee(verification.id)">
+                                            </img>
+                                            <img src="/resources/assets/button-icons/test.png"
+                                                 popover="Протокол повірки" popover-trigger="mouseenter"
+                                                 popover="{{'VERIFICATION_PROTOCOLS' | translate}}"
+                                                 popover-trigger="mouseenter"
+                                                 ng-click="openTests(verification.id)">
+                                            </img>
+                                            <img src="/resources/assets/button-icons/upload.png"
+                                                 ng-show="!verification.upload" type="button"
                                                  popover="Завантажити файл"
-                                                popover-trigger="mouseenter"
-                                                ng-click="uploadBbiFile(verification.id)">
-                                        </img>
+                                                 popover-trigger="mouseenter"
+                                                 ng-click="uploadBbiFile(verification.id)">
+                                            </img>
 
-                                        <img src="/resources/assets/button-icons/close.png" ng-show="verification.upload" type="button"
-                                                popover="Видалити завантажений файл"
-                                                popover-trigger="mouseenter"
-                                                ng-click="cancelBbiFile(verification.id)">
-                                        </img>
+                                            <img src="/resources/assets/button-icons/close.png"
+                                                 ng-show="verification.upload" type="button"
+                                                 popover="Видалити завантажений файл"
+                                                 popover-trigger="mouseenter"
+                                                 ng-click="cancelBbiFile(verification.id)">
+                                            </img>
 
-                                        <a popover="Download doc in 'docx' format"
-                                           popover-trigger="mouseenter"
-                                           href="{{'/doc/info/' + verification.id + '/docx'}}">
-                                            <i class="fa fa-file-word-o"></i>
-                                        </a>
+                                            <a popover="Download doc in 'docx' format"
+                                               popover-trigger="mouseenter"
+                                               href="{{'/doc/info/' + verification.id + '/docx'}}">
+                                                <i class="fa fa-file-word-o"></i>
+                                            </a>
 
                                         <span style="color: forestgreen;" popover="Планування завдання"
-                                              popover-trigger="mouseenter" >
+                                              popover-trigger="mouseenter">
                                             <i class="fa fa-tasks"></i>
                                         </span>
-                                       </div>
-                                 
+                                        </div>
+
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                             <script type="text/ng-template" id="custom/pager">
                                 <div>
-                                     <ul class="pager ng-cloak">
+                                    <ul class="pager ng-cloak">
                                         <li ng-repeat="page in pages"
                                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
@@ -132,38 +153,52 @@
                                     </ul>
                                 </div>
                             </script>
-				 <script type="text/ng-template" id="ng-table/filters/date.html">
-     			 
+                            <script type="text/ng-template" id="ng-table/filters/daterange.html">
 
-					<div class="input-group myDatePicker">
-                        <input type="text" class="form-control input-md" datepicker-popup="{{format}}" ng-model="params.filter()[name]" name="filter-date"
-											 is-open="openState.isOpen" min-date="minDate" datepicker-options="dateOptions"
-                                                   date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                                <div class="input-group right-inner-addon" style="width: 100%">
+                                    <i id="calendar_icon" class="glyphicon glyphicon-calendar"
+                                       ng-click="showPicker($event)"></i>
+                                    <input date-range-picker="opts" class="form-control date-picker" type="text"
+                                           ng-model="myDatePicker.pickerDate" ng-change="doSearch()" options="opts"
+                                           id="datepickerfield" readonly/>
 
-											  <span class="input-group-btn ">
-											     <button type="button" class="btn btn-default myGroupBtn"
-                                                         ng-click="open($event)">
-                                                     <i class="glyphicon glyphicon-calendar"></i>
-                                                 </button>
-											  </span>
-                 </div>
-   				 </script>
-   				 
-	<script type="text/ng-template" id="ng-table/filters/status.html">
-     			 		<select chosen class="form-control input-sm" width="'80%'" disable-search="true" type="text" allow-single-deselect="false"	ng-model="selectedStatus.name"  ng-change="doSearch()"
- 							name="filter-status" ng-options="status as status.label for status in statusData" >
-						</select>
-					</script>
-                            		<p id="emptyError" ng-if="allIsEmpty && isClicked"
-                                       class="help-block">
-                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        Оберіть хоча б одну повірку
-                                    </p>
+                                        <span class="input-group-btn">
+                                                  <button type="button" class="btn btn-default myGroupBtn"
+                                                          ng-show="!isDateDefault()"
+                                                          ng-click="clearDate()">
+                                                      <i class="glyphicon glyphicon-remove"></i>
+                                                  </button>
+                                        </span>
+                                </div>
+                            </script>
+
+                            <script type="text/ng-template" id="ng-table/filters/status.html">
+                                <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
+                                           search-enabled="false"
+                                           name="filter-status">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="status in statusData">
+                                        <span ng-bind-html="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </script>
+                            <p id="emptyError" ng-if="allIsEmpty && isClicked"
+                               class="help-block">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                Оберіть хоча б одну повірку
+                            </p>
+
                             <div class="pull-left">
                                 <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span> Надіслати</button>
+                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
+                                    Надіслати
+                                </button>
                             </div>
-                        
+
                         </div>
                     </div>
                 </div>

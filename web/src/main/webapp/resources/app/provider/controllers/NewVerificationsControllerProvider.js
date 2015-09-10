@@ -176,7 +176,6 @@ angular
 
                             verificationServiceProvider.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                                 .success(function (result) {
-                                    $scope.loadingInfoFinished = true;
                                     $scope.resultsCount = result.totalItems;
                                     $defer.resolve(result.content);
                                     params.total(result.totalItems);

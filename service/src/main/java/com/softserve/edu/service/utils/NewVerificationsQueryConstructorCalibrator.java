@@ -11,6 +11,8 @@
 	import javax.persistence.criteria.*;
 	import java.text.ParseException;
 	import java.text.SimpleDateFormat;
+	import java.time.LocalDate;
+	import java.time.format.DateTimeFormatter;
 	import java.util.Calendar;
 	import java.util.Date;
 	import java.util.Set;
@@ -22,25 +24,25 @@
 		
 		/**
 		 * Method dynamically builds query to database depending on input parameters specified. 
-		 * 
-		 * @param lastNameToSearch
+		 *  @param lastNameToSearch
 		 * 		search by client's last name
 		 * @param providerEmployee
 		 * 		used to additional query restriction if logged user is simple employee (not admin)
-		 * @param providerId
-		 * 		search by organization ID
 		 * @param dateToSearch
-		 * 		search by initial date of verification (optional)
+ * 		search by initial date of verification (optional)
+		 * @param providerId
+* 		search by organization ID
+		 * @param startDateToSearch
+		 * @param endDateToSearch
 		 * @param idToSearch
 		 * 		search by verification ID
 		 * @param fullNameToSearch
-		 *@param streetToSearch
-		 * 		search by client's street
+		 * @param streetToSearch
+* 		search by client's street
 		 * @param em
- * 		EntityManager needed to have a possibility to create query   @return CriteriaQuery<Verification>
-		 */
-		public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String dateToSearch,
-																   String idToSearch, String fullNameToSearch, String streetToSearch, String region,
+		 * */
+		public static CriteriaQuery<Verification> buildSearchQuery(Long providerId, String startDateToSearch,
+																   String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String region,
 																   String district, String locality, String status,
 																   User calibratorEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
@@ -49,8 +51,8 @@
 				Root<Verification> root = criteriaQuery.from(Verification.class);
 				Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
-				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, providerId, dateToSearch, idToSearch,
-						fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
+				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, providerId, startDateToSearch, endDateToSearch,
+						idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
 				if((sortCriteria != null)&&(sortOrder != null)) {
 					criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 				} else {
@@ -64,24 +66,23 @@
 		/**
 		 * Method dynamically builds query to database depending on input parameters specified. 
 		 * Needed to get max count of rows with current predicates for pagination 
-		 * 
-		 * @param providerId
+		 *  @param providerId
 		 * 		search by organization ID
 		 * @param lastNameToSearch
 		 * 		search by client's last name
 		 * @param providerEmployee
-		 * 		used to additional query restriction if logged user is simple employee (not admin)
-		 * @param dateToSearch
-		 * 		search by initial date of verification (optional)
+ * 		used to additional query restriction if logged user is simple employee (not admin)
+		 * @param startDateToSearch
+* 		search by initial date of verification (optional)
+		 * @param endDateToSearch
 		 * @param idToSearch
 		 * 		search by verification ID
 		 * @param fullNameToSearch
-		 *@param streetToSearch
-		 * 		search by client's street
+		 * @param streetToSearch
+* 		search by client's street
 		 * @param em
- * 		EntityManager needed to have a possibility to create query   @return CriteriaQuery<Long>
-		 */
-		public static CriteriaQuery<Long> buildCountQuery(Long calibratorId, String dateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String region,
+		 * */
+		public static CriteriaQuery<Long> buildCountQuery(Long calibratorId, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String region,
 														  String district, String locality, String status,
 														  User calibratorEmployee, String employeeSearchName, EntityManager em) {
 			
@@ -89,8 +90,8 @@
 				CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 				Root<Verification> root = countQuery.from(Verification.class);
 				Join<Verification, Organization> calibratorJoin = root.join("calibrator");
-				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, calibratorId, dateToSearch, idToSearch,
-						fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
+				Predicate predicate = NewVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, calibratorJoin, calibratorId, startDateToSearch, endDateToSearch,
+						idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeSearchName);
 				countQuery.select(cb.count(root));
 				countQuery.where(predicate);
 				return countQuery;
@@ -98,19 +99,20 @@
 		/**
 		 * Method builds list of predicates depending on parameters passed
 		 * Rule for predicates compounding - conjunction (AND)
-		 * 
-		 * @param providerId
+		 *  @param providerId
 		 * @param lastNameToSearch
 		 * @param providerEmployee
+		 * @param dateToSearch
 		 * @param root
 		 * @param cb
 		 * @param joinSearch
-		 * @param dateToSearch
+		 * @param startDateToSearch
+		 * @param endDateToSearch
 		 * @param idToSearch
 		 * @param fullNameToSearch
-		 *@param streetToSearch  @return Predicate
+		 * @param streetToSearch  @return Predicate
 		 */
-	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long calibratorId, String dateToSearch, String idToSearch,
+	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long calibratorId, String startDateToSearch, String endDateToSearch, String idToSearch,
 											String fullNameToSearch, String streetToSearch, String region, String district, String locality, String status, User calibratorEmployee, String employeeSearchName) {
 
 		String userName = calibratorEmployee.getUsername();
@@ -138,19 +140,21 @@
 
 		queryPredicate = cb.and(cb.equal(joinSearch.get("id"), calibratorId), queryPredicate);
 
-		if (dateToSearch != null) {
-			SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = null;
+		if (startDateToSearch != null && endDateToSearch != null) {
+			DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+			LocalDate startDate = null;
+			LocalDate endDate = null;
 			try {
-				date = form.parse(dateToSearch.substring(0, 10));
-				Calendar c = Calendar.getInstance();
-				c.setTime(date);
-				c.add(Calendar.DATE, 1);
-				date = c.getTime();
-			} catch (ParseException pe) {
-				logger.error("Cannot parse date", pe);
+				startDate = LocalDate.parse(startDateToSearch, dbDateTimeFormatter);
+				endDate = LocalDate.parse(endDateToSearch, dbDateTimeFormatter);
 			}
-			queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
+			catch (Exception pe) {
+				logger.error("Cannot parse date", pe); //TODO: add exception catching
+			}
+			//verifications with date between these two dates
+			queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate)), queryPredicate);
+
 		}
 
 		if ((idToSearch != null)&&(idToSearch.length()>0)) {

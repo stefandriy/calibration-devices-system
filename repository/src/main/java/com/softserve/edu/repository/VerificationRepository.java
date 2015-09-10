@@ -83,17 +83,21 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'ACCEPTED' and u.provider = :provider")
     int getCountOfAllAcceptedVerifications(@Param("provider") Organization provider);
 
-    @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE u.status = 'SENT' and u.provider = :provider")
-    java.sql.Date getEarliestDateOfAllSentVerifications(@Param("provider") Organization provider);
-
-    @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE u.status = 'ACCEPTED' and u.provider = :provider")
-    java.sql.Date getEarliestDateOfAllAcceptedVerifications(@Param("provider") Organization provider);
 
     @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE (u.status = 'ACCEPTED' or u.status = 'SENT') and u.provider = :provider")
-    java.sql.Date getEarliestDateOfAllAcceptedOrSentVerifications(@Param("provider") Organization provider);
+    java.sql.Date getEarliestDateOfAllAcceptedOrSentVerificationsByProvider(@Param("provider") Organization provider);
 
     @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE  u.status NOT IN ('ACCEPTED', 'SENT') and u.provider = :provider")
-    java.sql.Date getEarliestDateOfArchivalVerifications(@Param("provider") Organization provider);
+    java.sql.Date getEarliestDateOfArchivalVerificationsByProvider(@Param("provider") Organization provider);
+
+
+    @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE u.status IN ('IN_PROGRESS', 'TEST_PLACE_DETERMINED', 'SENT_TO_TEST_DEVICE', 'TEST_COMPLETED') and u.calibrator = :calibrator")
+    java.sql.Date getEarliestDateOfAllNewVerificationsByCalibrator(@Param("calibrator") Organization calibrator);
+
+    /*TODO: Fix archive to have correct statuses*/
+
+    @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE u.status NOT IN ('ACCEPTED', 'SENT', 'IN_PROGRESS') and u.calibrator = :calibrator")
+    java.sql.Date getEarliestDateOfArchivalVerificationsByCalibrator(@Param("calibrator") Organization calibrator);
 }
 
 
