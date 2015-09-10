@@ -156,10 +156,7 @@
 		if ((idToSearch != null)&&(idToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
 		}
-		if ((fullNameToSearch != null)&&(fullNameToSearch.length()>0)) {
-			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%"),
-					queryPredicate);
-		}
+
 		if ((fullNameToSearch != null)&&(fullNameToSearch.length()>0)) {
 			Predicate searchByClientFirstName = cb.like(root.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
 			Predicate searchByClientLastName = cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
