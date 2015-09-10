@@ -165,7 +165,14 @@ public class ProviderVerificationController {
     public String getNewVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
             Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
-            java.util.Date date = new Date(verificationService.getNewVerificationEarliestDateByProvider(organization).getTime());
+            java.util.Date gottenDate = verificationService.getNewVerificationEarliestDateByProvider(organization);
+            java.util.Date date = null;
+            if (gottenDate != null) {
+                date = new Date(gottenDate.getTime());
+            }
+            else{
+                return null;
+            }
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
             LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
             String isoLocalDateString = localDate.format(dbDateTimeFormatter);
@@ -185,7 +192,14 @@ public class ProviderVerificationController {
     public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
             Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
-            java.util.Date date = new Date(verificationService.getArchivalVerificationEarliestDateByProvider(organization).getTime());
+            java.util.Date gottenDate = verificationService.getArchivalVerificationEarliestDateByProvider(organization);
+            java.util.Date date = null;
+            if (gottenDate != null) {
+                date = new Date(gottenDate.getTime());
+            }
+            else{
+                return null;
+            }
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
             LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
             String isoLocalDateString = localDate.format(dbDateTimeFormatter);
