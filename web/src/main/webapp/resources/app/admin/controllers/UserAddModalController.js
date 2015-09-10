@@ -155,6 +155,17 @@ angular
                 userService.isUsernameAvailable(username).then(
                     function(data) {
                         $scope.isUsernameAvailable = data;
+                        validator('existLogin', data);
+                     //   if (!isUsernameAvailable) {
+                       //     angular.element(document.getElementById('notAv')).addClass('usernameNotAvailable');
+                        //}
+                    })
+                return $scope.isUsernameAvailable;
+            }
+            function isUsernameAvailable(username) {
+                userService.isUsernameAvailable(username).then(
+                    function (data) {
+                        validator('existLogin', data.data);
                     })
             }
 
@@ -192,18 +203,18 @@ angular
                             css: isValid ? 'has-error' : 'has-success'
                         }
                         break;
+                    case 'loginValid':
+                        $scope.usernameValidation = {
+                            isValid: isValid,
+                            css: isValid? 'has-success' : 'has-error',
+                            message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
+                        }
+                        break;
                     case 'existLogin':
                         $scope.usernameValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-success' : 'has-error',
                             message: isValid ? undefined : 'Такий логін вже існує'
-                        }
-                        break;
-                    case 'loginValid':
-                        $scope.usernameValidation = {
-                            isValid: isValid,
-                            css: isValid ? 'has-success' : 'has-error',
-                            message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
                         }
                         break;
                 }

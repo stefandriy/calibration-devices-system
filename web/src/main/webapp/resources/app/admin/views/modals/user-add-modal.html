@@ -131,13 +131,18 @@
                     <div class="form-group col-md-4">
                         <label class="control-label">{{'LOGIN_TWO' | translate }}*</label>
                     </div>
-                    <div class="form-group col-md-8" ng-class="usernameValidation.css" show-errors>
+                    <div class="form-group col-md-8" ng-class="usernameValidation.css">
                         <input type="text" ng-model="employeeFormData.username"
-                               ng-change="checkIfUsernameIsAvailable()"
+                               ng-change="checkFirstName('login')"
+                               popover="{{'USERNAME_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="right"
                                ng-model-options="{debounce: 350}"
                                id="username" name="username" class="form-control" required>
 
                         <div ng-show="employeeForm.$submitted || employeeForm.username.$touched">
+                            <p class="validation-message" ng-if="!usernameValidation.isValid">
+                                {{usernameValidation.message }}
+                            </p>
                             <p class="validation-message" ng-if="employeeForm.username.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
@@ -146,8 +151,7 @@
                             <!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
                             <!--{{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}-->
                             <!--</p>-->
-                            <p class="help-block" ng-if="!isUsernameAvailable">{{'LOGIN_ISNT_AVAILABLE'
-                                | translate }}</p>
+                            <p class="help-block" ng-if="!isUsernameAvailable">{{usernameValidation.message }}</p>
                         </div>
                     </div>
                 </div>
@@ -170,7 +174,7 @@
                     </div>
                     <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
                         <input type="password" ng-model="employeeFormData.rePassword"
-                               ng-change="checkPasswords()" name="rePassword" class="form-control" required>
+                               ng-change="checkPasswords()" name="rePassword" class="form-control"   required>
 
                         <div ng-show="employeeForm.$submitted || employeeForm.rePassword.$touched">
                             <p class="validation-message" ng-if="employeeForm.rePassword.$error.required">
@@ -178,8 +182,8 @@
                                 {{'REQUIRED' | translate}}
                             </p>
 
-                            <p class="validation-message" ng-if="passwordValidation.isValid">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            <p class="validation-message " ng-if="passwordValidation.isValid">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'PASSWORDS_DID_NOT_MATCH' | translate}}
                             </p>
                         </div>

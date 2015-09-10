@@ -402,3 +402,7 @@ div.chosen-container {
     display: none;
 }
 
+.usernameNotAvailable{
+    border: red;
+    color: red;
+}
