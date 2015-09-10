@@ -82,7 +82,7 @@ angular
 
                 /*TODO: i18n*/
                 $scope.myDatePicker.pickerDate = {
-                    startDate: moment(date, "YYYY-MM-DD"),
+                    startDate: (date ? moment(date, "YYYY-MM-DD") :moment()),
                     //earliest day of  all the verifications available in table
                     //we should reformat it here, because backend currently gives date in format "YYYY-MM-DD"
                     endDate: moment() // current day
@@ -185,6 +185,9 @@ angular
 
                         if ($scope.selectedStatus.name != null) {
                             params.filter().status = $scope.selectedStatus.name.id;
+                        }
+                        else{
+                            params.filter().status = null; //case when the filter is cleared with a button on the select
                         }
 
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
