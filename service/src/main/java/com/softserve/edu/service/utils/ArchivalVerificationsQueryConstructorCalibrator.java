@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,8 +19,8 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
 static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
 	
 	
-	public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String dateToSearch,
-															   String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
+	public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String startDateToSearch,
+															   String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
 															   String sortCriteria, String sortOrder, User providerEmployee, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -27,8 +29,8 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 
 			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
-			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status,
-																															employeeName, providerEmployee, calibratorJoin);
+			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch,
+					status, employeeName, providerEmployee, calibratorJoin);
 			if((sortCriteria != null)&&(sortOrder != null)) {
 				criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 			} else {
@@ -40,21 +42,21 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	}
 	
 	
-	public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String dateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
+	public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
 													  User providerEmployee, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
-			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, dateToSearch, idToSearch,
-					fullNameToSearch, streetToSearch, status, employeeName, providerEmployee, calibratorJoin);
+			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch,
+					idToSearch, fullNameToSearch, streetToSearch, status, employeeName, providerEmployee, calibratorJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
 			}
 	
-	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId, String dateToSearch, String idToSearch,
+	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch,
 											String fullNameToSearch, String streetToSearch, String searchStatus,
 											String employeeName, User employee, Join<Verification, Organization> calibratorJoin) {
 
@@ -66,27 +68,26 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		} else {
 			queryPredicate = cb.and(cb.not(cb.or(Status.SENT.getQueryPredicate(root, cb), Status.ACCEPTED.getQueryPredicate(root, cb), Status.IN_PROGRESS.getQueryPredicate(root, cb))), queryPredicate);
 		}
-		
-		if (dateToSearch != null) {
-			Date date = null;
+
+		if (startDateToSearch != null && endDateToSearch != null) {
+			DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+			LocalDate startDate = null;
+			LocalDate endDate = null;
 			try {
-				date = new SimpleDateFormat("yyyy-MM-dd").parse(dateToSearch.substring(0, 10));
-				Calendar c = Calendar.getInstance();
-				c.setTime(date);
-				c.add(Calendar.DATE, 1);
-				date = c.getTime();
-			} catch (ParseException pe) {
-				logger.error("Cannot parse date", pe);
+				startDate = LocalDate.parse(startDateToSearch, dbDateTimeFormatter);
+				endDate = LocalDate.parse(endDateToSearch, dbDateTimeFormatter);
 			}
-			queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
+			catch (Exception pe) {
+				logger.error("Cannot parse date", pe); //TODO: add exception catching
+			}
+			//verifications with date between these two dates
+			queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate)), queryPredicate);
+
 		}
 
 		if ((idToSearch != null)&&(idToSearch.length()>0)) {
 			queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
-		}
-		if ((fullNameToSearch != null)&&(fullNameToSearch.length()>0)) {
-			queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%"),
-					queryPredicate);
 		}
 
 		if ((fullNameToSearch != null)&&(fullNameToSearch.length()>0)) {

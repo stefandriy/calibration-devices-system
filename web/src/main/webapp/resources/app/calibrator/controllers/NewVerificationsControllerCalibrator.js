@@ -7,86 +7,192 @@ angular
 
             $scope.resultsCount = 0;
 
-            $scope.clearAll = function() {
-        		$scope.selectedStatus.name=null;
-        		$scope.tableParams.filter({});   		
-        	}
+            $scope.clearAll = function () {
+                $scope.selectedStatus.name = null;
+                $scope.tableParams.filter({});
+                $scope.clearDate(); // sets 'all time' timerange
+            };
 
-        	$scope.doSearch = function() {
-        		$scope.tableParams.reload();
-        	}
-        	
-        	$scope.selectedStatus = {
-        		name : null
-        	}
-    	
-        	$scope.statusData = [
-        	                     	{ id : 'IN_PROGRESS', label : null },
-        	                     	{ id : 'TEST_PLACE_DETERMINED', label : null },
-        	                     	{ id : 'SENT_TO_TEST_DEVICE', label : null },
-        	                     	{ id : 'TEST_COMPLETED', label : null }, 
-        	   			];
+            $scope.clearDate = function () {
+                //daterangepicker doesn't support null dates
+                $scope.myDatePicker.pickerDate = $scope.defaultDate;
+                //setting corresponding filters with 'all time' range
+                $scope.tableParams.filter()['date'] = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                $scope.tableParams.filter()['endDate'] = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
-        	   			$scope.setTypeDataLanguage = function () {
-        	   				var lang = $translate.use();
-        	   				if (lang === 'ukr') {
-        	   					$scope.statusData[0].label = 'В роботі';
-        	   					$scope.statusData[1].label = 'Визначено спосіб повірки';
-        	   					$scope.statusData[2].label = 'Відправлено на установку';
-        	   					$scope.statusData[3].label = 'Проведено вимірювання';
-        	   					
-        	   				} else if (lang === 'eng') {
-        	   					$scope.statusData[0].label = 'In progress';
-        	   					$scope.statusData[1].label = 'Test place determined';
-        	   					$scope.statusData[2].label = 'Sent to test device';
-        	   					$scope.statusData[3].label = 'Test completed';
-        	   					
-        	   				} else {
-        	   					console.error(lang);
-        	   				}
-        	   			};
+            };
 
-        	   			$scope.setTypeDataLanguage();
-            
+            $scope.doSearch = function () {
+                $scope.tableParams.reload();
+            }
+
+            $scope.selectedStatus = {
+                name: null
+            }
+
+            $scope.statusData = [
+                {id: 'IN_PROGRESS', label: null},
+                {id: 'TEST_PLACE_DETERMINED', label: null},
+                {id: 'SENT_TO_TEST_DEVICE', label: null},
+                {id: 'TEST_COMPLETED', label: null},
+            ];
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.statusData[0].label = 'В роботі';
+                    $scope.statusData[1].label = 'Визначено спосіб повірки';
+                    $scope.statusData[2].label = 'Відправлено на установку';
+                    $scope.statusData[3].label = 'Проведено вимірювання';
+
+                } else if (lang === 'eng') {
+                    $scope.statusData[0].label = 'In progress';
+                    $scope.statusData[1].label = 'Test place determined';
+                    $scope.statusData[2].label = 'Sent to test device';
+                    $scope.statusData[3].label = 'Test completed';
+
+                } else {
+                    console.error(lang);
+                }
+            };
+
+            $scope.setTypeDataLanguage();
+
+
+            $scope.myDatePicker = {};
+            $scope.myDatePicker.pickerDate = null;
+            $scope.defaultDate = null;
+
+            $scope.initDatePicker = function (date) {
+                /**
+                 *  Date picker and formatter setup
+                 *
+                 */
+
+
+                /*TODO: i18n*/
+                $scope.myDatePicker.pickerDate = {
+                    startDate: (date ? moment(date, "YYYY-MM-DD") : moment()),
+                    //earliest day of  all the verifications available in table
+                    //we should reformat it here, because backend currently gives date in format "YYYY-MM-DD"
+                    endDate: moment() // current day
+                };
+
+                if ($scope.defaultDate == null) {
+                    //copy of original daterange
+                    $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
+                }
+                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                $scope.opts = {
+                    format: 'DD-MM-YYYY',
+                    showDropdowns: true,
+                    locale: {
+                        firstDay: 1,
+                        fromLabel: 'Від',
+                        toLabel: 'До',
+                        applyLabel: "Прийняти",
+                        cancelLabel: "Зачинити",
+                        customRangeLabel: "Обрати самостійно"
+                    },
+                    ranges: {
+                        'Сьогодні': [moment(), moment()],
+                        'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+                        'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
+                        'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
+                        'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                        'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
+                    },
+                    eventHandlers: {}
+                };
+            };
+
+
+            $scope.showPicker = function ($event) {
+                angular.element("#datepickerfield").trigger("click");
+            };
+
+
+            $scope.isDateDefault = function () {
+                var pickerDate = $scope.myDatePicker.pickerDate;
+
+                if (pickerDate == null || $scope.defaultDate == null) { //moment when page is just loaded
+                    return true;
+                }
+                if (pickerDate.startDate.isSame($scope.defaultDate.startDate, 'day') //compare by day
+                    && pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day')) {
+                    return true;
+                }
+                return false;
+            };
+
+
+            verificationServiceCalibrator.getNewVerificationEarliestDate().success(function (date) {
+                //first we will try to receive date period
+                // to populate ng-table filter
+                // I did this to reduce reloading and flickering of the table
+                $scope.initDatePicker(date);
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
                 sorting: {
-                    date: 'desc'     
+                    date: 'desc'
                 }
-                	}, {
+            }, {
                 total: 0,
                 filterDelay: 1500,
                 getData: function ($defer, params) {
 
-                	var sortCriteria = Object.keys(params.sorting())[0];
-                	var sortOrder = params.sorting()[sortCriteria];
-                	
-                	if($scope.selectedStatus.name != null) {
-                		params.filter().status = $scope.selectedStatus.name.id;
-                	}
-                	
-                	verificationServiceCalibrator.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
-                    				.success(function (result) {
-                    					 $scope.resultsCount=result.totalItems;
-                    					$defer.resolve(result.content);
-                    					params.total(result.totalItems);
-                    				}, function (result) {
-                    					$log.debug('error fetching data:', result);
-                    				});
-                 }
-            });
-            
-            $scope.checkFilters = function () {       	 
+                    var sortCriteria = Object.keys(params.sorting())[0];
+                    var sortOrder = params.sorting()[sortCriteria];
+
+                    if ($scope.selectedStatus.name != null) {
+                        params.filter().status = $scope.selectedStatus.name.id;
+                    }
+                    else{
+                        params.filter().status = null; //case when the filter is cleared with a button on the select
+                    }
+
+                    params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                    params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+
+                    verificationServiceCalibrator.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                        .success(function (result) {
+                            $scope.resultsCount = result.totalItems;
+                            $defer.resolve(result.content);
+                            params.total(result.totalItems);
+                        }, function (result) {
+                            $log.debug('error fetching data:', result);
+                        });
+                }
+            })});
+
+            $scope.checkFilters = function () {
+                if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
                     if (obj.hasOwnProperty(i) && obj[i]) {
+                        if (i == 'date' || i == 'endDate')
+                            continue; //check for these filters is in another function
                         return true;
                     }
                 }
-                return false;         
+                return false;
             };
-            
+
+            $scope.checkDateFilters = function () {
+                if ($scope.tableParams == null) return false; //table not yet initialized
+                var obj = $scope.tableParams.filter();
+                if ($scope.isDateDefault())
+                    return false;
+                else if (!moment(obj.date).isSame($scope.defaultDate.startDate)
+                    || !moment(obj.endDate).isSame($scope.defaultDate.endDate)) {
+                    //filters are string,
+                    // so we are temporarily convertin them to momentjs objects
+                    return true;
+                }
+                return false;
+            };
+
             $scope.markAsRead = function (id) {
                 var dataToSend = {
                     verificationId: id,
@@ -171,7 +277,7 @@ angular
                     modalInstance.result.then(function (verificator) {
 
                         var dataToSend = {
-                        		idsOfVerifications: $scope.idsOfVerifications,
+                            idsOfVerifications: $scope.idsOfVerifications,
                             organizationId: verificator.id
                         };
 
@@ -199,7 +305,7 @@ angular
 
             $scope.uploadBbiFile = function (idVerification) {
 
-                var modalInstance =  $modal.open({
+                var modalInstance = $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
                     controller: 'UploadBbiFileController',
