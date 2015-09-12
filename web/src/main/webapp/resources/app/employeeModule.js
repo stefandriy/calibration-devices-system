@@ -1,6 +1,6 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
+        'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
         'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
@@ -111,6 +111,11 @@
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
+                    })
+                    .state("calibrator-task-add", {
+                        url: '/',
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
+                        controller: 'TaskControllerCalibrator'
                     });
 
 
@@ -216,6 +221,7 @@
             'calibrator/controllers/UsersControllerCalibrator',
             'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
             'calibrator/controllers/CapacityEmployeeControllerCalibrator',
+            'calibrator/controllers/TaskControllerCalibrator',
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',

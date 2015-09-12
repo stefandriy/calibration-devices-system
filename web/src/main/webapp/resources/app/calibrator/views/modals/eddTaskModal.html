@@ -1,27 +1,151 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+<div id="taskModel" class="modal-content" xmlns="http://www.w3.org/1999/html">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">{{'TASK_TITLE' | translate}} <strong
+                style="color: green;">{{verifId}}</strong></h4>
+    </div>
+    <div class="modal-body">
+        <form name="planningTaskModel" novalidate>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'CALIBRATION_PLACE' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8">
+                    <select chosen class="form-control" ng-model="calibrationTask.place"
+                            class="col-xs-5 selectContainer"
+                            id="plase" name="plase" allow-single-deselect="true"
+                            disable-search="true" required>
+                        <option type="text" value="portable_installation">Переносна установка</option>
+                        <option type="text" value="fixed_installation">Стаціонарна установка</option>
+                    </select>
+
+                    <p class="validation-message" ng-show="nameValidation.isValid">{{'TEST_NAME_REGEX' | translate}}</p>
+                </div>
             </div>
-            <div class="modal-body">
-                ...
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'COUNTER' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8">
+                    <select chosen class="form-control" ng-model="calibrationTask.counterStatus"
+                            class="col-xs-5 selectContainer"
+                            id="counter" name="counter" allow-single-deselect="true" disable-search="true" required>
+                        <option value="Демонтований">Демонтований</option>
+                        <option value="Не демонтований">Не демонтований</option>
+                    </select>
+
+                    <p class="validation-message" ng-show="temperatureValidation.isValid">{{'TEMPERATURE_REGEX' |
+                        translate}}</p>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'INSTALLATION_NUMBER'| translate }}</label>
+                </div>
+                <div class="form-group col-md-8" ng-class="installationNumberValidation.css">
+                    <input type="text"
+                           ng-model="calibrationTask.installationNumber"
+                           ng-change="checkAll('settingNumber')"
+                           id="settingNumber" name="settingNumber" class="form-control">
+
+                    <p class="validation-message" ng-show="settingNumberValidation.isValid">{{'SETTING_NUMBER_REGEX' |
+                        translate}}</p>
+                </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'DATE_OF_VISIT'| translate }}</label>
+                </div>
+
+                <div class="form-group col-md-8" ng-class="dateValidation.css">
+                    <div class="input-group myDatePicker">
+                        <input type="text" class="form-control input-md" datepicker-popup="{{format}}"
+                               ng-model="params.filter()[name]" name="filter-date" is-open="openState.isOpen"
+                               min-date="minDate" datepicker-options="dateOptions"
+                               date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+											  <span class="input-group-btn ">
+											     <button type="button" class="btn btn-default myGroupBtn"
+                                                         ng-click="open($event)">
+                                                     <i class="glyphicon glyphicon-calendar"></i>
+                                                 </button>
+											  </span>
+                    </div>
+                    <!--<input type="text"
+                           ng-model="calibrationTest.latitude"
+                           ng-change="checkAll('latitude')"
+                           id="latitude" name="latitude" class="form-control">
+                    <p class="validation-message" ng-show="latitudeValidation.isValid">{{'LATITUDE_REGEX' | translate}}</p>-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'EXPIRATION_DATE_OF_VISIT'| translate }}</label>
+                </div>
+                <div class="form-group col-md-8" ng-class="expirationDateValidation.css">
+                    <!--<input type="text"
+                           ng-model="calibrationTest.longitude"
+                           ng-change="checkAll('longitude')"
+                           id="longitude" name="longitude" class="form-control">
+
+                    <p class="validation-message" ng-show="longitudeValidation.isValid">{{'LONGITUDE_REGEX' |
+                        translate}}</p>-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{ 'FLOOR' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8">
+                    <input type="text"
+                           ng-model="calibrationTask.floor"
+                           ng-change="checkAll('consumptionStatus')"
+                           id="floor" name="floor" class="form-control">
+
+                    <p class="validation-message" ng-show="floorValidation.isValid">{{'CONSUMPTION_STATUS_REGEX' |
+                        translate}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'SERIAL_NUMBER_OF_COUNTER' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8">
+                    <input type="text"
+                           ng-model="calibrationTask.counterNumber"
+                           ng-change="checkAll('testResult')"
+                           id="counterNumber" name="counterNumber" class="form-control">
+
+                    <p class="validation-message" ng-show="testResultValidation.isValid">{{'TEST_STATUS_REGEX' |
+                        translate}}</p>
+                </div>
+                <h4 ng-show="incorrectValue" style="color: red;  text-align: center" class="ng-binding">Неправильно введені дані!</h4>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'NOTES' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8">
+                   <input type="text"
+                           ng-model="calibration.Task.notes"
+                           id="notes" name="notes" class="form-control">
+                    <p class="validation-message" ng-show="testResultValidation.isValid">{{'TEST_STATUS_REGEX' |
+                        translate}}</p>
+                </div>
+                <h4 ng-show="incorrectValue" style="color: red;  text-align: center" class="ng-binding">Неправильно
+                    введені дані!</h4>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-10">
+                    <button class="btn btn-success" ng-click="editTest()">Редагувати тест</button>
+                    <a class="btn btn-warning" ng-click="resetTestForm()">Скинути форму</a>
+                </div>
+                <div class="form-group col-md-2">
+                    <button class="btn btn-danger pull-right" ng-click="closeModal()">Закрити</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
-</body>
-</html>
