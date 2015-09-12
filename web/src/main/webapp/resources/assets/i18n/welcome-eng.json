@@ -59,6 +59,9 @@
   "COUNTERS":"Counters",
   "EMPLOYEE":"Employees",
   "EMPLOYEE_SINGLE": "Employee full name",
+
+  "MEASUREMENT_DEVICE_ID":"Device ID",
+
   "MORE":"More",
   "VERIFICATIONS":"Verifications",
   "ADD_ORGANIZATION":"Add organization",
@@ -118,6 +121,7 @@
   "REJECTED_TRASLATION":"Application rejected performer.",
   "FIND_BY_EQUIPMENT_NAME":"Find by equipment name:",
   "MEASURING_EQUIPMENTS":"Measuring equipments",
+  
   "NAME":"Equipment name",
   "TYPE_OF_EQUIPMENT":"Type of Equipment",
   "MANUFACTURER":"Manufacturer",

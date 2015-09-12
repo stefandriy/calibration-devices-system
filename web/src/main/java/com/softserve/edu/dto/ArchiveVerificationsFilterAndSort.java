@@ -13,6 +13,8 @@ public class ArchiveVerificationsFilterAndSort {
 	private String status;
 	private String employee_last_name;
 
+	private Long measurement_device_id;
+
 
 	public String getId() {
 		return id;
@@ -87,5 +89,13 @@ public class ArchiveVerificationsFilterAndSort {
 
 	public void setClient_full_name(String client_full_name) {
 		this.client_full_name = client_full_name;
+	}
+
+	public Long getMeasurement_device_id() {
+		return measurement_device_id;
+	}
+
+	public void setMeasurement_device_id(Long measurement_device_id) {
+		this.measurement_device_id = measurement_device_id;
 	}
 }

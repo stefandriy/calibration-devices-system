@@ -8,12 +8,8 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 
 public class ArchivalVerificationsQueryConstructorCalibrator {
 static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
@@ -21,6 +17,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	
 	public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String startDateToSearch,
 															   String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
+															   Long measurementDeviceId,
 															   String sortCriteria, String sortOrder, User providerEmployee, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -30,7 +27,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
 			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch,
-					status, employeeName, providerEmployee, calibratorJoin);
+					status, employeeName, measurementDeviceId, providerEmployee, calibratorJoin);
 			if((sortCriteria != null)&&(sortOrder != null)) {
 				criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 			} else {
@@ -42,7 +39,8 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	}
 	
 	
-	public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
+	public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
+													  String streetToSearch, String status, String employeeName, Long measurementDeviceId,
 													  User providerEmployee, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -50,7 +48,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch,
-					idToSearch, fullNameToSearch, streetToSearch, status, employeeName, providerEmployee, calibratorJoin);
+					idToSearch, fullNameToSearch, streetToSearch, status, employeeName, measurementDeviceId, providerEmployee, calibratorJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
@@ -58,7 +56,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	
 	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch,
 											String fullNameToSearch, String streetToSearch, String searchStatus,
-											String employeeName, User employee, Join<Verification, Organization> calibratorJoin) {
+											String employeeName,Long measurementDeviceId, User employee, Join<Verification, Organization> calibratorJoin) {
 
 		Predicate queryPredicate = cb.conjunction();
 		queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
@@ -114,6 +112,13 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Predicate searchPredicateByCalibratorEmployeeName = cb.or(searchByCalibratorName, searchByCalibratorSurname,
 					searchByCalibratorLastName);
 			queryPredicate = cb.and(searchPredicateByCalibratorEmployeeName, queryPredicate);
+		}
+		if (measurementDeviceId != null) {
+			//queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate)), queryPredicate);
+			queryPredicate = cb.and(cb.equal(root.get("device").get("id"), measurementDeviceId), queryPredicate);
+			//System.out.println(queryPredicate);
+			//queryPredicate = cb.and(cb.isTrue(cb.equal(root.get("device").get("id"),measurementDeviceId)), queryPredicate);
+			//queryPredicate = cb.and(cb.like(root.get("device").get("id"), "%" + measurementDeviceId.toString() + "%"), queryPredicate);
 		}
 
 		return queryPredicate;
