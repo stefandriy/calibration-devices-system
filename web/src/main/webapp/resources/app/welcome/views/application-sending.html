@@ -103,6 +103,7 @@
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
                         </p>
+
                         <p class="help-block" ng-if="clientForm.email.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
@@ -305,10 +306,12 @@
                             <ins>Не існує постачальника послуг для даного району. Повідомте нам про це.</ins>
                         </i>
                         </a>
+
                         <p class="help-block" ng-if="clientForm.building.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
+
                         <p class="help-block"
                            ng-if="clientForm.building.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -325,17 +328,19 @@
                                popover-trigger="focus" popover-placement="right"
                                ng-pattern="FLAT_REGEX" required>
                         <span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
+
                         <p class="help-block" ng-if="clientForm.flat.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
-                            <p class="help-block"
-                               ng-if="clientForm.flat.$error.pattern">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'FLAT_ERROR' | translate}}
-                            </p>
-                        </div>
+
+                        <p class="help-block"
+                           ng-if="clientForm.flat.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'FLAT_ERROR' | translate}}
+                        </p>
                     </div>
+                </div>
                 <div class="form-group" show-errors>
                     <label for="device" class="col-md-2 control-label">
                         {{'COUNTER_CATEGORY' | translate}} </label>
@@ -346,30 +351,35 @@
                                     data-placeholder="Кількість"
                                     disable-search="true"
                                     name="typeStreet" type="text"
-                                    ng-model="selectedCount" class="form-control" required>
-                                <option value="0">0</option>
+                                    ng-model="firstDeviceCount" class="form-control" required>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
                             </select>
                         </div>
-                        <div class="col-md-9 pull-right input-group" id="deviceBox">
-                            <select multiple chosen name="device" type="text" width="'100%'"
-                                    ng-model="selectedDevice"
+                        <div class="col-md-9 pull-right input-group " id="deviceBox">
+                            <select chosen name="device" type="text" width="'100%'"
+                                    ng-model="firstSelectedDevice"
                                     data-placeholder="Категорія лічильника"
                                     ng-options="device as device.designation for device in devices | filter: $viewValue"
-                                    required> </select>
+                                    required>
+                            </select>
 
-                            <div class="input-group-addon  btn btn-default btn-circle"><label for="otherDeviceCheck"><i
-                                    class="glyphicon glyphicon-plus"/></label> <input type="checkbox"
-                                                                                      ng-model="otherDevice"
-                                                                                      id="otherDeviceCheck"></div>
+                            <div class="input-group-addon btn btn-default btn-circle " for="otherDeviceCheck">
+                                <label for="otherDeviceCheck" ><i class="glyphicon glyphicon-plus input-block-level"/></label>
+                                <input type="checkbox"
+                                       ng-model="otherDevice"
+                                       id="otherDeviceCheck"/>
+                            </div>
                         </div>
-                        <p class="help-block">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'TYPEAHEAD_ERROR' | translate}}
-                        </p>
                     </div>
+                    <p class="help-block">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        {{'TYPEAHEAD_ERROR' | translate}}
+                    </p>
                 </div>
                 <div class="form-group" show-errors ng-show="otherDevice">
                     <label for="device" class="col-md-2 control-label">
@@ -381,24 +391,28 @@
                                     disable-search="true"
                                     data-placeholder="Кількість"
                                     name="typeStreet" type="text"
-                                    ng-model="selectedCount1" class="form-control">
-                                <option value="0">0</option>
+                                    ng-model="secondDeviceCount" class="form-control">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
                             </select>
                         </div>
                         <div class="col-md-9 pull-right input-group" id="deviceBox">
-                            <select multiple chosen name="device" type="text" width="'100%'"
-                                    ng-model="selectedDevice1"
+                            <select chosen name="device" type="text" width="'100%'"
+                                    ng-model="secondSelectedDevice"
                                     data-placeholder="Категорія лічильника"
                                     ng-options="device as device.designation for device in devices | filter: $viewValue">
                             </select>
 
                             <div class="input-group-addon  btn btn-default btn-circle"><label for="otherDeviceCheck1"><i
-                                    class="glyphicon glyphicon-plus"/></label> <input type="checkbox"
-                                                                                      ng-model="otherDevice1"
-                                                                                      id="otherDeviceCheck1"></div>
+                                    class="glyphicon glyphicon-plus"/></label>
+                                <input type="checkbox"
+                                       ng-model="otherDevice1"
+                                       id="otherDeviceCheck1"/>
+                            </div>
                         </div>
                         <p class="help-block">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -416,25 +430,18 @@
                                     data-placeholder="Кількість"
                                     disable-search="true"
                                     name="typeStreet" type="text"
-                                    ng-model="selectedCount2" class="form-control">
-                                <option value="0">0</option>
+                                    ng-model="thirdDeviceCount" class="form-control">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
                             </select>
                         </div>
-                        <div class="col-md-4" id="deviceBox" style="padding-left: 0px;">
+                        <div class="col-md-9 pull-right input-group" id="deviceBox">
                             <select chosen name="device" type="text" width="'100%'"
-                                    data-placeholder="Категорія лічильника"
-                                    disable-search="true"
-                                    allow-single-deselect="true"
-                                    ng-model="selectedDeviceType"
-                                    ng-options="device as device.designation for device in devices | filter: $viewValue">
-                            </select>
-                        </div>
-                        <div class="col-md-5 pull-right " id="deviceBox">
-                            <select chosen name="device" type="text" width="'100%'"
-                                    ng-model="selectedDevice2"
+                                    ng-model="thirdSelectedDevice"
                                     allow-single-deselect="true"
                                     data-placeholder="Категорія лічильника"
                                     ng-options="device as device.designation for device in devices | filter: $viewValue">
@@ -454,7 +461,9 @@
                         </button>
                     </div>
                     <div class="col-md-2">
-                        <button type="reset" class="btn btn-warning text-uppercase" ng-click="resetApplicationForm()">{{'CLEAR_FORM'|translate}}</button>
+                        <button type="reset" class="btn btn-warning text-uppercase" ng-click="resetApplicationForm()">
+                            {{'CLEAR_FORM'|translate}}
+                        </button>
                     </div>
                     <div class="col-md-offset-4 col-md-2">
                         <button class="btn btn-danger pull-right text-uppercase" ng-click="closeAlert()">
@@ -466,7 +475,7 @@
             </form>
         </div>
 
-        <div class="progress col-md-8 col-md-offset-2" ng-show="!isShownForm && codes.length=='0'"
+        <div class="progress col-md-8 col-md-offset-2" ng-show="appProgress"
              style="padding-left:0px;padding-right:0px;height: 30px">
 
             <div class="progress-bar progress-bar-striped active"
@@ -484,7 +493,7 @@
             <br>
 
             <div class="text-center" ng-show="codes">
-                {{'APP_SENT' | translate}}<a href="http://localhost:8080/#/application-status/{{code}}">
+                {{'APP_SENT' | translate}}<a href="/#/application-status/{{code}}">
                 <b>{{code}} </b> </a>><br>
                 {{'APP_SENT_INFO' | translate}}
 
