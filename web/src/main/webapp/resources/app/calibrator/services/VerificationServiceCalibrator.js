@@ -57,6 +57,13 @@ angular
             cleanCalibratorEmployeeField:function (data) {
                 return employeeUpdateData('remove/calibratorEmployee', data);
             },
+
+            getNewVerificationEarliestDate: function () {
+                return getData('verifications/new/earliest_date/calibrator');
+            },
+            getArchivalVerificationEarliestDate: function () {
+                return getData('verifications/archive/earliest_date/calibrator');
+            }
         };
 
         function getData(url) {

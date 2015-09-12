@@ -5,7 +5,7 @@
 
 <div class="modal-body">
 
-    <form name="employeeForm" novalidate ng-submit="!employeeForm.phone.$error.pattern && !employeeForm.username.$error.pattern && !employeeForm.rePassword.$error.required
+    <form name="employeeForm" novalidate ng-submit="!employeeForm.phone.$error.pattern && !employeeForm.username.$error.pattern && !employeeForm.username.$error.required && usernameValidation.isValid && !employeeForm.rePassword.$error.required
     && !employeeForm.password.$error.required && onEmployeeFormSubmit()">
 
         <div class="row">
@@ -169,7 +169,7 @@
                     <div class="form-group col-md-4">
                         <label class="control-label">{{'LOGIN_TWO' | translate }}*</label>
                     </div>
-                    <div class="form-group col-md-8" ng-class="usernameValidation.css" show-errors>
+                    <div class="form-group col-md-8" ng-class="usernameValidation.css">
                         <input type="text" ng-model="employeeFormData.username"
                                ng-change="checkFirstName('login')"
                                popover="{{'USERNAME_INFO' | translate}}"
@@ -178,6 +178,9 @@
                                id="username" name="username" class="form-control" required>
 
                         <div ng-show="employeeForm.$submitted || employeeForm.username.$touched">
+                            <p class="validation-message" ng-if="!usernameValidation.isValid">
+                                {{usernameValidation.message }}
+                            </p>
                             <p class="validation-message" ng-if="employeeForm.username.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
@@ -186,9 +189,7 @@
                             <!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
                             <!--{{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}-->
                             <!--</p>-->
-                            <p class="validation-message" ng-if="!usernameValidation.isValid">
-                                {{usernameValidation.message }}
-                            </p>
+
                         </div>
                     </div>
                 </div>
@@ -199,9 +200,11 @@
                         <label class="control-label">{{'PASSWORD_TWO' | translate}}*</label>
                     </div>
                     <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
+                        <input type="password" ng-model="employeeFormData.password" style="display: none">
                         <input type="password" ng-model="employeeFormData.password" ng-change="checkPasswords()"
                                name="password" class="form-control" required>
                     </div>
+
                 </div>
 
                 <div class="row">
