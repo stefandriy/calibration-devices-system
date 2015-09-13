@@ -214,18 +214,19 @@ angular
              * Receives all possible devices.
              */
             $scope.devices = [];
-            $scope.selectedDevice1 = [];
-            $scope.selectedDevice2 = [];
-            $scope.selectedCount = "";
-            $scope.devicesByType = [];
-            $scope.selectedType = "";
-            $scope.devicesType = [];
+            $scope.secondSelectedDevice = [];
+            $scope.thirdSelectedDevice = [];
+            $scope.firstDeviceCount = "";
+            $scope.secondDeviceCount = "";
+            $scope.thirdDeviceCount = "";
+            //$scope.devicesByType = [];
+            // $scope.devicesType = [];
 
 
             dataReceivingService.findAllDevices()
                 .success(function (devices) {
                     $scope.devices = devices;
-                    $scope.selectedDevice = [];
+                    $scope.firstSelectedDevice = [];
 
                 });
 
@@ -235,41 +236,80 @@ angular
              */
             $log.debug("$scope.devices");
             $log.debug($scope.devices);
-            $scope.applicationCodes = [];
+            $scope.firstAplicationCodes = [];
+            $scope.secondAplicationCodes = [];
+            $scope.thirdAplicationCodes = [];
 
             $scope.allSelectedDevices = [];
+            $scope.appProgress = false;
 
+
+            // $scope.sendApplication = function(){};
             $scope.sendApplicationData = function () {
                 $scope.codes = [];
                 $log.debug(" $scope.codeslength");
                 $log.debug($scope.codes.length);
-                $scope.allSelectedDevices = $scope.selectedDevice.concat($scope.selectedDevice1, $scope.selectedDevice2);
+                // $scope.allSelectedDevices = $scope.selectedDevice.concat($scope.selectedDevice1, $scope.selectedDevice2);
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.clientForm.$valid) {
                     $scope.isShownForm = false;
+                    $scope.appProgress = true;
 
-                    $log.debug( "$scope.selectedDevice");
-                    $log.debug( $scope.selectedDevice);
-                    $log.debug( "$scope.allSelectedDevices");
-                    $log.debug( $scope.allSelectedDevices);
-                    for ( var i=0; i< $scope.allSelectedDevices.length;i++){
+                    $log.debug("$scope.firstSelectedDevice");
+                    $log.debug($scope.firstSelectedDevice);
+                    $log.debug($scope.firstDeviceCount);
+
                     $scope.formData.region = $scope.selectedRegion.designation;
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
-                    $scope.formData.street = ($scope.selectedStreet.designation+" "+angular.lowercase($scope.selectedStreetType.designation)) ||($scope.selectedStreet + " "+angular.lowercase($scope.selectedStreetType.designation)) ;
+                    $scope.formData.street = ($scope.selectedStreet.designation + " " + angular.lowercase($scope.selectedStreetType.designation)) || ($scope.selectedStreet + " " + angular.lowercase($scope.selectedStreetType.designation));
                     $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedProvider.id;
-                    $scope.formData.deviceId = $scope.allSelectedDevices[i].id;
-                    $scope.applicationCodes.push(dataSendingService.sendApplication($scope.formData))
-                          }
-                    $q.all($scope.applicationCodes).then(function(values){
-                        for ( var i=0; i< $scope.allSelectedDevices.length;i++) {
-                            $scope.codes[i]=values[i].data;
+                    for (var i = 0; i < $scope.firstDeviceCount; i++) {
+                        $scope.formData.deviceId = $scope.firstSelectedDevice.id;
+                        $scope.firstAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
+                    }
+                    $q.all($scope.firstAplicationCodes).then(function (values) {
+                        for (var i = 0; i < ($scope.firstDeviceCount); i++) {
+                            $scope.codes.push(values[i].data);
 
                         }
+
+                        $log.debug("$scope.secondSelectedDevice");
+                        $log.debug($scope.secondSelectedDevice);
+                        $log.debug($scope.secondDeviceCount);
+                        for (var i = 0; i < $scope.secondDeviceCount; i++) {
+                            $scope.formData.deviceId = $scope.secondSelectedDevice.id;
+                            $scope.secondAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
+                        }
+                        $q.all($scope.secondAplicationCodes).then(function (values) {
+                            for (var i = 0; i < $scope.secondDeviceCount; i++) {
+                                $scope.codes.push(values[i].data);
+
+                            }
+
+                            $log.debug("$scope.thirdSelectedDevice");
+                            $log.debug($scope.thirdSelectedDevice);
+                            $log.debug($scope.thirdDeviceCount);
+
+                            for (var i = 0; i < $scope.thirdDeviceCount; i++) {
+                                $scope.formData.deviceId = $scope.thirdSelectedDevice.id;
+                                $scope.thirdAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
+                            }
+
+                            $q.all($scope.thirdAplicationCodes).then(function (values) {
+                                for (var i = 0; i < $scope.thirdDeviceCount; i++) {
+                                    $scope.codes.push(values[i].data);
+                                }
+                                $scope.appProgress = false;
+                            });
+                        });
                     });
                     $log.debug(" $scope.codeslength");
                     $log.debug($scope.codes.length);
+                    $log.debug($scope.firstAplicationCodes);
+                    $log.debug($scope.secondAplicationCodes);
+                    $log.debug($scope.thirdAplicationCodes);
                 }
             };
             $scope.closeAlert = function () {
@@ -340,19 +380,18 @@ angular
              * Resets form
              */
             $scope.resetApplicationForm = function () {
-               // angular.element('.clientFormBox').focus();
+                // angular.element('.clientFormBox').focus();
                 $scope.$broadcast('show-errors-reset');
-               // if($scope.clientForm) {
-                    $scope.clientForm.$setPristine();
-                    $scope.clientForm.$setUntouched();
-              //  }
-               // $scope.formData.firstName.$setUntouched();
+                // if($scope.clientForm) {
+                $scope.clientForm.$setPristine();
+                $scope.clientForm.$setUntouched();
+                //  }
+                // $scope.formData.firstName.$setUntouched();
                 $scope.formData = null;
                 $scope.selectedDevice = [];
                 $scope.selectedDevice1 = [];
                 $scope.selectedDevice2 = [];
-                $scope.selectedCount = "";
-                $scope.selectedType = "";
+                $scope.firstDeviceCount = "";
                 $scope.selectedRegion = "";
                 $scope.selectedDistrict = "";
                 $scope.selectedLocality = "";

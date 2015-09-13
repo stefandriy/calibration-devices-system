@@ -7,6 +7,48 @@ angular
 
             $scope.resultsCount = 0;
 
+
+            $scope.clearAll = function() {
+        		$scope.selectedStatus.name=null;
+        		$scope.tableParams.filter({});
+        	}
+
+        	$scope.doSearch = function() {
+        		$scope.tableParams.reload();
+        	}
+
+        	$scope.selectedStatus = {
+        		name : null
+        	}
+
+        	$scope.statusData = [
+        	                     	{ id : 'IN_PROGRESS', label : null },
+        	                     	{ id : 'TEST_PLACE_DETERMINED', label : null },
+        	                     	{ id : 'SENT_TO_TEST_DEVICE', label : null },
+        	                     	{ id : 'TEST_COMPLETED', label : null },
+        	   			];
+
+        	   			$scope.setTypeDataLanguage = function () {
+        	   				var lang = $translate.use();
+        	   				if (lang === 'ukr') {
+        	   					$scope.statusData[0].label = 'В роботі';
+        	   					$scope.statusData[1].label = 'Визначено спосіб повірки';
+        	   					$scope.statusData[2].label = 'Відправлено на установку';
+        	   					$scope.statusData[3].label = 'Проведено вимірювання';
+
+        	   				} else if (lang === 'eng') {
+        	   					$scope.statusData[0].label = 'In progress';
+        	   					$scope.statusData[1].label = 'Test place determined';
+        	   					$scope.statusData[2].label = 'Sent to test device';
+        	   					$scope.statusData[3].label = 'Test completed';
+
+        	   				} else {
+        	   					console.error(lang);
+        	   				}
+        	   			};
+
+        	   			$scope.setTypeDataLanguage();
+
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
@@ -131,6 +173,7 @@ angular
                 // to populate ng-table filter
                 // I did this to reduce reloading and flickering of the table
                 $scope.initDatePicker(date);
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
@@ -142,6 +185,26 @@ angular
                 filterDelay: 1500,
                 getData: function ($defer, params) {
 
+
+                	var sortCriteria = Object.keys(params.sorting())[0];
+                	var sortOrder = params.sorting()[sortCriteria];
+
+                	if($scope.selectedStatus.name != null) {
+                		params.filter().status = $scope.selectedStatus.name.id;
+                	}
+
+                	verificationServiceCalibrator.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                    				.success(function (result) {
+                    					 $scope.resultsCount=result.totalItems;
+                    					$defer.resolve(result.content);
+                    					params.total(result.totalItems);
+                    				}, function (result) {
+                    					$log.debug('error fetching data:', result);
+                    				});
+                 }
+            });
+
+            $scope.checkFilters = function () {
                     var sortCriteria = Object.keys(params.sorting())[0];
                     var sortOrder = params.sorting()[sortCriteria];
 
@@ -164,7 +227,7 @@ angular
                             $log.debug('error fetching data:', result);
                         });
                 }
-            })});
+            });
 
             $scope.checkFilters = function () {
                 if ($scope.tableParams == null) return false; //table not yet initialized
@@ -192,6 +255,7 @@ angular
                 }
                 return false;
             };
+
 
             $scope.markAsRead = function (id) {
                 var dataToSend = {
@@ -424,5 +488,17 @@ angular
                         });
                 });
             };
+
+
+            $scope.openTask = function(verificationId){
+                $rootScope.verifId = verificationId;
+
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'TaskControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                });
+            };
+
 
         }]);
