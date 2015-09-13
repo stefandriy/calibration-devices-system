@@ -260,7 +260,7 @@
   "TEST_OK":"Tested OK",
   "TEST_NOK":"Tested NOK",
   "MAX_PROCESS_TIME":"Max verification processing time, days",
-  "STATUS_SELECT_PLACEHOLDER": "Select a status",
+  "STATUS_SELECT_PLACEHOLDER": "Select",
   "DATERANGEPICKER_PLACEHOLDER": "Select a range",
   "AMOUNT": "Amount",
   "ORGANIZATION_ID " : "Organization id",

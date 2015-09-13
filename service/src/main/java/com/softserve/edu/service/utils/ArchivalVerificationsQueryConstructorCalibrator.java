@@ -124,7 +124,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			//queryPredicate = cb.and(cb.like(root.get("device").get("id"), "%" + measurementDeviceId.toString() + "%"), queryPredicate);
 		}
 		if (measurementDeviceType != null) {
-			System.out.println(measurementDeviceType);
+			System.out.println("ArchiveVerificationQueryConstructorCalibrator = " + measurementDeviceType);
 			queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"), DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
 			//queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
 		} else {
