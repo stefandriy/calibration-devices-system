@@ -7,6 +7,7 @@ angular
             $scope.isShownForm = true;
             $scope.blockSearchFunctions = false;
 
+
             $scope.createNew = function (ID) {
                 $location.path('/application-sending/' + ID);
             };
@@ -242,14 +243,25 @@ angular
 
             $scope.allSelectedDevices = [];
             $scope.appProgress = false;
+            $scope.deviceShowError = false;
 
 
-            // $scope.sendApplication = function(){};
+            $scope.deviceErrorCheck = function () {
+                //check if devices was selected
+                if ($scope.firstDeviceCount !== "") {
+                    $scope.clientForm.firstDeviceCount.$invalid = false;
+                }
+                if ($scope.firstSelectedDevice.length === 0) {
+                    $scope.clientForm.firstSelectedDevice.$invalid = true;
+                    $scope.clientForm.firstDeviceCount.$invalid = true;
+                }
+            }
+
             $scope.sendApplicationData = function () {
                 $scope.codes = [];
-                $log.debug(" $scope.codeslength");
-                $log.debug($scope.codes.length);
-                // $scope.allSelectedDevices = $scope.selectedDevice.concat($scope.selectedDevice1, $scope.selectedDevice2);
+
+                $scope.deviceErrorCheck();
+
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.clientForm.$valid) {
                     $scope.isShownForm = false;
