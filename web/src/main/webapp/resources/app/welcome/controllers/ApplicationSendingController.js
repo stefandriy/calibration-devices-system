@@ -282,10 +282,6 @@ angular
                     $scope.isShownForm = false;
                     $scope.appProgress = true;
 
-                    $log.debug("$scope.firstSelectedDevice");
-                    $log.debug($scope.firstSelectedDevice);
-                    $log.debug($scope.firstDeviceCount);
-
                     $scope.formData.region = $scope.selectedRegion.designation;
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
@@ -301,10 +297,6 @@ angular
                             $scope.codes.push(values[i].data);
 
                         }
-
-                        $log.debug("$scope.secondSelectedDevice");
-                        $log.debug($scope.secondSelectedDevice);
-                        $log.debug($scope.secondDeviceCount);
                         for (var i = 0; i < $scope.secondDeviceCount; i++) {
                             $scope.formData.deviceId = $scope.secondSelectedDevice.id;
                             $scope.secondAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
@@ -314,11 +306,6 @@ angular
                                 $scope.codes.push(values[i].data);
 
                             }
-
-                            $log.debug("$scope.thirdSelectedDevice");
-                            $log.debug($scope.thirdSelectedDevice);
-                            $log.debug($scope.thirdDeviceCount);
-
                             for (var i = 0; i < $scope.thirdDeviceCount; i++) {
                                 $scope.formData.deviceId = $scope.thirdSelectedDevice.id;
                                 $scope.thirdAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
@@ -334,9 +321,6 @@ angular
                     });
                     $log.debug(" $scope.codeslength");
                     $log.debug($scope.codes.length);
-                    $log.debug($scope.firstAplicationCodes);
-                    $log.debug($scope.secondAplicationCodes);
-                    $log.debug($scope.thirdAplicationCodes);
                 }
             };
             $scope.closeAlert = function () {
