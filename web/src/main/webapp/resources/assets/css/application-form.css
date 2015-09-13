@@ -23,8 +23,9 @@
 }
 #counterNumber {
     padding-left: 0px;
-
-
+}
+.counterNumber {
+    padding-left: 0px;
 }
 #loadIcon{
     text-align: center;

@@ -258,7 +258,7 @@
 
   "REJECT_MESSAGE" : "Reject message",
   "EXPIRATION_DATE" : "Expiration Date",
-
+  "DEVICE_TYPE_REQUIRED" : "Device type required",
   
   "VERIFICATION_PROTOCOLS": "Verification protocols",
   "CREATE_TEST": "Create test",
@@ -280,4 +280,9 @@
   "SAVE" : "Save",
   "RESET" : "Reset",
   "CLOSE" : "Close"
+
+
+
+
+
 }
