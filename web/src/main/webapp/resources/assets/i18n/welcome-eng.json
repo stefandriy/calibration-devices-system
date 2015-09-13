@@ -265,14 +265,19 @@
   "ADD_NEW_SYS_ADMIN" : "Add new system admin",
 
   "CALIBRATION_PLACE" : "Calibration place",
+  "CHOOSE_CALIBRATION_PLACE" : "Choose calibration place",
   "TASK_TITLE" : "Task for verification №",
   "INSTALLATION_PORT" : "portable installation",
   "INSTALLATION_FIX" : "fixed installation",
   "COUNTER" : "Counter:",
+  "CHOOSE_COUNTER_STATUS" : "Choose",
   "INSTALLATION_NUMBER" : "Installation number",
   "DATE_OF_VISIT" : "Date of visit",
   "EXPIRATION_DATE_OF_VISIT" : "Expiration date of visit",
   "FLOOR" : "Floor",
   "SERIAL_NUMBER_OF_COUNTER" : "Serial number of counter",
-  "NOTES" : "Notes"
+  "NOTES" : "Notes",
+  "SAVE" : "Save",
+  "RESET" : "Reset",
+  "CLOSE" : "Close"
 }

@@ -204,9 +204,9 @@ angular
                  }
             });
 
-            $scope.checkFilters = function () {
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
+           $scope.checkFilters = function () {
+               var sortCriteria = Object.keys(params.sorting())[0];
+               var sortOrder = params.sorting()[sortCriteria];
 
                     if ($scope.selectedStatus.name != null) {
                         params.filter().status = $scope.selectedStatus.name.id;
@@ -250,7 +250,7 @@ angular
                 else if (!moment(obj.date).isSame($scope.defaultDate.startDate)
                     || !moment(obj.endDate).isSame($scope.defaultDate.endDate)) {
                     //filters are string,
-                    // so we are temporarily convertin them to momentjs objects
+                    // so we are temporarily converting them to momentjs objects
                     return true;
                 }
                 return false;

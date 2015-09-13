@@ -9,37 +9,54 @@ angular
              * Closes modal window on browser's back/forward button click.
              */
             /*$rootScope.$on('$locationChangeStart', function() {
-                $modalInstance.destroy();
+                angular.element($('#taskModel')).destroy();
             });*/
 
             /**
              * Closes edit modal window.
              */
-           /* $scope.closeModal = function () {
-                $modalInstance.close();
-            };*/
-
-            /**
-             *  Date picker and formatter setup
-             *
-             */
-            $scope.openState = {};
-            $scope.openState.isOpen = false;
-
-            $scope.open = function ($event) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $scope.openState.isOpen = true;
+            $scope.closeModal = function () {
+                console.log("Do you see meeee");
+                angular.element($('#taskModel')).close();
             };
 
+            $scope.calibrationTask = {};
+            $scope.calibrationTask.pickerDate = null;
+            $scope.defaultDate = null;
 
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
+            $scope.initDatePicker = function (date) {
+                /**
+                 *  Date picker and formatter setup
+                 *
+                 */
+
+
+                $scope.calibrationTask.pickerDate = {
+                    startDate: (date ? moment(date, "YYYY-MM-DD") : moment()),
+                    endDate: moment() // current day
+                };
+
+                if ($scope.defaultDate == null) {
+                   $scope.defaultDate = angular.copy($scope.calibrationTask.pickerDate);
+                }
+                moment.locale('uk');
+                $scope.myOptions = {
+                    format: 'DD-MM-YYYY',
+                    showDropdowns: true,
+                    locale: {
+                        firstDay: 1,
+                        fromLabel: 'Від',
+                        toLabel: 'До',
+                        applyLabel: "Прийняти",
+                        cancelLabel: "Закрити"
+                    },
+                    eventHandlers: {}
+                };
             };
 
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-            $scope.format = $scope.formats[2];
+            $scope.showPicker = function ($event) {
+                angular.element("#datepicker").trigger("click");
+            };
+
 
         }]);
