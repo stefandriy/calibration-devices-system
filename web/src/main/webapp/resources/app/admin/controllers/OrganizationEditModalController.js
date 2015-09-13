@@ -24,9 +24,11 @@ angular
 		'$modalInstance',
 		'$filter',
 		'AddressService',
+		'UserService',
 		'OrganizationService','$log',
 		function ($rootScope, $scope, $translate, $modalInstance, $filter,
-				 addressService, organizationService,$log) {
+				 addressService,
+				  userService, organizationService,$log) {
 
 
 			function arrayObjectIndexOf(myArray, searchTerm, property) {
@@ -207,8 +209,8 @@ angular
 				objectTypesToStringTypes();
 				var organizationForm = {
 					name : $rootScope.organization.name,
-					phone : $rootScope.organization.phone,
 					email : $rootScope.organization.email,
+					phone : $rootScope.organization.phone,
 					types: $rootScope.organization.types,
 					employeesCapacity : $rootScope.organization.employeesCapacity,
 					maxProcessTime: $rootScope.organization.maxProcessTime,
@@ -219,6 +221,7 @@ angular
 					building : $rootScope.organization.address.building,
 					flat : $rootScope.organization.address.flat
 				};
+
 				organizationService.editOrganization(
 					organizationForm,
 					$rootScope.organizationId).then(
@@ -228,6 +231,7 @@ angular
 							$scope.resetOrganizationForm();
 							$rootScope.onTableHandling();
 						}
+						else (console.log(data));
 					});
 			};
 

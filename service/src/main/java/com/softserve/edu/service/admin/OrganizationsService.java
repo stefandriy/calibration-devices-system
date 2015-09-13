@@ -100,6 +100,7 @@ public class OrganizationsService {
 		return organizationRepository.getOrganizationTypesById(id);
 	}
 
+
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
 								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {

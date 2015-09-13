@@ -154,7 +154,8 @@ public class OrganizationsController {
 	@RequestMapping(value = "edit/{organizationId}", method = RequestMethod.POST)
 	public ResponseEntity editOrganization(
 			@RequestBody OrganizationEditDTO organization,
-			@PathVariable Long organizationId) {
+			@PathVariable Long organizationId,
+			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 		HttpStatus httpStatus = HttpStatus.OK;
 		Address address = new Address(
 				organization.getRegion(),
