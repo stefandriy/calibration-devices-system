@@ -70,7 +70,7 @@
 
                                     <td data-title="'MEASUREMENT_DEVICE_ID' | translate" sortable="'measurement_device_id'" filter="{ measurement_device_id : 'text' }">{{verification.measurementDeviceId}}</td>
                                     <!--&lt;!&ndash;TODO: need new functional for filtering by   ng-model="filters.measurement_device_id" &ndash;&gt;-->
-                                    <!--<td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"  sortable="'measurement_device_type'" filter="{ 'measurement_device_type': 'text' }">{{ verification.measurementDeviceType }}</td>-->
+                                    <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"  sortable="'measurement_device_type'" filter="{ measurement_device_type : 'deviceType' }">{{ verification.measurementDeviceType }}</td>
                                     <!--&lt;!&ndash; TODO: ask about category, maybe it should be name of measurement device&ndash;&gt;-->
                                     <!--&lt;!&ndash;<td data-title="'MEASUREMENT_DEVICE_CATEGORY' | translate"  sortable="'measurement_device_category'" filter="{ 'measurement_device_category': 'text' }">{{ verification.measurementDeviceCategory }}</td>&ndash;&gt;-->
 
@@ -149,6 +149,21 @@
                                     <ui-select-choices
                                             repeat="status in statusData">
                                         <span ng-bind-html="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </script>
+
+                            <script type="text/ng-template" id="ng-table/filters/deviceType.html">
+                                <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
+                                           search-enabled="false"
+                                           name="filter-deviceType">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="deviceType in deviceTypeData">
+                                        <span ng-bind-html="deviceType.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
                             </script>

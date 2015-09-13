@@ -8,9 +8,14 @@ angular
 
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
+                $scope.selectedDeviceType.name = null;
                 $scope.tableParams.filter({});
                 $scope.clearDate(); // sets 'all time' timerange
             };
+
+
+
+
 
             $scope.clearDate = function () {
                 //daterangepicker doesn't support null dates
@@ -20,6 +25,7 @@ angular
                 $scope.tableParams.filter()['endDate'] = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
             };
+
             $scope.doSearch = function () {
                 $scope.tableParams.reload();
             }
@@ -27,8 +33,15 @@ angular
             $scope.selectedStatus = {
                 name: null
             }
+            //for measurement device type
+            $scope.selectedDeviceType = {
+                name: null
+            }
 
-            $scope.statusData = [{id: 'SENT', label: null},
+
+
+            $scope.statusData = [
+                {id: 'SENT', label: null},
                 {id: 'ACCEPTED', label: null},
                 {id: 'REJECTED', label: null},
                 {id: 'IN_PROGRESS', label: null},
@@ -38,6 +51,14 @@ angular
                 {id: 'SENT_TO_VERIFICATOR', label: null},
                 {id: 'TEST_OK', label: null},
                 {id: 'TEST_NOK', label: null}
+            ];
+
+            //new select measurementDeviceType for search
+            $scope.deviceTypeData = [
+                {id: 'ELECTRICAL', label: null},
+                {id: 'GASEOUS', label: null},
+                {id: 'WATER', label: null},
+                {id: 'THERMAL', label: null}
             ];
 
             $scope.setTypeDataLanguage = function () {
@@ -54,6 +75,11 @@ angular
                     $scope.statusData[8].label = 'Перевірено придатний';
                     $scope.statusData[9].label = 'Перевірено непридатний';
 
+                    $scope.deviceTypeData[0].label = 'Електричний';
+                    $scope.deviceTypeData[1].label = 'Газовий';
+                    $scope.deviceTypeData[2].label = 'Водний';
+                    $scope.deviceTypeData[3].label = 'Термальний';
+
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'Sent';
                     $scope.statusData[1].label = 'Accepted';
@@ -66,10 +92,17 @@ angular
                     $scope.statusData[8].label = 'Tested OK';
                     $scope.statusData[9].label = 'Tested NOK';
 
+                    $scope.deviceTypeData[0].label = 'Electrical';
+                    $scope.deviceTypeData[1].label = 'Gaseous';
+                    $scope.deviceTypeData[2].label = 'Water';
+                    $scope.deviceTypeData[3].label = 'Thermal';
+
                 } else {
                     console.error(lang);
                 }
             };
+
+
 
             $scope.setTypeDataLanguage();
             $scope.myDatePicker = {};
@@ -162,6 +195,13 @@ angular
                         }
                         else {
                             params.filter().status = null; //case when the filter is cleared with a button on the select
+                        }
+
+                        if ($scope.selectedDeviceType.name != null) {
+                            params.filter().measurement_device_type = $scope.selectedDeviceType.name.id;
+                        }
+                        else {
+                            params.filter().measurement_device_type = null; //case when the filter is cleared with a button on the select
                         }
 
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");

@@ -119,6 +119,15 @@ public enum SortCriteriaVerification {
 				return (cb.desc(root.join("device").get("id")));
 			}
 		}
+	},
+	MEASUREMENT_DEVICE_TYPE() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.join("device").get("deviceType")));
+			} else {
+				return (cb.desc(root.join("device").get("deviceType")));
+			}
+		}
 	};
 	
 	 public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {

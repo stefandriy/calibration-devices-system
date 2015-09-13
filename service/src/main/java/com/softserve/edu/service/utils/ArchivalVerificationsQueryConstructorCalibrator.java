@@ -3,6 +3,7 @@ package com.softserve.edu.service.utils;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.DeviceType;
 import com.softserve.edu.entity.util.Status;
 import org.apache.log4j.Logger;
 
@@ -18,6 +19,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String startDateToSearch,
 															   String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
 															   Long measurementDeviceId,
+															   String measurementDeviceType,/*this should sort like "Status"*/
 															   String sortCriteria, String sortOrder, User providerEmployee, EntityManager em) {
 
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -27,7 +29,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
 			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch,
-					status, employeeName, measurementDeviceId, providerEmployee, calibratorJoin);
+					status, employeeName, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
 			if((sortCriteria != null)&&(sortOrder != null)) {
 				criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 			} else {
@@ -40,7 +42,8 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	
 	
 	public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
-													  String streetToSearch, String status, String employeeName, Long measurementDeviceId,
+													  String streetToSearch, String status, String employeeName,
+													  Long measurementDeviceId, String measurementDeviceType,
 													  User providerEmployee, EntityManager em) {
 		
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -48,7 +51,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			Root<Verification> root = countQuery.from(Verification.class);
 			Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 			Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch,
-					idToSearch, fullNameToSearch, streetToSearch, status, employeeName, measurementDeviceId, providerEmployee, calibratorJoin);
+					idToSearch, fullNameToSearch, streetToSearch, status, employeeName, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
 			countQuery.select(cb.count(root));
 			countQuery.where(predicate);
 			return countQuery;
@@ -56,7 +59,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 	
 	private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch,
 											String fullNameToSearch, String streetToSearch, String searchStatus,
-											String employeeName,Long measurementDeviceId, User employee, Join<Verification, Organization> calibratorJoin) {
+											String employeeName,Long measurementDeviceId, String measurementDeviceType, User employee, Join<Verification, Organization> calibratorJoin) {
 
 		Predicate queryPredicate = cb.conjunction();
 		queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
@@ -119,6 +122,13 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			//System.out.println(queryPredicate);
 			//queryPredicate = cb.and(cb.isTrue(cb.equal(root.get("device").get("id"),measurementDeviceId)), queryPredicate);
 			//queryPredicate = cb.and(cb.like(root.get("device").get("id"), "%" + measurementDeviceId.toString() + "%"), queryPredicate);
+		}
+		if (measurementDeviceType != null) {
+			System.out.println(measurementDeviceType);
+			queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"), DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
+			//queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
+		} else {
+
 		}
 
 		return queryPredicate;

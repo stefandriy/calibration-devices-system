@@ -14,7 +14,7 @@ public class ArchiveVerificationsFilterAndSort {
 	private String employee_last_name;
 
 	private Long measurement_device_id;
-
+	private String measurement_device_type;
 
 	public String getId() {
 		return id;
@@ -97,5 +97,13 @@ public class ArchiveVerificationsFilterAndSort {
 
 	public void setMeasurement_device_id(Long measurement_device_id) {
 		this.measurement_device_id = measurement_device_id;
+	}
+
+	public String getMeasurement_device_type() {
+		return measurement_device_type;
+	}
+
+	public void setMeasurement_device_type(String measurement_device_type) {
+		this.measurement_device_type = measurement_device_type;
 	}
 }
