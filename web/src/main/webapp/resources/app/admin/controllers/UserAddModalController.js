@@ -82,7 +82,7 @@ angular
              * Validates
              */
 
-            $scope.checkFirstName = function (caseForValidation) {
+            $scope.checkField = function (caseForValidation) {
                 switch (caseForValidation) {
                     case ('firstName') :
                         var firstName = $scope.employeeFormData.firstName;
@@ -135,7 +135,7 @@ angular
                         var username = $scope.employeeFormData.username;
                         if (username == null) {
                         } else if ($scope.USERNAME_REGEX.test(username)) {
-                            isUsernameAvailable(username)
+                            isUsernameAvailable(username);
                         } else {
                             validator('loginValid', false);
                         }
@@ -160,7 +160,6 @@ angular
                        //     angular.element(document.getElementById('notAv')).addClass('usernameNotAvailable');
                         //}
                     })
-                return $scope.isUsernameAvailable;
             }
             function isUsernameAvailable(username) {
                 userService.isUsernameAvailable(username).then(
