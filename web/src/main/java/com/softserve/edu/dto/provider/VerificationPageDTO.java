@@ -1,6 +1,8 @@
 package com.softserve.edu.dto.provider;
 
 
+import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
@@ -27,12 +29,27 @@ public class VerificationPageDTO {
     private boolean isUpload;
     private Integer processTimeExceeding;
 
+
+    private String protocolId;
+    private String protocolDate;
+    private String protocolStatus;
+
+    private String measurementDeviceId;
+    private String measurementDeviceType;
+
+    private String documentType;
+    private String documentDate;
+
+
     public VerificationPageDTO() {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street, String region,
-                               Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee, 
-                               String name, String fullName, String district, String locality, String phone,boolean isUpload, Integer processTimeExceeding) {
+                               Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee,
+                               String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
+                               CalibrationTest calibrationTest,
+                               Device device,
+                               String documentType, String documentDate) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -63,13 +80,39 @@ public class VerificationPageDTO {
                 this.stateVerificatorEmployee = stateVerificatorEmployee.getLastName() + " " + stateVerificatorEmployee.getFirstName();
             }
         }
-        this.fullName=fullName;
-        this.district=district;
-        this.locality=locality;
-        this.phone=phone;
-        this.isUpload=isUpload;
+        this.fullName = fullName;
+        this.district = district;
+        this.locality = locality;
+        this.phone = phone;
+        this.isUpload = isUpload;
         this.processTimeExceeding = processTimeExceeding;
+        if (calibrationTest != null) {
+            if (calibrationTest.getId() != null) {
+                this.protocolId = calibrationTest.getId().toString();
+            }
+            if (calibrationTest.getDateTest() != null) {
+                this.protocolDate = calibrationTest.getDateTest().toString();
+            }
+            if (calibrationTest.getConsumptionStatus() != null) {
+                this.protocolStatus = calibrationTest.getConsumptionStatus().toString();
+            }
+        }
+        if (device != null) {
+            if (device.getId() != null) {
+                this.measurementDeviceId = device.getId().toString();
+            }
+            if (device.getDeviceType() != null) {
+                this.measurementDeviceType = device.getDeviceType().toString();
+            }
+        }
+        if (documentType != null) {
+            this.documentType = documentType;
+        }
+        if (documentDate != null) {
+            this.documentDate = documentDate;
+        }
     }
+
     public VerificationPageDTO(Long count) {
         this.countOfWork = count;
     }
@@ -181,20 +224,20 @@ public class VerificationPageDTO {
     }
 
     public String getCalibratorEmployee() {
-		return calibratorEmployee;
-	}
+        return calibratorEmployee;
+    }
 
-	public void setCalibratorEmployee(String calibratorEmployee) {
-		this.calibratorEmployee = calibratorEmployee;
-	}
+    public void setCalibratorEmployee(String calibratorEmployee) {
+        this.calibratorEmployee = calibratorEmployee;
+    }
 
-	public String getStateVerificatorEmployee() {
-		return stateVerificatorEmployee;
-	}
+    public String getStateVerificatorEmployee() {
+        return stateVerificatorEmployee;
+    }
 
-	public void setStateVerificatorEmployee(String stateVerificatorEmployee) {
-		this.stateVerificatorEmployee = stateVerificatorEmployee;
-	}
+    public void setStateVerificatorEmployee(String stateVerificatorEmployee) {
+        this.stateVerificatorEmployee = stateVerificatorEmployee;
+    }
 
     public boolean isUpload() {
         return isUpload;
@@ -203,16 +246,16 @@ public class VerificationPageDTO {
     public void setIsUpload(boolean isUpload) {
         this.isUpload = isUpload;
     }
-    
+
     public Integer getProcessTimeExceeding() {
-		return processTimeExceeding;
-	}
+        return processTimeExceeding;
+    }
 
-	public void setProcessTimeExceeding(Integer processTimeExceeding) {
-		this.processTimeExceeding = processTimeExceeding;
-	}
+    public void setProcessTimeExceeding(Integer processTimeExceeding) {
+        this.processTimeExceeding = processTimeExceeding;
+    }
 
-	@Override
+    @Override
     public String toString() {
         return "VerificationPageDTO{" +
                 "id='" + id + '\'' +
@@ -232,6 +275,62 @@ public class VerificationPageDTO {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getProtocolId() {
+        return protocolId;
+    }
+
+    public void setProtocolId(String protocolId) {
+        this.protocolId = protocolId;
+    }
+
+    public String getProtocolDate() {
+        return protocolDate;
+    }
+
+    public void setProtocolDate(String protocolDate) {
+        this.protocolDate = protocolDate;
+    }
+
+    public String getProtocolStatus() {
+        return protocolStatus;
+    }
+
+    public void setProtocolStatus(String protocolStatus) {
+        this.protocolStatus = protocolStatus;
+    }
+
+    public String getMeasurementDeviceId() {
+        return measurementDeviceId;
+    }
+
+    public void setMeasurementDeviceId(String measurementDeviceId) {
+        this.measurementDeviceId = measurementDeviceId;
+    }
+
+    public String getMeasurementDeviceType() {
+        return measurementDeviceType;
+    }
+
+    public void setMeasurementDeviceType(String measurementDeviceType) {
+        this.measurementDeviceType = measurementDeviceType;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
+    public String getDocumentDate() {
+        return documentDate;
+    }
+
+    public void setDocumentDate(String documentDate) {
+        this.documentDate = documentDate;
     }
 }
 

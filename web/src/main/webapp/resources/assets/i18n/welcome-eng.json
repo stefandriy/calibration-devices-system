@@ -60,7 +60,15 @@
   "EMPLOYEE":"Employees",
   "EMPLOYEE_SINGLE": "Employee full name",
 
+  "PROTOCOL_ID":"Protocol ID",
+  "PROTOCOL_DATE":"Protocol creation date",
+  "PROTOCOL_STATUS":"Protocol status",
+
   "MEASUREMENT_DEVICE_ID":"Device ID",
+  "MEASUREMENT_DEVICE_TYPE":"Device type",
+
+  "DOCUMENT_TYPE":"Document type",
+  "DOCUMENT_DATE":"Document creation date",
 
   "MORE":"More",
   "VERIFICATIONS":"Verifications",

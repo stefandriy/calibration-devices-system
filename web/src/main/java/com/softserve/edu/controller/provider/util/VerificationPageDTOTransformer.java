@@ -1,6 +1,7 @@
 package com.softserve.edu.controller.provider.util;
 
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Verification;
 
 import java.util.ArrayList;
@@ -10,7 +11,14 @@ public class VerificationPageDTOTransformer {
 
     public static List<VerificationPageDTO> toDtoFromList(List<Verification> list){
         List<VerificationPageDTO> resultList = new ArrayList<VerificationPageDTO>();
+        CalibrationTest calibrationTest = new CalibrationTest();
         for (Verification verification : list) {
+            boolean isCalibrationTests = verification.getCalibrationTests().iterator().hasNext();
+            if (isCalibrationTests) {
+                calibrationTest = verification.getCalibrationTests().iterator().next();
+            } else {
+                calibrationTest = null;
+            }
             resultList.add(new VerificationPageDTO(
                             verification.getId(),
                             verification.getInitialDate(),
@@ -28,7 +36,11 @@ public class VerificationPageDTOTransformer {
                             verification.getClientData().getClientAddress().getLocality(),
                             verification.getClientData().getPhone(),
                             verification.getBbiProtocol()==null?false:true,
-                            verification.getProcessTimeExceeding())
+                            verification.getProcessTimeExceeding(),
+                            calibrationTest,
+                            verification.getDevice(),
+                            null,
+                            null)
             );
         }
         return resultList;
