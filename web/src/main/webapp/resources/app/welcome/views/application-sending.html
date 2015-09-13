@@ -341,10 +341,10 @@
                         </p>
                     </div>
                 </div>
+
                 <div class="form-group" show-errors>
                     <label for="device" class="col-md-2 control-label">
                         {{'COUNTER_CATEGORY' | translate}} </label>
-
                     <div class="col-md-8 " id="counterNumber">
                         <div class="pull-left col-lg-3" >
                             <select chosen width="'100%'" id="firstDeviceCount" name="firstDeviceCount"
@@ -360,22 +360,20 @@
                                 <option value="6">6</option>
                             </select>
                         </div>
-                        <div class="col-md-9 pull-right input-group " >
+                        <div class="col-md-9 pull-right input-group " id="deviceBox" >
                             <select chosen  type="text" width="'100%'" name="firstSelectedDevice" id="firstSelectedDevice"
                                     ng-model="firstSelectedDevice"
                                     data-placeholder="Категорія лічильника"
                                     ng-required="test"
                                     ng-options="device as device.designation for device in devices | filter: $viewValue"
                                     required>
-                                <!--<option value="" ng-if="false"></option>-->
                             </select>
-
-                            <div class="input-group-addon btn btn-default btn-circle " for="otherDeviceCheck">
-                                <label for="otherDeviceCheck"><i
+                            <div class="input-group-addon btn btn-default btn-circle " for="isSecondDeviceCheck">
+                                <label for="isSecondDeviceCheck"><i
                                         class="glyphicon glyphicon-plus input-block-level"/></label>
                                 <input type="checkbox"
-                                       ng-model="otherDevice"
-                                       id="otherDeviceCheck"/>
+                                       ng-model="isSecondDevice"
+                                       id="isSecondDeviceCheck"/>
                             </div>
                         </div>
                         <p class="help-block" ng-if="clientForm.firstDeviceCount.$error.required">
@@ -388,18 +386,20 @@
                             {{'DEVICE_TYPE_REQUIRED' | translate}}
                         </p>
                     </div>
-
                 </div>
-                <div class="form-group" show-errors ng-show="otherDevice">
-                    <label for="device" class="col-md-2 control-label">
-                        {{'COUNTER_CATEGORY' | translate}} </label>
 
+                <div class="form-group" show-errors ng-show="isSecondDevice">
+                    <label for="device2" class="col-md-2 control-label">
+                        {{'COUNTER_CATEGORY' | translate}} </label>
                     <div class="col-md-8 ">
                         <div class="pull-left col-lg-3" id="counterNumber">
                             <select chosen width="'100%'"
+                                    ng-required="isSecondDevice"
                                     disable-search="true"
                                     data-placeholder="Кількість"
-                                    name="typeStreet" type="text"
+                                    ng-model-options="{allowInvalid: true}"
+                                    id="secondDeviceCount" name="secondDeviceCount"
+                                    type="text"
                                     ng-model="secondDeviceCount" class="form-control">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -410,34 +410,47 @@
                             </select>
                         </div>
                         <div class="col-md-9 pull-right input-group" id="deviceBox">
-                            <select chosen name="device" type="text" width="'100%'"
+                            <select chosen
+                                    name="secondSelectedDevice"
+                                    id="secondSelectedDevice"
+                                    type="text"
+                                    ng-model-options="{allowInvalid: true}"
+                                    width="'100%'"
                                     ng-model="secondSelectedDevice"
                                     data-placeholder="Категорія лічильника"
                                     ng-options="device as device.designation for device in devices | filter: $viewValue">
                             </select>
 
-                            <div class="input-group-addon  btn btn-default btn-circle"><label for="otherDeviceCheck1"><i
+                            <div class="input-group-addon  btn btn-default btn-circle"><label for="isThirdDeviceCheck"><i
                                     class="glyphicon glyphicon-plus"/></label>
                                 <input type="checkbox"
-                                       ng-model="otherDevice1"
-                                       id="otherDeviceCheck1"/>
+                                       ng-model="isThirdDevice"
+                                       id="isThirdDeviceCheck"/>
                             </div>
                         </div>
-                        <p class="help-block">
+                        <p class="help-block" ng-if="clientForm.secondDeviceCount.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
+                        <p class="help-block"
+                           ng-if="clientForm.secondSelectedDevice.$invalid">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'DEVICE_TYPE_REQUIRED' | translate}}
+                        </p>
                     </div>
                 </div>
-                <div class="form-group" show-errors ng-show="otherDevice1">
-                    <label for="device" class="col-md-2 control-label">
-                        {{'COUNTER_CATEGORY' | translate}} </label>
 
+                <div class="form-group" show-errors ng-show="isThirdDevice">
+                    <label for="device3" class="col-md-2 control-label">
+                        {{'COUNTER_CATEGORY' | translate}} </label>
                     <div class="col-md-8 ">
                         <div class="pull-left col-lg-3" id="counterNumber">
                             <select chosen width="'100%'"
+                                    ng-required="isThirdDevice"
                                     data-placeholder="Кількість"
                                     disable-search="true"
+                                    ng-model-options="{allowInvalid: true}"
+                                    id="thirdDeviceCount" name="thirdDeviceCount"
                                     name="typeStreet" type="text"
                                     ng-model="thirdDeviceCount" class="form-control">
                                 <option value="1">1</option>
@@ -449,16 +462,25 @@
                             </select>
                         </div>
                         <div class="col-md-9 pull-right input-group" id="deviceBox">
-                            <select chosen name="device" type="text" width="'100%'"
+                            <select chosen
+                                    name="thirdSelectedDevice"
+                                    id="thirdSelectedDevice"
+                                    type="text" width="'100%'"
                                     ng-model="thirdSelectedDevice"
                                     allow-single-deselect="true"
+                                    ng-model-options="{allowInvalid: true}"
                                     data-placeholder="Категорія лічильника"
                                     ng-options="device as device.designation for device in devices | filter: $viewValue">
                             </select>
                         </div>
-                        <p class="help-block">
+                        <p class="help-block" ng-if="clientForm.thirdDeviceCount.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                        <p class="help-block"
+                           ng-if="clientForm.thirdSelectedDevice.$invalid">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'DEVICE_TYPE_REQUIRED' | translate}}
                         </p>
                     </div>
                 </div>

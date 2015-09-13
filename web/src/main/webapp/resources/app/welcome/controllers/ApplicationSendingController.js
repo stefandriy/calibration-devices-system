@@ -220,9 +220,6 @@ angular
             $scope.firstDeviceCount = "";
             $scope.secondDeviceCount = "";
             $scope.thirdDeviceCount = "";
-            //$scope.devicesByType = [];
-            // $scope.devicesType = [];
-
 
             dataReceivingService.findAllDevices()
                 .success(function (devices) {
@@ -230,6 +227,36 @@ angular
                     $scope.firstSelectedDevice = [];
 
                 });
+
+
+            /**
+             *  Check if all devices were selected
+             */
+            $scope.deviceErrorCheck = function () {
+                if ($scope.firstDeviceCount !== "") {
+                    $scope.clientForm.firstDeviceCount.$invalid = false;
+                }
+                if ($scope.firstSelectedDevice.length === 0) {
+                    $scope.clientForm.firstSelectedDevice.$invalid = true;
+                    $scope.clientForm.firstDeviceCount.$invalid = true;
+                }
+
+                if (($scope.secondDeviceCount !== "") || ($scope.secondDeviceCount === undefined)) {
+                    $scope.clientForm.secondDeviceCount.$invalid = false;
+                }
+                if ($scope.secondSelectedDevice.length === 0) {
+                    $scope.clientForm.secondSelectedDevice.$invalid = true;
+                    $scope.clientForm.secondDeviceCount.$invalid = true;
+                }
+
+                if (($scope.thirdDeviceCount !== "") || ($scope.thirdDeviceCount === undefined)) {
+                    $scope.clientForm.thirdDeviceCount.$invalid = false;
+                }
+                if ($scope.thirdSelectedDevice.length === 0) {
+                    $scope.clientForm.thirdSelectedDevice.$invalid = true;
+                    $scope.clientForm.thirdDeviceCount.$invalid = true;
+                }
+            }
 
             /**
              * Sends data to the server where Verification entity will be created.
@@ -244,18 +271,6 @@ angular
             $scope.allSelectedDevices = [];
             $scope.appProgress = false;
             $scope.deviceShowError = false;
-
-
-            $scope.deviceErrorCheck = function () {
-                //check if devices was selected
-                if ($scope.firstDeviceCount !== "") {
-                    $scope.clientForm.firstDeviceCount.$invalid = false;
-                }
-                if ($scope.firstSelectedDevice.length === 0) {
-                    $scope.clientForm.firstSelectedDevice.$invalid = true;
-                    $scope.clientForm.firstDeviceCount.$invalid = true;
-                }
-            }
 
             $scope.sendApplicationData = function () {
                 $scope.codes = [];
