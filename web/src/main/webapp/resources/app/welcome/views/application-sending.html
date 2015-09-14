@@ -494,6 +494,26 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label for="comment" class="col-md-2 control-label">
+                        {{'APPLICATION_COMMENT' | translate}}
+                        <a popover="{{'APPLICATION_COMMENT_EXAMPLE' | translate}}"
+                           popover-trigger="mouseenter">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </label>
+
+                    <div class="col-md-8">
+                        <textarea id="comment" name="comment" class="form-control" rows="3"
+                                  ng-model="formData.comment" maxlength="254"></textarea>
+                        <!--<p class="help-block"
+                           ng-if="clientForm.comment.$error.maxlength">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'DEVICE_TYPE_REQUIRED' | translate}}
+                        </p>-->
+                    </div>
+                </div>
+
                 <div class="form-group ">
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-success  pull-right text-uppercase">

@@ -76,16 +76,28 @@ public class Verification {
         this.rejectedMessage = rejectedMessage;
     }
 
+    private String comment;
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+
     @OneToOne
     BbiProtocol bbiProtocol;
 
     @OneToOne(mappedBy = "verification")
     private CalibrationPlanningTask task;
-    
+
     private Integer processTimeExceeding;
 
     public Verification() {
     }
+
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,
                         ReadStatus readStatus) {
@@ -94,6 +106,11 @@ public class Verification {
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,
                         ReadStatus readStatus, Organization calibrator) {
+        this(initialDate, expirationDate, clientData, provider, device, status, readStatus, calibrator, null);
+    }
+
+    public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,
+                        ReadStatus readStatus, Organization calibrator, String comment) {
         this.id = UUID.randomUUID().toString();
         this.initialDate = initialDate;
         this.expirationDate = expirationDate;
@@ -103,7 +120,9 @@ public class Verification {
         this.status = status;
         this.readStatus = readStatus;
         this.calibrator = calibrator;
+        this.comment = comment;
     }
+
 
     public String getId() {
         return id;
@@ -234,14 +253,14 @@ public class Verification {
     }
 
     public Integer getProcessTimeExceeding() {
-		return processTimeExceeding;
-	}
+        return processTimeExceeding;
+    }
 
-	public void setProcessTimeExceeding(Integer processTimeExceeding) {
-		this.processTimeExceeding = processTimeExceeding;
-	}
+    public void setProcessTimeExceeding(Integer processTimeExceeding) {
+        this.processTimeExceeding = processTimeExceeding;
+    }
 
-	@Override
+    @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)

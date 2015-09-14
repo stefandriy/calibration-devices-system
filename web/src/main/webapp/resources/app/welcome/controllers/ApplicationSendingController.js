@@ -35,6 +35,7 @@ angular
                     $scope.formData.email = $scope.verification.data.email;
                     $scope.formData.phone = $scope.verification.data.phone;
                     $scope.formData.flat = $scope.verification.data.flat;
+                    $scope.formData.comment = $scope.verification.data.comment;
 
                     $scope.blockSearchFunctions = true;
                     dataReceivingService.findAllRegions().then(function (respRegions) {

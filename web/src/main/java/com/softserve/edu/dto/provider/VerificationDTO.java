@@ -28,6 +28,9 @@ public class VerificationDTO extends ClientStageVerificationDTO {
     private Address providerAddress;
     private Address calibratorAddress;
 
+    private String rejectedMessage;
+    // private String comment;
+
     public String getRejectedMessage() {
         return rejectedMessage;
     }
@@ -36,7 +39,13 @@ public class VerificationDTO extends ClientStageVerificationDTO {
         this.rejectedMessage = rejectedMessage;
     }
 
-    private String rejectedMessage;
+    /*public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }*/
 
     public VerificationDTO() {
     }
@@ -81,6 +90,7 @@ public class VerificationDTO extends ClientStageVerificationDTO {
         this.providerAddress = (calibrator == null) ? null : provider.getAddress();
         this.calibratorAddress = (stateVerificator == null) ? null : calibrator.getAddress();
     }
+
     //add new constructor for delegation rejected message
     public VerificationDTO(
             ClientData clientData,
@@ -97,8 +107,31 @@ public class VerificationDTO extends ClientStageVerificationDTO {
             User stateVerificatorEmployee,
             String rejectedMessage) {
 
-        this(clientData,id,initialDate,expirationDate,status,calibrator,calibratorEmployee,device,provider,providerEmployee,stateVerificator,stateVerificatorEmployee);
+        this(clientData, id, initialDate, expirationDate, status, calibrator, calibratorEmployee, device, provider, providerEmployee, stateVerificator, stateVerificatorEmployee);
         this.rejectedMessage = rejectedMessage;
+    }
+
+    /**
+     * Constructor for delegation comment
+     */
+    public VerificationDTO(
+            ClientData clientData,
+            String id,
+            Date initialDate,
+            Date expirationDate,
+            Status status,
+            Organization calibrator,
+            User calibratorEmployee,
+            Device device,
+            Organization provider,
+            User providerEmployee,
+            Organization stateVerificator,
+            User stateVerificatorEmployee,
+            String rejectedMessage,
+            String comment) {
+
+        this(clientData, id, initialDate, expirationDate, status, calibrator, calibratorEmployee, device, provider, providerEmployee, stateVerificator, stateVerificatorEmployee, rejectedMessage);
+        super.setComment(comment);
     }
 
     public String getId() {

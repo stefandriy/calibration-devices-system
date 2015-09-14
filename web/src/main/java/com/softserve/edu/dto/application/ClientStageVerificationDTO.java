@@ -4,163 +4,196 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
 
 public class ClientStageVerificationDTO {
-	private String firstName;
-	private String lastName;
-	private String middleName;
-	private String email;
-	private String phone;
-	private String secondPhone;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private String email;
+    private String phone;
+    private String secondPhone;
 
-	private String region;
-	private String locality;
-	private String district;
-	private String street;
-	private String building;
-	private String flat;
-	private Long providerId;
-	private Long deviceId;
-	private String verificationId;
+    private String region;
+    private String locality;
+    private String district;
+    private String street;
+    private String building;
+    private String flat;
+    private Long providerId;
+    private Long deviceId;
+    private String verificationId;
 
-	protected ClientStageVerificationDTO() {
-	}
+    private String comment;
 
-	public ClientStageVerificationDTO(ClientData clientData, Address address, Long providerId, Long deviceId,
-			String verificationId) {
-		this.firstName = clientData.getFirstName();
-		this.lastName = clientData.getLastName();
-		this.middleName = clientData.getMiddleName();
-		this.email = clientData.getEmail();
-		this.phone = clientData.getPhone();
-		this.secondPhone = clientData.getSecondPhone();
-		this.region = address.getRegion();
-		this.locality = address.getLocality();
-		this.district = address.getDistrict();
-		this.street = address.getStreet();
-		this.building = address.getBuilding();
-		this.flat = address.getFlat();
-		this.providerId = providerId;
-		this.deviceId = deviceId;
-		this.verificationId = verificationId;
-	}
+    protected ClientStageVerificationDTO() {
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    /**
+     *
+     * @param clientData
+     * @param address
+     * @param providerId
+     * @param deviceId
+     * @param verificationId
+     */
+    public ClientStageVerificationDTO(ClientData clientData, Address address, Long providerId, Long deviceId,
+                                      String verificationId) {
+        this.firstName = clientData.getFirstName();
+        this.lastName = clientData.getLastName();
+        this.middleName = clientData.getMiddleName();
+        this.email = clientData.getEmail();
+        this.phone = clientData.getPhone();
+        this.secondPhone = clientData.getSecondPhone();
+        this.region = address.getRegion();
+        this.locality = address.getLocality();
+        this.district = address.getDistrict();
+        this.street = address.getStreet();
+        this.building = address.getBuilding();
+        this.flat = address.getFlat();
+        this.providerId = providerId;
+        this.deviceId = deviceId;
+        this.verificationId = verificationId;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    /**
+     * Constructor for deligation comment
+     *
+     * @param clientData
+     * @param address
+     * @param providerId
+     * @param deviceId
+     * @param verificationId
+     * @param comment
+     */
+    public ClientStageVerificationDTO(ClientData clientData, Address address, Long providerId, Long deviceId,
+                                      String verificationId, String comment) {
+        this(clientData, address, providerId, deviceId, verificationId);
+        this.comment = comment;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getMiddleName() {
-		return middleName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getRegion() {
-		return region;
-	}
+    public String getMiddleName() {
+        return middleName;
+    }
 
-	public void setRegion(String region) {
-		this.region = region;
-	}
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
 
-	public String getLocality() {
-		return locality;
-	}
+    public String getRegion() {
+        return region;
+    }
 
-	public void setLocality(String locality) {
-		this.locality = locality;
-	}
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
-	public String getDistrict() {
-		return district;
-	}
+    public String getLocality() {
+        return locality;
+    }
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public String getDistrict() {
+        return district;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public void setDistrict(String district) {
+        this.district = district;
+    }
 
-	public String getBuilding() {
-		return building;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public void setBuilding(String building) {
-		this.building = building;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public String getFlat() {
-		return flat;
-	}
+    public String getBuilding() {
+        return building;
+    }
 
-	public void setFlat(String flat) {
-		this.flat = flat;
-	}
+    public void setBuilding(String building) {
+        this.building = building;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getFlat() {
+        return flat;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setFlat(String flat) {
+        this.flat = flat;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getSecondPhone() {
-		return secondPhone;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setSecondPhone(String secondPhone) {
-		this.secondPhone = secondPhone;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public Long getProviderId() {
-		return providerId;
-	}
+    public String getSecondPhone() {
+        return secondPhone;
+    }
 
-	public void setProviderId(Long providerId) {
-		this.providerId = providerId;
-	}
+    public void setSecondPhone(String secondPhone) {
+        this.secondPhone = secondPhone;
+    }
 
-	public Long getDeviceId() {
-		return deviceId;
-	}
+    public Long getProviderId() {
+        return providerId;
+    }
 
-	public void setDeviceId(Long deviceId) {
-		this.deviceId = deviceId;
-	}
+    public void setProviderId(Long providerId) {
+        this.providerId = providerId;
+    }
 
-	public String getVerificationId() {
-		return verificationId;
-	}
+    public Long getDeviceId() {
+        return deviceId;
+    }
 
-	public void setVerificationId(String verificationId) {
-		this.verificationId = verificationId;
-	}
+    public void setDeviceId(Long deviceId) {
+        this.deviceId = deviceId;
+    }
 
+    public String getVerificationId() {
+        return verificationId;
+    }
+
+    public void setVerificationId(String verificationId) {
+        this.verificationId = verificationId;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
