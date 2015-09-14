@@ -59,6 +59,9 @@ public class OrganizationsController {
 					organizationDTO.getTypes(),
 					organizationDTO.getEmployeesCapacity(),
 					organizationDTO.getMaxProcessTime(),
+					organizationDTO.getFirstName(),
+					organizationDTO.getLastName(),
+					organizationDTO.getMiddleName(),
 					organizationDTO.getUsername(),
 					organizationDTO.getPassword(),
 					address);
