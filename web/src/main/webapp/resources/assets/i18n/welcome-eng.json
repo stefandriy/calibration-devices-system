@@ -152,7 +152,10 @@
 	"TEST_NOK_TRASLATION":"Counter tested : not suitable!",
 	"SECOND_PHONE":"Additional phone number",
 	"SECOND_PHONE_NUMBER_INFO":"If you want / do not want to enter an additional phone number, click here.",
-	
+
+    "DETAIL":"More",
+    "DOWNLOAD_DOC":"Download doc in 'docx' format",
+
 	"PLEASE_DESCRIBE_REASON":"Please explain why verification is being rejected",
   	"REJECT":"Reject",
   	"REASON_OF_REJECTION":"Please provide the detailed reason why this verification needs to be rejected",

@@ -31,65 +31,83 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
-                                   class="table table-bordered table-hover users_table">
+                            <div class="table-responsive">
+                                <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
+                                       class="table table-bordered table-hover users_table">
 
-                                <tbody>
-                                <tr ng-repeat="verification in $data">
-                                    <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
-                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
-                                        'dd-MM-yyyy'}}
-                                        <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
-                                            translate}} {{verification.processTimeExceeding}} {{'DAYS' |
-                                            translate}}</b>
-                                        </div>
-                                    </td>
-                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
-                                        filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
-                                    </td>
-                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
-                                        filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
-                                    </td>
-                                    <td data-title="'CLIENT_STREET' | translate" sortable="'street'"
-                                        filter="{ 'street': 'text' }">{{ verification.street }}
-                                    </td>
-                                    <td data-title="'STATUS' | translate" sortable="'status'"
-                                        filter="{ 'status': 'status' }">{{ verification.status | translate }}
-                                    </td>
-                                    <td data-title="'EMPLOYEE_SINGLE' | translate" sortable="'employee_last_name'"
-                                        filter="{ 'employee_last_name': 'text' }">{{ verification.calibratorEmployee }}
-                                    </td>
-                                    <!--//TODO: add correct search -->
-                                    <!-- here should add this column: -->
-                                    <!-- TODO: add button that will be show all this information (ng-show)-->
-                                    <!--&lt;!&ndash; TODO: archive add new column&ndash;&gt;-->
-                                    <td data-title="'PROTOCOL_ID' | translate " sortable="'protocol_id'" filter="{ protocol_id : 'text' }" >{{verification.protocolId}}</td>
-                                    <!--&lt;!&ndash;TODO: need new functional for filtering by   ng-model="filters.protocol_id" &ndash;&gt;-->
-                                    <!--<td data-title="'PROTOCOL_DATE' | translate"  sortable="'protocol_date'" filter="{ 'protocol_date': 'text' }">{{ verification.protocolDate }}</td>-->
-                                    <td data-title="'PROTOCOL_STATUS' | translate" sortable="'protocol_status'" filter="{ protocol_status : 'protocolStatus'}">{{ verification.protocolStatus }}</td>
+                                    <tbody>
+                                    <tr ng-repeat="verification in $data">
+                                        <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
+                                            filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
+                                            'dd-MM-yyyy'}}
+                                            <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
+                                                translate}} {{verification.processTimeExceeding}} {{'DAYS' |
+                                                translate}}</b>
+                                            </div>
+                                        </td>
+                                        <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
+                                            filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
+                                        </td>
+                                        <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
+                                            filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
+                                        </td>
+                                        <td data-title="'CLIENT_STREET' | translate" sortable="'street'"
+                                            filter="{ 'street': 'text' }">{{ verification.street }}
+                                        </td>
+                                        <td data-title="'STATUS' | translate" sortable="'status'"
+                                            filter="{ 'status': 'status' }">{{ verification.status | translate }}
+                                        </td>
+                                        <td data-title="'EMPLOYEE_SINGLE' | translate" sortable="'employee_last_name'"
+                                            filter="{ 'employee_last_name': 'text' }">{{ verification.calibratorEmployee
+                                            }}
+                                        </td>
+                                        <!--//TODO: add correct search -->
+                                        <!-- here should add this column: -->
+                                        <!-- TODO: add button that will be show all this information (ng-show)-->
+                                        <!--&lt;!&ndash; TODO: archive add new column&ndash;&gt;-->
+                                        <td data-title="'PROTOCOL_ID' | translate " sortable="'protocol_id'"
+                                            filter="{ protocol_id : 'text' }">{{verification.protocolId}}
+                                        </td>
+                                        <!--&lt;!&ndash;TODO: need new functional for filtering by   ng-model="filters.protocol_id" &ndash;&gt;-->
+                                        <!--<td data-title="'PROTOCOL_DATE' | translate"  sortable="'protocol_date'" filter="{ 'protocol_date': 'text' }">{{ verification.protocolDate }}</td>-->
+                                        <td data-title="'PROTOCOL_STATUS' | translate" sortable="'protocol_status'"
+                                            filter="{ protocol_status : 'protocolStatus'}">{{
+                                            verification.protocolStatus }}
+                                        </td>
 
-                                    <td data-title="'MEASUREMENT_DEVICE_ID' | translate" sortable = "'measurement_device_id'" filter="{ measurement_device_id : 'text' }">{{verification.measurementDeviceId}}</td>
-                                    <!--&lt;!&ndash;TODO: need new functional for filtering by   ng-model="filters.measurement_device_id" &ndash;&gt;-->
-                                    <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"  sortable="'measurement_device_type'" filter="{ measurement_device_type : 'deviceType' }">{{ verification.measurementDeviceType }}</td>
-                                    <!--&lt;!&ndash; TODO: ask about category, maybe it should be name of measurement device&ndash;&gt;-->
-                                    <!--&lt;!&ndash;<td data-title="'MEASUREMENT_DEVICE_CATEGORY' | translate"  sortable="'measurement_device_category'" filter="{ 'measurement_device_category': 'text' }">{{ verification.measurementDeviceCategory }}</td>&ndash;&gt;-->
+                                        <td data-title="'MEASUREMENT_DEVICE_ID' | translate"
+                                            sortable="'measurement_device_id'"
+                                            filter="{ measurement_device_id : 'text' }">
+                                            {{verification.measurementDeviceId}}
+                                        </td>
+                                        <!--&lt;!&ndash;TODO: need new functional for filtering by   ng-model="filters.measurement_device_id" &ndash;&gt;-->
+                                        <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
+                                            sortable="'measurement_device_type'"
+                                            filter="{ measurement_device_type : 'deviceType' }">{{
+                                            verification.measurementDeviceType }}
+                                        </td>
+                                        <!--&lt;!&ndash; TODO: ask about category, maybe it should be name of measurement device&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<td data-title="'MEASUREMENT_DEVICE_CATEGORY' | translate"  sortable="'measurement_device_category'" filter="{ 'measurement_device_category': 'text' }">{{ verification.measurementDeviceCategory }}</td>&ndash;&gt;-->
 
-                                    <!--<td data-title="'DOCUMENT_TYPE' | translate"  sortable="'document_type'" filter="{ 'document_type': 'text' }">{{ verification.documentType }}</td>-->
-                                    <!--<td data-title="'DOCUMENT_DATE' | translate"  sortable="'document_date'" filter="{ 'document_date': 'text' }">{{ verification.documentDate }}</td>-->
-                                    <td data-title="'ACTIONS' | translate" style="width: 7%">
-                                        <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
-                                            <img src="/resources/assets/button-icons/details.png" popover="Детальніше"
-                                                 popover-trigger="mouseenter"
-                                                 ng-click="openDetails(verification.id, verification.initialDate)">
-                                            <a popover="Download doc in 'docx' format" popover-trigger="mouseenter"
-                                               href="{{'/doc/info/' + verification.id + '/docx'}}">
-                                                <i class="fa fa-file-word-o"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                        <!--<td data-title="'DOCUMENT_TYPE' | translate"  sortable="'document_type'" filter="{ 'document_type': 'text' }">{{ verification.documentType }}</td>-->
+                                        <!--<td data-title="'DOCUMENT_DATE' | translate"  sortable="'document_date'" filter="{ 'document_date': 'text' }">{{ verification.documentDate }}</td>-->
+                                        <td data-title="'ACTIONS' | translate" style="width: 24%">
+                                            <div class="control_buttons"   style="width: 12%">
+                                                <i class="fa fa-info-circle info_icon"
+                                                     popover="{{ 'DETAIL' | translate }}"
+                                                     popover-trigger="mouseenter"
+                                                     ng-click="openDetails(verification.id, verification.initialDate)">
+                                                </i>
+                                                <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
+                                                   href="{{'/doc/info/' + verification.id + '/docx'}}">
+                                                    <i class="fa fa-file-word-o"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <script type="text/ng-template" id="custom/pager">
                                 <div>
                                     <ul class="pager ng-cloak">
@@ -120,6 +138,7 @@
                                     </ul>
                                 </div>
                             </script>
+
 
                             <script type="text/ng-template" id="ng-table/filters/daterange.html">
                                 <div class="input-group right-inner-addon" style="width: 100%">
