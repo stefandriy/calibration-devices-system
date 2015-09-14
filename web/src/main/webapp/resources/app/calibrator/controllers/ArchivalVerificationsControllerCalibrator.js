@@ -9,6 +9,7 @@ angular
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.selectedDeviceType.name = null;
+                $scope.selectedProtocolStatus.name = null;
                 $scope.tableParams.filter({});
                 $scope.clearDate(); // sets 'all time' timerange
             };
@@ -37,6 +38,9 @@ angular
             $scope.selectedDeviceType = {
                 name: null
             }
+            $scope.selectedProtocolStatus = {
+                name: null
+            }
 
 
 
@@ -61,6 +65,12 @@ angular
                 {id: 'THERMAL', label: null}
             ];
 
+
+            $scope.protocolStatusData = [
+                {id: 'SUCCESS', label: null},
+                {id: 'FAILED', label: null}
+            ];
+
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
@@ -80,6 +90,9 @@ angular
                     $scope.deviceTypeData[2].label = 'Водний';
                     $scope.deviceTypeData[3].label = 'Термальний';
 
+                    $scope.protocolStatusData[0].label = 'Успішний';
+                    $scope.protocolStatusData[1].label = 'Провалений';
+
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'Sent';
                     $scope.statusData[1].label = 'Accepted';
@@ -96,6 +109,9 @@ angular
                     $scope.deviceTypeData[1].label = 'Gaseous';
                     $scope.deviceTypeData[2].label = 'Water';
                     $scope.deviceTypeData[3].label = 'Thermal';
+
+                    $scope.protocolStatusData[0].label = 'SUCCESS';
+                    $scope.protocolStatusData[1].label = 'FAILED';
 
                 } else {
                     console.error(lang);
@@ -202,6 +218,12 @@ angular
                         }
                         else {
                             params.filter().measurement_device_type = null; //case when the filter is cleared with a button on the select
+                        }
+
+                        if ($scope.selectedProtocolStatus.name != null) {
+                            params.filter().protocol_status = $scope.selectedProtocolStatus.name.id;
+                        } else {
+                            params.filter().protocol_status = null;
                         }
 
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");

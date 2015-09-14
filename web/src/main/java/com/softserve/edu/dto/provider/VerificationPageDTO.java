@@ -94,8 +94,8 @@ public class VerificationPageDTO {
             if (calibrationTest.getDateTest() != null) {
                 this.protocolDate = calibrationTest.getDateTest().toString();
             }
-            if (calibrationTest.getConsumptionStatus() != null) {
-                this.protocolStatus = calibrationTest.getConsumptionStatus().toString();
+            if (calibrationTest.getTestResult() != null) {
+                this.protocolStatus = calibrationTest.getTestResult().toString();
             }
         }
         if (device != null) {
