@@ -30,81 +30,59 @@
 						</p>
 
 					</div>
+					<div class="form-group col-md-4">
+						<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN'
+							| translate }}</label>
+					</div>
 
-					<div>
-						<div class="form-group col-md-4">
-							<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN'
-								| translate }}</label>
-						</div>
-
-						<div class="form-group col-md-8">
-							<select multiple chosen type="text" class="form-control"
-								ng-model="organizationFormData.types"
-								data-placeholder="Choose type"
+					<div class="form-group col-md-8">
+						<select multiple chosen type="text" class="form-control" ng-model="organizationFormData.types" data-placeholder="Choose type"
 								ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types">
-							</select>
-						</div>
+						</select>
 					</div>
 
-					<div>
-						<div class="form-group col-md-4">
-							<label class="control-label">{{'EMAIL' | translate }}</label>
-						</div>
-						<div class="form-group col-md-8" show-errors>
-
-							<input id="email" name="email" type="email" class="form-control"
-								ng-model="organizationFormData.email"
-								placeholder="example@gmail.com" required>
-
-							<p class="help-block"
-								ng-if="organizationFormData.email.$error.email">
-								<span class="glyphicon glyphicon-exclamation-sign"></span>
-								{{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
-							</p>
-
-						</div>
+				    <div class="form-group col-md-4">
+						<label class="control-label">{{'EMAIL' | translate }}</label>
 					</div>
-
-					<div>
-						<div class="form-group col-md-4">
-							<label class="control-label">{{'ORGANIZATION_TELEPHON_NUMBER_ADMIN'
-								| translate }}</label>
-						</div>
-
-						<div class="form-group col-md-8" show-errors>
-							<div>
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon-code">+380</span>
-									<input id="phoneNumber" name="phoneNumber" type="text"
-										class="form-control col-md-8 "
-										ng-model="organizationFormData.phone" placeholder="XXXXXXXXX"
+				    <div class="form-group col-md-8" show-errors>
+						<input id="email" name="email" type="email" class="form-control"
+							   ng-model="organizationFormData.email"
+							   placeholder="example@gmail.com" required>
+						<p class="help-block"
+						   ng-if="organizationFormData.email.$error.email">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
+						</p>
+					</div>
+					<div class="form-group col-md-4">
+						<label class="control-label">{{'ORGANIZATION_TELEPHON_NUMBER_ADMIN'
+							| translate }}</label>
+					</div>
+					<div class="form-group col-md-8" show-errors>
+						<div class="input-group">
+							<span class="input-group-addon" id="basic-addon-code">+380</span>
+							<input id="phoneNumber" name="phoneNumber" type="text"
+								   class="form-control col-md-8 "
+								   ng-model="organizationFormData.phone" placeholder="XXXXXXXXX"
 										ng-pattern="PHONE_REGEX" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<p class="help-block col-md-8 col-md-offset-2"
-									ng-if="organizationFormData.phone.$error.pattern">
-									<span class="glyphicon glyphicon-exclamation-sign"></span>
-									{{'PHONE_NUMBER_ERROR' | translate}}
-								</p>
-							</div>
 						</div>
 					</div>
-
-
-					<div>
-						<div class="form-group col-md-4">
-							<label class="control-label">{{'NUMBER_OF_EMPLOYEES' |
-								translate}}</label>
-						</div>
-						<div class="form-group col-md-8" show-errors>
-
-							<input type="number" id="capacity" name="capacity"
-								class="form-control"
-								ng-model="organizationFormData.employeesCapacity" min="1"
-								required>
-
-						</div>
+					<div class="form-group">
+						<p class="help-block col-md-8 col-md-offset-2"
+						   ng-if="organizationFormData.phone.$error.pattern">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'PHONE_NUMBER_ERROR' | translate}}
+						</p>
+					</div>
+					<div class="form-group col-md-4">
+						<label class="control-label">{{'NUMBER_OF_EMPLOYEES' |
+							translate}}</label>
+					</div>
+					<div class="form-group col-md-8" show-errors>
+						<input type="number" id="capacity" name="capacity"
+							   class="form-control"
+							   ng-model="organizationFormData.employeesCapacity" min="1"
+							   required>
 					</div>
 
 					<div class="pull-left">
@@ -225,6 +203,7 @@
 							translate}}</label>
 					</div>
 					<div class="form-group col-md-8" show-errors>
+						<input type="password" name="password" class="form-control hidden">
 						<input type="password" ng-model="organizationFormData.password"
 							ng-pattern="PASSWORD_REGEX" name="password" class="form-control"
 							required>
@@ -320,11 +299,18 @@
 										typeahead="street as street.designation for street in streets | filter:  { designation: $viewValue} | limitTo: 4"
 										typeahead-on-select="onStreetSelected(organizationFormData.street.id)"
 										typeahead-editable="false" class="form-control" required>
-										<a ng-if="!organizationFormData.street" style="color: #b27e77"
+									<div ng-show="organizationFormData.$submitted || organizationFormData.street.$touched" >
+										<p class="help-block" ng-if="!organizationFormData.street.$error.required">
+											<span class="glyphicon glyphicon-exclamation-sign"></span>
+											{{'ORGANIZATION_INVALID_STREET'
+											| translate }}
+										</p>
+									</div>
+									<!--<a ng-if="!organizationFormData.street" style="color: #b27e77"
 										ng-click="feedbackModalNoProvider()"> <i
 										class="fa fa-info-circle"> <ins>{{'ORGANIZATION_INVALID_STREET'
 												| translate }} </ins></i>
-									</a>
+									</a>-->
 								</div>
 							</div>
 
@@ -347,8 +333,7 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="flat" type="text"
-										ng-model="organizationFormData.flat" class="form-control"
-										>
+										ng-model="organizationFormData.flat" class="form-control">
 								</div>
 							</div>
 						</div>
