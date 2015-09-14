@@ -48,6 +48,19 @@
                                         <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
                                             filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
                                         </td>
+                                        <td data-title="'ACTIONS' | translate" style="width: 24%">
+                                            <div class="control_buttons"   style="width: 12%">
+                                                <i class="fa fa-info-circle info_icon"
+                                                   popover="{{ 'DETAIL' | translate }}"
+                                                   popover-trigger="mouseenter"
+                                                   ng-click="openDetails(verification.id, verification.initialDate)">
+                                                </i>
+                                                <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
+                                                   href="{{'/doc/info/' + verification.id + '/docx'}}">
+                                                    <i class="fa fa-file-word-o"></i>
+                                                </a>
+                                            </div>
+                                        </td>
                                         <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
                                             filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
                                         </td>
@@ -91,19 +104,6 @@
 
                                         <!--<td data-title="'DOCUMENT_TYPE' | translate"  sortable="'document_type'" filter="{ 'document_type': 'text' }">{{ verification.documentType }}</td>-->
                                         <!--<td data-title="'DOCUMENT_DATE' | translate"  sortable="'document_date'" filter="{ 'document_date': 'text' }">{{ verification.documentDate }}</td>-->
-                                        <td data-title="'ACTIONS' | translate" style="width: 24%">
-                                            <div class="control_buttons"   style="width: 12%">
-                                                <i class="fa fa-info-circle info_icon"
-                                                     popover="{{ 'DETAIL' | translate }}"
-                                                     popover-trigger="mouseenter"
-                                                     ng-click="openDetails(verification.id, verification.initialDate)">
-                                                </i>
-                                                <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
-                                                   href="{{'/doc/info/' + verification.id + '/docx'}}">
-                                                    <i class="fa fa-file-word-o"></i>
-                                                </a>
-                                            </div>
-                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
