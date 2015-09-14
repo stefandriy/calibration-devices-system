@@ -24,7 +24,9 @@ require.config({
         bootstrapDateRangePicker: "../assets/bower_components/bootstrap-daterangepicker/daterangepicker",
         angularDateRangePicker: "../assets/bower_components/angular-daterangepicker/js/angular-daterangepicker.min",
         angularUISelect: "../assets/bower_components/ui-select/dist/select.min",
-        ngSanitize: "../assets/bower_components/angular-sanitize/angular-sanitize.min"
+        ngSanitize: "../assets/bower_components/angular-sanitize/angular-sanitize.min",
+        angularJsToaster : "../assets/bower_components/angularjs-toaster/toaster.min",
+        angularAnimate : "../assets/bower_components/angular-animate/angular-animate.min"
     },
     shim: {
         angular: {
@@ -98,11 +100,15 @@ require.config({
         ngSanitize:{
             deps:['angular']
         },
+        angularJsToaster: {
+            deps:['angularAnimate'],
+            exports: 'angularJsToaster'
+        },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
                 'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload', 'ngRoute', 'angularLoadingBar',
-                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize']
+                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize', 'angularJsToaster']
         }
     }
 });

@@ -17,7 +17,10 @@ require
 				bootstrapAngularSwitch : '../../assets/bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch',
 				angularjsScrollGlue :'../../assets/bower_components/angularjs-scroll-glue/src/scrollglue',
 				angularSimpleChat:'../../assets/bower_components/angular-bootstrap-simple-chat/src/scripts/index',
-
+				angularUISelect: "../../assets/bower_components/ui-select/dist/select.min",
+				ngSanitize: "../../assets/bower_components/angular-sanitize/angular-sanitize.min",
+				angularAnimate : "../../assets/bower_components/angular-animate/angular-animate.min",
+				angularJsToaster : "../../assets/bower_components/angularjs-toaster/toaster.min",
 				welcomeModule : 'welcomeModule'
 			},
 			shim : {
@@ -74,11 +77,22 @@ require
 					exports : "angularSimpleChat",
 					deps : [ 'angular']
 				},
+				angularAnimate:{
+					deps:['angular']
+				},
+				angularJsToaster: {
+					deps:['angular', 'angularAnimate'],
+					exports: 'angularJsToaster'
+				},
 
-				/*
-				 * angularUiSelect : { exports : "ui.select" , deps : [
-				 * 'angular' ] },
-				 */
+				angularUISelect: {
+					deps:['angular'],
+					exports: 'angularUISelect'
+				},
+
+				ngSanitize:{
+					deps:['angular']
+				},
 				welcomeModule : {
 					deps : [ 'angular', 'csrfInterceptor', 'angularBootstrap',
 							'angularTranslate', 'angularCookie',
@@ -86,7 +100,7 @@ require
 							'angularTranslateStorageLocal',
 							'angularTranslateLoaderStaticFiles',
 							'angularUIRouter', 'showErrors', 'ngTable',
-							'chosen','bootstrapAngularSwitch','angularjsScrollGlue','angularSimpleChat' ]
+							'chosen','bootstrapAngularSwitch','angularjsScrollGlue','angularSimpleChat', 'angularUISelect', 'ngSanitize', 'angularAnimate','angularJsToaster' ]
 				}
 			}
 		});

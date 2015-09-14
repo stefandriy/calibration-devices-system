@@ -43,6 +43,17 @@ public class Organization {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
 	private Set<User> users = new HashSet<User>(0);
 
+	@OneToMany(mappedBy = "provider")
+	private Set<Device> devices;
+
+	public Set<Device> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(Set<Device> devices) {
+		this.devices = devices;
+	}
+
 	@JsonManagedReference
 	@ManyToMany
 	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), inverseJoinColumns = @JoinColumn(name = "id"))
