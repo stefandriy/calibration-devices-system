@@ -133,6 +133,73 @@
 			<div class="panel-body">
 
 				<div class="row">
+
+					<div class="form-group col-md-4">
+						<label class="control-label">{{'LAST_NAME' |translate }}*</label>
+					</div>
+					<div class="form-group col-md-8" show-errors>
+						<input id="lastName" name="lastName" class="form-control"
+							   type="text" ng-model="$root.organization.lastName"
+							   ng-change="checkFirstName('lastName')"
+							   ng-pattern="FIRST_LAST_NAME_REGEX" required>
+						<div ng-show="employeeForm.$submitted || employeeForm.lastName.$touched">
+							<p class="validation-message" ng-if="employeeForm.lastName.$error.required">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'REQUIRED' | translate}}
+							</p>
+
+							<p class="validation-message" ng-if="employeeForm.lastName.$error.pattern">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+							</p>
+						</div>
+					</div>
+
+					<div class="form-group col-md-4">
+						<label class="control-label">{{'FIRST_NAME' |translate }}*</label>
+					</div>
+					<div class="form-group col-md-8" ng-class="firstNameValidation.css" show-errors>
+						<input type="text" ng-model="$root.organization.firstName"
+							   ng-change="checkFirstName('firstName')"
+							   id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
+							   name="firstName" class="form-control" required>
+
+						<div ng-show="employeeForm.$submitted || employeeForm.firstName.$touched">
+							<p class="validation-message" ng-if="employeeForm.firstName.$error.required">
+								<span class="glyphicon glyphicon-exclamation-sign "></span>
+								{{'REQUIRED' | translate}}
+							</p>
+
+							<p class="validation-message" ng-if="employeeForm.firstName.$error.pattern">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE' | translate }}
+							</p>
+						</div>
+					</div>
+
+					<div class="form-group col-md-4">
+						<label class="control-label">{{'MIDDLE_NAME' | translate }}*</label>
+					</div>
+					<div class="form-group col-md-8" ng-class="middleNameValidation.css" show-errors>
+						<input type="text" ng-model="$root.organization.middleName"
+							   ng-pattern="MIDDLE_NAME_REGEX"
+							   ng-change="checkFirstName('middleName')"
+							   id="middleName" name="middleName" class="form-control" required>
+
+						<div ng-show="employeeForm.$submitted || employeeForm.middleName.$touched">
+
+							<p class="validation-message" ng-if="employeeForm.middleName.$error.required">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'REQUIRED' | translate}}
+							</p>
+
+							<p class="validation-message" ng-if="employeeForm.middleName.$error.pattern">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'INCORRECT_VALUE_MIDDLE_NAME_ADD_EMPLOYEE' | translate }}
+							</p>
+						</div>
+					</div>
+
 					<div class="form-group col-md-4">
 						<label class="control-label">{{'LOGIN_TWO' | translate }}</label>
 					</div>
@@ -158,7 +225,6 @@
 							translate}}</label>
 					</div>
 					<div class="form-group col-md-8" show-errors>
-						<input type="password" name="password" class="form-control hidden"q>
 						<input type="password" ng-model="organizationFormData.password"
 							ng-pattern="PASSWORD_REGEX" name="password" class="form-control"
 							required>
@@ -248,7 +314,7 @@
 									<label class="control-label">{{'STREET_TWO' | translate
 										}} </label>
 								</div>
-								<div class="form-group col-md-8">
+								<div class="form-group col-md-8" show-errors>
 									<input name="street" type="text"
 										ng-model="organizationFormData.street"
 										typeahead="street as street.designation for street in streets | filter:  { designation: $viewValue} | limitTo: 4"
@@ -282,7 +348,7 @@
 								<div class="form-group col-md-8">
 									<input name="flat" type="text"
 										ng-model="organizationFormData.flat" class="form-control"
-										required>
+										>
 								</div>
 							</div>
 						</div>

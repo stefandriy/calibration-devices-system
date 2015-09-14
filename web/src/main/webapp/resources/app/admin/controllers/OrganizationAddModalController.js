@@ -111,7 +111,7 @@ angular
 			$scope.checkRePassword = function() {
 				var password = $scope.organizationFormData.password;
 				var rePassword = $scope.organizationFormData.rePassword;
-				if (password != rePassword) {
+				if (password !== rePassword) {
 					$scope.isPasswordsEqual = false;
 				} else {
 					$scope.isPasswordsEqual = true;
@@ -244,7 +244,7 @@ angular
 				$modalInstance.close();
 			};
 
-			$scope.ORGANIZATION_NAME_REGEX = /^(?=.{5,50}$).*/;
+			$scope.ORGANIZATION_NAME_REGEX = /^[\w\u0430-\u044f'" ]+$/;
 			$scope.PHONE_REGEX = /^[1-9]\d{8}$/;
 			$scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 			$scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
