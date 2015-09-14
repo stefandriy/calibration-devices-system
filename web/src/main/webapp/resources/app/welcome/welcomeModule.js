@@ -7,7 +7,7 @@
 							'ui.bootstrap.showErrors', 'ngTable',
 							'localytics.directives',
 							'frapontillo.bootstrap-switch', 'luegg.directives',
-							'irontec.simpleChat' ])
+							'irontec.simpleChat','ngAnimate', 'toaster'])
 
 			.config(
 					[

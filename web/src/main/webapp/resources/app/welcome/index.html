@@ -16,6 +16,7 @@
 <link rel="stylesheet"href="/resources/assets/bower_components/angular-bootstrap-simple-chat/src/css/themes.css">
 <link rel="stylesheet"href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
 <link rel="stylesheet" href="/resources/assets/css/loader.css">
+	<link href="/resources/assets/bower_components/angularjs-toaster/toaster.min.css" rel="stylesheet">
 
 
 </head>
@@ -74,6 +75,8 @@
 
 		<div ui-view></div>
 	</div>
+
+	<toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
 	<script type="text/javascript"
 		data-main="/resources/app/welcome/runApp"
 		src="/resources/assets/bower_components/requirejs/require.js"></script>

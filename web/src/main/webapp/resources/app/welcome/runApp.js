@@ -17,6 +17,8 @@ require
 				bootstrapAngularSwitch : '../../assets/bower_components/angular-bootstrap-switch/dist/angular-bootstrap-switch',
 				angularjsScrollGlue :'../../assets/bower_components/angularjs-scroll-glue/src/scrollglue',
 				angularSimpleChat:'../../assets/bower_components/angular-bootstrap-simple-chat/src/scripts/index',
+				angularAnimate : "../../assets/bower_components/angular-animate/angular-animate.min",
+				angularJsToaster : "../../assets/bower_components/angularjs-toaster/toaster.min",
 
 				welcomeModule : 'welcomeModule'
 			},
@@ -74,6 +76,13 @@ require
 					exports : "angularSimpleChat",
 					deps : [ 'angular']
 				},
+				angularAnimate:{
+					deps:['angular']
+				},
+				angularJsToaster: {
+					deps:['angular', 'angularAnimate'],
+					exports: 'angularJsToaster'
+				},
 
 				/*
 				 * angularUiSelect : { exports : "ui.select" , deps : [
@@ -86,7 +95,7 @@ require
 							'angularTranslateStorageLocal',
 							'angularTranslateLoaderStaticFiles',
 							'angularUIRouter', 'showErrors', 'ngTable',
-							'chosen','bootstrapAngularSwitch','angularjsScrollGlue','angularSimpleChat' ]
+							'chosen','bootstrapAngularSwitch','angularjsScrollGlue','angularSimpleChat','angularAnimate','angularJsToaster' ]
 				}
 			}
 		});
