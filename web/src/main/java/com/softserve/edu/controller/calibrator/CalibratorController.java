@@ -193,7 +193,7 @@ public class CalibratorController {
                                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 //        System.out.println("CalibratorController searchData.getMeasurement_device_type() " + searchData.getMeasurement_device_type());
-        System.out.println("prot from CalibratorController = "+searchData.getProtocol_id());
+        System.out.println("prot from CalibratorController  protocol status= "+searchData.getProtocol_status());
         ListToPageTransformer<Verification> queryResult = verificationService
                 .findPageOfArchiveVerificationsByCalibratorId(
                         employeeUser.getOrganizationId(),
@@ -207,6 +207,7 @@ public class CalibratorController {
                         searchData.getStatus(),
                         searchData.getEmployee_last_name(),
                         searchData.getProtocol_id(),
+                        searchData.getProtocol_status(),
                         searchData.getMeasurement_device_id(),
                         searchData.getMeasurement_device_type(),
                         sortCriteria,

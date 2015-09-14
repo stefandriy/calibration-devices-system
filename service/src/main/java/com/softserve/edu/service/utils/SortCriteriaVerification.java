@@ -137,6 +137,15 @@ public enum SortCriteriaVerification {
 				return (cb.desc(root.join("calibrationTests").get("id")));
 			}
 		}
+	},
+	PROTOCOL_STATUS() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.join("calibrationTests").get("testResult")));
+			} else {
+				return (cb.desc(root.join("calibrationTests").get("testResult")));
+			}
+		}
 	};
 	
 	 public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
