@@ -36,6 +36,11 @@ public class UsersService {
     }
 
     @Transactional
+    public User getUserByRoleAndOrganization(String role, Long organizationId){
+        return userRepository.findByRoleAndOrganizationId(role, organizationId);
+    }
+
+    @Transactional
     public void addEmployee(User user) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(passwordEncoded);

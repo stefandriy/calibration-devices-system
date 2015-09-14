@@ -3,6 +3,9 @@ package com.softserve.edu.controller.admin.util;
 import com.softserve.edu.dto.admin.OrganizationPageDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.OrganizationType;
+import com.softserve.edu.service.UserService;
+import com.softserve.edu.service.admin.UsersService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +16,10 @@ import java.util.Set;
  * Created by vova on 03.09.15.
  */
 public class OrganizationPageDTOTransformer {
+
+    @Autowired
+    private static UsersService userService;
+
     public static List<OrganizationPageDTO> toDtoFromList(List<Organization> list){
         List<OrganizationPageDTO> resultList = new ArrayList<OrganizationPageDTO>();
         for (Organization organization : list) {
@@ -35,7 +42,10 @@ public class OrganizationPageDTOTransformer {
                     organization.getAddress().getRegion(),
                     organization.getAddress().getLocality(),
                     organization.getAddress().getDistrict(),
-                    organization.getAddress().getStreet()
+                    organization.getAddress().getStreet()/*,
+                    userService.getUserByRoleAndOrganization(organization.getOrganizationTypes().+"_ADMIN",organization.getId()).getFirstName(),
+*/
+
             ));
         }
         return resultList;
