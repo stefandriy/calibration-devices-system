@@ -8,6 +8,7 @@ import com.softserve.edu.dto.admin.OrganizationEditDTO;
 import com.softserve.edu.dto.admin.OrganizationPageDTO;
 import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationsService;
@@ -20,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/admin/organization/")
@@ -160,6 +163,12 @@ public class OrganizationsController {
 			@PathVariable Long organizationId,
 			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 		HttpStatus httpStatus = HttpStatus.OK;
+	//	Set<String> set =(HashSet<String>) organizationsService.getDeviceTypesByOrganization(32L);
+	//	System.out.println(set);
+//		for (Device device : organizationsService.getOrganizationById(organizationId).getDevices()){
+//			System.out.println("!!!type:" + device.getDeviceType());
+//		}
+
 		Address address = new Address(
 				organization.getRegion(),
 				organization.getDistrict(),

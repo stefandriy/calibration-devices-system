@@ -132,4 +132,9 @@ public class OrganizationsService {
 		return organizationRepository.getOrganizationEmployeesCapacity(organizationId);
 	}
 
+	@Transactional
+	public Set<String> getDeviceTypesByOrganization(Long organizationId){
+		return organizationRepository.getDeviceTypesByOrganization(organizationId);
+	}
+
 }
