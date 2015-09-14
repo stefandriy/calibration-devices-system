@@ -87,6 +87,24 @@ public class User {
 	 *            first name
 	 * @param lastName
 	 *            last name
+	 * @param middleName
+	 *            Middle name
+	 */
+	public User(String firstName, String lastName, String middleName,
+				String username, String password, Organization organization) {
+		this(username, password, organization);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleName = middleName;
+	}
+
+	/**
+	 * Completes constructor above with optional values *
+	 *
+	 * @param firstName
+	 *            first name
+	 * @param lastName
+	 *            last name
 	 * @param email
 	 *            email
 	 * @param phone

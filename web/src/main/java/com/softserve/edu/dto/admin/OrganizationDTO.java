@@ -7,7 +7,10 @@ public class OrganizationDTO {
 	private String[] types;
 	private Integer employeesCapacity;
 	private Integer maxProcessTime;
-	
+
+	private String firstName;
+	private String lastName;
+	private String middleName;
 	private String username;
 	private String password;
 	private String rePassword;
@@ -60,6 +63,30 @@ public class OrganizationDTO {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
 
 	public String getUsername() {
