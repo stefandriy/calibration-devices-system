@@ -48,16 +48,46 @@
                                         <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
                                             filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
                                         </td>
-                                        <td data-title="'ACTIONS' | translate" style="width: 24%">
-                                            <div class="control_buttons"   style="width: 12%">
+                                        <td data-title="'ACTIONS' | translate" class="control_buttons"   style="width: 12%">
                                                 <i class="fa fa-info-circle info_icon"
                                                    popover="{{ 'DETAIL' | translate }}"
                                                    popover-trigger="mouseenter"
                                                    ng-click="openDetails(verification.id, verification.initialDate)">
                                                 </i>
                                                 <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
+                                                   target="_blank"
                                                    href="{{'/doc/info/' + verification.id + '/docx'}}">
                                                     <i class="fa fa-file-word-o"></i>
+                                                </a>
+                                            <!-- -->
+                                            <div ng-show="verification.status === 'TEST_OK' || verification.status === 'SENT_TO_VERIFICATOR'">
+                                                <a
+                                                   popover="{{ 'DETAIL' | translate }}"
+                                                   popover-trigger="mouseenter"
+                                                   ng-click="">
+                                                    <!-- TODO: add new modal window with result of test or add some function that will be show in new Window document in docs format-->
+                                                    <i class="fa fa-external-link"></i>
+                                                </a>
+                                                <a
+                                                   popover="Завантажити тестові дані у форматі 'docx'"
+                                                   target="_blank"
+                                                   popover-trigger="mouseenter"
+                                                   href="{{'/doc/'+verification.documentType + '/' + verification.id + '/'+ verification.protocolId + '/docx'}}">
+                                                    <i class="fa fa-download"></i>
+                                                </a>
+                                                <a
+                                                   popover="Завантажити тестові дані у форматі 'pdf'"
+                                                   target="_blank"
+                                                   popover-trigger="mouseenter"
+                                                   href="{{'/doc/test/' + verification.id + '/pdf'}}">
+                                                    <i class="fa fa-file-pdf-o"></i>
+                                                </a>
+                                                <a
+                                                        popover="Друк"
+                                                        target="_blank"
+                                                        popover-trigger="mouseenter"
+                                                        href="{{'/doc/test/' + verification.id + '/pdf'}}">
+                                                    <i class="fa fa-print"></i>
                                                 </a>
                                             </div>
                                         </td>

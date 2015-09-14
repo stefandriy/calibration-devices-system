@@ -1,9 +1,11 @@
 package com.softserve.edu.dto.provider;
 
 
+import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.CalibrationTestResult;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 
@@ -30,14 +32,14 @@ public class VerificationPageDTO {
     private Integer processTimeExceeding;
 
 
-    private String protocolId;
+    private Long protocolId;
     private String protocolDate;
     private String protocolStatus;
 
     private String measurementDeviceId;
     private String measurementDeviceType;
 
-    private String documentType;
+    private DocumentType documentType;
     private String documentDate;
 
 
@@ -89,13 +91,21 @@ public class VerificationPageDTO {
         if (calibrationTest != null) {
             if (calibrationTest.getId() != null) {
                 System.out.println("PageDTO protocolId " + protocolId);
-                this.protocolId = calibrationTest.getId().toString();
+                this.protocolId = calibrationTest.getId();
             }
             if (calibrationTest.getDateTest() != null) {
                 this.protocolDate = calibrationTest.getDateTest().toString();
             }
             if (calibrationTest.getTestResult() != null) {
                 this.protocolStatus = calibrationTest.getTestResult().toString();
+                System.out.println("protocolStatus = " + protocolStatus);
+                if (protocolStatus == CalibrationTestResult.SUCCESS.toString()) {
+                    System.out.println("documentType = " +  this.documentType);
+                    this.documentType = DocumentType.VERIFICATION_CERTIFICATE;
+                } else {
+                    this.documentType = DocumentType.UNFITNESS_CERTIFICATE;
+                }
+                System.out.println("documentType = " +  this.documentType);
             }
         }
         if (device != null) {
@@ -105,9 +115,6 @@ public class VerificationPageDTO {
             if (device.getDeviceType() != null) {
                 this.measurementDeviceType = device.getDeviceType().toString();
             }
-        }
-        if (documentType != null) {
-            this.documentType = documentType;
         }
         if (documentDate != null) {
             this.documentDate = documentDate;
@@ -278,11 +285,11 @@ public class VerificationPageDTO {
         this.fullName = fullName;
     }
 
-    public String getProtocolId() {
+    public Long getProtocolId() {
         return protocolId;
     }
 
-    public void setProtocolId(String protocolId) {
+    public void setProtocolId(Long protocolId) {
         this.protocolId = protocolId;
     }
 
@@ -318,11 +325,11 @@ public class VerificationPageDTO {
         this.measurementDeviceType = measurementDeviceType;
     }
 
-    public String getDocumentType() {
+    public DocumentType getDocumentType() {
         return documentType;
     }
 
-    public void setDocumentType(String documentType) {
+    public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType;
     }
 
