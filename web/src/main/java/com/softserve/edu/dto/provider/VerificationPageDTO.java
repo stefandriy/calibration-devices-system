@@ -88,6 +88,7 @@ public class VerificationPageDTO {
         this.processTimeExceeding = processTimeExceeding;
         if (calibrationTest != null) {
             if (calibrationTest.getId() != null) {
+                System.out.println("PageDTO protocolId " + protocolId);
                 this.protocolId = calibrationTest.getId().toString();
             }
             if (calibrationTest.getDateTest() != null) {

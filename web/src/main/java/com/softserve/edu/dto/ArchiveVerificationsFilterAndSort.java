@@ -13,6 +13,8 @@ public class ArchiveVerificationsFilterAndSort {
 	private String status;
 	private String employee_last_name;
 
+	private Long protocol_id;
+
 	private Long measurement_device_id;
 	private String measurement_device_type;
 
@@ -105,5 +107,13 @@ public class ArchiveVerificationsFilterAndSort {
 
 	public void setMeasurement_device_type(String measurement_device_type) {
 		this.measurement_device_type = measurement_device_type;
+	}
+
+	public Long getProtocol_id() {
+		return protocol_id;
+	}
+
+	public void setProtocol_id(Long protocol_id) {
+		this.protocol_id = protocol_id;
 	}
 }

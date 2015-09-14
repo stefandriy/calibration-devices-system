@@ -63,7 +63,7 @@
                                     <!-- here should add this column: -->
                                     <!-- TODO: add button that will be show all this information (ng-show)-->
                                     <!--&lt;!&ndash; TODO: archive add new column&ndash;&gt;-->
-                                    <!--<td data-title="'PROTOCOL_ID'" sortable="'protocol_id'" filter="{ 'text' }">{{verification.protocolId}}</td>-->
+                                    <td data-title="'PROTOCOL_ID' | translate " sortable="'protocol_id'" filter="{ protocol_id : 'text' }" >{{verification.protocolId}}</td>
                                     <!--&lt;!&ndash;TODO: need new functional for filtering by   ng-model="filters.protocol_id" &ndash;&gt;-->
                                     <!--<td data-title="'PROTOCOL_DATE' | translate"  sortable="'protocol_date'" filter="{ 'protocol_date': 'text' }">{{ verification.protocolDate }}</td>-->
                                     <!--<td data-title="'PROTOCOL_STATUS' | translate"  sortable="'protocol_status'" filter="{ 'protocol_status': 'text' }">{{ verification.protocolStatus }}</td>-->

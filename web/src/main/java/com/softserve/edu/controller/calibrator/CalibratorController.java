@@ -192,7 +192,8 @@ public class CalibratorController {
                                                                                        @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, ArchiveVerificationsFilterAndSort searchData,
                                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
-        System.out.println("CalibratorController searchData.getMeasurement_device_type() " + searchData.getMeasurement_device_type());
+//        System.out.println("CalibratorController searchData.getMeasurement_device_type() " + searchData.getMeasurement_device_type());
+        System.out.println("prot from CalibratorController = "+searchData.getProtocol_id());
         ListToPageTransformer<Verification> queryResult = verificationService
                 .findPageOfArchiveVerificationsByCalibratorId(
                         employeeUser.getOrganizationId(),
@@ -205,6 +206,7 @@ public class CalibratorController {
                         searchData.getStreet(),
                         searchData.getStatus(),
                         searchData.getEmployee_last_name(),
+                        searchData.getProtocol_id(),
                         searchData.getMeasurement_device_id(),
                         searchData.getMeasurement_device_type(),
                         sortCriteria,
