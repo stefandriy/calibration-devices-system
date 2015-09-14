@@ -259,7 +259,10 @@
   "REJECT_MESSAGE" : "Reject message",
   "EXPIRATION_DATE" : "Expiration Date",
   "DEVICE_TYPE_REQUIRED" : "Device type required",
-  
+  "DATA_PROCESSING" : "Data processing",
+  "APPLICATION_COMMENT" : "Comment",
+  "APPLICATION_COMMENT_EXAMPLE" : "Example: in case of water absence please specify till when is no water, plumbing in working order, is meteorological seal,  floor, entrance",
+
   "VERIFICATION_PROTOCOLS": "Verification protocols",
   "CREATE_TEST": "Create test",
   "ADD_NEW_SYS_ADMIN" : "Add new system admin",

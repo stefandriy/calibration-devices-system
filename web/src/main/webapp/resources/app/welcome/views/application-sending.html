@@ -345,12 +345,13 @@
                 <div class="form-group" show-errors>
                     <label for="device" class="col-md-2 control-label">
                         {{'COUNTER_CATEGORY' | translate}} </label>
+
                     <div class="col-md-8 " id="counterNumber">
-                        <div class="pull-left col-lg-3" >
+                        <div class="pull-left col-lg-3">
                             <select chosen width="'100%'" id="firstDeviceCount" name="firstDeviceCount"
                                     data-placeholder="Кількість"
                                     disable-search="true"
-                                     type="text"
+                                    type="text"
                                     ng-model="firstDeviceCount" class="form-control" required>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -360,14 +361,16 @@
                                 <option value="6">6</option>
                             </select>
                         </div>
-                        <div class="col-md-9 pull-right input-group " id="deviceBox" >
-                            <select chosen  type="text" width="'100%'" name="firstSelectedDevice" id="firstSelectedDevice"
+                        <div class="col-md-9 pull-right input-group " id="deviceBox">
+                            <select chosen type="text" width="'100%'" name="firstSelectedDevice"
+                                    id="firstSelectedDevice"
                                     ng-model="firstSelectedDevice"
                                     data-placeholder="Категорія лічильника"
                                     ng-required="test"
                                     ng-options="device as device.designation for device in devices | filter: $viewValue"
                                     required>
                             </select>
+
                             <div class="input-group-addon btn btn-default btn-circle " for="isSecondDeviceCheck">
                                 <label for="isSecondDeviceCheck"><i
                                         class="glyphicon glyphicon-plus input-block-level"/></label>
@@ -380,6 +383,7 @@
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
+
                         <p class="help-block"
                            ng-if="clientForm.firstSelectedDevice.$invalid">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -391,6 +395,7 @@
                 <div class="form-group" show-errors ng-show="isSecondDevice">
                     <label for="device2" class="col-md-2 control-label">
                         {{'COUNTER_CATEGORY' | translate}} </label>
+
                     <div class="col-md-8 ">
                         <div class="pull-left col-lg-3" id="counterNumber">
                             <select chosen width="'100%'"
@@ -421,7 +426,8 @@
                                     ng-options="device as device.designation for device in devices | filter: $viewValue">
                             </select>
 
-                            <div class="input-group-addon  btn btn-default btn-circle"><label for="isThirdDeviceCheck"><i
+                            <div class="input-group-addon  btn btn-default btn-circle"><label
+                                    for="isThirdDeviceCheck"><i
                                     class="glyphicon glyphicon-plus"/></label>
                                 <input type="checkbox"
                                        ng-model="isThirdDevice"
@@ -432,6 +438,7 @@
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
+
                         <p class="help-block"
                            ng-if="clientForm.secondSelectedDevice.$invalid">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -443,6 +450,7 @@
                 <div class="form-group" show-errors ng-show="isThirdDevice">
                     <label for="device3" class="col-md-2 control-label">
                         {{'COUNTER_CATEGORY' | translate}} </label>
+
                     <div class="col-md-8 ">
                         <div class="pull-left col-lg-3" id="counterNumber">
                             <select chosen width="'100%'"
@@ -477,11 +485,32 @@
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
+
                         <p class="help-block"
                            ng-if="clientForm.thirdSelectedDevice.$invalid">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'DEVICE_TYPE_REQUIRED' | translate}}
                         </p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment" class="col-md-2 control-label">
+                        {{'APPLICATION_COMMENT' | translate}}
+                        <a popover="{{'APPLICATION_COMMENT_EXAMPLE' | translate}}"
+                           popover-trigger="mouseenter">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </label>
+
+                    <div class="col-md-8">
+                        <textarea id="comment" name="comment" class="form-control" rows="3"
+                                  ng-model="formData.comment" maxlength="254"></textarea>
+                        <!--<p class="help-block"
+                           ng-if="clientForm.comment.$error.maxlength">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'DEVICE_TYPE_REQUIRED' | translate}}
+                        </p>-->
                     </div>
                 </div>
 
@@ -511,25 +540,28 @@
 
             <div class="progress-bar progress-bar-striped active"
                  role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                 aria-valuemax="100" style="width:100%; height: 30px">Відбувається оброка даних...
+                 aria-valuemax="100" style="width:100%; height: 30px">{{'DATA_PROCESSING' | translate}}...
             </div>
         </div>
-        <div ng-hide="isShownForm" ng-repeat="code in codes"
-             class="row col-md-10 alert alert-success alert-dismissible centered" role="alert"
-             style="text-align: center">
-            <button ng-click="closeAlert()" type="button"
-                    class="close btn-close-alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            <br>
+        <div ng-hide="isShownForm && !appProgress">
+            <div ng-repeat="code in codes"
+                 ng-show="!appProgress"
+                 class="row col-md-10 alert alert-success alert-dismissible centered" role="alert"
+                 style="text-align: center">
+                <!-- <button ng-click="closeAlert()" type="button"
+                         class="close btn-close-alert" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                 </button>-->
+                <br>
 
-            <div class="text-center" ng-show="codes">
-                {{'APP_SENT' | translate}}<a href="/#/application-status/{{code}}">
-                <b>{{code}} </b> </a>><br>
-                {{'APP_SENT_INFO' | translate}}
+                <div class="text-center" ng-show="!appProgress">
+                    {{'APP_SENT' | translate}}<a href="/#/application-status/{{code}}">
+                    <b>{{code}} </b> </a>><br>
+                    {{'APP_SENT_INFO' | translate}}
 
+                </div>
+                <br>
             </div>
-            <br>
         </div>
     </div>
 
