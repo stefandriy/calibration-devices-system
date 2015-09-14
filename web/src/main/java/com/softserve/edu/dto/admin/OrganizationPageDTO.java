@@ -14,10 +14,13 @@ public class OrganizationPageDTO {
         private String locality;
         private String street;
         private String region;
+        private String adminsFirstName;
+        private String adminsLastName;
+        private String adminsMiddleName;
 
     public OrganizationPageDTO(){}
 
-    public OrganizationPageDTO(Long id, String name, String email, String types, String phone, String region, String locality, String district,  String street) {
+    public OrganizationPageDTO(Long id, String name, String email, String types, String phone, String region, String locality, String district,  String street /*,String adminsFirstName, String adminsLastName, String adminsMiddleName*/) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -27,6 +30,9 @@ public class OrganizationPageDTO {
         this.locality = locality;
         this.district = district;
         this.street = street;
+        this.adminsFirstName = adminsFirstName;
+        this.adminsLastName = adminsLastName;
+        this.adminsMiddleName = adminsMiddleName;
     }
 
     public String getLocality() {
@@ -100,4 +106,28 @@ public class OrganizationPageDTO {
         public void setId(Long id) {
             this.id = id;
         }
+
+    public String getAdminsFirstName() {
+        return adminsFirstName;
     }
+
+    public void setAdminsFirstName(String adminsFirstName) {
+        this.adminsFirstName = adminsFirstName;
+    }
+
+    public String getAdminsLastName() {
+        return adminsLastName;
+    }
+
+    public void setAdminsLastName(String adminsLastName) {
+        this.adminsLastName = adminsLastName;
+    }
+
+    public String getAdminsMiddleName() {
+        return adminsMiddleName;
+    }
+
+    public void setAdminsMiddleName(String adminsMiddleName) {
+        this.adminsMiddleName = adminsMiddleName;
+    }
+}

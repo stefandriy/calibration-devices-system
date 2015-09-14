@@ -25,6 +25,8 @@ angular
             $scope.buildings = [];
 
 
+            $rootScope.organization.name = $scope.organization.name;
+
             function initFormData() {
                 if (!$scope.regions) {
                     addressService.findAllRegions().then(

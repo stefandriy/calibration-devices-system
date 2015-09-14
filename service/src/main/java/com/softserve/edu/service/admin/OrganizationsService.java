@@ -40,13 +40,13 @@ public class OrganizationsService {
 	private EntityManager entityManager;
 
 	@Transactional
-	public void addOrganizationWithAdmin(String name, String email,
-			String phone, String[] types, Integer employeesCapacity, Integer maxProcessTime, String username, String password,
-			Address address) {
+	public void addOrganizationWithAdmin(String name, String email, String phone, String[] types, Integer employeesCapacity,
+										 Integer maxProcessTime, String firstName, String lastName, String middleName,
+										 String username, String password, Address address) {
 
 		Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
 		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
-		User employeeAdmin = new User(username, passwordEncoded, organization);
+		User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
 
 		for (String strType : types) {
 			OrganizationType type = organizationRepository
@@ -130,6 +130,11 @@ public class OrganizationsService {
 	@Transactional
 	public Integer getOrganizationEmployeesCapacity(Long organizationId) {
 		return organizationRepository.getOrganizationEmployeesCapacity(organizationId);
+	}
+
+	@Transactional
+	public Set<String> getDeviceTypesByOrganization(Long organizationId){
+		return organizationRepository.getDeviceTypesByOrganization(organizationId);
 	}
 
 }

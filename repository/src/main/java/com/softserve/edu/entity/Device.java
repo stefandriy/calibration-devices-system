@@ -30,6 +30,7 @@ public class Device {
 	private Set<Verification> verifications;
 
 	@ManyToOne
+	@JoinColumn(name = "provider_organizationId")
 	private Organization provider;
 
 	@ManyToOne

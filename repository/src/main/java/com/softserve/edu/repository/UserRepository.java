@@ -30,6 +30,9 @@ public interface UserRepository extends CrudRepository<User, String> {
     Page<User> findByRoleAndOrganizationId(@Param("role") String role, @Param("organizationId") Long organizationId,
                                            Pageable pageable);
 
+    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =:role AND u.organization.id = :organizationId")
+    User findByRoleAndOrganizationId(@Param("role") String role, @Param("organizationId") Long organizationId);
+
     @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =:role AND u.organization.id = :organizationId " +
             " AND u.lastName LIKE :lastName")
     Page<User> findByOrganizationIdAndRoleAndLastNameLikeIgnoreCase(@Param("role") String role,
