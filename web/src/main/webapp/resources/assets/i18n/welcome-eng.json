@@ -279,10 +279,9 @@
   "NOTES" : "Notes",
   "SAVE" : "Save",
   "RESET" : "Reset",
-  "CLOSE" : "Close"
-
-
-
-
+  "CLOSE" : "Close",
+  "INSTALLATION_NUMBER_REGEX" : "Only numbers! Must be more than 5 symbols!",
+  "FLOOR_REGEX" : "Only numbers! No more than 3 symbols",
+  "NUMBER_OF_COUNTER_REGEX" : "Only numbers! Must be more than 5 symbols!"
 
 }

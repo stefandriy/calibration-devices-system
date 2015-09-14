@@ -69,7 +69,6 @@ angular
                  *
                  */
 
-
                 /*TODO: i18n*/
                 $scope.myDatePicker.pickerDate = {
                     startDate: (date ? moment(date, "YYYY-MM-DD") : moment()),
