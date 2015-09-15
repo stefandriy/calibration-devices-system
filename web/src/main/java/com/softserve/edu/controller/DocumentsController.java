@@ -74,6 +74,7 @@ public class DocumentsController {
                             @PathVariable Long testID,
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
+        System.out.println("in the DocumentsContriller = " + testID);
         FileObject file = documentsService.buildFile(verificationCode,
                 testID, documentType, fileFormat);
         sendFile(response, fileFormat, file);

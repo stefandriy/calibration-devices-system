@@ -59,6 +59,17 @@
   "COUNTERS":"Counters",
   "EMPLOYEE":"Employees",
   "EMPLOYEE_SINGLE": "Employee full name",
+
+  "PROTOCOL_ID":"Protocol ID",
+  "PROTOCOL_DATE":"Protocol creation date",
+  "PROTOCOL_STATUS":"Protocol status",
+
+  "MEASUREMENT_DEVICE_ID":"Device ID",
+  "MEASUREMENT_DEVICE_TYPE":"Device type",
+
+  "DOCUMENT_TYPE":"Document type",
+  "DOCUMENT_DATE":"Document creation date",
+
   "MORE":"More",
   "VERIFICATIONS":"Verifications",
   "ADD_ORGANIZATION":"Add organization",
@@ -118,6 +129,7 @@
   "REJECTED_TRASLATION":"Application rejected performer.",
   "FIND_BY_EQUIPMENT_NAME":"Find by equipment name:",
   "MEASURING_EQUIPMENTS":"Measuring equipments",
+  
   "NAME":"Equipment name",
   "TYPE_OF_EQUIPMENT":"Type of Equipment",
   "MANUFACTURER":"Manufacturer",
@@ -140,7 +152,10 @@
 	"TEST_NOK_TRASLATION":"Counter tested : not suitable!",
 	"SECOND_PHONE":"Additional phone number",
 	"SECOND_PHONE_NUMBER_INFO":"If you want / do not want to enter an additional phone number, click here.",
-	
+
+    "DETAIL":"More",
+    "DOWNLOAD_DOC":"Download doc in 'docx' format",
+
 	"PLEASE_DESCRIBE_REASON":"Please explain why verification is being rejected",
   	"REJECT":"Reject",
   	"REASON_OF_REJECTION":"Please provide the detailed reason why this verification needs to be rejected",
@@ -248,7 +263,7 @@
   "TEST_OK":"Tested OK",
   "TEST_NOK":"Tested NOK",
   "MAX_PROCESS_TIME":"Max verification processing time, days",
-  "STATUS_SELECT_PLACEHOLDER": "Select a status",
+  "STATUS_SELECT_PLACEHOLDER": "Select",
   "DATERANGEPICKER_PLACEHOLDER": "Select a range",
   "AMOUNT": "Amount",
   "ORGANIZATION_ID " : "Organization id",
