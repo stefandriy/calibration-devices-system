@@ -176,6 +176,7 @@ angular
 
                             verificationServiceProvider.getNewVerifications(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                                 .success(function (result) {
+
                                     $scope.resultsCount = result.totalItems;
                                     $defer.resolve(result.content);
                                     params.total(result.totalItems);
@@ -411,7 +412,7 @@ angular
                     animation: true,
                     templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
                     controller: 'AddingVerificationsControllerProvider',
-                    size: 'lg',
+                    size: 'lg'
 
                 });
             };
