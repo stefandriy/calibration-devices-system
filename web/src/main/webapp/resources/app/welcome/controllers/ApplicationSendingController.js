@@ -362,6 +362,8 @@ angular
             $scope.PHONE_REGEX_SECOND = /^[1-9]\d{8}$/;
             $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
             $scope.checkboxModel = false;
+            $scope.isSecondDevice = false;
+            $scope.isThirdDevice = false;
             /**
              * Modal window used to send questions to administration
              */

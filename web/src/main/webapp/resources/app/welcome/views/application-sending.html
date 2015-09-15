@@ -127,12 +127,10 @@
                                        class="form-control col-md-8 " ng-model="formData.phone"
                                        placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
 
-
-                                <div class="input-group-addon btn btn-default btn-circle"><label for="checkboxModel"><i
-                                        class="glyphicon glyphicon-plus"/></label> <input type="checkbox"
-                                                                                          ng-model="checkboxModel"
-                                                                                          class="plusButtonCheck"
-                                                                                          id="checkboxModel"></div>
+                                <div class="input-group-addon btn btn-default btn-circle"
+                                     ng-click="checkboxModel = !checkboxModel">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </div>
 
                             </div>
                         </div>
@@ -408,13 +406,8 @@
                                 </ui-select-choices>
                             </ui-select>
 
-                            <div class="input-group-addon btn btn-default btn-circle " for="isSecondDeviceCheck">
-                                <label for="isSecondDeviceCheck"><i
-                                        class="glyphicon glyphicon-plus input-block-level"/></label>
-                                <input type="checkbox"
-                                       class="plusButtonCheck"
-                                       ng-model="isSecondDevice"
-                                       id="isSecondDeviceCheck"/>
+                            <div class="input-group-addon btn btn-default btn-circle" ng-click="isSecondDevice = !isSecondDevice">
+                                <i class="glyphicon glyphicon-plus input-block-level"></i>
                             </div>
                         </div>
                         <p class="help-block" ng-if="clientForm.firstDeviceCount.$error.required">
@@ -436,22 +429,6 @@
 
                     <div class="col-md-8 ">
                         <div class="pull-left col-lg-3" id="counterNumber">
-                            <!--<select chosen width="'100%'"-->
-                                    <!--ng-required="isSecondDevice"-->
-                                    <!--disable-search="true"-->
-                                    <!--data-placeholder="Кількість"-->
-                                    <!--ng-model-options="{allowInvalid: true}"-->
-                                    <!--id="secondDeviceCount" name="secondDeviceCount"-->
-                                    <!--type="text"-->
-                                    <!--ng-model="secondDeviceCount" class="form-control">-->
-                                <!--<option value="1">1</option>-->
-                                <!--<option value="2">2</option>-->
-                                <!--<option value="3">3</option>-->
-                                <!--<option value="4">4</option>-->
-                                <!--<option value="5">5</option>-->
-                                <!--<option value="6">6</option>-->
-                            <!--</select>-->
-
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-required="isSecondDevice"
                                        ng-model="selectedValues.secondDeviceCount"
@@ -480,13 +457,8 @@
                                 </ui-select-choices>
                             </ui-select>
 
-                            <div class="input-group-addon  btn btn-default btn-circle"><label
-                                    for="isThirdDeviceCheck"><i
-                                    class="glyphicon glyphicon-plus"/></label>
-                                <input type="checkbox"
-                                       ng-model="isThirdDevice"
-                                       class="plusButtonCheck"
-                                       id="isThirdDeviceCheck"/>
+                            <div class="input-group-addon  btn btn-default btn-circle" ng-click="isThirdDevice = !isThirdDevice">
+                                <i class="glyphicon glyphicon-plus"></i>
                             </div>
                         </div>
                         <p class="help-block" ng-if="clientForm.secondDeviceCount.$error.required">
@@ -508,22 +480,6 @@
 
                     <div class="col-md-8 ">
                         <div class="pull-left col-lg-3" id="counterNumber">
-                            <!--<select chosen width="'100%'"-->
-                                    <!--ng-required="isThirdDevice"-->
-                                    <!--data-placeholder="Кількість"-->
-                                    <!--disable-search="true"-->
-                                    <!--ng-model-options="{allowInvalid: true}"-->
-                                    <!--id="thirdDeviceCount" name="thirdDeviceCount"-->
-                                    <!--type="text"-->
-                                    <!--ng-model="thirdDeviceCount" class="form-control">-->
-                                <!--<option value="1">1</option>-->
-                                <!--<option value="2">2</option>-->
-                                <!--<option value="3">3</option>-->
-                                <!--<option value="4">4</option>-->
-                                <!--<option value="5">5</option>-->
-                                <!--<option value="6">6</option>-->
-                            <!--</select>-->
-
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-required="isThirdDevice"
                                        ng-model="selectedValues.thirdDeviceCount"
