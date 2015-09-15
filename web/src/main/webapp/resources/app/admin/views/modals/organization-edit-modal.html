@@ -123,11 +123,11 @@
 					</div>
 					<div class="form-group col-md-8" show-errors>
 						<input id="lastName" name="lastName" class="form-control"
-							   type="text" ng-model="$root.organization.lastName"
+							   type="text" ng-model="adminsLastName "
 							   ng-change="checkField('lastName')"
 							   ng-pattern="FIRST_LAST_NAME_REGEX" required>
-						<div ng-show="organizationForm.$submitted || organizationForm.lastName.$touched">
-							<p class="validation-message" ng-if="organizationForm.lastName.$error.required">
+						<div ng-show="organizationForm.$submitted || adminsLastName.$touched">
+							<p class="validation-message" ng-if="adminsLastName.$error.required">
 								<span class="glyphicon glyphicon-exclamation-sign"></span>
 								{{'REQUIRED' | translate}}
 							</p>
@@ -144,18 +144,19 @@
 					</div>
 					<!--ng-change="checkField('firstName')" -->
 					<div class="form-group col-md-8" ng-class="firstNameValidation.css" show-errors>
-						<input type="text" ng-model="$root.organization.firstName"
+						<input type="text" ng-model="adminsFirstName"
 							   ng-change="checkField('firstName')"
 							   id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
 							   name="firstName" class="form-control" required>
+						adminsFirstName{{adminsFirstName}}
 
-						<div ng-show="organizationForm.$submitted || organizationForm.firstName.$touched">
+						<div ng-show="organizationForm.$submitted || adminsFirstName.$touched">
 							<p class="validation-message" ng-if="organizationForm.firstName.$error.required">
 								<span class="glyphicon glyphicon-exclamation-sign "></span>
 								{{'REQUIRED' | translate}}
 							</p>
 
-							<p class="validation-message" ng-if="organizationForm.firstName.$error.pattern">
+							<p class="validation-message" ng-if="adminsFirstName.$error.pattern">
 								<span class="glyphicon glyphicon-exclamation-sign"></span>
 								{{'INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE' | translate }}
 							</p>
@@ -166,14 +167,14 @@
 						<label class="control-label">{{'MIDDLE_NAME' | translate }}*</label>
 					</div>
 					<div class="form-group col-md-8" ng-class="middleNameValidation.css" show-errors>
-						<input type="text" ng-model="$root.organization.middleName"
+						<input type="text" ng-model="adminsMiddleName"
 							   ng-pattern="MIDDLE_NAME_REGEX"
 							   ng-change="checkField('middleName')"
 							   id="middleName" name="middleName" class="form-control" required>
 
-						<div ng-show="organizationForm.$submitted || organizationForm.middleName.$touched">
+						<div ng-show="organizationForm.$submitted || adminsMiddleName.$touched">
 
-							<p class="validation-message" ng-if="organizationForm.middleName.$error.required">
+							<p class="validation-message" ng-if="adminsMiddleName.$error.required">
 								<span class="glyphicon glyphicon-exclamation-sign"></span>
 								{{'REQUIRED' | translate}}
 							</p>
@@ -263,12 +264,13 @@
 									<label class="control-label">{{'REGION_TWO' | translate}}</label>
 								</div>
 								<div class="form-group col-md-8">
-									<select  chosen name="region" type="text"
+									<select chosen name="region" type="text"
 										ng-model="$root.organization.address.region"
 										ng-options="region as region.designation for region in regions | filter: $viewValue"
 										ng-change="onRegionSelected(organization.address.region.id)"
 										typeahead-editable="false" class="form-control" required></select>
 									{{$root.organization.address.region}}
+									id{{$root.organization.id}}
 								</div>
 							</div>
 

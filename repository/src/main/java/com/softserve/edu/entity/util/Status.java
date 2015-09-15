@@ -1,10 +1,10 @@
 package com.softserve.edu.entity.util;
 
+import com.softserve.edu.entity.Verification;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
-import com.softserve.edu.entity.Verification;
 
 public enum Status {
     SENT() {

@@ -15,6 +15,10 @@ public class OrganizationEditDTO {
 	private String building;
 	private String flat;
 
+	private String firstName;
+	private String lastName;
+	private String middleName;
+
 	public String getName() {
 		return name;
 	}
@@ -110,5 +114,28 @@ public class OrganizationEditDTO {
 	public void setMaxProcessTime(Integer maxProcessTime) {
 		this.maxProcessTime = maxProcessTime;
 	}
-	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
 }

@@ -96,6 +96,19 @@ angular
 
 			$scope.isUsernameAvailable = true;
 
+			$scope.loadAdmin = function() {
+				organizationService.getOrganizationAdmin($rootScope.organization.id).then(
+					function (data) {
+						$scope.adminsFirstName = data.firstName;
+						$scope.adminsLastName = data.lastName;
+						$scope.adminsMiddleName = data.middleName;
+						console.log(data);
+						console.log(data.firstName);
+					}
+				)
+			}
+			$scope.loadAdmin();
+
 			$scope.checkIfUsernameIsAvailable = function() {
 				var username = $rootScope.organization.username;
 				userService.isUsernameAvailable(username).then(
@@ -362,7 +375,10 @@ angular
 					district : $rootScope.organization.address.district,
 					street : $rootScope.organization.address.street,
 					building : $rootScope.organization.address.building,
-					flat : $rootScope.organization.address.flat
+					flat : $rootScope.organization.address.flat,
+					firstName : $scope.adminsFirstName,
+					lastName : $scope.adminsLastName,
+					middleName : $scope.adminsMiddleName
 				};
 
 				organizationService.editOrganization(

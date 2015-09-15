@@ -19,7 +19,7 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Organization> criteriaQuery = cb.createQuery(Organization.class);
         Root<Organization> root = criteriaQuery.from(Organization.class);
-        /*Join<Organization, User> organizationUsersJoin = root.join("organization");*/
+      //  Join<Organization, User> organizationUsersJoin = root.join("organization");
 
         Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(/*id,*/ name, email, type, phone, region, district, locality, streetToSearch, root, cb/*, organizationUsersJoin*/);
         if((sortCriteria != null)&&(sortOrder != null)) {
@@ -90,6 +90,11 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
                     queryPredicate);
         }
 
+  /*      Join<User, Organization> joinOrganizationUser = root.join("organization");
+
+        Predicate searchUserName = cb.like(joinOrganizationUser.get("firstName"),
+                "%" + "" +  "%");
+        queryPredicate = cb.and(searchUserName, queryPredicate);*/
 
         return queryPredicate;
     }

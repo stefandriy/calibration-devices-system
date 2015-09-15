@@ -103,4 +103,8 @@ public class UserService {
         }
         return isChanged;
     }
+
+    public User findByRoleAndOrganizationId(String role, Long organizationId){
+        return userRepository.findByRoleAndOrganizationId(role, organizationId);
+    }
 }

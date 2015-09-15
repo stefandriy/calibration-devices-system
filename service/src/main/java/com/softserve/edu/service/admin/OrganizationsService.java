@@ -137,4 +137,9 @@ public class OrganizationsService {
 		return organizationRepository.getDeviceTypesByOrganization(organizationId);
 	}
 
+	@Transactional
+	public Set<String> getOrganizationTypesById( Long id){
+	 	return 	organizationRepository.getOrganizationTypesById(id);
+	}
+
 }
