@@ -1,13 +1,15 @@
 angular
     .module('employeeModule')
-    .controller('TaskControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance',
-        function ($rootScope, $scope, $modal, $modalInstance) {
+    .controller('TaskControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'TaskServiceCalibrator',
+        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator) {
+
+            $scope.calibrationTask = {};
 
             /**
              * Closes modal window on browser's back/forward button click.
              */
             $rootScope.$on('$locationChangeStart', function() {
-                $modalInstance.destroy();
+                $modalInstance.close();
             });
 
             /**
@@ -36,7 +38,7 @@ angular
                    $scope.defaultDate = angular.copy($scope.calibrationTask.pickerDate);
                 }
                 moment.locale('uk');
-                $scope.myOptions = {
+                $scope.opts = {
                     format: 'DD-MM-YYYY',
                     showDropdowns: true,
                     locale: {
@@ -50,7 +52,7 @@ angular
                 };
             };
 
-            $scope.showPicker = function ($event) {
+            $scope.showTaskPicker = function ($event) {
                 angular.element("#datepicker").trigger("click");
             };
 
@@ -59,18 +61,31 @@ angular
             };
 
             $scope.resetTaskForm = function () {
+                $scope.checkPlaceAndStatus(null);
                 $scope.calibrationTask = null;
                 $scope.installationNumberValidation = null;
                 $scope.floorValidation = null;
                 $scope.counterNumberValidation = null;
             };
 
-            $scope.checkPlaceAndStatus = function(place, counterStatus){
-                if ((place==null) && (counterStatus==null)){
+
+            $scope.checkPlace = function(place){
+                if (place==null) {
                     return true;
-                } else if (place == 'portable_installation'){
+                } else if (place == 'fixed_installation') {
                     return false;
-                } else if ((place == 'fixed_installation') && (counterStatus == 'not_removed')){
+                } else {
+                    return true;
+                }
+            }
+
+
+            $scope.checkPlaceAndStatus = function(place, counterStatus){
+                if ((place==null) && (counterStatus==null)) {
+                    return true;
+                } else if (place == 'fixed_installation' && counterStatus == 'not_removed') {
+                    return false;
+                } else if (place == 'portable_installation'){
                     return false;
                 } else {
                     return true;
@@ -81,9 +96,7 @@ angular
                 switch (caseForValidation) {
                     case ('installationNumber'):
                         var installationNumber = $scope.calibrationTask.installationNumber;
-                        if ($scope.calibrationTask.installationNumber.$dirty && $scope.calibrationTask.installationNumber.$dirty){
-                            validator('installationNumber', true);
-                        } else if (/^[0-9]{5,20}$/.test(installationNumber)) {
+                        if (/^[0-9]{5,20}$/.test(installationNumber)) {
                             validator('installationNumber', false);
                         } else {
                             validator('installationNumber', true);
@@ -133,6 +146,20 @@ angular
                         break;
 
                 }
+            }
+
+            $scope.editTask = function (formTask){
+                    $scope.master = angular.copy($scope.calibrationTask);
+                    console.log($scope.master);
+                    console.log($rootScope.verifId);
+                    console.log(formTask);
+                    taskServiceCalibrator.saveTask($rootScope.verifId, $scope.master)
+                        .success(function (result) {
+                            $log.debug('saving result:', result);
+                        }, function (result) {
+                            $log.debug('saving result:', result);
+                        });
+
             }
 
         }]);

@@ -4,7 +4,7 @@
                 style="color: green;">{{verifId}}</strong></h4>
     </div>
     <div class="modal-body">
-        <form name="planningTaskModel" novalidate>
+        <form name="formTask" novalidate>
 
             <!-- CALIBRATION PLACE -->
             <div class="row">
@@ -14,31 +14,37 @@
                 <div class="form-group col-md-8">
                     <select chosen data-placeholder="{{'CHOOSE_CALIBRATION_PLACE'| translate}}" class="form-control" ng-model="calibrationTask.place"
                             class="col-xs-5 selectContainer"
-                            id="plase" name="plase" allow-single-deselect="true"
+                            id="place" name="place" allow-single-deselect="true"
                             disable-search="true" required>
-                        <option type="text" value="portable_installation">Переносна установка</option>
-                        <option type="text" value="fixed_installation">Стаціонарна установка</option>
+                        <option type="text" value="portable_station">Переносна установка</option>
+                        <option type="text" value="fixed_station">Стаціонарна установка</option>
                     </select>
-
-                    <p class="validation-message" ng-show="nameValidation.isValid">{{'TEST_NAME_REGEX' | translate}}</p>
+                    <div ng-show="formTask.$submitted || formTask.place.$touched">
+                        <div ng-show="formTask.place.$error.required">
+                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- COUNTER STATUS -->
-            <div class="row">
+            <div class="row" ng-hide="checkPlace(calibrationTask.place)">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'COUNTER' | translate}}</label>
                 </div>
                 <div class="form-group col-md-8">
                     <select chosen data-placeholder="{{'CHOOSE_COUNTER_STATUS'| translate}}" class="form-control" ng-model="calibrationTask.counterStatus"
                             class="col-xs-5 selectContainer"
-                            id="counter" name="counter" allow-single-deselect="true" disable-search="true" required>
+                            id="counterStatus" name="counterStatus" allow-single-deselect="true" disable-search="true" ng-required="">
                         <option value="removed">Демонтований</option>
                         <option value="not_removed">Не демонтований</option>
                     </select>
-
-                    <p class="validation-message" ng-show="temperatureValidation.isValid">{{'TEMPERATURE_REGEX' |
-                        translate}}</p>
+                    <div ng-show="formTask.$submitted || formTask.counterStatus.$touched">
+                        <div ng-show="formTask.counterStatus.$error.required">
+                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                        </div>
+                    </div>
+                    <p class="validation-message" ng-show="temperatureValidation.isValid">{{'TEMPERATURE_REGEX' | translate}}</p>
                 </div>
             </div>
 
@@ -51,8 +57,12 @@
                     <input type="text"
                            ng-model="calibrationTask.installationNumber"
                            ng-change="checkAll('installationNumber')"
-                           id="settingNumber" name="settingNumber" class="form-control">
-
+                           id="installationNumber" name="installationNumber" class="form-control" required>
+                    <div ng-show="formTask.$submitted || formTask.installationNumber.$touched">
+                        <div ng-show="formTask.installationNumber.$error.required">
+                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                        </div>
+                    </div>
                     <p class="validation-message" ng-show="installationNumberValidation.isValid">{{'INSTALLATION_NUMBER_REGEX' | translate}}</p>
                 </div>
             </div>
@@ -65,11 +75,10 @@
 
                 <div class="form-group col-md-8" ng-class="dateValidation.css" >
                     <div class="input-group right-inner-addon" style="width: 100%">
-                        <i id="calendar_icon" class="glyphicon glyphicon-calendar"
-                           ng-click="showPicker($event)"></i>
-                        <input date-range-picker="myOptions" class="form-control date-picker" type="text"
-                               ng-model="calibrationTask.pickerDate" ng-change="doSearch()" options="myOptions"
-                               id="datepicker" readonly/>
+                        <i id="calendar_icon" class="glyphicon glyphicon-calendar"></i>
+                        <input date-range-picker="opts" class="form-control date-picker" type="text"
+                               ng-model="calibrationTask.pickerDate" ng-change="doSearch()" options="opts"
+                               id="date" name="date" readonly required/>
 
                                         <span class="input-group-btn">
                                                   <button type="button" class="btn btn-default myGroupBtn"
@@ -78,6 +87,11 @@
                                                       <i class="glyphicon glyphicon-remove"></i>
                                                   </button>
                                         </span>
+                    </div>
+                    <div ng-show="formTask.$submitted || formTask.date.$touched">
+                        <div ng-show="formTask.date.$error.required">
+                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -103,7 +117,7 @@
                     <label class="control-label">{{'SERIAL_NUMBER_OF_COUNTER' | translate}}</label>
                 </div>
                 <div class="form-group col-md-8" ng-class="counterNumberValidation.css">
-                    <input type="text"
+                    <input style="padding-left: 12px" type="text"
                            ng-model="calibrationTask.counterNumber"
                            ng-change="checkAll('counterNumber')"
                            id="counterNumber" name="counterNumber" class="form-control">
@@ -117,19 +131,21 @@
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'NOTES' | translate}}</label>
                 </div>
-                <div class="form-group col-md-8" style="height: 30px;">
-                   <input type="text"
+                <div class="form-group col-md-8">
+                   <textarea type="text" rows="5" cols="45" ng-model="calibrationTask.notes"
+                             id="notes" name="notes" class="form-control"></textarea>
+                   <!--<input type="text"
                            ng-model="calibrationTask.notes"
                            id="notes" name="notes" class="form-control">
                     <p class="validation-message" ng-show="testResultValidation.isValid">{{'TEST_STATUS_REGEX' |
-                        translate}}</p>
+                        translate}}</p>-->
                 </div>
             </div>
 
             <!-- BUTTONS -->
             <div class="row">
                 <div class="form-group col-md-10">
-                    <button class="btn btn-success"  ng-click="editTask()">{{'SAVE' | translate}}</button>
+                    <button class="btn btn-success" ng-click="editTask(formTask)">{{'SAVE' | translate}}</button>
                     <a class="btn btn-warning" ng-click="resetTaskForm()">{{'RESET' | translate}}</a>
                 </div>
                 <div class="form-group col-md-2">
