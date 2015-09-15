@@ -59,7 +59,9 @@
                                                    href="{{'/doc/info/' + verification.id + '/docx'}}">
                                                     <i class="fa fa-file-word-o"></i>
                                                 </a>
+                                            </td>
                                             <!-- -->
+                                        <td data-title="'ACTIONS' | translate" class="control_buttons"   style="width: 12%">
                                             <div ng-show="verification.status === 'TEST_OK' || verification.status === 'SENT_TO_VERIFICATOR'">
                                                 <a
                                                    popover="{{ 'DETAIL' | translate }}"
@@ -132,7 +134,7 @@
                                         <!--&lt;!&ndash; TODO: ask about category, maybe it should be name of measurement device&ndash;&gt;-->
                                         <!--&lt;!&ndash;<td data-title="'MEASUREMENT_DEVICE_CATEGORY' | translate"  sortable="'measurement_device_category'" filter="{ 'measurement_device_category': 'text' }">{{ verification.measurementDeviceCategory }}</td>&ndash;&gt;-->
 
-                                        <!--<td data-title="'DOCUMENT_TYPE' | translate"  sortable="'document_type'" filter="{ 'document_type': 'text' }">{{ verification.documentType }}</td>-->
+                                        <td data-title="'DOCUMENT_TYPE' | translate">{{ verification.documentType }}</td>
                                         <!--<td data-title="'DOCUMENT_DATE' | translate"  sortable="'document_date'" filter="{ 'document_date': 'text' }">{{ verification.documentDate }}</td>-->
                                     </tr>
                                     </tbody>
