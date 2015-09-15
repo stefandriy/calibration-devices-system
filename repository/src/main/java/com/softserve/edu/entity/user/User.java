@@ -1,5 +1,7 @@
 package com.softserve.edu.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
@@ -10,6 +12,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "USER")
@@ -28,6 +31,7 @@ public class User {
 	private Address address;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = true)
+	@JsonManagedReference
 	private Organization organization;
 
 	@ManyToMany
@@ -78,6 +82,24 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.organization = organization;
+	}
+
+	/**
+	 * Completes constructor above with optional values *
+	 *
+	 * @param firstName
+	 *            first name
+	 * @param lastName
+	 *            last name
+	 * @param middleName
+	 *            Middle name
+	 */
+	public User(String firstName, String lastName, String middleName,
+				String username, String password, Organization organization) {
+		this(username, password, organization);
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.middleName = middleName;
 	}
 
 	/**
@@ -199,10 +221,13 @@ public class User {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append("username", username).append("password", password)
-				.append("firstName", firstName).append("lastName", lastName).append("middleName", middleName)
-				.append("phone", phone).append("email", email).append("isAvalisble", isAvaliable).toString();
+		return userRoles
+				.stream()
+				.map(UserRole::getRole)
+				.collect(Collectors.toList())
+				.toString();
 	}
+
 
 	@Override
 	public int hashCode() {

@@ -32,8 +32,11 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
 	/*@Query("select o from Organization o inner join o.organizationTypes ot where o.address.district.id=:district.id and ot.type=:type")
 	List<Organization> getByTypeAndDistrictId(@Param("id") Long id, @Param("type") String type);*/
 
-
 	@Query("select o.employeesCapacity from Organization o where o.id=:id")
 	Integer getOrganizationEmployeesCapacity(@Param("id") Long id);
+
+	@Query("SELECT d.deviceType from  Device d inner join d.provider where d.provider.id =:organizationId")
+	Set<String> getDeviceTypesByOrganization(@Param("organizationId") Long organizationId);
+
 
 }

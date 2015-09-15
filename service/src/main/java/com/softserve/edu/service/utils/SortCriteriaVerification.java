@@ -109,7 +109,44 @@ public enum SortCriteriaVerification {
 	    			return (cb.desc(root.join("providerEmployee").get("lastName")));
 	    		}
 	        }
-	    };
+	    },
+	MEASUREMENT_DEVICE_ID() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.join("device").get("id")));
+			} else {
+				return (cb.desc(root.join("device").get("id")));
+			}
+		}
+	},
+	MEASUREMENT_DEVICE_TYPE() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.join("device").get("deviceType")));
+			} else {
+				return (cb.desc(root.join("device").get("deviceType")));
+			}
+		}
+	},
+	PROTOCOL_ID(){
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.join("calibrationTests").get("id")));
+			} else {
+				return (cb.desc(root.join("calibrationTests").get("id")));
+			}
+		}
+	},
+	PROTOCOL_STATUS() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.join("calibrationTests").get("testResult")));
+			} else {
+				return (cb.desc(root.join("calibrationTests").get("testResult")));
+			}
+		}
+	};
 	
 	 public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 	    	return null;

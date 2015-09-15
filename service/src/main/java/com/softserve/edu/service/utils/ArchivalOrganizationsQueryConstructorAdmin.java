@@ -19,9 +19,9 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Organization> criteriaQuery = cb.createQuery(Organization.class);
         Root<Organization> root = criteriaQuery.from(Organization.class);
-        //Join<Organization, OrganizationType> organizationTypeJoin = root.join("organizationId");
+      //  Join<Organization, User> organizationUsersJoin = root.join("organization");
 
-        Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(/*id,*/ name, email, type, phone, region, district, locality, streetToSearch, root, cb/*, organizationTypeJoin*/);
+        Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(/*id,*/ name, email, type, phone, region, district, locality, streetToSearch, root, cb/*, organizationUsersJoin*/);
         if((sortCriteria != null)&&(sortOrder != null)) {
             criteriaQuery.orderBy(SortCriteriaOrganization.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
         } else {
@@ -33,22 +33,22 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
     }
 
     public static CriteriaQuery<Long> buildCountQuery (/*Long id,*/ String name,
-                                                       String email, String phone, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder,EntityManager em) {
+                                                       String email, String phone, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder,EntityManager em /*, Join<Organization, User> organizationUsersJoin*/) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Organization> root = countQuery.from(Organization.class);
     //    Join<Organization, OrganizationType> organizationTypeJoin = root.join("organizationId");
 
-        Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(/*id*/ name, email, type, phone, region, district, locality, streetToSearch, root, cb/*, organizationTypeJoin*/);
+        Predicate predicate = ArchivalOrganizationsQueryConstructorAdmin.buildPredicate(/*id*/ name, email, type, phone, region, district, locality, streetToSearch, root, cb/*, organizationUsersJoin*/);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
         return countQuery;
     }
     private static Predicate buildPredicate(/*Long id,*/ String name,
-                                             String email, String phone, String type, String region, String district, String locality, String streetToSearch, Root<Organization> root, CriteriaBuilder cb/*, Join<Organization, OrganizationType> organizationTypeJoin */) {
+                                             String email, String phone, String type, String region, String district, String locality, String streetToSearch, Root<Organization> root, CriteriaBuilder cb/*, Join<Organization, User> organizationUsersJoin*/) {
         Predicate queryPredicate = cb.conjunction();
-       // queryPredicate = cb.and(cb.equal(organizationTypeJoin .get(""), employeeId), queryPredicate);
+      //  queryPredicate = cb.and(cb.equal(organizationUsersJoin .get(""), employeeId), queryPredicate);
         //Predicate<String> i  = (s)-> s.length() > 5;
         //return p -> p.getAge() > 21 && p.getGender().equalsIgnoreCase("M");
         if ((name != null)&&(name.length()>0)) {
@@ -89,6 +89,12 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
                     cb.like(root.get("address").get("locality"), "%" + locality + "%"),
                     queryPredicate);
         }
+
+  /*      Join<User, Organization> joinOrganizationUser = root.join("organization");
+
+        Predicate searchUserName = cb.like(joinOrganizationUser.get("firstName"),
+                "%" + "" +  "%");
+        queryPredicate = cb.and(searchUserName, queryPredicate);*/
 
         return queryPredicate;
     }

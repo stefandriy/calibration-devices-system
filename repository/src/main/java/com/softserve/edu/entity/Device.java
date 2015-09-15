@@ -1,5 +1,6 @@
 package com.softserve.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.softserve.edu.entity.util.DeviceType;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -27,9 +28,11 @@ public class Device {
 	private String number;
 
 	@OneToMany(mappedBy = "device")
+	@JsonBackReference
 	private Set<Verification> verifications;
 
 	@ManyToOne
+	@JoinColumn(name = "provider_organizationId")
 	private Organization provider;
 
 	@ManyToOne

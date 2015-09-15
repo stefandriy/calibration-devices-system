@@ -25,10 +25,11 @@ angular
 		'$filter',
 		'AddressService',
 		'UserService',
+		'DevicesService',
 		'OrganizationService','$log',
 		function ($rootScope, $scope, $translate, $modalInstance, $filter,
 				 addressService,
-				  userService, organizationService,$log) {
+				  userService, devicesService, organizationService, $log) {
 
 
 			function arrayObjectIndexOf(myArray, searchTerm, property) {
@@ -42,7 +43,9 @@ angular
 				myArray.push(elem);
 				return (myArray.length-1);
 			}
-			
+
+			$scope.organization.address.region = $rootScope.organization.address.region;
+
 			$scope.typeData = [
 				{
 					id: 'PROVIDER',
@@ -57,6 +60,8 @@ angular
 					label: null
 				}
 			];
+
+			//$rootScope.organization.lastName;
 
 			$scope.setTypeDataLanguage = function () {
 				var lang = $translate.use();
@@ -88,6 +93,158 @@ angular
 			$scope.streets = [];
 			$scope.buildings = [];
 
+
+			$scope.isUsernameAvailable = true;
+
+			$scope.loadAdmin = function() {
+				organizationService.getOrganizationAdmin($rootScope.organization.id).then(
+					function (data) {
+						$scope.adminsFirstName = data.firstName;
+						$scope.adminsLastName = data.lastName;
+						$scope.adminsMiddleName = data.middleName;
+						$scope.adminsUserName = data.username;
+						console.log(data);
+						console.log(data.firstName);
+					}
+				)
+			}
+			$scope.loadAdmin();
+
+			$scope.checkIfUsernameIsAvailable = function() {
+				var username = $rootScope.organization.username;
+				userService.isUsernameAvailable(username).then(
+					function(data) {
+						$scope.isUsernameAvailable = data;
+					})
+			}
+
+
+			$scope.checkField = function (caseForValidation) {
+				switch (caseForValidation) {
+					case ('organizationName') :
+						var organizationName = $rootScope.organization.name;
+						if (organizationName == null) {
+						} else if ($scope.ORGANIZATION_NAME_REGEX.test(organizationName)) {
+							validator('organizationName', false);
+						} else {
+							validator('organizationName', true);
+						}
+						break;
+					case ('firstName') :
+						var firstName = $rootScope.organization.firstName;
+						if (firstName == null) {
+						} else if ($scope.FIRST_LAST_NAME_REGEX.test(firstName)) {
+							validator('firstName', false);
+						} else {
+							validator('firstName', true);
+						}
+						break;
+					case ('lastName') :
+						var lastName = $rootScope.organization.lastName;
+						if (lastName == null) {
+
+						} else if ($scope.FIRST_LAST_NAME_REGEX.test(lastName)) {
+
+							validator('lastName', false);
+						} else {
+							validator('lastName', true);
+						}
+						break;
+					case ('middleName') :
+						var middleName = $rootScope.organization.middleName;
+						if (middleName == null) {
+						} else if ($scope.MIDDLE_NAME_REGEX.test(middleName)) {
+							validator('middleName', false);
+						} else {
+							validator('middleName', true);
+						}
+						break;
+					case ('phone') :
+						var phone = $rootScope.organization.phone;
+						if (phone == null) {
+						} else if ($scope.PHONE_REGEX.test(phone)) {
+							validator('phone', false);
+						} else {
+							validator('phone', true);
+						}
+						break;
+					case ('email') :
+						var email = $rootScope.organization.email;
+						if (email == null) {
+						} else if ($scope.EMAIL_REGEX.test(email)) {
+							validator('email', false);
+						} else {
+							validator('email', true);
+						}
+						break;
+					case ('login') :
+						var username = $rootScope.organization.username;
+						if (username == null) {
+						} else if ($scope.USERNAME_REGEX.test(username)) {
+							isUsernameAvailable(username);
+						} else {
+							validator('loginValid', false);
+						}
+						break;
+				}
+			}
+
+
+			function validator(caseForValidation, isValid) {
+
+				switch (caseForValidation) {
+					case 'organizationName':
+						$scope.organizationNameValidation = {
+							isValid: isValid,
+							css: isValid ? 'has-error' : 'has-success'
+						}
+						break;
+					case 'firstName':
+						$scope.firstNameValidation = {
+							isValid: isValid,
+							css: isValid ? 'has-error' : 'has-success'
+						}
+						break;
+					case 'lastName':
+						$scope.lastNameValidation = {
+							isValid: isValid,
+							css: isValid ? 'has-error' : 'has-success'
+						}
+						break;
+					case 'middleName':
+						$scope.middleNameValidation = {
+							isValid: isValid,
+							css: isValid ? 'has-error' : 'has-success'
+						}
+						break;
+					case 'phone':
+						$scope.phoneNumberValidation = {
+							isValid: isValid,
+							css: isValid ? 'has-error' : 'has-success'
+						}
+						break;
+					case 'email':
+						$scope.emailValidation = {
+							isValid: isValid,
+							css: isValid ? 'has-error' : 'has-success'
+						}
+						break;
+					case 'loginValid':
+						$scope.usernameValidation = {
+							isValid: isValid,
+							css: isValid? 'has-success' : 'has-error',
+							message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
+						}
+						break;
+					case 'existLogin':
+						$scope.usernameValidation = {
+							isValid: isValid,
+							css: isValid ? 'has-success' : 'has-error',
+							message: isValid ? undefined : 'Такий логін вже існує'
+						}
+						break;
+				}
+			}
 			/**
 			 * Finds all regions
 			 */
@@ -104,7 +261,7 @@ angular
 				}
 			}
 			/*var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.region, "designation");
-			$scope.employeeFormData.region = $scope.regions[index];
+			$rootScope.organization.region = $scope.regions[index];
 			$scope.onRegionSelected($scope.regions[index].id);*/
 			initFormData();
 
@@ -219,7 +376,11 @@ angular
 					district : $rootScope.organization.address.district,
 					street : $rootScope.organization.address.street,
 					building : $rootScope.organization.address.building,
-					flat : $rootScope.organization.address.flat
+					flat : $rootScope.organization.address.flat,
+					firstName : $scope.adminsFirstName,
+					lastName : $scope.adminsLastName,
+					middleName : $scope.adminsMiddleName,
+					username : $scope.username
 				};
 
 				organizationService.editOrganization(
@@ -229,6 +390,7 @@ angular
 						if (data == 200) {
 							$scope.closeModal();
 							$scope.resetOrganizationForm();
+							console.log(data);
 							$rootScope.onTableHandling();
 						}
 						else (console.log(data));
@@ -242,7 +404,15 @@ angular
 				$modalInstance.close();
 			};
 
+			$scope.ORGANIZATION_NAME_REGEX = /^(?=.{5,50}$).*/;
 			$scope.PHONE_REGEX = /^[1-9]\d{8}$/;
+			$scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+			$scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20})$/;
+			$scope.MIDDLE_NAME_REGEX = /^[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}$/;
+			$scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
+			$scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
+			$scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
+			$scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
 
 		}
 

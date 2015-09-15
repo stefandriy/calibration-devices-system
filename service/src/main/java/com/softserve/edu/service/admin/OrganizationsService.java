@@ -40,13 +40,13 @@ public class OrganizationsService {
 	private EntityManager entityManager;
 
 	@Transactional
-	public void addOrganizationWithAdmin(String name, String email,
-			String phone, String[] types, Integer employeesCapacity, Integer maxProcessTime, String username, String password,
-			Address address) {
+	public void addOrganizationWithAdmin(String name, String email, String phone, String[] types, Integer employeesCapacity,
+										 Integer maxProcessTime, String firstName, String lastName, String middleName,
+										 String username, String password, Address address) {
 
 		Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
 		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
-		User employeeAdmin = new User(username, passwordEncoded, organization);
+		User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
 
 		for (String strType : types) {
 			OrganizationType type = organizationRepository
@@ -103,7 +103,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
@@ -124,12 +124,37 @@ public class OrganizationsService {
 			logger.debug(type);
 		}
 		organization.setOrganizationTypes(organizationTypes);
+
+		//--------------------------------------
+		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+
+
+		User employeeAdmin = userRepository.findByUsername(username);
+		employeeAdmin.setFirstName(firstName);
+		employeeAdmin.setLastName(lastName);
+		employeeAdmin.setMiddleName(middleName);
+		employeeAdmin.setUsername(username);
+
+
+		organizationRepository.save(organization);
+		userRepository.save(employeeAdmin);
+
 	}
 
 
 	@Transactional
 	public Integer getOrganizationEmployeesCapacity(Long organizationId) {
 		return organizationRepository.getOrganizationEmployeesCapacity(organizationId);
+	}
+
+	@Transactional
+	public Set<String> getDeviceTypesByOrganization(Long organizationId){
+		return organizationRepository.getDeviceTypesByOrganization(organizationId);
+	}
+
+	@Transactional
+	public Set<String> getOrganizationTypesById( Long id){
+	 	return 	organizationRepository.getOrganizationTypesById(id);
 	}
 
 }

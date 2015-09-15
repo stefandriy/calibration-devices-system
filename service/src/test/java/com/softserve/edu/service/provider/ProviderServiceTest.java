@@ -1,23 +1,17 @@
 package com.softserve.edu.service.provider;
 
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.repository.OrganizationRepository;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.*;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-
 import static org.mockito.Mockito.*;
-
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.repository.OrganizationRepository;
-import com.softserve.edu.service.provider.ProviderService;
 
 public class ProviderServiceTest {
 

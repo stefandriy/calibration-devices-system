@@ -1,6 +1,8 @@
 package com.softserve.edu.entity;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.user.User;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -41,9 +43,20 @@ public class Organization {
 	private Date certificateGrantedDate;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
-	private Set<User> users = new HashSet<User>(0);
+	@JsonBackReference
+	private Set<User> users = new HashSet<User>();
 
-	@JsonManagedReference
+	@OneToMany(mappedBy = "provider")
+	private Set<Device> devices;
+
+	public Set<Device> getDevices() {
+		return devices;
+	}
+
+	public void setDevices(Set<Device> devices) {
+		this.devices = devices;
+	}
+
 	@ManyToMany
 	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), inverseJoinColumns = @JoinColumn(name = "id"))
 	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
@@ -148,6 +161,14 @@ public class Organization {
 
 	public void setMaxProcessTime(Integer maxProcessTime) {
 		this.maxProcessTime = maxProcessTime;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	private void setUsers(Set<User> users) {
+		this.users = users;
 	}
 
 	@Override

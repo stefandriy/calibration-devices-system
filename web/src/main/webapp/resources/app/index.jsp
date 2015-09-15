@@ -19,6 +19,8 @@
     <link href="/resources/assets/bower_components/select2/select2.css" rel="stylesheet">
     <link href="/resources/assets/bower_components/select2-bootstrap-css/select2-bootstrap.min.css" rel="stylesheet">
 
+    <link href="/resources/assets/bower_components/angularjs-toaster/toaster.min.css" rel="stylesheet">
+
     <link href="/resources/assets/css/application-form-organization.css" rel="stylesheet">
     <link href="/resources/assets/css/provider.css" rel="stylesheet">
     <link href="/resources/assets/css/calibrator.css" rel="stylesheet">
@@ -32,6 +34,7 @@
     <link rel="stylesheet"
           href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
     <link rel="stylesheet" href="/resources/assets/css/loader.css">
+
 
 </head>
 
@@ -222,6 +225,7 @@
     </nav>
     <div ui-view></div>
 </div>
+    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
