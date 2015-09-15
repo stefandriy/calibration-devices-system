@@ -197,7 +197,12 @@ public class OrganizationsController {
                     organization.getTypes(),
                     organization.getEmployeesCapacity(),
                     organization.getMaxProcessTime(),
-                    address);
+                    address,
+                    organization.getPassword(),
+                    organization.getUsername(),
+                    organization.getFirstName(),
+                    organization.getLastName(),
+                    organization.getMiddleName());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
@@ -225,7 +230,7 @@ public class OrganizationsController {
         User user = users.get(0); //TODO
 
 
-        OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName());
+        OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
 
         logger.info("========================");
         logger.info(organization.getUsers());

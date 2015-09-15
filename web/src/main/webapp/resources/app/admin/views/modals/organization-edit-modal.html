@@ -119,6 +119,26 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="form-group col-md-4">
+						<label class="control-label">{{'USERNAME' |translate }}*</label>
+					</div>
+					<div class="form-group col-md-8" show-errors>
+						<input id="username" name="username" class="form-control"
+							   type="text" ng-model="adminsUserName"
+							   ng-change="checkField('lastName')"
+							   ng-pattern="FIRST_LAST_NAME_REGEX" required>
+						<div ng-show="organizationForm.$submitted || adminsUserName.$touched">
+							<p class="validation-message" ng-if="adminsUserName.$error.required">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'REQUIRED' | translate}}
+							</p>
+
+							<p class="validation-message" ng-if="organizationForm.username.$error.pattern">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+							</p>
+						</div>
+					</div>
+					<div class="form-group col-md-4">
 						<label class="control-label">{{'LAST_NAME' |translate }}*</label>
 					</div>
 					<div class="form-group col-md-8" show-errors>
@@ -148,8 +168,6 @@
 							   ng-change="checkField('firstName')"
 							   id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
 							   name="firstName" class="form-control" required>
-						adminsFirstName{{adminsFirstName}}
-
 						<div ng-show="organizationForm.$submitted || adminsFirstName.$touched">
 							<p class="validation-message" ng-if="organizationForm.firstName.$error.required">
 								<span class="glyphicon glyphicon-exclamation-sign "></span>
@@ -269,8 +287,6 @@
 										ng-options="region as region.designation for region in regions | filter: $viewValue"
 										ng-change="onRegionSelected(organization.address.region.id)"
 										typeahead-editable="false" class="form-control" required></select>
-									{{$root.organization.address.region}}
-									id{{$root.organization.id}}
 								</div>
 							</div>
 

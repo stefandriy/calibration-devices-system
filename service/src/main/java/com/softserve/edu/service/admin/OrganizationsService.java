@@ -103,7 +103,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
@@ -124,6 +124,21 @@ public class OrganizationsService {
 			logger.debug(type);
 		}
 		organization.setOrganizationTypes(organizationTypes);
+
+		//--------------------------------------
+		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+
+
+		User employeeAdmin = userRepository.findByUsername(username);
+		employeeAdmin.setFirstName(firstName);
+		employeeAdmin.setLastName(lastName);
+		employeeAdmin.setMiddleName(middleName);
+		employeeAdmin.setUsername(username);
+
+
+		organizationRepository.save(organization);
+		userRepository.save(employeeAdmin);
+
 	}
 
 

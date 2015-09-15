@@ -102,6 +102,7 @@ angular
 						$scope.adminsFirstName = data.firstName;
 						$scope.adminsLastName = data.lastName;
 						$scope.adminsMiddleName = data.middleName;
+						$scope.adminsUserName = data.username;
 						console.log(data);
 						console.log(data.firstName);
 					}
@@ -378,7 +379,8 @@ angular
 					flat : $rootScope.organization.address.flat,
 					firstName : $scope.adminsFirstName,
 					lastName : $scope.adminsLastName,
-					middleName : $scope.adminsMiddleName
+					middleName : $scope.adminsMiddleName,
+					username : $scope.username
 				};
 
 				organizationService.editOrganization(

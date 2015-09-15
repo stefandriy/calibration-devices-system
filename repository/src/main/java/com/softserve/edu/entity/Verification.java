@@ -1,5 +1,6 @@
 package com.softserve.edu.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
@@ -31,6 +32,7 @@ public class Verification {
 
     @ManyToOne
     @JoinColumn(name = "device_id")
+    @JsonManagedReference
     private Device device;
 
     @OneToMany
