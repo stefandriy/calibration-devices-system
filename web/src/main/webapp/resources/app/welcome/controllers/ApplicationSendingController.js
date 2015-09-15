@@ -99,6 +99,7 @@ angular
                 });
             }
 
+            $scope.values = [1, 2, 3, 4, 5, 6];
             /**
              * Receives all possible regions.
              */
@@ -177,7 +178,7 @@ angular
             dataReceivingService.findStreetsTypes()
                 .success(function (streetsTypes) {
                     $scope.streetsTypes = streetsTypes;
-                    $scope.selectedValues.selectedStreetType = "";
+                    $scope.selectedValues.selectedStreetType = undefined;
                     $log.debug("$scope.streetsTypes");
                     $log.debug($scope.streetsTypes);
 
@@ -226,17 +227,17 @@ angular
              * Receives all possible devices.
              */
             $scope.devices = [];
-            $scope.secondSelectedDevice = [];
-            $scope.thirdSelectedDevice = [];
-            $scope.firstDeviceCount = "";
-            $scope.secondDeviceCount = "";
-            $scope.thirdDeviceCount = "";
+
+            $scope.firstDeviceCount = undefined;
+            $scope.selectedValues.secondDeviceCount = undefined;
+            $scope.selectedValues.thirdDeviceCount = undefined;
 
             dataReceivingService.findAllDevices()
                 .success(function (devices) {
                     $scope.devices = devices;
-                    $scope.firstSelectedDevice = [];
-
+                    $scope.selectedValues.firstSelectedDevice = undefined;
+                    $scope.selectedValues.secondSelectedDevice = undefined;
+                    $scope.selectedValues.thirdSelectedDevice = undefined;
                 });
 
 
@@ -244,26 +245,26 @@ angular
              *  Check if all devices were selected
              */
             $scope.deviceErrorCheck = function () {
-                if ($scope.firstDeviceCount !== "") {
+                if ($scope.firstDeviceCount !== undefined) {
                     $scope.clientForm.firstDeviceCount.$invalid = false;
                 }
-                if ($scope.firstSelectedDevice.length === 0) {
+                if ($scope.selectedValues.firstSelectedDevice == undefined) {
                     $scope.clientForm.firstSelectedDevice.$invalid = true;
                     $scope.clientForm.firstDeviceCount.$invalid = true;
                 }
 
-                if (($scope.secondDeviceCount !== "") || ($scope.secondDeviceCount === undefined)) {
+                if (($scope.selectedValues.secondDeviceCount !== undefined) || ($scope.selectedValues.secondDeviceCount === undefined)) {
                     $scope.clientForm.secondDeviceCount.$invalid = false;
                 }
-                if ($scope.secondSelectedDevice.length === 0) {
+                if ($scope.selectedValues.secondSelectedDevice == undefined) {
                     $scope.clientForm.secondSelectedDevice.$invalid = true;
                     $scope.clientForm.secondDeviceCount.$invalid = true;
                 }
 
-                if (($scope.thirdDeviceCount !== "") || ($scope.thirdDeviceCount === undefined)) {
+                if (($scope.selectedValues.thirdDeviceCount !== undefined) || ($scope.selectedValues.thirdDeviceCount == undefined)) {
                     $scope.clientForm.thirdDeviceCount.$invalid = false;
                 }
-                if ($scope.thirdSelectedDevice.length === 0) {
+                if ($scope.selectedValues.thirdSelectedDevice == undefined) {
                     $scope.clientForm.thirdSelectedDevice.$invalid = true;
                     $scope.clientForm.thirdDeviceCount.$invalid = true;
                 }
@@ -307,31 +308,31 @@ angular
                     $scope.formData.street = $scope.selectedValues.selectedStreet.designation || $scope.selectedValues.selectedStreet;
                     $scope.formData.building = $scope.selectedValues.selectedBuilding.designation || $scope.selectedValues.selectedBuilding;
                     $scope.formData.providerId = $scope.selectedValues.selectedProvider.id;
-                    for (var i = 0; i < $scope.firstDeviceCount; i++) {
-                        $scope.formData.deviceId = $scope.firstSelectedDevice.id;
+                    for (var i = 0; i < $scope.selectedValues.firstDeviceCount; i++) {
+                        $scope.formData.deviceId = $scope.selectedValues.firstSelectedDevice.id;
                         $scope.firstAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
                     }
                     $q.all($scope.firstAplicationCodes).then(function (values) {
-                        for (var i = 0; i < ($scope.firstDeviceCount); i++) {
+                        for (var i = 0; i < ($scope.selectedValues.firstDeviceCount); i++) {
                             $scope.codes.push(values[i].data);
 
                         }
-                        for (var i = 0; i < $scope.secondDeviceCount; i++) {
-                            $scope.formData.deviceId = $scope.secondSelectedDevice.id;
+                        for (var i = 0; i < $scope.selectedValues.secondDeviceCount; i++) {
+                            $scope.formData.deviceId = $scope.selectedValues.secondSelectedDevice.id;
                             $scope.secondAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
                         }
                         $q.all($scope.secondAplicationCodes).then(function (values) {
-                            for (var i = 0; i < $scope.secondDeviceCount; i++) {
+                            for (var i = 0; i < $scope.selectedValues.secondDeviceCount; i++) {
                                 $scope.codes.push(values[i].data);
 
                             }
-                            for (var i = 0; i < $scope.thirdDeviceCount; i++) {
-                                $scope.formData.deviceId = $scope.thirdSelectedDevice.id;
+                            for (var i = 0; i < $scope.selectedValues.thirdDeviceCount; i++) {
+                                $scope.formData.deviceId = $scope.selectedValues.thirdSelectedDevice.id;
                                 $scope.thirdAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
                             }
 
                             $q.all($scope.thirdAplicationCodes).then(function (values) {
-                                for (var i = 0; i < $scope.thirdDeviceCount; i++) {
+                                for (var i = 0; i < $scope.selectedValues.thirdDeviceCount; i++) {
                                     $scope.codes.push(values[i].data);
                                 }
                                 $scope.appProgress = false;
@@ -424,13 +425,13 @@ angular
              
                 $scope.formData = null;
 
-                $scope.firstSelectedDevice = [];
-                $scope.secondSelectedDevice = [];
-                $scope.thirdSelectedDevice = [];
+                $scope.selectedValues.firstSelectedDevice = undefined;
+                $scope.selectedValues.secondSelectedDevice = undefined;
+                $scope.selectedValues.thirdSelectedDevice = undefined;
 
-                $scope.firstDeviceCount = "";
-                $scope.secondDeviceCount = "";
-                $scope.thirdDeviceCount = "";
+                $scope.selectedValues.firstDeviceCount = undefined;
+                $scope.selectedValues.secondDeviceCount = undefined;
+                $scope.selectedValues.thirdDeviceCount = undefined;
                 
                 $scope.selectedValues.selectedRegion = undefined;
                 $scope.selectedValues.selectedDistrict = undefined;
