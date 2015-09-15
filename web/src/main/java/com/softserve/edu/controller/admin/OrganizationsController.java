@@ -227,7 +227,7 @@ public class OrganizationsController {
                 )
                 .collect(Collectors.toList());
 
-        User user = users.get(0); //TODO
+        User user = users.get(0); //TODO reduce!
 
 
         OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
