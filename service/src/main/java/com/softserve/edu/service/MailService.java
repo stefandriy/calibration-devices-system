@@ -72,7 +72,7 @@ public class MailService {
                 templateVariables.put("providerName", providerName);
                 templateVariables.put("deviceType", deviceType);
                 templateVariables.put("date", date);
-                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/mailTemplate.vm", "UTF-8", templateVariables);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates/mailTemplate.vm", "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
             }
@@ -144,7 +144,36 @@ public class MailService {
     }
 
 
-    public void sendClientMail(String from, String userFirstName, String userLastName, String verificationId, String msg) {
+        public void sendClientMail(String from, String userFirstName, String userLastName, String verificationId, String msg) {
+
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+
+                List<User> adminList = userRepository.findByRoleLikeIgnoreCase("SYS_ADMIN");
+                if (!adminList.isEmpty() && adminList.get(0).getEmail() != null) {
+                    message.setTo(adminList.get(0).getEmail());
+                    logger.trace("Email send to:" + adminList.get(0).getEmail());
+                } else {
+                    message.setTo("metrology.calibration.devices@gmail.com");
+                }
+                message.setFrom(new InternetAddress(from));
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("firstName", userFirstName);
+                templateVariables.put("lastName", userLastName);
+                templateVariables.put("mailAddress", from);
+                templateVariables.put("message", msg);
+                templateVariables.put("applicationId", verificationId);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/clientMail.vm", "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+
+            }
+        };
+        this.mailSender.send(preparator);
+    }
+
+    public void sendClientMailFromProvider(String from, String userFirstName, String userLastName, String verificationId, String msg) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
