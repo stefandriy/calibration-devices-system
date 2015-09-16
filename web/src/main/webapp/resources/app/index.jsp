@@ -90,7 +90,8 @@
                 <ul class="dropdown-menu dropdown-user dropdown_style">
                     <li class="user-header bg-light-blue">
                         <div class="profile_information_labal">
-                            <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-rounded" style="border-radius: 30px"
+                            <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-rounded"
+                                 style="border-radius: 30px"
                                  alt="User Image"/>
                             <label translate="{{employee.firstName}} {{employee.lastName}}
                         {{employee.middleName}} ({{employee.username}})"/>
@@ -101,7 +102,7 @@
                             <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
                         </div>
                         <div class="profile_information_labal">
-                            <a class="btn btn-default ref_style_label"  translate="SETTING"></a>
+                            <a class="btn btn-default ref_style_label" translate="SETTING"></a>
                         </div>
                         <div class="profile_information_labal">
                             <a ng-click="logout()" class="btn btn-default ref_style_label"
@@ -111,125 +112,129 @@
                 </ul>
             </li>
         </ul>
+    </nav>
+    <!-- Sidebar -->
 
-        <!-- Sidebar -->
-        <div class="ui visible sidebar navbar-default" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
+    <div class="row"><div class="col-md-1"><button ng-init="menuState = true" ng-click="menuState = !menuState">Toggle</button></div></div>
+
+    <div class="row">
+        <div ng-class="{'col-md-3 menu_column' : menuState, '': !menuState}">
+            <div class="ui visible sticky visible very wide sidebar" ng-hide="!menuState" role="navigation">
+                    <ul class="nav ui vertical menu">
+                        <sec:authorize url="/provider">
+                            <li ui-sref-active="active">
+                                <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
+                                    (постачальник послуг)</a>
+                            </li>
+                        </sec:authorize>
+
+                        <sec:authorize url="/calibrator">
+                            <li ui-sref-active="active">
+                                <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> Головна панель
+                                    (вимірювальна лабораторія)</a>
+                            </li>
+                        </sec:authorize>
+
+                        <sec:authorize url="/verificator">
+                            <li ui-sref-active="active">
+                                <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> Головна панель
+                                    (уповноважена повірочна лабораторія)</a>
+                            </li>
+                        </sec:authorize>
 
 
-                <ul class="nav" id="side-menu">
-                    <sec:authorize url="/provider">
-                        <li ui-sref-active="active">
-                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (постачальник послуг)</a>
-                        </li>
-                    </sec:authorize>
-
-                    <sec:authorize url="/calibrator">
-                        <li ui-sref-active="active">
-                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (вимірювальна лабораторія)</a>
-                        </li>
-                    </sec:authorize>
-
-                    <sec:authorize url="/verificator">
-                        <li ui-sref-active="active">
-                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (уповноважена повірочна лабораторія)</a>
-                        </li>
-                    </sec:authorize>
-
-
-                    <sec:authorize url="/provider">
-                        <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
-                            <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
-                              <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                        <sec:authorize url="/provider">
+                            <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
+                                <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()">
+                                    <i class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
+                              <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                     ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
-                            </a>
-                        </li>
-                    </sec:authorize>
+                                </a>
+                            </li>
+                        </sec:authorize>
 
-                    <sec:authorize url="/calibrator">
-                        <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
-                            <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (вимірювальна лабораторія)
-                           		<span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                        <sec:authorize url="/calibrator">
+                            <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
+                                <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
+                                        class="fa fa-list-alt fa-fw"></i> Нові заявки (вимірювальна лабораторія)
+                           		<span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
-                            <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i> Довідник засобів вимірювальної техніки (вимірювальна
-                                лабораторія)
-                            </a>
-                        </li>
+                                </a>
+                            </li>
+                            <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
+                                <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
+                                        class="fa fa-desktop"></i> Довідник засобів вимірювальної техніки (вимірювальна
+                                    лабораторія)
+                                </a>
+                            </li>
 
 
-                    </sec:authorize>
+                        </sec:authorize>
 
 
-                    <sec:authorize url="/verificator">
-                        <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
-                            <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна лабораторія)
-                                <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                        <sec:authorize url="/verificator">
+                            <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
+                                <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
+                                        class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна
+                                    лабораторія)
+                                <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
-                            </a>
-                        </li>
-                    </sec:authorize>
+                                </a>
+                            </li>
+                        </sec:authorize>
 
-                    <sec:authorize url="/provider/admin/">
-                        <li ui-sref-active="active">
-                            <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <span
-                                    translate="EMPLOYEE"></span></a>
-                        </li>
-                    </sec:authorize>
+                        <sec:authorize url="/provider/admin/">
+                            <li ui-sref-active="active">
+                                <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <span
+                                        translate="EMPLOYEE"></span></a>
+                            </li>
+                        </sec:authorize>
 
-                    <sec:authorize url="/calibrator/admin/">
-                        <li ui-sref-active="active">
-                            <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span
-                                    translate="EMPLOYEE"></span></a>
-                        </li>
-                    </sec:authorize>
+                        <sec:authorize url="/calibrator/admin/">
+                            <li ui-sref-active="active">
+                                <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span
+                                        translate="EMPLOYEE"></span></a>
+                            </li>
+                        </sec:authorize>
 
-                    <sec:authorize url="/provider">
-                        <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
-                        </li>
-                    </sec:authorize>
-                    <sec:authorize url="/calibrator">
-                        <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
-                        </li>
-                    </sec:authorize>
-                    <sec:authorize url="/verificator">
-                        <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
-                        </li>
-                    </sec:authorize>
-                    <sec:authorize url="/provider/admin/">
-                        <li ui-sref-active="active">
-                            <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>
-                                <span translate="STATISTIC_OF_EMPLOYEE_CAPACITY"> </span>
-                            </a>
-                        </li>
-                    </sec:authorize>
-                </ul>
-
+                        <sec:authorize url="/provider">
+                            <li ui-sref-active="active">
+                                <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
+                                    повірок</a>
+                            </li>
+                        </sec:authorize>
+                        <sec:authorize url="/calibrator">
+                            <li ui-sref-active="active">
+                                <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> Архів
+                                    повірок</a>
+                            </li>
+                        </sec:authorize>
+                        <sec:authorize url="/verificator">
+                            <li ui-sref-active="active">
+                                <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> Архів
+                                    повірок</a>
+                            </li>
+                        </sec:authorize>
+                        <sec:authorize url="/provider/admin/">
+                            <li ui-sref-active="active">
+                                <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>
+                                    <span translate="STATISTIC_OF_EMPLOYEE_CAPACITY"> </span>
+                                </a>
+                            </li>
+                        </sec:authorize>
+                    </ul>
             </div>
-
         </div>
-    </nav>
-    <div ui-view></div>
+        <div class="col-md-9 main_column">
+            <div ui-view></div>
+        </div>
+    </div>
 </div>
-    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
+<toaster-container
+        toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
