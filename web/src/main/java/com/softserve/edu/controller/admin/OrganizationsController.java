@@ -188,6 +188,9 @@ public class OrganizationsController {
                 System.out.println(strType);
             }
 
+           logger.info(organization.getUsername());
+           logger.info(organization.getPassword());
+           logger.info(organization.getEmail());
             organizationsService.editOrganization(
                     organizationId,
                     organization.getName(),
@@ -206,6 +209,7 @@ public class OrganizationsController {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
         }
+
         return new ResponseEntity(httpStatus);
     }
 
