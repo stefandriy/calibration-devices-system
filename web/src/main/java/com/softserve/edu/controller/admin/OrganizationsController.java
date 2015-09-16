@@ -94,7 +94,6 @@ public class OrganizationsController {
      * @return
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    //currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search
     public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(
             @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
             NewOrganizationFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user
@@ -181,7 +180,7 @@ public class OrganizationsController {
                 organization.getStreet(),
                 organization.getBuilding(),
                 organization.getFlat());
-        try {
+       try {
             if (organization.getTypes().equals(null)) {
                 System.out.println("Nothing here");
             }
@@ -198,6 +197,7 @@ public class OrganizationsController {
                     organization.getEmployeesCapacity(),
                     organization.getMaxProcessTime(),
                     address,
+                    organization.getPassword(),
                     organization.getUsername(),
                     organization.getFirstName(),
                     organization.getLastName(),

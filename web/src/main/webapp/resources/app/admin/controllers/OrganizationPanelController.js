@@ -49,8 +49,7 @@ angular
 										});
 								}
 							});
-							/**
-							 * Updates the table with organization.
+
 
 							$rootScope.onTableHandling = function() {
 								organizationService
@@ -64,8 +63,8 @@ angular
 													$scope.totalItems = data.totalItems;
 												});
 							};
-							$rootScope.onTableHandling()
-							 */
+							$rootScope.onTableHandling();
+
 							/**
 							 * Opens modal window for adding new organization.
 							 */

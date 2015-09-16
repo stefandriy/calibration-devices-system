@@ -109,7 +109,7 @@ angular
 			$scope.loadAdmin();
 
 			$scope.checkIfUsernameIsAvailable = function() {
-				var username = $rootScope.organization.username;
+				var username = $scope.adminsUserName;
 				userService.isUsernameAvailable(username).then(
 					function(data) {
 						$scope.isUsernameAvailable = data;
@@ -176,10 +176,10 @@ angular
 						}
 						break;
 					case ('login') :
-						var username = $rootScope.organization.username;
+						var username = $scope.adminsUserName ;
 						if (username == null) {
 						} else if ($scope.USERNAME_REGEX.test(username)) {
-							isUsernameAvailable(username);
+							checkIfUsernameIsAvailable(username);
 						} else {
 							validator('loginValid', false);
 						}
@@ -406,9 +406,10 @@ angular
 					firstName : $scope.adminsFirstName,
 					lastName : $scope.adminsLastName,
 					middleName : $scope.adminsMiddleName,
-					username : $scope.username,
+					username : $scope.adminsUserName,
 					password: $scope.password,
 				};
+				console.log( $rootScope.organization.email, $scope.adminsUserName)
 
 				organizationService.editOrganization(
 					organizationForm,

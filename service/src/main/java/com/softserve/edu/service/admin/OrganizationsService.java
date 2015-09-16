@@ -9,8 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
-import com.softserve.edu.service.MailService;
-import org.apache.commons.lang.RandomStringUtils;
+import com.softserve.edu.service.provider.ProviderEmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,7 +38,7 @@ public class OrganizationsService {
 	private UserRepository userRepository;
 
 	@Autowired
-	private MailService mail;
+	private ProviderEmployeeService providerEmployeeService;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -80,6 +79,9 @@ public class OrganizationsService {
 	public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage,String name,
 																					 String email, String number, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder) {
 
+
+		logger.info("----sortcriteria");
+		logger.info(sortCriteria);
 		CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
 
 		Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin.buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).getSingleResult();
@@ -108,7 +110,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address/*, String password*/, String username, String firstName, String lastName, String middleName) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
@@ -133,21 +135,24 @@ public class OrganizationsService {
 		//--------------------------------------
 //		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
 
-
+		logger.info("++++++username");
+		logger.info(username);
 		User employeeAdmin = userRepository.findByUsername(username);
+		System.out.println(employeeAdmin.getEmail());
+		logger.info("++++++mail");
+		logger.info(employeeAdmin.getEmail());
 		employeeAdmin.setFirstName(firstName);
 		employeeAdmin.setLastName(lastName);
 		employeeAdmin.setMiddleName(middleName);
 		employeeAdmin.setUsername(username);
-		if (employeeAdmin.getPassword().equals("generate")) {
-			String newPassword = RandomStringUtils.randomAlphanumeric(5);
-			mail.sendNewPasswordMail(employeeAdmin.getEmail(), employeeAdmin.getFirstName(), newPassword);
-			String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
-			employeeAdmin.setPassword(passwordEncoded);
-		}
-
+	/*	employeeAdmin.setPassword(password != null && password.equals("generate") ?
+				"generate" : employeeAdmin.getPassword());
+		employeeAdmin.deleteAllUsersRoles();
+		providerEmployeeService.updateEmployee(employeeAdmin);
+*/
 
 		organizationRepository.save(organization);
+
 		userRepository.save(employeeAdmin);
 
 	}
