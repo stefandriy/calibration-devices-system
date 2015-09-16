@@ -14,7 +14,7 @@
 				<div>
 
 					<div class="form-group col-md-4">
-						<label class="control-label">{{'ORGANIZATION_NAME_ADMIN' |
+						<label class="control-label" for="name">{{'ORGANIZATION_NAME_ADMIN' |
 							translate }}</label>
 					</div>
 
@@ -22,7 +22,15 @@
 
 						<input type="text" ng-model="organizationFormData.name" id="name"
 							ng-pattern="ORGANIZATION_NAME_REGEX" name="name"
-							class="form-control" required>
+							class="form-control" popover="Введіть назву вашої організації"
+							   popover-trigger="focus" popover-placement="top" required>
+						 <span class="form-control-feedback glyphicon
+						 form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+						<p ng-show="organizationForm.name.$submitted || organizationForm.name.$touched" class="help-block" ng-if="organizationForm.name.$error.required">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'REQUIRED' | translate}}
+						</p>
 
 						<p class="help-block" ng-if="organizationForm.name.$error.pattern">
 							<span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -30,96 +38,99 @@
 						</p>
 
 					</div>
-
-					<div>
-						<div class="form-group col-md-4">
-							<label class="control-label">{{'ORGANIZATION_TYPE_ADMIN'
-								| translate }}</label>
-						</div>
-
-						<div class="form-group col-md-8">
-							<select multiple chosen type="text" class="form-control"
-								ng-model="organizationFormData.types"
-								data-placeholder="Choose type"
-								ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types">
-							</select>
-						</div>
+					<div class="form-group col-md-4">
+						<label class="control-label" for="types">{{'ORGANIZATION_TYPE_ADMIN'
+							| translate }}</label>
 					</div>
 
-					<div>
-						<div class="form-group col-md-4">
-							<label class="control-label">{{'EMAIL' | translate }}</label>
-						</div>
-						<div class="form-group col-md-8" show-errors>
+					<div class="form-group col-md-8">
+						<select multiple chosen type="text" class="form-control" id="types" name="types" ng-model="organizationFormData.types" data-placeholder="Оберіть тип організації"
+								ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types" required>
+						</select> <span class="form-control-feedback glyphicon
+						 form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-							<input id="email" name="email" type="email" class="form-control"
-								ng-model="organizationFormData.email"
-								placeholder="example@gmail.com" required>
-
-							<p class="help-block"
-								ng-if="organizationFormData.email.$error.email">
-								<span class="glyphicon glyphicon-exclamation-sign"></span>
-								{{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
-							</p>
-
-						</div>
+						<p class="help-block" ng-show="organizationForm.type.$submitted || organizationForm.type.$touched" ng-if="organizationForm.type.$error.required">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'REQUIRED' | translate}}
+						</p>
 					</div>
 
-					<div>
-						<div class="form-group col-md-4">
-							<label class="control-label">{{'ORGANIZATION_TELEPHON_NUMBER_ADMIN'
-								| translate }}</label>
-						</div>
-
-						<div class="form-group col-md-8" show-errors>
-							<div>
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon-code">+380</span>
-									<input id="phoneNumber" name="phoneNumber" type="text"
-										class="form-control col-md-8 "
-										ng-model="organizationFormData.phone" placeholder="XXXXXXXXX"
-										ng-pattern="PHONE_REGEX" required>
-								</div>
-							</div>
-							<div class="form-group">
-								<p class="help-block col-md-8 col-md-offset-2"
-									ng-if="organizationFormData.phone.$error.pattern">
-									<span class="glyphicon glyphicon-exclamation-sign"></span>
-									{{'PHONE_NUMBER_ERROR' | translate}}
-								</p>
-							</div>
-						</div>
+				    <div class="form-group col-md-4">
+						<label class="control-label" for="email">{{'EMAIL' | translate }}</label>
 					</div>
+				    <div class="form-group col-md-8" show-errors>
+						<input id="email" name="email" type="email" class="form-control"
+							   ng-model="organizationFormData.email" ng-pattern="EMAIL_REGEX"
+							   popover="Введіть email адресу організації"
+							   popover-trigger="focus" popover-placement="top"
+							   placeholder="example@gmail.com" required>
+						<span class="form-control-feedback glyphicon
+						 form-horizontal glyphicon glyphicon-ok-sign"></span>
 
+						<p ng-show="organizationForm.email.$submitted || organizationForm.email.$touched"
+						   class="help-block" ng-if="organizationForm.email.$error.required">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'REQUIRED' | translate}}
+						</p>
 
-					<div>
-						<div class="form-group col-md-4">
-							<label class="control-label">{{'NUMBER_OF_EMPLOYEES' |
-								translate}}</label>
-						</div>
-						<div class="form-group col-md-8" show-errors>
-
-							<input type="number" id="capacity" name="capacity"
-								class="form-control"
-								ng-model="organizationFormData.employeesCapacity" min="1"
-								required>
-
-						</div>
+						<p class="help-block" ng-if="organizationForm.email.$error.pattern">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
+						</p>
 					</div>
+					<div class="form-group col-md-4">
+						<label class="control-label" for="phoneNumber">
+							{{'ORGANIZATION_TELEPHON_NUMBER_ADMIN' | translate }}
+						</label>
+					</div>
+					<div class="form-group col-md-8" show-errors>
+						<div class="input-group">
+							<span class="input-group-addon" id="basic-addon-code">+380</span>
+							<input id="phoneNumber" name="phoneNumber" type="text"
+								   class="form-control col-md-8 " ng-model="organizationFormData.phone"
+								   placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX"
+								   popover="Введіть номер телефону організації"
+								   popover-trigger="focus" popover-placement="top"
+								   required>
+						</div> <span class="form-control-feedback glyphicon
+						 form-horizontal glyphicon glyphicon-ok-sign"></span>
 
+						<p ng-show="organizationForm.phoneNumber.$submitted || organizationForm.phoneNumber.$touched"
+						   class="help-block" ng-if="organizationForm.phoneNumber.$error.required">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'REQUIRED' | translate}}
+						</p>
+
+						<p class="help-block" ng-if="organizationForm.phoneNumber.$error.pattern">
+							<span class="glyphicon glyphicon-exclamation-sign"></span>
+							{{'PHONE_NUMBER_ERROR' | translate}}
+						</p>
+					</div>
+					<div class="form-group col-md-4">
+						<label class="control-label">{{'NUMBER_OF_EMPLOYEES' |
+							translate}}</label>
+					</div>
+					<div class="form-group col-md-8" show-errors>
+						<input type="number" id="capacity" name="capacity"
+							   class="form-control"
+							   ng-model="organizationFormData.employeesCapacity" min="1"
+							   required>
+					</div>
 					<div class="pull-left">
 						<div class="form-group col-md-4 ">
 							<label class="control-label">{{'MAX_PROCESS_TIME' |
 								translate }}</label>
 						</div>
 
-						<div class="form-group col-md-8 " show-errors>
+						<div class="form-group col-md-8 col-sm-12 col-xs-12" show-errors>
 							<input type="number" id="processTime" name="processTime"
-								class="form-control"
-								ng-model="organizationFormData.maxProcessTime"
-								ng-init="organizationFormData.maxProcessTime=5" min="1" required>
+								   class="form-control"
+								   ng-model="organizationFormData.maxProcessTime"
+								   ng-init="organizationFormData.maxProcessTime=5" min="1" required>
 						</div>
 					</div>
+
+
 
 				</div>
 			</div>
@@ -225,6 +236,7 @@
 							translate}}</label>
 					</div>
 					<div class="form-group col-md-8" show-errors>
+						<input type="password" name="password" class="form-control hidden">
 						<input type="password" ng-model="organizationFormData.password"
 							ng-pattern="PASSWORD_REGEX" name="password" class="form-control"
 							required>
@@ -320,11 +332,18 @@
 										typeahead="street as street.designation for street in streets | filter:  { designation: $viewValue} | limitTo: 4"
 										typeahead-on-select="onStreetSelected(organizationFormData.street.id)"
 										typeahead-editable="false" class="form-control" required>
-										<a ng-if="!organizationFormData.street" style="color: #b27e77"
+									<div ng-show="organizationFormData.$submitted || organizationFormData.street.$touched" >
+										<p class="help-block" ng-if="!organizationFormData.street.$error.required">
+											<span class="glyphicon glyphicon-exclamation-sign"></span>
+											{{'ORGANIZATION_INVALID_STREET'
+											| translate }}
+										</p>
+									</div>
+									<!--<a ng-if="!organizationFormData.street" style="color: #b27e77"
 										ng-click="feedbackModalNoProvider()"> <i
 										class="fa fa-info-circle"> <ins>{{'ORGANIZATION_INVALID_STREET'
 												| translate }} </ins></i>
-									</a>
+									</a>-->
 								</div>
 							</div>
 
@@ -347,8 +366,7 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="flat" type="text"
-										ng-model="organizationFormData.flat" class="form-control"
-										>
+										ng-model="organizationFormData.flat" class="form-control">
 								</div>
 							</div>
 						</div>

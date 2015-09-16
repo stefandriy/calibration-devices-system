@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.softserve.edu.service.provider.ProviderEmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,6 +36,9 @@ public class OrganizationsService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private ProviderEmployeeService providerEmployeeService;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -75,6 +79,9 @@ public class OrganizationsService {
 	public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage,String name,
 																					 String email, String number, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder) {
 
+
+		logger.info("----sortcriteria");
+		logger.info(sortCriteria);
 		CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
 
 		Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin.buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).getSingleResult();
@@ -103,7 +110,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
@@ -124,12 +131,46 @@ public class OrganizationsService {
 			logger.debug(type);
 		}
 		organization.setOrganizationTypes(organizationTypes);
+
+		//--------------------------------------
+//		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+
+		logger.info("++++++username");
+		logger.info(username);
+		User employeeAdmin = userRepository.findByUsername(username);
+		System.out.println(employeeAdmin.getEmail());
+		logger.info("++++++mail");
+		logger.info(employeeAdmin.getEmail());
+		employeeAdmin.setFirstName(firstName);
+		employeeAdmin.setLastName(lastName);
+		employeeAdmin.setMiddleName(middleName);
+		employeeAdmin.setUsername(username);
+	/*	employeeAdmin.setPassword(password != null && password.equals("generate") ?
+				"generate" : employeeAdmin.getPassword());
+		employeeAdmin.deleteAllUsersRoles();
+		providerEmployeeService.updateEmployee(employeeAdmin);
+*/
+
+		organizationRepository.save(organization);
+
+		userRepository.save(employeeAdmin);
+
 	}
 
 
 	@Transactional
 	public Integer getOrganizationEmployeesCapacity(Long organizationId) {
 		return organizationRepository.getOrganizationEmployeesCapacity(organizationId);
+	}
+
+	@Transactional
+	public Set<String> getDeviceTypesByOrganization(Long organizationId){
+		return organizationRepository.getDeviceTypesByOrganization(organizationId);
+	}
+
+	@Transactional
+	public Set<String> getOrganizationTypesById( Long id){
+	 	return 	organizationRepository.getOrganizationTypesById(id);
 	}
 
 }

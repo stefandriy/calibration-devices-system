@@ -44,8 +44,6 @@ angular
 				return (myArray.length-1);
 			}
 
-			$scope.organization.address.region = $rootScope.organization.address.region;
-
 			$scope.typeData = [
 				{
 					id: 'PROVIDER',
@@ -96,8 +94,22 @@ angular
 
 			$scope.isUsernameAvailable = true;
 
+			$scope.loadAdmin = function() {
+				organizationService.getOrganizationAdmin($rootScope.organization.id).then(
+					function (data) {
+						$scope.adminsFirstName = data.firstName;
+						$scope.adminsLastName = data.lastName;
+						$scope.adminsMiddleName = data.middleName;
+						$scope.adminsUserName = data.username;
+						console.log(data);
+						console.log(data.firstName);
+					}
+				)
+			}
+			$scope.loadAdmin();
+
 			$scope.checkIfUsernameIsAvailable = function() {
-				var username = $rootScope.organization.username;
+				var username = $scope.adminsUserName;
 				userService.isUsernameAvailable(username).then(
 					function(data) {
 						$scope.isUsernameAvailable = data;
@@ -164,10 +176,10 @@ angular
 						}
 						break;
 					case ('login') :
-						var username = $rootScope.organization.username;
+						var username = $scope.adminsUserName ;
 						if (username == null) {
 						} else if ($scope.USERNAME_REGEX.test(username)) {
-							isUsernameAvailable(username);
+							checkIfUsernameIsAvailable(username);
 						} else {
 							validator('loginValid', false);
 						}
@@ -315,6 +327,34 @@ angular
 
 
 			/**
+			 * Change password
+			 */
+			$scope.changePassword = function () {
+				//$scope.preventDefault();
+				$scope.password = 'generate';
+				$scope.generationMessage = true;
+			}
+
+
+			/**
+			 * Check passwords for equivalent
+			 */
+            //
+			//$scope.checkPasswords = function () {
+			//	var first = $scope.employeeFormData.password;
+			//	var second = $scope.employeeFormData.rePassword;
+			//	$log.info(first);
+			//	$log.info(second);
+			//	var isValid = false;
+			//	if (first != second) {
+			//		isValid = true;
+			//	}
+			//	$scope.passwordValidation = {
+			//		isValid: isValid,
+			//		css: isValid ? 'has-error' : 'has-success'
+			//	}
+			//};
+			/**
 			 * Convert address data to string
 			 */
 			function addressFormToOrganizationForm() {
@@ -362,8 +402,14 @@ angular
 					district : $rootScope.organization.address.district,
 					street : $rootScope.organization.address.street,
 					building : $rootScope.organization.address.building,
-					flat : $rootScope.organization.address.flat
+					flat : $rootScope.organization.address.flat,
+					firstName : $scope.adminsFirstName,
+					lastName : $scope.adminsLastName,
+					middleName : $scope.adminsMiddleName,
+					username : $scope.adminsUserName,
+					password: $scope.password,
 				};
+				console.log( $rootScope.organization.email, $scope.adminsUserName)
 
 				organizationService.editOrganization(
 					organizationForm,

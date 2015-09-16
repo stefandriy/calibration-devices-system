@@ -365,8 +365,13 @@ table.dataTable thead .sorting:after {
 }
 
 .form-group .has-success .glyphicon-ok-sign {
-    display: block;
+    display: block !important;
     color: green;
+}
+
+.has-success .form-control-feedback {
+    color: green;
+    display: block !important;
 }
 
 .validation-message {

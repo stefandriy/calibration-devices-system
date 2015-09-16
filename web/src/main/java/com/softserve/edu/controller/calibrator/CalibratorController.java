@@ -192,8 +192,13 @@ public class CalibratorController {
                                                                                        @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, ArchiveVerificationsFilterAndSort searchData,
                                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+//        System.out.println("CalibratorController searchData.getMeasurement_device_type() " + searchData.getMeasurement_device_type());
+        System.out.println("prot from CalibratorController  protocol status= "+searchData.getProtocol_status());
         ListToPageTransformer<Verification> queryResult = verificationService
-                .findPageOfArchiveVerificationsByCalibratorId(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
+                .findPageOfArchiveVerificationsByCalibratorId(
+                        employeeUser.getOrganizationId(),
+                        pageNumber,
+                        itemsPerPage,
                         searchData.getDate(),
                         searchData.getEndDate(),
                         searchData.getId(),
@@ -201,6 +206,10 @@ public class CalibratorController {
                         searchData.getStreet(),
                         searchData.getStatus(),
                         searchData.getEmployee_last_name(),
+                        searchData.getProtocol_id(),
+                        searchData.getProtocol_status(),
+                        searchData.getMeasurement_device_id(),
+                        searchData.getMeasurement_device_type(),
                         sortCriteria,
                         sortOrder, calibratorEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
@@ -214,10 +223,18 @@ public class CalibratorController {
         Verification verification = verificationService.findByIdAndCalibratorId(verificationId,
                 user.getOrganizationId());
 
-        return new VerificationDTO(verification.getClientData(), verification.getId(), verification.getInitialDate(),
-                verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
-                verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
-                verification.getProviderEmployee(), verification.getStateVerificator(),
+        return new VerificationDTO(
+                verification.getClientData(),
+                verification.getId(),
+                verification.getInitialDate(),
+                verification.getExpirationDate(),
+                verification.getStatus(),
+                verification.getCalibrator(),
+                verification.getCalibratorEmployee(),
+                verification.getDevice(),
+                verification.getProvider(),
+                verification.getProviderEmployee(),
+                verification.getStateVerificator(),
                 verification.getStateVerificatorEmployee());
     }
 

@@ -20,6 +20,9 @@ public interface UserRepository extends CrudRepository<User, String> {
     @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role LIKE:role")
     Page<User> findByRoleLikeIgnoreCase(@Param("role") String role, Pageable pageable);
 
+    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role LIKE:role")
+    List<User> findByRoleLikeIgnoreCase(@Param("role") String role);
+
     @Query("SELECT r.role FROM UserRole r INNER JOIN r.users u WHERE u.username=:username")
     String getRoleByUserName(@Param("username") String username);
 
@@ -50,7 +53,8 @@ public interface UserRepository extends CrudRepository<User, String> {
     List<User> getAllProviderUsersList(@Param("role") String role, @Param("organizationId") Long organizationId,
                                        @Param("isAvaliable") boolean isAvaliable);
 
-    User findByUsername(String userName);
+    @Query("SELECT u FROM User u WHERE u.username=:username")
+    User findByUsername(@Param("username") String username);
 
     @Query("SELECT ur FROM UserRole ur WHERE ur.role=:role")
     UserRole getUserRole(@Param("role") String role);

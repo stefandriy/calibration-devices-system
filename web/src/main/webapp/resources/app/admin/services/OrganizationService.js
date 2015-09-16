@@ -25,6 +25,13 @@ angular.module('adminModule')
 							.then(function(result) {
 								return result.status;
 							});
+				},
+
+				getOrganizationAdmin : function(id) {
+					var url = '/admin/organization/getOrganizationAdmin/' + id;
+					return $http.get(url).then(function(result) {
+						return result.data;
+					});
 				}
 
 			};

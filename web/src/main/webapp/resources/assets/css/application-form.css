@@ -102,6 +102,12 @@
 	right: 15px;
 
 }
+
+
+.street_ok_padding{
+    right: 0 !important;
+}
+
 .spinner {
     display: inline-block;
     opacity: 0;
@@ -172,15 +178,30 @@
 .popover{
     width: 80%; /* Max Width of the popover (depending on the container!) */
 }
-input[type=checkbox]:not(old),
-input[type=radio   ]:not(old){
+input.plusButtonCheck {
     width   : 1px;
     margin  : 0;
     padding : 0;
     opacity : 0;
 }
+
+.building-ok{
+    padding-right: 175px;
+}
+input#phoneNumber{
+    height: 35px;
+}
+
+.chosen-container.chosen-container-multi{
+    height: 35px;
+}
+ul.chosen-choices{
+    height: 35px;
+}
+
+
+
 .input-group-addon {
-    border-radius: 24px;
     padding-right: 8px;
 }
 
