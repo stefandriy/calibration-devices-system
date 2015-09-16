@@ -329,6 +329,34 @@ angular
 
 
 			/**
+			 * Change password
+			 */
+			$scope.changePassword = function () {
+				//$scope.preventDefault();
+				$scope.password = 'generate';
+				$scope.generationMessage = true;
+			}
+
+
+			/**
+			 * Check passwords for equivalent
+			 */
+            //
+			//$scope.checkPasswords = function () {
+			//	var first = $scope.employeeFormData.password;
+			//	var second = $scope.employeeFormData.rePassword;
+			//	$log.info(first);
+			//	$log.info(second);
+			//	var isValid = false;
+			//	if (first != second) {
+			//		isValid = true;
+			//	}
+			//	$scope.passwordValidation = {
+			//		isValid: isValid,
+			//		css: isValid ? 'has-error' : 'has-success'
+			//	}
+			//};
+			/**
 			 * Convert address data to string
 			 */
 			function addressFormToOrganizationForm() {
@@ -380,7 +408,8 @@ angular
 					firstName : $scope.adminsFirstName,
 					lastName : $scope.adminsLastName,
 					middleName : $scope.adminsMiddleName,
-					username : $scope.username
+					username : $scope.username,
+					password: $scope.password,
 				};
 
 				organizationService.editOrganization(

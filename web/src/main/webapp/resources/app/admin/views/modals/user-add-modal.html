@@ -268,11 +268,6 @@
                                            typeahead="street as street.designation for street in streets | filter:  { designation: $viewValue} | limitTo: 4"
                                            typeahead-on-select="onStreetSelected(employeeFormData.street.id)"
                                            typeahead-editable="false" class="form-control" required>
-                                    <a ng-if="!employeeFormData.street" style="color: #b27e77"
-                                       ng-click="feedbackModalNoProvider()"> <i
-                                            class="fa fa-info-circle"> <ins>{{'employee_INVALID_STREET'
-                                        | translate }} </ins></i>
-                                    </a>
                                 </div>
                             </div>
 
@@ -307,8 +302,8 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="form-group col-md-10">
-                        <button type="submit" class="btn btn-success"
-                                >{{'ADD' | translate}}
+                        <button type="submit" class="btn btn-success" ng-click="onEmployeeFormSubmit()">
+                            {{'ADD' | translate}}
                         </button>
                         <button type="reset" class="btn btn-warning" ng-click="resetEmployeeForm()">
                             {{'CLEAR_FORM' | translate }}

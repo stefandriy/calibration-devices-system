@@ -233,39 +233,50 @@
 					</div>
 				</div>
 
+					<!--<div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>-->
+						<!--<input type="password" ng-model="$root.organization.Password" style="display: none">-->
+						<!--<input type="password" ng-model="$root.organization.password" ng-change="checkPasswords()"-->
+							   <!--name="password" class="form-control" required>-->
+					<!--</div>-->
+				<!--</div>-->
 
+				<!--<div class="row">-->
+					<!--<div class="form-group col-md-4">-->
+						<!--<label class="control-label">{{'REPEAT_PASSWORD' | translate}}*</label>-->
+					<!--</div>-->
+					<!--<div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>-->
+						<!--<input type="password" ng-model="$root.organization.rePassword"-->
+							   <!--ng-change="checkPasswords()" name="rePassword" class="form-control"   required>-->
+
+						<!--<div ng-show="$root.organization.$submitted || $root.organization.rePassword.$touched">-->
+							<!--<p class="validation-message" ng-if="$root.organization.rePassword.$error.required">-->
+								<!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
+								<!--{{'REQUIRED' | translate}}-->
+							<!--</p>-->
+
+							<!--<p class="validation-message " ng-if="passwordValidation.isValid">-->
+								<!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
+								<!--{{'PASSWORDS_DID_NOT_MATCH' | translate}}-->
+							<!--</p>-->
+						<!--</div>-->
+						<!--&lt;!&ndash;<h4 ng-show="incorrectValue" style="color: red">&ndash;&gt;-->
+						<!--&lt;!&ndash;{{'INCORRECT_VALUE_INPUT_ADD_EMPLOYEE' | translate}}</h4>&ndash;&gt;-->
+					<!--</div>-->
 				<div class="row">
-					<div class="form-group col-md-4">
-						<label class="control-label">{{'PASSWORD_TWO' | translate}}*</label>
-					</div>
-					<div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
-						<input type="password" ng-model="$root.organization.Password" style="display: none">
-						<input type="password" ng-model="$root.organization.password" ng-change="checkPasswords()"
-							   name="password" class="form-control" required>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="form-group col-md-4">
-						<label class="control-label">{{'REPEAT_PASSWORD' | translate}}*</label>
-					</div>
-					<div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
-						<input type="password" ng-model="$root.organization.rePassword"
-							   ng-change="checkPasswords()" name="rePassword" class="form-control"   required>
-
-						<div ng-show="$root.organization.$submitted || $root.organization.rePassword.$touched">
-							<p class="validation-message" ng-if="$root.organization.rePassword.$error.required">
-								<span class="glyphicon glyphicon-exclamation-sign"></span>
-								{{'REQUIRED' | translate}}
-							</p>
-
-							<p class="validation-message " ng-if="passwordValidation.isValid">
-								<span class="glyphicon glyphicon-exclamation-sign"></span>
-								{{'PASSWORDS_DID_NOT_MATCH' | translate}}
-							</p>
+					<div>
+						<div class="form-group col-md-4">
+							<label class="control-label">{{'PASSWORD_TWO' | translate}}</label>
 						</div>
-						<!--<h4 ng-show="incorrectValue" style="color: red">-->
-						<!--{{'INCORRECT_VALUE_INPUT_ADD_EMPLOYEE' | translate}}</h4>-->
+
+						<div class="form-group col-md-8">
+							<button type="submit" class="btn btn-warning"
+									ng-click="changePassword()" ng-hide="generationMessage">{{'GENERATE_PASSWORD' |
+								translate}}
+							</button>
+						</div>
+						<div class="form-group col-md-8" ng-show="generationMessage"> {{'GENERATE_PASSWORD_OK' |
+							translate}}</button>
+						</div>
 					</div>
 				</div>
 			</div>

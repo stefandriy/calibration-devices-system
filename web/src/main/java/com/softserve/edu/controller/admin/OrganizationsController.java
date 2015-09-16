@@ -198,7 +198,6 @@ public class OrganizationsController {
                     organization.getEmployeesCapacity(),
                     organization.getMaxProcessTime(),
                     address,
-                    organization.getPassword(),
                     organization.getUsername(),
                     organization.getFirstName(),
                     organization.getLastName(),
@@ -238,6 +237,7 @@ public class OrganizationsController {
 
         logger.info("========================");
         logger.info(users);
+        logger.info(user.getFirstName());
         logger.info(user.getFirstName());
         logger.info("========================");
 

@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.softserve.edu.service.MailService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,6 +37,9 @@ public class OrganizationsService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private MailService mail;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -103,7 +108,7 @@ public class OrganizationsService {
 
 	@Transactional
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address/*, String password*/, String username, String firstName, String lastName, String middleName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
@@ -126,7 +131,7 @@ public class OrganizationsService {
 		organization.setOrganizationTypes(organizationTypes);
 
 		//--------------------------------------
-		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+//		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
 
 
 		User employeeAdmin = userRepository.findByUsername(username);
@@ -134,6 +139,12 @@ public class OrganizationsService {
 		employeeAdmin.setLastName(lastName);
 		employeeAdmin.setMiddleName(middleName);
 		employeeAdmin.setUsername(username);
+		if (employeeAdmin.getPassword().equals("generate")) {
+			String newPassword = RandomStringUtils.randomAlphanumeric(5);
+			mail.sendNewPasswordMail(employeeAdmin.getEmail(), employeeAdmin.getFirstName(), newPassword);
+			String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
+			employeeAdmin.setPassword(passwordEncoded);
+		}
 
 
 		organizationRepository.save(organization);
