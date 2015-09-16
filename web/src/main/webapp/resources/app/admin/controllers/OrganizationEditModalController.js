@@ -44,8 +44,6 @@ angular
 				return (myArray.length-1);
 			}
 
-			$scope.organization.address.region = $rootScope.organization.address.region;
-
 			$scope.typeData = [
 				{
 					id: 'PROVIDER',
