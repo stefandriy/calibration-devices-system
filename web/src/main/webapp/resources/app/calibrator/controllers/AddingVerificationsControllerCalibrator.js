@@ -145,8 +145,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerCalibr
             $scope.codes=[];
             $scope.sendApplicationData = function () {
          
-                $scope.$broadcast('show-errors-check-validity');    	
-                if ($scope.clientForm.$valid) {
+                $scope.$broadcast('show-errors-check-validity');
+                    if ($scope.clientForm.$valid) {
                     $scope.formData.region = $scope.selectedRegion.designation;
                     $scope.formData.district = $scope.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedLocality.designation;
