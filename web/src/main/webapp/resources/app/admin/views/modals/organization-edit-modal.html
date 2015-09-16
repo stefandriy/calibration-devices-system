@@ -307,7 +307,7 @@
 								<div class="form-group col-md-8">
 									<input  name="street" type="text"
 										ng-model="$root.organization.address.street"
-										typehead="street as street.designation for street in streets | filter: $viewValue |limitTo: 4"
+										typehead="street as street.designation for street in streets | filter: { designation: $viewValue} | limitTo: 4"
 										typehead-on-select="onStreetSelected(organization.address.street.id)"
 										typeahead-editable="false" class="form-control" required>
 								</div>
