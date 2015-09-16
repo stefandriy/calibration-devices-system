@@ -168,7 +168,7 @@ public class Organization {
 		return users;
 	}
 
-	private void setUsers(Set<User> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 

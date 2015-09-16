@@ -16,6 +16,7 @@ public class OrganizationEditDTO {
 	private String flat;
 
 	private String username;
+	private String oldUsername;
 	private String password;
 
 	private String firstName;
@@ -156,5 +157,13 @@ public class OrganizationEditDTO {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getOldUsername() {
+		return oldUsername;
+	}
+
+	public void setOldUsername(String oldUsername) {
+		this.oldUsername = oldUsername;
 	}
 }

@@ -194,17 +194,20 @@
 							   popover="{{'USERNAME_INFO' | translate}}"
 							   popover-trigger="focus" popover-placement="right"
 							   ng-model-options="{debounce: 350}"
+							   ng-pattern="USERNAME_REGEX"
 							   id="username" name="username" class="form-control" required>
 
 						<div ng-show="$root.organization.$submitted || organizationForm.username.$touched">
-							<p class="validation-message" ng-if="!usernameValidation.isValid">
-								{{usernameValidation.message }}
+							<p class="help-block has-error"
+							   ng-if="organizationForm.username.$error.pattern">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'LOGIN_HAS_INVALID_LENGTH' | translate }}
 							</p>
-							<p class="validation-message" ng-if="!isUsernameAvailable">
+							<p class="validation-message has-error" ng-if="!isUsernameAvailable">
 								{{'LOGIN_ISNT_AVAILABLE'
 								| translate }}
 							</p>
-							<p class="validation-message" ng-if="organizationForm.username.$error.required">
+							<p class="validation-message has-error" ng-if="organizationForm.username.$error.required">
 								<span class="glyphicon glyphicon-exclamation-sign"></span>
 								{{'REQUIRED' | translate}}
 							</p>

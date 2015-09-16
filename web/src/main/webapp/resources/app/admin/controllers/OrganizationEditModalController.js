@@ -101,6 +101,7 @@ angular
 						$scope.adminsLastName = data.lastName;
 						$scope.adminsMiddleName = data.middleName;
 						$scope.adminsUserName = data.username;
+						$scope.oldUsername = data.username;
 						console.log(data);
 						console.log(data.firstName);
 					}
@@ -112,7 +113,12 @@ angular
 				var username = $scope.adminsUserName;
 				userService.isUsernameAvailable(username).then(
 					function(data) {
-						$scope.isUsernameAvailable = data;
+
+						if ($scope.USERNAME_REGEX.test(username) && ($scope.oldUsername != username) && (username != "")){
+							$scope.isUsernameAvailable = data;
+						}else {
+							$scope.isUsernameAvailable = true;
+						}
 					})
 			}
 
@@ -179,7 +185,7 @@ angular
 						var username = $scope.adminsUserName ;
 						if (username == null) {
 						} else if ($scope.USERNAME_REGEX.test(username)) {
-							checkIfUsernameIsAvailable(username);
+							$scope.checkIfUsernameIsAvailable();
 						} else {
 							validator('loginValid', false);
 						}
@@ -232,13 +238,6 @@ angular
 							isValid: isValid,
 							css: isValid? 'has-success' : 'has-error',
 							message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
-						}
-						break;
-					case 'existLogin':
-						$scope.usernameValidation = {
-							isValid: isValid,
-							css: isValid ? 'has-success' : 'has-error',
-							message: isValid ? undefined : 'Такий логін вже існує'
 						}
 						break;
 				}
@@ -407,9 +406,10 @@ angular
 					lastName : $scope.adminsLastName,
 					middleName : $scope.adminsMiddleName,
 					username : $scope.adminsUserName,
+					oldUsername : $scope.oldUsername,
 					password: $scope.password
 				};
-				console.log( $rootScope.organization.email, $scope.adminsUserName)
+				console.log( $rootScope.organization.email, $scope.adminsUserName, $scope.oldUsername)
 
 				organizationService.editOrganization(
 					organizationForm,

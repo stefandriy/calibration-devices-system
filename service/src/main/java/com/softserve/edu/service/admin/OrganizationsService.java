@@ -9,12 +9,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.softserve.edu.entity.AddEmployeeBuilderNew;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.entity.Address;
@@ -109,9 +111,9 @@ public class OrganizationsService {
 	}
 
 
-	@Transactional
+	@Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String oldUsername, String firstName, String lastName, String middleName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
@@ -136,25 +138,61 @@ public class OrganizationsService {
 		//--------------------------------------
 //		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
 
-		logger.info("++++++username");
-		logger.info(username);
-		User employeeAdmin = userRepository.getUserByUserName(username);
-		System.out.println(employeeAdmin.getEmail());
-		logger.info("++++++mail");
-		logger.info(employeeAdmin.getEmail());
-		employeeAdmin.setFirstName(firstName);
-		employeeAdmin.setLastName(lastName);
-		employeeAdmin.setMiddleName(middleName);
-		employeeAdmin.setUsername(username);
-		employeeAdmin.setPassword(password != null && password.equals("generate") ?
-				"generate" : employeeAdmin.getPassword());
-		
-		providerEmployeeService.updateEmployee(employeeAdmin);
+		User employeeAdmin = userRepository.getUserByUserName(oldUsername);
+		if (username != oldUsername) {
+
+			logger.info("=========username info!============");
+			logger.info(username != oldUsername);
+
+			AddEmployeeBuilderNew builder = new AddEmployeeBuilderNew();
+			builder
+					.firstName(firstName)
+					.address(employeeAdmin.getAddress())
+					.email(employeeAdmin.getEmail())
+					.lastName(lastName)
+					.middleName(middleName)
+					.isAveliable(employeeAdmin.getIsAvaliable())
+					.password(employeeAdmin.getPassword())
+					.phone(employeeAdmin.getPhone())
+					.username(username);
+
+			User newAdmin = new User(builder);
+			newAdmin.setOrganization(organization);
+			newAdmin.setUserRoles(employeeAdmin.getUserRoles());
+
+			logger.info("=========admin roles info!============");
+			logger.info(employeeAdmin.getUserRoles());
+
+			newAdmin.setPassword(password != null && password.equals("generate") ?
+					"generate" : newAdmin.getPassword());
+
+			providerEmployeeService.addEmployee(newAdmin);
+			userRepository.save(newAdmin);
+			Set<User> users = organization.getUsers();
+			users.add(newAdmin);
+			userRepository.delete(employeeAdmin);
+
+			logger.info("=========new info!============");
+			logger.info(users);
+			logger.info(newAdmin.getUsername());
+			logger.info(newAdmin.getPassword());
+			logger.info(newAdmin.getOrganization());
+			organization.setUsers(users);
+		}else {
+
+			employeeAdmin.setFirstName(firstName);
+			employeeAdmin.setLastName(lastName);
+			employeeAdmin.setMiddleName(middleName);
+
+			employeeAdmin.setPassword(password != null && password.equals("generate") ?
+					"generate" : employeeAdmin.getPassword());
 
 
+			providerEmployeeService.updateEmployee(employeeAdmin);
+			userRepository.save(employeeAdmin);
+		}
 		organizationRepository.save(organization);
 
-		userRepository.save(employeeAdmin);
 
 	}
 
