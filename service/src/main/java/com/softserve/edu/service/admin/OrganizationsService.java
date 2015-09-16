@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,10 +36,10 @@ public class OrganizationsService {
 	private OrganizationRepository organizationRepository;
 
 	@Autowired
-	private UserRepository userRepository;
+	private ProviderEmployeeService providerEmployeeService;
 
 	@Autowired
-	private ProviderEmployeeService providerEmployeeService;
+	private UserRepository userRepository;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -137,7 +138,7 @@ public class OrganizationsService {
 
 		logger.info("++++++username");
 		logger.info(username);
-		User employeeAdmin = userRepository.findByUsername(username);
+		User employeeAdmin = userRepository.getUserByUserName(username);
 		System.out.println(employeeAdmin.getEmail());
 		logger.info("++++++mail");
 		logger.info(employeeAdmin.getEmail());
@@ -145,18 +146,17 @@ public class OrganizationsService {
 		employeeAdmin.setLastName(lastName);
 		employeeAdmin.setMiddleName(middleName);
 		employeeAdmin.setUsername(username);
-	/*	employeeAdmin.setPassword(password != null && password.equals("generate") ?
+		employeeAdmin.setPassword(password != null && password.equals("generate") ?
 				"generate" : employeeAdmin.getPassword());
-		employeeAdmin.deleteAllUsersRoles();
+		
 		providerEmployeeService.updateEmployee(employeeAdmin);
-*/
+
 
 		organizationRepository.save(organization);
 
 		userRepository.save(employeeAdmin);
 
 	}
-
 
 	@Transactional
 	public Integer getOrganizationEmployeesCapacity(Long organizationId) {

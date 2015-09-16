@@ -29,8 +29,13 @@ require.config({
         angularAnimate : "../assets/bower_components/angular-animate/angular-animate.min"
     },
     shim: {
+
         angular: {
             exports: "angular"
+        },
+
+        angularAnimate:{
+            deps:['angular']
         },
         csrfInterceptor: {
             deps: ['angular']

@@ -407,7 +407,7 @@ angular
 					lastName : $scope.adminsLastName,
 					middleName : $scope.adminsMiddleName,
 					username : $scope.adminsUserName,
-					password: $scope.password,
+					password: $scope.password
 				};
 				console.log( $rootScope.organization.email, $scope.adminsUserName)
 
