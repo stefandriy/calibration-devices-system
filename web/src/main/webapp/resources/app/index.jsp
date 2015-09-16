@@ -24,8 +24,8 @@
     <link href="/resources/assets/css/application-form-organization.css" rel="stylesheet">
     <link href="/resources/assets/css/provider.css" rel="stylesheet">
     <link href="/resources/assets/css/calibrator.css" rel="stylesheet">
-    <link href="/resources/assets/css/sb-admin-2.css" rel="stylesheet">
-    <link href="/resources/assets/css/timeline.css" rel="stylesheet">
+    <%--<link href="/resources/assets/css/sb-admin-2.css" rel="stylesheet">--%>
+    <%--<link href="/resources/assets/css/timeline.css" rel="stylesheet">--%>
 
 
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
