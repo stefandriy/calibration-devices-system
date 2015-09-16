@@ -70,11 +70,11 @@ angular
 							 * Opens modal window for adding new organization.
 							 */
 							$scope.openAddOrganizationModal = function() {
-								var addOrganizationModal = $modal
-										.open({
+								var addOrganizationModal = $modal.open({
 											animation : true,
 											controller : 'OrganizationAddModalController',
 											templateUrl : '/resources/app/admin/views/modals/organization-add-modal.html',
+											size: 'lg'
 										});
 							};
 
