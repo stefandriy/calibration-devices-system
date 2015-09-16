@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.softserve.edu.service.provider.ProviderEmployeeService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +34,9 @@ public class OrganizationsService {
 	
 	@Autowired
 	private OrganizationRepository organizationRepository;
+
+	@Autowired
+	private ProviderEmployeeService providerEmployeeService;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -75,6 +80,9 @@ public class OrganizationsService {
 	public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage,String name,
 																					 String email, String number, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder) {
 
+
+		logger.info("----sortcriteria");
+		logger.info(sortCriteria);
 		CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
 
 		Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin.buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).getSingleResult();
@@ -126,21 +134,29 @@ public class OrganizationsService {
 		organization.setOrganizationTypes(organizationTypes);
 
 		//--------------------------------------
-		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+//		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
 
-
-		User employeeAdmin = userRepository.findByUsername(username);
+		logger.info("++++++username");
+		logger.info(username);
+		User employeeAdmin = userRepository.getUserByUserName(username);
+		System.out.println(employeeAdmin.getEmail());
+		logger.info("++++++mail");
+		logger.info(employeeAdmin.getEmail());
 		employeeAdmin.setFirstName(firstName);
 		employeeAdmin.setLastName(lastName);
 		employeeAdmin.setMiddleName(middleName);
 		employeeAdmin.setUsername(username);
+		employeeAdmin.setPassword(password != null && password.equals("generate") ?
+				"generate" : employeeAdmin.getPassword());
+		
+		providerEmployeeService.updateEmployee(employeeAdmin);
 
 
 		organizationRepository.save(organization);
+
 		userRepository.save(employeeAdmin);
 
 	}
-
 
 	@Transactional
 	public Integer getOrganizationEmployeesCapacity(Long organizationId) {

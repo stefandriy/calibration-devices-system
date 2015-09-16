@@ -74,21 +74,22 @@
                                                    popover="Завантажити тестові дані у форматі 'docx'"
                                                    target="_blank"
                                                    popover-trigger="mouseenter"
-                                                   href="{{'/doc/'+verification.documentType + '/' + verification.id + '/'+ verification.protocolId + '/docx'}}">
+                                                   href="{{'/doc/' + verification.documentType + '/'+verification.id + '/docx'}}">
+                                                   <!--href="{{'/doc/'+verification.documentType + '/' + verification.id + '/'+ verification.protocolId + '/docx'}}">-->
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 <a
                                                    popover="Завантажити тестові дані у форматі 'pdf'"
                                                    target="_blank"
                                                    popover-trigger="mouseenter"
-                                                   href="{{'/doc/test/' + verification.id + '/pdf'}}">
+                                                   href="{{'/doc/' + verification.documentType + '/'+verification.id + '/pdf'}}">
                                                     <i class="fa fa-file-pdf-o"></i>
                                                 </a>
                                                 <a
                                                         popover="Друк"
                                                         target="_blank"
                                                         popover-trigger="mouseenter"
-                                                        href="{{'/doc/test/' + verification.id + '/pdf'}}">
+                                                        href="{{'/doc/info/' + verification.id + '/pdf'}}">
                                                     <i class="fa fa-print"></i>
                                                 </a>
                                             </div>

@@ -150,7 +150,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
              * On-click handler in send button.
              */
             $scope.applicationCodes=[];
-            $scope.codes=[];
+            $scope.codes = [];
             $scope.sendApplicationData = function () {
          
                 $scope.$broadcast('show-errors-check-validity');    	
@@ -176,7 +176,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             
             $scope.closeAlert = function () {
                 $modalInstance.close();
-            }
+            };
                    
             /**
              * Receives all regex for input fields

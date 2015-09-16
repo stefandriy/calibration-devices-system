@@ -283,6 +283,8 @@ angular
             $scope.allSelectedDevices = [];
             $scope.appProgress = false;
             $scope.deviceShowError = false;
+            $scope.firstDeviceComment = "";
+            $scope.secondDeviceComment = "";
 
             $scope.changeFlat = function () {
                 $scope.$watch('formData', function (formData) {
@@ -310,6 +312,8 @@ angular
                     $scope.formData.providerId = $scope.selectedValues.selectedProvider.id;
                     for (var i = 0; i < $scope.selectedValues.firstDeviceCount; i++) {
                         $scope.formData.deviceId = $scope.selectedValues.firstSelectedDevice.id;
+                        $scope.formData.comment = $scope.firstDeviceComment;
+
                         $scope.firstAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
                     }
                     $q.all($scope.firstAplicationCodes).then(function (values) {
@@ -319,6 +323,7 @@ angular
                         }
                         for (var i = 0; i < $scope.selectedValues.secondDeviceCount; i++) {
                             $scope.formData.deviceId = $scope.selectedValues.secondSelectedDevice.id;
+                            $scope.formData.comment = $scope.secondDeviceComment;
                             $scope.secondAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
                         }
                         $q.all($scope.secondAplicationCodes).then(function (values) {
@@ -362,6 +367,8 @@ angular
             $scope.PHONE_REGEX_SECOND = /^[1-9]\d{8}$/;
             $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
             $scope.checkboxModel = false;
+            $scope.isSecondDevice = false;
+            $scope.isThirdDevice = false;
             /**
              * Modal window used to send questions to administration
              */

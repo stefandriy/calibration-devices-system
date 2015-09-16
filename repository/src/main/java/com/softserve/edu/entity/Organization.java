@@ -47,6 +47,7 @@ public class Organization {
 	private Set<User> users = new HashSet<User>();
 
 	@OneToMany(mappedBy = "provider")
+	@JsonBackReference
 	private Set<Device> devices;
 
 	public Set<Device> getDevices() {

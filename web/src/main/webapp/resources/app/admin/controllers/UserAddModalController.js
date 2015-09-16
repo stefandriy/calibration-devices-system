@@ -15,7 +15,7 @@ angular
         function($rootScope, $scope, $log, $translate, $modalInstance, $filter,
                  addressService, organizationService,
                  userService) {
-            //$rootScope, $scope, $modalInstance, $log, $state, $http, userService, addressServiceProvider
+
             var employeeData = {};
 
             $scope.regions = null;
@@ -25,7 +25,7 @@ angular
             $scope.buildings = [];
 
 
-            $rootScope.organization.name = $scope.organization.name;
+         //   $rootScope.organization.name = $scope.organization.name;
 
             function initFormData() {
                 if (!$scope.regions) {
@@ -151,22 +151,13 @@ angular
              * @param username
              */
             $scope.isUsernameAvailable = true;
+            $scope.employeeFormData = {};
 
-            $scope.checkIfUsernameIsAvailable = function() {
-                var username = $scope.employeeFormData.username;
-                userService.isUsernameAvailable(username).then(
-                    function(data) {
-                        $scope.isUsernameAvailable = data;
-                        validator('existLogin', data);
-                     //   if (!isUsernameAvailable) {
-                       //     angular.element(document.getElementById('notAv')).addClass('usernameNotAvailable');
-                        //}
-                    })
-            }
+
             function isUsernameAvailable(username) {
                 userService.isUsernameAvailable(username).then(
                     function (data) {
-                        validator('existLogin', data.data);
+                        validator('existLogin', data);
                     })
             }
 
@@ -208,7 +199,7 @@ angular
                         $scope.usernameValidation = {
                             isValid: isValid,
                             css: isValid? 'has-success' : 'has-error',
-                            message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
+                            message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16. Наприклад : Володимир '
                         }
                         break;
                     case 'existLogin':
@@ -218,6 +209,7 @@ angular
                             message: isValid ? undefined : 'Такий логін вже існує'
                         }
                         break;
+
                 }
             }
 
@@ -348,8 +340,8 @@ angular
                 if (( $scope.firstNameValidation === undefined) || ($scope.lastNameValidation === undefined)
                     || ($scope.middleNameValidation === undefined) || ($scope.emailValidation === undefined)
                     || ($scope.passwordValidation === undefined) || ($scope.usernameValidation === undefined)
-                //|| ($scope.employeeFormData.region === undefined) || ($scope.employeeFormData.district === undefined)
-                //|| ($scope.employeeFormData.locality === undefined)
+                || ($scope.employeeFormData.region === undefined) || ($scope.employeeFormData.district === undefined)
+                || ($scope.employeeFormData.locality === undefined)
                 ) {
                     $scope.incorrectValue = true;
                     return false;
@@ -402,7 +394,7 @@ angular
             $scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
             $scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
             $scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
-
+            $scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
 
             /* Closes the modal window
              */

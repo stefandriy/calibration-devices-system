@@ -27,6 +27,16 @@ public enum SortCriteriaOrganization {
             }
         }
     },
+    UNDEFINED() {
+        public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
+
+            if(sortOrder.equalsIgnoreCase("asc")) {
+                return cb.asc(root.get("id"));
+            } else {
+                return cb.desc(root.get("id"));
+            }
+        }
+    },
     NAME_ADMIN() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
 

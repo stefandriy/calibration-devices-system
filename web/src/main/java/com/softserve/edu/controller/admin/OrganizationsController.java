@@ -94,7 +94,6 @@ public class OrganizationsController {
      * @return
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    //currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search
     public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(
             @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
             NewOrganizationFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user
@@ -181,7 +180,7 @@ public class OrganizationsController {
                 organization.getStreet(),
                 organization.getBuilding(),
                 organization.getFlat());
-        try {
+       try {
             if (organization.getTypes().equals(null)) {
                 System.out.println("Nothing here");
             }
@@ -189,6 +188,9 @@ public class OrganizationsController {
                 System.out.println(strType);
             }
 
+           logger.info(organization.getUsername());
+           logger.info(organization.getPassword());
+           logger.info(organization.getEmail());
             organizationsService.editOrganization(
                     organizationId,
                     organization.getName(),
@@ -207,6 +209,7 @@ public class OrganizationsController {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
         }
+
         return new ResponseEntity(httpStatus);
     }
 
@@ -227,7 +230,7 @@ public class OrganizationsController {
                 )
                 .collect(Collectors.toList());
 
-        User user = users.get(0); //TODO
+        User user = users.get(0); //TODO reduce!
 
 
         OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
@@ -238,6 +241,7 @@ public class OrganizationsController {
 
         logger.info("========================");
         logger.info(users);
+        logger.info(user.getFirstName());
         logger.info(user.getFirstName());
         logger.info("========================");
 

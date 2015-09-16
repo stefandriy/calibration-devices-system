@@ -68,6 +68,8 @@ public class ProviderEmployeeService {
     public void updateEmployee(User providerEmployee) {
         if (providerEmployee.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
+            System.out.println(providerEmployee.getEmail());
+            System.out.println(newPassword );
             mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
             providerEmployee.setPassword(passwordEncoded);
