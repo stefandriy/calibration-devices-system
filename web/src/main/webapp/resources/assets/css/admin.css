@@ -17,6 +17,7 @@ body {
     padding: 0 15px;
     min-height: 568px;
     background-color: #fff;
+
 }
 
 @media (min-width: 768px) {
@@ -228,6 +229,19 @@ body {
 .dataTables_wrapper {
     position: relative;
     clear: both;
+}
+
+.cleared
+{
+    display:block;
+    clear: both;
+    float: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-size: 0;
+    height:0;
+    overflow:hidden;
 }
 
 table.dataTable thead .sorting,
