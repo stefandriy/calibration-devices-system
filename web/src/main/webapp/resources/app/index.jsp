@@ -21,11 +21,15 @@
 
     <link href="/resources/assets/bower_components/angularjs-toaster/toaster.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="/resources/assets/bower_components/semantic/dist/semantic.min.css">
+
     <link href="/resources/assets/css/application-form-organization.css" rel="stylesheet">
     <link href="/resources/assets/css/provider.css" rel="stylesheet">
     <link href="/resources/assets/css/calibrator.css" rel="stylesheet">
-    <link href="/resources/assets/css/sb-admin-2.css" rel="stylesheet">
-    <link href="/resources/assets/css/timeline.css" rel="stylesheet">
+
+
+    <%--<link href="/resources/assets/css/sb-admin-2.css" rel="stylesheet">--%>
+    <%--<link href="/resources/assets/css/timeline.css" rel="stylesheet">--%>
 
 
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -109,7 +113,7 @@
         </ul>
 
         <!-- Sidebar -->
-        <div class="navbar-default sidebar" role="navigation">
+        <div class="ui visible sidebar navbar-default" role="navigation">
             <div class="sidebar-nav navbar-collapse">
 
 
