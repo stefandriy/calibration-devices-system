@@ -45,6 +45,8 @@ angular
 											$scope.resultsCount = result.totalItems;
 											$defer.resolve(result.content);
 											params.total(result.totalItems);
+											console.log(result.totalItems);
+											console.log(result.content[3]);
 										}, function (result) {
 											$log.debug('error fetching data:', result);
 										});
@@ -99,8 +101,11 @@ angular
 											animation : true,
 											controller : 'OrganizationEditModalController',
 											templateUrl : '/resources/app/admin/views/modals/organization-edit-modal.html',
-
-
+											resolve: {
+												regions: function () {
+													return addressService.findAllRegions();
+												}
+											}
 										});
 										});
 

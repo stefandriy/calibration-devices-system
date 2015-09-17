@@ -23,29 +23,26 @@ public class OrganizationPageDTOTransformer {
     public static List<OrganizationPageDTO> toDtoFromList(List<Organization> list){
         List<OrganizationPageDTO> resultList = new ArrayList<OrganizationPageDTO>();
         for (Organization organization : list) {
+
             Set<OrganizationType> organizationTypes = organization.getOrganizationTypes();
             List<String> listOrganizationTypes = new ArrayList<String>();
+            String[] arrayTypes = listOrganizationTypes.toArray(new String[listOrganizationTypes.size()]);
             organizationTypes.forEach(organizationType -> listOrganizationTypes.add(organizationType.getType()));
             String stringOrganizationTypes = String.join(",", listOrganizationTypes);
 
-            /*
-            String[] arrayOrganizationTypes = new String[listOrganizationTypes.size()];
-            arrayOrganizationTypes = listOrganizationTypes.toArray(arrayOrganizationTypes);
-            */
 
             resultList.add(new OrganizationPageDTO(
                             organization.getId(),
                             organization.getName(),
                     organization.getEmail(),
                     stringOrganizationTypes,
+
                     organization.getPhone(),
                     organization.getAddress().getRegion(),
                     organization.getAddress().getLocality(),
                     organization.getAddress().getDistrict(),
-                    organization.getAddress().getStreet()/*,
-                    userService.getUserByRoleAndOrganization(organization.getOrganizationTypes().+"_ADMIN",organization.getId()).getFirstName(),
-*/
-
+                    organization.getAddress().getStreet(),
+                    arrayTypes
             ));
         }
         return resultList;

@@ -26,10 +26,10 @@ angular
 		'AddressService',
 		'UserService',
 		'DevicesService',
-		'OrganizationService','$log',
+		'OrganizationService','$log', 'regions',
 		function ($rootScope, $scope, $translate, $modalInstance, $filter,
 				 addressService,
-				  userService, devicesService, organizationService, $log) {
+				  userService, devicesService, organizationService, $log, regions) {
 
 
 			function arrayObjectIndexOf(myArray, searchTerm, property) {
@@ -85,7 +85,7 @@ angular
 			
 			$scope.setTypeDataLanguage();
 
-			$scope.regions = null;
+			$scope.regions = regions;
 			$scope.districts = [];
 			$scope.localities = [];
 			$scope.streets = [];
@@ -259,6 +259,41 @@ angular
 			$rootScope.organization.region = $scope.regions[index];
 			$scope.onRegionSelected($scope.regions[index].id);*/
 			initFormData();
+
+			/**
+			 * Receives all possible districts.
+			 * On-select handler in region input form element.
+			 */
+			$scope.receiveDistricts = function (selectedRegion) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.districts = [];
+					addressService.findDistrictsByRegionId(selectedRegion.id)
+						.then(function (districts) {
+							$scope.districts = districts;
+							$scope.organizationFormData.district = undefined;
+							$scope.organizationFormData.locality = undefined;
+							$scope.organizationFormData.street = "";
+						});
+				}
+			};
+
+			/**
+			 * Receives all possible localities.
+			 * On-select handler in district input form element.
+			 */
+			$scope.receiveLocalities = function (selectedDistrict) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.localities = [];
+					addressService.findLocalitiesByDistrictId(selectedDistrict.id)
+						.then(function (localities) {
+							console.log(localities);
+							$scope.localities = localities;
+							$scope.organizationFormData.locality = undefined;
+							$scope.organizationFormData.street = "";
+
+						});
+				}
+			};
 
 			/**
 			 * Finds districts in a given region.
