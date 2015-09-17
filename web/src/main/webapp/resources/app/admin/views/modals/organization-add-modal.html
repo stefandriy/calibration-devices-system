@@ -42,7 +42,7 @@
 							| translate }}</label>
 					</div>
 
-					<div class="form-group col-md-8">
+					<div class="form-group col-md-8" show-errors>
 						<select multiple chosen type="text" class="form-control" id="types" name="types" ng-model="organizationFormData.types" data-placeholder="Оберіть тип організації"
 								ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types" required>
 						</select> <span class="form-control-feedback glyphicon
@@ -348,11 +348,17 @@
 										<ui-select-choices repeat="region in regions | filter: $select.search">
 											<span ng-bind-html="region.designation"></span>
 										</ui-select-choices>
-									</ui-select>
-									<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.region.$touched">
+									</ui-select><span class="form-control-feedback glyphicon
+										 form-horizontal glyphicon glyphicon-ok-sign"></span>
+									<p class="help-block" ng-show="organizationForm.$submitted || organizationForm.region.$touched"
+									   ng-if="organizationForm.region.$error.required">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'REQUIRED' | translate}}
+									</p>
+									<!--<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.region.$touched">
 										<span class="glyphicon glyphicon-exclamation-sign"></span>
 										{{'TYPEAHEAD_ERROR' | translate}}
-									</p>
+									</p>-->
 								</div>
 							</div>
 							<div class="row">
@@ -374,10 +380,15 @@
 											<span ng-bind-html="district.designation"></span>
 										</ui-select-choices>
 									</ui-select>
-									<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.district.$touched">
+									<p class="help-block" ng-show="organizationForm.$submitted || organizationForm.district.$touched"
+									   ng-if="organizationForm.district.$error.required">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'REQUIRED' | translate}}
+									</p>
+									<!--<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.district.$touched">
 										<span class="glyphicon glyphicon-exclamation-sign"></span>
 										{{'TYPEAHEAD_ERROR' | translate}}
-									</p>
+									</p>-->
 								</div>
 							</div>
 
@@ -400,10 +411,15 @@
 											<span ng-bind-html="locality.designation"></span>
 										</ui-select-choices>
 									</ui-select>
-									<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.locality.$touched">
+									<p class="help-block" ng-show="organizationForm.$submitted || organizationForm.locality.$touched"
+									   ng-if="organizationForm.locality.$error.required">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'REQUIRED' | translate}}
+									</p>
+									<!--<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.locality.$touched">
 										<span class="glyphicon glyphicon-exclamation-sign"></span>
 										{{'TYPEAHEAD_ERROR' | translate}}
-									</p>
+									</p>-->
 								</div>
 							</div>
 							<div class="row">
@@ -418,13 +434,21 @@
 											   ng-disabled="!organizationFormData.locality"
 											   typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
 											   typeahead-editable="false" required>
-                                        <div ng-show="organizationFormData.$submitted || organizationFormData.street.$touched" >
+										<span class="form-control-feedback glyphicon
+										 form-horizontal glyphicon glyphicon-ok-sign"></span>
+										<p class="help-block" ng-if="organizationForm.street.$error.required"
+										   ng-show="organizationForm.$submitted || organizationForm.street.$touched" >
+											<span class="glyphicon glyphicon-exclamation-sign"></span>
+											{{'REQUIRED' | translate}}
+										</p>
+										<!--<div ng-show="organizationFormData.$submitted || organizationFormData.street.$touched" >
                                             <p class="help-block" ng-if="!organizationFormData.street.$error.required">
                                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                                 {{'ORGANIZATION_INVALID_STREET'
                                                 | translate }}
                                             </p>
-                                        </div>
+
+                                        </div>-->
 								</div>
 							</div>
 
@@ -433,11 +457,23 @@
 									<label class="control-label">{{'HOUSE_TWO' |
 										translate}} </label>
 								</div>
-								<div class="form-group col-md-8">
+								<div class="form-group col-md-8" show-errors>
 									<input name="building" type="text"
-										ng-model="organizationFormData.building"
+										ng-model="organizationFormData.building" ng-pattern="BUILDING_REGEX"
 										typeahead="building as building.designation for building in buildings | filter: $viewValue"
 										class="form-control" required>
+									<span class="form-control-feedback glyphicon
+										 form-horizontal glyphicon glyphicon-ok-sign"></span>
+									<p class="help-block" ng-if="organizationForm.building.$error.required"
+									   ng-show="organizationForm.$submitted || organizationForm.building.$touched">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'REQUIRED' | translate}}
+									</p>
+									<p class="help-block"
+									   ng-if="organizationForm.building.$error.pattern">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'BUILDING_ERROR' | translate}}
+									</p>
 								</div>
 							</div>
 
@@ -445,9 +481,16 @@
 								<div class="form-group col-md-4">
 									<label class="control-label">{{'FLAT' | translate}}</label>
 								</div>
-								<div class="form-group col-md-8">
+								<div class="form-group col-md-8" show-errors>
 									<input name="flat" type="text"
-										ng-model="organizationFormData.flat" class="form-control">
+										ng-model="organizationFormData.flat" ng-pattern="FLAT_REGEX" class="form-control">
+									<span class="form-control-feedback glyphicon
+										 form-horizontal glyphicon glyphicon-ok-sign"></span>
+									<p class="help-block"
+									   ng-if="organizationForm.flat.$error.pattern">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'FLAT_ERROR' | translate}}
+									</p>
 								</div>
 							</div>
 					</div>
