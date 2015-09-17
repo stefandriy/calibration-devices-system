@@ -40,6 +40,7 @@ public class VerificationPageDTO {
     private String measurementDeviceType;
 
     private DocumentType documentType;
+    private String documentTypeName;
     private String documentDate;
 
 
@@ -102,8 +103,10 @@ public class VerificationPageDTO {
                 if (protocolStatus == CalibrationTestResult.SUCCESS.toString()) {
                     System.out.println("documentType = " +  this.documentType);
                     this.documentType = DocumentType.VERIFICATION_CERTIFICATE;
+                    this.documentTypeName = "СПП";
                 } else {
                     this.documentType = DocumentType.UNFITNESS_CERTIFICATE;
+                    this.documentTypeName = "Довідка про непридатність";
                 }
                 System.out.println("documentType = " +  this.documentType);
             }
@@ -339,6 +342,14 @@ public class VerificationPageDTO {
 
     public void setDocumentDate(String documentDate) {
         this.documentDate = documentDate;
+    }
+
+    public String getDocumentTypeName() {
+        return documentTypeName;
+    }
+
+    public void setDocumentTypeName(String documentTypeName) {
+        this.documentTypeName = documentTypeName;
     }
 }
 

@@ -71,7 +71,14 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		if (searchStatus != null) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
 		} else {
-			queryPredicate = cb.and(cb.not(cb.or(Status.SENT.getQueryPredicate(root, cb), Status.ACCEPTED.getQueryPredicate(root, cb), Status.IN_PROGRESS.getQueryPredicate(root, cb))), queryPredicate);
+			queryPredicate = cb.and(cb.not(cb.or(
+					Status.SENT.getQueryPredicate(root, cb),
+					Status.ACCEPTED.getQueryPredicate(root, cb),
+					Status.IN_PROGRESS.getQueryPredicate(root, cb),
+					Status.TEST_PLACE_DETERMINED.getQueryPredicate(root, cb),
+					Status.SENT_TO_TEST_DEVICE.getQueryPredicate(root, cb),
+					Status.TEST_COMPLETED.getQueryPredicate(root, cb)
+					)), queryPredicate);
 		}
 
 		if (startDateToSearch != null && endDateToSearch != null) {
