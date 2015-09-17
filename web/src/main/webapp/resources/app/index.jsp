@@ -86,7 +86,7 @@
                 <ul class="dropdown-menu dropdown-user dropdown_style">
                     <li class="user-header bg-light-blue">
                         <div class="profile_information_labal">
-                            <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-rounded" style="border-radius: 30px"
+                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png" class="img-rounded"   style="width: 200px; border-radius: 30px"
                                  alt="User Image"/>
                             <label translate="{{employee.firstName}} {{employee.lastName}}
                         {{employee.middleName}} ({{employee.username}})"/>
