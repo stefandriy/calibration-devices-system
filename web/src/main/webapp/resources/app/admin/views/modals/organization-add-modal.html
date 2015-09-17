@@ -43,8 +43,10 @@
 					</div>
 
 					<div class="form-group col-md-8" show-errors>
-						<select multiple chosen type="text" class="form-control" id="types" name="types" ng-model="organizationFormData.types" data-placeholder="Оберіть тип організації"
-								ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types" required>
+						<select multiple chosen type="text" class="form-control" id="types" name="types"
+								ng-model="organizationFormData.types" data-placeholder="Оберіть тип організації"
+								ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types"
+								popover="Введіть тип організації" popover-trigger="focus" popover-placement="right" required>
 						</select> <span class="form-control-feedback glyphicon
 						 form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -61,7 +63,7 @@
 						<input id="email" name="email" type="email" class="form-control"
 							   ng-model="organizationFormData.email" ng-pattern="EMAIL_REGEX"
 							   popover="Введіть email адресу організації"
-							   popover-trigger="focus" popover-placement="top"
+							   popover-trigger="focus" popover-placement="right"
 							   placeholder="example@gmail.com" required>
 						<span class="form-control-feedback glyphicon
 						 form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -89,7 +91,7 @@
 								   class="form-control col-md-8 " ng-model="organizationFormData.phone"
 								   placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX"
 								   popover="Введіть номер телефону організації"
-								   popover-trigger="focus" popover-placement="top"
+								   popover-trigger="focus" popover-placement="right"
 								   required>
 						</div> <span class="form-control-feedback glyphicon
 						 form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -113,6 +115,8 @@
 						<input type="number" id="capacity" name="capacity"
 							   class="form-control"
 							   ng-model="organizationFormData.employeesCapacity" min="1"
+							   popover="Введіть максимальну кількість працівників організації"
+							   popover-trigger="focus" popover-placement="right"
 							   required>
 						 <span class="form-control-feedback glyphicon
 						 form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -139,7 +143,9 @@
 						<input type="number" id="processTime" name="processTime"
 							   class="form-control"
 							   ng-model="organizationFormData.maxProcessTime"
-							   ng-init="organizationFormData.maxProcessTime=5" min="1" required>
+							   ng-init="organizationFormData.maxProcessTime=5" min="1"
+							   popover="Введіть максимальну час обробки заявки"
+							   popover-trigger="focus" popover-placement="right"required>
 						 <span class="form-control-feedback glyphicon
 						 form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -174,7 +180,9 @@
                         <div class="form-group col-md-8"  show-errors>
                             <input id="lastName" name="lastName" class="form-control"
                                    type="text" ng-model="organizationFormData.lastName"
-                                   ng-pattern="FIRST_LAST_NAME_REGEX" required>
+                                   ng-pattern="FIRST_LAST_NAME_REGEX"
+								   popover="{{'ALPHABETIC_INFO' | translate}}"
+								   popover-trigger="focus" popover-placement="right" required>
 							<span class="form-control-feedback glyphicon
 						 			     form-horizontal glyphicon glyphicon-ok-sign"></span>
                             <div ng-show="organizationForm.$submitted || organizationForm.lastName.$touched">
@@ -196,7 +204,9 @@
                         <div class="form-group col-md-8" ng-class="firstNameValidation.css" show-errors>
                             <input type="text" ng-model="organizationFormData.firstName"
                                    id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
-                                   name="firstName" class="form-control" required>
+                                   name="firstName" class="form-control"
+								   popover="{{'ALPHABETIC_INFO' | translate}}"
+								   popover-trigger="focus" popover-placement="right" required>
 							<span class="form-control-feedback glyphicon
 						 				 form-horizontal glyphicon glyphicon-ok-sign"></span>
                             <div ng-show="organizationForm.$submitted || organizationForm.firstName.$touched">
@@ -219,7 +229,9 @@
                             <input type="text" ng-model="organizationFormData.middleName"
                                    ng-pattern="MIDDLE_NAME_REGEX"
                                    ng-change="checkFirstName('middleName')"
-                                   id="middleName" name="middleName" class="form-control" required>
+                                   id="middleName" name="middleName" class="form-control"
+								   popover="{{'MIDDLE_NAME_INFO' | translate}}"
+								   popover-trigger="focus" popover-placement="right"required>
 							<span class="form-control-feedback glyphicon
 						 				 form-horizontal glyphicon glyphicon-ok-sign"></span>
                             <div ng-show="organizationForm.$submitted || organizationForm.middleName.$touched">
@@ -243,7 +255,8 @@
                             <input type="text" ng-model="organizationFormData.username"
                                 ng-change="checkIfUsernameIsAvailable()"
                                 ng-pattern="USERNAME_REGEX" id="username" name="username"
-                                class="form-control" required>
+                                class="form-control" popover="Введіть логін адміна організації"
+								   popover-trigger="focus" popover-placement="right"required>
 							<span class="form-control-feedback glyphicon
 						 				 form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -276,6 +289,8 @@
 							</div>
                             <input type="password" ng-model="organizationFormData.password"
                                 ng-pattern="PASSWORD_REGEX" name="password" id="password" class="form-control"
+								   popover="Введіть пароль адміністратора організації"
+								   popover-trigger="focus" popover-placement="right"
                                 required>
 							<span class="form-control-feedback glyphicon
 						 				 form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -302,7 +317,8 @@
                         <div class="form-group col-md-8" show-errors>
                             <input type="password" ng-model="organizationFormData.rePassword"
                                 ng-change="checkRePassword()" name="rePassword" id="rePassword"
-                                class="form-control" required>
+                                class="form-control" popover="Повторіть введений вами попередньо пароль адміна організації"
+								   popover-trigger="focus" popover-placement="right" required>
 							<span class="form-control-feedback glyphicon
 										 form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -433,7 +449,9 @@
 											   ng-model="organizationFormData.street"
 											   ng-disabled="!organizationFormData.locality"
 											   typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
-											   typeahead-editable="false" required>
+											   typeahead-editable="false"
+											   popover="Введіть вулицю організації"
+											   popover-trigger="focus" popover-placement="right"required>
 										<span class="form-control-feedback glyphicon
 										 form-horizontal glyphicon glyphicon-ok-sign"></span>
 										<p class="help-block" ng-if="organizationForm.street.$error.required"
@@ -461,7 +479,8 @@
 									<input name="building" type="text"
 										ng-model="organizationFormData.building" ng-pattern="BUILDING_REGEX"
 										typeahead="building as building.designation for building in buildings | filter: $viewValue"
-										class="form-control" required>
+										class="form-control" popover="Введіть номер будинку організації"
+										   popover-trigger="focus" popover-placement="right" required>
 									<span class="form-control-feedback glyphicon
 										 form-horizontal glyphicon glyphicon-ok-sign"></span>
 									<p class="help-block" ng-if="organizationForm.building.$error.required"
@@ -483,7 +502,9 @@
 								</div>
 								<div class="form-group col-md-8" show-errors>
 									<input name="flat" type="text"
-										ng-model="organizationFormData.flat" ng-pattern="FLAT_REGEX" class="form-control">
+										ng-model="organizationFormData.flat" ng-pattern="FLAT_REGEX" class="form-control"
+										   popover="Введіть номер квартири організації, якщо такий наявний"
+										   popover-trigger="focus" popover-placement="right">
 									<span class="form-control-feedback glyphicon
 										 form-horizontal glyphicon glyphicon-ok-sign"></span>
 									<p class="help-block"
