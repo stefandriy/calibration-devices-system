@@ -616,7 +616,7 @@ float:left;
 
 
 .modal .modal-body {
-    max-height: 1700px;
+    max-height: 2500px;
 }
 
 @-moz-document url-prefix() {
@@ -733,4 +733,8 @@ button:focus { outline:0 !important; }
 
 .dropdown_style {
     background-color: lightskyblue;
+}
+
+.input-group-addon {
+    border-radius: 0px;
 }

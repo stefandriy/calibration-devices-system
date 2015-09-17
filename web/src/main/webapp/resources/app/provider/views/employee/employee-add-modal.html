@@ -54,7 +54,8 @@
                                ng-change="checkFirstName('lastName')"
                                ng-pattern="FIRST_LAST_NAME_REGEX" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.lastName.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.lastName.$touched   && !employeeForm.lastName.$pristine)
+                        || (employeeForm.lastName.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.lastName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
@@ -79,7 +80,8 @@
                                id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
                                name="firstName" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.firstName.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.firstName.$touched  && !employeeForm.firstName.$pristine)
+                        || (employeeForm.firstName.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.firstName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
@@ -103,7 +105,8 @@
                                popover-trigger="focus" popover-placement="right"
                                id="middleName" name="middleName" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.middleName.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.middleName.$touched && !employeeForm.middleName.$pristine)||
+                         (employeeForm.middleName.$dirty)">
 
                             <p class="validation-message" ng-if="employeeForm.middleName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -122,12 +125,14 @@
                     </div>
                     <div class="form-group col-md-8 " ng-class="phoneNumberValidation.css" show-errors>
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon-code">+380</span> <input
+                            <div class="input-group-addon" id="basic-addon-code">+380</div>
+                            <input
                                 type="text" ng-model="employeeFormData.phone"
                                 ng-pattern="PHONE_REGEX" placeholder="XXXXXXXXX"
                                 id="phone" name="phone" class="form-control">
                         </div>
-                        <div ng-show="employeeForm.$submitted || employeeForm.phone.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.phone.$touched && !employeeForm.phone.$pristine)
+                        || (employeeForm.phone.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.phone.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'INCORRECT_VALUE_PHONE_ADD_EMPLOYEE' | translate }}
@@ -145,7 +150,8 @@
                                placeholder="example@gmail.com"
                                id="email" name="email" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.email.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.email.$touched && !employeeForm.email.$pristine)
+                        || (employeeForm.email.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.email.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
@@ -169,7 +175,7 @@
                     <div class="form-group col-md-4">
                         <label class="control-label">{{'LOGIN_TWO' | translate }}*</label>
                     </div>
-                    <div class="form-group col-md-8" ng-class="usernameValidation.css">
+                    <div class="form-group col-md-8" ng-class="usernameValidation.css" show-errors>
                         <input type="text" ng-model="employeeFormData.username"
                                ng-change="checkFirstName('login')"
                                popover="{{'USERNAME_INFO' | translate}}"
@@ -177,7 +183,8 @@
                                ng-model-options="{debounce: 350}"
                                id="username" name="username" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.username.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.username.$touched  && !employeeForm.username.$pristine)
+                        || (employeeForm.username.$dirty)">
                             <p class="validation-message" ng-if="!usernameValidation.isValid">
                                 {{usernameValidation.message }}
                             </p>
@@ -215,7 +222,8 @@
                         <input type="password" ng-model="employeeFormData.rePassword"
                                ng-change="checkPasswords()" name="rePassword" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.rePassword.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.rePassword.$touched  && !employeeForm.rePassword.$pristine)
+                        || (employeeForm.rePassword.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.rePassword.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
