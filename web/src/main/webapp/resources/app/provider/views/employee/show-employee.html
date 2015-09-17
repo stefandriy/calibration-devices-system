@@ -12,9 +12,17 @@
 
     <div class="row">
         <div class="col-xs-6 col-md-6">
-            <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
-                    ng-click="openAddUserModal()">{{'ADD_EMPLOYEE' | translate}}
-            </button>
+            <div ng-show="cantAddEmployee">
+                <button type="submit" class="btn btn-primary"
+                        popover="Reached the maximum number of employees"
+                        popover-trigger="mouseenter">{{'ADD_EMPLOYEE' | translate}}
+                </button>
+            </div>
+            <div ng-show="!cantAddEmployee">
+                <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
+                        ng-click="openAddUserModal()">{{'ADD_EMPLOYEE' | translate}}
+                </button>
+            </div>
         </div>
         <div class="col-xs-6 col-md-6">
             <button ng-click="tableParams.filter({})" ng-show="isFilter()"
