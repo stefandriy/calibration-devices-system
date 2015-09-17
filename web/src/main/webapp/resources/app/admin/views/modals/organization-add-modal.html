@@ -19,7 +19,6 @@
 					</div>
 
 					<div class="form-group col-md-8" show-errors>
-
 						<input type="text" ng-model="organizationFormData.name" id="name"
 							ng-pattern="ORGANIZATION_NAME_REGEX" name="name"
 							class="form-control" popover="Введіть назву вашої організації"
@@ -167,12 +166,12 @@
                     | translate }}</div>
                 <div class="panel-body">
 
-                    <div class="row">
+                    	<div class="row">
 
                         <div class="form-group col-md-4">
                             <label class="control-label">{{'LAST_NAME' |translate }}*</label>
                         </div>
-                        <div class="form-group col-md-8" show-errors>
+                        <div class="form-group col-md-8"  show-errors>
                             <input id="lastName" name="lastName" class="form-control"
                                    type="text" ng-model="organizationFormData.lastName"
                                    ng-pattern="FIRST_LAST_NAME_REGEX" required>
@@ -272,7 +271,9 @@
                                 translate}}</label>
                         </div>
                         <div class="form-group col-md-8" show-errors>
-                            <input type="password" name="passwordHide" class="form-control hidden">
+                            <div class="hidden">
+								<input type="password">
+							</div>
                             <input type="password" ng-model="organizationFormData.password"
                                 ng-pattern="PASSWORD_REGEX" name="password" id="password" class="form-control"
                                 required>
@@ -330,8 +331,82 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">{{'ADDRESS' | translate }}</div>
                         <div class="panel-body">
-                            <div class="col-lg-12">
-                                <div class="row">
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label for="region" class="control-label">
+										{{'REGION' | translate}}
+									</label>
+								</div>
+								<div class="form-group col-md-8" show-errors>
+									<ui-select class="form-control" type="text" theme="select2"
+											   ng-model="organizationFormData.region"
+											   on-select="receiveDistricts(organizationFormData.region)"
+											   name="region" id="region" required>
+										<ui-select-match placeholder="Оберіть область" allow-clear="true">
+											{{$select.selected.designation}}
+										</ui-select-match>
+										<ui-select-choices repeat="region in regions | filter: $select.search">
+											<span ng-bind-html="region.designation"></span>
+										</ui-select-choices>
+									</ui-select>
+									<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.region.$touched">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'TYPEAHEAD_ERROR' | translate}}
+									</p>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label for="district" class="control-label">
+										{{'DISTRICT' | translate}} </label>
+									</label>
+								</div>
+								<div class="form-group col-md-8" show-errors>
+									<ui-select class="form-control" type="text" theme="select2"
+											   ng-model="organizationFormData.district"
+											   ng-disabled="!organizationFormData.region"
+											   on-select="receiveLocalities(organizationFormData.district)"
+											   name="district" id="district" required>
+										<ui-select-match placeholder="Оберіть район" allow-clear="true">
+											{{$select.selected.designation}}
+										</ui-select-match>
+										<ui-select-choices repeat="district in districts | filter: $select.search">
+											<span ng-bind-html="district.designation"></span>
+										</ui-select-choices>
+									</ui-select>
+									<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.district.$touched">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'TYPEAHEAD_ERROR' | translate}}
+									</p>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="form-group col-md-4">
+									<label for="locality" class="control-label">
+										{{'LOCALITY' | translate}}
+									</label>
+								</div>
+								<div class="form-group col-md-8" show-errors>
+									<ui-select class="form-control" type="text" theme="select2"
+											   ng-model="organizationFormData.locality"
+											   ng-disabled="!organizationFormData.district"
+											   on-select="receiveStreets(organizationFormData.locality, organizationFormData.district)"
+											   name="locality" id="locality" required>
+										<ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
+											{{$select.selected.designation}}
+										</ui-select-match>
+										<ui-select-choices repeat="locality in localities | filter: $select.search">
+											<span ng-bind-html="locality.designation"></span>
+										</ui-select-choices>
+									</ui-select>
+									<p class="help-block"  ng-show="organizationForm.$submitted || organizationForm.locality.$touched">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'TYPEAHEAD_ERROR' | translate}}
+									</p>
+								</div>
+							</div>
+                                <!--<div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="control-label">{{'REGION_TWO' |
                                             translate}}</label>
@@ -343,9 +418,9 @@
                                             ng-change="onRegionSelected(organizationFormData.region.id)"
                                             typeahead-editable="false" class="form-control" required></select>
                                     </div>
-                                </div>
+                                </div>-->
 
-                                <div class="row">
+                              <!--  <div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="control-label">{{'DISTRICT_TWO' |
                                             translate}}</label>
@@ -358,8 +433,8 @@
                                             typeahead-editable="false" class="form-control" required></select>
                                     </div>
                                 </div>
-
-
+								-->
+								<!--
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="control-label">{{'LOCALITY_TWO' |
@@ -373,7 +448,7 @@
                                             typeahead-editable="false" class="form-control" required></select>
                                     </div>
                                 </div>
-
+								-->
                                 <div class="row">
                                     <div class="form-group col-md-4">
                                         <label class="control-label">{{'STREET_TWO' | translate
@@ -422,7 +497,6 @@
 										ng-model="organizationFormData.flat" class="form-control">
 								</div>
 							</div>
-						</div>
 					</div>
 				</div>
 			</div>
