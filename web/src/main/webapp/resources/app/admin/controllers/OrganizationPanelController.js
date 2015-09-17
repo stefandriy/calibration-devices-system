@@ -7,9 +7,10 @@ angular
 						'$scope',
 						'$modal',
 						'OrganizationService',
+						'AddressService',
 					    'ngTableParams',
-						function($rootScope, $scope, $modal,
-								organizationService, ngTableParams) {
+						function($rootScope, $scope, $modal, organizationService,
+								 addressService, ngTableParams) {
 
 							$scope.totalItems = 0;
 							$scope.currentPage = 1;
@@ -73,7 +74,12 @@ angular
 											animation : true,
 											controller : 'OrganizationAddModalController',
 											templateUrl : '/resources/app/admin/views/modals/organization-add-modal.html',
-											size: 'lg'
+											size: 'lg',
+											resolve: {
+												regions: function () {
+													return addressService.findAllRegions();
+												}
+											}
 										});
 							};
 

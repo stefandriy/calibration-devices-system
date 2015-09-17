@@ -173,30 +173,33 @@ public class MailService {
         this.mailSender.send(preparator);
     }
 
-    public void sendClientMailFromProvider(String from, String userFirstName, String userLastName, String verificationId, String msg) {
+    public void sendMailFromProvider(String to, String userName, String clientCode, String providerName, String deviceType) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-
-                List<User> adminList = userRepository.findByRoleLikeIgnoreCase("SYS_ADMIN");
-                if (!adminList.isEmpty() && adminList.get(0).getEmail() != null) {
-                    message.setTo(adminList.get(0).getEmail());
-                    logger.trace("Email send to:" + adminList.get(0).getEmail());
-                } else {
-                    message.setTo("metrology.calibration.devices@gmail.com");
+                message.setTo(to);
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+                String domain = null;
+                try {
+                    domain = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException ue) {
+                    logger.error("Cannot get host address", ue);
                 }
-                message.setFrom(new InternetAddress(from));
+
+                SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
+                String date = form.format(new Date());
                 Map<String, Object> templateVariables = new HashMap<>();
-                templateVariables.put("firstName", userFirstName);
-                templateVariables.put("lastName", userLastName);
-                templateVariables.put("mailAddress", from);
-                templateVariables.put("message", msg);
-                templateVariables.put("applicationId", verificationId);
-                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/clientMail.vm", "UTF-8", templateVariables);
+                templateVariables.put("name", userName);
+                templateVariables.put("protocol", protocol);
+                templateVariables.put("domain", domain);
+                templateVariables.put("applicationId", clientCode);
+                templateVariables.put("providerName", providerName);
+                templateVariables.put("deviceType", deviceType);
+                templateVariables.put("date", date);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates/mailTemplate.vm", "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
-
             }
         };
         this.mailSender.send(preparator);

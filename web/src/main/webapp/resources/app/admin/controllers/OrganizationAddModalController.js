@@ -26,9 +26,13 @@ angular
 		'AddressService',
 		'OrganizationService',
 		'UserService',
+		'regions',
 		function($rootScope, $scope, $translate, $modalInstance, $filter,
-				 addressService, organizationService,
-				 userService) {
+				 addressService, organizationService, userService, regions) {
+			$scope.blockSearchFunctions = false;
+			$scope.selectedValues = {};
+
+
 
 			$scope.typeData = [
 				{
@@ -70,9 +74,9 @@ angular
 			$scope.setTypeDataLanguage();
 
 
-			$scope.regions = null;
-			$scope.districts = [];
-			$scope.localities = [];
+			$scope.regions = regions;
+			$scope.districts = undefined;
+			$scope.localities = undefined;
 			$scope.streets = [];
 			$scope.buildings = [];
 
@@ -127,16 +131,54 @@ angular
 			/**
 			 * Finds all regions
 			 */
-			function initFormData() {
+			/*function initFormData() {
 				if (!$scope.regions) {
 					addressService.findAllRegions().then(
 						function(data) {
 							$scope.regions = data;
 						});
-				}
-			}
 
-			initFormData();
+				}
+			}*/
+
+			/**
+			 * Receives all possible districts.
+			 * On-select handler in region input form element.
+			 */
+			$scope.receiveDistricts = function (selectedRegion) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.districts = [];
+					addressService.findDistrictsByRegionId(selectedRegion.id)
+						.then(function (districts) {
+							$scope.districts = districts;
+							$scope.organizationFormData.district = undefined;
+							$scope.organizationFormData.locality = undefined;
+							$scope.organizationFormData.street = "";
+						});
+				}
+			};
+
+			/**
+			 * Receives all possible localities.
+			 * On-select handler in district input form element.
+			 */
+			$scope.receiveLocalities = function (selectedDistrict) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.localities = [];
+					addressService.findLocalitiesByDistrictId(selectedDistrict.id)
+						.then(function (localities) {
+							console.log(localities);
+							$scope.localities = localities;
+							$scope.organizationFormData.locality = undefined;
+							$scope.organizationFormData.street = "";
+
+						});
+				}
+			};
+
+
+
+			//initFormData();
 
 			/**
 			 * Finds districts in a given region.
@@ -250,7 +292,7 @@ angular
 				$modalInstance.close();
 			};
 
-			$scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄI"'а-яєi\s]+$/;
+			$scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄIЇҐ"'а-яєiїґ ]+$/;
 			$scope.PHONE_REGEX = /^[1-9]\d{8}$/;
 			$scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 			$scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20})$/;
