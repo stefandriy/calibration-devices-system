@@ -177,6 +177,23 @@ angular
 			};
 
 
+			$scope.receiveStreets = function (selectedLocality) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.streets = [];
+					addressService.findStreetsByLocalityId(selectedLocality.id)
+						.then(function (streets) {
+							$scope.streets = streets;
+							$scope.organizationFormData.street  = "";
+							$scope.organizationFormData.building = "";
+							$scope.organizationFormData.flat = "";
+							$log.debug("$scope.streets");
+							$log.debug($scope.streets);
+
+						}
+					);
+				}
+			};
+
 
 			//initFormData();
 
@@ -292,7 +309,7 @@ angular
 				$modalInstance.close();
 			};
 
-			$scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄIЇҐ"'а-яєiїґ ]+$/;
+			$scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄІЇҐ"'а-яєіїґ ]+$/;
 			$scope.PHONE_REGEX = /^[1-9]\d{8}$/;
 			$scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 			$scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20})$/;

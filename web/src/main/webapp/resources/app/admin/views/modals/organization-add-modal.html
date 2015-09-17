@@ -455,11 +455,12 @@
                                             }} </label>
                                     </div>
                                     <div class="form-group col-md-8" show-errors>
-                                        <input name="street" type="text"
-                                            ng-model="organizationFormData.street"
-                                            typeahead="street as street.designation for street in streets | filter:  { designation: $viewValue} | limitTo: 4"
-                                            typeahead-on-select="onStreetSelected(organizationFormData.street.id)"
-                                            typeahead-editable="false" class="form-control" required>
+										<input name="street" class="form-control"
+											   type="text" id="street"
+											   ng-model="organizationFormData.street"
+											   ng-disabled="!organizationFormData.locality"
+											   typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
+											   typeahead-editable="false" required>
                                         <div ng-show="organizationFormData.$submitted || organizationFormData.street.$touched" >
                                             <p class="help-block" ng-if="!organizationFormData.street.$error.required">
                                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
