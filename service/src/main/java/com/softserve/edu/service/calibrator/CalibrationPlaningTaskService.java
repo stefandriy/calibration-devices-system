@@ -31,23 +31,22 @@ public class CalibrationPlaningTaskService {
     private Logger logger = Logger.getLogger(CalibrationPlaningTaskService.class);
 
     @Transactional
-    public void addNewTask(String verifId/*, String placeOfcalibration, String counterStatus, String counterNumber,
-                           Map<String, Date> pickerDate, String installationNumber, String notes*/) {
+    public void addNewTask(String verifId/*, String placeOfcalibration/*, String counterStatus, String counterNumber,
+                           Date startDate, Date endDate, String installationNumber, String notes, int floor*/) {
         Verification verification = verificationRepository.findOne(verifId);
         if (verification == null) {
             logger.error("verification haven't found");
         } else {
             CalibrationPlanningTask task = new CalibrationPlanningTask();
             task.setVerification(verification);
-            /*task.setPlaceOfcalibration(placeOfcalibration);
-            task.setRemoveStatus(counterStatus);
+            //task.setPlaceOfcalibration(placeOfcalibration);
+            /*task.setRemoveStatus(counterStatus);
             task.setSerialNumberOfMeasuringInstallation(installationNumber);
             task.setSerialNumberOfCounter(counterNumber);
             task.setNotes(notes);
-            Date startDate = (Date) pickerDate.get("startDate");
-            Date expirationDate = (Date) pickerDate.get("endDate");
             task.setDateOfVisit(startDate);
-            task.setDateOfVisitTo(expirationDate);*/
+            task.setDateOfVisitTo(endDate);
+            task.setFloor(floor);*/
             taskRepository.save(task);
         }
 

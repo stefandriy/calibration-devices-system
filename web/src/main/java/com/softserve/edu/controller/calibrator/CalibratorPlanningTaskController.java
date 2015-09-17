@@ -27,11 +27,11 @@ public class CalibratorPlanningTaskController {
 
 
     @RequestMapping(value = "add/{verifId}", method = RequestMethod.POST)
-    private ResponseEntity saveTask (@PathVariable ("verifId") String verifId/*, @RequestBody CalibrationTaskDTO taskDTO*/) {
+    private ResponseEntity saveTask (@PathVariable ("verifId") String verifId, @RequestBody CalibrationTaskDTO taskDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            taskService.addNewTask(verifId /*, taskDTO.getPlace(), taskDTO.getCounterStatus(), taskDTO.getCounterNumber(),
-                                taskDTO.getPickerDate(), taskDTO.getInstallationNumber(), taskDTO.getNotes()*/);
+            taskService.addNewTask(verifId /* taskDTO.getPlace()/*, taskDTO.getCounterStatus(), taskDTO.getCounterNumber(),
+                                taskDTO.getStartDate(), taskDTO.getEndDate(), taskDTO.getInstallationNumber(), taskDTO.getNotes(), taskDTO.getFloor()*/);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
