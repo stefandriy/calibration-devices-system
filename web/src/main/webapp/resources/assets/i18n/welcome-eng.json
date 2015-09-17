@@ -301,7 +301,7 @@
   "RESET" : "Reset",
   "CLOSE" : "Close",
   "INSTALLATION_NUMBER_REGEX" : "Only numbers! Must be more than 5 symbols!",
-  "FLOOR_REGEX" : "Only numbers! No more than 3 symbols",
+  "FLOOR_REGEX" : "Only numbers! No more than 2 symbols",
   "NUMBER_OF_COUNTER_REGEX" : "Only numbers! Must be more than 5 symbols!",
   "PRIVATE_HOUSE" : "Private house",
   "ERROR_VALIDATION" : "Some main fields are empty",
