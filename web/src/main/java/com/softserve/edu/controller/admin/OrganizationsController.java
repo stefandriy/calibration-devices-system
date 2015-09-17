@@ -252,7 +252,6 @@ public class OrganizationsController {
         logger.info(organization.getUsers());
         logger.info("========================");
 
-
         //--------------------
        /* //OrganizationDTO	organizationDTO=new OrganizationDTO();
         Set<String> set = organizationsService.getOrganizationTypesById(id);
