@@ -38,19 +38,24 @@ public class ProviderApplicationController {
 
     @Autowired
     private VerificationService verificationService;
+
     @Autowired
-	private CalibratorService calibratorService;
+    private CalibratorService calibratorService;
+
     @Autowired
     private ProviderService providerService;
+
     @Autowired
     private DistrictService districtService;
+
     @Autowired
     private DeviceService deviceService;
+
     @Autowired
     private LocalityService localityService;
 
-	@Autowired
-	private MailService mail;
+    @Autowired
+    private MailService mail;
 
     /**
      * Save verification in database
@@ -58,26 +63,35 @@ public class ProviderApplicationController {
      * @param verificationDTO object with verification data
      */
     @RequestMapping(value = "send", method = RequestMethod.POST)
-    public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        ClientData clientData = new ClientData(verificationDTO.getFirstName(),
-										                verificationDTO.getLastName(),
-										                verificationDTO.getMiddleName(),
-										        		verificationDTO.getEmail(),
-										                verificationDTO.getPhone(),
-										                verificationDTO.getSecondPhone(),
-										                new Address(verificationDTO.getRegion(),
-                                                        verificationDTO.getDistrict(),
-                                                        verificationDTO.getLocality(),
-														verificationDTO.getStreet(),
-                                                        verificationDTO.getBuilding(),
-                                                        verificationDTO.getFlat()));
-        
+    public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO) {
+        ClientData clientData = new ClientData(
+                verificationDTO.getFirstName(),
+                verificationDTO.getLastName(),
+                verificationDTO.getMiddleName(),
+                verificationDTO.getEmail(),
+                verificationDTO.getPhone(),
+                verificationDTO.getSecondPhone(),
+                new Address(
+                        verificationDTO.getRegion(),
+                        verificationDTO.getDistrict(),
+                        verificationDTO.getLocality(),
+                        verificationDTO.getStreet(),
+                        verificationDTO.getBuilding(),
+                        verificationDTO.getFlat()
+                )
+        );
+
         Organization provider = providerService.findById(verificationDTO.getProviderId());
-		Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
-		Device device =deviceService.getById(verificationDTO.getDeviceId());
+        Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
+
+        Device device = deviceService.getById(verificationDTO.getDeviceId());
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT, ReadStatus.UNREAD, calibrator);
+
         verificationService.saveVerification(verification);
-		return verification.getId();
+        String name = clientData.getFirstName() + " " + clientData.getLastName();
+        mail.sendMailFromProvider(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(), verification.getDevice().getDeviceType().toString());
+
+        return verification.getId();
     }
 
     /**
@@ -99,29 +113,29 @@ public class ProviderApplicationController {
         );
         return CatalogueDTOTransformer.toDto(localityService.getLocalitiesCorrespondingDistrict(district.getId()));
     }
-    
+
     @RequestMapping(value = "organizationType", method = RequestMethod.GET)
-	public Long checkOrganizationType( @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {    	
-    	Set<String> types = providerService.getTypesById(user.getOrganizationId());
-    	for (String type : types) {
-			if(type.equalsIgnoreCase("CALIBRATOR")) {
-				return user.getOrganizationId();
-			}
-		}
-    	return (long) -1;
-	}
+    public Long checkOrganizationType(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        Set<String> types = providerService.getTypesById(user.getOrganizationId());
+        for (String type : types) {
+            if (type.equalsIgnoreCase("CALIBRATOR")) {
+                return user.getOrganizationId();
+            }
+        }
+        return (long) -1;
+    }
 
     @RequestMapping(value = "new/mail", method = RequestMethod.POST)
-	public String sendReject(@RequestBody RejectMailDTO reject) {
-		Verification verification = verificationService.findById(reject.getVerifID());
-    	String name = verification.getClientData().getFirstName();
-    	String sendTo = verification.getClientData().getEmail();
+    public String sendReject(@RequestBody RejectMailDTO reject) {
+        Verification verification = verificationService.findById(reject.getVerifID());
+        String name = verification.getClientData().getFirstName();
+        String sendTo = verification.getClientData().getEmail();
         //saving rejectMessage in database if verification is rejected
         if (verification.getStatus() == Status.REJECTED) {
             verification.setRejectedMessage(reject.getMsg());
             verificationService.saveVerification(verification);
         }
-    	mail.sendRejectMail(sendTo, name, reject.getVerifID(), reject.getMsg(), verification.getDevice().getDeviceType().toString());
-    	return reject.getVerifID();
-	}
+        mail.sendRejectMail(sendTo, name, reject.getVerifID(), reject.getMsg(), verification.getDevice().getDeviceType().toString());
+        return reject.getVerifID();
+    }
 }

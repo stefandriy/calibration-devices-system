@@ -9,10 +9,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.softserve.edu.entity.AddEmployeeBuilderNew;
+import com.softserve.edu.service.provider.ProviderEmployeeService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.entity.Address;
@@ -32,6 +36,9 @@ public class OrganizationsService {
 	
 	@Autowired
 	private OrganizationRepository organizationRepository;
+
+	@Autowired
+	private ProviderEmployeeService providerEmployeeService;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -101,12 +108,23 @@ public class OrganizationsService {
 	}
 
 
-	@Transactional
+	@Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String oldUsername, String firstName, String lastName, String middleName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
+		logger.info("========phone!============");
+		logger.info(phone);
+		logger.info(address);
+
+
+		logger.info("========old username!============");
+		logger.info(oldUsername);
+
+		logger.info("======== username!============");
+		logger.info(username);
+
 		organization.setName(name);
 		organization.setPhone(phone);
 		organization.setEmail(email);
@@ -126,21 +144,67 @@ public class OrganizationsService {
 		organization.setOrganizationTypes(organizationTypes);
 
 		//--------------------------------------
-		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+//		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
+
+		User employeeAdmin = userRepository.getUserByUserName(username);
+	/*	if (username != oldUsername) {
+
+			logger.info("=========username info!============");
+			logger.info(username != oldUsername);
 
 
-		User employeeAdmin = userRepository.findByUsername(username);
-		employeeAdmin.setFirstName(firstName);
-		employeeAdmin.setLastName(lastName);
-		employeeAdmin.setMiddleName(middleName);
-		employeeAdmin.setUsername(username);
+			AddEmployeeBuilderNew builder = new AddEmployeeBuilderNew();
+			builder
+					.firstName(firstName)
+					.address(employeeAdmin.getAddress())
+					.email(employeeAdmin.getEmail())
+					.lastName(lastName)
+					.middleName(middleName)
+					.isAveliable(employeeAdmin.getIsAvaliable())
+					.password(employeeAdmin.getPassword())
+					.phone(employeeAdmin.getPhone())
+					.username(username);
 
+			User newAdmin = new User(builder);
+			newAdmin.setOrganization(organization);
+			newAdmin.setUserRoles(employeeAdmin.getUserRoles());
+
+			logger.info("=========admin roles info!============");
+			logger.info(employeeAdmin.getUserRoles());
+
+			newAdmin.setPassword(password != null && password.equals("generate") ?
+					"generate" : newAdmin.getPassword());
+
+			providerEmployeeService.addEmployee(newAdmin);
+			userRepository.save(newAdmin);
+			Set<User> users = organization.getUsers();
+			users.add(newAdmin);
+			users.remove(employeeAdmin);
+			userRepository.delete(employeeAdmin);
+
+			logger.info("=========new info!============");
+			logger.info(users);
+			logger.info(newAdmin.getUsername());
+			logger.info(newAdmin.getPassword());
+			logger.info(newAdmin.getOrganization());
+			organization.setUsers(users);
+		}else {*/
+
+			employeeAdmin.setFirstName(firstName);
+			employeeAdmin.setLastName(lastName);
+			employeeAdmin.setMiddleName(middleName);
+
+			employeeAdmin.setPassword(password != null && password.equals("generate") ?
+					"generate" : employeeAdmin.getPassword());
+
+
+			providerEmployeeService.updateEmployee(employeeAdmin);
+			userRepository.save(employeeAdmin);
 
 		organizationRepository.save(organization);
-		userRepository.save(employeeAdmin);
+
 
 	}
-
 
 	@Transactional
 	public Integer getOrganizationEmployeesCapacity(Long organizationId) {

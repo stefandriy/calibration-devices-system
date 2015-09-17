@@ -32,7 +32,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "employee/admin/users/")
 public class EmployeeController {
-
     Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
@@ -134,7 +133,7 @@ public class EmployeeController {
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setUsername(providerEmployee.getUsername());
         //newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
-          //      providerEmployee.getAddress() : newUser.getAddress());
+        //      providerEmployee.getAddress() : newUser.getAddress());
         String p = providerEmployee.getPassword();
         newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
                 "generate" : newUser.getPassword());
@@ -176,7 +175,7 @@ public class EmployeeController {
         providerEmployeeService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
-        //TODO: maybe here should add STATE_VERIFICATION
+    //TODO: maybe here should add STATE_VERIFICATION
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> capacityEmployeeData(
             @PathVariable String username) {
@@ -232,6 +231,7 @@ public class EmployeeController {
         }
         return resultList;
     }
+
 
 
 }

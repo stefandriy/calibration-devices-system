@@ -17,6 +17,7 @@ body {
     padding: 0 15px;
     min-height: 568px;
     background-color: #fff;
+
 }
 
 @media (min-width: 768px) {
@@ -230,6 +231,19 @@ body {
     clear: both;
 }
 
+.cleared
+{
+    display:block;
+    clear: both;
+    float: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-size: 0;
+    height:0;
+    overflow:hidden;
+}
+
 table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
@@ -384,6 +398,10 @@ table.dataTable thead .sorting:after {
     right: 15px;
 }
 
+.popover {
+    z-index: 9999;
+}
+
 .icons {
     font-size: 1.5em;
     padding-right: 5px;
@@ -391,7 +409,7 @@ table.dataTable thead .sorting:after {
 
 .modal .modal-body {
     max-height: 500px;
-    overflow-y: auto;
+    overflow: visible;
 }
 
 div.chosen-container {

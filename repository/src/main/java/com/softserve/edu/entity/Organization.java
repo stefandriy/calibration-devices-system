@@ -47,6 +47,7 @@ public class Organization {
 	private Set<User> users = new HashSet<User>();
 
 	@OneToMany(mappedBy = "provider")
+	@JsonBackReference
 	private Set<Device> devices;
 
 	public Set<Device> getDevices() {
@@ -167,7 +168,7 @@ public class Organization {
 		return users;
 	}
 
-	private void setUsers(Set<User> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 

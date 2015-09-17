@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,7 +95,6 @@ public class OrganizationsController {
      * @return
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    //currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search
     public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(
             @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
             NewOrganizationFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user
@@ -181,13 +181,21 @@ public class OrganizationsController {
                 organization.getStreet(),
                 organization.getBuilding(),
                 organization.getFlat());
-        try {
+      // try {
             if (organization.getTypes().equals(null)) {
                 System.out.println("Nothing here");
             }
             for (String strType : organization.getTypes()) {
                 System.out.println(strType);
             }
+
+           logger.info(organization.getUsername());
+           logger.info(organization.getPassword());
+           logger.info(organization.getEmail());
+           logger.info(organization.getRegion());
+        logger.info(organization.getDistrict());
+        logger.info(organization.getPhone());
+        logger.info(organization.getOldUsername());
 
             organizationsService.editOrganization(
                     organizationId,
@@ -200,45 +208,48 @@ public class OrganizationsController {
                     address,
                     organization.getPassword(),
                     organization.getUsername(),
+                    organization.getOldUsername(),
                     organization.getFirstName(),
                     organization.getLastName(),
                     organization.getMiddleName());
-        } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
-            httpStatus = HttpStatus.CONFLICT;
-        }
+        //} catch (Exception e) {
+       //     logger.error("GOT EXCEPTION " + e.getMessage());
+         //   httpStatus = HttpStatus.CONFLICT;
+        //}
+
         return new ResponseEntity(httpStatus);
     }
 
     @RequestMapping(value = "getOrganizationAdmin/{id}")
     public OrganizationAdminDTO getAdmin(@PathVariable("id") Long id) {
         Organization organization = organizationsService.getOrganizationById(id);
+        OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO();
+        try {
 
-        List<User> users = organization
-                .getUsers()
-                .stream()
-                .filter(user -> user.getUserRoles()
-                                .stream()
-                                .map(UserRole::getRole)
-                                .filter(userRole -> userRole.equals(Roles.PROVIDER_ADMIN.name()) ||
-                                                userRole.equals(Roles.CALIBRATOR_ADMIN.name()) || userRole.equals(Roles.STATE_VERIFICATOR_ADMIN.name())
-                                )
-                                .collect(Collectors.toList()).size() > 0
-                )
-                .collect(Collectors.toList());
+            User user = organization
+                    .getUsers()
+                    .stream()
+                    .filter(userChecked -> userChecked.getUserRoles()
+                                    .stream()
+                                    .map(UserRole::getRole)
+                                    .filter(userRole -> userRole.equals(Roles.PROVIDER_ADMIN.name()) ||
+                                                    userRole.equals(Roles.CALIBRATOR_ADMIN.name()) || userRole.equals(Roles.STATE_VERIFICATOR_ADMIN.name())
+                                    )
+                                    .collect(Collectors.toList()).size() > 0
+                    )
+                    .findFirst().get();
+            logger.info(user);
+            organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
+        } catch (Exception e){
+            logger.info("========================");
+            logger.info("no one admin in organization");
+            logger.info("========================");
+        }
 
-        User user = users.get(0); //TODO
 
-
-        OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
 
         logger.info("========================");
         logger.info(organization.getUsers());
-        logger.info("========================");
-
-        logger.info("========================");
-        logger.info(users);
-        logger.info(user.getFirstName());
         logger.info("========================");
 
         //--------------------

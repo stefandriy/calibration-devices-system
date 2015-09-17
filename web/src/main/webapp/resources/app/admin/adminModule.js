@@ -3,7 +3,7 @@ angular
     'adminModule',
     ['spring-security-csrf-token-interceptor', 'ui.bootstrap',
         'ui.router', 'ui.bootstrap.showErrors', 'ngTable',
-        'pascalprecht.translate', 'ngCookies', 'localytics.directives',
+        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives',
         'angular-loading-bar'])
 
     .config(
@@ -13,8 +13,9 @@ angular
         '$urlRouterProvider',
         'showErrorsConfigProvider',
         'cfpLoadingBarProvider',
+        '$provide',
         function ($translateProvider, $stateProvider,
-                  $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider) {
+                  $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
             showErrorsConfigProvider.showSuccess(true);
             cfpLoadingBarProvider.includeSpinner = false;
             cfpLoadingBarProvider.latencyThreshold = 500;
@@ -71,6 +72,35 @@ angular
                     url: '/settings',
                     templateUrl: '/resources/app/admin/views/settings-panel.html'
                 })
+            /*
+             Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
+             When translation of page will end, items of select (on the scope) will be changed too.
+             Then we refresh the items of select to get them from scope.
+             */
+            $provide.decorator('uiSelectDirective', function( $delegate, $parse, $injector) {
+                var some_directive = $delegate[ 0],
+                    preCompile = some_directive.compile;
+
+                some_directive.compile = function compile() {
+                    var link = preCompile.apply( this, arguments );
+
+                    return function( scope, element, attrs, controller ) {
+                        link.apply( this, arguments );
+
+                        var $select = controller[ 0 ];
+
+                        var rootScope= $injector.get('$rootScope');
+
+                        rootScope.$on('$translateChangeEnd', function(event){
+                            scope.setTypeDataLanguage();
+                            $select.refreshItems();
+                        });
+
+                    };
+                };
+
+                return $delegate;
+            });
         }]);
 
 angular.module('adminModule').run(function (paginationConfig) {

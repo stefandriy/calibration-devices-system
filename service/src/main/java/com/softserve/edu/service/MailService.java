@@ -72,7 +72,7 @@ public class MailService {
                 templateVariables.put("providerName", providerName);
                 templateVariables.put("deviceType", deviceType);
                 templateVariables.put("date", date);
-                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/mailTemplate.vm", "UTF-8", templateVariables);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates/mailTemplate.vm", "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
             }
@@ -144,7 +144,7 @@ public class MailService {
     }
 
 
-    public void sendClientMail(String from, String userFirstName, String userLastName, String verificationId, String msg) {
+        public void sendClientMail(String from, String userFirstName, String userLastName, String verificationId, String msg) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -168,6 +168,38 @@ public class MailService {
                 message.setText(body, true);
                 message.setSubject("Important notification");
 
+            }
+        };
+        this.mailSender.send(preparator);
+    }
+
+    public void sendMailFromProvider(String to, String userName, String clientCode, String providerName, String deviceType) {
+
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(to);
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+                String domain = null;
+                try {
+                    domain = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException ue) {
+                    logger.error("Cannot get host address", ue);
+                }
+
+                SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
+                String date = form.format(new Date());
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("name", userName);
+                templateVariables.put("protocol", protocol);
+                templateVariables.put("domain", domain);
+                templateVariables.put("applicationId", clientCode);
+                templateVariables.put("providerName", providerName);
+                templateVariables.put("deviceType", deviceType);
+                templateVariables.put("date", date);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates/mailTemplate.vm", "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
             }
         };
         this.mailSender.send(preparator);

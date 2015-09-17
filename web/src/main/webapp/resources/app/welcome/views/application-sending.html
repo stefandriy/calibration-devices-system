@@ -14,7 +14,7 @@
     <div class="from-top form-group ">
         <div id="clientFormBox" ng-show="isShownForm"
              class="row col-md-8 centered">
-            <form id="clientForm" name="clientForm"
+            <form id="clientForm" name="clientForm" role="form"
                   class="form-horizontal form-group" ng-submit="sendApplicationData()"
                   novalidate>
                 <div class="form-group" show-errors>
@@ -122,17 +122,15 @@
                     <div class="col-md-8">
                         <div>
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon-code">+380</span>
+                                <span class="input-group-addon">+380</span>
                                 <input id="phoneNumber" name="phoneNumber" type="tel"
                                        class="form-control col-md-8 " ng-model="formData.phone"
                                        placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
 
-
-                                <div class="input-group-addon btn btn-default btn-circle"><label for="checkboxModel"><i
-                                        class="glyphicon glyphicon-plus"/></label> <input type="checkbox"
-                                                                                          ng-model="checkboxModel"
-                                                                                          class="plusButtonCheck"
-                                                                                          id="checkboxModel"></div>
+                                <div class="input-group-addon btn btn-default btn-circle"
+                                     ng-click="checkboxModel = !checkboxModel">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </div>
 
                             </div>
                         </div>
@@ -244,6 +242,15 @@
                                 <span ng-bind-html="locality.designation"></span>
                             </ui-select-choices>
                         </ui-select>
+                        <a ng-if="!selectedValues.selectedProvider
+                        && selectedValues.selectedDistrict
+                        && selectedValues.selectedLocality
+                        "
+                           style="color: #b27e77"
+                           ng-click="feedbackModalNoProvider()"> <i class="fa fa-info-circle">
+                            <ins>Не існує постачальника послуг для даного району. Повідомте нам про це.</ins>
+                        </i>
+                        </a>
 
                         <p class="help-block">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -275,7 +282,7 @@
                         {{'STREET' | translate}} </label>
 
                     <div class="col-md-8">
-                        <div class="pull-left col-md-3" id="typeStreet">
+                        <div class="pull-left col-lg-3" id="typeStreet">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.selectedStreetType"
                                        ng-disabled="!selectedValues.selectedIndex"
@@ -293,7 +300,7 @@
                         </div>
                         <div class="col-md-9" id="streetBox"
                              ng-class="{'has-success' : selectedValues.selectedStreet  && selectedValues.selectedIndex,
-                                        'has-error' : !selectedValues.selectedStreet &&  clientForm.street.$dirty &&               selectedValues.selectedIndex}">
+                                        'has-error' : !selectedValues.selectedStreet &&  clientForm.street.$dirty && selectedValues.selectedIndex}">
                             <input name="street" class="form-control"
                                    type="text" id="street"
                                    ng-model="selectedValues.selectedStreet"
@@ -325,18 +332,6 @@
                                 {{'PRIVATE_HOUSE' | translate}}</span>
                         </div>
 
-                        <a ng-if="!selectedValues.selectedProvider
-                        && selectedValues.selectedDistrict
-                        && selectedValues.selectedLocality
-                        && selectedValues.selectedIndex
-                        && selectedValues.selectedStreetType
-                        && selectedValues .selectedStreet
-                        && selectedValues.selectedBuilding"
-                           style="color: #b27e77"
-                           ng-click="feedbackModalNoProvider()"> <i class="fa fa-info-circle">
-                            <ins>Не існує постачальника послуг для даного району. Повідомте нам про це.</ins>
-                        </i>
-                        </a>
 
                         <p class="help-block" ng-if="clientForm.building.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -378,8 +373,8 @@
                     <label for="device" class="col-md-2 control-label">
                         {{'COUNTER_CATEGORY' | translate}} </label>
 
-                    <div class="col-md-8 " id="counterNumber">
-                        <div class="pull-left col-lg-3">
+                    <div class="col-md-8 ">
+                        <div class="pull-left col-lg-3" id="counterNumber">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.firstDeviceCount"
                                        search-enabled="false"
@@ -408,13 +403,9 @@
                                 </ui-select-choices>
                             </ui-select>
 
-                            <div class="input-group-addon btn btn-default btn-circle " for="isSecondDeviceCheck">
-                                <label for="isSecondDeviceCheck"><i
-                                        class="glyphicon glyphicon-plus input-block-level"/></label>
-                                <input type="checkbox"
-                                       class="plusButtonCheck"
-                                       ng-model="isSecondDevice"
-                                       id="isSecondDeviceCheck"/>
+                            <div class="input-group-addon btn btn-default btn-circle"
+                                 ng-click="isSecondDevice = !isSecondDevice">
+                                <i class="glyphicon glyphicon-plus input-block-level"></i>
                             </div>
                         </div>
                         <p class="help-block" ng-if="clientForm.firstDeviceCount.$error.required">
@@ -430,100 +421,90 @@
                     </div>
                 </div>
 
-                <div class="form-group" show-errors ng-show="isSecondDevice">
-                    <label for="device2" class="col-md-2 control-label">
-                        {{'COUNTER_CATEGORY' | translate}} </label>
+                <div class="form-group">
+                    <label for="firstDeviceComment" class="col-md-2 control-label">
+                        {{'APPLICATION_COMMENT' | translate}}
+                    </label>
 
-                    <div class="col-md-8 ">
-                        <div class="pull-left col-lg-3" id="counterNumber">
-                            <!--<select chosen width="'100%'"-->
-                                    <!--ng-required="isSecondDevice"-->
-                                    <!--disable-search="true"-->
-                                    <!--data-placeholder="Кількість"-->
-                                    <!--ng-model-options="{allowInvalid: true}"-->
-                                    <!--id="secondDeviceCount" name="secondDeviceCount"-->
-                                    <!--type="text"-->
-                                    <!--ng-model="secondDeviceCount" class="form-control">-->
-                                <!--<option value="1">1</option>-->
-                                <!--<option value="2">2</option>-->
-                                <!--<option value="3">3</option>-->
-                                <!--<option value="4">4</option>-->
-                                <!--<option value="5">5</option>-->
-                                <!--<option value="6">6</option>-->
-                            <!--</select>-->
-
-                            <ui-select class="form-control" type="text" theme="select2"
-                                       ng-required="isSecondDevice"
-                                       ng-model="selectedValues.secondDeviceCount"
-                                       search-enabled="false"
-                                       name="secondDeviceCount"
-                                       id="counterNumber" class="form-control" required>
-                                <ui-select-match placeholder="Кількість">
-                                    {{$select.selected}}
-                                </ui-select-match>
-                                <ui-select-choices repeat="value in values">
-                                    <span ng-bind-html="value"></span>
-                                </ui-select-choices>
-                            </ui-select>
-                        </div>
-                        <div class="col-md-9 pull-right input-group" id="deviceBox">
-                            <ui-select class="form-control" type="text" theme="select2"
-                                       ng-model="selectedValues.secondSelectedDevice"
-                                       search-enabled="false"
-                                       id="secondSelectedDevice"
-                                       name="secondSelectedDevice">
-                                <ui-select-match placeholder="Категорія лічильника">
-                                    {{$select.selected.designation}}
-                                </ui-select-match>
-                                <ui-select-choices repeat="device in devices | filter: $select.search">
-                                    <span ng-bind-html="device.designation"></span>
-                                </ui-select-choices>
-                            </ui-select>
-
-                            <div class="input-group-addon  btn btn-default btn-circle"><label
-                                    for="isThirdDeviceCheck"><i
-                                    class="glyphicon glyphicon-plus"/></label>
-                                <input type="checkbox"
-                                       ng-model="isThirdDevice"
-                                       class="plusButtonCheck"
-                                       id="isThirdDeviceCheck"/>
-                            </div>
-                        </div>
-                        <p class="help-block" ng-if="clientForm.secondDeviceCount.$error.required">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'TYPEAHEAD_ERROR' | translate}}
-                        </p>
-
-                        <p class="help-block"
-                           ng-if="clientForm.secondSelectedDevice.$invalid">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'DEVICE_TYPE_REQUIRED' | translate}}
-                        </p>
+                    <div class="col-md-8">
+                        <textarea id="firstDeviceComment" name="firstDeviceComment" class="form-control" rows="3"
+                                  popover="{{'APPLICATION_COMMENT_EXAMPLE' | translate}}"
+                                  popover-trigger="focus" popover-placement="right"
+                                  ng-model="firstDeviceComment" maxlength="254"></textarea>
                     </div>
                 </div>
+                <div ng-show="isSecondDevice">
+                    <div class="form-group" show-errors>
+                        <label for="device2" class="col-md-2 control-label">
+                            {{'COUNTER_CATEGORY' | translate}} </label>
 
+                        <div class="col-md-8 ">
+                            <div class="pull-left col-lg-3" id="counterNumber">
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-required="isSecondDevice"
+                                           ng-model="selectedValues.secondDeviceCount"
+                                           search-enabled="false"
+                                           name="secondDeviceCount"
+                                           id="counterNumber" class="form-control" required>
+                                    <ui-select-match placeholder="Кількість">
+                                        {{$select.selected}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="value in values">
+                                        <span ng-bind-html="value"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="col-md-9 pull-right input-group" id="deviceBox">
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model="selectedValues.secondSelectedDevice"
+                                           search-enabled="false"
+                                           id="secondSelectedDevice"
+                                           name="secondSelectedDevice">
+                                    <ui-select-match placeholder="Категорія лічильника">
+                                        {{$select.selected.designation}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="device in devices | filter: $select.search">
+                                        <span ng-bind-html="device.designation"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                                <div class="input-group-addon  btn btn-default btn-circle"
+                                     ng-hide="true"
+                                     ng-click="isThirdDevice = !isThirdDevice">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </div>
+                            </div>
+                            <p class="help-block" ng-if="clientForm.secondDeviceCount.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'TYPEAHEAD_ERROR' | translate}}
+                            </p>
+
+                            <p class="help-block"
+                               ng-if="clientForm.secondSelectedDevice.$invalid">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'DEVICE_TYPE_REQUIRED' | translate}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="secondDeviceComment" class="col-md-2 control-label">
+                            {{'APPLICATION_COMMENT' | translate}}
+
+                        </label>
+                        <div class="col-md-8">
+                        <textarea id="secondDeviceComment" name="secondDeviceComment" class="form-control" rows="3"
+                                  ng-model="secondDeviceComment" maxlength="254"
+                                  popover="{{'APPLICATION_COMMENT_EXAMPLE' | translate}}"
+                                  popover-trigger="focus" popover-placement="right"></textarea>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group" show-errors ng-show="isThirdDevice">
                     <label for="device3" class="col-md-2 control-label">
                         {{'COUNTER_CATEGORY' | translate}} </label>
 
                     <div class="col-md-8 ">
                         <div class="pull-left col-lg-3" id="counterNumber">
-                            <!--<select chosen width="'100%'"-->
-                                    <!--ng-required="isThirdDevice"-->
-                                    <!--data-placeholder="Кількість"-->
-                                    <!--disable-search="true"-->
-                                    <!--ng-model-options="{allowInvalid: true}"-->
-                                    <!--id="thirdDeviceCount" name="thirdDeviceCount"-->
-                                    <!--type="text"-->
-                                    <!--ng-model="thirdDeviceCount" class="form-control">-->
-                                <!--<option value="1">1</option>-->
-                                <!--<option value="2">2</option>-->
-                                <!--<option value="3">3</option>-->
-                                <!--<option value="4">4</option>-->
-                                <!--<option value="5">5</option>-->
-                                <!--<option value="6">6</option>-->
-                            <!--</select>-->
-
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-required="isThirdDevice"
                                        ng-model="selectedValues.thirdDeviceCount"
@@ -567,25 +548,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="comment" class="col-md-2 control-label">
-                        {{'APPLICATION_COMMENT' | translate}}
-                        <a popover="{{'APPLICATION_COMMENT_EXAMPLE' | translate}}"
-                           popover-trigger="mouseenter">
-                            <i class="fa fa-question-circle"></i>
-                        </a>
-                    </label>
-
-                    <div class="col-md-8">
-                        <textarea id="comment" name="comment" class="form-control" rows="3"
-                                  ng-model="formData.comment" maxlength="254"></textarea>
-                        <!--<p class="help-block"
-                           ng-if="clientForm.comment.$error.maxlength">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'DEVICE_TYPE_REQUIRED' | translate}}
-                        </p>-->
-                    </div>
-                </div>
 
                 <div class="form-group ">
                     <div class="col-md-2">

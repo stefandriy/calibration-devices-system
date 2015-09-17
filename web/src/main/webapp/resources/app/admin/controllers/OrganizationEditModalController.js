@@ -26,10 +26,10 @@ angular
 		'AddressService',
 		'UserService',
 		'DevicesService',
-		'OrganizationService','$log',
+		'OrganizationService','$log', 'regions',
 		function ($rootScope, $scope, $translate, $modalInstance, $filter,
 				 addressService,
-				  userService, devicesService, organizationService, $log) {
+				  userService, devicesService, organizationService, $log, regions) {
 
 
 			function arrayObjectIndexOf(myArray, searchTerm, property) {
@@ -43,8 +43,6 @@ angular
 				myArray.push(elem);
 				return (myArray.length-1);
 			}
-
-			$scope.organization.address.region = $rootScope.organization.address.region;
 
 			$scope.typeData = [
 				{
@@ -87,7 +85,7 @@ angular
 			
 			$scope.setTypeDataLanguage();
 
-			$scope.regions = null;
+			$scope.regions = regions;
 			$scope.districts = [];
 			$scope.localities = [];
 			$scope.streets = [];
@@ -96,25 +94,29 @@ angular
 
 			$scope.isUsernameAvailable = true;
 
-			$scope.loadAdmin = function() {
 				organizationService.getOrganizationAdmin($rootScope.organization.id).then(
 					function (data) {
 						$scope.adminsFirstName = data.firstName;
 						$scope.adminsLastName = data.lastName;
 						$scope.adminsMiddleName = data.middleName;
 						$scope.adminsUserName = data.username;
+						$scope.oldUsername = data.username;
 						console.log(data);
 						console.log(data.firstName);
 					}
-				)
-			}
-			$scope.loadAdmin();
+				);
+
 
 			$scope.checkIfUsernameIsAvailable = function() {
-				var username = $rootScope.organization.username;
+				var username = $scope.adminsUserName;
 				userService.isUsernameAvailable(username).then(
 					function(data) {
-						$scope.isUsernameAvailable = data;
+
+						if ($scope.USERNAME_REGEX.test(username) && ($scope.oldUsername != username) && (username != "")){
+							$scope.isUsernameAvailable = data;
+						}else {
+							$scope.isUsernameAvailable = true;
+						}
 					})
 			}
 
@@ -178,10 +180,10 @@ angular
 						}
 						break;
 					case ('login') :
-						var username = $rootScope.organization.username;
+						var username = $scope.adminsUserName ;
 						if (username == null) {
 						} else if ($scope.USERNAME_REGEX.test(username)) {
-							isUsernameAvailable(username);
+							$scope.checkIfUsernameIsAvailable();
 						} else {
 							validator('loginValid', false);
 						}
@@ -236,13 +238,6 @@ angular
 							message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
 						}
 						break;
-					case 'existLogin':
-						$scope.usernameValidation = {
-							isValid: isValid,
-							css: isValid ? 'has-success' : 'has-error',
-							message: isValid ? undefined : 'Такий логін вже існує'
-						}
-						break;
 				}
 			}
 			/**
@@ -264,6 +259,41 @@ angular
 			$rootScope.organization.region = $scope.regions[index];
 			$scope.onRegionSelected($scope.regions[index].id);*/
 			initFormData();
+
+			/**
+			 * Receives all possible districts.
+			 * On-select handler in region input form element.
+			 */
+			$scope.receiveDistricts = function (selectedRegion) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.districts = [];
+					addressService.findDistrictsByRegionId(selectedRegion.id)
+						.then(function (districts) {
+							$scope.districts = districts;
+							$scope.organizationFormData.district = undefined;
+							$scope.organizationFormData.locality = undefined;
+							$scope.organizationFormData.street = "";
+						});
+				}
+			};
+
+			/**
+			 * Receives all possible localities.
+			 * On-select handler in district input form element.
+			 */
+			$scope.receiveLocalities = function (selectedDistrict) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.localities = [];
+					addressService.findLocalitiesByDistrictId(selectedDistrict.id)
+						.then(function (localities) {
+							console.log(localities);
+							$scope.localities = localities;
+							$scope.organizationFormData.locality = undefined;
+							$scope.organizationFormData.street = "";
+
+						});
+				}
+			};
 
 			/**
 			 * Finds districts in a given region.
@@ -329,8 +359,14 @@ angular
 
 
 			/**
-			 * Convert address data to string
+			 * Change password
 			 */
+			$scope.changePassword = function () {
+				//$scope.preventDefault();
+				$scope.password = 'generate';
+				$scope.generationMessage = true;
+			}
+
 			function addressFormToOrganizationForm() {
 				if (typeof $rootScope.organization.address.region == 'object') {
 					$rootScope.organization.address.region = $rootScope.organization.address.region.designation;
@@ -380,8 +416,11 @@ angular
 					firstName : $scope.adminsFirstName,
 					lastName : $scope.adminsLastName,
 					middleName : $scope.adminsMiddleName,
-					username : $scope.username
+					username : $scope.adminsUserName,
+					oldUsername : $scope.oldUsername,
+					password: $scope.password
 				};
+				console.log( $rootScope.organization.email, $scope.adminsUserName, $scope.oldUsername)
 
 				organizationService.editOrganization(
 					organizationForm,
@@ -396,11 +435,11 @@ angular
 						else (console.log(data));
 					});
 			};
-
 			/**
 			 * Closes edit modal window.
 			 */
 			$scope.closeModal = function() {
+				$rootScope.onTableHandling();
 				$modalInstance.close();
 			};
 
