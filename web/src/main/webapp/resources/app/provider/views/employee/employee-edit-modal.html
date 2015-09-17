@@ -59,7 +59,7 @@
                                ng-pattern="FIRST_LAST_NAME_REGEX"
                                id="lastName" name="lastName" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || (employeeForm.lastName.$touched   && !employeeForm.$pristine)
+                        <div ng-show="employeeForm.$submitted || (employeeForm.lastName.$touched   && !employeeForm.lastName.$pristine)
                         || (employeeForm.lastName.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.lastName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -84,7 +84,7 @@
                                id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
                                name="firstName" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || (employeeForm.firstName.$touched  && !employeeForm.$pristine)
+                        <div ng-show="employeeForm.$submitted || (employeeForm.firstName.$touched  && !employeeForm.firstName.$pristine)
                         || (employeeForm.firstName.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.firstName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -108,7 +108,7 @@
                                popover="{{'MIDDLE_NAME_INFO' | translate}}"
                                popover-trigger="focus" popover-placement="right"
                                id="middleName" name="middleName" class="form-control" required>
-                        <div ng-show="employeeForm.$submitted || (employeeForm.middleName.$touched && !employeeForm.$pristine)||
+                        <div ng-show="employeeForm.$submitted || (employeeForm.middleName.$touched && !employeeForm.middleName.$pristine)||
                          (employeeForm.middleName.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.middleName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -132,7 +132,7 @@
                                 ng-pattern="PHONE_REGEX" placeholder="XXXXXXXXX"
                                 id="phone" name="phone" class="form-control">
                         </div>
-                        <div ng-show="employeeForm.$submitted || (employeeForm.phone.$touched && !employeeForm.$pristine)
+                        <div ng-show="employeeForm.$submitted || (employeeForm.phone.$touched && !employeeForm.phone.$pristine)
                         || (employeeForm.phone.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.phone.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -151,7 +151,7 @@
                                placeholder="example@gmail.com"
                                id="email" name="email" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || (employeeForm.email.$touched && !employeeForm.$pristine)
+                        <div ng-show="employeeForm.$submitted || (employeeForm.email.$touched && !employeeForm.email.$pristine)
                         || (employeeForm.email.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.email.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
