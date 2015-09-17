@@ -238,6 +238,7 @@
     });
     $("#states").chosen();
 </script>
+
 <script src="/resources/assets/js/vendor/modernizr-2.6.2.min.js"></script>
 <script src="/resources/assets/bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
 <script src="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/js/bootstrap-formhelpers.js"></script>
