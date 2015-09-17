@@ -4,6 +4,7 @@ angular
         function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator, $log) {
 
             $scope.calibrationTask = {};
+            $scope.incorrectValue = false;
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -22,7 +23,7 @@ angular
 
 
             $scope.calibrationTask = {};
-            $scope.calibrationTask.pickerDate = null;
+            $scope.calibrationTask.pickerDate = {};
             $scope.defaultDate = null;
 
             $scope.initDateRangePicker = function (date) {
@@ -61,7 +62,10 @@ angular
             };
 
             $scope.resetTaskForm = function () {
-                $scope.calibrationTask = null;
+                $scope.$broadcast('show-errors-reset');
+                $scope.calibrationTask = {};
+                $scope.incorrectValue = false;
+                $scope.calibrationTask.pickerDate = {};
                 $scope.installationNumberValidation = null;
                 $scope.floorValidation = null;
                 $scope.counterNumberValidation = null;
@@ -71,26 +75,36 @@ angular
 
 
             $scope.checkPlace = function(){
-                if ($scope.calibrationTask.place==null) {
-                    return true;
-                } else if ($scope.calibrationTask.place == 'fixed_station') {
-                    return false;
-                } else {
-                    return true;
+                try{
+                    if ($scope.calibrationTask.place==null) {
+                        return true;
+                    } else if ($scope.calibrationTask.place == 'fixed_station') {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }  catch (e) {
+                    console.log("Got an error!",e);
                 }
             }
 
 
             $scope.checkPlaceAndStatus = function(){
-                if (($scope.calibrationTask.place==null) && ($scope.calibrationTask.counterStatus==null)) {
-                    return true;
-                } else if ($scope.calibrationTask.place == 'fixed_station' && $scope.calibrationTask.counterStatus == 'not_removed') {
-                    return false;
-                } else if ($scope.calibrationTask.place == 'portable_station'){
-                    return false;
-                } else {
-                    return true;
+                try{
+                    if (($scope.calibrationTask.place==null) && ($scope.calibrationTask.counterStatus==null)) {
+                        return true;
+                    } else if ($scope.calibrationTask.place == 'fixed_station' && $scope.calibrationTask.counterStatus == 'not_removed') {
+                        return false;
+                    } else if ($scope.calibrationTask.place == 'portable_station'){
+                        $scope.calibrationTask.counterStatus = '';
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } catch (e) {
+                    console.log("Got an error!",e);
                 }
+
             }
 
             $scope.checkAll = function (caseForValidation) {
@@ -107,7 +121,7 @@ angular
                         var floor = $scope.calibrationTask.floor;
                         if (floor == null) {
 
-                        } else if (/^\d{1,3}$/.test(floor)) {
+                        } else if (/^\d{1,2}$/.test(floor)) {
                             validator('floor', false);
                         } else {
                             validator('floor', true);

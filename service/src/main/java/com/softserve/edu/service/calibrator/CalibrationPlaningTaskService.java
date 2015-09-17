@@ -31,22 +31,31 @@ public class CalibrationPlaningTaskService {
     private Logger logger = Logger.getLogger(CalibrationPlaningTaskService.class);
 
     @Transactional
-    public void addNewTask(String verifId/*, String placeOfcalibration/*, String counterStatus, String counterNumber,
-                           Date startDate, Date endDate, String installationNumber, String notes, int floor*/) {
+    public void addNewTask(String verifId, String placeOfcalibration, String counterStatus, String counterNumber,
+                           Date startDate, Date endDate, String installationNumber, String notes, int floor) {
         Verification verification = verificationRepository.findOne(verifId);
         if (verification == null) {
             logger.error("verification haven't found");
         } else {
+            if ((placeOfcalibration==null) || (counterStatus==null)
+                    || (installationNumber==null)){
+                throw new IllegalArgumentException();
+            }
             CalibrationPlanningTask task = new CalibrationPlanningTask();
             task.setVerification(verification);
-            //task.setPlaceOfcalibration(placeOfcalibration);
-            /*task.setRemoveStatus(counterStatus);
+            task.setPlaceOfcalibration(placeOfcalibration);
+            task.setRemoveStatus(counterStatus);
             task.setSerialNumberOfMeasuringInstallation(installationNumber);
             task.setSerialNumberOfCounter(counterNumber);
             task.setNotes(notes);
-            task.setDateOfVisit(startDate);
-            task.setDateOfVisitTo(endDate);
-            task.setFloor(floor);*/
+            if (placeOfcalibration=="fixed_station" && counterStatus=="removed"){
+                task.setDateOfVisit(null);
+                task.setDateOfVisitTo(null);
+            } else {
+                task.setDateOfVisit(startDate);
+                task.setDateOfVisitTo(endDate);
+            }
+            task.setFloor(floor);
             taskRepository.save(task);
         }
 

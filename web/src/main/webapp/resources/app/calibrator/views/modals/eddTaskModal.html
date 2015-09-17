@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <form name="formTask" novalidate>
-
+            <p class="validation-message" ng-show="incorrectValue">{{'ERROR_VALIDATION' |  translate}}</p>
             <!-- CALIBRATION PLACE -->
             <div class="row">
                 <div class="form-group col-md-4">
