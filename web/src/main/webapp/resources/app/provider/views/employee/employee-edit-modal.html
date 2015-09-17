@@ -59,7 +59,8 @@
                                ng-pattern="FIRST_LAST_NAME_REGEX"
                                id="lastName" name="lastName" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.lastName.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.lastName.$touched   && !employeeForm.$pristine)
+                        || (employeeForm.lastName.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.lastName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
@@ -83,7 +84,8 @@
                                id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
                                name="firstName" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.firstName.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.firstName.$touched  && !employeeForm.$pristine)
+                        || (employeeForm.firstName.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.firstName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
@@ -106,7 +108,8 @@
                                popover="{{'MIDDLE_NAME_INFO' | translate}}"
                                popover-trigger="focus" popover-placement="right"
                                id="middleName" name="middleName" class="form-control" required>
-                        <div ng-show="employeeForm.$submitted || employeeForm.middleName.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.middleName.$touched && !employeeForm.$pristine)||
+                         (employeeForm.middleName.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.middleName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
@@ -123,16 +126,14 @@
                     </div>
                     <div class="form-group col-md-8 " ng-class="phoneNumberValidation.css" show-errors>
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon-code">+380</span> <input
+                            <span class="input-group-addon" id="basic-addon-code">+380</span>
+                            <input
                                 type="text" ng-model="user.phone"
                                 ng-pattern="PHONE_REGEX" placeholder="XXXXXXXXX"
                                 id="phone" name="phone" class="form-control">
                         </div>
-                        <div ng-show="employeeForm.$submitted || employeeForm.phone.$touched">
-                            <!--<p class="validation-message" ng-if="employeeForm.phone.$error.required">-->
-                            <!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
-                            <!--{{'REQUIRED' | translate}}-->
-                            <!--</p>-->
+                        <div ng-show="employeeForm.$submitted || (employeeForm.phone.$touched && !employeeForm.$pristine)
+                        || (employeeForm.phone.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.phone.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'INCORRECT_VALUE_PHONE_ADD_EMPLOYEE' | translate }}
@@ -150,7 +151,8 @@
                                placeholder="example@gmail.com"
                                id="email" name="email" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.email.$touched">
+                        <div ng-show="employeeForm.$submitted || (employeeForm.email.$touched && !employeeForm.$pristine)
+                        || (employeeForm.email.$dirty)">
                             <p class="validation-message" ng-if="employeeForm.email.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
