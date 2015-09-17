@@ -89,7 +89,7 @@ public class ProviderApplicationController {
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();
-        mail.sendMail(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(), verification.getDevice().getDeviceType().toString());
+        mail.sendMailFromProvider(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(), verification.getDevice().getDeviceType().toString());
 
         return verification.getId();
     }

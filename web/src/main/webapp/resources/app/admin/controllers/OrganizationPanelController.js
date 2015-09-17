@@ -7,9 +7,10 @@ angular
 						'$scope',
 						'$modal',
 						'OrganizationService',
+						'AddressService',
 					    'ngTableParams',
-						function($rootScope, $scope, $modal,
-								organizationService, ngTableParams) {
+						function($rootScope, $scope, $modal, organizationService,
+								 addressService, ngTableParams) {
 
 							$scope.totalItems = 0;
 							$scope.currentPage = 1;
@@ -44,6 +45,8 @@ angular
 											$scope.resultsCount = result.totalItems;
 											$defer.resolve(result.content);
 											params.total(result.totalItems);
+											console.log(result.totalItems);
+											console.log(result.content[3]);
 										}, function (result) {
 											$log.debug('error fetching data:', result);
 										});
@@ -73,7 +76,12 @@ angular
 											animation : true,
 											controller : 'OrganizationAddModalController',
 											templateUrl : '/resources/app/admin/views/modals/organization-add-modal.html',
-											size: 'lg'
+											size: 'lg',
+											resolve: {
+												regions: function () {
+													return addressService.findAllRegions();
+												}
+											}
 										});
 							};
 
@@ -87,14 +95,22 @@ angular
 										$rootScope.organizationId).then(
 										function(data) {
 											$rootScope.organization = data;
-										});
+
 								var organizationDTOModal = $modal
 										.open({
 											animation : true,
 											controller : 'OrganizationEditModalController',
 											templateUrl : '/resources/app/admin/views/modals/organization-edit-modal.html',
+											resolve: {
+												regions: function () {
+													return addressService.findAllRegions();
+												}
+											}
 										});
+										});
+
 							};
+
 
 
 						} ]);

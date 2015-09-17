@@ -82,9 +82,6 @@ public class OrganizationsService {
 	public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage,String name,
 																					 String email, String number, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder) {
 
-
-		logger.info("----sortcriteria");
-		logger.info(sortCriteria);
 		CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
 
 		Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin.buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).getSingleResult();
@@ -117,6 +114,17 @@ public class OrganizationsService {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
+		logger.info("========phone!============");
+		logger.info(phone);
+		logger.info(address);
+
+
+		logger.info("========old username!============");
+		logger.info(oldUsername);
+
+		logger.info("======== username!============");
+		logger.info(username);
+
 		organization.setName(name);
 		organization.setPhone(phone);
 		organization.setEmail(email);
@@ -138,11 +146,12 @@ public class OrganizationsService {
 		//--------------------------------------
 //		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
 
-		User employeeAdmin = userRepository.getUserByUserName(oldUsername);
-		if (username != oldUsername) {
+		User employeeAdmin = userRepository.getUserByUserName(username);
+	/*	if (username != oldUsername) {
 
 			logger.info("=========username info!============");
 			logger.info(username != oldUsername);
+
 
 			AddEmployeeBuilderNew builder = new AddEmployeeBuilderNew();
 			builder
@@ -170,6 +179,7 @@ public class OrganizationsService {
 			userRepository.save(newAdmin);
 			Set<User> users = organization.getUsers();
 			users.add(newAdmin);
+			users.remove(employeeAdmin);
 			userRepository.delete(employeeAdmin);
 
 			logger.info("=========new info!============");
@@ -178,7 +188,7 @@ public class OrganizationsService {
 			logger.info(newAdmin.getPassword());
 			logger.info(newAdmin.getOrganization());
 			organization.setUsers(users);
-		}else {
+		}else {*/
 
 			employeeAdmin.setFirstName(firstName);
 			employeeAdmin.setLastName(lastName);
@@ -190,7 +200,7 @@ public class OrganizationsService {
 
 			providerEmployeeService.updateEmployee(employeeAdmin);
 			userRepository.save(employeeAdmin);
-		}
+
 		organizationRepository.save(organization);
 
 
