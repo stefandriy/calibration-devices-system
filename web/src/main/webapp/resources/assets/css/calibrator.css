@@ -468,3 +468,7 @@ color:#003712;
 .modal .modal-body {
     max-height: 1500px;
 }
+
+.input-group-addon {
+    border-radius: 0px;
+}
