@@ -194,7 +194,7 @@
                             <label class="control-label">{{'FIRST_NAME' |translate }}*</label>
                         </div>
                         <div class="form-group col-md-8" ng-class="firstNameValidation.css" show-errors>
-                            <input type="text" ng-model="$root.organization.firstName"
+                            <input type="text" ng-model="organizationFormData.firstName"
                                    id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
                                    name="firstName" class="form-control" required>
 							<span class="form-control-feedback glyphicon
@@ -216,7 +216,7 @@
                             <label class="control-label">{{'MIDDLE_NAME' | translate }}*</label>
                         </div>
                         <div class="form-group col-md-8" ng-class="middleNameValidation.css" show-errors>
-                            <input type="text" ng-model="$root.organization.middleName"
+                            <input type="text" ng-model="organizationFormData.middleName"
                                    ng-pattern="MIDDLE_NAME_REGEX"
                                    ng-change="checkFirstName('middleName')"
                                    id="middleName" name="middleName" class="form-control" required>
