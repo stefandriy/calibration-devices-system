@@ -44,8 +44,6 @@ angular
 				return (myArray.length-1);
 			}
 
-			$scope.organization.address.region = $rootScope.organization.address.region;
-
 			$scope.typeData = [
 				{
 					id: 'PROVIDER',
@@ -103,6 +101,7 @@ angular
 						$scope.adminsLastName = data.lastName;
 						$scope.adminsMiddleName = data.middleName;
 						$scope.adminsUserName = data.username;
+						$scope.oldUsername = data.username;
 						console.log(data);
 						console.log(data.firstName);
 					}
@@ -111,10 +110,15 @@ angular
 			$scope.loadAdmin();
 
 			$scope.checkIfUsernameIsAvailable = function() {
-				var username = $rootScope.organization.username;
+				var username = $scope.adminsUserName;
 				userService.isUsernameAvailable(username).then(
 					function(data) {
-						$scope.isUsernameAvailable = data;
+
+						if ($scope.USERNAME_REGEX.test(username) && ($scope.oldUsername != username) && (username != "")){
+							$scope.isUsernameAvailable = data;
+						}else {
+							$scope.isUsernameAvailable = true;
+						}
 					})
 			}
 
@@ -178,10 +182,10 @@ angular
 						}
 						break;
 					case ('login') :
-						var username = $rootScope.organization.username;
+						var username = $scope.adminsUserName ;
 						if (username == null) {
 						} else if ($scope.USERNAME_REGEX.test(username)) {
-							isUsernameAvailable(username);
+							$scope.checkIfUsernameIsAvailable();
 						} else {
 							validator('loginValid', false);
 						}
@@ -234,13 +238,6 @@ angular
 							isValid: isValid,
 							css: isValid? 'has-success' : 'has-error',
 							message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
-						}
-						break;
-					case 'existLogin':
-						$scope.usernameValidation = {
-							isValid: isValid,
-							css: isValid ? 'has-success' : 'has-error',
-							message: isValid ? undefined : 'Такий логін вже існує'
 						}
 						break;
 				}
@@ -329,6 +326,34 @@ angular
 
 
 			/**
+			 * Change password
+			 */
+			$scope.changePassword = function () {
+				//$scope.preventDefault();
+				$scope.password = 'generate';
+				$scope.generationMessage = true;
+			}
+
+
+			/**
+			 * Check passwords for equivalent
+			 */
+            //
+			//$scope.checkPasswords = function () {
+			//	var first = $scope.employeeFormData.password;
+			//	var second = $scope.employeeFormData.rePassword;
+			//	$log.info(first);
+			//	$log.info(second);
+			//	var isValid = false;
+			//	if (first != second) {
+			//		isValid = true;
+			//	}
+			//	$scope.passwordValidation = {
+			//		isValid: isValid,
+			//		css: isValid ? 'has-error' : 'has-success'
+			//	}
+			//};
+			/**
 			 * Convert address data to string
 			 */
 			function addressFormToOrganizationForm() {
@@ -380,8 +405,11 @@ angular
 					firstName : $scope.adminsFirstName,
 					lastName : $scope.adminsLastName,
 					middleName : $scope.adminsMiddleName,
-					username : $scope.username
+					username : $scope.adminsUserName,
+					oldUsername : $scope.oldUsername,
+					password: $scope.password
 				};
+				console.log( $rootScope.organization.email, $scope.adminsUserName, $scope.oldUsername)
 
 				organizationService.editOrganization(
 					organizationForm,
