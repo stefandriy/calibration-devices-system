@@ -1,13 +1,16 @@
 angular
     .module('employeeModule')
-    .controller('TaskControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance',
-        function ($rootScope, $scope, $modal, $modalInstance) {
+    .controller('TaskControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'TaskServiceCalibrator', '$log',
+        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator, $log) {
+
+            $scope.calibrationTask = {};
+            $scope.incorrectValue = false;
 
             /**
              * Closes modal window on browser's back/forward button click.
              */
             $rootScope.$on('$locationChangeStart', function() {
-                $modalInstance.destroy();
+                $modalInstance.close();
             });
 
             /**
@@ -20,7 +23,7 @@ angular
 
 
             $scope.calibrationTask = {};
-            $scope.calibrationTask.pickerDate = null;
+            $scope.calibrationTask.pickerDate = {};
             $scope.defaultDate = null;
 
             $scope.initDateRangePicker = function (date) {
@@ -28,15 +31,15 @@ angular
                  *  Date picker and formatter setup
                  */
                 $scope.calibrationTask.pickerDate = {
-                    startDate: (date ? moment(date, "YYYY-MM-DD") : moment()),
-                    endDate: moment() // current day
+                    startDate: (date ? moment(date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')),
+                    endDate: moment().format('YYYY-MM-DD') // current day
                 };
 
                 if ($scope.defaultDate == null) {
                    $scope.defaultDate = angular.copy($scope.calibrationTask.pickerDate);
                 }
                 moment.locale('uk');
-                $scope.myOptions = {
+                $scope.opts = {
                     format: 'DD-MM-YYYY',
                     showDropdowns: true,
                     locale: {
@@ -50,7 +53,7 @@ angular
                 };
             };
 
-            $scope.showPicker = function ($event) {
+            $scope.showTaskPicker = function ($event) {
                 angular.element("#datepicker").trigger("click");
             };
 
@@ -59,31 +62,56 @@ angular
             };
 
             $scope.resetTaskForm = function () {
-                $scope.calibrationTask = null;
+                $scope.$broadcast('show-errors-reset');
+                $scope.calibrationTask = {};
+                $scope.incorrectValue = false;
+                $scope.calibrationTask.pickerDate = {};
                 $scope.installationNumberValidation = null;
                 $scope.floorValidation = null;
                 $scope.counterNumberValidation = null;
+                $scope.checkPlaceAndStatus();
+                $scope.checkPlace();
             };
 
-            $scope.checkPlaceAndStatus = function(place, counterStatus){
-                if ((place==null) && (counterStatus==null)){
-                    return true;
-                } else if (place == 'portable_installation'){
-                    return false;
-                } else if ((place == 'fixed_installation') && (counterStatus == 'not_removed')){
-                    return false;
-                } else {
-                    return true;
+
+            $scope.checkPlace = function(){
+                try{
+                    if ($scope.calibrationTask.place==null) {
+                        return true;
+                    } else if ($scope.calibrationTask.place == 'fixed_station') {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }  catch (e) {
+                    console.log("Got an error!",e);
                 }
+            }
+
+
+            $scope.checkPlaceAndStatus = function(){
+                try{
+                    if (($scope.calibrationTask.place==null) && ($scope.calibrationTask.counterStatus==null)) {
+                        return true;
+                    } else if ($scope.calibrationTask.place == 'fixed_station' && $scope.calibrationTask.counterStatus == 'not_removed') {
+                        return false;
+                    } else if ($scope.calibrationTask.place == 'portable_station'){
+                        $scope.calibrationTask.counterStatus = '';
+                        return false;
+                    } else {
+                        return true;
+                    }
+                } catch (e) {
+                    console.log("Got an error!",e);
+                }
+
             }
 
             $scope.checkAll = function (caseForValidation) {
                 switch (caseForValidation) {
                     case ('installationNumber'):
                         var installationNumber = $scope.calibrationTask.installationNumber;
-                        if ($scope.calibrationTask.installationNumber.$dirty && $scope.calibrationTask.installationNumber.$dirty){
-                            validator('installationNumber', true);
-                        } else if (/^[0-9]{5,20}$/.test(installationNumber)) {
+                        if (/^[0-9]{5,20}$/.test(installationNumber)) {
                             validator('installationNumber', false);
                         } else {
                             validator('installationNumber', true);
@@ -93,7 +121,7 @@ angular
                         var floor = $scope.calibrationTask.floor;
                         if (floor == null) {
 
-                        } else if (/^\d{1,3}$/.test(floor)) {
+                        } else if (/^\d{1,2}$/.test(floor)) {
                             validator('floor', false);
                         } else {
                             validator('floor', true);
@@ -133,6 +161,30 @@ angular
                         break;
 
                 }
+            }
+
+            $scope.editTask = function (){
+                    $scope.calibrationTask = {
+                        place : $scope.calibrationTask.place,
+                        counterStatus: $scope.calibrationTask.counterStatus,
+                        installationNumber: $scope.calibrationTask.installationNumber,
+                        startDate: $scope.calibrationTask.pickerDate.startDate,
+                        endDate: $scope.calibrationTask.pickerDate.endDate,
+                        floor: $scope.calibrationTask.floor,
+                        counterNumber: $scope.calibrationTask.counterNumber,
+                        notes: $scope.calibrationTask.notes
+                    };
+                    console.log($scope.calibrationTask);
+                    taskServiceCalibrator.saveTask($rootScope.verifId, $scope.calibrationTask).then(
+                        function (data) {
+                            if (data == 200) {
+                                $scope.closeModal();
+
+                            } else {
+                             $scope.incorrectValue = true;
+                             console.log($scope.incorrectValue);
+                            }
+                        });
             }
 
         }]);

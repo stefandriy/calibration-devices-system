@@ -61,6 +61,7 @@
         'services/CalibrationTestService',
         'services/AddressService',
         'services/UserService',
-        'services/VerificationService'
+        'services/VerificationService',
+        'services/TaskServiceCalibrator'
     ], function () {});
 })();

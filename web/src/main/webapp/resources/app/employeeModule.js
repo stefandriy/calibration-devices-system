@@ -239,6 +239,7 @@ return $delegate;
             'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
             'calibrator/controllers/CapacityEmployeeControllerCalibrator',
             'calibrator/controllers/TaskControllerCalibrator',
+            'calibrator/services/TaskServiceCalibrator',
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',

@@ -34,7 +34,6 @@
                             <div class="table-responsive">
                                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                                        class="table table-bordered table-hover users_table">
-
                                     <tbody>
                                     <tr ng-repeat="verification in $data">
                                         <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
@@ -59,7 +58,7 @@
                                                    href="{{'/doc/info/' + verification.id + '/docx'}}">
                                                     <i class="fa fa-file-word-o"></i>
                                                 </a>
-                                            </td>
+                                        </td>
                                             <!-- -->
                                         <td data-title="'ACTIONS' | translate" class="control_buttons"   style="width: 12%">
                                             <div ng-show="verification.status === 'TEST_OK' || verification.status === 'SENT_TO_VERIFICATOR'">
@@ -141,6 +140,7 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <script type="text/ng-template" id="custom/pager">
                                 <div>
                                     <ul class="pager ng-cloak">
