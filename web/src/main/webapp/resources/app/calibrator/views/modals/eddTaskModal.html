@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <form name="formTask" novalidate>
-
+            <p class="validation-message" ng-show="incorrectValue">{{'ERROR_VALIDATION' |  translate}}</p>
             <!-- CALIBRATION PLACE -->
             <div class="row">
                 <div class="form-group col-md-4">
@@ -28,14 +28,14 @@
             </div>
 
             <!-- COUNTER STATUS -->
-            <div class="row" ng-hide="checkPlace(calibrationTask.place)">
+            <div class="row" ng-hide="checkPlace()">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'COUNTER' | translate}}</label>
                 </div>
                 <div class="form-group col-md-8">
                     <select chosen data-placeholder="{{'CHOOSE_COUNTER_STATUS'| translate}}" class="form-control" ng-model="calibrationTask.counterStatus"
                             class="col-xs-5 selectContainer"
-                            id="counterStatus" name="counterStatus" allow-single-deselect="true" disable-search="true" ng-required="">
+                            id="counterStatus" name="counterStatus" allow-single-deselect="true" disable-search="true" required>
                         <option value="removed">Демонтований</option>
                         <option value="not_removed">Не демонтований</option>
                     </select>
@@ -68,7 +68,7 @@
             </div>
 
             <!-- DATE OF VISIT -->
-            <div class="row" ng-hide="checkPlaceAndStatus(calibrationTask.place, calibrationTask.counterStatus)">
+            <div class="row" ng-hide="checkPlaceAndStatus()">
                 <div class="form-group col-md-4" >
                     <label class="control-label">{{'DATE_OF_VISIT'| translate }}</label>
                 </div>

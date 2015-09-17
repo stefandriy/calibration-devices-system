@@ -14,11 +14,15 @@ public class CalibrationTaskDTO {
 
     private String counterNumber;
 
-    private Map<String, Date> pickerDate;
+    private Date startDate;
+
+    private Date endDate;
 
     private String installationNumber;
 
     private String notes;
+
+    private int floor;
 
     public CalibrationTaskDTO() {
     }
@@ -47,13 +51,7 @@ public class CalibrationTaskDTO {
         this.counterNumber = counterNumber;
     }
 
-    public Map<String, Date> getPickerDate() {
-        return pickerDate;
-    }
 
-    public void setPickerDate(Map<String, Date> pickerDate) {
-        this.pickerDate = pickerDate;
-    }
 
     public String getInstallationNumber() {
         return installationNumber;
@@ -69,5 +67,29 @@ public class CalibrationTaskDTO {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getFloor() {
+        return floor;
+    }
+
+    public void setFloor(int floor) {
+        this.floor = floor;
     }
 }

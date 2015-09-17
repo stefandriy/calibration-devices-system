@@ -424,7 +424,15 @@ angular
                 });
             };
 
+            $scope.openTask = function(verificationId){
+                $rootScope.verifId = verificationId;
 
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'TaskControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                });
+            };
 
         }]);
 

@@ -3,16 +3,17 @@ angular
     .factory('TaskServiceCalibrator', ['$http', '$log', function ($http, $log) {
 
     return{
-        saveTask: function (verifId) {
-            return saveData('calibrator/verifications/task/add/' + verifId);
-        }
+        saveTask: function (verifId, task) {
+            var url = 'calibrator/verifications/task/add/' + verifId;
+            return $http.post(url, task)
+                .then(function (result) {
+                    return result.status;
+                });
+        },
     }
 
-        function saveData(url) {
-            return $http.post(url)
-                .success(function (result) {
-                    return result;
-                });
-        }
+
+
+
 
     }]);
