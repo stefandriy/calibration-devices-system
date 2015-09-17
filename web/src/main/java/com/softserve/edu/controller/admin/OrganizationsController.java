@@ -192,6 +192,10 @@ public class OrganizationsController {
            logger.info(organization.getUsername());
            logger.info(organization.getPassword());
            logger.info(organization.getEmail());
+           logger.info(organization.getRegion());
+        logger.info(organization.getDistrict());
+        logger.info(organization.getPhone());
+        logger.info(organization.getOldUsername());
 
             organizationsService.editOrganization(
                     organizationId,
@@ -234,8 +238,9 @@ public class OrganizationsController {
                                     .collect(Collectors.toList()).size() > 0
                     )
                     .findFirst().get();
+            logger.info(user);
             organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
-        } catch (IndexOutOfBoundsException e){
+        } catch (Exception e){
             logger.info("========================");
             logger.info("no one admin in organization");
             logger.info("========================");

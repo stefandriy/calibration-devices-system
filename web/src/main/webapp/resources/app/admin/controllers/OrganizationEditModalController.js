@@ -94,7 +94,6 @@ angular
 
 			$scope.isUsernameAvailable = true;
 
-			$scope.loadAdmin = function() {
 				organizationService.getOrganizationAdmin($rootScope.organization.id).then(
 					function (data) {
 						$scope.adminsFirstName = data.firstName;
@@ -105,9 +104,8 @@ angular
 						console.log(data);
 						console.log(data.firstName);
 					}
-				)
-			}
-			$scope.loadAdmin();
+				);
+
 
 			$scope.checkIfUsernameIsAvailable = function() {
 				var username = $scope.adminsUserName;
@@ -334,28 +332,6 @@ angular
 				$scope.generationMessage = true;
 			}
 
-
-			/**
-			 * Check passwords for equivalent
-			 */
-            //
-			//$scope.checkPasswords = function () {
-			//	var first = $scope.employeeFormData.password;
-			//	var second = $scope.employeeFormData.rePassword;
-			//	$log.info(first);
-			//	$log.info(second);
-			//	var isValid = false;
-			//	if (first != second) {
-			//		isValid = true;
-			//	}
-			//	$scope.passwordValidation = {
-			//		isValid: isValid,
-			//		css: isValid ? 'has-error' : 'has-success'
-			//	}
-			//};
-			/**
-			 * Convert address data to string
-			 */
 			function addressFormToOrganizationForm() {
 				if (typeof $rootScope.organization.address.region == 'object') {
 					$rootScope.organization.address.region = $rootScope.organization.address.region.designation;
@@ -424,11 +400,11 @@ angular
 						else (console.log(data));
 					});
 			};
-
 			/**
 			 * Closes edit modal window.
 			 */
 			$scope.closeModal = function() {
+				$rootScope.onTableHandling();
 				$modalInstance.close();
 			};
 

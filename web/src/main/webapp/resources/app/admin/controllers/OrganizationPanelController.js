@@ -87,14 +87,19 @@ angular
 										$rootScope.organizationId).then(
 										function(data) {
 											$rootScope.organization = data;
-										});
+
 								var organizationDTOModal = $modal
 										.open({
 											animation : true,
 											controller : 'OrganizationEditModalController',
 											templateUrl : '/resources/app/admin/views/modals/organization-edit-modal.html',
+
+
 										});
+										});
+
 							};
+
 
 
 						} ]);
