@@ -78,8 +78,8 @@ angular
                     $scope.deviceTypeData[2].label = 'Водний';
                     $scope.deviceTypeData[3].label = 'Термальний';
 
-                    $scope.protocolStatusData[0].label = 'Успішний';
-                    $scope.protocolStatusData[1].label = 'Провалений';
+                    $scope.protocolStatusData[0].label = 'Придатний';
+                    $scope.protocolStatusData[1].label = 'Не придатний';
 
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'Rejected';
