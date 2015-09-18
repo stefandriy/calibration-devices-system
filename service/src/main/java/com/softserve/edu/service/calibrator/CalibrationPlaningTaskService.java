@@ -32,7 +32,7 @@ public class CalibrationPlaningTaskService {
 
     @Transactional
     public void addNewTask(String verifId, String placeOfcalibration, String counterStatus, String counterNumber,
-                           Date startDate, Date endDate, String installationNumber, String notes, int floor) {
+                           Date dateOfVisit, Date dateOfVisitTo, String installationNumber, String notes, int floor) {
         Verification verification = verificationRepository.findOne(verifId);
         if (verification == null) {
             logger.error("verification haven't found");
@@ -52,8 +52,15 @@ public class CalibrationPlaningTaskService {
                 task.setDateOfVisit(null);
                 task.setDateOfVisitTo(null);
             } else {
-                task.setDateOfVisit(startDate);
-                task.setDateOfVisitTo(endDate);
+                if ((placeOfcalibration=="fixed_station" && counterStatus=="not_removed") ||
+                        (placeOfcalibration=="fixed_station")){
+                      if (dateOfVisit==null && dateOfVisitTo==null){
+                          throw new IllegalArgumentException();
+                      } else {
+                          task.setDateOfVisit(dateOfVisit);
+                          task.setDateOfVisitTo(dateOfVisitTo);
+                      }
+                }
             }
             task.setFloor(floor);
             taskRepository.save(task);
