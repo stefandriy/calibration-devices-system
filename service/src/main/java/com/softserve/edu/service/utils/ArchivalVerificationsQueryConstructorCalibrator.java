@@ -128,28 +128,18 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			queryPredicate = cb.and(searchPredicateByCalibratorEmployeeName, queryPredicate);
 		}
 		if (measurementDeviceId != null) {
-			//queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate)), queryPredicate);
 			queryPredicate = cb.and(cb.equal(root.get("device").get("id"), measurementDeviceId), queryPredicate);
-			//System.out.println(queryPredicate);
-			//queryPredicate = cb.and(cb.isTrue(cb.equal(root.get("device").get("id"),measurementDeviceId)), queryPredicate);
-			//queryPredicate = cb.and(cb.like(root.get("device").get("id"), "%" + measurementDeviceId.toString() + "%"), queryPredicate);
 		}
 		if (measurementDeviceType != null) {
-//			System.out.println("ArchiveVerificationQueryConstructorCalibrator = " + measurementDeviceType);
 			queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"), DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
-			//queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
 		}
 		if (protocolId != null) {
-			System.out.println("ArchiveVerificationQueryConstructorCalibrator : protocolId = " + protocolId);
-
 			Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");
 			queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("id"), protocolId), queryPredicate);
 		}
 		if (protocolStatus != null) {
-			System.out.println("ArchiveVerificationQueryConstructorCalibrator : protocolStatus = " + protocolStatus);
-
+			logger.debug("ArchiveVerificationQueryConstructorCalibrator : protocolStatus = " + protocolStatus);
 			Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");
-			//queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"), DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
 			queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("testResult"), CalibrationTestResult.valueOf(protocolStatus.trim())), queryPredicate);
 		}
 
