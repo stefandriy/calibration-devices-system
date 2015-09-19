@@ -189,7 +189,7 @@
 						<label class="control-label">{{'LOGIN_TWO' | translate }}*</label>
 					</div>
 					<div class="form-group col-md-8" ng-class="usernameValidation.css">
-						<input type="text" ng-model="adminsUserName"
+						<input type="text" ng-model="adminsUserName" readonly
 							   ng-change="checkField('login')"
 							   popover="{{'USERNAME_INFO' | translate}}"
 							   popover-trigger="focus" popover-placement="right"
@@ -245,6 +245,7 @@
 									<label class="control-label">{{'REGION' | translate}}</label>
 								</div>
 							<div class="form-group col-md-8" show-errors>
+								{{$root.organization.address.region}}
 								<ui-select class="form-control" type="text" theme="select2"
 										   ng-model="$root.organization.address.region"
 										   on-select="receiveDistricts($root.organization.address.region)"

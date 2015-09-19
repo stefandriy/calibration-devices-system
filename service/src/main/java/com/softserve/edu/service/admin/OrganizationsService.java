@@ -143,10 +143,11 @@ public class OrganizationsService {
 			employeeAdmin.setPassword(password != null && password.equals("generate") ?
 					"generate" : employeeAdmin.getPassword());
 
+		userRepository.save(employeeAdmin);
+		providerEmployeeService.updateEmployee(employeeAdmin);
 
-			providerEmployeeService.updateEmployee(employeeAdmin);
-			userRepository.save(employeeAdmin);
-
+		logger.info("password===========");
+		logger.info(employeeAdmin.getPassword());
 		organizationRepository.save(organization);
 
 

@@ -32,7 +32,9 @@ angular
 				}
 			];
 
-			//$rootScope.organization.lastName;
+
+
+			$rootScope.organization.address.region.selected = "Львівська";
 
 			$scope.setTypeDataLanguage = function () {
 				var lang = $translate.use();
@@ -445,6 +447,7 @@ angular
 			 * resets the organization form and closes modal
 			 * window.
 			 */
+
 			$scope.editOrganization = function() {
 				addressFormToOrganizationForm();
 				objectTypesToStringTypes();
