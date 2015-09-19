@@ -86,7 +86,7 @@
                 <ul class="dropdown-menu dropdown-user dropdown_style">
                     <li class="user-header bg-light-blue">
                         <div class="profile_information_labal">
-                            <img src="/resources/assets/AdminLTE-master/img/avatar3.png" class="img-rounded" style="border-radius: 30px"
+                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png" class="img-rounded"   style="width: 200px; border-radius: 30px"
                                  alt="User Image"/>
                             <label translate="{{employee.firstName}} {{employee.lastName}}
                         {{employee.middleName}} ({{employee.username}})"/>
@@ -97,7 +97,7 @@
                             <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
                         </div>
                         <div class="profile_information_labal">
-                            <a class="btn btn-default ref_style_label"  translate="SETTING"></a>
+                            <a class="btn btn-default ref_style_label"  translate="SETTINGS"></a>
                         </div>
                         <div class="profile_information_labal">
                             <a ng-click="logout()" class="btn btn-default ref_style_label"
@@ -238,6 +238,7 @@
     });
     $("#states").chosen();
 </script>
+
 <script src="/resources/assets/js/vendor/modernizr-2.6.2.min.js"></script>
 <script src="/resources/assets/bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
 <script src="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/js/bootstrap-formhelpers.js"></script>

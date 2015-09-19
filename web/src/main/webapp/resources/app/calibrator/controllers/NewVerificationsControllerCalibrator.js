@@ -433,4 +433,6 @@ angular
                     templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
                 });
             };
+
         }]);
+

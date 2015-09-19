@@ -110,20 +110,10 @@ public class OrganizationsService {
 
 	@Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String oldUsername, String firstName, String lastName, String middleName) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username,  String firstName, String lastName, String middleName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
-		logger.info("========phone!============");
-		logger.info(phone);
-		logger.info(address);
-
-
-		logger.info("========old username!============");
-		logger.info(oldUsername);
-
-		logger.info("======== username!============");
-		logger.info(username);
 
 		organization.setName(name);
 		organization.setPhone(phone);

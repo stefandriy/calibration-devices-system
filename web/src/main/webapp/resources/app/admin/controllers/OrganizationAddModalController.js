@@ -29,12 +29,8 @@ angular
 		'regions',
 		function($rootScope, $scope, $translate, $modalInstance, $filter,
 				 addressService, organizationService, userService, regions) {
+
 			$scope.blockSearchFunctions = false;
-			$scope.selectedValues = {};
-			$scope.organizationFormData= {};
-
-
-
 			$scope.typeData = [
 				{
 					id : 'PROVIDER',
@@ -49,14 +45,11 @@ angular
 					label : null
 				}
 			];
-			
-			 /**
-             * Closes modal window on browser's back/forward button click.
-             */
-			$rootScope.$on('$locationChangeStart', function() {
-			    $modalInstance.close();
-			});
-			
+
+
+			/**
+			 * Localization of multiselect for type of organization
+			 */
 			$scope.setTypeDataLanguage = function () {
 				var lang = $translate.use();
 				if (lang === 'ukr') {
@@ -71,16 +64,14 @@ angular
 					console.error(lang);
 				}
 			};
-
 			$scope.setTypeDataLanguage();
 
-
-			$scope.regions = regions;
-			$scope.districts = undefined;
-			$scope.localities = undefined;
-			$scope.streets = [];
-			$scope.buildings = [];
-
+			/**
+			 * Closes modal window on browser's back/forward button click.
+			 */
+			$rootScope.$on('$locationChangeStart', function() {
+				$modalInstance.close();
+			});
 
 			/**
 			 * Resets organization form
@@ -91,17 +82,23 @@ angular
 			};
 
 			/**
+			 * Closes the modal window for adding new
+			 * organization.
+			 */
+			$rootScope.closeModal = function() {
+				$modalInstance.close();
+			};
+
+			/**
 			 * Calls resetOrganizationForm after the view loaded
 			 */
-			//$scope.resetOrganizationForm();
+			$scope.resetOrganizationForm();
 
 			/**
 			 * Checks whereas given username is available to use
 			 * for new user
 			 *
 			 */
-
-
 			$scope.isUsernameAvailable = true;
 
 			$scope.checkIfUsernameIsAvailable = function() {
@@ -114,6 +111,11 @@ angular
 					})
 			}
 
+			/**
+			 * Checks whereas given username is available to use
+			 * for new user
+			 *
+			 */
 			$scope.isPasswordsEqual = true;
 
 			$scope.checkRePassword = function() {
@@ -130,18 +132,12 @@ angular
 				}
 			}
 
-			/**
-			 * Finds all regions
-			 */
-			/*function initFormData() {
-				if (!$scope.regions) {
-					addressService.findAllRegions().then(
-						function(data) {
-							$scope.regions = data;
-						});
 
-				}
-			}*/
+			$scope.regions = regions;
+			$scope.districts = undefined;
+			$scope.localities = undefined;
+			$scope.streets = [];
+			$scope.buildings = [];
 
 			/**
 			 * Receives all possible districts.
@@ -169,7 +165,6 @@ angular
 					$scope.localities = [];
 					addressService.findLocalitiesByDistrictId(selectedDistrict.id)
 						.then(function (localities) {
-							console.log(localities);
 							$scope.localities = localities;
 							$scope.organizationFormData.locality = undefined;
 							$scope.organizationFormData.street = "";
@@ -177,8 +172,11 @@ angular
 						});
 				}
 			};
-			console.log($scope.organizationFormData.types);
 
+			/**
+			 * Receives all possible streets.
+			 * On-select handler in locality input form element
+			 */
 			$scope.receiveStreets = function (selectedLocality) {
 				if (!$scope.blockSearchFunctions) {
 					$scope.streets = [];
@@ -188,70 +186,11 @@ angular
 							$scope.organizationFormData.street  = "";
 							$scope.organizationFormData.building = "";
 							$scope.organizationFormData.flat = "";
-							$log.debug("$scope.streets");
-							$log.debug($scope.streets);
-
 						}
 					);
 				}
 			};
 
-
-			//initFormData();
-
-			/**
-			 * Finds districts in a given region.
-			 *
-			 * @param regionId
-			 *            to identify region
-			 */
-			$scope.onRegionSelected = function(regionId) {
-				addressService
-					.findDistrictsByRegionId(regionId)
-					.then(function(data) {
-						$scope.districts = data;
-					});
-			};
-
-			/**
-			 * Finds localities in a given district.
-			 *
-			 * @param districtId
-			 *            to identify district
-			 */
-			$scope.onDistrictSelected = function(districtId) {
-				addressService.findLocalitiesByDistrictId(
-					districtId).then(function(data) {
-						$scope.localities = data;
-					});
-			};
-
-			/**
-			 * Finds streets in a given locality.
-			 *
-			 * @param localityId
-			 *            to identify locality
-			 */
-			$scope.onLocalitySelected = function(localityId) {
-				addressService.findStreetsByLocalityId(
-					localityId).then(function(data) {
-						$scope.streets = data;
-					});
-			};
-
-			/**
-			 * Finds buildings in a given street.
-			 *
-			 * @param streetId
-			 *            to identify street
-			 */
-			$scope.onStreetSelected = function(streetId) {
-				addressService
-					.findBuildingsByStreetId(streetId)
-					.then(function(data) {
-						$scope.buildings = data;
-					});
-			};
 
 			/**
 			 * Convert address data to string
@@ -269,6 +208,8 @@ angular
 				for (var i in $scope.organizationFormData.types) {
 					$scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].id;
 				}
+
+
 			}
 
 			/**
@@ -290,9 +231,8 @@ angular
 			 */
 			function saveOrganization() {
 				console.log($scope.organizationFormData);
-				organizationService.saveOrganization(
-					$scope.organizationFormData).then(
-					function(data) {
+				organizationService.saveOrganization($scope.organizationFormData)
+					.then( function(data) {
 						if (data == 201) {
 							$scope.closeModal();
 							$scope.resetOrganizationForm();
@@ -301,13 +241,6 @@ angular
 					});
 			}
 
-			/**
-			 * Closes the modal window for adding new
-			 * organization.
-			 */
-			$rootScope.closeModal = function() {
-				$modalInstance.close();
-			};
 
 			$scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄІЇҐ"'а-яєіїґ ]+$/;
 			$scope.PHONE_REGEX = /^[1-9]\d{8}$/;
@@ -318,5 +251,5 @@ angular
 			$scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
 			$scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
 			$scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
-
-		} ]);
+		}
+	]);

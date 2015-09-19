@@ -8,10 +8,13 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorProvider;
+import org.apache.log4j.Logger;
 
 import java.util.Date;
 
 public class VerificationPageDTO {
+    static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
     private String id;
     private Date initialDate;
     private String surname; //TODO: surname and name not needed anymore
@@ -40,6 +43,7 @@ public class VerificationPageDTO {
     private String measurementDeviceType;
 
     private DocumentType documentType;
+    private String documentTypeName;
     private String documentDate;
 
 
@@ -98,14 +102,16 @@ public class VerificationPageDTO {
             }
             if (calibrationTest.getTestResult() != null) {
                 this.protocolStatus = calibrationTest.getTestResult().toString();
-                System.out.println("protocolStatus = " + protocolStatus);
+                logger.debug("protocolStatus = " + protocolStatus);
                 if (protocolStatus == CalibrationTestResult.SUCCESS.toString()) {
-                    System.out.println("documentType = " +  this.documentType);
+                    logger.debug("documentType = " +  this.documentType);
                     this.documentType = DocumentType.VERIFICATION_CERTIFICATE;
+                    this.documentTypeName = "СПП";
                 } else {
                     this.documentType = DocumentType.UNFITNESS_CERTIFICATE;
+                    this.documentTypeName = "Довідка про непридатність";
                 }
-                System.out.println("documentType = " +  this.documentType);
+                logger.debug("documentType = " +  this.documentType);
             }
         }
         if (device != null) {
@@ -339,6 +345,14 @@ public class VerificationPageDTO {
 
     public void setDocumentDate(String documentDate) {
         this.documentDate = documentDate;
+    }
+
+    public String getDocumentTypeName() {
+        return documentTypeName;
+    }
+
+    public void setDocumentTypeName(String documentTypeName) {
+        this.documentTypeName = documentTypeName;
     }
 }
 

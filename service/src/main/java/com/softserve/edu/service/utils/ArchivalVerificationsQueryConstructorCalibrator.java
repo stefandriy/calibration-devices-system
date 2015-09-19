@@ -71,7 +71,14 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		if (searchStatus != null) {
 			queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
 		} else {
-			queryPredicate = cb.and(cb.not(cb.or(Status.SENT.getQueryPredicate(root, cb), Status.ACCEPTED.getQueryPredicate(root, cb), Status.IN_PROGRESS.getQueryPredicate(root, cb))), queryPredicate);
+			queryPredicate = cb.and(cb.not(cb.or(
+					Status.SENT.getQueryPredicate(root, cb),
+					Status.ACCEPTED.getQueryPredicate(root, cb),
+					Status.IN_PROGRESS.getQueryPredicate(root, cb),
+					Status.TEST_PLACE_DETERMINED.getQueryPredicate(root, cb),
+					Status.SENT_TO_TEST_DEVICE.getQueryPredicate(root, cb),
+					Status.TEST_COMPLETED.getQueryPredicate(root, cb)
+					)), queryPredicate);
 		}
 
 		if (startDateToSearch != null && endDateToSearch != null) {
@@ -121,28 +128,18 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			queryPredicate = cb.and(searchPredicateByCalibratorEmployeeName, queryPredicate);
 		}
 		if (measurementDeviceId != null) {
-			//queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate)), queryPredicate);
 			queryPredicate = cb.and(cb.equal(root.get("device").get("id"), measurementDeviceId), queryPredicate);
-			//System.out.println(queryPredicate);
-			//queryPredicate = cb.and(cb.isTrue(cb.equal(root.get("device").get("id"),measurementDeviceId)), queryPredicate);
-			//queryPredicate = cb.and(cb.like(root.get("device").get("id"), "%" + measurementDeviceId.toString() + "%"), queryPredicate);
 		}
 		if (measurementDeviceType != null) {
-//			System.out.println("ArchiveVerificationQueryConstructorCalibrator = " + measurementDeviceType);
 			queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"), DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
-			//queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
 		}
 		if (protocolId != null) {
-			System.out.println("ArchiveVerificationQueryConstructorCalibrator : protocolId = " + protocolId);
-
 			Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");
 			queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("id"), protocolId), queryPredicate);
 		}
 		if (protocolStatus != null) {
-			System.out.println("ArchiveVerificationQueryConstructorCalibrator : protocolStatus = " + protocolStatus);
-
+			logger.debug("ArchiveVerificationQueryConstructorCalibrator : protocolStatus = " + protocolStatus);
 			Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");
-			//queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"), DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
 			queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("testResult"), CalibrationTestResult.valueOf(protocolStatus.trim())), queryPredicate);
 		}
 

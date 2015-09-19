@@ -45,13 +45,7 @@ angular
 
 
             $scope.statusData = [
-                {id: 'SENT', label: null},
-                {id: 'ACCEPTED', label: null},
                 {id: 'REJECTED', label: null},
-                {id: 'IN_PROGRESS', label: null},
-                {id: 'TEST_PLACE_DETERMINED', label: null},
-                {id: 'SENT_TO_TEST_DEVICE', label: null},
-                {id: 'TEST_COMPLETED', label: null},
                 {id: 'SENT_TO_VERIFICATOR', label: null},
                 {id: 'TEST_OK', label: null},
                 {id: 'TEST_NOK', label: null}
@@ -74,36 +68,24 @@ angular
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
-                    $scope.statusData[0].label = 'Надійшла';
-                    $scope.statusData[1].label = 'Прийнята';
-                    $scope.statusData[2].label = 'Відхилена';
-                    $scope.statusData[3].label = 'В роботі';
-                    $scope.statusData[4].label = 'Визначено спосіб повірки';
-                    $scope.statusData[5].label = 'Відправлено на установку';
-                    $scope.statusData[6].label = 'Проведено вимірювання';
-                    $scope.statusData[7].label = 'Предявлено повірнику';
-                    $scope.statusData[8].label = 'Перевірено придатний';
-                    $scope.statusData[9].label = 'Перевірено непридатний';
+                    $scope.statusData[0].label = 'Відхилена';
+                    $scope.statusData[1].label = 'Предявлено повірнику';
+                    $scope.statusData[2].label = 'Перевірено придатний';
+                    $scope.statusData[3].label = 'Перевірено непридатний';
 
                     $scope.deviceTypeData[0].label = 'Електричний';
                     $scope.deviceTypeData[1].label = 'Газовий';
                     $scope.deviceTypeData[2].label = 'Водний';
                     $scope.deviceTypeData[3].label = 'Термальний';
 
-                    $scope.protocolStatusData[0].label = 'Успішний';
-                    $scope.protocolStatusData[1].label = 'Провалений';
+                    $scope.protocolStatusData[0].label = 'Придатний';
+                    $scope.protocolStatusData[1].label = 'Не придатний';
 
                 } else if (lang === 'eng') {
-                    $scope.statusData[0].label = 'Sent';
-                    $scope.statusData[1].label = 'Accepted';
-                    $scope.statusData[2].label = 'Rejected';
-                    $scope.statusData[3].label = 'In progress';
-                    $scope.statusData[4].label = 'Test place determined';
-                    $scope.statusData[5].label = 'Sent to test device';
-                    $scope.statusData[6].label = 'Test completed';
-                    $scope.statusData[7].label = 'Sent to verificator';
-                    $scope.statusData[8].label = 'Tested OK';
-                    $scope.statusData[9].label = 'Tested NOK';
+                    $scope.statusData[0].label = 'Rejected';
+                    $scope.statusData[1].label = 'Sent to verificator';
+                    $scope.statusData[2].label = 'Tested OK';
+                    $scope.statusData[3].label = 'Tested NOK';
 
                     $scope.deviceTypeData[0].label = 'Electrical';
                     $scope.deviceTypeData[1].label = 'Gaseous';
@@ -309,5 +291,7 @@ angular
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
+
+
 
         }]);

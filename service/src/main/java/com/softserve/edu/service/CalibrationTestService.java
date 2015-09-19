@@ -149,7 +149,7 @@ public class CalibrationTestService {
 
     @Transactional
     public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
-                                    Double latitude, Double longitude/*, String consumptionStatus, CalibrationTestResult testResult*/) {
+                                    Double latitude, Double longitude) {
         CalibrationTestResult testResult;
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = CalibrationTestResult.SUCCESS;

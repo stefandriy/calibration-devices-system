@@ -190,7 +190,6 @@ public class OrganizationsController {
            logger.info(organization.getRegion());
         logger.info(organization.getDistrict());
         logger.info(organization.getPhone());
-        logger.info(organization.getOldUsername());
             organizationsService.editOrganization(
                     organizationId,
                     organization.getName(),
@@ -202,7 +201,6 @@ public class OrganizationsController {
                     address,
                     organization.getPassword(),
                     organization.getUsername(),
-                    organization.getOldUsername(),
                     organization.getFirstName(),
                     organization.getLastName(),
                     organization.getMiddleName());
