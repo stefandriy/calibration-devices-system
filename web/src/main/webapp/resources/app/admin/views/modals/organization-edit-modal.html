@@ -33,11 +33,10 @@
 
 					<div class="form-group col-md-8">
 						<select multiple chosen type="text" class="form-control"
-								ng-model="$root.organization.types"
+								ng-model="organizationTypes"
 								data-placeholder="Choose type"
-								ng-options="type as type.label for type in typeData | organizationFilter:$root.organization.types">
+								ng-options="type as type.label for type in typeData | organizationFilter:organizationTypes">
 						</select>
-						types{{$root.organization.arrayTypes}}
 					</div>
 				</div>
 
@@ -247,8 +246,8 @@
 								</div>
 							<div class="form-group col-md-8" show-errors>
 								<ui-select class="form-control" type="text" theme="select2"
-										   ng-model="$root.organization.region"
-										   on-select="receiveDistricts($root.organization.region)"
+										   ng-model="$root.organization.address.region"
+										   on-select="receiveDistricts($root.organization.address.region)"
 										   name="region" id="region" required>
 									<ui-select-match placeholder="Оберіть область" allow-clear="true">
 										{{$select.selected.designation}}
@@ -257,7 +256,7 @@
 										<span ng-bind-html="region.designation"></span>
 									</ui-select-choices>
 								</ui-select>
-								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.region.$touched">
+								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.region.$touched">
 									<span class="glyphicon glyphicon-exclamation-sign"></span>
 									{{'TYPEAHEAD_ERROR' | translate}}
 								</p>
@@ -271,9 +270,9 @@
 							</div>
 							<div class="form-group col-md-8" show-errors>
 								<ui-select class="form-control" type="text" theme="select2"
-										   ng-model="$root.organization.district"
-										   on-select="receiveLocalities($root.organization.district)"
-										   ng-disabled="!$root.organization.region"
+										   ng-model="$root.organization.address.district"
+										   on-select="receiveLocalities($root.organization.address.district)"
+										   ng-disabled="!$root.organization.address.region"
 										   name="district" id="district" required>
 									<ui-select-match placeholder="Оберіть район" allow-clear="true">
 										{{$select.selected.designation}}
@@ -282,7 +281,7 @@
 										<span ng-bind-html="district.designation"></span>
 									</ui-select-choices>
 								</ui-select>
-								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.district.district.$touched">
+								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.district.$touched">
 									<span class="glyphicon glyphicon-exclamation-sign"></span>
 									{{'TYPEAHEAD_ERROR' | translate}}
 								</p>
@@ -297,9 +296,9 @@
 							</div>
 							<div class="form-group col-md-8" show-errors>
 								<ui-select class="form-control" type="text" theme="select2"
-										   ng-model="$root.organization.locality"
-										   ng-disabled="!$root.organization.district"
-										   on-select="receiveStreets($root.organization.locality, $root.organization.district)"
+										   ng-model="$root.organization.address.locality"
+										   ng-disabled="!$root.organization.address.district"
+										   on-select="receiveStreets($root.organization.address.locality)"
 										   name="locality" id="locality" required>
 									<ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
 										{{$select.selected.designation}}
@@ -308,7 +307,7 @@
 										<span ng-bind-html="locality.designation"></span>
 									</ui-select-choices>
 								</ui-select>
-								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.locality.$touched">
+								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.locality.$touched">
 									<span class="glyphicon glyphicon-exclamation-sign"></span>
 									{{'TYPEAHEAD_ERROR' | translate}}
 								</p>
@@ -316,14 +315,23 @@
 						</div>
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'STREET_TWO' | translate }}</label>
+									<label class="control-label">{{'STREET_TWO' | translate
+										}} </label>
 								</div>
-								<div class="form-group col-md-8">
-									<input  name="street" type="text"
-										ng-model="$root.organization.address.street"
-										typehead="street as street.designation for street in streets | filter: { designation: $viewValue} | limitTo: 4"
-										typehead-on-select="onStreetSelected(organization.address.street.id)"
-										typeahead-editable="false" class="form-control" required>
+								<div class="form-group col-md-8" show-errors>
+									<input name="street" class="form-control"
+										   type="text" id="street"
+										   ng-model="$root.organization.address.street"
+										   ng-disabled="!$root.organization.address.locality"
+										   typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
+										   typeahead-editable="false" required>
+									<div ng-show="organizationFormData.$submitted || $root.organization.address.street.$touched" >
+										<p class="help-block" ng-if="!$root.organization.address.street.$error.required">
+											<span class="glyphicon glyphicon-exclamation-sign"></span>
+											{{'ORGANIZATION_INVALID_STREET'
+											| translate }}
+										</p>
+									</div>
 								</div>
 							</div>
 

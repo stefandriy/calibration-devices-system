@@ -1,20 +1,5 @@
 angular
 	.module('adminModule')
-	.filter('organizationFilter', function () {
-		return function (allTypes, currentTypes) {
-			var filtered = allTypes;
-
-			for (var i in currentTypes) {
-				if (currentTypes[i].id != 'CALIBRATOR') {
-					var filtered = [];
-					filtered.push(allTypes[1]);
-					filtered.push(currentTypes[i]);
-				}
-			}
-
-			return filtered;
-		}
-	})
 	.controller(
 	'OrganizationEditModalController',
 	[
@@ -23,38 +8,26 @@ angular
 		'$translate',
 		'$modalInstance',
 		'$filter',
+		'$timeout',
 		'AddressService',
 		'UserService',
 		'DevicesService',
 		'OrganizationService','$log', 'regions',
-		function ($rootScope, $scope, $translate, $modalInstance, $filter,
+		function ($rootScope, $scope, $translate, $modalInstance, $filter, $timeout,
 				 addressService,
 				  userService, devicesService, organizationService, $log, regions) {
 
-
-			function arrayObjectIndexOf(myArray, searchTerm, property) {
-				for(var i = 0, len = myArray.length; i < len; i++) {
-					if (myArray[i][property] === searchTerm) return i;
-				}
-				var elem = {
-					id: length,
-					designation: searchTerm
-				};
-				myArray.push(elem);
-				return (myArray.length-1);
-			}
-
 			$scope.typeData = [
 				{
-					id: 'PROVIDER',
+					type: 'PROVIDER',
 					label: null
 				},
 				{
-					id: 'CALIBRATOR',
+					type: 'CALIBRATOR',
 					label: null
 				},
 				{
-					id: 'STATE_VERIFICATOR',
+					type: 'STATE_VERIFICATOR',
 					label: null
 				}
 			];
@@ -75,6 +48,51 @@ angular
 					console.error(lang);
 				}
 			};
+
+
+			/*
+			 */
+		 	 var setCurrentTypeDataLanguage = function () {
+				var lang = $translate.use();
+				if (lang === 'ukr') {
+					for (var i = 0; i < $scope.organizationTypes.length; i++) {
+						switch ($scope.organizationTypes[i].type) {
+							case 'PROVIDER':
+								console.log($scope.organizationTypes[i].type);
+								$scope.organizationTypes[i].label = 'Постачальник послуг';
+								break;
+							case 'CALIBRATOR':
+								$scope.organizationTypes[i].label = 'Вимірювальна лабораторія';
+								break;
+							case 'STATE_VERIFICATOR':
+								$scope.organizationTypes[i].label = 'Уповноважена повірочна лабораторія';
+								break;
+							default: console.log($scope.organizationTypes[i].type + " not organization type");
+						}
+					}
+				} else if (lang === 'eng') {
+					for (var i = 0; i < $scope.organizationTypes; i++) {
+						switch ($scope.organizationTypes[i].type) {
+							case 'PROVIDER':
+								$scope.organizationTypes[i].label = 'Service provider';
+								break;
+							case 'CALIBRATOR':
+								$scope.organizationTypes[i].label = 'Measuring laboratory';
+								break;
+							case 'STATE_VERIFICATOR':
+								$scope.organizationTypes[i].label = 'Authorized calibration laboratory';
+								break;
+							default: console.error($scope.organizationTypes[i].type + " not organization type");
+						}
+					}
+				} else {
+					console.error(lang);
+				}
+			};
+
+			/*
+			* convert organizationType object
+			* */
 			
 			 /**
              * Closes modal window on browser's back/forward button click.
@@ -82,8 +100,20 @@ angular
 			$rootScope.$on('$locationChangeStart', function() {
 			    $modalInstance.close();
 			});
+
+			$scope.organizationTypes = [];
+			for (var i = 0; i < $rootScope.organization.organizationTypes.length; i++) {
+				$scope.organizationTypes[i] = {
+					type : $rootScope.organization.organizationTypes[i].type,
+					label : null
+				}
+			}
 			
 			$scope.setTypeDataLanguage();
+			$timeout(setCurrentTypeDataLanguage(), 3);
+
+
+			console.log($scope.organizationTypes);
 
 			$scope.regions = regions;
 			$scope.districts = [];
@@ -270,9 +300,9 @@ angular
 					addressService.findDistrictsByRegionId(selectedRegion.id)
 						.then(function (districts) {
 							$scope.districts = districts;
-							$scope.organizationFormData.district = undefined;
-							$scope.organizationFormData.locality = undefined;
-							$scope.organizationFormData.street = "";
+							$rootScope.organization.address.district = undefined;
+							$rootScope.organization.address.locality = undefined;
+							$rootScope.organization.address.street = "";
 						});
 				}
 			};
@@ -288,10 +318,27 @@ angular
 						.then(function (localities) {
 							console.log(localities);
 							$scope.localities = localities;
-							$scope.organizationFormData.locality = undefined;
-							$scope.organizationFormData.street = "";
+							$scope.organization.address.locality = undefined;
+							$scope.organization.address.street = "";
 
 						});
+				}
+			};
+
+			$scope.receiveStreets = function (selectedLocality) {
+				if (!$scope.blockSearchFunctions) {
+					$scope.streets = [];
+					addressService.findStreetsByLocalityId(selectedLocality.id)
+						.then(function (streets) {
+							$scope.streets = streets;
+							$scope.organization.address.street  = "";
+							$scope.organization.address.building = "";
+							$scope.organization.address.flat = "";
+							$log.debug("$scope.streets");
+							$log.debug($scope.streets);
+
+						}
+					);
 				}
 			};
 
@@ -386,11 +433,12 @@ angular
 			}
 
 			function objectTypesToStringTypes() {
-				for (var i in $rootScope.organization.types) {
-					$rootScope.organization.types[i] = $rootScope.organization.types[i].id;
+				for (var i in $rootScope.organization.organizationTypes) {
+					$scope.organizationTypes[i] = $scope.organizationTypes[i].type;
+					console.log($scope.organizationTypes[i]);
 				}
 			}
-
+			console.log($rootScope.organization.organizationTypes);
 
 			/**
 			 * Edit organization. If everything is ok then
@@ -404,7 +452,7 @@ angular
 					name : $rootScope.organization.name,
 					email : $rootScope.organization.email,
 					phone : $rootScope.organization.phone,
-					types: $rootScope.organization.types,
+					types: $scope.organizationTypes,
 					employeesCapacity : $rootScope.organization.employeesCapacity,
 					maxProcessTime: $rootScope.organization.maxProcessTime,
 					region : $rootScope.organization.address.region,
@@ -413,14 +461,14 @@ angular
 					street : $rootScope.organization.address.street,
 					building : $rootScope.organization.address.building,
 					flat : $rootScope.organization.address.flat,
+					username : $scope.adminsUserName,
 					firstName : $scope.adminsFirstName,
 					lastName : $scope.adminsLastName,
 					middleName : $scope.adminsMiddleName,
-					username : $scope.adminsUserName,
-					oldUsername : $scope.oldUsername,
 					password: $scope.password
 				};
-				console.log( $rootScope.organization.email, $scope.adminsUserName, $scope.oldUsername)
+				console.log(organizationForm);
+				console.log($scope.organizationTypes);
 
 				organizationService.editOrganization(
 					organizationForm,

@@ -31,6 +31,7 @@ angular
 				 addressService, organizationService, userService, regions) {
 			$scope.blockSearchFunctions = false;
 			$scope.selectedValues = {};
+			$scope.organizationFormData= {};
 
 
 
@@ -99,6 +100,7 @@ angular
 			 * for new user
 			 *
 			 */
+
 
 			$scope.isUsernameAvailable = true;
 
@@ -175,7 +177,7 @@ angular
 						});
 				}
 			};
-
+			console.log($scope.organizationFormData.types);
 
 			$scope.receiveStreets = function (selectedLocality) {
 				if (!$scope.blockSearchFunctions) {
@@ -267,8 +269,6 @@ angular
 				for (var i in $scope.organizationFormData.types) {
 					$scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].id;
 				}
-
-
 			}
 
 			/**

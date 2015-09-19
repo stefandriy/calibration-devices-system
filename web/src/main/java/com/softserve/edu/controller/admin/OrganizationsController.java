@@ -168,11 +168,6 @@ public class OrganizationsController {
             @PathVariable Long organizationId,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         HttpStatus httpStatus = HttpStatus.OK;
-        //	Set<String> set =(HashSet<String>) organizationsService.getDeviceTypesByOrganization(32L);
-        //	System.out.println(set);
-//		for (Device device : organizationsService.getOrganizationById(organizationId).getDevices()){
-//			System.out.println("!!!type:" + device.getDeviceType());
-//		}
 
         Address address = new Address(
                 organization.getRegion(),
@@ -189,14 +184,13 @@ public class OrganizationsController {
                 System.out.println(strType);
             }
 
-           logger.info(organization.getUsername());
+           logger.info(organization.getName());
            logger.info(organization.getPassword());
            logger.info(organization.getEmail());
            logger.info(organization.getRegion());
         logger.info(organization.getDistrict());
         logger.info(organization.getPhone());
         logger.info(organization.getOldUsername());
-
             organizationsService.editOrganization(
                     organizationId,
                     organization.getName(),
