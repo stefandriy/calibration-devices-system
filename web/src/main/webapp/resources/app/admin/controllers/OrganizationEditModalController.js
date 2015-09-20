@@ -448,6 +448,74 @@ angular
 			 * window.
 			 */
 
+			/**
+			 * Finds all regions
+			 */
+			function initFormData() {
+				if (!$scope.regions) {
+					addressService.findAllRegions().then(
+						function(data) {
+							$scope.regions = data;
+						});
+				}
+			}
+
+			initFormData();
+
+			/**
+			 * Finds districts in a given region.
+			 * @param regionId
+			 *            to identify region
+			 */
+			$scope.onRegionSelected = function(regionId) {
+				addressService
+					.findDistrictsByRegionId(regionId)
+					.then(function(data) {
+						$scope.districts = data;
+					});
+			};
+
+			/**
+			 * Finds localities in a given district.
+			 *
+			 * @param districtId
+			 *            to identify district
+			 */
+			$scope.onDistrictSelected = function(districtId) {
+				addressService.findLocalitiesByDistrictId(
+					districtId).then(function(data) {
+						$scope.localities = data;
+					});
+			};
+
+			/**
+			 * Finds streets in a given locality.
+			 *
+			 * @param localityId
+			 *            to identify locality
+			 */
+			$scope.onLocalitySelected = function(localityId) {
+				addressService.findStreetsByLocalityId(
+					localityId).then(function(data) {
+						$scope.streets = data;
+					});
+			};
+
+			/**
+			 * Finds buildings in a given street.
+			 *
+			 * @param streetId
+			 *            to identify street
+			 */
+			$scope.onStreetSelected = function(streetId) {
+				addressService
+					.findBuildingsByStreetId(streetId)
+					.then(function(data) {
+						$scope.buildings = data;
+					});
+			};
+
+
 			$scope.editOrganization = function() {
 				addressFormToOrganizationForm();
 				objectTypesToStringTypes();

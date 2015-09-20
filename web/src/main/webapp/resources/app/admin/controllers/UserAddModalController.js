@@ -25,7 +25,7 @@ angular
             $scope.buildings = [];
 
 
-         //   $rootScope.organization.name = $scope.organization.name;
+         //    $scope.employeeFormData.name = $scope.organization.name;
 
             function initFormData() {
                 if (!$scope.regions) {
@@ -238,18 +238,75 @@ angular
             function initFormData() {
                 if (!$scope.regions) {
                     addressService.findAllRegions().then(
-                        function(data) {
-                            $scope.regions = data;
+                        function(respRegions) {
+                            $log.debug( $scope.employeeFormData);
+                            $scope.regions = respRegions;
+                            /*	var index = arrayObjectIndexOf($scope.regions,   $scope.employeeFormData.address.region.designation, "designation");
+                              $scope.employeeFormData.address.region = $scope.regions[index];
+                             *//*$scope.onRegionSelected($scope.regions[index].id);*/
                         });
                 }
             }
-
+            /*var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.region, "designation");
+              $scope.employeeFormData.region = $scope.regions[index];
+             $scope.onRegionSelected($scope.regions[index].id);*/
             initFormData();
 
             /**
+             * Receives all possible districts.
+             * On-select handler in region input form element.
+             */
+            $scope.receiveDistricts = function (selectedRegion) {
+                if (!$scope.blockSearchFunctions) {
+                    $scope.districts = [];
+                    addressService.findDistrictsByRegionId(selectedRegion.id)
+                        .then(function (districts) {
+                            $scope.districts = districts;
+                             $scope.employeeFormData.address.district = undefined;
+                             $scope.employeeFormData.address.locality = undefined;
+                             $scope.employeeFormData.address.street = "";
+                        });
+                }
+            };
+
+            /**
+             * Receives all possible localities.
+             * On-select handler in district input form element.
+             */
+            $scope.receiveLocalities = function (selectedDistrict) {
+                if (!$scope.blockSearchFunctions) {
+                    $scope.localities = [];
+                    addressService.findLocalitiesByDistrictId(selectedDistrict.id)
+                        .then(function (localities) {
+                            console.log(localities);
+                            $scope.localities = localities;
+                            $scope.organization.address.locality = undefined;
+                            $scope.organization.address.street = "";
+
+                        });
+                }
+            };
+
+            $scope.receiveStreets = function (selectedLocality) {
+                if (!$scope.blockSearchFunctions) {
+                    $scope.streets = [];
+                    addressService.findStreetsByLocalityId(selectedLocality.id)
+                        .then(function (streets) {
+                            $scope.streets = streets;
+                            $scope.organization.address.street  = "";
+                            $scope.organization.address.building = "";
+                            $scope.organization.address.flat = "";
+                            $log.debug("$scope.streets");
+                            $log.debug($scope.streets);
+
+                        }
+                    );
+                }
+            };
+            /**
              * Finds districts in a given region.
              * @param regionId
-             *            to identify region
+             *            to identify region$$
              */
             $scope.onRegionSelected = function(regionId) {
                 addressService
