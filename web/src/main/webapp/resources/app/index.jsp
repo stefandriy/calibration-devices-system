@@ -118,11 +118,11 @@
     <!-- Sidebar -->
 
     <div class="row ng-cloak">
-        <div class="col-md-1">
-            <button class="btn btn-default" ng-init="menuState = true" ng-click="menuState = !menuState">
+        <div class="col-md-3 menu_column">
+            <div class="ui primary button toggle_button" ng-init="menuState = true" ng-click="menuState = !menuState">
                 <div ng-show="menuState" ><i class="fa fa-chevron-left"></i>Сховати</div>
                 <div ng-show="!menuState"><i class="fa fa-chevron-right"></i>Показати</div>
-            </button>
+            </div>
         </div>
     </div>
 
