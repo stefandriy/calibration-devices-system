@@ -1,4 +1,4 @@
-package com.softserve.edu.deviceTestData;
+package com.softserve.edu.device.test.data;
 
 import java.util.Map;
 

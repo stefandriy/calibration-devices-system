@@ -1,4 +1,4 @@
-package com.softserve.edu.deviceTestData;
+package com.softserve.edu.device.test.data;
 
 /**
  * Created by Taras on 15.09.2015.

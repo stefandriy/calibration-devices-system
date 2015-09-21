@@ -15,7 +15,7 @@ public class StateVerificatorEmployeeService {
 	private UserRepository stateVerificatorEmployeeRepository;
 	
 	 /**
-     * Adds Employee for state_verificator. Saves encoded password and
+     * Adds Employee for stateverificator. Saves encoded password and
      * gives role STATE_VERIFICATOR_EMPLOYEE for user
      *
      * @param state_verificator_Employee data for creation employee

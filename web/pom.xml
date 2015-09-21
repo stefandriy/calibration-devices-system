@@ -16,11 +16,6 @@
             <artifactId>service</artifactId>
             <version>1.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.softserve.edu</groupId>
-            <artifactId>repository</artifactId>
-            <version>1.0</version>
-        </dependency>
 
         <!-- Spring MVC -->
         <dependency>

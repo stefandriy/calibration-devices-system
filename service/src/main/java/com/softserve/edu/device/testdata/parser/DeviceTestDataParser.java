@@ -1,7 +1,7 @@
-package com.softserve.edu.deviceTestDataParser;
+package com.softserve.edu.device.testdata.parser;
 
 import java.io.InputStream;
-import com.softserve.edu.deviceTestData.DeviceTestData;
+import com.softserve.edu.device.test.data.DeviceTestData;
 
 /**
  * Created by Taras on 15.09.2015.

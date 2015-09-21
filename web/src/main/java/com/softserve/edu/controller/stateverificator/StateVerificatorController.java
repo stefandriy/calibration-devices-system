@@ -1,4 +1,4 @@
-package com.softserve.edu.controller.state_verificator;
+package com.softserve.edu.controller.stateverificator;
 
 import java.util.List;
 

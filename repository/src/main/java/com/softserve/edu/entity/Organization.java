@@ -44,29 +44,16 @@ public class Organization {
      */
     private Date certificateGrantedDate;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "organization")
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
-    private Set<User> users = new HashSet<User>();
+    private Set<User> users = new HashSet<>();
 
-    @OneToMany(mappedBy = "provider")
+    @ElementCollection
+    @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"),
+    uniqueConstraints = @UniqueConstraint(columnNames = {"organizationId", "typeValue"}))
     @JsonBackReference
-    private Set<Device> devices;
-
-    public Set<Device> getDevices() {
-        return devices;
-    }
-
-    public void setDevices(Set<Device> devices) {
-        this.devices = devices;
-    }
-
-    @ManyToMany
-    @JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), inverseJoinColumns = @JoinColumn(name = "id"))
     private Set<OrganizationType> organizationTypes = new HashSet<>();
 
-    public void addOrganizationType(OrganizationType organizationType) {
-        this.organizationTypes.add(organizationType);
-    }
 
     public Organization(String name, String email, String phone) {
         this.name = name;
@@ -81,5 +68,15 @@ public class Organization {
         this.employeesCapacity = employeesCapacity;
         this.maxProcessTime = maxProcessTime;
         this.address = address;
+    }
+
+    public void addType(OrganizationType organizationType) {
+        organizationType.setOrganization(this);
+        organizationTypes.add(organizationType);
+    }
+
+    public void addUser(User user) {
+        user.setOrganization(this);
+        users.add(user);
     }
 }

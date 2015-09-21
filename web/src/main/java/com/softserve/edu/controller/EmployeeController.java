@@ -137,10 +137,10 @@ public class EmployeeController {
         String p = providerEmployee.getPassword();
         newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
                 "generate" : newUser.getPassword());
-        newUser.deleteAllUsersRoles();
+        newUser.getUserRoles().clear();
         for (String tmp : providerEmployee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.addUserRole(userRole);
+            newUser.getUserRoles().add(userRole);
         }
         providerEmployeeService.updateEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
@@ -169,7 +169,7 @@ public class EmployeeController {
                 .build();
         for (String tmp : employee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.addUserRole(userRole);
+            newUser.getUserRoles().add(userRole);
         }
         newUser.setOrganization(organizationsService.getOrganizationById(user.getOrganizationId()));
         providerEmployeeService.addEmployee(newUser);

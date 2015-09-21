@@ -1,24 +1,22 @@
 package com.softserve.edu.dto.admin;
 
-/**
- * Created by vova on 03.09.15.
- */
+
 public class OrganizationPageDTO {
 
-        private Long id;
-        private String name;
-        private String email;
-        private String phone;
-        private String types;
-        private String[] arrayTypes;
-        private String district;
-        private String locality;
-        private String street;
-        private String region;
+    private Long id;
+    private String name;
+    private String email;
+    private String phone;
+    private String types;
+    private String[] arrayTypes;
+    private String district;
+    private String locality;
+    private String street;
+    private String region;
 
-    public OrganizationPageDTO(){}
+    public OrganizationPageDTO() {}
 
-    public OrganizationPageDTO(Long id, String name, String email, String types, String phone, String region, String locality, String district,  String street ,String[] arrayTypes) {
+    public OrganizationPageDTO(Long id, String name, String email, String types, String phone, String region, String locality, String district, String street, String[] arrayTypes) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -64,7 +62,7 @@ public class OrganizationPageDTO {
     }
 
     public String getName() {
-            return name;
+        return name;
     }
 
     public Long getId() {

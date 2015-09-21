@@ -1,9 +1,9 @@
-package com.softserve.edu.deviceTestDataParser;
+package com.softserve.edu.device.testdata.parser;
 
 import javax.xml.bind.DatatypeConverter;
 
-import com.softserve.edu.deviceTestData.BbiDeviceTestData;
-import com.softserve.edu.deviceTestData.DeviceTestData;
+import com.softserve.edu.device.test.data.BbiDeviceTestData;
+import com.softserve.edu.device.test.data.DeviceTestData;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;

@@ -1,28 +1,31 @@
 package com.softserve.edu.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import com.softserve.edu.entity.util.OrganizationTypeValue;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
-@Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
-@Table(name = "ORGANIZATION_TYPE")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Embeddable
+@EqualsAndHashCode
 public class OrganizationType {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
-	private String type;
+    @Enumerated(EnumType.STRING)
+    private OrganizationTypeValue typeValue;
 
-	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "organizationId"))
-	private Set<Organization> organizations = new HashSet<>();
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
+
+    public OrganizationType(OrganizationTypeValue typeValue) {
+        this.typeValue = typeValue;
+    }
+
+    public String getTypeValue() {
+        return typeValue.name();
+    }
 }

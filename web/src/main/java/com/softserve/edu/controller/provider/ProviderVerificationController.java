@@ -48,11 +48,11 @@ public class ProviderVerificationController {
     @Autowired
     private UsersService userService;
     @Autowired
-	private MailService mailService;
-    
+    private MailService mailService;
+
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
-    		ArchiveVerificationsFilterAndSort searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                                       ArchiveVerificationsFilterAndSort searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderId(
@@ -91,9 +91,9 @@ public class ProviderVerificationController {
      * @return PageDTO<VerificationPageDTO>
      */
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch( @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
-    										NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-    	 
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+                                                                                           NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
                 employeeUser.getOrganizationId(),
@@ -134,7 +134,7 @@ public class ProviderVerificationController {
      */
     @RequestMapping(value = "new/mainpanel/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearchOnMainPanel(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                                           NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                                                      NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderIdOnMainPanel(
@@ -169,8 +169,7 @@ public class ProviderVerificationController {
             java.util.Date date = null;
             if (gottenDate != null) {
                 date = new Date(gottenDate.getTime());
-            }
-            else{
+            } else {
                 return null;
             }
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -196,8 +195,7 @@ public class ProviderVerificationController {
             java.util.Date date = null;
             if (gottenDate != null) {
                 date = new Date(gottenDate.getTime());
-            }
-            else{
+            } else {
                 return null;
             }
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -329,6 +327,6 @@ public class ProviderVerificationController {
                 verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
                 verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
                 verification.getProviderEmployee(), verification.getStateVerificator(),
-                verification.getStateVerificatorEmployee(),verification.getRejectedMessage());//add rejectMessage
+                verification.getStateVerificatorEmployee(), verification.getRejectedMessage());//add rejectMessage
     }
 }
