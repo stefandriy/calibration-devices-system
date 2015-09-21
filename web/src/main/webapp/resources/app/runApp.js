@@ -30,8 +30,13 @@ require.config({
         semanticUI: "../assets/bower_components/semantic/dist/semantic.min"
     },
     shim: {
+
         angular: {
             exports: "angular"
+        },
+
+        angularAnimate:{
+            deps:['angular']
         },
         csrfInterceptor: {
             deps: ['angular']

@@ -258,6 +258,8 @@ angular
                 //    flat: $scope.user.address.flat
                 //}
 
+
+
                 if (organizationTypeProvider === true) {
                     employeeData.userRoles.push('PROVIDER_EMPLOYEE');
                 }
@@ -267,6 +269,7 @@ angular
                 if (organizationTypeVerificator === true) {
                     employeeData.userRoles.push('STATE_VERIFICATOR_EMPLOYEE');
                 }
+
 
             }
 

@@ -10,17 +10,15 @@ public class OrganizationPageDTO {
         private String email;
         private String phone;
         private String types;
+        private String[] arrayTypes;
         private String district;
         private String locality;
         private String street;
         private String region;
-        private String adminsFirstName;
-        private String adminsLastName;
-        private String adminsMiddleName;
 
     public OrganizationPageDTO(){}
 
-    public OrganizationPageDTO(Long id, String name, String email, String types, String phone, String region, String locality, String district,  String street /*,String adminsFirstName, String adminsLastName, String adminsMiddleName*/) {
+    public OrganizationPageDTO(Long id, String name, String email, String types, String phone, String region, String locality, String district,  String street ,String[] arrayTypes) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -30,9 +28,7 @@ public class OrganizationPageDTO {
         this.locality = locality;
         this.district = district;
         this.street = street;
-        this.adminsFirstName = adminsFirstName;
-        this.adminsLastName = adminsLastName;
-        this.adminsMiddleName = adminsMiddleName;
+        this.arrayTypes = arrayTypes;
     }
 
     public String getLocality() {
@@ -69,65 +65,50 @@ public class OrganizationPageDTO {
 
     public String getName() {
             return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-       public String getTypes() {
-            return types;
-        }
-
-        public void setTypes(String types) {
-            this.types = types;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
-
-    public String getAdminsFirstName() {
-        return adminsFirstName;
     }
 
-    public void setAdminsFirstName(String adminsFirstName) {
-        this.adminsFirstName = adminsFirstName;
+    public Long getId() {
+        return id;
     }
 
-    public String getAdminsLastName() {
-        return adminsLastName;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setAdminsLastName(String adminsLastName) {
-        this.adminsLastName = adminsLastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAdminsMiddleName() {
-        return adminsMiddleName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAdminsMiddleName(String adminsMiddleName) {
-        this.adminsMiddleName = adminsMiddleName;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getTypes() {
+        return types;
+    }
+
+    public void setTypes(String types) {
+        this.types = types;
+    }
+
+    public String[] getArrayTypes() {
+        return arrayTypes;
+    }
+
+    public void setArrayTypes(String[] arrayTypes) {
+        this.arrayTypes = arrayTypes;
     }
 }
+

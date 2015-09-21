@@ -34,7 +34,6 @@
                             <div class="table-responsive">
                                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                                        class="table table-bordered table-hover users_table">
-
                                     <tbody>
                                     <tr ng-repeat="verification in $data">
                                         <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
@@ -49,20 +48,32 @@
                                             filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
                                         </td>
                                         <td data-title="'ACTIONS' | translate" class="control_buttons"   style="width: 12%">
-                                                <i class="fa fa-info-circle info_icon"
-                                                   popover="{{ 'DETAIL' | translate }}"
-                                                   popover-trigger="mouseenter"
-                                                   ng-click="openDetails(verification.id, verification.initialDate)">
-                                                </i>
-                                                <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
-                                                   target="_blank"
-                                                   href="{{'/doc/info/' + verification.id + '/docx'}}">
-                                                    <i class="fa fa-file-word-o"></i>
-                                                </a>
-                                            </td>
-                                            <!-- -->
-                                        <td data-title="'ACTIONS' | translate" class="control_buttons"   style="width: 12%">
-                                            <div ng-show="verification.status === 'TEST_OK' || verification.status === 'SENT_TO_VERIFICATOR'">
+                                            <!--<div class="dropup">-->
+                                                <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                                                    <!--Dropup-->
+                                                    <!--<span class="caret"></span>-->
+                                                <!--</button>-->
+                                                <!--<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">-->
+                                                    <!--<li>-->
+                                                        <i class="fa fa-info-circle info_icon"
+                                                           popover="{{ 'DETAIL' | translate }}"
+                                                           popover-trigger="mouseenter"
+                                                           ng-click="openDetails(verification.id, verification.initialDate)">
+                                                    </i>
+                                                    <!--</li>-->
+                                                    <!--<li>-->
+                                                        <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
+                                                           target="_blank"
+                                                           href="{{'/doc/info/' + verification.id + '/docx'}}">
+                                                        <i class="fa fa-file-word-o"></i>
+                                                    </a>
+                                                    <!--</li>-->
+                                                    <!--<li><a href="#">Something else here</a></li>-->
+                                                    <!--<li><a href="#">Separated link</a></li>-->
+                                                <!--</ul>-->
+                                            <!--</div>-->
+
+                                            <div ng-show="verification.status === 'TEST_OK'">
                                                 <a
                                                    popover="{{ 'DETAIL' | translate }}"
                                                    popover-trigger="mouseenter"
@@ -74,21 +85,22 @@
                                                    popover="Завантажити тестові дані у форматі 'docx'"
                                                    target="_blank"
                                                    popover-trigger="mouseenter"
-                                                   href="{{'/doc/'+verification.documentType + '/' + verification.id + '/'+ verification.protocolId + '/docx'}}">
+                                                   href="{{'/doc/' + verification.documentType + '/'+verification.id + '/docx'}}">
+                                                   <!--href="{{'/doc/'+verification.documentType + '/' + verification.id + '/'+ verification.protocolId + '/docx'}}">-->
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 <a
                                                    popover="Завантажити тестові дані у форматі 'pdf'"
                                                    target="_blank"
                                                    popover-trigger="mouseenter"
-                                                   href="{{'/doc/test/' + verification.id + '/pdf'}}">
+                                                   href="{{'/doc/' + verification.documentType + '/'+verification.id + '/pdf'}}">
                                                     <i class="fa fa-file-pdf-o"></i>
                                                 </a>
                                                 <a
                                                         popover="Друк"
                                                         target="_blank"
                                                         popover-trigger="mouseenter"
-                                                        href="{{'/doc/test/' + verification.id + '/pdf'}}">
+                                                        href="{{'/doc/info/' + verification.id + '/pdf'}}">
                                                     <i class="fa fa-print"></i>
                                                 </a>
                                             </div>
@@ -134,7 +146,8 @@
                                         <!--&lt;!&ndash; TODO: ask about category, maybe it should be name of measurement device&ndash;&gt;-->
                                         <!--&lt;!&ndash;<td data-title="'MEASUREMENT_DEVICE_CATEGORY' | translate"  sortable="'measurement_device_category'" filter="{ 'measurement_device_category': 'text' }">{{ verification.measurementDeviceCategory }}</td>&ndash;&gt;-->
 
-                                        <td data-title="'DOCUMENT_TYPE' | translate">{{ verification.documentType }}</td>
+                                        <td data-title="'DOCUMENT_TYPE' | translate" sortable="'protocol_status'"
+                                            filter="{ protocol_status : 'protocolStatus'}">{{ verification.documentTypeName }}</td>
                                         <!--<td data-title="'DOCUMENT_DATE' | translate"  sortable="'document_date'" filter="{ 'document_date': 'text' }">{{ verification.documentDate }}</td>-->
                                     </tr>
                                     </tbody>

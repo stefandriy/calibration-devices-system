@@ -33,9 +33,9 @@
 
 					<div class="form-group col-md-8">
 						<select multiple chosen type="text" class="form-control"
-								ng-model="$root.organization.types"
+								ng-model="organizationTypes"
 								data-placeholder="Choose type"
-								ng-options="type as type.label for type in typeData | organizationFilter:$root.organization.types">
+								ng-options="type as type.label for type in typeData | organizationFilter:organizationTypes">
 						</select>
 					</div>
 				</div>
@@ -189,61 +189,31 @@
 						<label class="control-label">{{'LOGIN_TWO' | translate }}*</label>
 					</div>
 					<div class="form-group col-md-8" ng-class="usernameValidation.css">
-						<input type="text" ng-model="adminsUserName"
+						<input type="text" ng-model="adminsUserName" readonly
 							   ng-change="checkField('login')"
 							   popover="{{'USERNAME_INFO' | translate}}"
 							   popover-trigger="focus" popover-placement="right"
 							   ng-model-options="{debounce: 350}"
+							   ng-pattern="USERNAME_REGEX"
 							   id="username" name="username" class="form-control" required>
 
 						<div ng-show="$root.organization.$submitted || organizationForm.username.$touched">
-							<p class="validation-message" ng-if="!usernameValidation.isValid">
-								{{usernameValidation.message }}
+							<p class="help-block has-error"
+							   ng-if="organizationForm.username.$error.pattern">
+								<span class="glyphicon glyphicon-exclamation-sign"></span>
+								{{'LOGIN_HAS_INVALID_LENGTH' | translate }}
 							</p>
-							<p class="validation-message" ng-if="!isUsernameAvailable">
+							<p class="validation-message has-error" ng-if="!isUsernameAvailable">
 								{{'LOGIN_ISNT_AVAILABLE'
 								| translate }}
 							</p>
-							<p class="validation-message" ng-if="organizationForm.username.$error.required">
+							<p class="validation-message has-error" ng-if="organizationForm.username.$error.required">
 								<span class="glyphicon glyphicon-exclamation-sign"></span>
 								{{'REQUIRED' | translate}}
 							</p>
-							<!--<p class="validation-message" ng-if="$root.organization.username.$error.pattern">-->
-							<!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
-							<!--{{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}-->
-							<!--</p>-->
 						</div>
 					</div>
 				</div>
-					<!--<div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>-->
-						<!--<input type="password" ng-model="$root.organization.Password" style="display: none">-->
-						<!--<input type="password" ng-model="$root.organization.password" ng-change="checkPasswords()"-->
-							   <!--name="password" class="form-control" required>-->
-					<!--</div>-->
-				<!--</div>-->
-
-				<!--<div class="row">-->
-					<!--<div class="form-group col-md-4">-->
-						<!--<label class="control-label">{{'REPEAT_PASSWORD' | translate}}*</label>-->
-					<!--</div>-->
-					<!--<div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>-->
-						<!--<input type="password" ng-model="$root.organization.rePassword"-->
-							   <!--ng-change="checkPasswords()" name="rePassword" class="form-control"   required>-->
-
-						<!--<div ng-show="$root.organization.$submitted || $root.organization.rePassword.$touched">-->
-							<!--<p class="validation-message" ng-if="$root.organization.rePassword.$error.required">-->
-								<!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
-								<!--{{'REQUIRED' | translate}}-->
-							<!--</p>-->
-
-							<!--<p class="validation-message " ng-if="passwordValidation.isValid">-->
-								<!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
-								<!--{{'PASSWORDS_DID_NOT_MATCH' | translate}}-->
-							<!--</p>-->
-						<!--</div>-->
-						<!--&lt;!&ndash;<h4 ng-show="incorrectValue" style="color: red">&ndash;&gt;-->
-						<!--&lt;!&ndash;{{'INCORRECT_VALUE_INPUT_ADD_EMPLOYEE' | translate}}</h4>&ndash;&gt;-->
-					<!--</div>-->
 				<div class="row">
 					<div>
 						<div class="form-group col-md-4">
@@ -268,59 +238,101 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading">{{'ADDRESS' | translate }}</div>
 					<div class="panel-body">
-						<div class="col-lg-12">
+						<div>
 							<div class="row">
 								<div class="form-group col-md-4">
 
-									<label class="control-label">{{'REGION_TWO' | translate}}</label>
+									<label class="control-label">{{'REGION' | translate}}</label>
 								</div>
-								<div class="form-group col-md-8">
-									<select chosen name="region" type="text"
-										ng-model="$root.organization.address.region"
-										ng-options="region as region.designation for region in regions | filter: $viewValue"
-										ng-change="onRegionSelected(organization.address.region.id)"
-										typeahead-editable="false" class="form-control" required></select>
-								</div>
+							<div class="form-group col-md-8" show-errors>
+								{{$root.organization.address.region}}
+								<ui-select class="form-control" type="text" theme="select2"
+										   ng-model="$root.organization.address.region"
+										   on-select="receiveDistricts($root.organization.address.region)"
+										   name="region" id="region" required>
+									<ui-select-match placeholder="Оберіть область" allow-clear="true">
+										{{$select.selected.designation}}
+									</ui-select-match>
+									<ui-select-choices repeat="region in regions | filter: $select.search">
+										<span ng-bind-html="region.designation"></span>
+									</ui-select-choices>
+								</ui-select>
+								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.region.$touched">
+									<span class="glyphicon glyphicon-exclamation-sign"></span>
+									{{'TYPEAHEAD_ERROR' | translate}}
+								</p>
 							</div>
-
-							<div class="row">
-								<div class="form-group col-md-4">
-									<label class="control-label">{{'DISTRICT_TWO' | translate}}</label>
-								</div>
-								<div class="form-group col-md-8">
-									<select  chosen name="district" type="text"
-										ng-model="$root.organization.address.district"
-										ng-options="district as district.designation for district in districts | filter: $viewValue"
-										ng-change="onDistrictSelected(organization.address.district.id)"
-										typeahead-editable="false" class="form-control" required></select>
-								</div>
+						</div>
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label for="district" class="control-label">
+									{{'DISTRICT' | translate}} </label>
+								</label>
 							</div>
-
-
-							<div class="row">
-								<div class="form-group col-md-4">
-
-									<label class="control-label">{{'LOCALITY_TWO' | translate}}</label>
-								</div>
-								<div class="form-group col-md-8">
-									<select chosen name="locality" type="text"
-										ng-model="$root.organization.address.locality"
-											ng-options="locality as locality.designation for locality in localities | unique:'designation'"
-										ng-change="onLocalitySelected(organization.address.locality.id)"
-										typeahead-editable="false" class="form-control" required></select>
-								</div>
+							<div class="form-group col-md-8" show-errors>
+								<ui-select class="form-control" type="text" theme="select2"
+										   ng-model="$root.organization.address.district"
+										   on-select="receiveLocalities($root.organization.address.district)"
+										   ng-disabled="!$root.organization.address.region"
+										   name="district" id="district" required>
+									<ui-select-match placeholder="Оберіть район" allow-clear="true">
+										{{$select.selected.designation}}
+									</ui-select-match>
+									<ui-select-choices repeat="district in districts | filter: $select.search">
+										<span ng-bind-html="district.designation"></span>
+									</ui-select-choices>
+								</ui-select>
+								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.district.$touched">
+									<span class="glyphicon glyphicon-exclamation-sign"></span>
+									{{'TYPEAHEAD_ERROR' | translate}}
+								</p>
 							</div>
+						</div>
 
+						<div class="row">
+							<div class="form-group col-md-4">
+								<label for="locality" class="control-label">
+									{{'LOCALITY' | translate}}
+								</label>
+							</div>
+							<div class="form-group col-md-8" show-errors>
+								<ui-select class="form-control" type="text" theme="select2"
+										   ng-model="$root.organization.address.locality"
+										   ng-disabled="!$root.organization.address.district"
+										   on-select="receiveStreets($root.organization.address.locality)"
+										   name="locality" id="locality" required>
+									<ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
+										{{$select.selected.designation}}
+									</ui-select-match>
+									<ui-select-choices repeat="locality in localities | filter: $select.search">
+										<span ng-bind-html="locality.designation"></span>
+									</ui-select-choices>
+								</ui-select>
+								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.locality.$touched">
+									<span class="glyphicon glyphicon-exclamation-sign"></span>
+									{{'TYPEAHEAD_ERROR' | translate}}
+								</p>
+							</div>
+						</div>
 							<div class="row">
 								<div class="form-group col-md-4">
-									<label class="control-label">{{'STREET_TWO' | translate }}</label>
+									<label class="control-label">{{'STREET_TWO' | translate
+										}} </label>
 								</div>
-								<div class="form-group col-md-8">
-									<input  name="street" type="text"
-										ng-model="$root.organization.address.street"
-										typehead="street as street.designation for street in streets | filter: $viewValue |limitTo: 4"
-										typehead-on-select="onStreetSelected(organization.address.street.id)"
-										typeahead-editable="false" class="form-control" required>
+								<div class="form-group col-md-8" show-errors>
+									<input name="street" class="form-control"
+										   type="text" id="street"
+										   ng-model="$root.organization.address.street"
+										   ng-disabled="!$root.organization.address.locality"
+										   typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
+										   typeahead-editable="false" required>
+									<div ng-show="organizationFormData.$submitted || $root.organization.address.street.$touched" >
+										<p class="help-block" ng-if="!$root.organization.address.street.$error.required">
+											<span class="glyphicon glyphicon-exclamation-sign"></span>
+											{{'ORGANIZATION_INVALID_STREET'
+											| translate }}
+										</p>
+									</div>
 								</div>
 							</div>
 
@@ -342,8 +354,7 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="flat" type="text"
-										ng-model="$root.organization.address.flat" class="form-control"
-										required>
+										ng-model="$root.organization.address.flat" class="form-control">
 								</div>
 							</div>
 

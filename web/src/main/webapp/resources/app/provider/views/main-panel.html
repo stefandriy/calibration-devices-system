@@ -1,228 +1,235 @@
-<div id="page-wrapper" >
+<div id="page-wrapper">
 
-       <div ng-show = "stateVerificatorViews" >
+    <div ng-show="stateVerificatorViews">
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Головна панель</h1>
             </div>
         </div>
-        </div>
+    </div>
 
-        <div ng-show = "calibratorViews" >
+    <div ng-show="calibratorViews">
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="page-header">Main panel calibrator</h1>
             </div>
         </div>
-        </div>
-
-        <div ng-show = "providerViews" >
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">{{'MAIN_PANEL_PROVIDER' | translate}}</h1>
-        </div>
     </div>
 
+    <div ng-show="providerViews">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{'MAIN_PANEL_PROVIDER' | translate}}</h1>
+            </div>
+
+
             <!--Graph of verifications-->
-                <div class="col-lg-7">
+            <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <li class="fa fa-bar-chart-o fa-fw"></li> Графік надходження заявок
+                        <li class="fa fa-bar-chart-o fa-fw"></li>
+                        Графік надходження заявок
                     </div>
-                    <div  ng-controller="GraphicEmployeeProviderMainPanel">
+                    <div ng-controller="GraphicEmployeeProviderMainPanel">
 
-                <div class="modal-header-capacity">
-                    <h3 class="capacity-employee">Виберіть період часу для пошуку інформації</h3>
-                </div>
+                        <div class="modal-header-capacity">
+                            <h3 class="capacity-employee">Виберіть період часу для пошуку інформації</h3>
+                        </div>
                         <form name="myForm" novalidate class="formCalendar">
 
 
-                    <div class="calendar-wd">
-                        <input readonly type="text"
-                               datepicker-popup="{{format}}" ng-model="dataToSearch.fromDate"
-                               ng-change="changeDateToSend(dataToSearch.fromDate)" is-open="firstCalendar.isOpen"
-                               min-date="minDate" datepicker-options="dateOptions"
-                               date-disabled="disabled(date, mode)" ng-required="true"
-                               close-text="Close"/>
+                            <div class="calendar-wd">
+                                <input readonly type="text"
+                                       datepicker-popup="{{format}}" ng-model="dataToSearch.fromDate"
+                                       ng-change="changeDateToSend(dataToSearch.fromDate)"
+                                       is-open="firstCalendar.isOpen"
+                                       min-date="minDate" datepicker-options="dateOptions"
+                                       date-disabled="disabled(date, mode)" ng-required="true"
+                                       close-text="Close"/>
 
-        <span >
+        <span>
             <button type="button" class="btn btn-default myGroupBtn"
                     ng-click="open1($event)">
                 <i class="glyphicon glyphicon-calendar"></i>
             </button>
         </span>
-                    </div>
+                            </div>
 
 
+                            <div class="calendar-wd">
+                                <input readonly type="text"
+                                       datepicker-popup="{{format}}" ng-model="dataToSearch.toDate"
+                                       ng-change="changeDateToSend(dataToSearch.toDate)" is-open="secondCalendar.isOpen"
+                                       min-date="minDate" datepicker-options="dateOptions"
+                                       date-disabled="disabled(date, mode)" ng-required="true"
+                                       close-text="Close"/>
 
-                    <div class="calendar-wd">
-                        <input readonly type="text"
-                               datepicker-popup="{{format}}" ng-model="dataToSearch.toDate"
-                               ng-change="changeDateToSend(dataToSearch.toDate)" is-open="secondCalendar.isOpen"
-                               min-date="minDate" datepicker-options="dateOptions"
-                               date-disabled="disabled(date, mode)" ng-required="true"
-                               close-text="Close"/>
-
-                            <span >
+                            <span>
                                 <button type="button" class="btn btn-default myGroupBtn"
                                         ng-click="open2($event)">
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </span>
+                            </div>
+
+
+                            <div class="cal">
+
+                                <button class="btn btn-success" type="submit" ng-click="showGrafic()">
+                                    Відобразити
+                                </button>
+
+                            </div>
+                        </form>
+                        <br>
+                        <br>
+                        <br>
+                        <highchart id="chart1" config="chartConfig" class="span10"></highchart>
+
+
                     </div>
-
-
-
-
-                    <div class="cal">
-
-                        <button class="btn btn-success" type="submit" ng-click="showGrafic()">
-                            Відобразити
-                        </button>
-
-                    </div>
-                </form>
-                <br>
-                <br>
-                <br>
-                <highchart id="chart1" config="chartConfig" class="span10"></highchart>
-
-
-            </div>
-            </div>
                 </div>
+            </div>
             <!-- New verifications-->
             <div class="col-lg-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <li class="fa fa-align-justify fa-fw"></li> Непризначені заявки
+                        <li class="fa fa-align-justify fa-fw"></li>
+                        Непризначені заявки
                     </div>
                     <div id="no_new_verifs_message" ng-show="!checkIfNewVerificationsAvailable()">
                         <p>Непризначені заявки відсутні</p>
                     </div>
                     <div ng-show="checkIfNewVerificationsAvailable()">
-            <table ng-table="tableParamsVerifications" template-pagination="custom/pager" class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th class="col-md-2">Дата початку</th>
-                        <th>Прізвище</th>
-                        <th>Вулиця</th>
-                        <th>Дії</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="verification in $data">
-                    <td  align="center">{{ verification.initialDate | date : 'dd-MM-yyyy' }}</td>
-                    <td>{{ verification.surname }}</td>
-                    <td ng-if="verification.street">{{ verification.street }}</td>
-                    <td style="width: 15%"  align="center">
-                        <i class="fa fa-user add_attached_user_icon" ng-show="!verification.providerEmployee"
-                             popover="Вибрати відповідальну особу"  popover-trigger="mouseenter"
-                             ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
-                        </i>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <script type="text/ng-template" id="custom/pager">
-                <div>
-                    <ul class="pager ng-cloak" >
-                        <li ng-repeat="page in pages"
-                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                Previous</a>
-                            <a ng-switch-when="next" ng-click="params.page(page.number)"
-                               href="">Next &raquo;</a>
-                        </li>
-                        <li>
-                            <div class="btn-groups">
-                                <button type="button" ng-class="{'active':params.count() == 5}"
-                                        ng-click="params.count(5)" class="btn btn-default">5
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 10}"
-                                        ng-click="params.count(10)" class="btn btn-default">10
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 25}"
-                                        ng-click="params.count(25)" class="btn btn-default">25
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 50}"
-                                        ng-click="params.count(50)" class="btn btn-default">50
-                                </button>
+                        <table ng-table="tableParamsVerifications" template-pagination="custom/pager"
+                               class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="col-md-2">Дата початку</th>
+                                <th>Прізвище</th>
+                                <th>Вулиця</th>
+                                <th>Дії</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="verification in $data">
+                                <td align="center">{{ verification.initialDate | date : 'dd-MM-yyyy' }}</td>
+                                <td>{{ verification.surname }}</td>
+                                <td ng-if="verification.street">{{ verification.street }}</td>
+                                <td style="width: 15%" align="center">
+                                    <i class="fa fa-user add_attached_user_icon"
+                                       ng-show="!verification.providerEmployee"
+                                       popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                       ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
+                                    </i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <script type="text/ng-template" id="custom/pager">
+                            <div>
+                                <ul class="pager ng-cloak">
+                                    <li ng-repeat="page in pages"
+                                        ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                        ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                            Previous</a>
+                                        <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                           href="">Next &raquo;</a>
+                                    </li>
+                                    <li>
+                                        <div class="btn-groups">
+                                            <button type="button" ng-class="{'active':params.count() == 5}"
+                                                    ng-click="params.count(5)" class="btn btn-default">5
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 10}"
+                                                    ng-click="params.count(10)" class="btn btn-default">10
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 25}"
+                                                    ng-click="params.count(25)" class="btn btn-default">25
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 50}"
+                                                    ng-click="params.count(50)" class="btn btn-default">50
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                        </li>
-                    </ul>
-                </div>
-            </script>
+                        </script>
                     </div>
-            </div>
+                </div>
             </div>
 
             <!--Pie of ????-->
             <div class="col-lg-7">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <li class="fa fa-hand-o-right fa-fw"></li>Графік завантаженості підприємства
+                        <li class="fa fa-hand-o-right fa-fw"></li>
+                        Графік завантаженості підприємства
                     </div>
-            <div  ng-controller="PieProviderEmployee">
+                    <div ng-controller="PieProviderEmployee">
 
-                <highchart id="chart2" config="chartConfic" class="span10"></highchart>
+                        <highchart id="chart2" config="chartConfic" class="span10"></highchart>
 
-            </div>
-            </div>
+                    </div>
                 </div>
+            </div>
 
-        <!--Table employee-->
-        <div class="col-lg-5">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <li class="fa fa-align-justify fa-fw"></li> Працівники
-                </div>
-                <div class="panel-body">
-            <table  ng-table="tableParamsEmployee" template-pagination="employee/pager" class="table table-bordered table-hover users_table" >
-                <tr ng-repeat="user in $data">
+            <!--Table employee-->
+            <div class="col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-align-justify fa-fw"></li>
+                        Працівники
+                    </div>
+                    <div class="panel-body">
+                        <table ng-table="tableParamsEmployee" template-pagination="employee/pager"
+                               class="table table-bordered table-hover users_table">
+                            <tr ng-repeat="user in $data">
 
-                    <td data-title="'Імя'">{{ user.firstName }}</td>
-                    <td data-title="'Прізвище'" sortable="'lastName'">{{ user.lastName }}</td>
+                                <td data-title="'Імя'">{{ user.firstName }}</td>
+                                <td data-title="'Прізвище'" sortable="'lastName'">{{ user.lastName }}</td>
 
-                    <td data-title="'Кількість заявок в роботі'" align="center" style = "width : 15%">
-                        <a ng-if="user.countOfVerification" ng-click="showCapacity(user.username)" class="cursor-pointer"> {{
-                            user.countOfVerification }}</a>
-                        <span ng-if="!user.countOfVerification"> {{ user.countOfVerification}}</span>
-                    </td>
-                </tr>
-            </table>
-            <script type="text/ng-template" id="employee/pager">
-                <div>
-                    <ul class="pager ng-cloak">
-                        <li ng-repeat="page in pages"
-                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                Previous</a>
-                            <a ng-switch-when="next" ng-click="params.page(page.number)"
-                               href="">Next &raquo;</a>
-                        </li>
-                        <li>
-                            <div class="btn-groups">
-                                <button type="button" ng-class="{'active':params.count() == 5}"
-                                        ng-click="params.count(5)" class="btn btn-default">5
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 10}"
-                                        ng-click="params.count(10)" class="btn btn-default">10
-                                </button>
+                                <td data-title="'Кількість заявок в роботі'" align="center" style="width : 15%">
+                                    <a ng-if="user.countOfVerification" ng-click="showCapacity(user.username)"
+                                       class="cursor-pointer"> {{
+                                        user.countOfVerification }}</a>
+                                    <span ng-if="!user.countOfVerification"> {{ user.countOfVerification}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <script type="text/ng-template" id="employee/pager">
+                            <div>
+                                <ul class="pager ng-cloak">
+                                    <li ng-repeat="page in pages"
+                                        ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                        ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                            Previous</a>
+                                        <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                           href="">Next &raquo;</a>
+                                    </li>
+                                    <li>
+                                        <div class="btn-groups">
+                                            <button type="button" ng-class="{'active':params.count() == 5}"
+                                                    ng-click="params.count(5)" class="btn btn-default">5
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 10}"
+                                                    ng-click="params.count(10)" class="btn btn-default">10
+                                            </button>
 
-                                <button type="button" ng-class="{'active':params.count() == 50}"
-                                        ng-click="params.count(50)" class="btn btn-default">50
-                                </button>
+                                            <button type="button" ng-class="{'active':params.count() == 50}"
+                                                    ng-click="params.count(50)" class="btn btn-default">50
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                        </li>
-                    </ul>
+                        </script>
+                    </div>
                 </div>
-            </script>
-    </div>
-    </div>
             </div>
-       </div>
+        </div>
+    </div>
 
 </div>

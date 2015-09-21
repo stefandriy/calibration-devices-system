@@ -136,18 +136,18 @@
 
                             var $select = controller[ 0 ];
 
-                            var rootScope= $injector.get('$rootScope');
+                var rootScope= $injector.get('$rootScope');
 
-                            rootScope.$on('$translateChangeEnd', function(event){
-                                    scope.setTypeDataLanguage();
-                                    $select.refreshItems();
-                            });
-
-                        };
-                    };
-
-                    return $delegate;
+                rootScope.$on('$translateChangeEnd', function(event){
+                    scope.setTypeDataLanguage();
+                    $select.refreshItems();
                 });
+
+            };
+};
+
+return $delegate;
+});
 
             }]);
 
@@ -239,6 +239,7 @@
             'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
             'calibrator/controllers/CapacityEmployeeControllerCalibrator',
             'calibrator/controllers/TaskControllerCalibrator',
+            'calibrator/services/TaskServiceCalibrator',
             'calibrator/services/CalibrationTestServiceCalibrator',
             'calibrator/services/AddressServiceCalibrator',
             'calibrator/services/UserServiceCalibrator',

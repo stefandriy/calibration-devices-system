@@ -1,7 +1,3 @@
-<div class="modal-header">
-    <h3 class="modal-title">Додати заявку</h3>
-</div>
-
 <div class="modal-body" ng-show="isShownForm">
     <form name="clientForm" ng-submit="sendApplicationData()" novalidate>
         <div class="panel panel-primary">
@@ -342,7 +338,7 @@
                             <label for="calibrator">
                                 {{'CALIBRATOR' | translate}} </label>
                         </div>
-                        <div class="col-md-8 ">
+                        <div class="col-md-8 form-group">
                             <select chosen id="calibrator" name="calibrator" class="form-control"
                                     ng-model="selectedCalibrator"
                                     allow-single-deselect="false"
@@ -366,9 +362,9 @@
                     <div class="form-group">
                         <div class="col-md-4 form-group">
                             <label for="device">
-                                {{'TYPE_OF_COUNTER' | translate}} </label>
+                                {{'COUNTER_CATEGORY' | translate}} </label>
                         </div>
-                        <div class="col-md-4 form-group" show-errors>
+                        <div class="col-md-8 form-group" show-errors>
                             <div class="pull-left col-lg-3" id="counterNumber">
                                 <select chosen width="'100%'"
                                         disable-search="true"
@@ -402,14 +398,23 @@
             </div>
         </div>
         <div class="row">
-            <div class="form-group">
-                <div class="col-md-10">
-                    <button type="submit" class="btn btn-success text-uppercase pull-left"
+
+                <div class="form group col-md-10">
+                    <button type="submit" class="btn btn-success"
                             ng-show="!showEditButton">
                         {{'SEND_BTN' | translate}}
                     </button>
+                    <button type="reset" class="btn btn-warning"
+                            ng-click="resetApplicationForm()">
+                        {{'CLEAR_FORM'|translate}}
+                    </button>
                 </div>
-            </div>
+                <div class="form-group col-md-2">
+                    <button class="btn btn-danger pull-right" ng-click="closeAlert()">
+                        {{'CLOSE'|translate}}
+                    </button>
+                </div>
+
         </div>
     </form>
 

@@ -1,3 +1,4 @@
+
 #applicationSection {
 	background-color: white;
 	color: black;
@@ -8,9 +9,11 @@
 
 #streetBox {
     padding-right: 0px;
+    padding-left: 15px;
 
 
-}#typeStreet {
+}
+#typeStreet {
 
      padding-left: 0px;
      padding-right: 0px;
@@ -18,14 +21,17 @@
 #deviceBox {
     padding-right: 0px;
     margin: 0px;
+    padding-left: 15px;
 
 
 }
 #counterNumber {
     padding-left: 0px;
+    padding-right: 0px;
 }
 .counterNumber {
     padding-left: 0px;
+
 }
 #loadIcon{
     text-align: center;
@@ -37,10 +43,10 @@
     left: 90px;
 }
 
-.chosen-container-single .chosen-single{
+/*.chosen-container-single .chosen-single{
 	height: 34px !important;
 	
-}
+}*/
 
 #clientFormBox {
 
@@ -176,8 +182,9 @@
 
 }
 .popover{
-    width: 80%; /* Max Width of the popover (depending on the container!) */
+    width: 80%; /!* Max Width of the popover (depending on the container!) *!/
 }
+
 input.plusButtonCheck {
     width   : 1px;
     margin  : 0;
@@ -192,22 +199,25 @@ input#phoneNumber{
     height: 35px;
 }
 
-.chosen-container.chosen-container-multi{
+/*.chosen-container.chosen-container-multi{
     height: 35px;
 }
 ul.chosen-choices{
     height: 35px;
-}
+
+}*/
 
 
 
 .input-group-addon {
     padding-right: 8px;
+
 }
 
 #loading-bar .bar{
     background: #FF0000;
     height: 4px;
 }
-.chosen-container-multi .chosen-choices{height: 50px !important;}
+/*.chosen-container-multi .chosen-choices{height: 50px !important;}*/
+
 

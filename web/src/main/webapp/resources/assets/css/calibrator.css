@@ -61,7 +61,6 @@ body {
 
 #page-wrapper {
     padding: 0 15px;
-    min-height: 2000px !important;
     background-color: #fff;
 }
 
@@ -467,4 +466,8 @@ color:#003712;
 }
 .modal .modal-body {
     max-height: 1500px;
+}
+
+.input-group-addon {
+    border-radius: 0px;
 }

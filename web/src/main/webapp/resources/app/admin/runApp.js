@@ -14,8 +14,8 @@ require
 				angularTranslateStorageCookie : '../../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
 				chosen : '../../assets/bower_components/angular-chosen-localytics/chosen',
 				angularLoadingBars : '../../assets/bower_components/angular-loading-bar/build/loading-bar',
-
-
+				angularUISelect: "../../assets/bower_components/ui-select/dist/select.min",
+				ngSanitize: "../../assets/bower_components/angular-sanitize/angular-sanitize.min",
 				adminModule : 'adminModule'
 			},
 			shim : {
@@ -65,6 +65,14 @@ require
 					exports : "angularLoadingBars"
 				},
 
+				ngSanitize:{
+					deps:['angular']
+				},
+				angularUISelect: {
+					deps:['angular'],
+					exports: 'angularUISelect'
+				},
+
 
 				adminModule : {
 
@@ -74,7 +82,7 @@ require
 							'angularTranslateStorageLocal',
 							'angularTranslateLoaderStaticFiles',
 							'angularUIRouter', 'showErrors', 'ngTable',
-							'chosen','angularLoadingBars']
+							'chosen','angularLoadingBars', 'angularUISelect', 'ngSanitize']
 
 				}
 			}
