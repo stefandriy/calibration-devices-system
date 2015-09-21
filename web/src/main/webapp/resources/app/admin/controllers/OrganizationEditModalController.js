@@ -272,6 +272,60 @@ angular
 						break;
 				}
 			}
+
+
+			function arrayObjectIndexOf(myArray, searchTerm, property) {
+				for (var i = 0, len = myArray.length; i < len; i++) {
+					if (myArray[i][property] === searchTerm) {
+						return i;
+					}
+				}
+				var elem = {
+					id: length,
+					designation: searchTerm
+				};
+				myArray.push(elem);
+				return (myArray.length - 1);
+			}
+
+			$scope.selectedValues ={};
+
+			if ($rootScope.organization) {
+				$scope.blockSearchFunctions = true;
+				addressService.findAllRegions().then(function (respRegions) {
+					$scope.regions = respRegions;
+					var index = arrayObjectIndexOf($scope.regions, $rootScope.organization.address.region, "designation");
+					$scope.selectedValues.selectedRegion = $scope.regions[index];
+
+					addressService.findDistrictsByRegionId($scope.selectedValues.selectedRegion.id)
+						.then(function (districts) {
+							$scope.districts = districts;
+							var index = arrayObjectIndexOf($scope.districts, $rootScope.organization.address.district, "designation");
+							$scope.selectedValues.selectedDistrict = $scope.districts[index];
+
+							addressService.findLocalitiesByDistrictId($scope.selectedValues.selectedDistrict.id)
+								.then(function (localities) {
+									$scope.localities = localities;
+									var index = arrayObjectIndexOf($scope.localities, $rootScope.organization.address.locality, "designation");
+									$scope.selectedValues.selectedLocality = $scope.localities[index];
+
+									addressService.findStreetsByLocalityId($scope.selectedValues.selectedLocality.id)
+										.then(function (streets) {
+											$scope.streets = streets;
+											var index = arrayObjectIndexOf($scope.streets, $rootScope.organization.address.street, "designation");
+											$scope.selectedValues.selectedStreet = $scope.streets[index];
+										});
+
+									addressService.findBuildingsByStreetId($scope.selectedValues.selectedStreet.id)
+										.then(function (buildings) {
+											$scope.buildings = buildings;
+											var index = arrayObjectIndexOf($scope.buildings, $rootScope.organization.address.building, "designation");
+											$scope.selectedValues.selectedBuilding = $scope.buildings[index].designation;
+								});
+						});
+				});
+			});
+			}
 			/**
 			 * Finds all regions
 			 */
@@ -297,16 +351,14 @@ angular
 			 * On-select handler in region input form element.
 			 */
 			$scope.receiveDistricts = function (selectedRegion) {
-				if (!$scope.blockSearchFunctions) {
 					$scope.districts = [];
 					addressService.findDistrictsByRegionId(selectedRegion.id)
 						.then(function (districts) {
 							$scope.districts = districts;
-							$rootScope.organization.address.district = undefined;
-							$rootScope.organization.address.locality = undefined;
+							$scope.selectedValues.selectedLocality = undefined;
+							$scope.selectedValues.selectedDistrict = undefined;
 							$rootScope.organization.address.street = "";
 						});
-				}
 			};
 
 			/**
@@ -314,26 +366,22 @@ angular
 			 * On-select handler in district input form element.
 			 */
 			$scope.receiveLocalities = function (selectedDistrict) {
-				if (!$scope.blockSearchFunctions) {
 					$scope.localities = [];
 					addressService.findLocalitiesByDistrictId(selectedDistrict.id)
 						.then(function (localities) {
 							console.log(localities);
 							$scope.localities = localities;
-							$scope.organization.address.locality = undefined;
-							$scope.organization.address.street = "";
+							$scope.selectedValues.selectedStreet = "";
 
 						});
-				}
 			};
 
 			$scope.receiveStreets = function (selectedLocality) {
-				if (!$scope.blockSearchFunctions) {
 					$scope.streets = [];
 					addressService.findStreetsByLocalityId(selectedLocality.id)
 						.then(function (streets) {
 							$scope.streets = streets;
-							$scope.organization.address.street  = "";
+							$scope.selectedValues.selectedStreet  = "";
 							$scope.organization.address.building = "";
 							$scope.organization.address.flat = "";
 							$log.debug("$scope.streets");
@@ -341,7 +389,6 @@ angular
 
 						}
 					);
-				}
 			};
 
 			/**
@@ -515,6 +562,19 @@ angular
 					});
 			};
 
+			/**
+			 * Receives all possible buildings.
+			 * On-select handler in street input form element.
+			 */
+			$scope.receiveBuildings = function (selectedStreet) {
+					$scope.buildings = [];
+					dataReceivingService.findBuildingsByStreetId(selectedStreet.id)
+						.success(function (buildings) {
+							$scope.buildings = buildings;
+						}
+					);
+			};
+
 
 			$scope.editOrganization = function() {
 				addressFormToOrganizationForm();
@@ -526,10 +586,10 @@ angular
 					types: $scope.organizationTypes,
 					employeesCapacity : $rootScope.organization.employeesCapacity,
 					maxProcessTime: $rootScope.organization.maxProcessTime,
-					region : $rootScope.organization.address.region,
-					locality : $rootScope.organization.address.locality,
-					district : $rootScope.organization.address.district,
-					street : $rootScope.organization.address.street,
+					region : $scope.selectedValues.selectedRegion.designation,
+					locality : $scope.selectedValues.selectedLocality.designation,
+					district : $scope.selectedValues.selectedDistrict.designation,
+					street : $scope.selectedValues.selectedStreet.designation || $scope.selectedValues.selectedStreet,
 					building : $rootScope.organization.address.building,
 					flat : $rootScope.organization.address.flat,
 					username : $scope.adminsUserName,
@@ -572,6 +632,6 @@ angular
 			$scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
 			$scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
 
-		}
+			}
 
 	]);
