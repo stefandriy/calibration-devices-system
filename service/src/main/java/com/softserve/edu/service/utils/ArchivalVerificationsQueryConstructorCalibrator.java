@@ -128,7 +128,7 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 			queryPredicate = cb.and(searchPredicateByCalibratorEmployeeName, queryPredicate);
 		}
 		if (measurementDeviceId != null) {
-			queryPredicate = cb.and(cb.equal(root.get("device").get("id"), measurementDeviceId), queryPredicate);
+			queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Long>(cb, root.get("device").get("id")), "%" + measurementDeviceId.toString() + "%"), queryPredicate);
 		}
 		if (measurementDeviceType != null) {
 			queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"), DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
@@ -146,3 +146,4 @@ static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorPro
 		return queryPredicate;
 	}
 }
+
