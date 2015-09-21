@@ -84,7 +84,7 @@ public class Organization {
         organizationTypes.add(organizationType);
     }
 
-    public void addDeviceType(OrganizationType organizationType) {
-        organizationTypes.add(organizationType);
+    public void addDeviceType(DeviceType deviceType) {
+        deviceTypes.add(deviceType);
     }
 }
