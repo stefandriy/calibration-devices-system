@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface OrganizationRepository extends CrudRepository<Organization, Long>, OrganizationRepositoryCustom {
@@ -24,5 +25,15 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
                 "WHERE orgType.value = :type AND org.district = :district",
         nativeQuery = true
      )
-    List<Organization> findByTypeAndDistrict(@Param("type") String type, @Param("district") String district);
+    List<Organization> findByDistrictAndType(@Param("district") String district, @Param("type") String type);
+
+    @Query
+    (
+       value =
+               "SELECT orgType.value " +
+               "FROM ORGANIZATION_TYPE orgType " +
+               "WHERE orgType.organizationId = :organizationId",
+       nativeQuery = true
+    )
+    Set<String> findOrganizationTypesById(@Param("organizationId") Long organizationId);
 }

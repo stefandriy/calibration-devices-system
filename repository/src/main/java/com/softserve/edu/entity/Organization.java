@@ -2,6 +2,7 @@ package com.softserve.edu.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.DeviceType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -50,10 +51,14 @@ public class Organization {
     @ElementCollection
     @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
     @Column(name = "value", length = 20)
-    @JsonBackReference
     @Enumerated(EnumType.STRING)
     private Set<OrganizationType> organizationTypes = new HashSet<>();
 
+    @ElementCollection
+    @JoinTable(name = "DEVICE_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
+    @Column(name = "value", length = 20)
+    @Enumerated(EnumType.STRING)
+    private Set<DeviceType> deviceTypes = new HashSet<>();
 
     public Organization(String name, String email, String phone) {
         this.name = name;
@@ -73,5 +78,13 @@ public class Organization {
     public void addUser(User user) {
         user.setOrganization(this);
         users.add(user);
+    }
+
+    public void addOrganizationType(OrganizationType organizationType) {
+        organizationTypes.add(organizationType);
+    }
+
+    public void addDeviceType(OrganizationType organizationType) {
+        organizationTypes.add(organizationType);
     }
 }

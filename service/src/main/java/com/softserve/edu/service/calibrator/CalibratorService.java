@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,19 +30,15 @@ public class CalibratorService {
     @Autowired
     private UploadBbiRepository uploadBbiRepository;
 
-    @PersistenceContext
-    private EntityManager em;
-
     @Autowired
     private VerificationRepository verificationRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-
     @Transactional(readOnly = true)
     public List<Organization> findByDistrict(String district, String type) {
-        return calibratorRepository.findByTypeAndDistrict(district, type);
+        return calibratorRepository.findByDistrictAndType(district, type);
     }
 
     @Transactional(readOnly = true)

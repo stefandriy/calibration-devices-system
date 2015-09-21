@@ -1,7 +1,6 @@
 package com.softserve.edu.service.calibrator;
 
 import com.softserve.edu.entity.CalibrationPlanningTask;
-
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
 import com.softserve.edu.repository.VerificationRepository;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.Map;
 
 
 /**
@@ -37,8 +35,8 @@ public class CalibrationPlaningTaskService {
         if (verification == null) {
             logger.error("verification haven't found");
         } else {
-            if ((placeOfcalibration==null) || (counterStatus==null)
-                    || (installationNumber==null)){
+            if ((placeOfcalibration == null) || (counterStatus == null)
+                    || (installationNumber == null)) {
                 throw new IllegalArgumentException();
             }
             CalibrationPlanningTask task = new CalibrationPlanningTask();
@@ -48,24 +46,22 @@ public class CalibrationPlaningTaskService {
             task.setSerialNumberOfMeasuringInstallation(installationNumber);
             task.setSerialNumberOfCounter(counterNumber);
             task.setNotes(notes);
-            if (placeOfcalibration=="fixed_station" && counterStatus=="removed"){
+            if (placeOfcalibration == "fixed_station" && counterStatus == "removed") { //TODO: WHY??!!!
                 task.setDateOfVisit(null);
                 task.setDateOfVisitTo(null);
             } else {
-                if ((placeOfcalibration=="fixed_station" && counterStatus=="not_removed") ||
-                        (placeOfcalibration=="fixed_station")){
-                      if (dateOfVisit==null && dateOfVisitTo==null){
-                          throw new IllegalArgumentException();
-                      } else {
-                          task.setDateOfVisit(dateOfVisit);
-                          task.setDateOfVisitTo(dateOfVisitTo);
-                      }
+                if ((placeOfcalibration == "fixed_station" && counterStatus == "not_removed") || //TODO: WHY??!!!
+                        (placeOfcalibration == "fixed_station")) {
+                    if (dateOfVisit == null && dateOfVisitTo == null) {
+                        throw new IllegalArgumentException();
+                    } else {
+                        task.setDateOfVisit(dateOfVisit);
+                        task.setDateOfVisitTo(dateOfVisitTo);
+                    }
                 }
             }
             task.setFloor(floor);
             taskRepository.save(task);
         }
-
     }
-
 }

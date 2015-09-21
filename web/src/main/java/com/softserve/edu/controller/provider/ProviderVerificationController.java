@@ -107,20 +107,20 @@ public class ProviderVerificationController {
                 searchData.getDate(),
                 searchData.getEndDate(),
                 searchData.getId(),
-                searchData.getClient_full_name(),
+                searchData.getClient_full_name(), //TODO: WHY????!!!
                 searchData.getStreet(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
                 searchData.getLocality(),
                 searchData.getStatus(),
-                searchData.getEmployee_last_name(),
+                searchData.getEmployee_last_name(), //TODO: WHY????!!!
                 sortCriteria,
                 sortOrder,
                 providerEmployee
         );
         List<Verification> verifications = queryResult.getContent();
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(verifications);
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
 

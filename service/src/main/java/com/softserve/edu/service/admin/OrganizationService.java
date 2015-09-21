@@ -51,7 +51,7 @@ public class OrganizationService {
 
         for (String type : types) { //TODO
             OrganizationType organizationType = OrganizationType.valueOf(type);
-            organization.getOrganizationTypes().add(organizationType);
+            organization.addOrganizationType(organizationType);
             String strRole = organizationType + "_ADMIN";
             UserRole userRole = userRepository.getUserRole(strRole);
             employeeAdmin.getUserRoles().add(userRole);
@@ -103,7 +103,7 @@ public class OrganizationService {
         types.
                 stream()
                 .map(OrganizationType::valueOf)
-                .forEach(type -> organization.getOrganizationTypes().add(type));
+                .forEach(organization::addOrganizationType);
 
 
         User employeeAdmin = userRepository.getUserByUserName(username);

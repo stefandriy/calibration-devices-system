@@ -23,8 +23,8 @@ public class StateVerificatorService {
     }
 
     @Transactional(readOnly = true)
-    public List<Organization> findByTypeAndDistrict(String district, String type) {
-        return stateVerificatorRepository.findByTypeAndDistrict(district, type);
+    public List<Organization> findByDistrictAndType(String district, String type) {
+        return stateVerificatorRepository.findByDistrictAndType(district, type);
     }
 
     @Transactional(readOnly = true)

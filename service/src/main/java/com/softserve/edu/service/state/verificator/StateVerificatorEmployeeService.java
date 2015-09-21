@@ -11,26 +11,25 @@ import com.softserve.edu.repository.UserRepository;
 @Service
 public class StateVerificatorEmployeeService {
 
-	@Autowired
-	private UserRepository stateVerificatorEmployeeRepository;
-	
-	 /**
-     * Adds Employee for stateverificator. Saves encoded password and
+    @Autowired
+    private UserRepository stateVerificatorEmployeeRepository;
+
+    /**
+     * Adds Employee for state verificator. Saves encoded password and
      * gives role STATE_VERIFICATOR_EMPLOYEE for user
      *
-     * @param state_verificator_Employee data for creation employee
-     *      */
-	@Transactional
-	public void addEmployee(User stateVerificatorEmployee){
-		
-		String passwordEncoded = new BCryptPasswordEncoder().encode(stateVerificatorEmployee.getPassword());
-		stateVerificatorEmployee.setPassword(passwordEncoded);
-		stateVerificatorEmployeeRepository.save(stateVerificatorEmployee);
-	}
+     * @param stateVerificatorEmployee data for creation employee
+     */
+    @Transactional
+    public void addEmployee(User stateVerificatorEmployee) {
 
-	@Transactional
-	public User oneProviderEmployee(String username) {
-		return stateVerificatorEmployeeRepository.getUserByUserName(username);
-	}
+        String passwordEncoded = new BCryptPasswordEncoder().encode(stateVerificatorEmployee.getPassword());
+        stateVerificatorEmployee.setPassword(passwordEncoded);
+        stateVerificatorEmployeeRepository.save(stateVerificatorEmployee);
+    }
 
+    @Transactional
+    public User oneProviderEmployee(String username) {
+        return stateVerificatorEmployeeRepository.getUserByUserName(username);
+    }
 }

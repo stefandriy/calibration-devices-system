@@ -121,7 +121,7 @@ public class CalibratorController {
     public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        return verificatorService.findByTypeAndDistrict(
+        return verificatorService.findByDistrictAndType(
                 calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
     }
 

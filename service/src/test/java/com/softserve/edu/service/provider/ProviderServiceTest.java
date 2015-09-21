@@ -32,18 +32,18 @@ public class ProviderServiceTest {
 		final Organization organization = Mockito.mock(Organization.class);
 		final List<Organization> organizations = Collections.singletonList(organization);
 		
-		when(mockProviderRepository.findByTypeAndDistrict(anyString(), anyString())).thenReturn(organizations);
+		when(mockProviderRepository.findByDistrictAndType(anyString(), anyString())).thenReturn(organizations);
 		
-		providerService.findByTypeAndDistrict(district, type);
+		providerService.findByDistrictAndType(district, type);
 		
 		ArgumentCaptor<String> distinctArg = ArgumentCaptor.forClass(String.class);
 		ArgumentCaptor<String> typeArg = ArgumentCaptor.forClass(String.class);
 		
-		verify(mockProviderRepository).findByTypeAndDistrict(distinctArg.capture(), typeArg.capture());
+		verify(mockProviderRepository).findByDistrictAndType(distinctArg.capture(), typeArg.capture());
 		
-		Assert.assertEquals(district, distinctArg.getValue()); 
+		Assert.assertEquals(district, distinctArg.getValue());
 		Assert.assertEquals(type, typeArg.getValue());
-		Assert.assertEquals(organizations, providerService.findByTypeAndDistrict(district, type));
+		Assert.assertEquals(organizations, providerService.findByDistrictAndType(district, type));
 	}
 
 	@Test

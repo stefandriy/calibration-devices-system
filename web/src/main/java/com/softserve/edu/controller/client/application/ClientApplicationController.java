@@ -101,7 +101,7 @@ public class ClientApplicationController {
     @RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
 
-        return providerService.findByTypeAndDistrict(district, "PROVIDER").stream()
+        return providerService.findByDistrictAndType(district, "PROVIDER").stream()
                 .map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
                 .collect(Collectors.toList());
     }
