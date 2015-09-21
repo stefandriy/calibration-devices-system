@@ -69,8 +69,7 @@ public class CalibratorEmployeeController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = calibratorService.oneCalibratorEmployee(user.getUsername());
         List<String> role = userService.getRoles(user.getUsername());
-        List<EmployeeDTO> providerListEmployee = calibratorService.getAllCalibratorEmployee(role, employee);
-        return providerListEmployee;
+        return calibratorService.getAllCalibratorEmployee(role, employee);
     }
 
     @RequestMapping(value = "assign/calibratorEmployee", method = RequestMethod.PUT)

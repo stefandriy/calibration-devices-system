@@ -182,7 +182,6 @@ public class ProviderEmployeeService {
         return result;
     }
 
-
     @Transactional
     public List<User> getAllProviderEmployee(Long idOrganization) {
         return userRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(), idOrganization);

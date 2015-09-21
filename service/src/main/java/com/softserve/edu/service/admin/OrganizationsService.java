@@ -5,7 +5,6 @@ import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.OrganizationTypeValue;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -23,7 +22,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class OrganizationsService {
@@ -52,8 +50,8 @@ public class OrganizationsService {
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
 
         for (String type : types) { //TODO
-            OrganizationType organizationType = new OrganizationType(OrganizationTypeValue.valueOf(type));
-            organization.addType(organizationType);
+            OrganizationType organizationType = OrganizationType.valueOf(type);
+            organization.getOrganizationTypes().add(organizationType);
             String strRole = organizationType + "_ADMIN";
             UserRole userRole = userRepository.getUserRole(strRole);
             employeeAdmin.getUserRoles().add(userRole);
@@ -87,13 +85,6 @@ public class OrganizationsService {
         return organizationRepository.findOne(id);
     }
 
-    @Transactional
-    public Set<String> getOrganizationTypes(Organization organization) {
-        Long id = organization.getId();
-        return organizationRepository.getOrganizationTypesById(id);
-    }
-
-
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public void editOrganization(Long organizationId, String name,
                                  String phone, String email, List<String> types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
@@ -111,8 +102,8 @@ public class OrganizationsService {
 
         types.
                 stream()
-                .map(OrganizationTypeValue::valueOf)
-                .forEach(typeValue -> organization.addType(new OrganizationType(typeValue)));
+                .map(OrganizationType::valueOf)
+                .forEach(type -> organization.getOrganizationTypes().add(type));
 
 
         User employeeAdmin = userRepository.getUserByUserName(username);
@@ -134,16 +125,6 @@ public class OrganizationsService {
 
     @Transactional
     public Integer getOrganizationEmployeesCapacity(Long organizationId) {
-        return organizationRepository.getOrganizationEmployeesCapacity(organizationId);
-    }
-
-    @Transactional
-    public Set<String> getDeviceTypesByOrganization(Long organizationId) {
-        return organizationRepository.getDeviceTypesByOrganization(organizationId);
-    }
-
-    @Transactional
-    public Set<String> getOrganizationTypesById(Long id) {
-        return organizationRepository.getOrganizationTypesById(id);
+        return organizationRepository.findOne(organizationId).getEmployeesCapacity();
     }
 }

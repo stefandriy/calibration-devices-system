@@ -258,11 +258,11 @@ public class ProviderVerificationController {
     }
 
 
-    @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
+   /* @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
     public void rejectVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
         verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
                 Status.valueOf(verificationReadStatusUpdateDTO.getStatus().toUpperCase()));
-    }
+    }*/
 
     @RequestMapping(value = "new/accept", method = RequestMethod.PUT)
     public void acceptVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {

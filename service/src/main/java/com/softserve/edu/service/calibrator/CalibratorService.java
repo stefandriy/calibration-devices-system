@@ -45,7 +45,7 @@ public class CalibratorService {
     @Transactional(readOnly = true)
     public List<Organization> findByDistrict(String district, String type) {
         System.err.println("searching calibrators");
-        return calibratorRepository.getByTypeAndDistrict(district, type);
+        return calibratorRepository.findByTypeAndDistrict(district, type);
     }
 
     @Transactional(readOnly = true)
@@ -88,11 +88,11 @@ public class CalibratorService {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
         if (role.contains(Roles.CALIBRATOR_ADMIN.name())) {
             List<User> list = userRepository.getAllProviderUsersList(Roles.CALIBRATOR_EMPLOYEE.name(),
-                    employee.getOrganization().getId(),true);
+                    employee.getOrganization().getId(), true);
             providerListEmployee = EmployeeDTO.giveListOfProviders(list);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
-                    employee.getLastName(), employee.getMiddleName(),role.get(0));
+                    employee.getLastName(), employee.getMiddleName(), role.get(0));
             providerListEmployee.add(userPage);
         }
         return providerListEmployee;
@@ -105,5 +105,4 @@ public class CalibratorService {
         verification.setReadStatus(ReadStatus.READ);
         verificationRepository.save(verification);
     }
-
 }

@@ -11,15 +11,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by vova on 25.08.15.
- */
 public class StateVerificatorServiceTest {
 
     final static String district = "district";
@@ -27,7 +21,7 @@ public class StateVerificatorServiceTest {
     final static Long id = 1L;
 
     @InjectMocks
-    private StateVerificatorService stateVerificatorService =new StateVerificatorService();
+    private StateVerificatorService stateVerificatorService = new StateVerificatorService();
 
     @Mock
     private OrganizationRepository stateVerificatorRepository;
@@ -37,7 +31,6 @@ public class StateVerificatorServiceTest {
 
     @Mock
     List<Organization> listOrganizations;
-
 
     @Before
     public void init() {
@@ -52,7 +45,7 @@ public class StateVerificatorServiceTest {
 
     @Test
     public void testFindByDistrict() throws Exception {
-        when(stateVerificatorRepository.getByTypeAndDistrict(district, type)).thenReturn(listOrganizations);
+        when(stateVerificatorRepository.findByTypeAndDistrict(district, type)).thenReturn(listOrganizations);
         Assert.assertEquals(listOrganizations, stateVerificatorService.findByDistrict(district, type));
     }
 

@@ -23,7 +23,7 @@ public class OrganizationPageDTOTransformer {
             Set<OrganizationType> organizationTypes = organization.getOrganizationTypes();
             List<String> listOrganizationTypes = new ArrayList<>();
             String[] arrayTypes = listOrganizationTypes.toArray(new String[listOrganizationTypes.size()]);
-            organizationTypes.forEach(organizationType -> listOrganizationTypes.add(organizationType.getTypeValue()));
+            organizationTypes.forEach(organizationType -> listOrganizationTypes.add(organizationType.name()));
             String stringOrganizationTypes = String.join(",", listOrganizationTypes);
 
             resultList.add(new OrganizationPageDTO(

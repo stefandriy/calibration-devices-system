@@ -29,8 +29,8 @@ import java.util.List;
 
 @Service
 public class VerificationService {
-    
-	private Logger logger = Logger.getLogger(VerificationService.class);
+
+    private Logger logger = Logger.getLogger(VerificationService.class);
 
     @Autowired
     private VerificationRepository verificationRepository;
@@ -154,18 +154,18 @@ public class VerificationService {
 
     /**
      * Find page of new verifications for provider with search parameters specified
-     *  @param providerId       ID of organization
-     * @param pageNumber       number of page requested by user
-     * @param itemsPerPage     desired number of rows to be displayed on page
-     * @param startDateToSearch     search by initial date of verification
-     * @param endDateToSearch     end date
-     * @param idToSearch       search by verification ID
-     * @param lastNameToSearch search by last name of client
-     * @param firstNameToSearch
-     * @param streetToSearch   search by street where client lives
-     * @param providerEmployee restrict query by provider employee user name. Allows restrict query so that simple employee user
- *                         can only see verifications assigned to him and free verifications (not yet assigned)
      *
+     * @param providerId        ID of organization
+     * @param pageNumber        number of page requested by user
+     * @param itemsPerPage      desired number of rows to be displayed on page
+     * @param startDateToSearch search by initial date of verification
+     * @param endDateToSearch   end date
+     * @param idToSearch        search by verification ID
+     * @param lastNameToSearch  search by last name of client
+     * @param firstNameToSearch
+     * @param streetToSearch    search by street where client lives
+     * @param providerEmployee  restrict query by provider employee user name. Allows restrict query so that simple employee user
+     *                          can only see verifications assigned to him and free verifications (not yet assigned)
      * @return ListToPageTransformer<Verification>
      */
     @Transactional(readOnly = true)
@@ -213,7 +213,7 @@ public class VerificationService {
 
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                    String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee) {
+                                                                                                     String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, "SENT", employeeName, null, null, providerEmployee, em);
 
@@ -274,7 +274,7 @@ public class VerificationService {
 
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfVerificationsByVerificatorIdAndCriteriaSearch(Long verificatorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                       		String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee) {
+                                                                                                       String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = NewVerificationsQueryConstructorVerificator.buildSearchQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, sortCriteria, sortOrder, employeeName, em);
 
@@ -290,10 +290,10 @@ public class VerificationService {
         result.setTotalItems(count);
         return result;
     }
-    
+
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
-                                                                                                        String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee) {
+                                                                                             String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorVerificator.buildSearchQuery(organizationId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, verificatorEmployee, em);
 
@@ -309,8 +309,8 @@ public class VerificationService {
         result.setTotalItems(count);
         return result;
     }
-    
-    
+
+
     @Transactional(readOnly = true)
     public Verification findByIdAndProviderId(String id, Long providerId) {
         Verification verification = verificationRepository.findByIdAndProviderId(id, providerId);
@@ -347,7 +347,6 @@ public class VerificationService {
         }
         return verification;
     }
-
 
     /**
      * Changes verification read status to 'READ' when Provider or Calibrator or State Verificator reads it
@@ -438,7 +437,7 @@ public class VerificationService {
      * calibrator
      * @throws NotAvailableException if there is no verification with such id
      */
-    
+
     @Transactional
     public CalibrationTest createCalibrationTest(String verificationId, CalibrationTest data) {
         Verification updatedVerification = verificationRepository.findOne(verificationId);
@@ -460,58 +459,53 @@ public class VerificationService {
     }
 
     @Transactional
-    public int findCountOfAllSentVerifications(Organization organization){
-      return verificationRepository.getCountOfAllSentVerifications(organization);
+    public int findCountOfAllSentVerifications(Organization organization) {
+        return verificationRepository.getCountOfAllSentVerifications(organization);
     }
 
     @Transactional
     public int findCountOfAllAcceptedVerification(Organization organization) {
         return verificationRepository.getCountOfAllAcceptedVerifications(organization);
     }
-    
+
     @Transactional(readOnly = true)
-    public List<Object[]> getProcessTimeProvider() {   	 	
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
-		Root<Verification> root = q.from(Verification.class);
-		Join<Verification, Organization> provider = root.join("provider");
-		q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
-		Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("SENT")), cb.equal(root.get("status"), Status.valueOf("ACCEPTED")));
-		q.where(statusPredicate);
+    public List<Object[]> getProcessTimeProvider() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
+        Root<Verification> root = q.from(Verification.class);
+        Join<Verification, Organization> provider = root.join("provider");
+        q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
+        Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("SENT")), cb.equal(root.get("status"), Status.valueOf("ACCEPTED")));
+        q.where(statusPredicate);
 
-		List<Object[]> results = em.createQuery(q).getResultList();
-		return results;
-    }
-    
-    @Transactional(readOnly = true)
-    public List<Object[]> getProcessTimeCalibrator() {   	 	
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
-		Root<Verification> root = q.from(Verification.class);
-		Join<Verification, Organization> provider = root.join("calibrator");
-		q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
-		Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("IN_PROGRESS")), cb.equal(root.get("status"), Status.valueOf("TEST_PLACE_DETERMINED")),
-				cb.equal(root.get("status"), Status.valueOf("SENT_TO_TEST_DEVICE")), cb.equal(root.get("status"), Status.valueOf("TEST_COMPLETED")));
-		q.where(statusPredicate);
-
-		List<Object[]> results = em.createQuery(q).getResultList();
-		return results;
-
+        return em.createQuery(q).getResultList();
     }
 
     @Transactional(readOnly = true)
-    public List<Object[]> getProcessTimeVerificator() {   	 	
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
-		Root<Verification> root = q.from(Verification.class);
-		Join<Verification, Organization> provider = root.join("stateVerificator");
-		q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
-		Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("SENT_TO_VERIFICATOR")), cb.equal(root.get("status"), Status.valueOf("TEST_OK")), cb.equal(root.get("status"), Status.valueOf("TEST_NOK")));
-		q.where(statusPredicate);
+    public List<Object[]> getProcessTimeCalibrator() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
+        Root<Verification> root = q.from(Verification.class);
+        Join<Verification, Organization> provider = root.join("calibrator");
+        q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
+        Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("IN_PROGRESS")), cb.equal(root.get("status"), Status.valueOf("TEST_PLACE_DETERMINED")),
+                cb.equal(root.get("status"), Status.valueOf("SENT_TO_TEST_DEVICE")), cb.equal(root.get("status"), Status.valueOf("TEST_COMPLETED")));
+        q.where(statusPredicate);
 
-		List<Object[]> results = em.createQuery(q).getResultList();
-		return results;
+        return em.createQuery(q).getResultList();
+    }
 
+    @Transactional(readOnly = true)
+    public List<Object[]> getProcessTimeVerificator() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = cb.createQuery(Object[].class);
+        Root<Verification> root = q.from(Verification.class);
+        Join<Verification, Organization> provider = root.join("stateVerificator");
+        q.select(cb.array(root.get("expirationDate"), root.get("id"), provider.get("maxProcessTime"), provider.get("email")));
+        Predicate statusPredicate = cb.or(cb.equal(root.get("status"), Status.valueOf("SENT_TO_VERIFICATOR")), cb.equal(root.get("status"), Status.valueOf("TEST_OK")), cb.equal(root.get("status"), Status.valueOf("TEST_NOK")));
+        q.where(statusPredicate);
+
+        return em.createQuery(q).getResultList();
     }
 
     @Transactional(readOnly = true)
@@ -534,5 +528,3 @@ public class VerificationService {
         return verificationRepository.getEarliestDateOfArchivalVerificationsByCalibrator(organization);
     }
 }
-
-

@@ -49,8 +49,8 @@ public class Organization {
     private Set<User> users = new HashSet<>();
 
     @ElementCollection
-    @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"),
-    uniqueConstraints = @UniqueConstraint(columnNames = {"organizationId", "typeValue"}))
+    @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
+    @Column(name = "organizationType")
     @JsonBackReference
     private Set<OrganizationType> organizationTypes = new HashSet<>();
 
@@ -68,11 +68,6 @@ public class Organization {
         this.employeesCapacity = employeesCapacity;
         this.maxProcessTime = maxProcessTime;
         this.address = address;
-    }
-
-    public void addType(OrganizationType organizationType) {
-        organizationType.setOrganization(this);
-        organizationTypes.add(organizationType);
     }
 
     public void addUser(User user) {

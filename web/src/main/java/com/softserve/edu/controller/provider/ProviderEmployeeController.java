@@ -27,7 +27,6 @@ public class ProviderEmployeeController {
 
     Logger logger = Logger.getLogger(ProviderEmployeeController.class);
 
-
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
 
@@ -75,8 +74,7 @@ public class ProviderEmployeeController {
 
 
     @RequestMapping(value = "piemainpanel", method = RequestMethod.GET)
-    public Map pieMainPanel
-            (@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public Map pieMainPanel(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
         Organization organization = organizationsService.getOrganizationById(idOrganization);
         Map tmp = new HashMap<>();
