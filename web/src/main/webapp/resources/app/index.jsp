@@ -37,7 +37,17 @@
           href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
     <link rel="stylesheet" href="/resources/assets/css/loader.css">
 
+    <style>
+        [ng\:cloak]
+		[ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak {
+            display: none !important;
+        }
 
+    </style>
 </head>
 
 <body>
@@ -48,13 +58,7 @@
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation"
          ng-controller="TopNavBarControllerProvider">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" style="color:honeydew;">Централізована система повірки лічильників</a>
+            <a class="navbar-brand" style="color:honeydew">Централізована система повірки лічильників</a>
         </div>
 
         <div ng-controller="InternationalizationController">
@@ -88,7 +92,8 @@
                 <ul class="dropdown-menu dropdown-user dropdown_style">
                     <li class="user-header bg-light-blue">
                         <div class="profile_information_labal">
-                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png" class="img-rounded"   style="width: 200px; border-radius: 30px"
+                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png" class="img-rounded"
+                                 style="width: 200px; border-radius: 30px"
                                  alt="User Image"/>
                             <label translate="{{employee.firstName}} {{employee.lastName}}
                         {{employee.middleName}} ({{employee.username}})"/>
@@ -99,7 +104,7 @@
                             <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
                         </div>
                         <div class="profile_information_labal">
-                            <a class="btn btn-default ref_style_label"  translate="SETTINGS"></a>
+                            <a class="btn btn-default ref_style_label" translate="SETTINGS"></a>
                         </div>
                         <div class="profile_information_labal">
                             <a ng-click="logout()" class="btn btn-default ref_style_label"
@@ -112,117 +117,124 @@
     </nav>
     <!-- Sidebar -->
 
-    <div class="row"><div class="col-md-1"><button ng-init="menuState = true" ng-click="menuState = !menuState">Toggle</button></div></div>
+    <div class="row ng-cloak">
+        <div class="col-md-1">
+            <button class="btn btn-default" ng-init="menuState = true" ng-click="menuState = !menuState">
+                <div ng-show="menuState" ><i class="fa fa-chevron-left"></i>Сховати</div>
+                <div ng-show="!menuState"><i class="fa fa-chevron-right"></i>Показати</div>
+            </button>
+        </div>
+    </div>
 
-    <div class="row">
+    <div class="row ng-cloak">
         <div ng-class="{'col-md-3 menu_column' : menuState, '': !menuState}">
             <div class="ui visible sticky visible very wide sidebar" ng-hide="!menuState" role="navigation">
-                    <ul class="nav ui vertical menu">
-                        <sec:authorize url="/provider">
-                            <li ui-sref-active="active">
-                                <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
-                                    (постачальник послуг)</a>
-                            </li>
-                        </sec:authorize>
+                <ul class="nav ui vertical menu">
+                    <sec:authorize url="/provider">
+                        <li ui-sref-active="active">
+                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
+                                (постачальник послуг)</a>
+                        </li>
+                    </sec:authorize>
 
-                        <sec:authorize url="/calibrator">
-                            <li ui-sref-active="active">
-                                <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> Головна панель
-                                    (вимірювальна лабораторія)</a>
-                            </li>
-                        </sec:authorize>
+                    <sec:authorize url="/calibrator">
+                        <li ui-sref-active="active">
+                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> Головна панель
+                                (вимірювальна лабораторія)</a>
+                        </li>
+                    </sec:authorize>
 
-                        <sec:authorize url="/verificator">
-                            <li ui-sref-active="active">
-                                <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> Головна панель
-                                    (уповноважена повірочна лабораторія)</a>
-                            </li>
-                        </sec:authorize>
+                    <sec:authorize url="/verificator">
+                        <li ui-sref-active="active">
+                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> Головна панель
+                                (уповноважена повірочна лабораторія)</a>
+                        </li>
+                    </sec:authorize>
 
 
-                        <sec:authorize url="/provider">
-                            <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
-                                <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()">
-                                    <i class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
+                    <sec:authorize url="/provider">
+                        <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
+                            <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()">
+                                <i class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
                               <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                     ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
-                                </a>
-                            </li>
-                        </sec:authorize>
+                            </a>
+                        </li>
+                    </sec:authorize>
 
-                        <sec:authorize url="/calibrator">
-                            <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
-                                <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                        class="fa fa-list-alt fa-fw"></i> Нові заявки (вимірювальна лабораторія)
+                    <sec:authorize url="/calibrator">
+                        <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
+                            <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
+                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (вимірювальна лабораторія)
                            		<span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
-                                </a>
-                            </li>
-                            <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
-                                <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                        class="fa fa-desktop"></i> Довідник засобів вимірювальної техніки (вимірювальна
-                                    лабораторія)
-                                </a>
-                            </li>
+                            </a>
+                        </li>
+                        <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
+                            <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
+                                    class="fa fa-desktop"></i> Довідник засобів вимірювальної техніки (вимірювальна
+                                лабораторія)
+                            </a>
+                        </li>
 
 
-                        </sec:authorize>
+                    </sec:authorize>
 
 
-                        <sec:authorize url="/verificator">
-                            <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
-                                <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
-                                        class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна
-                                    лабораторія)
+                    <sec:authorize url="/verificator">
+                        <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
+                            <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
+                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна
+                                лабораторія)
                                 <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
-                                </a>
-                            </li>
-                        </sec:authorize>
+                            </a>
+                        </li>
+                    </sec:authorize>
 
-                        <sec:authorize url="/provider/admin/">
-                            <li ui-sref-active="active">
-                                <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <span
-                                        translate="EMPLOYEE"></span></a>
-                            </li>
-                        </sec:authorize>
+                    <sec:authorize url="/provider/admin/">
+                        <li ui-sref-active="active">
+                            <a ui-sref="employee-show-provider"><i class="fa fa-users"></i> <span
+                                    translate="EMPLOYEE"></span></a>
+                        </li>
+                    </sec:authorize>
 
-                        <sec:authorize url="/calibrator/admin/">
-                            <li ui-sref-active="active">
-                                <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span
-                                        translate="EMPLOYEE"></span></a>
-                            </li>
-                        </sec:authorize>
+                    <sec:authorize url="/calibrator/admin/">
+                        <li ui-sref-active="active">
+                            <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span
+                                    translate="EMPLOYEE"></span></a>
+                        </li>
+                    </sec:authorize>
 
-                        <sec:authorize url="/provider">
-                            <li ui-sref-active="active">
-                                <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
-                                    повірок</a>
-                            </li>
-                        </sec:authorize>
-                        <sec:authorize url="/calibrator">
-                            <li ui-sref-active="active">
-                                <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> Архів
-                                    повірок</a>
-                            </li>
-                        </sec:authorize>
-                        <sec:authorize url="/verificator">
-                            <li ui-sref-active="active">
-                                <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> Архів
-                                    повірок</a>
-                            </li>
-                        </sec:authorize>
-                        <sec:authorize url="/provider/admin/">
-                            <li ui-sref-active="active">
-                                <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>
-                                    <span translate="STATISTIC_OF_EMPLOYEE_CAPACITY"> </span>
-                                </a>
-                            </li>
-                        </sec:authorize>
-                    </ul>
+                    <sec:authorize url="/provider">
+                        <li ui-sref-active="active">
+                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
+                                повірок</a>
+                        </li>
+                    </sec:authorize>
+                    <sec:authorize url="/calibrator">
+                        <li ui-sref-active="active">
+                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> Архів
+                                повірок</a>
+                        </li>
+                    </sec:authorize>
+                    <sec:authorize url="/verificator">
+                        <li ui-sref-active="active">
+                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> Архів
+                                повірок</a>
+                        </li>
+                    </sec:authorize>
+                    <sec:authorize url="/provider/admin/">
+                        <li ui-sref-active="active">
+                            <a ui-sref="statistic-show-providerEmployee"><i class="fa fa-bar-chart"></i>
+                                <span translate="STATISTIC_OF_EMPLOYEE_CAPACITY"> </span>
+                            </a>
+                        </li>
+                    </sec:authorize>
+                </ul>
             </div>
         </div>
         <div ng-class="{'col-md-12' : !menuState, 'col-md-9 main_column' : menuState}">
@@ -245,7 +257,7 @@
     $("#states").chosen();
 </script>
 
-<script src="/resources/assets/js/main.js"></script>
+<%--<script src="/resources/assets/js/main.js"></script>--%>
 
 
 </body>
