@@ -18,12 +18,12 @@ public class StateVerificatorService {
     private OrganizationRepository stateVerificatorRepository;
 
     @Transactional
-    public void saveStateVerificator(Organization cstateVerificatorlibrator) {
-        stateVerificatorRepository.save(cstateVerificatorlibrator);
+    public void saveStateVerificator(Organization stateVerificator) {
+        stateVerificatorRepository.save(stateVerificator);
     }
 
     @Transactional(readOnly = true)
-    public List<Organization> findByDistrict(String district, String type) {
+    public List<Organization> findByTypeAndDistrict(String district, String type) {
         return stateVerificatorRepository.findByTypeAndDistrict(district, type);
     }
 
@@ -31,5 +31,4 @@ public class StateVerificatorService {
     public Organization findById(Long id) {
         return stateVerificatorRepository.findOne(id);
     }
-
 }

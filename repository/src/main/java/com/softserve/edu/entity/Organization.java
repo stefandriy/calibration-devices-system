@@ -19,7 +19,6 @@ public class Organization {
 
     @Id
     @GeneratedValue
-    @Column(name = "organizationId")
     @Setter(AccessLevel.PRIVATE)
     private Long id;
 
@@ -50,8 +49,9 @@ public class Organization {
 
     @ElementCollection
     @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
-    @Column(name = "organizationType")
+    @Column(name = "value", length = 20)
     @JsonBackReference
+    @Enumerated(EnumType.STRING)
     private Set<OrganizationType> organizationTypes = new HashSet<>();
 
 

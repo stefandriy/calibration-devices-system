@@ -11,7 +11,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.CalibrationTestService;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -56,7 +56,7 @@ public class CalibratorController {
     @Autowired
     StateVerificatorService verificatorService;
     @Autowired
-    OrganizationsService organizationService;
+    OrganizationService organizationService;
     @Autowired
     UsersService userService;
 
@@ -120,10 +120,9 @@ public class CalibratorController {
     @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
     public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        List<Organization> list = verificatorService.findByDistrict(
-                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
 
-        return list;
+        return verificatorService.findByTypeAndDistrict(
+                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)

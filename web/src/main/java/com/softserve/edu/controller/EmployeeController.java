@@ -13,7 +13,7 @@ import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -32,13 +32,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "employee/admin/users/")
 public class EmployeeController {
+
     Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
     private UsersService userService;
 
     @Autowired
-    private OrganizationsService organizationsService;
+    private OrganizationService organizationsService;
 
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
@@ -64,7 +65,6 @@ public class EmployeeController {
      *
      * @return role
      */
-
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
     public List<UserRole> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         return providerEmployeeService.getRoleByUserNam(user.getUsername());
@@ -146,13 +146,6 @@ public class EmployeeController {
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
 
-    /**
-     * Add new employee
-     * @param employee
-     * @param user
-     * @return status
-     */
-
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
             @RequestBody UserDTO employee,
@@ -231,7 +224,4 @@ public class EmployeeController {
         }
         return resultList;
     }
-
-
-
 }

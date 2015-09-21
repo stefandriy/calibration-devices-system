@@ -38,8 +38,7 @@ public class User {
     @JsonManagedReference
     private Organization organization;
 
-    @ManyToMany
-    @JoinTable(name = "USERS_ROLE", joinColumns = @JoinColumn(name = "username"), inverseJoinColumns = @JoinColumn(name = "id"))
+    @ManyToMany(mappedBy = "users")
     private Set<UserRole> userRoles = new HashSet<>();
 
     public User(AddEmployeeBuilderNew builder) {

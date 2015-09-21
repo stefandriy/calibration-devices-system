@@ -44,7 +44,6 @@ public class CalibratorService {
 
     @Transactional(readOnly = true)
     public List<Organization> findByDistrict(String district, String type) {
-        System.err.println("searching calibrators");
         return calibratorRepository.findByTypeAndDistrict(district, type);
     }
 

@@ -9,7 +9,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -37,23 +37,28 @@ public class ProviderVerificationController {
 
     @Autowired
     ProviderService providerService;
+
     @Autowired
     ProviderEmployeeService providerEmployeeService;
+
     @Autowired
     CalibratorService calibratorService;
+
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
+
     @Autowired
-    private OrganizationsService organizationService;
+    private OrganizationService organizationService;
+
     @Autowired
     private UsersService userService;
+
     @Autowired
     private MailService mailService;
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
                                                                                        ArchiveVerificationsFilterAndSort searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderId(
                 employeeUser.getOrganizationId(),
@@ -62,19 +67,19 @@ public class ProviderVerificationController {
                 searchData.getDate(),
                 searchData.getEndDate(),
                 searchData.getId(),
-                searchData.getClient_full_name(),
+                searchData.getClient_full_name(), //TODO: WHY????!!!
                 searchData.getStreet(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
                 searchData.getLocality(),
                 searchData.getStatus(),
-                searchData.getEmployee_last_name(),
+                searchData.getEmployee_last_name(), //TODO: WHY????!!!
                 sortCriteria,
                 sortOrder,
                 providerEmployee
         );
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
@@ -258,11 +263,11 @@ public class ProviderVerificationController {
     }
 
 
-   /* @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
+    @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
     public void rejectVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
         verificationService.updateVerificationStatus(verificationReadStatusUpdateDTO.getVerificationId(),
                 Status.valueOf(verificationReadStatusUpdateDTO.getStatus().toUpperCase()));
-    }*/
+    }
 
     @RequestMapping(value = "new/accept", method = RequestMethod.PUT)
     public void acceptVerification(@RequestBody VerificationStatusUpdateDTO verificationReadStatusUpdateDTO) {
@@ -271,11 +276,6 @@ public class ProviderVerificationController {
 
     }
 
-    /**
-     * change read status of verification when Provider user reads it
-     *
-     * @param verificationDto
-     */
     @RequestMapping(value = "new/read", method = RequestMethod.PUT)
     public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
         verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());

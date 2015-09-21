@@ -18,15 +18,14 @@ public class ProviderService {
     private OrganizationRepository providerRepository;
 
     @Transactional(readOnly = true)
-    public List<Organization> findByDistrict(String district, String type) {
+    public List<Organization> findByTypeAndDistrict(String district, String type) {
         return providerRepository.findByTypeAndDistrict(district, type);
     }
 
     @Transactional(readOnly = true)
     public Set<String> getTypesById(Long id) {
-        return providerRepository
-                .findOne(id)
-                .getOrganizationTypes()
+
+        return providerRepository.findOne(id).getOrganizationTypes()
                 .stream()
                 .map(OrganizationType::name)
                 .collect(Collectors.toSet());

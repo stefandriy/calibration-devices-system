@@ -16,7 +16,7 @@ import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.UserService;
-import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
 
 @RestController
@@ -29,7 +29,7 @@ public class StateVerificatorEmployeeController {
 	private UserService userService;
 
 	@Autowired
-	private OrganizationsService organizationsService;
+	private OrganizationService organizationsService;
 
 	@Autowired
 	private StateVerificatorEmployeeService stateVerificatorEmployeeService;

@@ -34,7 +34,7 @@ public class ProviderServiceTest {
 		
 		when(mockProviderRepository.findByTypeAndDistrict(anyString(), anyString())).thenReturn(organizations);
 		
-		providerService.findByDistrict(district, type);
+		providerService.findByTypeAndDistrict(district, type);
 		
 		ArgumentCaptor<String> distinctArg = ArgumentCaptor.forClass(String.class);
 		ArgumentCaptor<String> typeArg = ArgumentCaptor.forClass(String.class);
@@ -43,7 +43,7 @@ public class ProviderServiceTest {
 		
 		Assert.assertEquals(district, distinctArg.getValue()); 
 		Assert.assertEquals(type, typeArg.getValue());
-		Assert.assertEquals(organizations, providerService.findByDistrict(district, type));
+		Assert.assertEquals(organizations, providerService.findByTypeAndDistrict(district, type));
 	}
 
 	@Test
