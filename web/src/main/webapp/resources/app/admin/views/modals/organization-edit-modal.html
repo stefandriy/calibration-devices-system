@@ -245,7 +245,6 @@
 									<label class="control-label">{{'REGION' | translate}}</label>
 								</div>
 							<div class="form-group col-md-8" show-errors>
-								{{$root.organization.address.region}}
 								<ui-select class="form-control" type="text" theme="select2"
 										   ng-model="$root.organization.address.region"
 										   on-select="receiveDistricts($root.organization.address.region)"

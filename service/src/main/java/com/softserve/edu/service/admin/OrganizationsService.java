@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
 import com.softserve.edu.entity.AddEmployeeBuilderNew;
+import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -42,6 +43,9 @@ public class OrganizationsService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private MailService mail;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -139,6 +143,7 @@ public class OrganizationsService {
 			employeeAdmin.setFirstName(firstName);
 			employeeAdmin.setLastName(lastName);
 			employeeAdmin.setMiddleName(middleName);
+			employeeAdmin.setIsAvaliable(true);
 
 			employeeAdmin.setPassword(password != null && password.equals("generate") ?
 					"generate" : employeeAdmin.getPassword());
@@ -168,4 +173,9 @@ public class OrganizationsService {
 	 	return 	organizationRepository.getOrganizationTypesById(id);
 	}
 
+
+	@Transactional
+	public void sendOrganizationChanges (Long organizationId, String username){
+		mail.sendOrganizationChanges(organizationId, username);
+	}
 }
