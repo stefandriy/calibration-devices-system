@@ -1,6 +1,8 @@
 package com.softserve.edu.service;
 
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
@@ -36,6 +38,9 @@ public class MailService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
 
     @Value("${mail.credentials.username}")
     private String userName;
@@ -216,6 +221,49 @@ public class MailService {
                 templateVariables.put("verificationId", verificationId);
                 templateVariables.put("maxProcessTime", maxProcessTime);
                 String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/processTimeExceeded.vm", "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+            }
+        };
+        this.mailSender.send(preparator);
+    }
+
+    //TODO: remove calls to database out of this service
+    public void sendOrganizationChanges (Long organizationId, String username){
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            Organization organization = organizationRepository
+                    .findOne(organizationId);
+            User admin = userRepository.findByUsername(username);
+
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(organization.getEmail());
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+                String domain = null;
+                try {
+                    domain = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException ue) {
+                    logger.error("Cannot get host address", ue);
+                }
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("name", organization.getName());
+                templateVariables.put("email", organization.getEmail());
+                templateVariables.put("phone", organization.getPhone());
+                templateVariables.put("types", organization.getOrganizationTypes());
+                templateVariables.put("employeesCapacity", organization.getEmployeesCapacity());
+                templateVariables.put("maxProcessTime", organization.getMaxProcessTime());
+                templateVariables.put("region", organization.getAddress().getRegion());
+                templateVariables.put("locality", organization.getAddress().getLocality());
+                templateVariables.put("district", organization.getAddress().getDistrict());
+                templateVariables.put("street", organization.getAddress().getStreet());
+                templateVariables.put("building", organization.getAddress().getBuilding());
+                templateVariables.put("flat", organization.getAddress().getFlat());
+                templateVariables.put("username", username);
+                templateVariables.put("firstName", admin.getFirstName());
+                templateVariables.put("middleName", admin.getMiddleName());
+                templateVariables.put("lastName", admin.getLastName());
+
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/organizationChanges.vm", "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
             }

@@ -170,7 +170,7 @@ public class OrganizationsController {
                 organization.getStreet(),
                 organization.getBuilding(),
                 organization.getFlat());
-      // try {
+       try {
             if (organization.getTypes().equals(null)) {
                 System.out.println("Nothing here");
             }
@@ -198,10 +198,11 @@ public class OrganizationsController {
                     organization.getFirstName(),
                     organization.getLastName(),
                     organization.getMiddleName());
-        //} catch (Exception e) {
-       //     logger.error("GOT EXCEPTION " + e.getMessage());
-         //   httpStatus = HttpStatus.CONFLICT;
-        //}
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e.getMessage());
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        organizationsService.sendOrganizationChanges(organizationId, organization.getUsername());
 
         return new ResponseEntity(httpStatus);
     }

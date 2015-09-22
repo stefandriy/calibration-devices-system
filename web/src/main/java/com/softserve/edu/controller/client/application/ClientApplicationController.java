@@ -34,6 +34,7 @@ public class ClientApplicationController {
 
     @Autowired
     private CalibratorService calibratorService;
+
     @Autowired
     private DeviceService deviceService;
 
