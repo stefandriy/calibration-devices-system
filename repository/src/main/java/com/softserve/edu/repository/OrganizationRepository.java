@@ -19,12 +19,12 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     @Query
     (
         value =
-                "SELECT *" +
+                "SELECT * " +
                 "FROM ORGANIZATION org INNER JOIN ORGANIZATION_TYPE orgType  " +
                 "ON org.id = orgType.organizationId " +
                 "WHERE orgType.value = :type AND org.district = :district",
         nativeQuery = true
-     )
+    )
     List<Organization> findByDistrictAndType(@Param("district") String district, @Param("type") String type);
 
     @Query
