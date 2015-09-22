@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CalibrationTestDataServiceTest {
+public class CalibrationTestDataServiceTestImpl {
 
     private static final Long testId = 123L;
 
@@ -52,7 +52,7 @@ public class CalibrationTestDataServiceTest {
     @Test
     public void testDeleteTestData() throws Exception {
         when(dataRepository.findOne(testId)).thenReturn(calibrationTestData);
-        Assert.assertEquals(dataRepository.findOne(testId),calibrationTestDataService.deleteTestData(testId));
+        Assert.assertEquals(dataRepository.findOne(testId), calibrationTestDataService.deleteTestData(testId));
         verify(dataRepository).delete(testId);
     }
 

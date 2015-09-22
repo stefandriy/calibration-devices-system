@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
  * Modified by Nazariy Melnychuk on 17.08.2015
  */
 @RunWith(MockitoJUnitRunner.class)
-public class UserServiceTest {
+public class UserServiceImplTest {
     @Mock
     private UserRepository userRepository;
 
@@ -25,7 +25,7 @@ public class UserServiceTest {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Mock
     private User user;
@@ -42,7 +42,7 @@ public class UserServiceTest {
         when(userRepository.findOne(username)).thenReturn(user);
 
 
-        boolean isChanged =  userService.changePassword(user.getUsername(), old_pasword, new_pasword);
+        boolean isChanged =  userServiceImpl.changePassword(user.getUsername(), old_pasword, new_pasword);
         assertTrue(isChanged);
         verify(user, times(1)).setPassword(anyString());
         verify(userRepository, times(1)).save(user);
@@ -55,7 +55,7 @@ public class UserServiceTest {
         String type = "abba";
 
         when(userRepository.findOne(anyString())).thenReturn(user);
-        boolean isChanged = userService.changeField(username, newFieldValue, type);
+        boolean isChanged = userServiceImpl.changeField(username, newFieldValue, type);
         assertFalse(isChanged);
         verify(userRepository, never()).save(any(User.class));
     }

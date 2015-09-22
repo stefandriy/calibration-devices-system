@@ -10,7 +10,7 @@ import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.DeviceService;
-import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.MailServiceImpl;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.catalogue.DistrictService;
@@ -55,7 +55,7 @@ public class ProviderApplicationController {
     private LocalityService localityService;
 
     @Autowired
-    private MailService mail;
+    private MailServiceImpl mail;
 
     /**
      * Save verification in database

@@ -13,11 +13,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.access.AccessDeniedException;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class VerificationServiceTest {
+public class VerificationServiceImplTest {
 	@InjectMocks
 	private VerificationService verificationService;
 
@@ -38,7 +38,7 @@ public class VerificationServiceTest {
 	@Test
 	public void test1() {
 		when(verificationRepository.findOne("123")).thenReturn(new Verification());
-		Verification get=verificationService.findById("123");
+		Verification get= verificationService.findById("123");
 		assertEquals(new Verification(),get);
 	}
 	

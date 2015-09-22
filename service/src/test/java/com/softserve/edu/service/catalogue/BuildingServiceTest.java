@@ -15,9 +15,6 @@ import java.util.List;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Volodya NT on 18.08.2015.
- */
 public class BuildingServiceTest {
 
     @Mock

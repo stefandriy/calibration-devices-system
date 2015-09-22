@@ -3,7 +3,8 @@ package com.softserve.edu.controller.admin.util;
 import com.softserve.edu.dto.admin.OrganizationPageDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.OrganizationType;
-import com.softserve.edu.service.admin.UsersService;
+import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.impl.UsersServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Set;
 public class OrganizationPageDTOTransformer {
 
     @Autowired
-    private static UsersService userService;
+    private static UserService userService;
 
     public static List<OrganizationPageDTO> toDtoFromList(List<Organization> list) {
         List<OrganizationPageDTO> resultList = new ArrayList<>();

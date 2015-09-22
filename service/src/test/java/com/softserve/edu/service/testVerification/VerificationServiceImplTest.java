@@ -1,35 +1,6 @@
 package com.softserve.edu.service.testVerification;
 
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
-import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.AccessDeniedException;
-
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.ClientData;
 import com.softserve.edu.entity.Organization;
@@ -40,12 +11,32 @@ import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.verification.VerificationService;
+import com.softserve.edu.service.verification.impl.VerificationServiceImpl;
+import org.apache.log4j.Logger;
+import org.junit.*;
+import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
+
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 
-public class VerificationServiceTest {
+public class VerificationServiceImplTest {
 	
 	@InjectMocks
-	private static VerificationService verificationService = new VerificationService();
+	private static VerificationService verificationService = new VerificationServiceImpl();
 	
 	@Mock
 	private Logger mockLogger;
@@ -66,7 +57,7 @@ public class VerificationServiceTest {
 
 	@BeforeClass
 	public static void testCreateVerificationProviderEmployeeService() {
-		verificationService = new VerificationService();
+		verificationService = new VerificationServiceImpl();
 	}
 
 	@Before
@@ -163,7 +154,7 @@ public class VerificationServiceTest {
 						.findByProviderIdAndStatusOrderByInitialDateDesc(
 								providerId, Status.SENT, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService
-				.findPageOfSentVerificationsByProviderId(providerId, 1, 1));
+                .findPageOfSentVerificationsByProviderId(providerId, 1, 1));
 	}
 	
 	@Test
@@ -177,7 +168,7 @@ public class VerificationServiceTest {
 						.findByCalibratorIdAndStatusOrderByInitialDateDesc(
 								providerId, Status.IN_PROGRESS, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService
-				.findPageOfSentVerificationsByCalibratorId(providerId, 1, 1));
+                .findPageOfSentVerificationsByCalibratorId(providerId, 1, 1));
 	}
 	
 	
@@ -192,7 +183,7 @@ public class VerificationServiceTest {
 						.findByStateVerificatorIdAndStatus(
 								providerId, Status.SENT_TO_VERIFICATOR, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService
-				.findPageOfSentVerificationsByStateVerificatorId(providerId, 1, 1));
+                .findPageOfSentVerificationsByStateVerificatorId(providerId, 1, 1));
 	}
 	
 	//// dobavutu testy
@@ -288,24 +279,24 @@ public class VerificationServiceTest {
 		Organization organization = mock(Organization.class);
 		Status status = mock(Status.class);
 		when(mockVerificationRepository.findOne(verificationId)).thenReturn(null);
-		verificationService.sendVerificationTo(verificationId, organization ,status);
+		verificationService.sendVerificationTo(verificationId, organization, status);
 		verify(mockLogger, times(1)).error(anyString());
 		when(mockVerificationRepository.findOne(verificationId)).thenReturn(mockVerification);
 		status = Status.IN_PROGRESS;
-		verificationService.sendVerificationTo(verificationId, organization ,status);
+		verificationService.sendVerificationTo(verificationId, organization, status);
 		verify(mockVerification, times(1)).setCalibrator(organization);
 		verify(mockVerification, times(1)).setSentToCalibratorDate(any());
 		status = Status.SENT_TO_VERIFICATOR;
-		verificationService.sendVerificationTo(verificationId, organization ,status);
+		verificationService.sendVerificationTo(verificationId, organization, status);
 		verify(mockVerification, times(1)).setStateVerificator(organization);
 		status = Status.TEST_OK;
-		verificationService.sendVerificationTo(verificationId, organization ,status);
+		verificationService.sendVerificationTo(verificationId, organization, status);
 		verify(mockVerification, times(1)).setProvider(organization);
 		status = Status.TEST_NOK;
-		verificationService.sendVerificationTo(verificationId, organization ,status);
+		verificationService.sendVerificationTo(verificationId, organization, status);
 		verify(mockVerification, times(2)).setProvider(organization);
 		status = Status.REJECTED;
-		verificationService.sendVerificationTo(verificationId, organization ,status);		
+		verificationService.sendVerificationTo(verificationId, organization, status);
 		verify(mockVerification, times(1)).setStatus(status);
 		verify(mockVerification, times(5)).setReadStatus(ReadStatus.UNREAD);
 		verify(mockVerification, times(5)).setExpirationDate(any());

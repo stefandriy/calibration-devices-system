@@ -8,7 +8,7 @@ import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.DeviceService;
-import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.MailServiceImpl;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -39,7 +39,7 @@ public class ClientApplicationController {
     private DeviceService deviceService;
 
     @Autowired
-    private MailService mail;
+    private MailServiceImpl mail;
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String saveApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {

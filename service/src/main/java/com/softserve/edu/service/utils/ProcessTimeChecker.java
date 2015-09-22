@@ -1,28 +1,27 @@
 package com.softserve.edu.service.utils;
 
-import java.util.Date;
-import java.util.List;
-
+import com.softserve.edu.entity.Verification;
+import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.MailServiceImpl;
+import com.softserve.edu.service.verification.VerificationService;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.MailService;
-import com.softserve.edu.service.verification.VerificationService;
+import java.util.Date;
+import java.util.List;
 
 
 public class ProcessTimeChecker {
 	
 	@Autowired
-	private  MailService mailService;
+	private MailServiceImpl mailServiceImpl;
 	
 	@Autowired
 	private  VerificationRepository verificationRepository;
 	@Autowired
-	private  VerificationService verificationService;
+	private VerificationService verificationService;
 
 	@Scheduled(cron="0 0 23 * * *")
 	public void runProcessTimeCheck() {		
@@ -46,7 +45,7 @@ public class ProcessTimeChecker {
 				Verification verification = verificationRepository.findOne((String) array[1]);
 				verification.setProcessTimeExceeding(processTimeExceeding);
 				verificationRepository.save(verification);
-				mailService.sendTimeExceededMail (verification.getId(), processTimeExceeding, maxProcessTime, (String) array[3]);
+				mailServiceImpl.sendTimeExceededMail (verification.getId(), processTimeExceeding, maxProcessTime, (String) array[3]);
 			}
 		}
 		

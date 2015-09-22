@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.edu.dto.NewPasswordDTO;
-import com.softserve.edu.service.UserService;
+import com.softserve.edu.service.UserServiceImpl;
 @RestController
 @RequestMapping(value = "/admin/settings/")
 public class SettingsAdminController {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     /**
      * Changes user's password
@@ -31,7 +31,7 @@ public class SettingsAdminController {
             @RequestBody NewPasswordDTO newPasswordDTO,
             @AuthenticationPrincipal UserDetails userDetails) {
         HttpStatus httpStatus = HttpStatus.CONFLICT;
-        if (userService.changePassword(
+        if (userServiceImpl.changePassword(
                 userDetails.getUsername(),
                 newPasswordDTO.getOldPassword(),
                 newPasswordDTO.getNewPassword())) {

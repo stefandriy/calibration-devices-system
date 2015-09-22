@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public class ProviderServiceTest {
+public class ProviderServiceImplTest {
 
 	@InjectMocks
 	private ProviderService providerService;

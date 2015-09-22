@@ -1,26 +1,10 @@
 package com.softserve.edu.service;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.domain.Page;
-
-import com.softserve.edu.entity.MeasuringEquipment;
-import com.softserve.edu.repository.MeasuringEquipmentRepository;
-import com.softserve.edu.service.MeasuringEquipmentService;
-import org.springframework.data.domain.*;
-
-import org.mockito.ArgumentCaptor;
-import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MeasuringEquipmentServiceTest {/*
+public class MeasuringEquipmentServiceImplTest {/*
 	@InjectMocks
 	private MeasuringEquipmentService measuringEquipmentService;
 

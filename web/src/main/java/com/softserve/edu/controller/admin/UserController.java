@@ -8,7 +8,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.UsersService;
+import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
@@ -28,7 +28,7 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UsersService userService;
+    private UserService userService;
 
     @Autowired
     UserRepository userRepository;

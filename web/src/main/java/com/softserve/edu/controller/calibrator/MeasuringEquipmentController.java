@@ -15,7 +15,7 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.MeasuringEquipmentDTO;
 import com.softserve.edu.dto.calibrator.MeasuringEquipmentPageItem;
 import com.softserve.edu.entity.MeasuringEquipment;
-import com.softserve.edu.service.MeasuringEquipmentService;
+import com.softserve.edu.service.MeasuringEquipmentServiceImpl;
 
 
 
@@ -25,7 +25,7 @@ import com.softserve.edu.service.MeasuringEquipmentService;
 public class MeasuringEquipmentController {
 
 	@Autowired
-	private MeasuringEquipmentService measuringEquipmentService;
+	private MeasuringEquipmentServiceImpl measuringEquipmentServiceImpl;
 	
 	private final Logger logger = Logger.getLogger(MeasuringEquipmentController.class);
 	
@@ -44,7 +44,7 @@ public class MeasuringEquipmentController {
 	public PageDTO<MeasuringEquipmentPageItem> pageMeasuringEquipmentsWithSearch(@PathVariable Integer pageNumber,
 			@PathVariable Integer itemsPerPage, @PathVariable String search) {
 
-		Page<MeasuringEquipmentPageItem> page = measuringEquipmentService.getMeasuringEquipmentsBySearchAndPagination(pageNumber, itemsPerPage, search)
+		Page<MeasuringEquipmentPageItem> page = measuringEquipmentServiceImpl.getMeasuringEquipmentsBySearchAndPagination(pageNumber, itemsPerPage, search)
 				.map(measuringEquipment -> new MeasuringEquipmentPageItem(measuringEquipment.getId(), measuringEquipment.getName(),
 						measuringEquipment.getDeviceType(), measuringEquipment.getManufacturer(), measuringEquipment.getVerificationInterval()));
 	return new PageDTO<>(page.getTotalElements(), page.getContent());
@@ -76,7 +76,7 @@ public class MeasuringEquipmentController {
 	 */
 	@RequestMapping(value = "getEquipment/{mEquipmentId}", method = RequestMethod.GET)
 	public ResponseEntity getMeasuringEquipment(@PathVariable Long mEquipmentId){
-		MeasuringEquipment foundMeasuringEquipment = measuringEquipmentService.getMeasuringEquipmentById(mEquipmentId);
+		MeasuringEquipment foundMeasuringEquipment = measuringEquipmentServiceImpl.getMeasuringEquipmentById(mEquipmentId);
 		return new ResponseEntity<>(foundMeasuringEquipment, HttpStatus.OK);
 	}
 	
@@ -94,7 +94,7 @@ public class MeasuringEquipmentController {
 		HttpStatus httpStatus = HttpStatus.CREATED;
 		try {
 			MeasuringEquipment createdMeasuringEquipment = mEquipmentDTO.saveEquipment();
-			measuringEquipmentService.addMeasuringEquipment(createdMeasuringEquipment);
+			measuringEquipmentServiceImpl.addMeasuringEquipment(createdMeasuringEquipment);
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
 			httpStatus = HttpStatus.CONFLICT;
@@ -115,7 +115,7 @@ public class MeasuringEquipmentController {
 	public ResponseEntity editMeasuringEquipment(@RequestBody MeasuringEquipmentDTO mEquipmentDTO, @PathVariable Long mEquipmentId){
 		HttpStatus httpStatus = HttpStatus.OK;
 		try {
-			measuringEquipmentService.editMeasuringEquipment(mEquipmentId, mEquipmentDTO.getName(), mEquipmentDTO.getDeviceType(),
+			measuringEquipmentServiceImpl.editMeasuringEquipment(mEquipmentId, mEquipmentDTO.getName(), mEquipmentDTO.getDeviceType(),
 					mEquipmentDTO.getManufacturer(), mEquipmentDTO.getVerificationInterval());
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
@@ -132,6 +132,6 @@ public class MeasuringEquipmentController {
 	 */
 	 @RequestMapping(value = "delete/{mEquipmentId}", method = RequestMethod.POST)
 	 public void deleteMeasuringEquipment(@PathVariable Long mEquipmentId){
-		 measuringEquipmentService.deleteMeasuringEquipment(mEquipmentId);
+		 measuringEquipmentServiceImpl.deleteMeasuringEquipment(mEquipmentId);
 	 }
 }

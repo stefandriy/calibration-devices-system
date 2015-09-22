@@ -35,7 +35,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CalibrationTestServiceTest {
+public class CalibrationTestServiceTestImpl {
 /*
 	private static final String verificationId = "123";
 

@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.softserve.edu.service.VerificationPhotoService;
+import com.softserve.edu.service.VerificationPhotoServiceImpl;
 
 @Controller
 @RequestMapping(value = "/uploadFile")
 public class FileUploadController {
 
     @Autowired
-    VerificationPhotoService verificationPhotoService;
+    VerificationPhotoServiceImpl verificationPhotoServiceImpl;
 
     private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$";
 
@@ -35,7 +35,7 @@ public class FileUploadController {
             String fileType = file.getOriginalFilename().substring( 
                     file.getOriginalFilename().lastIndexOf('.'));
                 if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                verificationPhotoService.putResourse(testId, file.getInputStream(), fileType);
+                verificationPhotoServiceImpl.putResourse(testId, file.getInputStream(), fileType);
 
                 return "You successfully uploaded file";
             } else {
