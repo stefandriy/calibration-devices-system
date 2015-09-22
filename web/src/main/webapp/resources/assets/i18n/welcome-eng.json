@@ -155,6 +155,9 @@
 
     "DETAIL":"More",
     "DOWNLOAD_DOC":"Download doc in 'docx' format",
+    "DOWNLOAD_TEST_DOC": "Download test data in 'docx' format",
+    "DOWNLOAD_TEST_PDF": "Download test data in 'pdf' format",
+    "PRINT": "Print",
 
 	"PLEASE_DESCRIBE_REASON":"Please explain why verification is being rejected",
   	"REJECT":"Reject",

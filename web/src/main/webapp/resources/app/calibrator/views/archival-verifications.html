@@ -1,11 +1,9 @@
 <div id="page-wrapper">
-
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-header">Архів повірок</h1>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12">
             <div class="">
@@ -17,18 +15,14 @@
                     </div>
                 </div>
             </div>
-
             <br/>
 
             <div class="panel panel-default">
-
                 <div class="panel-heading">
                     <span> Останні дані</span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
-
                 <div class="panel-body">
-
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
@@ -47,57 +41,43 @@
                                         <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
                                             filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
                                         </td>
-                                        <td data-title="'ACTIONS' | translate" class="control_buttons"   style="width: 12%">
-                                            <!--<div class="dropup">-->
-                                                <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                                                    <!--Dropup-->
-                                                    <!--<span class="caret"></span>-->
-                                                <!--</button>-->
-                                                <!--<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">-->
-                                                    <!--<li>-->
-                                                        <i class="fa fa-info-circle info_icon"
-                                                           popover="{{ 'DETAIL' | translate }}"
-                                                           popover-trigger="mouseenter"
-                                                           ng-click="openDetails(verification.id, verification.initialDate)">
-                                                    </i>
-                                                    <!--</li>-->
-                                                    <!--<li>-->
-                                                        <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
-                                                           target="_blank"
-                                                           href="{{'/doc/info/' + verification.id + '/docx'}}">
-                                                        <i class="fa fa-file-word-o"></i>
-                                                    </a>
-                                                    <!--</li>-->
-                                                    <!--<li><a href="#">Something else here</a></li>-->
-                                                    <!--<li><a href="#">Separated link</a></li>-->
-                                                <!--</ul>-->
-                                            <!--</div>-->
+                                        <td data-title="'ACTIONS' | translate" class="control_buttons"
+                                            style="width: 12%">
+                                            <i class="fa fa-info-circle info_icon"
+                                               popover="{{ 'DETAIL' | translate }}"
+                                               popover-trigger="mouseenter"
+                                               ng-click="openDetails(verification.id, verification.initialDate)">
+                                            </i>
+                                            <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
+                                               target="_blank"
+                                               href="{{'/doc/info/' + verification.id + '/docx'}}">
+                                                <i class="fa fa-file-word-o"></i>
+                                            </a>
 
                                             <div ng-show="verification.status === 'TEST_OK'">
                                                 <a
-                                                   popover="{{ 'DETAIL' | translate }}"
-                                                   popover-trigger="mouseenter"
-                                                   ng-click="">
+                                                        popover="{{ 'DETAIL' | translate }}"
+                                                        popover-trigger="mouseenter"
+                                                        ng-click="">
                                                     <!-- TODO: add new modal window with result of test or add some function that will be show in new Window document in docs format-->
                                                     <i class="fa fa-external-link"></i>
                                                 </a>
                                                 <a
-                                                   popover="Завантажити тестові дані у форматі 'docx'"
-                                                   target="_blank"
-                                                   popover-trigger="mouseenter"
-                                                   href="{{'/doc/' + verification.documentType + '/'+verification.id + '/docx'}}">
-                                                   <!--href="{{'/doc/'+verification.documentType + '/' + verification.id + '/'+ verification.protocolId + '/docx'}}">-->
+                                                        popover="{{ 'DOWNLOAD_TEST_DOC' | translate }}"
+                                                        target="_blank"
+                                                        popover-trigger="mouseenter"
+                                                        href="{{'/doc/' + verification.documentType + '/'+verification.id + '/docx'}}">
                                                     <i class="fa fa-download"></i>
                                                 </a>
                                                 <a
-                                                   popover="Завантажити тестові дані у форматі 'pdf'"
-                                                   target="_blank"
-                                                   popover-trigger="mouseenter"
-                                                   href="{{'/doc/' + verification.documentType + '/'+verification.id + '/pdf'}}">
+                                                        popover="{{ 'DOWNLOAD_TEST_PDF' | translate }}"
+                                                        target="_blank"
+                                                        popover-trigger="mouseenter"
+                                                        href="{{'/doc/' + verification.documentType + '/'+verification.id + '/pdf'}}">
                                                     <i class="fa fa-file-pdf-o"></i>
                                                 </a>
                                                 <a
-                                                        popover="Друк"
+                                                        popover="{{ 'PRINT' | translate }}"
                                                         target="_blank"
                                                         popover-trigger="mouseenter"
                                                         href="{{'/doc/info/' + verification.id + '/pdf'}}">
@@ -118,37 +98,29 @@
                                             filter="{ 'employee_last_name': 'text' }">{{ verification.calibratorEmployee
                                             }}
                                         </td>
-                                        <!--//TODO: add correct search -->
-                                        <!-- here should add this column: -->
-                                        <!-- TODO: add button that will be show all this information (ng-show)-->
-                                        <!--&lt;!&ndash; TODO: archive add new column&ndash;&gt;-->
                                         <td data-title="'PROTOCOL_ID' | translate " sortable="'protocol_id'"
                                             filter="{ protocol_id : 'text' }">{{verification.protocolId}}
                                         </td>
-                                        <!--&lt;!&ndash;TODO: need new functional for filtering by   ng-model="filters.protocol_id" &ndash;&gt;-->
-                                        <!--<td data-title="'PROTOCOL_DATE' | translate"  sortable="'protocol_date'" filter="{ 'protocol_date': 'text' }">{{ verification.protocolDate }}</td>-->
+                                        <!-- TODO: add protocol date-->
                                         <td data-title="'PROTOCOL_STATUS' | translate" sortable="'protocol_status'"
                                             filter="{ protocol_status : 'protocolStatus'}">{{
                                             verification.protocolStatus }}
                                         </td>
-
                                         <td data-title="'MEASUREMENT_DEVICE_ID' | translate"
                                             sortable="'measurement_device_id'"
                                             filter="{ measurement_device_id : 'text' }">
                                             {{verification.measurementDeviceId}}
                                         </td>
-                                        <!--&lt;!&ndash;TODO: need new functional for filtering by   ng-model="filters.measurement_device_id" &ndash;&gt;-->
                                         <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
                                             sortable="'measurement_device_type'"
                                             filter="{ measurement_device_type : 'deviceType' }">{{
                                             verification.measurementDeviceType }}
                                         </td>
-                                        <!--&lt;!&ndash; TODO: ask about category, maybe it should be name of measurement device&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<td data-title="'MEASUREMENT_DEVICE_CATEGORY' | translate"  sortable="'measurement_device_category'" filter="{ 'measurement_device_category': 'text' }">{{ verification.measurementDeviceCategory }}</td>&ndash;&gt;-->
-
                                         <td data-title="'DOCUMENT_TYPE' | translate" sortable="'protocol_status'"
-                                            filter="{ protocol_status : 'protocolStatus'}">{{ verification.documentTypeName }}</td>
-                                        <!--<td data-title="'DOCUMENT_DATE' | translate"  sortable="'document_date'" filter="{ 'document_date': 'text' }">{{ verification.documentDate }}</td>-->
+                                            filter="{ protocol_status : 'protocolStatus'}">{{
+                                            verification.documentTypeName }}
+                                        </td>
+                                        <!-- TODO: add date of creation document-->
                                     </tr>
                                     </tbody>
                                 </table>
@@ -183,8 +155,6 @@
                                     </ul>
                                 </div>
                             </script>
-
-
                             <script type="text/ng-template" id="ng-table/filters/daterange.html">
                                 <div class="input-group right-inner-addon" style="width: 100%">
                                     <i id="calendar_icon" class="glyphicon glyphicon-calendar"
@@ -216,7 +186,6 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </script>
-
                             <script type="text/ng-template" id="ng-table/filters/deviceType.html">
                                 <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
                                            search-enabled="false"
