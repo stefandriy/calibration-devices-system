@@ -10,12 +10,12 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-//TODO : Avaliable typo: some query on repository side crashes after refactoring.
+//TODO : Avaliable typo: some query on repository side crashes after refactoring. Refactor to primitives
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "username")
+@NoArgsConstructor
 @Table(name = "USER")
 public class User {
 

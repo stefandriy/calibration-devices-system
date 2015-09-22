@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "ORGANIZATION")
