@@ -449,7 +449,7 @@
                                     <ui-select-match placeholder="Кількість">
                                         {{$select.selected}}
                                     </ui-select-match>
-                                    <ui-select-choices repeat="value in values">
+                                    <ui-select-choices repeat="value in values ">
                                         <span ng-bind-html="value"></span>
                                     </ui-select-choices>
                                 </ui-select>
@@ -463,7 +463,7 @@
                                     <ui-select-match placeholder="Категорія лічильника">
                                         {{$select.selected.designation}}
                                     </ui-select-match>
-                                    <ui-select-choices repeat="device in devices | filter: $select.search">
+                                    <ui-select-choices repeat="device in devices | filter: $select.search | hideSelected:selectedValues.firstSelectedDevice">
                                         <span ng-bind-html="device.designation"></span>
                                     </ui-select-choices>
                                 </ui-select>
