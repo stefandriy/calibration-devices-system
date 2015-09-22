@@ -24,6 +24,7 @@ import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.ProviderEmployeeQuary;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -69,7 +70,7 @@ public class ProviderEmployeeService {
         if (providerEmployee.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
             System.out.println(providerEmployee.getEmail());
-            System.out.println(newPassword );
+            System.out.println(newPassword);
             mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
             providerEmployee.setPassword(passwordEncoded);
@@ -138,8 +139,7 @@ public class ProviderEmployeeService {
     public List<ProviderEmployeeGraphic> buildGraphic(Date from, Date to, Long idOrganization, List<User> listOfEmployee) {
         Organization organization = organizationRepository.findOne(idOrganization);
         List<Verification> verifications = verificationRepository.
-                findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween
-                        (organization, from, to);
+                findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween(organization, from, to);
         List<ProviderEmployeeGraphic> graficData = null;
         try {
             List<MonthOfYear> monthList = GraphicBuilder.listOfMonths(from, to);
@@ -153,7 +153,7 @@ public class ProviderEmployeeService {
 
     @Transactional
     public List<ProviderEmployeeGraphic> buidGraphicMainPanel(Date from, Date to, Long idOrganization) {
-        Organization organization=organizationRepository.findOne(idOrganization);
+        Organization organization = organizationRepository.findOne(idOrganization);
         List<Verification> verifications = verificationRepository.
                 findByProviderAndInitialDateBetween
                         (organization, from, to);
@@ -181,7 +181,6 @@ public class ProviderEmployeeService {
         }
         return result;
     }
-
 
     @Transactional
     public List<User> getAllProviderEmployee(Long idOrganization) {

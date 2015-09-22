@@ -9,7 +9,6 @@ import org.mockito.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static org.mockito.Mockito.*;
 
@@ -33,36 +32,20 @@ public class ProviderServiceTest {
 		final Organization organization = Mockito.mock(Organization.class);
 		final List<Organization> organizations = Collections.singletonList(organization);
 		
-		when(mockProviderRepository.getByTypeAndDistrict(anyString(), anyString())).thenReturn(organizations);
+		when(mockProviderRepository.findByDistrictAndType(anyString(), anyString())).thenReturn(organizations);
 		
-		providerService.findByDistrict(district, type);
+		providerService.findByDistrictAndType(district, type);
 		
 		ArgumentCaptor<String> distinctArg = ArgumentCaptor.forClass(String.class);
 		ArgumentCaptor<String> typeArg = ArgumentCaptor.forClass(String.class);
 		
-		verify(mockProviderRepository).getByTypeAndDistrict(distinctArg.capture(), typeArg.capture());
+		verify(mockProviderRepository).findByDistrictAndType(distinctArg.capture(), typeArg.capture());
 		
-		Assert.assertEquals(district, distinctArg.getValue()); 
+		Assert.assertEquals(district, distinctArg.getValue());
 		Assert.assertEquals(type, typeArg.getValue());
-		Assert.assertEquals(organizations, providerService.findByDistrict(district, type));
+		Assert.assertEquals(organizations, providerService.findByDistrictAndType(district, type));
 	}
-	
-	@Test
-	public void testGetTypesByIdParametersPropagation() {
-		final Long id = 1L;
-		final Set<String> mockSet = mock(Set.class);
-		
-		when(mockProviderRepository.getOrganizationTypesById(anyLong())).thenReturn(mockSet);
-		
-		providerService.getTypesById(id);
-		ArgumentCaptor<Long> idArg = ArgumentCaptor.forClass(Long.class);
-		
-		verify(mockProviderRepository).getOrganizationTypesById(idArg.capture());
-		
-		Assert.assertEquals(id, idArg.getValue());
-		Assert.assertEquals(mockSet, providerService.getTypesById(id));
-    }
-	
+
 	@Test
     public void testFindByIdParametersPropagation() {
 		final Long finalId = 1L;

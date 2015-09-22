@@ -1,14 +1,16 @@
 package com.softserve.edu.entity.user;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "USER_ROLE")
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(of = "id")
 public class UserRole {
     @Id
     @GeneratedValue
@@ -16,66 +18,7 @@ public class UserRole {
     private String role;
 
     @ManyToMany
-    @JoinTable(name = "USERS_ROLES", joinColumns = @JoinColumn(name = "id"),
+    @JoinTable(name = "USER_USER_ROLE", joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = @JoinColumn(name = "username"))
     private Set<User> users;
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public UserRole(String role) {
-        this.role = role;
-    }
-
-    public UserRole() {
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("role", role).toString();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder()
-                .append(id)
-                .append(role)
-                .toHashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj instanceof UserRole) {
-            final UserRole other = (UserRole) obj;
-            return new EqualsBuilder()
-                    .append(id, other.id)
-                    .append(role, other.role)
-                    .isEquals();
-        } else {
-            return false;
-        }
-    }
 }

@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -32,20 +30,15 @@ public class CalibratorService {
     @Autowired
     private UploadBbiRepository uploadBbiRepository;
 
-    @PersistenceContext
-    private EntityManager em;
-
     @Autowired
     private VerificationRepository verificationRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-
     @Transactional(readOnly = true)
     public List<Organization> findByDistrict(String district, String type) {
-        System.err.println("searching calibrators");
-        return calibratorRepository.getByTypeAndDistrict(district, type);
+        return calibratorRepository.findByDistrictAndType(district, type);
     }
 
     @Transactional(readOnly = true)
@@ -88,11 +81,11 @@ public class CalibratorService {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
         if (role.contains(Roles.CALIBRATOR_ADMIN.name())) {
             List<User> list = userRepository.getAllProviderUsersList(Roles.CALIBRATOR_EMPLOYEE.name(),
-                    employee.getOrganization().getId(),true);
+                    employee.getOrganization().getId(), true);
             providerListEmployee = EmployeeDTO.giveListOfProviders(list);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
-                    employee.getLastName(), employee.getMiddleName(),role.get(0));
+                    employee.getLastName(), employee.getMiddleName(), role.get(0));
             providerListEmployee.add(userPage);
         }
         return providerListEmployee;
@@ -105,5 +98,4 @@ public class CalibratorService {
         verification.setReadStatus(ReadStatus.READ);
         verificationRepository.save(verification);
     }
-
 }

@@ -5,7 +5,7 @@ import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -30,7 +30,7 @@ public class CalibratorEmployeeController {
     private UsersService userService;
 
     @Autowired
-    private OrganizationsService organizationsService;
+    private OrganizationService organizationsService;
 
     @Autowired
     private CalibratorEmployeeService calibratorEmployeeService;
@@ -69,8 +69,7 @@ public class CalibratorEmployeeController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = calibratorService.oneCalibratorEmployee(user.getUsername());
         List<String> role = userService.getRoles(user.getUsername());
-        List<EmployeeDTO> providerListEmployee = calibratorService.getAllCalibratorEmployee(role, employee);
-        return providerListEmployee;
+        return calibratorService.getAllCalibratorEmployee(role, employee);
     }
 
     @RequestMapping(value = "assign/calibratorEmployee", method = RequestMethod.PUT)
