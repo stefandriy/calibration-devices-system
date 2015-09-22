@@ -228,7 +228,8 @@ public class MailService {
         this.mailSender.send(preparator);
     }
 
-    public  void sendOrganizationChanges (Long organizationId, String username){
+    //TODO: remove calls to database out of this service
+    public void sendOrganizationChanges (Long organizationId, String username){
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             Organization organization = organizationRepository
                     .findOne(organizationId);

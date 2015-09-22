@@ -7,6 +7,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -36,6 +37,9 @@ public class OrganizationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MailService mail;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -126,5 +130,10 @@ public class OrganizationService {
     @Transactional
     public Integer getOrganizationEmployeesCapacity(Long organizationId) {
         return organizationRepository.findOne(organizationId).getEmployeesCapacity();
+    }
+
+    @Transactional
+    public void sendOrganizationChanges (Long organizationId, String username){
+        mail.sendOrganizationChanges(organizationId, username);
     }
 }
