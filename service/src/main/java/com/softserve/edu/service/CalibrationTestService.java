@@ -62,8 +62,7 @@ public class CalibrationTestService {
     @Transactional
     public CalibrationTestList findAllCalibrationTests() {
         List<CalibrationTest> list = (ArrayList<CalibrationTest>) testRepository.findAll();
-        CalibrationTestList foundTests = new CalibrationTestList(list);
-        return foundTests;
+        return new CalibrationTestList(list);
     }
 
     @Transactional

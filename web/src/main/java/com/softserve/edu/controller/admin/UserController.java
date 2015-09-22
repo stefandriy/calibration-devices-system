@@ -128,7 +128,7 @@ public class UserController {
                 .build();
         for (String tmp : employee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.addUserRole(userRole);
+            newUser.getUserRoles().add(userRole);
         }
         userService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);

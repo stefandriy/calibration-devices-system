@@ -1,5 +1,6 @@
 package com.softserve.edu.controller.client.application;
 
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,11 +20,7 @@ import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.ClientMailDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
-import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.ClientData;
-import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.DeviceService;
@@ -31,6 +28,13 @@ import com.softserve.edu.service.MailService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/application/")
@@ -117,7 +121,7 @@ public class ClientApplicationController {
     @RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
 
-        return providerService.findByDistrict(district, "PROVIDER").stream()
+        return providerService.findByDistrictAndType(district, "PROVIDER").stream()
                 .map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
                 .collect(Collectors.toList());
     }
@@ -125,7 +129,8 @@ public class ClientApplicationController {
     @RequestMapping(value = "calibrators/{district}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getCalibratorsCorrespondingDistrict(@PathVariable String district) {
 
-        return calibratorService.findByDistrict(district, "CALIBRATOR").stream()
+        return calibratorService.findByDistrict(district, "CALIBRATOR")
+                .stream()
                 .map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
                 .collect(Collectors.toList());
     }
@@ -146,6 +151,7 @@ public class ClientApplicationController {
 
     /**
      * Sends email to System Administrator from client with verification application
+     *
      * @param mailDto
      * @return
      */
@@ -167,6 +173,7 @@ public class ClientApplicationController {
 
     /**
      * Sends email to System Administrator from client
+     *
      * @param mailDto
      * @return
      */

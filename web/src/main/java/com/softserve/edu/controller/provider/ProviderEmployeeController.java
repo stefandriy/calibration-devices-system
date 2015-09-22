@@ -3,7 +3,7 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.verification.VerificationService;
@@ -27,12 +27,11 @@ public class ProviderEmployeeController {
 
     Logger logger = Logger.getLogger(ProviderEmployeeController.class);
 
-
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
 
     @Autowired
-    private OrganizationsService organizationsService;
+    private OrganizationService organizationsService;
 
     @Autowired
     private VerificationService verificationService;
@@ -75,8 +74,7 @@ public class ProviderEmployeeController {
 
 
     @RequestMapping(value = "piemainpanel", method = RequestMethod.GET)
-    public Map pieMainPanel
-            (@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public Map pieMainPanel(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         Long idOrganization = user.getOrganizationId();
         Organization organization = organizationsService.getOrganizationById(idOrganization);
         Map tmp = new HashMap<>();

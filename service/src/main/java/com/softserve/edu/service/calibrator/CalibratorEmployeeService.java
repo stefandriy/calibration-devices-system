@@ -37,10 +37,8 @@ public class CalibratorEmployeeService {
         calibratorEmployeeRepository.save(calibratorEmployee);
     }
 
-    
     @Transactional
     public User oneCalibratorEmployee(String username) {
         return calibratorEmployeeRepository.getUserByUserName(username);
     }
-
 }
