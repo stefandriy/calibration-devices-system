@@ -1,6 +1,6 @@
 package com.softserve.edu.service;
 
-
+import java.util.List;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -106,5 +106,8 @@ public class UserServiceImpl {
 
     public User findByRoleAndOrganizationId(String role, Long organizationId){
         return userRepository.findByRoleAndOrganizationId(role, organizationId);
+    }
+    public List<User> findByRole(String role){
+        return userRepository.findByRoleLikeIgnoreCase(role);
     }
 }
