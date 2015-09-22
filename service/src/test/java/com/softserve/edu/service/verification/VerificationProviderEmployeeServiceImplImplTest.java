@@ -12,11 +12,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Volodya NT on 18.08.2015.
- */
 @RunWith(MockitoJUnitRunner.class)
-public class VerificationProviderEmployeeServiceTest {
+public class VerificationProviderEmployeeServiceImplImplTest {
 
     @InjectMocks
     VerificationProviderEmployeeService verificationProviderEmployeeService;
@@ -32,7 +29,7 @@ public class VerificationProviderEmployeeServiceTest {
         Verification verification = new Verification();
         Verification spyVerification = spy(verification);
         when(verificationRepository.findOne(verificationID)).thenReturn(spyVerification);
-        verificationProviderEmployeeService.assignProviderEmployee(verificationID,user);
+        verificationProviderEmployeeService.assignProviderEmployee(verificationID, user);
         verify (spyVerification, times(1)).setProviderEmployee(user);
     }
 }

@@ -25,7 +25,7 @@ import java.util.Set;
  */
 @Service
 @Transactional(readOnly = true)
-public class DocumentsService {
+public class DocumentsServiceImpl {
 
     @Autowired
     VerificationRepository verificationRepository;

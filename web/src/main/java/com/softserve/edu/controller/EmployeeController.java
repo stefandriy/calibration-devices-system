@@ -14,7 +14,7 @@ import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.admin.UsersService;
+import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
@@ -36,7 +36,7 @@ public class EmployeeController {
     Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
-    private UsersService userService;
+    private UserService userService;
 
     @Autowired
     private OrganizationService organizationsService;

@@ -1,14 +1,9 @@
 package com.softserve.edu.service;
 
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
-
 import com.softserve.edu.entity.Device;
 import com.softserve.edu.repository.DeviceRepository;
-
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,8 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import static org.mockito.Mockito.*;
+
 @RunWith(MockitoJUnitRunner.class)
-public class DeviceServiceTest {
+public class DeviceServiceImplTest {
 
 	private static final String deviceName = "Test";
 
@@ -58,15 +55,15 @@ public class DeviceServiceTest {
 
 	@Test(expected  = NullPointerException.class)
 	public void testExceptionExistsWithDeviceid() throws FileNotFoundException {
-		DeviceService d = new DeviceService();
+        DeviceService d = new DeviceServiceImpl();
 		d.existsWithDeviceid(nullId);
 	}
 
 
 	@Test(expected  = NullPointerException.class)
 	public void testExceptionGetById() throws NullPointerException {
-		DeviceService deviceService = new DeviceService();
-		deviceService.existsWithDeviceid(testId);
+        DeviceService deviceServiceImpl = new DeviceServiceImpl();
+		deviceServiceImpl.existsWithDeviceid(testId);
 	}
 
 	@Test

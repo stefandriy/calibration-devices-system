@@ -17,10 +17,7 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Volodya NT on 18.08.2015.
- */
-public class DistrictServiceTest {
+public class DistrictServiceImplTest {
 
     @Mock
     private DistrictRepository districtRepository;
@@ -60,6 +57,6 @@ public class DistrictServiceTest {
         Assert.assertEquals(destination, streetIdArgumentCapture.getValue());
         verify(districtRepository, times(1)).save(district);
         when(districtRepository.findByDesignationAndRegionId(anyString(), anyLong())).thenReturn(district);
-        Assert.assertEquals(district,districtService.findDistrictByDesignationAndRegion("dest", (long) 11));
+        Assert.assertEquals(district, districtService.findDistrictByDesignationAndRegion("dest", (long) 11));
     }
 }

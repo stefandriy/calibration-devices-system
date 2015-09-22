@@ -1,18 +1,17 @@
 package com.softserve.edu.service;
 
-import java.util.List;
-
+import com.softserve.edu.entity.MeasuringEquipment;
+import com.softserve.edu.repository.MeasuringEquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.entity.MeasuringEquipment;
-import com.softserve.edu.repository.MeasuringEquipmentRepository;
+import java.util.List;
 
 @Service
-public class MeasuringEquipmentService {
+public class MeasuringEquipmentServiceImpl {
 
     @Autowired
     private MeasuringEquipmentRepository measuringEquipmentRepository;

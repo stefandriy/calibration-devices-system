@@ -10,14 +10,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
  * Created by vova on 26.08.15.
  */
-public class StateVerificatorEmployeeServiceTest {
+public class StateVerificatorEmployeeServiceImplTest {
     final static String username = "username";
     final static String password = "password";
 

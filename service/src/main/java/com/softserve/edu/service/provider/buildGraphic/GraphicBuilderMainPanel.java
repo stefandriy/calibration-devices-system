@@ -1,9 +1,5 @@
 package com.softserve.edu.service.provider.buildGraphic;
 
-/**
- * Created by Володя on 08.08.2015.
- */
-
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;

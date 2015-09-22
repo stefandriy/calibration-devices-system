@@ -1,22 +1,7 @@
 package com.softserve.edu.controller.stateverificator;
 
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
-import com.softserve.edu.dto.ArchiveVerificationsFilterAndSort;
-import com.softserve.edu.dto.CalibrationTestDTO;
-import com.softserve.edu.dto.NewVerificationsFilterSearch;
-import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.VerificationUpdateDTO;
+import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
@@ -26,6 +11,7 @@ import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.CalibrationTestService;
+import com.softserve.edu.service.CalibrationTestServiceImpl;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
@@ -33,6 +19,12 @@ import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeServi
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/verificator/verifications/")

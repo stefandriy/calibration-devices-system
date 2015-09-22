@@ -5,7 +5,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.MailServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Ignore
-public class ProviderEmployeeServiceTest {
+public class ProviderEmployeeServiceImplTest {
 
 	@InjectMocks
 	private ProviderEmployeeService providerEmployeeService;
@@ -32,7 +32,7 @@ public class ProviderEmployeeServiceTest {
 	private UserRepository mockProviderEmployeeRepository;
 
 	@Mock
-	private MailService mockMail;
+	private MailServiceImpl mockMail;
 
 	@Mock
 	private EntityManager mockEntityManager;
@@ -110,7 +110,7 @@ public class ProviderEmployeeServiceTest {
 
 		Assert.assertEquals(username, usernameArg.getValue());
 		Assert.assertEquals(mockUser,
-				providerEmployeeService.oneProviderEmployee(username));
+                providerEmployeeService.oneProviderEmployee(username));
 
 	}
 
@@ -141,7 +141,7 @@ public class ProviderEmployeeServiceTest {
 		verify(spyProviderListEmployee).add(finalEmpDTO);
 
 		Assert.assertNotNull(providerEmployeeService.getAllProviders(
-				spyRoleList, spyEmployee));
+                spyRoleList, spyEmployee));
 	}
 
 	@Test
@@ -156,7 +156,7 @@ public class ProviderEmployeeServiceTest {
 		List<EmployeeDTO> providerListEmployee = Mockito.mock(List.class);
 
 		Assert.assertNotNull(providerEmployeeService.getAllProviders(
-				spyRoleList, spyEmployee));
+                spyRoleList, spyEmployee));
 	}
 
 	@Test
@@ -168,7 +168,7 @@ public class ProviderEmployeeServiceTest {
 				.thenReturn(mockUser);
 
 		Assert.assertEquals(mockUser,
-				providerEmployeeService.findByUserame(username));
+                providerEmployeeService.findByUserame(username));
 	}
 
 	@Test
@@ -181,7 +181,7 @@ public class ProviderEmployeeServiceTest {
 				.thenReturn(mockList);
 
 		Assert.assertEquals(mockList,
-				providerEmployeeService.getRoleByUserNam(usernam));
+                providerEmployeeService.getRoleByUserNam(usernam));
 	}
 
 }

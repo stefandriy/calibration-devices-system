@@ -1,5 +1,7 @@
 package com.softserve.edu.controller.stateverificator;
 
+import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +17,7 @@ import com.softserve.edu.controller.provider.ProviderEmployeeController;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.UserService;
-import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
+import com.softserve.edu.service.UserServiceImpl;
 
 @RestController
 @RequestMapping(value = "verificator/admin/users")
@@ -26,13 +26,13 @@ public class StateVerificatorEmployeeController {
 	Logger logger = Logger.getLogger(ProviderEmployeeController.class);
 
 	@Autowired
-	private UserService userService;
+	private UserServiceImpl userServiceImpl;
 
 	@Autowired
 	private OrganizationService organizationsService;
 
 	@Autowired
-	private StateVerificatorEmployeeService stateVerificatorEmployeeService;
+	private StateVerificatorEmployeeService stateVerificatorEmployeeServiceImpl;
 	
 	  /**
      * Spatial security service
@@ -55,7 +55,7 @@ public class StateVerificatorEmployeeController {
 	public Boolean isValidUsername(@PathVariable String username) {
 		boolean isAvailable = false;
 		if (username != null) {
-			isAvailable = userService.existsWithUsername(username);
+			isAvailable = userServiceImpl.existsWithUsername(username);
 		}
 		return isAvailable;
 	}
@@ -67,7 +67,7 @@ public class StateVerificatorEmployeeController {
 		Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
 		stateVerificatorEmployee.setOrganization(employeeOrganization);
 		
-		stateVerificatorEmployeeService.addEmployee(stateVerificatorEmployee);
+		stateVerificatorEmployeeServiceImpl.addEmployee(stateVerificatorEmployee);
 
 		return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
 	}

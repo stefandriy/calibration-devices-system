@@ -7,10 +7,10 @@ import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.MailServiceImpl;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.admin.UsersService;
+import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
@@ -48,13 +48,13 @@ public class ProviderVerificationController {
     VerificationProviderEmployeeService verificationProviderEmployeeService;
 
     @Autowired
-    private OrganizationService organizationService;
+    private OrganizationService organizationServiceImpl;
 
     @Autowired
-    private UsersService userService;
+    private UserService userService;
 
     @Autowired
-    private MailService mailService;
+    private MailServiceImpl mailServiceImpl;
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
@@ -90,7 +90,7 @@ public class ProviderVerificationController {
      * @param verifDate    (optional)
      * @param verifId      (optional)
      * @param lastName     (optional)
-     * @param firstName    (optional)
+     * @param firstName    (optional).
      * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
@@ -169,7 +169,7 @@ public class ProviderVerificationController {
     @RequestMapping(value = "new/earliest_date/provider", method = RequestMethod.GET)
     public String getNewVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
-            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            Organization organization = organizationServiceImpl.getOrganizationById(user.getOrganizationId());
             java.util.Date gottenDate = verificationService.getNewVerificationEarliestDateByProvider(organization);
             java.util.Date date = null;
             if (gottenDate != null) {
@@ -195,7 +195,7 @@ public class ProviderVerificationController {
     @RequestMapping(value = "archive/earliest_date/provider", method = RequestMethod.GET)
     public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
-            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            Organization organization = organizationServiceImpl.getOrganizationById(user.getOrganizationId());
             java.util.Date gottenDate = verificationService.getArchivalVerificationEarliestDateByProvider(organization);
             java.util.Date date = null;
             if (gottenDate != null) {

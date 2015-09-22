@@ -1,7 +1,7 @@
 package com.softserve.edu.controller.catalogue;
 
-import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
+import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.service.catalogue.LocalityService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

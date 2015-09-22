@@ -79,7 +79,7 @@ public class ProviderEmployeeController {
         Organization organization = organizationsService.getOrganizationById(idOrganization);
         Map tmp = new HashMap<>();
         tmp.put("SENT", verificationService.findCountOfAllSentVerifications(organization));
-        tmp.put("ACCEPTED",verificationService.findCountOfAllAcceptedVerification(organization));
+        tmp.put("ACCEPTED", verificationService.findCountOfAllAcceptedVerification(organization));
         return tmp;
     }
 

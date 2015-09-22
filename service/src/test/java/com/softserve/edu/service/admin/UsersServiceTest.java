@@ -1,27 +1,5 @@
 package com.softserve.edu.service.admin;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.UserRoleRepository;
-import com.softserve.edu.service.UserService;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import static org.mockito.Mockito.*;
-import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by Dmytro on 8/20/2015.
  */

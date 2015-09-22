@@ -31,7 +31,7 @@ public class Verification {
     private ReadStatus readStatus;
 
     @ManyToOne
-    @JoinColumn(name = "device_id")
+    @JoinColumn(name = "device_id" )
     @JsonManagedReference
     private Device device;
 
