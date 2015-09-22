@@ -374,7 +374,7 @@ angular
                  * executes when modal closing
                  */
                 $scope.pop = function () {
-                    toaster.pop('success', "\u0406\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F", "\u0412\u0430\u0448\u0435 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F \u0431\u0443\u043B\u043E \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u043D\u0430\u0434\u0456\u0441\u043B\u0430\u043D\u043E");
+                    toaster.pop('success', $filter('translate')('INFORMATION'),  $filter('translate')('SUCCESSFUL_SENDING'));
                 };
 
                 modalInstance.result.then(function (formData, sendingStarted) {

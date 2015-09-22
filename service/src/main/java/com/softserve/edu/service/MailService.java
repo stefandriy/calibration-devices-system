@@ -148,20 +148,22 @@ public class MailService {
         this.mailSender.send(preparator);
     }
 
-
-        public void sendClientMail(String from, String userFirstName, String userLastName, String verificationId, String msg) {
+    /**
+     * Send email from client
+     * @param to
+     * @param from
+     * @param userFirstName
+     * @param userLastName
+     * @param verificationId
+     * @param msg
+     */
+    public void sendClientMail(String to, String from, String userFirstName, String userLastName, String verificationId, String msg) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 
-                List<User> adminList = userRepository.findByRoleLikeIgnoreCase("SYS_ADMIN");
-                if (!adminList.isEmpty() && adminList.get(0).getEmail() != null) {
-                    message.setTo(adminList.get(0).getEmail());
-                    logger.trace("Email send to:" + adminList.get(0).getEmail());
-                } else {
-                    message.setTo("metrology.calibration.devices@gmail.com");
-                }
+                message.setTo(to);
                 message.setFrom(new InternetAddress(from));
                 Map<String, Object> templateVariables = new HashMap<>();
                 templateVariables.put("firstName", userFirstName);
@@ -228,7 +230,7 @@ public class MailService {
         this.mailSender.send(preparator);
     }
 
-    public  void sendOrganizationChanges (Long organizationId, String username){
+    public void sendOrganizationChanges(Long organizationId, String username) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             Organization organization = organizationRepository
                     .findOne(organizationId);

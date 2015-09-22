@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -106,5 +108,9 @@ public class UserService {
 
     public User findByRoleAndOrganizationId(String role, Long organizationId){
         return userRepository.findByRoleAndOrganizationId(role, organizationId);
+    }
+
+    public List<User> findByRole(String role){
+        return userRepository.findByRoleLikeIgnoreCase(role);
     }
 }

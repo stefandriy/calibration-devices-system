@@ -61,6 +61,8 @@
   "COUNTERS":"Counters",
   "EMPLOYEE":"Employees",
   "EMPLOYEE_SINGLE": "Employee full name",
+  "INFORMATION": "Information",
+  "SUCCESSFUL_SENDING": "Your message has been sent successfully",
 
   "PROTOCOL_ID":"Protocol ID",
   "PROTOCOL_DATE":"Protocol creation date",
