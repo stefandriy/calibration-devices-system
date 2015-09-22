@@ -258,7 +258,6 @@ angular
                 }
             }
 
-            //initFormData();
 
             /**
              * Finds districts in a given region.

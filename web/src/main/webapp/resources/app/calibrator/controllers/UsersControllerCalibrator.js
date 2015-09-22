@@ -112,6 +112,13 @@ angular
                     });
             };
 
+            /**
+             * update table with employees after edit or add new employee
+             */
+            $scope.$on('new-employee-added', function() {
+                $scope.tableParams.reload();
+            });
+
 
         }]);
 
