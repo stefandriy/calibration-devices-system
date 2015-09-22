@@ -11,21 +11,19 @@ angular
             $scope.values = [1, 2, 3, 4, 5, 6];
             $scope.streetsTypes = [];
             $scope.selectedStreetType = "";
+            $scope.selectedValues.selectedStreetType = undefined;
 
             $scope.devices = [];
             $scope.firstDeviceCount = undefined;
             $scope.selectedValues.secondDeviceCount = undefined;
-            // $scope.selectedValues.thirdDeviceCount = undefined;
 
             $scope.checkboxModel = false;
             $scope.isSecondDevice = false;
-            //$scope.isThirdDevice = false;
             $scope.responseSuccess = false;
             $scope.showSendingAlert = false;
 
             $scope.firstAplicationCodes = [];
             $scope.secondAplicationCodes = [];
-            //$scope.thirdAplicationCodes = [];
 
             $scope.allSelectedDevices = [];
             $scope.appProgress = false;
@@ -267,7 +265,6 @@ angular
                     $scope.devices = devices;
                     $scope.selectedValues.firstSelectedDevice = undefined;
                     $scope.selectedValues.secondSelectedDevice = undefined;
-                    // $scope.selectedValues.thirdSelectedDevice = undefined;
                 }
             );
 
@@ -275,29 +272,29 @@ angular
              *  Error verification of device block
              */
             $scope.deviceErrorCheck = function () {
-                if ($scope.firstDeviceCount !== undefined) {
+                if ($scope.selectedValues.firstDeviceCount !== undefined) {
                     $scope.clientForm.firstDeviceCount.$invalid = false;
                 }
-                if ($scope.selectedValues.firstSelectedDevice == undefined) {
+                if ($scope.selectedValues.firstSelectedDevice === undefined) {
                     $scope.clientForm.firstSelectedDevice.$invalid = true;
                     $scope.clientForm.firstDeviceCount.$invalid = true;
                 }
 
-                if (($scope.selectedValues.secondDeviceCount !== undefined) || ($scope.selectedValues.secondDeviceCount === undefined)) {
+                if (($scope.selectedValues.secondDeviceCount !== undefined)) {
                     $scope.clientForm.secondDeviceCount.$invalid = false;
                 }
-                if ($scope.selectedValues.secondSelectedDevice == undefined) {
+                if ($scope.selectedValues.secondSelectedDevice === undefined) {
                     $scope.clientForm.secondSelectedDevice.$invalid = true;
                     $scope.clientForm.secondDeviceCount.$invalid = true;
                 }
 
-                /*if (($scope.selectedValues.thirdDeviceCount !== undefined) || ($scope.selectedValues.thirdDeviceCount == undefined)) {
-                 $scope.clientForm.thirdDeviceCount.$invalid = false;
-                 }
-                 if ($scope.selectedValues.thirdSelectedDevice == undefined) {
-                 $scope.clientForm.thirdSelectedDevice.$invalid = true;
-                 $scope.clientForm.thirdDeviceCount.$invalid = true;
-                 }*/
+                if (($scope.selectedValues.selectedStreetType !== undefined)) {
+                    $scope.clientForm.streetType.$invalid = false;
+                }
+                if ($scope.selectedValues.selectedStreet === undefined) {
+                    $scope.clientForm.street.$invalid = true;
+                    $scope.clientForm.streetType.$invalid = true;
+                }
             };
 
 
@@ -352,18 +349,6 @@ angular
 
                             }
                             $scope.appProgress = false;
-
-                            /* for (var i = 0; i < $scope.selectedValues.thirdDeviceCount; i++) {
-                             $scope.formData.deviceId = $scope.selectedValues.thirdSelectedDevice.id;
-                             $scope.thirdAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
-                             }
-
-                             $q.all($scope.thirdAplicationCodes).then(function (values) {
-                             for (var i = 0; i < $scope.selectedValues.thirdDeviceCount; i++) {
-                             $scope.codes.push(values[i].data);
-                             }
-
-                             });*/
                         });
                     });
                     $log.debug(" $scope.codeslength");
@@ -435,11 +420,9 @@ angular
 
                 $scope.selectedValues.firstSelectedDevice = undefined;
                 $scope.selectedValues.secondSelectedDevice = undefined;
-                //$scope.selectedValues.thirdSelectedDevice = undefined;
 
                 $scope.selectedValues.firstDeviceCount = undefined;
                 $scope.selectedValues.secondDeviceCount = undefined;
-                // $scope.selectedValues.thirdDeviceCount = undefined;
 
                 $scope.selectedValues.selectedRegion = undefined;
                 $scope.selectedValues.selectedDistrict = undefined;

@@ -34,6 +34,8 @@
   "REQUIRED": "This field is required",
   "EMAIL_ERROR": "Email must contatin '@' character. For instance: ",
   "TYPEAHEAD_ERROR": "Select the appropriate option from the drop down list",
+  "STREET_ERROR": "Street field is required",
+  "PROVIDER_NOT_FOUND": "There is no provider for this area. Please let us know.",
   "ALPHABETIC_ERROR": "This field can contain only alphabetic characters.",
   "PHONE_NUMBER_ERROR": "Phone number must be filled in format: {city/operator code}{phone number}",
   "PHONE_NUMBER_INFO":"This field is not mandatory , but to improve communications capabilities ask him to fill",
@@ -271,7 +273,6 @@
   "ORGANIZATION_ID " : "Organization id",
   "FIND_BY_ADRESS" : "Find by adress",
   "FIND_BY_ORG_TYPE" : "Find by organization type",
-
 
   "REJECT_MESSAGE" : "Reject message",
   "EXPIRATION_DATE" : "Expiration Date",
