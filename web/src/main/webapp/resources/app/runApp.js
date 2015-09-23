@@ -26,7 +26,8 @@ require.config({
         angularUISelect: "../assets/bower_components/ui-select/dist/select.min",
         ngSanitize: "../assets/bower_components/angular-sanitize/angular-sanitize.min",
         angularJsToaster : "../assets/bower_components/angularjs-toaster/toaster.min",
-        angularAnimate : "../assets/bower_components/angular-animate/angular-animate.min"
+        angularAnimate : "../assets/bower_components/angular-animate/angular-animate.min",
+        semanticUI: "../assets/bower_components/semantic/dist/semantic.min"
     },
     shim: {
 
@@ -109,11 +110,14 @@ require.config({
             deps:['angularAnimate'],
             exports: 'angularJsToaster'
         },
+        semanticUI:{
+            deps:['angular']
+        },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
                 'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload', 'ngRoute', 'angularLoadingBar',
-                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize', 'angularJsToaster']
+                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize', 'angularJsToaster', 'semanticUI']
         }
     }
 });
