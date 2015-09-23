@@ -10,6 +10,7 @@ import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
@@ -55,7 +56,8 @@ public class OrganizationsController {
      */
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity addOrganization(
-            @RequestBody OrganizationDTO organizationDTO) {
+            @RequestBody OrganizationDTO organizationDTO,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         Address address = new Address(
                 organizationDTO.getRegion(),
@@ -65,6 +67,7 @@ public class OrganizationsController {
                 organizationDTO.getBuilding(),
                 organizationDTO.getFlat());
         try {
+            String adminName = user.getUsername();
             organizationsService.addOrganizationWithAdmin(
                     organizationDTO.getName(),
                     organizationDTO.getEmail(),
@@ -77,7 +80,9 @@ public class OrganizationsController {
                     organizationDTO.getMiddleName(),
                     organizationDTO.getUsername(),
                     organizationDTO.getPassword(),
-                    address);
+                    address,
+                    adminName
+                    );
         } catch (Exception e) {
             // TODO
             logger.error("GOT EXCEPTION " + e.getMessage());
@@ -149,10 +154,13 @@ public class OrganizationsController {
     }
 
     @RequestMapping(value = "getOrganization/{id}")
-    public Organization getOrganization(@PathVariable("id") Long id) {
-        //OrganizationDTO	organizationDTO=new OrganizationDTO();
+    public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
         Organization organization = organizationsService.getOrganizationById(id);
-        return organization;
+
+        OrganizationDTO	organizationDTO=new OrganizationDTO(organization.getId() ,organization.getName(), organization.getEmail(), organization.getPhone(),
+        organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
+            organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
+        return organizationDTO;
     }
 
     /**
@@ -190,6 +198,9 @@ public class OrganizationsController {
            logger.info(organization.getRegion());
         logger.info(organization.getDistrict());
         logger.info(organization.getPhone());
+           
+           String adminName = user.getUsername();
+           
             organizationsService.editOrganization(
                     organizationId,
                     organization.getName(),
@@ -203,7 +214,8 @@ public class OrganizationsController {
                     organization.getUsername(),
                     organization.getFirstName(),
                     organization.getLastName(),
-                    organization.getMiddleName());
+                    organization.getMiddleName(),
+                    adminName);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;

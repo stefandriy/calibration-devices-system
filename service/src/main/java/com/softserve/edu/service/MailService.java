@@ -228,11 +228,8 @@ public class MailService {
         this.mailSender.send(preparator);
     }
 
-    public  void sendOrganizationChanges (Long organizationId, String username){
+    public  void sendOrganizationChanges (Organization organization, User admin){
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            Organization organization = organizationRepository
-                    .findOne(organizationId);
-            User admin = userRepository.findByUsername(username);
 
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
@@ -257,7 +254,7 @@ public class MailService {
                 templateVariables.put("street", organization.getAddress().getStreet());
                 templateVariables.put("building", organization.getAddress().getBuilding());
                 templateVariables.put("flat", organization.getAddress().getFlat());
-                templateVariables.put("username", username);
+                templateVariables.put("username", admin.getUsername());
                 templateVariables.put("firstName", admin.getFirstName());
                 templateVariables.put("middleName", admin.getMiddleName());
                 templateVariables.put("lastName", admin.getLastName());

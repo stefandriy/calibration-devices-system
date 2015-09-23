@@ -95,6 +95,7 @@ angular
 										$rootScope.organizationId).then(
 										function(data) {
 											$rootScope.organization = data;
+											console.log($rootScope.organization);
 
 								var organizationDTOModal = $modal
 										.open({

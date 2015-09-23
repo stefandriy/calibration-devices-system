@@ -1,5 +1,6 @@
 package com.softserve.edu.service.admin;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,8 +10,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 
-import com.softserve.edu.entity.AddEmployeeBuilderNew;
+import com.softserve.edu.entity.*;
+import com.softserve.edu.entity.util.OrganizationChangeHistoryPK;
+import com.softserve.edu.repository.OrganizationChangeHistoryRepository;
 import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
@@ -20,9 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.OrganizationRepository;
@@ -45,6 +46,9 @@ public class OrganizationsService {
 	private UserRepository userRepository;
 
 	@Autowired
+	private OrganizationChangeHistoryRepository organizationChangeHistoryRepository;
+
+	@Autowired
 	private MailService mail;
 
 	@PersistenceContext
@@ -53,7 +57,7 @@ public class OrganizationsService {
 	@Transactional
 	public void addOrganizationWithAdmin(String name, String email, String phone, String[] types, Integer employeesCapacity,
 										 Integer maxProcessTime, String firstName, String lastName, String middleName,
-										 String username, String password, Address address) {
+										 String username, String password, Address address, String adminName) {
 
 		Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
 		String passwordEncoded = new BCryptPasswordEncoder().encode(password);
@@ -68,8 +72,19 @@ public class OrganizationsService {
 			employeeAdmin.addUserRole(userRole);
 		}
 
+
+
 		organizationRepository.save(organization);
 		userRepository.save(employeeAdmin);
+
+		OrganizationChangeHistoryPK organizationChangeHistoryPK = new OrganizationChangeHistoryPK(new Date(), organization.getId());
+
+		OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(name, organizationChangeHistoryPK, email, phone, employeesCapacity,
+				maxProcessTime, username, firstName, lastName, middleName, organization, address, adminName);
+
+		organizationChangeHistoryRepository.save(organizationChangeHistory);
+		organization.addOrganizationChangeHistory(organizationChangeHistory);
+		organizationRepository.save(organization);
 }
 
 /*	@Transactional
@@ -114,7 +129,7 @@ public class OrganizationsService {
 
 	@Transactional(readOnly = true, propagation= Propagation.SUPPORTS)
 	public void editOrganization(Long organizationId, String name,
-								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username,  String firstName, String lastName, String middleName) {
+								 String phone, String email, String[] types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username,  String firstName, String lastName, String middleName, String adminName) {
 		Organization organization = organizationRepository
 				.findOne(organizationId);
 		logger.debug(organization);
@@ -155,7 +170,14 @@ public class OrganizationsService {
 		logger.info(employeeAdmin.getPassword());
 		organizationRepository.save(organization);
 
+		OrganizationChangeHistoryPK organizationChangeHistoryPK = new OrganizationChangeHistoryPK(new Date(), organizationId);
 
+		OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(name, organizationChangeHistoryPK, email, phone, employeesCapacity,
+				maxProcessTime, username, firstName, lastName, middleName, organization, address, adminName);
+
+		organizationChangeHistoryRepository.save(organizationChangeHistory);
+		organization.addOrganizationChangeHistory(organizationChangeHistory);
+		organizationRepository.save(organization);
 	}
 
 	@Transactional
@@ -176,6 +198,9 @@ public class OrganizationsService {
 
 	@Transactional
 	public void sendOrganizationChanges (Long organizationId, String username){
-		mail.sendOrganizationChanges(organizationId, username);
+		Organization organization = organizationRepository
+				.findOne(organizationId);
+		User admin = userRepository.findByUsername(username);
+		mail.sendOrganizationChanges(organization, admin);
 	}
 }

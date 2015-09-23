@@ -3,12 +3,14 @@ package com.softserve.edu.entity;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.user.User;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ORGANIZATION")
-public class Organization {
+public class Organization implements Serializable{
 	@Id
 	@GeneratedValue
 	@Column(name = "organizationId")
@@ -46,6 +48,10 @@ public class Organization {
 	@JsonBackReference
 	private Set<User> users = new HashSet<User>();
 
+    @OneToMany(mappedBy = "organization")
+	private Set<OrganizationChangeHistory> organizationChangeHistorySet = new HashSet<OrganizationChangeHistory>();
+
+
 	@OneToMany(mappedBy = "provider")
 	@JsonBackReference
 	private Set<Device> devices;
@@ -62,8 +68,13 @@ public class Organization {
 	@JoinTable(name = "ORGANIZATIONS_TYPES", joinColumns = @JoinColumn(name = "organizationId"), inverseJoinColumns = @JoinColumn(name = "id"))
 	private Set<OrganizationType> organizationTypes = new HashSet<OrganizationType>();
 
+
 	public void addOrganizationType(OrganizationType organizationType) {
 		this.organizationTypes.add(organizationType);
+	}
+
+	public  void addOrganizationChangeHistory (OrganizationChangeHistory organizationChangeHistory){
+		this.organizationChangeHistorySet.add(organizationChangeHistory);
 	}
 
 	public Organization() {
@@ -99,6 +110,7 @@ public class Organization {
 	public void setOrganizationTypes(Set<OrganizationType> organizationTypes) {
 		this.organizationTypes = organizationTypes;
 	}
+
 
 	public String getName() {
 		return name;
@@ -170,6 +182,14 @@ public class Organization {
 
 	public void setUsers(Set<User> users) {
 		this.users = users;
+	}
+
+	public Set<OrganizationChangeHistory> getOrganizationChangesHistorySet() {
+		return organizationChangeHistorySet;
+	}
+
+	public void setOrganizationChangesHistorySet(Set<OrganizationChangeHistory> organizationChangesHistorySet) {
+		this.organizationChangeHistorySet = organizationChangeHistorySet;
 	}
 
 	@Override
