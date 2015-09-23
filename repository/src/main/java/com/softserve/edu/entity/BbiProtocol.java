@@ -11,7 +11,7 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "BbiProtocol")
+@Table(name = "`BBIPROTOCOL`")
 public class BbiProtocol {
     @Id
     @GeneratedValue
