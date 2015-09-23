@@ -1,19 +1,16 @@
 package com.softserve.edu.controller.admin;
 
+import com.softserve.edu.controller.admin.util.OrganizationHistoryPageDTOTransformer;
 import com.softserve.edu.controller.admin.util.OrganizationPageDTOTransformer;
 import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.OrganizationDTO;
-import com.softserve.edu.dto.admin.OrganizationEditDTO;
-import com.softserve.edu.dto.admin.OrganizationPageDTO;
-import com.softserve.edu.dto.admin.OrganizationPageItem;
-import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationType;
+import com.softserve.edu.dto.admin.*;
+import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
+import com.softserve.edu.repository.OrganizationRepository;
+import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import com.softserve.edu.service.UserService;
 import com.softserve.edu.service.admin.OrganizationsService;
@@ -42,6 +39,14 @@ public class OrganizationsController {
             .getLogger(OrganizationsController.class);
     @Autowired
     private OrganizationsService organizationsService;
+
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -188,16 +193,8 @@ public class OrganizationsController {
             if (organization.getTypes().equals(null)) {
                 System.out.println("Nothing here");
             }
-            for (String strType : organization.getTypes()) {
-                System.out.println(strType);
+            for (String strType : organization.getTypes()) {System.out.println(strType);
             }
-
-           logger.info(organization.getName());
-           logger.info(organization.getPassword());
-           logger.info(organization.getEmail());
-           logger.info(organization.getRegion());
-        logger.info(organization.getDistrict());
-        logger.info(organization.getPhone());
            
            String adminName = user.getUsername();
            
@@ -220,7 +217,14 @@ public class OrganizationsController {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
         }
-        organizationsService.sendOrganizationChanges(organizationId, organization.getUsername());
+
+        Organization org = organizationRepository
+                .findOne(organizationId);
+
+        User admin = userRepository
+                .findByUsername(organization.getUsername());
+
+        organizationsService.sendOrganizationChanges(org, admin);
 
         return new ResponseEntity(httpStatus);
     }
@@ -256,18 +260,14 @@ public class OrganizationsController {
         logger.info("========================");
         logger.info(organization.getUsers());
         logger.info("========================");
-
-        //--------------------
-       /* //OrganizationDTO	organizationDTO=new OrganizationDTO();
-        Set<String> set = organizationsService.getOrganizationTypesById(id);
-        System.out.println(set);
-        String[] roles = organizationsService.getOrganizationTypesById(id).toArray(new String[set.size()]);
-        String role = roles[0] + "_ADMIN";
-        System.out.println(roles[0]);
-        System.out.println(role);
-
-        User admin = userService.findByRoleAndOrganizationId(role, id);
-        System.out.println(admin);*/
         return organizationAdminDTO;
+    }
+
+    @RequestMapping(value = "edit/history/{id}")
+    public PageDTO<OrganizationChangeHistory> getEditHistory(@PathVariable("id") Long id) {
+        List<OrganizationChangeHistory> organizationChangeHistoryList = organizationsService.getOrganizationEditHistoryById(id);
+
+        List<OrganizationEditHistoryPageDTO> content = OrganizationHistoryPageDTOTransformer.toDtoFromList(organizationChangeHistoryList);
+        return new PageDTO(content);
     }
 }

@@ -112,6 +112,28 @@ angular
 
 							};
 
+							/**
+							 * Opens modal window for show history editing organization.
+							 */
+							$scope.openOrganizationEditHistoryModal = function(
+								organizationId) {
+								$rootScope.organizationId = organizationId;
+								organizationService.getHistoryOrganizationWithId(
+									organizationId).then(
+									function(data) {
+										$rootScope.organization = data.content;
+										console.log($rootScope.organization);
+
+										var organizationDTOModal = $modal
+											.open({
+												animation : true,
+												controller : 'OrganizationEditHistoryModalController',
+												templateUrl : '/resources/app/admin/views/modals/organization-edit-history-modal.html'
+											});
+									});
+
+							};
+
 
 
 						} ]);

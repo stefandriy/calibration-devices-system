@@ -17,9 +17,6 @@ import java.util.Set;
  */
 public class OrganizationPageDTOTransformer {
 
-    @Autowired
-    private static UsersService userService;
-
     public static List<OrganizationPageDTO> toDtoFromList(List<Organization> list){
         List<OrganizationPageDTO> resultList = new ArrayList<OrganizationPageDTO>();
         for (Organization organization : list) {

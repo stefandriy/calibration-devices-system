@@ -35,7 +35,7 @@ import com.softserve.edu.service.utils.ListToPageTransformer;
 public class OrganizationsService {
 
 	private final Logger logger = Logger.getLogger(OrganizationsService.class);
-	
+
 	@Autowired
 	private OrganizationRepository organizationRepository;
 
@@ -197,10 +197,14 @@ public class OrganizationsService {
 
 
 	@Transactional
-	public void sendOrganizationChanges (Long organizationId, String username){
-		Organization organization = organizationRepository
-				.findOne(organizationId);
-		User admin = userRepository.findByUsername(username);
+	public void sendOrganizationChanges (Organization organization, User admin){
 		mail.sendOrganizationChanges(organization, admin);
 	}
+
+	@Transactional
+	public List<OrganizationChangeHistory> getOrganizationEditHistoryById (Long organizationId){
+		return organizationChangeHistoryRepository.getById(organizationId);
+	}
+
+
 }
