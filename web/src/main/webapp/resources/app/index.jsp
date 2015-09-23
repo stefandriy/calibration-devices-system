@@ -35,7 +35,7 @@
           rel="stylesheet">
     <link rel="stylesheet"
           href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
-    <link rel="stylesheet" href="/resources/assets/css/loader.css">
+    <%--<link rel="stylesheet" href="/resources/assets/css/loader.css">--%>
 
     <style>
         [ng\:cloak]
