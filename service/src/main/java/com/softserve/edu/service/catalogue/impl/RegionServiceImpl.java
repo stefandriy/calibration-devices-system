@@ -15,10 +15,12 @@ public class RegionServiceImpl implements RegionService{
     @Autowired
     private RegionRepository regionRepository;
 
+    @Override
     public Iterable<Region> getAll() {
         return regionRepository.findAll();
     }
 
+    @Override
     public Region getRegionByDesignation(String designation) {
         return regionRepository.findByDesignation(designation);
     }

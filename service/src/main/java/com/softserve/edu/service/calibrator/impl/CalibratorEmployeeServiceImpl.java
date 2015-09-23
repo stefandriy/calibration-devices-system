@@ -30,6 +30,7 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
      * @param calibratorEmployee data for creation employee
      *      */
 
+    @Override
     @Transactional
     public void addEmployee(User calibratorEmployee) {
 
@@ -39,7 +40,7 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
         calibratorEmployeeRepository.save(calibratorEmployee);
     }
 
-
+    @Override
     @Transactional
     public User oneCalibratorEmployee(String username) {
         return calibratorEmployeeRepository.getUserByUserName(username);

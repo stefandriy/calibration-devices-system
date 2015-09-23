@@ -15,19 +15,17 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.springframework.ui.velocity.VelocityEngineUtils.mergeTemplateIntoString;
 
 @Service
-public class MailServiceImpl {
+public class MailServiceImpl implements MailService {
 
     @Autowired
     private JavaMailSender mailSender;
@@ -52,6 +50,7 @@ public class MailServiceImpl {
 
     Logger logger = Logger.getLogger(MailServiceImpl.class);
 
+    @Override
     public void sendMail(String to, String userName, String clientCode, String providerName, String deviceType) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -84,6 +83,7 @@ public class MailServiceImpl {
         this.mailSender.send(preparator);
     }
 
+    @Override
     public void sendNewPasswordMail(String employeeEmail, String employeeName, String newPassword) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -102,6 +102,7 @@ public class MailServiceImpl {
         this.mailSender.send(preparator);
     }
 
+    @Override
     public void sendRejectMail(String to, String userName, String verificationId, String msg, String deviceType) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -123,6 +124,7 @@ public class MailServiceImpl {
         this.mailSender.send(preparator);
     }
 
+    @Override
     public void sendAcceptMail(String to, String verificationId, String deviceType) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -157,6 +159,7 @@ public class MailServiceImpl {
      * @param verificationId
      * @param msg
      */
+    @Override
     public void sendClientMail(String to, String from, String userFirstName, String userLastName, String verificationId, String msg) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -180,6 +183,7 @@ public class MailServiceImpl {
         this.mailSender.send(preparator);
     }
 
+    @Override
     public void sendMailFromProvider(String to, String userName, String clientCode, String providerName, String deviceType) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -212,6 +216,7 @@ public class MailServiceImpl {
         this.mailSender.send(preparator);
     }
 
+    @Override
     public void sendTimeExceededMail(String verificationId, int processTimeExceeding, int maxProcessTime, String mailTo) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -231,6 +236,7 @@ public class MailServiceImpl {
     }
 
     //TODO: remove calls to database out of this service
+    @Override
     public void sendOrganizationChanges (Long organizationId, String username){
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             Organization organization = organizationRepository

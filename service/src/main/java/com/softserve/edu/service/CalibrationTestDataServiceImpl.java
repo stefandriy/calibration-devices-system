@@ -15,11 +15,13 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     @Autowired
     private CalibrationTestDataRepository dataRepository;
 
+    @Override
     @Transactional
     public CalibrationTestData findTestData(Long id){
         return dataRepository.findOne(id);
     }
 
+    @Override
     @Transactional
     public CalibrationTestData deleteTestData(Long id){
         CalibrationTestData deletedTestData = dataRepository.findOne(id);
@@ -27,6 +29,7 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         return deletedTestData;
     }
 
+    @Override
     @Transactional
     public CalibrationTestData editTestData(Long testDataId, CalibrationTestData testData){
         CalibrationTestData updatedCalibrationTestData = dataRepository.findOne(testDataId);

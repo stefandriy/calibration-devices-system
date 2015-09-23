@@ -26,7 +26,7 @@ public class DeviceController {
     public boolean isValidId(@PathVariable Long id) {
         boolean isAvaible = false;
         if (id != null) {
-            isAvaible = deviceService.existsWithDeviceid(id);
+            isAvaible = deviceService.existsWithDeviceId(id);
         }
         return isAvaible;
     }

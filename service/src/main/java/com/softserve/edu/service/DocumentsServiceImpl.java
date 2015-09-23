@@ -25,7 +25,7 @@ import java.util.Set;
  */
 @Service
 @Transactional(readOnly = true)
-public class DocumentsServiceImpl {
+public class DocumentsServiceImpl implements DocumentService{
 
     @Autowired
     VerificationRepository verificationRepository;
@@ -43,6 +43,7 @@ public class DocumentsServiceImpl {
      * @return the built file
      * @throws IllegalStateException if one of parameters is incorrect
      */
+    @Override
     public FileObject buildFile(String verificationCode,
                                 DocumentType documentType, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
@@ -75,6 +76,7 @@ public class DocumentsServiceImpl {
      * @return the built file
      * @throws IllegalStateException if one of parameters is incorrect
      */
+    @Override
     public FileObject buildFile(String verificationCode, Long calibrationTestID,
                                 DocumentType documentType, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
@@ -104,6 +106,7 @@ public class DocumentsServiceImpl {
      * @return the built file
      * @throws IllegalStateException if one of parameters is incorrect
      */
+    @Override
     public FileObject buildFile(String verificationCode, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
         Set<CalibrationTest> calibrationTests = verification.getCalibrationTests();
@@ -136,7 +139,8 @@ public class DocumentsServiceImpl {
      * @param fileFormat format of the file
      * @return the built file
      */
-    private FileObject buildFile(DocumentType documentType, Verification verification,
+    @Override
+    public FileObject buildFile(DocumentType documentType, Verification verification,
                                  CalibrationTest calibrationTest, FileFormat fileFormat) {
         Document document = DocumentFactory.build(documentType, verification,
                 calibrationTest);
@@ -148,8 +152,8 @@ public class DocumentsServiceImpl {
 
         return FileFactory.buildFile(fileParameters);
     }
-    
-    
+
+    @Override
     public FileObject buildInfoFile(String verificationCode, FileFormat fileFormat) {
         Verification verification = verificationRepository.findOne(verificationCode);
        

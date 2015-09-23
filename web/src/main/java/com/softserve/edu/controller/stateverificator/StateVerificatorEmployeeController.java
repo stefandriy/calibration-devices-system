@@ -1,5 +1,10 @@
 package com.softserve.edu.controller.stateverificator;
 
+import com.softserve.edu.controller.provider.ProviderEmployeeController;
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.UserService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
 import org.apache.log4j.Logger;
@@ -7,17 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.softserve.edu.controller.provider.ProviderEmployeeController;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.UserServiceImpl;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "verificator/admin/users")
@@ -26,7 +21,7 @@ public class StateVerificatorEmployeeController {
 	Logger logger = Logger.getLogger(ProviderEmployeeController.class);
 
 	@Autowired
-	private UserServiceImpl userServiceImpl;
+	private UserService userService;
 
 	@Autowired
 	private OrganizationService organizationsService;
@@ -55,7 +50,7 @@ public class StateVerificatorEmployeeController {
 	public Boolean isValidUsername(@PathVariable String username) {
 		boolean isAvailable = false;
 		if (username != null) {
-			isAvailable = userServiceImpl.existsWithUsername(username);
+			isAvailable = userService.existsWithUsername(username);
 		}
 		return isAvailable;
 	}

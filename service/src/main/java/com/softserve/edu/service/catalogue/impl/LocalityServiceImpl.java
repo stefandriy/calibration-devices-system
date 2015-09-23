@@ -16,9 +16,12 @@ public class LocalityServiceImpl implements LocalityService {
     @Autowired
     private LocalityRepository localityRepository;
 
+    @Override
     public List<Locality> getLocalitiesCorrespondingDistrict(Long districtId) {
         return localityRepository.findDistinctByDistrictId(districtId) ;
     }
+
+    @Override
     public List<String> getMailIndexForLocality(String designation,Long districtId) {
         return localityRepository.findMailIndexByDesignationAndDistrictId(designation,districtId);
     }

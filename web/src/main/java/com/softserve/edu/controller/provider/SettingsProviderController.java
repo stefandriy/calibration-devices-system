@@ -4,8 +4,7 @@ import com.softserve.edu.dto.EmployeeDTO;
 import com.softserve.edu.dto.FieldDTO;
 import com.softserve.edu.dto.NewPasswordDTO;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.UserServiceImpl;
-
+import com.softserve.edu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SettingsProviderController {
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     /**
      * Changes user's password
@@ -35,7 +34,7 @@ public class SettingsProviderController {
             @RequestBody NewPasswordDTO newPasswordDTO,
             @AuthenticationPrincipal UserDetails userDetails) {
         HttpStatus httpStatus = HttpStatus.CONFLICT;
-        if (userServiceImpl.changePassword(
+        if (userService.changePassword(
                 userDetails.getUsername(),
                 newPasswordDTO.getOldPassword(),
                 newPasswordDTO.getNewPassword())) {
@@ -56,7 +55,7 @@ public class SettingsProviderController {
             @RequestBody FieldDTO fieldDTO,
             @AuthenticationPrincipal UserDetails userDetails) {
         HttpStatus httpStatus = HttpStatus.CONFLICT;
-        if (userServiceImpl.changeField(
+        if (userService.changeField(
                 userDetails.getUsername(),
                 fieldDTO.getField(),
                 fieldDTO.getType())) {
@@ -77,7 +76,7 @@ public class SettingsProviderController {
     public ResponseEntity<EmployeeDTO> getEmployeeData(@AuthenticationPrincipal UserDetails userDetails) {
         ResponseEntity<EmployeeDTO> response;
         try {
-        	User employee = userServiceImpl.getEmployee(userDetails.getUsername());
+        	User employee = userService.getEmployee(userDetails.getUsername());
             EmployeeDTO employeeDTO = new EmployeeDTO(
                     employee.getFirstName(),
                     employee.getLastName(),

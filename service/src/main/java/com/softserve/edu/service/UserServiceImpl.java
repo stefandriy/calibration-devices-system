@@ -1,12 +1,13 @@
 package com.softserve.edu.service;
 
-import java.util.List;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
      * @param username must not be non {@literal null}
      * @return {@literal true} if user with {@code username} doesn't exist in database, else {@literal false}
      */
+    @Override
     public boolean existsWithUsername(String username) {
         return userRepository.findOne(username) == null;
     }
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
      * @param typeOfField   type  of user's field
      * @return {@literal true} if changed, else - {@literal false}
      */
+    @Override
     public boolean changeField(String username, String newValue, String typeOfField) {
         boolean isChanged = false;
         if (typeOfField != null && username != null && newValue != null) {
@@ -76,6 +79,7 @@ public class UserServiceImpl implements UserService {
      * @return employee entity
      * @throws ClassCastException if username isn't a employee
      */
+    @Override
     public User getEmployee(String username) throws ClassCastException {
         return userRepository.findOne(username);
     }
@@ -88,6 +92,7 @@ public class UserServiceImpl implements UserService {
      * @param newPassword new password
      * @return {@literal true} if changed, if not or passwords don't match - {@literal false}
      */
+    @Override
     public boolean changePassword(String username, String oldPassword, String newPassword) {
         boolean isChanged = false;
         if (username != null && oldPassword != null && newPassword != null) {
@@ -103,10 +108,11 @@ public class UserServiceImpl implements UserService {
         }
         return isChanged;
     }
-
+    @Override
     public User findByRoleAndOrganizationId(String role, Long organizationId){
         return userRepository.findByRoleAndOrganizationId(role, organizationId);
     }
+    @Override
     public List<User> findByRole(String role){
         return userRepository.findByRoleLikeIgnoreCase(role);
     }

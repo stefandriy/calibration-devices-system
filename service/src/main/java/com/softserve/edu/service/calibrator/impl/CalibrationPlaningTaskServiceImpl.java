@@ -24,7 +24,7 @@ public class CalibrationPlaningTaskServiceImpl implements CalibrationPlanningTas
 
     private Logger logger = Logger.getLogger(CalibrationPlaningTaskServiceImpl.class);
 
-
+    @Override
     @Transactional
     public void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
                            Date dateOfVisit, Date dateOfVisitTo, String installationNumber, String notes, int floor) {

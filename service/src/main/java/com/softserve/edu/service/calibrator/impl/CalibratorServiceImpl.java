@@ -37,18 +37,19 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Autowired
     private UserRepository userRepository;
 
+    @Override
     @Transactional(readOnly = true)
     public List<Organization> findByDistrict(String district, String type) {
         return calibratorRepository.findByDistrictAndType(district, type);
     }
 
-
+    @Override
     @Transactional(readOnly = true)
     public Organization findById(Long id) {
         return calibratorRepository.findOne(id);
     }
 
-
+    @Override
     @Transactional
     public void uploadBbi(InputStream file, String idVerification, String originalFileFullName) throws IOException {
         String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
@@ -60,13 +61,13 @@ public class CalibratorServiceImpl implements CalibratorService {
         verificationRepository.save(verification);
     }
 
-
+    @Override
     @Transactional(readOnly = true)
     public String findBbiFileByOrganizationId(String id) {
         return uploadBbiRepository.findFileNameByVerificationId(id);
     }
 
-
+    @Override
     @Transactional
     public void deleteBbiFile(String idVerification) {
         Verification verification = verificationRepository.findOne(idVerification);
@@ -76,13 +77,13 @@ public class CalibratorServiceImpl implements CalibratorService {
         uploadBbiRepository.delete(bbiProtocol);
     }
 
-
+    @Override
     @Transactional
     public User oneCalibratorEmployee(String username) {
         return userRepository.getUserByUserName(username);
     }
 
-
+    @Override
     @Transactional
     public List<EmployeeDTO> getAllCalibratorEmployee(List<String> role, User employee) {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
@@ -98,7 +99,7 @@ public class CalibratorServiceImpl implements CalibratorService {
         return providerListEmployee;
     }
 
-
+    @Override
     @Transactional
     public void assignCalibratorEmployee(String verificationId, User calibratorEmployee) {
         Verification verification = verificationRepository.findOne(verificationId);

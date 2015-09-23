@@ -57,9 +57,9 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
 
     private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
-
     Logger logger = Logger.getLogger(ProviderEmployeeServiceImpl.class);
 
+    @Override
     @Transactional
     public void addEmployee(User providerEmployee) {
         String passwordEncoded = new BCryptPasswordEncoder().encode(providerEmployee.getPassword());
@@ -67,6 +67,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
         providerEmployeeRepository.save(providerEmployee);
     }
 
+    @Override
     @Transactional
     public void updateEmployee(User providerEmployee) {
         if (providerEmployee.getPassword().equals("generate")) {
@@ -80,11 +81,13 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
         providerEmployeeRepository.save(providerEmployee);
     }
 
+    @Override
     @Transactional
     public User oneProviderEmployee(String username) {
         return providerEmployeeRepository.getUserByUserName(username);
     }
 
+    @Override
     @Transactional
     public List<EmployeeDTO> getAllProviders(List<String> role, User employee) {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
@@ -100,18 +103,19 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
         return providerListEmployee;
     }
 
+    @Override
     @Transactional()
     public User findByUserame(String userName) {
         return providerEmployeeRepository.findByUsername(userName);
     }
 
-
+    @Override
     @Transactional
     public List<UserRole> getRoleByUserNam(String username) {
         return providerEmployeeRepository.getRoleByUserNam(username);
     }
 
-
+    @Override
     @Transactional
     public ListToPageTransformer<User>
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, Long idOrganization, String userName,
@@ -137,6 +141,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
         return result;
     }
 
+    @Override
     @Transactional
     public List<ProviderEmployeeGraphic> buildGraphic(Date from, Date to, Long idOrganization, List<User> listOfEmployee) {
         Organization organization = organizationRepository.findOne(idOrganization);
@@ -153,6 +158,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
         return graficData;
     }
 
+    @Override
     @Transactional
     public List<ProviderEmployeeGraphic> buidGraphicMainPanel(Date from, Date to, Long idOrganization) {
         Organization organization = organizationRepository.findOne(idOrganization);
@@ -170,6 +176,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
         return graficData;
     }
 
+    @Override
     public Date convertToDate(String date) throws IllegalArgumentException {
         Date result = null;
         if (StringUtils.isNotBlank(date)) {
@@ -184,6 +191,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
         return result;
     }
 
+    @Override
     @Transactional
     public List<User> getAllProviderEmployee(Long idOrganization) {
         return userRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(), idOrganization);

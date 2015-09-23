@@ -49,21 +49,21 @@ public class DeviceServiceImplTest {
 	@Test
 	public void testExistsWithDeviceid() throws FileNotFoundException {
 		when(deviceRepository.findOne(testId)).thenReturn(null);
-		Assert.assertFalse(deviceService.existsWithDeviceid(testId));
+		Assert.assertFalse(deviceService.existsWithDeviceId(testId));
 
 	}
 
 	@Test(expected  = NullPointerException.class)
 	public void testExceptionExistsWithDeviceid() throws FileNotFoundException {
         DeviceService d = new DeviceServiceImpl();
-		d.existsWithDeviceid(nullId);
+		d.existsWithDeviceId(nullId);
 	}
 
 
 	@Test(expected  = NullPointerException.class)
 	public void testExceptionGetById() throws NullPointerException {
         DeviceService deviceServiceImpl = new DeviceServiceImpl();
-		deviceServiceImpl.existsWithDeviceid(testId);
+		deviceServiceImpl.existsWithDeviceId(testId);
 	}
 
 	@Test

@@ -25,7 +25,7 @@ public class UserServiceImplTest {
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @InjectMocks
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     @Mock
     private User user;
@@ -42,7 +42,7 @@ public class UserServiceImplTest {
         when(userRepository.findOne(username)).thenReturn(user);
 
 
-        boolean isChanged =  userServiceImpl.changePassword(user.getUsername(), old_pasword, new_pasword);
+        boolean isChanged =  userService.changePassword(user.getUsername(), old_pasword, new_pasword);
         assertTrue(isChanged);
         verify(user, times(1)).setPassword(anyString());
         verify(userRepository, times(1)).save(user);
@@ -55,7 +55,7 @@ public class UserServiceImplTest {
         String type = "abba";
 
         when(userRepository.findOne(anyString())).thenReturn(user);
-        boolean isChanged = userServiceImpl.changeField(username, newFieldValue, type);
+        boolean isChanged = userService.changeField(username, newFieldValue, type);
         assertFalse(isChanged);
         verify(userRepository, never()).save(any(User.class));
     }

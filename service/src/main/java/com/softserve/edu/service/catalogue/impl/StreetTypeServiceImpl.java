@@ -16,6 +16,7 @@ public class StreetTypeServiceImpl implements StreetTypeService {
     @Autowired
     private StreetTypeRepository streetTypeRepository;
 
+    @Override
     public List<StreetType> getStreetsTypes() {
         return streetTypeRepository.findAll();
     }

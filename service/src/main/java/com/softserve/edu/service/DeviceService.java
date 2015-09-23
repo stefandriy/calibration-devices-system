@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface DeviceService {
 
-    boolean existsWithDeviceid(Long id);
+    boolean existsWithDeviceId(Long id);
 
     Device getById(Long id);
 

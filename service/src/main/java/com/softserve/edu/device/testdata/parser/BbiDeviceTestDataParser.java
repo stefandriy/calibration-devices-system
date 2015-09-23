@@ -12,9 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-/**
- * Created by Taras on 15.09.2015.
- */
 public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     private InputStream reader;
     private Map<String, Object> resultMap;

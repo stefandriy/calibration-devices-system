@@ -13,7 +13,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.UserServiceImpl;
+import com.softserve.edu.service.UserService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.OrganizationAdminDTO;
@@ -37,7 +37,7 @@ public class OrganizationsController {
     private OrganizationService organizationsService;
 
     @Autowired
-    private UserServiceImpl userServiceImpl;
+    private UserService userService;
 
     /**
      * Saves organization and its administrator employee in database

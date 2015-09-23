@@ -16,9 +16,12 @@ public class DistrictServiceImpl implements DistrictService {
     @Autowired
     private DistrictRepository districtRepository;
 
+    @Override
     public List<District> getDistrictsCorrespondingRegion(Long regionId) {
         return districtRepository.findByRegionId(regionId);
     }
+
+    @Override
     public District findDistrictByDesignationAndRegion(String designation, Long region){
         return districtRepository.findByDesignationAndRegionId(designation, region);
     }

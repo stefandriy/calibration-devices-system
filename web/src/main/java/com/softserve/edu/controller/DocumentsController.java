@@ -2,7 +2,7 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.service.DocumentsServiceImpl;
+import com.softserve.edu.service.DocumentService;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class DocumentsController {
     static Logger log = Logger.getLogger(DocumentsController.class.getName());
 
     @Autowired
-    DocumentsServiceImpl documentService;
+    DocumentService documentService;
 
     /**
      * Returns a document with a specific fileFormat using verification and it's

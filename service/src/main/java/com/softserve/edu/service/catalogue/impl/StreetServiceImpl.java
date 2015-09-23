@@ -16,6 +16,7 @@ public class StreetServiceImpl implements StreetService {
     @Autowired
     private StreetRepository streetRepository;
 
+    @Override
     public List<Street> getStreetsCorrespondingLocality(Long localityId) {
         return streetRepository.findByLocalityId(localityId);
     }

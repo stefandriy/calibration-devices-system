@@ -21,6 +21,7 @@ public class StateVerificatorEmployeeServiceImpl implements StateVerificatorEmpl
      *
      * @param stateVerificatorEmployee data for creation employee
      */
+    @Override
     @Transactional
     public void addEmployee(User stateVerificatorEmployee) {
 
@@ -29,6 +30,7 @@ public class StateVerificatorEmployeeServiceImpl implements StateVerificatorEmpl
         stateVerificatorEmployeeRepository.save(stateVerificatorEmployee);
     }
 
+    @Override
     @Transactional
     public User oneProviderEmployee(String username) {
         return stateVerificatorEmployeeRepository.getUserByUserName(username);

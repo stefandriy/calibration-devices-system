@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.nio.file.FileSystems;
 
 @Service
-public class VerificationPhotoServiceImpl {
+public class VerificationPhotoServiceImpl implements VerificationPhotoService {
 
     @Autowired
     private CalibrationTestService calibrationTestService;
@@ -19,7 +19,8 @@ public class VerificationPhotoServiceImpl {
 
     private String sep = FileSystems.getDefault().getSeparator();
 
-    public boolean putResourse(long testId, InputStream stream, String fileType) {
+    @Override
+    public boolean putResource(long testId, InputStream stream, String fileType) {
         CalibrationTest test = calibrationTestService.findTestById(testId);
         String verId = test.getVerification().getId();
         String relFolder = verId + sep + testId + sep;

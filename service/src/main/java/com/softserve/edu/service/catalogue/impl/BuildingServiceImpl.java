@@ -16,6 +16,7 @@ public class BuildingServiceImpl implements BuildingService {
     @Autowired
     private BuildingRepository buildingRepository;
 
+    @Override
     public List<Building> getBuildingsCorrespondingStreet(Long streetId) {
         return buildingRepository.findByStreetId(streetId);
     }
