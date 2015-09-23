@@ -11,7 +11,7 @@ import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
 
 
 @Entity
-@Table(name="`street_type`")
+@Table(name="STREET_TYPE")
 public class StreetType extends AbstractCatalogue {
     @Id
     @GeneratedValue

@@ -7,10 +7,10 @@ import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.MailServiceImpl;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.OrganizationsService;
-import com.softserve.edu.service.admin.UsersService;
+import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
@@ -37,23 +37,28 @@ public class ProviderVerificationController {
 
     @Autowired
     ProviderService providerService;
+
     @Autowired
     ProviderEmployeeService providerEmployeeService;
+
     @Autowired
     CalibratorService calibratorService;
+
     @Autowired
     VerificationProviderEmployeeService verificationProviderEmployeeService;
+
     @Autowired
-    private OrganizationsService organizationService;
+    private OrganizationService organizationServiceImpl;
+
     @Autowired
-    private UsersService userService;
+    private UserService userService;
+
     @Autowired
-	private MailService mailService;
-    
+    private MailServiceImpl mailServiceImpl;
+
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
-    		ArchiveVerificationsFilterAndSort searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
+                                                                                       ArchiveVerificationsFilterAndSort searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderId(
                 employeeUser.getOrganizationId(),
@@ -62,19 +67,19 @@ public class ProviderVerificationController {
                 searchData.getDate(),
                 searchData.getEndDate(),
                 searchData.getId(),
-                searchData.getClient_full_name(),
+                searchData.getClient_full_name(), //TODO: WHY????!!!
                 searchData.getStreet(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
                 searchData.getLocality(),
                 searchData.getStatus(),
-                searchData.getEmployee_last_name(),
+                searchData.getEmployee_last_name(), //TODO: WHY????!!!
                 sortCriteria,
                 sortOrder,
                 providerEmployee
         );
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
@@ -85,15 +90,15 @@ public class ProviderVerificationController {
      * @param verifDate    (optional)
      * @param verifId      (optional)
      * @param lastName     (optional)
-     * @param firstName    (optional)
+     * @param firstName    (optional).
      * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
      */
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch( @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
-    										NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-    	 
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+                                                                                           NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(
                 employeeUser.getOrganizationId(),
@@ -102,20 +107,20 @@ public class ProviderVerificationController {
                 searchData.getDate(),
                 searchData.getEndDate(),
                 searchData.getId(),
-                searchData.getClient_full_name(),
+                searchData.getClient_full_name(), //TODO: WHY????!!!
                 searchData.getStreet(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
                 searchData.getLocality(),
                 searchData.getStatus(),
-                searchData.getEmployee_last_name(),
+                searchData.getEmployee_last_name(), //TODO: WHY????!!!
                 sortCriteria,
                 sortOrder,
                 providerEmployee
         );
         List<Verification> verifications = queryResult.getContent();
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(verifications);
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
 
@@ -134,7 +139,7 @@ public class ProviderVerificationController {
      */
     @RequestMapping(value = "new/mainpanel/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearchOnMainPanel(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                                           NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                                                                                      NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByProviderIdOnMainPanel(
@@ -164,13 +169,12 @@ public class ProviderVerificationController {
     @RequestMapping(value = "new/earliest_date/provider", method = RequestMethod.GET)
     public String getNewVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
-            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            Organization organization = organizationServiceImpl.getOrganizationById(user.getOrganizationId());
             java.util.Date gottenDate = verificationService.getNewVerificationEarliestDateByProvider(organization);
             java.util.Date date = null;
             if (gottenDate != null) {
                 date = new Date(gottenDate.getTime());
-            }
-            else{
+            } else {
                 return null;
             }
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -191,13 +195,12 @@ public class ProviderVerificationController {
     @RequestMapping(value = "archive/earliest_date/provider", method = RequestMethod.GET)
     public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
-            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            Organization organization = organizationServiceImpl.getOrganizationById(user.getOrganizationId());
             java.util.Date gottenDate = verificationService.getArchivalVerificationEarliestDateByProvider(organization);
             java.util.Date date = null;
             if (gottenDate != null) {
                 date = new Date(gottenDate.getTime());
-            }
-            else{
+            } else {
                 return null;
             }
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -273,11 +276,6 @@ public class ProviderVerificationController {
 
     }
 
-    /**
-     * change read status of verification when Provider user reads it
-     *
-     * @param verificationDto
-     */
     @RequestMapping(value = "new/read", method = RequestMethod.PUT)
     public void markVerificationAsRead(@RequestBody VerificationReadStatusUpdateDTO verificationDto) {
         verificationService.updateVerificationReadStatus(verificationDto.getVerificationId(), verificationDto.getReadStatus());
@@ -329,6 +327,6 @@ public class ProviderVerificationController {
                 verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
                 verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
                 verification.getProviderEmployee(), verification.getStateVerificator(),
-                verification.getStateVerificatorEmployee(),verification.getRejectedMessage());//add rejectMessage
+                verification.getStateVerificatorEmployee(), verification.getRejectedMessage());//add rejectMessage
     }
 }

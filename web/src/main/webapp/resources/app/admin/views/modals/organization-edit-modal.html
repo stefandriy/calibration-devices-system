@@ -246,8 +246,8 @@
 								</div>
 							<div class="form-group col-md-8" show-errors>
 								<ui-select class="form-control" type="text" theme="select2"
-										   ng-model="$root.organization.address.region"
-										   on-select="receiveDistricts($root.organization.address.region)"
+										   ng-model="selectedValues.selectedRegion"
+										   on-select="receiveDistricts(selectedValues.selectedRegion)"
 										   name="region" id="region" required>
 									<ui-select-match placeholder="Оберіть область" allow-clear="true">
 										{{$select.selected.designation}}
@@ -256,7 +256,7 @@
 										<span ng-bind-html="region.designation"></span>
 									</ui-select-choices>
 								</ui-select>
-								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.region.$touched">
+								<p class="help-block"  ng-show="organizationForm.$submitted || selectedValues.selectedRegion.$touched">
 									<span class="glyphicon glyphicon-exclamation-sign"></span>
 									{{'TYPEAHEAD_ERROR' | translate}}
 								</p>
@@ -270,9 +270,9 @@
 							</div>
 							<div class="form-group col-md-8" show-errors>
 								<ui-select class="form-control" type="text" theme="select2"
-										   ng-model="$root.organization.address.district"
-										   on-select="receiveLocalities($root.organization.address.district)"
-										   ng-disabled="!$root.organization.address.region"
+										   ng-model="selectedValues.selectedDistrict"
+										   on-select="receiveLocalities(selectedValues.selectedDistrict)"
+										   ng-disabled="!selectedValues.selectedRegion"
 										   name="district" id="district" required>
 									<ui-select-match placeholder="Оберіть район" allow-clear="true">
 										{{$select.selected.designation}}
@@ -281,7 +281,7 @@
 										<span ng-bind-html="district.designation"></span>
 									</ui-select-choices>
 								</ui-select>
-								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.district.$touched">
+								<p class="help-block"  ng-show="organizationForm.$submitted || selectedValues.selectedDistrict.$touched">
 									<span class="glyphicon glyphicon-exclamation-sign"></span>
 									{{'TYPEAHEAD_ERROR' | translate}}
 								</p>
@@ -296,9 +296,9 @@
 							</div>
 							<div class="form-group col-md-8" show-errors>
 								<ui-select class="form-control" type="text" theme="select2"
-										   ng-model="$root.organization.address.locality"
-										   ng-disabled="!$root.organization.address.district"
-										   on-select="receiveStreets($root.organization.address.locality)"
+										   ng-model="selectedValues.selectedLocality"
+										   ng-disabled="!selectedValues.selectedDistrict"
+										   on-select="receiveStreets(selectedValues.selectedLocality)"
 										   name="locality" id="locality" required>
 									<ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
 										{{$select.selected.designation}}
@@ -307,7 +307,7 @@
 										<span ng-bind-html="locality.designation"></span>
 									</ui-select-choices>
 								</ui-select>
-								<p class="help-block"  ng-show="organizationForm.$submitted || $root.organization.address.locality.$touched">
+								<p class="help-block"  ng-show="organizationForm.$submitted || selectedValues.selectedLocality.$touched">
 									<span class="glyphicon glyphicon-exclamation-sign"></span>
 									{{'TYPEAHEAD_ERROR' | translate}}
 								</p>
@@ -321,12 +321,12 @@
 								<div class="form-group col-md-8" show-errors>
 									<input name="street" class="form-control"
 										   type="text" id="street"
-										   ng-model="$root.organization.address.street"
-										   ng-disabled="!$root.organization.address.locality"
+										   ng-model="selectedValues.selectedStreet"
+										   ng-disabled="!selectedValues.selectedLocality"
 										   typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
 										   typeahead-editable="false" required>
-									<div ng-show="organizationFormData.$submitted || $root.organization.address.street.$touched" >
-										<p class="help-block" ng-if="!$root.organization.address.street.$error.required">
+									<div ng-show="organizationFormData.$submitted || selectedValues.selectedStreet.$touched" >
+										<p class="help-block" ng-if="!selectedValues.selectedStreet.$error.required">
 											<span class="glyphicon glyphicon-exclamation-sign"></span>
 											{{'ORGANIZATION_INVALID_STREET'
 											| translate }}

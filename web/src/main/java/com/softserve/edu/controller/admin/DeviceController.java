@@ -1,15 +1,14 @@
 package com.softserve.edu.controller.admin;
 
+import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.DevicePageItem;
+import com.softserve.edu.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.DevicePageItem;
-import com.softserve.edu.service.DeviceService;
 
 @RestController
 @RequestMapping(value = "/admin/devices/")
@@ -27,7 +26,7 @@ public class DeviceController {
     public boolean isValidId(@PathVariable Long id) {
         boolean isAvaible = false;
         if (id != null) {
-            isAvaible = deviceService.existsWithDeviceid(id);
+            isAvaible = deviceService.existsWithDeviceId(id);
         }
         return isAvaible;
     }

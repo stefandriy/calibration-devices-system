@@ -1,22 +1,13 @@
 package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationType;
 
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-/**
- * Created by vova on 02.09.15.
- */
+//TODO
 public enum SortCriteriaOrganization {
- /*   private String id;
-    private String name_admin;
-    private String type_admin;
-    private String email;
-    private String phone_number;*/
     ID() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
 

@@ -1,33 +1,5 @@
 package com.softserve.edu.service.testVerification;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
-
 public class VerificationProviderEmploeeeServiceTest {
 /*
 	@InjectMocks

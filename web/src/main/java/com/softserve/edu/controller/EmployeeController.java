@@ -13,8 +13,8 @@ import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.OrganizationsService;
-import com.softserve.edu.service.admin.UsersService;
+import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
@@ -32,13 +32,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "employee/admin/users/")
 public class EmployeeController {
+
     Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
-    private UsersService userService;
+    private UserService userService;
 
     @Autowired
-    private OrganizationsService organizationsService;
+    private OrganizationService organizationsService;
 
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
@@ -64,7 +65,6 @@ public class EmployeeController {
      *
      * @return role
      */
-
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
     public List<UserRole> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         return providerEmployeeService.getRoleByUserNam(user.getUsername());
@@ -137,21 +137,14 @@ public class EmployeeController {
         String p = providerEmployee.getPassword();
         newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
                 "generate" : newUser.getPassword());
-        newUser.deleteAllUsersRoles();
+        newUser.getUserRoles().clear();
         for (String tmp : providerEmployee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.addUserRole(userRole);
+            newUser.getUserRoles().add(userRole);
         }
         providerEmployeeService.updateEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
-
-    /**
-     * Add new employee
-     * @param employee
-     * @param user
-     * @return status
-     */
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
@@ -169,7 +162,7 @@ public class EmployeeController {
                 .build();
         for (String tmp : employee.getUserRoles()) {
             UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.addUserRole(userRole);
+            newUser.getUserRoles().add(userRole);
         }
         newUser.setOrganization(organizationsService.getOrganizationById(user.getOrganizationId()));
         providerEmployeeService.addEmployee(newUser);
@@ -231,7 +224,4 @@ public class EmployeeController {
         }
         return resultList;
     }
-
-
-
 }

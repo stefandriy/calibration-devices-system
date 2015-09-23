@@ -10,9 +10,10 @@ import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.service.CalibrationTestService;
+import com.softserve.edu.service.CalibrationTestServiceImpl;
 import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.admin.OrganizationsService;
-import com.softserve.edu.service.admin.UsersService;
+import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
@@ -45,20 +46,27 @@ public class CalibratorController {
     private final Logger logger = Logger.getLogger(CalibratorController.class);
     @Autowired
     VerificationService verificationService;
+
     @Autowired
     ProviderService providerService;
+
     @Autowired
     CalibratorService calibratorService;
+
     @Autowired
     CalibratorEmployeeService calibratorEmployeeService;
+
     @Autowired
     CalibrationTestService testService;
+
     @Autowired
     StateVerificatorService verificatorService;
+
     @Autowired
-    OrganizationsService organizationService;
+    OrganizationService organizationServiceImpl;
+
     @Autowired
-    UsersService userService;
+    UserService userService;
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
@@ -93,9 +101,9 @@ public class CalibratorController {
     public PageDTO<CalibrationTestPageItem> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String search, @PathVariable String verificationId) {
         Verification verification = verificationService.findById(verificationId);
         Page<CalibrationTestPageItem> page = testService.getCalibrationTestsBySearchAndPagination(pageNumber, itemsPerPage, search)
-                                                        .map(calibrationTest -> new CalibrationTestPageItem(calibrationTest.getId(), calibrationTest.getName(), calibrationTest.getDateTest(),
-                                                                calibrationTest.getTemperature(), calibrationTest.getSettingNumber(), calibrationTest.getLatitude(),
-                                                                calibrationTest.getLongitude(), calibrationTest.getConsumptionStatus(), calibrationTest.getTestResult()));
+                .map(calibrationTest -> new CalibrationTestPageItem(calibrationTest.getId(), calibrationTest.getName(), calibrationTest.getDateTest(),
+                        calibrationTest.getTemperature(), calibrationTest.getSettingNumber(), calibrationTest.getLatitude(),
+                        calibrationTest.getLongitude(), calibrationTest.getConsumptionStatus(), calibrationTest.getTestResult()));
         return new PageDTO<>(page.getTotalElements(), page.getContent());
     }
 
@@ -120,10 +128,9 @@ public class CalibratorController {
     @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
     public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        List<Organization> list = verificatorService.findByDistrict(
-                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
 
-        return list;
+        return verificatorService.findByDistrictAndType(
+                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
@@ -179,8 +186,7 @@ public class CalibratorController {
                 logger.error("Failed to load file ");
                 httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error("Failed to load file " + e.getMessage());
             httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -193,7 +199,7 @@ public class CalibratorController {
                                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 //        System.out.println("CalibratorController searchData.getMeasurement_device_type() " + searchData.getMeasurement_device_type());
-        System.out.println("prot from CalibratorController  protocol status= "+searchData.getProtocol_status());
+        System.out.println("prot from CalibratorController  protocol status= " + searchData.getProtocol_status());
         ListToPageTransformer<Verification> queryResult = verificationService
                 .findPageOfArchiveVerificationsByCalibratorId(
                         employeeUser.getOrganizationId(),
@@ -241,13 +247,12 @@ public class CalibratorController {
     @RequestMapping(value = "new/earliest_date/calibrator", method = RequestMethod.GET)
     public String getNewVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
-            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            Organization organization = organizationServiceImpl.getOrganizationById(user.getOrganizationId());
             java.util.Date gottenDate = verificationService.getNewVerificationEarliestDateByCalibrator(organization);
             java.util.Date date = null;
             if (gottenDate != null) {
                 date = new Date(gottenDate.getTime());
-            }
-            else{
+            } else {
                 return null;
             }
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -268,13 +273,12 @@ public class CalibratorController {
     @RequestMapping(value = "archive/earliest_date/calibrator", method = RequestMethod.GET)
     public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
-            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            Organization organization = organizationServiceImpl.getOrganizationById(user.getOrganizationId());
             java.util.Date gottenDate = verificationService.getArchivalVerificationEarliestDateByCalibrator(organization);
             java.util.Date date = null;
             if (gottenDate != null) {
                 date = new Date(gottenDate.getTime());
-            }
-            else{
+            } else {
                 return null;
             }
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -285,6 +289,7 @@ public class CalibratorController {
             return null;
         }
     }
+
     /**
      * Current method search for file name witch user decided to delete
      *
@@ -310,8 +315,7 @@ public class CalibratorController {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
             calibratorService.deleteBbiFile(idVerification);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
         }

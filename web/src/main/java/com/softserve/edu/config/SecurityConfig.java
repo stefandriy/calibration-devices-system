@@ -1,6 +1,6 @@
 package com.softserve.edu.config;
-import com.allanditzel.springframework.security.web.csrf.CsrfTokenResponseHeaderBindingFilter;
 
+import com.allanditzel.springframework.security.web.csrf.CsrfTokenResponseHeaderBindingFilter;
 import com.softserve.edu.service.SecurityUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -19,14 +19,14 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private SecurityUserDetailsService userDetailsService;
+    private SecurityUserDetailsService securityUserDetailsService;
 
     @Autowired
     DataSource dataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+    	auth.userDetailsService(securityUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
