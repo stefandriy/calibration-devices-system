@@ -1,7 +1,8 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.tool.impl;
 
 import com.softserve.edu.entity.MeasuringEquipment;
 import com.softserve.edu.repository.MeasuringEquipmentRepository;
+import com.softserve.edu.service.tool.MeasureEquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

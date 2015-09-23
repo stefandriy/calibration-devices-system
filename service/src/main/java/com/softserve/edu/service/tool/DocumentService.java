@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.tool;
 
 
 import com.softserve.edu.documents.parameter.FileFormat;

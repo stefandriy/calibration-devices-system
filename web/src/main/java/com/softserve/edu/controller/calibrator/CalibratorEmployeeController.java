@@ -4,7 +4,7 @@ import com.softserve.edu.controller.provider.ProviderEmployeeController;
 import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;

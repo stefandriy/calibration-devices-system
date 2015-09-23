@@ -2,6 +2,8 @@ package com.softserve.edu.service;
 
 import com.softserve.edu.entity.Device;
 import com.softserve.edu.repository.DeviceRepository;
+import com.softserve.edu.service.tool.DeviceService;
+import com.softserve.edu.service.tool.impl.DeviceServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

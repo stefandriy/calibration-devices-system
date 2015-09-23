@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.calibrator.data.test.impl;
 
 import com.softserve.edu.entity.CalibrationTest;
 import com.softserve.edu.entity.CalibrationTestData;
@@ -9,6 +9,7 @@ import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;

@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.tool;
 
 import com.softserve.edu.entity.Device;
 import org.springframework.data.domain.Page;

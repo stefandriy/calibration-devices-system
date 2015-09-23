@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.verification;
 
 import java.io.InputStream;
 

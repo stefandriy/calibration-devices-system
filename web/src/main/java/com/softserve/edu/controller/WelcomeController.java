@@ -2,7 +2,7 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

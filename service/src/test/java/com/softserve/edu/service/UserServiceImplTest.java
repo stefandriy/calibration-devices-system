@@ -2,6 +2,7 @@ package com.softserve.edu.service;
 
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.user.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

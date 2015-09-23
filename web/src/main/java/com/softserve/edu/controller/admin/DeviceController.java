@@ -2,7 +2,7 @@ package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.DevicePageItem;
-import com.softserve.edu.service.DeviceService;
+import com.softserve.edu.service.tool.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.PathVariable;

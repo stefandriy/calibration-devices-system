@@ -6,6 +6,7 @@ package com.softserve.edu.service;
 
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,9 +1,10 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.tool.impl;
 
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.tool.MailService;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;

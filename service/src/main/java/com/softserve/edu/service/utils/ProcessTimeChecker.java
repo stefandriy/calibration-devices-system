@@ -2,7 +2,7 @@ package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.MailServiceImpl;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.verification.VerificationService;
 import org.joda.time.DateTime;
 import org.joda.time.Days;

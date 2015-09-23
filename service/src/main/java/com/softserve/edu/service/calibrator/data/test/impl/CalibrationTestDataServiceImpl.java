@@ -1,7 +1,8 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.calibrator.data.test.impl;
 
 import com.softserve.edu.entity.CalibrationTestData;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

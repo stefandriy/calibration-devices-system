@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.user;
 
 import com.softserve.edu.entity.user.User;
 

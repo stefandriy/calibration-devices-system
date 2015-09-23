@@ -5,7 +5,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.MailServiceImpl;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import org.junit.Assert;
 import org.junit.Before;

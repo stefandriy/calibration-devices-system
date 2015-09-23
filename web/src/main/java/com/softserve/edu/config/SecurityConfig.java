@@ -1,7 +1,7 @@
 package com.softserve.edu.config;
 
 import com.allanditzel.springframework.security.web.csrf.CsrfTokenResponseHeaderBindingFilter;
-import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

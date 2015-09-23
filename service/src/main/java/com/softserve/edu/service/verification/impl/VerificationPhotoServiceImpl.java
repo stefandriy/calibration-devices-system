@@ -1,7 +1,9 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.verification.impl;
 
 import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.storage.impl.FileOperationImpl;
+import com.softserve.edu.service.verification.VerificationPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

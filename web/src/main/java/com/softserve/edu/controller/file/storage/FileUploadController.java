@@ -1,6 +1,6 @@
 package com.softserve.edu.controller.file.storage;
 
-import com.softserve.edu.service.VerificationPhotoService;
+import com.softserve.edu.service.verification.VerificationPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

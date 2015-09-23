@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.tool;
 
 public interface MailService {
     void sendMail(String to, String userName, String clientCode, String providerName, String deviceType);

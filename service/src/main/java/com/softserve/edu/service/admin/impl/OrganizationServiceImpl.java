@@ -7,7 +7,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.MailServiceImpl;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;

@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.calibrator.data.test;
 
 
 import com.softserve.edu.entity.CalibrationTest;

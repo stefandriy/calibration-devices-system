@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.user;
 
 import java.util.ArrayList;
 import java.util.Collection;

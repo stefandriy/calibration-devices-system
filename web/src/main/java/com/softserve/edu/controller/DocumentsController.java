@@ -2,7 +2,7 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.service.DocumentService;
+import com.softserve.edu.service.tool.DocumentService;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

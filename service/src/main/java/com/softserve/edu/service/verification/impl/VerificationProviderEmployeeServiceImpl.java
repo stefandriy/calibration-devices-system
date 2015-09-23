@@ -6,7 +6,7 @@ import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.MailServiceImpl;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
 
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import org.apache.log4j.Logger;

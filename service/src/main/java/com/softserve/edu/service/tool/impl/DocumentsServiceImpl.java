@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.tool.impl;
 
 import com.softserve.edu.documents.DocumentFactory;
 import com.softserve.edu.documents.FileFactory;
@@ -12,6 +12,7 @@ import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.service.tool.DocumentService;
 import org.apache.commons.vfs2.FileObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ import java.util.Set;
  */
 @Service
 @Transactional(readOnly = true)
-public class DocumentsServiceImpl implements DocumentService{
+public class DocumentsServiceImpl implements DocumentService {
 
     @Autowired
     VerificationRepository verificationRepository;

@@ -1,8 +1,9 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.tool.impl;
 
 
 import com.softserve.edu.entity.Device;
 import com.softserve.edu.repository.DeviceRepository;
+import com.softserve.edu.service.tool.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +14,7 @@ import java.util.List;
 
 
 @Service
-public class DeviceServiceImpl implements DeviceService{
+public class DeviceServiceImpl implements DeviceService {
 	
 	@Autowired
 	private DeviceRepository deviceRepository;

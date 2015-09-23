@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.UserService;
+import com.softserve.edu.service.user.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,18 +22,11 @@ import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.DeviceService;
-import com.softserve.edu.service.MailServiceImpl;
+import com.softserve.edu.service.tool.DeviceService;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/application/")

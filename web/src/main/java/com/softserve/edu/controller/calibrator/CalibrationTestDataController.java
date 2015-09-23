@@ -1,9 +1,8 @@
 package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.service.CalibrationTestDataService;
-import com.softserve.edu.service.CalibrationTestService;
-import com.softserve.edu.service.CalibrationTestServiceImpl;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
