@@ -129,7 +129,12 @@ body {
         margin: 0 0 0 0 !important;
         padding: 0 30px;
         border-left: 1px solid #e7e7e7;
+        border-top: 1px solid #e7e7e7;
     }
+}
+
+.header_row{
+    margin-bottom: 20px;
 }
 
 @media (min-width: 992px) {
