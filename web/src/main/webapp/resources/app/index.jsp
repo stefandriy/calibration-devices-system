@@ -120,8 +120,8 @@
     <div class="row ng-cloak">
         <div class="col-md-3 menu_column">
             <div class="ui primary button" ng-class="{'toggle_button' : menuState}" ng-init="menuState = true" ng-click="menuState = !menuState">
-                <div ng-show="menuState" ><i class="fa fa-chevron-left"></i>Сховати</div>
-                <div ng-show="!menuState"><i class="fa fa-chevron-right"></i>Показати</div>
+                <div ng-show="menuState" ><i class="fa fa-chevron-left" style="font-size: 30px; vertical-align: middle"></i><span>Сховати</span></div>
+                <div ng-show="!menuState"><i class="fa fa-chevron-right" style="font-size: 30px;vertical-align: middle"></i><span>Показати</span></div>
             </div>
         </div>
     </div>
