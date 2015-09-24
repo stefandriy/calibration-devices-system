@@ -128,7 +128,8 @@ angular
 											.open({
 												animation : true,
 												controller : 'OrganizationEditHistoryModalController',
-												templateUrl : '/resources/app/admin/views/modals/organization-edit-history-modal.html'
+												templateUrl : '/resources/app/admin/views/modals/organization-edit-history-modal.html',
+												size: 'lg',
 											});
 									});
 

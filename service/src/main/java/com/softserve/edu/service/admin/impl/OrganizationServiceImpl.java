@@ -129,6 +129,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.setMaxProcessTime(maxProcessTime);
         organization.setAddress(address);
 
+        organization.removeOrganizationTypes();
         types.
                 stream()
                 .map(OrganizationType::valueOf)

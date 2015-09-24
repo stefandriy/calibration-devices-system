@@ -93,6 +93,10 @@ public class Organization {
         organizationTypes.add(organizationType);
     }
 
+    public void removeOrganizationTypes() {
+        organizationTypes.clear();
+    }
+
     public void addDeviceType(DeviceType deviceType) {
         deviceTypes.add(deviceType);
     }
