@@ -31,12 +31,11 @@ public class Verification {
     private ReadStatus readStatus;
 
     @ManyToOne
-    @JoinColumn(name = "device_id" )
+    @JoinColumn(name = "deviceId" )
     @JsonManagedReference
     private Device device;
 
-    @OneToMany
-    @JoinColumn(name = "verification_id")
+    @OneToMany(mappedBy = "verification")
     private Set<CalibrationTest> calibrationTests;
 
     @ManyToOne

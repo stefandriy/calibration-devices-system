@@ -17,8 +17,7 @@ public class Manufacturer {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "manufacturer_id")
+    @OneToMany(mappedBy = "manufacturer")
     private Set<Device> devices;
 
     public Long getId() {

@@ -1,13 +1,11 @@
 package com.softserve.edu.entity;
 
 import com.softserve.edu.entity.util.CalibrationTestResult;
-
-import javax.persistence.*;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -44,6 +42,7 @@ public class CalibrationTest {
     private MeteorologicalDocument meteorologicalDocument;
 
     @ManyToOne
+    @JoinColumn(name = "verificationId")
     private Verification verification;
 
     @OneToMany(mappedBy = "calibrationTest")

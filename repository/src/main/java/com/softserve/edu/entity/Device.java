@@ -38,6 +38,7 @@ public class Device {
 	private Organization provider;
 
 	@ManyToOne
+	@JoinColumn(name = "manufacturerId")
 	private Manufacturer manufacturer;
 
 	public Device() {
