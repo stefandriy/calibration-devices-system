@@ -12,6 +12,11 @@ angular
         'OrganizationService',
         function($rootScope, $scope, $modal, organizationService) {
 
+            $scope.noChanges = true;
 
-
+            if ($rootScope.organization[1]){
+                $scope.noChanges = false;
+            }
+           console.log($scope.noChanges);
+            console.log($rootScope.organization[1]);
         } ]);

@@ -315,5 +315,7 @@
   "ERROR_VALIDATION" : "Some main fields are empty",
   "DETAIL_INFO" : "Detail information about verification",
   "EDIT CHANGES" : "Organization changes history",
-  "DATE" : "Editing date"
+  "DATE" : "Editing date",
+  "EDITED_BY" : "Edited by",
+  "NO CHANGES FOR THIS ORGANIZATION" :"This organization haven't changes!"
 }
