@@ -1,9 +1,12 @@
 package com.softserve.edu.controller.client.application;
 
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.user.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,15 +19,11 @@ import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.ClientMailDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
-import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.ClientData;
-import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.DeviceService;
-import com.softserve.edu.service.MailService;
+import com.softserve.edu.service.tool.DeviceService;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -36,6 +35,9 @@ public class ClientApplicationController {
     Logger logger = Logger.getLogger(ClientApplicationController.class);
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private VerificationService verificationService;
 
     @Autowired
@@ -43,11 +45,12 @@ public class ClientApplicationController {
 
     @Autowired
     private CalibratorService calibratorService;
+
     @Autowired
     private DeviceService deviceService;
 
     @Autowired
-    private MailService mail;
+    private MailServiceImpl mail;
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String saveApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
@@ -110,7 +113,7 @@ public class ClientApplicationController {
     @RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
 
-        return providerService.findByDistrict(district, "PROVIDER").stream()
+        return providerService.findByDistrictAndType(district, "PROVIDER").stream()
                 .map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
                 .collect(Collectors.toList());
     }
@@ -118,7 +121,8 @@ public class ClientApplicationController {
     @RequestMapping(value = "calibrators/{district}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getCalibratorsCorrespondingDistrict(@PathVariable String district) {
 
-        return calibratorService.findByDistrict(district, "CALIBRATOR").stream()
+        return calibratorService.findByDistrict(district, "CALIBRATOR")
+                .stream()
                 .map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
                 .collect(Collectors.toList());
     }
@@ -137,22 +141,44 @@ public class ClientApplicationController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Sends email to System Administrator from client with verification application
+     *
+     * @param mailDto
+     * @return
+     */
     @RequestMapping(value = "clientMessage", method = RequestMethod.POST)
     public String sentMailFromClient(@RequestBody ClientMailDTO mailDto) {
         Verification verification = verificationService.findById(mailDto.getVerifID());
         String name = verification.getClientData().getFirstName();
         String surname = verification.getClientData().getLastName();
         String sendFrom = verification.getClientData().getEmail();
-        mail.sendClientMail(sendFrom, name, surname, mailDto.getVerifID(), mailDto.getMsg());
 
+        List<User> adminList = userService.findByRole("SYS_ADMIN");
+        if (!adminList.isEmpty() && adminList.get(0).getEmail() != null) {
+            mail.sendClientMail(adminList.get(0).getEmail(), sendFrom, name, surname, mailDto.getVerifID(), mailDto.getMsg());
+        } else {
+            mail.sendClientMail("metrology.calibration.devices@gmail.com", sendFrom, name, surname, mailDto.getVerifID(), mailDto.getMsg());
+        }
         return "SUCCESS";
     }
 
+    /**
+     * Sends email to System Administrator from client
+     *
+     * @param mailDto
+     * @return
+     */
     @RequestMapping(value = "clientMessageNoProvider", method = RequestMethod.POST)
-    public String sentMailFromClientNoprovider(@RequestBody ClientMailDTO mailDto) {
+    public String sentMailFromClientNoProvider(@RequestBody ClientMailDTO mailDto) {
 
-        mail.sendClientMail(mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(), mailDto.getVerifID(), mailDto.getMsg());
-
+        List<User> adminList = userService.findByRole("SYS_ADMIN");
+        if (!adminList.isEmpty() && adminList.get(0).getEmail() != null) {
+            mail.sendClientMail(adminList.get(0).getEmail(), mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(), mailDto.getVerifID(), mailDto.getMsg());
+            logger.trace("Email send to:" + adminList.get(0).getEmail());
+        } else {
+            mail.sendClientMail("metrology.calibration.devices@gmail.com", mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(), mailDto.getVerifID(), mailDto.getMsg());
+        }
         return "SUCCESS";
     }
 }

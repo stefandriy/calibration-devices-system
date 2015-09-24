@@ -4,28 +4,26 @@
     <meta charset="UTF-8">
     <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.css"
           rel="stylesheet">
-
-    <script src="/resources/assets/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-
 </head>
 
 <body ng-controller="WelcomePageController">
-    <div style="height: 305px">
-        <carousel interval="myInterval" style="height: 180%">
-            <h1>{{ 'HEAD_TITLE' | translate }}</h1>
-            <slide ng-repeat="slide in slides" active="slide.active">
-                <img ng-src="{{slide.image}}" style="margin:auto;">
-                <div class="carousel-caption">
+<br>
+<div class="row">
+    <h1>{{ 'HEAD_TITLE' | translate }}</h1>
+</div>
+<br>
+<div class="row">
+    <div class="container-fluid">
+        <div class="container">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <img src="/resources/assets/images/main2.jpg">
+            </div>
+            <div class="col-md-2"></div>
 
-                    <p>{{slide.text}}</p>
-                </div>
-            </slide>
-        </carousel>
+        </div>
     </div>
-
-
-
-
+</div>
 </body>
 
 

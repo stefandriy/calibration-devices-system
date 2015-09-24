@@ -16,6 +16,7 @@ require
 				angularLoadingBars : '../../assets/bower_components/angular-loading-bar/build/loading-bar',
 				angularUISelect: "../../assets/bower_components/ui-select/dist/select.min",
 				ngSanitize: "../../assets/bower_components/angular-sanitize/angular-sanitize.min",
+				semanticUI: "../../assets/bower_components/semantic/dist/semantic.min",
 				adminModule : 'adminModule'
 			},
 			shim : {
@@ -72,8 +73,9 @@ require
 					deps:['angular'],
 					exports: 'angularUISelect'
 				},
-
-
+				semanticUI:{
+					deps:['angular']
+				},
 				adminModule : {
 
 					deps : [ 'angular', 'csrfInterceptor', 'angularBootstrap',
@@ -82,7 +84,7 @@ require
 							'angularTranslateStorageLocal',
 							'angularTranslateLoaderStaticFiles',
 							'angularUIRouter', 'showErrors', 'ngTable',
-							'chosen','angularLoadingBars', 'angularUISelect', 'ngSanitize']
+							'chosen','angularLoadingBars', 'angularUISelect', 'ngSanitize', 'semanticUI']
 
 				}
 			}

@@ -2,7 +2,7 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.service.DocumentsService;
+import com.softserve.edu.service.tool.DocumentService;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class DocumentsController {
     static Logger log = Logger.getLogger(DocumentsController.class.getName());
 
     @Autowired
-    DocumentsService documentsService;
+    DocumentService documentService;
 
     /**
      * Returns a document with a specific fileFormat using verification and it's
@@ -48,7 +48,7 @@ public class DocumentsController {
                             @PathVariable String verificationCode,
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
-        FileObject file = documentsService.buildFile(verificationCode, fileFormat);
+        FileObject file = documentService.buildFile(verificationCode, fileFormat);
         sendFile(response, fileFormat, file);
     }
 
@@ -75,7 +75,7 @@ public class DocumentsController {
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
         System.out.println("in the DocumentsContriller = " + testID);
-        FileObject file = documentsService.buildFile(verificationCode,
+        FileObject file = documentService.buildFile(verificationCode,
                 testID, documentType, fileFormat);
         sendFile(response, fileFormat, file);
     }
@@ -100,7 +100,7 @@ public class DocumentsController {
                             @PathVariable String verificationCode,
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
-        FileObject file = documentsService.buildFile(verificationCode,
+        FileObject file = documentService.buildFile(verificationCode,
                 documentType, fileFormat);
         sendFile(response, fileFormat, file);
     }
@@ -226,7 +226,7 @@ public class DocumentsController {
                             @PathVariable String verificationCode,
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
-        FileObject file = documentsService.buildInfoFile(verificationCode, fileFormat);
+        FileObject file = documentService.buildInfoFile(verificationCode, fileFormat);
         sendFile(response, fileFormat, file);
     }
 }

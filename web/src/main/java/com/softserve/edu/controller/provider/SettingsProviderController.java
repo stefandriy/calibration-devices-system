@@ -4,8 +4,7 @@ import com.softserve.edu.dto.EmployeeDTO;
 import com.softserve.edu.dto.FieldDTO;
 import com.softserve.edu.dto.NewPasswordDTO;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.UserService;
-
+import com.softserve.edu.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -248,7 +248,7 @@
                         "
                            style="color: #b27e77"
                            ng-click="feedbackModalNoProvider()"> <i class="fa fa-info-circle">
-                            <ins>Не існує постачальника послуг для даного району. Повідомте нам про це.</ins>
+                            <ins>{{'PROVIDER_NOT_FOUND' | translate }}</ins>
                         </i>
                         </a>
 
@@ -310,7 +310,16 @@
                                    typeahead-on-select="receiveBuildings(selectedValues.selectedStreet)" required>
                             <span class="form-control-feedback street_ok_padding glyphicon form-horizontal glyphicon glyphicon-ok-sign"></span>
                         </div>
+                        <p class="help-block" ng-if="clientForm.streetType.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
 
+                        <p class="help-block"
+                           ng-if="clientForm.street.$invalid">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'STREET_ERROR' | translate}}
+                        </p>
 
                     </div>
                 </div>
@@ -449,7 +458,7 @@
                                     <ui-select-match placeholder="Кількість">
                                         {{$select.selected}}
                                     </ui-select-match>
-                                    <ui-select-choices repeat="value in values">
+                                    <ui-select-choices repeat="value in values ">
                                         <span ng-bind-html="value"></span>
                                     </ui-select-choices>
                                 </ui-select>
@@ -463,7 +472,8 @@
                                     <ui-select-match placeholder="Категорія лічильника">
                                         {{$select.selected.designation}}
                                     </ui-select-match>
-                                    <ui-select-choices repeat="device in devices | filter: $select.search">
+                                    <ui-select-choices
+                                            repeat="device in devices | filter: $select.search | hideSelected:selectedValues.firstSelectedDevice">
                                         <span ng-bind-html="device.designation"></span>
                                     </ui-select-choices>
                                 </ui-select>
@@ -491,6 +501,7 @@
                             {{'APPLICATION_COMMENT' | translate}}
 
                         </label>
+
                         <div class="col-md-8">
                         <textarea id="secondDeviceComment" name="secondDeviceComment" class="form-control" rows="3"
                                   ng-model="secondDeviceComment" maxlength="254"
@@ -499,55 +510,6 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="form-group" show-errors ng-show="isThirdDevice">
-                    <label for="device3" class="col-md-2 control-label">
-                        {{'COUNTER_CATEGORY' | translate}} </label>
-
-                    <div class="col-md-8 ">
-                        <div class="pull-left col-lg-3" id="counterNumber">
-                            <ui-select class="form-control" type="text" theme="select2"
-                                       ng-required="isThirdDevice"
-                                       ng-model="selectedValues.thirdDeviceCount"
-                                       search-enabled="false"
-                                       name="thirdDeviceCount"
-                                       id="counterNumber">
-                                <ui-select-match placeholder="Кількість">
-                                    {{$select.selected}}
-                                </ui-select-match>
-                                <ui-select-choices repeat="value in values">
-                                    <span ng-bind-html="value"></span>
-                                </ui-select-choices>
-                            </ui-select>
-
-                        </div>
-                        <div class="col-md-9 pull-right input-group" id="deviceBox">
-                            <ui-select class="form-control" type="text" theme="select2"
-                                       ng-model="selectedValues.thirdSelectedDevice"
-                                       search-enabled="false"
-                                       id="thirdSelectedDevice"
-                                       name="thirdSelectedDevice">
-                                <ui-select-match placeholder="Категорія лічильника">
-                                    {{$select.selected.designation}}
-                                </ui-select-match>
-                                <ui-select-choices repeat="device in devices | filter: $select.search">
-                                    <span ng-bind-html="device.designation"></span>
-                                </ui-select-choices>
-                            </ui-select>
-
-                        </div>
-                        <p class="help-block" ng-if="clientForm.thirdDeviceCount.$error.required">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'TYPEAHEAD_ERROR' | translate}}
-                        </p>
-
-                        <p class="help-block"
-                           ng-if="clientForm.thirdSelectedDevice.$invalid">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'DEVICE_TYPE_REQUIRED' | translate}}
-                        </p>
-                    </div>
-                </div>-->
-
 
                 <div class="form-group ">
                     <div class="col-md-2">

@@ -9,10 +9,13 @@ angular
         '$translate',
         '$modalInstance',
         '$filter',
+        '$modal',
+        '$timeout',
         'AddressService',
         'OrganizationService',
         'UserService',
         function($rootScope, $scope, $log, $translate, $modalInstance, $filter,
+                 $modal, $timeout,
                  addressService, organizationService,
                  userService) {
 
@@ -199,7 +202,7 @@ angular
                         $scope.usernameValidation = {
                             isValid: isValid,
                             css: isValid? 'has-success' : 'has-error',
-                            message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16. Наприклад : Володимир '
+                            message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16. Наприклад : vova '
                         }
                         break;
                     case 'existLogin':
@@ -431,8 +434,20 @@ angular
                             $rootScope.$broadcast('new-employee-added');
                             $scope.closeModal();
                             $scope.resetEmployeeForm();
+
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/admin/views/modals/success-adding.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'successController',
+                                size: 'md'
+                            });
                         } else {
-                            alert('Error');
+                           console.log(data.status );
                         }
                     });
             };

@@ -8,29 +8,23 @@ import com.softserve.edu.dto.admin.OrganizationEditDTO;
 import com.softserve.edu.dto.admin.OrganizationPageDTO;
 import com.softserve.edu.dto.admin.OrganizationPageItem;
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.Device;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
-import com.softserve.edu.service.SecurityUserDetailsService;
-import com.softserve.edu.service.UserService;
-import com.softserve.edu.service.admin.OrganizationsService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.service.user.UserService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.OrganizationAdminDTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,7 +34,7 @@ public class OrganizationsController {
     private final Logger logger = Logger
             .getLogger(OrganizationsController.class);
     @Autowired
-    private OrganizationsService organizationsService;
+    private OrganizationService organizationsService;
 
     @Autowired
     private UserService userService;
@@ -176,7 +170,7 @@ public class OrganizationsController {
                 organization.getStreet(),
                 organization.getBuilding(),
                 organization.getFlat());
-      // try {
+       try {
             if (organization.getTypes().equals(null)) {
                 System.out.println("Nothing here");
             }
@@ -204,10 +198,11 @@ public class OrganizationsController {
                     organization.getFirstName(),
                     organization.getLastName(),
                     organization.getMiddleName());
-        //} catch (Exception e) {
-       //     logger.error("GOT EXCEPTION " + e.getMessage());
-         //   httpStatus = HttpStatus.CONFLICT;
-        //}
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e.getMessage());
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        organizationsService.sendOrganizationChanges(organizationId, organization.getUsername());
 
         return new ResponseEntity(httpStatus);
     }

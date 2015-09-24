@@ -2,7 +2,6 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.controller.calibrator.CalibrationTestController;
 import com.softserve.edu.entity.CalibrationTestData;
-import com.softserve.edu.service.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;

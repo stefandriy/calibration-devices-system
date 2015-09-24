@@ -70,13 +70,13 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     User getProviderEmployeeById(@Param("id") String id);
 
     List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
+
     List<Verification> findByCalibratorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
 
-    List<Verification> findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween
-            (Organization organization,Date dateFrom,Date DateTo);
+    List<Verification> findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween(Organization organization,Date dateFrom,Date DateTo);
 
-    List<Verification> findByProviderAndInitialDateBetween
-            (Organization organization,Date dateFrom,Date DateTo);
+    List<Verification> findByProviderAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
+
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'SENT' and u.provider = :provider")
     int getCountOfAllSentVerifications(@Param("provider") Organization provider);
 

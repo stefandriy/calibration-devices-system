@@ -1,7 +1,6 @@
 package com.softserve.edu.controller.file.storage;
 
-import java.util.regex.Pattern;
-
+import com.softserve.edu.service.verification.VerificationPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.softserve.edu.service.VerificationPhotoService;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping(value = "/uploadFile")
@@ -35,7 +34,7 @@ public class FileUploadController {
             String fileType = file.getOriginalFilename().substring( 
                     file.getOriginalFilename().lastIndexOf('.'));
                 if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                verificationPhotoService.putResourse(testId, file.getInputStream(), fileType);
+                verificationPhotoService.putResource(testId, file.getInputStream(), fileType);
 
                 return "You successfully uploaded file";
             } else {
