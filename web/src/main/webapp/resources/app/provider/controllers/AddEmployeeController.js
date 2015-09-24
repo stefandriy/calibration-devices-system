@@ -86,12 +86,8 @@ angular
             $scope.resetEmployeeForm = function () {
                  $scope.$broadcast('show-errors-reset');
                 if ($scope.employeeForm) {
-                    //$scope.employeeForm.$setValidity(true);
                     $scope.employeeForm.$setPristine();
                     $scope.employeeForm.$setUntouched();
-                   // $scope.employeeForm.lastName.dataset = {};
-                    //$scope.employeeForm.$rollbackViewValue();
-                    //$scope.employeeFormData.lastName="";
                 }
                 $scope.usernameValidation = null;
                 $scope.employeeFormData = null;
@@ -102,8 +98,6 @@ angular
             /**
              * Calls resetOrganizationForm after the view loaded
              */
-
-            //$scope.resetEmployeeForm();
 
             /**
              * Validates
@@ -264,7 +258,6 @@ angular
                 }
             }
 
-            //initFormData();
 
             /**
              * Finds districts in a given region.
@@ -310,13 +303,6 @@ angular
              * @param streetId
              *            to identify street
              */
-            //$scope.onStreetSelected = function (streetId) {
-            //    addressServiceProvider
-            //        .findBuildingsByStreetId(streetId)
-            //        .then(function (data) {
-            //            $scope.buildings = data.data;
-            //        });
-            //};
 
             /**
              * Refactor data
@@ -333,14 +319,6 @@ angular
                     userRoles: [],
                 }
 
-//                    employeeData.address = {
-//                        region: $scope.employeeFormData.region.designation,
-//                        district: $scope.employeeFormData.district.designation,
-//                        locality: $scope.employeeFormData.locality.designation,
-//                        street: $scope.employeeFormData.street,
-//                        building: $scope.employeeFormData.building,
-//                        flat: $scope.employeeFormData.flat,
-//                    }
 
                 if (organizationTypeProvider === true) {
                     employeeData.userRoles.push('PROVIDER_EMPLOYEE');
@@ -358,8 +336,6 @@ angular
                 if (( $scope.firstNameValidation === undefined) || ($scope.lastNameValidation === undefined)
                     || ($scope.middleNameValidation === undefined) || ($scope.emailValidation === undefined)
                     || ($scope.passwordValidation === undefined) || ($scope.usernameValidation === undefined)
-                //|| ($scope.employeeFormData.region === undefined) || ($scope.employeeFormData.district === undefined)
-                //|| ($scope.employeeFormData.locality === undefined)
                 ) {
                     $scope.incorrectValue = true;
                     return false;

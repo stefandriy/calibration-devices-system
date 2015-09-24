@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
-    .controller('EditEmployeeController', ['$rootScope', '$scope', '$modalInstance', '$log', '$state', '$http', 'UserService'/*, 'AddressServiceProvider'*/,
+    .controller('EditEmployeeController', ['$rootScope', '$scope', '$modalInstance', '$log', '$state', '$http', 'UserService',
 
-        function ($rootScope, $scope, $modalInstance, $log, $state, $http, userService /*addressServiceProvider*/) { //очікую що пройде апдейт без проблем
+        function ($rootScope, $scope, $modalInstance, $log, $state, $http, userService) {
             var organizationTypeProvider = false;
             var organizationTypeCalibrator = false;
             var organizationTypeVerificator = false;
@@ -113,7 +113,6 @@ angular
              * Change password
              */
             $scope.changePassword = function () {
-                //$scope.preventDefault();
                 $scope.user.password = 'generate';
                 $scope.generationMessage = true;
             }
@@ -152,86 +151,6 @@ angular
             }
 
             /**
-             * Finds all regions
-             */
-            //addressServiceProvider.findAllRegions().then(
-            //     function (data) {
-            //         $scope.regions = data.data;
-            //         var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.region, "designation");
-            //         $scope.employeeFormData.region = $scope.regions[index];
-            //         $scope.onRegionSelected($scope.regions[index].id);
-            //     });
-
-            /**
-             * Finds districts in a given region.
-             * @param regionId
-             *            to identify region
-             */
-            //$scope.onRegionSelected = function (regionId) {
-            //    addressServiceProvider
-            //        .findDistrictsByRegionId(regionId)
-            //        .then(function (data) {
-            //            $scope.districts = data.data;
-            //            var index = arrayObjectIndexOf($scope.districts,  $scope.user.address.district, "designation");
-            //            $scope.employeeFormData.district = $scope.districts[index];
-            //            $scope.onDistrictSelected($scope.districts[index].id);
-            //        });
-            //};
-
-            /**
-             * Finds localities in a given district.
-             * @param districtId
-             *            to identify district
-             */
-            //$scope.onDistrictSelected = function (districtId) {
-            //    addressServiceProvider.findLocalitiesByDistrictId(
-            //        districtId).then(function (data) {
-            //            $scope.localities = data.data;
-            //            var index = arrayObjectIndexOf($scope.localities,  $scope.user.address.locality, "designation");
-            //            $scope.employeeFormData.locality = $scope.localities[index];
-            //        });
-            //};
-
-            /**
-             * There are no DB records for this methods.
-             * Finds streets in a given locality.
-             *
-             * @param localityId
-             *            to identify locality
-             */
-            //$scope.onLocalitySelected = function (localityId) {
-            //    addressServiceProvider.findStreetsByLocalityId(
-            //        localityId).then(function (data) {
-            //            $scope.streets = data.data;
-            //        });
-            //};
-
-            /**
-             * Finds buildings in a given street.
-             * @param streetId
-             *            to identify street
-             */
-            //$scope.onStreetSelected = function (streetId) {
-            //    addressServiceProvider
-            //        .findBuildingsByStreetId(streetId)
-            //        .then(function (data) {
-            //            $scope.buildings = data.data;
-            //        });
-            //};
-
-
-            //
-            //function addressFormToOrganizationForm() {
-            //      $scope.user.address.region = $scope.user.address.region.designation;
-            //      $scope.user.address.district = $scope.user.address.district.designation;
-            //      $scope.user.address.locality = $scope.user.address.locality.designation;
-            //      $scope.user.address.street = $scope.user.address.street;
-            //      $scope.user.address.building = $scope.user.address.building;
-            //      $scope.user.address.flat = $scope.user.address.flat;
-            //    }
-
-
-            /**
              * Refactor data
              */
             function retranslater() {
@@ -248,16 +167,6 @@ angular
                     isAvaliable: true
 
                 }
-
-                //employeeData.address = {
-                //    region:  $scope.employeeFormData.region.designation,
-                //    district: $scope.employeeFormData.district.designation,
-                //    locality: $scope.employeeFormData.locality.designation,
-                //    street: $scope.user.address.street,
-                //    building: $scope.user.address.building,
-                //    flat: $scope.user.address.flat
-                //}
-
 
 
                 if (organizationTypeProvider === true) {

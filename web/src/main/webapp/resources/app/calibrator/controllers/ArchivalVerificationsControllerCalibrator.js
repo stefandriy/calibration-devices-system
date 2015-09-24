@@ -16,8 +16,6 @@ angular
 
 
 
-
-
             $scope.clearDate = function () {
                 //daterangepicker doesn't support null dates
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
@@ -291,7 +289,6 @@ angular
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
-
 
 
         }]);
