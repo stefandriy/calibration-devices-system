@@ -30,11 +30,12 @@ public class OrganizationDTO {
 	}
 
 
-	public OrganizationDTO(Long id, String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
+	public OrganizationDTO(Long id, String name, String email, String phone, String[] types, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
 		this.id =id;
 		this.email = email;
 		this.name = name;
 		this.phone = phone;
+		this.types = types;
 		this.employeesCapacity = employeesCapacity;
 		this.maxProcessTime = maxProcessTime;
 		this.region = region;

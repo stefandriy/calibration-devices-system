@@ -8,6 +8,7 @@ import com.softserve.edu.dto.admin.*;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.OrganizationChangeHistory;
+import com.softserve.edu.entity.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
@@ -26,7 +27,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -160,7 +163,10 @@ public class OrganizationsController {
     public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
         Organization organization = organizationsService.getOrganizationById(id);
 
-        OrganizationDTO	organizationDTO=new OrganizationDTO(organization.getId() ,organization.getName(), organization.getEmail(), organization.getPhone(),
+        Set<OrganizationType> organizationTypes = organization.getOrganizationTypes();
+        List<String> listOrganizationTypes = new ArrayList<>();
+        String[] types = listOrganizationTypes.toArray(new String[listOrganizationTypes.size()]);
+        OrganizationDTO	organizationDTO=new OrganizationDTO(organization.getId() ,organization.getName(), organization.getEmail(), organization.getPhone(), types,
         organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
             organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
         return organizationDTO;
@@ -190,8 +196,6 @@ public class OrganizationsController {
        try {
             if (organization.getTypes().equals(null)) {
                 System.out.println("Nothing here");
-            }
-            for (String strType : organization.getTypes()) {System.out.println(strType);
             }
            
            String adminName = user.getUsername();

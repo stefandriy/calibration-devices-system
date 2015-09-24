@@ -455,3 +455,7 @@ div.chosen-container {
     border: red;
     color: red;
 }
+
+th {
+    text-align: center;
+}

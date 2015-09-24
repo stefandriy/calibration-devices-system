@@ -308,5 +308,7 @@
   "NUMBER_OF_COUNTER_REGEX" : "Only numbers! Must be more than 5 symbols!",
   "PRIVATE_HOUSE" : "Private house",
   "ERROR_VALIDATION" : "Some main fields are empty",
-  "DETAIL_INFO" : "Detail information about verification"
+  "DETAIL_INFO" : "Detail information about verification",
+  "EDIT CHANGES" : "Organization changes history",
+  "DATE" : "Editing date"
 }

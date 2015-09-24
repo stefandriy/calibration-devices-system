@@ -1,6 +1,7 @@
 package com.softserve.edu.dto.admin;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by vova on 23.09.15.
@@ -10,7 +11,7 @@ public class OrganizationEditHistoryPageDTO {
     private String name;
     private String email;
     private String phone;
-    private String[] types;
+    private String types;
     private Integer employeesCapacity;
     private Integer maxProcessTime;
 
@@ -28,11 +29,12 @@ public class OrganizationEditHistoryPageDTO {
 
     private String adminUsername;
 
-    public OrganizationEditHistoryPageDTO(Date date ,String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, String region, String district, String locality, String street, String building, String flat, String username, String firstName, String lastName, String middleName, String adminUsername) {
+    public OrganizationEditHistoryPageDTO(Date date ,String name, String email, String phone, String types, Integer employeesCapacity, Integer maxProcessTime, String region, String district, String locality, String street, String building, String flat, String username, String firstName, String lastName, String middleName, String adminUsername) {
         this.date = date;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.types = types;
         this.employeesCapacity = employeesCapacity;
         this.maxProcessTime = maxProcessTime;
         this.region = region;
@@ -78,6 +80,14 @@ public class OrganizationEditHistoryPageDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getTypes() {
+        return types;
+    }
+
+    public void setTypes(String types) {
+        this.types = types;
     }
 
     public Integer getEmployeesCapacity() {

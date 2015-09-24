@@ -104,12 +104,12 @@ angular
 			});
 
 			$scope.organizationTypes = [];
-			//for (var i = 0; i < $rootScope.organization.organizationTypes.length; i++) {
-			//	$scope.organizationTypes[i] = {
-			//		type : $rootScope.organization.organizationTypes[i].type,
-			//		label : null
-			//	}
-			//}
+			for (var i = 0; i < $rootScope.organization.types.length; i++) {
+				$scope.organizationTypes[i] = {
+					type : $rootScope.organization.types[i].type,
+					label : null
+				}
+			}
 			
 			$scope.setTypeDataLanguage();
 			$timeout(setCurrentTypeDataLanguage(), 3);
@@ -481,13 +481,13 @@ angular
 				}
 			}
 
-			//function objectTypesToStringTypes() {
-			//	for (var i in $rootScope.organization.organizationTypes) {
-			//		$scope.organizationTypes[i] = $scope.organizationTypes[i].type;
-			//		console.log($scope.organizationTypes[i]);
-			//	}
-			//}
-			//console.log($rootScope.organization.organizationTypes);
+			function objectTypesToStringTypes() {
+				for(var i=0 ;i< $scope.organizationTypes.length;i++){
+					$scope.organizationTypes[i] = $scope.organizationTypes[i].type;
+					console.log($scope.organizationTypes[i]);
+				}
+			}
+			console.log($rootScope.organization.types);
 
 			/**
 			 * Edit organization. If everything is ok then
@@ -578,7 +578,7 @@ angular
 
 			$scope.editOrganization = function() {
 				addressFormToOrganizationForm();
-			//	objectTypesToStringTypes();
+				objectTypesToStringTypes();
 				var organizationForm = {
 					name : $rootScope.organization.name,
 					email : $rootScope.organization.email,
@@ -613,6 +613,7 @@ angular
 						}
 						else (console.log(data));
 					});
+				$scope.closeModal();
 			};
 			/**
 			 * Closes edit modal window.
