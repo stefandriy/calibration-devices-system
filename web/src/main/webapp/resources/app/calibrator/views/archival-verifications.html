@@ -27,7 +27,7 @@
                         <div class="col-md-12">
                             <div class="table-responsive">
                                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
-                                       class="table table-bordered table-hover users_table">
+                                       class="table table-bordered table-hover users_table" id="info_table">
                                     <tbody>
                                     <tr ng-repeat="verification in $data">
                                         <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
@@ -41,49 +41,81 @@
                                         <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
                                             filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
                                         </td>
-                                        <td data-title="'ACTIONS' | translate" class="control_buttons"
-                                            style="width: 12%">
-                                            <i class="fa fa-info-circle info_icon"
-                                               popover="{{ 'DETAIL' | translate }}"
-                                               popover-trigger="mouseenter"
-                                               ng-click="openDetails(verification.id, verification.initialDate)">
-                                            </i>
-                                            <a popover="{{ 'DOWNLOAD_DOC' | translate }}" popover-trigger="mouseenter"
-                                               target="_blank"
-                                               href="{{'/doc/info/' + verification.id + '/docx'}}">
-                                                <i class="fa fa-file-word-o"></i>
-                                            </a>
 
-                                            <div ng-show="verification.status === 'TEST_OK'">
-                                                <a
-                                                        popover="{{ 'DETAIL' | translate }}"
-                                                        popover-trigger="mouseenter"
-                                                        ng-click="">
-                                                    <!-- TODO: add new modal window with result of test or add some function that will be show in new Window document in docs format-->
-                                                    <i class="fa fa-external-link"></i>
-                                                </a>
-                                                <a
-                                                        popover="{{ 'DOWNLOAD_TEST_DOC' | translate }}"
-                                                        target="_blank"
-                                                        popover-trigger="mouseenter"
-                                                        href="{{'/doc/' + verification.documentType + '/'+verification.id + '/docx'}}">
-                                                    <i class="fa fa-download"></i>
-                                                </a>
-                                                <a
-                                                        popover="{{ 'DOWNLOAD_TEST_PDF' | translate }}"
-                                                        target="_blank"
-                                                        popover-trigger="mouseenter"
-                                                        href="{{'/doc/' + verification.documentType + '/'+verification.id + '/pdf'}}">
-                                                    <i class="fa fa-file-pdf-o"></i>
-                                                </a>
-                                                <a
-                                                        popover="{{ 'PRINT' | translate }}"
-                                                        target="_blank"
-                                                        popover-trigger="mouseenter"
-                                                        href="{{'/doc/info/' + verification.id + '/pdf'}}">
-                                                    <i class="fa fa-print"></i>
-                                                </a>
+                                        <td data-title="'ACTIONS' | translate" class="control_buttons"
+                                            style="width: 30%">
+
+
+                                            <div class="ui simple dropdown icon item">
+                                                <i class="fa fa-wrench"></i>
+
+                                                <div class="menu">
+                                                    <div class="ui simple dropdown icon item">
+                                                        <span>{{ 'VERIFICATION_DROPDOWN' | translate }}</span>
+
+                                                        <div class="menu">
+                                                            <div class="item">
+                                                                <a
+                                                                        ng-click="openDetails(verification.id, verification.initialDate)">
+                                                                    <i class="fa fa-info-circle info_icon"></i>
+                                                                    {{ 'DETAIL' | translate }}
+                                                                </a>
+                                                            </div>
+                                                            <div class="item">
+                                                                <a
+                                                                        target="_blank"
+                                                                        href="{{'/doc/info/' + verification.id + '/docx'}}">
+                                                                    <i class="fa fa-file-word-o"></i>
+                                                                    {{ 'DOWNLOAD_DOC' | translate }}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui simple dropdown icon item"
+                                                         ng-show="verification.status === 'TEST_OK'">
+
+                                                        <span>{{ 'PROTOCOL_DROPDOWN' | translate }}</span>
+
+                                                        <div class="menu">
+                                                            <div class="item">
+                                                                <a
+                                                                        ng-click="">
+                                                                    <!-- TODO: add new modal window with result of test or add some function that will be show in new Window document in docs format-->
+                                                                    <i class="fa fa-external-link"></i>
+                                                                    {{ 'DETAIL' | translate }}
+                                                                </a>
+                                                            </div>
+                                                            <div class="item">
+                                                                <a
+                                                                        target="_blank"
+                                                                        href="{{'/doc/' + verification.documentType + '/'+verification.id + '/docx'}}">
+                                                                    <i class="fa fa-download"></i>
+                                                                    {{ 'DOWNLOAD_TEST_DOC' | translate }}
+                                                                </a>
+                                                            </div>
+                                                            <div class="item">
+                                                                <a
+                                                                        target="_blank"
+                                                                        href="{{'/doc/' + verification.documentType + '/'+verification.id + '/pdf'}}">
+                                                                    <i class="fa fa-file-pdf-o"></i>
+                                                                    {{ 'DOWNLOAD_TEST_PDF' | translate }}
+
+                                                                </a>
+                                                            </div>
+                                                            <div class="item">
+                                                                <a
+                                                                        target="_blank"
+                                                                        href="{{'/doc/info/' + verification.id + '/pdf'}}">
+                                                                    <i class="fa fa-print"></i>
+                                                                    {{ 'PRINT' | translate }}
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
                                             </div>
+
                                         </td>
                                         <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
                                             filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
@@ -221,4 +253,3 @@
         </div>
     </div>
 </div>
-

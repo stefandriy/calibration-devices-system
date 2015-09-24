@@ -94,7 +94,7 @@ angular
                     $scope.protocolStatusData[1].label = 'FAILED';
 
                 } else {
-                    console.error(lang);
+                    $log.debug(lang);
                 }
             };
 
