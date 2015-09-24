@@ -73,11 +73,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         organizationRepository.save(organization);
         userRepository.save(employeeAdmin);
 
+        String stringOrganizationTypes = String.join(",", types);
 
         OrganizationChangeHistoryPK organizationChangeHistoryPK = new OrganizationChangeHistoryPK(new Date(), organization.getId());
 
         OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(name, organizationChangeHistoryPK, email, phone, employeesCapacity,
-                maxProcessTime, username, firstName, lastName, middleName, organization, address, adminName);
+                maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
         organizationChangeHistoryRepository.save(organizationChangeHistory);
         organization.addOrganizationChangeHistory(organizationChangeHistory);
@@ -150,10 +151,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         logger.info(employeeAdmin.getPassword());
         organizationRepository.save(organization);
 
+        String stringOrganizationTypes = String.join(",", types);
+
         OrganizationChangeHistoryPK organizationChangeHistoryPK = new OrganizationChangeHistoryPK(new Date(), organizationId);
 
         OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(name, organizationChangeHistoryPK, email, phone, employeesCapacity,
-                maxProcessTime, username, firstName, lastName, middleName, organization, address, adminName);
+                maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
         organizationChangeHistoryRepository.save(organizationChangeHistory);
         organization.addOrganizationChangeHistory(organizationChangeHistory);

@@ -13,22 +13,14 @@ import java.util.List;
 public class OrganizationHistoryPageDTOTransformer {
     public static List<OrganizationEditHistoryPageDTO> toDtoFromList(List<OrganizationChangeHistory> list){
         List<OrganizationEditHistoryPageDTO>  resultList = new ArrayList<OrganizationEditHistoryPageDTO>();
-        for (OrganizationChangeHistory organization : list) {
-
-            List<String> types = new ArrayList<>();
-            organization.getOrganization().getOrganizationTypes().
-                    stream()
-                    .map(OrganizationType::name)
-                    .forEach(types::add);
-
-            String stringOrganizationTypes = String.join(",", types);
+        for (OrganizationChangeHistory organization : list)
 
             resultList.add(new OrganizationEditHistoryPageDTO(
                     organization.getOrganizationChangeHistoryPK().getDate(),
                     organization.getName(),
                     organization.getEmail(),
                     organization.getPhone(),
-                    stringOrganizationTypes ,
+                    organization.getTypes() ,
                     organization.getEmployeesCapacity(),
                     organization.getMaxProcessTime(),
                     organization.getAddress().getRegion(),
@@ -41,9 +33,9 @@ public class OrganizationHistoryPageDTOTransformer {
                     organization.getFirstName(),
                     organization.getLastName(),
                     organization.getMiddleName(),
-                    organization.getadminName()
+                    organization.getAdminName()
             ));
-        }
+
         return resultList;
     }
 }

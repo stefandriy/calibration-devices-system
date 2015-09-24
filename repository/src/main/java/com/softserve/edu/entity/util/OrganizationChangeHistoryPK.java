@@ -1,6 +1,9 @@
 package com.softserve.edu.entity.util;
 
 import com.softserve.edu.entity.Organization;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
@@ -11,6 +14,8 @@ import java.util.Date;
 /**
  * Created by vova on 22.09.15.
  */
+@Getter
+@Setter
 @Embeddable
 public class OrganizationChangeHistoryPK implements Serializable{
 
@@ -22,22 +27,6 @@ public class OrganizationChangeHistoryPK implements Serializable{
 
     public OrganizationChangeHistoryPK(Date date, Long organizationId) {
         this.date = date;
-        this.orgId = organizationId;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Long getOrganizationId() {
-        return orgId;
-    }
-
-    public void setOrganizationId(Long organizationId) {
         this.orgId = organizationId;
     }
 }

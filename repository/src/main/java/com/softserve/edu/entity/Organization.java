@@ -20,8 +20,6 @@ import java.util.Set;
 @Table(name = "ORGANIZATION")
 public class Organization {
 
-	@OneToMany(mappedBy = "organization")
-	private Set<OrganizationChangeHistory> organizationChangeHistorySet = new HashSet<OrganizationChangeHistory>();
     @Id
     @GeneratedValue
     @Setter(AccessLevel.PRIVATE)
@@ -48,10 +46,8 @@ public class Organization {
      */
     private Date certificateGrantedDate;
 
-	public  void addOrganizationChangeHistory (OrganizationChangeHistory organizationChangeHistory){
-		this.organizationChangeHistorySet.add(organizationChangeHistory);
-	}
-
+    @OneToMany(mappedBy = "organization")
+    private Set<OrganizationChangeHistory> organizationChangeHistorySet = new HashSet<OrganizationChangeHistory>();
 
 	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
@@ -68,6 +64,10 @@ public class Organization {
     @Column(name = "value", length = 20)
     @Enumerated(EnumType.STRING)
     private Set<DeviceType> deviceTypes = new HashSet<>();
+
+    public  void addOrganizationChangeHistory (OrganizationChangeHistory organizationChangeHistory){
+        this.organizationChangeHistorySet.add(organizationChangeHistory);
+    }
 
     public Organization(String name, String email, String phone) {
         this.name = name;
