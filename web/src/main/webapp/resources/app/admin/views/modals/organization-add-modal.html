@@ -458,6 +458,7 @@
 									<div class="col-md-8">
 										<input name="building" id="building" type="text"
 											   ng-model="organizationFormData.building" ng-pattern="BUILDING_REGEX"
+											   ng-disabled="!organizationFormData.street"
 											   typeahead="building as building.designation for building in buildings | filter: $viewValue"
 											   class="form-control" popover="Введіть номер будинку організації"
 											   popover-trigger="focus" popover-placement="top" required>
@@ -486,6 +487,7 @@
 									<div class="col-md-8">
 										<input name="flat" id="flat" type="text"
 											   ng-model="organizationFormData.flat" ng-pattern="FLAT_REGEX" class="form-control"
+											   ng-disabled="!organizationFormData.building"
 											   popover="Введіть номер квартири організації, якщо такий наявний"
 											   popover-trigger="focus" popover-placement="top">
 									<span class="form-control-feedback glyphicon
