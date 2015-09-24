@@ -2,9 +2,12 @@ package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.OrganizationChangeHistory;
 import com.softserve.edu.entity.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.util.OrganizationChangeHistoryPK;
+import com.softserve.edu.repository.OrganizationChangeHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
@@ -23,6 +26,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,6 +41,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     private ProviderEmployeeService providerEmployeeService;
 
     @Autowired
+    private OrganizationChangeHistoryRepository organizationChangeHistoryRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -49,7 +56,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void addOrganizationWithAdmin(String name, String email, String phone, String[] types, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                         String username, String password, Address address) {
+                                         String username, String password, Address address, String adminName) {
 
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
@@ -65,7 +72,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         organizationRepository.save(organization);
         userRepository.save(employeeAdmin);
+
+
+        OrganizationChangeHistoryPK organizationChangeHistoryPK = new OrganizationChangeHistoryPK(new Date(), organization.getId());
+
+        OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(name, organizationChangeHistoryPK, email, phone, employeesCapacity,
+                maxProcessTime, username, firstName, lastName, middleName, organization, address, adminName);
+
+        organizationChangeHistoryRepository.save(organizationChangeHistory);
+        organization.addOrganizationChangeHistory(organizationChangeHistory);
+        organizationRepository.save(organization);
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -98,7 +116,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public void editOrganization(Long organizationId, String name,
-                                 String phone, String email, List<String> types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName) {
+                                 String phone, String email, List<String> types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName, String adminName) {
 
         Organization organization = organizationRepository.findOne(organizationId);
 
@@ -111,6 +129,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.setMaxProcessTime(maxProcessTime);
         organization.setAddress(address);
 
+        organization.removeOrganizationTypes();
         types.
                 stream()
                 .map(OrganizationType::valueOf)
@@ -118,8 +137,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 
         User employeeAdmin = userRepository.getUserByUserName(username);
-        logger.info("==========employeeAdmin=============");
-        logger.info(employeeAdmin);
         employeeAdmin.setFirstName(firstName);
         employeeAdmin.setLastName(lastName);
         employeeAdmin.setMiddleName(middleName);
@@ -132,6 +149,15 @@ public class OrganizationServiceImpl implements OrganizationService {
         logger.info("password===========");
         logger.info(employeeAdmin.getPassword());
         organizationRepository.save(organization);
+
+        OrganizationChangeHistoryPK organizationChangeHistoryPK = new OrganizationChangeHistoryPK(new Date(), organizationId);
+
+        OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(name, organizationChangeHistoryPK, email, phone, employeesCapacity,
+                maxProcessTime, username, firstName, lastName, middleName, organization, address, adminName);
+
+        organizationChangeHistoryRepository.save(organizationChangeHistory);
+        organization.addOrganizationChangeHistory(organizationChangeHistory);
+        organizationRepository.save(organization);
     }
 
     @Override
@@ -142,7 +168,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public void sendOrganizationChanges(Long organizationId, String username) {
-        mail.sendOrganizationChanges(organizationId, username);
+    public void sendOrganizationChanges(Organization organization, User admin) {
+        mail.sendOrganizationChanges(organization, admin);
     }
+
+    @Override
+    @Transactional
+    public List<OrganizationChangeHistory> getOrganizationEditHistoryById (Long organizationId){
+        return organizationChangeHistoryRepository.getById(organizationId);
+    }
+
 }

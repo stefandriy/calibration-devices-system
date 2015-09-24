@@ -32,6 +32,13 @@ angular.module('adminModule')
 					return $http.get(url).then(function(result) {
 						return result.data;
 					});
+				},
+
+				getHistoryOrganizationWithId : function(id) {
+					var url = '/admin/organization/edit/history/' + id;
+					return $http.get(url).then(function(result) {
+						return result.data;
+					});
 				}
 
 			};
