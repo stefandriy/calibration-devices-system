@@ -13,12 +13,8 @@ import java.util.Set;
 
 public class OrganizationPageDTOTransformer {
 
-    @Autowired
-    private static UserService userService;
-
-    public static List<OrganizationPageDTO> toDtoFromList(List<Organization> list) {
-        List<OrganizationPageDTO> resultList = new ArrayList<>();
-
+    public static List<OrganizationPageDTO> toDtoFromList(List<Organization> list){
+        List<OrganizationPageDTO> resultList = new ArrayList<OrganizationPageDTO>();
         for (Organization organization : list) {
 
             Set<OrganizationType> organizationTypes = organization.getOrganizationTypes();

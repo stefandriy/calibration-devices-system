@@ -1,20 +1,22 @@
 package com.softserve.edu.controller.admin;
 
+import com.softserve.edu.controller.admin.util.OrganizationHistoryPageDTOTransformer;
 import com.softserve.edu.controller.admin.util.OrganizationPageDTOTransformer;
 import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.OrganizationDTO;
-import com.softserve.edu.dto.admin.OrganizationEditDTO;
-import com.softserve.edu.dto.admin.OrganizationPageDTO;
-import com.softserve.edu.dto.admin.OrganizationPageItem;
+import com.softserve.edu.dto.admin.*;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.OrganizationChangeHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.entity.util.Roles;
+import com.softserve.edu.repository.OrganizationRepository;
+import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
 import com.softserve.edu.service.admin.OrganizationService;
+
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.OrganizationAdminDTO;
 import org.apache.log4j.Logger;
@@ -36,6 +38,14 @@ public class OrganizationsController {
     @Autowired
     private OrganizationService organizationsService;
 
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
 
@@ -49,7 +59,8 @@ public class OrganizationsController {
      */
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity addOrganization(
-            @RequestBody OrganizationDTO organizationDTO) {
+            @RequestBody OrganizationDTO organizationDTO,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         Address address = new Address(
                 organizationDTO.getRegion(),
@@ -59,6 +70,7 @@ public class OrganizationsController {
                 organizationDTO.getBuilding(),
                 organizationDTO.getFlat());
         try {
+            String adminName = user.getUsername();
             organizationsService.addOrganizationWithAdmin(
                     organizationDTO.getName(),
                     organizationDTO.getEmail(),
@@ -71,7 +83,9 @@ public class OrganizationsController {
                     organizationDTO.getMiddleName(),
                     organizationDTO.getUsername(),
                     organizationDTO.getPassword(),
-                    address);
+                    address,
+                    adminName
+                    );
         } catch (Exception e) {
             // TODO
             logger.error("GOT EXCEPTION " + e.getMessage());
@@ -143,10 +157,13 @@ public class OrganizationsController {
     }
 
     @RequestMapping(value = "getOrganization/{id}")
-    public Organization getOrganization(@PathVariable("id") Long id) {
-        //OrganizationDTO	organizationDTO=new OrganizationDTO();
+    public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
         Organization organization = organizationsService.getOrganizationById(id);
-        return organization;
+
+        OrganizationDTO	organizationDTO=new OrganizationDTO(organization.getId() ,organization.getName(), organization.getEmail(), organization.getPhone(),
+        organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
+            organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
+        return organizationDTO;
     }
 
     /**
@@ -174,16 +191,11 @@ public class OrganizationsController {
             if (organization.getTypes().equals(null)) {
                 System.out.println("Nothing here");
             }
-            for (String strType : organization.getTypes()) {
-                System.out.println(strType);
+            for (String strType : organization.getTypes()) {System.out.println(strType);
             }
-
-           logger.info(organization.getName());
-           logger.info(organization.getPassword());
-           logger.info(organization.getEmail());
-           logger.info(organization.getRegion());
-        logger.info(organization.getDistrict());
-        logger.info(organization.getPhone());
+           
+           String adminName = user.getUsername();
+           
             organizationsService.editOrganization(
                     organizationId,
                     organization.getName(),
@@ -197,12 +209,20 @@ public class OrganizationsController {
                     organization.getUsername(),
                     organization.getFirstName(),
                     organization.getLastName(),
-                    organization.getMiddleName());
+                    organization.getMiddleName(),
+                    adminName);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
         }
-        organizationsService.sendOrganizationChanges(organizationId, organization.getUsername());
+
+        Organization org = organizationRepository
+                .findOne(organizationId);
+
+        User admin = userRepository
+                .findByUsername(organization.getUsername());
+
+        organizationsService.sendOrganizationChanges(org, admin);
 
         return new ResponseEntity(httpStatus);
     }
@@ -238,18 +258,14 @@ public class OrganizationsController {
         logger.info("========================");
         logger.info(organization.getUsers());
         logger.info("========================");
-
-        //--------------------
-       /* //OrganizationDTO	organizationDTO=new OrganizationDTO();
-        Set<String> set = organizationsService.getOrganizationTypesById(id);
-        System.out.println(set);
-        String[] roles = organizationsService.getOrganizationTypesById(id).toArray(new String[set.size()]);
-        String role = roles[0] + "_ADMIN";
-        System.out.println(roles[0]);
-        System.out.println(role);
-
-        User admin = userService.findByRoleAndOrganizationId(role, id);
-        System.out.println(admin);*/
         return organizationAdminDTO;
+    }
+
+    @RequestMapping(value = "edit/history/{id}")
+    public PageDTO<OrganizationChangeHistory> getEditHistory(@PathVariable("id") Long id) {
+        List<OrganizationChangeHistory> organizationChangeHistoryList = organizationsService.getOrganizationEditHistoryById(id);
+
+        List<OrganizationEditHistoryPageDTO> content = OrganizationHistoryPageDTOTransformer.toDtoFromList(organizationChangeHistoryList);
+        return new PageDTO(content);
     }
 }

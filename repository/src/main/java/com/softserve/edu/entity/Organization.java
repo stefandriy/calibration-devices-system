@@ -1,9 +1,11 @@
 package com.softserve.edu.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.DeviceType;
 import lombok.*;
+
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,6 +20,8 @@ import java.util.Set;
 @Table(name = "ORGANIZATION")
 public class Organization {
 
+	@OneToMany(mappedBy = "organization")
+	private Set<OrganizationChangeHistory> organizationChangeHistorySet = new HashSet<OrganizationChangeHistory>();
     @Id
     @GeneratedValue
     @Setter(AccessLevel.PRIVATE)
@@ -44,7 +48,12 @@ public class Organization {
      */
     private Date certificateGrantedDate;
 
-    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+	public  void addOrganizationChangeHistory (OrganizationChangeHistory organizationChangeHistory){
+		this.organizationChangeHistorySet.add(organizationChangeHistory);
+	}
+
+
+	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<User> users = new HashSet<>();
 

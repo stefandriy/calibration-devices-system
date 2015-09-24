@@ -1,5 +1,8 @@
 package com.softserve.edu.service.tool;
 
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.user.User;
+
 public interface MailService {
     void sendMail(String to, String userName, String clientCode, String providerName, String deviceType);
 
@@ -15,5 +18,5 @@ public interface MailService {
 
     void sendTimeExceededMail(String verificationId, int processTimeExceeding, int maxProcessTime, String mailTo);
 
-    void sendOrganizationChanges(Long organizationId, String username);
+    void sendOrganizationChanges(Organization organization, User admin);
 }
