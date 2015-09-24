@@ -46,7 +46,6 @@ angular
 				}
 			];
 
-
 			/**
 			 * Localization of multiselect for type of organization
 			 */
@@ -78,7 +77,17 @@ angular
 			 */
 			$scope.resetOrganizationForm = function() {
 				$scope.$broadcast('show-errors-reset');
-				$scope.organizationFormData = null;
+				$scope.organizationForm.$setPristine();
+				$scope.organizationForm.$setUntouched();
+
+
+				$scope.organizationFormData.types = null;
+				$scope.organizationFormData.region = undefined;
+				$scope.organizationFormData.district = undefined;
+				$scope.organizationFormData.locality = undefined;
+				$scope.organizationFormData.street = "";
+				$scope.organizationFormData.building = "";
+				$scope.organizationFormData.flat = null;
 			};
 
 			/**
@@ -86,13 +95,9 @@ angular
 			 * organization.
 			 */
 			$rootScope.closeModal = function() {
+				$scope.resetOrganizationForm();
 				$modalInstance.close();
 			};
-
-			/**
-			 * Calls resetOrganizationForm after the view loaded
-			 */
-			$scope.resetOrganizationForm();
 
 			/**
 			 * Checks whereas given username is available to use
@@ -129,6 +134,8 @@ angular
 					$scope.organizationForm.password.$invalid = true;
 				} else {
 					$scope.isPasswordsEqual = true;
+					$scope.organizationForm.password.$valid = true;
+					$scope.organizationForm.password.$invalid = false;
 				}
 			}
 
@@ -136,8 +143,8 @@ angular
 			$scope.regions = regions;
 			$scope.districts = undefined;
 			$scope.localities = undefined;
-			$scope.streets = [];
-			$scope.buildings = [];
+			$scope.streets = "";
+			$scope.buildings = null;
 
 			/**
 			 * Receives all possible districts.
@@ -152,6 +159,8 @@ angular
 							$scope.organizationFormData.district = undefined;
 							$scope.organizationFormData.locality = undefined;
 							$scope.organizationFormData.street = "";
+							$scope.organizationForm.region.$valid = true;
+							$scope.organizationForm.region.$invalid = false;
 						});
 				}
 			};
@@ -241,6 +250,26 @@ angular
 					});
 			}
 
+			$scope.$watch('organizationFormData.region', function () {
+				$scope.organizationFormData.district = undefined;
+				$scope.organizationFormData.locality = undefined;
+				$scope.organizationFormData.street = "";
+				$scope.organizationFormData.building = "";
+				$scope.organizationFormData.flat = null;
+			});
+
+			$scope.$watch('organizationFormData.district', function () {
+				$scope.organizationFormData.locality = undefined;
+				$scope.organizationFormData.street = "";
+				$scope.organizationFormData.building = "";
+				$scope.organizationFormData.flat = null;
+			});
+
+			$scope.$watch('organizationFormData.locality', function () {
+				$scope.organizationFormData.street = "";
+				$scope.organizationFormData.building = "";
+				$scope.organizationFormData.flat = null;
+			});
 
 			$scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄІЇҐ"'а-яєіїґ ]+$/;
 			$scope.PHONE_REGEX = /^[1-9]\d{8}$/;
@@ -252,4 +281,4 @@ angular
 			$scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
 			$scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
 		}
-	]);m
+	]);
