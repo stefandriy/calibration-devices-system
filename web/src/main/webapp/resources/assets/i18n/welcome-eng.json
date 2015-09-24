@@ -26,6 +26,8 @@
   "SEND_BTN": "Send",
   "APP_SENT": "Thank you! Your application was sent. Your code is: ",
   "APP_SENT_INFO": "Also this code was sent on your email. Have a nice day!",
+  "PROTOCOL_DROPDOWN": "Protocol",
+  "VERIFICATION_DROPDOWN": "Verification",
   "APP_STATUS_TITLE": "Please enter the code of your application",
   "NOT_FOUND": "Application not found",
   "SEARCH_BTN": "search",

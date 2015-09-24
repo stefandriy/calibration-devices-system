@@ -48,6 +48,7 @@
         }
 
     </style>
+
 </head>
 
 <body>
@@ -249,6 +250,7 @@
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
         type="text/javascript"></script>
+<script src="/resources/assets/bower_components/semantic-ui/dist/semantic.min.js"></script>
 <script type="text/javascript">
     $(".chzn-select").chosen();
     $(".chzn-select-deselect").chosen({
