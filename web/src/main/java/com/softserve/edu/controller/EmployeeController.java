@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "employee/admin/users/")
@@ -88,6 +89,7 @@ public class EmployeeController {
 
     /**
      * Find user for update
+     *
      * @param username
      * @return DTO
      */
@@ -109,6 +111,7 @@ public class EmployeeController {
 
     /**
      * Update user
+     *
      * @param providerEmployee
      * @param user
      * @return status
@@ -168,6 +171,7 @@ public class EmployeeController {
         providerEmployeeService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
+
     //TODO: maybe here should add STATE_VERIFICATION
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> capacityEmployeeData(
@@ -200,7 +204,7 @@ public class EmployeeController {
         return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
     }
 
-    private  List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User providerEmployee : queryResult.getContent()) {
             //hide information about PROVIDER_ADMIN and CALIBRATOR_ADMIN
@@ -224,4 +228,28 @@ public class EmployeeController {
         }
         return resultList;
     }
+
+    @RequestMapping(value = "/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    private List<UserInfoDTO> getUsersByOrganizationId(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails userDetails,
+            @PathVariable int pageNumber,
+            @PathVariable int itemsPerPage
+    ) {
+        return userService.findByOrganizationId(userDetails.getOrganizationId(), pageNumber, itemsPerPage)
+                .stream()
+                .map(user -> new UserInfoDTO(
+                                user.getUsername(),
+                                user.getUserRoles()
+                                        .stream()
+                                        .map(UserRole::getRole)
+                                        .collect(Collectors.toList()),
+                                user.getFirstName(),
+                                user.getLastName(),
+                                user.getPhone(),
+                                0
+                        )
+                )
+                .collect(Collectors.toList());
+    }
 }
+

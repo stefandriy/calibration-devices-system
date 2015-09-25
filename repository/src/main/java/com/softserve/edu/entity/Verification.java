@@ -52,6 +52,7 @@ public class Verification {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Organization stateVerificator;
+
     @ManyToOne
     private User stateVerificatorEmployee;
 
