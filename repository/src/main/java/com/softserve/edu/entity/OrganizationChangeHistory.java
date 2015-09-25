@@ -3,19 +3,17 @@ package com.softserve.edu.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "ORGANIZATION_CHANGE_HISTORY")
-public class OrganizationChangeHistory implements Serializable{
+public class OrganizationChangeHistory {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Date date;
