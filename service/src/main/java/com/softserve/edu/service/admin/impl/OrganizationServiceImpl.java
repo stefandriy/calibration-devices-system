@@ -6,7 +6,6 @@ import com.softserve.edu.entity.OrganizationChangeHistory;
 import com.softserve.edu.entity.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.OrganizationChangeHistoryPK;
 import com.softserve.edu.repository.OrganizationChangeHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -75,9 +74,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         String stringOrganizationTypes = String.join(",", types);
 
-        OrganizationChangeHistoryPK organizationChangeHistoryPK = new OrganizationChangeHistoryPK(new Date(), organization.getId());
+        Date date = new Date();
 
-        OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(name, organizationChangeHistoryPK, email, phone, employeesCapacity,
+        OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
         organizationChangeHistoryRepository.save(organizationChangeHistory);
@@ -153,9 +152,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         String stringOrganizationTypes = String.join(",", types);
 
-        OrganizationChangeHistoryPK organizationChangeHistoryPK = new OrganizationChangeHistoryPK(new Date(), organizationId);
+        logger.info("password===========");
+        logger.info(employeeAdmin.getPassword());
+        Date date = new Date();
 
-        OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(name, organizationChangeHistoryPK, email, phone, employeesCapacity,
+        OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
         organizationChangeHistoryRepository.save(organizationChangeHistory);
@@ -178,7 +179,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional
     public List<OrganizationChangeHistory> getOrganizationEditHistoryById (Long organizationId){
-        return organizationChangeHistoryRepository.getById(organizationId);
+        Organization organization = organizationRepository.findOne(organizationId);
+        return organizationChangeHistoryRepository.getByOrganization(organization);
     }
 
 }

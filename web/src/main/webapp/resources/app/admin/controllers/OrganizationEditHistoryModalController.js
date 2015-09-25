@@ -19,4 +19,5 @@ angular
             }
            console.log($scope.noChanges);
             console.log($rootScope.organization[1]);
+            console.log($rootScope.organization[0].types);
         } ]);

@@ -1,15 +1,10 @@
 package com.softserve.edu.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.softserve.edu.entity.util.OrganizationChangeHistoryPK;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
-/**
- * Created by vova on 22.09.15.
- */
+import java.util.Date;
 
 @Getter
 @Setter
@@ -19,9 +14,11 @@ import java.io.Serializable;
 @Table(name = "ORGANIZATION_CHANGE_HISTORY")
 public class OrganizationChangeHistory implements Serializable{
 
+    @Id
+    @GeneratedValue
+    private Long id;
 
-    @EmbeddedId
-    private OrganizationChangeHistoryPK organizationChangeHistoryPK;
+    private Date date;
 
     private String name;
     private String email;
@@ -40,14 +37,13 @@ public class OrganizationChangeHistory implements Serializable{
     @Embedded
     private Address address;
 
-
     @ManyToOne
     @JoinColumn(name = "organizationId")
     private Organization organization;
 
-    public OrganizationChangeHistory(String name, OrganizationChangeHistoryPK organizationChangeHistoryPK, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, String types, String username, String firstName, String lastName, String middleName, Organization organization, Address address, String adminName) {
+    public OrganizationChangeHistory(Date date, String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, String types, String username, String firstName, String lastName, String middleName, Organization organization, Address address, String adminName) {
+        this.date = date;
         this.name = name;
-        this.organizationChangeHistoryPK = organizationChangeHistoryPK;
         this.email = email;
         this.phone = phone;
         this.employeesCapacity = employeesCapacity;
@@ -61,5 +57,4 @@ public class OrganizationChangeHistory implements Serializable{
         this.middleName = middleName;
         this.adminName = adminName;
     }
-
 }

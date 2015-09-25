@@ -100,4 +100,8 @@ public class Organization {
     public void addDeviceType(DeviceType deviceType) {
         deviceTypes.add(deviceType);
     }
+
+    public void addHistory(OrganizationChangeHistory history) {
+        this.organizationChangeHistorySet.add(history);
+    }
 }

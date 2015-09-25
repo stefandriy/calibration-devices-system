@@ -1,7 +1,7 @@
 package com.softserve.edu.repository;
 
+import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.OrganizationChangeHistory;
-import com.softserve.edu.entity.util.OrganizationChangeHistoryPK;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,8 +14,8 @@ import java.util.List;
  */
 
 @Repository
-public interface OrganizationChangeHistoryRepository extends CrudRepository<OrganizationChangeHistory, OrganizationChangeHistoryPK> {
+public interface OrganizationChangeHistoryRepository extends CrudRepository<OrganizationChangeHistory, Long> {
 
-    @Query("select o from OrganizationChangeHistory o where o.organizationChangeHistoryPK.orgId =:orgId")
-    List<OrganizationChangeHistory> getById(@Param("orgId") Long orgId);
+    @Query("select o from OrganizationChangeHistory o where o.organization =:organization")
+    List<OrganizationChangeHistory> getByOrganization(@Param("organization") Organization organization);
 }

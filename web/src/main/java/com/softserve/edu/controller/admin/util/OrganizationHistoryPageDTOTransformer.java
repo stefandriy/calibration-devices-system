@@ -22,7 +22,7 @@ public class OrganizationHistoryPageDTOTransformer {
         for (OrganizationChangeHistory organization : list) {
 
             resultList.add(new OrganizationEditHistoryPageDTO(
-                    df.format(organization.getOrganizationChangeHistoryPK().getDate()),
+                    df.format(organization.getDate()),
                     organization.getName(),
                     organization.getEmail(),
                     organization.getPhone(),
