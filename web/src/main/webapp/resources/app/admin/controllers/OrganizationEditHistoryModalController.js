@@ -17,7 +17,6 @@ angular
             if ($rootScope.organization[1]){
                 $scope.noChanges = false;
             }
-           console.log($scope.noChanges);
+            console.log($scope.noChanges);
             console.log($rootScope.organization[1]);
-            console.log($rootScope.organization[0].types);
         } ]);

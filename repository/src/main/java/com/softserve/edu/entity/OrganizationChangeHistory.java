@@ -8,6 +8,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "ORGANIZATION_CHANGE_HISTORY")
 public class OrganizationChangeHistory {
