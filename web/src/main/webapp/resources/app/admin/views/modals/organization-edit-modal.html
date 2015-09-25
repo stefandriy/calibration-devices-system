@@ -353,7 +353,13 @@
 								</div>
 								<div class="form-group col-md-8">
 									<input name="flat" type="text"
-										ng-model="$root.organization.flat" class="form-control">
+										ng-model="$root.organization.flat" class="form-control" required>
+								</div>
+								<div ng-show="$root.organization.$submitted || organizationForm.flat.$touched">
+									<p class="validation-message has-error" ng-if="organizationForm.flat.$error.required">
+										<span class="glyphicon glyphicon-exclamation-sign"></span>
+										{{'REQUIRED' | translate}}
+									</p>
 								</div>
 							</div>
 

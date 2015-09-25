@@ -59,14 +59,14 @@ angular
 				if (lang === 'ukr') {
 					for (var i = 0; i < $scope.organizationTypes.length; i++) {
 						switch ($scope.organizationTypes[i].type) {
-							case 'PROVIDER':
-								console.log($scope.organizationTypes[i].type);
+							case "PROVIDER":
+								console.log($scope.organizationTypes[i]);
 								$scope.organizationTypes[i].label = 'Постачальник послуг';
 								break;
-							case 'CALIBRATOR':
+							case "CALIBRATOR":
 								$scope.organizationTypes[i].label = 'Вимірювальна лабораторія';
 								break;
-							case 'STATE_VERIFICATOR':
+							case "STATE_VERIFICATOR":
 								$scope.organizationTypes[i].label = 'Уповноважена повірочна лабораторія';
 								break;
 							default: console.log($scope.organizationTypes[i].type + " not organization type");
@@ -74,7 +74,7 @@ angular
 					}
 				} else if (lang === 'eng') {
 					for (var i = 0; i < $scope.organizationTypes; i++) {
-						switch ($scope.organizationTypes[i].type) {
+						switch ($scope.organizationTypes[i]) {
 							case 'PROVIDER':
 								$scope.organizationTypes[i].label = 'Service provider';
 								break;
@@ -84,7 +84,7 @@ angular
 							case 'STATE_VERIFICATOR':
 								$scope.organizationTypes[i].label = 'Authorized calibration laboratory';
 								break;
-							default: console.error($scope.organizationTypes[i].type + " not organization type");
+							default: console.error($scope.organizationTypes[i] + " not organization type");
 						}
 					}
 				} else {
@@ -106,13 +106,13 @@ angular
 			$scope.organizationTypes = [];
 			for (var i = 0; i < $rootScope.organization.types.length; i++) {
 				$scope.organizationTypes[i] = {
-					type : $rootScope.organization.types[i].type,
+					type : $rootScope.organization.types[i],
 					label : null
 				}
 			}
 			
 			$scope.setTypeDataLanguage();
-			$timeout(setCurrentTypeDataLanguage(), 3);
+			setCurrentTypeDataLanguage();
 
 
 			console.log($scope.organizationTypes);
@@ -568,7 +568,7 @@ angular
 			 */
 			$scope.receiveBuildings = function (selectedStreet) {
 					$scope.buildings = [];
-					dataReceivingService.findBuildingsByStreetId(selectedStreet.id)
+					addressService.findBuildingsByStreetId(selectedStreet.id)
 						.success(function (buildings) {
 							$scope.buildings = buildings;
 						}
@@ -577,6 +577,7 @@ angular
 
 
 			$scope.editOrganization = function() {
+				$scope.$broadcast('show-errors-check-validity');
 				addressFormToOrganizationForm();
 				objectTypesToStringTypes();
 				var organizationForm = {
@@ -601,10 +602,15 @@ angular
 				console.log(organizationForm);
 				console.log($scope.organizationTypes);
 
+				saveOrganization(organizationForm);
+				$scope.closeModal();
+			};
+
+			function saveOrganization(organizationForm) {
 				organizationService.editOrganization(
 					organizationForm,
 					$rootScope.organizationId).then(
-					function(data) {
+					function (data) {
 						if (data == 200) {
 							$scope.closeModal();
 							$scope.resetOrganizationForm();
@@ -612,8 +618,7 @@ angular
 							$rootScope.onTableHandling();
 						}
 						else (console.log(data));
-					});
-				$scope.closeModal();
+					})
 			};
 			/**
 			 * Closes edit modal window.

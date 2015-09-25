@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OrganizationService {
 
-     void addOrganizationWithAdmin(String name, String email, String phone, String[] types, Integer employeesCapacity,
+     void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
                                          String username, String password, Address address, String adminName) ;
 

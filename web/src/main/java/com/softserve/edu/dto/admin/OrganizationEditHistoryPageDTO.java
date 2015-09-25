@@ -7,7 +7,7 @@ import java.util.List;
  * Created by vova on 23.09.15.
  */
 public class OrganizationEditHistoryPageDTO {
-    private Date date;
+    private String date;
     private String name;
     private String email;
     private String phone;
@@ -29,7 +29,7 @@ public class OrganizationEditHistoryPageDTO {
 
     private String adminUsername;
 
-    public OrganizationEditHistoryPageDTO(Date date ,String name, String email, String phone, String types, Integer employeesCapacity, Integer maxProcessTime, String region, String district, String locality, String street, String building, String flat, String username, String firstName, String lastName, String middleName, String adminUsername) {
+    public OrganizationEditHistoryPageDTO(String date ,String name, String email, String phone, String types, Integer employeesCapacity, Integer maxProcessTime, String region, String district, String locality, String street, String building, String flat, String username, String firstName, String lastName, String middleName, String adminUsername) {
         this.date = date;
         this.name = name;
         this.email = email;
@@ -50,11 +50,11 @@ public class OrganizationEditHistoryPageDTO {
         this.adminUsername = adminUsername;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

@@ -14,7 +14,7 @@ import java.util.Set;
 public class OrganizationPageDTOTransformer {
 
     public static List<OrganizationPageDTO> toDtoFromList(List<Organization> list){
-        List<OrganizationPageDTO> resultList = new ArrayList<OrganizationPageDTO>();
+        List<OrganizationPageDTO> resultList = new ArrayList<>();
 
         for (Organization organization : list) {
 

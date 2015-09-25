@@ -47,7 +47,7 @@ public class Organization {
     private Date certificateGrantedDate;
 
     @OneToMany(mappedBy = "organization")
-    private Set<OrganizationChangeHistory> organizationChangeHistorySet = new HashSet<OrganizationChangeHistory>();
+    private Set<OrganizationChangeHistory> organizationChangeHistorySet = new HashSet<>();
 
 	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference

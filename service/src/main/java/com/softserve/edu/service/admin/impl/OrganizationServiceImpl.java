@@ -54,7 +54,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public void addOrganizationWithAdmin(String name, String email, String phone, String[] types, Integer employeesCapacity,
+    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
                                          String username, String password, Address address, String adminName) {
 

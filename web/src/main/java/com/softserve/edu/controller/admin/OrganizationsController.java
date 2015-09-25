@@ -163,9 +163,12 @@ public class OrganizationsController {
     public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
         Organization organization = organizationsService.getOrganizationById(id);
 
-        Set<OrganizationType> organizationTypes = organization.getOrganizationTypes();
-        List<String> listOrganizationTypes = new ArrayList<>();
-        String[] types = listOrganizationTypes.toArray(new String[listOrganizationTypes.size()]);
+        List<String> types = new ArrayList<>();
+        organization.getOrganizationTypes().
+                stream()
+                .map(OrganizationType::name)
+                .forEach(types::add);
+
         OrganizationDTO	organizationDTO=new OrganizationDTO(organization.getId() ,organization.getName(), organization.getEmail(), organization.getPhone(), types,
         organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
             organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
@@ -257,11 +260,6 @@ public class OrganizationsController {
             logger.info("========================");
         }
 
-
-
-        logger.info("========================");
-        logger.info(organization.getUsers());
-        logger.info("========================");
         return organizationAdminDTO;
     }
 

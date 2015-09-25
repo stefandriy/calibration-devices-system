@@ -2,12 +2,14 @@ package com.softserve.edu.dto.admin;
 
 import com.softserve.edu.entity.Address;
 
+import java.util.List;
+
 public class OrganizationDTO {
 	private Long id;
 	private String name;
 	private String email;
 	private String phone;
-	private String[] types;
+	private List<String> types;
 	private Integer employeesCapacity;
 	private Integer maxProcessTime;
 
@@ -30,7 +32,7 @@ public class OrganizationDTO {
 	}
 
 
-	public OrganizationDTO(Long id, String name, String email, String phone, String[] types, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
+	public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
 		this.id =id;
 		this.email = email;
 		this.name = name;
@@ -70,11 +72,11 @@ public class OrganizationDTO {
 		this.email = email;
 	}
 
-	public String[] getTypes() {
+	public List<String> getTypes() {
 		return types;
 	}
 
-	public void setTypes(String[] types) {
+	public void setTypes(List<String> types) {
 		this.types = types;
 	}
 

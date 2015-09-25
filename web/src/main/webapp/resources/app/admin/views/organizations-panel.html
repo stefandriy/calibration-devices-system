@@ -50,16 +50,20 @@
 							filter="{ 'phone_number': 'text' }">{{ organization.phone }}
 						</td>
 						<td data-title="'EDIT' | translate">
-							<button type="button" class="btn btn-primary"
-									ng-click="openEditOrganizationModal(organization.id)">
-								<span class="glyphicon glyphicon-pencil"></span>
-							</button>
+							<center>
+								<button type="button" class="btn btn-primary"
+										ng-click="openEditOrganizationModal(organization.id)">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</button>
+							</center>
 						</td>
-						<td data-title="'EditHistory' | translate">
-							<button type="button" class="btn btn-primary"
-									ng-click="openOrganizationEditHistoryModal(organization.id)">
-								<span class="glyphicon glyphicon-book"></span>
-							</button>
+						<td data-title="'EDIT CHANGES' | translate">
+							<center>
+								<button type="button" class="btn btn-primary"
+										ng-click="openOrganizationEditHistoryModal(organization.id)">
+									<span class="glyphicon glyphicon-book"></span>
+								</button>
+							</center>
 						</td>
 					</tr>
 					</tbody>

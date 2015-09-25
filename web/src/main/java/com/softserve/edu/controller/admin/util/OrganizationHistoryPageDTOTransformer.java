@@ -4,6 +4,8 @@ import com.softserve.edu.dto.admin.OrganizationEditHistoryPageDTO;
 import com.softserve.edu.entity.OrganizationChangeHistory;
 import com.softserve.edu.entity.OrganizationType;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,15 +14,19 @@ import java.util.List;
  */
 public class OrganizationHistoryPageDTOTransformer {
     public static List<OrganizationEditHistoryPageDTO> toDtoFromList(List<OrganizationChangeHistory> list){
+
         List<OrganizationEditHistoryPageDTO>  resultList = new ArrayList<OrganizationEditHistoryPageDTO>();
-        for (OrganizationChangeHistory organization : list)
+
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+        for (OrganizationChangeHistory organization : list) {
 
             resultList.add(new OrganizationEditHistoryPageDTO(
-                    organization.getOrganizationChangeHistoryPK().getDate(),
+                    df.format(organization.getOrganizationChangeHistoryPK().getDate()),
                     organization.getName(),
                     organization.getEmail(),
                     organization.getPhone(),
-                    organization.getTypes() ,
+                    organization.getTypes(),
                     organization.getEmployeesCapacity(),
                     organization.getMaxProcessTime(),
                     organization.getAddress().getRegion(),
@@ -35,6 +41,7 @@ public class OrganizationHistoryPageDTOTransformer {
                     organization.getMiddleName(),
                     organization.getAdminName()
             ));
+        }
 
         return resultList;
     }
