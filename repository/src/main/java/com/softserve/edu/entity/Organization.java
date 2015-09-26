@@ -2,6 +2,7 @@ package com.softserve.edu.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.DeviceType;
 import lombok.*;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 @Entity
@@ -21,7 +23,7 @@ import java.util.Set;
 public class Organization {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.PRIVATE)
     private Long id;
 
@@ -49,7 +51,7 @@ public class Organization {
     @OneToMany(mappedBy = "organization")
     private Set<OrganizationChangeHistory> organizationChangeHistorySet = new HashSet<>();
 
-	@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<User> users = new HashSet<>();
 
@@ -65,7 +67,13 @@ public class Organization {
     @Enumerated(EnumType.STRING)
     private Set<DeviceType> deviceTypes = new HashSet<>();
 
-    public  void addOrganizationChangeHistory (OrganizationChangeHistory organizationChangeHistory){
+
+    @ManyToMany
+    @JoinTable(name = "ORGANIZATION_LOCALITY", joinColumns = @JoinColumn(name = "organization_idlocality_id"),
+            inverseJoinColumns = @JoinColumn(name = "locality_id"))
+    private Set<Locality> localities = new HashSet<>();
+
+    public void addOrganizationChangeHistory(OrganizationChangeHistory organizationChangeHistory) {
         this.organizationChangeHistorySet.add(organizationChangeHistory);
     }
 
@@ -103,5 +111,9 @@ public class Organization {
 
     public void addHistory(OrganizationChangeHistory history) {
         this.organizationChangeHistorySet.add(history);
+    }
+
+    public void addLocality(Locality locality) {
+        localities.add(locality);
     }
 }

@@ -10,5 +10,7 @@ import com.softserve.edu.entity.catalogue.Locality;
 @Repository
 public interface LocalityRepository extends CrudRepository<Locality, Long> {
     List<Locality> findDistinctByDistrictId(Long id);
-    List<String> findMailIndexByDesignationAndDistrictId(String designation,Long districtId);
+
+    List<String> findMailIndexByDesignationAndDistrictId(String designation, Long districtId);
+
 }

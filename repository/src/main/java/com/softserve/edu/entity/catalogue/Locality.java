@@ -1,16 +1,24 @@
 package com.softserve.edu.entity.catalogue;
 
+import com.softserve.edu.entity.Organization;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
 import static com.softserve.edu.entity.catalogue.util.Checker.checkForNull;
 
 @Entity
 @Table(name="`LOCALITY`")
+@Getter
+@Setter
 public class Locality extends AbstractCatalogue {
     @Id
     @GeneratedValue
@@ -25,6 +33,9 @@ public class Locality extends AbstractCatalogue {
     
     @Column
     private String mailIndex;
+
+    @ManyToMany(mappedBy = "localities")
+    private Set<Organization> organizations;
     
     protected Locality() {}
 

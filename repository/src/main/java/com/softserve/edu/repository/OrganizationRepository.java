@@ -37,4 +37,7 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     )
     Set<String> findOrganizationTypesById(@Param("organizationId") Long organizationId);
 
+    @Query("SELECT o FROM Organization o INNER JOIN o.localities l WHERE l.id=:localityId")
+    List<Organization> findOrganizationByLocalityId(@Param("localityId") Long localityId);
+
 }
