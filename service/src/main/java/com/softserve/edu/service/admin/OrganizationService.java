@@ -10,24 +10,28 @@ import java.util.List;
 
 public interface OrganizationService {
 
-     void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
-                                         Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                         String username, String password, Address address, String adminName) ;
 
-     ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage, String name,
-                                                                                     String email, String number, String type, String region,
-                                                                                     String district, String locality, String streetToSearch,
-                                                                                     String sortCriteria, String sortOrder);
+    void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
+                                  Integer maxProcessTime, String firstName, String lastName, String middleName,
+                                  String username, String password, Address address, String adminName, Long[] localityIdList);
 
-     Organization getOrganizationById(Long id);
 
-     void editOrganization(Long organizationId, String name, String phone, String email, List<String> types,
-                                 Integer employeesCapacity, Integer maxProcessTime, Address address, String password,
-                                 String username, String firstName, String lastName, String middleName, String adminName);
+    ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage, String name,
+                                                                              String email, String number, String type, String region,
+                                                                              String district, String locality, String streetToSearch,
+                                                                              String sortCriteria, String sortOrder);
 
-     Integer getOrganizationEmployeesCapacity(Long organizationId);
+    Organization getOrganizationById(Long id);
 
-     void sendOrganizationChanges (Organization organization, User admin);
+    void editOrganization(Long organizationId, String name, String phone, String email, List<String> types,
+                          Integer employeesCapacity, Integer maxProcessTime, Address address, String password,
+                          String username, String firstName, String lastName, String middleName, String adminName);
 
-    public List<OrganizationChangeHistory> getOrganizationEditHistoryById (Long organizationId);
+    Integer getOrganizationEmployeesCapacity(Long organizationId);
+
+    void sendOrganizationChanges(Organization organization, User admin);
+
+    public List<OrganizationChangeHistory> getOrganizationEditHistoryById(Long organizationId);
+
+    List<Organization> findOrganizationByLocalityId(Long localityId);
 }

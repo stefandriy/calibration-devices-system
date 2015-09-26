@@ -25,4 +25,9 @@ public class LocalityServiceImpl implements LocalityService {
     public List<String> getMailIndexForLocality(String designation,Long districtId) {
         return localityRepository.findMailIndexByDesignationAndDistrictId(designation,districtId);
     }
+
+    @Override
+    public Locality findById(Long id) {
+        return localityRepository.findOne(id);
+    }
 }

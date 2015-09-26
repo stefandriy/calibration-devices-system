@@ -4,11 +4,13 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.OrganizationChangeHistory;
 import com.softserve.edu.entity.OrganizationType;
+import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.OrganizationChangeHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -48,6 +50,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Autowired
     private MailServiceImpl mail;
 
+    @Autowired
+    private LocalityService localityService;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -55,7 +60,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                         String username, String password, Address address, String adminName) {
+                                         String username, String password, Address address, String adminName, Long[] localityIdList) {
 
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
@@ -64,9 +69,15 @@ public class OrganizationServiceImpl implements OrganizationService {
         for (String type : types) { //TODO
             OrganizationType organizationType = OrganizationType.valueOf(type);
             organization.addOrganizationType(organizationType);
+
             String strRole = organizationType + "_ADMIN";
             UserRole userRole = userRepository.getUserRole(strRole);
             employeeAdmin.getUserRoles().add(userRole);
+        }
+
+        for(Long localityId : localityIdList) {
+            Locality locality = localityService.findById(localityId);
+            organization.addLocality(locality);
         }
 
         organizationRepository.save(organization);
@@ -181,6 +192,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<OrganizationChangeHistory> getOrganizationEditHistoryById (Long organizationId){
         Organization organization = organizationRepository.findOne(organizationId);
         return organizationChangeHistoryRepository.getByOrganization(organization);
+    }
+
+    @Override
+    @Transactional
+    public List<Organization> findOrganizationByLocalityId(Long localityId) {
+        return organizationRepository.findOrganizationByLocalityId(localityId);
     }
 
 }

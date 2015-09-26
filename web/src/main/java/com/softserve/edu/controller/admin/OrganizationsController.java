@@ -87,11 +87,12 @@ public class OrganizationsController {
                     organizationDTO.getUsername(),
                     organizationDTO.getPassword(),
                     address,
-                    adminName
+                    adminName,
+                    organizationDTO.getServiceAreas()
                     );
         } catch (Exception e) {
             // TODO
-            logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);

@@ -27,6 +27,7 @@ public class OrganizationDTO {
 	private String building;
 	private String flat;
 
+    private Long[] serviceAreas;
 
 	public OrganizationDTO() {
 	}
@@ -199,4 +200,38 @@ public class OrganizationDTO {
 	public void setMaxProcessTime(Integer maxProcessTime) {
 		this.maxProcessTime = maxProcessTime;
 	}
+
+
+
+    /**
+     * Constructor with localityIdList
+     *
+     * @param id
+     * @param name
+     * @param email
+     * @param phone
+     * @param types
+     * @param employeesCapacity
+     * @param maxProcessTime
+     * @param region
+     * @param locality
+     * @param district
+     * @param street
+     * @param building
+     * @param flat
+     * @param serviceAreas
+     */
+    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat, Long[] serviceAreas) {
+        this(id, email, name, phone, types, employeesCapacity, maxProcessTime, region, locality, district, street, building, flat);
+        this.serviceAreas = serviceAreas;
+    }
+
+    public Long[] getServiceAreas() {
+        return serviceAreas;
+    }
+
+    public void setServiceAreas(Long[] serviceAreas) {
+        this.serviceAreas = serviceAreas;
+    }
 }
+
