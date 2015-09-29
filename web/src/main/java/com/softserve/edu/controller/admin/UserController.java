@@ -100,13 +100,15 @@ public class UserController {
                             employee.getPhone(),
                             employee.getOrganization().getName(),
                             null, null,
-                            employee.getIsAvaliable())
+                            employee.getIsAvailable())
             );
         }
         return resultList;
     }
+
     /**
      * Add new employee
+     *
      * @param employee
      * @param user
      * @return status
@@ -126,9 +128,9 @@ public class UserController {
                 .address(employee.getAddress())
                 .isAveliable(employee.getIsAvaliable())
                 .build();
-        for (String tmp : employee.getUserRoles()) {
-            UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.getUserRoles().add(userRole);
+        for (String role : employee.getUserRoles()) {
+            UserRole userRole = UserRole.valueOf(role);
+            newUser.addRole(userRole);
         }
         userService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);

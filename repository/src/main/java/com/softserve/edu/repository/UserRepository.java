@@ -18,53 +18,34 @@ public interface UserRepository extends PagingAndSortingRepository<User, String>
 
     Page<User> findAll(Pageable pageable);
 
-    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role LIKE:role")
-    Page<User> findByRoleLikeIgnoreCase(@Param("role") String role, Pageable pageable);
-
-    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role LIKE:role")
+    @Query(value = "SELECT * FROM USER u INNER JOIN USER_ROLE ur  ON u.username = ur.username WHERE ur.value LIKE :role", nativeQuery = true)
     List<User> findByRoleLikeIgnoreCase(@Param("role") String role);
 
-    @Query("SELECT r.role FROM UserRole r INNER JOIN r.users u WHERE u.username=:username")
-    String getRoleByUserName(@Param("username") String username);
-
-    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =:role AND u.organization.id = :organizationId")
-    Page<User> findByRoleAndOrganizationId(@Param("role") String role, @Param("organizationId") Long organizationId,
-                                           Pageable pageable);
-
-    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =:role AND u.organization.id = :organizationId")
+    @Query(value = "SELECT * FROM USER u INNER JOIN USER_ROLE ur ON u.username = ur.username WHERE ur.value = :role AND u.organization.id = :organizationId", nativeQuery = true)
     User findByRoleAndOrganizationId(@Param("role") String role, @Param("organizationId") Long organizationId);
 
-    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =:role AND u.organization.id = :organizationId " +
-            " AND u.lastName LIKE :lastName")
-    Page<User> findByOrganizationIdAndRoleAndLastNameLikeIgnoreCase(@Param("role") String role,
-                                                                    @Param("organizationId") Long organizationId,
-                                                                    @Param("lastName") String lastName, Pageable pageable);
+    @Query(value = "SELECT value FROM USER_ROLE ur WHERE ur.username = :username", nativeQuery = true)
+    List<String> getRolesByUserName(@Param("username") String username);
 
-    @Query("SELECT r.role FROM UserRole r INNER JOIN r.users u WHERE u.username=:username")
-    List<UserRole> getRoleByUserNam(@Param("username") String username);
+    @Query(value = "SELECT * FROM USER u INNER JOIN USER_ROLE ur WHERE ur.value = :role AND u.organizationId = :organizationId", nativeQuery = true)
+    List<User> getAllUsersByRoleAndOrganizationId(@Param("role") String role, @Param("organizationId") Long organizationId);
 
-    @Query("SELECT u FROM User u WHERE u.username = :username")
-    User getUserByUserName(@Param("username") String username);
+    @Query(value = "SELECT * FROM USER u INNER JOIN USER_ROLE ur WHERE ur.value = :role AND u.organizationId = :organizationId" +
+            " AND u.isAvailable = 1", nativeQuery = true)
+    List<User> getAllAvailableUsersByRoleAndOrganizationId(@Param("role") String role, @Param("organizationId") Long organizationId);
 
-    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =  :role AND u.organization.id = :organizationId")
-    List<User> getAllProviderUsers(@Param("role") String role, @Param("organizationId") Long organizationId);
-
-    @Query("SELECT u FROM User u INNER JOIN u.userRoles r WHERE r.role =  :role AND u.organization.id = :organizationId " +
-            " AND u.isAvaliable= :isAvaliable")
-    List<User> getAllProviderUsersList(@Param("role") String role, @Param("organizationId") Long organizationId,
-                                       @Param("isAvaliable") boolean isAvaliable);
-
-    @Query("SELECT u FROM User u WHERE u.username=:username")
+    @Query(value = "SELECT u FROM User u WHERE u.username = :username")
     User findByUsername(@Param("username") String username);
 
-    @Query("SELECT ur FROM UserRole ur WHERE ur.role=:role")
-    UserRole getUserRole(@Param("role") String role);
-
-    @Query("SELECT COUNT(u) FROM User u INNER JOIN u.userRoles r WHERE r.role IN :role AND u.organization.id = :organizationId ")
-    Long getCountOfEmloyee(@Param("role") List<String> role,
-                           @Param("organizationId") Long organizationId);
-
     Page<User> findByOrganizationId(Long organizationId, Pageable pageable);
+
+    /*@Query("SELECT COUNT(v.providerEmployee_username) as verifications_count, u.*"
+        +" FROM user u"
+        +" LEFT OUTER JOIN verification v ON v.providerEmployee_username = u.username"
+        +" WHERE u.organizationId = 43"
+        +" GROUP BY u.username"
+    )
+    Long getCountOfEmployeeVerifications(@Param("organizationId") Long organizationId, @Param("username") String username);*/
 }
 //    SELECT COUNT(v.providerEmployee_username) as verifications_count, u.*
 //        FROM user u

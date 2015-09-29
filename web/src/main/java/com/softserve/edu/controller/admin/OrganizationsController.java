@@ -11,7 +11,6 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
 import com.softserve.edu.service.admin.OrganizationService;
@@ -218,9 +217,9 @@ public class OrganizationsController {
                     .stream()
                     .filter(userChecked -> userChecked.getUserRoles()
                                     .stream()
-                                    .map(UserRole::getRole)
-                                    .filter(userRole -> userRole.equals(Roles.PROVIDER_ADMIN.name()) ||
-                                                    userRole.equals(Roles.CALIBRATOR_ADMIN.name()) || userRole.equals(Roles.STATE_VERIFICATOR_ADMIN.name())
+                                    .map(UserRole::name)
+                                    .filter(userRole -> userRole.equals(UserRole.PROVIDER_ADMIN.name()) ||
+                                                    userRole.equals(UserRole.CALIBRATOR_ADMIN.name()) || userRole.equals(UserRole.STATE_VERIFICATOR_ADMIN.name())
                                     )
                                     .collect(Collectors.toList()).size() > 0
                     )

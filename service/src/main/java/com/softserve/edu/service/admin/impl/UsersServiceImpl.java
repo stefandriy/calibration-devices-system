@@ -2,7 +2,6 @@ package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.UserRoleRepository;
 import com.softserve.edu.service.admin.UserService;
 import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ public class UsersServiceImpl implements UserService  {
     @Autowired
     private UserRepository userRepository;
 
-
-    @Autowired
-    private UserRoleRepository userRoleRepository;
     /**
      * Check whereas user with {@code username} exist in database
      *
@@ -37,7 +33,7 @@ public class UsersServiceImpl implements UserService  {
     @Override
     @Transactional
     public List<String> getRoles(String username){
-        return userRoleRepository.getRoles(username);
+        return userRepository.getRolesByUserName(username);
     }
 
 
@@ -62,5 +58,10 @@ public class UsersServiceImpl implements UserService  {
         return IteratorUtils.toList(
                 userRepository.findByOrganizationId(organizationId, new PageRequest(pageNumber, itemsPerPage)).iterator()
         );
+    }
+
+    @Override
+    public Long getCountOfVerifications(Long organizationId, String username) {
+        return 0L;
     }
 }

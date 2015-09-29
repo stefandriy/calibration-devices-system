@@ -66,16 +66,16 @@ public class UsersServiceTest {
     public void testGetRoleByUserName() throws Exception {
         final String username = "Admin";
         final String expectedString = "OK";
-        when(mockUserRepository.getRoleByUserName(username)).thenReturn(expectedString);
-        assertEquals(expectedString, injectMockUserService.getRoleByUserName(username));
+        when(mockUserRepository.getRolesByUserName(username)).thenReturn(expectedString);
+        assertEquals(expectedString, injectMockUserService.getRolesByUserName(username));
     }
 
     @Test
     public void testGetRoleByUserNam() throws Exception {
         final List<UserRole> listUsers = (List<UserRole>) mock(List.class);
         final String username = "Admin";
-        when(mockUserRepository.getRoleByUserNam(username)).thenReturn(listUsers);
-        assertEquals(listUsers, injectMockUserService.getRoleByUserNam(username));
+        when(mockUserRepository.getRolesByUserName(username)).thenReturn(listUsers);
+        assertEquals(listUsers, injectMockUserService.getRolesByUserName(username));
     }
 
     @Test

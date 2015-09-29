@@ -48,6 +48,6 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     @Transactional
     public User employeeExist(String username) {
-        return userRepository.getUserByUserName(username);
+        return userRepository.findOne(username);
     }
 }

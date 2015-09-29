@@ -7,9 +7,9 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
@@ -55,16 +55,14 @@ public class OrganizationServiceImpl implements OrganizationService {
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
 
-        for (String type : types) { //TODO
+        for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
-            organization.addOrganizationType(organizationType);
-            String strRole = organizationType + "_ADMIN";
-            UserRole userRole = userRepository.getUserRole(strRole);
-            employeeAdmin.getUserRoles().add(userRole);
-        }
+            employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
 
+            organization.addOrganizationType(organizationType);
+            organization.addUser(employeeAdmin);
+        }
         organizationRepository.save(organization);
-        userRepository.save(employeeAdmin);
     }
 
     @Override
@@ -117,7 +115,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .forEach(organization::addOrganizationType);
 
 
-        User employeeAdmin = userRepository.getUserByUserName(username);
+        User employeeAdmin = userRepository.findOne(username);
         logger.info("==========employeeAdmin=============");
         logger.info(employeeAdmin);
         employeeAdmin.setFirstName(firstName);

@@ -1,11 +1,12 @@
 package com.softserve.edu;
 
 import com.softserve.edu.config.JPAConfig;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,12 +17,16 @@ public class Main {
 
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(JPAConfig.class);
-        context.getBean(Main.class).test();
+        context.getBean(Main.class).testQuery();
     }
 
-    public void test() {
-        userRepository
-                .findByOrganizationId(43L, new PageRequest(0, 10))
-                .forEach(System.out::println);
+    public void testQuery() {
+    }
+
+    public void add() {
+        User user = new User("dmytro", "pass");
+        user.addRole(UserRole.CALIBRATOR_ADMIN);
+        user.addRole(UserRole.PROVIDER_ADMIN);
+        userRepository.save(user);
     }
 }

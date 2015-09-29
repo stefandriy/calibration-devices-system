@@ -2,7 +2,6 @@ package com.softserve.edu.service.provider;
 
 
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -22,7 +21,7 @@ public interface ProviderEmployeeService {
 
     User findByUserame(String userName);
 
-    List<UserRole> getRoleByUserNam(String username);
+    List<String> getRoleByUserNam(String username);
 
     ListToPageTransformer<User>
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, Long idOrganization, String userName,

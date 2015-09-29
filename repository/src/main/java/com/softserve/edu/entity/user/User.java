@@ -9,8 +9,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-//TODO : Avaliable typo: some query on repository side crashes after refactoring. Refactor to primitives
 @Entity
 @Getter
 @Setter
@@ -29,7 +27,7 @@ public class User {
     private String middleName;
     private String email;
     private String phone;
-    private Boolean isAvaliable = false;
+    private Boolean isAvailable = false;
 
     @Embedded
     private Address address;
@@ -39,7 +37,10 @@ public class User {
     @JsonManagedReference
     private Organization organization;
 
-    @ManyToMany(mappedBy = "users")
+    @ElementCollection
+    @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "username"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "value", length = 25)
     private Set<UserRole> userRoles = new HashSet<>();
 
     public User(AddEmployeeBuilderNew builder) {
@@ -51,7 +52,7 @@ public class User {
         email = builder.email;
         phone = builder.phone;
         address = builder.address;
-        isAvaliable = builder.isAveliable;
+        isAvailable = builder.isAveliable;
     }
 
     /**
@@ -110,5 +111,9 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+    }
+
+    public void addRole(UserRole role) {
+        this.userRoles.add(role);
     }
 }

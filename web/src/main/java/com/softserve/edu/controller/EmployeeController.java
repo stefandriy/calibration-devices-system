@@ -10,7 +10,6 @@ import com.softserve.edu.entity.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
@@ -67,7 +66,7 @@ public class EmployeeController {
      * @return role
      */
     @RequestMapping(value = "verificator", method = RequestMethod.GET)
-    public List<UserRole> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public List<String> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         return providerEmployeeService.getRoleByUserNam(user.getUsername());
     }
 
@@ -104,7 +103,7 @@ public class EmployeeController {
         userFromDataBase.setEmail(temporalUser.getEmail());
         userFromDataBase.setAddress(temporalUser.getAddress());
         userFromDataBase.setUsername(temporalUser.getUsername());
-        userFromDataBase.setIsAvaliable(temporalUser.getIsAvaliable());
+        userFromDataBase.setIsAvaliable(temporalUser.getIsAvailable());
         userFromDataBase.setUserRoles(new HashSet<String>(userService.getRoles(username)));
         return userFromDataBase;
     }
@@ -119,15 +118,14 @@ public class EmployeeController {
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> updateEmployee(
-            @RequestBody UserDTO providerEmployee,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            @RequestBody UserDTO providerEmployee) {
         User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
         if (providerEmployee.getIsAvaliable().equals(false)) {
-            newUser.setIsAvaliable(providerEmployee.getIsAvaliable());
+            newUser.setIsAvailable(providerEmployee.getIsAvaliable());
             providerEmployeeService.updateEmployee(newUser);
-            return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
-            newUser.setIsAvaliable(true);
+            newUser.setIsAvailable(true);
         }
         newUser.setFirstName(providerEmployee.getFirstName());
         newUser.setLastName(providerEmployee.getLastName());
@@ -141,9 +139,9 @@ public class EmployeeController {
         newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
                 "generate" : newUser.getPassword());
         newUser.getUserRoles().clear();
-        for (String tmp : providerEmployee.getUserRoles()) {
-            UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.getUserRoles().add(userRole);
+        for (String role : providerEmployee.getUserRoles()) {
+            UserRole userRole = UserRole.valueOf(role);
+            newUser.addRole(userRole);
         }
         providerEmployeeService.updateEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
@@ -163,13 +161,14 @@ public class EmployeeController {
                 .address(employee.getAddress())
                 .isAveliable(employee.getIsAvaliable())
                 .build();
-        for (String tmp : employee.getUserRoles()) {
-            UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.getUserRoles().add(userRole);
+
+        for (String role : employee.getUserRoles()) {
+            UserRole userRole = UserRole.valueOf(role);
+            newUser.addRole(userRole);
         }
         newUser.setOrganization(organizationsService.getOrganizationById(user.getOrganizationId()));
         providerEmployeeService.addEmployee(newUser);
-        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     //TODO: maybe here should add STATE_VERIFICATION
@@ -178,10 +177,10 @@ public class EmployeeController {
             @PathVariable String username) {
         List<String> role = userService.getRoles(username);
         List<Verification> list = null;
-        if (role.contains(Roles.PROVIDER_EMPLOYEE.name())) {
+        if (role.contains(UserRole.PROVIDER_EMPLOYEE.name())) {
             list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
         }
-        if (role.contains(Roles.CALIBRATOR_EMPLOYEE.name())) {
+        if (role.contains(UserRole.CALIBRATOR_EMPLOYEE.name())) {
             list = verificationProviderEmployeeService.getVerificationListbyCalibratormployee(username);
         }
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
@@ -201,15 +200,15 @@ public class EmployeeController {
                 search.getFirstName(), search.getLastName(), search.getOrganization(),
                 search.getPhone(), fieldToSort);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
-        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
+        return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
 
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
-        List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
+        List<UsersPageItem> resultList = new ArrayList<>();
         for (User providerEmployee : queryResult.getContent()) {
             //hide information about PROVIDER_ADMIN and CALIBRATOR_ADMIN
-            Boolean isProviderAdmin = userService.getRoles(providerEmployee.getUsername()).contains(Roles.PROVIDER_ADMIN.name());
-            Boolean isCalibratorAdmin = userService.getRoles(providerEmployee.getUsername()).contains(Roles.CALIBRATOR_ADMIN.name());
+            Boolean isProviderAdmin = userService.getRoles(providerEmployee.getUsername()).contains(UserRole.PROVIDER_ADMIN.name());
+            Boolean isCalibratorAdmin = userService.getRoles(providerEmployee.getUsername()).contains(UserRole.CALIBRATOR_ADMIN.name());
             if (!isProviderAdmin && !isCalibratorAdmin) {
                 resultList.add(new UsersPageItem(
                                 providerEmployee.getUsername(),
@@ -221,7 +220,7 @@ public class EmployeeController {
                                 providerEmployee.getOrganization().getName(),
                                 verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
                                 verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
-                                providerEmployee.getIsAvaliable()
+                                providerEmployee.getIsAvailable()
                         )
                 );
             }
@@ -241,12 +240,12 @@ public class EmployeeController {
                                 user.getUsername(),
                                 user.getUserRoles()
                                         .stream()
-                                        .map(UserRole::getRole)
+                                        .map(UserRole::name)
                                         .collect(Collectors.toList()),
                                 user.getFirstName(),
                                 user.getLastName(),
                                 user.getPhone(),
-                                0
+                                0L
                         )
                 )
                 .collect(Collectors.toList());

@@ -15,4 +15,6 @@ public interface UserService {
     void addEmployee(User user);
 
     List<User> findByOrganizationId(Long organizationId, int pageNumber, int itemsPerPage);
+
+    Long getCountOfVerifications(Long organizationId, String username);
 }
