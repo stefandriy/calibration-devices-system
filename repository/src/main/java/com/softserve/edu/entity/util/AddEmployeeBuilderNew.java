@@ -1,5 +1,6 @@
-package com.softserve.edu.entity;
+package com.softserve.edu.entity.util;
 
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.user.User;
 
 

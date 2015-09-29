@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.softserve.edu.entity.MeasuringEquipment;
+import com.softserve.edu.entity.device.MeasuringEquipment;
 
 @Repository
 public interface MeasuringEquipmentRepository extends CrudRepository<MeasuringEquipment, Long> {

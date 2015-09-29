@@ -1,7 +1,9 @@
-package com.softserve.edu.entity;
+package com.softserve.edu.entity.device;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.Verification;
 import com.softserve.edu.entity.util.DeviceType;
 import lombok.*;
 

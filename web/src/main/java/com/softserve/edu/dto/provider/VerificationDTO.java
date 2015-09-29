@@ -3,7 +3,7 @@ package com.softserve.edu.dto.provider;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.ClientData;
-import com.softserve.edu.entity.Device;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.Status;

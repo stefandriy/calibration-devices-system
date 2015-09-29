@@ -3,7 +3,7 @@ package com.softserve.edu.dto.provider;
 
 import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.Device;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.CalibrationTestResult;
 import com.softserve.edu.entity.util.ReadStatus;

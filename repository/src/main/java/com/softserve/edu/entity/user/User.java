@@ -1,7 +1,7 @@
 package com.softserve.edu.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.softserve.edu.entity.AddEmployeeBuilderNew;
+import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.Organization;
 import lombok.*;

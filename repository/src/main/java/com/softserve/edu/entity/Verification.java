@@ -1,6 +1,7 @@
 package com.softserve.edu.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ReadStatus;
 import com.softserve.edu.entity.util.Status;

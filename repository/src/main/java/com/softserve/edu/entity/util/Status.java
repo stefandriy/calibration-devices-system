@@ -7,68 +7,18 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public enum Status {
-    SENT() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.SENT);
-        	return queryPredicate;
-        }
-    }, 
-    ACCEPTED() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.ACCEPTED);
-        	return queryPredicate;
-        }
-    },
-    REJECTED() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.REJECTED);
-        	return queryPredicate;
-        }
-    },
-    IN_PROGRESS() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.IN_PROGRESS);
-        	return queryPredicate;
-        }
-    },
-    TEST_PLACE_DETERMINED() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.TEST_PLACE_DETERMINED);
-        	return queryPredicate;
-        }
-    }, 
-    SENT_TO_TEST_DEVICE() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.SENT_TO_TEST_DEVICE);
-        	return queryPredicate;
-        }
-    },
-    TEST_COMPLETED() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.TEST_COMPLETED);
-        	return queryPredicate;
-        }
-    },
-    SENT_TO_VERIFICATOR() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.SENT_TO_VERIFICATOR);
-        	return queryPredicate;
-        }
-    },
-    TEST_OK() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.TEST_OK);
-        	return queryPredicate;
-        }
-    },
-    TEST_NOK() {
-    	public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    		Predicate queryPredicate = cb.equal(root.get("status"), Status.TEST_NOK);
-        	return queryPredicate;
-        }
-    };
-        
+    SENT,
+    ACCEPTED,
+    REJECTED,
+    IN_PROGRESS,
+    TEST_PLACE_DETERMINED,
+    SENT_TO_TEST_DEVICE,
+    TEST_COMPLETED,
+    SENT_TO_VERIFICATOR,
+    TEST_OK,
+    TEST_NOK;
+
     public Predicate getQueryPredicate(Root<Verification> root, CriteriaBuilder cb) {
-    	return null;
+        return cb.equal(root.get("status"), this);
     }
 }

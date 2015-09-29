@@ -3,7 +3,7 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.AddEmployeeBuilderNew;
+import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
