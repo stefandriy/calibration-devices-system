@@ -1,11 +1,11 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.entity.BbiProtocol;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.BbiProtocol;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.ReadStatus;
+import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UploadBbiRepository;
 import com.softserve.edu.repository.UserRepository;

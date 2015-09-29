@@ -1,6 +1,6 @@
 package com.softserve.edu.service.utils;
 
-import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 
 import java.util.ArrayList;
 import java.util.List;

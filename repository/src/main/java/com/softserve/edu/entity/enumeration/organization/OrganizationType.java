@@ -1,4 +1,4 @@
-package com.softserve.edu.entity;
+package com.softserve.edu.entity.enumeration.organization;
 
 public enum OrganizationType {
     PROVIDER,

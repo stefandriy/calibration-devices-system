@@ -1,6 +1,6 @@
 package com.softserve.edu.controller.calibrator;
 
-import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import org.apache.log4j.Logger;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.dto.CalibrationTestDataDTO;
-import com.softserve.edu.entity.CalibrationTestData;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 
 
 

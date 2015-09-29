@@ -5,7 +5,7 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.UserService;

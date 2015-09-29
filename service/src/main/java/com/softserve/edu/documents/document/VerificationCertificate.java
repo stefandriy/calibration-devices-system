@@ -1,8 +1,8 @@
 package com.softserve.edu.documents.document;
 
 import com.softserve.edu.documents.document.meta.Placeholder;
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.Verification;
 
 /**
  * Represents a verification certificate.

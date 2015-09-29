@@ -1,6 +1,7 @@
-package com.softserve.edu.entity;
+package com.softserve.edu.entity.verification.calibration;
 
-import com.softserve.edu.entity.util.CalibrationTestResult;
+import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
+import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
 
 import javax.persistence.*;
@@ -54,7 +55,7 @@ public class CalibrationTest {
     private Set<CalibrationTestIMG> testIMGs;
 
     @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL)
-    private Set<CalibrationTestData> calibrationTestDatas;
+    private Set<CalibrationTestData> calibrationTestDataSet;
 
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
                            Double longitude, String consumptionStatus, CalibrationTestResult testResult) {

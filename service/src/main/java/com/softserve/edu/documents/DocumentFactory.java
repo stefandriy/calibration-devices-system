@@ -5,8 +5,8 @@ import com.softserve.edu.documents.document.InfoDocument;
 import com.softserve.edu.documents.document.UnfitnessCertificate;
 import com.softserve.edu.documents.document.VerificationCertificate;
 import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.Verification;
 import org.springframework.util.Assert;
 
 public class DocumentFactory {

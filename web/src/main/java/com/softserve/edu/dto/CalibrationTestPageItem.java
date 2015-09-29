@@ -1,6 +1,6 @@
 package com.softserve.edu.dto;
 
-import com.softserve.edu.entity.util.CalibrationTestResult;
+import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 
 import java.util.Date;
 

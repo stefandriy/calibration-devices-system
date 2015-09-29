@@ -1,20 +1,19 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationChangeHistory;
-import com.softserve.edu.entity.OrganizationType;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.organization.OrganizationChangesHistory;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.repository.OrganizationChangeHistoryRepository;
+import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.repository.OrganizationChangesHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
@@ -43,7 +42,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private ProviderEmployeeService providerEmployeeService;
 
     @Autowired
-    private OrganizationChangeHistoryRepository organizationChangeHistoryRepository;
+    private OrganizationChangesHistoryRepository organizationChangesHistoryRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -75,32 +74,33 @@ public class OrganizationServiceImpl implements OrganizationService {
             organization.addUser(employeeAdmin);
         }
 
-        for(Long localityId : localityIdList) {
+        for (Long localityId : localityIdList) {
             Locality locality = localityService.findById(localityId);
             organization.addLocality(locality);
         }
 
         organizationRepository.save(organization);
-       
+
 
         String stringOrganizationTypes = String.join(",", types);
 
         Date date = new Date();
 
-        OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(date, name, email, phone, employeesCapacity,
+        OrganizationChangesHistory organizationChangesHistory = new OrganizationChangesHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
-        organizationChangeHistoryRepository.save(organizationChangeHistory);
-        organization.addOrganizationChangeHistory(organizationChangeHistory);
+        organizationChangesHistoryRepository.save(organizationChangesHistory);
+        organization.addOrganizationChangeHistory(organizationChangesHistory);
         organizationRepository.save(organization);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage, String name,
-                                                                                     String email, String number, String type, String
-                                                                                     region, String district, String locality, String streetToSearch,
-                                                                                     String sortCriteria, String sortOrder) {
+    public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(
+            int pageNumber, int itemsPerPage, String name, String email,
+            String number, String type, String region, String district, String locality,
+            String streetToSearch, String sortCriteria, String sortOrder
+    ) {
 
         CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
 
@@ -168,11 +168,11 @@ public class OrganizationServiceImpl implements OrganizationService {
         logger.info(employeeAdmin.getPassword());
         Date date = new Date();
 
-        OrganizationChangeHistory organizationChangeHistory = new OrganizationChangeHistory(date, name, email, phone, employeesCapacity,
+        OrganizationChangesHistory organizationChangesHistory = new OrganizationChangesHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
-        organizationChangeHistoryRepository.save(organizationChangeHistory);
-        organization.addOrganizationChangeHistory(organizationChangeHistory);
+        organizationChangesHistoryRepository.save(organizationChangesHistory);
+        organization.addOrganizationChangeHistory(organizationChangesHistory);
         organizationRepository.save(organization);
     }
 
@@ -190,9 +190,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public List<OrganizationChangeHistory> getOrganizationEditHistoryById (Long organizationId){
-        Organization organization = organizationRepository.findOne(organizationId);
-        return organizationChangeHistoryRepository.getByOrganization(organization);
+    public List<OrganizationChangesHistory> getHistoryByOrganizationId(Long organizationId) {
+        return organizationChangesHistoryRepository.findByOrganizationId(organizationId);
     }
 
     @Override

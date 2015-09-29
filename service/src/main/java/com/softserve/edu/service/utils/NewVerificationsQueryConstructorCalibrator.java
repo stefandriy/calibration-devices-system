@@ -1,20 +1,16 @@
 	package com.softserve.edu.service.utils;
 
-	import com.softserve.edu.entity.Organization;
-	import com.softserve.edu.entity.Verification;
+	import com.softserve.edu.entity.organization.Organization;
+	import com.softserve.edu.entity.verification.Verification;
 	import com.softserve.edu.entity.user.User;
-	import com.softserve.edu.entity.user.UserRole;
-	import com.softserve.edu.entity.util.Status;
+	import com.softserve.edu.entity.enumeration.user.UserRole;
+	import com.softserve.edu.entity.enumeration.verification.Status;
 	import org.apache.log4j.Logger;
 
 	import javax.persistence.EntityManager;
 	import javax.persistence.criteria.*;
-	import java.text.ParseException;
-	import java.text.SimpleDateFormat;
 	import java.time.LocalDate;
 	import java.time.format.DateTimeFormatter;
-	import java.util.Calendar;
-	import java.util.Date;
 	import java.util.Set;
 
 

@@ -1,6 +1,6 @@
 package com.softserve.edu.service;
 
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.utils.NewVerificationsQueryConstructorProvider;
 import org.apache.log4j.Logger;

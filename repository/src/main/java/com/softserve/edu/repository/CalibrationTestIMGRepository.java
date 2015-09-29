@@ -1,6 +1,6 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.CalibrationTestIMG;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

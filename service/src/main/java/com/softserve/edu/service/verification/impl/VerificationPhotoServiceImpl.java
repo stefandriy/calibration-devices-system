@@ -1,6 +1,6 @@
 package com.softserve.edu.service.verification.impl;
 
-import com.softserve.edu.entity.CalibrationTest;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.storage.impl.FileOperationImpl;
 import com.softserve.edu.service.verification.VerificationPhotoService;

@@ -1,6 +1,6 @@
 package com.softserve.edu.service.utils;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;

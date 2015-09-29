@@ -1,6 +1,6 @@
-package com.softserve.edu.entity.util;
+package com.softserve.edu.entity.enumeration.verification;
 
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.Verification;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;

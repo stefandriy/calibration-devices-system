@@ -1,7 +1,7 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.entity.CalibrationPlanningTask;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibrationPlanningTaskService;

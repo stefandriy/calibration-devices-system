@@ -1,7 +1,7 @@
 package com.softserve.edu.controller.stateverificator;
 
 import com.softserve.edu.controller.provider.ProviderEmployeeController;
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;

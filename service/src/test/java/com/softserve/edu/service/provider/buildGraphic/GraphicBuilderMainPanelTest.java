@@ -1,7 +1,7 @@
 package com.softserve.edu.service.provider.buildGraphic;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import org.junit.Test;
 
 import java.util.ArrayList;

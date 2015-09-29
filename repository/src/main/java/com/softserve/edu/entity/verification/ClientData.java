@@ -1,5 +1,6 @@
-package com.softserve.edu.entity;
+package com.softserve.edu.entity.verification;
 
+import com.softserve.edu.entity.Address;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -16,11 +16,11 @@ import javax.persistence.criteria.Root;
 
 import org.apache.log4j.Logger;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.enumeration.verification.Status;
 
 
 public class NewVerificationsQueryConstructorVerificator {

@@ -1,15 +1,11 @@
 package com.softserve.edu.controller.admin.util;
 
 import com.softserve.edu.dto.admin.OrganizationPageDTO;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationType;
-import com.softserve.edu.service.admin.UserService;
-import com.softserve.edu.service.admin.impl.UsersServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class OrganizationPageDTOTransformer {
 

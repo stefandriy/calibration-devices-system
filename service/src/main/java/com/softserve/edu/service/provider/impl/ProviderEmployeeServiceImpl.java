@@ -1,6 +1,6 @@
 package com.softserve.edu.service.provider.impl;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;

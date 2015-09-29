@@ -1,10 +1,13 @@
-package com.softserve.edu.entity;
+package com.softserve.edu.entity.organization;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Locality;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.DeviceType;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
 import lombok.*;
 
 
@@ -49,7 +52,7 @@ public class Organization {
     private Date certificateGrantedDate;
 
     @OneToMany(mappedBy = "organization")
-    private Set<OrganizationChangeHistory> organizationChangeHistorySet = new HashSet<>();
+    private Set<OrganizationChangesHistory> organizationChangesHistorySet = new HashSet<>();
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
@@ -73,8 +76,8 @@ public class Organization {
             inverseJoinColumns = @JoinColumn(name = "localityId"))
     private Set<Locality> localities = new HashSet<>();
 
-    public void addOrganizationChangeHistory(OrganizationChangeHistory organizationChangeHistory) {
-        this.organizationChangeHistorySet.add(organizationChangeHistory);
+    public void addOrganizationChangeHistory(OrganizationChangesHistory organizationChangesHistory) {
+        this.organizationChangesHistorySet.add(organizationChangesHistory);
     }
 
     public Organization(String name, String email, String phone) {
@@ -109,8 +112,8 @@ public class Organization {
         deviceTypes.add(deviceType);
     }
 
-    public void addHistory(OrganizationChangeHistory history) {
-        this.organizationChangeHistorySet.add(history);
+    public void addHistory(OrganizationChangesHistory history) {
+        this.organizationChangesHistorySet.add(history);
     }
 
     public void addLocality(Locality locality) {

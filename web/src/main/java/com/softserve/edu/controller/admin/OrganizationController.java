@@ -6,11 +6,11 @@ import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.*;
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationChangeHistory;
-import com.softserve.edu.entity.OrganizationType;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.organization.OrganizationChangesHistory;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.admin.OrganizationService;
@@ -36,7 +36,7 @@ public class OrganizationController {
     private final Logger logger = Logger
             .getLogger(OrganizationController.class);
     @Autowired
-    private OrganizationService organizationsService;
+    private OrganizationService organizationService;
 
     @Autowired
     private OrganizationRepository organizationRepository;
@@ -70,7 +70,7 @@ public class OrganizationController {
                 organizationDTO.getFlat());
         try {
             String adminName = user.getUsername();
-            organizationsService.addOrganizationWithAdmin(
+            organizationService.addOrganizationWithAdmin(
                     organizationDTO.getName(),
                     organizationDTO.getEmail(),
                     organizationDTO.getPhone(),
@@ -85,7 +85,7 @@ public class OrganizationController {
                     address,
                     adminName,
                     organizationDTO.getServiceAreas()
-                    );
+            );
         } catch (Exception e) {
             // TODO
             logger.error("GOT EXCEPTION ", e);
@@ -109,18 +109,18 @@ public class OrganizationController {
     ) {
 
 
-	/*	Page<OrganizationPageItem> page = organizationsService
+	/*	Page<OrganizationPageItem> page = organizationService
                 .getOrganizationsBySearchAndPagination(pageNumber,
 						itemsPerPage, search/*, adress, type).map(
 						organization -> new OrganizationPageItem(organization
 								.getId(), organization.getName(), organization
 								.getEmail(), organization.getPhone(),
-								organizationsService
+								organizationService
 										.getOrganizationTypes(organization)));
 
 		return new PageDTO<>(page.getTotalElements(), page.getContent());*/
 
-        ListToPageTransformer<Organization> queryResult = organizationsService.getOrganizationsBySearchAndPagination(
+        ListToPageTransformer<Organization> queryResult = organizationService.getOrganizationsBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
                 searchData.getName_admin(),
@@ -158,7 +158,7 @@ public class OrganizationController {
 
     @RequestMapping(value = "getOrganization/{id}")
     public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
-        Organization organization = organizationsService.getOrganizationById(id);
+        Organization organization = organizationService.getOrganizationById(id);
 
         List<String> types = new ArrayList<>();
         organization.getOrganizationTypes().
@@ -200,7 +200,7 @@ public class OrganizationController {
            
            String adminName = user.getUsername();
            
-            organizationsService.editOrganization(
+            organizationService.editOrganization(
                     organizationId,
                     organization.getName(),
                     organization.getPhone(),
@@ -220,19 +220,19 @@ public class OrganizationController {
             httpStatus = HttpStatus.CONFLICT;
         }
 
-        Organization org = organizationsService
+        Organization org = organizationService
                 .getOrganizationById(organizationId);
 
         User admin = userRepository.findOne(organization.getUsername());
 
-        organizationsService.sendOrganizationChanges(org, admin);
+        organizationService.sendOrganizationChanges(org, admin);
 
         return new ResponseEntity(httpStatus);
     }
 
     @RequestMapping(value = "getOrganizationAdmin/{id}")
     public OrganizationAdminDTO getAdmin(@PathVariable("id") Long id) {
-        Organization organization = organizationsService.getOrganizationById(id);
+        Organization organization = organizationService.getOrganizationById(id);
         OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO();
         try {
 
@@ -259,11 +259,11 @@ public class OrganizationController {
         return organizationAdminDTO;
     }
 
-    @RequestMapping(value = "edit/history/{id}")
-    public PageDTO<OrganizationChangeHistory> getEditHistory(@PathVariable("id") Long id) {
-        List<OrganizationChangeHistory> organizationChangeHistoryList = organizationsService.getOrganizationEditHistoryById(id);
+    @RequestMapping(value = "edit/history/{organizationId}")
+    public PageDTO<OrganizationEditHistoryPageDTO> getEditHistory(@PathVariable("organizationId") Long organizationId) {
 
-        List<OrganizationEditHistoryPageDTO> content = OrganizationHistoryPageDTOTransformer.toDtoFromList(organizationChangeHistoryList);
-        return new PageDTO(content);
+        List<OrganizationChangesHistory> organizationChangesHistoryList = organizationService.getHistoryByOrganizationId(organizationId);
+
+        return new PageDTO<>(OrganizationHistoryPageDTOTransformer.toDtoFromList(organizationChangesHistoryList));
     }
 }

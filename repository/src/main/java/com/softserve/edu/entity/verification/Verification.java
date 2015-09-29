@@ -1,10 +1,13 @@
-package com.softserve.edu.entity;
+package com.softserve.edu.entity.verification;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import lombok.*;
 
 import javax.persistence.*;

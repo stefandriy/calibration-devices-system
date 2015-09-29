@@ -1,6 +1,6 @@
 package com.softserve.edu.service.provider.impl;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;

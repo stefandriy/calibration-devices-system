@@ -1,10 +1,10 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.CalibrationTestData;
-import com.softserve.edu.entity.CalibrationTestIMG;
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.util.CalibrationTestResult;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
+import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;

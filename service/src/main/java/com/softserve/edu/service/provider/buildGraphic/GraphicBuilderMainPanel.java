@@ -1,8 +1,7 @@
 package com.softserve.edu.service.provider.buildGraphic;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
-import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 
 import java.text.ParseException;
 import java.util.*;

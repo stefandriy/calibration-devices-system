@@ -1,5 +1,6 @@
-package com.softserve.edu.entity;
+package com.softserve.edu.entity.organization;
 
+import com.softserve.edu.entity.Address;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,8 +11,8 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "ORGANIZATION_CHANGE_HISTORY")
-public class OrganizationChangeHistory {
+@Table(name = "ORGANIZATION_CHANGES_HISTORY")
+public class OrganizationChangesHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +41,7 @@ public class OrganizationChangeHistory {
     @JoinColumn(name = "organizationId")
     private Organization organization;
 
-    public OrganizationChangeHistory(Date date, String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, String types, String username, String firstName, String lastName, String middleName, Organization organization, Address address, String adminName) {
+    public OrganizationChangesHistory(Date date, String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, String types, String username, String firstName, String lastName, String middleName, Organization organization, Address address, String adminName) {
         this.date = date;
         this.name = name;
         this.email = email;

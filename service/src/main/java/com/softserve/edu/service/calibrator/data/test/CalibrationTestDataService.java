@@ -1,6 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test;
 
-import com.softserve.edu.entity.CalibrationTestData;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 
 public interface CalibrationTestDataService {
 

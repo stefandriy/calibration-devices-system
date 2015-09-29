@@ -1,4 +1,4 @@
-package com.softserve.edu.entity.user;
+package com.softserve.edu.entity.enumeration.user;
 
 public enum UserRole {
     SYS_ADMIN,

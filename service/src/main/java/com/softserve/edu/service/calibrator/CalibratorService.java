@@ -1,6 +1,6 @@
 package com.softserve.edu.service.calibrator;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.utils.EmployeeDTO;
 

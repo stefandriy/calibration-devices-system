@@ -1,8 +1,8 @@
 package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationChangeHistory;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
@@ -31,7 +31,7 @@ public interface OrganizationService {
 
     void sendOrganizationChanges(Organization organization, User admin);
 
-    public List<OrganizationChangeHistory> getOrganizationEditHistoryById(Long organizationId);
+    public List<OrganizationChangesHistory> getHistoryByOrganizationId(Long organizationId);
 
     List<Organization> findOrganizationByLocalityId(Long localityId);
 }

@@ -1,6 +1,6 @@
 package com.softserve.edu.service.state.verificator;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.state.verificator.impl.StateVerificatorServiceImpl;
 import org.junit.Assert;

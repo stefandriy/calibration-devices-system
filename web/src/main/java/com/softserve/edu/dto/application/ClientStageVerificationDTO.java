@@ -1,7 +1,7 @@
 package com.softserve.edu.dto.application;
 
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.ClientData;
+import com.softserve.edu.entity.verification.ClientData;
 
 public class ClientStageVerificationDTO {
     private String firstName;

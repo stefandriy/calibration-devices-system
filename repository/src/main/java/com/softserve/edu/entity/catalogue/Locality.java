@@ -1,6 +1,6 @@
 package com.softserve.edu.entity.catalogue;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import lombok.*;
 
 import javax.persistence.*;

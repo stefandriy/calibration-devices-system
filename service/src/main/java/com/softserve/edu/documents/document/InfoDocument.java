@@ -4,12 +4,12 @@ import java.text.SimpleDateFormat;
 
 import com.softserve.edu.documents.document.meta.Placeholder;
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.ClientData;
+import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.DeviceType;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
 
 @com.softserve.edu.documents.document.meta.Document
 public class InfoDocument  implements Document {
