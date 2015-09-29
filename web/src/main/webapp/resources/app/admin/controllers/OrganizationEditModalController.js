@@ -46,8 +46,6 @@ angular
 					$scope.typeData[0].label = 'Service provider';
 					$scope.typeData[1].label = 'Measuring laboratory';
 					$scope.typeData[2].label = 'Authorized calibration laboratory';
-				} else {
-					console.error(lang);
 				}
 			};
 
@@ -87,8 +85,6 @@ angular
 							default: console.error($scope.organizationTypes[i] + " not organization type");
 						}
 					}
-				} else {
-					console.error(lang);
 				}
 			};
 

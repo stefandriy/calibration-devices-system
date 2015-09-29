@@ -61,8 +61,6 @@ angular
                     $scope.statusData[6].label = 'Tested OK';
                     $scope.statusData[7].label = 'Tested NOK';
 
-                } else {
-                    console.error(lang);
                 }
             };
 

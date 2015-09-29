@@ -59,8 +59,6 @@ angular
                     $scope.typeData[0].label = 'Service provider';
                     $scope.typeData[1].label = 'Measuring laboratory';
                     $scope.typeData[2].label = 'Authorized calibration laboratory';
-                } else {
-                    console.error(lang);
                 }
             };
             $scope.setTypeDataLanguage();

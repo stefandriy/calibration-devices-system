@@ -12,7 +12,7 @@ require.config({
         angularTranslateStorageLocal: '../assets/bower_components/angular-translate-storage-local/angular-translate-storage-local.min',
         angularTranslateStorageCookie: '../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
         employeeModule: 'employeeModule',
-        highchartsAngular:  '../assets/bower_components/highcharts-ng/src/highcharts-ng',
+        highchartsAngular:  '../assets/bower_components/highcharts-ng/dist/highcharts-ng.min',
         highcharts:  '../assets/bower_components/highcharts-release/highcharts.src',
         chosen : '../assets/angular-chosen-localytics/chosen',
         standalone:  '../assets/bower_components/highcharts-release/adapters/standalone-framework.src',

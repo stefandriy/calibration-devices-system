@@ -51,8 +51,6 @@ angular
                     $scope.statusData[2].label = 'Sent to test device';
                     $scope.statusData[3].label = 'Test completed';
 
-                } else {
-                    console.error(lang);
                 }
             };
 
