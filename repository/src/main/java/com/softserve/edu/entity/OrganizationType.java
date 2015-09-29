@@ -1,6 +1,6 @@
 package com.softserve.edu.entity;
 
-public enum  OrganizationType {
+public enum OrganizationType {
     PROVIDER,
     CALIBRATOR,
     STATE_VERIFICATOR,

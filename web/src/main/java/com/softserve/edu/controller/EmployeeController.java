@@ -159,7 +159,7 @@ public class EmployeeController {
                 .phone(employee.getPhone())
                 .email(employee.getEmail())
                 .address(employee.getAddress())
-                .isAveliable(employee.getIsAvaliable())
+                .isAvailable(employee.getIsAvaliable())
                 .build();
 
         for (String role : employee.getUserRoles()) {

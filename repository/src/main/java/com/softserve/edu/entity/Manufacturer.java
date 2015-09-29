@@ -1,15 +1,18 @@
 package com.softserve.edu.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="`MANUFACTURER`")
+@Table(name="MANUFACTURER")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Manufacturer {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -19,18 +22,6 @@ public class Manufacturer {
 
     @OneToMany(mappedBy = "manufacturer")
     private Set<Device> devices;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -43,35 +34,4 @@ public class Manufacturer {
     public void setDevices(Set<Device> devices) {
         this.devices = devices;
     }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("name", name)
-                .toString();
-    }
-
-    @Override
-    public int hashCode(){
-        return new HashCodeBuilder()
-                .append(id)
-                .append(name)
-                .toHashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj){
-        if(obj instanceof Manufacturer){
-            final Manufacturer other = (Manufacturer) obj;
-            return new EqualsBuilder()
-                    .append(id, other.id)
-                    .append(name, other.name)
-                    .isEquals();
-        } else{
-            return false;
-        }
-    }
-
-
 }

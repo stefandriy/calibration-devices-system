@@ -126,7 +126,7 @@ public class UserController {
                 .phone(employee.getPhone())
                 .email(employee.getEmail())
                 .address(employee.getAddress())
-                .isAveliable(employee.getIsAvaliable())
+                .isAvailable(employee.getIsAvaliable())
                 .build();
         for (String role : employee.getUserRoles()) {
             UserRole userRole = UserRole.valueOf(role);

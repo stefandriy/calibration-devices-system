@@ -38,7 +38,7 @@ public class CalibrationPlaningTaskServiceImpl implements CalibrationPlanningTas
             }
             CalibrationPlanningTask task = new CalibrationPlanningTask();
             task.setVerification(verification);
-            task.setPlaceOfcalibration(placeOfCalibration);
+            task.setPlaceOfCalibration(placeOfCalibration);
             task.setRemoveStatus(counterStatus);
             task.setSerialNumberOfMeasuringInstallation(installationNumber);
             task.setSerialNumberOfCounter(counterNumber);

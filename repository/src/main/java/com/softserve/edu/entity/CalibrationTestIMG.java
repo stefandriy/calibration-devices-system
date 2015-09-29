@@ -1,20 +1,25 @@
 package com.softserve.edu.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by Konyk on 30.07.2015.
- */
+
 @Entity
 @Table(name = "CALIBRATION_TEST_IMG")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CalibrationTestIMG {
+
     @Id
     @GeneratedValue
-    private Long Id;
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "calibrationTest_id")
+    @JoinColumn(name = "calibrationTestId")
     private CalibrationTest calibrationTest;
 
     private String imgName;
@@ -26,37 +31,5 @@ public class CalibrationTestIMG {
         this.calibrationTest = calibrationTest;
         this.imgName = imgName;
         this.initialDate = new Date();
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
-    }
-
-    public CalibrationTest getCalibrationTest() {
-        return calibrationTest;
-    }
-
-    public void setCalibrationTest(CalibrationTest calibrationTest) {
-        this.calibrationTest = calibrationTest;
-    }
-
-    public String getImgName() {
-        return imgName;
-    }
-
-    public void setImgName(String imgName) {
-        this.imgName = imgName;
-    }
-
-    public Date getInitialDate() {
-        return initialDate;
-    }
-
-    public void setInitialDate(Date initialDate) {
-        this.initialDate = initialDate;
     }
 }

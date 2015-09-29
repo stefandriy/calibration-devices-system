@@ -40,7 +40,7 @@ public class User {
     @ElementCollection
     @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "username"))
     @Enumerated(EnumType.STRING)
-    @Column(name = "value", length = 25)
+    @Column(name = "value", length = 30)
     private Set<UserRole> userRoles = new HashSet<>();
 
     public User(AddEmployeeBuilderNew builder) {
@@ -52,7 +52,7 @@ public class User {
         email = builder.email;
         phone = builder.phone;
         address = builder.address;
-        isAvailable = builder.isAveliable;
+        isAvailable = builder.isAvailable;
     }
 
     /**

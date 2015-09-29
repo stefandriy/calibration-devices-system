@@ -69,8 +69,8 @@ public class Organization {
 
 
     @ManyToMany
-    @JoinTable(name = "ORGANIZATION_LOCALITY", joinColumns = @JoinColumn(name = "organization_idlocality_id"),
-            inverseJoinColumns = @JoinColumn(name = "locality_id"))
+    @JoinTable(name = "ORGANIZATION_LOCALITY", joinColumns = @JoinColumn(name = "organizationId"),
+            inverseJoinColumns = @JoinColumn(name = "localityId"))
     private Set<Locality> localities = new HashSet<>();
 
     public void addOrganizationChangeHistory(OrganizationChangeHistory organizationChangeHistory) {

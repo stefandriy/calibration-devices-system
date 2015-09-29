@@ -225,7 +225,7 @@ public class VerificationServiceImpl implements VerificationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Verification> verificationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
         result.setContent(verificationList);
         result.setTotalItems(count);
         return result;
