@@ -14,6 +14,7 @@ import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
@@ -66,13 +67,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
 
-        for (String type : types) { //TODO
+        for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
-            organization.addOrganizationType(organizationType);
+            employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
 
-            String strRole = organizationType + "_ADMIN";
-            UserRole userRole = userRepository.getUserRole(strRole);
-            employeeAdmin.getUserRoles().add(userRole);
+            organization.addOrganizationType(organizationType);
+            organization.addUser(employeeAdmin);
         }
 
         for(Long localityId : localityIdList) {
@@ -81,7 +81,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
 
         organizationRepository.save(organization);
-        userRepository.save(employeeAdmin);
+       
 
         String stringOrganizationTypes = String.join(",", types);
 
@@ -94,7 +94,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.addOrganizationChangeHistory(organizationChangeHistory);
         organizationRepository.save(organization);
     }
-
 
     @Override
     @Transactional(readOnly = true)
@@ -147,7 +146,9 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .forEach(organization::addOrganizationType);
 
 
-        User employeeAdmin = userRepository.getUserByUserName(username);
+        User employeeAdmin = userRepository.findOne(username);
+        logger.info("==========employeeAdmin=============");
+        logger.info(employeeAdmin);
         employeeAdmin.setFirstName(firstName);
         employeeAdmin.setLastName(lastName);
         employeeAdmin.setMiddleName(middleName);

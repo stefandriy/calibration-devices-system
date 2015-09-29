@@ -33,6 +33,6 @@ public class StateVerificatorEmployeeServiceImpl implements StateVerificatorEmpl
     @Override
     @Transactional
     public User oneProviderEmployee(String username) {
-        return stateVerificatorEmployeeRepository.getUserByUserName(username);
+        return stateVerificatorEmployeeRepository.findOne(username);
     }
 }

@@ -119,7 +119,7 @@
 		Predicate queryPredicate = cb.conjunction();
 		Set<UserRole> roles = calibratorEmployee.getUserRoles();
 		for (UserRole userRole : roles) {
-			String role = userRole.getRole();
+			String role = userRole.name();
 			if (role.equalsIgnoreCase("CALIBRATOR_EMPLOYEE")) {
 				Join<Verification, User> joinCalibratorEmployee = root.join("calibratorEmployee", JoinType.LEFT);
 				Predicate searchPredicateByUsername = cb.equal(joinCalibratorEmployee.get("username"), userName);

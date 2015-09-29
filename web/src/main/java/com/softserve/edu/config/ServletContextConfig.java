@@ -1,7 +1,6 @@
 package com.softserve.edu.config;
 
-import java.util.List;
-
+import com.softserve.edu.service.utils.ProcessTimeChecker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.softserve.edu.service.utils.ProcessTimeChecker;
+import java.util.List;
 
 /**
  * Spring MVC config for the servlet context in the application.

@@ -117,7 +117,7 @@ public class NewVerificationsQueryConstructorProvider {
 		Predicate queryPredicate = cb.conjunction();
 		Set<UserRole> roles= providerEmployee.getUserRoles();
 			for (UserRole userRole : roles) {
-				String role = userRole.getRole();
+				String role = userRole.name();
 				if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
 					Join<Verification, User> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
 					Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);

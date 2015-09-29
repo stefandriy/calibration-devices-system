@@ -13,4 +13,8 @@ public interface UserService {
     User getUserByRoleAndOrganization(String role, Long organizationId);
 
     void addEmployee(User user);
+
+    List<User> findByOrganizationId(Long organizationId, int pageNumber, int itemsPerPage);
+
+    Long getCountOfVerifications(Long organizationId, String username);
 }

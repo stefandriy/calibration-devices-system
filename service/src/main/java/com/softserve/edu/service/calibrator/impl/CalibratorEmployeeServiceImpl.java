@@ -43,6 +43,6 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
     @Override
     @Transactional
     public User oneCalibratorEmployee(String username) {
-        return calibratorEmployeeRepository.getUserByUserName(username);
+        return calibratorEmployeeRepository.findOne(username);
     }
 }

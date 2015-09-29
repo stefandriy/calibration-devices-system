@@ -11,13 +11,11 @@ import com.softserve.edu.entity.OrganizationChangeHistory;
 import com.softserve.edu.entity.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
-import com.softserve.edu.service.admin.OrganizationService;
-
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.OrganizationAdminDTO;
 import org.apache.log4j.Logger;
@@ -29,18 +27,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/admin/organization/")
-public class OrganizationsController {
+public class OrganizationController {
 
     private final Logger logger = Logger
-            .getLogger(OrganizationsController.class);
+            .getLogger(OrganizationController.class);
     @Autowired
     private OrganizationService organizationsService;
-
 
     @Autowired
     private OrganizationRepository organizationRepository;
@@ -224,11 +220,10 @@ public class OrganizationsController {
             httpStatus = HttpStatus.CONFLICT;
         }
 
-        Organization org = organizationRepository
-                .findOne(organizationId);
+        Organization org = organizationsService
+                .getOrganizationById(organizationId);
 
-        User admin = userRepository
-                .findByUsername(organization.getUsername());
+        User admin = userRepository.findOne(organization.getUsername());
 
         organizationsService.sendOrganizationChanges(org, admin);
 
@@ -246,9 +241,9 @@ public class OrganizationsController {
                     .stream()
                     .filter(userChecked -> userChecked.getUserRoles()
                                     .stream()
-                                    .map(UserRole::getRole)
-                                    .filter(userRole -> userRole.equals(Roles.PROVIDER_ADMIN.name()) ||
-                                                    userRole.equals(Roles.CALIBRATOR_ADMIN.name()) || userRole.equals(Roles.STATE_VERIFICATOR_ADMIN.name())
+                                    .map(UserRole::name)
+                                    .filter(userRole -> userRole.equals(UserRole.PROVIDER_ADMIN.name()) ||
+                                                    userRole.equals(UserRole.CALIBRATOR_ADMIN.name()) || userRole.equals(UserRole.STATE_VERIFICATOR_ADMIN.name())
                                     )
                                     .collect(Collectors.toList()).size() > 0
                     )

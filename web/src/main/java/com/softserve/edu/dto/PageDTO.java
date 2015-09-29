@@ -24,6 +24,7 @@ public class PageDTO<T> {
     public PageDTO(List<T>content){
         this.content=content;
     }
+
     public Long getTotalItems() {
         return totalItems;
     }

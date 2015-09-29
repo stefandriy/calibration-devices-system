@@ -1,77 +1,90 @@
 package com.softserve.edu.service.user;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import org.apache.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.stereotype.Service;
 
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.repository.UserRepository;
+import javax.annotation.PostConstruct;
+import javax.sql.DataSource;
+import java.util.List;
 
 @Service
-public class SecurityUserDetailsService implements UserDetailsService {
+public class SecurityUserDetailsService extends JdbcDaoImpl {
 
-	private final Logger logger = Logger.getLogger(SecurityUserDetailsService.class);
+    public static final String DEF_USERS_BY_USERNAME_QUERY = "select password, isAvailable, organizationId from user where username = ?";
+    public static final String DEF_AUTHORITIES_BY_USERNAME_QUERY = "select u.username as username, ur.value as authority" +
+            " from user u" +
+            " join user_role ur" +
+            " on u.username = ur.username" +
+            " where u.username = ?";
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private DataSource dataSource;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public SecurityUserDetailsService() {
+        super();
+        setUsersByUsernameQuery(DEF_USERS_BY_USERNAME_QUERY);
+        setAuthoritiesByUsernameQuery(DEF_AUTHORITIES_BY_USERNAME_QUERY);
+    }
 
-		User user = userRepository.findOne(username);
+    @PostConstruct
+    private void initialize() {
+        setDataSource(dataSource);
+    }
 
-		if ((user == null) || (user.getIsAvaliable() == null) || (!user.getIsAvaliable())) {
-			logger.error("Username " + username + " not found");
-			throw new UsernameNotFoundException("Username " + username + " not found");
-		}
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		Set<UserRole> userRoles = user.getUserRoles();
-		String role = null;
+    @Override
+    protected List<UserDetails> loadUsersByUsername(String username) {
+        return this.getJdbcTemplate().query(getUsersByUsernameQuery(), new String[]{username}, (rs, rowNum) -> {
+            String password = rs.getString(1);
+            boolean enabled = rs.getBoolean(2);
+            Long organizationId = rs.getLong(3);
 
-		for (UserRole userRole : userRoles) {
+            return new CustomUserDetails(username, password, enabled, organizationId);
+        });
+    }
 
-			role = userRole.getRole();
+    @Override
+    protected UserDetails createUserDetails(String username, UserDetails userDetails, List<GrantedAuthority> authorities) {
+        Class<? extends UserDetails> userDetailsClass = userDetails.getClass();
 
-			authorities.add(new SimpleGrantedAuthority(role));
-		}
+        if (!userDetailsClass.equals(CustomUserDetails.class)) {
+            throw new InternalAuthenticationServiceException("Provided UserDetails is incorrect: " + userDetailsClass);
+        }
 
-		Long employeeOrganizationId = role.equals("SYS_ADMIN") ? null : ((User) user).getOrganization().getId();
+        CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
 
-		return new CustomUserDetails(username, user.getPassword(), authorities, employeeOrganizationId);
+        customUserDetails.setAuthorities(authorities);
 
-	}
+        return customUserDetails;
+    }
 
-	/**
-	 * Provide additional information about company(organization) where user
-	 * works except SYS_ADMIN role.
-	 */
-	public static class CustomUserDetails extends org.springframework.security.core.userdetails.User {
-		private static final long serialVersionUID = UUID.randomUUID().getMostSignificantBits();
+    /**
+     * Provide additional information about company(organization) where user
+     * works except SYS_ADMIN role.
+     */
+    public static class CustomUserDetails extends org.springframework.security.core.userdetails.User {
 
-		private Long organizationId;
+        @Getter
+        private Long organizationId;
 
-		public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities,
-				Long organizationId) {
-			super(username, password, authorities);
+        @Setter
+        private List<GrantedAuthority> authorities;
 
-			this.organizationId = organizationId;
 
-		}
+        public CustomUserDetails(String username, String password, boolean enabled, Long organizationId) {
+            super(username, password, enabled, true, true, true, AuthorityUtils.NO_AUTHORITIES);
+            this.organizationId = organizationId;
+        }
 
-		public Long getOrganizationId() {
-			return organizationId;
-		}
-	}
+        @Override
+        public List<GrantedAuthority> getAuthorities() {
+            return authorities;
+        }
+    }
 }
