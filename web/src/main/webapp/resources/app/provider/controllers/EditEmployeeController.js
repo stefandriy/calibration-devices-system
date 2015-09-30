@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
-    .controller('EditEmployeeController', ['$rootScope', '$scope', '$modalInstance', '$log', '$state', '$http', 'UserService',
+    .controller('EditEmployeeController', ['$rootScope', '$scope', '$modalInstance', '$log', '$modal', '$timeout', '$state', '$http', 'UserService',
 
-        function ($rootScope, $scope, $modalInstance, $log, $state, $http, userService) {
+        function ($rootScope, $scope, $modalInstance, $log, $modal, $timeout, $state, $http, userService) {
             var organizationTypeProvider = false;
             var organizationTypeCalibrator = false;
             var organizationTypeVerificator = false;
@@ -166,7 +166,7 @@ angular
                     userRoles: [],
                     isAvaliable: true
 
-                }
+                };
 
 
                 if (organizationTypeProvider === true) {
@@ -187,14 +187,16 @@ angular
              */
             $scope.fireEmployee = function (action) {
                 if (action === 'fire') {
+                    updateEmployee();
                     $scope.showRestore = true;
                     employeeData.isAvaliable = false;
-                    updateEmployee();
+
                 } else {
                     $scope.showRestore = false;
                 }
 
-            }
+
+            };
 
 
             $scope.onEmployeeFormSubmit = function () {
@@ -202,7 +204,6 @@ angular
                 $scope.$broadcast('show-errors-check-validity');
                 retranslater();
                 updateEmployee();
-
                 $scope.incorrectValue = true;
 
 
@@ -218,12 +219,26 @@ angular
                         if (data.status == 201) {
                             $rootScope.$broadcast('new-employee-added');
                             $scope.closeModal();
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/provider/views/modals/success-editing.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'successController',
+                                size: 'md'
+                            });
                         } else {
                             alert('Error');
                         }
                     });
             };
 
+            $scope.closeWindow = function () {
+                $modalInstance.close();
+            };
 
             /* Closes the modal window
              */
