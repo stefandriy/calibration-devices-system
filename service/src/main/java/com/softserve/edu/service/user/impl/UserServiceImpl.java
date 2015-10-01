@@ -109,10 +109,7 @@ public class UserServiceImpl implements UserService {
         }
         return isChanged;
     }
-    @Override
-    public User findByRoleAndOrganizationId(String role, Long organizationId){
-        return userRepository.findByRoleAndOrganizationId(role, organizationId);
-    }
+
     @Override
     public List<User> findByRole(String role){
         return userRepository.findByRoleLikeIgnoreCase(role);
