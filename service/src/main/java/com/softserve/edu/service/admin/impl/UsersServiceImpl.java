@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.admin.UserService;
 import org.apache.commons.collections.IteratorUtils;
@@ -33,15 +34,10 @@ public class UsersServiceImpl implements UserService  {
     @Override
     @Transactional
     public List<String> getRoles(String username){
-        return userRepository.getRolesByUserName(username);
+        return ConvertUserRoleToString
+                .convertToListString(userRepository.getRolesByUserName(username));
     }
 
-
-    @Override
-    @Transactional
-    public User getUserByRoleAndOrganization(String role, Long organizationId){
-        return userRepository.findByRoleAndOrganizationId(role, organizationId);
-    }
 
     @Override
     @Transactional

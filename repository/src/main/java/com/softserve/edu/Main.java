@@ -1,13 +1,15 @@
 package com.softserve.edu;
 
 import com.softserve.edu.config.JPAConfig;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
 
 @Component
 public class Main {
@@ -21,6 +23,11 @@ public class Main {
     }
 
     public void testQuery() {
+
+        Set<UserRole> userRoles = userRepository.getRolesByUserName("universal-first");
+        for (UserRole userRole : userRoles) {
+            System.out.println(userRole);
+        }
     }
 
     public void add() {

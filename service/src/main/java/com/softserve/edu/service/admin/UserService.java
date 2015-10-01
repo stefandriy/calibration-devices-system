@@ -10,8 +10,6 @@ public interface UserService {
 
     List<String> getRoles(String username);
 
-    User getUserByRoleAndOrganization(String role, Long organizationId);
-
     void addEmployee(User user);
 
     List<User> findByOrganizationId(Long organizationId, int pageNumber, int itemsPerPage);
