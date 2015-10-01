@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -91,9 +92,15 @@ public class UserController {
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User employee : queryResult.getContent()) {
+
+            List<String> userRoles = userService.getRoles(employee.getUsername())
+                    .stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+
             resultList.add(new UsersPageItem(
                             employee.getUsername(),
-                            userService.getRoles(employee.getUsername()),
+                            userRoles,
                             employee.getFirstName(),
                             employee.getLastName(),
                             employee.getMiddleName(),
