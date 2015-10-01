@@ -1,8 +1,8 @@
 package com.softserve.edu.service.utils;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
@@ -93,6 +93,4 @@ public class ProviderEmployeeQuary {
 
 
     }
-
-
 }

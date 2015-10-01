@@ -2,12 +2,12 @@ package com.softserve.edu.dto.provider;
 
 
 import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.Device;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.CalibrationTestResult;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorProvider;
 import org.apache.log4j.Logger;
 

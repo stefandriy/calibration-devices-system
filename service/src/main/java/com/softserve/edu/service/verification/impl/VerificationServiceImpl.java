@@ -1,12 +1,12 @@
 package com.softserve.edu.service.verification.impl;
 
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.ClientData;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.ClientData;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
@@ -225,7 +225,7 @@ public class VerificationServiceImpl implements VerificationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Verification> verificationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
         result.setContent(verificationList);
         result.setTotalItems(count);
         return result;

@@ -48,7 +48,7 @@ public class StateVerificatorEmployeeServiceImplTest {
 
     @Test
     public void testOneProviderEmployee() throws Exception {
-        when(stateVerificatorEmployeeRepository.getUserByUserName(username)).thenReturn(user);
+        when(stateVerificatorEmployeeRepository.findOne(username)).thenReturn(user);
         Assert.assertEquals(user, verificatorEmployeeService.oneProviderEmployee(username));
     }
 }

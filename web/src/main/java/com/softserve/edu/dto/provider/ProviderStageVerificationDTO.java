@@ -1,7 +1,7 @@
 package com.softserve.edu.dto.provider;
 
-import com.softserve.edu.entity.Device;
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 
 public class ProviderStageVerificationDTO {

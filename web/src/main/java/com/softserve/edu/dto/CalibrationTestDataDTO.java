@@ -1,7 +1,7 @@
 package com.softserve.edu.dto;
 
-import com.softserve.edu.entity.CalibrationTestData;
-import com.softserve.edu.entity.util.CalibrationTestResult;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
+import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 
 
 public class CalibrationTestDataDTO {

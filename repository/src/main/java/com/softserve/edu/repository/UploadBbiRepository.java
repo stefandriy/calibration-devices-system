@@ -1,7 +1,7 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.BbiProtocol;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.BbiProtocol;
+import com.softserve.edu.entity.verification.Verification;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

@@ -1,11 +1,11 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.entity.BbiProtocol;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.BbiProtocol;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Roles;
+import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UploadBbiRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -80,16 +80,16 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Override
     @Transactional
     public User oneCalibratorEmployee(String username) {
-        return userRepository.getUserByUserName(username);
+        return userRepository.findOne(username);
     }
 
     @Override
     @Transactional
     public List<EmployeeDTO> getAllCalibratorEmployee(List<String> role, User employee) {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
-        if (role.contains(Roles.CALIBRATOR_ADMIN.name())) {
-            List<User> list = userRepository.getAllProviderUsersList(Roles.CALIBRATOR_EMPLOYEE.name(),
-                    employee.getOrganization().getId(), true);
+        if (role.contains(UserRole.CALIBRATOR_ADMIN.name())) {
+            List<User> list = userRepository.getAllAvailableUsersByRoleAndOrganizationId(UserRole.CALIBRATOR_EMPLOYEE.name(),
+                    employee.getOrganization().getId());
             providerListEmployee = EmployeeDTO.giveListOfProviders(list);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),

@@ -1,6 +1,6 @@
 package com.softserve.edu.dto.calibrator;
 
-import com.softserve.edu.entity.MeasuringEquipment;
+import com.softserve.edu.entity.device.MeasuringEquipment;
 
 public class MeasuringEquipmentDTO {
 

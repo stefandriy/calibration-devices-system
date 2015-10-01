@@ -3,9 +3,9 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.AddEmployeeBuilderNew;
+import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.UserService;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -91,22 +92,30 @@ public class UserController {
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
         for (User employee : queryResult.getContent()) {
+
+            List<String> userRoles = userService.getRoles(employee.getUsername())
+                    .stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+
             resultList.add(new UsersPageItem(
                             employee.getUsername(),
-                            userService.getRoles(employee.getUsername()),
+                            userRoles,
                             employee.getFirstName(),
                             employee.getLastName(),
                             employee.getMiddleName(),
                             employee.getPhone(),
                             employee.getOrganization().getName(),
                             null, null,
-                            employee.getIsAvaliable())
+                            employee.getIsAvailable())
             );
         }
         return resultList;
     }
+
     /**
      * Add new employee
+     *
      * @param employee
      * @param user
      * @return status
@@ -124,11 +133,11 @@ public class UserController {
                 .phone(employee.getPhone())
                 .email(employee.getEmail())
                 .address(employee.getAddress())
-                .isAveliable(employee.getIsAvaliable())
+                .isAvailable(employee.getIsAvaliable())
                 .build();
-        for (String tmp : employee.getUserRoles()) {
-            UserRole userRole = userRepository.getUserRole(tmp);
-            newUser.getUserRoles().add(userRole);
+        for (String role : employee.getUserRoles()) {
+            UserRole userRole = UserRole.valueOf(role);
+            newUser.addRole(userRole);
         }
         userService.addEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);

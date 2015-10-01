@@ -1,6 +1,6 @@
 package com.softserve.edu.service.tool;
 
-import com.softserve.edu.entity.MeasuringEquipment;
+import com.softserve.edu.entity.device.MeasuringEquipment;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

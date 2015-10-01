@@ -1,9 +1,8 @@
 package com.softserve.edu.service.provider;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
@@ -99,13 +98,13 @@ public class ProviderEmployeeServiceImplTest {
 		final String username = "username";
 		final User mockUser = Mockito.mock(User.class);
 
-		when(mockProviderEmployeeRepository.getUserByUserName(anyString()))
+		when(mockProviderEmployeeRepository.findOne(anyString()))
 				.thenReturn(mockUser);
 		providerEmployeeService.oneProviderEmployee(username);
 
 		ArgumentCaptor<String> usernameArg = ArgumentCaptor
 				.forClass(String.class);
-		verify(mockProviderEmployeeRepository).getUserByUserName(
+		verify(mockProviderEmployeeRepository).findOne(
 				usernameArg.capture());
 
 		Assert.assertEquals(username, usernameArg.getValue());
@@ -129,11 +128,11 @@ public class ProviderEmployeeServiceImplTest {
 		final EmployeeDTO finalEmpDTO = new EmployeeDTO("1", "1", "1", "1", "1");
 
 		final List<String> spyRoleList = Mockito.spy(new ArrayList<>());
-		spyRoleList.add(Roles.PROVIDER_ADMIN.name());
+		spyRoleList.add(UserRole.PROVIDER_ADMIN.name());
 
 		when(
-				mockProviderEmployeeRepository.getAllProviderUsersList(
-						anyString(), anyLong(), anyBoolean())).thenReturn(
+				mockProviderEmployeeRepository.getAllAvailableUsersByRoleAndOrganizationId(
+						anyString(), anyLong())).thenReturn(
 				spyUserList);
 
 		spyProviderListEmployee.add(finalEmpDTO);
@@ -150,7 +149,7 @@ public class ProviderEmployeeServiceImplTest {
 		final User spyEmployee = Mockito.spy(new User("1", "1"));
 
 		final List<String> spyRoleList = Mockito.spy(new ArrayList<>());
-		spyRoleList.add(Roles.CALIBRATOR_ADMIN.name());
+		spyRoleList.add(UserRole.CALIBRATOR_ADMIN.name());
 
 		EmployeeDTO userPage = Mockito.mock(EmployeeDTO.class);
 		List<EmployeeDTO> providerListEmployee = Mockito.mock(List.class);
@@ -174,10 +173,10 @@ public class ProviderEmployeeServiceImplTest {
 	@Test
 	public void testGetRoleByUserNam() {
 		final String usernam = "usernam";
-		final UserRole mockUser = Mockito.mock(UserRole.class);
-		final List<UserRole> mockList = Collections.singletonList(mockUser);
+		final String mockUser = anyString();
+		final List<String> mockList = Collections.singletonList(mockUser);
 
-		when(mockProviderEmployeeRepository.getRoleByUserNam(anyString()))
+		when(mockProviderEmployeeRepository.getRolesByUserName(anyString()))
 				.thenReturn(mockList);
 
 		Assert.assertEquals(mockList,

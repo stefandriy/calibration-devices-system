@@ -1,6 +1,6 @@
 package com.softserve.edu.service.verification;
 
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import org.junit.Before;

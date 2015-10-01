@@ -1,8 +1,9 @@
 package com.softserve.edu.service.provider.impl;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.ProviderService;
+import com.softserve.edu.service.utils.TypeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ public class ProviderServiceImpl implements ProviderService {
 
     @Transactional(readOnly = true)
     public Set<String> getTypesById(Long id) {
-        return providerRepository.findOrganizationTypesById(id);
+        return TypeConverter.enumToString(providerRepository.findOrganizationTypesById(id));
     }
 
     @Transactional(readOnly = true)

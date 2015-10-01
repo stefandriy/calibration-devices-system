@@ -1,9 +1,9 @@
 package com.softserve.edu.service.verification.impl;
 
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
@@ -109,6 +109,6 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
      */
     @Transactional
     public User oneProviderEmployee(String username) {
-        return userRepository.getUserByUserName(username);
+        return userRepository.findOne(username);
     }
 }

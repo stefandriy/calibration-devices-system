@@ -10,4 +10,6 @@ public interface LocalityService {
 
     List<String> getMailIndexForLocality(String designation, Long districtId);
 
+    Locality findById(Long id);
+
 }

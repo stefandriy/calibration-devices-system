@@ -3,7 +3,6 @@ package com.softserve.edu.dto;
 import java.util.List;
 
 
-
 public class PageDTO<T> {
 
     private Long totalItems;
@@ -16,14 +15,17 @@ public class PageDTO<T> {
         this.totalItems = totalItems;
         this.content = content;
     }
+
     public PageDTO(Long totalItems, List<T> content, Long userId) {
         this.totalItems = totalItems;
         this.content = content;
-        this.idOrganization=userId;
+        this.idOrganization = userId;
     }
-    public PageDTO(List<T>content){
-        this.content=content;
+
+    public PageDTO(List<T> content) {
+        this.content = content;
     }
+
     public Long getTotalItems() {
         return totalItems;
     }

@@ -1,6 +1,5 @@
 package com.softserve.edu.dto.admin;
 
-import com.softserve.edu.entity.OrganizationType;
 import lombok.*;
 
 import java.util.List;

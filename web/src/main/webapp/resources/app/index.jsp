@@ -179,6 +179,18 @@
                                 лабораторія)
                             </a>
                         </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> Планування завдання
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref=""><i class="fa fa-wrench"></i> Переносний модуль
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref=""><i class="fa fa-wrench"></i> Стаціонарний модуль
+                            </a>
+                        </li>
 
 
                     </sec:authorize>
@@ -250,7 +262,6 @@
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
         type="text/javascript"></script>
-<script src="/resources/assets/bower_components/semantic-ui/dist/semantic.min.js"></script>
 <script type="text/javascript">
     $(".chzn-select").chosen();
     $(".chzn-select-deselect").chosen({

@@ -1,6 +1,6 @@
 package com.softserve.edu.service.tool;
 
-import com.softserve.edu.entity.Device;
+import com.softserve.edu.entity.device.Device;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.softserve.edu.service.provider;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 
 import java.util.List;
 import java.util.Set;

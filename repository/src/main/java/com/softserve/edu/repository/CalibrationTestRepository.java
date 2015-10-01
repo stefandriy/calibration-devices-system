@@ -1,7 +1,7 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.Verification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

@@ -630,16 +630,10 @@ float:left;
     cursor:pointer;
 }
 .modal .modal-body {
-    max-height: 600px;
 }
 
 .validation-message {
     color: red;
-}
-
-
-.modal .modal-body {
-    max-height: 2500px;
 }
 
 @-moz-document url-prefix() {

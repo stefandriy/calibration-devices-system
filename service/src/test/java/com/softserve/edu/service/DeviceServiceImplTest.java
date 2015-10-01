@@ -1,6 +1,6 @@
 package com.softserve.edu.service;
 
-import com.softserve.edu.entity.Device;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.repository.DeviceRepository;
 import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.tool.impl.DeviceServiceImpl;

@@ -3,7 +3,7 @@ package com.softserve.edu.controller.calibrator;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.MeasuringEquipmentDTO;
 import com.softserve.edu.dto.calibrator.MeasuringEquipmentPageItem;
-import com.softserve.edu.entity.MeasuringEquipment;
+import com.softserve.edu.entity.device.MeasuringEquipment;
 import com.softserve.edu.service.tool.MeasureEquipmentService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -32,6 +32,5 @@ public class AjaxAuthenticationSuccessHandler implements AuthenticationSuccessHa
         } else {
             defaultHandler.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);
         }
-
     }
 }

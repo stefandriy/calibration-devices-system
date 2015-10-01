@@ -1,21 +1,21 @@
 package com.softserve.edu.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.softserve.edu.entity.AddEmployeeBuilderNew;
+import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-//TODO : Avaliable typo: some query on repository side crashes after refactoring. Refactor to primitives
 @Entity
 @Getter
 @Setter
 @EqualsAndHashCode(of = "username")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 @Table(name = "USER")
 public class User {
 
@@ -28,7 +28,7 @@ public class User {
     private String middleName;
     private String email;
     private String phone;
-    private Boolean isAvaliable = false;
+    private Boolean isAvailable = false;
 
     @Embedded
     private Address address;
@@ -38,7 +38,10 @@ public class User {
     @JsonManagedReference
     private Organization organization;
 
-    @ManyToMany(mappedBy = "users")
+    @ElementCollection
+    @JoinTable(name = "USER_ROLE", joinColumns = @JoinColumn(name = "username"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "value", length = 30)
     private Set<UserRole> userRoles = new HashSet<>();
 
     public User(AddEmployeeBuilderNew builder) {
@@ -50,7 +53,7 @@ public class User {
         email = builder.email;
         phone = builder.phone;
         address = builder.address;
-        isAvaliable = builder.isAveliable;
+        isAvailable = builder.isAvailable;
     }
 
     /**
@@ -109,5 +112,9 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+    }
+
+    public void addRole(UserRole role) {
+        this.userRoles.add(role);
     }
 }

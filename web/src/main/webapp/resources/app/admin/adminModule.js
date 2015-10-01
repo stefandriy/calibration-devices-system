@@ -3,7 +3,7 @@ angular
     'adminModule',
     ['spring-security-csrf-token-interceptor', 'ui.bootstrap',
         'ui.router', 'ui.bootstrap.showErrors', 'ngTable',
-        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives',
+        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives', 'checklist-model',
         'angular-loading-bar'])
 
     .config(

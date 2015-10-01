@@ -20,6 +20,11 @@
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
                         controller: 'NewVerificationsController'
                     })
+                    .state("planning-task-calibrator", {
+                        url: '/calibrator/verifications/task',
+                        templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
+                        controller: 'VerificationPlanningTaskController'
+                    })
                     .state("calibration-test", {
                         url: '/verifications/calibration-test',
                         templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
@@ -56,6 +61,7 @@
         'controllers/EmployeeController',
         'controllers/AddressModalController',
         'controllers/NotificationsController',
+        'controllers/VerificationPlanningTaskController',
         'controllers/TaskControllerCalibrator',
         
         'services/CalibrationTestService',

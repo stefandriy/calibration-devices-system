@@ -1,6 +1,6 @@
 package com.softserve.edu.service.provider.impl;
 
-import com.softserve.edu.entity.Organization;
+import com.softserve.edu.entity.organization.Organization;
 
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -13,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
@@ -84,16 +83,16 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional
     public User oneProviderEmployee(String username) {
-        return providerEmployeeRepository.getUserByUserName(username);
+        return providerEmployeeRepository.findOne(username);
     }
 
     @Override
     @Transactional
     public List<EmployeeDTO> getAllProviders(List<String> role, User employee) {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
-        if (role.contains(Roles.PROVIDER_ADMIN.name())) {
-            List<User> list = providerEmployeeRepository.getAllProviderUsersList(Roles.PROVIDER_EMPLOYEE.name(),
-                    employee.getOrganization().getId(), true);
+        if (role.contains(UserRole.PROVIDER_ADMIN.name())) {
+            List<User> list = providerEmployeeRepository.getAllAvailableUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(),
+                    employee.getOrganization().getId());
             providerListEmployee = EmployeeDTO.giveListOfProviders(list);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
@@ -111,8 +110,8 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
 
     @Override
     @Transactional
-    public List<UserRole> getRoleByUserNam(String username) {
-        return providerEmployeeRepository.getRoleByUserNam(username);
+    public List<String> getRoleByUserNam(String username) {
+        return providerEmployeeRepository.getRolesByUserName(username);
     }
 
     @Override
@@ -194,6 +193,6 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional
     public List<User> getAllProviderEmployee(Long idOrganization) {
-        return userRepository.getAllProviderUsers(Roles.PROVIDER_EMPLOYEE.name(), idOrganization);
+        return userRepository.getAllUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(), idOrganization);
     }
 }

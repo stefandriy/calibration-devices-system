@@ -2,8 +2,8 @@ package com.softserve.edu.dto;
 
 import java.util.Date;
 
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.util.CalibrationTestResult;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 
 
 public class CalibrationTestDTO  {

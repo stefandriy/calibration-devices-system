@@ -434,8 +434,11 @@ table.dataTable thead .sorting:after {
 }
 
 .modal .modal-body {
-    max-height: 500px;
     overflow: visible;
+}
+
+.panel-accordion {
+
 }
 
 div.chosen-container {

@@ -1,8 +1,7 @@
 package com.softserve.edu.controller.admin.util;
 
 import com.softserve.edu.dto.admin.OrganizationEditHistoryPageDTO;
-import com.softserve.edu.entity.OrganizationChangeHistory;
-import com.softserve.edu.entity.OrganizationType;
+import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,13 +12,13 @@ import java.util.List;
  * Created by vova on 23.09.15.
  */
 public class OrganizationHistoryPageDTOTransformer {
-    public static List<OrganizationEditHistoryPageDTO> toDtoFromList(List<OrganizationChangeHistory> list){
+    public static List<OrganizationEditHistoryPageDTO> toDtoFromList(List<OrganizationChangesHistory> list){
 
         List<OrganizationEditHistoryPageDTO>  resultList = new ArrayList<OrganizationEditHistoryPageDTO>();
 
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
-        for (OrganizationChangeHistory organization : list) {
+        for (OrganizationChangesHistory organization : list) {
 
             resultList.add(new OrganizationEditHistoryPageDTO(
                     df.format(organization.getDate()),

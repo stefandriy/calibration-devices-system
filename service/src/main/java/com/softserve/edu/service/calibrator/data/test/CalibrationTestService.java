@@ -1,9 +1,9 @@
 package com.softserve.edu.service.calibrator.data.test;
 
 
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.CalibrationTestData;
-import com.softserve.edu.entity.util.CalibrationTestResult;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
+import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.springframework.data.domain.Page;
