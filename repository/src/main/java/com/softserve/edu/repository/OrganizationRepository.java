@@ -1,8 +1,10 @@
 package com.softserve.edu.repository;
 
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +18,7 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
 
     Page<Organization> findAll(Pageable pageable);
 
+    //TODO NEED TO REFACTOR
     @Query
     (
         value =
@@ -26,17 +29,19 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     )
     List<Organization> findByDistrictAndType(@Param("district") String district, @Param("type") String type);
 
-    @Query
-    (
-       value =
-               "SELECT orgType.value " +
-               "FROM ORGANIZATION_TYPE orgType " +
-               "WHERE orgType.organizationId = :organizationId",
-       nativeQuery = true
-    )
-    Set<String> findOrganizationTypesById(@Param("organizationId") Long organizationId);
+    /*@Query("SELECT org FROM Organization org " +
+            "WHERE org.district = :district AND  :typeId in elements(org.organizationTypes)")
+    List<Organization> findByDistrictAndType(@Param("district") String district, @Param("type") OrganizationType type);*/
+
+    @Query("SELECT elements(org.organizationTypes) FROM Organization org WHERE org.id=:organizationId")
+    Set<OrganizationType> findOrganizationTypesById(@Param("organizationId") Long organizationId);
 
     @Query("SELECT o FROM Organization o INNER JOIN o.localities l WHERE l.id=:localityId")
     List<Organization> findOrganizationByLocalityId(@Param("localityId") Long localityId);
+
+    @Query("SELECT org FROM Organization org " +
+            "INNER JOIN org.localities l " +
+            "WHERE l.id=:localityId AND  :typeId in elements(org.organizationTypes)")
+    List<Organization> findOrganizationByLocalityIdAndType(@Param("localityId") Long localityId, @Param("typeId") OrganizationType typeId);
 
 }

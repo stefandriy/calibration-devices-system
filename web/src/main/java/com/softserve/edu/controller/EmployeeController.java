@@ -206,13 +206,20 @@ public class EmployeeController {
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<>();
         for (User providerEmployee : queryResult.getContent()) {
+
             //hide information about PROVIDER_ADMIN and CALIBRATOR_ADMIN
-            Boolean isProviderAdmin = userService.getRoles(providerEmployee.getUsername()).contains(UserRole.PROVIDER_ADMIN.name());
-            Boolean isCalibratorAdmin = userService.getRoles(providerEmployee.getUsername()).contains(UserRole.CALIBRATOR_ADMIN.name());
+            List<String> userRoles = userService.getRoles(providerEmployee.getUsername())
+                    .stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            boolean isProviderAdmin = userRoles.contains(UserRole.PROVIDER_ADMIN.name());
+            boolean isCalibratorAdmin = userRoles.contains(UserRole.CALIBRATOR_ADMIN.name());
+
             if (!isProviderAdmin && !isCalibratorAdmin) {
                 resultList.add(new UsersPageItem(
                                 providerEmployee.getUsername(),
-                                userService.getRoles(providerEmployee.getUsername()),
+                                userRoles,
                                 providerEmployee.getFirstName(),
                                 providerEmployee.getLastName(),
                                 providerEmployee.getMiddleName(),
