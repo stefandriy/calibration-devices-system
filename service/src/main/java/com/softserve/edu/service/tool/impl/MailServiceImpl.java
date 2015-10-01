@@ -263,7 +263,6 @@ public class MailServiceImpl implements MailService {
                 templateVariables.put("street", organization.getAddress().getStreet());
                 templateVariables.put("building", organization.getAddress().getBuilding());
                 templateVariables.put("flat", organization.getAddress().getFlat());
-                templateVariables.put("username", admin.getUsername());
                 templateVariables.put("firstName", admin.getFirstName());
                 templateVariables.put("middleName", admin.getMiddleName());
                 templateVariables.put("lastName", admin.getLastName());

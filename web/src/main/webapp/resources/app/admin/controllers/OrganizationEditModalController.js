@@ -1,6 +1,22 @@
 angular
 	.module('adminModule')
-	.controller(
+	.filter('organizationFilter', function() {
+		return function(allTypes, currentTypes) {
+			var filtered = allTypes;
+
+			for (var i in currentTypes) {
+				if (currentTypes[i].id != 'CALIBRATOR') {
+					var filtered = [];
+					filtered.push(allTypes[1]);
+					filtered.push(currentTypes[i]);
+				}
+			}
+
+			return filtered;
+		}
+	})
+	.controller
+(
 	'OrganizationEditModalController',
 	[
 		'$rootScope',
@@ -112,7 +128,7 @@ angular
 			}
 			
 			$scope.setTypeDataLanguage();
-			setCurrentTypeDataLanguage();
+			setTimeout(setCurrentTypeDataLanguage(), 2000);
 
 
 			console.log($scope.organizationTypes);
