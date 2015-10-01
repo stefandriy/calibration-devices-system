@@ -179,6 +179,18 @@
                                 лабораторія)
                             </a>
                         </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> Планування завдання
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref=""><i class="fa fa-wrench"></i> Переносний модуль
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref=""><i class="fa fa-wrench"></i> Стаціонарний модуль
+                            </a>
+                        </li>
 
 
                     </sec:authorize>
