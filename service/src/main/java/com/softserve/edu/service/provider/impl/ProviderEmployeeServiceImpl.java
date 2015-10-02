@@ -93,11 +93,11 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     public List<EmployeeDTO> getAllProviders(List<String> role, User employee) {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
         if (role.contains(UserRole.PROVIDER_ADMIN.name())) {
-            List<User> allAvailableUsersList = providerEmployeeRepository.getAllAvailableUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(),
-                    employee.getOrganization().getId());
-            allAvailableUsersList = allAvailableUsersList.stream().distinct().filter(user->user.getFirstName() != null).collect(Collectors.toList());
-            providerListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(allAvailableUsersList);
-
+            List<User> allAvailableUsersList = providerEmployeeRepository.findAllAvailableUsersByRoleAndOrganizationId(
+                    UserRole.PROVIDER_EMPLOYEE, employee.getOrganization().getId())
+                        .stream()
+                        .collect(Collectors.toList());
+            providerListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(list);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
                     employee.getLastName(), employee.getMiddleName(), role.get(0));
@@ -109,7 +109,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional()
     public User findByUserame(String userName) {
-        return providerEmployeeRepository.findByUsername(userName);
+        return providerEmployeeRepository.findOne(userName);
     }
 
     @Override
@@ -197,6 +197,8 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional
     public List<User> getAllProviderEmployee(Long idOrganization) {
-        return userRepository.getAllUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(), idOrganization);
+        return userRepository.findByUserRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE, idOrganization)
+                .stream()
+                .collect(Collectors.toList());
     }
 }

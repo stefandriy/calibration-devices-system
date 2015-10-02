@@ -2,8 +2,8 @@ package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
 import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationPlanningTaskRepository;
@@ -13,12 +13,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import java.util.Date;
 
 @Service
@@ -79,7 +77,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     @Override
     public Page<Verification> findVerificationsByCalibratorIdAndReadStatus (String userName, int pageNumber, int itemsPerPage) {
-        User user  = userRepository.findByUsername(userName);
+        User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
         }
