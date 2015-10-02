@@ -45,7 +45,8 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
     }
 
 
-    public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
+    public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String startDateToSearch, String endDateToSearch,
+                                                      String idToSearch, String fullNameToSearch,
                                                       String streetToSearch, String status, String employeeName,
                                                       Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType,
                                                       User providerEmployee, EntityManager em) {
@@ -61,9 +62,12 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
         return countQuery;
     }
 
-    private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId, String startDateToSearch, String endDateToSearch, String idToSearch,
+    private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId,
+                                            String startDateToSearch, String endDateToSearch, String idToSearch,
                                             String fullNameToSearch, String streetToSearch, String searchStatus,
-                                            String employeeName, Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType, User employee, Join<Verification, Organization> calibratorJoin) {
+                                            String employeeName, Long protocolId, String protocolStatus,
+                                            Long measurementDeviceId, String measurementDeviceType,
+                                            User employee, Join<Verification, Organization> calibratorJoin) {
 
         Predicate queryPredicate = cb.conjunction();
         queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);

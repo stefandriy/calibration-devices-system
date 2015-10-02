@@ -33,6 +33,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
@@ -92,8 +93,10 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     public List<EmployeeDTO> getAllProviders(List<String> role, User employee) {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
         if (role.contains(UserRole.PROVIDER_ADMIN.name())) {
-            List<User> list = providerEmployeeRepository.getAllAvailableUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(),
-                    employee.getOrganization().getId());
+            List<User> list = providerEmployeeRepository.findAllAvailableUsersByRoleAndOrganizationId(
+                    UserRole.PROVIDER_EMPLOYEE, employee.getOrganization().getId())
+                        .stream()
+                        .collect(Collectors.toList());
             providerListEmployee = EmployeeDTO.giveListOfProviders(list);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
@@ -106,7 +109,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional()
     public User findByUserame(String userName) {
-        return providerEmployeeRepository.findByUsername(userName);
+        return providerEmployeeRepository.findOne(userName);
     }
 
     @Override
@@ -194,6 +197,8 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional
     public List<User> getAllProviderEmployee(Long idOrganization) {
-        return userRepository.getAllUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(), idOrganization);
+        return userRepository.findByUserRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE, idOrganization)
+                .stream()
+                .collect(Collectors.toList());
     }
 }
