@@ -51,9 +51,9 @@ public enum SortCriteriaOrganization {
     TYPE_ADMIN() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
             if (sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("organizationTypes").get("type"));
+                return cb.asc(root.join("organizationTypes").get("value"));
             } else {
-                return cb.desc(root.join("organizationTypes").get("type"));
+                return cb.desc(root.join("organizationTypes").get("value"));
             }
         }
     },
