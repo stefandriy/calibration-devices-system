@@ -10,7 +10,6 @@ import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
@@ -43,9 +42,6 @@ public class EmployeeController {
 
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;

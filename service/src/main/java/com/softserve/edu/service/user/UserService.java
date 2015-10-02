@@ -15,4 +15,6 @@ public interface UserService {
     boolean changePassword(String username, String oldPassword, String newPassword);
 
     List<User> findByRole(String role);
+
+    User findOne(String username);
 }

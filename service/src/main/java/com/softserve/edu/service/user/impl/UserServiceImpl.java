@@ -119,4 +119,9 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public User findOne(String username) {
+        return userRepository.findOne(username);
+    }
 }
