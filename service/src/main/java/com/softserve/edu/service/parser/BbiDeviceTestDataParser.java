@@ -1,4 +1,4 @@
-package com.softserve.edu.device.testdata.parser;
+package com.softserve.edu.service.parser;
 
 import javax.xml.bind.DatatypeConverter;
 
