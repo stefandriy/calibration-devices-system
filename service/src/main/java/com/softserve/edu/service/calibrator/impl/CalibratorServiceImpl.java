@@ -93,11 +93,6 @@ public class CalibratorServiceImpl implements CalibratorService {
                     employee.getOrganization().getId())
                     .stream()
                     .collect(Collectors.toList());
-            allAvailableUsersList = allAvailableUsersList
-                    .stream()
-                    .distinct()
-                    .filter(user->user.getFirstName() != null)
-                    .collect(Collectors.toList());
             calibratorListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(allAvailableUsersList);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),

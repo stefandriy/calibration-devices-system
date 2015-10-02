@@ -97,7 +97,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
                     UserRole.PROVIDER_EMPLOYEE, employee.getOrganization().getId())
                         .stream()
                         .collect(Collectors.toList());
-            providerListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(list);
+            providerListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(allAvailableUsersList);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
                     employee.getLastName(), employee.getMiddleName(), role.get(0));
