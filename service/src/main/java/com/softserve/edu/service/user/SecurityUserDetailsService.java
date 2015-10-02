@@ -17,10 +17,10 @@ import java.util.List;
 @Service
 public class SecurityUserDetailsService extends JdbcDaoImpl {
 
-    public static final String DEF_USERS_BY_USERNAME_QUERY = "select password, isAvailable, organizationId from user where username = ?";
+    public static final String DEF_USERS_BY_USERNAME_QUERY = "select password, isAvailable, organizationId from USER where username = ?";
     public static final String DEF_AUTHORITIES_BY_USERNAME_QUERY = "select u.username as username, ur.value as authority" +
-            " from user u" +
-            " join user_role ur" +
+            " from USER u" +
+            " join USER_ROLE ur" +
             " on u.username = ur.username" +
             " where u.username = ?";
 

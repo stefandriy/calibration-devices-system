@@ -15,7 +15,6 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "username")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 @Table(name = "USER")
 public class User {
 
@@ -116,5 +115,9 @@ public class User {
 
     public void addRole(UserRole role) {
         this.userRoles.add(role);
+    }
+
+    public String toString () {
+        return username + " " + email + " " + firstName + " " + lastName;
     }
 }

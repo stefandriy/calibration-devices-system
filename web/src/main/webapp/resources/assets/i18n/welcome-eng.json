@@ -317,5 +317,11 @@
   "EDIT CHANGES" : "Organization changes history",
   "DATE" : "Editing date",
   "EDITED_BY" : "Edited by",
-  "NO CHANGES FOR THIS ORGANIZATION" :"This organization haven't changes!"
+  "NO CHANGES FOR THIS ORGANIZATION" :"This organization haven't changes!",
+  "PROVIDER_NAME" : "Provider",
+  "CLIENT_ADDRESS" : "Address",
+  "TELEPHONE" : "Telephone",
+  "TASK" : "Planning task",
+  "SEND" : "Send",
+  "INFORMATION" : "Recent information"
 }

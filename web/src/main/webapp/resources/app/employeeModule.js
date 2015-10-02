@@ -66,7 +66,6 @@
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerCalibrator'
                     })
-
                     //.state("calibration-test-calibrator", {
                     //    url: '/calibrator/verifications/calibration-test',
                     //    templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
@@ -97,7 +96,16 @@
                         templateUrl: '/resources/app/calibrator/views/employee/show-employee.html',
                         controller: 'UsersControllerCalibrator'
                     })
-
+                    .state("planning-task-calibrator", {
+                        url: '/calibrator/verifications/task',
+                        templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
+                        controller: 'VerificationPlanningTaskController'
+                    })
+                    .state("calibrator-task-add", {
+                        url: '/',
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
+                        controller: 'TaskControllerCalibrator'
+                    })
                     .state('main-panel-verificator', {
                         url: '/',
                         templateUrl: '/resources/app/verificator/views/main-panel.html'
@@ -111,11 +119,6 @@
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
-                    })
-                    .state("calibrator-task-add", {
-                        url: '/',
-                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
-                        controller: 'TaskControllerCalibrator'
                     });
 
 
@@ -172,23 +175,6 @@
         }
     });
 
-    /*highlight filter for selects*/
-    angular.module('employeeModule').filter('highlight', function () {
-        return function (text, search, caseSensitive) {
-            if (text && (search || angular.isNumber(search))) {
-                text = text.toString();
-                search = search.toString();
-                if (caseSensitive) {
-                    return text.split(search).join('<span class="ui-match">' + search + '</span>');
-                } else {
-                    return text.replace(new RegExp(search, 'gi'), '<span class="ui-match">$&</span>');
-                }
-            } else {
-                return text;
-            }
-        };
-    });
-
     define([
         'provider/controllers/InternationalizationController',
         'provider/controllers/TopNavBarControllerProvider',
@@ -239,6 +225,7 @@
         'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
         'calibrator/controllers/TaskControllerCalibrator',
+        'calibrator/controllers/VerificationPlanningTaskController',
         'calibrator/services/TaskServiceCalibrator',
         'calibrator/services/CalibrationTestServiceCalibrator',
         'calibrator/services/AddressServiceCalibrator',

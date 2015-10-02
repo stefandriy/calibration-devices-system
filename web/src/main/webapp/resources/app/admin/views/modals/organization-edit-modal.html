@@ -3,7 +3,7 @@
 </div>
 
 <div class="modal-body">
-	<form name="organizationForm" novalidate>
+	<form name="organizationForm" role="form" ng-submit="editOrganization()" novalidate>
 		<div class="panel panel-primary">
 			<div class="panel-heading">{{'GENERAL_INFORMATION' | translate}}</div>
 			<div class="panel-body">
@@ -372,7 +372,7 @@
 		<div class="row">
 			<div class="form-group col-md-10">
 
-				<button class="btn btn-success" ng-click="editOrganization()">{{'EDIT' | translate}}</button>
+				<button class="btn btn-success">{{'EDIT' | translate}}</button>
 				<!--<a class="btn btn-warning" ng-click="reset$root.organization()">{{'CLEAR_FORM' | translate }}</a>-->
 			</div>
 			<div class="form-group col-md-2">

@@ -29,6 +29,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
@@ -196,8 +197,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public List<Organization> findOrganizationByLocalityId(Long localityId) {
+    public List<Organization> findAllByLocalityId(Long localityId) {
         return organizationRepository.findOrganizationByLocalityId(localityId);
+    }
+
+    @Override
+    public List<Organization> findAllByLocalityIdAndTypeId(Long localityId, OrganizationType typeId) {
+        return organizationRepository.findOrganizationByLocalityIdAndType(localityId, typeId);
+    }
+
+    @Override
+    public Set<OrganizationType> findOrganizationTypesById(Long id) {
+        return organizationRepository.findOrganizationTypesById(id);
     }
 
 }

@@ -1,12 +1,14 @@
 package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
 import java.util.List;
+import java.util.Set;
 
 public interface OrganizationService {
 
@@ -31,7 +33,12 @@ public interface OrganizationService {
 
     void sendOrganizationChanges(Organization organization, User admin);
 
-    public List<OrganizationChangesHistory> getHistoryByOrganizationId(Long organizationId);
+    List<OrganizationChangesHistory> getHistoryByOrganizationId(Long organizationId);
 
-    List<Organization> findOrganizationByLocalityId(Long localityId);
+    List<Organization> findAllByLocalityId(Long localityId);
+
+    List<Organization> findAllByLocalityIdAndTypeId(Long localityId, OrganizationType typeId);
+
+    Set<OrganizationType> findOrganizationTypesById(Long id);
+
 }
