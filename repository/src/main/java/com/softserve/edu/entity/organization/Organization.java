@@ -119,7 +119,9 @@ public class Organization {
         localities.add(locality);
     }
 
-    public String toString () {
-        return name + " " + email + " " + phone;
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "name='" + name + '\'' + '}';
     }
 }

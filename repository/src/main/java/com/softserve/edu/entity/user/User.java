@@ -117,7 +117,9 @@ public class User {
         this.userRoles.add(role);
     }
 
-    public String toString () {
-        return username + " " + email + " " + firstName + " " + lastName;
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' '}';
     }
 }

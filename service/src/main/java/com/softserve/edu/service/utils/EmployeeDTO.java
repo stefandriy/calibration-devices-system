@@ -79,7 +79,7 @@ public class EmployeeDTO {
 
     }
 
-    public static List<EmployeeDTO> giveListOfProviders(List<User> list) {
+    public static List<EmployeeDTO> giveListOfEmployeeDTOs(List<User> list) {
         List<EmployeeDTO> listEmployee = new ArrayList<>();
         for (User providEmployee : list) {
             listEmployee.add(new EmployeeDTO(providEmployee.getUsername(),

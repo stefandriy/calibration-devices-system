@@ -33,6 +33,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
@@ -92,9 +93,11 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     public List<EmployeeDTO> getAllProviders(List<String> role, User employee) {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
         if (role.contains(UserRole.PROVIDER_ADMIN.name())) {
-            List<User> list = providerEmployeeRepository.getAllAvailableUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(),
+            List<User> allAvailableUsersList = providerEmployeeRepository.getAllAvailableUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(),
                     employee.getOrganization().getId());
-            providerListEmployee = EmployeeDTO.giveListOfProviders(list);
+            allAvailableUsersList = allAvailableUsersList.stream().distinct().filter(user->user.getFirstName() != null).collect(Collectors.toList());
+            providerListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(allAvailableUsersList);
+
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
                     employee.getLastName(), employee.getMiddleName(), role.get(0));
