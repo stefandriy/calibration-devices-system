@@ -1,4 +1,4 @@
-package com.softserve.edu.device.testdata.parser;
+package com.softserve.edu.service.parser;
 
 import java.io.InputStream;
 import com.softserve.edu.device.test.data.DeviceTestData;
