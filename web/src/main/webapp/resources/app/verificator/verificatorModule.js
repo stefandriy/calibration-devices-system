@@ -20,6 +20,11 @@
                         templateUrl: '/resources/app/verificator/views/new-verifications.html',
                         controller: 'NewVerificationsController'
                     })
+                    .state("employee-show", {
+                        url: '/employee-show',
+                        templateUrl: '/resources/app/verificator/views/employee/show-employee.html',
+                        controller: 'UsersControllerVerificator'
+                    })
                     .state("employees", {
                         url: '/employees',
                         templateUrl: '/resources/app/verificator/views/employee/main-panel.html',
@@ -50,6 +55,9 @@
         'controllers/AddressModalController',
         'controllers/NotificationsController',
         'controllers/CalibrationTestReviewController',
+
+        'controllers/UsersController',
+        'controllers/UsersControllerVerificator',
       
         'services/AddressService',
         'services/UserService',

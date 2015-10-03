@@ -115,6 +115,11 @@
                         templateUrl: '/resources/app/verificator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerVerificator'
                     })
+                    .state("employee-show-verificator", {
+                        url: '/verificator/employee-show',
+                        templateUrl: '/resources/app/verificator/views/employee/show-employee.html',
+                        controller: 'UsersControllerVerificator'
+                    })
                     .state("verifications-archive-verificator", {
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
@@ -244,6 +249,9 @@
         'verificator/controllers/TestRejectControllerVerificator',
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
+
+        'verificator/controllers/UsersControllerVerificator',
+
         'verificator/services/AddressServiceVerificator',
         'verificator/services/UserServiceVerificator',
         'verificator/services/VerificationServiceVerificator',
