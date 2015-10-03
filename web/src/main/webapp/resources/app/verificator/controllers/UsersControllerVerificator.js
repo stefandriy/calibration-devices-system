@@ -1,13 +1,10 @@
 /**
  * Created by Volodya NT on 03.10.2015.
  */
-/**
- * Created by MAX on 30.07.2015.
- */
 angular
     .module('employeeModule')
     .controller('UsersControllerVerificator', ['$scope','UserServiceVerificator','UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
-        function ($scope,UserServiceVerificator ,userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
+        function ($scope,UserServiceVerificator , userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
             $scope.totalEmployee=0;
 
             $scope.tableParams = new ngTableParams({
@@ -64,7 +61,7 @@ angular
 
             $scope.onTableHandling = function () {
 
-                UserServiceCalibrator.isAdmin()
+                UserServiceVerificator.isAdmin()
                     .success(function (response) {
                         var roles = response + '';
                         var role = roles.split(',');
@@ -89,6 +86,9 @@ angular
             };
 
 
+            /**
+             * this method use code of views and Controllers from provider
+             */
             $scope.openAddEmployeeModal = function() {
                 var addEmployeeModal = $modal
                     .open({
@@ -98,8 +98,16 @@ angular
                     });
             };
 
+
             $scope.onTableHandling();
 
+
+            /**
+             * open edit modal and use code from Provider
+             * (views and Controllers that give opportunity to
+             * change data in Verificator employee)
+             * @param username
+             */
             $scope.openEditEmployeeModal = function(username) {
                 userService.getUser(username)
                     .success(function(data){
