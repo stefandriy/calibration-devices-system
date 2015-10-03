@@ -18,7 +18,7 @@ public class ProviderEmployeeQuary {
     static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
 
     public static CriteriaQuery<User> buildSearchQuery(String userName, String role, String firstName,
-                                                       String lastName, String organization, String telephone,
+                                                       String lastName, String organization, String telephone, String secondTelephone,
                                                        EntityManager em, Long idOrganization, String fieldToSort) {
 
 
@@ -29,7 +29,7 @@ public class ProviderEmployeeQuary {
         Join<User, UserRole> joinRole = root.join("userRoles");
 
         Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinRole, joinSearch, userName,
-                role, firstName, lastName, organization, telephone, idOrganization);
+                role, firstName, lastName, organization, telephone, secondTelephone, idOrganization);
         if (fieldToSort.length() > 0) {
             if (fieldToSort.substring(0, 1).equals("-")) {
                 if (fieldToSort.substring(1, fieldToSort.length()).equals("role")) {
@@ -53,7 +53,7 @@ public class ProviderEmployeeQuary {
 
     private static Predicate buildPredicate(Root<User> root, CriteriaBuilder cb, Join<User, UserRole> joinRole,
                                             Join<User, Organization> joinSearch, String userName, String role,
-                                            String firstName, String lastName, String organization, String telephone,
+                                            String firstName, String lastName, String organization, String telephone, String secondTelephone,
                                             Long idOrganization) {
         Predicate queryPredicate = cb.conjunction();
         if (idOrganization != null) {
@@ -82,11 +82,14 @@ public class ProviderEmployeeQuary {
         if (!(telephone == null) && !(telephone.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("phone"), "%" + telephone + "%"), queryPredicate);
         }
+        if (!(secondTelephone == null) && !(secondTelephone.isEmpty())) {
+            queryPredicate = cb.and(cb.like(root.get("secondPhone"), "%" + secondTelephone + "%"), queryPredicate);
+        }
         return queryPredicate;
     }
 
     public static CriteriaQuery<Long> buildCountQuery(String userName, String role, String firstName,
-                                                      String lastName, String organization, String telephone,
+                                                      String lastName, String organization, String telephone, String secondTelephone,
                                                       Long idOrganization, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -95,7 +98,7 @@ public class ProviderEmployeeQuary {
         Join<User, Organization> joinSearch = root.join("organization");
         Join<User, UserRole> joinRole = root.join("userRoles");
         Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinRole, joinSearch, userName, role,
-                firstName, lastName, organization, telephone, idOrganization);
+                firstName, lastName, organization, telephone, secondTelephone, idOrganization);
 
         countQuery.select(cb.countDistinct(root));
         countQuery.where(predicate);

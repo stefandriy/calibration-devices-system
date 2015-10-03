@@ -14,6 +14,7 @@ public class UsersPageItem {
     private String middleName;
     private String email;
     private String phone;
+    private String secondPhone;
     private Boolean isAvaliable;
 
     private String organization;
@@ -78,8 +79,17 @@ public class UsersPageItem {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    
 
-    public String getPassword() {
+    public String getSecondPhone() {
+		return secondPhone;
+	}
+
+	public void setSecondPhone(String secondPhone) {
+		this.secondPhone = secondPhone;
+	}
+
+	public String getPassword() {
         return password;
     }
 
@@ -122,7 +132,7 @@ public class UsersPageItem {
     }
 
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
-                         String middleName, String phone, String organization,
+                         String middleName, String phone, String secondPhone, String organization,
                          Long countOfVerification, Long calibratorTasks, Boolean isAvaliable) {
 
         this.username = username;
@@ -137,6 +147,7 @@ public class UsersPageItem {
         this.lastName = lastName;
         this.middleName = middleName;
         this.phone = phone;
+        this.secondPhone = secondPhone;
         this.organization = organization;
         this.countOfVerification = countOfVerification;
         this.calibratorTasks = calibratorTasks;
@@ -155,6 +166,7 @@ public class UsersPageItem {
                 ", middleName='" + middleName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", secondPhone='" + secondPhone + '\'' +
                 ", isAvaliable=" + isAvaliable +
                 ", organization='" + organization + '\'' +
                 ", countOfVerification=" + countOfVerification +

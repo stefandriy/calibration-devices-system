@@ -70,7 +70,7 @@ public class UserController {
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, null, search.getUsername(), search.getRole(),
                 search.getFirstName(), search.getLastName(), search.getOrganization(),
-                search.getPhone(), fieldToSort);
+                search.getPhone(), search.getSecondPhone(), fieldToSort);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
@@ -97,6 +97,7 @@ public class UserController {
                             employee.getLastName(),
                             employee.getMiddleName(),
                             employee.getPhone(),
+                            employee.getSecondPhone(),
                             employee.getOrganization().getName(),
                             null, null,
                             employee.getIsAvailable())
