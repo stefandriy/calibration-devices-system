@@ -1,20 +1,5 @@
 package documents.ProviderEmployee;
 
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-
-import static org.mockito.Mockito.*;
-
 
 public class ProviderEmployeeTest {
 /*

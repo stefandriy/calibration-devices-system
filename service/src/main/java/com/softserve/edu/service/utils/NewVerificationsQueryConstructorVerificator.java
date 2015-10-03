@@ -16,11 +16,11 @@ import javax.persistence.criteria.Root;
 
 import org.apache.log4j.Logger;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.enumeration.verification.Status;
 
 
 public class NewVerificationsQueryConstructorVerificator {
@@ -121,7 +121,7 @@ public class NewVerificationsQueryConstructorVerificator {
         Predicate queryPredicate = cb.conjunction();
         Set<UserRole> roles= verificatorEmployee.getUserRoles();
         for (UserRole userRole : roles) {
-            String role = userRole.getRole();
+            String role = userRole.name();
             if(role.equalsIgnoreCase("STATE_VERIFICATOR_EMPLOYEE")) {
                 Join<Verification, User> joinVerificatorEmployee = root.join("stateVerificatorEmployee", JoinType.LEFT);
                 Predicate searchPredicateByUsername =cb.equal(joinVerificatorEmployee.get("username"), userName);

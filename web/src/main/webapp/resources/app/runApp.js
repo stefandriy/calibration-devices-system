@@ -12,7 +12,7 @@ require.config({
         angularTranslateStorageLocal: '../assets/bower_components/angular-translate-storage-local/angular-translate-storage-local.min',
         angularTranslateStorageCookie: '../assets/bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
         employeeModule: 'employeeModule',
-        highchartsAngular:  '../assets/bower_components/highcharts-ng/src/highcharts-ng',
+        highchartsAngular:  '../assets/bower_components/highcharts-ng/dist/highcharts-ng.min',
         highcharts:  '../assets/bower_components/highcharts-release/highcharts.src',
         chosen : '../assets/angular-chosen-localytics/chosen',
         standalone:  '../assets/bower_components/highcharts-release/adapters/standalone-framework.src',
@@ -26,7 +26,8 @@ require.config({
         angularUISelect: "../assets/bower_components/ui-select/dist/select.min",
         ngSanitize: "../assets/bower_components/angular-sanitize/angular-sanitize.min",
         angularJsToaster : "../assets/bower_components/angularjs-toaster/toaster.min",
-        angularAnimate : "../assets/bower_components/angular-animate/angular-animate.min"
+        angularAnimate : "../assets/bower_components/angular-animate/angular-animate.min",
+        semanticUI: "../assets/bower_components/semantic/dist/semantic.min"
     },
     shim: {
 
@@ -109,11 +110,14 @@ require.config({
             deps:['angularAnimate'],
             exports: 'angularJsToaster'
         },
+        semanticUI:{
+            deps:['angular']
+        },
         employeeModule: {
             deps: ['angular', 'csrfInterceptor', 'angularBootstrap', 'angularTranslate', 'angularCookie', 'angularTranslateStorageCookie',
                    'angularTranslateStorageLocal', 'angularTranslateLoaderStaticFiles', 'angularUIRouter',
                 'showErrors', 'ngTable', 'highchartsAngular', 'chosen', 'upload', 'ngRoute', 'angularLoadingBar',
-                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize', 'angularJsToaster']
+                'moment', 'bootstrapDateRangePicker', 'angularDateRangePicker', 'angularUISelect', 'ngSanitize', 'angularJsToaster', 'semanticUI']
         }
     }
 });

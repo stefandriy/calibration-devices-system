@@ -1,7 +1,8 @@
 package com.softserve.edu.controller.calibrator;
 
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.service.CalibrationTestService;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.dto.CalibrationTestDataDTO;
-import com.softserve.edu.entity.CalibrationTestData;
-import com.softserve.edu.service.CalibrationTestDataService;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
+
 
 
 @Controller
@@ -25,7 +26,7 @@ public class CalibrationTestDataController {
     private CalibrationTestDataService service;
 
     @Autowired
-    private CalibrationTestService calibrationTestService;
+    private CalibrationTestService calibrationTestServiceImpl;
     
     private final Logger logger = Logger.getLogger(CalibrationTestDataController.class);
 
@@ -53,11 +54,11 @@ public class CalibrationTestDataController {
     public ResponseEntity createCalibrationTestData(@RequestBody CalibrationTestDataDTO testDataDTO, @PathVariable Long testId) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
-            CalibrationTest foundTest = calibrationTestService.findTestById(testId);
+            CalibrationTest foundTest = calibrationTestServiceImpl.findTestById(testId);
             CalibrationTestData calibrationTestData = new CalibrationTestData(testDataDTO.getGivenConsumption(), testDataDTO.getAcceptableError(),
                     testDataDTO.getVolumeOfStandart(), testDataDTO.getInitialValue(), testDataDTO.getEndValue(), testDataDTO.getVolumeInDevice(),
                     testDataDTO.getActualConsumption(), testDataDTO.getConsumptionStatus(), testDataDTO.getCalculationError(), testDataDTO.getTestResult(), foundTest);
-            calibrationTestService.createTestData(testId, calibrationTestData);
+            calibrationTestServiceImpl.createTestData(testId, calibrationTestData);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;

@@ -1,10 +1,10 @@
 package com.softserve.edu.service.utils;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -117,7 +117,7 @@ public class NewVerificationsQueryConstructorProvider {
 		Predicate queryPredicate = cb.conjunction();
 		Set<UserRole> roles= providerEmployee.getUserRoles();
 			for (UserRole userRole : roles) {
-				String role = userRole.getRole();
+				String role = userRole.name();
 				if(role.equalsIgnoreCase("PROVIDER_EMPLOYEE")) {
 					Join<Verification, User> joinSearchProviderEmployee = root.join("providerEmployee", JoinType.LEFT);
 					Predicate searchPredicateByUsername =cb.equal(joinSearchProviderEmployee.get("username"), userName);

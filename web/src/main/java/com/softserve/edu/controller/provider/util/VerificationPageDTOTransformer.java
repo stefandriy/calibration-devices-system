@@ -1,8 +1,8 @@
 package com.softserve.edu.controller.provider.util;
 
 import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.Verification;
 
 import java.util.ArrayList;
 import java.util.List;

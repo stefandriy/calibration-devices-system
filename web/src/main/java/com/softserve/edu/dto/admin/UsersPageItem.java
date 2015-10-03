@@ -5,7 +5,7 @@ import java.util.List;
 public class UsersPageItem {
 
     private String username;
-    private List<String> roles;
+   // private List<String> roles;
     private String password;
     private String role;
 
@@ -29,21 +29,6 @@ public class UsersPageItem {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        if (roles.size() == 1) {
-            this.role = roles.get(0);
-        } else {
-            for (int i = 0; i < roles.size(); i++) {
-                this.role =(role==null)?roles.get(i): role+ " "+roles.get(i);
-            }
-
-        }
     }
 
     public String getRole() {
@@ -126,6 +111,7 @@ public class UsersPageItem {
     public void setCalibratorTasks(Long calibratorTasks) {
         this.calibratorTasks = calibratorTasks;
     }
+
     public Boolean getIsAvaliable() {
         return isAvaliable;
     }
@@ -137,24 +123,23 @@ public class UsersPageItem {
 
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
                          String middleName, String phone, String organization,
-                         Long countOfVerification,Long calibratorTasks, Boolean isAvaliable) {
+                         Long countOfVerification, Long calibratorTasks, Boolean isAvaliable) {
 
         this.username = username;
-        if (roles.size() == 1) {
-            role = roles.get(0);
-        } else {
-            for (int i = 0; i < roles.size(); i++) {
-                role =(role==null)?roles.get(i): role+ " "+roles.get(i);
-            }
 
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String someRole : roles) {
+            stringBuilder.append(someRole).append(" ");
         }
+        role = stringBuilder.toString().trim();
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.phone = phone;
         this.organization = organization;
         this.countOfVerification = countOfVerification;
-        this.calibratorTasks=calibratorTasks;
+        this.calibratorTasks = calibratorTasks;
         this.isAvaliable = isAvaliable;
     }
 
@@ -163,7 +148,6 @@ public class UsersPageItem {
     public String toString() {
         return "UsersPageItem{" +
                 "username='" + username + '\'' +
-                ", roles=" + roles +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", firstName='" + firstName + '\'' +

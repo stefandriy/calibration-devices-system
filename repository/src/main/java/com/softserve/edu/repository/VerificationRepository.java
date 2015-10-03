@@ -1,10 +1,10 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.Verification;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Status;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -70,13 +70,13 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     User getProviderEmployeeById(@Param("id") String id);
 
     List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
+
     List<Verification> findByCalibratorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
 
-    List<Verification> findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween
-            (Organization organization,Date dateFrom,Date DateTo);
+    List<Verification> findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween(Organization organization,Date dateFrom,Date DateTo);
 
-    List<Verification> findByProviderAndInitialDateBetween
-            (Organization organization,Date dateFrom,Date DateTo);
+    List<Verification> findByProviderAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
+
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'SENT' and u.provider = :provider")
     int getCountOfAllSentVerifications(@Param("provider") Organization provider);
 

@@ -1,39 +1,38 @@
 angular
     .module('welcomeModule')
-    .controller('ApplicationSendingController', ['$scope', '$q', '$state', '$http', '$log',
-        '$stateParams', '$window', '$rootScope', '$location', '$modal', '$filter', 'DataReceivingService', 'DataSendingService', 'toaster',
-
+    .controller('ApplicationSendingController', ['$scope', '$q', '$state', '$http', '$log'
+        , '$stateParams', '$window', '$rootScope', '$location', '$modal', '$filter', 'DataReceivingService', 'DataSendingService', 'toaster',
         function ($scope, $q, $state, $http, $log, $stateParams, $window, $rootScope, $location, $modal, $filter, dataReceivingService, dataSendingService, toaster) {
             $scope.isShownForm = true;
             $scope.blockSearchFunctions = false;
-            $scope.regions = [];
-            $scope.selectedValues = {};
-            $scope.values = [1, 2, 3, 4, 5, 6];
-            $scope.streetsTypes = [];
-            $scope.selectedStreetType = "";
-
-            $scope.devices = [];
-            $scope.firstDeviceCount = undefined;
-            $scope.selectedValues.secondDeviceCount = undefined;
-           // $scope.selectedValues.thirdDeviceCount = undefined;
-
-            $scope.checkboxModel = false;
             $scope.isSecondDevice = false;
-            //$scope.isThirdDevice = false;
+            $scope.appProgress = false;
+            $scope.deviceShowError = false;
+            $scope.isProvidersExist = true;
+            $scope.checkboxModel = false;
             $scope.responseSuccess = false;
             $scope.showSendingAlert = false;
+            $scope.values = [1, 2, 3, 4, 5, 6];
+
+            $scope.regions = [];
+            $scope.devices = [];
+            $scope.streetsTypes = [];
+            $scope.providers = [];
+            $scope.firstDeviceProviders = [];
+            $scope.secondDeviceProviders = [];
+
+            $scope.selectedValues = {};
+            $scope.selectedValues.selectedStreetType = undefined;
+            $scope.selectedValues.secondDeviceCount = undefined;
+            $scope.selectedValues.firstSelectedProvider = undefined;
+            $scope.selectedValues.secondSelectedProvider = undefined;
 
             $scope.firstAplicationCodes = [];
             $scope.secondAplicationCodes = [];
-            //$scope.thirdAplicationCodes = [];
-
-            $scope.allSelectedDevices = [];
-            $scope.appProgress = false;
-            $scope.deviceShowError = false;
             $scope.firstDeviceComment = "";
             $scope.secondDeviceComment = "";
-
-
+            //$scope.firstDeviceCount = undefined;
+            // $scope.selectedStreetType = "";
 
             /**
              * Open application sending page and pass verification ID for auto filling it from verification
@@ -198,16 +197,39 @@ angular
                             $scope.selectedValues.selectedStreet = "";
                         }
                     );
-
-                    /**
-                     *  Receives providers corresponding this district
-                     */
-                    dataReceivingService.findProvidersByDistrict(selectedDistrict.designation)
-                        .success(function (providers) {
-                            $scope.providers = providers;
-                            $scope.selectedValues.selectedProvider = providers[0];
-                        }
-                    );
+                }
+            };
+//todo
+            /**
+             * Receives all providers in selected locality by device type
+             */
+            $scope.getProvidersByLocalityAndDeviceType = function (selectedLocality, selectedDevice, deviceGroup) {
+                if (selectedLocality !== undefined && selectedDevice !== undefined) {
+                    if (deviceGroup === 'firstDeviceGroup') {
+                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDevice.deviceType)
+                            .success(function (providers) {
+                                if (providers.length > 0) {
+                                    $scope.firstDeviceProviders = providers;
+                                    $scope.selectedValues.firstSelectedProvider = providers[0];
+                                } else {
+                                    $scope.firstDeviceProviders = [];
+                                    $scope.selectedValues.firstSelectedProvider = undefined;
+                                }
+                            }
+                        );
+                    } else {
+                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDevice.deviceType)
+                            .success(function (providers) {
+                                if (providers.length > 0) {
+                                    $scope.secondDeviceProviders = providers;
+                                    $scope.selectedValues.secondSelectedProvider = providers[0];
+                                } else {
+                                    $scope.secondDeviceProviders = [];
+                                    $scope.selectedValues.secondSelectedProvider = undefined;
+                                }
+                            }
+                        );
+                    }
                 }
             };
 
@@ -238,7 +260,19 @@ angular
                         .success(function (indexes) {
                             $scope.indexes = indexes;
                             if (indexes.length > 0) {
+                                $scope.indexes = indexes;
                                 $scope.selectedValues.selectedIndex = indexes[0];
+                            }
+                        }
+                    );
+
+                    dataReceivingService.findProvidersByLocality(selectedLocality.id)
+                        .success(function (providers) {
+                            if (providers.length > 0) {
+                                $scope.isProvidersExist = true;
+                            }
+                            else {
+                                $scope.isProvidersExist = false;
                             }
                         }
                     );
@@ -268,7 +302,6 @@ angular
                     $scope.devices = devices;
                     $scope.selectedValues.firstSelectedDevice = undefined;
                     $scope.selectedValues.secondSelectedDevice = undefined;
-                   // $scope.selectedValues.thirdSelectedDevice = undefined;
                 }
             );
 
@@ -276,29 +309,42 @@ angular
              *  Error verification of device block
              */
             $scope.deviceErrorCheck = function () {
-                if ($scope.firstDeviceCount !== undefined) {
+                /**
+                 * Check first device selection group
+                 */
+                if ($scope.selectedValues.firstDeviceCount !== undefined) {
                     $scope.clientForm.firstDeviceCount.$invalid = false;
                 }
-                if ($scope.selectedValues.firstSelectedDevice == undefined) {
+                if ($scope.selectedValues.firstSelectedDevice === undefined) {
                     $scope.clientForm.firstSelectedDevice.$invalid = true;
                     $scope.clientForm.firstDeviceCount.$invalid = true;
                 }
-
-                if (($scope.selectedValues.secondDeviceCount !== undefined) || ($scope.selectedValues.secondDeviceCount === undefined)) {
+                if($scope.selectedValues.firstSelectedProvider === undefined){
+                    $scope.clientForm.firstDeviceCount.$invalid = true;
+                }
+                /**
+                 * Check second device selection group
+                 */
+                if (($scope.selectedValues.secondDeviceCount !== undefined)) {
                     $scope.clientForm.secondDeviceCount.$invalid = false;
                 }
-                if ($scope.selectedValues.secondSelectedDevice == undefined) {
+                if ($scope.selectedValues.secondSelectedDevice === undefined) {
                     $scope.clientForm.secondSelectedDevice.$invalid = true;
                     $scope.clientForm.secondDeviceCount.$invalid = true;
                 }
-
-                /*if (($scope.selectedValues.thirdDeviceCount !== undefined) || ($scope.selectedValues.thirdDeviceCount == undefined)) {
-                    $scope.clientForm.thirdDeviceCount.$invalid = false;
+                if($scope.selectedValues.secondSelectedProvider === undefined){
+                    $scope.clientForm.secondDeviceCount.$invalid = true;
                 }
-                if ($scope.selectedValues.thirdSelectedDevice == undefined) {
-                    $scope.clientForm.thirdSelectedDevice.$invalid = true;
-                    $scope.clientForm.thirdDeviceCount.$invalid = true;
-                }*/
+                /**
+                 * Check street selection group
+                 */
+                if (($scope.selectedValues.selectedStreetType !== undefined)) {
+                    $scope.clientForm.streetType.$invalid = false;
+                }
+                if ($scope.selectedValues.selectedStreet === undefined) {
+                    $scope.clientForm.street.$invalid = true;
+                    $scope.clientForm.streetType.$invalid = true;
+                }
             };
 
 
@@ -329,10 +375,11 @@ angular
                     $scope.formData.locality = $scope.selectedValues.selectedLocality.designation;
                     $scope.formData.street = $scope.selectedValues.selectedStreet.designation || $scope.selectedValues.selectedStreet;
                     $scope.formData.building = $scope.selectedValues.selectedBuilding.designation || $scope.selectedValues.selectedBuilding;
-                    $scope.formData.providerId = $scope.selectedValues.selectedProvider.id;
+                    //$scope.formData.providerId = $scope.selectedValues.selectedProvider.id;
 
                     for (var i = 0; i < $scope.selectedValues.firstDeviceCount; i++) {
                         $scope.formData.deviceId = $scope.selectedValues.firstSelectedDevice.id;
+                        $scope.formData.providerId = $scope.selectedValues.firstSelectedProvider.id;
                         $scope.formData.comment = $scope.firstDeviceComment;
 
                         $scope.firstAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
@@ -344,6 +391,7 @@ angular
                         }
                         for (var i = 0; i < $scope.selectedValues.secondDeviceCount; i++) {
                             $scope.formData.deviceId = $scope.selectedValues.secondSelectedDevice.id;
+                            $scope.formData.providerId = $scope.selectedValues.secondSelectedProvider.id;
                             $scope.formData.comment = $scope.secondDeviceComment;
                             $scope.secondAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
                         }
@@ -353,18 +401,6 @@ angular
 
                             }
                             $scope.appProgress = false;
-
-                           /* for (var i = 0; i < $scope.selectedValues.thirdDeviceCount; i++) {
-                                $scope.formData.deviceId = $scope.selectedValues.thirdSelectedDevice.id;
-                                $scope.thirdAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
-                            }
-
-                            $q.all($scope.thirdAplicationCodes).then(function (values) {
-                                for (var i = 0; i < $scope.selectedValues.thirdDeviceCount; i++) {
-                                    $scope.codes.push(values[i].data);
-                                }
-
-                            });*/
                         });
                     });
                     $log.debug(" $scope.codeslength");
@@ -390,7 +426,7 @@ angular
                  * executes when modal closing
                  */
                 $scope.pop = function () {
-                    toaster.pop('success', "\u0406\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0456\u044F", "\u0412\u0430\u0448\u0435 \u043F\u043E\u0432\u0456\u0434\u043E\u043C\u043B\u0435\u043D\u043D\u044F \u0431\u0443\u043B\u043E \u0443\u0441\u043F\u0456\u0448\u043D\u043E \u043D\u0430\u0434\u0456\u0441\u043B\u0430\u043D\u043E");
+                    toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_SENDING'));
                 };
 
                 modalInstance.result.then(function (formData, sendingStarted) {
@@ -436,11 +472,9 @@ angular
 
                 $scope.selectedValues.firstSelectedDevice = undefined;
                 $scope.selectedValues.secondSelectedDevice = undefined;
-                //$scope.selectedValues.thirdSelectedDevice = undefined;
 
                 $scope.selectedValues.firstDeviceCount = undefined;
                 $scope.selectedValues.secondDeviceCount = undefined;
-               // $scope.selectedValues.thirdDeviceCount = undefined;
 
                 $scope.selectedValues.selectedRegion = undefined;
                 $scope.selectedValues.selectedDistrict = undefined;
@@ -450,6 +484,11 @@ angular
                 $scope.selectedValues.selectedBuilding = "";
                 $scope.selectedValues.selectedIndex = undefined;
                 $scope.defaultValue.privateHouse = false;
+                $scope.firstDeviceProviders = [];
+                $scope.secondDeviceProviders = [];
+                $scope.selectedValues.firstSelectedProvider = undefined;
+                $scope.selectedValues.secondSelectedProvider = undefined;
+
                 $log.debug("$scope.resetApplicationForm");
             };
 
@@ -479,4 +518,8 @@ angular
             //    $scope.selectedValues.selectedStreet = "";
             //});
 
-        }]);
+        }
+    ]
+);
+
+

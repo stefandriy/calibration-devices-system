@@ -43,8 +43,6 @@ angular
                     $scope.statusData[0].label = 'Sent';
                     $scope.statusData[1].label = 'Accepted';
 
-                } else {
-                    console.error(lang);
                 }
             };
 

@@ -1,7 +1,7 @@
 angular
 	.module('adminModule')
-	.filter('organizationFilter', function () {
-		return function (allTypes, currentTypes) {
+	.filter('organizationFilter', function() {
+		return function(allTypes, currentTypes) {
 			var filtered = allTypes;
 
 			for (var i in currentTypes) {
@@ -15,7 +15,8 @@ angular
 			return filtered;
 		}
 	})
-	.controller(
+	.controller
+(
 	'OrganizationEditModalController',
 	[
 		'$rootScope',
@@ -23,43 +24,33 @@ angular
 		'$translate',
 		'$modalInstance',
 		'$filter',
+		'$timeout',
 		'AddressService',
 		'UserService',
 		'DevicesService',
 		'OrganizationService','$log', 'regions',
-		function ($rootScope, $scope, $translate, $modalInstance, $filter,
+		function ($rootScope, $scope, $translate, $modalInstance, $filter, $timeout,
 				 addressService,
 				  userService, devicesService, organizationService, $log, regions) {
 
-
-			function arrayObjectIndexOf(myArray, searchTerm, property) {
-				for(var i = 0, len = myArray.length; i < len; i++) {
-					if (myArray[i][property] === searchTerm) return i;
-				}
-				var elem = {
-					id: length,
-					designation: searchTerm
-				};
-				myArray.push(elem);
-				return (myArray.length-1);
-			}
-
 			$scope.typeData = [
 				{
-					id: 'PROVIDER',
+					type: 'PROVIDER',
 					label: null
 				},
 				{
-					id: 'CALIBRATOR',
+					type: 'CALIBRATOR',
 					label: null
 				},
 				{
-					id: 'STATE_VERIFICATOR',
+					type: 'STATE_VERIFICATOR',
 					label: null
 				}
 			];
 
-			//$rootScope.organization.lastName;
+
+
+			$rootScope.organization.region.selected = "Львівська";
 
 			$scope.setTypeDataLanguage = function () {
 				var lang = $translate.use();
@@ -71,10 +62,51 @@ angular
 					$scope.typeData[0].label = 'Service provider';
 					$scope.typeData[1].label = 'Measuring laboratory';
 					$scope.typeData[2].label = 'Authorized calibration laboratory';
-				} else {
-					console.error(lang);
 				}
 			};
+
+
+			/*
+			 */
+		 	 var setCurrentTypeDataLanguage = function () {
+				var lang = $translate.use();
+				if (lang === 'ukr') {
+					for (var i = 0; i < $scope.organizationTypes.length; i++) {
+						switch ($scope.organizationTypes[i].type) {
+							case "PROVIDER":
+								console.log($scope.organizationTypes[i]);
+								$scope.organizationTypes[i].label = 'Постачальник послуг';
+								break;
+							case "CALIBRATOR":
+								$scope.organizationTypes[i].label = 'Вимірювальна лабораторія';
+								break;
+							case "STATE_VERIFICATOR":
+								$scope.organizationTypes[i].label = 'Уповноважена повірочна лабораторія';
+								break;
+							default: console.log($scope.organizationTypes[i].type + " not organization type");
+						}
+					}
+				} else if (lang === 'eng') {
+					for (var i = 0; i < $scope.organizationTypes; i++) {
+						switch ($scope.organizationTypes[i]) {
+							case 'PROVIDER':
+								$scope.organizationTypes[i].label = 'Service provider';
+								break;
+							case 'CALIBRATOR':
+								$scope.organizationTypes[i].label = 'Measuring laboratory';
+								break;
+							case 'STATE_VERIFICATOR':
+								$scope.organizationTypes[i].label = 'Authorized calibration laboratory';
+								break;
+							default: console.error($scope.organizationTypes[i] + " not organization type");
+						}
+					}
+				}
+			};
+
+			/*
+			* convert organizationType object
+			* */
 			
 			 /**
              * Closes modal window on browser's back/forward button click.
@@ -82,8 +114,20 @@ angular
 			$rootScope.$on('$locationChangeStart', function() {
 			    $modalInstance.close();
 			});
+
+			$scope.organizationTypes = [];
+			for (var i = 0; i < $rootScope.organization.types.length; i++) {
+				$scope.organizationTypes[i] = {
+					type : $rootScope.organization.types[i],
+					label : null
+				}
+			}
 			
 			$scope.setTypeDataLanguage();
+			setTimeout(setCurrentTypeDataLanguage(), 2000);
+
+
+			console.log($scope.organizationTypes);
 
 			$scope.regions = regions;
 			$scope.districts = [];
@@ -240,6 +284,60 @@ angular
 						break;
 				}
 			}
+
+
+			function arrayObjectIndexOf(myArray, searchTerm, property) {
+				for (var i = 0, len = myArray.length; i < len; i++) {
+					if (myArray[i][property] === searchTerm) {
+						return i;
+					}
+				}
+				var elem = {
+					id: length,
+					designation: searchTerm
+				};
+				myArray.push(elem);
+				return (myArray.length - 1);
+			}
+
+			$scope.selectedValues ={};
+
+			if ($rootScope.organization) {
+				$scope.blockSearchFunctions = true;
+				addressService.findAllRegions().then(function (respRegions) {
+					$scope.regions = respRegions;
+					var index = arrayObjectIndexOf($scope.regions, $rootScope.organization.region, "designation");
+					$scope.selectedValues.selectedRegion = $scope.regions[index];
+
+					addressService.findDistrictsByRegionId($scope.selectedValues.selectedRegion.id)
+						.then(function (districts) {
+							$scope.districts = districts;
+							var index = arrayObjectIndexOf($scope.districts, $rootScope.organization.district, "designation");
+							$scope.selectedValues.selectedDistrict = $scope.districts[index];
+
+							addressService.findLocalitiesByDistrictId($scope.selectedValues.selectedDistrict.id)
+								.then(function (localities) {
+									$scope.localities = localities;
+									var index = arrayObjectIndexOf($scope.localities, $rootScope.organization.locality, "designation");
+									$scope.selectedValues.selectedLocality = $scope.localities[index];
+
+									addressService.findStreetsByLocalityId($scope.selectedValues.selectedLocality.id)
+										.then(function (streets) {
+											$scope.streets = streets;
+											var index = arrayObjectIndexOf($scope.streets, $rootScope.organization.street, "designation");
+											$scope.selectedValues.selectedStreet = $scope.streets[index];
+										});
+
+									addressService.findBuildingsByStreetId($scope.selectedValues.selectedStreet.id)
+										.then(function (buildings) {
+											$scope.buildings = buildings;
+											var index = arrayObjectIndexOf($scope.buildings, $rootScope.organization.building, "designation");
+											$scope.selectedValues.selectedBuilding = $scope.buildings[index].designation;
+								});
+						});
+				});
+			});
+			}
 			/**
 			 * Finds all regions
 			 */
@@ -249,8 +347,8 @@ angular
 						function(respRegions) {
 							$log.debug($rootScope.organization);
 							$scope.regions = respRegions;
-						/*	var index = arrayObjectIndexOf($scope.regions,  $rootScope.organization.address.region.designation, "designation");
-							$rootScope.organization.address.region = $scope.regions[index];
+						/*	var index = arrayObjectIndexOf($scope.regions,  $rootScope.organization.region.designation, "designation");
+							$rootScope.organization.region = $scope.regions[index];
 							*//*$scope.onRegionSelected($scope.regions[index].id);*/
 						});
 				}
@@ -265,16 +363,14 @@ angular
 			 * On-select handler in region input form element.
 			 */
 			$scope.receiveDistricts = function (selectedRegion) {
-				if (!$scope.blockSearchFunctions) {
 					$scope.districts = [];
 					addressService.findDistrictsByRegionId(selectedRegion.id)
 						.then(function (districts) {
 							$scope.districts = districts;
-							$scope.organizationFormData.district = undefined;
-							$scope.organizationFormData.locality = undefined;
-							$scope.organizationFormData.street = "";
+							$scope.selectedValues.selectedLocality = undefined;
+							$scope.selectedValues.selectedDistrict = undefined;
+							$rootScope.organization.street = "";
 						});
-				}
 			};
 
 			/**
@@ -282,17 +378,29 @@ angular
 			 * On-select handler in district input form element.
 			 */
 			$scope.receiveLocalities = function (selectedDistrict) {
-				if (!$scope.blockSearchFunctions) {
 					$scope.localities = [];
 					addressService.findLocalitiesByDistrictId(selectedDistrict.id)
 						.then(function (localities) {
 							console.log(localities);
 							$scope.localities = localities;
-							$scope.organizationFormData.locality = undefined;
-							$scope.organizationFormData.street = "";
+							$scope.selectedValues.selectedStreet = "";
 
 						});
-				}
+			};
+
+			$scope.receiveStreets = function (selectedLocality) {
+					$scope.streets = [];
+					addressService.findStreetsByLocalityId(selectedLocality.id)
+						.then(function (streets) {
+							$scope.streets = streets;
+							$scope.selectedValues.selectedStreet  = "";
+							$scope.organization.address.building = "";
+							$scope.organization.address.flat = "";
+							$log.debug("$scope.streets");
+							$log.debug($scope.streets);
+
+						}
+					);
 			};
 
 			/**
@@ -368,64 +476,153 @@ angular
 			}
 
 			function addressFormToOrganizationForm() {
-				if (typeof $rootScope.organization.address.region == 'object') {
-					$rootScope.organization.address.region = $rootScope.organization.address.region.designation;
+				if (typeof $rootScope.organization.region == 'object') {
+					$rootScope.organization.region = $rootScope.organization.region.designation;
 				}
-				if (typeof $rootScope.organization.address.district == 'object') {
-					$rootScope.organization.address.district = $rootScope.organization.address.district.designation;
+				if (typeof $rootScope.organization.district == 'object') {
+					$rootScope.organization.district = $rootScope.organization.district.designation;
 				}
-				if (typeof $rootScope.organization.address.locality == 'object') {
-					$rootScope.organization.address.locality = $rootScope.organization.address.locality.designation;
+				if (typeof $rootScope.organization.locality == 'object') {
+					$rootScope.organization.locality = $rootScope.organization.locality.designation;
 				}
-				if (typeof $rootScope.organization.address.street == 'object') {
-					$rootScope.organization.address.street = $rootScope.organization.address.street.designation;
+				if (typeof $rootScope.organization.street == 'object') {
+					$rootScope.organization.street = $rootScope.organization.street.designation;
 				}
-				if (typeof $rootScope.organization.address.building == 'object') {
-					$rootScope.organization.address.building = $rootScope.organization.address.building.designation;
+				if (typeof $rootScope.organization.building == 'object') {
+					$rootScope.organization.building = $rootScope.organization.building.designation;
 				}
 			}
 
 			function objectTypesToStringTypes() {
-				for (var i in $rootScope.organization.types) {
-					$rootScope.organization.types[i] = $rootScope.organization.types[i].id;
+				for(var i=0 ;i< $scope.organizationTypes.length;i++){
+					$scope.organizationTypes[i] = $scope.organizationTypes[i].type;
+					console.log($scope.organizationTypes[i]);
 				}
 			}
-
+			console.log($rootScope.organization.types);
 
 			/**
 			 * Edit organization. If everything is ok then
 			 * resets the organization form and closes modal
 			 * window.
 			 */
+
+			/**
+			 * Finds all regions
+			 */
+			function initFormData() {
+				if (!$scope.regions) {
+					addressService.findAllRegions().then(
+						function(data) {
+							$scope.regions = data;
+						});
+				}
+			}
+
+			initFormData();
+
+			/**
+			 * Finds districts in a given region.
+			 * @param regionId
+			 *            to identify region
+			 */
+			$scope.onRegionSelected = function(regionId) {
+				addressService
+					.findDistrictsByRegionId(regionId)
+					.then(function(data) {
+						$scope.districts = data;
+					});
+			};
+
+			/**
+			 * Finds localities in a given district.
+			 *
+			 * @param districtId
+			 *            to identify district
+			 */
+			$scope.onDistrictSelected = function(districtId) {
+				addressService.findLocalitiesByDistrictId(
+					districtId).then(function(data) {
+						$scope.localities = data;
+					});
+			};
+
+			/**
+			 * Finds streets in a given locality.
+			 *
+			 * @param localityId
+			 *            to identify locality
+			 */
+			$scope.onLocalitySelected = function(localityId) {
+				addressService.findStreetsByLocalityId(
+					localityId).then(function(data) {
+						$scope.streets = data;
+					});
+			};
+
+			/**
+			 * Finds buildings in a given street.
+			 *
+			 * @param streetId
+			 *            to identify street
+			 */
+			$scope.onStreetSelected = function(streetId) {
+				addressService
+					.findBuildingsByStreetId(streetId)
+					.then(function(data) {
+						$scope.buildings = data;
+					});
+			};
+
+			/**
+			 * Receives all possible buildings.
+			 * On-select handler in street input form element.
+			 */
+			$scope.receiveBuildings = function (selectedStreet) {
+					$scope.buildings = [];
+					addressService.findBuildingsByStreetId(selectedStreet.id)
+						.success(function (buildings) {
+							$scope.buildings = buildings;
+						}
+					);
+			};
+
+
 			$scope.editOrganization = function() {
+				$scope.$broadcast('show-errors-check-validity');
 				addressFormToOrganizationForm();
 				objectTypesToStringTypes();
 				var organizationForm = {
 					name : $rootScope.organization.name,
 					email : $rootScope.organization.email,
 					phone : $rootScope.organization.phone,
-					types: $rootScope.organization.types,
+					types: $scope.organizationTypes,
 					employeesCapacity : $rootScope.organization.employeesCapacity,
 					maxProcessTime: $rootScope.organization.maxProcessTime,
-					region : $rootScope.organization.address.region,
-					locality : $rootScope.organization.address.locality,
-					district : $rootScope.organization.address.district,
-					street : $rootScope.organization.address.street,
-					building : $rootScope.organization.address.building,
-					flat : $rootScope.organization.address.flat,
+					region : $scope.selectedValues.selectedRegion.designation,
+					locality : $scope.selectedValues.selectedLocality.designation,
+					district : $scope.selectedValues.selectedDistrict.designation,
+					street : $scope.selectedValues.selectedStreet.designation || $scope.selectedValues.selectedStreet,
+					building : $rootScope.organization.building,
+					flat : $rootScope.organization.flat,
+					username : $scope.adminsUserName,
 					firstName : $scope.adminsFirstName,
 					lastName : $scope.adminsLastName,
 					middleName : $scope.adminsMiddleName,
-					username : $scope.adminsUserName,
-					oldUsername : $scope.oldUsername,
 					password: $scope.password
 				};
-				console.log( $rootScope.organization.email, $scope.adminsUserName, $scope.oldUsername)
+				console.log(organizationForm);
+				console.log($scope.organizationTypes);
 
+				saveOrganization(organizationForm);
+				$scope.closeModal();
+			};
+
+			function saveOrganization(organizationForm) {
 				organizationService.editOrganization(
 					organizationForm,
 					$rootScope.organizationId).then(
-					function(data) {
+					function (data) {
 						if (data == 200) {
 							$scope.closeModal();
 							$scope.resetOrganizationForm();
@@ -433,7 +630,7 @@ angular
 							$rootScope.onTableHandling();
 						}
 						else (console.log(data));
-					});
+					})
 			};
 			/**
 			 * Closes edit modal window.
@@ -453,6 +650,6 @@ angular
 			$scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
 			$scope.FLAT_REGEX=/^([1-9]{1}[0-9]{0,3}|0)$/;
 
-		}
+			}
 
 	]);

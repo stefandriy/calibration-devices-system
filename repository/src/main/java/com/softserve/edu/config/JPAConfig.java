@@ -3,6 +3,7 @@ package com.softserve.edu.config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -22,7 +23,8 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.softserve.edu.repository")
-@PropertySource(value = "/WEB-INF/database.properties")
+@ComponentScan("com.softserve.edu")
+@PropertySource(value = "classpath:database.properties")
 public class JPAConfig {
     @Autowired
     private Environment env;
@@ -46,7 +48,6 @@ public class JPAConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource);
-       // entityManagerFactoryBean.setPersistenceUnitName("mySql");
         entityManagerFactoryBean.setPackagesToScan(env.getProperty("em.packagesToScan"));
         entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
         entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());

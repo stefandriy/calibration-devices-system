@@ -2,11 +2,10 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
-import com.softserve.edu.dto.calibrator.GlobalCalibrationTestDTO;
 import com.softserve.edu.dto.calibrator.TestGenerallDTO;
-import com.softserve.edu.entity.CalibrationTest;
-import com.softserve.edu.entity.CalibrationTestData;
-import com.softserve.edu.service.CalibrationTestService;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
@@ -17,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 

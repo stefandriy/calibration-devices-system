@@ -1,20 +1,6 @@
 package com.softserve.edu.entity;
 
-import com.softserve.edu.entity.catalogue.Region;
-import com.softserve.edu.repository.catalogue.RegionRepository;
-import com.softserve.edu.service.catalogue.RegionService;
-
 import config.DBUnitConfig;
-
-import org.dbunit.Assertion;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import java.util.List;
 
 /**
  * Created by Loc on 17.08.2015.

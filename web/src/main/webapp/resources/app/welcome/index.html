@@ -15,28 +15,38 @@
 <link href="/resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css" rel="stylesheet">
 <link rel="stylesheet" href="/resources/assets/bower_components/angular-bootstrap-simple-chat/src/css/themes.css">
 <link rel="stylesheet" href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
-<link rel="stylesheet" href="/resources/assets/css/loader.css">
+<!--<link rel="stylesheet" href="/resources/assets/css/loader.css">-->
 	<link href="/resources/assets/bower_components/ui-select/dist/select.min.css" rel="stylesheet">
 	<link href="/resources/assets/bower_components/select2/select2.css" rel="stylesheet">
 	<link href="/resources/assets/bower_components/select2-bootstrap-css/select2-bootstrap.min.css" rel="stylesheet">
 	
 	<link href="/resources/assets/bower_components/angularjs-toaster/toaster.min.css" rel="stylesheet">
 
+	<style>
+		[ng\:cloak]
+		[ng-cloak],
+		[data-ng-cloak],
+		[x-ng-cloak],
+		.ng-cloak,
+		.x-ng-cloak {
+			display: none !important;
+		}
 
+	</style>
 </head>
 
-<body id="welcomeModule" ng-controller="NavigationController" class="skin-blue">
+<body id="welcomeModule" ng-controller="NavigationController" class="skin-blue ng-cloak">
 
 
 	<div id="content">
-		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div id="loader-wrapper">
-				<div id="loader"></div>
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
+			<!--<div id="loader-wrapper">-->
+				<!--<div id="loader"></div>-->
 
-				<div class="loader-section section-left"></div>
-				<div class="loader-section section-right"></div>
+				<!--<div class="loader-section section-left"></div>-->
+				<!--<div class="loader-section section-right"></div>-->
 
-			</div>
+			<!--</div>-->
 			<div class="container">
 				<div class="navbar-header">
 					<a class="navbar-brand" ui-sref="start" style="color:beige">{{ 'START' | translate
@@ -100,8 +110,8 @@
 		$("#states").chosen();
 		$("[name='my-checkbox']").bootstrapSwitch();
 	</script>
-	<script src="/resources/assets/js/vendor/modernizr-2.6.2.min.js"></script>
-	<script src="/resources/assets/js/main.js"></script>
+	<!--<script src="/resources/assets/js/vendor/modernizr-2.6.2.min.js"></script>-->
+	<!--<script src="/resources/assets/js/main.js"></script>-->
 
 
 </body>

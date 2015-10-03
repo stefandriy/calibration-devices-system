@@ -1,10 +1,15 @@
 package com.softserve.edu.dto.admin;
 
+import com.softserve.edu.entity.Address;
+
+import java.util.List;
+
 public class OrganizationDTO {
+	private Long id;
 	private String name;
 	private String email;
 	private String phone;
-	private String[] types;
+	private List<String> types;
 	private Integer employeesCapacity;
 	private Integer maxProcessTime;
 
@@ -22,7 +27,34 @@ public class OrganizationDTO {
 	private String building;
 	private String flat;
 
+    private Long[] serviceAreas;
+
 	public OrganizationDTO() {
+	}
+
+
+	public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
+		this.id =id;
+		this.email = email;
+		this.name = name;
+		this.phone = phone;
+		this.types = types;
+		this.employeesCapacity = employeesCapacity;
+		this.maxProcessTime = maxProcessTime;
+		this.region = region;
+		this.locality = locality;
+		this.district = district;
+		this.street = street;
+		this.building = building;
+		this.flat = flat;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -41,11 +73,11 @@ public class OrganizationDTO {
 		this.email = email;
 	}
 
-	public String[] getTypes() {
+	public List<String> getTypes() {
 		return types;
 	}
 
-	public void setTypes(String[] types) {
+	public void setTypes(List<String> types) {
 		this.types = types;
 	}
 
@@ -168,4 +200,38 @@ public class OrganizationDTO {
 	public void setMaxProcessTime(Integer maxProcessTime) {
 		this.maxProcessTime = maxProcessTime;
 	}
+
+
+
+    /**
+     * Constructor with localityIdList
+     *
+     * @param id
+     * @param name
+     * @param email
+     * @param phone
+     * @param types
+     * @param employeesCapacity
+     * @param maxProcessTime
+     * @param region
+     * @param locality
+     * @param district
+     * @param street
+     * @param building
+     * @param flat
+     * @param serviceAreas
+     */
+    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat, Long[] serviceAreas) {
+        this(id, email, name, phone, types, employeesCapacity, maxProcessTime, region, locality, district, street, building, flat);
+        this.serviceAreas = serviceAreas;
+    }
+
+    public Long[] getServiceAreas() {
+        return serviceAreas;
+    }
+
+    public void setServiceAreas(Long[] serviceAreas) {
+        this.serviceAreas = serviceAreas;
+    }
 }
+

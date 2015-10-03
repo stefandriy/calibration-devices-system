@@ -126,10 +126,33 @@ body {
 @media (min-width: 768px) {
     #page-wrapper {
         position: inherit;
-        margin: 0 0 0 250px;
+        margin: 0 0 0 0 !important;
         padding: 0 30px;
         border-left: 1px solid #e7e7e7;
+        border-top: 1px solid #e7e7e7;
     }
+}
+
+.header_row{
+    margin-bottom: 20px;
+}
+
+@media (min-width: 992px) {
+    .menu_column{
+        width: 20%;
+    }
+    .main_column{
+        width: 80%;
+    }
+}
+
+.toggle_button{
+    width: 100% !important;
+    min-width: 100% !important;
+}
+
+.ui.vertical.menu{
+    width: 100%;
 }
 
 .navbar-top-links {
@@ -237,7 +260,7 @@ body {
     .sidebar {
         z-index: 1;
         position: absolute;
-        width: 250px;
+       // width: 250px;
         margin-top: 56px;
 
     }
@@ -477,7 +500,7 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 .form-group .help-block {
-    /* display: none; */
+    display: none;
 }
 
 .form-group .has-error .help-block {
@@ -607,16 +630,10 @@ float:left;
     cursor:pointer;
 }
 .modal .modal-body {
-    max-height: 600px;
 }
 
 .validation-message {
     color: red;
-}
-
-
-.modal .modal-body {
-    max-height: 2500px;
 }
 
 @-moz-document url-prefix() {

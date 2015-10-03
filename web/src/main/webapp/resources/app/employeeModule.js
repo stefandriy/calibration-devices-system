@@ -9,7 +9,7 @@
                 cfpLoadingBarProvider.includeSpinner = false;
                 cfpLoadingBarProvider.latencyThreshold = 500;
                 showErrorsConfigProvider.showSuccess(true);
-               
+
                 /**
                  *  i18n configuration.
                  */
@@ -27,37 +27,37 @@
                 $urlRouterProvider.otherwise('/');
 
                 $stateProvider
-                .state('main-panel-provider', {
-                    url: '/',
-                    templateUrl: '/resources/app/provider/views/main-panel.html',
-                    controller: 'MainPanelControllerProvider'
-                })
-                .state("new-verifications-provider", {
-                    url: '/provider/verifications/new',
-                    templateUrl: '/resources/app/provider/views/new-verifications.html',
-                    controller: 'NewVerificationsControllerProvider'
-                })
-                .state("employee-show-provider", {
-                    url: '/provider/employee-show',
-                    templateUrl: '/resources/app/provider/views/employee/show-employee.html',
-                    controller: 'UsersController'
-                })
-                .state("verifications-archive-provider", {
-                    url: '/provider/verifications/archive',
-                    templateUrl: '/resources/app/provider/views/archival-verifications.html',
-                    controller: 'ArchivalVerificationsControllerProvider'
-                })
-                .state("settings-provider", {
-                    url: '/provider/verificator/settings',
-                    templateUrl: '/resources/app/provider/views/settings-panel.html'
+                    .state('main-panel-provider', {
+                        url: '/',
+                        templateUrl: '/resources/app/provider/views/main-panel.html',
+                        controller: 'MainPanelControllerProvider'
+                    })
+                    .state("new-verifications-provider", {
+                        url: '/provider/verifications/new',
+                        templateUrl: '/resources/app/provider/views/new-verifications.html',
+                        controller: 'NewVerificationsControllerProvider'
+                    })
+                    .state("employee-show-provider", {
+                        url: '/provider/employee-show',
+                        templateUrl: '/resources/app/provider/views/employee/show-employee.html',
+                        controller: 'UsersController'
+                    })
+                    .state("verifications-archive-provider", {
+                        url: '/provider/verifications/archive',
+                        templateUrl: '/resources/app/provider/views/archival-verifications.html',
+                        controller: 'ArchivalVerificationsControllerProvider'
+                    })
+                    .state("settings-provider", {
+                        url: '/provider/verificator/settings',
+                        templateUrl: '/resources/app/provider/views/settings-panel.html'
 
-                })
+                    })
                     .state("statistic-show-providerEmployee", {
                         url: '/provider/statistic/employee',
                         templateUrl: '/resources/app/provider/views/employee/calendar-providerEmployee.html',
                         controller: 'CalendarEmployeeProvider'
                     })
-                	.state('main-panel-calibrator', {
+                    .state('main-panel-calibrator', {
                         url: '/calibrator/',
                         templateUrl: '/resources/app/calibrator/views/main-panel.html'
                     })
@@ -66,7 +66,6 @@
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerCalibrator'
                     })
-                   
                     //.state("calibration-test-calibrator", {
                     //    url: '/calibrator/verifications/calibration-test',
                     //    templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
@@ -77,7 +76,7 @@
                         templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
                         controller: 'CalibrationTestControllerCalibrator'
                     })
-                     .state("calibration-test-add", {
+                    .state("calibration-test-add", {
                         url: '/calibrator/verifications/calibration-test-add/',
                         templateUrl: '/resources/app/calibrator/views/calibration-test-add-panel.html',
                         controller: 'CalibrationTestAddControllerCalibrator'
@@ -87,7 +86,7 @@
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerCalibrator'
                     })
-                      .state("measuring-equipment-calibrator", {
+                    .state("measuring-equipment-calibrator", {
                         url: '/calibrator/mEquipment/',
                         templateUrl: '/resources/app/calibrator/views/measurement-equipments.html',
                         controller: 'MeasuringEquipmentControllerCalibrator'
@@ -97,8 +96,17 @@
                         templateUrl: '/resources/app/calibrator/views/employee/show-employee.html',
                         controller: 'UsersControllerCalibrator'
                     })
-
-                   .state('main-panel-verificator', {
+                    .state("planning-task-calibrator", {
+                        url: '/calibrator/verifications/task',
+                        templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
+                        controller: 'VerificationPlanningTaskController'
+                    })
+                    .state("calibrator-task-add", {
+                        url: '/',
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
+                        controller: 'TaskControllerCalibrator'
+                    })
+                    .state('main-panel-verificator', {
                         url: '/',
                         templateUrl: '/resources/app/verificator/views/main-panel.html'
                     })
@@ -111,19 +119,14 @@
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
-                    })
-                    .state("calibrator-task-add", {
-                        url: '/',
-                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
-                        controller: 'TaskControllerCalibrator'
                     });
 
 
                 /*
-                Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
-                When translation of page will end, items of select (on the scope) will be changed too.
-                Then we refresh the items of select to get them from scope.
-               */
+                 Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
+                 When translation of page will end, items of select (on the scope) will be changed too.
+                 Then we refresh the items of select to get them from scope.
+                 */
                 $provide.decorator('uiSelectDirective', function( $delegate, $parse, $injector) {
                     var some_directive = $delegate[ 0],
                         preCompile = some_directive.compile;
@@ -136,18 +139,18 @@
 
                             var $select = controller[ 0 ];
 
-                var rootScope= $injector.get('$rootScope');
+                            var rootScope= $injector.get('$rootScope');
 
-                rootScope.$on('$translateChangeEnd', function(event){
-                    scope.setTypeDataLanguage();
-                    $select.refreshItems();
+                            rootScope.$on('$translateChangeEnd', function(event){
+                                scope.setTypeDataLanguage();
+                                $select.refreshItems();
+                            });
+
+                        };
+                    };
+
+                    return $delegate;
                 });
-
-            };
-};
-
-return $delegate;
-});
 
             }]);
 
@@ -172,95 +175,79 @@ return $delegate;
         }
     });
 
-    /*highlight filter for selects*/
-    angular.module('employeeModule').filter('highlight', function () {
-        return function (text, search, caseSensitive) {
-            if (text && (search || angular.isNumber(search))) {
-                text = text.toString();
-                search = search.toString();
-                if (caseSensitive) {
-                    return text.split(search).join('<span class="ui-match">' + search + '</span>');
-                } else {
-                    return text.replace(new RegExp(search, 'gi'), '<span class="ui-match">$&</span>');
-                }
-            } else {
-                return text;
-            }
-        };
-    });
-
     define([
-            'provider/controllers/InternationalizationController',
-            'provider/controllers/TopNavBarControllerProvider',
-            'provider/controllers/MainPanelControllerProvider',
-            'provider/controllers/ArchivalVerificationsControllerProvider',
-            'provider/controllers/NewVerificationsControllerProvider',
-            'provider/controllers/AddingVerificationsControllerProvider',
-            'provider/controllers/DetailsModalControllerProvider',
-            'provider/controllers/SendingModalControllerProvider',
-            'provider/controllers/AddEmployeeController',
-            'provider/controllers/AddressModalControllerProvider',
-            'provider/controllers/UsersController',
-            'provider/controllers/SettingsControllerProvider',
-            'provider/controllers/NotificationsControllerProvider',
-            'provider/controllers/ProviderEmployeeControllerProvider',
-            'provider/controllers/MailSendingModalControllerProvider',
-            'provider/services/VerificationServiceProvider',
-            'provider/services/AddressServiceProvider',
-            'provider/services/SettingsServiceProvider',
-            'provider/services/UserService',
-            'provider/controllers/CapacityEmployeeControllerProvider',
-            'provider/controllers/GraficEmployeeProvider',
-            'provider/controllers/GraphicEmployeeProviderMainPanel',
-            'provider/controllers/PieProviderEmployee',
-            'provider/controllers/CalendarEmployeeProvider',
-            'provider/controllers/ArchivalDetailsModalController',
-            'provider/controllers/EditEmployeeController',
+        'provider/controllers/InternationalizationController',
+        'provider/controllers/TopNavBarControllerProvider',
+        'provider/controllers/MainPanelControllerProvider',
+        'provider/controllers/ArchivalVerificationsControllerProvider',
+        'provider/controllers/NewVerificationsControllerProvider',
+        'provider/controllers/AddingVerificationsControllerProvider',
+        'provider/controllers/DetailsModalControllerProvider',
+        'provider/controllers/SendingModalControllerProvider',
+        'provider/controllers/AddEmployeeController',
+        'provider/controllers/AddressModalControllerProvider',
+        'provider/controllers/UsersController',
+        'provider/controllers/SettingsControllerProvider',
+        'provider/controllers/NotificationsControllerProvider',
+        'provider/controllers/ProviderEmployeeControllerProvider',
+        'provider/controllers/MailSendingModalControllerProvider',
+        'provider/services/VerificationServiceProvider',
+        'provider/services/AddressServiceProvider',
+        'provider/services/SettingsServiceProvider',
+        'provider/services/UserService',
+        'provider/controllers/CapacityEmployeeControllerProvider',
+        'provider/controllers/GraficEmployeeProvider',
+        'provider/controllers/GraphicEmployeeProviderMainPanel',
+        'provider/controllers/PieProviderEmployee',
+        'provider/controllers/CalendarEmployeeProvider',
+        'provider/controllers/ArchivalDetailsModalController',
+        'provider/controllers/EditEmployeeController',
 
-            'calibrator/controllers/TopNavBarControllerCalibrator',
-            'calibrator/controllers/MainPanelControllerCalibrator',
-            'calibrator/controllers/NewVerificationsControllerCalibrator',
-            'calibrator/controllers/DetailsModalControllerCalibrator',
-            'calibrator/controllers/SendingModalControllerCalibrator',
-            'calibrator/controllers/CalibrationTestEditModalController',
-            'calibrator/controllers/CalibrationTestControllerCalibrator',
-            'calibrator/controllers/EmployeeControllerCalibrator',
-            'calibrator/controllers/AddressModalControllerCalibrator',
-            'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
-            'calibrator/controllers/NotificationsControllerCalibrator',
-            'calibrator/controllers/CalibrationTestAddControllerCalibrator',
-            'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
-           'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
-            'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',   
-            'calibrator/controllers/UploadBbiFileController',
-            'calibrator/controllers/UploadPhotoController',
-            'calibrator/controllers/CancelBbiProtocolCalibrator',
-            'calibrator/controllers/UsersControllerCalibrator',
-            'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
-            'calibrator/controllers/CapacityEmployeeControllerCalibrator',
-            'calibrator/controllers/TaskControllerCalibrator',
-            'calibrator/services/TaskServiceCalibrator',
-            'calibrator/services/CalibrationTestServiceCalibrator',
-            'calibrator/services/AddressServiceCalibrator',
-            'calibrator/services/UserServiceCalibrator',
-            'calibrator/services/VerificationServiceCalibrator',
-            'calibrator/services/MeasuringEquipmentServiceCalibrator',
-            
-            'verificator/controllers/TopNavBarControllerVerificator',
-            'verificator/controllers/MainPanelControllerVerificator',
-            'verificator/controllers/NewVerificationsControllerVerificator',
-            'verificator/controllers/DetailsModalControllerVerificator',
-            'verificator/controllers/SendingModalControllerVerificator',
-            'verificator/controllers/EmployeeControllerVerificator',
-            'verificator/controllers/AddressModalControllerVerificator',
-            'verificator/controllers/NotificationsControllerVerificator',
-            'verificator/controllers/TestRejectControllerVerificator',
-            'verificator/controllers/CalibrationTestReviewControllerVerificator',
-            'verificator/controllers/ArchivalVerificationsControllerVerificator',
-            'verificator/services/AddressServiceVerificator',
-            'verificator/services/UserServiceVerificator',
-            'verificator/services/VerificationServiceVerificator',
-            'provider/filters/unique'
+        'calibrator/controllers/TopNavBarControllerCalibrator',
+        'calibrator/controllers/MainPanelControllerCalibrator',
+        'calibrator/controllers/NewVerificationsControllerCalibrator',
+        'calibrator/controllers/DetailsModalControllerCalibrator',
+        'calibrator/controllers/SendingModalControllerCalibrator',
+        'calibrator/controllers/CalibrationTestEditModalController',
+        'calibrator/controllers/CalibrationTestControllerCalibrator',
+        'calibrator/controllers/EmployeeControllerCalibrator',
+        'calibrator/controllers/AddressModalControllerCalibrator',
+        'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
+        'calibrator/controllers/NotificationsControllerCalibrator',
+        'calibrator/controllers/CalibrationTestAddControllerCalibrator',
+        'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
+        'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
+        'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',
+        'calibrator/controllers/UploadBbiFileController',
+        'calibrator/controllers/UploadPhotoController',
+        'calibrator/controllers/CancelBbiProtocolCalibrator',
+        'calibrator/controllers/UsersControllerCalibrator',
+        'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
+        'calibrator/controllers/CapacityEmployeeControllerCalibrator',
+        'calibrator/controllers/TaskControllerCalibrator',
+        'calibrator/controllers/VerificationPlanningTaskController',
+        'calibrator/services/TaskServiceCalibrator',
+        'calibrator/services/CalibrationTestServiceCalibrator',
+        'calibrator/services/AddressServiceCalibrator',
+        'calibrator/services/UserServiceCalibrator',
+        'calibrator/services/VerificationServiceCalibrator',
+        'calibrator/services/MeasuringEquipmentServiceCalibrator',
+
+        'verificator/controllers/TopNavBarControllerVerificator',
+        'verificator/controllers/MainPanelControllerVerificator',
+        'verificator/controllers/NewVerificationsControllerVerificator',
+        'verificator/controllers/DetailsModalControllerVerificator',
+        'verificator/controllers/SendingModalControllerVerificator',
+        'verificator/controllers/EmployeeControllerVerificator',
+        'verificator/controllers/AddressModalControllerVerificator',
+        'verificator/controllers/NotificationsControllerVerificator',
+        'verificator/controllers/TestRejectControllerVerificator',
+        'verificator/controllers/CalibrationTestReviewControllerVerificator',
+        'verificator/controllers/ArchivalVerificationsControllerVerificator',
+        'verificator/services/AddressServiceVerificator',
+        'verificator/services/UserServiceVerificator',
+        'verificator/services/VerificationServiceVerificator',
+        'provider/filters/unique'
 
 
     ], function () {});

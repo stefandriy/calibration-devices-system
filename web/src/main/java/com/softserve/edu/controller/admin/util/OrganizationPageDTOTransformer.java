@@ -1,42 +1,33 @@
 package com.softserve.edu.controller.admin.util;
 
 import com.softserve.edu.dto.admin.OrganizationPageDTO;
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationType;
-import com.softserve.edu.service.UserService;
-import com.softserve.edu.service.admin.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-/**
- * Created by vova on 03.09.15.
- */
 public class OrganizationPageDTOTransformer {
 
-    @Autowired
-    private static UsersService userService;
-
     public static List<OrganizationPageDTO> toDtoFromList(List<Organization> list){
-        List<OrganizationPageDTO> resultList = new ArrayList<OrganizationPageDTO>();
+        List<OrganizationPageDTO> resultList = new ArrayList<>();
+
         for (Organization organization : list) {
 
-            Set<OrganizationType> organizationTypes = organization.getOrganizationTypes();
-            List<String> listOrganizationTypes = new ArrayList<String>();
-            String[] arrayTypes = listOrganizationTypes.toArray(new String[listOrganizationTypes.size()]);
-            organizationTypes.forEach(organizationType -> listOrganizationTypes.add(organizationType.getType()));
-            String stringOrganizationTypes = String.join(",", listOrganizationTypes);
-
+            List<String> types = new ArrayList<>();
+            organization.getOrganizationTypes().
+                    stream()
+                    .map(OrganizationType::name)
+                    .forEach(types::add);
+            
+            String[] arrayTypes = types.toArray(new String[types.size()]);
+            String stringOrganizationTypes = String.join(",", types);
 
             resultList.add(new OrganizationPageDTO(
-                            organization.getId(),
-                            organization.getName(),
+                    organization.getId(),
+                    organization.getName(),
                     organization.getEmail(),
                     stringOrganizationTypes,
-
                     organization.getPhone(),
                     organization.getAddress().getRegion(),
                     organization.getAddress().getLocality(),

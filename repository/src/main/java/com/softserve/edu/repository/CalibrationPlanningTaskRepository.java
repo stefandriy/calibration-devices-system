@@ -1,6 +1,6 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.CalibrationPlanningTask;
+import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
 import org.springframework.data.repository.CrudRepository;
 
 /**

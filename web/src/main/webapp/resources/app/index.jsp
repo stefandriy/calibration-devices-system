@@ -21,6 +21,8 @@
 
     <link href="/resources/assets/bower_components/angularjs-toaster/toaster.min.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="/resources/assets/bower_components/semantic/dist/semantic.min.css">
+
     <link href="/resources/assets/css/application-form-organization.css" rel="stylesheet">
     <link href="/resources/assets/css/provider.css" rel="stylesheet">
     <link href="/resources/assets/css/calibrator.css" rel="stylesheet">
@@ -33,8 +35,19 @@
           rel="stylesheet">
     <link rel="stylesheet"
           href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
-    <link rel="stylesheet" href="/resources/assets/css/loader.css">
+    <%--<link rel="stylesheet" href="/resources/assets/css/loader.css">--%>
 
+    <style>
+        [ng\:cloak]
+		[ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak {
+            display: none !important;
+        }
+
+    </style>
 
 </head>
 
@@ -46,13 +59,7 @@
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation"
          ng-controller="TopNavBarControllerProvider">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" style="color:honeydew;">Централізована система повірки лічильників</a>
+            <a class="navbar-brand" style="color:honeydew">Централізована система повірки лічильників</a>
         </div>
 
         <div ng-controller="InternationalizationController">
@@ -86,7 +93,8 @@
                 <ul class="dropdown-menu dropdown-user dropdown_style">
                     <li class="user-header bg-light-blue">
                         <div class="profile_information_labal">
-                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png" class="img-rounded"   style="width: 200px; border-radius: 30px"
+                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png" class="img-rounded"
+                                 style="width: 200px; border-radius: 30px"
                                  alt="User Image"/>
                             <label translate="{{employee.firstName}} {{employee.lastName}}
                         {{employee.middleName}} ({{employee.username}})"/>
@@ -97,7 +105,7 @@
                             <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
                         </div>
                         <div class="profile_information_labal">
-                            <a class="btn btn-default ref_style_label"  translate="SETTINGS"></a>
+                            <a class="btn btn-default ref_style_label" translate="SETTINGS"></a>
                         </div>
                         <div class="profile_information_labal">
                             <a ng-click="logout()" class="btn btn-default ref_style_label"
@@ -107,13 +115,22 @@
                 </ul>
             </li>
         </ul>
+    </nav>
+    <!-- Sidebar -->
 
-        <!-- Sidebar -->
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
+    <div class="row ng-cloak">
+        <div class="col-md-3 menu_column">
+            <div class="ui primary button" ng-class="{'toggle_button' : menuState}" ng-init="menuState = true" ng-click="menuState = !menuState">
+                <div ng-show="menuState" ><i class="fa fa-chevron-left" style="font-size: 30px; vertical-align: middle"></i><span>Сховати</span></div>
+                <div ng-show="!menuState"><i class="fa fa-chevron-right" style="font-size: 30px;vertical-align: middle"></i><span>Показати</span></div>
+            </div>
+        </div>
+    </div>
 
-
-                <ul class="nav" id="side-menu">
+    <div class="row ng-cloak">
+        <div ng-class="{'col-md-3 menu_column' : menuState, '': !menuState}">
+            <div class="ui visible sticky visible very wide sidebar" ng-hide="!menuState" role="navigation">
+                <ul class="nav ui vertical menu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
                             <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
@@ -138,9 +155,9 @@
 
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
-                            <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
-                              <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                            <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()">
+                                <i class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
+                              <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                     ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
                             </a>
@@ -151,7 +168,7 @@
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
                                     class="fa fa-list-alt fa-fw"></i> Нові заявки (вимірювальна лабораторія)
-                           		<span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                           		<span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
                             </a>
@@ -162,6 +179,18 @@
                                 лабораторія)
                             </a>
                         </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> Планування завдання
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref=""><i class="fa fa-wrench"></i> Переносний модуль
+                            </a>
+                        </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref=""><i class="fa fa-wrench"></i> Стаціонарний модуль
+                            </a>
+                        </li>
 
 
                     </sec:authorize>
@@ -170,8 +199,9 @@
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
                             <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна лабораторія)
-                                <span id="coloredBadge" class="badge pull-right" ng-bind="countOfUnreadVerifications"
+                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна
+                                лабораторія)
+                                <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
                             </a>
@@ -218,14 +248,15 @@
                         </li>
                     </sec:authorize>
                 </ul>
-
             </div>
-
         </div>
-    </nav>
-    <div ui-view></div>
+        <div ng-class="{'col-md-12' : !menuState, 'col-md-9 main_column' : menuState}">
+            <div ui-view></div>
+        </div>
+    </div>
 </div>
-    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
+<toaster-container
+        toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
@@ -239,10 +270,7 @@
     $("#states").chosen();
 </script>
 
-<script src="/resources/assets/js/vendor/modernizr-2.6.2.min.js"></script>
-<script src="/resources/assets/bower_components/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
-<script src="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/js/bootstrap-formhelpers.js"></script>
-<script src="/resources/assets/js/main.js"></script>
+<%--<script src="/resources/assets/js/main.js"></script>--%>
 
 
 </body>

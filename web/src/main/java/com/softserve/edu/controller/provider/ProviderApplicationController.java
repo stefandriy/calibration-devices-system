@@ -7,11 +7,15 @@ import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
-import com.softserve.edu.entity.util.ReadStatus;
-import com.softserve.edu.entity.util.Status;
-import com.softserve.edu.service.DeviceService;
-import com.softserve.edu.service.MailService;
-import com.softserve.edu.service.SecurityUserDetailsService;
+import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.ClientData;
+import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.service.tool.DeviceService;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.catalogue.DistrictService;
 import com.softserve.edu.service.catalogue.LocalityService;
@@ -55,7 +59,7 @@ public class ProviderApplicationController {
     private LocalityService localityService;
 
     @Autowired
-    private MailService mail;
+    private MailServiceImpl mail;
 
     /**
      * Save verification in database

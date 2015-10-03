@@ -26,6 +26,8 @@
   "SEND_BTN": "Send",
   "APP_SENT": "Thank you! Your application was sent. Your code is: ",
   "APP_SENT_INFO": "Also this code was sent on your email. Have a nice day!",
+  "PROTOCOL_DROPDOWN": "Protocol",
+  "VERIFICATION_DROPDOWN": "Verification",
   "APP_STATUS_TITLE": "Please enter the code of your application",
   "NOT_FOUND": "Application not found",
   "SEARCH_BTN": "search",
@@ -34,6 +36,8 @@
   "REQUIRED": "This field is required",
   "EMAIL_ERROR": "Email must contatin '@' character. For instance: ",
   "TYPEAHEAD_ERROR": "Select the appropriate option from the drop down list",
+  "STREET_ERROR": "Street field is required",
+  "PROVIDER_NOT_FOUND": "There is no provider for this area. Please let us know.",
   "ALPHABETIC_ERROR": "This field can contain only alphabetic characters.",
   "PHONE_NUMBER_ERROR": "Phone number must be filled in format: {city/operator code}{phone number}",
   "PHONE_NUMBER_INFO":"This field is not mandatory , but to improve communications capabilities ask him to fill",
@@ -59,6 +63,8 @@
   "COUNTERS":"Counters",
   "EMPLOYEE":"Employees",
   "EMPLOYEE_SINGLE": "Employee full name",
+  "INFORMATION": "Information",
+  "SUCCESSFUL_SENDING": "Your message has been sent successfully",
 
   "PROTOCOL_ID":"Protocol ID",
   "PROTOCOL_DATE":"Protocol creation date",
@@ -155,6 +161,9 @@
 
     "DETAIL":"More",
     "DOWNLOAD_DOC":"Download doc in 'docx' format",
+    "DOWNLOAD_TEST_DOC": "Download test data in 'docx' format",
+    "DOWNLOAD_TEST_PDF": "Download test data in 'pdf' format",
+    "PRINT": "Print",
 
 	"PLEASE_DESCRIBE_REASON":"Please explain why verification is being rejected",
   	"REJECT":"Reject",
@@ -272,7 +281,6 @@
   "FIND_BY_ADRESS" : "Find by adress",
   "FIND_BY_ORG_TYPE" : "Find by organization type",
 
-
   "REJECT_MESSAGE" : "Reject message",
   "EXPIRATION_DATE" : "Expiration Date",
   "DEVICE_TYPE_REQUIRED" : "Device type required",
@@ -305,5 +313,15 @@
   "NUMBER_OF_COUNTER_REGEX" : "Only numbers! Must be more than 5 symbols!",
   "PRIVATE_HOUSE" : "Private house",
   "ERROR_VALIDATION" : "Some main fields are empty",
-  "DETAIL_INFO" : "Detail information about verification"
+  "DETAIL_INFO" : "Detail information about verification",
+  "EDIT CHANGES" : "Organization changes history",
+  "DATE" : "Editing date",
+  "EDITED_BY" : "Edited by",
+  "NO CHANGES FOR THIS ORGANIZATION" :"This organization haven't changes!",
+  "PROVIDER_NAME" : "Provider",
+  "CLIENT_ADDRESS" : "Address",
+  "TELEPHONE" : "Telephone",
+  "TASK" : "Planning task",
+  "SEND" : "Send",
+  "INFORMATION" : "Recent information"
 }

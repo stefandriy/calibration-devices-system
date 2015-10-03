@@ -16,7 +16,9 @@ require
 				angularLoadingBars : '../../assets/bower_components/angular-loading-bar/build/loading-bar',
 				angularUISelect: "../../assets/bower_components/ui-select/dist/select.min",
 				ngSanitize: "../../assets/bower_components/angular-sanitize/angular-sanitize.min",
-				adminModule : 'adminModule'
+				semanticUI: "../../assets/bower_components/semantic/dist/semantic.min",
+				adminModule : 'adminModule',
+				checklistModel : '../../assets/bower_components/checklist-model/checklist-model'
 			},
 			shim : {
 				angular : {
@@ -72,7 +74,12 @@ require
 					deps:['angular'],
 					exports: 'angularUISelect'
 				},
-
+				semanticUI:{
+					deps:['angular']
+				},
+				checklistModel: {
+					deps:['angular']
+				},
 
 				adminModule : {
 
@@ -82,8 +89,7 @@ require
 							'angularTranslateStorageLocal',
 							'angularTranslateLoaderStaticFiles',
 							'angularUIRouter', 'showErrors', 'ngTable',
-							'chosen','angularLoadingBars', 'angularUISelect', 'ngSanitize']
-
+							'chosen','angularLoadingBars', 'angularUISelect', 'ngSanitize', 'checklistModel', 'semanticUI']
 				}
 			}
 		});

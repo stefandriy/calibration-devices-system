@@ -1,16 +1,13 @@
 package com.softserve.edu.service.utils;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.OrganizationType;
-import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 
-/**
- * Created by vova on 02.09.15.
- */
+//TODO: What is going on here?!
 public class ArchivalOrganizationsQueryConstructorAdmin {
     static Logger logger = Logger.getLogger(ArchivalOrganizationsQueryConstructorAdmin.class);
 

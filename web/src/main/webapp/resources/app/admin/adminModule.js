@@ -3,7 +3,7 @@ angular
     'adminModule',
     ['spring-security-csrf-token-interceptor', 'ui.bootstrap',
         'ui.router', 'ui.bootstrap.showErrors', 'ngTable',
-        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives',
+        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives', 'checklist-model',
         'angular-loading-bar'])
 
     .config(
@@ -114,6 +114,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/OrganizationPanelController',
     'controllers/OrganizationAddModalController',
     'controllers/OrganizationEditModalController',
+    'controllers/OrganizationEditHistoryModalController',
     'controllers/DeviceController', 'controllers/SettingsController',
     'controllers/UsersController',
     'controllers/UserAddModalController',

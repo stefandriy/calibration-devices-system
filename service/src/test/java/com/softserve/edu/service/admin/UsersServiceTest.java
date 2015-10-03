@@ -1,27 +1,5 @@
 package com.softserve.edu.service.admin;
 
-import com.softserve.edu.entity.Organization;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.user.UserRole;
-import com.softserve.edu.entity.util.Roles;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.UserRoleRepository;
-import com.softserve.edu.service.UserService;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import static org.mockito.Mockito.*;
-import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
-
 /**
  * Created by Dmytro on 8/20/2015.
  */
@@ -61,7 +39,7 @@ public class UsersServiceTest {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
 
         when(mockUserRepository.findAll(pageRequest)).thenReturn(pageUsers);
-        when(mockUserRepository.findByRoleLikeIgnoreCase("%" + search
+        when(mockUserRepository.findByUserRoleAllIgnoreCase("%" + search
                 + "%", pageRequest)).thenReturn(pageUsers);
 
         ArgumentCaptor<PageRequest> pageRequestArg = ArgumentCaptor.forClass(PageRequest.class);
@@ -77,7 +55,7 @@ public class UsersServiceTest {
 
         injectMockUserService.getUsersBySearchAndPagination(pageNumber, itemsPerPage, search);
 
-        verify(mockUserRepository).findByRoleLikeIgnoreCase(anyString(), pageRequestArg2.capture());
+        verify(mockUserRepository).findByUserRoleAllIgnoreCase(anyString(), pageRequestArg2.capture());
         assertEquals(pageRequest.first(), pageRequestArg.getValue().first());
         assertEquals(pageRequest.first(), pageRequestArg2.getValue().first());
         assertEquals(pageUsers, injectMockUserService
@@ -88,16 +66,16 @@ public class UsersServiceTest {
     public void testGetRoleByUserName() throws Exception {
         final String username = "Admin";
         final String expectedString = "OK";
-        when(mockUserRepository.getRoleByUserName(username)).thenReturn(expectedString);
-        assertEquals(expectedString, injectMockUserService.getRoleByUserName(username));
+        when(mockUserRepository.getRolesByUserName(username)).thenReturn(expectedString);
+        assertEquals(expectedString, injectMockUserService.getRolesByUserName(username));
     }
 
     @Test
     public void testGetRoleByUserNam() throws Exception {
         final List<UserRole> listUsers = (List<UserRole>) mock(List.class);
         final String username = "Admin";
-        when(mockUserRepository.getRoleByUserNam(username)).thenReturn(listUsers);
-        assertEquals(listUsers, injectMockUserService.getRoleByUserNam(username));
+        when(mockUserRepository.getRolesByUserName(username)).thenReturn(listUsers);
+        assertEquals(listUsers, injectMockUserService.getRolesByUserName(username));
     }
 
     @Test
