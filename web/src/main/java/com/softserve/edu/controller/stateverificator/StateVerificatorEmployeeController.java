@@ -1,18 +1,23 @@
 package com.softserve.edu.controller.stateverificator;
 
 import com.softserve.edu.controller.provider.ProviderEmployeeController;
+import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
-import com.softserve.edu.service.user.UserService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
+import com.softserve.edu.service.state.verificator.StateVerificatorService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.service.user.UserService;
+import com.softserve.edu.service.utils.EmployeeDTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "verificator/admin/users")
@@ -27,7 +32,12 @@ public class StateVerificatorEmployeeController {
 	private OrganizationService organizationsService;
 
 	@Autowired
-	private StateVerificatorEmployeeService stateVerificatorEmployeeServiceImpl;
+	private StateVerificatorEmployeeService stateVerificatorEmployeeService;
+
+	@Autowired
+	private StateVerificatorService stateVerificatorService;
+
+
 	
 	  /**
      * Spatial security service
@@ -62,8 +72,32 @@ public class StateVerificatorEmployeeController {
 		Organization employeeOrganization = organizationsService.getOrganizationById(user.getOrganizationId());
 		stateVerificatorEmployee.setOrganization(employeeOrganization);
 		
-		stateVerificatorEmployeeServiceImpl.addEmployee(stateVerificatorEmployee);
+		stateVerificatorEmployeeService.addEmployee(stateVerificatorEmployee);
 
-		return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
+
+	@RequestMapping(value = "new/verificatorEmployees", method = RequestMethod.GET)
+	public List<EmployeeDTO> employeeCalibratorVerification(
+			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+		User employee = stateVerificatorEmployeeService.oneProviderEmployee(user.getUsername());
+		List<String> role = userService.getRoles(user.getUsername());
+		return stateVerificatorService.getAllVerificatorEmployee(role, employee);
+	}
+
+	@RequestMapping(value = "assign/verificatorEmployee", method = RequestMethod.PUT)
+	public void assignVerificatorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
+		String usernameVerificator = verificationProviderEmployeeDTO.getEmployeeCalibrator().getUsername();
+		String idVerification = verificationProviderEmployeeDTO.getIdVerification();
+		User employeeCalibrator = stateVerificatorEmployeeService.oneProviderEmployee(usernameVerificator);
+		stateVerificatorService.assignVerificatorEmployee(idVerification, employeeCalibrator);
+	}
+
+	@RequestMapping(value = "remove/verificatorEmployee", method = RequestMethod.PUT)
+	public void removeVerificatorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationUpdatingDTO) {
+		String idVerification = verificationUpdatingDTO.getIdVerification();
+		stateVerificatorService.assignVerificatorEmployee(idVerification, null);
+	}
+
+
 }
