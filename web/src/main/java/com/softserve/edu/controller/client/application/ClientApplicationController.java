@@ -5,11 +5,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.softserve.edu.controller.client.application.util.DeviceDTO;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.user.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +47,9 @@ public class ClientApplicationController {
 
     @Autowired
     private VerificationService verificationService;
+
+    @Autowired
+    private OrganizationService organizationService;
 
     @Autowired
     private ProviderService providerService;
@@ -114,11 +121,39 @@ public class ClientApplicationController {
         }
     }
 
+    @Deprecated //need to delete in future
     @RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
 
         return providerService.findByDistrictAndType(district, "PROVIDER").stream()
                 .map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Find Providers corresponding to Locality
+     *
+     * @param localityId
+     * @return
+     */
+    @RequestMapping(value = "providersInLocality/{localityId}", method = RequestMethod.GET)
+    public List<ApplicationFieldDTO> getProvidersCorrespondingLocality(@PathVariable Long localityId) {
+
+        return organizationService.findAllByLocalityIdAndTypeId(localityId, OrganizationType.PROVIDER).stream()
+                .map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Return all providers in locality by device type
+     * @param localityId
+     * @param deviceType
+     * @return
+     */
+    @RequestMapping(value = "providers/{localityId}/{deviceType}", method = RequestMethod.GET)
+    public List<ApplicationFieldDTO> getProvidersCorrespondingLocalityAndType(@PathVariable Long localityId, @PathVariable String deviceType) {
+        return organizationService.findByLocalityIdAndTypeAndDevice(localityId, OrganizationType.PROVIDER, DeviceType.valueOf(deviceType))
+                .stream().map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
                 .collect(Collectors.toList());
     }
 
@@ -131,10 +166,15 @@ public class ClientApplicationController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * return all devices
+     *
+     * @return
+     */
     @RequestMapping(value = "devices", method = RequestMethod.GET)
-    public List<ApplicationFieldDTO> getAll() {
+    public List<DeviceDTO> getAll() {
         return deviceService.getAll().stream()
-                .map(device -> new ApplicationFieldDTO(device.getId(), device.getDeviceName()))
+                .map(device -> new DeviceDTO(device.getId(), device.getDeviceName(), device.getDeviceType().name()))
                 .collect(Collectors.toList());
     }
 
