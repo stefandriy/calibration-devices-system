@@ -96,6 +96,7 @@ public class EmployeeController {
         userFromDataBase.setLastName(temporalUser.getLastName());
         userFromDataBase.setMiddleName(temporalUser.getMiddleName());
         userFromDataBase.setPhone(temporalUser.getPhone());
+        userFromDataBase.setSecondPhone(temporalUser.getSecondPhone());
         userFromDataBase.setEmail(temporalUser.getEmail());
         userFromDataBase.setAddress(temporalUser.getAddress());
         userFromDataBase.setUsername(temporalUser.getUsername());
@@ -128,6 +129,7 @@ public class EmployeeController {
         newUser.setMiddleName(providerEmployee.getMiddleName());
         newUser.setEmail(providerEmployee.getEmail());
         newUser.setPhone(providerEmployee.getPhone());
+        newUser.setSecondPhone(providerEmployee.getSecondPhone());
         newUser.setUsername(providerEmployee.getUsername());
         //newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
         //      providerEmployee.getAddress() : newUser.getAddress());
