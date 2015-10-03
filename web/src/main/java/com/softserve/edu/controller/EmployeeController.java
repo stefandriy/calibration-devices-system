@@ -153,6 +153,7 @@ public class EmployeeController {
                 .lastName(employee.getLastName())
                 .middleName(employee.getMiddleName())
                 .phone(employee.getPhone())
+                .secondPhone(employee.getSecondPhone())
                 .email(employee.getEmail())
                 .address(employee.getAddress())
                 .isAvailable(employee.getIsAvaliable())

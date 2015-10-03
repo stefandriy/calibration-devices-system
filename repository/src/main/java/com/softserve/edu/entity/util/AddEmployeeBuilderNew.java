@@ -9,6 +9,7 @@ public class AddEmployeeBuilderNew {
     public String lastName;
     public String middleName;
     public String phone;
+    public String secondPhone;
     public String email;
     public String username;
     public String password;
@@ -32,6 +33,11 @@ public class AddEmployeeBuilderNew {
 
     public AddEmployeeBuilderNew phone(String phone) {
         this.phone = phone;
+        return this;
+    }
+    
+    public AddEmployeeBuilderNew secondPhone(String secondPhone) {
+        this.secondPhone = secondPhone;
         return this;
     }
 

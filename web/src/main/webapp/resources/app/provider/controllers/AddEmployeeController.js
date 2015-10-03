@@ -314,6 +314,7 @@ angular
                     lastName: $scope.employeeFormData.lastName,
                     middleName: $scope.employeeFormData.middleName,
                     phone: $scope.employeeFormData.phone,
+                    secondPhone: $scope.employeeFormData.secondPhone,
                     email: $scope.employeeFormData.email,
                     username: $scope.employeeFormData.username,
                     password: $scope.employeeFormData.password,

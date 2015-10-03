@@ -91,6 +91,7 @@ angular
                     .open({
                         animation : true,
                         controller : 'AddEmployeeController',
+                        size: 'lg',
                         templateUrl : '/resources/app/provider/views/employee/employee-add-modal.html',
                     });
             };
