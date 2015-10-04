@@ -11,14 +11,13 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import java.util.Date;
 
 @Service
@@ -78,13 +77,15 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     }
 
     @Override
+    @Transactional
     public Page<Verification> findVerificationsByCalibratorIdAndReadStatus (String userName, int pageNumber, int itemsPerPage) {
         User user  = userRepository.findByUsername(userName);
         if (user == null){
             logger.error("Cannot found user!");
         }
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return planningTaskRepository.findByCalibratorIdAndReadStatus(user.getOrganization().getId(), ReadStatus.READ, pageRequest);
+        return planningTaskRepository.findByCalibratorIdAndReadStatus(user.getOrganization().getId(), ReadStatus.READ,
+                pageRequest, new Sort(Sort.Direction.ASC, "locality", "street", "building", "flat"));
     }
 
 

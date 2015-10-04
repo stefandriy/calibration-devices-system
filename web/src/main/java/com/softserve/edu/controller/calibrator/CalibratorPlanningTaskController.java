@@ -1,10 +1,14 @@
 package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.dto.calibrator.CalibrationTaskDTO;
+import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "calibrator/verifications/task/")
@@ -41,7 +48,11 @@ public class CalibratorPlanningTaskController {
     private ResponseEntity findAllVerificationsByCalibratorAndReadStatus (@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
-        taskService.findVerificationsByCalibratorIdAndReadStatus(employeeUser.getUsername(), pageNumber, itemsPerPage);
+        Page<Verification> verifications = taskService.findVerificationsByCalibratorIdAndReadStatus(employeeUser.getUsername(), pageNumber, itemsPerPage);
+        List<VerificationPlanningTaskDTO> taskDTOs = new ArrayList<VerificationPlanningTaskDTO>();
+        for (Verification verification : verifications) {
+
+        }
         return new ResponseEntity(httpStatus);
     }
 

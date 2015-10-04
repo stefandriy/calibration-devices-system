@@ -17,20 +17,19 @@ public class VerificationPlanningTaskDTO {
 
     private String clientFullName;
 
-    private String adress;
+    private String address;
 
     private String telephone;
 
     public VerificationPlanningTaskDTO(){}
 
-    public VerificationPlanningTaskDTO(Date sentDate, String verificationID, Organization organization, String firstName,
-                                       String secondName, String lastName, String locality, String street, String bulding, String flat,
-                                       String telephone ){
+    public VerificationPlanningTaskDTO(Date sentDate, String verificationID, Organization organization, String fullName,
+                                       String address, String telephone ){
         this.sentToCalibrator = sentDate;
         this.verficationId = verificationID;
         this.providerName = organization.getName();
-        this.clientFullName = firstName + secondName + lastName;
-        this.adress = locality + street + bulding + flat;
+        this.clientFullName = fullName;
+        this.address = address;
         this.telephone = telephone;
     }
 
