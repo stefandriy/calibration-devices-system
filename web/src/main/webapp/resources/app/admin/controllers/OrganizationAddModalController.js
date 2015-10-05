@@ -219,7 +219,7 @@ angular
             $scope.serviceArea.region = [];
             $scope.serviceArea.districts = [];
             $scope.serviceArea.locality = [[]];
-            $scope.selectedServiseAreaLocalities = [];
+            $scope.selectedServiceAreaLocalities = [];
 
             /**
              * Receives all possible Districts for service area
@@ -277,25 +277,25 @@ angular
                             $scope.serviceArea.locality[index] = localities;
 
                             $scope.serviceArea.locality[index].forEach(function (element) {
-                                var selectedIndex = $scope.selectedServiseAreaLocalities.indexOf(element.id);
+                                var selectedIndex = $scope.selectedServiceAreaLocalities.indexOf(element.id);
                                 if (selectedIndex === -1) {
-                                    $scope.selectedServiseAreaLocalities.push(element.id);
+                                    $scope.selectedServiceAreaLocalities.push(element.id);
                                 }
                             });
                         });
                 } else if (district.checked) {
                     $scope.serviceArea.locality[index].forEach(function (element) {
-                        var selectedIndex = $scope.selectedServiseAreaLocalities.indexOf(element.id);
+                        var selectedIndex = $scope.selectedServiceAreaLocalities.indexOf(element.id);
                         if (selectedIndex === -1) {
-                            $scope.selectedServiseAreaLocalities.push(element.id);
+                            $scope.selectedServiceAreaLocalities.push(element.id);
                         }
                     });
                 }
                 else {
                     $scope.serviceArea.locality[index].forEach(function (element) {
-                        var selectedIndex = $scope.selectedServiseAreaLocalities.indexOf(element.id);
+                        var selectedIndex = $scope.selectedServiceAreaLocalities.indexOf(element.id);
                         if (selectedIndex > -1) {
-                            $scope.selectedServiseAreaLocalities.splice(selectedIndex, 1);
+                            $scope.selectedServiceAreaLocalities.splice(selectedIndex, 1);
                         }
                     });
                 }
@@ -313,7 +313,7 @@ angular
                 $scope.organizationFormData.street = $scope.organizationFormData.street.designation;
                 $scope.organizationFormData.building = $scope.organizationFormData.building;
                 $scope.organizationFormData.flat = $scope.organizationFormData.flat;
-                $scope.organizationFormData.serviceAreas = $scope.selectedServiseAreaLocalities;
+                $scope.organizationFormData.serviceAreas = $scope.selectedServiceAreaLocalities;
             }
 
             function objectTypesToStringTypes() {

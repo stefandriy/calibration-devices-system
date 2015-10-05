@@ -1,6 +1,6 @@
 <section id=applicationSection>
 
-    <div class="col-md-12 text-center"  ng-show="isShownForm">
+    <div class="col-md-12 text-center" ng-show="isShownForm">
         <h1>{{ 'APP_SENDING_TITLE' | translate }}</h1>
     </div>
     <div class="row">
@@ -431,7 +431,8 @@
                                 <i class="glyphicon glyphicon-plus input-block-level"></i>
                             </div>
                         </div>
-                        <p class="help-block" ng-if="clientForm.firstDeviceCount.$error.required || clientForm.firstDeviceCount.$invalid">
+                        <p class="help-block"
+                           ng-if="clientForm.firstDeviceCount.$error.required || clientForm.firstDeviceCount.$invalid">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
@@ -513,7 +514,8 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
-                            <p class="help-block" ng-if="clientForm.secondDeviceCount.$error.required || clientForm.secondDeviceCount.$invalid">
+                            <p class="help-block"
+                               ng-if="clientForm.secondDeviceCount.$error.required || clientForm.secondDeviceCount.$invalid">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'TYPEAHEAD_ERROR' | translate}}
                             </p>
