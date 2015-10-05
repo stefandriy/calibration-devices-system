@@ -103,6 +103,16 @@ angular
             });
         }
 
+        function employeeUpdateData(url, data) {
+            return $http.put('verificator/admin/users/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+
         function getDataWithParams(url, params) {
             return $http.get(url, {
                 params : params
