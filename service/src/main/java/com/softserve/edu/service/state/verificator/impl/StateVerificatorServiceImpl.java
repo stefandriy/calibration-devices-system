@@ -52,6 +52,12 @@ public class StateVerificatorServiceImpl implements StateVerificatorService {
     }
 
 
+    /**
+     * return all Employees from Verificators(User) organization
+     * @param userRoles
+     * @param employee
+     * @return
+     */
     @Override
     @Transactional(readOnly = true)
     public List<EmployeeDTO> getAllVerificatorEmployee(List<String> userRoles, User employee) {
@@ -73,6 +79,12 @@ public class StateVerificatorServiceImpl implements StateVerificatorService {
         return verificatorEmployeeList;
     }
 
+    /**
+     * assigning employee on the verification
+     * and than this employee will work with this verification
+     * @param verificationId
+     * @param verificatorEmployee
+     */
     @Override
     @Transactional
     public void assignVerificatorEmployee(String verificationId, User verificatorEmployee) {
