@@ -250,6 +250,8 @@
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
 
+        'verificator/controllers/VerificatorEmployeeControllerVerificator',
+
         'verificator/controllers/UsersControllerVerificator',
 
         'verificator/services/AddressServiceVerificator',

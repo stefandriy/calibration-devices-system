@@ -61,17 +61,29 @@
                                              popover-trigger="mouseenter"
                                              ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
                                         </img>
-                                        <img src="/resources/assets/button-icons/face2.png"
-                                             ng-show="!verification.providerEmployee"
-                                             popover-trigger="mouseenter"
-                                             ng-click="addProviderEmployee(verification.id,verification.stateVerificatorEmployee)">
-                                        </img>
-                                        <img src="/resources/assets/button-icons/close.png"
-                                             ng-show="!verification.providerEmployee"
-                                             popover="Remove employee"
-                                             popover-trigger="mouseenter"
-                                             ng-click="removeProviderEmployee(verification.id)">
-                                        </img>
+                                        <!--<img src="/resources/assets/button-icons/face2.png"-->
+                                             <!--ng-show="!verification.providerEmployee"-->
+                                             <!--popover-trigger="mouseenter"-->
+                                             <!--ng-click="addProviderEmployee(verification.id,verification.stateVerificatorEmployee)">-->
+                                        <!--</img>-->
+
+                                           <img src="/resources/assets/button-icons/face2.png"
+                                                ng-show="!verification.verificatorEmployee"
+                                                popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                                ng-click="addVerificatorEmployee(verification.id)">
+                                           </img>
+                                           <img src="/resources/assets/button-icons/close.png"
+                                                ng-show="verification.verificatorEmployee"
+                                                popover="Скасувати відповідальну особу"
+                                                popover-trigger="mouseenter"
+                                                ng-click="removeVerificatorEmployee(verification.id)">
+                                           </img>
+                                        <!--<img src="/resources/assets/button-icons/close.png"-->
+                                             <!--ng-show="!verification.providerEmployee"-->
+                                             <!--popover="Remove employee"-->
+                                             <!--popover-trigger="mouseenter"-->
+                                             <!--ng-click="removeVerificatorEmployee(verification.id)">-->
+                                        <!--</img>-->
                                         <img src="/resources/assets/button-icons/testReview.png"
                                              popover="Переглянути тест" popover-trigger="mouseenter"
                                              ng-click="testReview(verification.id)">

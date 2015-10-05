@@ -77,14 +77,27 @@ public class StateVerificatorEmployeeController {
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
+	/**
+	 * return All Verificator Employee
+	 * using for add Employee to verification
+	 * @param user
+	 * @return
+	 */
+
 	@RequestMapping(value = "new/verificatorEmployees", method = RequestMethod.GET)
-	public List<EmployeeDTO> employeeCalibratorVerification(
+	public List<EmployeeDTO> employeeStateVerificatorVerification(
 			@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 		User employee = stateVerificatorEmployeeService.oneProviderEmployee(user.getUsername());
 		List<String> role = userService.getRoles(user.getUsername());
 		return stateVerificatorService.getAllVerificatorEmployee(role, employee);
 	}
 
+	/**
+	 * set employee on a current verification,
+	 * and than this guy will have opportunity to
+	 * check this verification.
+	 * @param verificationProviderEmployeeDTO
+	 */
 	@RequestMapping(value = "assign/verificatorEmployee", method = RequestMethod.PUT)
 	public void assignVerificatorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
 		String usernameVerificator = verificationProviderEmployeeDTO.getEmployeeCalibrator().getUsername();
@@ -93,6 +106,10 @@ public class StateVerificatorEmployeeController {
 		stateVerificatorService.assignVerificatorEmployee(idVerification, employeeCalibrator);
 	}
 
+	/**
+	 * remove assigned employee on a current verification
+	 * @param verificationUpdatingDTO
+	 */
 	@RequestMapping(value = "remove/verificatorEmployee", method = RequestMethod.PUT)
 	public void removeVerificatorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationUpdatingDTO) {
 		String idVerification = verificationUpdatingDTO.getIdVerification();

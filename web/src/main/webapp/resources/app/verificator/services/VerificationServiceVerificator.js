@@ -21,6 +21,15 @@ angular
             getCalibrators: function (url) {
                 return getData('verifications/new/calibrators');
             },
+            getVerificators: function (url) {
+                return getEmployeeData('new/verificatorEmployees');
+            },
+            sendEmployeeVerificator: function (data) {
+                return employeeUpdateData('assign/verificatorEmployee', data);
+            },
+            cleanVerificatorEmployeeField:function (data) {
+                return employeeUpdateData('remove/verificatorEmployee', data);
+            },
             rejectTestToCalibrator: function (data) {
                 return updateData('new/reject', data);
             },
@@ -65,6 +74,17 @@ angular
             $log.info(url);
 
             return $http.get('verificator/' + url)
+                .success(function (data) {
+                    return data;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+
+
+        function getEmployeeData(url) {
+            return $http.get('verificator/admin/users/' + url)
                 .success(function (data) {
                     return data;
                 })
