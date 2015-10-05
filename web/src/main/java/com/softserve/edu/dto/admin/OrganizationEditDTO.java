@@ -27,4 +27,5 @@ public class OrganizationEditDTO {
     private String firstName;
     private String lastName;
     private String middleName;
+    private List<Long> serviceAreas;
 }
