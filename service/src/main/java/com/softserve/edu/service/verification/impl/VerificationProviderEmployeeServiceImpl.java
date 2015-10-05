@@ -6,11 +6,12 @@ import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
+import com.softserve.edu.service.tool.MailService;
 
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,8 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
     private UserRepository userRepository;
     
     @Autowired
-    MailServiceImpl mailServiceImpl;
+    @Lazy(value=true)
+    MailService mailService;
 
     /**
      * Current method assign provider employee in verification
@@ -48,7 +50,7 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
             verification.setStatus(Status.SENT);
         } else {
             verification.setStatus(Status.ACCEPTED);
-            mailServiceImpl.sendAcceptMail(verification.getClientData().getEmail(), verificationId, verification.getDevice().getDeviceType().name());
+            mailService.sendAcceptMail(verification.getClientData().getEmail(), verificationId, verification.getDevice().getDeviceType().name());
         }
         verification.setReadStatus(ReadStatus.READ);
         verification.setExpirationDate(new Date());

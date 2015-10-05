@@ -13,6 +13,7 @@ import com.softserve.edu.repository.OrganizationChangesHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.catalogue.LocalityService;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -51,7 +52,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private UserRepository userRepository;
 
     @Autowired
-    private MailServiceImpl mail;
+    private MailService mail;
 
     @Autowired
     private LocalityService localityService;
