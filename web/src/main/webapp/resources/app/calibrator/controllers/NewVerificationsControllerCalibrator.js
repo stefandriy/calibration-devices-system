@@ -285,7 +285,7 @@ angular
                             .sendVerificationsToCalibrator(dataToSend)
                             .success(function () {
                                 $scope.tableParams.reload();
-                                $rootScope.$broadcast('verification-sent-to-verifikator');
+                                $rootScope.$broadcast('verification-sent-to-verificator');
                             });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];

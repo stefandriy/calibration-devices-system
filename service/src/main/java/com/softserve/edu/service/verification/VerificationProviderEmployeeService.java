@@ -10,9 +10,9 @@ public interface VerificationProviderEmployeeService {
 
      User getProviderEmployeeById(String idVerification);
 
-     List<Verification> getVerificationListbyProviderEmployee(String username);
+     List<Verification> getVerificationListByProviderEmployee(String username);
 
-     List<Verification> getVerificationListbyCalibratormployee(String username);
+     List<Verification> getVerificationListByCalibratorEmployee(String username);
 
      Long countByProviderEmployeeTasks(String username);
 

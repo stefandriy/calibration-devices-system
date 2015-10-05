@@ -5,6 +5,7 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import org.junit.Assert;
@@ -34,7 +35,7 @@ public class ProviderEmployeeServiceImplTest {
 	private UserRepository mockProviderEmployeeRepository;
 
 	@Mock
-	private MailServiceImpl mockMail;
+	private MailService mockMail;
 
 	@Mock
 	private EntityManager mockEntityManager;
