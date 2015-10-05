@@ -10,8 +10,10 @@ angular
             },
             getCapacityOfWork: function(username){
                 return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
-            }
-            ,
+            },
+            getOrganizationEmployeeCapacity: function () {
+                return getData('employee/admin/users/organizationCapacity');
+            },
             getPage: function (currentPage, itemsPerPage,searchObj,filterObj) {
                 var field;
                 var value;

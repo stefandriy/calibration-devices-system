@@ -3,9 +3,12 @@
  */
 angular
     .module('employeeModule')
-    .controller('UsersControllerVerificator', ['$scope','UserServiceVerificator','UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
-        function ($scope,UserServiceVerificator , userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
+    .controller('UsersControllerVerificator', ['$scope','UserServiceVerificator','UserService', '$modal',
+        '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
+        function ($scope, UserServiceVerificator , userService, $modal, $log, ngTableParams,
+                  $timeout, $filter, $rootScope) {
             $scope.totalEmployee=0;
+            $scope.cantAddEmployee;
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -21,6 +24,7 @@ angular
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
+                            $scope.cantAddNewEmployee();
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
@@ -124,6 +128,24 @@ angular
 
                     });
             };
+
+            /**
+             * check if we can to add new employee
+             */
+            $scope.cantAddNewEmployee = function() {
+                userService.getOrganizationEmployeeCapacity()
+                    .success(function(data) {
+                        $scope.organizationEmployeesCapacity = data;
+                        if ($scope.totalEmployee < $scope.organizationEmployeesCapacity) {
+                            $scope.cantAddEmployee = false;
+                        } else {
+                            $scope.cantAddEmployee = true;
+                        }
+                    }
+                );
+            };
+
+
 
             /**
              * update table with employees after edit or add new employee
