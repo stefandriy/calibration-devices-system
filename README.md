@@ -63,8 +63,9 @@ Check `database_script.sql` for additional information about other users such as
 
 > TODO
 =======
+
 ### Team members
-##### LV-144 Java:
+#### LV-144 Java:
 Експерт: Михайло Партика
 
 Викладачі: Вікторія Ряжська та В’ячеслав Колдовський 
@@ -77,7 +78,7 @@ Check `database_script.sql` for additional information about other users such as
  - Олег Чернигевич
  - Олександр Виблов
  
-##### LV-150 Java:
+#### LV-150 Java:
 Експерт: Микола Марчук
 
 Викладач: Вікторія Ряжська
@@ -91,7 +92,7 @@ Check `database_script.sql` for additional information about other users such as
  - Михайло Матвіїшин
  - Богдан Горох
  
- ##### LV-157 Java:
+#### LV-157 Java:
 Експерт: Михайло Партика
 
 Викладач: Вікторія Ряжська
@@ -108,5 +109,4 @@ Check `database_script.sql` for additional information about other users such as
  - Олег Косар
  - Тарас Паничок
  
-### REST API
 
