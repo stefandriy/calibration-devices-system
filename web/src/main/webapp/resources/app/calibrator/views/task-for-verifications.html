@@ -36,7 +36,7 @@
                                                                ng-click="resolveVerificationId(verification.id)"/>
                                     </td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
-                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
+                                        filter="{ 'date': 'daterange' }">{{ verification.sentToCalibratorDate | date :
                                         'dd-MM-yyyy'}}
                                         <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
                                             translate}} {{verification.processTimeExceeding}} {{'DAYS' |
@@ -55,11 +55,8 @@
                                     <td data-title="'CLIENT_ADDRESS' | translate" sortable="'address'"
                                         filter="{ 'address': 'text' }">{{ verification.address }}
                                     </td>
-                                   <!-- <td data-title="'COUNTER_QUANTITY' | translate" sortable="'quantity'"
-                                        filter="{ 'quantity': 'text' }">{{ verification.counterQuantity }}
-                                    </td> -->
                                     <td data-title="'TELEPHONE' | translate" sortable="'quantity'"
-                                        filter="{ 'quantity': 'text' }">{{ verification.counterQuantity }}
+                                        filter="{ 'quantity': 'text' }">{{ verification.telephone }}
                                     </td>
 
 

@@ -15,7 +15,6 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode(of = "username")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 @Table(name = "USER")
 public class User {
 
@@ -28,6 +27,7 @@ public class User {
     private String middleName;
     private String email;
     private String phone;
+    private String secondPhone;
     private Boolean isAvailable = false;
 
     @Embedded
@@ -52,6 +52,7 @@ public class User {
         middleName = builder.middleName;
         email = builder.email;
         phone = builder.phone;
+        secondPhone = builder.secondPhone;
         address = builder.address;
         isAvailable = builder.isAvailable;
     }
@@ -116,5 +117,11 @@ public class User {
 
     public void addRole(UserRole role) {
         this.userRoles.add(role);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' + '}';
     }
 }

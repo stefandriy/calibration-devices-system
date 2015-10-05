@@ -14,6 +14,7 @@ import static com.softserve.edu.entity.catalogue.util.Checker.checkForNull;
 @Getter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Locality extends AbstractCatalogue {
 
     @Id

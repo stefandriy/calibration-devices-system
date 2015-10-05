@@ -1,11 +1,12 @@
 package com.softserve.edu.service.provider.impl;
 
 import com.softserve.edu.entity.organization.Organization;
-
+import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
 import com.softserve.edu.service.utils.EmployeeDTO;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
@@ -29,9 +31,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
@@ -91,9 +95,11 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     public List<EmployeeDTO> getAllProviders(List<String> role, User employee) {
         List<EmployeeDTO> providerListEmployee = new ArrayList<>();
         if (role.contains(UserRole.PROVIDER_ADMIN.name())) {
-            List<User> list = providerEmployeeRepository.getAllAvailableUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(),
-                    employee.getOrganization().getId());
-            providerListEmployee = EmployeeDTO.giveListOfProviders(list);
+            List<User> allAvailableUsersList = providerEmployeeRepository.findAllAvailableUsersByRoleAndOrganizationId(
+                    UserRole.PROVIDER_EMPLOYEE, employee.getOrganization().getId())
+                        .stream()
+                        .collect(Collectors.toList());
+            providerListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(allAvailableUsersList);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
                     employee.getLastName(), employee.getMiddleName(), role.get(0));
@@ -105,13 +111,13 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional()
     public User findByUserame(String userName) {
-        return providerEmployeeRepository.findByUsername(userName);
+        return providerEmployeeRepository.findOne(userName);
     }
 
     @Override
     @Transactional
     public List<String> getRoleByUserNam(String username) {
-        return providerEmployeeRepository.getRolesByUserName(username);
+        return ConvertUserRoleToString.convertToListString(providerEmployeeRepository.getRolesByUserName(username));
     }
 
     @Override
@@ -119,12 +125,12 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     public ListToPageTransformer<User>
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, Long idOrganization, String userName,
                                                    String role, String firstName, String lastName, String organization,
-                                                   String telephone, String fieldToSort) {
+                                                   String telephone, String secondTelephone, String fieldToSort) {
         CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
-                lastName, organization, telephone, em, idOrganization, fieldToSort);
+                lastName, organization, telephone, secondTelephone, em, idOrganization, fieldToSort);
 
         Long count = em.createQuery(ProviderEmployeeQuary.buildCountQuery(userName, role, firstName,
-                lastName, organization, telephone, idOrganization, em)).getSingleResult();
+                lastName, organization, telephone, secondTelephone, idOrganization, em)).getSingleResult();
 
         TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -193,6 +199,8 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional
     public List<User> getAllProviderEmployee(Long idOrganization) {
-        return userRepository.getAllUsersByRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE.name(), idOrganization);
+        return userRepository.findByUserRoleAndOrganizationId(UserRole.PROVIDER_EMPLOYEE, idOrganization)
+                .stream()
+                .collect(Collectors.toList());
     }
 }

@@ -1,24 +1,25 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
 import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationPlanningTaskRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskService {
@@ -78,14 +79,13 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     @Override
     @Transactional
-    public Page<Verification> findVerificationsByCalibratorIdAndReadStatus (String userName, int pageNumber, int itemsPerPage) {
-        User user  = userRepository.findByUsername(userName);
+    public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber, int itemsPerPage) {
+        User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
         }
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return planningTaskRepository.findByCalibratorIdAndReadStatus(user.getOrganization().getId(), ReadStatus.READ,
-                pageRequest, new Sort(Sort.Direction.ASC, "locality", "street", "building", "flat"));
+        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatusOrderBySentToCalibratorDateDesc(user.getUsername(), Status.PLANNING_TASK, pageRequest);
     }
 
 

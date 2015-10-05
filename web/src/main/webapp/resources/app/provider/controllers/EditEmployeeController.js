@@ -159,6 +159,7 @@ angular
                     lastName: $scope.user.lastName,
                     middleName: $scope.user.middleName,
                     phone: $scope.user.phone,
+                    secondPhone: $scope.user.secondPhone,
                     email: $scope.user.email,
                     username: $scope.user.username,
                     password: $scope.user.password,
@@ -202,6 +203,9 @@ angular
             $scope.onEmployeeFormSubmit = function () {
 
                 $scope.$broadcast('show-errors-check-validity');
+                if ($scope.checkboxModel == false){
+                	$scope.user.secondPhone = null;
+                }
                 retranslater();
                 updateEmployee();
                 $scope.incorrectValue = true;

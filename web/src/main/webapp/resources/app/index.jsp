@@ -184,11 +184,11 @@
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref=""><i class="fa fa-wrench"></i> Переносний модуль
+                            <a><i class="fa fa-wrench"></i> Переносний модуль
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref=""><i class="fa fa-wrench"></i> Стаціонарний модуль
+                            <a><i class="fa fa-wrench"></i> Стаціонарний модуль
                             </a>
                         </li>
 

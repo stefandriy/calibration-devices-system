@@ -1,5 +1,6 @@
 package com.softserve.edu.controller.provider.util;
 
+import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.Verification;
@@ -44,6 +45,20 @@ public class VerificationPageDTOTransformer {
             );
         }
         return resultList;
+    }
+
+    public static List<VerificationPlanningTaskDTO> toDoFromPageContent(List<Verification> verifications){
+        List<VerificationPlanningTaskDTO> taskDTOs = new ArrayList<VerificationPlanningTaskDTO>();
+        for (Verification verification : verifications) {
+            taskDTOs.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
+                    verification.getId(),
+                    verification.getProvider(),
+                    verification.getClientData().getFullName(),
+                    verification.getClientData().getClientAddress().getAddress(),
+                    verification.getClientData().getPhone()
+                    ));
+        }
+        return taskDTOs;
     }
 
 }

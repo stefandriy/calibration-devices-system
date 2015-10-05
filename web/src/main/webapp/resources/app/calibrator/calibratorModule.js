@@ -68,6 +68,6 @@
         'services/AddressService',
         'services/UserService',
         'services/VerificationService',
-        'services/TaskServiceCalibrator'
+        'services/VerificationPlanningTaskService'
     ], function () {});
 })();

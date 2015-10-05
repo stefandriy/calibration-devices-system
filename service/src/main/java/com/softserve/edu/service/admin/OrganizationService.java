@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
@@ -40,5 +41,8 @@ public interface OrganizationService {
     List<Organization> findAllByLocalityIdAndTypeId(Long localityId, OrganizationType typeId);
 
     Set<OrganizationType> findOrganizationTypesById(Long id);
+
+    List<Organization> findByLocalityIdAndTypeAndDevice( Long localityId, OrganizationType orgType, DeviceType deviceType );
+
 
 }

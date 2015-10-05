@@ -39,7 +39,7 @@ public class UsersServiceTest {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
 
         when(mockUserRepository.findAll(pageRequest)).thenReturn(pageUsers);
-        when(mockUserRepository.findByRoleLikeIgnoreCase("%" + search
+        when(mockUserRepository.findByUserRoleAllIgnoreCase("%" + search
                 + "%", pageRequest)).thenReturn(pageUsers);
 
         ArgumentCaptor<PageRequest> pageRequestArg = ArgumentCaptor.forClass(PageRequest.class);
@@ -55,7 +55,7 @@ public class UsersServiceTest {
 
         injectMockUserService.getUsersBySearchAndPagination(pageNumber, itemsPerPage, search);
 
-        verify(mockUserRepository).findByRoleLikeIgnoreCase(anyString(), pageRequestArg2.capture());
+        verify(mockUserRepository).findByUserRoleAllIgnoreCase(anyString(), pageRequestArg2.capture());
         assertEquals(pageRequest.first(), pageRequestArg.getValue().first());
         assertEquals(pageRequest.first(), pageRequestArg2.getValue().first());
         assertEquals(pageUsers, injectMockUserService

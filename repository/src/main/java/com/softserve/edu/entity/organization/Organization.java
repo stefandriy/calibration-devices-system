@@ -18,7 +18,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 @Entity
@@ -118,5 +117,11 @@ public class Organization {
 
     public void addLocality(Locality locality) {
         localities.add(locality);
+    }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "name='" + name + '\'' + '}';
     }
 }

@@ -390,7 +390,7 @@ angular
             $scope.addCalibratorEmployee = function (verifId) {
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/employee/adding-providerEmployee.html',
+                    templateUrl: '/resources/app/calibrator/views/employee/assigning-calibratorEmployee.html',
                     controller: 'CalibratorEmployeeControllerCalibrator',
                     size: 'md',
                     windowClass: 'xx-dialog',

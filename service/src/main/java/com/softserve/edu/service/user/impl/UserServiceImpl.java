@@ -1,5 +1,6 @@
 package com.softserve.edu.service.user.impl;
 
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.user.UserService;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public boolean changeField(String username, String newValue, String typeOfField) {
         boolean isChanged = false;
         if (typeOfField != null && username != null && newValue != null) {
-            User user = userRepository.findByUsername(username);
+            User user = userRepository.findOne(username);
             if (user != null) {
                 switch (typeOfField) {
                     case "firstName":
@@ -109,12 +111,17 @@ public class UserServiceImpl implements UserService {
         }
         return isChanged;
     }
-    @Override
-    public User findByRoleAndOrganizationId(String role, Long organizationId){
-        return userRepository.findByRoleAndOrganizationId(role, organizationId);
-    }
+
     @Override
     public List<User> findByRole(String role){
-        return userRepository.findByRoleLikeIgnoreCase(role);
+        return userRepository
+                .findByUserRoleAllIgnoreCase(UserRole.valueOf(role))
+                .stream()
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public User findOne(String username) {
+        return userRepository.findOne(username);
     }
 }

@@ -11,16 +11,19 @@ public class TypeConverter {
         Set<String> res = new HashSet<>();
         for (Enum anEnum : enums) {
             res.add(anEnum.name());
+
         }
         return res;
     }
+
     /**
      * TODO
      */
-    /*public static Set<? extends Enum> stringToEnum(Set<String> strings, Class<? extends Enum> clazz) {
-        Set<? extends Enum> res = new HashSet<>();
+   /* public static <T extends Enum> Set<T> stringToEnum(Set<String> strings, Class<T> clazz) {
+        Set<T> res = new HashSet<>();
         for (String string : strings) {
-            res.add(Enum.valueOf(string));
+            // Object<> enu = ;
+            res.add(clazz.cast(Enum.valueOf(clazz, string)));
         }
         return res;
     }*/

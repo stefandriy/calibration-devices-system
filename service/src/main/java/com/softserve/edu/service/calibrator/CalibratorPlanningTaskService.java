@@ -10,6 +10,6 @@ public interface CalibratorPlanningTaskService {
      void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
                            Date dateOfVisit, Date dateOfVisitTo, String installationNumber, String notes, int floor);
 
-    Page<Verification> findVerificationsByCalibratorIdAndReadStatus (String userName, int pageNumber,
-                                                         int itemsPerPage);
+    Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
+                                                                          int itemsPerPage);
 }

@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.BbiProtocol;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CalibratorServiceImpl implements CalibratorService {
@@ -86,17 +88,19 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Override
     @Transactional
     public List<EmployeeDTO> getAllCalibratorEmployee(List<String> role, User employee) {
-        List<EmployeeDTO> providerListEmployee = new ArrayList<>();
+        List<EmployeeDTO> calibratorListEmployee = new ArrayList<>();
         if (role.contains(UserRole.CALIBRATOR_ADMIN.name())) {
-            List<User> list = userRepository.getAllAvailableUsersByRoleAndOrganizationId(UserRole.CALIBRATOR_EMPLOYEE.name(),
-                    employee.getOrganization().getId());
-            providerListEmployee = EmployeeDTO.giveListOfProviders(list);
+            List<User> allAvailableUsersList = userRepository.findAllAvailableUsersByRoleAndOrganizationId(UserRole.CALIBRATOR_EMPLOYEE,
+                    employee.getOrganization().getId())
+                    .stream()
+                    .collect(Collectors.toList());
+            calibratorListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(allAvailableUsersList);
         } else {
             EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
                     employee.getLastName(), employee.getMiddleName(), role.get(0));
-            providerListEmployee.add(userPage);
+            calibratorListEmployee.add(userPage);
         }
-        return providerListEmployee;
+        return calibratorListEmployee;
     }
 
     @Override
@@ -105,6 +109,7 @@ public class CalibratorServiceImpl implements CalibratorService {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setCalibratorEmployee(calibratorEmployee);
         verification.setReadStatus(ReadStatus.READ);
+        verification.setTaskStatus(Status.PLANNING_TASK);
         verificationRepository.save(verification);
     }
 }

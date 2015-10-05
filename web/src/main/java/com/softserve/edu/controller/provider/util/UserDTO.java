@@ -16,6 +16,7 @@ public class UserDTO {
     private String middleName;
     private String email;
     private String phone;
+    private String secondPhone;
     private Boolean isAvaliable;
 
     private Address address;
@@ -78,7 +79,15 @@ public class UserDTO {
         this.phone = phone;
     }
 
-    public Address getAddress() {
+    public String getSecondPhone() {
+		return secondPhone;
+	}
+
+	public void setSecondPhone(String secondPhone) {
+		this.secondPhone = secondPhone;
+	}
+
+	public Address getAddress() {
         return address;
     }
 

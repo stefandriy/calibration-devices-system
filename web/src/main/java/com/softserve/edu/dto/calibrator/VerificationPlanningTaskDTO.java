@@ -24,7 +24,7 @@ public class VerificationPlanningTaskDTO {
     public VerificationPlanningTaskDTO(){}
 
     public VerificationPlanningTaskDTO(Date sentDate, String verificationID, Organization organization, String fullName,
-                                       String address, String telephone ){
+                                       String address, String telephone){
         this.sentToCalibrator = sentDate;
         this.verficationId = verificationID;
         this.providerName = organization.getName();
