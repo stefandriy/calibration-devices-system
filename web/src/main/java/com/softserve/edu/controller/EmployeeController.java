@@ -214,8 +214,9 @@ public class EmployeeController {
 
             boolean isProviderAdmin = userRoles.contains(UserRole.PROVIDER_ADMIN.name());
             boolean isCalibratorAdmin = userRoles.contains(UserRole.CALIBRATOR_ADMIN.name());
+            boolean isStateVerificatorAdmin = userRoles.contains(UserRole.STATE_VERIFICATOR_ADMIN.name());
 
-            if (!isProviderAdmin && !isCalibratorAdmin) {
+            if (!isProviderAdmin && !isCalibratorAdmin && !isStateVerificatorAdmin) {
                 resultList.add(new UsersPageItem(
                                 providerEmployee.getUsername(),
                                 userRoles,
