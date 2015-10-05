@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
@@ -12,6 +13,7 @@ import com.softserve.edu.repository.OrganizationChangesHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.catalogue.LocalityService;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -50,7 +52,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private UserRepository userRepository;
 
     @Autowired
-    private MailServiceImpl mail;
+    private MailService mail;
 
     @Autowired
     private LocalityService localityService;
@@ -60,7 +62,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
+    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
                                          String username, String password, Address address, String adminName, Long[] localityIdList) {
 
@@ -71,9 +73,13 @@ public class OrganizationServiceImpl implements OrganizationService {
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
             employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
-
             organization.addOrganizationType(organizationType);
             organization.addUser(employeeAdmin);
+        }
+
+        for (String counter : counters) {
+            DeviceType deviceType = DeviceType.valueOf(counter);
+            organization.addDeviceType(deviceType);
         }
 
         for (Long localityId : localityIdList) {

@@ -177,10 +177,10 @@ public class EmployeeController {
         List<String> role = userService.getRoles(username);
         List<Verification> list = null;
         if (role.contains(UserRole.PROVIDER_EMPLOYEE.name())) {
-            list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
+            list = verificationProviderEmployeeService.getVerificationListByProviderEmployee(username);
         }
         if (role.contains(UserRole.CALIBRATOR_EMPLOYEE.name())) {
-            list = verificationProviderEmployeeService.getVerificationListbyCalibratormployee(username);
+            list = verificationProviderEmployeeService.getVerificationListByCalibratorEmployee(username);
         }
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
         return new PageDTO<>(content);

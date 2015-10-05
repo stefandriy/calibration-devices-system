@@ -2,6 +2,7 @@ package com.softserve.edu.service.user.impl;
 
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,5 +124,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findOne(String username) {
         return userRepository.findOne(username);
+    }
+
+    @Override
+    public List<String> getRoles(String username) {
+        return ConvertUserRoleToString.convertToListString(
+                userRepository.getRolesByUserName(username));
     }
 }

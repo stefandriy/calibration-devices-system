@@ -21,6 +21,15 @@ angular
             getCalibrators: function (url) {
                 return getData('verifications/new/calibrators');
             },
+            getVerificators: function (url) {
+                return getEmployeeData('new/verificatorEmployees');
+            },
+            sendEmployeeVerificator: function (data) {
+                return employeeUpdateData('assign/verificatorEmployee', data);
+            },
+            cleanVerificatorEmployeeField:function (data) {
+                return employeeUpdateData('remove/verificatorEmployee', data);
+            },
             rejectTestToCalibrator: function (data) {
                 return updateData('new/reject', data);
             },
@@ -72,6 +81,17 @@ angular
                     return err;
                 });
         }
+
+
+        function getEmployeeData(url) {
+            return $http.get('verificator/admin/users/' + url)
+                .success(function (data) {
+                    return data;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
         
         function getDataWithParams(url, params) {
             return $http.get(url, {
@@ -81,6 +101,16 @@ angular
             }).error(function (err) {
                 return err;
             });
+        }
+
+        function employeeUpdateData(url, data) {
+            return $http.put('verificator/admin/users/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
         }
 
         function getDataWithParams(url, params) {
