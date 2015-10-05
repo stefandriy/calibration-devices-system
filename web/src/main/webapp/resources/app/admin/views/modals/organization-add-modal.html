@@ -1,7 +1,7 @@
 <div class="modal-header">
     <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_ORGANIZATION'
         | translate}}</h3>
-    <h6>{{'ALL_FIELDS_REQUIRED' | translate}}</h6>
+    <!--<h6>{{'ALL_FIELDS_REQUIRED' | translate}}</h6>-->
 </div>
 
 <div class="modal-body">
@@ -59,6 +59,26 @@
                     </div>
                 </div>
 
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="types">
+                        Оберіть тип лічильника
+                    </label>
+
+                    <div class="col-md-8">
+                        <select multiple chosen type="text" class="form-control" id="counters" name="counters"
+                                ng-model="organizationFormData.counters" data-placeholder="Оберіть тип лічильників"
+                                ng-options="counter as counter.label for counter in counterData"
+                                popover="Введіть тип лічильників організації" popover-trigger="focus" popover-placement="top"
+                                required>
+                        </select> <span class="form-control-feedback glyphicon
+							form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="organizationForm.counters.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+                    </div>
+                </div>
 
                 <div class="form-group row" show-errors>
                     <label class="control-label col-md-4" for="email">
