@@ -5,6 +5,7 @@ import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
@@ -16,6 +17,7 @@ import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
+import com.softserve.edu.service.user.UserService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
@@ -31,6 +33,9 @@ public class StateVerificatorController {
 
     @Autowired
     VerificationService verificationService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     CalibrationTestService testService;
@@ -237,5 +242,18 @@ public class StateVerificatorController {
         );
     }
 
+
+    /**
+     * Check if current user is Employee
+     * @param user
+     * @return true if user has role STATE_VERIFICATOR_EMPLOYEE
+     *         false if user has role STATE_VERIFICATOR_ADMIN
+     */
+    @RequestMapping(value = "verificator/role", method = RequestMethod.GET)
+    public Boolean isEmployeeStateVerificator(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User checkedUser = userService.findOne(user.getUsername());
+        return checkedUser.getUserRoles().contains(UserRole.STATE_VERIFICATOR_EMPLOYEE);
+    }
 
 }

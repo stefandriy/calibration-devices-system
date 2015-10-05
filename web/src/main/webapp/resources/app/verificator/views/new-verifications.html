@@ -62,12 +62,12 @@
                                              ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
                                         </img>
                                        <img src="/resources/assets/button-icons/face2.png"
-                                            ng-show="!verification.stateVerificatorEmployee"
+                                            ng-show="!verification.stateVerificatorEmployee && !isEmployee"
                                             popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
                                             ng-click="addVerificatorEmployee(verification.id)">
                                        </img>
                                        <img src="/resources/assets/button-icons/close.png"
-                                            ng-show="verification.stateVerificatorEmployee"
+                                            ng-show="verification.stateVerificatorEmployee && !isEmployee"
                                             popover="Скасувати відповідальну особу"
                                             popover-trigger="mouseenter"
                                             ng-click="removeVerificatorEmployee(verification.id)">

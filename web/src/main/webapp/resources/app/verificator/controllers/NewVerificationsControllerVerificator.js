@@ -7,6 +7,19 @@ angular
 
             $scope.resultsCount = 0;
 
+            /**
+             * this function return true if is StateVerificatorEmployee
+             */
+            $scope.isStateVerificatorEmployee = function () {
+                verificationServiceVerificator.getIfEmployeeStateVerificator().success(function(data){
+                    $scope.isEmployee =  data;
+                });
+
+            };
+
+            $scope.isStateVerificatorEmployee();
+
+
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
