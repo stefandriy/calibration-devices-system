@@ -54,9 +54,9 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
             resultMap.put("counterType2", readConsecutiveBytesAsUTF8(16)); //0x800080+0x10
             resultMap.put("fileOpened", readLongValueReversed(4)); //0x800090+0x04
             reader.skip(108); //0x800100 now
-            for (int i = 0; i < 6; ++i) {
-                readTest(i + 1);
-                if (i != 5) {
+            for (int i = 1; i <= 6; ++i) {
+                readTest(i);
+                if (i != 6) {
                     reader.skip(EMPTY_BYTES_BETWEEN_TESTS);
                 }
             }
