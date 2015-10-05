@@ -14,7 +14,7 @@ import java.util.Set;
 public interface OrganizationService {
 
 
-    void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
+    void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                   Integer maxProcessTime, String firstName, String lastName, String middleName,
                                   String username, String password, Address address, String adminName, Long[] localityIdList);
 
