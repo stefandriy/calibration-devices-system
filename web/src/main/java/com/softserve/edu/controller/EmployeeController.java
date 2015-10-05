@@ -10,7 +10,6 @@ import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
@@ -43,9 +42,6 @@ public class EmployeeController {
 
     @Autowired
     private ProviderEmployeeService providerEmployeeService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private VerificationProviderEmployeeService verificationProviderEmployeeService;
@@ -100,6 +96,7 @@ public class EmployeeController {
         userFromDataBase.setLastName(temporalUser.getLastName());
         userFromDataBase.setMiddleName(temporalUser.getMiddleName());
         userFromDataBase.setPhone(temporalUser.getPhone());
+        userFromDataBase.setSecondPhone(temporalUser.getSecondPhone());
         userFromDataBase.setEmail(temporalUser.getEmail());
         userFromDataBase.setAddress(temporalUser.getAddress());
         userFromDataBase.setUsername(temporalUser.getUsername());
@@ -132,6 +129,7 @@ public class EmployeeController {
         newUser.setMiddleName(providerEmployee.getMiddleName());
         newUser.setEmail(providerEmployee.getEmail());
         newUser.setPhone(providerEmployee.getPhone());
+        newUser.setSecondPhone(providerEmployee.getSecondPhone());
         newUser.setUsername(providerEmployee.getUsername());
         //newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
         //      providerEmployee.getAddress() : newUser.getAddress());
@@ -157,6 +155,7 @@ public class EmployeeController {
                 .lastName(employee.getLastName())
                 .middleName(employee.getMiddleName())
                 .phone(employee.getPhone())
+                .secondPhone(employee.getSecondPhone())
                 .email(employee.getEmail())
                 .address(employee.getAddress())
                 .isAvailable(employee.getIsAvaliable())
@@ -198,7 +197,7 @@ public class EmployeeController {
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, idOrganization, search.getUsername(), search.getRole(),
                 search.getFirstName(), search.getLastName(), search.getOrganization(),
-                search.getPhone(), fieldToSort);
+                search.getPhone(), search.getSecondPhone(), fieldToSort);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
@@ -224,6 +223,7 @@ public class EmployeeController {
                                 providerEmployee.getLastName(),
                                 providerEmployee.getMiddleName(),
                                 providerEmployee.getPhone(),
+                                providerEmployee.getSecondPhone(),
                                 providerEmployee.getOrganization().getName(),
                                 verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
                                 verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),

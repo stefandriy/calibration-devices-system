@@ -230,7 +230,7 @@ angular
                     if ($scope.serviceArea.locality === undefined) {
                         $scope.serviceArea.locality = [[]];
                     }
-                    if ($scope.serviceArea.locality[index] === undefined) {
+                    if ($scope.serviceArea.locality[index] === undefined || $scope.serviceArea.locality[index].length === 0) {
                         addressService.findLocalitiesByDistrictId(selectedDistrict.id)
                             .then(function (localities) {
                                 $scope.serviceArea.locality[index] = localities;
@@ -255,7 +255,7 @@ angular
                 if ($scope.serviceArea.locality === undefined) {
                     $scope.serviceArea.locality = [[]];
                 }
-                if ($scope.serviceArea.locality[index] === undefined) {
+                if ($scope.serviceArea.locality[index] === undefined || $scope.serviceArea.locality[index].length === 0) {
                     addressService.findLocalitiesByDistrictId(district.id)
                         .then(function (localities) {
                             $scope.serviceArea.locality[index] = localities;

@@ -3,7 +3,20 @@
 </div>
 
 <div class="modal-body">
-	<form name="organizationForm" role="form" ng-submit="editOrganization()" novalidate>
+	<form name="organizationForm" role="form" ng-submit="!organizationForm.phone.$error.pattern && !organizationForm.phone.$error.required
+          && !organizationForm.types.$error.required
+          && !organizationForm.processTime.$error.required
+          && !organizationForm.capacity.$error.required
+          && !organizationForm.email.$error.pattern && !organizationForm.email.$error.required
+          && !organizationForm.firstName.$error.pattern && !organizationForm.firstName.$error.required
+          && !organizationForm.lastName.$error.pattern && !organizationForm.lastName.$error.required
+          && !organizationForm.middleName.$error.pattern && !organizationForm.middleName.$error.required
+          && !organizationForm.region.$error.pattern && !organizationForm.region.$error.required
+          && !organizationForm.district.$error.pattern && !organizationForm.district.$error.required
+          && !organizationForm.locality.$error.pattern && !organizationForm.locality.$error.required
+          && !organizationForm.street.$error.pattern && !organizationForm.street.$error.required
+          && !organizationForm.building.$error.pattern && !organizationForm.building.$error.required
+          && editOrganization()" novalidate>
 		<div class="panel panel-primary">
 			<div class="panel-heading">{{'GENERAL_INFORMATION' | translate}}</div>
 			<div class="panel-body">
@@ -35,7 +48,8 @@
 						<select multiple chosen type="text" class="form-control"
 								ng-model="organizationTypes"
 								data-placeholder="Choose type"
-								ng-options="type as type.label for type in typeData | organizationFilter:organizationTypes">
+								name="types"
+								ng-options="type as type.label for type in typeData | organizationFilter:organizationTypes" required>
 						</select>
 					</div>
 				</div>

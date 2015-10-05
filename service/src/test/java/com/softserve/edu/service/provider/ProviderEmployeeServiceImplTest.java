@@ -1,8 +1,8 @@
 package com.softserve.edu.service.provider;
 
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
@@ -17,8 +17,10 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -132,8 +134,8 @@ public class ProviderEmployeeServiceImplTest {
 		spyRoleList.add(UserRole.PROVIDER_ADMIN.name());
 
 		when(
-				mockProviderEmployeeRepository.getAllAvailableUsersByRoleAndOrganizationId(
-						anyString(), anyLong())).thenReturn(
+				mockProviderEmployeeRepository.findAllAvailableUsersByRoleAndOrganizationId(
+						UserRole.CALIBRATOR_ADMIN, anyLong()).stream().collect(Collectors.toList())).thenReturn(
 				spyUserList);
 
 		spyProviderListEmployee.add(finalEmpDTO);
@@ -164,7 +166,7 @@ public class ProviderEmployeeServiceImplTest {
 		final String username = "userName";
 		final User mockUser = Mockito.mock(User.class);
 
-		when(mockProviderEmployeeRepository.findByUsername(anyString()))
+		when(mockProviderEmployeeRepository.findOne(anyString()))
 				.thenReturn(mockUser);
 
 		Assert.assertEquals(mockUser,

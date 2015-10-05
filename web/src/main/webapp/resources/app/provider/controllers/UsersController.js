@@ -91,6 +91,7 @@ angular
                     .open({
                         animation : true,
                         controller : 'AddEmployeeController',
+                        size: 'lg',
                         templateUrl : '/resources/app/provider/views/employee/employee-add-modal.html',
                     });
             };
@@ -100,15 +101,20 @@ angular
             $scope.openEditEmployeeModal = function(username) {
                 userService.getUser(username)
                     .success(function(data){
+                    	$rootScope.checkboxModel = false;
                         $rootScope.user = data;
                         $rootScope.$broadcast("info_about_editUser", {roles : $rootScope.user.userRoles,
                                                                   isAvaliable: $rootScope.user.isAvaliable
                                                                  });
+                        if (data.secondPhone != null) {
+                        	$rootScope.checkboxModel = true;
+                        }
                     });
                 var addEmployeeModal = $modal
                     .open({
                         animation : true,
                         controller : 'EditEmployeeController',
+                        size: 'lg',
                         templateUrl : '/resources/app/provider/views/employee/employee-edit-modal.html',
 
                     });

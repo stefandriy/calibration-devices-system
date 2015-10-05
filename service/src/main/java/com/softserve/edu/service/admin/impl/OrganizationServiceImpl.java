@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
@@ -209,6 +210,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Set<OrganizationType> findOrganizationTypesById(Long id) {
         return organizationRepository.findOrganizationTypesById(id);
+    }
+
+    @Override
+    public List<Organization> findByLocalityIdAndTypeAndDevice(Long localityId, OrganizationType orgType, DeviceType deviceType) {
+        return organizationRepository.findByLocalityIdAndTypeAndDevice(localityId,orgType,deviceType);
     }
 
 }

@@ -53,18 +53,11 @@ To get an provider page login with the following credentials:
 	
 Check `database_script.sql` for additional information about other users such as provider, calibrator etc.
 
-### Some overview
-
-> TODO
 
 
-### REST API
-
-
-> TODO
 =======
-### Team members
-##### LV-144 Java:
+## Team members
+#### LV-144 Java:
 Експерт: Михайло Партика
 
 Викладачі: Вікторія Ряжська та В’ячеслав Колдовський 
@@ -77,7 +70,7 @@ Check `database_script.sql` for additional information about other users such as
  - Олег Чернигевич
  - Олександр Виблов
  
-##### LV-150 Java:
+#### LV-150 Java:
 Експерт: Микола Марчук
 
 Викладач: Вікторія Ряжська
@@ -91,158 +84,19 @@ Check `database_script.sql` for additional information about other users such as
  - Михайло Матвіїшин
  - Богдан Горох
  
-### REST API
+#### LV-157 Java:
+Експерт: Михайло Партика
 
+Викладач: Вікторія Ряжська
 
-
-# Checklist те, що Lv-157.Java має тестити
-
-## Загальна стуктура
-
-service-src-main-java...-service:
-- OrganizationService.java
-- StatisticService.java
-- UsersService.java
-- CalibratorEmployeeService.java
-- CalibratorService.java
-- BuildingService.java
-- District.java
-- LocalityService.java
-- RegionService.java
-- StreetService.java
-- StreetTypeService.java
-- NotAvailableException.java
-- GraphicBuilder.java
-- GraphicBuilderMainPanel.java
-- MonthOfYear.java
-- ProviderEmployeeGraphic.java 
-- ProviderEmployeeService.java
-- ProviderService.java
-- StateVerificatorEmployeeService.java
-- FileOperationImpl.java
-- FileSearch.java
-- SaveOptions.java
-- FileOperations.java
-- ArchivalVerificationsQueryConstructorCalibrator.java
-- ArchivalVerificationsQueryConstructorProvider.java
-- ArchivalVerificationsQueryConstructorVerificator.java
-- CalibrationTestDataList.java
-- CalibrationTestList.java
-- DataDtoField.java
-- EmployeeProvider.java    
-- ListToPageTransformer.java
-- NewVerficationsQueryConstructorCalibrator.java
-- NewVerficationsQueryConstructorProvider.java
-- NewVerficationsQueryConstructorVerificator.java
-- ProviderEmployeeGraphic.java
-- ProviderEmployeeQuary.java
-- TransformStrinsToMonths
-- CalibrationTestDataService.java
-- CalibrationTestService.java
-- DeviceService.java
-- DocumentsService.java
-- MailService.java
-- MeasuringEquipmentService.java
-- SecurityUserDetailsService.java
-- UserService.java
-- VerificationPhotoService.java
-    
-## Ті класи які треба брати тестити
-
-Хто вже взяв якісь видаляєте звідси і записуєте в "Список тих, хто робить і що робить" 
-
-service-src-main-java...-service:
-- CalibratorEmployeeService.java
-- CalibratorService.java
-- BuildingService.java
-- District.java
-- NotAvailableException.java
-- FileOperations.java
-- ArchivalVerificationsQueryConstructorCalibrator.java
-- ArchivalVerificationsQueryConstructorProvider.java
-- ArchivalVerificationsQueryConstructorVerificator.java
-- CalibrationTestDataList.java
-- CalibrationTestList.java
-- DataDtoField.java
-- EmployeeProvider.java    
-- ListToPageTransformer.java
-- NewVerficationsQueryConstructorCalibrator.java
-- NewVerficationsQueryConstructorVerificator.java
-- ProviderEmployeeGraphic.java
-- ProviderEmployeeQuary.java
-- TransformStrinsToMonths
-- VerificationProviderEmployeeService.java
-- VerificationService.java
-- DocumentsService.java
-- MailService.java
-- SecurityUserDetailsService.java
-- UserService.java
-- VerificationPhotoService.java
-    
-
-## Список тих, хто робить і що робить
-
-### Брилюк Д.А.
-admin:
-- OrganizationService.java
-- StatisticService.java
-- UsersService.java
-
-### Чопик Василь
-- VerificationService.java
-
-### Володимир Ігнатьєв
-- NewVerificationsQueryConstructorProvider
-
-### Іван Циба
-- CalibratorEmployeeService.java
-- CalibratorService.java
-
-### Конончук Богдан
-- ProviderEmployeeService
-
-### Олег Косар
-- MeasuringEquipmentService.java
-
-### Тарас Паничок
-- FileSearch.java
-- FileOperationImpl.java
-- SaveOptions.java
-
-### Назар Івашків
- - LocalityService.java
- - RegionService.java
- - StreetService.java
- - StreetTypeService.java
-
-## Те що зроблено
-
-Сюди копіюйте, ті назви класів які ви завершили робити
-### Назар Івашків
- - DeviceService
- - CalibrationTestService
-
-### Володимир Ігнатьєв
- - DeviceService
- - CalibrationTestService
- - CalibratioтTestDataService
- - StateVerificatorService.java
- - StateVerificatorEmployeeService.java
-
-### Чопик Василь
-- VerificationProviderEmployeeService.java
-
-### Мельничук Назарій
- - GraphicBuilder.java
- - GraphicBuilderMainPanel.java
- 
-### Конончук Богдан
- - ProviderService
-
-### Назаркевич Володимир
- - UserService
- - BuildingService
- - DistrictService
-
-### Олег Косар
-- MeasuringEquipmentService.java
+Учасники:
+ - Василь Чопик
+ - Володимир Ігнатьєв
+ - Володимир Назаркевич 
+ - Богдан Конончук 
+ - Дмитро Брилюк
+ - Іван Циба 
+ - Назарій Івашків
+ - Назарій Мельничук
+ - Олег Косар
+ - Тарас Паничок

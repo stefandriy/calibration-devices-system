@@ -6,13 +6,11 @@ import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.*;
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
-import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.repository.OrganizationRepository;
-import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
@@ -37,13 +35,6 @@ public class OrganizationController {
             .getLogger(OrganizationController.class);
     @Autowired
     private OrganizationService organizationService;
-
-    @Autowired
-    private OrganizationRepository organizationRepository;
-
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -223,7 +214,7 @@ public class OrganizationController {
         Organization org = organizationService
                 .getOrganizationById(organizationId);
 
-        User admin = userRepository.findOne(organization.getUsername());
+        User admin = userService.findOne(organization.getUsername());
 
         organizationService.sendOrganizationChanges(org, admin);
 

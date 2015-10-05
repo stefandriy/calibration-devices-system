@@ -27,6 +27,7 @@ public class User {
     private String middleName;
     private String email;
     private String phone;
+    private String secondPhone;
     private Boolean isAvailable = false;
 
     @Embedded
@@ -51,6 +52,7 @@ public class User {
         middleName = builder.middleName;
         email = builder.email;
         phone = builder.phone;
+        secondPhone = builder.secondPhone;
         address = builder.address;
         isAvailable = builder.isAvailable;
     }
@@ -117,7 +119,9 @@ public class User {
         this.userRoles.add(role);
     }
 
-    public String toString () {
-        return username + " " + email + " " + firstName + " " + lastName;
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' + '}';
     }
 }

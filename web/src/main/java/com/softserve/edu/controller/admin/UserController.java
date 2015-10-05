@@ -3,15 +3,13 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,13 +30,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     private ProviderEmployeeService providerEmployeeService;
-
-    @Autowired
-    private VerificationProviderEmployeeService verificationProviderEmployeeService;
 
     Logger logger = Logger.getLogger(UserController.class);
 
@@ -78,9 +70,9 @@ public class UserController {
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, null, search.getUsername(), search.getRole(),
                 search.getFirstName(), search.getLastName(), search.getOrganization(),
-                search.getPhone(), fieldToSort);
+                search.getPhone(), search.getSecondPhone(), fieldToSort);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
-        return new PageDTO<UsersPageItem>(queryResult.getTotalItems(), resultList);
+        return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
 
     /**
@@ -90,7 +82,7 @@ public class UserController {
      * @return full information witch connect with employees
      */
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
-        List<UsersPageItem> resultList = new ArrayList<UsersPageItem>();
+        List<UsersPageItem> resultList = new ArrayList<>();
         for (User employee : queryResult.getContent()) {
 
             List<String> userRoles = userService.getRoles(employee.getUsername())
@@ -105,6 +97,7 @@ public class UserController {
                             employee.getLastName(),
                             employee.getMiddleName(),
                             employee.getPhone(),
+                            employee.getSecondPhone(),
                             employee.getOrganization().getName(),
                             null, null,
                             employee.getIsAvailable())
@@ -140,6 +133,6 @@ public class UserController {
             newUser.addRole(userRole);
         }
         userService.addEmployee(newUser);
-        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
