@@ -1,0 +1,32 @@
+<form id="providerEmployeeAdd" name="providerEmployeeAdd" class="form-group"
+      ng-submit="submit()" novalidate>
+
+
+    <div class="modal-header">
+        <h3 class="modal-title">Вибрати відповідальну особу: </h3>
+    </div>
+
+    <div class="modal-body">
+        <ui-select style="width: 60%" ng-model="formData.provider" theme="select2" search-enabled="true"
+                   name="filter-status">
+            <ui-select-match>
+                {{providerFullName($select.selected)}}
+            </ui-select-match>
+            <ui-select-choices
+                    repeat="provider in providers | filter: $select.search">
+                <span ng-bind-html="providerFullName(provider)"></span>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+
+
+    <div class="modal-footer form-group">
+        <button class="btn btn-success pull-left" type="submit">
+            Підтвердити
+        </button>
+
+        <button class="btn btn-danger pull-right" type="button" ng-click="cancel()">
+            Відмінити
+        </button>
+    </div>
+</form>

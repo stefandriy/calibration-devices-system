@@ -17,6 +17,7 @@ angular
 								$modal, $stateParams, dataReceivingService, dataSendingService, $location) {
 
 							$scope.isShownForm = true;
+							$scope.isHideTitle = false;
 							$scope.rejectMessage = null;
 							$scope.expirationDate = null;
 							$scope.code = $stateParams.clientCode;
@@ -64,6 +65,7 @@ angular
 												});
 
 								$scope.isShownForm = false;
+								$scope.isHideTitle = true;
 							};
 							$scope.getClientForm = function() {
 								$scope.findCode();
