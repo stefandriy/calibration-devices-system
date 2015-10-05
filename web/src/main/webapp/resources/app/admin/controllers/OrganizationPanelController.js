@@ -102,6 +102,7 @@ angular
 											animation : true,
 											controller : 'OrganizationEditModalController',
 											templateUrl : '/resources/app/admin/views/modals/organization-edit-modal.html',
+											size: 'lg',
 											resolve: {
 												regions: function () {
 													return addressService.findAllRegions();
