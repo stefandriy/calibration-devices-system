@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class BbiProtocol {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Lob
