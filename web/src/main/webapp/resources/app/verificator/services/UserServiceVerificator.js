@@ -8,8 +8,25 @@ angular
             saveUser: function (userData) {
                 return saveData('verificator/admin/users/add', userData);
             },
+            getCapacityOfWork: function(username){
+                return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
+            },
+            getOrganizationEmployeeCapacity: function () {
+                return getData('employee/admin/users/organizationCapacity');
+            },
+            getPage: function (currentPage, itemsPerPage,searchObj,filterObj) {
+                var field;
+                var value;
+                for (var key in filterObj) {
+                    field = key;
+                    value = filterObj[field];
+                }
+                value=='asc'?field=field:field="-"+field;
+                return getAllUsers('employee/admin/users/' + currentPage + '/' + itemsPerPage + '/' +
+                    field, searchObj);
+            },
             isAdmin: function (){
-            	return getData('verificator/admin/users/verificator');
+            	return getData('employee/admin/users/verificator');
             } 
         };
 
@@ -25,5 +42,15 @@ angular
                 .success(function (response) {
                     return response;
                 });
+        }
+
+        function getAllUsers(url, params) {
+            return $http.get(url, {
+                params: params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
         }
     });

@@ -226,6 +226,13 @@
                         </li>
                     </sec:authorize>
 
+                    <sec:authorize url="/verificator/admin/">
+                        <li ui-sref-active="active">
+                            <a ui-sref="employee-show-verificator"><i class="fa fa-users"></i> <span
+                                    translate="EMPLOYEE"></span></a>
+                        </li>
+                    </sec:authorize>
+
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
                             <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
