@@ -81,7 +81,7 @@ public class VerificationProviderEmploeeeServiceTest {
 						.findByProviderEmployeeUsernameAndStatus(userName,
 								Status.ACCEPTED)).thenReturn(expected);
 		List<Verification> actual = employeeService
-				.getVerificationListbyProviderEmployee(userName);
+				.getVerificationListByProviderEmployee(userName);
 		Assert.assertEquals(expected, actual);
 	}
 
@@ -94,7 +94,7 @@ public class VerificationProviderEmploeeeServiceTest {
 						.findByProviderEmployeeUsernameAndStatus(userName,
 								Status.IN_PROGRESS)).thenReturn(expected);
 		List<Verification> actual = employeeService
-				.getVerificationListbyCalibratormployee(userName);
+				.getVerificationListByCalibratorEmployee(userName);
 		Assert.assertEquals(expected, actual);
 	}
 

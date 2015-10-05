@@ -30,11 +30,11 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
     private UserRepository userRepository;
     
     @Autowired
-    @Lazy(value=true)
     MailService mailService;
 
     /**
-     * Current method assign provider employee in verification
+     * Assigns provider employee to the verification
+     * and asynchronously sends mail to customer
      * @param verificationId
      * @param providerEmployee
      */
@@ -58,29 +58,31 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
     }
 
 
-
+    /**
+     * @return Returns user (provider) assigned to the verification or null
+     */
     @Transactional
     public User getProviderEmployeeById(String idVerification) {
         return verificationRepository.getProviderEmployeeById(idVerification);
     }
 
     /**
-     * Current method return list of verification by current Provider user
+     * Current method return list of verifications by current Provider user
      * @param username
      * @return list of Verification
      */
     @Transactional
-    public List<Verification> getVerificationListbyProviderEmployee(String username) {
+    public List<Verification> getVerificationListByProviderEmployee(String username) {
         return verificationRepository.findByProviderEmployeeUsernameAndStatus(username, Status.ACCEPTED);
     }
 
     /**
-     * Current method return list of verification by current Calibrator user
+     * Current method return list of verifications by current Calibrator user
      * @param username
      * @return list of Verification
      */
     @Transactional
-    public List<Verification> getVerificationListbyCalibratormployee(String username) {
+    public List<Verification> getVerificationListByCalibratorEmployee(String username) {
         return verificationRepository.findByCalibratorEmployeeUsernameAndStatus(username, Status.IN_PROGRESS);
     }
 

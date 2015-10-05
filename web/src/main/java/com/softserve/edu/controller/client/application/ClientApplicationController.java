@@ -215,6 +215,8 @@ public class ClientApplicationController {
 
     /**
      * Sends email to System Administrator from client
+     * when there is no provider in database for specified location (for example district)
+     * and client wants to send a message
      *
      * @param mailDto
      * @return
