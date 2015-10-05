@@ -46,6 +46,17 @@ angular
                 }
             ];
 
+            $scope.counterData = [
+                {
+                    id: 'WATER',
+                    label: null
+                },
+                {
+                    id: 'THERMAL',
+                    label: null
+                },
+            ];
+
             /**
              * Localization of multiselect for type of organization
              */
@@ -55,10 +66,14 @@ angular
                     $scope.typeData[0].label = 'Постачальник послуг';
                     $scope.typeData[1].label = 'Вимірювальна лабораторія';
                     $scope.typeData[2].label = 'Уповноважена повірочна лабораторія';
+                    $scope.counterData[0].label = 'Холодна вода';
+                    $scope.counterData[1].label = 'Гаряча вода';
                 } else if (lang === 'eng') {
                     $scope.typeData[0].label = 'Service provider';
                     $scope.typeData[1].label = 'Measuring laboratory';
                     $scope.typeData[2].label = 'Authorized calibration laboratory';
+                    $scope.counterData[0].label = 'Cold water';
+                    $scope.counterData[1].label = 'Hot water';
                 }
             };
             $scope.setTypeDataLanguage();
@@ -80,6 +95,7 @@ angular
 
 
                 $scope.organizationFormData.types = null;
+                $scope.organizationFormData.counters = null;
                 $scope.organizationFormData.region = undefined;
                 $scope.organizationFormData.district = undefined;
                 $scope.organizationFormData.locality = undefined;
@@ -304,8 +320,9 @@ angular
                 for (var i in $scope.organizationFormData.types) {
                     $scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].id;
                 }
-
-
+                for (var i in $scope.organizationFormData.counters) {
+                    $scope.organizationFormData.counters[i] = $scope.organizationFormData.counters[i].id;
+                }
             }
 
             /**
@@ -337,7 +354,7 @@ angular
                     });
             }
 
-            /*	$scope.$watch('organizationFormData.region', function () {
+             $scope.$watch('organizationFormData.region', function () {
              $scope.organizationFormData.district = undefined;
              $scope.organizationFormData.locality = undefined;
              $scope.organizationFormData.street = "";
@@ -357,7 +374,7 @@ angular
              $scope.organizationFormData.building = "";
              $scope.organizationFormData.flat = null;
              });
-             */
+
 
 
             $scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄІЇҐ"'а-яєіїґ ]+$/;

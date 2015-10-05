@@ -6,6 +6,7 @@ import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.*;
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
@@ -66,6 +67,7 @@ public class OrganizationController {
                     organizationDTO.getEmail(),
                     organizationDTO.getPhone(),
                     organizationDTO.getTypes(),
+                    organizationDTO.getCounters(),
                     organizationDTO.getEmployeesCapacity(),
                     organizationDTO.getMaxProcessTime(),
                     organizationDTO.getFirstName(),
@@ -156,8 +158,14 @@ public class OrganizationController {
                 stream()
                 .map(OrganizationType::name)
                 .forEach(types::add);
+        List<String> counters = new ArrayList<>();
+        organization.getDeviceTypes().
+                stream()
+                .map(DeviceType::name)
+                .forEach(counters::add);
 
-        OrganizationDTO	organizationDTO=new OrganizationDTO(organization.getId() ,organization.getName(), organization.getEmail(), organization.getPhone(), types,
+
+        OrganizationDTO	organizationDTO=new OrganizationDTO(organization.getId() ,organization.getName(), organization.getEmail(), organization.getPhone(), types, counters,
         organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
             organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
         return organizationDTO;

@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
@@ -60,7 +61,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
+    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
                                          String username, String password, Address address, String adminName, Long[] localityIdList) {
 
@@ -71,9 +72,13 @@ public class OrganizationServiceImpl implements OrganizationService {
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
             employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
-
             organization.addOrganizationType(organizationType);
             organization.addUser(employeeAdmin);
+        }
+
+        for (String counter : counters) {
+            DeviceType deviceType = DeviceType.valueOf(counter);
+            organization.addDeviceType(deviceType);
         }
 
         for (Long localityId : localityIdList) {

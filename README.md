@@ -53,18 +53,8 @@ To get an provider page login with the following credentials:
 	
 Check `database_script.sql` for additional information about other users such as provider, calibrator etc.
 
-### Some overview
+## Team members
 
-> TODO
-
-
-### REST API
-
-
-> TODO
-=======
-
-### Team members
 #### LV-144 Java:
 Експерт: Михайло Партика
 
@@ -108,5 +98,4 @@ Check `database_script.sql` for additional information about other users such as
  - Назарій Мельничук
  - Олег Косар
  - Тарас Паничок
- 
 
