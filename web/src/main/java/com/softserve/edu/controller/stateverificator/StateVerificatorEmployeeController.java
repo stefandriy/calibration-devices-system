@@ -65,6 +65,12 @@ public class StateVerificatorEmployeeController {
 		return isAvailable;
 	}
 
+	/**
+	 * add employee, set organization
+	 * @param stateVerificatorEmployee
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	public ResponseEntity<HttpStatus> addEmployee(
 			@RequestBody User stateVerificatorEmployee,

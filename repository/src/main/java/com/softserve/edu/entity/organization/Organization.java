@@ -115,6 +115,10 @@ public class Organization {
         deviceTypes.add(deviceType);
     }
 
+    public void removeDeviceType() {
+        deviceTypes.clear();
+    }
+
     public void addHistory(OrganizationChangesHistory history) {
         this.organizationChangesHistorySet.add(history);
     }

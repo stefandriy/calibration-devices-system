@@ -66,6 +66,9 @@ angular
             getCalibraionTestDetails: function (verificationId){
             	return getData('verifications/show/' + verificationId);
             },
+            getIfEmployeeStateVerificator: function(url) {
+                return getData('verifications/verificator/role');
+            },
             
         };
        
@@ -81,7 +84,6 @@ angular
                     return err;
                 });
         }
-
 
         function getEmployeeData(url) {
             return $http.get('verificator/admin/users/' + url)

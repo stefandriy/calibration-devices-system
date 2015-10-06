@@ -236,7 +236,7 @@
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
         'calibrator/controllers/TaskControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
-        'calibrator/services/TaskServiceCalibrator',
+        'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',
         'calibrator/services/AddressServiceCalibrator',
         'calibrator/services/UserServiceCalibrator',

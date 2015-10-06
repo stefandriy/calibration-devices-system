@@ -179,7 +179,6 @@ angular
                         function (data) {
                             if (data == 200) {
                                 $scope.closeModal();
-
                             } else {
                              $scope.incorrectValue = true;
                              console.log($scope.incorrectValue);

@@ -212,6 +212,7 @@ public class OrganizationController {
                     organization.getPhone(),
                     organization.getEmail(),
                     organization.getTypes(),
+                    organization.getCounters(),
                     organization.getEmployeesCapacity(),
                     organization.getMaxProcessTime(),
                     address,

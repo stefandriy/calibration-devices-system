@@ -15,4 +15,6 @@ public interface UserService {
     List<User> findByOrganizationId(Long organizationId, int pageNumber, int itemsPerPage);
 
     Long getCountOfVerifications(Long organizationId, String username);
+
+    User findOne(String username);
 }

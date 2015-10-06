@@ -27,8 +27,7 @@
                                    class="table table-bordered table-hover users_table">
 
                                 <tbody>
-                                <tr ng-repeat="verification in $data"
-                                    ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
+                                <tr ng-repeat="verification in $data" ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                     <td data-title="''"><input type="checkbox" ng-show="verification.calibratorEmployee"
                                                                ng-click="resolveVerificationId(verification.id)"/></td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
@@ -67,7 +66,7 @@
                                                  ng-click="addCalibratorEmployee(verification.id)">
                                             </img>
                                             <img src="/resources/assets/button-icons/close.png"
-                                                 ng-show="verification.calibratorEmployee"
+                                                 ng-show="verification.calibratorEmployee && !isEmployee"
                                                  popover="Скасувати відповідальну особу"
                                                  popover-trigger="mouseenter"
                                                  ng-click="removeCalibratorEmployee(verification.id)">
