@@ -26,6 +26,6 @@ $.fn.extend({
 });
 
 $(document).ready(function() {
-	$('#content').toggleClassDelay('ng-hide', 2000);
-	$('#loader').toggleClassDelay('active', 2000);
+	$('#content').toggleClassDelay('ng-hide', 2500);
+	$('#loader').toggleClassDelay('active', 2500);
 });
