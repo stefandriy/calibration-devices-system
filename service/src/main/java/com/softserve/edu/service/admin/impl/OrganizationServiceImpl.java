@@ -134,7 +134,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public void editOrganization(Long organizationId, String name,
-                                 String phone, String email, List<String> types, Integer employeesCapacity,
+                                 String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
                                  Integer maxProcessTime, Address address, String password, String username,
                                  String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas) {
 
@@ -154,6 +154,12 @@ public class OrganizationServiceImpl implements OrganizationService {
                 stream()
                 .map(OrganizationType::valueOf)
                 .forEach(organization::addOrganizationType);
+
+        organization.removeDeviceType();
+        types.
+                stream()
+                .map(DeviceType::valueOf)
+                .forEach(organization::addDeviceType);
 
         organization.removeServiceAreas();
         //organizationRepository.save(organization);

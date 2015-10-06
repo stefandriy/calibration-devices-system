@@ -48,6 +48,16 @@ angular
                 }
             ];
 
+            $scope.counterData = [
+                {
+                    type    : 'WATER',
+                    label: null
+                },
+                {
+                    type: 'THERMAL',
+                    label: null
+                },
+            ];
 
             $rootScope.organization.region.selected = "Львівська";
 
@@ -57,10 +67,14 @@ angular
                     $scope.typeData[0].label = 'Постачальник послуг';
                     $scope.typeData[1].label = 'Вимірювальна лабораторія';
                     $scope.typeData[2].label = 'Уповноважена повірочна лабораторія';
+                    $scope.counterData[0].label = 'Холодна вода';
+                    $scope.counterData[1].label = 'Гаряча вода';
                 } else if (lang === 'eng') {
                     $scope.typeData[0].label = 'Service provider';
                     $scope.typeData[1].label = 'Measuring laboratory';
                     $scope.typeData[2].label = 'Authorized calibration laboratory';
+                    $scope.counterData[0].label = 'Cold water';
+                    $scope.counterData[1].label = 'Hot water';
                 }
             };
 
@@ -77,18 +91,37 @@ angular
                                 $scope.organizationTypes[i].label = 'Постачальник послуг';
                                 break;
                             case "CALIBRATOR":
+                                console.log($scope.organizationTypes[i]);
                                 $scope.organizationTypes[i].label = 'Вимірювальна лабораторія';
                                 break;
                             case "STATE_VERIFICATOR":
+                                console.log($scope.organizationTypes[i]);
                                 $scope.organizationTypes[i].label = 'Уповноважена повірочна лабораторія';
                                 break;
                             default:
                                 console.log($scope.organizationTypes[i].type + " not organization type");
                         }
                     }
+
+                    for(var i = 0; i < $scope.deviceType.length; i++) {
+                        switch ($scope.deviceType[i].type) {
+                            case "WATER":
+                                console.log($scope.deviceType[i]);
+                                $scope.deviceType[i].label = 'Холодна вода';
+                                break;
+                            case "THERMAL":
+                                console.log($scope.deviceType[i]);
+                                $scope.deviceType[i].label = 'Гаряча вода';
+                                break;
+                            default:
+                                console.log($scope.deviceType[i].type + " not device type");
+                        }
+                    }
+
+
                 } else if (lang === 'eng') {
                     for (var i = 0; i < $scope.organizationTypes; i++) {
-                        switch ($scope.organizationTypes[i]) {
+                        switch ($scope.organizationTypes[i].type) {
                             case 'PROVIDER':
                                 $scope.organizationTypes[i].label = 'Service provider';
                                 break;
@@ -100,6 +133,19 @@ angular
                                 break;
                             default:
                                 console.error($scope.organizationTypes[i] + " not organization type");
+                        }
+                    }
+
+                    for(var i = 0; i < $scope.deviceType.length; i++) {
+                        switch ($scope.deviceType[i].type) {
+                            case "WATER":
+                                $scope.deviceType[i].label = 'Cold water';
+                                break;
+                            case "THERMAL":
+                                $scope.deviceType[i].label = 'Hot water';
+                                break;
+                            default:
+                                console.log($scope.deviceType[i].type + " not device type");
                         }
                     }
                 }
@@ -124,11 +170,20 @@ angular
                 }
             }
 
+            $scope.deviceType = [];
+            for (var i = 0; i < $rootScope.organization.counters.length; i++) {
+                $scope.deviceType[i] = {
+                    type: $rootScope.organization.counters[i],
+                    label: null
+                }
+            }
+
             $scope.setTypeDataLanguage();
             setTimeout(setCurrentTypeDataLanguage(), 2000);
 
 
             console.log($scope.organizationTypes);
+            console.log($scope.deviceType);
 
             $scope.regions = regions;
             $scope.districts = [];
@@ -541,6 +596,7 @@ angular
             }
 
             console.log($rootScope.organization.types);
+            console.log($rootScope.organization.counters);
 
             /**
              * Edit organization. If everything is ok then
@@ -638,6 +694,7 @@ angular
                     email: $rootScope.organization.email,
                     phone: $rootScope.organization.phone,
                     types: $scope.organizationTypes,
+                    counters: $scope.deviceType,
                     employeesCapacity: $rootScope.organization.employeesCapacity,
                     maxProcessTime: $rootScope.organization.maxProcessTime,
                     region: $scope.selectedValues.selectedRegion.designation,
@@ -655,6 +712,7 @@ angular
                 };
                 console.log(organizationForm);
                 console.log($scope.organizationTypes);
+                console.log($scope.deviceType);
 
                 saveOrganization(organizationForm);
                 $scope.closeModal();
