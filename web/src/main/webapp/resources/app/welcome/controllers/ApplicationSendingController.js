@@ -111,6 +111,7 @@ angular
                                         var index = arrayObjectIndexOf($scope.localities, $scope.verification.data.locality, "designation");
                                         $scope.selectedValues.selectedLocality = $scope.localities[index];
 
+                                        //todo refactor
                                         dataReceivingService.findProvidersByDistrict($scope.selectedValues.selectedDistrict.designation)
                                             .then(function (providers) {
                                                 $scope.providers = providers.data;
