@@ -46,14 +46,13 @@
         .x-ng-cloak {
             display: none !important;
         }
-
     </style>
 
 </head>
 
-<body>
+<body id="employeeModule">
 
-<div id="employeeModule" class="wrapper">
+<div id="content" class="wrapper ng-cloak">
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-static-top" role="navigation"
@@ -120,9 +119,14 @@
 
     <div class="row ng-cloak">
         <div class="col-md-3 menu_column">
-            <div class="ui primary button" ng-class="{'toggle_button' : menuState}" ng-init="menuState = true" ng-click="menuState = !menuState">
-                <div ng-show="menuState" ><i class="fa fa-chevron-left" style="font-size: 30px; vertical-align: middle"></i><span>Сховати</span></div>
-                <div ng-show="!menuState"><i class="fa fa-chevron-right" style="font-size: 30px;vertical-align: middle"></i><span>Показати</span></div>
+            <div class="ui primary button" ng-class="{'toggle_button' : menuState}" ng-init="menuState = true"
+                 ng-click="menuState = !menuState">
+                <div ng-show="menuState"><i class="fa fa-chevron-left"
+                                            style="font-size: 30px; vertical-align: middle"></i><span>Сховати</span>
+                </div>
+                <div ng-show="!menuState"><i class="fa fa-chevron-right"
+                                             style="font-size: 30px;vertical-align: middle"></i><span>Показати</span>
+                </div>
             </div>
         </div>
     </div>
@@ -222,6 +226,13 @@
                         </li>
                     </sec:authorize>
 
+                    <sec:authorize url="/verificator/admin/">
+                        <li ui-sref-active="active">
+                            <a ui-sref="employee-show-verificator"><i class="fa fa-users"></i> <span
+                                    translate="EMPLOYEE"></span></a>
+                        </li>
+                    </sec:authorize>
+
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
                             <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
@@ -254,6 +265,10 @@
             <div ui-view></div>
         </div>
     </div>
+
+</div>
+<div id="loader-wrapper">
+    <div id="loader" class="ui large loader"></div>
 </div>
 <toaster-container
         toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
@@ -270,7 +285,7 @@
     $("#states").chosen();
 </script>
 
-<%--<script src="/resources/assets/js/main.js"></script>--%>
+<script src="/resources/assets/js/loader-employee.js"></script>
 
 
 </body>

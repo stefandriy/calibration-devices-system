@@ -325,5 +325,7 @@
   "TELEPHONE" : "Telephone",
   "TASK" : "Planning task",
   "SEND" : "Send",
-  "INFORMATION" : "Recent information"
+  "INFORMATION" : "Recent information",
+
+  "ORGANIZATION_SERVICE_AREA" : "Organization service area"
 }

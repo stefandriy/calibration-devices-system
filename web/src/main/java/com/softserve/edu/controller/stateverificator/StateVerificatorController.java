@@ -86,7 +86,8 @@ public class StateVerificatorController {
      */
     @RequestMapping(value = "new/providers", method = RequestMethod.GET)
     public List<Organization> getMatchingVerificators(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return providerService.findByDistrictAndType(verificatorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
+        return providerService.findByDistrictAndType(verificatorService
+                .findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
     }
 
     /**

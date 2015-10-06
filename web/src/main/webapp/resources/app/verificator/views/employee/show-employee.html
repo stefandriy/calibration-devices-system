@@ -1,0 +1,144 @@
+<div id="page-wrapper" ng-show="accessLable">
+    <h1>У вас немає права доступу до даної інформації</h1>
+    <i class="fa fa-times-circle-o"></i>
+</div>
+
+<div id="page-wrapper" ng-controller="UsersControllerVerificator" ng-show="verificator" class="container-fluid">
+    <div class="row header_row">
+        <div class="col-md-12">
+            <h1 class="page-header" translate="USERS"></h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
+            <div ng-show="cantAddEmployee">
+                <button type="submit" class="btn btn-primary"
+                        popover="Reached the maximum number of employees"
+                        popover-trigger="mouseenter">{{'ADD_EMPLOYEE' | translate}}
+                </button>
+            </div>
+            <div ng-show="!cantAddEmployee">
+                <button type="submit" class="btn btn-primary" ng-disabled="cantAddEmployee"
+                        ng-click="openAddEmployeeModal()">{{'ADD_EMPLOYEE' | translate}}
+                </button>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <button ng-click="tableParams.filter({})" ng-show="isFilter()"
+                    class="btn btn-danger pull-right">
+                {{'CLEAR_ALL' | translate }}
+            </button>
+        </div>
+    </div>
+
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-md-12">
+
+            <br/>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span translate="EMPLOYEE"> </span>
+                    <span class="pull-right"><span translate="ON_BALANCE"></span> {{totalEmployee}} <span
+                            translate="FROM"></span>
+                        {{organizationEmployeesCapacity}}
+                        <span translate="AVAILABLE_USERS"></span>
+                    </span>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="table-responsive">
+                                <table show-filter="true" ng-table="tableParams" template-pagination="employee/pager"
+                                       class="table table-bordered table-hover table-responsive users_table">
+
+                                    <tbody>
+                                    <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
+                                        <td data-title="'USERNAME'|translate " sortable="'username'"
+                                            filter="{ 'username': 'text' }">{{
+                                            user.username }}
+                                        </td>
+                                        <td data-title="'ROLE' |translate" sortable="'role'"
+                                            filter="{ 'role': 'text' }">{{ user.role
+                                            }}
+                                        </td>
+                                        <td data-title="'FIRST_NAME'|translate" sortable="'firstName'"
+                                            filter="{ 'firstName': 'text' }">{{
+                                            user.firstName }}
+                                        </td>
+                                        <td data-title="'LAST_NAME'|translate" sortable="'lastName'"
+                                            filter="{ 'lastName': 'text' }">{{
+                                            user.lastName }}
+                                        </td>
+                                        <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'"
+                                            filter="{ 'phone': 'text' }">{{
+                                            user.phone }}
+                                        </td>
+                                        <td data-title="'SECOND_PHONE'|translate" sortable="'secondPhone'"
+                                            filter="{ 'secondPhone': 'text' }">{{
+                                            user.secondPhone }}
+                                        </td>
+                                        <td data-title="'EMPLOYEE_CAPACITY'|translate">
+                                            <a ng-if="user.countOfVerification" ng-click="showCapacity(user.username)"
+                                               class="cursor-pointer">
+                                                {{user.countOfVerification }}</a>
+                                            <span ng-if="!user.countOfVerification"> {{ user.countOfVerification}}</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary"
+                                                    ng-click="openEditEmployeeModal(user.username)">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <script type="text/ng-template" id="employee/pager">
+                        <div>
+                            <ul class="pager ng-cloak">
+                                <li ng-repeat="page in pages"
+                                    ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                    ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                    <a ng-switch-when="lastNamev" ng-click="params.page(page.number)" href="">&laquo;
+                                        Previous</a>
+                                    <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                       href="">Next &raquo;</a>
+                                </li>
+                                <li>
+                                    <div class="btn-groups">
+                                        <button type="button" ng-class="{'active':params.count() == 5}"
+                                                ng-click="params.count(5)" class="btn btn-default">5
+                                        </button>
+                                        <button type="button" ng-class="{'active':params.count() == 10}"
+                                                ng-click="params.count(10)" class="btn btn-default">10
+                                        </button>
+                                        <button type="button" ng-class="{'active':params.count() == 25}"
+                                                ng-click="params.count(25)" class="btn btn-default">25
+                                        </button>
+                                        <button type="button" ng-class="{'active':params.count() == 50}"
+                                                ng-click="params.count(50)" class="btn btn-default">50
+                                        </button>
+                                        <button type="button" ng-class="{'active':params.count() == 100}"
+                                                ng-click="params.count(100)" class="btn btn-default">100
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </script>
+
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+<!-- /#page-wrapper -->

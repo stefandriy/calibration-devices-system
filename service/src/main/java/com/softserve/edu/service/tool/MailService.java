@@ -14,8 +14,6 @@ public interface MailService {
 
     void sendClientMail(String to, String from, String userFirstName, String userLastName, String verificationId, String msg);
 
-    void sendMailFromProvider(String to, String userName, String clientCode, String providerName, String deviceType);
-
     void sendTimeExceededMail(String verificationId, int processTimeExceeding, int maxProcessTime, String mailTo);
 
     void sendOrganizationChanges(Organization organization, User admin);
