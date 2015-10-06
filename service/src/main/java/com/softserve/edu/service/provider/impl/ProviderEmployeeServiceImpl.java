@@ -5,6 +5,7 @@ import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.EmployeeDTO;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -50,7 +51,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     private OrganizationRepository organizationRepository;
 
     @Autowired
-    private MailServiceImpl mail;
+    private MailService mail;
 
     @Autowired
     private UserRepository userRepository;

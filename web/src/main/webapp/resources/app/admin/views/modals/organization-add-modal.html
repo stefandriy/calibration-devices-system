@@ -1,7 +1,6 @@
 <div class="modal-header">
     <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_ORGANIZATION'
         | translate}}</h3>
-    <!--<h6>{{'ALL_FIELDS_REQUIRED' | translate}}</h6>-->
 </div>
 
 <div class="modal-body">
@@ -61,7 +60,7 @@
 
                 <div class="form-group row" show-errors>
                     <label class="control-label col-md-4" for="types">
-                        Оберіть тип лічильника
+                        {{'ORGANIZATION_DEVICE_TYPE_ADMIN' | translate }}
                     </label>
 
                     <div class="col-md-8">
@@ -542,7 +541,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Organizarion service area</div>
+                    <div class="panel-heading">{{'ORGANIZATION_SERVICE_AREA'|translate}}</div>
                     <div class="panel-body">
 
                         <div class="row">
@@ -595,7 +594,7 @@
                                             </accordion-heading>
                                             <label class="col-md-6"
                                                    ng-repeat="locality in serviceArea.locality[$index] | unique:'designation'">
-                                                <input type="checkbox" checklist-model="selectedServiseAreaLocalities"
+                                                <input type="checkbox" checklist-model="selectedServiceAreaLocalities"
                                                        checklist-value="locality.id">
                                                 {{locality.designation}}
                                             </label>

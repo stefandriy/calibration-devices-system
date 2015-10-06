@@ -55,16 +55,17 @@ angular
 
 
 							$rootScope.onTableHandling = function() {
-								organizationService
-										.getPage($scope.currentPage,
-												$scope.itemsPerPage,
-												$scope.searchData
-								              )
-										.then(
-												function(data) {
-													$scope.pageContent = data.content;
-													$scope.totalItems = data.totalItems;
-												});
+								$scope.tableParams.reload();
+								//organizationService
+								//		.getPage($scope.currentPage,
+								//				$scope.itemsPerPage,
+								//				$scope.searchData
+								//              )
+								//		.then(
+								//				function(data) {
+								//					$scope.pageContent = data.content;
+								//					$scope.totalItems = data.totalItems;
+								//				});
 							};
 							$rootScope.onTableHandling();
 
@@ -102,6 +103,7 @@ angular
 											animation : true,
 											controller : 'OrganizationEditModalController',
 											templateUrl : '/resources/app/admin/views/modals/organization-edit-modal.html',
+											size: 'lg',
 											resolve: {
 												regions: function () {
 													return addressService.findAllRegions();

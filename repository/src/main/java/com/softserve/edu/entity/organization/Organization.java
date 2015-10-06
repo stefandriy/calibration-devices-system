@@ -107,6 +107,10 @@ public class Organization {
         organizationTypes.clear();
     }
 
+    public void removeServiceAreas() {
+        localities.clear();
+    }
+
     public void addDeviceType(DeviceType deviceType) {
         deviceTypes.add(deviceType);
     }
