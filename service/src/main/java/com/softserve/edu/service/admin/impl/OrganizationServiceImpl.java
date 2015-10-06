@@ -87,20 +87,17 @@ public class OrganizationServiceImpl implements OrganizationService {
             Locality locality = localityService.findById(localityId);
             organization.addLocality(locality);
         }
-
         organizationRepository.save(organization);
-
-
         String stringOrganizationTypes = String.join(",", types);
 
         Date date = new Date();
-
         OrganizationChangesHistory organizationChangesHistory = new OrganizationChangesHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
-
         organizationChangesHistoryRepository.save(organizationChangesHistory);
         organization.addOrganizationChangeHistory(organizationChangesHistory);
         organizationRepository.save(organization);
+
+        mail.sendOrganizationPasswordMail(email, name, username, password);
     }
 
     @Override
