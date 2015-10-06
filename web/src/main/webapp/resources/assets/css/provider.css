@@ -211,6 +211,7 @@ body {
 .navbar-top-links .dropdown-user {
     right: 0;
     left: auto;
+    padding: 0;
 }
 
 .sidebar .sidebar-nav.navbar-collapse {
@@ -735,11 +736,13 @@ button:focus { outline:0 !important; }
 /*add style for page with information about profile*/
 
 .userlabel {
-     margin-bottom: 0px;
+    display: block;
+    margin-bottom: 0px;
+    text-align: center;
 }
 
 /*centering information*/
-.profile_information_labal {
+.profile_information_label {
     width: 100%; text-align: center
 }
 

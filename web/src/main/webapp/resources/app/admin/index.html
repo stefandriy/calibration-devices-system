@@ -54,37 +54,37 @@
         <!-- Nav bar top right links -->
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown" dropdown>
-                <a class="dropdown-toggle" dropdown-toggle>
+                <a class="dropdown-toggle" style="width:250px; padding: 10px 15px; text-align: right" dropdown-toggle>
                     <div>
-                        <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}}"></label>
+                        <label  translate="{{employee.firstName}} {{employee.lastName}}"></label>
                         <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                     </div>
-
                 </a>
 
-
-                <ul class="dropdown-menu dropdown-user dropdown_style">
-                    <li class="user-header bg-light-blue">
-                        <div class="profile_information_labal">
-                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png" class="img-rounded"
-                                 style="width:200px; border-radius: 30px"
+                <ul class="dropdown-menu dropdown-user">
+                    <div class="ui card" style="width:250px">
+                        <div class="ui image center aligned">
+                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png"
+                                 style="width: 250px;"
                                  alt="User Image"/>
-                            <label translate="{{employee.firstName}} {{employee.lastName}}
-                        {{employee.middleName}} ({{employee.username}})"/>
                         </div>
-                    </li>
-                    <li class="user-footer">
-                        <div class="profile_information_labal">
-                            <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
+                        <div class="content" style="padding:0;">
+                            <div class="ui top attached secondary segment" style="padding:10px">
+                                <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}} {{employee.middleName}} <br/> ({{employee.username}})"></label>
+                            </div>
+                            <div class="ui vertical menu" style="margin-top:0">
+                                <div class="link item middle center aligned">
+                                    <a href="#" translate="PROFILE"></a>
+                                </div>
+                                <div class="link item middle center aligned">
+                                    <a translate="SETTINGS"></a>
+                                </div>
+                                <div class="link item middle center aligned">
+                                    <a ng-click="logout()" translate="LOG_OUT"> </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="profile_information_labal">
-                            <a class="btn btn-default ref_style_label" translate="SETTINGS"></a>
-                        </div>
-                        <div class="profile_information_labal">
-                            <a ng-click="logout()" class="btn btn-default ref_style_label"
-                               translate="LOG_OUT"> </a>
-                        </div>
-                    </li>
+                    </div>
                 </ul>
             </li>
         </ul>
