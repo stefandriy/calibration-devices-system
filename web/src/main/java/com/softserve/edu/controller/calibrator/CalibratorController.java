@@ -5,6 +5,7 @@ import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
@@ -319,6 +320,19 @@ public class CalibratorController {
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<>(httpStatus);
+    }
+
+    /**
+     * Check if current user is Employee
+     * @param user
+     * @return true if user has role CALIBRATOR_EMPLOYEE
+     *         false if user has role CALIBRATOR_ADMIN
+     */
+    @RequestMapping(value = "calibrator/role", method = RequestMethod.GET)
+    public Boolean isEmployeeCalibrator(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User checkedUser = userService.findOne(user.getUsername());
+        return checkedUser.getUserRoles().contains(UserRole.CALIBRATOR_EMPLOYEE);
     }
 
 

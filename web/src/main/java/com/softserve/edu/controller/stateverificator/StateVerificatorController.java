@@ -130,7 +130,7 @@ public class StateVerificatorController {
 
     /**
      * Updates status of verification to TEST_OK and sent it to provider
-     * @param verificationUpdatingDTO
+     * @param verificationUpdateDTO
      */
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
     public void sendVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
@@ -143,7 +143,7 @@ public class StateVerificatorController {
 
     /**
      * Updates status of verification to TEST_NOK and sent it to provider
-     * @param verificationUpdatingDTO
+     * @param verificationUpdateDTO
      */
     @RequestMapping(value = "new/notOk", method = RequestMethod.PUT)
     public void sendWithNotOkStatus(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
@@ -156,7 +156,7 @@ public class StateVerificatorController {
 
     /**
      * Updates status of verification to IN_PROGRESS and sent it to calibrator
-     * @param updatingDTOProvider
+     * @param verificationUpdateDTO
      */
     @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
     public void rejectVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
@@ -223,7 +223,7 @@ public class StateVerificatorController {
                 sortOrder,
                 verificatorEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
@@ -255,5 +255,8 @@ public class StateVerificatorController {
         User checkedUser = userService.findOne(user.getUsername());
         return checkedUser.getUserRoles().contains(UserRole.STATE_VERIFICATOR_EMPLOYEE);
     }
+
+//    @RequestMapping(value = "set/status", method = RequestMethod.GET)
+//    public void setVerificationStatus(AuthenticationPrincipal Securi)
 
 }
