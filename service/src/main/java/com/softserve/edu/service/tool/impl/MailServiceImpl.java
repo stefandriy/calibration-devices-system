@@ -106,6 +106,26 @@ public class MailServiceImpl implements MailService {
         this.mailSender.send(preparator);
     }
 
+    @Async
+    public void sendOrganizationPasswordMail(String organizationMail, String organizationName, String username, String password) {
+
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(organizationMail);
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("name", organizationName);
+                templateVariables.put("username", username);
+                templateVariables.put("password", password);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/organizationAdminMail.vm", "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+            }
+        };
+        this.mailSender.send(preparator);
+    }
+
 
     @Async
     public void sendRejectMail(String to, String userName, String verificationId, String msg, String deviceType) {

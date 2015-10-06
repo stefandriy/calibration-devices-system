@@ -3,6 +3,7 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
@@ -336,4 +337,18 @@ public class ProviderVerificationController {
                 verification.getProviderEmployee(), verification.getStateVerificator(),
                 verification.getStateVerificatorEmployee(), verification.getRejectedMessage());//add rejectMessage
     }
+
+    /**
+     * Check if current user is Employee
+     * @param user
+     * @return true if user has role PROVIDER_EMPLOYEE
+     *         false if user has role PROVIDER_ADMIN
+     */
+    @RequestMapping(value = "provider/role", method = RequestMethod.GET)
+    public Boolean isEmployeeProvider(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User checkedUser = userService.findOne(user.getUsername());
+        return checkedUser.getUserRoles().contains(UserRole.PROVIDER_EMPLOYEE);
+    }
+
 }

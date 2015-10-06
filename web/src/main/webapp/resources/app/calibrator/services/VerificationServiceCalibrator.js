@@ -63,7 +63,10 @@ angular
             },
             getArchivalVerificationEarliestDate: function () {
                 return getData('verifications/archive/earliest_date/calibrator');
-            }
+            },
+            getIfEmployeeCalibrator: function(url) {
+                return getData('verifications/calibrator/role');
+            },
         };
 
         function getData(url) {

@@ -109,7 +109,6 @@ public class EmployeeController {
      * Update user
      *
      * @param providerEmployee
-     * @param user
      * @return status
      */
 
@@ -170,7 +169,6 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    //TODO: maybe here should add STATE_VERIFICATION
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> capacityEmployeeData(
             @PathVariable String username) {
@@ -202,11 +200,17 @@ public class EmployeeController {
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
 
+    /**
+     * return data about admin employees.
+     * return only employees, without admins.
+     * @param queryResult
+     * @return page with employees of current admin.
+     */
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<>();
         for (User providerEmployee : queryResult.getContent()) {
 
-            //hide information about PROVIDER_ADMIN and CALIBRATOR_ADMIN
+            //hide information about PROVIDER_ADMIN, CALIBRATOR_ADMIN, STATE_VERIFICATOR_ADMIN
             List<String> userRoles = userService.getRoles(providerEmployee.getUsername())
                     .stream()
                     .distinct()
@@ -214,8 +218,9 @@ public class EmployeeController {
 
             boolean isProviderAdmin = userRoles.contains(UserRole.PROVIDER_ADMIN.name());
             boolean isCalibratorAdmin = userRoles.contains(UserRole.CALIBRATOR_ADMIN.name());
+            boolean isStateVerificatorAdmin = userRoles.contains(UserRole.STATE_VERIFICATOR_ADMIN.name());
 
-            if (!isProviderAdmin && !isCalibratorAdmin) {
+            if (!isProviderAdmin && !isCalibratorAdmin && !isStateVerificatorAdmin) {
                 resultList.add(new UsersPageItem(
                                 providerEmployee.getUsername(),
                                 userRoles,
