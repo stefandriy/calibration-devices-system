@@ -36,6 +36,9 @@ public class Verification {
     @Enumerated(EnumType.STRING)
     private ReadStatus readStatus;
 
+    @Enumerated(EnumType.STRING)
+    private Status taskStatus;
+
     @ManyToOne
     @JoinColumn(name = "deviceId")
     @JsonManagedReference

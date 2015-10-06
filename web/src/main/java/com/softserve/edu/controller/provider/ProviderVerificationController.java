@@ -161,7 +161,7 @@ public class ProviderVerificationController {
                 searchData.getEmployee(),
                 providerEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
