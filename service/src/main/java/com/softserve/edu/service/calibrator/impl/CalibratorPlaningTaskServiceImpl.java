@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskService {
 
 
@@ -40,7 +41,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
     @Override
-    @Transactional
     public void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
                            Date dateOfVisit, Date dateOfVisitTo, String installationNumber, String notes, int floor) {
         Verification verification = verificationRepository.findOne(verifiedId);
@@ -78,8 +78,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     }
 
     @Override
-    @Transactional
-    public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber, int itemsPerPage) {
+    public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatusOrderByDate(String userName, int pageNumber, int itemsPerPage) {
         User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
@@ -88,5 +87,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatusOrderBySentToCalibratorDateDesc(user.getUsername(), Status.PLANNING_TASK, pageRequest);
     }
 
-
+    @Override
+    public List<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber, int itemsPerPage) {
+        User user  = userRepository.findOne(userName);
+        if (user == null){
+            logger.error("Cannot found user!");
+        }
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, new Sort(Sort.Direction.DESC, "sentToCalibratorDate"));
+        //"district", "street", "building", "flat"
+    }
 }

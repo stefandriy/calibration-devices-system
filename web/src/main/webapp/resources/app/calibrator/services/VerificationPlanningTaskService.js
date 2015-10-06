@@ -1,25 +1,35 @@
 angular
     .module('employeeModule')
-    .factory('VerificationPlanningTaskService', ['$http', '$log', function ($http, $log) {
+    .factory('VerificationPlanningTaskService', ['$http', function ($http) {
 
-    return{
-        saveTask: function (verifId, task) {
-            var url = 'calibrator/verifications/task/add/' + verifId;
-            return $http.post(url, task)
-                .then(function (result) {
-                    return result.status;
-                });
-        },
+        return {
+           getVerificationsByCalibratorEmployeeAndTaskStatus: function (pageNumber, itemsPerPage) {
+                var url  = 'task/findAll/' + pageNumber + '/' + itemsPerPage;
+                console.log(url);
+                return getData('task/findAll/' + pageNumber + '/' + itemsPerPage);
+           }
 
-        getVerificationsByCalibratorEmplAndTaskStatus: function (pageNumber, itemsPerPage){
-            var url = 'calibrator/verifications/task/findAll/' + pageNumber + '/' + itemsPerPage;
+        };
+
+        return{
+             saveTask: function (verifId, task) {
+                 var url = '/add/' + verifId;
+                    return $http.post(url, task)
+                      .then(function (result) {
+                          return result.status;
+                      });
+             }
+        };
+
+        function getData (url) {
+            console.log(url);
             return $http.get(url)
-                .then(function (result) {
-                    return result;
-                });
+            .success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
         }
-    }
-
 
 
 

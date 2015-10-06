@@ -28,6 +28,6 @@ public class Address {
     }
 
     public String getAddress(){
-        return (locality + street + building + flat);
+        return (locality + " " +  street + " " + building + " " + flat);
     }
 }

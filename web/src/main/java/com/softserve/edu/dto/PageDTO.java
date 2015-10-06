@@ -7,19 +7,13 @@ public class PageDTO<T> {
 
     private Long totalItems;
     private List<T> content;
-    private Long idOrganization;
+
 
     public PageDTO() {}
 
     public PageDTO(Long totalItems, List<T> content) {
         this.totalItems = totalItems;
         this.content = content;
-    }
-
-    public PageDTO(Long totalItems, List<T> content, Long userId) {
-        this.totalItems = totalItems;
-        this.content = content;
-        this.idOrganization = userId;
     }
 
     public PageDTO(List<T> content) {
@@ -34,19 +28,9 @@ public class PageDTO<T> {
         this.totalItems = totalItems;
     }
 
-    public List<T> getContent() {
-        return content;
-    }
+    public List<T> getContent() {return content;}
 
-    public void setContent(List<T> content) {
-        this.content = content;
-    }
+    public void setContent(List<T> content) {this.content = content;}
 
-    public Long getIdOrganization() {
-        return idOrganization;
-    }
 
-    public void setIdOrganization(Long idOrganization) {
-        this.idOrganization = idOrganization;
-    }
 }

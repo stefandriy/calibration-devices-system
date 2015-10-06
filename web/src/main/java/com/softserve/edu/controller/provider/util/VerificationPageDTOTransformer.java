@@ -52,11 +52,17 @@ public class VerificationPageDTOTransformer {
         for (Verification verification : verifications) {
             taskDTOs.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
                     verification.getId(),
-                    verification.getProvider(),
+                    verification.getProvider().getName(),
                     verification.getClientData().getFullName(),
                     verification.getClientData().getClientAddress().getAddress(),
                     verification.getClientData().getPhone()
                     ));
+            System.out.println(verification.getSentToCalibratorDate() + " " +
+                    verification.getId() + " " +
+                    verification.getProvider().getName() + " " +
+                    verification.getClientData().getFullName() + " " +
+                    verification.getClientData().getClientAddress().getAddress() + " " +
+                    verification.getClientData().getPhone());
         }
         return taskDTOs;
     }
