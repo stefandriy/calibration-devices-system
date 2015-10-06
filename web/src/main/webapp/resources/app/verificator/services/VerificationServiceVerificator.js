@@ -22,13 +22,16 @@ angular
                 return getData('verifications/new/calibrators');
             },
             getVerificators: function (url) {
-                return getEmployeeData('new/verificatorEmployees');
+                return updateData('new/verificatorEmployees');
             },
             sendEmployeeVerificator: function (data) {
-                return employeeUpdateData('assign/verificatorEmployee', data);
+                return updateData('assign/verificatorEmployee', data);
             },
             cleanVerificatorEmployeeField:function (data) {
                 return employeeUpdateData('remove/verificatorEmployee', data);
+            },
+            getVerificators: function (url) {
+                return getData('verifications/new/verificatorEmployees');
             },
             rejectTestToCalibrator: function (data) {
                 return updateData('new/reject', data);
