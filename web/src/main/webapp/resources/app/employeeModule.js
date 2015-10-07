@@ -61,6 +61,11 @@
                         url: '/calibrator/',
                         templateUrl: '/resources/app/calibrator/views/main-panel.html'
                     })
+                    .state("profile-info", {
+                    url: '/profile-info',
+                    templateUrl: '/resources/app/common/views/profile-info.html',
+                    controller: 'TopNavBarControllerProvider'
+                    })
                     .state("new-verifications-calibrator", {
                         url: '/calibrator/verifications/new',
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
@@ -257,7 +262,7 @@
         'verificator/services/AddressServiceVerificator',
         'verificator/services/UserServiceVerificator',
         'verificator/services/VerificationServiceVerificator',
-        'provider/filters/unique'
+        'provider/filters/unique',
 
 
     ], function () {});

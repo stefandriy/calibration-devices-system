@@ -1,13 +1,19 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
+import com.softserve.edu.service.utils.EmployeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -44,5 +50,23 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
     @Transactional
     public User oneCalibratorEmployee(String username) {
         return calibratorEmployeeRepository.findOne(username);
+    }
+
+    @Override
+    @Transactional
+    public List<EmployeeDTO> getAllCalibrators(List<String> role, User employee) {
+        List<EmployeeDTO> calibratorListEmployee = new ArrayList<>();
+        if (role.contains(UserRole.CALIBRATOR_ADMIN.name())) {
+            List<User> allAvailableUsersList = calibratorEmployeeRepository.findAllAvailableUsersByRoleAndOrganizationId(
+                    UserRole.CALIBRATOR_EMPLOYEE, employee.getOrganization().getId())
+                    .stream()
+                    .collect(Collectors.toList());
+            calibratorListEmployee = EmployeeDTO.giveListOfEmployeeDTOs(allAvailableUsersList);
+        } else {
+            EmployeeDTO userPage = new EmployeeDTO(employee.getUsername(), employee.getFirstName(),
+                    employee.getLastName(), employee.getMiddleName(), role.get(0));
+            calibratorListEmployee.add(userPage);
+        }
+        return calibratorListEmployee;
     }
 }

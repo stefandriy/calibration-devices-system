@@ -4,6 +4,7 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
@@ -18,7 +19,7 @@ import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.user.UserService;
-import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.*;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +48,10 @@ public class StateVerificatorController {
     CalibratorService calibratorService;
 
     @Autowired
-    StateVerificatorEmployeeService verificatorEmployeeService;
+    StateVerificatorEmployeeService stateVerificatorEmployeeService;
 
     @Autowired
-    StateVerificatorService verificatorService;
+    StateVerificatorService stateVerificatorService;
 
     @Autowired
     StateVerificatorEmployeeService employeeService;
@@ -68,7 +69,7 @@ public class StateVerificatorController {
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateVerificatorIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
     		NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-        User verificatorEmployee = verificatorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        User verificatorEmployee = stateVerificatorEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByVerificatorIdAndCriteriaSearch(
                 employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
                 searchData.getDate(),
@@ -91,7 +92,7 @@ public class StateVerificatorController {
      */
     @RequestMapping(value = "new/providers", method = RequestMethod.GET)
     public List<Organization> getMatchingVerificators(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return providerService.findByDistrictAndType(verificatorService
+        return providerService.findByDistrictAndType(stateVerificatorService
                 .findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
     }
 
@@ -256,7 +257,44 @@ public class StateVerificatorController {
         return checkedUser.getUserRoles().contains(UserRole.STATE_VERIFICATOR_EMPLOYEE);
     }
 
-//    @RequestMapping(value = "set/status", method = RequestMethod.GET)
-//    public void setVerificationStatus(AuthenticationPrincipal Securi)
 
+    /**
+     * return All Verificator Employee
+     * using for add Employee to verification
+     * @param user
+     * @return
+     */
+
+    @RequestMapping(value = "new/verificatorEmployees", method = RequestMethod.GET)
+    public List<com.softserve.edu.service.utils.EmployeeDTO> employeeStateVerificatorVerification(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User employee = stateVerificatorEmployeeService.oneProviderEmployee(user.getUsername());
+        List<String> role = userService.getRoles(user.getUsername());
+        return stateVerificatorService.getAllVerificatorEmployee(role, employee);
+    }
+
+
+    /**
+     * set employee on a current verification,
+     * and than this guy will have opportunity to
+     * check this verification.
+     * @param verificationProviderEmployeeDTO
+     */
+    @RequestMapping(value = "assign/verificatorEmployee", method = RequestMethod.PUT)
+    public void assignVerificatorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
+        String usernameVerificator = verificationProviderEmployeeDTO.getEmployeeCalibrator().getUsername();
+        String idVerification = verificationProviderEmployeeDTO.getIdVerification();
+        User employeeCalibrator = stateVerificatorEmployeeService.oneProviderEmployee(usernameVerificator);
+        stateVerificatorService.assignVerificatorEmployee(idVerification, employeeCalibrator);
+    }
+
+    /**
+     * remove assigned employee on a current verification
+     * @param verificationUpdatingDTO
+     */
+    @RequestMapping(value = "remove/verificatorEmployee", method = RequestMethod.PUT)
+    public void removeVerificatorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationUpdatingDTO) {
+        String idVerification = verificationUpdatingDTO.getIdVerification();
+        stateVerificatorService.assignVerificatorEmployee(idVerification, null);
+    }
 }
