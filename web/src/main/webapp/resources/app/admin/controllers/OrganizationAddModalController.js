@@ -94,8 +94,8 @@ angular
                 $scope.organizationForm.$setUntouched();
 
 
-                $scope.organizationFormData.types = null;
-                $scope.organizationFormData.counters = null;
+                $scope.organizationFormData.types = undefined;
+                $scope.organizationFormData.counters = undefined;
                 $scope.organizationFormData.region = undefined;
                 $scope.organizationFormData.district = undefined;
                 $scope.organizationFormData.locality = undefined;
@@ -329,6 +329,14 @@ angular
              * Validates organization form before saving
              */
             $scope.onOrganizationFormSubmit = function () {
+
+                console.log(organizationForm.counters);
+                if (organizationForm.counters === undefined) {
+                    $scope.organizationForm.counters.$error = {"required":true};
+                    console.log($scope.organizationForm.counters.$error);
+                   // $scope.organizationForm.counters.$valid = false;
+                    //$scope.organizationForm.counters.$invalid = true;
+                }
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.organizationForm.$valid) {
                     addressFormToOrganizationForm();

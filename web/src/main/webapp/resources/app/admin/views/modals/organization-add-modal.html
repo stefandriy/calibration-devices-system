@@ -43,14 +43,20 @@
                     </label>
 
                     <div class="col-md-8">
-                        <select multiple chosen type="text" class="form-control" id="types" name="types"
+                        <!--<select multiple chosen type="text" class="form-control" id="types" name="types"
                                 ng-model="organizationFormData.types" data-placeholder="Оберіть тип організації"
                                 ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types"
                                 popover="Введіть тип організації" popover-trigger="focus" popover-placement="top"
                                 required>
                         </select> <span class="form-control-feedback glyphicon
 							form-horizontal glyphicon glyphicon-ok-sign"></span>
-
+                        -->
+                        <ui-select multiple ng-required="true" theme="select2" id="types" name="types" class="form-control" ng-model="organizationFormData.types">
+                            <ui-select-match ui-disable-choice="$itemType in organizationFormData.types">{{$itemType.label}}</ui-select-match>
+                            <ui-select-choices  repeat="type in typeData | organizationFilter:organizationFormData.types | filter: $select.search">
+                                <div ng-bind-html="type.label"></div>
+                            </ui-select-choices>
+                        </ui-select>
                         <p class="help-block" ng-if="organizationForm.types.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
@@ -64,14 +70,20 @@
                     </label>
 
                     <div class="col-md-8">
-                        <select multiple chosen type="text" class="form-control" id="counters" name="counters"
+                        <!--<select multiple chosen type="text" class="form-control" id="counters" name="counters"
                                 ng-model="organizationFormData.counters" data-placeholder="Оберіть тип лічильників"
                                 ng-options="counter as counter.label for counter in counterData"
                                 popover="Введіть тип лічильників організації" popover-trigger="focus" popover-placement="top"
                                 required>
                         </select> <span class="form-control-feedback glyphicon
 							form-horizontal glyphicon glyphicon-ok-sign"></span>
-
+                        -->
+                        <ui-select multiple ng-required="true" theme="select2" id="counters" name="counters" class="form-control" ng-model="organizationFormData.counters">
+                            <ui-select-match ui-disable-choice="$item in organizationFormData.counters">{{$item.label}}</ui-select-match>
+                            <ui-select-choices  repeat="counter in counterData | filter: $select.search">
+                                <div ng-bind-html="counter.label"></div>
+                            </ui-select-choices>
+                        </ui-select>
                         <p class="help-block" ng-if="organizationForm.counters.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
