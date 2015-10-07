@@ -306,7 +306,7 @@
   "EXPIRATION_DATE_OF_VISIT" : "Expiration date of visit",
   "FLOOR" : "Floor",
   "SERIAL_NUMBER_OF_COUNTER" : "Serial number of counter",
-  "NOTES" : "Notes",
+  "NOTES" : "Other",
   "SAVE" : "Save",
   "RESET" : "Reset",
   "CLOSE" : "Close",
@@ -330,5 +330,9 @@
 
   "ORGANIZATION_SERVICE_AREA" : "Organization service area",
   
-  "NO_DATA": "No data available"
+  "NO_DATA": "No data available",
+  "ENTRANCE" : "Entrance",
+  "ENTRANCE_REGEX" : "Only numbers! No more than 2 symbols",
+  "DOOR_CODE" : "Code on the door",
+  "DOOR_CODE_REGEX" : "Only numbers! No more than 4 symbols"
 }
