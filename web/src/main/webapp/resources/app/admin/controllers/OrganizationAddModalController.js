@@ -1,6 +1,6 @@
 angular
     .module('adminModule')
-    .filter('organizationFilter', function () {
+    .filter('organizationAddFilter', function () {
         return function (allTypes, currentTypes) {
             var filtered = allTypes;
 
@@ -329,13 +329,15 @@ angular
              * Validates organization form before saving
              */
             $scope.onOrganizationFormSubmit = function () {
-
-                console.log(organizationForm.counters);
-                if (organizationForm.counters === undefined) {
+                if ($scope.organizationFormData.counters === undefined) {
                     $scope.organizationForm.counters.$error = {"required":true};
-                    console.log($scope.organizationForm.counters.$error);
-                   // $scope.organizationForm.counters.$valid = false;
-                    //$scope.organizationForm.counters.$invalid = true;
+                    $scope.organizationForm.counters.$valid = false;
+                    $scope.organizationForm.counters.$invalid = true;
+                }
+                if ($scope.organizationFormData.types === undefined) {
+                    $scope.organizationForm.types.$error = {"required":true};
+                    $scope.organizationForm.types.$valid = false;
+                    $scope.organizationForm.types.$invalid = true;
                 }
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.organizationForm.$valid) {

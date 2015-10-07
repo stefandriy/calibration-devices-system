@@ -51,9 +51,9 @@
                         </select> <span class="form-control-feedback glyphicon
 							form-horizontal glyphicon glyphicon-ok-sign"></span>
                         -->
-                        <ui-select multiple ng-required="true" theme="select2" id="types" name="types" class="form-control" ng-model="organizationFormData.types">
-                            <ui-select-match ui-disable-choice="$itemType in organizationFormData.types">{{$itemType.label}}</ui-select-match>
-                            <ui-select-choices  repeat="type in typeData | organizationFilter:organizationFormData.types | filter: $select.search">
+                        <ui-select multiple required theme="select2" id="types" name="types" class="form-control" ng-model="organizationFormData.types">
+                            <ui-select-match ui-disable-choice="$item in organizationFormData.types">{{$item.label}}</ui-select-match>
+                            <ui-select-choices  repeat="type in typeData | organizationAddFilter:organizationFormData.types | filter: $select.search">
                                 <div ng-bind-html="type.label"></div>
                             </ui-select-choices>
                         </ui-select>
@@ -78,7 +78,7 @@
                         </select> <span class="form-control-feedback glyphicon
 							form-horizontal glyphicon glyphicon-ok-sign"></span>
                         -->
-                        <ui-select multiple ng-required="true" theme="select2" id="counters" name="counters" class="form-control" ng-model="organizationFormData.counters">
+                        <ui-select multiple required theme="select2" id="counters" name="counters" class="form-control" ng-model="organizationFormData.counters">
                             <ui-select-match ui-disable-choice="$item in organizationFormData.counters">{{$item.label}}</ui-select-match>
                             <ui-select-choices  repeat="counter in counterData | filter: $select.search">
                                 <div ng-bind-html="counter.label"></div>
