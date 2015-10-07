@@ -4,20 +4,21 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
@@ -40,10 +41,10 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping(value = "/calibrator/verifications/")
-public class CalibratorController {
+public class CalibratorVerificationController {
 
     private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
-    private final Logger logger = Logger.getLogger(CalibratorController.class);
+    private final Logger logger = Logger.getLogger(CalibratorVerificationController.class);
     @Autowired
     VerificationService verificationService;
 
@@ -333,6 +334,44 @@ public class CalibratorController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User checkedUser = userService.findOne(user.getUsername());
         return checkedUser.getUserRoles().contains(UserRole.CALIBRATOR_EMPLOYEE);
+    }
+
+
+    /**
+     * get list of employees if it calibrator admin
+     * or get data about employee.
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "new/calibratorEmployees", method = RequestMethod.GET)
+    public List<com.softserve.edu.service.utils.EmployeeDTO> employeeVerification(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User employee = calibratorEmployeeService.oneCalibratorEmployee(user.getUsername());
+        List<String> role = userService.getRoles(user.getUsername());
+        return calibratorEmployeeService
+                .getAllCalibrators(role, employee);
+    }
+
+    /**
+     * Assigning employee to verification
+     * @param verificationProviderEmployeeDTO
+     */
+    @RequestMapping(value = "assign/calibratorEmployee", method = RequestMethod.PUT)
+    public void assignCalibratorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
+        String userNameCalibrator = verificationProviderEmployeeDTO.getEmployeeCalibrator().getUsername();
+        String idVerification = verificationProviderEmployeeDTO.getIdVerification();
+        User employeeCalibrator = calibratorService.oneCalibratorEmployee(userNameCalibrator);
+        calibratorService.assignCalibratorEmployee(idVerification, employeeCalibrator);
+    }
+
+    /**
+     * remove from verification assigned employee.
+     * @param verificationUpdatingDTO
+     */
+    @RequestMapping(value = "remove/calibratorEmployee", method = RequestMethod.PUT)
+    public void removeCalibratorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationUpdatingDTO) {
+        String idVerification = verificationUpdatingDTO.getIdVerification();
+        calibratorService.assignCalibratorEmployee(idVerification, null);
     }
 
 
