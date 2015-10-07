@@ -329,5 +329,7 @@
 
   "ORGANIZATION_SERVICE_AREA" : "Organization service area",
   
-  "NO_DATA": "No data available"
+  "NO_DATA": "No data available",
+  "DATE_IN_THE_FUTURE": "Please select date not greater than today",
+  "TO_DATE_EARLIER_THAN_FROM": "Please select date not earlier than from date"
 }

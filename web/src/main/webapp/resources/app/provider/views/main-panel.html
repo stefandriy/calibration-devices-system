@@ -38,25 +38,27 @@
                         <form name="myForm" novalidate class="formCalendar">
 
 
-                            <div class="calendar-wd">
-                                <input readonly type="text"
-                                       datepicker-popup="{{format}}" ng-model="dataToSearch.fromDate"
-                                       ng-change="changeDateToSend(dataToSearch.fromDate)"
-                                       is-open="firstCalendar.isOpen"
-                                       min-date="minDate" datepicker-options="dateOptions"
-                                       date-disabled="disabled(date, mode)" ng-required="true"
-                                       close-text="Close"/>
+							<div class="calendar-wd">
+								<input readonly type="text" datepicker-popup="{{format}}"
+									ng-model="dataToSearch.fromDate"
+									ng-change="changeDateToSend(dataToSearch.fromDate)"
+									is-open="firstCalendar.isOpen" min-date="minDate"
+									datepicker-options="dateOptions"
+									date-disabled="disabled(date, mode)" ng-required="true"
+									close-text="Close" /> <span>
+									<button type="button" class="btn btn-default myGroupBtn"
+										ng-click="open1($event)">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+								<p class="validation-message date-validation-message" ng-if="fromDateInTheFuture">
+									<span class="glyphicon glyphicon-exclamation-sign"></span>
+									{{'DATE_IN_THE_FUTURE' | translate }}
+								</p>
+							</div>
 
-        <span>
-            <button type="button" class="btn btn-default myGroupBtn"
-                    ng-click="open1($event)">
-                <i class="glyphicon glyphicon-calendar"></i>
-            </button>
-        </span>
-                            </div>
 
-
-                            <div class="calendar-wd">
+							<div class="calendar-wd">
                                 <input readonly type="text"
                                        datepicker-popup="{{format}}" ng-model="dataToSearch.toDate"
                                        ng-change="changeDateToSend(dataToSearch.toDate)" is-open="secondCalendar.isOpen"
@@ -70,6 +72,14 @@
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </span>
+                            <p class="validation-message date-validation-message" ng-if="toDateInTheFuture">
+									<span class="glyphicon glyphicon-exclamation-sign"></span>
+									{{'DATE_IN_THE_FUTURE' | translate }}
+							</p>
+							<p class="validation-message date-validation-message" ng-if="toDateInvalid">
+									<span class="glyphicon glyphicon-exclamation-sign"></span>
+									{{'TO_DATE_EARLIER_THAN_FROM' | translate }}
+							</p>
                             </div>
 
 
