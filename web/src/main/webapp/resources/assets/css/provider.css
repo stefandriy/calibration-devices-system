@@ -759,3 +759,8 @@ button:focus { outline:0 !important; }
     border-radius: 0px;
 }
 
+.date-validation-message {
+	width: 70%;
+	font-size: 80%;
+}
+
