@@ -92,8 +92,6 @@ angular
                 $scope.$broadcast('show-errors-reset');
                 $scope.organizationForm.$setPristine();
                 $scope.organizationForm.$setUntouched();
-
-
                 $scope.organizationFormData.types = undefined;
                 $scope.organizationFormData.counters = undefined;
                 $scope.organizationFormData.region = undefined;
@@ -103,6 +101,11 @@ angular
                 $scope.organizationFormData.building = "";
                 $scope.organizationFormData.flat = null;
                 $scope.organizationFormData.serviceArea = null;
+                $scope.serviceArea = {};
+                $scope.serviceArea.region = undefined;
+                $scope.serviceArea.districts = [];
+                $scope.serviceArea.locality = [[]];
+                $scope.selectedServiceAreaLocalities = [];
             };
 
             /**
@@ -216,7 +219,7 @@ angular
             };
 
             $scope.serviceArea = {};
-            $scope.serviceArea.region = [];
+            $scope.serviceArea.region = undefined;
             $scope.serviceArea.districts = [];
             $scope.serviceArea.locality = [[]];
             $scope.selectedServiceAreaLocalities = [];
