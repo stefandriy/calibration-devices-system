@@ -1,17 +1,30 @@
 angular
     .module('adminModule')
     .filter('organizationFilter', function () {
+        // filters available options in the Organization Type multiselect,
+        // depends on what options are selected
         return function (allTypes, currentTypes) {
-            var filtered = allTypes;
+            var filtered = allTypes; //all types in select
 
-            for (var i in currentTypes) {
-                if (currentTypes[i].id != 'CALIBRATOR') {
-                    var filtered = [];
-                    filtered.push(allTypes[1]);
-                    filtered.push(currentTypes[i]);
-                }
+            if(currentTypes != undefined && currentTypes.length == 0){
+                return filtered; //nothing in the input, all the options available
             }
 
+            if(currentTypes.length == 2)
+                return []; //no options available, everything set already
+
+            if(currentTypes[0].type == 'CALIBRATOR'){
+                filtered = [];
+                filtered.push(allTypes[0]); //provider
+                filtered.push(allTypes[2]); //verificator
+                return filtered;
+            }
+
+            if(currentTypes[0].type == 'PROVIDER' || currentTypes[0].type =='STATE_VERIFICATOR'){
+                filtered = [];
+                filtered.push(allTypes[1]); //calibrator
+                return filtered;
+            }
             return filtered;
         }
     })
@@ -32,6 +45,9 @@ angular
         function ($rootScope, $scope, $translate, $modalInstance, $filter, $timeout,
                   addressService,
                   userService, devicesService, organizationService, $log, regions) {
+
+
+            $scope.defaultData = {};
 
             $scope.typeData = [
                 {
@@ -84,22 +100,20 @@ angular
             var setCurrentTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
-                    for (var i = 0; i < $scope.organizationTypes.length; i++) {
-                        switch ($scope.organizationTypes[i].type) {
+                    for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
+                        switch ($scope.defaultData.organizationTypes[i].type) {
                             case "PROVIDER":
-                                console.log($scope.organizationTypes[i]);
-                                $scope.organizationTypes[i].label = 'Постачальник послуг';
+                                console.log($scope.defaultData.organizationTypes[i]);
+                                $scope.defaultData.organizationTypes[i].label = 'Постачальник послуг';
                                 break;
                             case "CALIBRATOR":
-                                console.log($scope.organizationTypes[i]);
-                                $scope.organizationTypes[i].label = 'Вимірювальна лабораторія';
+                                $scope.defaultData.organizationTypes[i].label = 'Вимірювальна лабораторія';
                                 break;
                             case "STATE_VERIFICATOR":
-                                console.log($scope.organizationTypes[i]);
-                                $scope.organizationTypes[i].label = 'Уповноважена повірочна лабораторія';
+                                $scope.defaultData.organizationTypes[i].label = 'Уповноважена повірочна лабораторія';
                                 break;
                             default:
-                                console.log($scope.organizationTypes[i].type + " not organization type");
+                                console.log($scope.defaultData.organizationTypes[i].type + " not organization type");
                         }
                     }
 
@@ -120,19 +134,19 @@ angular
 
 
                 } else if (lang === 'eng') {
-                    for (var i = 0; i < $scope.organizationTypes; i++) {
-                        switch ($scope.organizationTypes[i].type) {
+                    for (var i = 0; i < $scope.defaultData.organizationTypes; i++) {
+                        switch ($scope.defaultData.organizationTypes[i]) {
                             case 'PROVIDER':
-                                $scope.organizationTypes[i].label = 'Service provider';
+                                $scope.defaultData.organizationTypes[i].label = 'Service provider';
                                 break;
                             case 'CALIBRATOR':
-                                $scope.organizationTypes[i].label = 'Measuring laboratory';
+                                $scope.defaultData.organizationTypes[i].label = 'Measuring laboratory';
                                 break;
                             case 'STATE_VERIFICATOR':
-                                $scope.organizationTypes[i].label = 'Authorized calibration laboratory';
+                                $scope.defaultData.organizationTypes[i].label = 'Authorized calibration laboratory';
                                 break;
                             default:
-                                console.error($scope.organizationTypes[i] + " not organization type");
+                                console.error($scope.defaultData.organizationTypes[i] + " not organization type");
                         }
                     }
 
@@ -162,9 +176,9 @@ angular
                 $modalInstance.close();
             });
 
-            $scope.organizationTypes = [];
+            $scope.defaultData.organizationTypes = [];
             for (var i = 0; i < $rootScope.organization.types.length; i++) {
-                $scope.organizationTypes[i] = {
+                $scope.defaultData.organizationTypes[i] = {
                     type: $rootScope.organization.types[i],
                     label: null
                 }
@@ -182,7 +196,7 @@ angular
             setTimeout(setCurrentTypeDataLanguage(), 2000);
 
 
-            console.log($scope.organizationTypes);
+            console.log($scope.defaultData.organizationTypes);
             console.log($scope.deviceType);
 
             $scope.regions = regions;
@@ -406,11 +420,11 @@ angular
                                 addressService.findDistrictsByRegionId($scope.serviceArea.region.id)
                                     .then(function (districts) {
                                         $scope.serviceArea.districts = districts;
-                                        $scope.selectedServiseAreaLocalities = localities.data.map(function(element){
+                                        $scope.selectedServiseAreaLocalities = angular.forEach(localities.data, function(element){
                                             return element.id;
                                         });
                                         var selectedDistricts = $scope.convertLocalityToDistrictList(localities);
-                                        $scope.serviceArea.districts.forEach(function (element, index) {
+                                        angular.forEach($scope.serviceArea.districts, function (element, index) {
                                             var i = selectedDistricts.indexOf(element.id);
                                             if (i !== -1) {
                                                 $scope.selectRegionsFromDistrict(element, index);
@@ -423,7 +437,7 @@ angular
 
             $scope.convertLocalityToDistrictList = function (list) {
                 var resList = [];
-                list.data.forEach(function (element) {
+                angular.forEach(list.data, function (element) {
                     var selectedIndex = resList.indexOf(element.districtId);
                     if (selectedIndex === -1) {
                         resList.push(element.districtId);
@@ -589,9 +603,9 @@ angular
             }
 
             function objectTypesToStringTypes() {
-                for (var i = 0; i < $scope.organizationTypes.length; i++) {
-                    $scope.organizationTypes[i] = $scope.organizationTypes[i].type;
-                    console.log($scope.organizationTypes[i]);
+                for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
+                    $scope.defaultData.organizationTypes[i] = $scope.defaultData.organizationTypes[i].type;
+                    console.log($scope.defaultData.organizationTypes[i]);
                 }
             }
 
@@ -693,7 +707,7 @@ angular
                     name: $rootScope.organization.name,
                     email: $rootScope.organization.email,
                     phone: $rootScope.organization.phone,
-                    types: $scope.organizationTypes,
+                    types: $scope.defaultData.organizationTypes,
                     counters: $scope.deviceType,
                     employeesCapacity: $rootScope.organization.employeesCapacity,
                     maxProcessTime: $rootScope.organization.maxProcessTime,
@@ -711,7 +725,7 @@ angular
                     serviceAreas : $scope.selectedServiseAreaLocalities
                 };
                 console.log(organizationForm);
-                console.log($scope.organizationTypes);
+                console.log($scope.defaultData.organizationTypes);
                 console.log($scope.deviceType);
 
                 saveOrganization(organizationForm);

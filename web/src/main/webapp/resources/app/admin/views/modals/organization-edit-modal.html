@@ -45,12 +45,19 @@
 					</div>
 
 					<div class="form-group col-md-8">
-						<select multiple chosen type="text" class="form-control"
-								ng-model="organizationTypes"
-								data-placeholder="Choose type"
-								name="types"
-								ng-options="type as type.label for type in typeData | organizationFilter:organizationTypes" required>
-						</select>
+						<!--<select multiple chosen type="text" -->
+								<!--ng-model="organizationTypes"-->
+								<!--data-placeholder="Choose type"-->
+								<!--name="types"-->
+								<!--ng-options="type as type.label for type in typeData | organizationFilter:organizationTypes" required>-->
+						<!--</select>-->
+
+						<ui-select multiple theme="select2" class="form-control" style="width: 500px;" ng-model="defaultData.organizationTypes">
+							<ui-select-match ui-disable-choice="$item in defaultData.organizationTypes">{{$item.label}}</ui-select-match>
+							<ui-select-choices  repeat="type in typeData | organizationFilter:defaultData.organizationTypes | filter: $select.search">
+								<div ng-bind-html="type.label"></div>
+							</ui-select-choices>
+						</ui-select>
 					</div>
 				</div>
 
