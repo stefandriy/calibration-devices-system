@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('TaskControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'TaskServiceCalibrator', '$log',
-        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator, $log) {
+    .controller('TaskSendingModalControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'VerificationPlanningTaskService', '$log',
+        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator) {
 
             $scope.calibrationTask = {};
             $scope.incorrectValue = false;
@@ -184,6 +184,7 @@ angular
                              console.log($scope.incorrectValue);
                             }
                         });
+                console.log($rootScope.verifIds);
             }
 
         }]);

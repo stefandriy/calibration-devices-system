@@ -9,12 +9,11 @@ import java.util.List;
 
 public interface CalibratorPlanningTaskService {
 
-     void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
+    void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
                            Date dateOfVisit, Date dateOfVisitTo, String installationNumber, String notes, int floor);
 
-    Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatusOrderByDate(String userName, int pageNumber,
-                                                                                     int itemsPerPage);
+    Long findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 
-    List<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
+    Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
                                                                                      int itemsPerPage);
 }

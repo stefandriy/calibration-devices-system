@@ -296,7 +296,7 @@
 
   "CALIBRATION_PLACE" : "Calibration place",
   "CHOOSE_CALIBRATION_PLACE" : "Choose calibration place",
-  "TASK_TITLE" : "Task for verification №",
+  "TASK_TITLE" : "Task for selected verifications",
   "INSTALLATION_PORT" : "portable installation",
   "INSTALLATION_FIX" : "fixed installation",
   "COUNTER" : "Counter:",
@@ -325,6 +325,7 @@
   "TELEPHONE" : "Telephone",
   "TASK" : "Planning task",
   "SEND" : "Send",
+  "CREATE_TASK" : "Create task",
   "INFORMATION" : "Recent information",
 
   "ORGANIZATION_SERVICE_AREA" : "Organization service area",
