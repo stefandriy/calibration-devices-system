@@ -107,9 +107,9 @@
                         controller: 'VerificationPlanningTaskController'
                     })
                     .state("calibrator-task-add", {
-                        url: '/',
+                        url: '/calibrator/task/',
                         templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
-                        controller: 'TaskControllerCalibrator'
+                        controller: 'TaskSendingModalControllerCalibrator'
                     })
                     .state('main-panel-verificator', {
                         url: '/',
@@ -234,7 +234,7 @@
         'calibrator/controllers/UsersControllerCalibrator',
         'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
-        'calibrator/controllers/TaskControllerCalibrator',
+        'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
         'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',

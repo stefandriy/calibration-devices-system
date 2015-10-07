@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('TaskControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'TaskServiceCalibrator', '$log',
-        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator, $log) {
+    .controller('TaskSendingModalControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'VerificationPlanningTaskService', '$log',
+        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator) {
 
             $scope.calibrationTask = {};
             $scope.incorrectValue = false;
@@ -164,26 +164,27 @@ angular
             }
 
             $scope.editTask = function (){
-                    $scope.calibrationTask = {
-                        place : $scope.calibrationTask.place,
-                        counterStatus: $scope.calibrationTask.counterStatus,
-                        installationNumber: $scope.calibrationTask.installationNumber,
-                        startDate: $scope.calibrationTask.pickerDate.startDate,
-                        endDate: $scope.calibrationTask.pickerDate.endDate,
-                        floor: $scope.calibrationTask.floor,
-                        counterNumber: $scope.calibrationTask.counterNumber,
-                        notes: $scope.calibrationTask.notes
-                    };
-                    console.log($scope.calibrationTask);
-                    taskServiceCalibrator.saveTask($rootScope.verifId, $scope.calibrationTask).then(
-                        function (data) {
-                            if (data == 200) {
-                                $scope.closeModal();
-                            } else {
-                             $scope.incorrectValue = true;
-                             console.log($scope.incorrectValue);
-                            }
-                        });
+                    //$scope.calibrationTask = {
+                    //    place : $scope.calibrationTask.place,
+                    //    counterStatus: $scope.calibrationTask.counterStatus,
+                    //    installationNumber: $scope.calibrationTask.installationNumber,
+                    //    startDate: $scope.calibrationTask.pickerDate.startDate,
+                    //    endDate: $scope.calibrationTask.pickerDate.endDate,
+                    //    floor: $scope.calibrationTask.floor,
+                    //    counterNumber: $scope.calibrationTask.counterNumber,
+                    //    notes: $scope.calibrationTask.notes
+                    //};
+                    //console.log($scope.calibrationTask);
+                    //taskServiceCalibrator.saveTask($rootScope.verifId, $scope.calibrationTask).then(
+                    //    function (data) {
+                    //        if (data == 200) {
+                    //            $scope.closeModal();
+                    //        } else {
+                    //         $scope.incorrectValue = true;
+                    //         console.log($scope.incorrectValue);
+                    //        }
+                    //    });
+                console.log($rootScope.verifIds);
             }
 
         }]);
