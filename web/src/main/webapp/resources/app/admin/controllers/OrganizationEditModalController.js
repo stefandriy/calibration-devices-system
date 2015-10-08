@@ -117,18 +117,18 @@ angular
                         }
                     }
 
-                    for(var i = 0; i < $scope.deviceType.length; i++) {
-                        switch ($scope.deviceType[i].type) {
+                    for(var i = 0; i < $scope.defaultData.deviceType.length; i++) {
+                        switch ($scope.defaultData.deviceType[i].type) {
                             case "WATER":
-                                console.log($scope.deviceType[i]);
-                                $scope.deviceType[i].label = 'Холодна вода';
+                                console.log($scope.defaultData.deviceType[i]);
+                                $scope.defaultData.deviceType[i].label = 'Холодна вода';
                                 break;
                             case "THERMAL":
-                                console.log($scope.deviceType[i]);
-                                $scope.deviceType[i].label = 'Гаряча вода';
+                                console.log($scope.defaultData.deviceType[i]);
+                                $scope.defaultData.deviceType[i].label = 'Гаряча вода';
                                 break;
                             default:
-                                console.log($scope.deviceType[i].type + " not device type");
+                                console.log($scope.defaultData.deviceType[i].type + " not device type");
                         }
                     }
 
@@ -150,16 +150,16 @@ angular
                         }
                     }
 
-                    for(var i = 0; i < $scope.deviceType.length; i++) {
-                        switch ($scope.deviceType[i].type) {
+                    for(var i = 0; i < $scope.defaultData.deviceType.length; i++) {
+                        switch ($scope.defaultData.deviceType[i].type) {
                             case "WATER":
-                                $scope.deviceType[i].label = 'Cold water';
+                                $scope.defaultData.deviceType[i].label = 'Cold water';
                                 break;
                             case "THERMAL":
-                                $scope.deviceType[i].label = 'Hot water';
+                                $scope.defaultData.deviceType[i].label = 'Hot water';
                                 break;
                             default:
-                                console.log($scope.deviceType[i].type + " not device type");
+                                console.log($scope.defaultData.deviceType[i].type + " not device type");
                         }
                     }
                 }
@@ -184,9 +184,9 @@ angular
                 }
             }
 
-            $scope.deviceType = [];
+            $scope.defaultData.deviceType = [];
             for (var i = 0; i < $rootScope.organization.counters.length; i++) {
-                $scope.deviceType[i] = {
+                $scope.defaultData.deviceType[i] = {
                     type: $rootScope.organization.counters[i],
                     label: null
                 }
@@ -197,7 +197,7 @@ angular
 
 
             console.log($scope.defaultData.organizationTypes);
-            console.log($scope.deviceType);
+            console.log($scope.defaultData.deviceType);
 
             $scope.regions = regions;
             $scope.districts = [];
@@ -420,7 +420,7 @@ angular
                                 addressService.findDistrictsByRegionId($scope.serviceArea.region.id)
                                     .then(function (districts) {
                                         $scope.serviceArea.districts = districts;
-                                        $scope.selectedServiseAreaLocalities = angular.forEach(localities.data, function(element){
+                                        $scope.selectedServiseAreaLocalities = localities.data.map(function(element){
                                             return element.id;
                                         });
                                         var selectedDistricts = $scope.convertLocalityToDistrictList(localities);
@@ -605,7 +605,11 @@ angular
             function objectTypesToStringTypes() {
                 for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
                     $scope.defaultData.organizationTypes[i] = $scope.defaultData.organizationTypes[i].type;
-                    console.log($scope.defaultData.organizationTypes[i]);
+                }
+
+                for (var i in $scope.defaultData.deviceType) {
+                    $scope.defaultData.deviceType
+                    $scope.defaultData.deviceType[i] = $scope.defaultData.deviceType[i].type;
                 }
             }
 
@@ -708,7 +712,7 @@ angular
                     email: $rootScope.organization.email,
                     phone: $rootScope.organization.phone,
                     types: $scope.defaultData.organizationTypes,
-                    counters: $scope.deviceType,
+                    counters: $scope.defaultData.deviceType,
                     employeesCapacity: $rootScope.organization.employeesCapacity,
                     maxProcessTime: $rootScope.organization.maxProcessTime,
                     region: $scope.selectedValues.selectedRegion.designation,
@@ -726,7 +730,7 @@ angular
                 };
                 console.log(organizationForm);
                 console.log($scope.defaultData.organizationTypes);
-                console.log($scope.deviceType);
+                console.log($scope.defaultData.deviceType);
 
                 saveOrganization(organizationForm);
                 $scope.closeModal();

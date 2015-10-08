@@ -3,7 +3,6 @@ angular
     .filter('organizationAddFilter', function () {
         return function (allTypes, currentTypes) {
             var filtered = allTypes;
-
             for (var i in currentTypes) {
                 if (currentTypes[i].id != 'CALIBRATOR') {
                     var filtered = [];
@@ -11,7 +10,6 @@ angular
                     filtered.push(currentTypes[i]);
                 }
             }
-
             return filtered;
         }
     })
@@ -100,12 +98,12 @@ angular
                 $scope.organizationFormData.street = "";
                 $scope.organizationFormData.building = "";
                 $scope.organizationFormData.flat = null;
-                $scope.organizationFormData.serviceArea = null;
-                $scope.serviceArea = {};
-                $scope.serviceArea.region = undefined;
-                $scope.serviceArea.districts = [];
-                $scope.serviceArea.locality = [[]];
                 $scope.selectedServiceAreaLocalities = [];
+                $scope.serviceArea.locality = [[]];
+                $scope.serviceArea.districts = [];
+                $scope.serviceArea.region = undefined;
+                $scope.serviceArea = {};
+                $scope.organizationFormData.serviceArea = null;
             };
 
             /**
@@ -123,7 +121,6 @@ angular
              *
              */
             $scope.isUsernameAvailable = true;
-
             $scope.checkIfUsernameIsAvailable = function () {
                 var username = $scope.organizationFormData.username;
                 userService.isUsernameAvailable(username).then(

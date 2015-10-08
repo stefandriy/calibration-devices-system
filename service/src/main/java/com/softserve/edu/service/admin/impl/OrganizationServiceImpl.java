@@ -156,7 +156,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .forEach(organization::addOrganizationType);
 
         organization.removeDeviceType();
-        types.
+        counters.
                 stream()
                 .map(DeviceType::valueOf)
                 .forEach(organization::addDeviceType);
