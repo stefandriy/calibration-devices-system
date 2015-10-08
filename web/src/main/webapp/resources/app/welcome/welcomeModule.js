@@ -15,10 +15,10 @@
 							'$stateProvider',
 							'$urlRouterProvider',
 							'showErrorsConfigProvider',
-
+							'$provide',
 							function($translateProvider, $stateProvider,
 									$urlRouterProvider,
-									showErrorsConfigProvider) {
+									showErrorsConfigProvider, $provide) {
 
 								showErrorsConfigProvider.showSuccess(true);
 
@@ -73,7 +73,7 @@
 													url : '/application-status/{clientCode}',
 													templateUrl : '/resources/app/welcome/views/application-status.html',
 													controller : 'ApplicationStatusController'
-												});
+												})
 								/*
 								 Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
 								 When translation of page will end, items of select (on the scope) will be changed too.

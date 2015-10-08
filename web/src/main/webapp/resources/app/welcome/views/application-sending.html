@@ -184,7 +184,7 @@
                                    ng-model="selectedValues.selectedRegion"
                                    on-select="receiveDistricts(selectedValues.selectedRegion)"
                                    name="region" required>
-                            <ui-select-match placeholder="Оберіть область" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="region in regions | filter: $select.search">
@@ -209,7 +209,7 @@
                                    ng-disabled="!selectedValues.selectedRegion"
                                    on-select="receiveLocalitiesAndProviders(selectedValues.selectedDistrict)"
                                    name="district" required>
-                            <ui-select-match placeholder="Оберіть район" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="district in districts | filter: $select.search">
@@ -233,7 +233,7 @@
                                    ng-disabled="!selectedValues.selectedDistrict"
                                    on-select="receiveStreets(selectedValues.selectedLocality,selectedValues.selectedDistrict)"
                                    name="locality" required>
-                            <ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices
