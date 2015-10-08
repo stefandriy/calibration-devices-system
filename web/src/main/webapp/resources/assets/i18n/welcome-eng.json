@@ -34,6 +34,7 @@
   "NUMBER_OF_COUNTERS": "Amount",
   "CATEGORY_OF_COUNTER": "Category of counter",
   "SELECT_PROVIDER": "Select provider",
+  "REQUIRED_ACORDION": "Wasn't chosen any of service area",
   "PROTOCOL_DROPDOWN": "Protocol",
   "VERIFICATION_DROPDOWN": "Verification",
   "APP_STATUS_TITLE": "Please enter the code of your application",
