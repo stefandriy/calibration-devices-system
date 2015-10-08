@@ -266,7 +266,7 @@
                                    ng-disabled="!selectedValues.selectedLocality"
                                    on-select="receiveStreetsTypes()"
                                    name="index" required>
-                            <ui-select-match placeholder="Поштовий індекс" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_MAIL_INDEX' | translate}}" allow-clear="true">
                                 {{$select.selected}}
                             </ui-select-match>
                             <ui-select-choices repeat="index in indexes | filter: $select.search">
@@ -287,7 +287,7 @@
                                        ng-disabled="!selectedValues.selectedIndex"
                                        search-enabled="false"
                                        name="streetType" required>
-                                <ui-select-match placeholder="Тип вулиці" allow-clear="true">
+                                <ui-select-match placeholder="{{'TYPE_OF_STREET' | translate}}" allow-clear="true">
                                     {{$select.selected.designation}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="streetsType in streetsTypes | filter: $select.search">
@@ -388,7 +388,7 @@
                                        search-enabled="false"
                                        name="firstDeviceCount"
                                        id="counterNumber" required>
-                                <ui-select-match placeholder="Кількість">
+                                <ui-select-match placeholder="{{'NUMBER_OF_COUNTERS' | translate}}">
                                     {{$select.selected}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="value in values">
@@ -404,7 +404,7 @@
                                        id="firstSelectedDevice"
                                        ng-required="test"
                                        name="firstSelectedDevice" required>
-                                <ui-select-match placeholder="Категорія лічильника">
+                                <ui-select-match placeholder="{{'CATEGORY_OF_COUNTER' | translate}}">
                                     {{$select.selected.designation}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="device in devices | filter: $select.search">
@@ -418,7 +418,7 @@
                                        ng-model="selectedValues.firstSelectedProvider"
                                        search-enable="false"
                                        name="firstDeviceProvider" required>
-                                <ui-select-match placeholder="Провайдер">
+                                <ui-select-match placeholder="{{'SELECT_PROVIDER' | translate}}">
                                     {{ $select.selected.designation}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="provider in firstDeviceProviders">
