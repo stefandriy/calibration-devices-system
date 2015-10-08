@@ -26,8 +26,8 @@ angular
                         $scope.selectedEmployee.push('CALIBRATOR_EMPLOYEE');
                         organizationTypeCalibrator = true;
                     }
-                    if (args.roles[i] === 'STATE_VEREFICATOR_EMPLOYEE') {
-                        $scope.selectedEmployee.push('STATE_VEREFICATOR_EMPLOYEE');
+                    if (args.roles[i] === 'STATE_VERIFICATOR_EMPLOYEE') {
+                        $scope.selectedEmployee.push('STATE_VERIFICATOR_EMPLOYEE');
                         organizationTypeVerificator = true;
                     }
                 }

@@ -26,4 +26,9 @@ public class Address {
         this.building = building;
         this.flat = flat;
     }
+
+    public String getAddress(){
+        return (district + ", " +  street + ", " + building + ", " + flat);
+    }
+
 }

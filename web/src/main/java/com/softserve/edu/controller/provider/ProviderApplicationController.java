@@ -14,6 +14,7 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.tool.DeviceService;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -35,6 +36,11 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/provider/applications/")
+/**
+ * Used in provider UI for creating new applications
+ * and sending rejection messages/notifications
+ *
+ * */
 public class ProviderApplicationController {
 
     @Autowired
@@ -59,7 +65,7 @@ public class ProviderApplicationController {
     private LocalityService localityService;
 
     @Autowired
-    private MailServiceImpl mail;
+    private MailService mail;
 
     /**
      * Save verification in database
@@ -93,7 +99,7 @@ public class ProviderApplicationController {
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();
-        mail.sendMailFromProvider(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(), verification.getDevice().getDeviceType().toString());
+        mail.sendMail(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(), verification.getDevice().getDeviceType().toString());
 
         return verification.getId();
     }

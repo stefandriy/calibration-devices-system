@@ -10,6 +10,7 @@ public class OrganizationDTO {
 	private String email;
 	private String phone;
 	private List<String> types;
+	private List<String> counters;
 	private Integer employeesCapacity;
 	private Integer maxProcessTime;
 
@@ -33,12 +34,13 @@ public class OrganizationDTO {
 	}
 
 
-	public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
+	public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
 		this.id =id;
 		this.email = email;
 		this.name = name;
 		this.phone = phone;
 		this.types = types;
+		this.counters = counters;
 		this.employeesCapacity = employeesCapacity;
 		this.maxProcessTime = maxProcessTime;
 		this.region = region;
@@ -79,6 +81,14 @@ public class OrganizationDTO {
 
 	public void setTypes(List<String> types) {
 		this.types = types;
+	}
+
+	public List<String> getCounters() {
+		return counters;
+	}
+
+	public void setCounters(List<String> counters) {
+		this.counters = counters;
 	}
 
 	public Integer getEmployeesCapacity() {
@@ -221,8 +231,8 @@ public class OrganizationDTO {
      * @param flat
      * @param serviceAreas
      */
-    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat, Long[] serviceAreas) {
-        this(id, email, name, phone, types, employeesCapacity, maxProcessTime, region, locality, district, street, building, flat);
+    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat, Long[] serviceAreas) {
+        this(id, email, name, phone, types, counters, employeesCapacity, maxProcessTime, region, locality, district, street, building, flat);
         this.serviceAreas = serviceAreas;
     }
 

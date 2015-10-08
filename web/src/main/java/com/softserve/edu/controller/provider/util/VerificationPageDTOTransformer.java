@@ -1,15 +1,17 @@
 package com.softserve.edu.controller.provider.util;
 
+import com.softserve.edu.controller.calibrator.util.DistrictAndStreetComparator;
+import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.Verification;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class VerificationPageDTOTransformer {
 
     public static List<VerificationPageDTO> toDtoFromList(List<Verification> list){
+
         List<VerificationPageDTO> resultList = new ArrayList<VerificationPageDTO>();
         CalibrationTest calibrationTest;
         for (Verification verification : list) {
@@ -44,6 +46,23 @@ public class VerificationPageDTOTransformer {
             );
         }
         return resultList;
+    }
+
+    public static List<VerificationPlanningTaskDTO> toDoFromPageContent(List<Verification> verifications){
+//        List<Verification> sortedList = verifications;
+//        sortedList.sort(new DistrictAndStreetComparator());
+        List<VerificationPlanningTaskDTO> taskDTOs = new ArrayList<VerificationPlanningTaskDTO>();
+        for (Verification verification : verifications) {
+            taskDTOs.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
+                    verification.getId(),
+                    verification.getProvider().getName(),
+                    verification.getClientData().getFullName(),
+                    verification.getClientData().getClientAddress().getAddress(),
+                    verification.getClientData().getPhone()
+            ));
+        }
+
+        return taskDTOs;
     }
 
 }

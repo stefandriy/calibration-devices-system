@@ -15,6 +15,9 @@ angular
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);
             },
+            getCalibrators: function (url) {
+                return getEmployeeData('verifications/new/calibratorEmployees');
+            },
             getVerificators: function (url) {
                 return getData('verifications/new/verificators');
             },
@@ -49,10 +52,10 @@ angular
                 return sendDataProtocol("deleteBbiprotocol?idVerification="+ idVerification);
             },
             getCalibrators: function (url) {
-                return getEmployeeData('new/calibratorEmployees');
+                return getData('verifications/new/calibratorEmployees');
             },
             sendEmployeeCalibrator: function (data) {
-                return employeeUpdateData('assign/calibratorEmployee', data);
+                return updateData('assign/calibratorEmployee', data);
             },
             cleanCalibratorEmployeeField:function (data) {
                 return employeeUpdateData('remove/calibratorEmployee', data);
@@ -63,7 +66,10 @@ angular
             },
             getArchivalVerificationEarliestDate: function () {
                 return getData('verifications/archive/earliest_date/calibrator');
-            }
+            },
+            getIfEmployeeCalibrator: function(url) {
+                return getData('verifications/calibrator/role');
+            },
         };
 
         function getData(url) {
@@ -74,7 +80,18 @@ angular
                 .error(function (err) {
                     return err;
                 });
-        }
+        };
+
+        function updateData(url, data) {
+            return $http.put('calibrator/verifications/' + url, data)
+                .success(function (responseData) {
+                    $log.info('response'  + responseData);
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        };
 
         function getDataWithParams(url, params) {
             return $http.get(url, {

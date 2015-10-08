@@ -1,6 +1,8 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
@@ -12,6 +14,7 @@ import com.softserve.edu.repository.OrganizationChangesHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.catalogue.LocalityService;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
@@ -50,7 +53,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private UserRepository userRepository;
 
     @Autowired
-    private MailServiceImpl mail;
+    private MailService mail;
 
     @Autowired
     private LocalityService localityService;
@@ -60,7 +63,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, Integer employeesCapacity,
+    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
                                          String username, String password, Address address, String adminName, Long[] localityIdList) {
 
@@ -71,29 +74,30 @@ public class OrganizationServiceImpl implements OrganizationService {
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
             employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
-
             organization.addOrganizationType(organizationType);
             organization.addUser(employeeAdmin);
+        }
+
+        for (String counter : counters) {
+            DeviceType deviceType = DeviceType.valueOf(counter);
+            organization.addDeviceType(deviceType);
         }
 
         for (Long localityId : localityIdList) {
             Locality locality = localityService.findById(localityId);
             organization.addLocality(locality);
         }
-
         organizationRepository.save(organization);
-
-
         String stringOrganizationTypes = String.join(",", types);
 
         Date date = new Date();
-
         OrganizationChangesHistory organizationChangesHistory = new OrganizationChangesHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
-
         organizationChangesHistoryRepository.save(organizationChangesHistory);
         organization.addOrganizationChangeHistory(organizationChangesHistory);
         organizationRepository.save(organization);
+
+        mail.sendOrganizationPasswordMail(email, name, username, password);
     }
 
     @Override
@@ -104,9 +108,11 @@ public class OrganizationServiceImpl implements OrganizationService {
             String streetToSearch, String sortCriteria, String sortOrder
     ) {
 
-        CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
+        CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin
+                .buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
 
-        Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin.buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).getSingleResult();
+        Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin
+                .buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).getSingleResult();
 
         TypedQuery<Organization> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -128,7 +134,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public void editOrganization(Long organizationId, String name,
-                                 String phone, String email, List<String> types, Integer employeesCapacity, Integer maxProcessTime, Address address, String password, String username, String firstName, String lastName, String middleName, String adminName) {
+                                 String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
+                                 Integer maxProcessTime, Address address, String password, String username,
+                                 String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas) {
 
         Organization organization = organizationRepository.findOne(organizationId);
 
@@ -147,6 +155,19 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .map(OrganizationType::valueOf)
                 .forEach(organization::addOrganizationType);
 
+        organization.removeDeviceType();
+        counters.
+                stream()
+                .map(DeviceType::valueOf)
+                .forEach(organization::addDeviceType);
+
+        organization.removeServiceAreas();
+        //organizationRepository.save(organization);
+        //serviceAreas.stream().map(localityService::findById).forEach(organization::addLocality);
+        for (Long localityId : serviceAreas) {
+            Locality locality = localityService.findById(localityId);
+            organization.addLocality(locality);
+        }
 
         User employeeAdmin = userRepository.findOne(username);
         logger.info("==========employeeAdmin=============");
@@ -162,7 +183,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         logger.info("password===========");
         logger.info(employeeAdmin.getPassword());
-        organizationRepository.save(organization);
+        //organizationRepository.save(organization);
 
         String stringOrganizationTypes = String.join(",", types);
 
@@ -215,6 +236,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public List<Organization> findByLocalityIdAndTypeAndDevice(Long localityId, OrganizationType orgType, DeviceType deviceType) {
         return organizationRepository.findByLocalityIdAndTypeAndDevice(localityId,orgType,deviceType);
+    }
+
+    @Override
+    public List<LocalityDTO> findLocalitiesByOrganizationId(Long organizationId) {
+        return organizationRepository.findLocalitiesByOrganizationId(organizationId);
     }
 
 }

@@ -61,15 +61,45 @@ angular
                     $modal.dismiss();
                 };
 
-                $scope.showGrafic = function () {
-                    var dataToSearch = {
-                        fromDate: $scope.changeDateToSend($scope.dataToSearch.fromDate),
-                        toDate: $scope.changeDateToSend($scope.dataToSearch.toDate)
-                    };
-                    userService.getGraficDataMainPanel(dataToSearch)
-                        .success(function (data) {
-                            return me.displayGrafic(data);
-                        });
+                $scope.showGrafic = function () {         	
+                	if (dateValidate()){                	
+	                    var dataToSearch = {
+	                        fromDate: $scope.changeDateToSend($scope.dataToSearch.fromDate),
+	                        toDate: $scope.changeDateToSend($scope.dataToSearch.toDate)
+	                    };
+	                    userService.getGraficDataMainPanel(dataToSearch)
+	                        .success(function (data) {
+	                            return me.displayGrafic(data);
+	                        });
+                	}
+                };
+                
+                var dateValidate = function () {
+                	var dateRangeError = false;
+                	
+                	if ($scope.dataToSearch.fromDate > new Date()){
+                		dateRangeError = true;
+                		$scope.fromDateInTheFuture = true;
+                	} else {
+                		$scope.fromDateInTheFuture = false;
+                	}
+                	
+                	if ($scope.dataToSearch.toDate > new Date()){
+                		dateRangeError = true;
+                		$scope.toDateInTheFuture = true;
+                	} else {
+                		$scope.toDateInTheFuture = false;
+                	}
+                	
+                	if ($scope.dataToSearch.toDate < $scope.dataToSearch.fromDate && !$scope.fromDateInTheFuture){
+                		dateRangeError = true;
+                		$scope.toDateInvalid = true;
+                	} else {
+                		$scope.toDateInvalid = false;
+                	}
+                	
+                	return !dateRangeError;
+                	
                 };
 
                 /**

@@ -119,6 +119,10 @@ public class User {
         this.userRoles.add(role);
     }
 
+    public void removeAllRoles(){
+        userRoles.clear();
+    }
+
     @Override
     public String toString() {
         return "User{" +

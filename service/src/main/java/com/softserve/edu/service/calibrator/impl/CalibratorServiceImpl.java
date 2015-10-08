@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.BbiProtocol;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
@@ -115,6 +116,7 @@ public class CalibratorServiceImpl implements CalibratorService {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setCalibratorEmployee(calibratorEmployee);
         verification.setReadStatus(ReadStatus.READ);
+        verification.setTaskStatus(Status.PLANNING_TASK);
         verificationRepository.save(verification);
     }
 }

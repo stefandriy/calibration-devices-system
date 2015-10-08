@@ -14,6 +14,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.user.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ import com.softserve.edu.service.verification.VerificationService;
 
 @RestController
 @RequestMapping(value = "/application/")
+/**
+ * Used in main application form (application-sending.html)
+ * for creating verifications
+ * and sending notifications about that to customer's email
+ */
 public class ClientApplicationController {
 
     Logger logger = Logger.getLogger(ClientApplicationController.class);
@@ -61,7 +67,7 @@ public class ClientApplicationController {
     private DeviceService deviceService;
 
     @Autowired
-    private MailServiceImpl mail;
+    private MailService mail;
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String saveApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
@@ -209,6 +215,8 @@ public class ClientApplicationController {
 
     /**
      * Sends email to System Administrator from client
+     * when there is no provider in database for specified location (for example district)
+     * and client wants to send a message
      *
      * @param mailDto
      * @return

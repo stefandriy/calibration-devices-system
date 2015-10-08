@@ -3,10 +3,12 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
@@ -54,7 +56,7 @@ public class ProviderVerificationController {
     private UserService userService;
 
     @Autowired
-    private MailServiceImpl mailServiceImpl;
+    private MailService mailService;
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
@@ -159,7 +161,7 @@ public class ProviderVerificationController {
                 searchData.getEmployee(),
                 providerEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
@@ -285,9 +287,13 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
+
         String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
+
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
+
         User employeeProvider = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
+
         verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeProvider);
     }
 
@@ -331,4 +337,18 @@ public class ProviderVerificationController {
                 verification.getProviderEmployee(), verification.getStateVerificator(),
                 verification.getStateVerificatorEmployee(), verification.getRejectedMessage());//add rejectMessage
     }
+
+    /**
+     * Check if current user is Employee
+     * @param user
+     * @return true if user has role PROVIDER_EMPLOYEE
+     *         false if user has role PROVIDER_ADMIN
+     */
+    @RequestMapping(value = "provider/role", method = RequestMethod.GET)
+    public Boolean isEmployeeProvider(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User checkedUser = userService.findOne(user.getUsername());
+        return checkedUser.getUserRoles().contains(UserRole.PROVIDER_EMPLOYEE);
+    }
+
 }
