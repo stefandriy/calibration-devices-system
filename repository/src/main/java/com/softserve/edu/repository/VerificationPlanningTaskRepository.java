@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface VerificationPlanningTaskRepository extends VerificationRepository, CrudRepository<Verification, String> {
 
-    Long findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status);
+    List<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status);
 
 
     Page<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status, Pageable pageable);

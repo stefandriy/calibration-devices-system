@@ -12,7 +12,7 @@ public interface CalibratorPlanningTaskService {
     void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
                            Date dateOfVisit, Date dateOfVisitTo, String installationNumber, String notes, int floor);
 
-    Long findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
+    int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 
     Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
                                                                                      int itemsPerPage);

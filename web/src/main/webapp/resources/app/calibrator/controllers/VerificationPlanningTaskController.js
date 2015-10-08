@@ -18,7 +18,7 @@ angular
                     verificationPlanningTaskService.getVerificationsByCalibratorEmployeeAndTaskStatus(params.page(), params.count())
                         .then(function (result) {
                             $log.debug('result ', result);
-                            //$scope.resultsCount = result.totalItems;
+                            $scope.resultsCount = result.totalItems;
                             $defer.resolve(result.data);
                             //params.total(result.totalItems);
                         }, function (result) {

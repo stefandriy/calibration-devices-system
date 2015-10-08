@@ -44,12 +44,13 @@ public class CalibratorPlanningTaskController {
     }
 
     @RequestMapping(value = "findAll/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    private List<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndReadStatus (@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+    private PageDTO<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndReadStatus (@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         Page<Verification> verifications = taskService.findVerificationsByCalibratorEmployeeAndTaskStatus(employeeUser.getUsername(),
-                pageNumber,itemsPerPage);
+                pageNumber, itemsPerPage);
+        Long count = Long.valueOf(taskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername()));
         List<VerificationPlanningTaskDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
-        return content;
+        return new PageDTO<VerificationPlanningTaskDTO>(count, content);
     }
 
 }

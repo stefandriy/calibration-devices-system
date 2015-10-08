@@ -77,12 +77,13 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     }
 
     @Override
-    public Long findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName) {
+    public int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName) {
         User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
         }
-        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK);
+        List<Verification> verifications = planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK);
+        return verifications.size();
     }
 
     @Override
@@ -94,6 +95,5 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
         return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK,  pageRequest);
-        //"district", "street", "building", "flat"
     }
 }

@@ -334,7 +334,7 @@
   "ENTRANCE" : "Entrance",
   "ENTRANCE_REGEX" : "Only numbers! No more than 2 symbols",
   "DOOR_CODE" : "Code on the door",
-  "DOOR_CODE_REGEX" : "Only numbers! No more than 4 symbols"
+  "DOOR_CODE_REGEX" : "Only numbers! No more than 4 symbols",
   "DATE_IN_THE_FUTURE": "Please select date not greater than today",
   "TO_DATE_EARLIER_THAN_FROM": "Please select date not earlier than from date"
 

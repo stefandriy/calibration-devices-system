@@ -8,7 +8,6 @@ public class PageDTO<T> {
     private Long totalItems;
     private List<T> content;
 
-
     public PageDTO() {}
 
     public PageDTO(Long totalItems, List<T> content) {
