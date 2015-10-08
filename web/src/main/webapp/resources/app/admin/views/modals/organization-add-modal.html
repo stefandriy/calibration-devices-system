@@ -398,7 +398,7 @@
                                    ng-model="organizationFormData.region"
                                    on-select="receiveDistricts(organizationFormData.region)"
                                    name="region" id="region" required>
-                            <ui-select-match placeholder="Оберіть область" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="region in regions | filter: $select.search">
@@ -424,7 +424,7 @@
                                    ng-disabled="!organizationFormData.region"
                                    on-select="receiveLocalities(organizationFormData.district)"
                                    name="district" id="district" required>
-                            <ui-select-match placeholder="Оберіть район" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="district in districts | filter: $select.search">
@@ -451,7 +451,7 @@
                                    ng-disabled="!organizationFormData.district"
                                    on-select="receiveStreets(organizationFormData.locality, organizationFormData.district)"
                                    name="locality" id="locality" required>
-                            <ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="locality in localities | filter: $select.search">
@@ -568,7 +568,7 @@
                                            ng-model="serviceArea.region"
                                            on-select="receiveDistrictsForServiceArea(serviceArea.region)"
                                            name="serviceAreaRegion" id="serviceAreaRegion">
-                                    <ui-select-match placeholder="Оберіть область" allow-clear="true">
+                                    <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                         {{$select.selected.designation}}
                                     </ui-select-match>
                                     <ui-select-choices repeat="region in regions | filter: $select.search">
