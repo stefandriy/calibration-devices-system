@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
      * @throws ClassCastException if username isn't a employee
      */
     @Override
-    public User getEmployee(String username) throws ClassCastException {
+    public User getUser(String username) throws ClassCastException {
         return userRepository.findOne(username);
     }
 
@@ -130,5 +130,10 @@ public class UserServiceImpl implements UserService {
     public List<String> getRoles(String username) {
         return ConvertUserRoleToString.convertToListString(
                 userRepository.getRolesByUserName(username));
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 }
