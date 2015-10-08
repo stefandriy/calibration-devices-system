@@ -60,6 +60,10 @@
                                         filter="{ 'phone': 'text' }">{{
                                         user.phone }}
                                     </td>
+                                    <td data-title="'SECOND_PHONE'|translate" sortable="'secondPhone'"
+                                            filter="{ 'secondPhone': 'text' }">{{
+                                            user.secondPhone }}
+                                        </td>
                                     <td data-title="'EMPLOYEE_CAPACITY'|translate">
                                         <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)"
                                            class="cursor-pointer">
