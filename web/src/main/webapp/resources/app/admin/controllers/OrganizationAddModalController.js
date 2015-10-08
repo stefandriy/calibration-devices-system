@@ -137,7 +137,6 @@ angular
              *
              */
             $scope.isPasswordsEqual = true;
-
             $scope.checkRePassword = function () {
                 var password = $scope.organizationFormData.password;
                 var rePassword = $scope.organizationFormData.rePassword;
@@ -154,6 +153,19 @@ angular
                 }
             }
 
+            /**
+             * Checks whereas given username is available to use
+             * for new user
+             *
+             */
+            $scope.isValidAcordion = true;
+            function checkValidAcardion() {
+                if($scope.selectedServiceAreaLocalities.length === 0) {
+                    $scope.isValidAcordion = false;
+                    $scope.organizationForm.serviceAreaRegion.$invalid = true;
+                    $scope.organizationForm.serviceAreaRegion.$valid = false;
+                }
+            }
 
             $scope.regions = regions;
             $scope.districts = undefined;
@@ -299,8 +311,6 @@ angular
                         }
                     });
                 }
-
-
             };
 
             /**
@@ -339,6 +349,7 @@ angular
                     $scope.organizationForm.types.$valid = false;
                     $scope.organizationForm.types.$invalid = true;
                 }
+                checkValidAcardion();
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.organizationForm.$valid) {
                     addressFormToOrganizationForm();
