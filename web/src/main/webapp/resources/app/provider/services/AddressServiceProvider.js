@@ -3,13 +3,16 @@ angular
     .factory('AddressServiceProvider', ['$http', '$log', function ($http, $log) {
         return {
             findAllRegions: function () {
-                return getData('regions');
+                return getProviderData('region');
+            },
+            findAllDevices : function() {
+                return getProviderData('devices');
             },
             findDistrictsByRegionId: function (id) {
-                return getData('districts/' + id);
+                return getProviderData('districts/' + id);
             },
             findLocalitiesByDistrictId: function (id) {
-                return getData('localities/' + id);
+                return getProviderData('localities/' + id);
             },
             findStreetsByLocalityId: function (id) {
                 return getData('streets/' + id);
@@ -17,9 +20,6 @@ angular
             findBuildingsByStreetId: function (id) {
                 return getData('buildings/' + id);
             },
-            findAllDevices : function() {
-				return getData('devices');
-			},
 			findProvidersByDistrict : function(district) {
 				return getData("providers/" + district);
 			},
@@ -27,7 +27,7 @@ angular
 				return getData("calibrators/" + district);
 			},
 			checkOrganizationType : function() {
-				return getDataAboutOrganization('organizationType');
+				return getProviderData('organizationType');
 			},
 			findMailIndexByLocality : function(localityDesignation ,districtId) {
 				return getData('localities/' + localityDesignation+'/'+districtId);
@@ -47,7 +47,7 @@ angular
                 });
         }
         
-        function getDataAboutOrganization(url) {
+        function getProviderData(url) {
             return $http.get('provider/applications/' + url)
                 .success(function (data) {
                     return data;

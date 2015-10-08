@@ -410,7 +410,6 @@ angular
                                 });
                         });
                 });
-                //todo
                 organizationService.getServiceAreaLocalities($rootScope.organization.id)
                     .then(function (localities) {
                         organizationService.getServiceAreaRegion(localities.data[0].districtId)

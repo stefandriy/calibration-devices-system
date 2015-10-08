@@ -23,7 +23,7 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.softserve.edu.repository")
-@ComponentScan("com.softserve.edu")
+@ComponentScan("com.softserve.edu.entity")
 @PropertySource(value = "classpath:database.properties")
 public class JPATestingConfig {
     @Autowired

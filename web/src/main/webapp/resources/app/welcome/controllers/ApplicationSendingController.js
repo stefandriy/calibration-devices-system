@@ -200,7 +200,6 @@ angular
                     );
                 }
             };
-//todo
             /**
              * Receives all providers in selected locality by device type
              */
