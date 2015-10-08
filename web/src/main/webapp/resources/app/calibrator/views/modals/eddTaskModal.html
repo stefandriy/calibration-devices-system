@@ -1,7 +1,8 @@
 <div id="taskModel" class="modal-content" xmlns="http://www.w3.org/1999/html">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">{{'TASK_TITLE' | translate}}
-            <strong style="color: green;">{{verifId}}</strong></h4>
+        <h3 class="modal-title" id="myModalLabel">{{'TASK_TITLE' | translate}}
+            <strong style="color: green;">{{verifId}}</strong></h3>
+        <h4 class="modal-title" ng-show="showSendingMessage"><strong style="color: red;">{{'SEND_MESSAGE' | translate}}</strong></h4>
     </div>
     <div class="modal-body">
         <form name="formTask" novalidate>
@@ -61,8 +62,6 @@
                                 <i class="glyphicon glyphicon-calendar" ></i>
                             </button>
                         </span>
-                        <!--<input date-range-picker="opts" class="form-control date-picker" type="text" ng-model="calibrationTask.pickerDate"
-                               ng-change="doSearch()" options="opts" id="date" name="calibrationTask.pickerDate" readonly required/>-->
                         <input type="text" class="form-control date-picker" datepicker-popup ng-model="calibrationTask.pickerDate" is-open="status.opened"
                                min-date="minDate" max-date="maxDate"
                                datepicker-options="dateOptions"
@@ -104,8 +103,15 @@
                 </div>
             </div>
 
+
+                <button type="button" class="btn btn-default" ng-click="openAdditionalInformation()" style="margin-bottom: 15px; ">
+                    <i class="fa fa-info fa-lg"></i>
+                        {{'INFO_BUTTON' | translate}}</button>
+                </button>
+
+
             <!-- ENTRANCE -->
-            <div class="row">
+            <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'ENTRANCE' | translate}}</label>
                 </div>
@@ -120,7 +126,7 @@
             </div>
 
             <!-- DOOR CODE-->
-            <div class="row">
+            <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'DOOR_CODE' | translate}}</label>
                 </div>
@@ -135,7 +141,7 @@
             </div>
 
             <!-- FLOOR -->
-            <div class="row">
+            <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{ 'FLOOR' | translate}}</label>
                 </div>
@@ -149,8 +155,34 @@
                 </div>
             </div>
 
+            <!-- TIME OF CALIBRATION -->
+            <div class="row" ng-show="showStatus.opened">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{ 'TIME_OF_CALIBRATION' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8" ng-class="timeValidation.css">
+                    <input type="text"
+                           ng-model="calibrationTask.time"
+                           ng-change="checkAll('time')"
+                           id="time" name="time" class="form-control">
+
+                    <p class="validation-message" ng-show="timeValidation.isValid">{{'TIME_REGEX' |  translate}}</p>
+                </div>
+            </div>
+
+            <!-- Plumbing serviceability -->
+            <div class="row" ng-show="showStatus.opened">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{ 'PLUMBING_SERVICEABILITY' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8">
+                    <input type="checkbox" checked="checked" ng-model="calibrationTask.serviceability"
+                           id="serviceability" value="true" name="serviceability" class="form-control"/>
+                </div>
+            </div>
+
             <!-- SERIAL NUMBER OF COUNTER -->
-            <div class="row">
+            <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'SERIAL_NUMBER_OF_COUNTER' | translate}}</label>
                 </div>
@@ -165,7 +197,7 @@
             </div>
 
             <!-- NOTES -->
-            <div class="row">
+            <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'NOTES' | translate}}</label>
                 </div>
