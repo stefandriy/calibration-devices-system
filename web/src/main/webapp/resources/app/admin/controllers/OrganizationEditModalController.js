@@ -420,7 +420,7 @@ angular
                                 addressService.findDistrictsByRegionId($scope.serviceArea.region.id)
                                     .then(function (districts) {
                                         $scope.serviceArea.districts = districts;
-                                        $scope.selectedServiseAreaLocalities = angular.forEach(localities.data, function(element){
+                                        $scope.selectedServiseAreaLocalities = localities.data.map(function(element){
                                             return element.id;
                                         });
                                         var selectedDistricts = $scope.convertLocalityToDistrictList(localities);
