@@ -1,8 +1,10 @@
 angular
     .module('employeeModule')
-    .controller('ArchivalVerificationsControllerCalibrator', ['$scope', '$modal', '$log', 'VerificationServiceCalibrator', 'ngTableParams', '$filter', '$rootScope', '$timeout', '$translate',
+    .controller('ArchivalVerificationsControllerCalibrator', ['$scope', '$modal', '$log',
+        'VerificationServiceCalibrator', 'ngTableParams', '$filter', '$rootScope', '$timeout', '$translate',
 
-        function ($scope, $modal, $log, verificationServiceCalibrator, ngTableParams, $filter, $rootScope, $timeout, $translate) {
+        function ($scope, $modal, $log, verificationServiceCalibrator, ngTableParams, $filter, $rootScope,
+                  $timeout, $translate) {
 
             $scope.resultsCount = 0;
 
