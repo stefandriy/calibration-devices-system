@@ -137,7 +137,6 @@ angular
              *
              */
             $scope.isPasswordsEqual = true;
-
             $scope.checkRePassword = function () {
                 var password = $scope.organizationFormData.password;
                 var rePassword = $scope.organizationFormData.rePassword;
@@ -154,6 +153,19 @@ angular
                 }
             }
 
+            /**
+             * Checks whereas given username is available to use
+             * for new user
+             *
+             */
+            $scope.isValidAcordion = true;
+            function checkValidAcardion() {
+                if($scope.selectedServiceAreaLocalities.length === 0) {
+                    $scope.isValidAcordion = false;
+                    $scope.organizationForm.serviceAreaRegion.$invalid = true;
+                    $scope.organizationForm.serviceAreaRegion.$valid = false;
+                }
+            }
 
             $scope.regions = regions;
             $scope.districts = undefined;
@@ -299,8 +311,6 @@ angular
                         }
                     });
                 }
-
-
             };
 
             /**
@@ -339,6 +349,7 @@ angular
                     $scope.organizationForm.types.$valid = false;
                     $scope.organizationForm.types.$invalid = true;
                 }
+                checkValidAcardion();
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.organizationForm.$valid) {
                     addressFormToOrganizationForm();
@@ -387,7 +398,7 @@ angular
 
 
 
-            $scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄІЇҐ"'а-яєіїґ ]+$/;
+            $scope.ORGANIZATION_NAME_REGEX = /^[A-Za-zА-ЯЄІЇҐ"'а-яєіїґ ]+$/;
             $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
             $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
             $scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20})$/;

@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import java.util.Set;
 
 
 /**
@@ -73,9 +72,8 @@ public class ProviderEmployeeQuary {
             queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
         }
         if (!(role == null) && !(role.isEmpty())) {
-            logger.debug("ProviderEmployeeQuequal root = " + role);
-            UserRole urole = UserRole.valueOf(role);
-            queryPredicate = cb.and(cb.isMember(urole, root.get("userRoles")), queryPredicate);
+            UserRole uRole = UserRole.valueOf(role.trim());
+            queryPredicate = cb.and(cb.isMember(uRole, root.get("userRoles")), queryPredicate);
         }
         if (!(firstName == null) && !(firstName.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
@@ -109,7 +107,5 @@ public class ProviderEmployeeQuary {
         countQuery.select(cb.countDistinct(root));
         countQuery.where(predicate);
         return countQuery;
-
-
     }
 }
