@@ -28,6 +28,7 @@ public class Address {
     }
 
     public String getAddress(){
-        return (locality + " " +  street + " " + building + " " + flat);
+        return (district + ", " +  street + ", " + building + ", " + flat);
     }
+
 }

@@ -1,7 +1,7 @@
 <div id="taskModel" class="modal-content" xmlns="http://www.w3.org/1999/html">
     <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">{{'TASK_TITLE' | translate}} <strong
-                style="color: green;">{{verifId}}</strong></h4>
+        <h4 class="modal-title" id="myModalLabel">{{'TASK_TITLE' | translate}}
+            <strong style="color: green;">{{verifId}}</strong></h4>
     </div>
     <div class="modal-body">
         <form name="formTask" novalidate>
@@ -48,6 +48,43 @@
                 </div>
             </div>
 
+            <!-- DATE OF VISIT -->
+            <div class="row" ng-hide="checkPlaceAndStatus()">
+                <div class="form-group col-md-4" >
+                    <label class="control-label">{{'DATE_OF_VISIT'| translate }}</label>
+                </div>
+
+                <div class="form-group col-md-8" ng-class="dateValidation.css" >
+                    <div class="input-group right-inner-addon" style="width: 100%">
+                        <span class="input-group-btn" style="height: 100%">
+                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                                <i class="glyphicon glyphicon-calendar" ></i>
+                            </button>
+                        </span>
+                        <!--<input date-range-picker="opts" class="form-control date-picker" type="text" ng-model="calibrationTask.pickerDate"
+                               ng-change="doSearch()" options="opts" id="date" name="calibrationTask.pickerDate" readonly required/>-->
+                        <input type="text" class="form-control date-picker" datepicker-popup ng-model="calibrationTask.pickerDate" is-open="status.opened"
+                               min-date="minDate" max-date="maxDate"
+                               datepicker-options="dateOptions"
+                               date-disabled="disabled(date, mode)" close-text="Close" readonly required/>
+                         <span class="input-group-btn">
+                               <button type="button" class="btn btn-default myGroupBtn"
+                                         ng-show="!isDateDefault()"
+                                         ng-click="clearDate()">
+                                  <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                         </span>
+
+
+                    </div>
+                    <div ng-show="formTask.$submitted || formTask.date.$touched">
+                        <div ng-show="formTask.date.$error.required">
+                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- INSTALLATION NUMBER -->
             <div class="row">
                 <div class="form-group col-md-4">
@@ -67,32 +104,33 @@
                 </div>
             </div>
 
-            <!-- DATE OF VISIT -->
-            <div class="row" ng-hide="checkPlaceAndStatus()">
-                <div class="form-group col-md-4" >
-                    <label class="control-label">{{'DATE_OF_VISIT'| translate }}</label>
+            <!-- ENTRANCE -->
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'ENTRANCE' | translate}}</label>
                 </div>
+                <div class="form-group col-md-8" ng-class="floorValidation.css">
+                    <input type="text"
+                           ng-model="calibrationTask.entrance"
+                           ng-change="checkAll('entrance')"
+                           id="entrance" name="entrance" class="form-control">
 
-                <div class="form-group col-md-8" ng-class="dateValidation.css" >
-                    <div class="input-group right-inner-addon" style="width: 100%">
-                        <i id="calendar_icon" class="glyphicon glyphicon-calendar"></i>
-                        <input date-range-picker="opts" class="form-control date-picker" type="text"
-                               ng-model="calibrationTask.pickerDate" ng-change="doSearch()" options="opts"
-                               id="date" name="date" readonly required/>
+                    <p class="validation-message" ng-show="entranceValidation.isValid">{{'FLOOR_REGEX' |  translate}}</p>
+                </div>
+            </div>
 
-                                        <span class="input-group-btn">
-                                                  <button type="button" class="btn btn-default myGroupBtn"
-                                                          ng-show="!isDateDefault()"
-                                                          ng-click="clearDate()">
-                                                      <i class="glyphicon glyphicon-remove"></i>
-                                                  </button>
-                                        </span>
-                    </div>
-                    <div ng-show="formTask.$submitted || formTask.date.$touched">
-                        <div ng-show="formTask.date.$error.required">
-                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
-                        </div>
-                    </div>
+            <!-- DOOR CODE-->
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'DOOR_CODE' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8" ng-class="floorValidation.css">
+                    <input type="text"
+                           ng-model="calibrationTask.doorCode"
+                           ng-change="checkAll('doorCode')"
+                           id="doorCode" name="doorCode" class="form-control">
+
+                    <p class="validation-message" ng-show="doorCodeValidation.isValid">{{'DOOR_CODE_REGEX' |  translate}}</p>
                 </div>
             </div>
 
@@ -134,11 +172,6 @@
                 <div class="form-group col-md-8">
                    <textarea type="text" rows="5" cols="45" ng-model="calibrationTask.notes"
                              id="notes" name="notes" class="form-control"></textarea>
-                   <!--<input type="text"
-                           ng-model="calibrationTask.notes"
-                           id="notes" name="notes" class="form-control">
-                    <p class="validation-message" ng-show="testResultValidation.isValid">{{'TEST_STATUS_REGEX' |
-                        translate}}</p>-->
                 </div>
             </div>
 

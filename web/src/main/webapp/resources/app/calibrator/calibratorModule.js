@@ -1,6 +1,6 @@
 (function () {
     angular.module('calibratorModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable'])
+        'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable'])
 
         .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
@@ -35,6 +35,11 @@
                         templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
                         controller: 'VerificationPlanningTaskController'
                     })
+                    .state("calibrator-task-add", {
+                        url: '/calibrator/task/',
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
+                        controller: 'TaskSendingModalControllerCalibrator'
+                    })
                     .state("verifications-archive", {
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
@@ -62,7 +67,7 @@
         'controllers/AddressModalController',
         'controllers/NotificationsController',
         'controllers/VerificationPlanningTaskController',
-        'controllers/TaskControllerCalibrator',
+        'controllers/TaskSendingModalControllerCalibrator',
         
         'services/CalibrationTestService',
         'services/AddressService',

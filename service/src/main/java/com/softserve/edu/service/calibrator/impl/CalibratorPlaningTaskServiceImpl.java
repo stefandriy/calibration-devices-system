@@ -1,9 +1,7 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
 import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
@@ -79,24 +77,23 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     }
 
     @Override
-    public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatusOrderByDate(String userName, int pageNumber, int itemsPerPage) {
+    public int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName) {
         User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
         }
-        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatusOrderBySentToCalibratorDateDesc(user.getUsername(), Status.PLANNING_TASK, pageRequest);
+        List<Verification> verifications = planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK);
+        return verifications.size();
     }
 
     @Override
-    public List<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber, int itemsPerPage) {
+    public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber, int itemsPerPage) {
         User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
         }
-        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, new Sort(Sort.Direction.DESC,
+        Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-        //"district", "street", "building", "flat"
+        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK,  pageRequest);
     }
 }

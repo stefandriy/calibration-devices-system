@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('TaskControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'TaskServiceCalibrator', '$log',
-        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator, $log) {
+    .controller('TaskSendingModalControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'VerificationPlanningTaskService', '$log',
+        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator) {
 
             $scope.calibrationTask = {};
             $scope.incorrectValue = false;
@@ -21,40 +21,51 @@ angular
                 $modalInstance.close();
             };
 
+             /**
+             *  Date picker and formatter setup
+             *
+             */
 
-            $scope.calibrationTask = {};
-            $scope.calibrationTask.pickerDate = {};
-            $scope.defaultDate = null;
+            $scope.open = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.status.opened = true;
 
-            $scope.initDateRangePicker = function (date) {
-                /**
-                 *  Date picker and formatter setup
-                 */
-                $scope.calibrationTask.pickerDate = {
-                    startDate: (date ? moment(date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')),
-                    endDate: moment().format('YYYY-MM-DD') // current day
-                };
-
-                if ($scope.defaultDate == null) {
-                   $scope.defaultDate = angular.copy($scope.calibrationTask.pickerDate);
-                }
-                moment.locale('uk');
-                $scope.opts = {
-                    format: 'DD-MM-YYYY',
-                    showDropdowns: true,
-                    locale: {
-                        firstDay: 1,
-                        fromLabel: 'Від',
-                        toLabel: 'До',
-                        applyLabel: "Прийняти",
-                        cancelLabel: "Закрити"
-                    },
-                    eventHandlers: {}
-                };
             };
 
-            $scope.showTaskPicker = function ($event) {
-                angular.element("#datepicker").trigger("click");
+            moment.locale('uk');
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false',
+
+            };
+
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
+
+            $scope.today = function() {
+                $scope.calibrationTask.pickerDate = new Date();
+            };
+            $scope.today();
+
+            $scope.clear = function () {
+                $scope.calibrationTask.pickerDate = null;
+            };
+
+            // Disable weekend selection
+            $scope.disabled = function(date, mode) {
+                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+            };
+
+            $scope.toggleMin = function() {
+                $scope.minDate = $scope.minDate ? null : new Date();
+            };
+            $scope.toggleMin();
+            $scope.maxDate = new Date(2020, 5, 22);
+
+            $scope.status = {
+                opened: false
             };
 
             $scope.clearDate = function () {
@@ -65,7 +76,7 @@ angular
                 $scope.$broadcast('show-errors-reset');
                 $scope.calibrationTask = {};
                 $scope.incorrectValue = false;
-                $scope.calibrationTask.pickerDate = {};
+                $scope.calibrationTask.pickerDate = null;
                 $scope.installationNumberValidation = null;
                 $scope.floorValidation = null;
                 $scope.counterNumberValidation = null;
@@ -117,6 +128,22 @@ angular
                             validator('installationNumber', true);
                         }
                         break;
+                    case ('entrance'):
+                        var entrance = $scope.calibrationTask.entrance;
+                        if (/^[0-9]{1,2}$/.test(entrance)) {
+                            validator('entrance', false);
+                        } else {
+                            validator('entrance', true);
+                        }
+                        break;
+                    case ('doorCode'):
+                        var doorCode = $scope.calibrationTask.doorCode;
+                        if (/^[0-9]{1,4}$/.test(doorCode)) {
+                            validator('doorCode', false);
+                        } else {
+                            validator('doorCode', true);
+                        }
+                        break;
                     case ('floor'):
                         var floor = $scope.calibrationTask.floor;
                         if (floor == null) {
@@ -135,6 +162,7 @@ angular
                             validator('counterNumber', true);
                         }
                         break;
+
                 }
 
             }
@@ -143,6 +171,18 @@ angular
                 switch (caseForValidation) {
                     case ('installationNumber'):
                         $scope.installationNumberValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        }
+                        break;
+                    case ('entrance'):
+                        $scope.entranceValidation = {
+                            isValid: isValid,
+                            css: isValid ? 'has-error' : 'has-success'
+                        }
+                        break;
+                    case ('doorCode'):
+                        $scope.doorCodeValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
                         }
@@ -184,6 +224,7 @@ angular
                              console.log($scope.incorrectValue);
                             }
                         });
+                console.log($rootScope.verifIds);
             }
 
         }]);

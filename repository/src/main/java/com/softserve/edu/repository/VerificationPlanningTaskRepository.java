@@ -16,8 +16,8 @@ import java.util.List;
  */
 public interface VerificationPlanningTaskRepository extends VerificationRepository, CrudRepository<Verification, String> {
 
-    Page<Verification> findByCalibratorEmployeeUsernameAndTaskStatusOrderBySentToCalibratorDateDesc(String userName, Status status, Pageable pageable);
+    List<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status);
 
 
-    List<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status, Sort sort);
+    Page<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status, Pageable pageable);
 }
