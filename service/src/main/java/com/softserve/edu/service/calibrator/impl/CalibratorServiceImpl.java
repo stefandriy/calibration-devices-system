@@ -55,12 +55,19 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Transactional
     public void uploadBbi(InputStream file, String idVerification, String originalFileFullName) throws IOException {
         String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
+        System.out.println("gets filename");
         byte[] bytesOfBbi = IOUtils.toByteArray(file);
+        System.out.println("gets bytes");
         Verification verification = verificationRepository.findOne(idVerification);
+        System.out.println("finds verification");
         BbiProtocol bbiProtocol = new BbiProtocol(bytesOfBbi, verification, filename);
+        System.out.println("creates protocol");
         verification.setBbiProtocol(bbiProtocol);
+        System.out.println("sets protocol");
         uploadBbiRepository.save(bbiProtocol);
+        System.out.println("saves protocol");
         verificationRepository.save(verification);
+        System.out.println("saves verification");
     }
 
     @Override

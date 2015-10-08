@@ -70,6 +70,7 @@ angular
             getIfEmployeeProvider: function(url) {
                 return getData('verifications/provider/role');
             }
+
         };
 
         function getData(url) {
