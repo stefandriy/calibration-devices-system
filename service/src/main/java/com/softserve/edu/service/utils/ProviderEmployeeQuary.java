@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-
+import java.util.Set;
 
 
 /**
@@ -26,20 +26,30 @@ public class ProviderEmployeeQuary {
         CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
         Root<User> root = criteriaQuery.from(User.class);
         Join<User, Organization> joinSearch = root.join("organization");
-        Join<User, UserRole> joinRole = root.join("userRoles");
 
-        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinRole, joinSearch, userName,
+        /*if (role != null) {
+            UserRole urole = UserRole.valueOf(role);
+        }*/
+
+        //cb.selectCase().when(UserRole.CALIBRATOR_ADMIN,1).otherwise(4);
+
+        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinSearch, userName,
                 role, firstName, lastName, organization, telephone, secondTelephone, idOrganization);
         if (fieldToSort.length() > 0) {
             if (fieldToSort.substring(0, 1).equals("-")) {
-                if (fieldToSort.substring(1, fieldToSort.length()).equals("role")) {
-                    criteriaQuery.orderBy(cb.desc(joinRole.get(fieldToSort.substring(1, fieldToSort.length()))));
+                if (fieldToSort.substring(1, fieldToSort.length()).equals("userRoles")) {
+                    //criteriaQuery.orderBy(cb.desc(joinRole.get(fieldToSort.substring(1, fieldToSort.length()))));
+                    //criteriaQuery.orderBy(cb.desc(root.get(fieldToSort.substring(1, fieldToSort.length()))));
+                    //criteriaQuery.orderBy(cb.desc(root.<Set<UserRole>>get(fieldToSort.substring(1, fieldToSort.length()))));
                 } else {
                     criteriaQuery.orderBy(cb.desc(root.get(fieldToSort.substring(1, fieldToSort.length()))));
                 }
             } else {
-                if (fieldToSort.equals("role")) {
-                    criteriaQuery.orderBy(cb.asc(joinRole.get(fieldToSort)));
+                if (fieldToSort.equals("userRoles")) {
+                    //criteriaQuery.orderBy(cb.asc(joinRole.get(fieldToSort)));
+                    //criteriaQuery.orderBy(cb.asc(root.get(fieldToSort)));
+                    //criteriaQuery.orderBy(cb.asc(root.<Set<UserRole>>get(fieldToSort)));
+
                 } else {
                     criteriaQuery.orderBy(cb.asc(root.get(fieldToSort)));
                 }
@@ -51,7 +61,7 @@ public class ProviderEmployeeQuary {
     }
 
 
-    private static Predicate buildPredicate(Root<User> root, CriteriaBuilder cb, Join<User, UserRole> joinRole,
+    private static Predicate buildPredicate(Root<User> root, CriteriaBuilder cb,
                                             Join<User, Organization> joinSearch, String userName, String role,
                                             String firstName, String lastName, String organization, String telephone, String secondTelephone,
                                             Long idOrganization) {
@@ -63,12 +73,9 @@ public class ProviderEmployeeQuary {
             queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
         }
         if (!(role == null) && !(role.isEmpty())) {
-
-            Join<User, UserRole> joinUserRole = root.join("username");
-            logger.debug("ProviderEmployeeQuequal root = " + role );
-            queryPredicate = cb.and(cb.equal(root.get(UserRole.PROVIDER_EMPLOYEE.name()) , role),queryPredicate);
-                    //UserRole.valueOf(role.trim())), queryPredicate);
-
+            logger.debug("ProviderEmployeeQuequal root = " + role);
+            UserRole urole = UserRole.valueOf(role);
+            queryPredicate = cb.and(cb.isMember(urole, root.get("userRoles")), queryPredicate);
         }
         if (!(firstName == null) && !(firstName.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
@@ -96,8 +103,7 @@ public class ProviderEmployeeQuary {
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<User> root = countQuery.from(User.class);
         Join<User, Organization> joinSearch = root.join("organization");
-        Join<User, UserRole> joinRole = root.join("userRoles");
-        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinRole, joinSearch, userName, role,
+        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinSearch, userName, role,
                 firstName, lastName, organization, telephone, secondTelephone, idOrganization);
 
         countQuery.select(cb.countDistinct(root));
