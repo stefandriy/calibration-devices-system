@@ -200,10 +200,6 @@ public class OrganizationController {
                 organization.getBuilding(),
                 organization.getFlat());
         try {
-            if (organization.getTypes().equals(null)) {
-                System.out.println("Nothing here");
-            }
-
             String adminName = user.getUsername();
 
             organizationService.editOrganization(

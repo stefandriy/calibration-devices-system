@@ -45,16 +45,9 @@
 					</div>
 
 					<div class="form-group col-md-8">
-						<!--<select multiple chosen type="text" -->
-								<!--ng-model="organizationTypes"-->
-								<!--data-placeholder="Choose type"-->
-								<!--name="types"-->
-								<!--ng-options="type as type.label for type in typeData | organizationFilter:organizationTypes" required>-->
-						<!--</select>-->
-
-						<ui-select multiple theme="select2" class="form-control" style="width: 500px;" ng-model="defaultData.organizationTypes">
-							<ui-select-match ui-disable-choice="$item in defaultData.organizationTypes">{{$item.label}}</ui-select-match>
-							<ui-select-choices  repeat="type in typeData | organizationFilter:defaultData.organizationTypes | filter: $select.search">
+						<ui-select multiple theme="select2" class="form-control" style="width: 545px;" ng-model="defaultData.organizationTypes">
+							<ui-select-match placeholder="Оберіть типи організації">{{$item.label}}</ui-select-match>
+							<ui-select-choices repeat="type in typeData | organizationFilter:defaultData.organizationTypes">
 								<div ng-bind-html="type.label"></div>
 							</ui-select-choices>
 						</ui-select>
@@ -67,11 +60,16 @@
 					</label>
 
 					<div class="col-md-8">
-						<select multiple chosen type="text" class="form-control" id="counters" name="counters"
-								ng-model="deviceType"
-								data-placeholder="Оберіть тип лічильників"
-								ng-options="counter as counter.label for counter in counterData" required>
-						</select> <span class="form-control-feedback glyphicon
+						<ui-select multiple theme="select2" class="form-control" style="width: 545px;"
+								   ng-model="defaultData.deviceType">
+							<ui-select-match placeholder="Оберіть тип лічильників">{{$item.label}}</ui-select-match>
+							<ui-select-choices repeat="counter in counterData">
+								<div ng-bind-html="counter.label"></div>
+							</ui-select-choices>
+
+						</ui-select>
+
+						<span class="form-control-feedback glyphicon
 							form-horizontal glyphicon glyphicon-ok-sign"></span>
 
 						<p class="help-block" ng-if="organizationForm.counters.$error.required">

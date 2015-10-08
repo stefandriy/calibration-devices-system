@@ -94,7 +94,6 @@
 											var rootScope= $injector.get('$rootScope');
 
 											rootScope.$on('$translateChangeEnd', function(event){
-												scope.setTypeDataLanguage();
 												$select.refreshItems();
 											});
 
