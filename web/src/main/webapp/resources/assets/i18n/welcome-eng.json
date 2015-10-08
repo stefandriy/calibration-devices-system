@@ -344,6 +344,11 @@
   "DOOR_CODE" : "Code on the door",
   "DOOR_CODE_REGEX" : "Only numbers! No more than 4 symbols",
   "DATE_IN_THE_FUTURE": "Please select date not greater than today",
-  "TO_DATE_EARLIER_THAN_FROM": "Please select date not earlier than from date"
+  "TO_DATE_EARLIER_THAN_FROM": "Please select date not earlier than from date",
+  "TIME_OF_CALIBRATION" : "Time of calibration (from ... - to ...)",
+  "TIME_REGEX" : "Error. enter: 12.00-13.00!",
+  "PLUMBING_SERVICEABILITY" : "Plumbing serviceability",
+  "INFO_BUTTON" : "Additional Information",
+  "SEND_MESSAGE" : "You did not select applications to send!"
 
 }

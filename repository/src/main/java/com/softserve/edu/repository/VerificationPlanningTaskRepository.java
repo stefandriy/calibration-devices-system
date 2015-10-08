@@ -18,6 +18,7 @@ public interface VerificationPlanningTaskRepository extends VerificationReposito
 
     List<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status);
 
+    Page<Verification> findByTaskStatus(Status status, Pageable pageable);
 
     Page<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status, Pageable pageable);
 }
