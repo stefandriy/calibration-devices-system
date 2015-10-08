@@ -110,12 +110,12 @@ angular
                         	$rootScope.checkboxModel = true;
                         }
                     });
-                var addEmployeeModal = $modal
+                var editEmployeeModal = $modal
                     .open({
                         animation : true,
                         controller : 'EditEmployeeController',
                         size: 'lg',
-                        templateUrl : '/resources/app/provider/views/employee/employee-edit-modal.html',
+                        templateUrl : '/resources/app/provider/views/employee/employee-edit-modal.html'
 
                     });
             };
