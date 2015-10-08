@@ -25,10 +25,6 @@ angular.module('adminModule').factory('DataReceivingService',
 					return getData('localities/' + localityDesignation+'/'+districtId);
 				},
 
-				//TODO Deprecated, need to delete in future
-				findProvidersByDistrict : function(district) {
-					return getData("providers/" + district);
-				},
 				findProvidersByLocality: function (localityId) {
 					return getData("providersInLocality/" + localityId)
 				},
