@@ -605,7 +605,11 @@ angular
             function objectTypesToStringTypes() {
                 for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
                     $scope.defaultData.organizationTypes[i] = $scope.defaultData.organizationTypes[i].type;
-                    console.log($scope.defaultData.organizationTypes[i]);
+                }
+
+                for (var i in $scope.defaultData.deviceType) {
+                    $scope.defaultData.deviceType
+                    $scope.defaultData.deviceType[i] = $scope.defaultData.deviceType[i].type;
                 }
             }
 
