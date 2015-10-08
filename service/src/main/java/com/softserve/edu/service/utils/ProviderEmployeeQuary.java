@@ -107,7 +107,5 @@ public class ProviderEmployeeQuary {
         countQuery.select(cb.countDistinct(root));
         countQuery.where(predicate);
         return countQuery;
-
-
     }
 }
