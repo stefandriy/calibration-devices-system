@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Locality;
+import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
-import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import lombok.*;
@@ -56,6 +56,10 @@ public class Organization {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<CalibrationModule> modules = new HashSet<>();
 
     @ElementCollection
     @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"))

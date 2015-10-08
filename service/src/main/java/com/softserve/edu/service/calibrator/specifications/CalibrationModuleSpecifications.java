@@ -1,12 +1,10 @@
 package com.softserve.edu.service.calibrator.specifications;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import org.hibernate.mapping.Join;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.Date;
 
 
@@ -37,7 +35,7 @@ public class CalibrationModuleSpecifications {
         return new Specification<CalibrationModule>() {
             @Override
             public Predicate toPredicate(Root<CalibrationModule> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.lessThan(root.get("calibratorId"), calibratorId);
+                return criteriaBuilder.equal(root.get("organization").get("id"), calibratorId);
             }
         };
     }

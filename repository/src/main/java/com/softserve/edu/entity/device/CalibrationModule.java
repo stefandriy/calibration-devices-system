@@ -22,7 +22,8 @@ import java.util.Date;
 public class CalibrationModule {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     private DeviceType deviceType;
@@ -41,13 +42,14 @@ public class CalibrationModule {
 
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "calibratorId")
     private Organization organization;
 
+    @Temporal(TemporalType.DATE)
     private Date workDate;
 
-    public CalibrationModule(String id, DeviceType deviceType, String organizationCode, String condDesignation, String serialNumber,
+    public CalibrationModule(Long id, DeviceType deviceType, String organizationCode, String condDesignation, String serialNumber,
                              String employeeFullName, String telephone, String moduleType, String email, Organization calibrator, Date workDate){
         super();
         this.id = id;

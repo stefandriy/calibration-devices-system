@@ -16,14 +16,14 @@ angular
                 filterDelay: 1500,
                 getData: function ($defer, params) {
                     verificationPlanningTaskService.getVerificationsByCalibratorEmployeeAndTaskStatus(params.page(), params.count())
-                        .then(function (result) {
-                            $log.debug('result ', result);
-                            $scope.resultsCount = result.data.totalItems;
-                            $defer.resolve(result.data.content);
-                            //params.total(result.totalItems);
-                        }, function (result) {
-                            $log.debug('error fetching data:', result);
-                        });
+                            .then(function (result) {
+                                $log.debug('result ', result);
+                                $scope.resultsCount = result.data.totalItems;
+                                $defer.resolve(result.data.content);
+                                //params.total(result.totalItems);
+                            }, function (result) {
+                                $log.debug('error fetching data:', result);
+                            });
                 }
 
             });

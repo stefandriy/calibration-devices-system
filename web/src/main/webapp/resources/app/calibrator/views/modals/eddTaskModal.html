@@ -65,7 +65,8 @@
                         <input type="text" class="form-control date-picker" datepicker-popup ng-model="calibrationTask.pickerDate" is-open="status.opened"
                                min-date="minDate" max-date="maxDate"
                                datepicker-options="dateOptions"
-                               date-disabled="disabled(date, mode)" close-text="Close" readonly required/>
+                               date-disabled="disabled(date, mode)" close-text="Close"
+                               ng-change="receiveModuleNumbers()" readonly required/>
                          <span class="input-group-btn">
                                <button type="button" class="btn btn-default myGroupBtn"
                                          ng-show="!isDateDefault()"
@@ -90,6 +91,12 @@
                     <label class="control-label">{{'INSTALLATION_NUMBER'| translate }}</label>
                 </div>
                 <div class="form-group col-md-8" ng-class="installationNumberValidation.css">
+                    <select chosen id="district" name="district" class="form-control" type="text"
+                            ng-model="calibrationTask.installationNumber"
+                            allow-single-deselect="false"
+                            ng-options="installationNumber as modulesSerialNumbers.installationNumber for modulesSerialNumbers in modulesSerialNumbers | filter: $viewValue"
+                            required>
+                    </select>
                     <input type="text"
                            ng-model="calibrationTask.installationNumber"
                            ng-change="checkAll('installationNumber')"
@@ -99,6 +106,7 @@
                             <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
                         </div>
                     </div>
+
                     <p class="validation-message" ng-show="installationNumberValidation.isValid">{{'INSTALLATION_NUMBER_REGEX' | translate}}</p>
                 </div>
             </div>
