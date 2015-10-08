@@ -1,6 +1,9 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.dto.CalibrationTestFileDataDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import org.apache.log4j.Logger;
@@ -8,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -27,14 +27,17 @@ public class CalibrationTestDataController {
 
     @Autowired
     private CalibrationTestService calibrationTestServiceImpl;
-    
+
+    @Autowired
+    private BbiFileService bbiFileService;
+
     private final Logger logger = Logger.getLogger(CalibrationTestDataController.class);
 
     @RequestMapping(value = "{testDataId}", method = RequestMethod.GET)
     public ResponseEntity getTestData(@PathVariable Long testDataId) {
-        CalibrationTestData foundtestData = service.findTestData(testDataId);
-        if (foundtestData != null) {
-            return new ResponseEntity<>(foundtestData, HttpStatus.OK);
+        CalibrationTestData foundTestData = service.findTestData(testDataId);
+        if (foundTestData != null) {
+            return new ResponseEntity<>(foundTestData, HttpStatus.OK);
         } else {
             logger.error("Not found");
             return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -86,5 +89,12 @@ public class CalibrationTestDataController {
         return new ResponseEntity<>(testData, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "parseBbi/{fileName}/{extension}", method = RequestMethod.GET)
+    @ResponseBody
+    public CalibrationTestFileDataDTO parseBbiData(@PathVariable String fileName, @PathVariable String extension) {
+        fileName = fileName.concat(".").concat(extension);
+        DeviceTestData deviceTestData = bbiFileService.findBbiFileContentByFileName(fileName);
+        return new CalibrationTestFileDataDTO(deviceTestData);
+    }
 
 }

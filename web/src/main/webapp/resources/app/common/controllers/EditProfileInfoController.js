@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
-    .controller('EditProfileInfoController', ['$rootScope', '$scope', '$modalInstance', '$log', '$modal', '$timeout', '$state', '$http', 'UserService', 'user',
+    .controller('EditProfileInfoController', ['$rootScope', '$scope', '$modalInstance', '$log', '$modal', '$timeout', '$state', '$http', 'ProfileService', 'user',
 
-        function ($rootScope, $scope, $modalInstance, $log, $modal, $timeout, $state, $http, userService, user) {
+        function ($rootScope, $scope, $modalInstance, $log, $modal, $timeout, $state, $http, profileService, user) {
             var organizationTypeProvider = false;
             var organizationTypeCalibrator = false;
             var organizationTypeVerificator = false;
@@ -62,7 +62,7 @@ angular
              * Update new employee in database.
              */
             function updateEmployee() {
-                userService.updateUser(
+                profileService.updateUser(
                     employeeData).then(
                     function (data) {
                         if (data.status == 201) {

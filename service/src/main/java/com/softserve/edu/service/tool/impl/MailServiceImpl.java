@@ -47,9 +47,6 @@ public class MailServiceImpl implements MailService {
     @Value("${site.protocol}")
     private String protocol;
 
-//    @Value("${site.domain}")
-//    private String domain;
-
     Logger logger = Logger.getLogger(MailServiceImpl.class);
 
 

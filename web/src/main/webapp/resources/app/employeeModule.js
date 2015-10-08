@@ -264,7 +264,8 @@
         'verificator/services/VerificationServiceVerificator',
         'provider/filters/unique',
         'common/controllers/ProfileInfoController',
-        'common/controllers/EditProfileInfoController'
+        'common/controllers/EditProfileInfoController',
+        'common/services/ProfileService'
 
     ], function () {});
 })();

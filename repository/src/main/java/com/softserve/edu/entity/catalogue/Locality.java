@@ -32,7 +32,9 @@ public class Locality extends AbstractCatalogue {
     @Setter
     private String mailIndex;
 
-    @ManyToMany(mappedBy = "localities")
+    @ManyToMany//(mappedBy = "localities")
+    @JoinTable(name = "ORGANIZATION_LOCALITY", joinColumns = @JoinColumn(name = "localityId"),
+            inverseJoinColumns = @JoinColumn(name = "organizationId"))
     private Set<Organization> organizations;
 
     public Locality(District district, String designation) {

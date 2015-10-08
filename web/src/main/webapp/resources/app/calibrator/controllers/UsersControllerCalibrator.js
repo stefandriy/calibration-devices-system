@@ -3,9 +3,50 @@
  */
 angular
     .module('employeeModule')
-    .controller('UsersControllerCalibrator', ['$scope','UserServiceCalibrator','UserService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
-        function ($scope,UserServiceCalibrator,userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
+    .controller('UsersControllerCalibrator', ['$scope','UserServiceCalibrator','UserService', '$modal', '$log',
+        'ngTableParams', '$timeout', '$filter','$rootScope','$translate',
+        function ($scope,UserServiceCalibrator,userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope,
+        $translate) {
             $scope.totalEmployee=0;
+
+
+            $scope.clearAll = function () {
+                $scope.selectedUserType.name = null;
+                $scope.tableParams.filter({});
+            };
+
+            $scope.doSearch = function () {
+                $scope.tableParams.reload();
+            };
+
+            $scope.selectedUserType = {
+                name: null
+            };
+
+            //types
+            $scope.userTypeData = [
+                {id: 'CALIBRATOR_EMPLOYEE', label: null},
+                {id: 'CALIBRATOR_ADMIN', label: null},
+            ];
+
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.userTypeData[0].label = 'Робітник';
+                    $scope.userTypeData[1].label = 'Адмін';
+
+                } else if (lang === 'eng') {
+                    $scope.userTypeData[0].label = 'Employee';
+                    $scope.userTypeData[1].label = 'Admin';
+                } else {
+                    $log.debug(lang);
+                }
+            };
+
+
+
+            $scope.setTypeDataLanguage();
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -15,12 +56,20 @@ angular
                 }
             }, {
                 total: 0,
+
                 getData: function ($defer, params) {
+                    if ($scope.selectedUserType.name != null) {
+                        params.filter().role = $scope.selectedUserType.name.id;
+                    }
+                    else {
+                        params.filter().role = null;//case when the filter is cleared with a button on the select
+                    }
                     UserServiceCalibrator.getPage(params.page(), params.count(),params.filter(),params.sorting())
                         .success(function (result) {
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
+
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
@@ -89,6 +138,7 @@ angular
                     .open({
                         animation : true,
                         controller : 'AddEmployeeController',
+                        size: 'lg',
                         templateUrl : '/resources/app/provider/views/employee/employee-add-modal.html',
                     });
             };
@@ -96,16 +146,22 @@ angular
             $scope.onTableHandling();
 
             $scope.openEditEmployeeModal = function(username) {
-                userService.getUser(username)
-                    .success(function(data){
-                        $rootScope.user = data;
-                        $rootScope.$broadcast("info_about_editUser", {roles : $rootScope.user.userRoles,
-                                                                      isAvaliable: $rootScope.user.isAvaliable
-                                                                        });
+            	userService.getUser(username)
+                .success(function(data){
+                	$rootScope.checkboxModel = false;
+                    $rootScope.user = data;
+                    $rootScope.$broadcast("info_about_editUser", {
+                        roles : $rootScope.user.userRoles,
+                        isAvaliable: $rootScope.user.isAvaliable
                     });
+                    if (data.secondPhone != null) {
+                    	$rootScope.checkboxModel = true;
+                    }
+                });
                 var addEmployeeModal = $modal
                     .open({
                         animation : true,
+                        size: 'lg',
                         controller : 'EditEmployeeController',
                         templateUrl : '/resources/app/provider/views/employee/employee-edit-modal.html',
 

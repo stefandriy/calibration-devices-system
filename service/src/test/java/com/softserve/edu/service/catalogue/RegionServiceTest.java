@@ -1,6 +1,6 @@
 package com.softserve.edu.service.catalogue;
 
-import com.softserve.edu.config.ServiceConfig;
+import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.catalogue.Region;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
  * Created by Назік on 10/5/2015.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ServiceConfig.class})
+@ContextConfiguration(classes = {ServiceTestingConfig.class})
 public class RegionServiceTest {
 
     @Autowired

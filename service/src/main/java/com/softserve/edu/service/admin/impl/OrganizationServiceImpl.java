@@ -243,4 +243,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findLocalitiesByOrganizationId(organizationId);
     }
 
+    @Override
+    public Set<DeviceType> findDeviceTypesByOrganizationId(Long organizationId) {
+        return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
+    }
+
 }

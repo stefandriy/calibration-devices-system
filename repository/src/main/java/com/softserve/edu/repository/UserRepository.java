@@ -42,6 +42,10 @@ public interface UserRepository extends CrudRepository<User, String> {
                                                            @Param("organizationId") Long organizationId);
 
     Page<User> findByOrganizationId(Long organizationId, Pageable pageable);
+}
+
+
+
 
     /*@Query("SELECT COUNT(v.providerEmployee_username) as verifications_count, u.*"
         +" FROM user u"
@@ -50,7 +54,7 @@ public interface UserRepository extends CrudRepository<User, String> {
         +" GROUP BY u.username"
     )
     Long getCountOfEmployeeVerifications(@Param("organizationId") Long organizationId, @Param("username") String username);*/
-}
+
 //    SELECT COUNT(v.providerEmployee_username) as verifications_count, u.*
 //        FROM user u
 //        LEFT OUTER JOIN verification v

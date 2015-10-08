@@ -73,14 +73,14 @@
                                 <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}} {{employee.middleName}} <br/> ({{employee.username}})"></label>
                             </div>
                             <div class="ui vertical menu" style="margin-top:0">
-                                <div class="link item middle center aligned">
-                                    <a ui-sref="profile-info" translate="PROFILE"></a>
+                                <div ui-sref="profile-info" class="link item middle center aligned">
+                                    <p translate="PROFILE"></p>
                                 </div>
                                 <div class="link item middle center aligned">
-                                    <a translate="SETTINGS"></a>
+                                    <p translate="SETTINGS"></p>
                                 </div>
-                                <div class="link item middle center aligned">
-                                    <a ng-click="logout()" translate="LOG_OUT"> </a>
+                                <div ng-click="logout()" class="link item middle center aligned">
+                                    <p translate="LOG_OUT"> </p>
                                 </div>
                             </div>
                         </div>

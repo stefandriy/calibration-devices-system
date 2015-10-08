@@ -115,8 +115,10 @@ public class EmployeeController {
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> updateEmployee(
             @RequestBody UserDTO providerEmployee) {
-        User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
-        if (providerEmployee.getIsAvaliable().equals(false)) {
+
+        User newUser = providerEmployeeService.oneProviderEmployee(providerEmployee.getUsername());
+
+        if (!providerEmployee.getIsAvaliable()) {
             newUser.setIsAvailable(providerEmployee.getIsAvaliable());
             providerEmployeeService.updateEmployee(newUser);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -130,16 +132,23 @@ public class EmployeeController {
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setSecondPhone(providerEmployee.getSecondPhone());
         newUser.setUsername(providerEmployee.getUsername());
-        //newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
-        //      providerEmployee.getAddress() : newUser.getAddress());
-        String p = providerEmployee.getPassword();
-        newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
-                "generate" : newUser.getPassword());
-        newUser.getUserRoles().clear();
-        for (String role : providerEmployee.getUserRoles()) {
-            UserRole userRole = UserRole.valueOf(role);
-            newUser.addRole(userRole);
+
+        String password = providerEmployee.getPassword();
+        if (password != null && password.equals("generate")) {
+            newUser.setPassword("generate");
         }
+        //else newUser.setPassword(newUser.getPassword());
+
+        if (!providerEmployee.getUserRoles().isEmpty()) {
+            newUser.removeAllRoles();
+
+            for (String role : providerEmployee.getUserRoles()) {
+                UserRole userRole = UserRole.valueOf(role);
+                newUser.addRole(userRole);
+            }
+        }
+
+
         providerEmployeeService.updateEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
@@ -203,6 +212,7 @@ public class EmployeeController {
     /**
      * return data about admin employees.
      * return only employees, without admins.
+     *
      * @param queryResult
      * @return page with employees of current admin.
      */

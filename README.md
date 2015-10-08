@@ -53,6 +53,17 @@ To get an provider page login with the following credentials:
 	
 Check `database_script.sql` for additional information about other users such as provider, calibrator etc.
 
+#Optional:
+## Adding integration Tests.
+
+Create DataBase with name: measurement_devices_test
+Run InitializerTestingDB class in service/src/test/java/com/softserve/edu/config
+Open database_script.sql and change name of database to measurement_devices_test
+Run script
+If the test, that you will try to run, have annotation @Ignore - remove it before running test
+Run tests.
+
+
 ## Team members
 
 #### LV-144 Java:
