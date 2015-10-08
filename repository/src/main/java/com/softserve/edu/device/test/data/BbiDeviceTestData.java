@@ -25,7 +25,12 @@ public class BbiDeviceTestData implements DeviceTestData {
 
     @Override
     public Integer getIntegerValue(String key) {
-        return (Integer)testData.get(key);
+        return getLongValue(key).intValue();
+    }
+
+    @Override
+    public Double getDoubleValue(String key) {
+        return (Double)testData.get(key);
     }
 
     @Override
@@ -99,13 +104,13 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getLatitude() {
-        return getLongValue("latitude");
+    public Double getLatitude() {
+        return getDoubleValue("latitude");
     }
 
     @Override
-    public Long getLongitude() {
-        return getLongValue("longitude");
+    public Double getLongitude() {
+        return getDoubleValue("longitude");
     }
 
     @Override
@@ -189,13 +194,13 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getTestInitialCounterValue(int testIndex) {
-        return getLongValue("test" + testIndex + "initialCounterValue");
+    public Double getTestInitialCounterValue(int testIndex) {
+        return getDoubleValue("test" + testIndex + "initialCounterValue");
     }
 
     @Override
-    public Long getTestTerminalCounterValue(int testIndex) {
-        return getLongValue("test" + testIndex + "terminalCounterValue");
+    public Double getTestTerminalCounterValue(int testIndex) {
+        return getDoubleValue("test" + testIndex + "terminalCounterValue");
     }
 
     @Override
@@ -209,8 +214,8 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getTestDuration(int testIndex) {
-        return getLongValue("test" + testIndex + "testDuration");
+    public Double getTestDuration(int testIndex) {
+        return getDoubleValue("test" + testIndex + "testDuration");
     }
 
     @Override
@@ -229,8 +234,8 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getTestNumber(int testIndex) {
-        return getLongValue("test" + testIndex + "testNumber");
+    public Integer getTestNumber(int testIndex) {
+        return getIntegerValue("test" + testIndex + "testNumber");
     }
 
     /**

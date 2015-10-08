@@ -5,9 +5,11 @@ import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 
 
 public class CalibrationTestDataDTO {
+    private Boolean dataAvailable;
+    private String testNumber;
     private Double givenConsumption;
-    private Integer acceptableError;
-    private Integer volumeOfStandart;
+    private Long acceptableError;
+    private Long volumeOfStandart;
     private Double initialValue;
     private Double endValue;
     private Double volumeInDevice;
@@ -15,7 +17,25 @@ public class CalibrationTestDataDTO {
     private Double actualConsumption;
     private String consumptionStatus;
     private Double calculationError;
+    private String beginPhoto;
+    private String endPhoto;
     private CalibrationTestResult testResult;
+
+    public Boolean getDataAvailable() {
+        return dataAvailable;
+    }
+
+    public void setDataAvailable(Boolean dataAvailable) {
+        this.dataAvailable = dataAvailable;
+    }
+
+    public String getTestNumber() {
+        return testNumber;
+    }
+
+    public void setTestNumber(String testNumber) {
+        this.testNumber = testNumber;
+    }
 
     public Double getGivenConsumption() {
         return givenConsumption;
@@ -25,19 +45,19 @@ public class CalibrationTestDataDTO {
         this.givenConsumption = givenConsumption;
     }
 
-    public Integer getAcceptableError() {
+    public Long getAcceptableError() {
         return acceptableError;
     }
 
-    public void setAcceptableError(Integer acceptableError) {
+    public void setAcceptableError(Long acceptableError) {
         this.acceptableError = acceptableError;
     }
 
-    public Integer getVolumeOfStandart() {
+    public Long getVolumeOfStandart() {
         return volumeOfStandart;
     }
 
-    public void setVolumeOfStandart(Integer volumeOfStandart) {
+    public void setVolumeOfStandart(Long volumeOfStandart) {
         this.volumeOfStandart = volumeOfStandart;
     }
 
@@ -95,6 +115,22 @@ public class CalibrationTestDataDTO {
 
     public void setCalculationError(Double calculationError) {
         this.calculationError = calculationError;
+    }
+
+    public String getBeginPhoto() {
+        return beginPhoto;
+    }
+
+    public void setBeginPhoto(String beginPhoto) {
+        this.beginPhoto = beginPhoto;
+    }
+
+    public String getEndPhoto() {
+        return endPhoto;
+    }
+
+    public void setEndPhoto(String endPhoto) {
+        this.endPhoto = endPhoto;
     }
 
     public CalibrationTestResult getTestResult() {

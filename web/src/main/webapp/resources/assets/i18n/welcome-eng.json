@@ -104,7 +104,7 @@
   "DISPLAY_ON": "Display on:",
   "ID":"Id",
   "SIGN_OF_COUNTER":"Sign of counter",
-  "COUNTER_NUMBER":"Number",
+  "COUNTER_NUMBER":"Counter number",
   "TYPE_OF_COUNTER":"Type of counter",
   "COUNTER_CATEGORY": "Counter category",
   "DEVICE_NAME":"Device name",
@@ -151,7 +151,13 @@
   "LONGITUDE":"Longitude",
   "TEST_RESULT":"Test result",
   "CONSUMPTION_STATUS":"Consumption status",
-
+  "UPLOAD_BBI_FILE" : "Upload BBI",
+  "FILE_NAME" : "File name",
+  "DATE_TIME" : "Date",
+  "TEMPERATURE" : "Temperature",
+  "ACCUMULATED_VOLUME" : "Accumulated volume",
+  "TEST_NUMBER" : "Test number",
+  "TEST_DURATION" : "Test duration",
 			
 	"TEST_COMPLETED_TRASLATION":"A measure done.",
 		
@@ -178,12 +184,13 @@
     "FILL_TEST_DATA":"Fill Test Data",
     "GIVEN_CONSUMPTION":"Given consumption",
     "ACCEPTABLE_ERROR":"Acceptable error",
-    "VOLUME_OF_STANDART":"Volume of standart",
+    "VOLUME_OF_STANDARD":"Volume of standard",
     "INITIAL_VALUE":"Initial value",
-    "END_VALUE":"End value",
+    "TERMINAL_VALUE":"Terminal value",
     "VOLUME_IN_DEVICE":"Volume in device",
-    "ACTUAL_CONSUMPTION":"Actual  consumption",
+    "ACTUAL_CONSUMPTION":"Actual consumption",
     "CALCULATION_ERROR":"Calculation error",
+    "CONSUMPTION_LOL_STATUS":"Consumption status",
 
 
   	"BOULEVARD":"boulevard",

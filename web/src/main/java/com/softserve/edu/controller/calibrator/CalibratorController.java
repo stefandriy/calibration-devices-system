@@ -304,7 +304,7 @@ public class CalibratorController {
     }
 
     /**
-     * Current method delete file
+     * Current method deletes file
      *
      * @param idVerification
      * @return status of deletion
