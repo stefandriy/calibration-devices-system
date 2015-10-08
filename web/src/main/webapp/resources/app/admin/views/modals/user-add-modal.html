@@ -224,7 +224,7 @@
                                                ng-model="employeeFormData.region"
                                                on-select="receiveDistricts(employeeFormData.region)"
                                                name="region" id="region" required>
-                                        <ui-select-match placeholder="Оберіть область" allow-clear="true">
+                                        <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
                                         </ui-select-match>
                                         <ui-select-choices repeat="region in regions | filter: $select.search">
@@ -249,7 +249,7 @@
                                                on-select="receiveLocalities(employeeFormData.district)"
                                                ng-disabled="!employeeFormData.region"
                                                name="district" id="district" required>
-                                        <ui-select-match placeholder="Оберіть район" allow-clear="true">
+                                        <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
                                         </ui-select-match>
                                         <ui-select-choices repeat="district in districts | filter: $select.search">
@@ -275,7 +275,7 @@
                                                ng-disabled="!employeeFormData.district"
                                                on-select="receiveStreets(employeeFormData.locality)"
                                                name="locality" id="locality" required>
-                                        <ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
+                                        <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
                                         </ui-select-match>
                                         <ui-select-choices repeat="locality in localities | filter: $select.search">
@@ -336,25 +336,21 @@
                         </div>
                     </div>
                 </div>
-        <div class="panel panel-primary">
-            <div class="panel-heading"></div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="form-group col-md-10">
-                        <button type="submit" class="btn btn-success" ng-click="onEmployeeFormSubmit()">
-                            {{'ADD' | translate}}
-                        </button>
-                        <button type="reset" class="btn btn-warning" ng-click="resetEmployeeForm()">
-                            {{'CLEAR_FORM' | translate }}
-                        </button>
-                    </div>
-                    <div class="form-group col-md-2">
-                        <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}
-                        </button>
-                    </div>
-                </div>
+
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success" ng-click="onEmployeeFormSubmit()">
+                    {{'ADD' | translate}}
+                </button>
+                <button type="reset" class="btn btn-warning" ng-click="resetEmployeeForm()">
+                    {{'CLEAR_FORM' | translate }}
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-danger pull-right" ng-click="closeModal()">
+                    {{'CLOSE' | translate}}
+                </button>
             </div>
         </div>
-
     </form>
 </div>
