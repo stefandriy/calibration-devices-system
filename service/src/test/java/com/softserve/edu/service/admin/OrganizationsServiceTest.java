@@ -1,7 +1,7 @@
 package com.softserve.edu.service.admin;
 
 
-import com.softserve.edu.config.ServiceConfig;
+import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ServiceConfig.class})
+@ContextConfiguration(classes = {ServiceTestingConfig.class})
 public class OrganizationsServiceTest {
 
     @Autowired
@@ -30,68 +30,59 @@ public class OrganizationsServiceTest {
 
     @Test
     public void testFindOrganizationByLocalityId() {
-        List<Organization> list = organizationsService.findAllByLocalityId(1L);
-        //list.forEach(organization -> System.out.println(organization.toString()));
-        assertEquals(true, true);
+        List<Organization> list = organizationsService.findAllByLocalityId(116031L);
+        assertTrue(!list.isEmpty());
     }
 
     @Test
     public void testFindOrganizationByLocalityIdAndTypeId() {
         List<Organization> list = organizationsService.findAllByLocalityIdAndTypeId(116031L, OrganizationType.PROVIDER);
-        //list.forEach(organization -> System.out.println(organization.toString()));
-        assertEquals(true, true);
+        assertTrue(!list.isEmpty());
     }
 
     @Test
     public void testFindOrganizationTypesById() {
-        Set<OrganizationType> list = organizationsService.findOrganizationTypesById(7L);
+        Set<OrganizationType> list = organizationsService.findOrganizationTypesById(1L);
 
         Set<String> testlist = TypeConverter.enumToString(list);
+        list = TypeConverter.stringToEnum(testlist,OrganizationType.class);
 
-        // list = TypeConverter.stringToEnum(testlist,OrganizationType.class);
-
-        //list.forEach();
-        //list.forEach(organization -> System.out.println(organization.toString()));
-        assertEquals(true, true);
+        assertTrue(!list.isEmpty());
     }
 
     @Test
     public void testFindByLocalityIdAndTypeAndDevice() {
         List<Organization> list = organizationsService.findByLocalityIdAndTypeAndDevice(116031L, OrganizationType.PROVIDER, DeviceType.WATER);
 
-        assertEquals(true, true);
+        assertTrue(!list.isEmpty());
     }
 
     @Test
     public void testFindLocalitiesByOrganizationId() {
-        List<LocalityDTO> list = organizationsService.findLocalitiesByOrganizationId(53L);
-        Long id = list.get(0).getDistrictId();
-        assertEquals(true, true);
+        List<LocalityDTO> list = organizationsService.findLocalitiesByOrganizationId(1L);
+        assertTrue(!list.isEmpty());
     }
 
     @Test
     public void testAddOrganization() {
-        final String name = "name";
+        final String OrgName = "name";
         final String mname = "mname";
-        final String phone = "phone";
+        final String phone = "99999999";
         final String email = "email";
         final List<String> types = new ArrayList<String>();
         final List<String> counters = new ArrayList<String>();
-        types.add("CALIBRATOR");
         types.add("PROVIDER");
         counters.add("WATER");
-        final Integer employeesCapacity = 123;
+        final Integer employeesCapacity = 13;
         final Integer maxProcessTime = 456;
         final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
-        final Long[] localities = {5L, 6L};
-        final String username = "eric";
+        final Long[] localities = {116031L};
+        final String username = "eric123";
         final String password = "root";
 
-        organizationsService.addOrganizationWithAdmin(name, email, phone, types, counters, employeesCapacity, maxProcessTime,
+        organizationsService.addOrganizationWithAdmin(OrgName, email, phone, types, counters, employeesCapacity, maxProcessTime,
                 username, mname, mname, mname, password, address, username, localities);
-        //System.out.println(organization);
-        // organizationsService
-        assertEquals(true, true);
+        assertTrue(true);
     }
     @Test
     public void testEditOrganization() {
@@ -101,26 +92,26 @@ public class OrganizationsServiceTest {
         final String email = "email";
         final List<String> types = new ArrayList<String>();
         final List<String> counters = new ArrayList<String>();
+        final List<String> capacity = new ArrayList<String>();
         types.add("CALIBRATOR");
         types.add("PROVIDER");
         counters.add("WATER");
+        capacity.add("");
         final Integer employeesCapacity = 123;
         final Integer maxProcessTime = 456;
         final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
         final List<Long> localities = new ArrayList<>();
         localities.add(6L);
-        //localities.add(9L);
         localities.add(10L);
         localities.add(11L);
         localities.add(15L);
         final String username = "eric";
         final String password = "root";
 
-        /*organizationsService.editOrganization(54L, name, email, phone, types, employeesCapacity, maxProcessTime, address,
-                username, mname, mname, mname, password,  username, localities);*/
-        //System.out.println(organization);
-        // organizationsService
-        assertEquals(true, true);
+        organizationsService.editOrganization(54L, name, email, phone, types, counters, employeesCapacity, maxProcessTime, address,
+                username, mname, mname, mname, password,  username, localities);
+
+        assertTrue(true);
     }
 
 

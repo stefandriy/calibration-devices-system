@@ -1,31 +1,21 @@
 package com.softserve.edu.service.catalogue;
 
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.softserve.edu.config.ServiceConfig;
-import org.junit.Before;
+import com.softserve.edu.config.ServiceTestingConfig;
+import com.softserve.edu.entity.catalogue.Locality;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
-
-import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ServiceConfig.class})
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class,
-        TransactionalTestExecutionListener.class,
-        DbUnitTestExecutionListener.class})
+@ContextConfiguration(classes = {ServiceTestingConfig.class})
 public class LocalityServiceTest {
 
     @Autowired
@@ -33,15 +23,22 @@ public class LocalityServiceTest {
 
     @Test
     public void testFindOrganizationByLocalityId() {
-        List<String> list = localityService.getMailIndexForLocality("Київ", 567L);
+        List<String> list = localityService.getMailIndexForLocality("Київ", 576L);
 
-        assertEquals(true, true);
+        assertTrue(!list.isEmpty());
     }
 
     @Test
     public void testGetLocalitiesCorrespondingDistrict() {
-        //List<String> list = localityService.getLocalitiesCorrespondingDistrict();
+        List<Locality> list = localityService.getLocalitiesCorrespondingDistrict(1L);
 
-        assertEquals(true, true);
+        assertTrue(!list.isEmpty());
+    }
+
+    @Test
+    public void testFindByDistrictIdAndOrganizationId() {
+        List<Locality> list = localityService.findByDistrictIdAndOrganizationId(567L,1L);
+
+        assertTrue(!list.isEmpty());
     }
 }
