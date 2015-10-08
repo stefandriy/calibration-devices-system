@@ -320,7 +320,7 @@ angular
                     $scope.clientForm.firstSelectedDevice.$invalid = true;
                     $scope.clientForm.firstDeviceCount.$invalid = true;
                 }
-                if($scope.selectedValues.firstSelectedProvider === undefined){
+                if ($scope.selectedValues.firstSelectedProvider === undefined) {
                     $scope.clientForm.firstDeviceCount.$invalid = true;
                 }
                 /**
@@ -333,7 +333,7 @@ angular
                     $scope.clientForm.secondSelectedDevice.$invalid = true;
                     $scope.clientForm.secondDeviceCount.$invalid = true;
                 }
-                if($scope.selectedValues.secondSelectedProvider === undefined){
+                if ($scope.selectedValues.secondSelectedProvider === undefined) {
                     $scope.clientForm.secondDeviceCount.$invalid = true;
                 }
                 /**

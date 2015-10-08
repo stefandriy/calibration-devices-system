@@ -64,7 +64,7 @@
                     .state("profile-info", {
                     url: '/profile-info',
                     templateUrl: '/resources/app/common/views/profile-info.html',
-                    controller: 'TopNavBarControllerProvider'
+                    controller: 'ProfileInfoController'
                     })
                     .state("new-verifications-calibrator", {
                         url: '/calibrator/verifications/new',
@@ -263,7 +263,9 @@
         'verificator/services/UserServiceVerificator',
         'verificator/services/VerificationServiceVerificator',
         'provider/filters/unique',
-
+        'common/controllers/ProfileInfoController',
+        'common/controllers/EditProfileInfoController',
+        'common/services/ProfileService'
 
     ], function () {});
 })();
