@@ -32,4 +32,9 @@ public class LocalityServiceImpl implements LocalityService {
     public Locality findById(Long id) {
         return localityRepository.findOne(id);
     }
+
+    @Override
+    public List<Locality> findByDistrictIdAndOrganizationId(Long districtId, Long organizationId) {
+        return localityRepository.findByDistrictIdAndOrganizationId(districtId, organizationId);
+    }
 }

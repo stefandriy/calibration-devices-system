@@ -12,11 +12,20 @@ Enjoy responsibly!
 
 */
 
+$.fn.extend({
+	//switchClass parameter is to replicate toggleClass functionality.
+	toggleClassDelay: function (className, delay, switchClass)
+	{
+		this.toggleClass(className, switchClass);
+
+		setTimeout($.proxy(function ()
+		{
+			this.toggleClass(className, switchClass);
+		}, this), delay);
+	}
+});
+
 $(document).ready(function() {
-	
-	setTimeout(function(){
-		$('body').addClass('loaded');
-		$('h1').css('color','#222222');
-    }, 3000);
-	
+	$('#content').toggleClassDelay('ng-hide', 2500);
+	$('#loader').toggleClassDelay('active', 2500);
 });

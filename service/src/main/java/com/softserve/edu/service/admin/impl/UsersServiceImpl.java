@@ -60,4 +60,9 @@ public class UsersServiceImpl implements UserService  {
     public Long getCountOfVerifications(Long organizationId, String username) {
         return 0L;
     }
+
+    @Override
+    public User findOne(String username) {
+        return userRepository.findOne(username);
+    }
 }

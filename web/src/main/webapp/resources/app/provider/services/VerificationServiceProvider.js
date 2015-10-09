@@ -66,7 +66,11 @@ angular
             },
             getArchivalVerificationEarliestDate: function () {
                 return getData('verifications/archive/earliest_date/provider');
+            },
+            getIfEmployeeProvider: function(url) {
+                return getData('verifications/provider/role');
             }
+
         };
 
         function getData(url) {

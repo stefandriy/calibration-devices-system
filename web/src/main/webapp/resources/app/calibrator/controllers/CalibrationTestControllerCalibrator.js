@@ -104,6 +104,7 @@ angular
              */
             $scope.verId = $location.search().param;
             $scope.searchData = null;
+            $scope.fileName = null;
 
 
             $scope.setTypeDataLanguage();
@@ -331,12 +332,15 @@ angular
             $scope.calibrationTests = [];
 
             
-            $scope.openAddTest = function (verId) {
+            $scope.openAddTest = function (verificationID, fileName) {
                 calibrationTestServiceCalibrator
-                    .getEmptyTest(verId)
-                    .then(function (IdTest) {
+                    .getEmptyTest(verificationID)
+                    .then(function (data) {
                         $log.debug("inside");
-                        var url = $location.path('/calibrator/verifications/calibration-test-add/').search({param: IdTest});
+                        var testId = data.id;
+                        console.log('filename = ' + fileName);
+                        var url = $location.path('/calibrator/verifications/calibration-test-add/').search({'param': verificationID});
+                        console.log(url);
                     } )
             };
 
@@ -377,7 +381,7 @@ angular
                     .open({
                         animation: true,
                         controller: 'CalibrationTestEditModalController',
-                        templateUrl: '/resources/app/calibrator/views/modals/calibration-test-edit-modal.html',
+                        templateUrl: '/resources/app/calibrator/views/modals/calibration-test-edit-modal.html'
                     });
             };
 
@@ -390,6 +394,24 @@ angular
                 }, 700);
             };
 
+
+            $scope.uploadBbiFile = function () {
+                console.log("Entered upload bbi function");
+                var modalInstance =  $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
+                    controller: 'UploadBbiFileController',
+                    size: 'lg'
+                });
+                /*
+                 modalInstance.result.then(function (fileName) {
+                 $rootScope.fileName = fileName;
+                 $rootScope.onTableHandling();
+                 });
+                 */
+            };
+
+
             $scope.uploadPhoto = function (testId) {
 
                 var modalInstance =  $modal.open({
@@ -400,7 +422,6 @@ angular
                     resolve: {
                         calibrationTest: function () {
                             return testId;
-
                         }
                     }
                 });
@@ -426,3 +447,5 @@ angular
             }
 
         }]);
+
+

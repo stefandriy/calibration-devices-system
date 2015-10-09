@@ -21,6 +21,18 @@ angular
             getCalibrators: function (url) {
                 return getData('verifications/new/calibrators');
             },
+            getVerificators: function (url) {
+                return updateData('new/verificatorEmployees');
+            },
+            sendEmployeeVerificator: function (data) {
+                return updateData('assign/verificatorEmployee', data);
+            },
+            cleanVerificatorEmployeeField:function (data) {
+                return employeeUpdateData('remove/verificatorEmployee', data);
+            },
+            getVerificators: function (url) {
+                return getData('verifications/new/verificatorEmployees');
+            },
             rejectTestToCalibrator: function (data) {
                 return updateData('new/reject', data);
             },
@@ -57,6 +69,9 @@ angular
             getCalibraionTestDetails: function (verificationId){
             	return getData('verifications/show/' + verificationId);
             },
+            getIfEmployeeStateVerificator: function(url) {
+                return getData('verifications/verificator/role');
+            },
             
         };
        
@@ -65,6 +80,16 @@ angular
             $log.info(url);
 
             return $http.get('verificator/' + url)
+                .success(function (data) {
+                    return data;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+
+        function getEmployeeData(url) {
+            return $http.get('verificator/admin/users/' + url)
                 .success(function (data) {
                     return data;
                 })
@@ -81,6 +106,16 @@ angular
             }).error(function (err) {
                 return err;
             });
+        }
+
+        function employeeUpdateData(url, data) {
+            return $http.put('verificator/admin/users/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
         }
 
         function getDataWithParams(url, params) {

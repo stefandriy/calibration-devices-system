@@ -29,7 +29,6 @@ public class FileUploadController {
     public @ResponseBody String uploadFileHandler(
             @RequestParam(value = "testId") long testId,
             @RequestParam("file") MultipartFile file) {
-
         try {
             String fileType = file.getOriginalFilename().substring( 
                     file.getOriginalFilename().lastIndexOf('.'));

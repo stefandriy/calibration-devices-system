@@ -61,6 +61,11 @@
                         url: '/calibrator/',
                         templateUrl: '/resources/app/calibrator/views/main-panel.html'
                     })
+                    .state("profile-info", {
+                    url: '/profile-info',
+                    templateUrl: '/resources/app/common/views/profile-info.html',
+                    controller: 'ProfileInfoController'
+                    })
                     .state("new-verifications-calibrator", {
                         url: '/calibrator/verifications/new',
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
@@ -102,9 +107,9 @@
                         controller: 'VerificationPlanningTaskController'
                     })
                     .state("calibrator-task-add", {
-                        url: '/',
+                        url: '/calibrator/task/',
                         templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
-                        controller: 'TaskControllerCalibrator'
+                        controller: 'TaskSendingModalControllerCalibrator'
                     })
                     .state('main-panel-verificator', {
                         url: '/',
@@ -114,6 +119,11 @@
                         url: '/verifications/new',
                         templateUrl: '/resources/app/verificator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerVerificator'
+                    })
+                    .state("employee-show-verificator", {
+                        url: '/verificator/employee-show',
+                        templateUrl: '/resources/app/verificator/views/employee/show-employee.html',
+                        controller: 'UsersControllerVerificator'
                     })
                     .state("verifications-archive-verificator", {
                         url: '/verifications/archive',
@@ -224,9 +234,9 @@
         'calibrator/controllers/UsersControllerCalibrator',
         'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
-        'calibrator/controllers/TaskControllerCalibrator',
+        'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
-        'calibrator/services/TaskServiceCalibrator',
+        'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',
         'calibrator/services/AddressServiceCalibrator',
         'calibrator/services/UserServiceCalibrator',
@@ -244,11 +254,18 @@
         'verificator/controllers/TestRejectControllerVerificator',
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
+
+        'verificator/controllers/VerificatorEmployeeControllerVerificator',
+
+        'verificator/controllers/UsersControllerVerificator',
+
         'verificator/services/AddressServiceVerificator',
         'verificator/services/UserServiceVerificator',
         'verificator/services/VerificationServiceVerificator',
-        'provider/filters/unique'
-
+        'provider/filters/unique',
+        'common/controllers/ProfileInfoController',
+        'common/controllers/EditProfileInfoController',
+        'common/services/ProfileService'
 
     ], function () {});
 })();

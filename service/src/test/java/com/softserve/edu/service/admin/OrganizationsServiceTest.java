@@ -1,14 +1,123 @@
 package com.softserve.edu.service.admin;
 
-import static org.junit.Assert.assertEquals;
 
-/**
- * Created by Dmytro on 8/20/2015.
- */
+import com.softserve.edu.config.ServiceTestingConfig;
+import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.service.utils.TypeConverter;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.assertTrue;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {ServiceTestingConfig.class})
 public class OrganizationsServiceTest {
-/*
-    @InjectMocks
-    private OrganizationsService organizationsService;
+
+    @Autowired
+    private OrganizationService organizationsService;
+
+
+    @Test
+    public void testFindOrganizationByLocalityId() {
+        List<Organization> list = organizationsService.findAllByLocalityId(116031L);
+        assertTrue(!list.isEmpty());
+    }
+
+    @Test
+    public void testFindOrganizationByLocalityIdAndTypeId() {
+        List<Organization> list = organizationsService.findAllByLocalityIdAndTypeId(116031L, OrganizationType.PROVIDER);
+        assertTrue(!list.isEmpty());
+    }
+
+    @Test
+    public void testFindOrganizationTypesById() {
+        Set<OrganizationType> list = organizationsService.findOrganizationTypesById(1L);
+
+        Set<String> testlist = TypeConverter.enumToString(list);
+        list = TypeConverter.stringToEnum(testlist,OrganizationType.class);
+
+        assertTrue(!list.isEmpty());
+    }
+
+    @Test
+    public void testFindByLocalityIdAndTypeAndDevice() {
+        List<Organization> list = organizationsService.findByLocalityIdAndTypeAndDevice(116031L, OrganizationType.PROVIDER, DeviceType.WATER);
+
+        assertTrue(!list.isEmpty());
+    }
+
+    @Test
+    public void testFindLocalitiesByOrganizationId() {
+        List<LocalityDTO> list = organizationsService.findLocalitiesByOrganizationId(1L);
+        assertTrue(!list.isEmpty());
+    }
+
+    @Test
+    public void testAddOrganization() {
+        final String OrgName = "name";
+        final String mname = "mname";
+        final String phone = "99999999";
+        final String email = "email";
+        final List<String> types = new ArrayList<String>();
+        final List<String> counters = new ArrayList<String>();
+        types.add("PROVIDER");
+        counters.add("WATER");
+        final Integer employeesCapacity = 13;
+        final Integer maxProcessTime = 456;
+        final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
+        final Long[] localities = {116031L};
+        final String username = "eric123";
+        final String password = "root";
+
+        organizationsService.addOrganizationWithAdmin(OrgName, email, phone, types, counters, employeesCapacity, maxProcessTime,
+                username, mname, mname, mname, password, address, username, localities);
+        assertTrue(true);
+    }
+    @Test
+    public void testEditOrganization() {
+        final String name = "name";
+        final String mname = "mname";
+        final String phone = "phone";
+        final String email = "email";
+        final List<String> types = new ArrayList<String>();
+        final List<String> counters = new ArrayList<String>();
+        final List<String> capacity = new ArrayList<String>();
+        types.add("CALIBRATOR");
+        types.add("PROVIDER");
+        counters.add("WATER");
+        capacity.add("");
+        final Integer employeesCapacity = 123;
+        final Integer maxProcessTime = 456;
+        final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
+        final List<Long> localities = new ArrayList<>();
+        localities.add(6L);
+        localities.add(10L);
+        localities.add(11L);
+        localities.add(15L);
+        final String username = "eric";
+        final String password = "root";
+
+        organizationsService.editOrganization(54L, name, email, phone, types, counters, employeesCapacity, maxProcessTime, address,
+                username, mname, mname, mname, password,  username, localities);
+
+        assertTrue(true);
+    }
+
+
+
+    /*   @InjectMocks
+    private OrganizationService organizationsService;
 
     @Mock
     private OrganizationRepository mockOrganizationRepository;
@@ -20,6 +129,8 @@ public class OrganizationsServiceTest {
     public void init() {
         MockitoAnnotations.initMocks(this);
     }
+
+
 
     @Test
     public void testAddOrganizationWithAdmin() throws Exception {

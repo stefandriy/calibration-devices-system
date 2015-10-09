@@ -46,9 +46,7 @@ public class Main {
         List<User> userAvailable = userRepository.findByUserRoleAllIgnoreCase(UserRole.PROVIDER_EMPLOYEE)
                 .stream()
                 .collect(Collectors.toList());
-        for (User user : userAvailable) {
-            System.out.println(user);
-        }
+        userAvailable.forEach(System.out::println);
     }
 
     public void findByUserRoleAndOrganizationId () {

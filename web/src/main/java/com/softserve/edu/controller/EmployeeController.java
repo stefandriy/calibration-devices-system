@@ -109,15 +109,16 @@ public class EmployeeController {
      * Update user
      *
      * @param providerEmployee
-     * @param user
      * @return status
      */
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> updateEmployee(
             @RequestBody UserDTO providerEmployee) {
-        User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
-        if (providerEmployee.getIsAvaliable().equals(false)) {
+
+        User newUser = providerEmployeeService.oneProviderEmployee(providerEmployee.getUsername());
+
+        if (!providerEmployee.getIsAvaliable()) {
             newUser.setIsAvailable(providerEmployee.getIsAvaliable());
             providerEmployeeService.updateEmployee(newUser);
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -131,16 +132,23 @@ public class EmployeeController {
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setSecondPhone(providerEmployee.getSecondPhone());
         newUser.setUsername(providerEmployee.getUsername());
-        //newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
-        //      providerEmployee.getAddress() : newUser.getAddress());
-        String p = providerEmployee.getPassword();
-        newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
-                "generate" : newUser.getPassword());
-        newUser.getUserRoles().clear();
-        for (String role : providerEmployee.getUserRoles()) {
-            UserRole userRole = UserRole.valueOf(role);
-            newUser.addRole(userRole);
+
+        String password = providerEmployee.getPassword();
+        if (password != null && password.equals("generate")) {
+            newUser.setPassword("generate");
         }
+        //else newUser.setPassword(newUser.getPassword());
+
+        if (!providerEmployee.getUserRoles().isEmpty()) {
+            newUser.removeAllRoles();
+
+            for (String role : providerEmployee.getUserRoles()) {
+                UserRole userRole = UserRole.valueOf(role);
+                newUser.addRole(userRole);
+            }
+        }
+
+
         providerEmployeeService.updateEmployee(newUser);
         return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
     }
@@ -170,17 +178,16 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    //TODO: maybe here should add STATE_VERIFICATION
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> capacityEmployeeData(
             @PathVariable String username) {
         List<String> role = userService.getRoles(username);
         List<Verification> list = null;
         if (role.contains(UserRole.PROVIDER_EMPLOYEE.name())) {
-            list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
+            list = verificationProviderEmployeeService.getVerificationListByProviderEmployee(username);
         }
         if (role.contains(UserRole.CALIBRATOR_EMPLOYEE.name())) {
-            list = verificationProviderEmployeeService.getVerificationListbyCalibratormployee(username);
+            list = verificationProviderEmployeeService.getVerificationListByCalibratorEmployee(username);
         }
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
         return new PageDTO<>(content);
@@ -202,11 +209,18 @@ public class EmployeeController {
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
 
+    /**
+     * return data about admin employees.
+     * return only employees, without admins.
+     *
+     * @param queryResult
+     * @return page with employees of current admin.
+     */
     private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<UsersPageItem> resultList = new ArrayList<>();
         for (User providerEmployee : queryResult.getContent()) {
 
-            //hide information about PROVIDER_ADMIN and CALIBRATOR_ADMIN
+            //hide information about PROVIDER_ADMIN, CALIBRATOR_ADMIN, STATE_VERIFICATOR_ADMIN
             List<String> userRoles = userService.getRoles(providerEmployee.getUsername())
                     .stream()
                     .distinct()
@@ -214,8 +228,9 @@ public class EmployeeController {
 
             boolean isProviderAdmin = userRoles.contains(UserRole.PROVIDER_ADMIN.name());
             boolean isCalibratorAdmin = userRoles.contains(UserRole.CALIBRATOR_ADMIN.name());
+            boolean isStateVerificatorAdmin = userRoles.contains(UserRole.STATE_VERIFICATOR_ADMIN.name());
 
-            if (!isProviderAdmin && !isCalibratorAdmin) {
+            if (!isProviderAdmin && !isCalibratorAdmin && !isStateVerificatorAdmin) {
                 resultList.add(new UsersPageItem(
                                 providerEmployee.getUsername(),
                                 userRoles,

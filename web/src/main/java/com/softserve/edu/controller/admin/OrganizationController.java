@@ -5,7 +5,10 @@ import com.softserve.edu.controller.admin.util.OrganizationPageDTOTransformer;
 import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.*;
+import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.catalogue.Region;
+import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
@@ -13,6 +16,7 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.catalogue.RegionService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -36,6 +40,9 @@ public class OrganizationController {
             .getLogger(OrganizationController.class);
     @Autowired
     private OrganizationService organizationService;
+
+    @Autowired
+    private RegionService regionService;
 
     @Autowired
     private UserService userService;
@@ -165,9 +172,9 @@ public class OrganizationController {
                 .forEach(counters::add);
 
 
-        OrganizationDTO	organizationDTO=new OrganizationDTO(organization.getId() ,organization.getName(), organization.getEmail(), organization.getPhone(), types, counters,
-        organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
-            organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
+        OrganizationDTO organizationDTO = new OrganizationDTO(organization.getId(), organization.getName(), organization.getEmail(), organization.getPhone(), types, counters,
+                organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
+                organization.getAddress().getStreet(), organization.getAddress().getBuilding(), organization.getAddress().getFlat());
         return organizationDTO;
     }
 
@@ -192,19 +199,16 @@ public class OrganizationController {
                 organization.getStreet(),
                 organization.getBuilding(),
                 organization.getFlat());
-       try {
-            if (organization.getTypes().equals(null)) {
-                System.out.println("Nothing here");
-            }
-           
-           String adminName = user.getUsername();
-           
+        try {
+            String adminName = user.getUsername();
+
             organizationService.editOrganization(
                     organizationId,
                     organization.getName(),
                     organization.getPhone(),
                     organization.getEmail(),
                     organization.getTypes(),
+                    organization.getCounters(),
                     organization.getEmployeesCapacity(),
                     organization.getMaxProcessTime(),
                     address,
@@ -213,9 +217,10 @@ public class OrganizationController {
                     organization.getFirstName(),
                     organization.getLastName(),
                     organization.getMiddleName(),
-                    adminName);
+                    adminName,
+                    organization.getServiceAreas());
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error("GOT EXCEPTION ",e);
             httpStatus = HttpStatus.CONFLICT;
         }
 
@@ -249,7 +254,7 @@ public class OrganizationController {
                     .findFirst().get();
             logger.info(user);
             organizationAdminDTO = new OrganizationAdminDTO(user.getFirstName(), user.getMiddleName(), user.getLastName(), user.getUsername());
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.info("========================");
             logger.info("no one admin in organization");
             logger.info("========================");
@@ -265,4 +270,15 @@ public class OrganizationController {
 
         return new PageDTO<>(OrganizationHistoryPageDTOTransformer.toDtoFromList(organizationChangesHistoryList));
     }
+
+    @RequestMapping(value = "serviceArea/localities/{organizationId}", method = RequestMethod.GET)
+    public List<LocalityDTO> getServiceAreaLocaities(@PathVariable("organizationId") Long organizationId) {
+        return organizationService.findLocalitiesByOrganizationId(organizationId);
+    }
+
+    @RequestMapping(value = "serviceArea/region/{districtId}", method = RequestMethod.GET)
+    public Region getServiceAreaRegion(@PathVariable("districtId") Long districtId) {
+        return regionService.findByDistrictId(districtId);
+    }
 }
+

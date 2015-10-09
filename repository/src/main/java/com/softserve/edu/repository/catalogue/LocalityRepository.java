@@ -24,4 +24,8 @@ public interface LocalityRepository extends CrudRepository<Locality, Long> {
             "WHERE d.id=:districtId AND locality.designation=:designation")
     List<String> findMailIndexByDesignationAndDistrictId(@Param("designation") String designation, @Param("districtId") Long districtId);
 
+
+    @Query("SELECT l FROM Locality l JOIN l.organizations organizations JOIN l.district district " +
+            "WHERE district.id =:districtId AND organizations.id=:organizationId ")
+    List<Locality> findByDistrictIdAndOrganizationId(@Param("districtId") Long districtId, @Param("organizationId") Long organizationId);
 }

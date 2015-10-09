@@ -1,6 +1,8 @@
 package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.catalogue.Locality;
+import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
@@ -26,9 +28,9 @@ public interface OrganizationService {
 
     Organization getOrganizationById(Long id);
 
-    void editOrganization(Long organizationId, String name, String phone, String email, List<String> types,
+    void editOrganization(Long organizationId, String name, String phone, String email, List<String> types, List<String> counters,
                           Integer employeesCapacity, Integer maxProcessTime, Address address, String password,
-                          String username, String firstName, String lastName, String middleName, String adminName);
+                          String username, String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas);
 
     Integer getOrganizationEmployeesCapacity(Long organizationId);
 
@@ -44,5 +46,8 @@ public interface OrganizationService {
 
     List<Organization> findByLocalityIdAndTypeAndDevice( Long localityId, OrganizationType orgType, DeviceType deviceType );
 
+    List<LocalityDTO> findLocalitiesByOrganizationId( Long organizationId);
+
+    Set<DeviceType> findDeviceTypesByOrganizationId( Long organizationId);
 
 }

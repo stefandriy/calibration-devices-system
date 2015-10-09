@@ -462,3 +462,10 @@ div.chosen-container {
 th {
     text-align: center;
 }
+
+
+.userlabel {
+    display: block;
+    margin-bottom: 0px;
+    text-align: center;
+}

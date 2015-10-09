@@ -40,6 +40,9 @@ public class WelcomeController {
         usersPageItem.setLastName(user.getLastName());
         usersPageItem.setUsername(user.getUsername());
         usersPageItem.setMiddleName(user.getMiddleName());
+        usersPageItem.setEmail(user.getEmail());
+        usersPageItem.setPhone(user.getPhone());
+        usersPageItem.setSecondPhone(user.getSecondPhone());
         return  usersPageItem;
     }
 }

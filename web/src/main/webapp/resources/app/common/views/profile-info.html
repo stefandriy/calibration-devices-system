@@ -1,0 +1,24 @@
+<div id="page-wrapper" class="container-fluid">
+	<h2>{{'GENERAL_INFORMATION' | translate }}</h2>
+	<img src="/resources/assets/AdminLTE-master/img/User_icon.png"
+		style="width: 250px;" alt="User Image" />
+	<h3><strong>{{'USERNAME' | translate }}:</strong> {{user.username}}</h3>
+	<p><strong>{{'FIRST_NAME' | translate }}:</strong> {{user.firstName != null ? user.firstName : 'NO_DATA' | translate}}</p>
+	<p><strong>{{'LAST_NAME' | translate }}:</strong> {{user.lastName != null ? user.lastName : 'NO_DATA' | translate}}</p>
+	<p><strong>{{'MIDDLE_NAME' | translate }}:</strong> {{user.middleName != null ? user.middleName : 'NO_DATA' | translate}}</p>
+	<p><strong>{{'EMAIL' | translate }}:</strong> {{user.email != null ? user.email : 'NO_DATA' | translate}}</p>
+	<p><strong>{{'PHONE_NUMBER_TWO' | translate }}:</strong> {{user.phone != null ? user.phone : 'NO_DATA' | translate}}</p>
+	<p><strong>{{'SECOND_PHONE' | translate }}:</strong> {{user.secondPhone != null ? user.secondPhone : 'NO_DATA' | translate}}</p>
+
+	<button type="reset" class="btn btn-warning" ng-click="logout()">
+		{{'LOG_OUT' | translate }}</button>
+
+	<button type="button" class="btn btn-primary"
+		ng-click="openEditProfileModal()">
+		{{'EDIT_PROFIL' | translate }}
+		<span class="glyphicon glyphicon-pencil"></span>
+	</button>
+
+
+
+</div>

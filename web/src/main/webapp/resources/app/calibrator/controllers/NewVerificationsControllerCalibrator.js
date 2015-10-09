@@ -7,6 +7,19 @@ angular
 
             $scope.resultsCount = 0;
 
+
+            /**
+             * this function return true if is StateVerificatorEmployee
+             */
+            $scope.isCalibratorEmployee = function () {
+                verificationServiceCalibrator.getIfEmployeeCalibrator().success(function(data){
+                    $scope.isEmployee =  data;
+                });
+
+            };
+
+            $scope.isCalibratorEmployee();
+
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
@@ -285,7 +298,7 @@ angular
                             .sendVerificationsToCalibrator(dataToSend)
                             .success(function () {
                                 $scope.tableParams.reload();
-                                $rootScope.$broadcast('verification-sent-to-verifikator');
+                                $rootScope.$broadcast('verification-sent-to-verificator');
                             });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
@@ -422,15 +435,6 @@ angular
                 });
             };
 
-            $scope.openTask = function(verificationId){
-                $rootScope.verifId = verificationId;
-
-                $scope.$modalInstance  = $modal.open({
-                    animation: true,
-                    controller: 'TaskControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
-                });
-            };
 
         }]);
 

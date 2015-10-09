@@ -52,6 +52,16 @@ angular
                 return $http.get(url).then(function (result) {
                     return result.data;
                 });
+            },
+
+            parseBbiFile: function (fileName) {
+                var dotIndex = fileName.lastIndexOf('.');
+                var extension = fileName.substring(dotIndex + 1);
+                fileName = fileName.substring(0, dotIndex);
+                var url = '/calibrator/calibrationTestData/parseBbi/' + fileName + '/' + extension;
+                return $http.get(url).then(function (result) {
+                    return result;
+                })
             }
         };
 

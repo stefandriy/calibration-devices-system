@@ -1,6 +1,6 @@
 (function () {
     angular.module('calibratorModule', ['spring-security-csrf-token-interceptor',
-        'ui.bootstrap', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable'])
+        'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable'])
 
         .config(['$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider',
 
@@ -20,11 +20,6 @@
                         templateUrl: '/resources/app/calibrator/views/new-verifications.html',
                         controller: 'NewVerificationsController'
                     })
-                    .state("planning-task-calibrator", {
-                        url: '/calibrator/verifications/task',
-                        templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
-                        controller: 'VerificationPlanningTaskController'
-                    })
                     .state("calibration-test", {
                         url: '/verifications/calibration-test',
                         templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
@@ -34,6 +29,16 @@
                         url: '/employees',
                         templateUrl: '/resources/app/calibrator/views/employee/main-panel.html',
                         controller: 'EmployeeController'
+                    })
+                    .state("planning-task-calibrator", {
+                        url: '/calibrator/verifications/task',
+                        templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
+                        controller: 'VerificationPlanningTaskController'
+                    })
+                    .state("calibrator-task-add", {
+                        url: '/calibrator/task/',
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
+                        controller: 'TaskSendingModalControllerCalibrator'
                     })
                     .state("verifications-archive", {
                         url: '/verifications/archive',
@@ -62,12 +67,12 @@
         'controllers/AddressModalController',
         'controllers/NotificationsController',
         'controllers/VerificationPlanningTaskController',
-        'controllers/TaskControllerCalibrator',
+        'controllers/TaskSendingModalControllerCalibrator',
 
         'services/CalibrationTestService',
         'services/AddressService',
         'services/UserService',
         'services/VerificationService',
-        'services/TaskServiceCalibrator'
+        'services/VerificationPlanningTaskService'
     ], function () {});
 })();
