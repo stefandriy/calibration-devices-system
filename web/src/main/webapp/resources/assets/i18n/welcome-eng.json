@@ -207,7 +207,8 @@
   	"BOULEVARD":"boulevard",
   	"AVENUE":"avenue",
   	"SQUARE":"square",
-  	
+
+    "APP_INVALID_MAIL":"Email address is not exist, contact subscriber using phone number:",
   	"APP_SENT_ORG":"You successfully created verification with code: ",
   	"CALIBRATOR":"Measuring laboratory",
   	"I_AM_CALIBRATOR":"This organization is calibrator",

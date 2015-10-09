@@ -161,6 +161,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          * Sends data to the server where Verification entity will be created.
          * On-click handler in send button.
          */
+        $scope.isMailValid = true;
         $scope.sendApplicationData = function () {
             $scope.$broadcast('show-errors-check-validity');
             if ($scope.clientForm.$valid) {
@@ -177,6 +178,11 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     .success(function (applicationCode) {
                         $scope.applicationCode = applicationCode;
                     });
+
+                verificationServiceProvider.checkMailIsExist($scope.formData)
+                                       .success(function (isMailValid) {
+                                                $scope.isMailValid = isMailValid;
+                                            });
 
                 //hide form because application status is shown
                 $scope.isShownForm = false;
