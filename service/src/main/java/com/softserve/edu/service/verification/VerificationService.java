@@ -63,6 +63,10 @@ public interface VerificationService {
      ListToPageTransformer<Verification> findPageOfArchiveVerificationsByVerificatorId(Long organizationId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch, String fullNameToSearch,
                                                                                              String streetToSearch, String status, String employeeName, String sortCriteria, String sortOrder, User verificatorEmployee);
 
+     ListToPageTransformer<Verification> findPageOfCalibrarionTestsByVerificationId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
+                                                                                     String streetToSearch, String status, String employeeName, Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder, User calibratorEmployee);
+
+
 
     public Verification findByIdAndProviderId(String id, Long providerId);
 

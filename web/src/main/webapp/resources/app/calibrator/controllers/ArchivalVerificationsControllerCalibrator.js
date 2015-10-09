@@ -15,7 +15,6 @@ angular
             };
 
 
-
             $scope.clearDate = function () {
                 //daterangepicker doesn't support null dates
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
@@ -152,7 +151,6 @@ angular
             $scope.showPicker = function ($event) {
                 angular.element("#datepickerfield").trigger("click");
             };
-
 
             $scope.isDateDefault = function () {
                 var pickerDate = $scope.myDatePicker.pickerDate;

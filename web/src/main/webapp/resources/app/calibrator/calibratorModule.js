@@ -63,7 +63,7 @@
         'controllers/NotificationsController',
         'controllers/VerificationPlanningTaskController',
         'controllers/TaskControllerCalibrator',
-        
+
         'services/CalibrationTestService',
         'services/AddressService',
         'services/UserService',

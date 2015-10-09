@@ -3,20 +3,14 @@ angular
     .factory('CalibrationTestServiceCalibrator', function ($http) {
         return {
             getCalibrationTests: function (testId) {
-                var url = '/calibrationTests/' + testId;
-
+                var url = '/calibrator/calibrationTestData/' + testId;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;
                     });
             },
-
-            getPage: function (pageNumber, itemsPerPage, search, id) {
-                var url = '/calibrator/verifications/calibration-test/' + pageNumber + '/' + itemsPerPage + '/' + search + '/' + id;
-                return $http.get(url)
-                    .then(function (result) {
-                        return result.data;
-                    });
+            getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder, id) {
+                return getDataWithParams('/calibrator/verifications/calibration-test/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder  + '/' + id, search);
             },
             saveCalibrationTest: function (formData, testId) {
                 return $http.post("/calibrator/calibrationTests/add/" + testId, formData)
@@ -59,5 +53,35 @@ angular
                     return result.data;
                 });
             }
+        };
+
+        function getData(url) {
+            return $http.get('calibrator/' + url)
+                .success(function (data) {
+                    return data;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+
+        function getDataWithParams(url, params) {
+            return $http.get(url, {
+                params: params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
+        }
+
+        function sendData(url, data) {
+            return $http.post('calibrator/' + url, data)
+                .success(function (responseData) {
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
         }
     });
