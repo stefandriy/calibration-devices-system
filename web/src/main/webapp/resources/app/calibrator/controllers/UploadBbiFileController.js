@@ -4,8 +4,9 @@
 angular
     .module('employeeModule')
 
-    .controller('UploadBbiFileController', ['$scope', '$route', '$log', '$modalInstance',
-        'verification', 'Upload', '$timeout', function ($scope, $route, $log, $modalInstance, verification, Upload, $timeout) {
+    .controller('UploadBbiFileController', ['$scope', '$rootScope', '$route', '$log', '$modalInstance',
+        'calibrationTest', 'Upload', '$timeout', 'parseBbiFile',
+        function ($scope, $rootScope, $route, $log, $modalInstance, verification, Upload, $timeout, parseBbiFile) {
 
 	    	/**
 	         * Closes modal window on browser's back/forward button click.
@@ -27,6 +28,8 @@ angular
 
             $scope.progressPercentage = 0;
 
+            $scope.fileName;
+
             $scope.upload = function (files) {
                 if (files && files.length) {
                     for (var i = 0; i < files.length; i++) {
@@ -38,26 +41,30 @@ angular
                             $scope.uploaded = true;
                             $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                         }).success(function (data, status, headers, config) {
-
-                            $timeout(function () {
+                                $timeout(function () {
                                     if (status === 200) {
                                         $scope.messageError = null;
+                                        $scope.fileName = config.file.name;
                                         $scope.messageSuccess = 'Ви успішно завантажили файл ' + config.file.name;
-
+                                        console.log('uploadBbiController: ' + $scope.fileName);
+                                        parseBbiFile($scope.fileName);
                                     } else {
                                         $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
                                         $scope.progressPercentage = parseInt(0);
                                         $scope.uploaded = false;
                                     }
-                                }
-                            );
-                        }).error(function () {
-                            $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
-                            $scope.progressPercentage = parseInt(0);
+                                });
 
-                        })
+                            }
+                        )
+                            .error(function () {
+                                $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
+                                $scope.progressPercentage = parseInt(0);
+
+                            })
                     }
                 }
             };
+
         }]);
 

@@ -4,16 +4,34 @@
     <meta charset="UTF-8">
     <style>
         .first-column {
-            width: 40%;
+            width: 25%;
             float: left;
         }
 
         .second-column {
-            width: 55%;
+            width: 70%;
             float: right;
             padding-left: 65px;
-            border-left: 4px solid #333;
         }
+
+        table {
+            width: 400px;
+            overflow: scroll;
+        }
+
+        .scroll-wrapper  { overflow-x: scroll; }
+
+        .control-label { width: 90px; }
+
+        .control-image-label { width: 200px; }
+
+        .input-sm { height: 25px; }
+
+        .image-td {
+            height: 150px;
+        }
+
+        tr > td { min-height: 30px; }
     </style>
 
 </head>
@@ -24,992 +42,590 @@
     </div>
     <form name="CalibrationTestForm" novalidate style="padding-top: 10px">
         <div class="first-column">
-
             <div class="row">
-                <div class="form-group col-md-4">
-                    <label class="control-label">{{'TEST_NAME' | translate }}</label>
+                <label class="control-label" style="min-height: 30px"></label>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label class="control-label">{{'FILE_NAME' | translate }}</label>
                 </div>
-                <div class="form-group col-md-8" show-errors>
-                    <input type="text" ng-model="TestForm.name" ng-minlength="3"
-                           id="name" name="name" class="form-control" required>
+                <div class="form-group col-md-7" show-errors>
+                    <input type="text" ng-model="TestForm.fileName"  ng-minlength="3" ng-disabled="fileLoaded"
+                           id="fileName" name="fileName" class="form-control input-sm" align="right" required>
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-md-4">
-                    <label class="control-label">{{'TEMEPERATURE' | translate}}</label>
+                <div class="form-group col-md-5">
+                    <label class="control-label">{{'COUNTER_NUMBER' | translate }}</label>
                 </div>
-                <div class="form-group col-md-8">
-                    <input type="text" ng-model="TestForm.temperature"
-                           name="temperature" class="form-control" required>
+                <div class="form-group col-md-7" show-errors>
+                    <input type="text" ng-model="TestForm.counterNumber" ng-disabled="fileLoaded"
+                           name="counterNumber" class="form-control input-sm" required>
                 </div>
             </div>
 
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label class="control-label">{{'DATE_TIME' | translate }}</label>
+                </div>
+                <div class="form-group col-md-7" show-errors>
+                    <input type="text" ng-model="TestForm.testDate" ng-disabled="fileLoaded"
+                           name="dateTime" class="form-control input-sm" required>
+                </div>
+            </div>
 
             <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-5">
+                    <label class="control-label">{{'TEMPERATURE' | translate}}</label>
+                </div>
+                <div class="form-group col-md-7">
+                    <input type="number" ng-model="TestForm.temperature" ng-disabled="fileLoaded"
+                           name="temperature" class="form-control input-sm" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label class="control-label">{{'ACCUMULATED_VOLUME' | translate}}</label>
+                </div>
+                <div class="form-group col-md-7">
+                    <input type="text" ng-model="TestForm.accumulatedVolume" ng-disabled="fileLoaded"
+                           name="accumulatedVolume" class="form-control input-sm" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-5">
                     <label class="control-label">{{'SETTING_NUMBER' |
                         translate }}</label>
                 </div>
-                <div class="form-group col-md-8">
-                    <input type="text" ng-model="TestForm.settingNumber"
-                           name="settingNumber" class="form-control" required>
+                <div class="form-group col-md-7">
+                    <input type="text" ng-model="TestForm.installmentNumber" ng-disabled="fileLoaded"
+                           name="settingNumber" class="form-control input-sm" required>
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-5">
                     <label class="control-label">{{'LATITUDE' | translate }}</label>
                 </div>
-                <div class="form-group col-md-8">
-                    <input type="text" ng-model="TestForm.latitude"
-                           name="latitude" class="form-control" required>
+                <div class="form-group col-md-7">
+                    <input type="text" ng-model="TestForm.latitude" ng-disabled="fileLoaded"
+                           name="latitude" class="form-control input-sm" required>
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-5">
                     <label class="control-label">{{'LONGITUDE' | translate }}</label>
                 </div>
-                <div class="form-group col-md-8">
-                    <input type="text" ng-model="TestForm.longitude"
-                           name="longitude" class="form-control" required>
+                <div class="form-group col-md-7">
+                    <input type="text" ng-model="TestForm.longitude" ng-disabled="fileLoaded"
+                           name="longitude" class="form-control input-sm" required>
                 </div>
             </div>
 
 
-            <!--<div class="row">
-
-                <div class="form-group col-md-4">
-                    <label class="control-label">{{'CONSUMPTION_STATUS' |
+            <div class="row">
+                <div class="form-group col-md-5">
+                    <label class="control-label">{{'CONSUMPTION_LOL_STATUS' |
                         translate }}</label>
                 </div>
-                <div class="form-group col-md-8">
-                    <input type="text" ng-model="TestForm.consumptionStatus"
-                           name="consumptionStatus" class="form-control" required>
+                <div class="form-group col-md-7">
+                    <input type="text" ng-model="TestForm.consumptionStatus" ng-disabled="fileLoaded"
+                           name="consumptionStatus" class="form-control input-sm" required>
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-md-4">
-                    <label class="control-label">{{'TEST_RESULT' | translate
-                        }}</label>
+                <div class="form-group col-md-5">
+                    <label class="control-label">{{'TEST_RESULT' |
+                        translate }}</label>
                 </div>
-                <div class="form-group col-md-8">
-                    <input type="text" ng-model="TestForm.testResult"
-                           name="testResult" class="form-control" required>
+                <div class="form-group col-md-7">
+                    <input type="text" ng-model="TestForm.testResult" ng-disabled="fileLoaded"
+                           name="testResult" class="form-control input-sm" required>
                 </div>
-            </div>-->
-        <div>
-            <table  class="table table-bordered table-hover">
-                <tr style="height: 80px">
-                    <td><img src="/resources/assets/AdminLTE-master/Lichul.jpg" width="200px" height="100"></td>
-                    <td><img src="/resources/assets/AdminLTE-master/Lich2.jpg" width="200px" height="100"></td>
-                </tr>
-                <tr style="height: 80px">
-                    <td><img src="/resources/assets/AdminLTE-master/Lich3.jpg" width="200px" height="100"></td>
+            </div>
 
-                    <td><img src="/resources/assets/AdminLTE-master/Lich4.jpg" width="200px" height="100"></td>
-                </tr>
-                <tr style="height: 80px">
-                    <td><img src="/resources/assets/AdminLTE-master/Lich5.jpg" width="200px" height="100"></td>
-
-                    <td><img src="/resources/assets/AdminLTE-master/Lich6.jpg" width="200px" height="100"></td>
-                </tr>
-
-
-            </table>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <img ng-show="fileLoaded" id="testMainPhoto" src="data:image/png;base64, TestForm.testPhoto" width="100%" height="100%">
+                </div>
+            </div>
 
         </div>
-
-        </div>
-
 
         <div class="second-column">
             <div class="row">
-                <div class="form-group col-md-10">
-                    <div class="row">
-                        <ul class="nav nav-tabs">
-                            <li ng-class="{'active' : Case1 == true}"><a data-toggle="tab" ng-click="Test1()">Test1</a></li>
-                            <li ng-class="{'active' : Case2 == true}"><a data-toggle="tab" ng-click="Test2()">Test2</a></li>
-                            <li ng-class="{'active' : Case3 == true}"><a data-toggle="tab" ng-click="Test3()">Test3</a></li>
-                            <li ng-class="{'active' : Case4 == true}"><a data-toggle="tab" ng-click="Test4()">Test4</a></li>
-                            <li ng-class="{'active' : Case5 == true}"><a data-toggle="tab" ng-click="Test5()">Test5</a></li>
-                            <li ng-class="{'active' : Case6 == true}"><a data-toggle="tab" ng-click="Test6()">Test6</a></li>
-                        </ul>
-
-                        <div class="tab-content"  style="padding-top: 20px">
-                            <!--First Test -->
-                            <div ng-show="Case1" id="Case1" class="tab-pane fade in active">
-                                <div>
-                                  <form name="T1">
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'GIVEN_CONSUMPTION' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8" show-errors>
-                                                <input type="text"
-                                                       ng-model="TestDataFormData1.givenConsumption"
-                                                       ng-minlength="3" id="givenConsumption" name="givenConsumption"
-                                                       class="form-control"
-                                                       required>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACCEPTABLE_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData1.acceptableError"
-                                                       ng-minlength="3"
-                                                       id="acceptableError"
-                                                       name="acceptableError" class="form-control" required>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_OF_STANDART'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData1.settingNumber"
-                                                       ng-minlength="3"
-                                                       id="settingNumber"
-                                                       name="settingNumber" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'INITIAL_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData1.initialValue"
-                                                       ng-minlength="3"
-                                                       id="initialValue"
-                                                       name="initialValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'END_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData1.endValue"
-                                                       ng-minlength="3"
-                                                       id="endValue"
-                                                       name="endValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_IN_DEVICE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData1.volumeInDevice"
-                                                       ng-minlength="3"
-                                                       id="volumeInDevice"
-                                                       name="volumeInDevice" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACTUAL_CONSUMPTION'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData1.actualConsumption"
-                                                       ng-minlength="3"
-                                                       id="actualConsumption"
-                                                       name="actualConsumption" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CONSUMPTION_LOL_STATUS'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData1.consumptionStatus"
-                                                       ng-minlength="3"
-                                                       id="consumptionStatus"
-                                                       name="consumptionStatus" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <!--<div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CALCULATION_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData1.calculationError"
-                                                       ng-minlength="3"
-                                                       id="calculationError"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'TEST_RESULT' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData1.testResult"
-                                                       ng-minlength="3"
-                                                       id="testResult"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>-->
-                                   </form>
-
-                                </div>
-                            </div>
-
-                            <!--Second Te
-                            st -->
-
-
-                            <div ng-show="Case2" id="Case2" class="tab-pane fade in active">
-                                <div>
-                                    <form name="T2">
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'GIVEN_CONSUMPTION' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8" show-errors>
-                                                <input type="text"
-                                                       ng-model="TestDataFormData2.givenConsumption"
-                                                       ng-minlength="3" id="givenConsumption" name="givenConsumption"
-                                                       class="form-control"
-                                                       required/>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACCEPTABLE_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData2.acceptableError"
-                                                       ng-minlength="3"
-                                                       id="acceptableError"
-                                                       name="acceptableError" class="form-control" required/>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_OF_STANDART'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData2.settingNumber"
-                                                       ng-minlength="3"
-                                                       id="settingNumber"
-                                                       name="settingNumber" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'INITIAL_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData2.initialValue"
-                                                       ng-minlength="3"
-                                                       id="initialValue"
-                                                       name="initialValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'END_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData2.endValue"
-                                                       ng-minlength="3"
-                                                       id="endValue"
-                                                       name="endValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_IN_DEVICE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData2.volumeInDevice"
-                                                       ng-minlength="3"
-                                                       id="volumeInDevice"
-                                                       name="volumeInDevice" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACTUAL_CONSUMPTION'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData2.actualConsumption"
-                                                       ng-minlength="3"
-                                                       id="actualConsumption"
-                                                       name="actualConsumption" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CONSUMPTION_LOL_STATUS'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData2.consumptionStatus"
-                                                       ng-minlength="3"
-                                                       id="consumptionStatus"
-                                                       name="consumptionStatus" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <!--<div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CALCULATION_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData2.calculationError"
-                                                       ng-minlength="3"
-                                                       id="calculationError"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'TEST_RESULT' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData2.testResult"
-                                                       ng-minlength="3"
-                                                       id="testResult"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>-->
-                                    </form>
-                                </div>
-                            </div>
-                            <!--Third Test -->
-                            <div ng-show="Case3" id="Case3" class="tab-pane fade in active">
-                                <div>
-                                    <form name="T3">
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'GIVEN_CONSUMPTION' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8" show-errors>
-                                                <input type="text"
-                                                       ng-model="TestDataFormData3.givenConsumption"
-                                                       ng-minlength="3" id="givenConsumption" name="givenConsumption"
-                                                       class="form-control"
-                                                       required/>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACCEPTABLE_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData3.acceptableError"
-                                                       ng-minlength="3"
-                                                       id="acceptableError"
-                                                       name="acceptableError" class="form-control" required/>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_OF_STANDART'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData3.settingNumber"
-                                                       ng-minlength="3"
-                                                       id="settingNumber"
-                                                       name="settingNumber" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'INITIAL_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData3.initialValue"
-                                                       ng-minlength="3"
-                                                       id="initialValue"
-                                                       name="initialValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'END_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData3.endValue"
-                                                       ng-minlength="3"
-                                                       id="endValue"
-                                                       name="endValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_IN_DEVICE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData3.volumeInDevice"
-                                                       ng-minlength="3"
-                                                       id="volumeInDevice"
-                                                       name="volumeInDevice" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACTUAL_CONSUMPTION'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData3.actualConsumption"
-                                                       ng-minlength="3"
-                                                       id="actualConsumption"
-                                                       name="actualConsumption" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CONSUMPTION_LOL_STATUS'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData3.consumptionStatus"
-                                                       ng-minlength="3"
-                                                       id="consumptionStatus"
-                                                       name="consumptionStatus" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                       <!-- <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CALCULATION_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData3.calculationError"
-                                                       ng-minlength="3"
-                                                       id="calculationError"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'TEST_RESULT' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData3.testResult"
-                                                       ng-minlength="3"
-                                                       id="testResult"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>-->
-                                    </form>
-                                </div>
-                            </div>
-
-                            <!--Fourth Test -->
-                            <div ng-show="Case4" id="Case4" class="tab-pane fade in active">
-                                <div>
-                                    <form name="T4">
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'GIVEN_CONSUMPTION' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8" show-errors>
-                                                <input type="text"
-                                                       ng-model="TestDataFormData4.givenConsumption"
-                                                       ng-minlength="3" id="givenConsumption" name="givenConsumption"
-                                                       class="form-control"
-                                                       required/>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACCEPTABLE_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData4.acceptableError"
-                                                       ng-minlength="3"
-                                                       id="acceptableError"
-                                                       name="acceptableError" class="form-control" required/>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_OF_STANDART'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData4.settingNumber"
-                                                       ng-minlength="3"
-                                                       id="settingNumber"
-                                                       name="settingNumber" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'INITIAL_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData4.initialValue"
-                                                       ng-minlength="3"
-                                                       id="initialValue"
-                                                       name="initialValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'END_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData4.endValue"
-                                                       ng-minlength="3"
-                                                       id="endValue"
-                                                       name="endValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_IN_DEVICE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData4.volumeInDevice"
-                                                       ng-minlength="3"
-                                                       id="volumeInDevice"
-                                                       name="volumeInDevice" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACTUAL_CONSUMPTION'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData4.actualConsumption"
-                                                       ng-minlength="3"
-                                                       id="actualConsumption"
-                                                       name="actualConsumption" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CONSUMPTION_LOL_STATUS'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData4.consumptionStatus"
-                                                       ng-minlength="3"
-                                                       id="consumptionStatus"
-                                                       name="consumptionStatus" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                       <!-- <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CALCULATION_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData4.calculationError"
-                                                       ng-minlength="3"
-                                                       id="calculationError"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'TEST_RESULT' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData4.testResult"
-                                                       ng-minlength="3"
-                                                       id="testResult"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>-->
-                                    </form>
-                                </div>
-                            </div>
-
-                            <!--Fifth Test -->
-                            <div ng-show="Case5" id="Case5" class="tab-pane fade in active">
-                                <div>
-                                    <form name="T5">
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'GIVEN_CONSUMPTION' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8" show-errors>
-                                                <input type="text"
-                                                       ng-model="TestDataFormData5.givenConsumption"
-                                                       ng-minlength="3" id="givenConsumption" name="givenConsumption"
-                                                       class="form-control"
-                                                       required/>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACCEPTABLE_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData5.acceptableError"
-                                                       ng-minlength="3"
-                                                       id="acceptableError"
-                                                       name="acceptableError" class="form-control" required/>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_OF_STANDART'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData5.settingNumber"
-                                                       ng-minlength="3"
-                                                       id="settingNumber"
-                                                       name="settingNumber" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'INITIAL_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData5.initialValue"
-                                                       ng-minlength="3"
-                                                       id="initialValue"
-                                                       name="initialValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'END_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData5.endValue"
-                                                       ng-minlength="3"
-                                                       id="endValue"
-                                                       name="endValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_IN_DEVICE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData5.volumeInDevice"
-                                                       ng-minlength="3"
-                                                       id="volumeInDevice"
-                                                       name="volumeInDevice" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACTUAL_CONSUMPTION'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData5.actualConsumption"
-                                                       ng-minlength="3"
-                                                       id="actualConsumption"
-                                                       name="actualConsumption" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CONSUMPTION_LOL_STATUS'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData5.consumptionStatus"
-                                                       ng-minlength="3"
-                                                       id="consumptionStatus"
-                                                       name="consumptionStatus" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <!--<div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CALCULATION_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData5.calculationError"
-                                                       ng-minlength="3"
-                                                       id="calculationError"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'TEST_RESULT' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData5.testResult"
-                                                       ng-minlength="3"
-                                                       id="testResult"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>-->
-                                    </form>
-                                </div>
-                            </div>
-
-                            <!--Sixth Test-->
-                            <div ng-show="Case6" id="Case6" class="tab-pane fade in active">
-                                <div>
-                                    <form name="T6">
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'GIVEN_CONSUMPTION' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8" show-errors>
-                                                <input type="text"
-                                                       ng-model="TestDataFormData6.givenConsumption"
-                                                       ng-minlength="3" id="givenConsumption" name="givenConsumption"
-                                                       class="form-control"
-                                                       required/>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACCEPTABLE_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData6.acceptableError"
-                                                       ng-minlength="3"
-                                                       id="acceptableError"
-                                                       name="acceptableError" class="form-control" required/>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_OF_STANDART'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData6.settingNumber"
-                                                       ng-minlength="3"
-                                                       id="settingNumber"
-                                                       name="settingNumber" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'INITIAL_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData6.initialValue"
-                                                       ng-minlength="3"
-                                                       id="initialValue"
-                                                       name="initialValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'END_VALUE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData6.endValue"
-                                                       ng-minlength="3"
-                                                       id="endValue"
-                                                       name="endValue" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'VOLUME_IN_DEVICE' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData6.volumeInDevice"
-                                                       ng-minlength="3"
-                                                       id="volumeInDevice"
-                                                       name="volumeInDevice" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'ACTUAL_CONSUMPTION'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData6.actualConsumption"
-                                                       ng-minlength="3"
-                                                       id="actualConsumption"
-                                                       name="actualConsumption" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CONSUMPTION_LOL_STATUS'
-                                                    | translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData6.consumptionStatus"
-                                                       ng-minlength="3"
-                                                       id="consumptionStatus"
-                                                       name="consumptionStatus" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                       <!-- <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'CALCULATION_ERROR' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text"
-                                                       ng-model="TestDataFormData6.calculationError"
-                                                       ng-minlength="3"
-                                                       id="calculationError"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="form-group col-md-4">
-                                                <label class="control-label">{{'TEST_RESULT' |
-                                                    translate }}</label>
-                                            </div>
-                                            <div class="form-group col-md-8">
-                                                <input type="text" ng-model="TestDataFormData6.testResult"
-                                                       ng-minlength="3"
-                                                       id="testResult"
-                                                       name="testResult" class="form-control" required>
-                                            </div>
-                                        </div>-->
-                                    </form>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                <label class="control-label" style="min-height: 30px"></label>
             </div>
+            <div class="scroll-wrapper">
+                <table class="table table-bordered" style="overflow: scroll; width: 200px">
+                <thead>
+                <tr>
+                    <td>
+                        <label class="control-label">{{'TEST_NUMBER' |
+                            translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'GIVEN_CONSUMPTION' |
+                            translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'ACCEPTABLE_ERROR' |
+                            translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'VOLUME_OF_STANDARD'
+                            | translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'INITIAL_VALUE' |
+                            translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'TERMINAL_VALUE' |
+                            translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'VOLUME_IN_DEVICE' |
+                            translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'TEST_DURATION' |
+                            translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'ACTUAL_CONSUMPTION'
+                            | translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'CONSUMPTION_LOL_STATUS'
+                            | translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'CALCULATION_ERROR' |
+                            translate }}</label>
+                    </td>
+                    <td>
+                        <label class="control-label">{{'TEST_RESULT' |
+                            translate }}</label>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>
+                            <input type="text" style="width: 150px" ng-model="TestDataFormData1.testNumber" ng-disabled="fileLoaded"
+                               name="test1Number" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.givenConsumption" ng-disabled="fileLoaded"
+                                   name="test1givenConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.acceptableError" ng-disabled="fileLoaded"
+                                   name="test1acceptableError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.volumeOfStandart" ng-disabled="fileLoaded"
+                                   name="test1volumeOfStandart" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.initialValue" ng-disabled="fileLoaded"
+                                   name="test1initialValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.endValue" ng-disabled="fileLoaded"
+                                   name="test1endValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.volumeInDevice" ng-disabled="fileLoaded"
+                                   name="test1volumeInDevice" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.testTime" ng-disabled="fileLoaded"
+                                   name="test1testTime" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.actualConsumption" ng-disabled="fileLoaded"
+                                   name="test1actualConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData1.consumptionStatus" ng-disabled="fileLoaded"
+                                   name="test1consumptionStatus" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData1.calculationError" ng-disabled="fileLoaded"
+                                   name="test1calculationError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData1.testResult" ng-disabled="fileLoaded"
+                                   name="test1testResult" class="form-control input-sm" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData2.testNumber" ng-disabled="fileLoaded"
+                                   name="test2Number" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.givenConsumption" ng-disabled="fileLoaded"
+                                   name="test2givenConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.acceptableError" ng-disabled="fileLoaded"
+                                   name="test2acceptableError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.volumeOfStandart" ng-disabled="fileLoaded"
+                                   name="test2volumeOfStandart" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.initialValue" ng-disabled="fileLoaded"
+                                   name="test2initialValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.endValue" ng-disabled="fileLoaded"
+                                   name="test2endValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.volumeInDevice" ng-disabled="fileLoaded"
+                                   name="test2volumeInDevice" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.testTime" ng-disabled="fileLoaded"
+                                   name="test2testTime" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.actualConsumption" ng-disabled="fileLoaded"
+                                   name="test2actualConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData2.consumptionStatus" ng-disabled="fileLoaded"
+                                   name="test2consumptionStatus" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData2.calculationError" ng-disabled="fileLoaded"
+                                   name="test2calculationError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData2.testResult" ng-disabled="fileLoaded"
+                                   name="test2testResult" class="form-control input-sm" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData3.testNumber" ng-disabled="fileLoaded"
+                                   name="test3Number" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.givenConsumption" ng-disabled="fileLoaded"
+                                   name="test3givenConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.acceptableError" ng-disabled="fileLoaded"
+                                   name="test3acceptableError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.volumeOfStandart" ng-disabled="fileLoaded"
+                                   name="test3volumeOfStandart" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.initialValue" ng-disabled="fileLoaded"
+                                   name="test3initialValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.endValue" ng-disabled="fileLoaded"
+                                   name="test3endValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.volumeInDevice" ng-disabled="fileLoaded"
+                                   name="test3volumeInDevice" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.testTime" ng-disabled="fileLoaded"
+                                   name="test3testTime" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.actualConsumption" ng-disabled="fileLoaded"
+                                   name="test3actualConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData3.consumptionStatus" ng-disabled="fileLoaded"
+                                   name="test3consumptionStatus" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData3.calculationError" ng-disabled="fileLoaded"
+                                   name="test3calculationError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData3.testResult" ng-disabled="fileLoaded"
+                                   name="test3testResult" class="form-control input-sm" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData4.testNumber" ng-disabled="fileLoaded"
+                                   name="test4Number" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.givenConsumption" ng-disabled="fileLoaded"
+                                   name="test4givenConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.acceptableError" ng-disabled="fileLoaded"
+                                   name="test4acceptableError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.volumeOfStandart" ng-disabled="fileLoaded"
+                                   name="test4volumeOfStandart" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.initialValue" ng-disabled="fileLoaded"
+                                   name="test4initialValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.endValue" ng-disabled="fileLoaded"
+                                   name="test4endValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.volumeInDevice" ng-disabled="fileLoaded"
+                                   name="test4volumeInDevice" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.testTime" ng-disabled="fileLoaded"
+                                   name="test4testTime" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.actualConsumption" ng-disabled="fileLoaded"
+                                   name="test4actualConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData4.consumptionStatus" ng-disabled="fileLoaded"
+                                   name="test4consumptionStatus" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData4.calculationError" ng-disabled="fileLoaded"
+                                   name="test4calculationError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData4.testResult" ng-disabled="fileLoaded"
+                                   name="test4testResult" class="form-control input-sm" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData5.testNumber" ng-disabled="fileLoaded"
+                                   name="test5Number" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.givenConsumption" ng-disabled="fileLoaded"
+                                   name="test5givenConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.acceptableError" ng-disabled="fileLoaded"
+                                   name="test5acceptableError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.volumeOfStandart" ng-disabled="fileLoaded"
+                                   name="test5volumeOfStandart" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.initialValue" ng-disabled="fileLoaded"
+                                   name="test5initialValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.endValue" ng-disabled="fileLoaded"
+                                   name="test5endValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.volumeInDevice" ng-disabled="fileLoaded"
+                                   name="test5volumeInDevice" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.testTime" ng-disabled="fileLoaded"
+                                   name="test5testTime" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.actualConsumption" ng-disabled="fileLoaded"
+                                   name="test5actualConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData5.consumptionStatus" ng-disabled="fileLoaded"
+                                   name="test5consumptionStatus" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData5.calculationError" ng-disabled="fileLoaded"
+                                   name="test5calculationError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData5.testResult" ng-disabled="fileLoaded"
+                                   name="test5testResult" class="form-control input-sm" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData6.testNumber" ng-disabled="fileLoaded"
+                                   name="test6Number" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.givenConsumption" ng-disabled="fileLoaded"
+                                   name="test6givenConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.acceptableError" ng-disabled="fileLoaded"
+                                   name="test6acceptableError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.volumeOfStandart" ng-disabled="fileLoaded"
+                                   name="test6volumeOfStandart" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.initialValue" ng-disabled="fileLoaded"
+                                   name="test6initialValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.endValue" ng-disabled="fileLoaded"
+                                   name="test6endValue" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.volumeInDevice" ng-disabled="fileLoaded"
+                                   name="test6volumeInDevice" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.testTime" ng-disabled="fileLoaded"
+                                   name="test6testTime" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.actualConsumption" ng-disabled="fileLoaded"
+                                   name="test6actualConsumption" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData6.consumptionStatus" ng-disabled="fileLoaded"
+                                   name="test6consumptionStatus" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="number" ng-model="TestDataFormData6.calculationError" ng-disabled="fileLoaded"
+                                   name="test6calculationError" class="form-control input-sm" required>
+                        </td>
+                        <td>
+                            <input type="text" ng-model="TestDataFormData6.testResult" ng-disabled="fileLoaded"
+                                   name="test6testResult" class="form-control input-sm" required>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="scroll-wrapper" ng-show="TestDataFormData1.dataAvailable" style="padding-top: 50px">
+                <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td ng-show="TestDataFormData1.dataAvailable">
+                            <label class="control-image-label">
+                                {{ TestDataFormData1.testNumber }}
+                            </label>
+                        </td>
+                        <td ng-show="TestDataFormData2.dataAvailable">
+                            <label class="control-image-label">
+                                {{ TestDataFormData2.testNumber }}
+                            </label>
+                        </td>
+                        <td ng-show="TestDataFormData3.dataAvailable">
+                            <label class="control-image-label">
+                                {{ TestDataFormData3.testNumber }}
+                            </label>
+                        </td>
+                        <td ng-show="TestDataFormData4.dataAvailable">
+                            <label class="control-image-label">
+                                {{ TestDataFormData4.testNumber }}
+                            </label>
+                        </td>
+                        <td ng-show="TestDataFormData5.dataAvailable">
+                            <label class="control-image-label">
+                                {{ TestDataFormData5.testNumber }}
+                            </label>
+                        </td>
+                        <td ng-show="TestDataFormData6.dataAvailable">
+                            <label class="control-image-label">
+                                {{ TestDataFormData6.testNumber }}
+                            </label>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td ng-show="TestDataFormData1.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData1.dataAvailable" id="test1BeginPhoto"
+                                     src="data:image/png;base64, TestDataFormData1.beginPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData2.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData2.dataAvailable" id="test2BeginPhoto"
+                                     src="data:image/png;base64, TestDataFormData2.beginPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData3.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData3.dataAvailable" id="test3BeginPhoto"
+                                     src="data:image/png;base64, TestDataFormData3.beginPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData4.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData4.dataAvailable" id="test4BeginPhoto"
+                                     src="data:image/png;base64, TestDataFormData4.beginPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData5.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData1.dataAvailable" id="test5BeginPhoto"
+                                     src="data:image/png;base64, TestDataFormData5.beginPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData6.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData5.dataAvailable" id="test6BeginPhoto"
+                                     src="data:image/png;base64, TestDataFormData6.beginPhoto" width="100%" height="100%">
+                        </td>
+                    <tr>
+                        <td ng-show="TestDataFormData1.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData1.dataAvailable" id="test1EndPhoto"
+                                     src="data:image/png;base64, TestDataFormData1.endPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData2.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData2.dataAvailable" id="test2EndPhoto"
+                                     src="data:image/png;base64, TestDataFormData2.endPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData3.dataAvailable" class="image-td">
+                            <img ng-show="TestDataFormData3.dataAvailable" id="test3EndPhoto"
+                                     src="data:image/png;base64, TestDataFormData3.endPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData4.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData4.dataAvailable" id="test4EndPhoto"
+                                     src="data:image/png;base64, TestDataFormData4.endPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData5.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData1.dataAvailable" id="test5EndPhoto"
+                                     src="data:image/png;base64, TestDataFormData5.endPhoto" width="100%" height="100%">
+                        </td>
+                        <td ng-show="TestDataFormData6.dataAvailable" class="image-td">
+                                <img ng-show="TestDataFormData5.dataAvailable" id="test6EndPhoto"
+                                     src="data:image/png;base64, TestDataFormData6.endPhoto" width="100%" height="100%">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
         </div>
 
         <div style="padding-top: 30px">
+
             <div class="form-group col-md-10">
-                <button type="submit" class="btn btn-success"
+                <button type="submit" class="btn btn-success btn-md"
                         ng-click="saveCalibrationTest()">{{'ADD' | translate}}
+                </button>
+                <button class="btn btn-primary btn-sm" type="button" style="margin-left: 20px" ng-show="!fileLoaded"
+                        ng-click="fileName = uploadBbiFile(testId);console.log(fileName);">
+                    <img src="/resources/assets/button-icons/upload.png"
+                         ng-click="fileName = uploadBbiFile(testId);console.log(fileName);">
+                    </img> {{ 'UPLOAD_BBI_FILE' | translate }}
                 </button>
             </div>
         </div>

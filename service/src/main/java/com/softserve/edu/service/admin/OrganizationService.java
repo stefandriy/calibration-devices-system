@@ -48,4 +48,6 @@ public interface OrganizationService {
 
     List<LocalityDTO> findLocalitiesByOrganizationId( Long organizationId);
 
+    Set<DeviceType> findDeviceTypesByOrganizationId( Long organizationId);
+
 }

@@ -36,12 +36,20 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     List<Organization> findByDistrictAndType(@Param("district") String district, @Param("type") OrganizationType type);*/
 
     /**
-     *
+     * Find organization types by organization id
      * @param organizationId
      * @return
      */
     @Query("SELECT elements(org.organizationTypes) FROM Organization org WHERE org.id=:organizationId")
     Set<OrganizationType> findOrganizationTypesById(@Param("organizationId") Long organizationId);
+
+    /**
+     * Find all device types by organization id
+     * @param organizationId
+     * @return
+     */
+    @Query("SELECT elements(org.deviceTypes) FROM Organization org WHERE org.id=:organizationId")
+    Set<DeviceType> findDeviceTypesByOrganizationId(@Param("organizationId") Long organizationId);
 
     /**
      * FInd all organizations in selected location by
@@ -76,6 +84,11 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
             "WHERE l.id=:localityId AND  :orgType in elements(org.organizationTypes) AND :deviceType in elements(org.deviceTypes)")
     List<Organization> findByLocalityIdAndTypeAndDevice(@Param("localityId") Long localityId, @Param("orgType") OrganizationType orgType, @Param("deviceType") DeviceType deviceType );
 
+    /**
+     * Find all localities by organization id
+     * @param organizationId
+     * @return
+     */
     @Query("SELECT NEW com.softserve.edu.entity.catalogue.util.LocalityDTO(l.id, l.designation, l.district.id) " +
             "FROM Organization org INNER JOIN org.localities l " +
             "WHERE org.id=:organizationId")

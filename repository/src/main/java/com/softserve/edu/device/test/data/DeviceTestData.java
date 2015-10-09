@@ -7,6 +7,7 @@ public interface DeviceTestData {
     String getStringValue(String key);
     Long getLongValue(String key);
     Integer getIntegerValue(String key);
+    Double getDoubleValue(String key);
 
     Integer getDay();
     Integer getMonth();
@@ -22,8 +23,8 @@ public interface DeviceTestData {
     Integer getTestCounter();
     Long getInstallmentNumber();
     String getCurrentCounterNumber();
-    Long getLatitude();
-    Long getLongitude();
+    Double getLatitude();
+    Double getLongitude();
     Long getImpulsePricePerLitre();
     Long getInitialCapacity();
     String getCounterType1();
@@ -41,15 +42,21 @@ public interface DeviceTestData {
     Long getTestCumulativeImpulsesValueWithoutCorrection(int testIndex);
     Long getTestCurrentConsumptionWithoutCorrection(int testIndex);
     Long getTestEstimatedError(int testIndex);
-    Long getTestInitialCounterValue(int testIndex);
-    Long getTestTerminalCounterValue(int testIndex);
+    Double getTestInitialCounterValue(int testIndex);
+    Double getTestTerminalCounterValue(int testIndex);
     Long getTestUnixBeginTime(int testIndex);
     Long getTestUnixEndTime(int testIndex);
-    Long getTestDuration(int testIndex);
+
+    /**
+     * Returns test duration in seconds
+     * @param testIndex
+     * @return
+     */
+    Double getTestDuration(int testIndex);
     Long getTestCorrectionFactor(int testIndex);
     Long getTestMinConsumptionLimit(int testIndex);
     Long getTestMaxConsumptionLimit(int testIndex);
-    Long getTestNumber(int testIndex);
+    Integer getTestNumber(int testIndex);
 
     String getTestPhoto();
     String getBeginPhoto(int testIndex);

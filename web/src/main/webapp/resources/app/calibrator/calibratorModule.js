@@ -68,7 +68,7 @@
         'controllers/NotificationsController',
         'controllers/VerificationPlanningTaskController',
         'controllers/TaskSendingModalControllerCalibrator',
-        
+
         'services/CalibrationTestService',
         'services/AddressService',
         'services/UserService',

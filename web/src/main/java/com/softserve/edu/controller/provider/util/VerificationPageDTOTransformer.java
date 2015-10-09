@@ -12,7 +12,8 @@ public class VerificationPageDTOTransformer {
 
     public static List<VerificationPageDTO> toDtoFromList(List<Verification> list){
 
-        List<VerificationPageDTO> resultList = new ArrayList<VerificationPageDTO>();
+        List<VerificationPageDTO> resultList = new ArrayList<>();
+
         CalibrationTest calibrationTest;
         for (Verification verification : list) {
             boolean isCalibrationTests = verification.getCalibrationTests().iterator().hasNext();

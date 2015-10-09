@@ -122,4 +122,9 @@ public class Verification {
         this.calibrator = calibrator;
         this.comment = comment;
     }
+
+    public void deleteCalibrationTest (CalibrationTest calibrationTest){
+        calibrationTests.remove(calibrationTest);
+
+    }
 }

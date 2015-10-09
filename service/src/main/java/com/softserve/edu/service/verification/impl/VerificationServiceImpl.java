@@ -162,8 +162,6 @@ public class VerificationServiceImpl implements VerificationService {
      * @param startDateToSearch search by initial date of verification
      * @param endDateToSearch   end date
      * @param idToSearch        search by verification ID
-     * @param lastNameToSearch  search by last name of client
-     * @param firstNameToSearch
      * @param streetToSearch    search by street where client lives
      * @param providerEmployee  restrict query by provider employee user name. Allows restrict query so that simple employee user
      *                          can only see verifications assigned to him and free verifications (not yet assigned)
@@ -206,7 +204,7 @@ public class VerificationServiceImpl implements VerificationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Verification> verificationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
         result.setContent(verificationList);
         result.setTotalItems(count);
         return result;
@@ -305,10 +303,32 @@ public class VerificationServiceImpl implements VerificationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Verification> verificationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
         result.setContent(verificationList);
         result.setTotalItems(count);
         return result;
+    }
+
+
+    @Override
+    public ListToPageTransformer<Verification> findPageOfCalibrationTestsByVerificationId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch, String region, String district, String locality, String streetToSearch, String status, String employeeName, Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder, User calibratorEmployee) {
+
+
+        System.out.println(idToSearch);
+        CriteriaQuery<Verification> criteriaQuery = CalibrationTestQueryConstructorCalibrator.buildSearchQuery(organizationId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, region, district, locality, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, sortCriteria, sortOrder, calibratorEmployee, em);
+        System.out.println("VerificationService protocol status " + criteriaQuery.toString() + protocolStatus);
+        Long count = em.createQuery(CalibrationTestQueryConstructorCalibrator.buildCountQuery(organizationId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, region, district, locality, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, calibratorEmployee, em)).getSingleResult();
+
+        TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<Verification> verificationList = typedQuery.getResultList();
+
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
+        result.setContent(verificationList);
+        result.setTotalItems(count);
+        return result;
+
     }
 
 
