@@ -426,8 +426,12 @@
     </button>
     <i ng-show="!applicationCode" class="fa fa-3x fa-spinner fa-spin col-md-6 col-md-offset-5"></i>
 
-    <div class="text-center" ng-show="applicationCode">
+    <div ng-if="isMailValid" class="text-center" ng-show="applicationCode">
         {{'APP_SENT_ORG' | translate}} <b>{{ applicationCode }} </b> <br>
+    </div>
+    <div ng-if="!isMailValid" class="text-center" ng-show="applicationCode">
+        {{'APP_SENT_ORG' | translate}} <b>{{ applicationCode }} </b> <br>
+        {{'APP_INVALID_MAIL' | translate}} <b>+380{{ clientForm.phoneNumber.$viewValue }} </b> <br>
     </div>
 </div>
 </div>
