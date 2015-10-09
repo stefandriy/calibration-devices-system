@@ -116,7 +116,7 @@ public class CalibratorVerificationController {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 
         ListToPageTransformer<Verification> queryResult = verificationService
-                .findPageOfCalibrarionTestsByVerificationId(
+                .findPageOfCalibrationTestsByVerificationId(
                         employeeUser.getOrganizationId(),
                         pageNumber,
                         itemsPerPage,
@@ -124,6 +124,9 @@ public class CalibratorVerificationController {
                         searchData.getEndDate(),
                         searchData.getId(),
                         searchData.getClient_full_name(),
+                        searchData.getRegion(),
+                        searchData.getDistrict(),
+                        searchData.getLocality(),
                         searchData.getStreet(),
                         searchData.getStatus(),
                         searchData.getEmployee_last_name(),

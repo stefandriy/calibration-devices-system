@@ -14,15 +14,14 @@ import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Created by vova on 07.10.15.
- */
+
 public class CalibrationTestQueryConstructorCalibrator {
     static Logger logger = Logger.getLogger(CalibrationTestQueryConstructorCalibrator.class);
 
 
     public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String startDateToSearch,
-                                                               String endDateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
+                                                               String endDateToSearch,String region, String district, String locality,
+                                                               String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
                                                                Long protocolId, String protocolStatus,
                                                                Long measurementDeviceId,
                                                                String measurementDeviceType,
@@ -34,7 +33,7 @@ public class CalibrationTestQueryConstructorCalibrator {
 
         Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
-        Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch,
+        Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, region, district, locality, streetToSearch,
                 status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
         if ((sortCriteria != null) && (sortOrder != null)) {
             criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
@@ -48,7 +47,7 @@ public class CalibrationTestQueryConstructorCalibrator {
 
 
     public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String startDateToSearch, String endDateToSearch,
-                                                      String idToSearch, String fullNameToSearch,
+                                                      String idToSearch, String fullNameToSearch, String region, String district, String locality,
                                                       String streetToSearch, String status, String employeeName,
                                                       Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType,
                                                       User providerEmployee, EntityManager em) {
@@ -58,7 +57,7 @@ public class CalibrationTestQueryConstructorCalibrator {
         Root<Verification> root = countQuery.from(Verification.class);
         Join<Verification, Organization> calibratorJoin = root.join("calibrator");
         Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch,
-                idToSearch, fullNameToSearch, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
+                idToSearch, fullNameToSearch, region, district, locality, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
         return countQuery;
@@ -66,7 +65,7 @@ public class CalibrationTestQueryConstructorCalibrator {
 
     private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId,
                                             String startDateToSearch, String endDateToSearch, String idToSearch,
-                                            String fullNameToSearch, String streetToSearch, String searchStatus,
+                                            String fullNameToSearch,String region, String district, String locality, String streetToSearch, String searchStatus,
                                             String employeeName, Long protocolId, String protocolStatus,
                                             Long measurementDeviceId, String measurementDeviceType,
                                             User employee, Join<Verification, Organization> calibratorJoin) {
@@ -120,6 +119,25 @@ public class CalibrationTestQueryConstructorCalibrator {
                     cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
                     queryPredicate);
         }
+
+        if ((region != null) && (region.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("clientData").get("clientAddress").get("region"), "%" + region + "%"),
+                    queryPredicate);
+        }
+
+        if ((district != null) && (district.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("clientData").get("clientAddress").get("district"), "%" + district + "%"),
+                    queryPredicate);
+        }
+
+        if ((locality != null) && (locality.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("clientData").get("clientAddress").get("locality"), "%" + locality + "%"),
+                    queryPredicate);
+        }
+
         if ((employeeName != null) && (employeeName.length() > 0)) {
             Join<Verification, User> joinCalibratorEmployee = root.join("calibratorEmployee");
             Predicate searchByCalibratorName = cb.like(joinCalibratorEmployee.get("firstName"),
