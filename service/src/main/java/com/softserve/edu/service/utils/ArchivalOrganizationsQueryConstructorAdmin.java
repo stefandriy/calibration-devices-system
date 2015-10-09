@@ -30,7 +30,7 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
     }
 
     public static CriteriaQuery<Long> buildCountQuery (/*Long id,*/ String name,
-                                                       String email, String phone, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder,EntityManager em /*, Join<Organization, User> organizationUsersJoin*/) {
+                                                       String email, String phone, String type, String region, String district, String locality, String streetToSearch, String sortCriteria, String sortOrder, EntityManager em /*, Join<Organization, User> organizationUsersJoin*/) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
@@ -61,8 +61,8 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
                     queryPredicate);
         }
         if ((type != null)&&(type.length()>0)) {
-            Join<Organization, OrganizationType> joinOrganizationType = root.join("organizationTypes");
-            Predicate searchByOrganizationType = cb.like(joinOrganizationType.get("type"),
+            Join<Organization, OrganizationType> joinOrganizationType = root.join("organizationId");
+            Predicate searchByOrganizationType = cb.like(joinOrganizationType.get("value"),
                     "%" + type + "%");
             queryPredicate = cb.and(searchByOrganizationType, queryPredicate);
         }

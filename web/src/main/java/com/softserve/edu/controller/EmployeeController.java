@@ -116,9 +116,9 @@ public class EmployeeController {
     public ResponseEntity<HttpStatus> updateEmployee(
             @RequestBody UserDTO providerEmployee) {
 
-        User newUser = providerEmployeeService.oneProviderEmployee(providerEmployee.getUsername());
+        User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
 
-        if (!providerEmployee.getIsAvaliable()) {
+        if (providerEmployee.getIsAvaliable().equals(false)) {
             newUser.setIsAvailable(providerEmployee.getIsAvaliable());
             providerEmployeeService.updateEmployee(newUser);
             return new ResponseEntity<>(HttpStatus.CREATED);

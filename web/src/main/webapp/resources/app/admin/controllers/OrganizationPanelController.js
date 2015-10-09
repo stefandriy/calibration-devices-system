@@ -45,8 +45,6 @@ angular
 											$scope.resultsCount = result.totalItems;
 											$defer.resolve(result.content);
 											params.total(result.totalItems);
-											console.log(result.totalItems);
-											console.log(result.content[3]);
 										}, function (result) {
 											$log.debug('error fetching data:', result);
 										});
