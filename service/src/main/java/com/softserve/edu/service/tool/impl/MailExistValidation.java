@@ -132,6 +132,7 @@ public class MailExistValidation {
                 rdr.close();
                 wtr.close();
                 skt.close();
+
             }
             catch (Exception ex) {
 
@@ -139,6 +140,7 @@ public class MailExistValidation {
             }
             finally {
                 if ( valid ) return true;
+
             }
         }
         return false;
