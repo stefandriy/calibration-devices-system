@@ -27,6 +27,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.providers = [];
         $scope.calibrators = [];
         $scope.streetsTypes = [];
+
+        $scope.selectedData={};
         $scope.selectedStreetType = "";
 
         $scope.applicationCodes = [];
@@ -57,9 +59,9 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             addressServiceProvider.findAllRegions()
                 .success(function (regions) {
                     $scope.regions = regions;
-                    $scope.selectedRegion = "";
-                    $scope.selectedDistrict = "";
-                    $scope.selectedLocality = "";
+                    $scope.selectedData.region = "";
+                    $scope.selectedData.district = "";
+                    $scope.selectedData.locality = "";
                     $scope.selectedStreet = "";
                 });
         };
@@ -86,8 +88,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             addressServiceProvider.findDistrictsByRegionId(selectedRegion.id)
                 .success(function (districts) {
                     $scope.districts = districts;
-                    $scope.selectedDistrict = "";
-                    $scope.selectedLocality = "";
+                    $scope.selectedData.district = "";
+                    $scope.selectedData.locality = "";
                     $scope.selectedStreet = "";
                 });
         };
@@ -99,7 +101,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             addressServiceProvider.findLocalitiesByDistrictId(selectedDistrict.id)
                 .success(function (localities) {
                     $scope.localities = localities;
-                    $scope.selectedLocality = "";
+                    $scope.selectedData.locality = "";
                     $scope.selectedStreet = "";
                 });
             //Receives providers corresponding this district
@@ -142,7 +144,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 addressServiceProvider.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
                     .success(function (indexes) {
                         $scope.indexes = indexes;
-                        $scope.selectedIndex = indexes[0];
+                        $scope.selectedData.index = indexes[0];
                     });
             }
         };
@@ -166,9 +168,9 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.sendApplicationData = function () {
             $scope.$broadcast('show-errors-check-validity');
             if ($scope.clientForm.$valid) {
-                $scope.formData.region = $scope.selectedRegion.designation;
-                $scope.formData.district = $scope.selectedDistrict.designation;
-                $scope.formData.locality = $scope.selectedLocality.designation;
+                $scope.formData.region = $scope.selectedData.region.designation;
+                $scope.formData.district = $scope.selectedData.district.designation;
+                $scope.formData.locality = $scope.selectedData.locality.designation;
                 $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                 $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
                 $scope.formData.providerId = $scope.selectedProvider.id;
