@@ -1,6 +1,6 @@
 angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$state', '$http', '$log',
     'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
-    '$rootScope', '$location', '$window', '$modalInstance',
+    '$rootScope', '$location', '$window', '$modalInstance','$filter',
 
     function ($scope, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
         $scope.isShownForm = true;
@@ -142,6 +142,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 addressServiceProvider.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
                     .success(function (indexes) {
                         $scope.indexes = indexes;
+                        $scope.selectedIndex = indexes[0];
                     });
             }
         };
