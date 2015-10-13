@@ -6,6 +6,7 @@ import com.softserve.edu.dto.calibrator.CalibrationTaskDTO;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 //import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.service.calibrator.CalibrationModuleService;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import org.apache.log4j.Logger;
@@ -18,6 +19,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,6 +29,9 @@ public class CalibratorPlanningTaskController {
 
     @Autowired
     private CalibratorPlanningTaskService taskService;
+
+    @Autowired
+    private CalibrationModuleService moduleService;
 
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
@@ -51,6 +57,12 @@ public class CalibratorPlanningTaskController {
         Long count = Long.valueOf(taskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername()));
         List<VerificationPlanningTaskDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
         return new PageDTO<VerificationPlanningTaskDTO>(count, content);
+    }
+
+    @RequestMapping(value = "findAllModules/{moduleType}/{workDate}", method = RequestMethod.GET)
+    public List<String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate,
+                                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
+        return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, employeeUser.getUsername());
     }
 
 }
