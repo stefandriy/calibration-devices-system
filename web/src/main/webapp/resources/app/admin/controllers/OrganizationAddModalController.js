@@ -164,6 +164,8 @@ angular
                     $scope.isValidAcordion = false;
                     $scope.organizationForm.serviceAreaRegion.$invalid = true;
                     $scope.organizationForm.serviceAreaRegion.$valid = false;
+                    $scope.organizationForm.$valid = false;
+                    $scope.organizationForm.$invalid = true;
                 }
             }
 

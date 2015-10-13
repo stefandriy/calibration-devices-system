@@ -70,6 +70,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
+        employeeAdmin.setIsAvailable(true);
 
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
