@@ -169,23 +169,23 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getTestCorrectedCumulativeImpulsesValue(int testIndex) {
-        return getLongValue("test" + testIndex + "correctedCumulativeImpulsesValue");
+    public Double getTestCorrectedCumulativeImpulsesValue(int testIndex) {
+        return getDoubleValue("test" + testIndex + "correctedCumulativeImpulsesValue");
     }
 
     @Override
-    public Long getTestCorrectedCurrentConsumption(int testIndex) {
-        return getLongValue("test" + testIndex + "correctedCurrentConsumption");
+    public Double getTestCorrectedCurrentConsumption(int testIndex) {
+        return getDoubleValue("test" + testIndex + "correctedCurrentConsumption");
     }
 
     @Override
-    public Long getTestCumulativeImpulsesValueWithoutCorrection(int testIndex) {
-        return getLongValue("test" + testIndex + "cumulativeImpulsesValueWithoutCorrection");
+    public Double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex) {
+        return getDoubleValue("test" + testIndex + "cumulativeImpulsesValueWithoutCorrection");
     }
 
     @Override
-    public Long getTestCurrentConsumptionWithoutCorrection(int testIndex) {
-        return getLongValue("test" + testIndex + "currentConsumptionWithoutCorrection");
+    public Double getTestCurrentConsumptionWithoutCorrection(int testIndex) {
+        return getDoubleValue("test" + testIndex + "currentConsumptionWithoutCorrection");
     }
 
     @Override

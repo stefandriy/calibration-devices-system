@@ -25,7 +25,7 @@ public class CalibrationTestData {
 
     private Double givenConsumption;
     private Long acceptableError;
-    private Long volumeOfStandard;
+    private Double volumeOfStandard;
     private Double initialValue;
     private Double endValue;
     private Double volumeInDevice;
@@ -43,7 +43,7 @@ public class CalibrationTestData {
     private CalibrationTest calibrationTest;
 
     public CalibrationTestData(
-            Double givenConsumption, Long acceptableError, Long volumeOfStandard, Double initialValue,
+            Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
             Double endValue, Double volumeInDevice, Double actualConsumption, String consumptionStatus,
             Double calculationError, CalibrationTestResult testResult, CalibrationTest calibrationTest
     ) {

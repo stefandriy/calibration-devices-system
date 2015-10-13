@@ -59,7 +59,7 @@ public class CalibrationTestDataController {
         try {
             CalibrationTest foundTest = calibrationTestServiceImpl.findTestById(testId);
             CalibrationTestData calibrationTestData = new CalibrationTestData(testDataDTO.getGivenConsumption(), testDataDTO.getAcceptableError(),
-                    testDataDTO.getVolumeOfStandart(), testDataDTO.getInitialValue(), testDataDTO.getEndValue(), testDataDTO.getVolumeInDevice(),
+                    testDataDTO.getVolumeOfStandard(), testDataDTO.getInitialValue(), testDataDTO.getEndValue(), testDataDTO.getVolumeInDevice(),
                     testDataDTO.getActualConsumption(), testDataDTO.getConsumptionStatus(), testDataDTO.getCalculationError(), testDataDTO.getTestResult(), foundTest);
             calibrationTestServiceImpl.createTestData(testId, calibrationTestData);
         } catch (Exception e) {
