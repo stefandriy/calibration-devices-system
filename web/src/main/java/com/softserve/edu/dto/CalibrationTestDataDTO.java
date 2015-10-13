@@ -9,7 +9,7 @@ public class CalibrationTestDataDTO {
     private String testNumber;
     private Double givenConsumption;
     private Long acceptableError;
-    private Long volumeOfStandart;
+    private Double volumeOfStandard;
     private Double initialValue;
     private Double endValue;
     private Double volumeInDevice;
@@ -53,12 +53,12 @@ public class CalibrationTestDataDTO {
         this.acceptableError = acceptableError;
     }
 
-    public Long getVolumeOfStandart() {
-        return volumeOfStandart;
+    public Double getVolumeOfStandard() {
+        return volumeOfStandard;
     }
 
-    public void setVolumeOfStandart(Long volumeOfStandart) {
-        this.volumeOfStandart = volumeOfStandart;
+    public void setVolumeOfStandard(Double volumeOfStandard) {
+        this.volumeOfStandard = volumeOfStandard;
     }
 
     public Double getInitialValue() {
@@ -145,7 +145,7 @@ public class CalibrationTestDataDTO {
         CalibrationTestData calibrationTestData = new CalibrationTestData();
         calibrationTestData.setGivenConsumption(givenConsumption);
         calibrationTestData.setAcceptableError(acceptableError);
-        calibrationTestData.setVolumeOfStandard(volumeOfStandart);
+        calibrationTestData.setVolumeOfStandard(volumeOfStandard);
         calibrationTestData.setInitialValue(initialValue);
         calibrationTestData.setEndValue(endValue);
         calibrationTestData.setVolumeInDevice(volumeInDevice);

@@ -169,23 +169,23 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getTestCorrectedCumulativeImpulsesValue(int testIndex) {
-        return getLongValue("test" + testIndex + "correctedCumulativeImpulsesValue");
+    public Double getTestCorrectedCumulativeImpulsesValue(int testIndex) {
+        return getDoubleValue("test" + testIndex + "correctedCumulativeImpulsesValue");
     }
 
     @Override
-    public Long getTestCorrectedCurrentConsumption(int testIndex) {
-        return getLongValue("test" + testIndex + "correctedCurrentConsumption");
+    public Double getTestCorrectedCurrentConsumption(int testIndex) {
+        return getDoubleValue("test" + testIndex + "correctedCurrentConsumption");
     }
 
     @Override
-    public Long getTestCumulativeImpulsesValueWithoutCorrection(int testIndex) {
-        return getLongValue("test" + testIndex + "cumulativeImpulsesValueWithoutCorrection");
+    public Double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex) {
+        return getDoubleValue("test" + testIndex + "cumulativeImpulsesValueWithoutCorrection");
     }
 
     @Override
-    public Long getTestCurrentConsumptionWithoutCorrection(int testIndex) {
-        return getLongValue("test" + testIndex + "currentConsumptionWithoutCorrection");
+    public Double getTestCurrentConsumptionWithoutCorrection(int testIndex) {
+        return getDoubleValue("test" + testIndex + "currentConsumptionWithoutCorrection");
     }
 
     @Override
@@ -250,7 +250,7 @@ public class BbiDeviceTestData implements DeviceTestData {
     /**
      *
      * @param testIndex Index of test.
-     * @return Test begin photo in hex.
+     * @return Test begin photo in base64.
      */
     @Override
     public String getBeginPhoto(int testIndex) {
@@ -260,7 +260,7 @@ public class BbiDeviceTestData implements DeviceTestData {
     /**
      *
      * @param testIndex Index of test.
-     * @return Test end photo in hex.
+     * @return Test end photo in base64.
      */
     @Override
     public String getEndPhoto(int testIndex) {
