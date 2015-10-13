@@ -29,6 +29,11 @@ body {
     }
 }
 
+.fa {
+    font-size: 1.5em;
+    padding-right: 5px;
+}
+
 .header_row{
     margin-bottom: 20px;
 }
@@ -466,6 +471,115 @@ th {
 
 .userlabel {
     display: block;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     text-align: center;
+}
+
+.navbar {
+    margin-bottom: 0 !important;
+}
+
+#sidemenu{
+    border-radius: 0;
+}
+
+/*for hideable sidebar*/
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: absolute;
+    left: 315px;
+    width: 320px;
+    height: 100%;
+    margin-left: -315px;
+    overflow-y: auto;
+    /*background: #000;*/
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+.sidebar-toggle-close {
+    width: 60px;
+}
+
+.sidebar-open {
+    padding-left: 335px;
+}
+
+.sidebar-close {
+    z-index: 1001;
+    left: 60px;
+    padding-left: 0;
+
+}
+
+@media (min-width: 992px) {
+    .sidebar-close {
+        width: 96.5% !important;
+    }
+}
+
+.navbar {
+    z-index: 1002;
+}
+
+.navbar-btn{
+    color: rgba(250, 250, 250, 1);
+    background-color: #333333;
+    border: 0;
+}
+
+.navbar-btn:hover,
+.navbar-btn:focus
+{
+    color: rgb(218, 218, 218);
+    background-color: #333333;
+}
+
+#menubuttonelem {
+    padding-left: 0;
+}
+
+#menubuttonelem li{
+    padding-left: 5px;
+}
+
+#dark.navbar-default .navbar-brand {
+    color: honeydew;
+}
+#dark.navbar-default {
+    font-size: 16px;
+    background-color: rgba(51, 51, 51, 1);
+    border: 0;
+}
+#dark.navbar-default .navbar-nav>li>a {
+    color: rgba(250, 250, 250, 1);
+    background-color: rgba(51, 51, 51, 1);
+}
+#dark.navbar-default .navbar-nav>li>a:hover,
+#dark.navbar-default .navbar-nav>li>a:focus {
+    color: rgba(148, 145, 145, 1);
+    background-color: rgba(51, 51, 51, 1);
+}
+#dark.navbar-default .navbar-nav>.active>a,
+#dark.navbar-default .navbar-nav>.active>a:hover,
+#dark.navbar-default .navbar-nav>.active>a:focus {
+    color: rgba(85, 85, 85, 1);
+    background-color: rgba(231, 231, 231, 1);
+}
+#dark.navbar-default .navbar-toggle {
+    border-color: #ddd;
+}
+#dark.navbar-default .navbar-toggle:hover,
+#dark.navbar-default .navbar-toggle:focus {
+    background-color: #ddd;
+}
+#dark.navbar-default .navbar-toggle .icon-bar {
+    background-color: #888;
+}
+#dark.navbar-default .navbar-toggle:hover .icon-bar,
+#dark.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: #333333;
 }

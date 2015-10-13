@@ -52,17 +52,29 @@
 
 <body id="employeeModule">
 
-<div id="content" class="wrapper ng-cloak">
+<div id="content" class="wrapper ng-cloak" ng-controller="CommonController as common">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-static-top" role="navigation"
+    <nav class="navbar navbar-default navbar-static-top" id="dark" role="navigation"
          ng-controller="TopNavBarControllerProvider">
+        <ul class="nav navbar-nav" id="menubuttonelem">
+            <li>
+                <button class="btn btn-default navbar-btn"
+                        ng-class="{'toggle_button' : common.menuState}"
+                        ng-init="common.menuState = true"
+                        ng-click="common.menuState = !common.menuState"
+                        type="button" id="menubutton">
+                    <i class="fa fa-bars" style="padding-right: 0"></i></button>
+            </li>
+            </ul>
         <div class="navbar-header">
-            <a class="navbar-brand" style="color:honeydew">Централізована система повірки лічильників</a>
+            <a class="navbar-brand" translate="HEAD_TITLE"></a>
         </div>
+
 
         <div ng-controller="InternationalizationController">
             <ul class="nav navbar-nav">
+
                 <li class="dropdown" dropdown on-toggle="toggled(open)">
                     <a class="dropdown-toggle" dropdown-toggle translate="LANG">
                         <span class="caret"></span>
@@ -118,41 +130,27 @@
     <!-- Sidebar -->
 
     <div class="row ng-cloak">
-        <div class="col-md-3 menu_column">
-            <div class="ui primary button" ng-class="{'toggle_button' : menuState}" ng-init="menuState = true"
-                 ng-click="menuState = !menuState">
-                <div ng-show="menuState"><i class="fa fa-chevron-left"
-                                            style="font-size: 30px; vertical-align: middle"></i><span>Сховати</span>
-                </div>
-                <div ng-show="!menuState"><i class="fa fa-chevron-right"
-                                             style="font-size: 30px;vertical-align: middle"></i><span>Показати</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row ng-cloak">
-        <div ng-class="{'col-md-3 menu_column' : menuState, '': !menuState}">
-            <div class="ui visible sticky visible very wide sidebar" ng-hide="!menuState" role="navigation">
-                <ul class="nav ui vertical menu">
+        <div id="sidebar-wrapper" ng-class="{'sidebar-toggle-close' : common.menuState}">
+            <div class="ui visible sticky visible very wide sidebar" role="navigation">
+                <ul class="nav ui vertical menu" id="sidemenu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (постачальник послуг)</a>
+                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> <span>Головна панель
+                                (постачальник послуг)</span></a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (вимірювальна лабораторія)</a>
+                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> <span>Головна панель
+                                (вимірювальна лабораторія)</span></a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (уповноважена повірочна лабораторія)</a>
+                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> <span>Головна панель
+                                (уповноважена повірочна лабораторія)</span></a>
                         </li>
                     </sec:authorize>
 
@@ -160,7 +158,7 @@
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
                             <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()">
-                                <i class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
+                                <i class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (постачальник послуг)</span>
                               <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                     ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
@@ -171,7 +169,7 @@
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (вимірювальна лабораторія)
+                                    class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (вимірювальна лабораторія)</span>
                            		<span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
@@ -179,20 +177,20 @@
                         </li>
                         <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
                             <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i> Довідник засобів вимірювальної техніки (вимірювальна
-                                лабораторія)
+                                    class="fa fa-desktop"></i> <span>Довідник засобів вимірювальної техніки (вимірювальна
+                                лабораторія)</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> Планування завдання
+                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> <span>Планування завдання</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a><i class="fa fa-wrench"></i> Переносний модуль
+                            <a><i class="fa fa-wrench"></i> <span>Переносний модуль</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a><i class="fa fa-wrench"></i> Стаціонарний модуль
+                            <a><i class="fa fa-wrench"></i> <span>Стаціонарний модуль</span>
                             </a>
                         </li>
 
@@ -203,8 +201,8 @@
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
                             <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна
-                                лабораторія)
+                                    class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (уповноважена повірочна
+                                лабораторія)</span>
                                 <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
@@ -235,20 +233,20 @@
 
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
+                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i><span> Архів
+                                повірок</span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
+                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> <span>Архів
+                                повірок</span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
+                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> <span>Архів
+                                повірок</span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/provider/admin/">
@@ -261,7 +259,7 @@
                 </ul>
             </div>
         </div>
-        <div ng-class="{'col-md-12' : !menuState, 'col-md-9 main_column' : menuState}">
+        <div ng-class="{'col-md-11 sidebar-close' : !common.menuState, 'col-md-12 sidebar-open' : common.menuState}">
             <div ui-view></div>
         </div>
     </div>
@@ -283,6 +281,12 @@
         allow_single_deselect: true
     });
     $("#states").chosen();
+</script>
+
+<script type="text/javascript">
+    $("#menubutton").click(function() {
+        $("#sidebar-wrapper").find("a span").toggleClass("dissapear");
+    });
 </script>
 
 <script src="/resources/assets/js/loader-employee.js"></script>

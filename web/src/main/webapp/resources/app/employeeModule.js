@@ -265,7 +265,8 @@
         'provider/filters/unique',
         'common/controllers/ProfileInfoController',
         'common/controllers/EditProfileInfoController',
-        'common/services/ProfileService'
+        'common/services/ProfileService',
+        'common/controllers/CommonController'
 
     ], function () {});
 })();

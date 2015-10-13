@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -27,7 +29,11 @@ import java.util.Map;
 import static org.springframework.ui.velocity.VelocityEngineUtils.mergeTemplateIntoString;
 
 @Service
+@PropertySource("classpath:properties/mail.properties")
 public class MailServiceImpl implements MailService {
+
+    @Autowired
+    Environment env;
 
     @Autowired
     private JavaMailSender mailSender;
