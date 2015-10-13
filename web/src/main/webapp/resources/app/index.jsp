@@ -52,17 +52,30 @@
 
 <body id="employeeModule">
 
-<div id="content" class="wrapper ng-cloak">
+<div id="content" class="wrapper ng-cloak" ng-controller="CommonController as common">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-static-top" role="navigation"
+    <nav class="navbar navbar-default navbar-static-top" role="navigation"
          ng-controller="TopNavBarControllerProvider">
+        <ul class="nav navbar-nav" style="padding-left: 10px;">
+            <li>
+                <button class="btn btn-default navbar-btn"
+                        ng-class="{'toggle_button' : common.menuState}"
+                        ng-init="common.menuState = true"
+                        ng-click="common.menuState = !common.menuState"
+                        type="button">
+                    <i class="fa fa-bars" style="padding-right: 0"></i></button></li>
+            </ul>
         <div class="navbar-header">
-            <a class="navbar-brand" style="color:honeydew">Централізована система повірки лічильників</a>
+
+
+            <a class="navbar-brand">Централізована система повірки лічильників</a>
         </div>
+
 
         <div ng-controller="InternationalizationController">
             <ul class="nav navbar-nav">
+
                 <li class="dropdown" dropdown on-toggle="toggled(open)">
                     <a class="dropdown-toggle" dropdown-toggle translate="LANG">
                         <span class="caret"></span>
@@ -117,23 +130,23 @@
     </nav>
     <!-- Sidebar -->
 
-    <div class="row ng-cloak">
-        <div class="col-md-3 menu_column">
-            <div class="ui primary button" ng-class="{'toggle_button' : menuState}" ng-init="menuState = true"
-                 ng-click="menuState = !menuState">
-                <div ng-show="menuState"><i class="fa fa-chevron-left"
-                                            style="font-size: 30px; vertical-align: middle"></i><span>Сховати</span>
-                </div>
-                <div ng-show="!menuState"><i class="fa fa-chevron-right"
-                                             style="font-size: 30px;vertical-align: middle"></i><span>Показати</span>
-                </div>
-            </div>
-        </div>
-    </div>
+    <%--<div class="row ng-cloak">--%>
+        <%--<div class="col-md-3 menu_column">--%>
+            <%--<div class="ui primary button" ng-class="{'toggle_button' : menuState}" ng-init="menuState = true"--%>
+                 <%--ng-click="menuState = !menuState">--%>
+                <%--<div ng-show="menuState"><i class="fa fa-chevron-left"--%>
+                                            <%--style="font-size: 30px; vertical-align: middle"></i><span>Сховати</span>--%>
+                <%--</div>--%>
+                <%--<div ng-show="!menuState"><i class="fa fa-chevron-right"--%>
+                                             <%--style="font-size: 30px;vertical-align: middle"></i><span>Показати</span>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
 
     <div class="row ng-cloak">
-        <div ng-class="{'col-md-3 menu_column' : menuState, '': !menuState}">
-            <div class="ui visible sticky visible very wide sidebar" ng-hide="!menuState" role="navigation">
+        <div id="sidebar-wrapper" ng-class="{'sidebar-toggle-close' : common.menuState}">
+            <div class="ui visible sticky visible very wide sidebar" role="navigation">
                 <ul class="nav ui vertical menu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
@@ -261,7 +274,7 @@
                 </ul>
             </div>
         </div>
-        <div ng-class="{'col-md-12' : !menuState, 'col-md-9 main_column' : menuState}">
+        <div ng-class="{'col-md-12 sidebar-close' : !common.menuState, 'col-md-12 sidebar-open' : common.menuState}">
             <div ui-view></div>
         </div>
     </div>
