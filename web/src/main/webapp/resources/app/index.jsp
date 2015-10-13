@@ -285,7 +285,7 @@
 
 <script type="text/javascript">
     $("#menubutton").click(function() {
-        $("#sidebar-wrapper").find("a span").toggleClass("dissapear");
+        $("#sidebar-wrapper").find("a span").toggle();
     });
 </script>
 
