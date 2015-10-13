@@ -18,11 +18,6 @@ public class ProviderServiceImpl implements ProviderService {
     private OrganizationRepository providerRepository;
 
     @Transactional(readOnly = true)
-    public List<Organization> findByDistrictAndType(String district, String type) {
-        return providerRepository.findByDistrictAndType(district, type);
-    }
-
-    @Transactional(readOnly = true)
     public Set<String> getTypesById(Long id) {
         return TypeConverter.enumToString(providerRepository.findOrganizationTypesById(id));
     }

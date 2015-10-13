@@ -6,6 +6,7 @@ import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
@@ -35,11 +36,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/calibrator/verifications/")
@@ -66,7 +65,7 @@ public class CalibratorVerificationController {
     StateVerificatorService verificatorService;
 
     @Autowired
-    OrganizationService organizationServiceImpl;
+    OrganizationService organizationService;
 
     @Autowired
     UserService userService;
@@ -101,8 +100,8 @@ public class CalibratorVerificationController {
      */
     @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}/{verificationId}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
-                                                                          @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData,
-                                                                          @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser, @PathVariable String verificationId) {
+                                                                      @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData,
+                                                                      @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser, @PathVariable String verificationId) {
 
 //        Verification verification = verificationService.findById(verificationId);
 //
@@ -163,8 +162,14 @@ public class CalibratorVerificationController {
     public List<Organization> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        return verificatorService.findByDistrictAndType(
-                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");
+        //todo need to find verificators by agreements(договорах)
+        //todo it`s a MOCK
+        /*return verificatorService.findByDistrictAndType(
+                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");*/
+        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
+                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
+
+        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.STATE_VERIFICATOR);
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
@@ -281,7 +286,7 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "new/earliest_date/calibrator", method = RequestMethod.GET)
     public String getNewVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
-            Organization organization = organizationServiceImpl.getOrganizationById(user.getOrganizationId());
+            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
             Date gottenDate = verificationService.getNewVerificationEarliestDateByCalibrator(organization);
             Date date = null;
             if (gottenDate != null) {
@@ -307,7 +312,7 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "archive/earliest_date/calibrator", method = RequestMethod.GET)
     public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         if (user != null) {
-            Organization organization = organizationServiceImpl.getOrganizationById(user.getOrganizationId());
+            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
             Date gottenDate = verificationService.getArchivalVerificationEarliestDateByCalibrator(organization);
             Date date = null;
             if (gottenDate != null) {
@@ -358,9 +363,10 @@ public class CalibratorVerificationController {
 
     /**
      * Check if current user is Employee
+     *
      * @param user
      * @return true if user has role CALIBRATOR_EMPLOYEE
-     *         false if user has role CALIBRATOR_ADMIN
+     * false if user has role CALIBRATOR_ADMIN
      */
     @RequestMapping(value = "calibrator/role", method = RequestMethod.GET)
     public Boolean isEmployeeCalibrator(
@@ -373,6 +379,7 @@ public class CalibratorVerificationController {
     /**
      * get list of employees if it calibrator admin
      * or get data about employee.
+     *
      * @param user
      * @return
      */
@@ -387,6 +394,7 @@ public class CalibratorVerificationController {
 
     /**
      * Assigning employee to verification
+     *
      * @param verificationProviderEmployeeDTO
      */
     @RequestMapping(value = "assign/calibratorEmployee", method = RequestMethod.PUT)
@@ -399,6 +407,7 @@ public class CalibratorVerificationController {
 
     /**
      * remove from verification assigned employee.
+     *
      * @param verificationUpdatingDTO
      */
     @RequestMapping(value = "remove/calibratorEmployee", method = RequestMethod.PUT)
