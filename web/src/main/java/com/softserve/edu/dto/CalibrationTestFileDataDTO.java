@@ -42,7 +42,7 @@ public class CalibrationTestFileDataDTO {
         this.counterNumber = testData.getCurrentCounterNumber();
         this.testDate = new Date(testData.getUnixTime());
         this.temperature = testData.getTemperature();
-        this.accumulatedVolume = testData.getBatteryCharge(); // not sure if this is exactly what needed
+        //this.accumulatedVolume = testData.getInitialCapacity(); // not sure if this is exactly what needed
         this.installmentNumber = testData.getInstallmentNumber();
         this.latitude = testData.getLatitude();
         this.longitude = testData.getLongitude();

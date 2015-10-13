@@ -250,7 +250,7 @@ public class BbiDeviceTestData implements DeviceTestData {
     /**
      *
      * @param testIndex Index of test.
-     * @return Test begin photo in hex.
+     * @return Test begin photo in base64.
      */
     @Override
     public String getBeginPhoto(int testIndex) {
@@ -260,7 +260,7 @@ public class BbiDeviceTestData implements DeviceTestData {
     /**
      *
      * @param testIndex Index of test.
-     * @return Test end photo in hex.
+     * @return Test end photo in base64.
      */
     @Override
     public String getEndPhoto(int testIndex) {
