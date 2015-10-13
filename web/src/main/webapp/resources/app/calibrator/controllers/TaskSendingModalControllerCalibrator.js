@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
     .controller('TaskSendingModalControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'VerificationPlanningTaskService', '$log',
-        function ($rootScope, $scope, $modal, $modalInstance, taskServiceCalibrator) {
+        function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log) {
 
             $scope.calibrationTask = {};
             $scope.incorrectValue = false;
@@ -227,6 +227,23 @@ angular
                     $scope.showStatus.opened = false;
                 }
             };
+
+            $scope.modulesSerialNumbers = [];
+
+            $scope.receiveModuleNumbers = function(){
+                console.log($scope.calibrationTask.place + " " + $scope.calibrationTask.pickerDate);
+                var place = $scope.calibrationTask.place;
+                var pickerDate = $scope.calibrationTask.pickerDate;
+                verificationPlanningTaskService.getModuls(place, pickerDate)
+                    .then(function (result) {
+                        $log.debug('result ', result);
+                        $scope.modulesSerialNumbers.push(result.data);
+                        $log.debug('my array ', $scope.modulesSerialNumbers);
+                    }, function (result) {
+                        $log.debug('error fetching data:', result);
+                    });
+            }
+
 
             $scope.showSendingMessage = false;
 

@@ -128,7 +128,7 @@ angular
                         $scope.isUsernameAvailable = data;
                         $scope.organizationForm.username.$valid = data;
                         $scope.organizationForm.username.$invalid = !data;
-                    })
+            })
             }
 
             /**
@@ -285,11 +285,18 @@ angular
                 if ($scope.serviceArea.locality === undefined) {
                     $scope.serviceArea.locality = [[]];
                 }
+
+                /**
+                 * fill district by localities
+                 */
                 if ($scope.serviceArea.locality[index] === undefined || $scope.serviceArea.locality[index].length === 0) {
                     addressService.findLocalitiesByDistrictId(district.id)
                         .then(function (localities) {
                             $scope.serviceArea.locality[index] = localities;
 
+                            /**
+                             * check all localities
+                             */
                             $scope.serviceArea.locality[index].forEach(function (element) {
                                 var selectedIndex = $scope.selectedServiceAreaLocalities.indexOf(element.id);
                                 if (selectedIndex === -1) {
