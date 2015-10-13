@@ -104,12 +104,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.selectedData.locality = "";
                     $scope.selectedStreet = "";
                 });
-            //Receives providers corresponding this district
-            addressServiceProvider.findProvidersByDistrict(selectedDistrict.designation)
-                .success(function (providers) {
-                    $scope.providers = providers;
-                    $scope.selectedProvider = providers[0];
-                });
             addressServiceProvider.findCalibratorsByDistrict(selectedDistrict.designation)
                 .success(function (calibrators) {
                     $scope.calibrators = calibrators;
@@ -173,7 +167,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 $scope.formData.locality = $scope.selectedData.locality.designation;
                 $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                 $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-                $scope.formData.providerId = $scope.selectedProvider.id;
                 $scope.formData.calibratorId = $scope.selectedCalibrator.id;
                 $scope.formData.deviceId = $scope.selectedDevice.id;
 

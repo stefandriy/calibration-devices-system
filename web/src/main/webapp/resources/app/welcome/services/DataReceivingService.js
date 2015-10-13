@@ -24,10 +24,6 @@ angular.module('welcomeModule').factory('DataReceivingService',
             findMailIndexByLocality: function (localityDesignation, districtId) {
                 return getData('localities/' + localityDesignation + '/' + districtId);
             },
-            //TODO Deprecated, need to delete in future
-            findProvidersByDistrict: function (district) {
-                return getData("providers/" + district);
-            },
 
             findProvidersByLocality: function (localityId) {
                 return getData("providersInLocality/" + localityId)
