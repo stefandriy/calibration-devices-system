@@ -39,11 +39,6 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Organization> findByDistrict(String district, String type) {
-        return calibratorRepository.findByDistrictAndType(district, type);
-    }
 
     @Override
     @Transactional(readOnly = true)

@@ -9,9 +9,7 @@ import java.io.InputStream;
 import java.util.List;
 
 public interface CalibratorService {
-
-    List<Organization> findByDistrict(String district, String type);
-
+    
     Organization findById(Long id);
 
     void uploadBbi(InputStream file, String idVerification, String originalFileFullName) throws IOException ;
