@@ -50,4 +50,6 @@ public interface OrganizationService {
 
     Set<DeviceType> findDeviceTypesByOrganizationId( Long organizationId);
 
+    List<Organization> findByServiceAreaIdsAndOrganizationTypeId(Set<Long> serviceAreaIds, OrganizationType type);
+
 }
