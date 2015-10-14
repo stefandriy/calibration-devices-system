@@ -214,7 +214,6 @@ angular
                 });
             };
 
-
             $scope.openDetails = function (verifId, verifDate, verifReadStatus) {
                 $modal.open({
                     animation: true,
@@ -434,6 +433,7 @@ angular
                         });
                 });
             };
+
 
 
         }]);

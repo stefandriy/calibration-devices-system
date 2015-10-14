@@ -40,6 +40,11 @@
                         templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
                         controller: 'TaskSendingModalControllerCalibrator'
                     })
+                    .state("calibrator-add-info", {
+                        url: '/calibrator/addInfo/',
+                        templateUrl: '/resources/app/calibrator/views/modals/additionalInformation.html',
+                        controller: 'AdditionalInfoController'
+                    })
                     .state("verifications-archive", {
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/calibrator/views/archival-verifications.html',

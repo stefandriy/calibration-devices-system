@@ -1,4 +1,4 @@
-{
+w{
   "LANG": "Language",
   "HEAD_TITLE": "Centralized calibration of devices system",
   "START": "Start",
@@ -358,6 +358,7 @@
   "TIME_REGEX" : "Error. enter: 12.00-13.00!",
   "PLUMBING_SERVICEABILITY" : "Plumbing serviceability",
   "INFO_BUTTON" : "Additional Information",
-  "SEND_MESSAGE" : "You did not select applications to send!"
-
+  "SEND_MESSAGE" : "You did not select applications to send!",
+  "NO_WATER_TO" : "No water to: ",
+  "DATE_OF_VERIF/DISASSEMBLY": "Desired date of verification/disassembly:"
 }
