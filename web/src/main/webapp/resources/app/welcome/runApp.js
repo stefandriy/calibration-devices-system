@@ -22,6 +22,8 @@ require
 				angularAnimate : "../../assets/bower_components/angular-animate/angular-animate.min",
 				angularJsToaster : "../../assets/bower_components/angularjs-toaster/toaster.min",
 				semanticUI: "../../assets/bower_components/semantic/dist/semantic.min",
+				slickCarousel: "../../assets/bower_components/slick-carousel/slick/slick.min",
+				angularSlick: "../../assets/bower_components/angular-slick/dist/slick.min",
 				welcomeModule : 'welcomeModule'
 			},
 			shim : {
@@ -97,6 +99,12 @@ require
 				semanticUI:{
 					deps:['angular']
 				},
+				slickCarousel:{
+					deps:['angular']
+				},
+				angularSlick:{
+					deps:['angular', 'slickCarousel']
+				},
 				welcomeModule : {
 					deps : [ 'angular', 'csrfInterceptor', 'angularBootstrap',
 							'angularTranslate', 'angularCookie',
@@ -106,7 +114,7 @@ require
 							'angularUIRouter', 'showErrors', 'ngTable',
 							'chosen','bootstrapAngularSwitch','angularjsScrollGlue',
 							'angularSimpleChat', 'angularUISelect', 'ngSanitize',
-							'angularAnimate','angularJsToaster', 'semanticUI'
+							'angularAnimate','angularJsToaster', 'semanticUI', 'slickCarousel', 'angularSlick'
 					]
 				}
 			}
