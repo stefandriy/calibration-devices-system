@@ -180,12 +180,17 @@
                                 {{'REGION' | translate}} </label>
                         </div>
                         <div class="col-md-8 form-group" show-errors>
-                            <select chosen id="region" name="region" type="text" class="form-control"
-                                    ng-model="selectedRegion"
-                                    allow-single-deselect="false"
-                                    ng-options="region as region.designation for region in regions | filter: $viewValue"
-                                    ng-change="receiveDistricts(selectedRegion)" required>
-                            </select>
+                            <ui-select class="form-control" type="text" theme="select2"
+                                       ng-model="selectedData.region"
+                                       on-select="receiveDistricts(selectedData.region)"
+                                       name="region" id="region" >
+                                <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
+                                    {{$select.selected.designation}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="region in regions | filter: $select.search">
+                                    <span ng-bind-html="region.designation"></span>
+                                </ui-select-choices>
+                            </ui-select>
 
                             <p class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -199,12 +204,17 @@
                                 {{'DISTRICT' | translate}} </label>
                         </div>
                         <div class="col-md-8 form-group" show-errors>
-                            <select chosen id="district" name="district" class="form-control" type="text"
-                                    ng-model="selectedDistrict"
-                                    allow-single-deselect="false"
-                                    ng-options="district as district.designation for district in districts | filter: $viewValue"
-                                    ng-change="receiveLocalitiesAndProviders(selectedDistrict)" required>
-                            </select>
+                            <ui-select class="form-control" type="text" theme="select2"
+                                       ng-model="selectedData.district"
+                                       on-select="receiveLocalitiesAndProviders(selectedData.district)"
+                                       name="district" id="district" required>
+                                <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
+                                    {{$select.selected.designation}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="district in districts | filter: $select.search">
+                                    <span ng-bind-html="district.designation"></span>
+                                </ui-select-choices>
+                            </ui-select>
 
                             <p class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -219,12 +229,17 @@
                         </div>
 
                         <div class="col-md-8 form-group" show-errors>
-                            <select chosen id="locality" name="locality" class="form-control"
-                                    ng-model="selectedLocality"
-                                    allow-single-deselect="false"
-                                    ng-options="locality as locality.designation for locality in localities | filter: $viewValue"
-                                    ng-change="receiveStreets(selectedLocality,selectedDistrict)" required>
-                            </select>
+                            <ui-select class="form-control" type="text" theme="select2"
+                                       ng-model="selectedData.locality"
+                                       on-select="receiveStreets(selectedData.locality,selectedData.district)"
+                                       name="locality" id="locality" required>
+                                <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
+                                    {{$select.selected.designation}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="locality in localities | filter: $select.search">
+                                    <span ng-bind-html="locality.designation"></span>
+                                </ui-select-choices>
+                            </ui-select>
 
                             <p class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -239,11 +254,17 @@
                         </div>
 
                         <div class="col-md-8 form-group" show-errors>
-                            <select chosen id="index" name="index" class="form-control"
-                                    ng-model="selectedIndex" allow-single-deselect="true"
-                                    disable-search="true"
-                                    ng-options="index as index.mailIndex for index in indexes | filter: $viewValue"
-                                    width="'100%'" required></select>
+                            <ui-select class="form-control" type="text" theme="select2"
+                                       ng-model="selectedData.index"
+                                       name="index" id="index" required>
+                                <ui-select-match placeholder="{{'INDEX' | translate}}" allow-clear="true">
+                                    {{$select.selected}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="index  in indexes | filter: $select.search">
+                                    <span ng-bind-html="index"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
                         </div>
                     </div>
                     <div class="form-group">
@@ -264,6 +285,8 @@
                                        ng-model="selectedStreet"
                                        typeahead="street as street.designation for street in streets | filter: $viewValue"
                                        ng-pattern="STREET_REGEX"
+                                       autocomplete="off"
+                                       typeahead-editable="false"
                                        typeahead-on-select="receiveBuildings(selectedStreet)"
                                        required>
 

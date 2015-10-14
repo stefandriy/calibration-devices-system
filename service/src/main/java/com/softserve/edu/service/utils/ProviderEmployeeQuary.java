@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
+import java.util.Set;
 
 
 /**
@@ -26,17 +27,12 @@ public class ProviderEmployeeQuary {
         Root<User> root = criteriaQuery.from(User.class);
         Join<User, Organization> joinSearch = root.join("organization");
 
-        /*if (role != null) {
-            UserRole urole = UserRole.valueOf(role);
-        }*/
-
-        //cb.selectCase().when(UserRole.CALIBRATOR_ADMIN,1).otherwise(4);
-
         Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinSearch, userName,
                 role, firstName, lastName, organization, telephone, secondTelephone, idOrganization);
         if (fieldToSort.length() > 0) {
             if (fieldToSort.substring(0, 1).equals("-")) {
                 if (fieldToSort.substring(1, fieldToSort.length()).equals("userRoles")) {
+                    //todo fix or delete ordering by user roles
                     //criteriaQuery.orderBy(cb.desc(joinRole.get(fieldToSort.substring(1, fieldToSort.length()))));
                     //criteriaQuery.orderBy(cb.desc(root.get(fieldToSort.substring(1, fieldToSort.length()))));
                     //criteriaQuery.orderBy(cb.desc(root.<Set<UserRole>>get(fieldToSort.substring(1, fieldToSort.length()))));

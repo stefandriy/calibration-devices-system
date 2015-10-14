@@ -302,6 +302,7 @@
                                         'has-error' : !selectedValues.selectedStreet &&  clientForm.street.$dirty && selectedValues.selectedIndex}">
                             <input name="street" class="form-control"
                                    type="text" id="street"
+                                   autocomplete="off"
                                    ng-model="selectedValues.selectedStreet"
                                    ng-disabled="!selectedValues.selectedIndex"
                                    typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"

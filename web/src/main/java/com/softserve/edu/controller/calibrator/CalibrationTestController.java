@@ -81,7 +81,7 @@ public class CalibrationTestController {
             CalibrationTestData testData = new CalibrationTestData();
             testData.setGivenConsumption(data.getGivenConsumption());
             testData.setAcceptableError(data.getAcceptableError());
-            testData.setVolumeOfStandard(data.getVolumeOfStandart());
+            testData.setVolumeOfStandard(data.getVolumeOfStandard());
             testData.setInitialValue(data.getInitialValue());
             testData.setEndValue(data.getEndValue());
             testData.setVolumeInDevice(data.getVolumeInDevice());

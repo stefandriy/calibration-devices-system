@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
+//TODO: use hex reading, not string!
 public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     private InputStream reader;
     private Map<String, Object> resultMap;
@@ -145,7 +145,13 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      * @throws IOException
      */
     private Long readLongValue(long bytesAmount) throws  IOException {
-        return Long.parseLong(readConsecutiveBytes(bytesAmount), 16);
+        long result = 0;
+        for (long i = 0; i < bytesAmount; ++i) {
+            result <<= 8;
+            result += reader.read();
+        }
+        return result;
+//        return Long.parseLong(readConsecutiveBytes(bytesAmount), 16);
     }
 
     /**
@@ -158,7 +164,12 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      * @throws IOException
      */
     private Long readLongValueReversed(long bytesAmount) throws IOException {
-        return Long.parseLong(readConsecutiveBytesReversed(bytesAmount), 16);
+        long result = 0;
+        for (int i = 0; i < bytesAmount; ++i) {
+            result += reader.read() << 8 * i;
+        }
+        return result;
+//        return Long.parseLong(readConsecutiveBytesReversed(bytesAmount), 16);
     }
 
     private void readTest(int testIndex) throws IOException {
@@ -167,10 +178,10 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         resultMap.put("test" + testIndex + "upperConsumptionBound", readLongValueReversed(4)); //0x800108+0x04
         resultMap.put("test" + testIndex + "allowableError", readLongValueReversed(4) / 10); //0x80010с+0x04
         resultMap.put("test" + testIndex + "specifiedImpulsesAmount", readLongValueReversed(4) / 10000); //0x800110+0x04
-        resultMap.put("test" + testIndex + "correctedCumulativeImpulsesValue", readLongValueReversed(4)); //0x800114+0x04
-        resultMap.put("test" + testIndex + "correctedCurrentConsumption", readLongValueReversed(4)); //0x800118+0x04
-        resultMap.put("test" + testIndex + "cumulativeImpulsesValueWithoutCorrection", readLongValueReversed(4)); //0x80011с+0x04
-        resultMap.put("test" + testIndex + "currentConsumptionWithoutCorrection", readLongValueReversed(4)); //0x800120+0x04
+        resultMap.put("test" + testIndex + "correctedCumulativeImpulsesValue", readLongValueReversed(4) / 1000.0); //0x800114+0x04
+        resultMap.put("test" + testIndex + "correctedCurrentConsumption", readLongValueReversed(4) / 1000.0); //0x800118+0x04
+        resultMap.put("test" + testIndex + "cumulativeImpulsesValueWithoutCorrection", readLongValueReversed(4) / 1000.0); //0x80011с+0x04
+        resultMap.put("test" + testIndex + "currentConsumptionWithoutCorrection", readLongValueReversed(4) / 1000.0); //0x800120+0x04
         resultMap.put("test" + testIndex + "estimatedError", readLongValueReversed(4)); //0x800124+0x04
         resultMap.put("test" + testIndex + "initialCounterValue", readLongValueReversed(4) / 10000.0); //0x800128+0x04
         resultMap.put("test" + testIndex + "terminalCounterValue", readLongValueReversed(4) / 10000.0); //0x80012с+0x04

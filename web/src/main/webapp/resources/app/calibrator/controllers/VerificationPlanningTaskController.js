@@ -16,14 +16,14 @@ angular
                 filterDelay: 1500,
                 getData: function ($defer, params) {
                     verificationPlanningTaskService.getVerificationsByCalibratorEmployeeAndTaskStatus(params.page(), params.count())
-                        .then(function (result) {
-                            $log.debug('result ', result);
-                            $scope.resultsCount = result.data.totalItems;
-                            $defer.resolve(result.data.content);
-                            //params.total(result.totalItems);
-                        }, function (result) {
-                            $log.debug('error fetching data:', result);
-                        });
+                            .then(function (result) {
+                                $log.debug('result ', result);
+                                $scope.resultsCount = result.data.totalItems;
+                                $defer.resolve(result.data.content);
+                                //params.total(result.totalItems);
+                            }, function (result) {
+                                $log.debug('error fetching data:', result);
+                            });
                 }
 
             });
@@ -59,6 +59,23 @@ angular
                     templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
                 });
             };
+
+            $scope.openAdditionalInfoModal = function(id) {
+                $rootScope.verifId = id;
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'AdditionalInfoController',
+                    templateUrl: '/resources/app/calibrator/views/modals/additionalInformation.html'
+                });
+            }
+
+            $scope.addInfoToVerification = function(id){
+                var dataToSend = {
+                    verificationId: id,
+                    additionalInfo: null
+                }
+                $log.info(dataToSend);
+            }
 
 
 

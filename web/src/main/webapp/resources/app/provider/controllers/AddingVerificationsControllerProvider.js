@@ -1,6 +1,6 @@
 angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$state', '$http', '$log',
     'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
-    '$rootScope', '$location', '$window', '$modalInstance',
+    '$rootScope', '$location', '$window', '$modalInstance','$filter',
 
     function ($scope, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
         $scope.isShownForm = true;
@@ -17,7 +17,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.BUILDING_REGEX = /^[1-9][0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457])?$/;
         $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
         $scope.PHONE_REGEX_SECOND = /^[1-9]\d{8}$/;
-        $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+        $scope.EMAIL_REGEX = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
         $scope.checkboxModel = false;
 
@@ -27,6 +27,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.providers = [];
         $scope.calibrators = [];
         $scope.streetsTypes = [];
+
+        $scope.selectedData={};
         $scope.selectedStreetType = "";
 
         $scope.applicationCodes = [];
@@ -57,9 +59,9 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             addressServiceProvider.findAllRegions()
                 .success(function (regions) {
                     $scope.regions = regions;
-                    $scope.selectedRegion = "";
-                    $scope.selectedDistrict = "";
-                    $scope.selectedLocality = "";
+                    $scope.selectedData.region = "";
+                    $scope.selectedData.district = "";
+                    $scope.selectedData.locality = "";
                     $scope.selectedStreet = "";
                 });
         };
@@ -86,8 +88,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             addressServiceProvider.findDistrictsByRegionId(selectedRegion.id)
                 .success(function (districts) {
                     $scope.districts = districts;
-                    $scope.selectedDistrict = "";
-                    $scope.selectedLocality = "";
+                    $scope.selectedData.district = "";
+                    $scope.selectedData.locality = "";
                     $scope.selectedStreet = "";
                 });
         };
@@ -99,14 +101,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             addressServiceProvider.findLocalitiesByDistrictId(selectedDistrict.id)
                 .success(function (localities) {
                     $scope.localities = localities;
-                    $scope.selectedLocality = "";
+                    $scope.selectedData.locality = "";
                     $scope.selectedStreet = "";
-                });
-            //Receives providers corresponding this district
-            addressServiceProvider.findProvidersByDistrict(selectedDistrict.designation)
-                .success(function (providers) {
-                    $scope.providers = providers;
-                    $scope.selectedProvider = providers[0];
                 });
             addressServiceProvider.findCalibratorsByDistrict(selectedDistrict.designation)
                 .success(function (calibrators) {
@@ -142,6 +138,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 addressServiceProvider.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
                     .success(function (indexes) {
                         $scope.indexes = indexes;
+                        $scope.selectedData.index = indexes[0];
                     });
             }
         };
@@ -165,12 +162,11 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.sendApplicationData = function () {
             $scope.$broadcast('show-errors-check-validity');
             if ($scope.clientForm.$valid) {
-                $scope.formData.region = $scope.selectedRegion.designation;
-                $scope.formData.district = $scope.selectedDistrict.designation;
-                $scope.formData.locality = $scope.selectedLocality.designation;
+                $scope.formData.region = $scope.selectedData.region.designation;
+                $scope.formData.district = $scope.selectedData.district.designation;
+                $scope.formData.locality = $scope.selectedData.locality.designation;
                 $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                 $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-                $scope.formData.providerId = $scope.selectedProvider.id;
                 $scope.formData.calibratorId = $scope.selectedCalibrator.id;
                 $scope.formData.deviceId = $scope.selectedDevice.id;
 

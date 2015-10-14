@@ -42,7 +42,7 @@ public class CalibrationTestFileDataDTO {
         this.counterNumber = testData.getCurrentCounterNumber();
         this.testDate = new Date(testData.getUnixTime());
         this.temperature = testData.getTemperature();
-        this.accumulatedVolume = testData.getBatteryCharge(); // not sure if this is exactly what needed
+        //this.accumulatedVolume = ; // not sure if this is exactly what needed
         this.installmentNumber = testData.getInstallmentNumber();
         this.latitude = testData.getLatitude();
         this.longitude = testData.getLongitude();
@@ -63,15 +63,20 @@ public class CalibrationTestFileDataDTO {
             Integer testRepeat = testNumber % 10;
             testNumberStr += ((testRepeat != 0) ? " Repeat " + testRepeat : "");
             testDataDTO.setTestNumber(testNumberStr);
-            testDataDTO.setGivenConsumption(convertImpulsesPerSecToCubicMetersPerHour(testData.getTestSpecifiedConsumption(i) * 1.0,
-                    testData.getImpulsePricePerLitre()));
+            testDataDTO.setGivenConsumption(convertImpulsesPerSecToCubicMetersPerHour(
+                    testData.getTestSpecifiedConsumption(i).doubleValue(),
+                        testData.getImpulsePricePerLitre()));
             testDataDTO.setAcceptableError(testData.getTestAllowableError(i));
             testDataDTO.setInitialValue(testData.getTestInitialCounterValue(i));
             testDataDTO.setEndValue(testData.getTestTerminalCounterValue(i));
             testDataDTO.setVolumeInDevice(round(testDataDTO.getEndValue() - testDataDTO.getInitialValue(), 2));
             testDataDTO.setTestTime(round(testData.getTestDuration(i), 1));
-            testDataDTO.setVolumeOfStandart(testData.getTestSpecifiedImpulsesAmount(i));
-            testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(), (double)testDataDTO.getVolumeOfStandart()));
+            testDataDTO.setVolumeOfStandard(testData.getTestSpecifiedImpulsesAmount(i).doubleValue());
+            testDataDTO.setActualConsumption(convertImpulsesPerSecToCubicMetersPerHour(
+                    testData.getTestCorrectedCurrentConsumption(i).doubleValue(),
+                        testData.getImpulsePricePerLitre()));
+            testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
+                    testDataDTO.getVolumeOfStandard().doubleValue()));
             testDataDTO.setBeginPhoto(testData.getBeginPhoto(i));
             testDataDTO.setEndPhoto(testData.getEndPhoto(i));
 

@@ -3,6 +3,7 @@ package com.softserve.edu.controller.provider;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
@@ -29,6 +30,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/provider/verifications/")
@@ -42,6 +45,9 @@ public class ProviderVerificationController {
 
     @Autowired
     ProviderEmployeeService providerEmployeeService;
+
+    @Autowired
+    OrganizationService organizationService;
 
     @Autowired
     CalibratorService calibratorService;
@@ -238,7 +244,13 @@ public class ProviderVerificationController {
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
     public List<Organization> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
+        //return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
+        //todo need to find verificators by agreements(договорах)
+        //todo it`s a MOCK
+        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
+                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
+
+        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.CALIBRATOR);
     }
 
 
