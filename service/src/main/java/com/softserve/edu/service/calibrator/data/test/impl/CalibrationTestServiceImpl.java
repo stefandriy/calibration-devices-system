@@ -83,7 +83,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         return search.equalsIgnoreCase("null") ? testRepository.findAll(pageRequest) : testRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
     }
 
-
     @Override
     @Transactional
     public void createNewTest(CalibrationTest calibrationTest, Date date, String verificationId) {

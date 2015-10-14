@@ -24,8 +24,6 @@ public interface CalibrationTestService {
 
      Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search);
 
-     ListToPageTransformer<CalibrationTest> findPageOfCalibrationTestsByVerificationId(Long organizationId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch, String region, String district, String locality, String streetToSearch, String status, String employeeName, Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder, User calibratorEmployee);
-
      void createNewTest(CalibrationTest calibrationTest, Date date, String verificationId);
 
      CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,

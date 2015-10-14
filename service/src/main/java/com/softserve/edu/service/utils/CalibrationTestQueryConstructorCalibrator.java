@@ -30,7 +30,7 @@ public class CalibrationTestQueryConstructorCalibrator {
         CriteriaQuery<CalibrationTest> criteriaQuery = cb.createQuery(CalibrationTest.class);
         Root<CalibrationTest> root = criteriaQuery.from(CalibrationTest.class);
 
-        Join<CalibrationTest, Verification> verificationJoin = root.join("verificationId");
+        Join<CalibrationTest, Verification> verificationJoin = root.join("verification");
 
         Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb, employeeId,  idToSearch, fullNameToSearch, region, district, locality, streetToSearch,
                 status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType,  verificationJoin);
@@ -55,7 +55,7 @@ public class CalibrationTestQueryConstructorCalibrator {
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<CalibrationTest> root = countQuery.from(CalibrationTest.class);
 
-        Join<CalibrationTest, Verification> verificationJoin = root.join("verificationId");
+        Join<CalibrationTest, Verification> verificationJoin = root.join("verification");
         Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb, employeeId,
                 idToSearch, fullNameToSearch, region, district, locality, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, verificationJoin);
         countQuery.select(cb.count(root));
@@ -104,39 +104,39 @@ public class CalibrationTestQueryConstructorCalibrator {
         }
 
         if ((streetToSearch != null) && (streetToSearch.length() > 0)) {
-            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verificationId");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
                     cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
                     queryPredicate);
         }
 
         if ((region != null) && (region.length() > 0)) {
-            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verificationId");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
                     cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("region"), "%" + region + "%"),
                     queryPredicate);
         }
 
         if ((district != null) && (district.length() > 0)) {
-            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verificationId");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
                     cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("district"), "%" + district + "%"),
                     queryPredicate);
         }
 
         if ((locality != null) && (locality.length() > 0)) {
-            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verificationId");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
                     cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("locality"), "%" + locality + "%"),
                     queryPredicate);
         }
         if (measurementDeviceId != null) {
-            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verificationId");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Long>(cb, joinCalibratorTest.get("device").get("id")),
                     "%" + measurementDeviceId.toString() + "%"), queryPredicate);
         }
         if (measurementDeviceType != null) {
-            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verificationId");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("device").get("deviceType"),
                     DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
         }
