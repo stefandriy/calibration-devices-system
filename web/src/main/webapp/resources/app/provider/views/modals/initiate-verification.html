@@ -192,13 +192,6 @@
                                 </ui-select-choices>
                             </ui-select>
 
-                            <!--<select chosen id="region" name="region" type="text" class="form-control"
-                                    ng-model="selectedRegion"
-                                    allow-single-deselect="false"
-                                    ng-options="region as region.designation for region in regions | filter: $viewValue"
-                                    ng-change="receiveDistricts(selectedRegion)" required>
-                            </select>-->
-
                             <p class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'TYPEAHEAD_ERROR' | translate}}
@@ -222,13 +215,6 @@
                                     <span ng-bind-html="district.designation"></span>
                                 </ui-select-choices>
                             </ui-select>
-
-                            <!--<select chosen id="district" name="district" class="form-control" type="text"
-                                    ng-model="selectedDistrict"
-                                    allow-single-deselect="false"
-                                    ng-options="district as district.designation for district in districts | filter: $viewValue"
-                                    ng-change="receiveLocalitiesAndProviders(selectedDistrict)" required>
-                            </select>-->
 
                             <p class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>

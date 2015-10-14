@@ -37,10 +37,10 @@ public interface DeviceTestData {
     Long getTestUpperConsumptionLimit(int testIndex);
     Long getTestAllowableError(int testIndex);
     Long getTestSpecifiedImpulsesAmount(int testIndex);
-    Long getTestCorrectedCumulativeImpulsesValue(int testIndex);
-    Long getTestCorrectedCurrentConsumption(int testIndex);
-    Long getTestCumulativeImpulsesValueWithoutCorrection(int testIndex);
-    Long getTestCurrentConsumptionWithoutCorrection(int testIndex);
+    Double getTestCorrectedCumulativeImpulsesValue(int testIndex);
+    Double getTestCorrectedCurrentConsumption(int testIndex);
+    Double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex);
+    Double getTestCurrentConsumptionWithoutCorrection(int testIndex);
     Long getTestEstimatedError(int testIndex);
     Double getTestInitialCounterValue(int testIndex);
     Double getTestTerminalCounterValue(int testIndex);

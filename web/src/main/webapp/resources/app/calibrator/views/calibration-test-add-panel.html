@@ -215,408 +215,92 @@
                     </td>
                 </tr>
                 </thead>
-                <tbody>
 
-                    <tr>
+                <tbody>
+                    <tr ng-repeat="testData in TestDataFormData">
                         <td>
-                            <input type="text" style="width: 150px" ng-model="TestDataFormData1.testNumber" ng-disabled="fileLoaded"
-                               name="test1Number" class="form-control input-sm" required>
+                            <input type="text" style="width: 150px" ng-model="testData.testNumber" ng-disabled="fileLoaded"
+                               class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.givenConsumption" ng-disabled="fileLoaded"
-                                   name="test1givenConsumption" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.givenConsumption" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.acceptableError" ng-disabled="fileLoaded"
-                                   name="test1acceptableError" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.acceptableError" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.volumeOfStandart" ng-disabled="fileLoaded"
-                                   name="test1volumeOfStandart" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.volumeOfStandard" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.initialValue" ng-disabled="fileLoaded"
-                                   name="test1initialValue" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.initialValue" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.endValue" ng-disabled="fileLoaded"
-                                   name="test1endValue" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.endValue" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.volumeInDevice" ng-disabled="fileLoaded"
-                                   name="test1volumeInDevice" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.volumeInDevice" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.testTime" ng-disabled="fileLoaded"
-                                   name="test1testTime" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.testTime" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.actualConsumption" ng-disabled="fileLoaded"
-                                   name="test1actualConsumption" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.actualConsumption" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="text" ng-model="TestDataFormData1.consumptionStatus" ng-disabled="fileLoaded"
-                                   name="test1consumptionStatus" class="form-control input-sm" required>
+                            <input type="text" ng-model="testData.consumptionStatus" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="TestDataFormData1.calculationError" ng-disabled="fileLoaded"
-                                   name="test1calculationError" class="form-control input-sm" required>
+                            <input type="number" ng-model="testData.calculationError" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="text" ng-model="TestDataFormData1.testResult" ng-disabled="fileLoaded"
-                                   name="test1testResult" class="form-control input-sm" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData2.testNumber" ng-disabled="fileLoaded"
-                                   name="test2Number" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.givenConsumption" ng-disabled="fileLoaded"
-                                   name="test2givenConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.acceptableError" ng-disabled="fileLoaded"
-                                   name="test2acceptableError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.volumeOfStandart" ng-disabled="fileLoaded"
-                                   name="test2volumeOfStandart" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.initialValue" ng-disabled="fileLoaded"
-                                   name="test2initialValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.endValue" ng-disabled="fileLoaded"
-                                   name="test2endValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.volumeInDevice" ng-disabled="fileLoaded"
-                                   name="test2volumeInDevice" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.testTime" ng-disabled="fileLoaded"
-                                   name="test2testTime" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.actualConsumption" ng-disabled="fileLoaded"
-                                   name="test2actualConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData2.consumptionStatus" ng-disabled="fileLoaded"
-                                   name="test2consumptionStatus" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData2.calculationError" ng-disabled="fileLoaded"
-                                   name="test2calculationError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData2.testResult" ng-disabled="fileLoaded"
-                                   name="test2testResult" class="form-control input-sm" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData3.testNumber" ng-disabled="fileLoaded"
-                                   name="test3Number" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.givenConsumption" ng-disabled="fileLoaded"
-                                   name="test3givenConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.acceptableError" ng-disabled="fileLoaded"
-                                   name="test3acceptableError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.volumeOfStandart" ng-disabled="fileLoaded"
-                                   name="test3volumeOfStandart" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.initialValue" ng-disabled="fileLoaded"
-                                   name="test3initialValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.endValue" ng-disabled="fileLoaded"
-                                   name="test3endValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.volumeInDevice" ng-disabled="fileLoaded"
-                                   name="test3volumeInDevice" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.testTime" ng-disabled="fileLoaded"
-                                   name="test3testTime" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.actualConsumption" ng-disabled="fileLoaded"
-                                   name="test3actualConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData3.consumptionStatus" ng-disabled="fileLoaded"
-                                   name="test3consumptionStatus" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData3.calculationError" ng-disabled="fileLoaded"
-                                   name="test3calculationError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData3.testResult" ng-disabled="fileLoaded"
-                                   name="test3testResult" class="form-control input-sm" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData4.testNumber" ng-disabled="fileLoaded"
-                                   name="test4Number" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.givenConsumption" ng-disabled="fileLoaded"
-                                   name="test4givenConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.acceptableError" ng-disabled="fileLoaded"
-                                   name="test4acceptableError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.volumeOfStandart" ng-disabled="fileLoaded"
-                                   name="test4volumeOfStandart" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.initialValue" ng-disabled="fileLoaded"
-                                   name="test4initialValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.endValue" ng-disabled="fileLoaded"
-                                   name="test4endValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.volumeInDevice" ng-disabled="fileLoaded"
-                                   name="test4volumeInDevice" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.testTime" ng-disabled="fileLoaded"
-                                   name="test4testTime" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.actualConsumption" ng-disabled="fileLoaded"
-                                   name="test4actualConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData4.consumptionStatus" ng-disabled="fileLoaded"
-                                   name="test4consumptionStatus" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData4.calculationError" ng-disabled="fileLoaded"
-                                   name="test4calculationError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData4.testResult" ng-disabled="fileLoaded"
-                                   name="test4testResult" class="form-control input-sm" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData5.testNumber" ng-disabled="fileLoaded"
-                                   name="test5Number" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.givenConsumption" ng-disabled="fileLoaded"
-                                   name="test5givenConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.acceptableError" ng-disabled="fileLoaded"
-                                   name="test5acceptableError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.volumeOfStandart" ng-disabled="fileLoaded"
-                                   name="test5volumeOfStandart" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.initialValue" ng-disabled="fileLoaded"
-                                   name="test5initialValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.endValue" ng-disabled="fileLoaded"
-                                   name="test5endValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.volumeInDevice" ng-disabled="fileLoaded"
-                                   name="test5volumeInDevice" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.testTime" ng-disabled="fileLoaded"
-                                   name="test5testTime" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.actualConsumption" ng-disabled="fileLoaded"
-                                   name="test5actualConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData5.consumptionStatus" ng-disabled="fileLoaded"
-                                   name="test5consumptionStatus" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData5.calculationError" ng-disabled="fileLoaded"
-                                   name="test5calculationError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData5.testResult" ng-disabled="fileLoaded"
-                                   name="test5testResult" class="form-control input-sm" required>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData6.testNumber" ng-disabled="fileLoaded"
-                                   name="test6Number" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.givenConsumption" ng-disabled="fileLoaded"
-                                   name="test6givenConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.acceptableError" ng-disabled="fileLoaded"
-                                   name="test6acceptableError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.volumeOfStandart" ng-disabled="fileLoaded"
-                                   name="test6volumeOfStandart" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.initialValue" ng-disabled="fileLoaded"
-                                   name="test6initialValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.endValue" ng-disabled="fileLoaded"
-                                   name="test6endValue" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.volumeInDevice" ng-disabled="fileLoaded"
-                                   name="test6volumeInDevice" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.testTime" ng-disabled="fileLoaded"
-                                   name="test6testTime" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.actualConsumption" ng-disabled="fileLoaded"
-                                   name="test6actualConsumption" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData6.consumptionStatus" ng-disabled="fileLoaded"
-                                   name="test6consumptionStatus" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="number" ng-model="TestDataFormData6.calculationError" ng-disabled="fileLoaded"
-                                   name="test6calculationError" class="form-control input-sm" required>
-                        </td>
-                        <td>
-                            <input type="text" ng-model="TestDataFormData6.testResult" ng-disabled="fileLoaded"
-                                   name="test6testResult" class="form-control input-sm" required>
+                            <input type="text" ng-model="testData.testResult" ng-disabled="fileLoaded"
+                                   class="form-control input-sm" required>
                         </td>
                     </tr>
                 </tbody>
             </table>
             </div>
 
-            <div class="scroll-wrapper" ng-show="TestDataFormData1.dataAvailable" style="padding-top: 50px">
+            <div class="scroll-wrapper" ng-show="TestDataFormData[0].dataAvailable" style="padding-top: 50px">
                 <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <td ng-show="TestDataFormData1.dataAvailable">
+                        <td ng-repeat="testData in TestDataFormData" ng-show="testData.dataAvailable">
                             <label class="control-image-label">
-                                {{ TestDataFormData1.testNumber }}
-                            </label>
-                        </td>
-                        <td ng-show="TestDataFormData2.dataAvailable">
-                            <label class="control-image-label">
-                                {{ TestDataFormData2.testNumber }}
-                            </label>
-                        </td>
-                        <td ng-show="TestDataFormData3.dataAvailable">
-                            <label class="control-image-label">
-                                {{ TestDataFormData3.testNumber }}
-                            </label>
-                        </td>
-                        <td ng-show="TestDataFormData4.dataAvailable">
-                            <label class="control-image-label">
-                                {{ TestDataFormData4.testNumber }}
-                            </label>
-                        </td>
-                        <td ng-show="TestDataFormData5.dataAvailable">
-                            <label class="control-image-label">
-                                {{ TestDataFormData5.testNumber }}
-                            </label>
-                        </td>
-                        <td ng-show="TestDataFormData6.dataAvailable">
-                            <label class="control-image-label">
-                                {{ TestDataFormData6.testNumber }}
+                                {{ testData.testNumber }}
                             </label>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td ng-show="TestDataFormData1.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData1.dataAvailable" id="test1BeginPhoto"
-                                     src="data:image/png;base64, TestDataFormData1.beginPhoto" width="100%" height="100%">
+                        <td ng-repeat="testData in TestDataFormData" ng-show="testData.dataAvailable" class="image-td">
+                                <img ng-show="testData.dataAvailable"
+                                     data-ng-src="data:image/png;base64,{{testData.beginPhoto}}" width="100%" height="100%">
                         </td>
-                        <td ng-show="TestDataFormData2.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData2.dataAvailable" id="test2BeginPhoto"
-                                     src="data:image/png;base64, TestDataFormData2.beginPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData3.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData3.dataAvailable" id="test3BeginPhoto"
-                                     src="data:image/png;base64, TestDataFormData3.beginPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData4.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData4.dataAvailable" id="test4BeginPhoto"
-                                     src="data:image/png;base64, TestDataFormData4.beginPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData5.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData1.dataAvailable" id="test5BeginPhoto"
-                                     src="data:image/png;base64, TestDataFormData5.beginPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData6.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData5.dataAvailable" id="test6BeginPhoto"
-                                     src="data:image/png;base64, TestDataFormData6.beginPhoto" width="100%" height="100%">
-                        </td>
+                    </tr>
                     <tr>
-                        <td ng-show="TestDataFormData1.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData1.dataAvailable" id="test1EndPhoto"
-                                     src="data:image/png;base64, TestDataFormData1.endPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData2.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData2.dataAvailable" id="test2EndPhoto"
-                                     src="data:image/png;base64, TestDataFormData2.endPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData3.dataAvailable" class="image-td">
-                            <img ng-show="TestDataFormData3.dataAvailable" id="test3EndPhoto"
-                                     src="data:image/png;base64, TestDataFormData3.endPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData4.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData4.dataAvailable" id="test4EndPhoto"
-                                     src="data:image/png;base64, TestDataFormData4.endPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData5.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData1.dataAvailable" id="test5EndPhoto"
-                                     src="data:image/png;base64, TestDataFormData5.endPhoto" width="100%" height="100%">
-                        </td>
-                        <td ng-show="TestDataFormData6.dataAvailable" class="image-td">
-                                <img ng-show="TestDataFormData5.dataAvailable" id="test6EndPhoto"
-                                     src="data:image/png;base64, TestDataFormData6.endPhoto" width="100%" height="100%">
+                        <td ng-repeat="testData in TestDataFormData" ng-show="testData.dataAvailable" class="image-td">
+                                <img ng-show="testData.dataAvailable"
+                                     data-ng-src="data:image/png;base64,{{testData.endPhoto}}" width="100%" height="100%">
                         </td>
                     </tr>
                 </tbody>
             </table>
             </div>
-
         </div>
 
         <div style="padding-top: 30px">
-
             <div class="form-group col-md-10">
                 <button type="submit" class="btn btn-success btn-md"
                         ng-click="saveCalibrationTest()">{{'ADD' | translate}}

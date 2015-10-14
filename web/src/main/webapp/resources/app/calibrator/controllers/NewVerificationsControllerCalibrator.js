@@ -264,6 +264,7 @@ angular
             };
 
 
+
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
@@ -273,6 +274,7 @@ angular
                         size: 'md',
                         resolve: {
                             response: function () {
+                                //todo need to find verificators by agreements(договорах)
                                 return verificationServiceCalibrator.getVerificators()
                                     .success(function (verificators) {
                                         $log.debug(verificators);
