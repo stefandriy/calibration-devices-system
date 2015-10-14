@@ -89,7 +89,7 @@ angular
                 try{
                     if ($scope.calibrationTask.place==null) {
                         return true;
-                    } else if ($scope.calibrationTask.place == 'fixed_station') {
+                    } else if ($scope.calibrationTask.place == 'stationary_station') {
                         return false;
                     } else {
                         return true;
@@ -104,9 +104,9 @@ angular
                 try{
                     if (($scope.calibrationTask.place==null) && ($scope.calibrationTask.counterStatus==null)) {
                         return true;
-                    } else if ($scope.calibrationTask.place == 'fixed_station' && $scope.calibrationTask.counterStatus == 'not_removed') {
+                    } else if ($scope.calibrationTask.place == 'stationary_station' && $scope.calibrationTask.counterStatus == 'not_removed') {
                         return false;
-                    } else if ($scope.calibrationTask.place == 'portable_station'){
+                    } else if ($scope.calibrationTask.place == 'mobile_station'){
                         $scope.calibrationTask.counterStatus = '';
                         return false;
                     } else {

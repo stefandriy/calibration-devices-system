@@ -43,10 +43,10 @@ angular
 
 
             $scope.statusData = [
-                {id: 'REJECTED', label: null},
-                {id: 'SENT_TO_VERIFICATOR', label: null},
-                {id: 'TEST_OK', label: null},
-                {id: 'TEST_NOK', label: null}
+                {id: 'IN_PROGRESS', label: null},
+                {id: 'TEST_PLACE_DETERMINED', label: null},
+                {id: 'SENT_TO_TEST_DEVICE', label: null},
+                {id: 'TEST_COMPLETED', label: null},
             ];
 
             //new select measurementDeviceType for search
@@ -66,10 +66,10 @@ angular
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
-                    $scope.statusData[0].label = 'Відхилена';
-                    $scope.statusData[1].label = 'Предявлено повірнику';
-                    $scope.statusData[2].label = 'Перевірено придатний';
-                    $scope.statusData[3].label = 'Перевірено непридатний';
+                    $scope.statusData[0].label = 'В роботі';
+                    $scope.statusData[1].label = 'Визначено спосіб повірки';
+                    $scope.statusData[2].label = 'Відправлено на установку';
+                    $scope.statusData[3].label = 'Проведено вимірювання';
 
                     $scope.deviceTypeData[0].label = 'Електричний';
                     $scope.deviceTypeData[1].label = 'Газовий';
@@ -80,10 +80,10 @@ angular
                     $scope.protocolStatusData[1].label = 'Не придатний';
 
                 } else if (lang === 'eng') {
-                    $scope.statusData[0].label = 'Rejected';
-                    $scope.statusData[1].label = 'Sent to verificator';
-                    $scope.statusData[2].label = 'Tested OK';
-                    $scope.statusData[3].label = 'Tested NOK';
+                    $scope.statusData[0].label = 'In progress';
+                    $scope.statusData[1].label = 'Test place determined';
+                    $scope.statusData[2].label = 'Sent to test device';
+                    $scope.statusData[3].label = 'Test completed';
 
                     $scope.deviceTypeData[0].label = 'Electrical';
                     $scope.deviceTypeData[1].label = 'Gaseous';
@@ -179,10 +179,6 @@ angular
                 // I did this to reduce reloading and flickering of the table
                 $scope.initDatePicker(date);
                 $scope.tableParams = new ngTableParams(
-                    //{
-                    //    // initial filter
-                    //    filter: { id : "6aa78022-c767-4934-ab67-eed574d1b48d" }
-                    //},
                 {
                     page: 1,
                     count: 10,
@@ -196,6 +192,8 @@ angular
 
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
+
+                        params.filter().id = null;
 
                         if ($scope.selectedStatus.name != null) {
                             params.filter().status = $scope.selectedStatus.name.id;
@@ -217,12 +215,16 @@ angular
                             params.filter().protocol_status = null;
                         }
 
+                        if(true) {
+                            params.filter().id = "";
+                        }
+
                         //params.filter().id = $location.search().param;
                         console.log($location.search().param);
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                         params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
-                        calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder, $location.search().param).success(function (result) {
+                        calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
                             console.log(result);
                             $scope.resultsCount = result.totalItems;
                             console.log(result.totalItems);
@@ -233,8 +235,8 @@ angular
                         });
                     }
                 })
+                console.log($scope.tableParams.filter());
             });
-
 
             $scope.checkFilters = function () {
                 if ($scope.tableParams == null) return false; //table not yet initialized

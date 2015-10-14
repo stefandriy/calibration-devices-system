@@ -1,7 +1,8 @@
 angular
     .module('adminModule')
     .controller('UsersController', ['$scope', 'UsersService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
-        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope) {
+        'toaster',
+        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope, toaster) {
 
 
             $scope.cantAddEmployee;
@@ -44,6 +45,13 @@ angular
                         controller : 'UserAddModalController',
                         templateUrl : '/resources/app/admin/views/modals/user-add-modal.html',
                     });
+
+                /**
+                 * executes when modal closing
+                 */
+                addEmployeeModal.result.then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ADMIN'));
+                });
             };
 
 
@@ -61,6 +69,10 @@ angular
                             $scope.cantAddEmployee = true;
                         }
                     });
+            };
+
+            $scope.popNotification = function (title, text) {
+                toaster.pop('success', title, text);
             };
 
         }]);
