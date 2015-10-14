@@ -1,5 +1,6 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.*;
 import com.softserve.edu.dto.provider.VerificationDTO;
@@ -11,6 +12,7 @@ import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
@@ -89,7 +91,7 @@ public class CalibratorVerificationController {
                 searchData.getEmployee_last_name(),
                 sortCriteria, sortOrder, calibratorEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
@@ -99,29 +101,23 @@ public class CalibratorVerificationController {
      * @param itemsPerPage count of elements per one page
      * @return a page of CalibrationTests with their total amount
      */
-    @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}/{verificationId}", method = RequestMethod.GET)
-    public PageDTO<VerificationPageDTO> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
-                                                                          @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData,
-                                                                          @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser, @PathVariable String verificationId) {
+    @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+    public PageDTO<CalibrationTestDTO> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
+                                                    @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData,
+                                                    @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-//        Verification verification = verificationService.findById(verificationId);
-//
-//        CalibrationTestList calibrationTestList = testService.findAllCalibrationTests();
-//
-//        Page<CalibrationTestPageItem> page = testService.getCalibrationTestsBySearchAndPagination(pageNumber, itemsPerPage, search)
-//                .map(calibrationTest -> new CalibrationTestPageItem(calibrationTest.getId(), calibrationTest.getName(), calibrationTest.getDateTest(),
-//                        calibrationTest.getTemperature(), calibrationTest.getSettingNumber(), calibrationTest.getLatitude(),
-//                        calibrationTest.getLongitude(), calibrationTest.getConsumptionStatus(), calibrationTest.getTestResult()));
-//        return new PageDTO<>(page.getTotalElements(), page.getContent());
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 
-        ListToPageTransformer<Verification> queryResult = verificationService
+        logger.info(searchData);
+        logger.info(searchData);
+        logger.info(employeeUser.getOrganizationId());
+
+        ListToPageTransformer<CalibrationTest> queryResult = verificationService
                 .findPageOfCalibrationTestsByVerificationId(
                         employeeUser.getOrganizationId(),
                         pageNumber,
                         itemsPerPage,
-                        searchData.getDate(),
-                        searchData.getEndDate(),
+                        searchData.getStatus(),
                         searchData.getId(),
                         searchData.getClient_full_name(),
                         searchData.getRegion(),
@@ -129,15 +125,15 @@ public class CalibratorVerificationController {
                         searchData.getLocality(),
                         searchData.getStreet(),
                         searchData.getStatus(),
-                        searchData.getEmployee_last_name(),
                         searchData.getProtocol_id(),
                         searchData.getProtocol_status(),
                         searchData.getMeasurement_device_id(),
                         searchData.getMeasurement_device_type(),
                         sortCriteria,
-                        sortOrder, calibratorEmployee);
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+                        sortOrder);
+
+        List<CalibrationTestDTO> content = CalibratorTestPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<>(queryResult.getTotalItems(), content);
 
     }
 

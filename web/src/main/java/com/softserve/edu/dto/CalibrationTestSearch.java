@@ -1,19 +1,25 @@
 package com.softserve.edu.dto;
 
 
+
 public class CalibrationTestSearch {
 
     private String id;
-    private String date;
-    private String endDate;
+    private String name;
+    private String dateTest;
+    private Integer temperature;
+    private Integer settingNumber;
+    private Double latitude;
+    private Double longitude;
+    private String consumptionStatus;
+
     private String client_full_name;
     private String street;
     private String region;
     private String district;
     private String locality;
-    private String status;
-    private String employee_last_name;
 
+    private String status;
     private Long protocol_id;
     private String protocol_status;
 
@@ -26,12 +32,6 @@ public class CalibrationTestSearch {
 
     public void setId(String id) {
         this.id = id;
-    }
-    public String getDate() {
-        return date;
-    }
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getStreet() {
@@ -71,21 +71,62 @@ public class CalibrationTestSearch {
     public void setStatus(String status) {
         this.status = status;
     }
-    public String getEmployee_last_name() {
-        return employee_last_name;
-    }
-    public void setEmployee_last_name(String employee_last_name) {
-        this.employee_last_name = employee_last_name;
+
+    public String getName() {
+        return name;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public String getDateTest() {
+        return dateTest;
     }
 
+    public void setDateTest(String dateTest) {
+        this.dateTest = dateTest;
+    }
+
+    public Integer getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(Integer temperature) {
+        this.temperature = temperature;
+    }
+
+    public Integer getSettingNumber() {
+        return settingNumber;
+    }
+
+    public void setSettingNumber(Integer settingNumber) {
+        this.settingNumber = settingNumber;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getConsumptionStatus() {
+        return consumptionStatus;
+    }
+
+    public void setConsumptionStatus(String consumptionStatus) {
+        this.consumptionStatus = consumptionStatus;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
 
     public String getClient_full_name() {
         return client_full_name;

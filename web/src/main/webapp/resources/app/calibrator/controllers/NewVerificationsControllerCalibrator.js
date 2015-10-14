@@ -57,7 +57,6 @@ angular
                     $scope.statusData[1].label = 'Визначено спосіб повірки';
                     $scope.statusData[2].label = 'Відправлено на установку';
                     $scope.statusData[3].label = 'Проведено вимірювання';
-
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'In progress';
                     $scope.statusData[1].label = 'Test place determined';

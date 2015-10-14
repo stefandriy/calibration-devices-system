@@ -116,7 +116,7 @@ public class OrganizationController {
 								.getId(), organization.getName(), organization
 								.getEmail(), organization.getPhone(),
 								organizationService
-										.getOrganizationTypes(organization)));
+										.getOrganizationTypes(organization)));аа
 
 		return new PageDTO<>(page.getTotalElements(), page.getContent());*/
 
