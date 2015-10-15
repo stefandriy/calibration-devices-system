@@ -216,7 +216,9 @@ public class CalibratorVerificationController {
             String originalFileFullName = file.getOriginalFilename();
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
             if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                System.out.println("Pattern matches");
                 calibratorService.uploadBbi(file.getInputStream(), idVerification, originalFileFullName);
+                System.out.println("file uploaded");
             } else {
                 logger.error("Failed to load file ");
                 httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);

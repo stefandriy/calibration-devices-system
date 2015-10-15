@@ -2,7 +2,10 @@ package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.device.test.data.BbiDeviceTestData;
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.entity.verification.BbiProtocol;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.UploadBbiRepository;
+import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.parser.DeviceTestDataParser;
 import com.softserve.edu.service.parser.DeviceTestDataParserFactory;
@@ -15,8 +18,12 @@ import java.io.InputStream;
 
 @Service
 public class BbiFileServiceImpl implements BbiFileService {
+
     @Autowired
     private UploadBbiRepository uploadBbiRepository;
+
+    @Autowired
+    private VerificationRepository verificationRepository;
 
     private DeviceTestDataParserFactory testDataParserFactory = new DeviceTestDataParserFactory();
 
@@ -38,4 +45,5 @@ public class BbiFileServiceImpl implements BbiFileService {
         InputStream inputStream = new ByteArrayInputStream(findBbiFileBytesByFileName(fileName));
         return parser.parse(inputStream);
     }
+
 }

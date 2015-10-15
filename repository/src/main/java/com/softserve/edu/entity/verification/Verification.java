@@ -87,7 +87,7 @@ public class Verification {
     private String comment;
 
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "verification")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ,mappedBy = "verification")
     private BbiProtocol bbiProtocol;
 
     @OneToOne(mappedBy = "verification")
