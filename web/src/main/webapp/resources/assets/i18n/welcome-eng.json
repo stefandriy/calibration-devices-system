@@ -1,4 +1,4 @@
-w{
+{
   "LANG": "Language",
   "HEAD_TITLE": "Centralized calibration of devices system",
   "START": "Start",
@@ -69,7 +69,7 @@ w{
   "MAIN_PANEL":"Main panel",
   "ORGANIZATIONS":"Organizations",
   "GUIDE_ADDRESSES":"Guide addresses",
-  "COUNTERS":"Counters",
+  "COUNTERS":"Category of counters",
   "EMPLOYEE":"Employees",
   "EMPLOYEE_SINGLE": "Employee full name",
   "INFORMATION": "Information",
@@ -123,6 +123,8 @@ w{
   "COUNTER_NUMBER":"Counter number",
   "TYPE_OF_COUNTER":"Type of counter",
   "COUNTER_CATEGORY": "Counter category",
+  "COUNTER_KIND": "Kind of counter",
+  "ADD_CATEGORY_COUNTER": "Add counter category",
   "DEVICE_NAME":"Device name",
   "CHOOSE_THE_TYPE":"Choose the type...",
   "PHONE_NUMBER_TWO":"Phone number",
