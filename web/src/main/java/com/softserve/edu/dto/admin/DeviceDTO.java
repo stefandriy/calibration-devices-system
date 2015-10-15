@@ -1,17 +1,17 @@
 package com.softserve.edu.dto.admin;
 
-public class DevicePageItem {
+public class DeviceDTO {
 	private Long id;
 	private String deviceType;
 	private String deviceSign;
 	private String number;
 	private String deviceName;
 
-	public DevicePageItem() {
+	public DeviceDTO() {
 	}
 
-	public DevicePageItem(Long id, String deviceType, String deviceSign,
-			String number, String deviceName) {
+	public DeviceDTO(Long id, String deviceType, String deviceSign,
+					 String number, String deviceName) {
 		this.id = id;
 		this.deviceType = deviceType;
 		this.deviceSign = deviceSign;

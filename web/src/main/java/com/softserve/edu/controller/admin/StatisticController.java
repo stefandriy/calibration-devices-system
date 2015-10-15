@@ -28,7 +28,7 @@ public class StatisticController {
         return new CountDTO(statisticService.countUsers());
     }
 
-    @RequestMapping(value = "devices", method = RequestMethod.GET)
+    @RequestMapping(value = "device-category", method = RequestMethod.GET)
     public CountDTO countDevices() {
         return new CountDTO(statisticService.countDevices());
     }

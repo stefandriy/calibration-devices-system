@@ -61,9 +61,9 @@ angular
                     templateUrl: '/resources/app/admin/views/address-panel.html'
                 })
                 .state(
-                'devices',
+                'device-category',
                 {
-                    url: '/devices',
+                    url: '/device-category',
                     templateUrl: '/resources/app/admin/views/devices-panel.html'
                 })
                 .state(
