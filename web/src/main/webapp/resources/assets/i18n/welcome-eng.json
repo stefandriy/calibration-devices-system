@@ -1,4 +1,4 @@
-w{
+{
   "LANG": "Language",
   "HEAD_TITLE": "Centralized calibration of devices system",
   "START": "Start",
@@ -55,7 +55,6 @@ w{
   "PROVIDER": "Service provider",
   "VERIFICATOR": "Authorized calibration laboratory",
   "PROVIDER_INFO": "Provider is a service that will handle your application. For instance 'Lvivvodokanal'. Start typing and choose one form drop-down list. It will correspond district that you have just selected",
-  "INCORRECT": "Incorrect value input",
   "INCORRECT": "Incorrect value input",
   "INCORRECT_LOGIN": "Login:",
   "INCORRECT_PASSWORD": "Password:",
@@ -168,6 +167,7 @@ w{
   "TEST_RESULT":"Test result",
   "CONSUMPTION_STATUS":"Consumption status",
   "UPLOAD_BBI_FILE" : "Upload BBI",
+  "UPLOAD_ARCHIVE" : "Upload archive",
   "FILE_NAME" : "File name",
   "DATE_TIME" : "Date",
   "TEMPERATURE" : "Temperature",
