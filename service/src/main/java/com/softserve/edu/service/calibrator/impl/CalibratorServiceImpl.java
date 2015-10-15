@@ -63,11 +63,11 @@ public class CalibratorServiceImpl implements CalibratorService {
         try {
             while ((entry = zipStream.getNextEntry()) != null) {
                 if (entry.isDirectory()){
-                    //set bbi direcotry
+                    //TODO: set bbi direcotry and read each of them
                 }
                 else {
                     if(Pattern.compile(dbFileExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(entry.getName()).matches()) {
-                        //ByteArrayInputStrea mentry.getName();
+                        //TODO: if db file, open sqlite db in memory and read info
                         System.out.println(entry.getName());
                     }
                 }
