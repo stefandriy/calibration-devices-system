@@ -20,9 +20,7 @@ angular
             findBuildingsByStreetId: function (id) {
                 return getData('buildings/' + id);
             },
-			findProvidersByDistrict : function(district) {
-				return getData("providers/" + district);
-			},
+
 			findCalibratorsByDistrict : function(district) {
 				return getData("calibrators/" + district);
 			},

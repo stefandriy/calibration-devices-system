@@ -60,6 +60,23 @@ angular
                 });
             };
 
+            $scope.openAdditionalInfoModal = function(id) {
+                $rootScope.verifId = id;
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'AdditionalInfoController',
+                    templateUrl: '/resources/app/calibrator/views/modals/additionalInformation.html'
+                });
+            }
+
+            $scope.addInfoToVerification = function(id){
+                var dataToSend = {
+                    verificationId: id,
+                    additionalInfo: null
+                }
+                $log.info(dataToSend);
+            }
+
 
 
         }]);

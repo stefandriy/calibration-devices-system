@@ -7,30 +7,27 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "fileName")
 @Table(name = "BBI_PROTOCOL")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BbiProtocol {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String fileName;
 
     @Lob
     private byte[] bbi;
-
-    private String fileName;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "verificationId")
     private Verification verification;
 
-    public Long getId() {
-        return id;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public byte[] getBbi() {
@@ -49,17 +46,9 @@ public class BbiProtocol {
         this.verification = verification;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
+    public BbiProtocol(String fileName, byte[] bbi, Verification verification) {
         this.fileName = fileName;
-    }
-
-    public BbiProtocol(byte[] bbi, Verification verification, String fileName) {
         this.bbi = bbi;
         this.verification = verification;
-        this.fileName = fileName;
     }
 }

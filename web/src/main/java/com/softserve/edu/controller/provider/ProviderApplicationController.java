@@ -2,6 +2,7 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
+import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
@@ -76,7 +77,8 @@ public class ProviderApplicationController {
      * @param verificationDTO object with verification data
      */
     @RequestMapping(value = "send", method = RequestMethod.POST)
-    public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO) {
+    public String getInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO,
+                                          @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         ClientData clientData = new ClientData(
                 verificationDTO.getFirstName(),
                 verificationDTO.getLastName(),
@@ -94,7 +96,7 @@ public class ProviderApplicationController {
                 )
         );
 
-        Organization provider = providerService.findById(verificationDTO.getProviderId());
+        Organization provider = providerService.findById(employeeUser.getOrganizationId());
         Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
@@ -145,6 +147,7 @@ public class ProviderApplicationController {
 
     /**
      * Find districts corresponding to provider service area
+     *
      * @param regionId
      * @param employeeUser
      * @return
@@ -165,6 +168,7 @@ public class ProviderApplicationController {
 
     /**
      * Find localities corresponding to provider service area
+     *
      * @param districtId
      * @param employeeUser
      * @return

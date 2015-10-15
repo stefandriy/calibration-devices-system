@@ -1,5 +1,6 @@
 package com.softserve.edu.service.admin.impl;
 
+import com.softserve.edu.entity.enumeration.user.EmployeeRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
@@ -57,8 +58,8 @@ public class UsersServiceImpl implements UserService  {
     }
 
     @Override
-    public Long getCountOfVerifications(Long organizationId, String username) {
-        return 0L;
+    public Long getCountOfVerifications(EmployeeRole employeeRole, String username) {
+        return userRepository.countEmployeeVerifications(employeeRole, username);
     }
 
     @Override

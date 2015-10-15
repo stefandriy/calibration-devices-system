@@ -31,6 +31,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -127,7 +128,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Organization getOrganizationById(Long id) {
         return organizationRepository.findOne(id);
     }
@@ -201,7 +202,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Integer getOrganizationEmployeesCapacity(Long organizationId) {
         return organizationRepository.findOne(organizationId).getEmployeesCapacity();
     }
@@ -219,34 +220,49 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Organization> findAllByLocalityId(Long localityId) {
         return organizationRepository.findOrganizationByLocalityId(localityId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Organization> findAllByLocalityIdAndTypeId(Long localityId, OrganizationType typeId) {
         return organizationRepository.findOrganizationByLocalityIdAndType(localityId, typeId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<OrganizationType> findOrganizationTypesById(Long id) {
         return organizationRepository.findOrganizationTypesById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Organization> findByLocalityIdAndTypeAndDevice(Long localityId, OrganizationType orgType, DeviceType deviceType) {
-        return organizationRepository.findByLocalityIdAndTypeAndDevice(localityId,orgType,deviceType);
+        return organizationRepository.findByLocalityIdAndTypeAndDevice(localityId, orgType, deviceType);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LocalityDTO> findLocalitiesByOrganizationId(Long organizationId) {
         return organizationRepository.findLocalitiesByOrganizationId(organizationId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<DeviceType> findDeviceTypesByOrganizationId(Long organizationId) {
         return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
     }
 
+    @Override
+    public List<Organization> findByServiceAreaIdsAndOrganizationTypeId(Set<Long> serviceAreaIds, OrganizationType type) {
+        List<Organization> organizations = new ArrayList<>();
+        serviceAreaIds.stream()
+                .forEach(serviceAreaId -> {
+                    List<Organization> organizationList = organizationRepository.findOrganizationByLocalityIdAndType(serviceAreaId, type);
+                    organizations.addAll(organizationList);
+                });
+        return organizations;
+    }
 }

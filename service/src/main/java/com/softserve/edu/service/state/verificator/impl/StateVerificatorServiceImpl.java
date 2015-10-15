@@ -41,12 +41,6 @@ public class StateVerificatorServiceImpl implements StateVerificatorService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Organization> findByDistrictAndType(String district, String type) {
-        return stateVerificatorRepository.findByDistrictAndType(district, type);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Organization findById(Long id) {
         return stateVerificatorRepository.findOne(id);
     }

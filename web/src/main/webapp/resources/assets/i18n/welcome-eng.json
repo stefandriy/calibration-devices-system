@@ -1,4 +1,4 @@
-{
+w{
   "LANG": "Language",
   "HEAD_TITLE": "Centralized calibration of devices system",
   "START": "Start",
@@ -74,6 +74,7 @@
   "EMPLOYEE_SINGLE": "Employee full name",
   "INFORMATION": "Information",
   "SUCCESSFUL_SENDING": "Your message has been sent successfully",
+  "SUCCESS": "Success",
 
   "PROTOCOL_ID":"Protocol ID",
   "PROTOCOL_DATE":"Protocol creation date",
@@ -96,6 +97,10 @@
   "ORGANIZATION_CHOOSE_TYPE_ADMIN":"Choose type of organization",
   "ORGANIZATION_TELEPHON_NUMBER_ADMIN":"Organization phone number",
   "FILL_YOUR_SYSTEM_ADMINISTRATOR_FOR_ORGANIZATION":"Fill you system administrator for organization",
+  "SUCCESSFUL_CREATED_ORGANIZATION":"Organization have been created",
+  "SUCCESSFUL_EDITED_ORGANIZATION":"Organization have been changed",
+  "SUCCESSFUL_CREATED_ADMIN":"Admin have been created",
+
   "ACCOUNT_INFORMATION":"Account information",
   "GENERAL_INFORMATION":"General information",
   "LOGIN_TWO":"Login",
@@ -360,6 +365,7 @@
   "TIME_REGEX" : "Error. enter: 12.00-13.00!",
   "PLUMBING_SERVICEABILITY" : "Plumbing serviceability",
   "INFO_BUTTON" : "Additional Information",
-  "SEND_MESSAGE" : "You did not select applications to send!"
-
+  "SEND_MESSAGE" : "You did not select applications to send!",
+  "NO_WATER_TO" : "No water to: ",
+  "DATE_OF_VERIF/DISASSEMBLY": "Desired date of verification/disassembly:"
 }

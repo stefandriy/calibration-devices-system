@@ -9,8 +9,6 @@ import java.util.List;
 public interface StateVerificatorService {
     void saveStateVerificator(Organization stateVerificator);
 
-    List<Organization> findByDistrictAndType(String district, String type);
-
     Organization findById(Long id);
 
     List<EmployeeDTO> getAllVerificatorEmployee(List<String> role, User employee);
