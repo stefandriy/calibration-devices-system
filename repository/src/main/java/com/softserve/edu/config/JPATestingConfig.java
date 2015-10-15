@@ -1,4 +1,4 @@
-package com.softserve.edu.config;
+/*package com.softserve.edu.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,4 +74,4 @@ public class JPATestingConfig {
         jpaProperties.put("hibernate.enable_lazy_load_no_trans", env.getProperty("hb.enableLazyLoadNoTrans"));
         return jpaProperties;
     }
-}
+}*/
