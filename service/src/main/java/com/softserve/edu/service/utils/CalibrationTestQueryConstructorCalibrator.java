@@ -90,15 +90,15 @@ public class CalibrationTestQueryConstructorCalibrator {
 //        }
 
         if ((idToSearch != null) && (idToSearch.length() > 0)) {
-            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("calibrationTests");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
         }
 
         if ((fullNameToSearch != null) && (fullNameToSearch.length() > 0)) {
-            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("calibrationTests");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             Predicate searchByClientFirstName = cb.like(joinCalibratorTest.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
             Predicate searchByClientLastName = cb.like(joinCalibratorTest.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
-            Predicate searchByClientMiddleName = cb.like(root.get("clientData").get("middleName"), "%" + fullNameToSearch + "%");
+            Predicate searchByClientMiddleName = cb.like(joinCalibratorTest.get("clientData").get("middleName"), "%" + fullNameToSearch + "%");
             Predicate searchPredicateByClientFullName = cb.or(searchByClientFirstName, searchByClientLastName, searchByClientMiddleName);
             queryPredicate = cb.and(searchPredicateByClientFullName, queryPredicate);
         }

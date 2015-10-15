@@ -366,4 +366,5 @@ w{
   "SEND_MESSAGE" : "You did not select applications to send!",
   "NO_WATER_TO" : "No water to: ",
   "DATE_OF_VERIF/DISASSEMBLY": "Desired date of verification/disassembly:"
+  "DATE_TEST" : "Testing date"
 }
