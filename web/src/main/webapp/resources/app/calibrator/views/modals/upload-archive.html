@@ -4,13 +4,14 @@
 
 <div class="modal-body">
     <div class="uploadFile">
-        <button ng-hide="uploaded" class="btn btn-info" ngf-select="upload(file)"
-                accept=".zip">Оберіть файл
+        <button ng-hide="uploaded" class="btn btn-info" ngf-select="upload($files)" accept=".zip">Оберіть файл
         </button>
 
         <div ng-hide="uploaded" ngf-drop ngf-select class="drop-box" ngf-drag-over-class="dragover"
              ngf-multiple="false"
-             ngf-allow-dir="false" accept=".zip">Перетягніть файл сюди
+             ngf-allow-dir="false"
+             accept=".zip"
+             ng-model="files">Перетягніть файл сюди
         </div>
 
         <progressbar value="progressPercentage" max="100" min="0" class="progress-striped active" type="success">

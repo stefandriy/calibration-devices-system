@@ -18,14 +18,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 @Service
 public class CalibratorServiceImpl implements CalibratorService {
+
+    private static final String dbFileExtensionPattern = "^.*\\.(db|DB|)$";
 
     @Autowired
     private OrganizationRepository calibratorRepository;
@@ -44,6 +52,29 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Transactional(readOnly = true)
     public Organization findById(Long id) {
         return calibratorRepository.findOne(id);
+    }
+
+    @Override
+    @Transactional
+    public void uploadArchive(InputStream inputStream, String originalFileFullName) throws IOException {
+        String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
+        ZipInputStream zipStream = new ZipInputStream(inputStream);
+        ZipEntry entry;
+        try {
+            while ((entry = zipStream.getNextEntry()) != null) {
+                if (entry.isDirectory()){
+                    //set bbi direcotry
+                }
+                else {
+                    if(Pattern.compile(dbFileExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(entry.getName()).matches()) {
+                        //ByteArrayInputStrea mentry.getName();
+                        System.out.println(entry.getName());
+                    }
+                }
+            }
+        } finally {
+            zipStream.close();
+        }
     }
 
     @Override

@@ -20,21 +20,26 @@ angular
 
             };
 
-            //$scope.file = undefined;
-
-            //$scope.$watch('file', function () {
-            //    $scope.upload($scope.file);
-            //});
+            $scope.$watch('files', function () {
+                $scope.upload($scope.files);
+            });
+            $scope.$watch('file', function () {
+                if ($scope.file != null) {
+                    $scope.files = [$scope.file];
+                }
+            });
 
             $scope.uploaded = false;
 
             $scope.progressPercentage = 0;
 
 
-            $scope.upload = function (file) {
-                if (file) {
+            $scope.upload = function (files) {
+                if (files && files.length) {
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
                         Upload.upload({
-                            url: '/calibrator/verifications/new/upload?idVerification=',
+                            url: '/calibrator/verifications/new/upload-archive',
                             file: file
                         }).progress(function (evt) {
                             $scope.uploaded = true;
@@ -61,7 +66,7 @@ angular
 
                             })
                     }
+                }
             };
-
         }]);
 

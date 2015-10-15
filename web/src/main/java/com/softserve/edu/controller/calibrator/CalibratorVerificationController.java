@@ -28,7 +28,6 @@ import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,7 +45,9 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/calibrator/verifications/")
 public class CalibratorVerificationController {
 
-    private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
+    private static final String contentExtensionPattern = "^.*\\.(bbi|BBI|)$";
+    private static final String archiveExtensionPattern = "^.*\\.(zip|ZIP|)$";
+
     private final Logger logger = Logger.getLogger(CalibratorVerificationController.class);
     @Autowired
     VerificationService verificationService;
@@ -215,7 +216,7 @@ public class CalibratorVerificationController {
         try {
             String originalFileFullName = file.getOriginalFilename();
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
-            if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+            if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
                 calibratorService.uploadBbi(file.getInputStream(), idVerification, originalFileFullName);
             } else {
                 logger.error("Failed to load file ");
@@ -227,6 +228,27 @@ public class CalibratorVerificationController {
         }
         return httpStatus;
     }
+
+
+    @RequestMapping(value = "new/upload-archive", method = RequestMethod.POST)
+    public ResponseEntity<String> uploadFileArchive(@RequestBody MultipartFile file) {
+        ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
+        try {
+            String originalFileFullName = file.getOriginalFilename();
+            String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
+            if (Pattern.compile(archiveExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                calibratorService.uploadArchive(file.getInputStream(), originalFileFullName);
+            } else {
+                logger.error("Failed to load file ");
+                httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            logger.error("Failed to load file " + e.getMessage());
+            httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return httpStatus;
+    }
+
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber,

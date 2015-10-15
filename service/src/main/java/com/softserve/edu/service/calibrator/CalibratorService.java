@@ -12,6 +12,8 @@ public interface CalibratorService {
     
     Organization findById(Long id);
 
+    void uploadArchive(InputStream file, String originalFileFullName) throws IOException ;
+
     void uploadBbi(InputStream file, String idVerification, String originalFileFullName) throws IOException ;
 
     String findBbiFileByOrganizationId(String id);
