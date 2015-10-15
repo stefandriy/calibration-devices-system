@@ -49,6 +49,9 @@
                                             filter="{ 'date': 'daterange' }">{{ calibrationTest.dateTest | date :
                                             'dd-MM-yyyy'}}
                                         </td>
+                                        <td data-title="'CALIBRATION_TEST_NAME' | translate"
+                                            filter="{ 'name': 'text' }">{{ calibrationTest.name}}
+                                        </td>
                                         <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
                                             filter="{ 'id': 'text' }">{{ calibrationTest.id }}
                                         </td>
