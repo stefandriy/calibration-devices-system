@@ -15,8 +15,7 @@ public class BbiProtocol {
     @Id
     private String fileName;
 
-    @Lob
-    private byte[] bbi;
+    private String filePath;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "verificationId")
@@ -30,12 +29,12 @@ public class BbiProtocol {
         this.fileName = fileName;
     }
 
-    public byte[] getBbi() {
-        return bbi;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setBbi(byte[] bbi) {
-        this.bbi = bbi;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public Verification getVerification() {
@@ -46,9 +45,9 @@ public class BbiProtocol {
         this.verification = verification;
     }
 
-    public BbiProtocol(String fileName, byte[] bbi, Verification verification) {
+    public BbiProtocol(String fileName, String filePath, Verification verification) {
         this.fileName = fileName;
-        this.bbi = bbi;
+        this.filePath = filePath;
         this.verification = verification;
     }
 }
