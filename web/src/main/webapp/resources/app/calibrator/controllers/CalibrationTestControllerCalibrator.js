@@ -188,7 +188,7 @@ angular
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
 
-                   //     params.filter().id = null;
+                        params.filter().id = null;
 
                         if ($scope.consumptionStatus.name != null) {
                             params.filter().consumptionStatus = $scope.consumptionStatus.name.id;
@@ -212,7 +212,7 @@ angular
                         }
 
                         if(true) {
-                       //     params.filter().id = "bb";
+                            params.filter().id = $location.search().param;
                         }
 
                         //params.filter().id = $location.search().param;
