@@ -1,6 +1,7 @@
 package com.softserve.edu.service.tool;
 
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.springframework.data.domain.Page;
 
@@ -21,4 +22,6 @@ public interface DeviceService {
                                                                         String sortCriteria, String sortOrder);
 
     List<Device> getAllByType(String device);
+
+    void addDeviceCategory(String number, String deviceType, String deviceName);
 }
