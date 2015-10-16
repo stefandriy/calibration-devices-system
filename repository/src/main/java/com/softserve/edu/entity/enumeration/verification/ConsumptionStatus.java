@@ -2,6 +2,6 @@ package com.softserve.edu.entity.enumeration.verification;
 
 
 public enum ConsumptionStatus {
-     SUITABLE,
-     UNSUITABLE
+     IN_THE_AREA,
+     NOT_IN_THE_AREA
 }

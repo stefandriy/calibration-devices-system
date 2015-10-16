@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -95,7 +96,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     @Override
     @Transactional
     public CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
-                                    Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
+                                    Double latitude, Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = CalibrationTestResult.SUCCESS;
         calibrationTest.setName(name);
@@ -179,7 +180,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
-        calibrationTest.setConsumptionStatus("Придатний");
+        calibrationTest.setConsumptionStatus(ConsumptionStatus.IN_THE_AREA);
         calibrationTest.setTestResult(testResult);
         return calibrationTest;
     }

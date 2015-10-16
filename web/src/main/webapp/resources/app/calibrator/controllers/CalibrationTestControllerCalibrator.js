@@ -7,9 +7,9 @@ angular
             $scope.resultsCount = 0;
 
             $scope.clearAll = function () {
-                $scope.selectedStatus.name = null;
+                $scope.consumptionStatus.name = null;
                 $scope.selectedDeviceType.name = null;
-                $scope.selectedProtocolStatus.name = null;
+                $scope.testResult.name = null;
                 $scope.tableParams.filter({});
                 $scope.clearDate(); // sets 'all time' timerange
             };
@@ -29,24 +29,23 @@ angular
                 $scope.tableParams.reload();
             }
 
-            $scope.selectedStatus = {
+            $scope.consumptionStatus = {
                 name: null
             }
             //for measurement device type
             $scope.selectedDeviceType = {
                 name: null
             }
-            $scope.selectedProtocolStatus = {
+            $scope.testResult = {
                 name: null
             }
 
 
 
-            $scope.statusData = [
-                {id: 'IN_PROGRESS', label: null},
-                {id: 'TEST_PLACE_DETERMINED', label: null},
-                {id: 'SENT_TO_TEST_DEVICE', label: null},
-                {id: 'TEST_COMPLETED', label: null},
+
+            $scope.consumptionStatus = [
+                {id: 'IN_THE_AREA', label: null},
+                {id: 'NOT_IN_THE_AREA', label: null}
             ];
 
             //new select measurementDeviceType for search
@@ -58,7 +57,7 @@ angular
             ];
 
 
-            $scope.protocolStatusData = [
+            $scope.testResults = [
                 {id: 'SUCCESS', label: null},
                 {id: 'FAILED', label: null}
             ];
@@ -66,32 +65,28 @@ angular
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
-                    $scope.statusData[0].label = 'В роботі';
-                    $scope.statusData[1].label = 'Визначено спосіб повірки';
-                    $scope.statusData[2].label = 'Відправлено на установку';
-                    $scope.statusData[3].label = 'Проведено вимірювання';
+                    $scope.consumptionStatus[0].label = 'В зоні';
+                    $scope.consumptionStatus[1].label = 'Не в зоні';
 
                     $scope.deviceTypeData[0].label = 'Електричний';
                     $scope.deviceTypeData[1].label = 'Газовий';
                     $scope.deviceTypeData[2].label = 'Водний';
                     $scope.deviceTypeData[3].label = 'Термальний';
 
-                    $scope.protocolStatusData[0].label = 'Придатний';
-                    $scope.protocolStatusData[1].label = 'Не придатний';
+                    $scope.testResults[0].label = 'Придатний';
+                    $scope.testResults[1].label = 'Не придатний';
 
                 } else if (lang === 'eng') {
-                    $scope.statusData[0].label = 'In progress';
-                    $scope.statusData[1].label = 'Test place determined';
-                    $scope.statusData[2].label = 'Sent to test device';
-                    $scope.statusData[3].label = 'Test completed';
+                    $scope.consumptionStatus[0].label = 'In the area';
+                    $scope.consumptionStatus[1].label = 'Not in the area';
 
                     $scope.deviceTypeData[0].label = 'Electrical';
                     $scope.deviceTypeData[1].label = 'Gaseous';
                     $scope.deviceTypeData[2].label = 'Water';
                     $scope.deviceTypeData[3].label = 'Thermal';
 
-                    $scope.protocolStatusData[0].label = 'SUCCESS';
-                    $scope.protocolStatusData[1].label = 'FAILED';
+                    $scope.testResults[0].label = 'SUCCESS';
+                    $scope.testResults[1].label = 'FAILED';
 
                 } else {
                     $log.debug(lang);
@@ -195,22 +190,23 @@ angular
 
                    //     params.filter().id = null;
 
-                        if ($scope.selectedStatus.name != null) {
-                            params.filter().status = $scope.selectedStatus.name.id;
+                        if ($scope.consumptionStatus.name != null) {
+                            params.filter().consumptionStatus = $scope.consumptionStatus.name.id;
                         }
                         else {
-                            params.filter().status = null; //case when the filter is cleared with a button on the select
+                            params.filter().consumptionStatus = null; //case when the filter is cleared with a button on the select
                         }
 
                         if ($scope.selectedDeviceType.name != null) {
-                            params.filter().measurement_device_type = $scope.selectedDeviceType.name.id;
+                            params.filter().measurementDeviceType = $scope.selectedDeviceType.name.id;
                         }
                         else {
-                            params.filter().measurement_device_type = null; //case when the filter is cleared with a button on the select
+                            params.filter().measurementDeviceType = null; //case when the filter is cleared with a button on the select
                         }
 
-                        if ($scope.selectedProtocolStatus.name != null) {
-                            params.filter().protocol_status = $scope.selectedProtocolStatus.name.id;
+
+                        if ($scope.testResult.name != null) {
+                            params.filter().protocol_status = $scope.testResult.name.id;
                         } else {
                             params.filter().protocol_status = null;
                         }

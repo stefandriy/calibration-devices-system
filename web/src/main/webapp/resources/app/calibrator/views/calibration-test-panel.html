@@ -74,7 +74,7 @@
 
                                         </td>
                                         <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
-                                            filter="{ 'client_full_name': 'text' }">{{ calibrationTest.client_full_name }}
+                                            filter="{ 'clientFullName': 'text' }">{{ calibrationTest.clientFullName }}
                                         </td>
                                         <td data-title="'REGION' | translate" sortable="'region'"
                                             filter="{ 'region': 'text' }">{{ calibrationTest.region}}
@@ -94,22 +94,22 @@
                                         <td data-title="'CONSUMPTION_STATUS' | translate" sortable="'consumptionStatus'"
                                             filter="{ 'consumptionStatus': 'consumptionStatus' }">{{ calibrationTest.consumptionStatus | translate }}
                                         </td>
-                                        <td data-title="'PROTOCOL_ID' | translate " sortable="'protocol_id'"
-                                            filter="{ protocol_id : 'text' }">{{calibrationTest.protocol_id}}
+                                        <td data-title="'PROTOCOL_ID' | translate " sortable="'protocolId'"
+                                            filter="{ protocolId : 'text' }">{{calibrationTest.protocolId}}
                                         </td>
-                                        <td data-title="'TEST_RESULT' | translate" sortable="'protocol_status'"
+                                        <td data-title="'TEST_RESULT' | translate" sortable="'testResult'"
                                             filter="{ testResult : 'testResult'}">{{
                                             calibrationTest.testResult }}
                                         </td>
                                         <td data-title="'MEASUREMENT_DEVICE_ID' | translate"
-                                            sortable="'measurement_device_id'"
-                                            filter="{ measurement_device_id : 'text' }">
-                                            {{calibrationTest.measurement_device_id}}
+                                            sortable="'measurementDeviceId'"
+                                            filter="{ measurementDeviceId : 'text' }">
+                                            {{calibrationTest.measurementDeviceId}}
                                         </td>
                                         <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
-                                            sortable="'measurement_device_type'"
-                                            filter="{ measurement_device_type : 'deviceType' }">{{
-                                            calibrationTest.measurement_device_type }}
+                                            sortable="'measurementDeviceType'"
+                                            filter="{ measurementDeviceType : 'deviceType' }">{{
+                                            calibrationTest.measurementDeviceType }}
                                         </td>
                                         <td data-title="'DOCUMENT_TYPE' | translate">{{
                                             calibrationTest.documentTypeName }}
@@ -167,7 +167,7 @@
                                 </div>
                             </script>
                             <script type="text/ng-template" id="ng-table/filters/consumptionStatus.html">
-                                <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
+                                <ui-select ng-model="consumptionStatus.name" theme="select2" on-select='doSearch()'
                                            search-enabled="false"
                                            name="filter-consumptionStatus">
                                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
@@ -175,7 +175,7 @@
                                         {{$select.selected.label}}
                                     </ui-select-match>
                                     <ui-select-choices
-                                            repeat="status in statusData">
+                                            repeat="status in consumptionStatus">
                                         <span ng-bind-html="status.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
@@ -203,7 +203,7 @@
                                         {{$select.selected.label}}
                                     </ui-select-match>
                                     <ui-select-choices
-                                            repeat="protocolStatus in protocolStatusData">
+                                            repeat="protocolStatus in testResults">
                                         <span ng-bind-html="protocolStatus.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
