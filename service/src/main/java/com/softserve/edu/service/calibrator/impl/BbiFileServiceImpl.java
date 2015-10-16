@@ -1,9 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.device.test.data.BbiDeviceTestData;
 import com.softserve.edu.device.test.data.DeviceTestData;
-import com.softserve.edu.entity.verification.BbiProtocol;
-import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.UploadBbiRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BbiFileService;
@@ -13,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
 
 @Service
 public class BbiFileServiceImpl implements BbiFileService {
@@ -29,20 +25,21 @@ public class BbiFileServiceImpl implements BbiFileService {
 
     @Override
     @Transactional
-    public byte[] findBbiFileBytesByFileName(String fileName) {
-        final String BBI_EXTENSION = ".bbi";
-        String fileNameWithoutExtension = fileName.endsWith(BBI_EXTENSION) ?
-                fileName.substring(0, fileName.length() - BBI_EXTENSION.length()) :
-                fileName;
-        System.out.println(fileNameWithoutExtension);
-        byte[] result = uploadBbiRepository.findFileBytesByFileName(fileNameWithoutExtension);
-        System.out.println(result);
-        return result;
+    public File findBbiFileByFileName(String fileName) {
+        String absolutePath = uploadBbiRepository.findFileAbsolutePathByFileName(fileName);
+        File file = new File(absolutePath);
+        return file;
     }
 
     public DeviceTestData findBbiFileContentByFileName(String fileName) {
         DeviceTestDataParser parser = testDataParserFactory.getParser(fileName);
-        InputStream inputStream = new ByteArrayInputStream(findBbiFileBytesByFileName(fileName));
+        File bbiFile = findBbiFileByFileName(fileName);
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(bbiFile);
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
         return parser.parse(inputStream);
     }
 

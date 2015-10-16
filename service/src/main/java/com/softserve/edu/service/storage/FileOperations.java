@@ -1,13 +1,16 @@
 package com.softserve.edu.service.storage;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.nio.file.Path;
+
 
 public interface FileOperations {
 
-    public Boolean putResourse(InputStream stream, String relativeFolder);
+    public String putResourse(InputStream stream, String relativeFolder, String fileType);
 
-    public URI getResourseURI(Path directory, String relativeFilePath);
+    public URI getResourseURI(String relativeFilePath);
+
+    public String putBbiFile(InputStream stream, String fileName)  throws IOException;
 
 }

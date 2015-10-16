@@ -193,7 +193,7 @@ angular
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
 
-                        params.filter().id = null;
+                   //     params.filter().id = null;
 
                         if ($scope.selectedStatus.name != null) {
                             params.filter().status = $scope.selectedStatus.name.id;
@@ -216,7 +216,7 @@ angular
                         }
 
                         if(true) {
-                            params.filter().id = "";
+                       //     params.filter().id = "bb";
                         }
 
                         //params.filter().id = $location.search().param;
