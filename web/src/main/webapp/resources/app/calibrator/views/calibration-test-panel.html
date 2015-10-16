@@ -50,7 +50,7 @@
                                             'dd-MM-yyyy'}}
                                         </td>
                                         <td data-title="'CALIBRATION_TEST_NAME' | translate"
-                                            filter="{ 'name': 'text' }">{{ calibrationTest.name}}
+                                            filter="{ 'name': 'text' }" sortable="'name'">{{ calibrationTest.name}}
                                         </td>
                                         <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
                                             filter="{ 'id': 'text' }">{{ calibrationTest.id }}
@@ -73,7 +73,7 @@
                                                popover-trigger="mouseenter"> <i class="fa fa-file-image-o"></i> </a>
 
                                         </td>
-                                        <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
+                                        <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'"
                                             filter="{ 'clientFullName': 'text' }">{{ calibrationTest.clientFullName }}
                                         </td>
                                         <td data-title="'REGION' | translate" sortable="'region'"
@@ -88,26 +88,26 @@
                                         <td data-title="'CLIENT_STREET' | translate" sortable="'street'"
                                             filter="{ 'street': 'text' }">{{ calibrationTest.street }}
                                         </td>
-                                        <td data-title="'SETTING_NUMBER' | translate" sortable="'settingNumber'"
+                                        <td data-title="'SETTING_NUMBER' | translate" sortable="'setting_number'"
                                             filter="{ 'settingNumber': 'text' }">{{ calibrationTest.settingNumber }}
                                         </td>
-                                        <td data-title="'CONSUMPTION_STATUS' | translate" sortable="'consumptionStatus'"
+                                        <td data-title="'CONSUMPTION_STATUS' | translate" sortable="'consumption_status'"
                                             filter="{ 'consumptionStatus': 'consumptionStatus' }">{{ calibrationTest.consumptionStatus | translate }}
                                         </td>
-                                        <td data-title="'PROTOCOL_ID' | translate " sortable="'protocolId'"
+                                        <td data-title="'PROTOCOL_ID' | translate " sortable="'protocol_id'"
                                             filter="{ protocolId : 'text' }">{{calibrationTest.protocolId}}
                                         </td>
-                                        <td data-title="'TEST_RESULT' | translate" sortable="'testResult'"
+                                        <td data-title="'TEST_RESULT' | translate" sortable="'test_result'"
                                             filter="{ testResult : 'testResult'}">{{
                                             calibrationTest.testResult }}
                                         </td>
                                         <td data-title="'MEASUREMENT_DEVICE_ID' | translate"
-                                            sortable="'measurementDeviceId'"
+                                            sortable="'measurement_device_id'"
                                             filter="{ measurementDeviceId : 'text' }">
                                             {{calibrationTest.measurementDeviceId}}
                                         </td>
                                         <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
-                                            sortable="'measurementDeviceType'"
+                                            sortable="'measurement_device_type'"
                                             filter="{ measurementDeviceType : 'deviceType' }">{{
                                             calibrationTest.measurementDeviceType }}
                                         </td>
