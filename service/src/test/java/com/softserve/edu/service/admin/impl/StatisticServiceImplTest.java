@@ -25,16 +25,6 @@ import static org.mockito.Mockito.stub;
 @RunWith(MockitoJUnitRunner.class)
 public class StatisticServiceImplTest {
 
-   /* private OrganizationRepository organizationRepository;
-    @Before
-    public void setUp() throws Exception {
-        statisticServiceImpl = new StatisticServiceImpl();
-      // long count = OrganizationRepository.count();
-     //given
-        PowerMockito.mockStatic(.class);
-        BDDMockito.given(DriverManager.getConnection(...)).willReturn(...);
-
-   }*/
     private long expected;
     @Mock
     private OrganizationRepository organizationRepository;
