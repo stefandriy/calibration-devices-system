@@ -42,7 +42,7 @@ public class StatisticServiceImplTest {
     public void initializeMockito() {
         statisticServiceImpl = new StatisticServiceImpl();
         MockitoAnnotations.initMocks(this);
-        expected = 51;
+        expected = 5L;
         userExpected = new User("Anton","0123");
 
     }
