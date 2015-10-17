@@ -6,5 +6,75 @@
         </div>
     </div>
 
-    <div class="row"></div>
+    <div class="row">
+    <!-- New verifications-->
+            <div class="col-lg-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <li class="fa fa-align-justify fa-fw"></li>
+                        Непризначені заявки
+                    </div>
+                    <div id="no_new_verifs_message" ng-show="!checkIfNewVerificationsAvailable()">
+                        <p>Непризначені заявки відсутні</p>
+                    </div>
+                    <div ng-show="checkIfNewVerificationsAvailable()">
+                        <table ng-table="tableParamsVerifications" template-pagination="custom/pager"
+                               class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th class="col-md-2">Дата початку</th>
+                                <th>Прізвище</th>
+                                <th>Вулиця</th>
+                                <th>Дії</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="verification in $data">
+                                <td align="center">{{ verification.initialDate | date : 'dd-MM-yyyy' }}</td>
+                                <td>{{ verification.surname }}</td>
+                                <td ng-if="verification.street">{{ verification.street }}</td>
+                                <td style="width: 15%" align="center">
+                                    <i class="fa fa-user add_attached_user_icon"
+                                       ng-show="!verification.providerEmployee"
+                                       popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                       ng-click="addProviderEmployee(verification.id,verification.providerEmployee)">
+                                    </i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <script type="text/ng-template" id="custom/pager">
+                            <div>
+                                <ul class="pager ng-cloak">
+                                    <li ng-repeat="page in pages"
+                                        ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                        ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                        <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                            Previous</a>
+                                        <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                           href="">Next &raquo;</a>
+                                    </li>
+                                    <li>
+                                        <div class="btn-groups">
+                                            <button type="button" ng-class="{'active':params.count() == 5}"
+                                                    ng-click="params.count(5)" class="btn btn-default">5
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 10}"
+                                                    ng-click="params.count(10)" class="btn btn-default">10
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 25}"
+                                                    ng-click="params.count(25)" class="btn btn-default">25
+                                            </button>
+                                            <button type="button" ng-class="{'active':params.count() == 50}"
+                                                    ng-click="params.count(50)" class="btn btn-default">50
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </script>
+                    </div>
+                </div>
+            </div>
+    </div>
 </div>
