@@ -1,6 +1,7 @@
 package com.softserve.edu.service.calibrator.data.test;
 
 
+import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -27,7 +28,7 @@ public interface CalibrationTestService {
      void createNewTest(CalibrationTest calibrationTest, Date date, String verificationId);
 
      CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
-                                    Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult);
+                                    Double latitude, Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult);
 
      void deleteTest(Long testId);
 

@@ -28,7 +28,7 @@
 
                 $stateProvider
                     .state('main-panel-provider', {
-                        url: '/',
+                        url: '/provider/',
                         templateUrl: '/resources/app/provider/views/main-panel.html',
                         controller: 'MainPanelControllerProvider'
                     })
@@ -112,7 +112,7 @@
                         controller: 'TaskSendingModalControllerCalibrator'
                     })
                     .state('main-panel-verificator', {
-                        url: '/',
+                        url: '/verificator/',
                         templateUrl: '/resources/app/verificator/views/main-panel.html'
                     })
                     .state("new-verifications-verificator", {
@@ -164,12 +164,30 @@
 
             }]);
 
-    angular.module('employeeModule').run(function (paginationConfig) {
+    angular.module('employeeModule').run(['UserService', '$state', 'paginationConfig', function (userService, $state, paginationConfig) {
         paginationConfig.firstText = 'Перша';
         paginationConfig.previousText = 'Попередня';
         paginationConfig.nextText = 'Наступна';
         paginationConfig.lastText = 'Остання';
-    });
+        
+        /**
+         * Initial state
+         */
+        userService.getLoggedInUserRoles().success(function (response) {
+        	var roles = response + '';
+            var role = roles.split(',');
+        	            
+        	for (var i = 0; i < role.length; i++) {
+                if (role[i] === 'PROVIDER_ADMIN' || role[i] === 'PROVIDER_EMPLOYEE')
+                	$state.transitionTo('main-panel-provider');
+                if (role[i] === 'CALIBRATOR_ADMIN' || role[i] === 'CALIBRATOR_EMPLOYEE')
+                	$state.transitionTo('main-panel-calibrator');
+                if (role[i] === 'STATE_VERIFICATOR_ADMIN' || role[i] === 'STATE_VERIFICATOR_EMPLOYEE')
+                	$state.transitionTo('main-panel-verificator');
+            }
+        	
+        })
+    }]);
 
 
     angular.module('employeeModule').directive('chosen', function () {

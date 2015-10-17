@@ -3,4 +3,5 @@ angular
     .controller('MainPanelControllerCalibrator', ['$scope', '$log',
         function ($scope, $log) {
     		$log.debug('inside main panel contr calibr');
+    		alert('inside main panel contr calibr');
     }]);

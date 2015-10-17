@@ -102,32 +102,27 @@ public class CalibratorVerificationController {
      */
     @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<CalibrationTestDTO> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
-                                                    @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData,
-                                                    @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
-        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
-
-        logger.info(searchData);
-        logger.info(searchData);
-        logger.info(employeeUser.getOrganizationId());
+                                                    @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData) {
 
         ListToPageTransformer<CalibrationTest> queryResult = verificationService
                 .findPageOfCalibrationTestsByVerificationId(
-                        employeeUser.getOrganizationId(),
                         pageNumber,
                         itemsPerPage,
-                        searchData.getStatus(),
-                        searchData.getId(),
-                        searchData.getClient_full_name(),
+                        searchData.getDate(),
+                        searchData.getEndDate(),
+                        searchData.getName(),
                         searchData.getRegion(),
                         searchData.getDistrict(),
                         searchData.getLocality(),
                         searchData.getStreet(),
-                        searchData.getStatus(),
-                        searchData.getProtocol_id(),
-                        searchData.getProtocol_status(),
-                        searchData.getMeasurement_device_id(),
-                        searchData.getMeasurement_device_type(),
+                        searchData.getId(),
+                        searchData.getClientFullName(),
+                        searchData.getSettingNumber(),
+                        searchData.getConsumptionStatus(),
+                        searchData.getProtocolId(),
+                        searchData.getTestResult(),
+                        searchData.getMeasurementDeviceId(),
+                        searchData.getMeasurementDeviceType(),
                         sortCriteria,
                         sortOrder);
 
