@@ -173,12 +173,10 @@
         /**
          * Initial state
          */
-        userService.isAdmin().success(function (response) {
+        userService.getLoggedInUserRoles().success(function (response) {
         	var roles = response + '';
             var role = roles.split(',');
-        	
-            alert('in Initial state switcher '+role[0]);
-            
+        	            
         	for (var i = 0; i < role.length; i++) {
                 if (role[i] === 'PROVIDER_ADMIN' || role[i] === 'PROVIDER_EMPLOYEE')
                 	$state.transitionTo('main-panel-provider');
