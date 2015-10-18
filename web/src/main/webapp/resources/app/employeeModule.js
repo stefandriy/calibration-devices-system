@@ -59,7 +59,8 @@
                     })
                     .state('main-panel-calibrator', {
                         url: '/calibrator/',
-                        templateUrl: '/resources/app/calibrator/views/main-panel.html'
+                        templateUrl: '/resources/app/calibrator/views/main-panel.html',
+                        controller: 'MainPanelControllerCalibrator'
                     })
                     .state("profile-info", {
                     url: '/profile-info',
@@ -254,6 +255,7 @@
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
         'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
+        'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
         'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',
         'calibrator/services/AddressServiceCalibrator',
