@@ -2,8 +2,10 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.StatisticService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 public class WelcomeController {
@@ -20,6 +23,9 @@ public class WelcomeController {
 
     @Autowired
     private StatisticService statisticService;
+    
+    @Autowired
+    private ProviderEmployeeService providerEmployeeService;
 
     /**
      * Responds details about current principal.
@@ -44,6 +50,16 @@ public class WelcomeController {
         usersPageItem.setPhone(user.getPhone());
         usersPageItem.setSecondPhone(user.getSecondPhone());
         return  usersPageItem;
+    }
+    
+    /**
+     * Find the role of the login user
+     *
+     * @return role
+     */
+    @RequestMapping(value = "/loginuser/roles", method = RequestMethod.GET)
+    public List<String> verification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        return providerEmployeeService.getRoleByUserNam(user.getUsername());
     }
 }
 

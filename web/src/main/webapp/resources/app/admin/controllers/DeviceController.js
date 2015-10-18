@@ -10,7 +10,8 @@ angular
         'DevicesService',
         'ngTableParams',
         '$translate',
-        function ($rootScope, $scope, $modal, $http, devicesService, ngTableParams, $translate) {
+        '$timeout',
+        function ($rootScope, $scope, $modal, $http, devicesService, ngTableParams, $translate, $timeout) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -151,6 +152,16 @@ angular
                             });
                     });
 
+            };
+
+            $scope.deleteDeviceCategory = function (id) {
+                $rootScope.deviceCategoryId = id;
+                console.log($rootScope.deviceCategoryId);
+                devicesService.deleteDeviceCategory(id);
+                $timeout(function() {
+                    console.log('delete with timeout');
+                    $rootScope.onTableHandling();
+                }, 700);
             };
 
         }]);

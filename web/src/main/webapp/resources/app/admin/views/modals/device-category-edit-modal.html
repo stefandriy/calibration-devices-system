@@ -4,7 +4,7 @@
 </div>
 
 <div class="modal-body">
-    <form name="addCategoryForm" id="addCategoryForm" role="form" ng-submit="onAddCategoryFormSubmit()"
+    <form name="editCategoryForm" id="editCategoryForm" role="form" ng-submit="onEditCategoryFormSubmit()"
           class="form-group" novalidate>
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -17,19 +17,19 @@
                     </label>
 
                     <div class="col-md-8">
-                        <input type="text" ng-model="addCategoryFormData.number" id="number"
+                        <input type="text" ng-model="$root.countersCategory.number" id="number"
                                ng-pattern="CATEGORY_DEVICE_CODE" name="number"
                                class="form-control" popover="Введіть код лічильника"
                                popover-trigger="focus" popover-placement="top" required>
 						 	<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCategoryForm.number.$error.required">
+                        <p class="help-block" ng-if="editCategoryForm.number.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCategoryForm.number.$error.pattern">
+                        <p class="help-block" ng-if="editCategoryForm.number.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'ORGANIZATION_NAME_LENGTH' | translate }}
                         </p>
@@ -42,7 +42,7 @@
                     </label>
 
                     <div class="col-md-8">
-                        <ui-select style="display: block;" ng-model="addCategoryFormData.deviceType" theme="select2"
+                        <ui-select style="display: block;" ng-model="defaultData.deviceType" theme="select2"
                                    search-enabled="false" name="deviceType" id="deviceType" required>
                             <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
                                              allow-clear="true">
@@ -54,7 +54,7 @@
                             </ui-select-choices>
                         </ui-select>
 
-                        <p class="help-block" ng-if="addCategoryForm.deviceType.$error.required">
+                        <p class="help-block" ng-if="editCategoryForm.deviceType.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
@@ -68,19 +68,19 @@
 
                     <div class="col-md-8">
                         <input id="deviceName" name="deviceName" class="form-control"
-                               type="text" ng-model="addCategoryFormData.deviceName"
+                               type="text" ng-model="$root.countersCategory.deviceName"
                                ng-pattern="FIRST_LAST_NAME_REGEX"
                                popover="{{'ALPHABETIC_INFO' | translate}}"
                                popover-trigger="focus" popover-placement="top" required>
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="addCategoryForm.deviceName.$error.required">
+                        <p class="help-block" ng-if="editCategoryForm.deviceName.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="addCategoryForm.deviceName.$error.pattern">
+                        <p class="help-block" ng-if="editCategoryForm.deviceName.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
                         </p>
@@ -93,15 +93,12 @@
         <div class="form-group row">
             <div class="col-md-10">
                 <button type="submit" class="btn btn-success">
-                    {{'ADD' | translate}}
-                </button>
-                <button type="reset" class="btn btn-warning" ng-click="resetAddCategoryForm()">
-                    {{'CLEAR_FORM' | translate }}
+                    {{'EDIT' | translate}}
                 </button>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
-                    | translate}}
+                <button class="btn btn-danger pull-right" ng-click="closeModal()">
+                    {{'CLOSE' | translate}}
                 </button>
             </div>
         </div>

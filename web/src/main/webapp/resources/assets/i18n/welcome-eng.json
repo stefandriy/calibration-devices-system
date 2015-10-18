@@ -263,6 +263,7 @@
   "FIRE":"Fire",
   "RESTORE":"Restore",
   "MAIN_PANEL_PROVIDER":"Main panel provider",
+  "MAIN_PANEL_CALIBRATOR":"Main panel calibrator",
   "STATUS":"Status",
   "INITIAL_DATE":"Receiving date",
   "CLIENT_STREET":"Client street",
@@ -370,7 +371,7 @@
   "INFO_BUTTON" : "Additional Information",
   "SEND_MESSAGE" : "You did not select applications to send!",
   "NO_WATER_TO" : "No water to: ",
-  "DATE_OF_VERIF/DISASSEMBLY": "Desired date of verification/disassembly:"
+  "DATE_OF_VERIF/DISASSEMBLY": "Desired date of verification/disassembly:",
   "DATE_TEST" : "Testing date",
   "CALIBRATION_TEST_NAME" : " Test name"
 }
