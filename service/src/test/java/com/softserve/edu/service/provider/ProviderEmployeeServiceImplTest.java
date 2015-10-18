@@ -60,8 +60,7 @@ public class ProviderEmployeeServiceImplTest {
 
 //	@Before
 //	public void init() {
-//		MockitoAnnotations.initMocks(this);
-//	}
+//		MockitoAnnotations.initMocks(this); }
 
 	@Test
 	public void testAddEmployee() {
@@ -133,7 +132,6 @@ public class ProviderEmployeeServiceImplTest {
 		Assert.assertEquals(username, usernameArg.getValue());
 		Assert.assertEquals(mockUser,
                 providerEmployeeService.oneProviderEmployee(username));
-
 	}
 /*
 	@Test
@@ -206,7 +204,6 @@ public class ProviderEmployeeServiceImplTest {
 				usernameArg.capture());
 
 		Assert.assertEquals(username, usernameArg.getValue());
-
 		Assert.assertEquals(finalProviderEmployee, actual);
 	}
 
