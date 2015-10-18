@@ -42,9 +42,7 @@ public class DeviceController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity addDeviceCategory(
-            @RequestBody DeviceDTO deviceDTO,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public ResponseEntity addDeviceCategory(@RequestBody DeviceDTO deviceDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
             deviceService.addDeviceCategory(
@@ -59,7 +57,44 @@ public class DeviceController {
         return new ResponseEntity(httpStatus);
     }
 
-    @RequestMapping(value = "getCategory/{id}")
+    /**
+     * Edit organization in database
+     *
+     * @param deviceCategoryDTO object with device category data
+     * @return a response body with http status {@literal OK} if organization
+     * successfully edited or else http status {@literal CONFLICT}
+     */
+    @RequestMapping(value = "edit/{deviceCategoryId}", method = RequestMethod.POST)
+     public ResponseEntity editDeviceCategory(@RequestBody DeviceDTO deviceCategoryDTO,
+                                            @PathVariable Long deviceCategoryId) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            deviceService.editDeviceCategory(
+                    deviceCategoryId,
+                    deviceCategoryDTO.getNumber(),
+                    deviceCategoryDTO.getDeviceType(),
+                    deviceCategoryDTO.getDeviceName()
+            );
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ",e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
+    @RequestMapping(value = "delete/{deviceCategoryId}", method = RequestMethod.DELETE)
+    public ResponseEntity removeDeviceCategory(@PathVariable Long deviceCategoryId) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            deviceService.removeDeviceCategory(deviceCategoryId);
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ",e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
+    @RequestMapping(value = "get/{id}")
     public DeviceDTO getDeviceCategory(@PathVariable("id") Long id) {
         Device deviceCategory = deviceService.getById(id);
         DeviceDTO deviceDTO = new DeviceDTO(deviceCategory.getId(), deviceCategory.getDeviceType().name(),

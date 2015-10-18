@@ -24,4 +24,8 @@ public interface DeviceService {
     List<Device> getAllByType(String device);
 
     void addDeviceCategory(String number, String deviceType, String deviceName);
+
+    void editDeviceCategory(Long id, String number, String deviceType, String deviceName);
+
+    void removeDeviceCategory(Long id);
 }
