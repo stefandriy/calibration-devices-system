@@ -10,7 +10,11 @@ angular
                 $scope.consumptionStatus.name = null;
                 $scope.selectedDeviceType.name = null;
                 $scope.testResult.name = null;
-                $scope.tableParams.filter({});
+                $scope.tableParams.filter(
+                    {
+                        id : $location.search().param
+                    }
+                );
                 $scope.clearDate(); // sets 'all time' timerange
             };
 

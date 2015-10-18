@@ -5,16 +5,7 @@ import com.softserve.edu.entity.user.User;
 
 
 public class AddEmployeeBuilderNew {
-    public String firstName;
-    public String lastName;
-    public String middleName;
-    public String phone;
-    public String secondPhone;
-    public String email;
-    public String username;
-    public String password;
-    public Address address;
-    public Boolean isAvailable;
+
 
     public AddEmployeeBuilderNew firstName(String firstName) {
         this.firstName = firstName;
