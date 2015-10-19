@@ -392,8 +392,9 @@ angular
                 calibrationTestServiceCalibrator.deleteCalibrationTest(testId);
                 $timeout(function() {
                     console.log('delete with timeout');
-                    $rootScope.onTableHandling();
+                    $scope.tableParams.reload();
                 }, 700);
+
             };
 
 

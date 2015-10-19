@@ -117,7 +117,7 @@ public class UserController {
     public ResponseEntity<HttpStatus> addSysAdmin(
             @RequestBody UserDTO sysAdmin,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        HttpStatus httpStatus = HttpStatus.OK;
+        HttpStatus httpStatus = HttpStatus.CREATED;
 
         try {
             userService.addSysAdmin(sysAdmin.getUsername(), sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
