@@ -254,7 +254,6 @@ angular
                 }
             }
 
-
             $scope.modulesSerialNumbers = [];
 
             $scope.receiveModuleNumbers = function(){

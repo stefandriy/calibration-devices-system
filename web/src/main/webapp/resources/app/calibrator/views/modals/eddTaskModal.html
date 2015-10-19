@@ -96,7 +96,8 @@
                     <select chosen id="district" name="district" class="form-control" type="text"
                             ng-model="calibrationTask.installationNumber"
                             allow-single-deselect="false"
-                            ng-options="installationNumber in modulesSerialNumbers | filter: $viewValue"
+                            ng-options="option for option in modulesSerialNumbers track by option.serialNumber"
+                            <!--option.name for option in data.availableOptions track by option.id-->
                             required>
                     </select>
                     <div ng-show="formTask.$submitted || formTask.installationNumber.$touched">
