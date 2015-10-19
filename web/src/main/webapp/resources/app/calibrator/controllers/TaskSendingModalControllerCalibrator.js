@@ -21,15 +21,53 @@ angular
                 $modalInstance.close();
             };
 
-             /**
+            /**
+             * Initializing the addInfo
+             * */
+            $scope.addInfo = {};
+
+            /**
+             * Toggle button (additional info) functionality
+             * */
+            $scope.showStatus = {
+                opened: false
+            };
+
+            $scope.openAdditionalInformation = function () {
+                if($scope.showStatus.opened === false){
+                    $scope.showStatus.opened = true;
+                } else {
+                    $scope.showStatus.opened = false;
+                }
+            };
+
+            /**
              *  Date picker and formatter setup
              *
              */
+            $scope.firstCalendar = {};
+            $scope.firstCalendar.isOpen = false;
+            $scope.secondCalendar = {};
+            $scope.secondCalendar.isOpen = false;
+            $scope.thirdCalendar = {};
+            $scope.thirdCalendar.isOpen = false;
 
-            $scope.open = function ($event) {
+            $scope.open1 = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
-                $scope.status.opened = true;
+                $scope.firstCalendar.isOpen = true;
+            };
+
+            $scope.open2 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.secondCalendar.isOpen = true;
+            };
+
+            $scope.open3 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.thirdCalendar.isOpen = true;
             };
 
             moment.locale('uk');
@@ -43,15 +81,6 @@ angular
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
 
-            $scope.today = function() {
-                $scope.calibrationTask.pickerDate = new Date();
-            };
-            $scope.today();
-
-            $scope.clear = function () {
-                $scope.calibrationTask.pickerDate = null;
-            };
-
             // Disable weekend selection
             $scope.disabled = function(date, mode) {
                 return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
@@ -60,15 +89,24 @@ angular
             $scope.toggleMin = function() {
                 $scope.minDate = $scope.minDate ? null : new Date();
             };
-            $scope.toggleMin();
-            $scope.maxDate = new Date(2020, 5, 22);
 
-            $scope.status = {
-                opened: false
+            $scope.toggleMin();
+            $scope.maxDate = new Date(2100, 5, 22);
+
+
+            $scope.clearDate1 = function () {
+                $log.debug($scope.calibrationTask.taskDate);
+                $scope.calibrationTask.taskDate = null;
             };
 
-            $scope.clearDate = function () {
-                $scope.calibrationTask.pickerDate = $scope.defaultDate;
+            $scope.clearDate2 = function () {
+                $log.debug($scope.calibrationTask.dateOfVerif);
+                $scope.calibrationTask.dateOfVerif = null;
+            };
+
+            $scope.clearDate3 = function () {
+                $log.debug($scope.calibrationTask.noWaterToDate);
+                $scope.calibrationTask.noWaterToDate = null;
             };
 
             $scope.resetTaskForm = function () {
@@ -216,25 +254,14 @@ angular
                 }
             }
 
-            $scope.showStatus = {
-                opened: false
-            };
-
-            $scope.openAdditionalInformation = function () {
-                if($scope.showStatus.opened === false){
-                    $scope.showStatus.opened = true;
-                } else {
-                    $scope.showStatus.opened = false;
-                }
-            };
 
             $scope.modulesSerialNumbers = [];
 
             $scope.receiveModuleNumbers = function(){
-                console.log($scope.calibrationTask.place + " " + $scope.calibrationTask.pickerDate);
+                console.log($scope.calibrationTask.place + " " + $scope.calibrationTask.taskDate);
                 var place = $scope.calibrationTask.place;
-                var pickerDate = $scope.calibrationTask.pickerDate;
-                verificationPlanningTaskService.getModuls(place, pickerDate)
+                var taskDate = $scope.calibrationTask.taskDate;
+                verificationPlanningTaskService.getModuls(place, taskDate)
                     .then(function (result) {
                         $log.debug('result ', result);
                         $scope.modulesSerialNumbers.push(result.data);

@@ -58,11 +58,13 @@
                 <div class="form-group col-md-8" ng-class="dateValidation.css" >
                     <div class="input-group right-inner-addon" style="width: 100%">
                         <span class="input-group-btn" style="height: 100%">
-                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open1($event)">
                                 <i class="glyphicon glyphicon-calendar" ></i>
                             </button>
                         </span>
-                        <input type="text" class="form-control date-picker" datepicker-popup ng-model="calibrationTask.pickerDate" is-open="status.opened"
+                        <input type="text" class="form-control date-picker" datepicker-popup
+                               ng-model="calibrationTask.taskDate"
+                               is-open="firstCalendar.isOpen"
                                min-date="minDate" max-date="maxDate"
                                datepicker-options="dateOptions"
                                date-disabled="disabled(date, mode)" close-text="Close"
@@ -70,7 +72,7 @@
                          <span class="input-group-btn">
                                <button type="button" class="btn btn-default myGroupBtn"
                                          ng-show="!isDateDefault()"
-                                         ng-click="clearDate()">
+                                         ng-click="clearDate1()">
                                   <i class="glyphicon glyphicon-remove"></i>
                                </button>
                          </span>
@@ -94,13 +96,9 @@
                     <select chosen id="district" name="district" class="form-control" type="text"
                             ng-model="calibrationTask.installationNumber"
                             allow-single-deselect="false"
-                            ng-options="installationNumber as modulesSerialNumbers.installationNumber for modulesSerialNumbers in modulesSerialNumbers | filter: $viewValue"
+                            ng-options="installationNumber in modulesSerialNumbers | filter: $viewValue"
                             required>
                     </select>
-                    <input type="text"
-                           ng-model="calibrationTask.installationNumber"
-                           ng-change="checkAll('installationNumber')"
-                           id="installationNumber" name="installationNumber" class="form-control" required>
                     <div ng-show="formTask.$submitted || formTask.installationNumber.$touched">
                         <div ng-show="formTask.installationNumber.$error.required">
                             <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
@@ -163,6 +161,45 @@
                 </div>
             </div>
 
+            <!-- DATE OF verification/disassembly -->
+            <div class="row" ng-show="showStatus.opened">
+                <div class="form-group col-md-4" >
+                    <label class="control-label">{{'DATE_OF_VERIF/DISASSEMBLY'| translate }}</label>
+                </div>
+
+                <div class="form-group col-md-8" ng-class="dateValidation.css" >
+                    <div class="input-group right-inner-addon" style="width: 100%">
+                <span class="input-group-btn" style="height: 100%">
+                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open2($event)">
+                         <i class="glyphicon glyphicon-calendar" ></i>
+                     </button>
+                </span>
+
+                        <input type="text" class="form-control date-picker" datepicker-popup
+                               ng-model="calibrationTask.dateOfVerif"
+                               is-open="secondCalendar.isOpen"
+                               min-date="minDate" max-date="maxDate"
+                               datepicker-options="dateOptions"
+                               date-disabled="disabled(date, mode)" close-text="Close"
+                               ng-change="receiveModuleNumbers()" readonly required/>
+                         <span class="input-group-btn">
+                               <button type="button" class="btn btn-default myGroupBtn"
+                                       ng-show="!isDateDefault()"
+                                       ng-click="clearDate2()">
+                                   <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                         </span>
+
+
+                    </div>
+                    <div ng-show="formTask.$submitted || formTask.date.$touched">
+                        <div ng-show="formTask.date.$error.required">
+                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- TIME OF CALIBRATION -->
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
@@ -184,27 +221,50 @@
                     <label class="control-label">{{ 'PLUMBING_SERVICEABILITY' | translate}}</label>
                 </div>
                 <div class="form-group col-md-8">
-                    <input type="checkbox" checked="checked" ng-model="calibrationTask.serviceability"
-                           id="serviceability" value="true" name="serviceability" class="form-control"/>
+                    <input type="checkbox" checked="checked" ng-checked="true"
+                           ng-model="calibrationTask.serviceability"
+                           id="serviceability" name="serviceability" class="form-control"/>
                 </div>
             </div>
 
-            <!-- SERIAL NUMBER OF COUNTER -->
+            <!-- No water to date-->
             <div class="row" ng-show="showStatus.opened">
-                <div class="form-group col-md-4">
-                    <label class="control-label">{{'SERIAL_NUMBER_OF_COUNTER' | translate}}</label>
+                <div class="form-group col-md-4" >
+                    <label class="control-label">{{'NO_WATER_TO'| translate }}</label>
                 </div>
-                <div class="form-group col-md-8" ng-class="counterNumberValidation.css">
-                    <input style="padding-left: 12px" type="text"
-                           ng-model="calibrationTask.counterNumber"
-                           ng-change="checkAll('counterNumber')"
-                           id="counterNumber" name="counterNumber" class="form-control">
 
-                    <p class="validation-message" ng-show="counterNumberValidation.isValid">{{'NUMBER_OF_COUNTER_REGEX' | translate}}</p>
+                <div class="form-group col-md-8" ng-class="dateValidation.css" >
+                    <div class="input-group right-inner-addon" style="width: 100%">
+                <span class="input-group-btn" style="height: 100%">
+                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open3($event)">
+                         <i class="glyphicon glyphicon-calendar" ></i>
+                     </button>
+                </span>
+
+                        <input type="text" class="form-control date-picker" datepicker-popup
+                               ng-model="calibrationTask.noWaterToDate"
+                               is-open="thirdCalendar.isOpen"
+                               min-date="minDate" max-date="maxDate"
+                               datepicker-options="dateOptions"
+                               date-disabled="disabled(date, mode)" close-text="Close"
+                               ng-change="receiveModuleNumbers()" readonly required/>
+                         <span class="input-group-btn">
+                               <button type="button" class="btn btn-default myGroupBtn"
+                                       ng-show="!isDateDefault()"
+                                       ng-click="clearDate3()">
+                                   <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                         </span>
+                    </div>
+                    <div ng-show="formTask.$submitted || formTask.date.$touched">
+                        <div ng-show="formTask.date.$error.required">
+                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- NOTES -->
+           <!-- NOTES -->
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'NOTES' | translate}}</label>
