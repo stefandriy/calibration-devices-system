@@ -18,9 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -57,23 +56,41 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Override
     @Transactional
     public void uploadArchive(InputStream inputStream, String originalFileFullName) throws IOException {
+
         String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
-        ZipInputStream zipStream = new ZipInputStream(inputStream);
         ZipEntry entry;
-        try {
+        try (ZipInputStream zipStream = new ZipInputStream(inputStream)) {
             while ((entry = zipStream.getNextEntry()) != null) {
-                if (entry.isDirectory()){
+                if (entry.isDirectory()) {
                     //TODO: set bbi direcotry and read each of them
                 }
                 else {
-                    if(Pattern.compile(dbFileExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(entry.getName()).matches()) {
-                        //TODO: if db file, open sqlite db in memory and read info
+                    if (Pattern.compile(dbFileExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(entry.getName()).matches()) {
+                        //TODO: if db file, save sqlite db to tempfolder and read info
+                        //http://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile(java.lang.String,%20java.lang.String)
+                        //http://stackoverflow.com/q/16240380/2663649
                         System.out.println(entry.getName());
+                        System.out.println(System.getProperty("java.io.tmpdir"));
+                        File dbFile = File.createTempFile(entry.getName(), "");
+                        System.out.println(dbFile);
+                        try (OutputStream os = new FileOutputStream(dbFile)) {
+                            IOUtils.copy(zipStream, os);
+                        }
+                        try {
+                            Class.forName("org.sqlite.JDBC");
+                            Connection connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile);
+                            Statement statement = connection.createStatement();
+                            ResultSet rs = statement.executeQuery("select * from Results");
+                            while (rs.next()) {
+                                // read the result set
+                                System.out.println("id = " + rs.getString("_id"));
+                            }
+                        } catch (ClassNotFoundException | SQLException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
-        } finally {
-            zipStream.close();
         }
     }
 
