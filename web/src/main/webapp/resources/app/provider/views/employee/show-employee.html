@@ -56,14 +56,13 @@
                                        class="table table-bordered table-hover table-responsive users_table">
 
                                     <tbody>
-                                    <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
+                                    <tr ng-repeat="user in $data" ng-class="{incorrect : !user.available}">
                                         <td data-title="'USERNAME'|translate " sortable="'username'"
                                             filter="{ 'username': 'text' }">{{
                                             user.username }}
                                         </td>
                                         <td data-title="'ROLE' |translate" sortable="'role'"
-                                            filter="{ 'role': 'text' }">{{ user.role
-                                            }}
+                                            filter="{ 'role': 'text' }">{{ user.roles }}
                                         </td>
                                         <td data-title="'FIRST_NAME'|translate" sortable="'firstName'"
                                             filter="{ 'firstName': 'text' }">{{

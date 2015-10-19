@@ -2,7 +2,7 @@ package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.catalogue.UserRepositoryCustomisation;
+import com.softserve.edu.repository.catalogue.UserRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface UserRepository extends PagingAndSortingRepository<User, String>, UserRepositoryCustomisation {
+public interface UserRepository extends PagingAndSortingRepository<User, String>, UserRepositoryCustom {
 
     Page<User> findAll(Pageable pageable);
 
@@ -44,7 +44,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, String>
     Set<User> findAllAvailableUsersByRoleAndOrganizationId(@Param("userRole") UserRole userRole,
                                                            @Param("organizationId") Long organizationId);
 
-    Page<User> findByOrganizationId(Long organizationId, Pageable pageable);
+    Page<User> findByOrganizationId(@Param("organizationId")Long organizationId, Pageable pageable);
 
     List<User> findAll(Specification<User> userSpecification);
 }

@@ -1,6 +1,5 @@
 package com.softserve.edu.service.admin;
 
-import com.softserve.edu.entity.enumeration.user.EmployeeRole;
 import com.softserve.edu.entity.user.User;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface UserService {
 
     List<User> findByOrganizationId(Long organizationId, int pageNumber, int itemsPerPage);
 
-    Long getCountOfVerifications(EmployeeRole employeeRole, String username);
+    Long countVerifications(User user);
 
     User findOne(String username);
 }
