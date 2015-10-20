@@ -10,13 +10,14 @@ import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationPlanningTaskRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
-import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.Date;
 import java.util.List;
@@ -59,12 +60,12 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             task.setSerialNumberOfMeasuringInstallation(installationNumber);
             task.setSerialNumberOfCounter(counterNumber);
             task.setNotes(notes);
-            if (placeOfCalibration == "fixed_station" && counterStatus == "removed") { //TODO: WHY??!!!
+            if (placeOfCalibration.equals("fixed_station") && counterStatus.equals("removed")) {
                 task.setDateOfVisit(null);
                 task.setDateOfVisitTo(null);
             } else {
-                if ((placeOfCalibration == "fixed_station" && counterStatus == "not_removed") || //TODO: WHY??!!!
-                        (placeOfCalibration == "fixed_station")) {
+                if ((placeOfCalibration.equals("fixed_station") && counterStatus.equals("not_removed")) ||
+                        (placeOfCalibration.equals("fixed_station"))) {
                     if (dateOfVisit == null && dateOfVisitTo == null) {
                         throw new IllegalArgumentException();
                     } else {
