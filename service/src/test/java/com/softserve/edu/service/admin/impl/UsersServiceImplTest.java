@@ -1,7 +1,9 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
+import org.apache.commons.collections.IteratorUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,7 +11,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +30,12 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class UsersServiceImplTest {
 
-//    private User user;
+    private final List<User> userList = new ArrayList<>();
+    private final List<String> strList = new ArrayList<>();
+    private final Long organizationId = 1L;
+    private final int pageNumber = 1;
+    private final int itemsPerPage = 10;
+    private final String username = "admin";
     private long expectedGetCountOfVerifications;
     private boolean existsWithUsernameExpected;
 
@@ -39,9 +49,11 @@ public class UsersServiceImplTest {
     public void initializeMockito() {
         usersServiceImpl = new UsersServiceImpl();
         MockitoAnnotations.initMocks(this);
-//        user = new User("admin","0001");
         expectedGetCountOfVerifications = 0L;
         existsWithUsernameExpected = false;
+        userList.add(new User("admin","1234"));
+        strList.add("admin");
+
     }
 
     @After
@@ -51,9 +63,10 @@ public class UsersServiceImplTest {
 
     @Test
     public void testExistsWithUsername() {
-        final String username = "admin";
+
         stub(userRepository.findOne(username) == null).toReturn(existsWithUsernameExpected);
-        boolean actual = userRepository.findOne(username) == null;
+
+        boolean actual = (userRepository.findOne(username) == null);
         assertEquals(actual, existsWithUsernameExpected);
     }
 
@@ -68,6 +81,10 @@ public class UsersServiceImplTest {
 
         Assert.assertEquals(mockList,
                 usersServiceImpl.getRoles(usernam));*/
+
+        /*stub(ConvertUserRoleToString.convertToListString(userRepository.getRolesByUserName(username))).toReturn(strList);
+        List<String> actual = usersServiceImpl.getRoles(username);
+        assertEquals(strList, actual);*/
 
         usersServiceImpl.getRoles(anyString());
         verify(userRepository).getRolesByUserName(anyString());
@@ -93,22 +110,14 @@ public class UsersServiceImplTest {
 
 /*    @Test
     public void testFindByOrganizationId() {
-        final Long organizationId = 1L;
-        final int pageNumber = 1;
-        final int itemsPerPage = 10;
-        String[] expectUserNameList = {
-                "111", "222", "333", "444", "555",
-                "666", "777", "888", "999", "10"
-        };
-        List<String> expectList = Arrays.asList(expectUserNameList);
-        List<String> actualUserNameList = IteratorUtils.toList(usersServiceImpl.findByOrganizationId(organizationId, pageNumber, itemsPerPage).iterator());
-        Assert.assertEquals(expectList, actualUserNameList);
+        stub(IteratorUtils.toList(userRepository.findByOrganizationId(organizationId, new PageRequest(pageNumber, itemsPerPage)).iterator())).toReturn(userList);
+        List<User> actual = usersServiceImpl.findByOrganizationId(organizationId, pageNumber, itemsPerPage);
+
+        assertEquals(userList, actual);
     }*/
 
     @Test
     public void testGetCountOfVerifications1() {
-        final String username = "admin";
-        final long organizationId = 1L;
         long actual = usersServiceImpl.getCountOfVerifications(organizationId, username);
         assertEquals(actual, expectedGetCountOfVerifications);
     }
