@@ -24,7 +24,8 @@ angular
                             .getAll(pageNumber - 1, itemsPerPage + 1)
                             .success(function (result) {
 
-                                $scope.totalEmployee = result.length;
+                                $scope.totalEmployee = result.totalItems;
+                                //$scope.totalEmployee = result.length;
                                 params.total(result.totalItems);
 
                                 $defer.resolve(result);
@@ -32,15 +33,15 @@ angular
                             });
                         return;
                     }
-                    userService.getPage(pageNumber, itemsPerPage, filterCriteria, sortCriteria)
-                        .success(function (result) {
-                            $scope.totalEmployee = result.totalItems;
-                            $defer.resolve(result.content);
-                            params.total(result.totalItems);
-                            $scope.cantAddNewEmployee();
-                        }, function (result) {
-                            $log.debug('error fetching data:', result);
-                        });
+                    //userService.getPage(pageNumber, itemsPerPage, filterCriteria, sortCriteria)
+                    //    .success(function (result) {
+                    //        $scope.totalEmployee = result.totalItems;
+                    //        $defer.resolve(result.content);
+                    //        params.total(result.totalItems);
+                    //        $scope.cantAddNewEmployee();
+                    //    }, function (result) {
+                    //        $log.debug('error fetching data:', result);
+                    //    });
                 }
             });
 

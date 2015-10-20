@@ -13,6 +13,7 @@ import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.impl.UsersServiceImpl;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;

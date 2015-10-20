@@ -81,10 +81,10 @@
                                             user.secondPhone }}
                                         </td>
                                         <td data-title="'EMPLOYEE_CAPACITY'|translate">
-                                            <a ng-if="user.countOfVerification" ng-click="showCapacity(user.username)"
+                                            <a ng-if="user.numberOfVerifications" ng-click="showCapacity(user.username)"
                                                class="cursor-pointer">
-                                                {{user.countOfVerification }}</a>
-                                            <span ng-if="!user.countOfVerification"> {{ user.countOfVerification}}</span>
+                                                {{user.numberOfVerifications }}</a>
+                                            <span ng-if="!user.numberOfVerifications"> {{ user.numberOfVerifications}}</span>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-primary"
