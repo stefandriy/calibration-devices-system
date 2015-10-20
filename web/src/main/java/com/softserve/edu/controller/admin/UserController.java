@@ -55,22 +55,30 @@ public class UserController {
      *
      * @param pageNumber
      * @param itemsPerPage
-     * @param fieldToSort
+     * @param sortCriteria
+     * @param sortOrder
      * @param search
      * @param user
-     * @return list of employees
+     * @return
      */
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{fieldToSort}", method = RequestMethod.GET)
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<UsersPageItem> getPaginationUsers(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
-            @PathVariable String fieldToSort,
+            @PathVariable String sortCriteria,
+            @PathVariable String sortOrder,
             UsersPageItem search,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
-                pageNumber, itemsPerPage, null, search.getUsername(), search.getRole(),
-                search.getFirstName(), search.getLastName(), search.getOrganization(),
-                search.getPhone(), search.getSecondPhone(), fieldToSort);
+
+        logger.info("sortcriteria");
+        logger.info(sortCriteria);
+        logger.info(sortOrder);
+        logger.info(pageNumber);
+        logger.info(itemsPerPage);
+        logger.info(search);
+        ListToPageTransformer<User> queryResult = userService.findPageOfAllEmployees(
+                pageNumber, itemsPerPage, search.getUsername(), search.getRole(), search.getFirstName(), search.getLastName(), search.getOrganization(),
+                search.getPhone(), sortCriteria, sortOrder);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }

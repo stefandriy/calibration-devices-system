@@ -9,6 +9,8 @@ import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.tool.MailService;
+import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 @Service
@@ -27,6 +33,9 @@ public class UsersServiceImpl implements UserService  {
 
     @Autowired
     private UserRepository userRepository;
+
+    @PersistenceContext
+    private EntityManager em;
 
     /**
      * Check whereas user with {@code username} exist in database
@@ -47,6 +56,29 @@ public class UsersServiceImpl implements UserService  {
                 .convertToListString(userRepository.getRolesByUserName(username));
     }
 
+    @Override
+    @Transactional
+    public ListToPageTransformer<User>
+    findPageOfAllEmployees(int pageNumber, int itemsPerPage,  String userName,
+                           String role, String firstName, String lastName, String organization,
+                           String telephone,  String sortCriteria, String sortOrder){
+        CriteriaQuery<User> criteriaQuery = ArchivalEmployeeQueryConstructorAdmin.buildSearchQuery(userName, role, firstName,
+                lastName, organization, telephone, sortCriteria, sortOrder, em);
+
+        Long count = em.createQuery(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(userName, role, firstName,
+                lastName, organization, telephone, em)).getSingleResult();
+
+        TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<User> providerEmployeeList = typedQuery.getResultList();
+
+        ListToPageTransformer<User> result = new ListToPageTransformer<>();
+        result.setContent(providerEmployeeList);
+        result.setTotalItems(count);
+
+        return result;
+    };
 
     @Override
     @Transactional

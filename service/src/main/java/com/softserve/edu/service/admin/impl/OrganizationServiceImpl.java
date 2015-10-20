@@ -111,7 +111,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
 
         Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin
-                .buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).getSingleResult();
+                .buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, entityManager)).getSingleResult();
 
         TypedQuery<Organization> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);

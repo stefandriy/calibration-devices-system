@@ -1,6 +1,6 @@
 angular
     .module('adminModule')
-    .controller('UsersController', ['$scope', 'UsersService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
+    .controller('SysAdminsController', ['$scope', 'UsersService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
         'toaster',
         function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope, toaster) {
 
@@ -15,28 +15,13 @@ angular
                 page: 1,
                 count: 5,
                 sorting: {
-                    lastname: 'asc'     // initial sorting
+                    lastName: 'asc'     // initial sorting
                 }
             }, {
                 total: 0,
                 getData: function ($defer, params) {
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
-
-                    console.log(sortCriteria);
-                    console.log(Object.keys(params.sorting())[0]);
-                    console.log(params.count());
-                    console.log(params.page());
-                    console.log(params.filter());
-                    console.log(sortOrder);
-
-
-
-                    userService.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                    userService.getSysAdminsPage(params.page(), params.count(), params.filter(),params.sorting())
                         .success(function (result) {
-                            console.log(sortCriteria);
-                            console.log(result);
-                            console.log(result.totalItems);
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
@@ -57,7 +42,7 @@ angular
                 return false;
             };
 
-            $scope.openAddUserModal = function() {
+            $scope.openAddSysAdminModal = function() {
                 var addEmployeeModal = $modal
                     .open({
                         animation : true,

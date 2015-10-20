@@ -2,16 +2,14 @@ angular
     .module('adminModule')
     .factory('UsersService', function ($http) {
         return {
-            getPage: function (currentPage, itemsPerPage, searchObj, filterObj) {
-                var field;
-                var value;
-                for (var key in filterObj) {
-                    field = key;
-                    value = filterObj[field];
-                }
-                value=='asc'?field=field:field="-"+field;
+            getPage: function (currentPage, itemsPerPage, searchObj, sortCriteria, sortOrder) {
                 return getData('admin/users/' + currentPage + '/' + itemsPerPage + '/' +
-                    field, searchObj);
+                 + sortCriteria +  '/' + sortOrder, searchObj);
+            },
+            getSysAdminsPage : function (currentPage, itemsPerPage , sortCriteria, sortOrder) {
+
+                return getData('admin/users/' + currentPage + '/' + itemsPerPage + '/' +
+                    + '/' + sortCriteria +  '/' + sortOrder, searchObj);
             }
         }
 
@@ -24,5 +22,16 @@ angular
                 return err;
             });
         }
+
+        function getDataWithParam(url, params) {
+            return $http.get(url, {
+                params : params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
+        }
+
 
     });

@@ -55,6 +55,12 @@ angular
                     templateUrl: '/resources/app/admin/views/users-panel.html'
                 })
                 .state(
+                'sys-admins',
+                {
+                    url: '/sys-admins',
+                    templateUrl: '/resources/app/admin/views/sys-admins-panel.html'
+                })
+                .state(
                 'address',
                 {
                     url: '/address',
@@ -119,6 +125,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/CategoryDeviceAddModalController',
     'controllers/CategoryDeviceEditModalController',
     'controllers/SettingsController',
+    'controllers/SysAdminsController',
     'controllers/UsersController',
     'controllers/UserAddModalController',
     'controllers/InternationalizationController',
