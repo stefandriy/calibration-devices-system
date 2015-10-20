@@ -40,6 +40,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
         if (user == null){
             logger.error("Cannot found user!");
         }
+        // TODO potential NPE here
         List<CalibrationModule> modules = moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
                 .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId())));
         List<String> serialNumbersList = new ArrayList<>();

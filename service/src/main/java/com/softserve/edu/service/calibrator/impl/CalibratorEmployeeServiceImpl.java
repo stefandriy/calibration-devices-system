@@ -39,7 +39,7 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
     @Override
     @Transactional
     public void addEmployee(User calibratorEmployee) {
-
+        // TODO Extract all passwork encoding/decoding ops to single place
         String passwordEncoded = new BCryptPasswordEncoder().encode(calibratorEmployee.getPassword());
         calibratorEmployee.setPassword(passwordEncoded);
 //        calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);

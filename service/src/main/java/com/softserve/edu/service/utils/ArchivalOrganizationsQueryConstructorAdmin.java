@@ -2,6 +2,7 @@ package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -48,6 +49,7 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
       //  queryPredicate = cb.and(cb.equal(organizationUsersJoin .get(""), employeeId), queryPredicate);
         //Predicate<String> i  = (s)-> s.length() > 5;
         //return p -> p.getAge() > 21 && p.getGender().equalsIgnoreCase("M");
+        // TODO replace with StringUtils.isNotEmpty()
         if ((name != null)&&(name.length()>0)) {
             queryPredicate = cb.and(cb.like(root.get("name"), "%" + name + "%"), queryPredicate);
         }

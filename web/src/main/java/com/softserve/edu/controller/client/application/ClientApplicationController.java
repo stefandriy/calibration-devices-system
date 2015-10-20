@@ -224,6 +224,7 @@ public class ClientApplicationController {
     @RequestMapping(value = "clientMessageNoProvider", method = RequestMethod.POST)
     public String sentMailFromClientNoProvider(@RequestBody ClientMailDTO mailDto) {
 
+        // TODO We'd send email to some configured email address
         List<User> adminList = userService.findByRole("SYS_ADMIN");
         if (!adminList.isEmpty() && adminList.get(0).getEmail() != null) {
             mail.sendClientMail(adminList.get(0).getEmail(), mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(), mailDto.getVerifID(), mailDto.getMsg());

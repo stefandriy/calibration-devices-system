@@ -35,6 +35,7 @@ public class BbiFileServiceImpl implements BbiFileService {
 
     public DeviceTestData findBbiFileContentByFileName(String fileName) {
         DeviceTestDataParser parser = testDataParserFactory.getParser(fileName);
+        // TODO Close stream !!!
         InputStream inputStream = new ByteArrayInputStream(findBbiFileBytesByFileName(fileName));
         return parser.parse(inputStream);
     }

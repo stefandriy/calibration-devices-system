@@ -73,6 +73,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
+            // TODO add getAdminRole method to enum
             employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
             organization.addOrganizationType(organizationType);
             organization.addUser(employeeAdmin);
@@ -84,6 +85,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
 
         for (Long localityId : localityIdList) {
+            // TODO You'd move the 'localityService.findById()' out of the loop and refactor it to something like  'localityService.findByIds'
             Locality locality = localityService.findById(localityId);
             organization.addLocality(locality);
         }
@@ -132,6 +134,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    // TODO is it readOnly !!!
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public void editOrganization(Long organizationId, String name,
                                  String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
