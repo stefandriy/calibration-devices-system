@@ -20,19 +20,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 @Service
 public class CalibratorServiceImpl implements CalibratorService {
 
     private static final String dbFileExtensionPattern = "^.*\\.(db|DB|)$";
+    private static final String contentExtensionPattern = "^.*\\.(bbi|BBI|)$";
 
     @Autowired
     private OrganizationRepository calibratorRepository;
@@ -59,39 +57,49 @@ public class CalibratorServiceImpl implements CalibratorService {
 
         String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
         ZipEntry entry;
+
+        Map<String, String> bbiFilesToVerificationMap = getBBIfilesToVerificationMap(inputStream);
+
         try (ZipInputStream zipStream = new ZipInputStream(inputStream)) {
             while ((entry = zipStream.getNextEntry()) != null) {
-                if (entry.isDirectory()) {
-                    //TODO: set bbi direcotry and read each of them
-                }
-                else {
-                    if (Pattern.compile(dbFileExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(entry.getName()).matches()) {
-                        //TODO: if db file, save sqlite db to tempfolder and read info
-                        //http://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile(java.lang.String,%20java.lang.String)
-                        //http://stackoverflow.com/q/16240380/2663649
-                        System.out.println(entry.getName());
-                        System.out.println(System.getProperty("java.io.tmpdir"));
-                        File dbFile = File.createTempFile(entry.getName(), "");
-                        System.out.println(dbFile);
-                        try (OutputStream os = new FileOutputStream(dbFile)) {
-                            IOUtils.copy(zipStream, os);
-                        }
-                        try {
-                            Class.forName("org.sqlite.JDBC");
-                            Connection connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile);
-                            Statement statement = connection.createStatement();
-                            ResultSet rs = statement.executeQuery("select * from Results");
-                            while (rs.next()) {
-                                // read the result set
-                                System.out.println("id = " + rs.getString("_id"));
-                            }
-                        } catch (ClassNotFoundException | SQLException e) {
-                            e.printStackTrace();
-                        }
-                    }
+                String compressedFilePath = entry.getName();
+                String bbiFileName = compressedFilePath.substring(compressedFilePath.lastIndexOf("/"), compressedFilePath.length());
+                String verificationName = bbiFilesToVerificationMap.getOrDefault(bbiFileName, null);
+                if(verificationName != null){
+                    uploadBbi(zipStream, verificationName, bbiFileName);
                 }
             }
         }
+    }
+
+    private Map<String, String> getBBIfilesToVerificationMap(InputStream inputStream) {
+        Map<String, String> bbiFilesToVerification = new LinkedHashMap<>();
+        ZipEntry entry;
+        try (ZipInputStream zipStream = new ZipInputStream(inputStream)) {
+            while ((entry = zipStream.getNextEntry()) != null) {
+                if (Pattern.compile(dbFileExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(entry.getName()).matches()) {
+                    File dbFile = File.createTempFile(entry.getName(), "");
+                    try (OutputStream os = new FileOutputStream(dbFile)) {
+                        IOUtils.copy(zipStream, os);
+                        Class.forName("org.sqlite.JDBC");
+                        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile);
+                        Statement statement = connection.createStatement();
+                        ResultSet rs = statement.executeQuery("SELECT FileNumber, Id_pc FROM Results");
+                        while (rs.next()) {
+                            String verificationID = rs.getString("Id_pc");
+                            String fileNumber = rs.getString("FileNumber");
+                            bbiFilesToVerification.put(fileNumber, verificationID);
+                        }
+                    } catch (ClassNotFoundException | SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bbiFilesToVerification;
     }
 
     @Override
