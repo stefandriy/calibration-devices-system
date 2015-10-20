@@ -6,9 +6,14 @@ import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.OrganizationChangesHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
+import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.catalogue.LocalityService;
+import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
+import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +21,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,11 +30,8 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.*;
 
-/**
- * Created by cam on 19.10.15.
- */
 public class OrganizationServiceImplTest {
     private final Long organizationId = 1L;
     private final Long localityId = 2L;
@@ -45,13 +49,34 @@ public class OrganizationServiceImplTest {
     private Organization organization;
 
     @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private User user;
+
+    @Mock
     private OrganizationChangesHistoryRepository organizationChangesHistoryRepository;
 
     @Mock
     private LocalityService localityService;
 
     @Mock
+    ProviderEmployeeService providerEmployeeService;
+
+    @Mock
     private Locality locality;
+
+    @Mock
+    private MailServiceImpl mailService;
+
+    @Mock
+    EntityManager entityManager;
+
+    @Mock
+    ArchivalOrganizationsQueryConstructorAdmin archivalOrganizationsQueryConstructorAdmin;
+
+    @Mock
+    CriteriaBuilder criteriaBuilder;
 
     @InjectMocks
     private OrganizationServiceImpl organizationService;
@@ -70,7 +95,7 @@ public class OrganizationServiceImplTest {
 
     @Test
     public void testAddOrganizationWithAdmin() throws Exception {
-        final String OrgName = "name";
+        final String orgName = "name";
         final String mname = "mname";
         final String phone = "99999999";
         final String email = "email";
@@ -81,7 +106,7 @@ public class OrganizationServiceImplTest {
         final Integer employeesCapacity = 13;
         final Integer maxProcessTime = 456;
         final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
-        final Long[] localityIdList = {123L};
+        final Long[] localityIdList = {1L};
         final String username = "eric123";
         final String password = "root";
         String firstName = "firstName";
@@ -90,15 +115,13 @@ public class OrganizationServiceImplTest {
         String adminName = "admin";
 
         stub(localityService.findById(anyLong())).toReturn(locality);
-
-//        Organization expected = new Organization(OrgName, email, phone, employeesCapacity, maxProcessTime, address);
-
-        organizationService.addOrganizationWithAdmin(OrgName, email, phone, types, employeesCapacity, maxProcessTime,
+        organizationService.addOrganizationWithAdmin(orgName, email, phone, types, employeesCapacity, maxProcessTime,
                 firstName, lastName, middleName, username, password, address, adminName, localityIdList);
-//        organizationService.getOrganizationById(organizationService.findAllByLocalityId(localityIdList[0]).get(0).getId());
+
+        verify(organizationRepository, times(2)).save(new Organization(orgName, email, phone, employeesCapacity, maxProcessTime, address));
     }
 
-    @Test
+    /*@Test
     public void testGetOrganizationsBySearchAndPagination() throws Exception {
         int pageNumber = 2;
         int itemsPerPage = 10;
@@ -113,10 +136,14 @@ public class OrganizationServiceImplTest {
         String sortCriteria = null;
         String sortOrder = null;
 
+        stub(entityManager.getCriteriaBuilder()).toReturn(criteriaBuilder);
+        stub(criteriaBuilder.createQuery(Organization.class)).toReturn(criteriaQuery);
+        stub(archivalOrganizationsQueryConstructorAdmin.buildSearchQuery(name, email, number, type,
+                region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).toReturn(criteriaQuery);
 
-//        organizationService.getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, name, email,
-//                number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder);
-    }
+        organizationService.getOrganizationsBySearchAndPagination(pageNumber, itemsPerPage, name, email,
+                number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder);
+    }*/
 
     @Test
     public void testGetOrganizationById() throws Exception {
@@ -126,8 +153,35 @@ public class OrganizationServiceImplTest {
         assertEquals(organization, actual);
     }
 
+    @Test
     public void testEditOrganization() throws Exception {
 
+        Long organizationId = 1L;
+        String name = "organization";
+        String phone = "0000000000";
+        String email = "email";
+        List<String> types = new ArrayList<>();
+        types.add("PROVIDER");
+        Integer employeesCapacity = 7;
+        Integer maxProcessTime = 12;
+        final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
+        String password = "root";
+        String username = "root";
+        String firstName = "fName";
+        String lastName = "lName";
+        String middleName = "mName";
+        String adminName = "aName";
+
+        stub(organizationRepository.findOne(organizationId)).toReturn(organization);
+        stub(userRepository.findOne(username)).toReturn(user);
+
+        organizationService.editOrganization(organizationId, name, phone, email, types,
+                employeesCapacity, maxProcessTime, address, password, username,
+                firstName, lastName, middleName, adminName);
+
+        verify(organizationRepository).findOne(organizationId);
+        verify(userRepository).findOne(username);
+        verify(organizationRepository, times(2)).save(organization);
     }
 
     @Test
@@ -139,8 +193,10 @@ public class OrganizationServiceImplTest {
         assertEquals(employeesCapasity, actual);
     }
 
+    @Test
     public void testSendOrganizationChanges() throws Exception {
-
+        organizationService.sendOrganizationChanges(organization, user);
+        verify(mailService).sendOrganizationChanges(organization, user);
     }
 
     @Test
