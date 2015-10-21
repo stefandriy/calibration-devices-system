@@ -7,10 +7,8 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
-import com.softserve.edu.repository.OrganizationRepository;
-import com.softserve.edu.repository.UploadBbiRepository;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
+import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.storage.impl.FileOperationsImpl;
@@ -22,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +43,9 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Autowired
     private FileOperations fileOperations;
+
+    @Autowired
+    private AdditionalInfoRepository additionalInfoRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -111,6 +114,26 @@ public class CalibratorServiceImpl implements CalibratorService {
         verification.setCalibratorEmployee(calibratorEmployee);
         verification.setReadStatus(ReadStatus.READ);
         verification.setTaskStatus(Status.PLANNING_TASK);
+        verificationRepository.save(verification);
+    }
+
+    @Override
+    public void saveInfo(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate, String notes, String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        verification.setAddInfoExists(true);
+        LocalTime timeFrom;
+        LocalTime timeTo;
+        if (time == null){
+            timeFrom = null;
+            timeTo = null;
+        } else {
+            String timeFromString = time.substring(0, 5);
+            String timeToString = time.substring(6, 11);
+            timeFrom = LocalTime.parse(timeFromString);
+            timeTo = LocalTime.parse(timeToString);
+        }
+        additionalInfoRepository.save(new AdditionalInfo(entrance, doorCode, floor, dateOfVerif, timeFrom, timeTo, serviceability,
+                noWaterToDate, notes, verification));
         verificationRepository.save(verification);
     }
 }

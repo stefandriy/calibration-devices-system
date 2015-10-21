@@ -146,7 +146,6 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "new/count/calibrator", method = RequestMethod.GET)
     public Long getCountOfNewVerificationsByCalibratorId(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
         if (user != null) {
             return verificationService.findCountOfNewVerificationsByCalibratorId(user.getOrganizationId());
         } else {
@@ -221,7 +220,7 @@ public class CalibratorVerificationController {
                         deviceTestData.getInstallmentNumber(), originalFileFullName);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
             } else {
-                logger.error("Failed to load file ");
+                logger.error("Failed to load file: pattern does not match.");
                 responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
@@ -263,7 +262,6 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "archive/{verificationId}", method = RequestMethod.GET)
     public VerificationDTO getArchivalVerificationDetailsById(@PathVariable String verificationId,
                                                               @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
         Verification verification = verificationService.findByIdAndCalibratorId(verificationId,
                 user.getOrganizationId());
 
@@ -415,5 +413,20 @@ public class CalibratorVerificationController {
         calibratorService.assignCalibratorEmployee(idVerification, null);
     }
 
+
+    @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
+    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO){
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            calibratorService.saveInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
+                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
+                    infoDTO.getNotes(), infoDTO.getVerificationId());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
+
+    }
 
 }
