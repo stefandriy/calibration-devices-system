@@ -32,7 +32,6 @@ public class CalibratorEmployeeServiceImplTest {
     @Mock private UserRepository calibratorEmployeeRepository;
     @Mock private VerificationRepository verificationRepository;
 
-    @Spy
     @InjectMocks
     private CalibratorEmployeeServiceImpl calibratorEmployeeService;
 
