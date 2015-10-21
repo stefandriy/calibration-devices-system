@@ -13,18 +13,25 @@ angular
                     });
             },
             getDeviceCategoryById: function (id) {
-                var url = '/admin/device-category/getCategory/' + id;
+                var url = '/admin/device-category/get/' + id;
                 return $http.get(url).then(function (result) {
                     return result.data;
                 });
             },
             editDeviceCategory: function (formData, id) {
-                var url = '/admin/device-category/editCategory/' + id;
+                var url = '/admin/device-category/edit/' + id;
                 return $http.post(url, formData)
                     .then(function (result) {
                         return result.status;
                     });
             },
+            deleteDeviceCategory: function (id) {
+                var url = '/admin/device-category/delete/' + id;
+                return $http.delete(url)
+                    .then(function (result) {
+                        return result.status;
+                    });
+            }
         };
 
         function getDataWithParams(url, params) {

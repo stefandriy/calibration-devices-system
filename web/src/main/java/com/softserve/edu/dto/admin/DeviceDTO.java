@@ -19,6 +19,12 @@ public class DeviceDTO {
 		this.deviceName = deviceName;
 	}
 
+	public DeviceDTO(Long id, String deviceType, String deviceName) {
+		this.id = id;
+		this.deviceType = deviceType;
+		this.deviceName = deviceName;
+	}
+
 	public Long getId() {
 		return id;
 	}

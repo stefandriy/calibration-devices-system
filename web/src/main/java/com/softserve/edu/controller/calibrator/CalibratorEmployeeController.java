@@ -4,12 +4,14 @@ import com.softserve.edu.controller.provider.ProviderEmployeeController;
 import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.utils.EmployeeDTO;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 ;
@@ -26,7 +29,7 @@ import java.util.List;
 @RequestMapping(value = "calibrator/admin/users/")
 public class CalibratorEmployeeController {
 
-    Logger logger = Logger.getLogger(ProviderEmployeeController.class);
+    Logger logger = Logger.getLogger(CalibratorEmployeeController.class);
 
     @Autowired
     private UserService userService;
@@ -87,6 +90,24 @@ public class CalibratorEmployeeController {
     public void removeCalibratorEmployee(@RequestBody VerificationProviderEmployeeDTO verificationUpdatingDTO) {
         String idVerification = verificationUpdatingDTO.getIdVerification();
         calibratorService.assignCalibratorEmployee(idVerification, null);
+    }
+    
+    @RequestMapping(value = "graphicmainpanel", method = RequestMethod.GET)
+    public List<ProviderEmployeeGraphic> graphicMainPanel
+            (@RequestParam String fromDate, @RequestParam String toDate,
+             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        Long idOrganization = user.getOrganizationId();
+        List<ProviderEmployeeGraphic> list = null;
+        try {
+            Date dateFrom = calibratorEmployeeService.convertToDate(fromDate);
+            Date dateTo = calibratorEmployeeService.convertToDate(toDate);
+
+            list = calibratorEmployeeService.buidGraphicMainPanel(dateFrom, dateTo, idOrganization);
+
+        } catch (Exception e) {
+            logger.error("Failed to get graphic data");
+        }        
+        return list;
     }
 
 }

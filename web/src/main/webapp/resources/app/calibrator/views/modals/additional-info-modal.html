@@ -1,5 +1,5 @@
-<form name="additionalInfoForm" novalidate>
-   <!-- ENTRANCE -->
+<form name="addInfoForm" novalidate>
+    <!-- ENTRANCE -->
     <div class="row" ng-show="showStatus.opened">
         <div class="form-group col-md-4">
             <label class="control-label">{{'ENTRANCE' | translate}}</label>
@@ -45,7 +45,7 @@
     </div>
 
     <!-- DATE OF verification/disassembly -->
-    <div class="row" ng-hide="checkPlaceAndStatus()">
+    <div class="row" ng-show="showStatus.opened">
         <div class="form-group col-md-4" >
             <label class="control-label">{{'DATE_OF_VERIF/DISASSEMBLY'| translate }}</label>
         </div>
@@ -104,13 +104,14 @@
             <label class="control-label">{{ 'PLUMBING_SERVICEABILITY' | translate}}</label>
         </div>
         <div class="form-group col-md-8">
-            <input type="checkbox" checked="checked" ng-model="info.serviceability"
-                   id="serviceability" value="true" name="serviceability" class="form-control"/>
+            <input type="checkbox" checked="checked" ng-checked="true"
+                   ng-model="addInfo.serviceability"
+                   id="serviceability" name="serviceability" class="form-control"/>
         </div>
     </div>
 
     <!-- No water to date-->
-    <div class="row" ng-hide="checkPlaceAndStatus()">
+    <div class="row" ng-show="showStatus.opened">
         <div class="form-group col-md-4" >
             <label class="control-label">{{'NO_WATER_TO'| translate }}</label>
         </div>
@@ -119,8 +120,8 @@
             <div class="input-group right-inner-addon" style="width: 100%">
                 <span class="input-group-btn" style="height: 100%">
                      <button type="button" class="btn btn-default myGroupBtn" ng-click="open2($event)">
-                          <i class="glyphicon glyphicon-calendar" ></i>
-                      </button>
+                         <i class="glyphicon glyphicon-calendar" ></i>
+                     </button>
                 </span>
 
                 <input type="text" class="form-control date-picker" datepicker-popup
@@ -137,8 +138,6 @@
                                    <i class="glyphicon glyphicon-remove"></i>
                                </button>
                          </span>
-
-
             </div>
             <div ng-show="formTask.$submitted || formTask.date.$touched">
                 <div ng-show="formTask.date.$error.required">
@@ -159,10 +158,11 @@
         </div>
     </div>
 
-    <!-- BUTTON -->
+    <!-- BUTTONS -->
     <div class="row">
         <div class="form-group col-md-10">
             <button class="btn btn-success" ng-click="editTask(formTask)">{{'SAVE' | translate}}</button>
+            <a class="btn btn-warning" ng-click="resetTaskForm()">{{'RESET' | translate}}</a>
         </div>
     </div>
 </form>
