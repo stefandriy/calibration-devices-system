@@ -11,6 +11,6 @@ public interface FileOperations {
 
     public URI getResourseURI(String relativeFilePath);
 
-    public String putBbiFile(InputStream stream, String fileName)  throws IOException;
+    public String putBbiFile(InputStream stream, Long installmentNumber, String fileName)  throws IOException;
 
 }

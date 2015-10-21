@@ -398,21 +398,21 @@ angular
             };
 
 
-            $scope.uploadBbiFile = function () {
-                console.log("Entered upload bbi function");
-                var modalInstance =  $modal.open({
-                    animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
-                    controller: 'UploadBbiFileController',
-                    size: 'lg'
-                });
+            //$scope.uploadBbiFile = function () {
+            //    console.log("Entered upload bbi function");
+            //    var modalInstance =  $modal.open({
+            //        animation: true,
+            //        templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
+            //        controller: 'UploadBbiFileController',
+            //        size: 'lg'
+            //    });
                 /*
                  modalInstance.result.then(function (fileName) {
                  $rootScope.fileName = fileName;
                  $rootScope.onTableHandling();
                  });
                  */
-            };
+            //};
 
 
             $scope.uploadPhoto = function (testId) {

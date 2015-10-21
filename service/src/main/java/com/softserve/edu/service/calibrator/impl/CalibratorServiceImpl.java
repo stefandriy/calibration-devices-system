@@ -52,8 +52,9 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Override
     @Transactional
-    public void uploadBbi(InputStream file, String idVerification, String originalFileFullName) throws IOException {
-        String absolutePath = fileOperations.putBbiFile(file, originalFileFullName);
+    public void uploadBbi(InputStream file, String idVerification,
+                          Long installmentNumber, String originalFileFullName) throws IOException {
+        String absolutePath = fileOperations.putBbiFile(file, installmentNumber, originalFileFullName);
         Verification verification = verificationRepository.findOne(idVerification);
         BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
         verification.setBbiProtocol(bbiProtocol);
