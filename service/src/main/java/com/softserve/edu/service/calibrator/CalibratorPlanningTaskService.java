@@ -1,11 +1,9 @@
 package com.softserve.edu.service.calibrator;
 
-import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.Verification;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;
-import java.util.List;
 
 
 public interface CalibratorPlanningTaskService {

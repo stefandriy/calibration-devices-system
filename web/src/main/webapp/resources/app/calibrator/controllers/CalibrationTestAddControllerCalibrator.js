@@ -48,19 +48,14 @@ angular
 
             };
 
-            $scope.parseBbiFile = function(fileName) {
-                console.log("Entered parse bbi file; File name = " + fileName);
-                calibrationTestServiceCalibrator
-                    .parseBbiFile(fileName)
-                    .then(function(result) {
-                        $scope.fileLoaded = true;
-                        console.log(result.data);
-                        $scope.TestForm = result.data;
-                        var date = $scope.TestForm.testDate;
-                        $scope.TestForm.testDate = moment(date).utcOffset(0).format("DD.MM.YYYY HH:mm");
-                        document.getElementById('testMainPhoto').setAttribute('src', 'data:image/png;base64,' + $scope.TestForm.testPhoto);
-                        $scope.TestDataFormData = result.data.listTestData;
-                    });
+            $scope.parseBbiFile = function(data) {
+                $scope.fileLoaded = true;
+                console.log(data);
+                $scope.TestForm = data;
+                var date = $scope.TestForm.testDate;
+                $scope.TestForm.testDate = moment(date).utcOffset(0).format("DD.MM.YYYY HH:mm");
+                document.getElementById('testMainPhoto').setAttribute('src', 'data:image/png;base64,' + $scope.TestForm.testPhoto);
+                $scope.TestDataFormData = data.listTestData;
             }
 
             function getCalibrationTests() {
@@ -101,7 +96,6 @@ angular
                                 controllerAs: 'successController',
                                 size: 'md'
                 });
-
             }
 
         }]);
