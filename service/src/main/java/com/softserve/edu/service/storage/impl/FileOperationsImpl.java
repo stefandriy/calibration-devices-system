@@ -44,8 +44,8 @@ public class FileOperationsImpl implements FileOperations{
      * Reads stream and saves content in file on local storage.
      * @return Absolute path to saved file.
      */
-    public String putBbiFile(InputStream stream, String fileName) throws IOException {
-        String absolutePath = bbiLocalStorage + fileName;
+    public String putBbiFile(InputStream stream, Long installmentNumber, String fileName) throws IOException {
+        String absolutePath = bbiLocalStorage + installmentNumber + "/" + fileName;
         FileUtils.copyInputStreamToFile(stream, new File(absolutePath));
         return absolutePath;
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 
+import java.io.IOException;
 
 
 @Controller
@@ -40,7 +41,7 @@ public class CalibrationTestDataController {
             return new ResponseEntity<>(foundTestData, HttpStatus.OK);
         } else {
             logger.error("Not found");
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -90,11 +91,18 @@ public class CalibrationTestDataController {
     }
 
     @RequestMapping(value = "parseBbi/{fileName}/{extension}", method = RequestMethod.GET)
-    @ResponseBody
-    public CalibrationTestFileDataDTO parseBbiData(@PathVariable String fileName, @PathVariable String extension) {
+    public ResponseEntity parseBbiData(@PathVariable String fileName, @PathVariable String extension) {
+        ResponseEntity responseEntity;
         fileName = fileName.concat(".").concat(extension);
-        DeviceTestData deviceTestData = bbiFileService.findBbiFileContentByFileName(fileName);
-        return new CalibrationTestFileDataDTO(deviceTestData);
+        DeviceTestData deviceTestData;
+        try {
+            deviceTestData = bbiFileService.findBbiFileContentByFileName(fileName);
+            responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
+        } catch (IOException e) {
+            logger.error("Unable to parse file " + fileName, e);
+            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
     }
 
 }

@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: use hex reading, not string!
 public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     private InputStream reader;
     private Map<String, Object> resultMap;
@@ -22,7 +21,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     @Override
     public DeviceTestData parse(InputStream deviceTestDataStream) {
         final int EMPTY_BYTES_BETWEEN_TESTS = 180;
-        resultMap = new HashMap<String, Object>();
+        resultMap = new HashMap<>();
         reader = new BufferedInputStream(deviceTestDataStream);
         try {
             resultMap.put("day", readLongValueReversed(1)); //0x800000
