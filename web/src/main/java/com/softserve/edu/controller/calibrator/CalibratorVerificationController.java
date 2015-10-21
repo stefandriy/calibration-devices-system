@@ -13,6 +13,7 @@ import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
@@ -71,6 +72,7 @@ public class CalibratorVerificationController {
 
     @Autowired
     UserService userService;
+
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
@@ -409,5 +411,20 @@ public class CalibratorVerificationController {
         calibratorService.assignCalibratorEmployee(idVerification, null);
     }
 
+
+    @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
+    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO){
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            calibratorService.saveInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
+                    infoDTO.getDateOfVerif(), infoDTO.getTime(), infoDTO.isServiceability(), infoDTO.getNoWaterToDate(),
+                    infoDTO.getNotes(), infoDTO.getVerificationId());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
+
+    }
 
 }

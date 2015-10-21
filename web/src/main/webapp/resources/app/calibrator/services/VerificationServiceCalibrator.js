@@ -18,7 +18,7 @@ angular
             getCalibrators: function (url) {
                 return getEmployeeData('verifications/new/calibratorEmployees');
             },
-            //todo need to find verificators by agreements(договорах)
+            //todo need to find verificators by agreements(пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
             getVerificators: function (url) {
                 return getData('verifications/new/verificators');
             },
@@ -70,6 +70,9 @@ angular
             },
             getIfEmployeeCalibrator: function(url) {
                 return getData('verifications/calibrator/role');
+            },
+            saveAdditionalInfo: function(data) {
+                return saveInfo('/calibrator/verifications/saveInfo', data);
             },
         };
 
@@ -145,6 +148,15 @@ angular
             return $http.put('calibrator/verifications/' + url, data)
                 .success(function (responseData) {
                     return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function saveInfo(url, data) {
+            return $http.post(url, data)
+                .success(function (response) {
+                    return response;
                 })
                 .error(function (err) {
                     return err;

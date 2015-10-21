@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('DetailsModalControllerCalibrator', ['$scope', '$modalInstance', '$log', 'response',
-        function ($scope, $modalInstance, $log, response) {
+    .controller('DetailsModalControllerCalibrator', ['$scope', '$modalInstance', '$log', 'response', 'VerificationServiceCalibrator',
+        function ($scope, $modalInstance, $log, response, verificationService) {
 
             /**
 	         * Closes modal window on browser's back/forward button click.
@@ -11,6 +11,8 @@ angular
 			});
     	
             $scope.verificationData = response.data;
+
+
 
 
             $scope.close = function () {
@@ -145,7 +147,7 @@ angular
                         break;
                     case ('time'):
                         var time = $scope.addInfo.time;
-                        if (/^[0-1]{1}[0-9]{1}(\.)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\.)[0-9]{2}$/.test(time)) {
+                        if (/^[0-1]{1}[0-9]{1}(\:)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\:)[0-9]{2}$/.test(time)) {
                             validator('time', false);
                         } else {
                             validator('time', true);
@@ -191,6 +193,60 @@ angular
                 }
             }
 
+            $scope.resetForm = function(){
+                $scope.$broadcast('show-errors-reset');
+                $scope.addInfo.entrance = undefined;
+                $scope.addInfo.doorCode = undefined;
+                $scope.addInfo.floor = undefined;
+                $scope.addInfo.dateOfVerif;
+                $scope.addInfo.time = undefined;
+                $scope.addInfo.serviceability = undefined;
+                $scope.addInfo.noWaterToDate = undefined;
+                $scope.addInfo.notes  = undefined;
+                $scope.entranceValidation = {};
+                $scope.doorCodeValidation = {};
+                $scope.floorValidation = {};
+                $scope.counterNumberValidation = {};
+                $scope.timeValidation = {};
+            }
+
+            $scope.showMessage = {
+                status: false
+            }
+            $scope.editAdditionalInfo = function(){
+                if ($scope.addInfo.entrance==undefined && $scope.addInfo.doorCode==undefined && $scope.addInfo.floor == undefined
+                    && $scope.addInfo.dateOfVerif==undefined && $scope.addInfo.time == undefined &&
+                    $scope.addInfo.noWaterToDate == undefined && $scope.addInfo.notes == undefined){
+                    $scope.showMessage.status = true;
+                } else {
+                    if ($scope.addInfo.serviceability == undefined){
+                        $scope.addInfo.serviceability = true;
+                    }
+                    $scope.showMessage.status = false;
+                    $scope.info = {
+                        entrance: $scope.addInfo.entrance,
+                        doorCode: $scope.addInfo.doorCode,
+                        floor: $scope.addInfo.floor,
+                        dateOfVerif: $scope.addInfo.dateOfVerif,
+                        time: $scope.addInfo.time,
+                        serviceability: $scope.addInfo.serviceability,
+                        noWaterToDate: $scope.addInfo.noWaterToDate,
+                        notes: $scope.addInfo.notes,
+                        verificationId: $scope.verificationData.id
+                    }
+                    $log.debug($scope.info);
+                    verificationService.saveAdditionalInfo($scope.info)
+                        .then(function (response) {
+                            if (response == 200) {
+                                $scope.close();
+                            } else {
+                             $scope.incorrectValue = true;
+                             console.log($scope.incorrectValue);
+                            }
+                        });
+                }
+
+            }
 
 
         }]);

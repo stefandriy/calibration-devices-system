@@ -1,4 +1,7 @@
 <form name="addInfoForm" novalidate>
+
+    <h4 style="color: red;" ng-show="showMessage.info">{{MESSAGE_ERROR | translate}}</h4>
+
     <!-- ENTRANCE -->
     <div class="row" ng-show="showStatus.opened">
         <div class="form-group col-md-4">
@@ -104,7 +107,7 @@
             <label class="control-label">{{ 'PLUMBING_SERVICEABILITY' | translate}}</label>
         </div>
         <div class="form-group col-md-8">
-            <input type="checkbox" checked="checked" ng-checked="true"
+            <input type="checkbox" value="true"
                    ng-model="addInfo.serviceability"
                    id="serviceability" name="serviceability" class="form-control"/>
         </div>
@@ -161,8 +164,8 @@
     <!-- BUTTONS -->
     <div class="row">
         <div class="form-group col-md-10">
-            <button class="btn btn-success" ng-click="editTask(formTask)">{{'SAVE' | translate}}</button>
-            <a class="btn btn-warning" ng-click="resetTaskForm()">{{'RESET' | translate}}</a>
+            <button class="btn btn-success" ng-click="editAdditionalInfo()">{{'SAVE' | translate}}</button>
+            <a class="btn btn-warning" ng-click="resetForm()">{{'RESET' | translate}}</a>
         </div>
     </div>
 </form>
