@@ -237,7 +237,7 @@ angular
                     $log.debug($scope.info);
                     verificationService.saveAdditionalInfo($scope.info)
                         .then(function (response) {
-                            if (response == 200) {
+                            if (response.status == 200) {
                                 $scope.close();
                             } else {
                              $scope.incorrectValue = true;

@@ -127,7 +127,7 @@ public class CalibratorServiceImpl implements CalibratorService {
             timeTo = null;
         } else {
             String timeFromString = time.substring(0, 5);
-            String timeToString = time.substring(6, 10);
+            String timeToString = time.substring(6, 11);
             timeFrom = LocalTime.parse(timeFromString);
             timeTo = LocalTime.parse(timeToString);
         }
