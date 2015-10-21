@@ -27,6 +27,7 @@ import java.util.UUID;
 @Table(name = "VERIFICATION")
 public class Verification {
 
+    @Setter(AccessLevel.PRIVATE)
     @Id
     private String id;
 
