@@ -15,7 +15,10 @@ import org.springframework.data.domain.PageRequest;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -61,9 +64,16 @@ public class MeasuringEquipmentServiceImplTest {
 
     @Test
     public void testGetMeasuringEquipmentsBySearchAndPagination() {
+        measuringEquipmentServiceImpl.getMeasuringEquipmentsBySearchAndPagination(2,5,null);
+        verify(measuringEquipmentRepository).findAll(any(PageRequest.class));
 
-           }
-
+    }
+    @Test
+    public void testSecondGetMeasuringEquipmentsBySearchAndPagination() {
+        String search = "search";
+        measuringEquipmentServiceImpl.getMeasuringEquipmentsBySearchAndPagination(2,5,search);
+        verify(measuringEquipmentRepository).findByNameLikeIgnoreCase(eq("%" + search + "%"), any(PageRequest.class));
+    }
     @Test
     public void testAddMeasuringEquipment()  {
         boolean result;
@@ -86,7 +96,7 @@ public class MeasuringEquipmentServiceImplTest {
     public void testEditMeasuringEquipment()  {
       boolean result;
         try {
-            measuringEquipmentServiceImpl.editMeasuringEquipment(1L,"name1","deviceType 1","manufacturer1.1","verificationInterval");
+            measuringEquipmentServiceImpl.editMeasuringEquipment(1L,"name 1","deviceType 1","manufacturer 1","verificationInterval 1");
             result = true;
         } catch (Exception ex) {
             result = false;
