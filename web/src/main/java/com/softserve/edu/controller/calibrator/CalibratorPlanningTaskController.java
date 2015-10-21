@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "task/", produces = "application/json")
@@ -60,7 +61,7 @@ public class CalibratorPlanningTaskController {
     }
 
     @RequestMapping(value = "findAllModules/{moduleType}/{workDate}", method = RequestMethod.GET)
-    public List<String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate,
+    public Map<String,String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate,
                                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
         return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, employeeUser.getUsername());
     }

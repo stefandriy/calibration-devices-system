@@ -1,7 +1,7 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
         'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
-        'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize'/*, 'angularJsToaster'*/])
+        'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize', 'ngAnimate', 'toaster'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
 
@@ -28,7 +28,7 @@
 
                 $stateProvider
                     .state('main-panel-provider', {
-                        url: '/',
+                        url: '/provider/',
                         templateUrl: '/resources/app/provider/views/main-panel.html',
                         controller: 'MainPanelControllerProvider'
                     })
@@ -59,7 +59,8 @@
                     })
                     .state('main-panel-calibrator', {
                         url: '/calibrator/',
-                        templateUrl: '/resources/app/calibrator/views/main-panel.html'
+                        templateUrl: '/resources/app/calibrator/views/main-panel.html',
+                        controller: 'MainPanelControllerCalibrator'
                     })
                     .state("profile-info", {
                     url: '/profile-info',
@@ -112,7 +113,7 @@
                         controller: 'TaskSendingModalControllerCalibrator'
                     })
                     .state('main-panel-verificator', {
-                        url: '/',
+                        url: '/verificator/',
                         templateUrl: '/resources/app/verificator/views/main-panel.html'
                     })
                     .state("new-verifications-verificator", {
@@ -164,12 +165,30 @@
 
             }]);
 
-    angular.module('employeeModule').run(function (paginationConfig) {
+    angular.module('employeeModule').run(['UserService', '$state', 'paginationConfig', function (userService, $state, paginationConfig) {
         paginationConfig.firstText = 'Перша';
         paginationConfig.previousText = 'Попередня';
         paginationConfig.nextText = 'Наступна';
         paginationConfig.lastText = 'Остання';
-    });
+        
+        /**
+         * Initial state
+         */
+        userService.getLoggedInUserRoles().success(function (response) {
+        	var roles = response + '';
+            var role = roles.split(',');
+        	            
+        	for (var i = 0; i < role.length; i++) {
+                if (role[i] === 'PROVIDER_ADMIN' || role[i] === 'PROVIDER_EMPLOYEE')
+                	$state.transitionTo('main-panel-provider');
+                if (role[i] === 'CALIBRATOR_ADMIN' || role[i] === 'CALIBRATOR_EMPLOYEE')
+                	$state.transitionTo('main-panel-calibrator');
+                if (role[i] === 'STATE_VERIFICATOR_ADMIN' || role[i] === 'STATE_VERIFICATOR_EMPLOYEE')
+                	$state.transitionTo('main-panel-verificator');
+            }
+        	
+        })
+    }]);
 
 
     angular.module('employeeModule').directive('chosen', function () {
@@ -236,6 +255,7 @@
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
         'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
+        'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
         'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',
         'calibrator/services/AddressServiceCalibrator',
@@ -265,7 +285,8 @@
         'provider/filters/unique',
         'common/controllers/ProfileInfoController',
         'common/controllers/EditProfileInfoController',
-        'common/services/ProfileService'
+        'common/services/ProfileService',
+        'common/controllers/CommonController'
 
     ], function () {});
 })();

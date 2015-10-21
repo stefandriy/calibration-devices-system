@@ -7,13 +7,14 @@ import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+import com.softserve.edu.service.storage.FileOperations;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FileOperationImpl {
+public class FileOperationsImpl implements FileOperations{
 
     @Value("${photo.storage.local}")
     private String localStorage;
@@ -21,8 +22,10 @@ public class FileOperationImpl {
     @Value("${photo.path.prefix}")
     private String photoPathPref;
 
-    public String putResourse(InputStream stream, String relativeFolder, String fileType) {
+    @Value("${bbi.storage.local}")
+    private String bbiLocalStorage;
 
+    public String putResourse(InputStream stream, String relativeFolder, String fileType) {
         String fileName = getFileName(fileType);
         try {
             FileUtils.copyInputStreamToFile(stream, new File(localStorage + relativeFolder
@@ -37,6 +40,16 @@ public class FileOperationImpl {
         return URI.create(photoPathPref + relativeFilePath);
     }
 
+    /***
+     * Reads stream and saves content in file on local storage.
+     * @return Absolute path to saved file.
+     */
+    public String putBbiFile(InputStream stream, String fileName) throws IOException {
+        String absolutePath = bbiLocalStorage + fileName;
+        FileUtils.copyInputStreamToFile(stream, new File(absolutePath));
+        return absolutePath;
+    }
+
     private String getFileName(String fileType) {
         Base64 base64 = new Base64();
         UUID uuid = UUID.randomUUID();
@@ -45,4 +58,5 @@ public class FileOperationImpl {
         bb.putLong(uuid.getLeastSignificantBits());
         return base64.encodeBase64URLSafeString(bb.array()).concat(fileType);
     }
+
 }

@@ -12,9 +12,7 @@ import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Vasyl on 08.10.2015.
@@ -35,7 +33,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
     private Logger logger = Logger.getLogger(CalibrationModule.class);
 
     @Override
-    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String userName) {
+    public Map<String, String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String userName) {
         User user = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
@@ -43,9 +41,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
         // TODO potential NPE here
         List<CalibrationModule> modules = moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
                 .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId())));
-        List<String> serialNumbersList = new ArrayList<>();
+        Map<String, String> serialNumbersList = new HashMap<>();
         for (CalibrationModule module : modules) {
-            serialNumbersList.add(module.getSerialNumber());
+            serialNumbersList.put("serialNumber", module.getSerialNumber());
         }
         return serialNumbersList;
     }

@@ -6,6 +6,7 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.entity.enumeration.user.EmployeeRole;
 import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
@@ -254,7 +255,8 @@ public class EmployeeController {
     private List<UserInfoDTO> getUsersByOrganizationId(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails userDetails,
             @PathVariable int pageNumber,
-            @PathVariable int itemsPerPage
+            @PathVariable int itemsPerPage,
+            @RequestParam("employeeRole") EmployeeRole employeeRole
     ) {
         return userService.findByOrganizationId(userDetails.getOrganizationId(), pageNumber, itemsPerPage)
                 .stream()
@@ -267,7 +269,7 @@ public class EmployeeController {
                                 user.getFirstName(),
                                 user.getLastName(),
                                 user.getPhone(),
-                                0L
+                                userService.getCountOfVerifications(employeeRole, user.getUsername())
                         )
                 )
                 .collect(Collectors.toList());

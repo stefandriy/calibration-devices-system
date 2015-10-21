@@ -45,16 +45,15 @@
                                        class="table table-bordered table-hover users_table" id="info_table">
                                     <tbody>
                                     <tr ng-repeat="calibrationTest in $data">
-                                        <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
-                                            filter="{ 'date': 'daterange' }">{{ calibrationTest.initialDate | date :
+                                        <td data-title="'DATE_TEST' | translate" class="datecolumn" sortable="'date'"
+                                            filter="{ 'date': 'daterange' }">{{ calibrationTest.dateTest | date :
                                             'dd-MM-yyyy'}}
-                                            <div ng-show="calibrationTest.processTimeExceeding  > 0 "><b>{{'TIME_EXCEEDED' |
-                                                translate}} {{calibrationTest.processTimeExceeding}} {{'DAYS' |
-                                                translate}}</b>
-                                            </div>
+                                        </td>
+                                        <td data-title="'CALIBRATION_TEST_NAME' | translate"
+                                            filter="{ 'name': 'text' }" sortable="'name'">{{ calibrationTest.name}}
                                         </td>
                                         <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
-                                            filter="{ 'id': 'text' }" ng-model="filter.id">{{ calibrationTest.id }}
+                                            filter="{ 'id': 'text' }">{{ calibrationTest.id }}
                                         </td>
 
                                         <td data-title="'ACTIONS' | translate" class="control_buttons"
@@ -74,8 +73,8 @@
                                                popover-trigger="mouseenter"> <i class="fa fa-file-image-o"></i> </a>
 
                                         </td>
-                                        <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
-                                            filter="{ 'client_full_name': 'text' }">{{ calibrationTest.fullName }}
+                                        <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'"
+                                            filter="{ 'clientFullName': 'text' }">{{ calibrationTest.clientFullName }}
                                         </td>
                                         <td data-title="'REGION' | translate" sortable="'region'"
                                             filter="{ 'region': 'text' }">{{ calibrationTest.region}}
@@ -89,33 +88,30 @@
                                         <td data-title="'CLIENT_STREET' | translate" sortable="'street'"
                                             filter="{ 'street': 'text' }">{{ calibrationTest.street }}
                                         </td>
-                                        <td data-title="'STATUS' | translate" sortable="'status'"
-                                            filter="{ 'status': 'status' }">{{ calibrationTest.status | translate }}
+                                        <td data-title="'SETTING_NUMBER' | translate" sortable="'setting_number'"
+                                            filter="{ 'settingNumber': 'text' }">{{ calibrationTest.settingNumber }}
                                         </td>
-                                        <td data-title="'EMPLOYEE_SINGLE' | translate" sortable="'employee_last_name'"
-                                            filter="{ 'employee_last_name': 'text' }">{{ calibrationTest.calibratorEmployee
-                                            }}
+                                        <td data-title="'CONSUMPTION_STATUS' | translate" sortable="'consumption_status'"
+                                            filter="{ 'consumptionStatus': 'consumptionStatus' }">{{ calibrationTest.consumptionStatus | translate }}
                                         </td>
                                         <td data-title="'PROTOCOL_ID' | translate " sortable="'protocol_id'"
-                                            filter="{ protocol_id : 'text' }">{{calibrationTest.protocolId}}
+                                            filter="{ protocolId : 'text' }">{{calibrationTest.protocolId}}
                                         </td>
-                                        <!-- TODO: add protocol date-->
-                                        <td data-title="'PROTOCOL_STATUS' | translate" sortable="'protocol_status'"
-                                            filter="{ protocol_status : 'protocolStatus'}">{{
-                                            calibrationTest.protocolStatus }}
+                                        <td data-title="'TEST_RESULT' | translate" sortable="'test_result'"
+                                            filter="{ testResult : 'testResult'}">{{
+                                            calibrationTest.testResult }}
                                         </td>
                                         <td data-title="'MEASUREMENT_DEVICE_ID' | translate"
                                             sortable="'measurement_device_id'"
-                                            filter="{ measurement_device_id : 'text' }">
+                                            filter="{ measurementDeviceId : 'text' }">
                                             {{calibrationTest.measurementDeviceId}}
                                         </td>
                                         <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
                                             sortable="'measurement_device_type'"
-                                            filter="{ measurement_device_type : 'deviceType' }">{{
+                                            filter="{ measurementDeviceType : 'deviceType' }">{{
                                             calibrationTest.measurementDeviceType }}
                                         </td>
-                                        <td data-title="'DOCUMENT_TYPE' | translate" sortable="'protocol_status'"
-                                            filter="{ protocol_status : 'protocolStatus'}">{{
+                                        <td data-title="'DOCUMENT_TYPE' | translate">{{
                                             calibrationTest.documentTypeName }}
                                         </td>
                                         <!-- TODO: add date of creation document-->
@@ -170,16 +166,16 @@
                                         </span>
                                 </div>
                             </script>
-                            <script type="text/ng-template" id="ng-table/filters/status.html">
-                                <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
+                            <script type="text/ng-template" id="ng-table/filters/consumptionStatus.html">
+                                <ui-select ng-model="consumptionStatus.name" theme="select2" on-select='doSearch()'
                                            search-enabled="false"
-                                           name="filter-status">
+                                           name="filter-consumptionStatus">
                                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
                                                      allow-clear="true">
                                         {{$select.selected.label}}
                                     </ui-select-match>
                                     <ui-select-choices
-                                            repeat="status in statusData">
+                                            repeat="status in consumptionStatus">
                                         <span ng-bind-html="status.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
@@ -198,16 +194,16 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </script>
-                            <script type="text/ng-template" id="ng-table/filters/protocolStatus.html">
+                            <script type="text/ng-template" id="ng-table/filters/testResult.html">
                                 <ui-select ng-model="selectedProtocolStatus.name" theme="select2" on-select='doSearch()'
                                            search-enabled="false"
-                                           name="filter-protocolStatus">
+                                           name="filter-testResult  ">
                                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
                                                      allow-clear="true">
                                         {{$select.selected.label}}
                                     </ui-select-match>
                                     <ui-select-choices
-                                            repeat="protocolStatus in protocolStatusData">
+                                            repeat="protocolStatus in testResults">
                                         <span ng-bind-html="protocolStatus.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
@@ -218,97 +214,6 @@
             </div>
         </div>
     </div>
-    <!--<div class="row">-->
-        <!--<div class="col-lg-12">-->
-            <!--<div class="panel panel-default">-->
-                <!--<div class="panel-heading">Останні дані для повірки № {{verId}}</div>-->
-                <!--<div class="panel-body">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-sm-6">-->
-                            <!--<label>Знайти за назвою тесту:<input type="text" ng-model="searchData"-->
-                                                                 <!--ng-change="onTableHandling()"-->
-                                                                 <!--ng-model-options="{debounce: 600}"-->
-                                                                 <!--class="form-control input-sm">-->
-                            <!--</label>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-sm-12">-->
-                            <!--<table class="table table-striped table-bordered table-hover"-->
-                                   <!--id="devicesTable">-->
-                                <!--<thead>-->
-                                <!--<tr>-->
-                                    <!--<th>ID</th>-->
-                                    <!--<th>№ протоколу</th>-->
-                                    <!--&lt;!&ndash;<th>Початкова дата</th>&ndash;&gt;-->
-                                    <!--<th>Дата протоколу</th>-->
-                                    <!--<th>Номер установки</th>-->
-
-
-                                    <!--<th>Статус споживання</th>-->
-                                    <!--<th>Результат тесту</th>-->
-                                    <!--<th class="text-center">Дії</th>-->
-                                <!--</tr>-->
-                                <!--</thead>-->
-                                <!--<tbody>-->
-                                <!--<tr ng-repeat="calibrationTest in pageContent">-->
-                                    <!--<td>{{ calibrationTest.id }}</td>-->
-                                    <!--<td>{{ calibrationTest.name }}</td>-->
-                                    <!--&lt;!&ndash;<td>{{ calibrationTest.dateTest }}</td>&ndash;&gt;-->
-                                    <!--<td>{{ calibration.dateTest }} </td>-->
-                                    <!--<td>{{ calibrationTest.settingNumber }}</td>-->
-
-                                    <!--<td>{{ calibrationTest.consumptionStatus }}</td>-->
-                                    <!--<td>{{ calibrationTest.testResult }}</td>-->
-                                    <!--<td style="width: 17%">-->
-
-                                        <!--<div>-->
-                                            <!--<img src="/resources/assets/button-icons/calibration-test%20icons/edit.png"-->
-                                                 <!--popover="Редагувати протокол" popover-trigger="mouseenter"-->
-                                                 <!--ng-click="editCalibrationTest(calibrationTest.id)">-->
-                                            <!--</img>-->
-                                            <!--<img src="/resources/assets/button-icons/calibration-test%20icons/delete.png"-->
-                                                 <!--popover="Видалити тест" popover-trigger="mouseenter"-->
-                                                 <!--ng-click="deleteTest(calibrationTest.id)">-->
-                                            <!--</img>-->
-                                            <!--<img src="/resources/assets/button-icons/upload.png"-->
-                                                 <!--popover="Завантажити фото"-->
-                                                 <!--popover-trigger="mouseenter"-->
-                                                 <!--ng-click="uploadPhoto(calibrationTest.id)">-->
-                                            <!--</img>-->
-                                                <!--<a href="http://localhost/img/" target="_blank" style="align-self: auto" popover="Переглянути фото"-->
-                                                   <!--popover-trigger="mouseenter"> <i class="fa fa-file-image-o"></i> </a>-->
-                                        <!--</div>-->
-                                    <!--</td>-->
-                                <!--</tr>-->
-                                <!--</tbody>-->
-                            <!--</table>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<label>{{'DISPLAY_ON' | translate}} <select ng-model="itemsPerPage"-->
-                                                                <!--ng-change="onTableHandling()"-->
-                                                                <!--class="form-control input-sm">-->
-                        <!--<option value="1">1</option>-->
-                        <!--<option value="3">3</option>-->
-                        <!--<option value="5" selected>5</option>-->
-                        <!--<option value="10">10</option>-->
-                        <!--<option value="25">25</option>-->
-                        <!--<option value="50">50</option>-->
-                        <!--<option value="100">100</option>-->
-                    <!--</select>-->
-                    <!--</label>-->
-
-                    <!--<div class="row">-->
-                        <!--<div class="col-sm-12">-->
-                            <!--<pagination total-items="totalItems" ng-model="currentPage"-->
-                                        <!--max-size="5" boundary-links="true" rotate="false"-->
-                                        <!--ng-change="onTableHandling()" items-per-page="itemsPerPage"></pagination>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
 </div>
 </body>
 </html>

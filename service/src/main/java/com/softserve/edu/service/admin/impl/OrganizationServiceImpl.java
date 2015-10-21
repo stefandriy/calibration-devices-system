@@ -17,9 +17,9 @@ import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +31,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -42,9 +43,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
     private OrganizationRepository organizationRepository;
-
-    @Autowired
-    private ProviderEmployeeService providerEmployeeService;
 
     @Autowired
     private OrganizationChangesHistoryRepository organizationChangesHistoryRepository;
@@ -70,6 +68,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
+        employeeAdmin.setIsAvailable(true);
 
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
@@ -128,7 +127,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Organization getOrganizationById(Long id) {
         return organizationRepository.findOne(id);
     }
@@ -181,8 +180,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         employeeAdmin.setPassword(password != null && password.equals("generate") ? "generate" : employeeAdmin.getPassword());
 
+        if (employeeAdmin.getPassword().equals("generate")) {
+            String newPassword = RandomStringUtils.randomAlphanumeric(5);
+            System.out.println(employeeAdmin.getEmail());
+            System.out.println(newPassword);
+            mail.sendNewPasswordMail(employeeAdmin.getEmail(), employeeAdmin.getFirstName(), newPassword);
+            String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
+            employeeAdmin.setPassword(passwordEncoded);
+        }
+
         userRepository.save(employeeAdmin);
-        providerEmployeeService.updateEmployee(employeeAdmin);
 
         logger.info("password===========");
         logger.info(employeeAdmin.getPassword());
@@ -203,7 +210,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Integer getOrganizationEmployeesCapacity(Long organizationId) {
         return organizationRepository.findOne(organizationId).getEmployeesCapacity();
     }
@@ -221,34 +228,49 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Organization> findAllByLocalityId(Long localityId) {
         return organizationRepository.findOrganizationByLocalityId(localityId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Organization> findAllByLocalityIdAndTypeId(Long localityId, OrganizationType typeId) {
         return organizationRepository.findOrganizationByLocalityIdAndType(localityId, typeId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<OrganizationType> findOrganizationTypesById(Long id) {
         return organizationRepository.findOrganizationTypesById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Organization> findByLocalityIdAndTypeAndDevice(Long localityId, OrganizationType orgType, DeviceType deviceType) {
-        return organizationRepository.findByLocalityIdAndTypeAndDevice(localityId,orgType,deviceType);
+        return organizationRepository.findByLocalityIdAndTypeAndDevice(localityId, orgType, deviceType);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<LocalityDTO> findLocalitiesByOrganizationId(Long organizationId) {
         return organizationRepository.findLocalitiesByOrganizationId(organizationId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<DeviceType> findDeviceTypesByOrganizationId(Long organizationId) {
         return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
     }
 
+    @Override
+    public List<Organization> findByServiceAreaIdsAndOrganizationTypeId(Set<Long> serviceAreaIds, OrganizationType type) {
+        List<Organization> organizations = new ArrayList<>();
+        serviceAreaIds.stream()
+                .forEach(serviceAreaId -> {
+                    List<Organization> organizationList = organizationRepository.findOrganizationByLocalityIdAndType(serviceAreaId, type);
+                    organizations.addAll(organizationList);
+                });
+        return organizations;
+    }
 }

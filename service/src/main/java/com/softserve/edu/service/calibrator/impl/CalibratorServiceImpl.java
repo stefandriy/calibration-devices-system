@@ -12,6 +12,8 @@ import com.softserve.edu.repository.UploadBbiRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.storage.FileOperations;
+import com.softserve.edu.service.storage.impl.FileOperationsImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +41,8 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Organization> findByDistrict(String district, String type) {
-        return calibratorRepository.findByDistrictAndType(district, type);
-    }
+    @Autowired
+    private FileOperations fileOperations;
 
     @Override
     @Transactional(readOnly = true)
@@ -54,20 +53,14 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Override
     @Transactional
     public void uploadBbi(InputStream file, String idVerification, String originalFileFullName) throws IOException {
-        String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
-        System.out.println("gets filename");
-        byte[] bytesOfBbi = IOUtils.toByteArray(file);
-        System.out.println("gets bytes");
+        String absolutePath = fileOperations.putBbiFile(file, originalFileFullName);
         Verification verification = verificationRepository.findOne(idVerification);
-        System.out.println("finds verification");
-        BbiProtocol bbiProtocol = new BbiProtocol(bytesOfBbi, verification, filename);
-        System.out.println("creates protocol");
+        BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
         verification.setBbiProtocol(bbiProtocol);
-        System.out.println("sets protocol");
-        uploadBbiRepository.save(bbiProtocol);
-        System.out.println("saves protocol");
         verificationRepository.save(verification);
-        System.out.println("saves verification");
+        System.out.println("saved verification");
+        uploadBbiRepository.save(bbiProtocol);
+        System.out.println("saved bbi!!!!111");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.softserve.edu;
 
 import com.softserve.edu.config.JPAConfig;
+import com.softserve.edu.entity.enumeration.user.EmployeeRole;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
@@ -10,7 +11,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -21,16 +21,13 @@ public class Main {
 
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(JPAConfig.class);
-        context.getBean(Main.class).getAllAvailableUser();
+        context.getBean(Main.class).testQuery();
 
     }
 
     public void testQuery() {
 
-        Set<UserRole> userRoles = userRepository.getRolesByUserName("universal-first");
-        for (UserRole userRole : userRoles) {
-            System.out.println(userRole);
-        }
+        System.out.println(userRepository.countEmployeeVerifications(EmployeeRole.CALIBRATOR, "konon"));
     }
 
     public void getAllAvailableUser () {

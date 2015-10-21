@@ -6,12 +6,14 @@ import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -27,6 +29,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/verificator/verifications/")
@@ -43,6 +47,9 @@ public class StateVerificatorController {
 
     @Autowired
     ProviderService providerService;
+
+    @Autowired
+    OrganizationService organizationService;
 
     @Autowired
     CalibratorService calibratorService;
@@ -92,8 +99,15 @@ public class StateVerificatorController {
      */
     @RequestMapping(value = "new/providers", method = RequestMethod.GET)
     public List<Organization> getMatchingVerificators(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return providerService.findByDistrictAndType(stateVerificatorService
-                .findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");
+       /* return providerService.findByDistrictAndType(stateVerificatorService
+                .findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");*/
+
+        //todo need to find verificators by agreements(договорах)
+        //todo it`s a MOCK
+         Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
+                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
+
+        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.PROVIDER);
     }
 
     /**
@@ -103,7 +117,14 @@ public class StateVerificatorController {
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
     public List<Organization> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
+
+        //todo need to find verificators by agreements(договорах)
+        //todo it`s a MOCK
+       // return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
+        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
+                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
+
+        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.CALIBRATOR);
     }
 
     /**

@@ -10,7 +10,7 @@ angular
                     });
             },
             getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder, id) {
-                return getDataWithParams('/calibrator/verifications/calibration-test/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder  + '/' + id, search);
+                return getDataWithParams('/calibrator/verifications/calibration-test/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             saveCalibrationTest: function (formData, testId) {
                 return $http.post("/calibrator/calibrationTests/add/" + testId, formData)

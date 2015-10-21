@@ -20,21 +20,6 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
 
     Page<Organization> findAll(Pageable pageable);
 
-    //TODO NEED TO REFACTOR
-    @Query
-    (
-        value =
-                "SELECT * FROM Organization org INNER JOIN ORGANIZATION_TYPE orgType  " +
-                "ON org.id = orgType.organizationId " +
-                "WHERE orgType.value = :type AND org.district = :district",
-        nativeQuery = true
-    )
-    List<Organization> findByDistrictAndType(@Param("district") String district, @Param("type") String type);
-
-    /*@Query("SELECT org FROM Organization org " +
-            "WHERE org.district = :district AND  :typeId in elements(org.organizationTypes)")
-    List<Organization> findByDistrictAndType(@Param("district") String district, @Param("type") OrganizationType type);*/
-
     /**
      * Find organization types by organization id
      * @param organizationId
@@ -83,6 +68,8 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
             "INNER JOIN org.localities l " +
             "WHERE l.id=:localityId AND  :orgType in elements(org.organizationTypes) AND :deviceType in elements(org.deviceTypes)")
     List<Organization> findByLocalityIdAndTypeAndDevice(@Param("localityId") Long localityId, @Param("orgType") OrganizationType orgType, @Param("deviceType") DeviceType deviceType );
+
+
 
     /**
      * Find all localities by organization id

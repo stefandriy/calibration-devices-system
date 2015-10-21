@@ -31,8 +31,6 @@ angular
             $scope.secondAplicationCodes = [];
             $scope.firstDeviceComment = "";
             $scope.secondDeviceComment = "";
-            //$scope.firstDeviceCount = undefined;
-            // $scope.selectedStreetType = "";
 
             /**
              * Open application sending page and pass verification ID for auto filling it from verification
@@ -46,14 +44,14 @@ angular
              * Receives all regex for input fields
              *
              */
-            $scope.STREET_REGEX = /^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406][a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0454][a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0454]{1}[a-z\u0430-\u044f\u0456\u0457\u0454]{1,20})$/;
+            $scope.STREET_REGEX = /^[a-z\u0430-\u044f\u0456\u0457]{1,20}\s([A-Z\u0410-\u042f\u0407\u0406][a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}\u002d[A-Z\u0410-\u042f\u0407\u0406\u0454][a-z\u0430-\u044f\u0456\u0457\u0454]{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0454][a-z\u0430-\u044f\u0456\u0457\u0454]{1,20})$/;
             $scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404'][a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}\u002d[A-Z\u0410-\u042f\u0407\u0406\u0404'][a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404'][a-z\u0430-\u044f\u0456\u0457\u0454']{1,20})$/;
             $scope.MIDDLE_NAME_REGEX = /^[A-Z\u0410-\u042f\u0407\u0406\u0404'][a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}$/;
             $scope.FLAT_REGEX = /^([1-9][0-9]{0,3}|0)$/;
             $scope.BUILDING_REGEX = /^[1-9][0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457])?$/;
             $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
             $scope.PHONE_REGEX_SECOND = /^[1-9]\d{8}$/;
-            $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+            $scope.EMAIL_REGEX = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
             /**
              * Selected values from select will be temprorily saved here.
@@ -91,7 +89,7 @@ angular
                     $scope.formData.flat = $scope.verification.data.flat;
                     $scope.formData.comment = $scope.verification.data.comment;
                     $scope.defaultValue = {};
-                    $scope.defaultValue.privateHouse = $scope.verification.data.flat == 0 ? true : false;
+                    $scope.defaultValue.privateHouse = $scope.verification.data.flat == 0;
 
                     $scope.blockSearchFunctions = true;
                     dataReceivingService.findAllRegions().then(function (respRegions) {
@@ -111,39 +109,32 @@ angular
                                         var index = arrayObjectIndexOf($scope.localities, $scope.verification.data.locality, "designation");
                                         $scope.selectedValues.selectedLocality = $scope.localities[index];
 
-                                        //todo refactor
-                                        dataReceivingService.findProvidersByDistrict($scope.selectedValues.selectedDistrict.designation)
-                                            .then(function (providers) {
-                                                $scope.providers = providers.data;
-                                                var index = arrayObjectIndexOf($scope.providers, $scope.verification.data.provider, "designation");
-                                                $scope.selectedValues.selectedProvider = $scope.providers[index];
+                                        dataReceivingService.findStreetsByLocalityId($scope.selectedValues.selectedLocality.id)
+                                            .then(function (streets) {
+                                                $scope.streets = streets.data;
+                                                var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
+                                                $scope.selectedValues.selectedStreet = $scope.streets[index];
 
-                                                dataReceivingService.findStreetsByLocalityId($scope.selectedValues.selectedLocality.id)
-                                                    .then(function (streets) {
-                                                        $scope.streets = streets.data;
-                                                        var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
-                                                        $scope.selectedValues.selectedStreet = $scope.streets[index];
+                                                dataReceivingService.findBuildingsByStreetId($scope.selectedValues.selectedStreet.id)
+                                                    .then(function (buildings) {
+                                                        $scope.buildings = buildings.data;
+                                                        var index = arrayObjectIndexOf($scope.buildings, $scope.verification.data.building, "designation");
+                                                        $scope.selectedValues.selectedBuilding = $scope.buildings[index].designation;
 
-                                                        dataReceivingService.findBuildingsByStreetId($scope.selectedValues.selectedStreet.id)
-                                                            .then(function (buildings) {
-                                                                $scope.buildings = buildings.data;
-                                                                var index = arrayObjectIndexOf($scope.buildings, $scope.verification.data.building, "designation");
-                                                                $scope.selectedValues.selectedBuilding = $scope.buildings[index].designation;
-
-                                                                dataReceivingService.findMailIndexByLocality($scope.selectedValues.selectedLocality.designation, $scope.selectedValues.selectedDistrict.id)
-                                                                    .success(function (indexes) {
-                                                                        $scope.indexes = indexes;
-                                                                        $scope.selectedValues.selectedIndex = $scope.indexes[0];
-                                                                        $scope.blockSearchFunctions = false;
-                                                                    });
-
+                                                        dataReceivingService.findMailIndexByLocality($scope.selectedValues.selectedLocality.designation, $scope.selectedValues.selectedDistrict.id)
+                                                            .success(function (indexes) {
+                                                                $scope.indexes = indexes;
+                                                                $scope.selectedValues.selectedIndex = $scope.indexes[0];
+                                                                $scope.blockSearchFunctions = false;
                                                             });
+
                                                     });
                                             });
                                     });
                             });
                     });
                 });
+
             }
 
             /**
@@ -268,12 +259,7 @@ angular
 
                     dataReceivingService.findProvidersByLocality(selectedLocality.id)
                         .success(function (providers) {
-                            if (providers.length > 0) {
-                                $scope.isProvidersExist = true;
-                            }
-                            else {
-                                $scope.isProvidersExist = false;
-                            }
+                            $scope.isProvidersExist = providers.length > 0;
                         }
                     );
                 }
@@ -375,7 +361,6 @@ angular
                     $scope.formData.locality = $scope.selectedValues.selectedLocality.designation;
                     $scope.formData.street = $scope.selectedValues.selectedStreet.designation || $scope.selectedValues.selectedStreet;
                     $scope.formData.building = $scope.selectedValues.selectedBuilding.designation || $scope.selectedValues.selectedBuilding;
-                    //$scope.formData.providerId = $scope.selectedValues.selectedProvider.id;
 
                     for (var i = 0; i < $scope.selectedValues.firstDeviceCount; i++) {
                         $scope.formData.deviceId = $scope.selectedValues.firstSelectedDevice.id;
@@ -384,21 +369,21 @@ angular
 
                         $scope.firstAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
                     }
+                    // todo sending second device verification  bug
                     $q.all($scope.firstAplicationCodes).then(function (values) {
                         for (var i = 0; i < ($scope.selectedValues.firstDeviceCount); i++) {
                             $scope.codes.push(values[i].data);
-
                         }
-                        for (var i = 0; i < $scope.selectedValues.secondDeviceCount; i++) {
+                        for (var j = 0; j < $scope.selectedValues.secondDeviceCount; j++) {
                             $scope.formData.deviceId = $scope.selectedValues.secondSelectedDevice.id;
                             $scope.formData.providerId = $scope.selectedValues.secondSelectedProvider.id;
                             $scope.formData.comment = $scope.secondDeviceComment;
                             $scope.secondAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
                         }
+
                         $q.all($scope.secondAplicationCodes).then(function (values) {
                             for (var i = 0; i < $scope.selectedValues.secondDeviceCount; i++) {
                                 $scope.codes.push(values[i].data);
-
                             }
                             $scope.appProgress = false;
                         });
@@ -429,7 +414,7 @@ angular
                     toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_SENDING'));
                 };
 
-                modalInstance.result.then(function (formData, sendingStarted) {
+                modalInstance.result.then(function (formData) {
                     var messageToSend = {
                         verifID: $filter('translate')('NOTFOUND_TRANSLATION'),
                         msg: formData.message,
@@ -437,16 +422,12 @@ angular
                         surname: formData.lastName,
                         email: formData.email
                     };
-                    var idInfo = function () {
-                        return $filter('translate')('PHONE')
-                    };
+
                     $scope.showSendingAlert = true;
                     dataSendingService.sendMailNoProvider(messageToSend)
                         .success(function () {
                             $scope.responseSuccess = true;
                             $scope.showSendingAlert = false;
-                            $log.debug('response val');
-                            $log.debug($scope.responseSuccess);
                         });
                     $scope.pop();
                 });
@@ -512,11 +493,6 @@ angular
                 $scope.selectedValues.selectedStreetType = undefined;
                 $scope.selectedValues.selectedStreet = "";
             });
-
-            //$scope.$watch('selectedValues.selectedIndex', function () {
-            //    $scope.selectedValues.selectedStreetType = undefined;
-            //    $scope.selectedValues.selectedStreet = "";
-            //});
 
         }
     ]

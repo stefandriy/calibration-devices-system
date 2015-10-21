@@ -4,7 +4,7 @@ import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.user.User;;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import org.apache.log4j.Logger;
@@ -19,26 +19,25 @@ public class CalibrationTestQueryConstructorCalibrator {
     static Logger logger = Logger.getLogger(CalibrationTestQueryConstructorCalibrator.class);
 
 
-    public static CriteriaQuery<Verification> buildSearchQuery(Long employeeId, String startDateToSearch,
-                                                               String endDateToSearch,String region, String district, String locality,
-                                                               String idToSearch, String fullNameToSearch, String streetToSearch, String status, String employeeName,
-                                                               Long protocolId, String protocolStatus,
+    public static CriteriaQuery<CalibrationTest> buildSearchQuery(String startDateToSearch, String endDateToSearch, String name, String region, String district, String locality, String streetToSearch,
+                                                               String idToSearch, String fullNameToSearch, Integer settingNumber, String consumptionStatus,
+                                                               Long protocolId, String testResult,
                                                                Long measurementDeviceId,
                                                                String measurementDeviceType,
-                                                               String sortCriteria, String sortOrder, User providerEmployee, EntityManager em) {
+                                                               String sortCriteria, String sortOrder,  EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
-        Root<Verification> root = criteriaQuery.from(Verification.class);
+        CriteriaQuery<CalibrationTest> criteriaQuery = cb.createQuery(CalibrationTest.class);
+        Root<CalibrationTest> root = criteriaQuery.from(CalibrationTest.class);
 
-        Join<Verification, Organization> calibratorJoin = root.join("calibrator");
+        Join<CalibrationTest, Verification> verificationJoin = root.join("verification");
 
-        Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, region, district, locality, streetToSearch,
-                status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
+        Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb,  startDateToSearch, endDateToSearch, name, region, district, locality, streetToSearch,
+                idToSearch, fullNameToSearch, settingNumber, consumptionStatus, protocolId, testResult, measurementDeviceId, measurementDeviceType);
         if ((sortCriteria != null) && (sortOrder != null)) {
-            criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
+            criteriaQuery.orderBy(SortCriteriaCalibrationTest.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
         } else {
-            criteriaQuery.orderBy(cb.desc(root.get("initialDate")));
+            criteriaQuery.orderBy(cb.desc(root.get("dateTest")));
         }
         criteriaQuery.select(root);
         criteriaQuery.where(predicate);
@@ -46,45 +45,33 @@ public class CalibrationTestQueryConstructorCalibrator {
     }
 
 
-    public static CriteriaQuery<Long> buildCountQuery(Long employeeId, String startDateToSearch, String endDateToSearch,
-                                                      String idToSearch, String fullNameToSearch, String region, String district, String locality,
-                                                      String streetToSearch, String status, String employeeName,
-                                                      Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType,
-                                                      User providerEmployee, EntityManager em) {
+    public static CriteriaQuery<Long> buildCountQuery(String startDateToSearch, String endDateToSearch, String name, String region, String district, String locality, String streetToSearch,
+                                                      String idToSearch, String fullNameToSearch, Integer settingNumber, String consumptionStatus,
+                                                      Long protocolId, String testResult,
+                                                      Long measurementDeviceId,
+                                                      String measurementDeviceType,
+                                                      EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-        Root<Verification> root = countQuery.from(Verification.class);
-        Join<Verification, Organization> calibratorJoin = root.join("calibrator");
-        Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch,
-                idToSearch, fullNameToSearch, region, district, locality, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
+        Root<CalibrationTest> root = countQuery.from(CalibrationTest.class);
+
+        Join<CalibrationTest, Verification> verificationJoin = root.join("verification");
+        Predicate predicate = CalibrationTestQueryConstructorCalibrator.buildPredicate(root, cb,  startDateToSearch, endDateToSearch, name,
+                region, district, locality, streetToSearch, idToSearch, fullNameToSearch, settingNumber, consumptionStatus, protocolId, testResult, measurementDeviceId, measurementDeviceType);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
         return countQuery;
     }
 
-    private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Long employeeId,
-                                            String startDateToSearch, String endDateToSearch, String idToSearch,
-                                            String fullNameToSearch,String region, String district, String locality, String streetToSearch, String searchStatus,
-                                            String employeeName, Long protocolId, String protocolStatus,
-                                            Long measurementDeviceId, String measurementDeviceType,
-                                            User employee, Join<Verification, Organization> calibratorJoin) {
+    private static Predicate buildPredicate(Root<CalibrationTest> root, CriteriaBuilder cb, String startDateToSearch, String endDateToSearch, String name, String region, String district, String locality, String streetToSearch,
+                                            String idToSearch, String fullNameToSearch, Integer settingNumber, String consumptionStatus,
+                                            Long protocolId, String testResult,
+                                            Long measurementDeviceId,
+                                            String measurementDeviceType) {
 
         Predicate queryPredicate = cb.conjunction();
-        queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
-
-        if (searchStatus != null) {
-            queryPredicate = cb.and(cb.equal(root.get("status"), Status.valueOf(searchStatus.trim())), queryPredicate);
-        } else {
-            queryPredicate = cb.and(cb.not(cb.or(
-                    Status.SENT.getQueryPredicate(root, cb),
-                    Status.ACCEPTED.getQueryPredicate(root, cb),
-                    Status.IN_PROGRESS.getQueryPredicate(root, cb),
-                    Status.TEST_PLACE_DETERMINED.getQueryPredicate(root, cb),
-                    Status.SENT_TO_TEST_DEVICE.getQueryPredicate(root, cb),
-                    Status.TEST_COMPLETED.getQueryPredicate(root, cb)
-            )), queryPredicate);
-        }
+        
 
         if (startDateToSearch != null && endDateToSearch != null) {
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -97,78 +84,84 @@ public class CalibrationTestQueryConstructorCalibrator {
             } catch (Exception pe) {
                 logger.error("Cannot parse date", pe); //TODO: add exception catching
             }
-            //verifications with date between these two dates
-            queryPredicate = cb.and(cb.between(root.get("initialDate"), java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate)), queryPredicate);
+            //CalibrationTests with date between these two dates
+            queryPredicate = cb.and(cb.between(root.get("dateTest"), java.sql.Date.valueOf(startDate), java.sql.Date.valueOf(endDate)), queryPredicate);
 
+        }
+
+        if ((name != null) && (name.length() > 0)) {
+            queryPredicate = cb.and(cb.like(root.get("name"), "%" + name + "%"), queryPredicate);
         }
 
         if ((idToSearch != null) && (idToSearch.length() > 0)) {
-            queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
+            queryPredicate = cb.and(cb.like( joinCalibratorTest.get("id"), "%" + idToSearch + "%"), queryPredicate);
         }
 
         if ((fullNameToSearch != null) && (fullNameToSearch.length() > 0)) {
-            Predicate searchByClientFirstName = cb.like(root.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
-            Predicate searchByClientLastName = cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
-            Predicate searchByClientMiddleName = cb.like(root.get("clientData").get("middleName"), "%" + fullNameToSearch + "%");
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
+            Predicate searchByClientFirstName = cb.like(joinCalibratorTest.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
+            Predicate searchByClientLastName = cb.like(joinCalibratorTest.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
+            Predicate searchByClientMiddleName = cb.like(joinCalibratorTest.get("clientData").get("middleName"), "%" + fullNameToSearch + "%");
             Predicate searchPredicateByClientFullName = cb.or(searchByClientFirstName, searchByClientLastName, searchByClientMiddleName);
             queryPredicate = cb.and(searchPredicateByClientFullName, queryPredicate);
         }
 
+        if (settingNumber != null) {
+            queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Integer>(cb, root.get("settingNumber")),
+                    "%" + settingNumber.toString() + "%"), queryPredicate);
+        }
+
+        if ((consumptionStatus != null) && (consumptionStatus.length() > 0)) {
+            queryPredicate = cb.and(cb.like(root.get("consumptionStatus"), "%" + consumptionStatus + "%"), queryPredicate);
+        }
+
         if ((streetToSearch != null) && (streetToSearch.length() > 0)) {
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
-                    cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
+                    cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
                     queryPredicate);
         }
 
         if ((region != null) && (region.length() > 0)) {
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
-                    cb.like(root.get("clientData").get("clientAddress").get("region"), "%" + region + "%"),
+                    cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("region"), "%" + region + "%"),
                     queryPredicate);
         }
 
         if ((district != null) && (district.length() > 0)) {
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
-                    cb.like(root.get("clientData").get("clientAddress").get("district"), "%" + district + "%"),
+                    cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("district"), "%" + district + "%"),
                     queryPredicate);
         }
 
         if ((locality != null) && (locality.length() > 0)) {
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
-                    cb.like(root.get("clientData").get("clientAddress").get("locality"), "%" + locality + "%"),
+                    cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("locality"), "%" + locality + "%"),
                     queryPredicate);
         }
-
-        if ((employeeName != null) && (employeeName.length() > 0)) {
-            Join<Verification, User> joinCalibratorEmployee = root.join("calibratorEmployee");
-            Predicate searchByCalibratorName = cb.like(joinCalibratorEmployee.get("firstName"),
-                    "%" + employeeName + "%");
-            Predicate searchByCalibratorSurname = cb.like(joinCalibratorEmployee.get("lastName"),
-                    "%" + employeeName + "%");
-            Predicate searchByCalibratorLastName = cb.like(joinCalibratorEmployee.get("middleName"),
-                    "%" + employeeName + "%");
-            Predicate searchPredicateByCalibratorEmployeeName = cb.or(searchByCalibratorName, searchByCalibratorSurname,
-                    searchByCalibratorLastName);
-            queryPredicate = cb.and(searchPredicateByCalibratorEmployeeName, queryPredicate);
-        }
         if (measurementDeviceId != null) {
-            queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Long>(cb, root.get("device").get("id")),
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
+            queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Long>(cb, joinCalibratorTest.get("device").get("id")),
                     "%" + measurementDeviceId.toString() + "%"), queryPredicate);
         }
         if (measurementDeviceType != null) {
-            queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"),
+            Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
+            queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("device").get("deviceType"),
                     DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
         }
         if (protocolId != null) {
-            Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");
-            queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Long>(cb, joinCalibratorTest.get("id")),
+            queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Long>(cb, root.get("id")),
                     "%" + protocolId.toString() + "%"), queryPredicate);
 
         }
-        if (protocolStatus != null) {
-            logger.debug("ArchiveVerificationQueryConstructorCalibrator : protocolStatus = " + protocolStatus);
-            Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");
-            queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("testResult"),
-                    CalibrationTestResult.valueOf(protocolStatus.trim())), queryPredicate);
+        if (testResult != null) {
+            logger.debug("CalibrationTestQueryConstructorCalibrator : testResult = " + testResult);
+            queryPredicate = cb.and(cb.equal(root.get("testResult"),
+                    CalibrationTestResult.valueOf(testResult.trim())), queryPredicate);
         }
 
         return queryPredicate;

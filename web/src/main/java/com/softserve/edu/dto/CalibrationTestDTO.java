@@ -2,25 +2,46 @@ package com.softserve.edu.dto;
 
 import java.util.Date;
 
+import com.softserve.edu.documents.resources.DocumentType;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 
 
 public class CalibrationTestDTO  {
+
+    private String id;
     private String name;
-    private Date dateTest;
+    private Date  dateTest;
     private Integer temperature;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
-    private String consumptionStatus;
+    private ConsumptionStatus consumptionStatus;
     private CalibrationTestResult testResult;
 
-    public CalibrationTestDTO() {
+    private String clientFullName;
+    private String street;
+    private String region;
+    private String district;
+    private String locality;
+
+    private Long protocolId;
+
+    private Long measurementDeviceId;
+    private String measurementDeviceType;
+
+
+    private DocumentType documentType;
+    private String documentTypeName;
+    private String documentDate;
+
+    public CalibrationTestDTO(String s, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult, String fullName, String street, String region, String district, String locality, Long calibrationTestId, Long id, DeviceType deviceType) {
     }
 
     public CalibrationTestDTO(String name, Integer temperature, Integer settingNumber, Double latitude,
-                              Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
+                              Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult) {
         this.name = name;
         this.temperature = temperature;
         this.settingNumber = settingNumber;
@@ -41,6 +62,27 @@ public class CalibrationTestDTO  {
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
     }
 
+    public CalibrationTestDTO(String id, String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult, String clientFullName, String street, String region, String district, String locality, Long protocolId, Long  measurementDeviceId, String measurementDeviceType, String documentTypeName/*, String documentDate*/) {
+        this.id = id;
+        this.name = name;
+        this.dateTest = dateTest;
+        this.temperature = temperature;
+        this.settingNumber = settingNumber;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.consumptionStatus = consumptionStatus;
+        this.testResult = testResult;
+        this.clientFullName = clientFullName;
+        this.street = street;
+        this.region = region;
+        this.district = district;
+        this.locality = locality;
+        this.protocolId = protocolId;
+        this. measurementDeviceId =  measurementDeviceId;
+        this.measurementDeviceType = measurementDeviceType;
+        this.documentTypeName = documentTypeName;
+    //    this.documentDate = documentDate;
+    }
 
     public String getName() {
         return name;
@@ -90,11 +132,11 @@ public class CalibrationTestDTO  {
         this.longitude = longitude;
     }
 
-    public String getConsumptionStatus() {
+    public ConsumptionStatus getConsumptionStatus() {
         return consumptionStatus;
     }
 
-    public void setConsumptionStatus(String consumptionStatus) {
+    public void setConsumptionStatus(ConsumptionStatus consumptionStatus) {
         this.consumptionStatus = consumptionStatus;
     }
 
@@ -104,6 +146,102 @@ public class CalibrationTestDTO  {
 
     public void setTestResult(CalibrationTestResult testResult) {
         this.testResult = testResult;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getClientFullName() {
+        return clientFullName;
+    }
+
+    public void setClientFullName(String clientFullName) {
+        this.clientFullName = clientFullName;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public Long getProtocolId() {
+        return protocolId;
+    }
+
+    public void setProtocolId(Long protocolId) {
+        this.protocolId = protocolId;
+    }
+
+    public Long getMeasurementDeviceId() {
+        return  measurementDeviceId;
+    }
+
+    public void setMeasurementDeviceId(Long  measurementDeviceId) {
+        this. measurementDeviceId =  measurementDeviceId;
+    }
+
+    public String getMeasurementDeviceType() {
+        return measurementDeviceType;
+    }
+
+    public void setMeasurementDeviceType(String measurementDeviceType) {
+        this.measurementDeviceType = measurementDeviceType;
+    }
+
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+    }
+
+    public String getDocumentTypeName() {
+        return documentTypeName;
+    }
+
+    public void setDocumentTypeName(String documentTypeName) {
+        this.documentTypeName = documentTypeName;
+    }
+
+    public String getDocumentDate() {
+        return documentDate;
+    }
+
+    public void setDocumentDate(String documentDate) {
+        this.documentDate = documentDate;
     }
 
     public CalibrationTest saveCalibrationTest() {

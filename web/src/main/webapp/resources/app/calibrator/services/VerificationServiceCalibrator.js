@@ -18,6 +18,7 @@ angular
             getCalibrators: function (url) {
                 return getEmployeeData('verifications/new/calibratorEmployees');
             },
+            //todo need to find verificators by agreements(договорах)
             getVerificators: function (url) {
                 return getData('verifications/new/verificators');
             },

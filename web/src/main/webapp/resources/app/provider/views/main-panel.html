@@ -1,21 +1,4 @@
 <div id="page-wrapper">
-
-    <div ng-show="stateVerificatorViews">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Головна панель</h1>
-            </div>
-        </div>
-    </div>
-
-    <div ng-show="calibratorViews">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Main panel calibrator</h1>
-            </div>
-        </div>
-    </div>
-
     <div ng-show="providerViews">
         <div class="row">
             <div class="col-lg-12">
@@ -60,8 +43,10 @@
 
 							<div class="calendar-wd">
                                 <input readonly type="text"
-                                       datepicker-popup="{{format}}" ng-model="dataToSearch.toDate"
-                                       ng-change="changeDateToSend(dataToSearch.toDate)" is-open="secondCalendar.isOpen"
+                                       datepicker-popup="{{format}}"
+                                       ng-model="dataToSearch.toDate"
+                                       ng-change="changeDateToSend(dataToSearch.toDate)"
+                                       is-open="secondCalendar.isOpen"
                                        min-date="minDate" datepicker-options="dateOptions"
                                        date-disabled="disabled(date, mode)" ng-required="true"
                                        close-text="Close"/>

@@ -3,7 +3,7 @@ angular
     'adminModule',
     ['spring-security-csrf-token-interceptor', 'ui.bootstrap',
         'ui.router', 'ui.bootstrap.showErrors', 'ngTable',
-        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives', 'checklist-model',
+        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives', 'checklist-model','ngAnimate', 'toaster',
         'angular-loading-bar'])
 
     .config(
@@ -61,9 +61,9 @@ angular
                     templateUrl: '/resources/app/admin/views/address-panel.html'
                 })
                 .state(
-                'devices',
+                'device-category',
                 {
-                    url: '/devices',
+                    url: '/device-category',
                     templateUrl: '/resources/app/admin/views/devices-panel.html'
                 })
                 .state(
@@ -115,14 +115,18 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/OrganizationAddModalController',
     'controllers/OrganizationEditModalController',
     'controllers/OrganizationEditHistoryModalController',
-    'controllers/DeviceController', 'controllers/SettingsController',
+    'controllers/DeviceController',
+    'controllers/CategoryDeviceAddModalController',
+    'controllers/CategoryDeviceEditModalController',
+    'controllers/SettingsController',
     'controllers/UsersController',
     'controllers/UserAddModalController',
     'controllers/InternationalizationController',
     'services/OrganizationService', 'services/StatisticService',
     'services/UserService', 'services/AddressService',
     'services/DeviceService', 'services/DevicesService',
-    'services/SettingsService', 'services/UsersService','directives/unique'
+    'services/SettingsService', 'services/UsersService','directives/unique',
+    'controllers/CommonController'
 
 ], function () {
 });

@@ -109,30 +109,72 @@ public class UserController {
     /**
      * Add new employee
      *
-     * @param employee
+     * @param sysAdmin
      * @param user
      * @return status
      */
-
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> addEmployee(
-            @RequestBody UserDTO employee,
+    public ResponseEntity<HttpStatus> addSysAdmin(
+            @RequestBody UserDTO sysAdmin,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        User newUser = new AddEmployeeBuilderNew().username(employee.getUsername())
-                .password(employee.getPassword())
-                .firstName(employee.getFirstName())
-                .lastName(employee.getLastName())
-                .middleName(employee.getMiddleName())
-                .phone(employee.getPhone())
-                .email(employee.getEmail())
-                .address(employee.getAddress())
-                .isAvailable(employee.getIsAvaliable())
-                .build();
-        for (String role : employee.getUserRoles()) {
-            UserRole userRole = UserRole.valueOf(role);
-            newUser.addRole(userRole);
+        HttpStatus httpStatus = HttpStatus.CREATED;
+
+        try {
+            userService.addSysAdmin(sysAdmin.getUsername(), sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
+                    sysAdmin.getEmail(), sysAdmin.getAddress(), sysAdmin.getIsAvaliable()); ;
+        } catch (Exception e) {
+            // TODO
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.CONFLICT;
         }
-        userService.addEmployee(newUser);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+
+
+        return new ResponseEntity<>(httpStatus);
+    }
+
+    /**
+     *
+     * Delete sys admin with current username
+     *
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "delete/{username}", method = RequestMethod.DELETE)
+    public ResponseEntity<HttpStatus> deleteSysAdmin(
+            @PathVariable String username) {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        try {
+            userService.deleteSysAdmin(username);
+        } catch (Exception e) {
+                // TODO
+                logger.error("GOT EXCEPTION ", e);
+                httpStatus = HttpStatus.NOT_FOUND;
+            }
+        return new ResponseEntity<>(httpStatus);
+    }
+
+    /**
+     *
+     * Edit sys admin with current username
+     *
+     * @return
+     */
+    @RequestMapping(value = "edit/{username}", method = RequestMethod.POST)
+    public ResponseEntity<HttpStatus> editSysAdmin(
+            @RequestBody UserDTO sysAdmin,
+            @PathVariable String username,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        HttpStatus httpStatus = HttpStatus.OK;
+
+        try {
+            userService.editSysAdmin(username, sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
+                    sysAdmin.getEmail(), sysAdmin.getAddress(), sysAdmin.getIsAvaliable());
+        } catch (Exception e) {
+            // TODO
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
     }
 }

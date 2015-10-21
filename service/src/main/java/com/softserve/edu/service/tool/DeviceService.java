@@ -1,6 +1,8 @@
 package com.softserve.edu.service.tool;
 
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -15,5 +17,15 @@ public interface DeviceService {
 
     Page<Device> getDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String search);
 
+    ListToPageTransformer<Device> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String number,
+                                                                        String deviceType, String deviceName,
+                                                                        String sortCriteria, String sortOrder);
+
     List<Device> getAllByType(String device);
+
+    void addDeviceCategory(String number, String deviceType, String deviceName);
+
+    void editDeviceCategory(Long id, String number, String deviceType, String deviceName);
+
+    void removeDeviceCategory(Long id);
 }
