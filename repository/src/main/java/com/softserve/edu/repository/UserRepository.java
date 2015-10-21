@@ -44,6 +44,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, String>
     Set<User> findAllAvailableUsersByRoleAndOrganizationId(@Param("userRole") UserRole userRole,
                                                            @Param("organizationId") Long organizationId);
 
+
     Page<User> findByOrganizationId(Long organizationId, Pageable pageable);
 
     List<User> findAll(Specification<User> userSpecification);

@@ -3,13 +3,13 @@ angular
     .factory('UsersService', function ($http) {
         return {
             getPage: function (currentPage, itemsPerPage, searchObj, sortCriteria, sortOrder) {
-                return getData('admin/users/' + currentPage + '/' + itemsPerPage + '/' +
-                 + sortCriteria +  '/' + sortOrder, searchObj);
+                return getData('admin/users/' + currentPage + '/' + itemsPerPage + '/'
+                   + sortCriteria +  '/' + sortOrder, searchObj);
             },
-            getSysAdminsPage : function (currentPage, itemsPerPage , sortCriteria, sortOrder) {
+            getSysAdminsPage : function (currentPage, itemsPerPage, searchObj, sortCriteria, sortOrder) {
 
-                return getData('admin/users/' + currentPage + '/' + itemsPerPage + '/' +
-                    + '/' + sortCriteria +  '/' + sortOrder, searchObj);
+                return getData('admin/sysadmins/' + currentPage + '/' + itemsPerPage + '/'
+                    + sortCriteria +  '/' + sortOrder, searchObj);
             }
         }
 

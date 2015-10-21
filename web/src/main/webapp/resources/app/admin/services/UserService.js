@@ -11,7 +11,7 @@ angular
             },
             saveUser: function (userData) {
 
-                return $http.post('/admin/users/add', userData)
+                return $http.post('/admin/sysadmins/add', userData)
                     .success(function (response, status) {
                         console.log("Done status: " + status);
                         return response;

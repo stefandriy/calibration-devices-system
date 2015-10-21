@@ -20,8 +20,13 @@ angular
             }, {
                 total: 0,
                 getData: function ($defer, params) {
-                    userService.getSysAdminsPage(params.page(), params.count(), params.filter(),params.sorting())
+
+                    var sortCriteria = Object.keys(params.sorting())[0];
+                    var sortOrder = params.sorting()[sortCriteria];
+
+                    userService.getSysAdminsPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                         .success(function (result) {
+                            console.log(result);
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
