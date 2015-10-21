@@ -74,6 +74,12 @@ angular
             saveAdditionalInfo: function(data) {
                 return saveInfo('/calibrator/verifications/saveInfo', data);
             },
+            checkIfAdditionalInfoExists: function(verifId) {
+                return checkInfo('/calibrator/verifications/checkInfo/' +  verifId);
+            },
+            findAdditionalInfoByVerifId: function(verifId) {
+                return findInfo('/calibrator/verifications/findInfo/'+ verifId);
+            },
         };
 
         function getData(url) {
@@ -162,5 +168,22 @@ angular
                     return err;
                 });
         }
-
+        function checkInfo(url) {
+            return $http.get(url)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function findInfo(url) {
+            return $http.get(url)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
     }]);

@@ -135,4 +135,15 @@ public class CalibratorServiceImpl implements CalibratorService {
                 noWaterToDate, notes, verification));
         verificationRepository.save(verification);
     }
+
+    @Override
+    public boolean checkIfAdditionalInfoExists(String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        return verification.isAddInfoExists();
+    }
+
+    @Override
+    public AdditionalInfo findAdditionalInfoByVerifId(String verificationId) {
+        return additionalInfoRepository.findAdditionalInfoByVerificationId(verificationId);
+    }
 }

@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
  * Created by Vasyl on 20.10.2015.
  */
 public interface AdditionalInfoRepository extends CrudRepository<AdditionalInfo, Long>{
+
+    AdditionalInfo findAdditionalInfoByVerificationId(String verificationId);
 }

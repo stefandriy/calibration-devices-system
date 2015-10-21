@@ -427,4 +427,18 @@ public class CalibratorVerificationController {
 
     }
 
+    @RequestMapping(value = "/checkInfo/{verificationId}", method = RequestMethod.GET)
+    public boolean checkIfAdditionalInfoExists(@PathVariable String verificationId){
+        boolean exists = calibratorService.checkIfAdditionalInfoExists(verificationId);
+        return exists;
+    }
+
+    @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
+    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId){
+        AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
+        String time = ((info.getTimeFrom()==null) && (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" +info.getTimeTo().toString());
+        AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
+                info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
+        return infoDTO;
+    }
 }

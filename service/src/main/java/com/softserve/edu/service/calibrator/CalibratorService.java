@@ -28,4 +28,8 @@ public interface CalibratorService {
 
     void saveInfo (int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate,String notes, String verificationId);
 
+    boolean checkIfAdditionalInfoExists(String verificationId);
+
+    AdditionalInfo findAdditionalInfoByVerifId(String verificationId);
+
 }

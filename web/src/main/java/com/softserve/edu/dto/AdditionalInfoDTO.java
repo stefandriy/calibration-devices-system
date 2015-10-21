@@ -17,6 +17,18 @@ public class AdditionalInfoDTO {
     private String notes;
     private String verificationId;
 
+    public AdditionalInfoDTO(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate, String notes, String verificationId) {
+        this.entrance = entrance;
+        this.doorCode = doorCode;
+        this.floor = floor;
+        this.dateOfVerif = dateOfVerif;
+        this.time = time;
+        this.serviceability = serviceability;
+        this.noWaterToDate = noWaterToDate;
+        this.notes = notes;
+        this.verificationId = verificationId;
+    }
+
     public int getEntrance() {
         return entrance;
     }
