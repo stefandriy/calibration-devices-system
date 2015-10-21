@@ -1,12 +1,13 @@
 package com.softserve.edu.service.admin.impl;
 
+
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.enumeration.user.EmployeeRole;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.repository.impl.UserRepositoryImpl;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.tool.MailService;
 import org.apache.commons.collections.IteratorUtils;
@@ -27,6 +28,9 @@ public class UsersServiceImpl implements UserService  {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserRepositoryImpl userRepositoryImpl;
 
     /**
      * Check whereas user with {@code username} exist in database
@@ -116,8 +120,13 @@ public class UsersServiceImpl implements UserService  {
     }
 
     @Override
-    public Long getCountOfVerifications(EmployeeRole employeeRole, String username) {
-        return userRepository.countEmployeeVerifications(employeeRole, username);
+    public Long countVerifications(User user) {
+        String username = user.getUsername();
+        return user
+                .getUserRoles()
+                .stream()
+                .mapToLong(userRole -> userRepositoryImpl.countEmployeeVerifications(userRole, username))
+                .sum();
     }
 
     @Override

@@ -286,6 +286,7 @@
         'common/controllers/ProfileInfoController',
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
+        'common/services/EmployeeService',
         'common/controllers/CommonController'
 
     ], function () {});

@@ -1,13 +1,13 @@
 package com.softserve.edu;
 
 import com.softserve.edu.config.JPAConfig;
-import com.softserve.edu.entity.enumeration.user.EmployeeRole;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,8 +26,8 @@ public class Main {
     }
 
     public void testQuery() {
-
-        System.out.println(userRepository.countEmployeeVerifications(EmployeeRole.CALIBRATOR, "konon"));
+        userRepository.findByOrganizationId(43L, new PageRequest(0, 10))
+                .forEach(System.out::println);
     }
 
     public void getAllAvailableUser () {
