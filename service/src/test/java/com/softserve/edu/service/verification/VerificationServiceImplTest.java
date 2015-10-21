@@ -54,12 +54,10 @@ public class VerificationServiceImplTest {
 	@Mock
 	private EntityManager mockEntityManager;
 
-	/*
 	@BeforeClass
 	public static void testCreateVerificationProviderEmployeeService() {
 		verificationService = new VerificationServiceImpl();
 	}
-	*/
 
 	@Before
 	public void init() {
