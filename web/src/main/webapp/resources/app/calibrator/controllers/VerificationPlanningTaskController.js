@@ -60,22 +60,22 @@ angular
                 });
             };
 
-            //$scope.openAdditionalInfoModal = function(id) {
-            //    $rootScope.verifId = id;
-            //    $scope.$modalInstance  = $modal.open({
-            //        animation: true,
-            //        controller: 'AdditionalInfoController',
-            //        templateUrl: '/resources/app/calibrator/views/modals/additionalInformation.html'
-            //    });
-            //}
-            //
-            //$scope.addInfoToVerification = function(id){
-            //    var dataToSend = {
-            //        verificationId: id,
-            //        additionalInfo: null
-            //    }
-            //    $log.info(dataToSend);
-            //}
+           $scope.createExcelFile = function (){
+               verificationPlanningTaskService.createExcelFileForVerifications($scope.idsOfVerifications)
+                   .then(function (result) {
+                       $log.debug('result ', result);
+                       if (result.status == 200){
+                           $modal.open({
+                               animation: true,
+                               templateUrl: '/resources/app/calibrator/views/modals/create-excelfile-success.html',
+                               controllerAs: 'successController',
+                               size: 'md'
+                           });
+                       }
+                   }, function (result) {
+                       $log.debug('error fetching data:', result);
+                   });
+           }
 
 
 

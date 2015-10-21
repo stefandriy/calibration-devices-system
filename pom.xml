@@ -69,6 +69,13 @@
             <version>1.16.6</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.13</version>
+        </dependency>
+
     </dependencies>
 
     <build>
