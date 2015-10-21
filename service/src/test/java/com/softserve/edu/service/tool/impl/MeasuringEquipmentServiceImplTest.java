@@ -1,9 +1,7 @@
 package com.softserve.edu.service.tool.impl;
 
 import com.softserve.edu.entity.device.MeasuringEquipment;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.MeasuringEquipmentRepository;
-import com.softserve.edu.service.admin.impl.StatisticServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +10,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.PageRequest;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Sonka on 21.10.2015.
@@ -27,6 +27,10 @@ public class MeasuringEquipmentServiceImplTest {
     private MeasuringEquipment measuringEquipment2; // is used for addMeasuringEquipment
     @Mock
     private MeasuringEquipmentRepository measuringEquipmentRepository;
+    @Mock
+    private PageRequest pageRequest;
+    @Mock
+    private List<MeasuringEquipment> measuringEquipments;
     @InjectMocks
     private MeasuringEquipmentServiceImpl measuringEquipmentServiceImpl;
 
@@ -37,6 +41,8 @@ public class MeasuringEquipmentServiceImplTest {
         measuringEquipmentServiceImpl.addMeasuringEquipment(measuringEquipment);
         measuringEquipment2 =new MeasuringEquipment(2L,"name2","manufacturer2");
         stub(measuringEquipmentRepository.findOne(1L)).toReturn(measuringEquipment);
+        measuringEquipments.add(measuringEquipment);
+        measuringEquipments.add(measuringEquipment2);
     }
 
     @After
@@ -44,17 +50,19 @@ public class MeasuringEquipmentServiceImplTest {
         measuringEquipmentServiceImpl=null;
         measuringEquipment = null;
         measuringEquipment2 = null;
+        measuringEquipments = null;
     }
 
     @Test
     public void testGetAll() {
-
+        when(measuringEquipmentServiceImpl.getAll()).thenReturn(measuringEquipments);
+        assertEquals(measuringEquipmentServiceImpl.getAll(), measuringEquipments);
     }
 
     @Test
     public void testGetMeasuringEquipmentsBySearchAndPagination() {
 
-    }
+           }
 
     @Test
     public void testAddMeasuringEquipment()  {
