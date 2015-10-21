@@ -13,6 +13,16 @@
                     <label class="control-label">{{'CALIBRATION_PLACE' | translate}}</label>
                 </div>
                 <div class="form-group col-md-8">
+                    <!--<ui-select class="form-control" type="text" theme="select2"
+                               ng-model="calibrationTask.place"
+                               name="place" id="place" >
+                        <ui-select-match placeholder="{{'CHOOSE_CALIBRATION_PLACE'| translate}}" allow-clear="true">
+                            {{$select.selected.lable}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="place in places">
+                            <span ng-bind-html="place.lable"></span>
+                        </ui-select-choices>
+                    </ui-select>-->
                     <select chosen data-placeholder="{{'CHOOSE_CALIBRATION_PLACE'| translate}}" class="form-control" ng-model="calibrationTask.place"
                             class="col-xs-5 selectContainer"
                             id="place" name="place" allow-single-deselect="true"
@@ -111,14 +121,14 @@
             </div>
 
 
-                <button type="button" class="btn btn-default" ng-click="openAdditionalInformation()" style="margin-bottom: 15px; ">
+               <!-- <button type="button" class="btn btn-default" ng-click="openAdditionalInformation()" style="margin-bottom: 15px; ">
                     <i class="fa fa-info fa-lg"></i>
                         {{'INFO_BUTTON' | translate}}</button>
-                </button>
+                </button>-->
 
 
             <!-- ENTRANCE -->
-            <div class="row" ng-show="showStatus.opened">
+           <!-- <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'ENTRANCE' | translate}}</label>
                 </div>
@@ -132,7 +142,7 @@
                 </div>
             </div>
 
-            <!-- DOOR CODE-->
+            <!-- DOOR CODE
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'DOOR_CODE' | translate}}</label>
@@ -147,7 +157,7 @@
                 </div>
             </div>
 
-            <!-- FLOOR -->
+            <!-- FLOOR
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{ 'FLOOR' | translate}}</label>
@@ -162,7 +172,7 @@
                 </div>
             </div>
 
-            <!-- DATE OF verification/disassembly -->
+            <!-- DATE OF verification/disassembly
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4" >
                     <label class="control-label">{{'DATE_OF_VERIF/DISASSEMBLY'| translate }}</label>
@@ -201,7 +211,7 @@
                 </div>
             </div>
 
-            <!-- TIME OF CALIBRATION -->
+            <!-- TIME OF CALIBRATION
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{ 'TIME_OF_CALIBRATION' | translate}}</label>
@@ -216,7 +226,7 @@
                 </div>
             </div>
 
-            <!-- Plumbing serviceability -->
+            <!-- Plumbing serviceability
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{ 'PLUMBING_SERVICEABILITY' | translate}}</label>
@@ -228,7 +238,7 @@
                 </div>
             </div>
 
-            <!-- No water to date-->
+            <!-- No water to date
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4" >
                     <label class="control-label">{{'NO_WATER_TO'| translate }}</label>
@@ -265,7 +275,7 @@
                 </div>
             </div>
 
-           <!-- NOTES -->
+           <!-- NOTES
             <div class="row" ng-show="showStatus.opened">
                 <div class="form-group col-md-4">
                     <label class="control-label">{{'NOTES' | translate}}</label>
@@ -274,7 +284,7 @@
                    <textarea type="text" rows="5" cols="45" ng-model="calibrationTask.notes"
                              id="notes" name="notes" class="form-control"></textarea>
                 </div>
-            </div>
+            </div>-->
 
             <!-- BUTTONS -->
             <div class="row">

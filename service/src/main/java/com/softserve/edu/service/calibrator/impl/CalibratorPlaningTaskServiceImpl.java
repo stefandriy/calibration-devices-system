@@ -4,23 +4,26 @@ import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
-import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationPlanningTaskRepository;
-import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
+import com.softserve.edu.service.utils.ExcelFileDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,6 +43,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private UserRepository userRepository;
 
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
+
+    @Autowired
+    private AdditionalInfoRepository additionalInfoRepository;
 
     @Override
     public void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
@@ -109,6 +115,65 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK,  pageRequest);
+        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, pageRequest);
+    }
+
+    @Override
+    public void createExcelFileFromVerifications(String[]verificationsId) throws IOException {
+            List<ExcelFileDTO> fileDTOs = new ArrayList<>();
+            for (String id : verificationsId) {
+                Verification verification = verificationRepository.findOne(id);
+                AdditionalInfo additionalInfo;
+                if(verification.isAddInfoExists()){
+                    additionalInfo = additionalInfoRepository.findAdditionalInfoByVerificationId(id);
+                    fileDTOs.add(new ExcelFileDTO(verification.getId(), verification.getClientData().getLastName(),
+                            verification.getClientData().getFirstName(), verification.getClientData().getLastName(),
+                            verification.getClientData().getClientAddress().getAddress(), verification.getClientData().getPhone(),
+                            additionalInfo.getEntrance(), additionalInfo.getDoorCode(), additionalInfo.getFloor()));
+                } else {
+                    fileDTOs.add(new ExcelFileDTO(verification.getId(), verification.getClientData().getLastName(),
+                            verification.getClientData().getFirstName(), verification.getClientData().getLastName(),
+                            verification.getClientData().getClientAddress().getAddress(), verification.getClientData().getPhone(),
+                            0, 0, 0));
+                }
+            }
+            Date date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String filename = "C:/Bolunov"+ dateFormat.format(date).toString() + ".xls" ;
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet("FirstSheet");
+
+            HSSFRow rowhead = sheet.createRow((short) 0);
+            rowhead.createCell(0).setCellValue("Номер заявки");
+            rowhead.createCell(1).setCellValue("Прізвище кліента");
+            rowhead.createCell(2).setCellValue("Ім'я кліента");
+            rowhead.createCell(3).setCellValue("По батькові");
+            rowhead.createCell(4).setCellValue("Адресса");
+            rowhead.createCell(5).setCellValue("Телефон");
+            rowhead.createCell(6).setCellValue("Під'їзд");
+            rowhead.createCell(7).setCellValue("Код на дверях");
+            rowhead.createCell(8).setCellValue("Поверх");
+
+            int i = 0;
+            for (ExcelFileDTO dto: fileDTOs) {
+                i++;
+                HSSFRow row = sheet.createRow((short)i);
+                row.createCell(0).setCellValue(dto.getVerificationId());
+                row.createCell(1).setCellValue(dto.getSurname());
+                row.createCell(2).setCellValue(dto.getName());
+                row.createCell(3).setCellValue(dto.getMiddelName());
+                row.createCell(4).setCellValue(dto.getAdress());
+                row.createCell(5).setCellValue(dto.getTelephone());
+                row.createCell(6).setCellValue(dto.getEntrance());
+                row.createCell(7).setCellValue(dto.getDoorCode());
+                row.createCell(8).setCellValue(dto.getFloor());
+            }
+            FileOutputStream fileOut = new FileOutputStream(filename);
+            workbook.write(fileOut);
+            fileOut.close();
+            System.out.println("Your excel file has been generated!");
+
+
+
     }
 }
