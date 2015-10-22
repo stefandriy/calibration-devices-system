@@ -107,7 +107,7 @@ public class StateVerificatorController {
          Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
                 .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
 
-        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.PROVIDER);
+        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.PROVIDER);
     }
 
     /**
@@ -124,7 +124,7 @@ public class StateVerificatorController {
         Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
                 .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
 
-        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.CALIBRATOR);
+        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.CALIBRATOR);
     }
 
     /**
