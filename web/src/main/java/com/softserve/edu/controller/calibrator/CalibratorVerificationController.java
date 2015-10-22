@@ -30,7 +30,6 @@ import com.softserve.edu.service.verification.VerificationService;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -200,7 +199,7 @@ public class CalibratorVerificationController {
         Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
                 .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
 
-        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.STATE_VERIFICATOR);
+        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.STATE_VERIFICATOR);
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)

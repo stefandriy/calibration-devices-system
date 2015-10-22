@@ -7,9 +7,6 @@ import org.apache.log4j.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 
-/**
- * Created by Dmytro on 10/15/2015.
- */
 public class ArchivalDevicesCategoryQueryConstructorAdmin {
     static Logger logger = Logger.getLogger(ArchivalDevicesCategoryQueryConstructorAdmin.class);
 

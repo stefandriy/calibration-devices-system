@@ -44,7 +44,7 @@ import com.softserve.edu.service.verification.VerificationService;
 /**
  * Used in main application form (application-sending.html)
  * for creating verifications
- * and sending notifications about that to customer's email
+ * and sending notifications about that to customerID's email
  */
 public class ClientApplicationController {
 
@@ -171,7 +171,7 @@ public class ClientApplicationController {
         Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
                 .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
 
-        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.CALIBRATOR).stream()
+        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.CALIBRATOR).stream()
                 .map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
                 .collect(Collectors.toList());
     }

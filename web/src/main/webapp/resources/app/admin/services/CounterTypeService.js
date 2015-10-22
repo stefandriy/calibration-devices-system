@@ -31,6 +31,9 @@ angular
                     .then(function (result) {
                         return result.status;
                     });
+            },
+            findAllDevices : function() {
+                return getData('devices');
             }
         };
 
@@ -40,6 +43,14 @@ angular
             }).success(function (data) {
                 return data;
             }).error(function (err) {
+                return err;
+            });
+        }
+
+        function getData(url) {
+            return $http.get('application/' + url).success(function(data) {
+                return data;
+            }).error(function(err) {
                 return err;
             });
         }
