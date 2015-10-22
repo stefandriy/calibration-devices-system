@@ -24,7 +24,6 @@ import static org.mockito.Mockito.stub;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class StatisticServiceImplTest {
-
     private long expected;
     @Mock
     private OrganizationRepository organizationRepository;
@@ -38,13 +37,12 @@ public class StatisticServiceImplTest {
     private User userExpected ;
     @InjectMocks
     private StatisticServiceImpl statisticServiceImpl;
+
     @Before
     public void initializeMockito() {
-        statisticServiceImpl = new StatisticServiceImpl();
         MockitoAnnotations.initMocks(this);
         expected = 5L;
         userExpected = new User("Anton","0123");
-
     }
 
     @After
@@ -55,11 +53,9 @@ public class StatisticServiceImplTest {
 
     @Test
     public void testCountOrganizations()  {
-
-     stub(organizationRepository.count()).toReturn(expected);
-       long factual = statisticServiceImpl.countOrganizations();
+        stub(organizationRepository.count()).toReturn(expected);
+        long factual = statisticServiceImpl.countOrganizations();
         assertEquals(factual, expected);
-
     }
 
     @Test

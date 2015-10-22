@@ -11,8 +11,7 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
-import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorProvider;
-import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.*;
 import com.softserve.edu.service.verification.impl.VerificationServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.*;
@@ -43,7 +42,12 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(ArchivalVerificationsQueryConstructorProvider.class)
+@PrepareForTest({NewVerificationsQueryConstructorProvider.class,
+		ArchivalVerificationsQueryConstructorProvider.class,
+		NewVerificationsQueryConstructorCalibrator.class,
+		ArchivalVerificationsQueryConstructorCalibrator.class,
+		NewVerificationsQueryConstructorVerificator.class,
+		ArchivalVerificationsQueryConstructorVerificator.class})
 public class VerificationServiceImplTest {
 
 	@InjectMocks
@@ -69,6 +73,7 @@ public class VerificationServiceImplTest {
 
 	@Mock
 	CriteriaBuilder cb;
+
 	@Mock
 	CriteriaQuery<Verification> criteriaQuery;
 
@@ -216,7 +221,39 @@ public class VerificationServiceImplTest {
 
 	@Test
 	public void testFindPageOfSentVerificationsByProviderIdAndCriteriaSearch() {
+		Long providerId = 1L;
+		int pageNumber = 2;
+		int itemsPerPage = 5;
+		String startDateToSearch = "1/9/2015";
+		String endDateToSearch = "1/10/2015";
+		String idToSearch = "2";
+		String fullNameToSearch = "fullName";
+		String streetToSearch = "street";
+		String region = "region";
+		String district = "district";
+		String locality = "locality";
+		String status = "status";
+		String employeeName = "employeeName";
+		String sortCriteria = "sortCriteria";
+		String sortOrder = "sortOrded";
+		User providerEmployee = mock(User.class);
 
+		PowerMockito.mockStatic(NewVerificationsQueryConstructorProvider.class);
+		PowerMockito.when(NewVerificationsQueryConstructorProvider.buildSearchQuery(providerId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, sortCriteria, sortOrder, employeeName, mockEntityManager)).thenReturn(criteriaQuery);
+		PowerMockito.when(NewVerificationsQueryConstructorProvider.buildCountQuery(providerId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, providerEmployee, employeeName, mockEntityManager)).thenReturn(longCriteriaQuery);
+
+		stub(mockEntityManager.createQuery(criteriaQuery)).toReturn(verificationTypedQuery);
+		stub(mockEntityManager.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+		stub(cb.createQuery(Verification.class)).toReturn(criteriaQuery);
+
+		List<Verification> verificationList = verificationTypedQuery.getResultList();
+		Long count = mockEntityManager.createQuery(longCriteriaQuery).getSingleResult();
+
+		ListToPageTransformer<Verification> actual = verificationService.findPageOfSentVerificationsByProviderIdAndCriteriaSearch(providerId, pageNumber, itemsPerPage, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch,
+				streetToSearch, region, district, locality, status, employeeName, sortCriteria, sortOrder, providerEmployee);
+
+		assertEquals(verificationList, actual.getContent());
+		assertEquals(count, actual.getTotalItems());
 	}
 
 	@Test
@@ -258,27 +295,176 @@ public class VerificationServiceImplTest {
 
 	@Test
 	public void testFindPageOfArchiveVerificationsByProviderIdOnMainPanel() throws Exception {
+		Long organizationId = 1L;
+		int pageNumber = 2;
+		int itemsPerPage = 5;
+		String initialDateToSearch = "1/9/2015";
+		String idToSearch = "2";
+		String fullNameToSearch = "fullName";
+		String streetToSearch = "street";
+		String region = "region";
+		String district = "district";
+		String locality = "locality";
+		String status = "status";
+		String employeeName = "employeeName";
+		User providerEmployee = mock(User.class);
 
+		PowerMockito.mockStatic(ArchivalVerificationsQueryConstructorProvider.class);
+		PowerMockito.when(ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, "SENT", employeeName, null, null, providerEmployee, mockEntityManager)).thenReturn(criteriaQuery);
+		PowerMockito.when(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, "SENT", employeeName, providerEmployee, mockEntityManager)).thenReturn(longCriteriaQuery);
+
+		stub(mockEntityManager.createQuery(criteriaQuery)).toReturn(verificationTypedQuery);
+		stub(mockEntityManager.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+		stub(cb.createQuery(Verification.class)).toReturn(criteriaQuery);
+
+		List<Verification> verificationList = verificationTypedQuery.getResultList();
+		Long count = mockEntityManager.createQuery(longCriteriaQuery).getSingleResult();
+
+		ListToPageTransformer<Verification> actual = verificationService.findPageOfArchiveVerificationsByProviderIdOnMainPanel(organizationId, pageNumber, itemsPerPage, initialDateToSearch, idToSearch, fullNameToSearch,
+				streetToSearch, region, district, locality, status, employeeName, providerEmployee);
+
+		assertEquals(verificationList, actual.getContent());
+		assertEquals(count, actual.getTotalItems());
 	}
 
 	@Test
 	public void testFindPageOfVerificationsByCalibratorIdAndCriteriaSearch() throws Exception {
+		Long calibratorId = 1L;
+		int pageNumber = 2;
+		int itemsPerPage = 5;
+		String startDateToSearch = "1/9/2015";
+		String endDateToSearch = "1/10/2015";
+		String idToSearch = "2";
+		String fullNameToSearch = "fullName";
+		String streetToSearch = "street";
+		String region = "region";
+		String district = "district";
+		String locality = "locality";
+		String status = "status";
+		String employeeName = "employeeName";
+		String sortCriteria = "sortCriteria";
+		String sortOrder = "sortOrded";
+		User calibratorEmployee = mock(User.class);
 
+		PowerMockito.mockStatic(NewVerificationsQueryConstructorCalibrator.class);
+		PowerMockito.when(NewVerificationsQueryConstructorCalibrator.buildSearchQuery(calibratorId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeName, mockEntityManager)).thenReturn(criteriaQuery);
+		PowerMockito.when(NewVerificationsQueryConstructorCalibrator.buildCountQuery(calibratorId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, calibratorEmployee, employeeName, mockEntityManager)).thenReturn(longCriteriaQuery);
+
+		stub(mockEntityManager.createQuery(criteriaQuery)).toReturn(verificationTypedQuery);
+		stub(mockEntityManager.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+		stub(cb.createQuery(Verification.class)).toReturn(criteriaQuery);
+
+		List<Verification> verificationList = verificationTypedQuery.getResultList();
+		Long count = mockEntityManager.createQuery(longCriteriaQuery).getSingleResult();
+
+		ListToPageTransformer<Verification> actual = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(calibratorId, pageNumber, itemsPerPage, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch,
+				streetToSearch, region, district, locality, status, employeeName, sortCriteria, sortOrder, calibratorEmployee);
+
+		assertEquals(verificationList, actual.getContent());
+		assertEquals(count, actual.getTotalItems());
 	}
 
 	@Test
 	public void testFindPageOfArchiveVerificationsByCalibratorId() throws Exception {
+		Long organizationId = 1L;
+		int pageNumber = 2;
+		int itemsPerPage = 5;
+		String startDateToSearch = "1/9/2015";
+		String endDateToSearch = "1/10/2015";
+		String idToSearch = "2";
+		String fullNameToSearch = "fullName";
+		String streetToSearch = "street";
+		String status = "status";
+		String employeeName = "employeeName";
+		String sortCriteria = "sortCriteria";
+		String sortOrder = "sortOrded";
+		Long protocolId = 2L;
+		String protocolStatus = "protocolStatus";
+		Long measurementDeviceId = 3L;
+		String measurementDeviceType = "measurementDeviceType";
+		User calibratorEmployee = mock(User.class);
 
+		PowerMockito.mockStatic(ArchivalVerificationsQueryConstructorCalibrator.class);
+		PowerMockito.when(ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, sortCriteria, sortOrder, calibratorEmployee, mockEntityManager)).thenReturn(criteriaQuery);
+		PowerMockito.when(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, calibratorEmployee, mockEntityManager)).thenReturn(longCriteriaQuery);
+
+		stub(mockEntityManager.createQuery(criteriaQuery)).toReturn(verificationTypedQuery);
+		stub(mockEntityManager.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+		stub(cb.createQuery(Verification.class)).toReturn(criteriaQuery);
+
+		List<Verification> verificationList = verificationTypedQuery.getResultList();
+		Long count = mockEntityManager.createQuery(longCriteriaQuery).getSingleResult();
+
+		ListToPageTransformer<Verification> actual = verificationService.findPageOfArchiveVerificationsByCalibratorId(organizationId, pageNumber, itemsPerPage, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, sortCriteria, sortOrder, calibratorEmployee);
+
+		assertEquals(verificationList, actual.getContent());
+		assertEquals(count, actual.getTotalItems());
 	}
 
 	@Test
 	public void testFindPageOfVerificationsByVerificatorIdAndCriteriaSearch() throws Exception {
+		Long verificatorId = 1L;
+		int pageNumber = 2;
+		int itemsPerPage = 5;
+		String dateToSearch = "1/9/2015";
+		String idToSearch = "2";
+		String fullNameToSearch = "fullName";
+		String streetToSearch = "street";
+		String status = "status";
+		String employeeName = "employeeName";
+		String sortCriteria = "sortCriteria";
+		String sortOrder = "sortOrded";
+		User verificatorEmployee = mock(User.class);
 
+		PowerMockito.mockStatic(NewVerificationsQueryConstructorVerificator.class);
+		PowerMockito.when(NewVerificationsQueryConstructorVerificator.buildSearchQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, sortCriteria, sortOrder, employeeName, mockEntityManager)).thenReturn(criteriaQuery);
+		PowerMockito.when(NewVerificationsQueryConstructorVerificator.buildCountQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, employeeName, mockEntityManager)).thenReturn(longCriteriaQuery);
+
+		stub(mockEntityManager.createQuery(criteriaQuery)).toReturn(verificationTypedQuery);
+		stub(mockEntityManager.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+		stub(cb.createQuery(Verification.class)).toReturn(criteriaQuery);
+
+		List<Verification> verificationList = verificationTypedQuery.getResultList();
+		Long count = mockEntityManager.createQuery(longCriteriaQuery).getSingleResult();
+
+		ListToPageTransformer<Verification> actual = verificationService.findPageOfVerificationsByVerificatorIdAndCriteriaSearch(verificatorId, pageNumber, itemsPerPage, dateToSearch, idToSearch, fullNameToSearch,
+				streetToSearch, status, employeeName, sortCriteria, sortOrder, verificatorEmployee);
+
+		assertEquals(verificationList, actual.getContent());
+		assertEquals(count, actual.getTotalItems());
 	}
 
 	@Test
 	public void testFindPageOfArchiveVerificationsByVerificatorId() throws Exception {
+		Long verificatorId = 1L;
+		int pageNumber = 2;
+		int itemsPerPage = 5;
+		String dateToSearch = "1/9/2015";
+		String idToSearch = "2";
+		String fullNameToSearch = "fullName";
+		String streetToSearch = "street";
+		String status = "status";
+		String employeeName = "employeeName";
+		String sortCriteria = "sortCriteria";
+		String sortOrder = "sortOrded";
+		User verificatorEmployee = mock(User.class);
 
+		PowerMockito.mockStatic(ArchivalVerificationsQueryConstructorVerificator.class);
+		PowerMockito.when(ArchivalVerificationsQueryConstructorVerificator.buildSearchQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, employeeName, sortCriteria, sortOrder, verificatorEmployee, mockEntityManager)).thenReturn(criteriaQuery);
+		PowerMockito.when(ArchivalVerificationsQueryConstructorVerificator.buildCountQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, employeeName, verificatorEmployee, mockEntityManager)).thenReturn(longCriteriaQuery);
+
+		stub(mockEntityManager.createQuery(criteriaQuery)).toReturn(verificationTypedQuery);
+		stub(mockEntityManager.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+		stub(cb.createQuery(Verification.class)).toReturn(criteriaQuery);
+
+		List<Verification> verificationList = verificationTypedQuery.getResultList();
+		Long count = mockEntityManager.createQuery(longCriteriaQuery).getSingleResult();
+
+		ListToPageTransformer<Verification> actual = verificationService.findPageOfArchiveVerificationsByVerificatorId(verificatorId, pageNumber, itemsPerPage, dateToSearch, idToSearch, fullNameToSearch,
+				streetToSearch, status, employeeName, sortCriteria, sortOrder, verificatorEmployee);
+
+		assertEquals(verificationList, actual.getContent());
+		assertEquals(count, actual.getTotalItems());
 	}
 
 
@@ -473,7 +659,6 @@ public class VerificationServiceImplTest {
 		assertEquals(expected, actual);
 	}
 
-
 	@Test
 	public void testFindCountOfAllAcceptedVerification(){
 		int expected = 0;
@@ -482,6 +667,7 @@ public class VerificationServiceImplTest {
 		int actual = verificationService.findCountOfAllAcceptedVerification(mockOrganization);
 		assertEquals(expected, actual);
 	}
+
 
     /* not tested
     getProcessTimeProvider
@@ -494,4 +680,3 @@ public class VerificationServiceImplTest {
      */
 
 }
-
