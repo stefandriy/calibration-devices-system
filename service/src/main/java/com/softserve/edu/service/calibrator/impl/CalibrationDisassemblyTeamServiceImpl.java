@@ -1,27 +1,68 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.repository.CalibrationDisassemblyTeamRepository;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 @Service
-@Transactional(readOnly = true)
 public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassemblyTeamService {
 
-    //TODO
+    @Autowired
+    private CalibrationDisassemblyTeamRepository teamRepository;
+
     @Override
-    public Set<DisassemblyTeam> findAll(Long calibratorId) {
-        return null;
+    @Transactional
+    public List<DisassemblyTeam> getAll() {
+        return (List<DisassemblyTeam>) teamRepository.findAll();
     }
 
     @Override
-    public List<DisassemblyTeam> findAllCalibratorDisassemblyTeams(String moduleType, Date workDate, String username) {
-        return null;
+    @Transactional
+    public Page<DisassemblyTeam> getDisassemblyTeamBySearchAndPagination(int pageNumber, int itemsPerPage, String search) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return search == null ? teamRepository.findAll(pageRequest) :
+                teamRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
+    }
+
+    @Override
+    @Transactional
+    public void addDisassemblyTeam(DisassemblyTeam disassemblyTeam) {
+        teamRepository.save(disassemblyTeam);
+    }
+
+    @Override
+    @Transactional
+    public DisassemblyTeam getDisassemblyTeamById(String teamId) {
+        return teamRepository.findOne(teamId);
+    }
+
+    @Override
+    @Transactional
+    public void editDisassemblyTeam(String id, String name, Date effectiveTo, DeviceType specialization,
+                                    String leaderFullName, String leaderPhone, String leaderEmail) {
+        DisassemblyTeam team = teamRepository.findOne(id);
+        team.setName(name);
+        team.setEffectiveTo(effectiveTo);
+        team.setSpecialization(specialization);
+        team.setLeaderFullName(leaderFullName);
+        team.setLeaderPhone(leaderPhone);
+        team.setLeaderEmail(leaderEmail);
+        teamRepository.save(team);
+    }
+
+    @Override
+    @Transactional
+    public void deleteDisassemblyTeam(String teamId) {
+        teamRepository.delete(teamRepository.findOne(teamId));
     }
 }

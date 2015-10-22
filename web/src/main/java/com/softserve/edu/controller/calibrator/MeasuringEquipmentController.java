@@ -39,9 +39,11 @@ public class MeasuringEquipmentController {
 	public PageDTO<MeasuringEquipmentPageItem> pageMeasuringEquipmentsWithSearch(@PathVariable Integer pageNumber,
 			@PathVariable Integer itemsPerPage, @PathVariable String search) {
 
-		Page<MeasuringEquipmentPageItem> page = measureEquipmentService.getMeasuringEquipmentsBySearchAndPagination(pageNumber, itemsPerPage, search)
-				.map(measuringEquipment -> new MeasuringEquipmentPageItem(measuringEquipment.getId(), measuringEquipment.getName(),
-						measuringEquipment.getDeviceType(), measuringEquipment.getManufacturer(), measuringEquipment.getVerificationInterval()));
+		Page<MeasuringEquipmentPageItem> page = measureEquipmentService
+				.getMeasuringEquipmentsBySearchAndPagination(pageNumber, itemsPerPage, search)
+				.map(measuringEquipment -> new MeasuringEquipmentPageItem(measuringEquipment.getId(),
+						measuringEquipment.getName(), measuringEquipment.getDeviceType(),
+						measuringEquipment.getManufacturer(), measuringEquipment.getVerificationInterval()));
 	return new PageDTO<>(page.getTotalElements(), page.getContent());
 	}
 
@@ -60,7 +62,8 @@ public class MeasuringEquipmentController {
 	 * @return a page of MeasuringEquipments with their total amount
 	 */
 	@RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-	public PageDTO<MeasuringEquipmentPageItem> getMeasuringEquipmentsPage(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
+	public PageDTO<MeasuringEquipmentPageItem> getMeasuringEquipmentsPage(@PathVariable Integer pageNumber,
+																		  @PathVariable Integer itemsPerPage) {
 		return pageMeasuringEquipmentsWithSearch(pageNumber, itemsPerPage, null);
 	}
 	
@@ -107,11 +110,12 @@ public class MeasuringEquipmentController {
 	 *         successfully edited or else http status {@literal CONFLICT}
 	 */
 	@RequestMapping(value = "edit/{mEquipmentId}", method = RequestMethod.POST)
-	public ResponseEntity editMeasuringEquipment(@RequestBody MeasuringEquipmentDTO mEquipmentDTO, @PathVariable Long mEquipmentId){
+	public ResponseEntity editMeasuringEquipment(@RequestBody MeasuringEquipmentDTO mEquipmentDTO,
+												 @PathVariable Long mEquipmentId){
 		HttpStatus httpStatus = HttpStatus.OK;
 		try {
-			measureEquipmentService.editMeasuringEquipment(mEquipmentId, mEquipmentDTO.getName(), mEquipmentDTO.getDeviceType(),
-                    mEquipmentDTO.getManufacturer(), mEquipmentDTO.getVerificationInterval());
+			measureEquipmentService.editMeasuringEquipment(mEquipmentId, mEquipmentDTO.getName(),
+					mEquipmentDTO.getDeviceType(), mEquipmentDTO.getManufacturer(), mEquipmentDTO.getVerificationInterval());
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
 			httpStatus = HttpStatus.CONFLICT;

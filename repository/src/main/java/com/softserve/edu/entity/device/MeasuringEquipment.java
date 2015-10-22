@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class MeasuringEquipment {
 
+    @Setter(AccessLevel.PRIVATE)
     @Id
     @GeneratedValue
     private Long id;

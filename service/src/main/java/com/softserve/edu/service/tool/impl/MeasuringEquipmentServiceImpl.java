@@ -45,12 +45,14 @@ public class MeasuringEquipmentServiceImpl implements MeasureEquipmentService {
 
     @Override
     @Transactional
-    public void editMeasuringEquipment(Long equipmentId, String name, String deviceType, String manufacturer, String verificationInterval) {
+    public void editMeasuringEquipment(Long equipmentId, String name, String deviceType, String manufacturer,
+                                       String verificationInterval) {
         MeasuringEquipment measuringEquipment = measuringEquipmentRepository.findOne(equipmentId);
         measuringEquipment.setName(name);
         measuringEquipment.setDeviceType(deviceType);
         measuringEquipment.setManufacturer(manufacturer);
         measuringEquipment.setVerificationInterval(verificationInterval);
+        measuringEquipmentRepository.save(measuringEquipment);
     }
 
     @Override
