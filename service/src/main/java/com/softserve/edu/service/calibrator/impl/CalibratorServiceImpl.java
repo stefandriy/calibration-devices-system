@@ -13,7 +13,12 @@ import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.utils.EmployeeDTO;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,51 +59,66 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Override
     @Transactional
     public void uploadArchive(InputStream inputStream, String originalFileFullName) throws IOException {
-
-        String filename = originalFileFullName.substring(0, originalFileFullName.lastIndexOf('.'));
-        ZipEntry entry;
-
-        Map<String, String> bbiFilesToVerificationMap = getBBIfilesToVerificationMap(inputStream);
-
-        try (ZipInputStream zipStream = new ZipInputStream(inputStream)) {
-            while ((entry = zipStream.getNextEntry()) != null) {
-                String compressedFilePath = entry.getName();
-                String bbiFileName = compressedFilePath.substring(compressedFilePath.lastIndexOf("/"), compressedFilePath.length());
-                String verificationName = bbiFilesToVerificationMap.getOrDefault(bbiFileName, null);
-                if(verificationName != null){
-                    uploadBbi(zipStream, verificationName, bbiFileName);
-                }
-            }
-        }
-    }
-
-    private Map<String, String> getBBIfilesToVerificationMap(InputStream inputStream) {
-        Map<String, String> bbiFilesToVerification = new LinkedHashMap<>();
-        ZipEntry entry;
-        try (ZipInputStream zipStream = new ZipInputStream(inputStream)) {
-            while ((entry = zipStream.getNextEntry()) != null) {
-                if (Pattern.compile(dbFileExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(entry.getName()).matches()) {
-                    File dbFile = File.createTempFile(entry.getName(), "");
-                    try (OutputStream os = new FileOutputStream(dbFile)) {
-                        IOUtils.copy(zipStream, os);
-                        Class.forName("org.sqlite.JDBC");
-                        Connection connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile);
-                        Statement statement = connection.createStatement();
-                        ResultSet rs = statement.executeQuery("SELECT FileNumber, Id_pc FROM Results");
-                        while (rs.next()) {
-                            String verificationID = rs.getString("Id_pc");
-                            String fileNumber = rs.getString("FileNumber");
-                            bbiFilesToVerification.put(fileNumber, verificationID);
-                        }
-                    } catch (ClassNotFoundException | SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } catch (IOException e) {
+        File directoryWithUnpackedFiles = null;
+        try {
+            directoryWithUnpackedFiles = unpackArchive(inputStream, originalFileFullName);
+        } catch (ZipException e) {
             e.printStackTrace();
         }
 
+        Map<String, String> bbiFileNamesToVerificationMap = getBBIfilesToVerificationMap(directoryWithUnpackedFiles);
+        List<File> listOfBBIfiles = new ArrayList<>(FileUtils.listFiles(directoryWithUnpackedFiles, new String[]{"bbi"}, true));
+
+        for(File bbiFile: listOfBBIfiles){
+            String verification = bbiFileNamesToVerificationMap.getOrDefault(bbiFile.getName(), null);
+           if(verification != null){
+                uploadBbi(FileUtils.openInputStream(bbiFile), verification, bbiFile.getName());
+            }
+        }
+
+    }
+
+    private File unpackArchive(InputStream inputStream, String originalFileFullName) throws IOException, ZipException {
+        String randomDirectoryName = RandomStringUtils.random(8);
+        File directoryForUnpacking = FileUtils.getFile(FileUtils.getTempDirectoryPath(), randomDirectoryName);
+        FileUtils.forceMkdir(directoryForUnpacking);
+
+        File zipFileDownloaded = FileUtils.getFile(FileUtils.getTempDirectoryPath(), originalFileFullName);
+
+        try (OutputStream os = new FileOutputStream(zipFileDownloaded)) {
+            IOUtils.copy(inputStream, os);
+        }
+
+        ZipFile zipFile = new ZipFile(zipFileDownloaded);
+        zipFile.extractAll(directoryForUnpacking.toString());
+
+        return directoryForUnpacking;
+    }
+
+    private Map<String, String> getBBIfilesToVerificationMap(File directoryWithUnpackedFiles) {
+        Map<String, String> bbiFilesToVerification = new LinkedHashMap<>();
+        List<File> listOfDBFs = new ArrayList<>(FileUtils.listFiles(directoryWithUnpackedFiles, new String[]{"db"}, true));
+
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        File singleBBIfile = listOfDBFs.get(0);
+
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:" + singleBBIfile);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT FileNumber, Id_pc FROM Results");
+            while (rs.next()) {
+                            String verificationID = rs.getString("Id_pc");
+                            String fileNumber = rs.getString("FileNumber");
+                            bbiFilesToVerification.put(fileNumber, verificationID);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return bbiFilesToVerification;
     }
 
