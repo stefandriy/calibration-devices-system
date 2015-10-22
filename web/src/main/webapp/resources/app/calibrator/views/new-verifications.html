@@ -164,8 +164,7 @@
                                                      allow-clear="true">
                                         {{$select.selected.label}}
                                     </ui-select-match>
-                                    <ui-select-choices
-                                            repeat="status in statusData">
+                                    <ui-select-choices  repeat="status in statusData">
                                         <span ng-bind-html="status.label"></span>
                                     </ui-select-choices>
                                 </ui-select>

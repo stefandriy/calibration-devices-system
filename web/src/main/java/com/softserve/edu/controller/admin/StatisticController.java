@@ -33,6 +33,12 @@ public class StatisticController {
         return new CountDTO(statisticService.countDevices());
     }
 
+    @RequestMapping(value = "counters-type", method = RequestMethod.GET)
+    public CountDTO countCounterTypes() {
+        return new CountDTO(statisticService.countCounterTypes());
+    }
+
+
     @RequestMapping(value = "verifications", method = RequestMethod.GET)
     public CountDTO countVerifications() {
         return new CountDTO(statisticService.countVerifications());

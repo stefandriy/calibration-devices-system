@@ -14,6 +14,7 @@ import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
@@ -23,11 +24,10 @@ import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
-
 import com.softserve.edu.service.user.SecurityUserDetailsService;
-
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -134,6 +134,42 @@ public class CalibratorVerificationController {
         List<CalibrationTestDTO> content = CalibratorTestPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<>(queryResult.getTotalItems(), content);
 
+    }
+    
+    /**
+     * Find page of verifications by specific criterias on main panel
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param verifDate    (optional)
+     * @param verifId      (optional)
+     * @param lastName     (optional)
+     * @param firstName    (optional)
+     * @param street       (optional)
+     * @param employeeUser
+     * @return PageDTO<VerificationPageDTO>
+     */
+    @RequestMapping(value = "new/mainpanel/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearchOnMainPanel(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                                      NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
+        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(
+                employeeUser.getOrganizationId(),
+                pageNumber,
+                itemsPerPage,
+                searchData.getFormattedDate(),
+                searchData.getIdText(),
+                searchData.getClient_full_name(),
+                searchData.getStreetText(),
+                searchData.getRegion(),
+                searchData.getDistrict(),
+                searchData.getLocality(),
+                searchData.getStatus(),
+                searchData.getEmployee(),
+                calibratorEmployee);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
@@ -428,5 +464,21 @@ public class CalibratorVerificationController {
         return new ResponseEntity<>(httpStatus);
 
     }
+
+    @RequestMapping(value = "/checkInfo/{verificationId}", method = RequestMethod.GET)
+    public boolean checkIfAdditionalInfoExists(@PathVariable String verificationId){
+        boolean exists = calibratorService.checkIfAdditionalInfoExists(verificationId);
+        return exists;
+    }
+
+    @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
+    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId){
+        AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
+        String time = ((info.getTimeFrom()==null) && (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" +info.getTimeTo().toString());
+        AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
+                info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
+        return infoDTO;
+    }
+
 
 }

@@ -12,13 +12,32 @@ angular
     	
             $scope.verificationData = response.data;
 
-
-
-
             $scope.close = function () {
                 $modalInstance.close();
             };
 
+            $scope.showAddInfoTable = {
+                status: false
+            }
+            $scope.additionalInfo = {};
+            verificationService.checkIfAdditionalInfoExists($scope.verificationData.id)
+                .then(function (response) {
+                    $log.debug(response);
+                    if (response.data == true) {
+                        $scope.showAddInfoTable.status = true;
+                        verificationService.findAdditionalInfoByVerifId($scope.verificationData.id)
+                            .success(function (info) {
+                                $scope.additionalInfo = info;
+                                if($scope.additionalInfo.serviceability=true){
+                                    $scope.additionalInfo.serviceability = "так";
+                                } else {
+                                    $scope.additionalInfo.serviceability = "ні";
+                                }
+                        });
+                    } else {
+                        $scope.showAddInfoTable.status = false;
+                    }
+                });
 
             /**
              * Initializing the addInfo

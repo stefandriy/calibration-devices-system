@@ -1,10 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.repository.DeviceRepository;
-import com.softserve.edu.repository.OrganizationRepository;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.repository.*;
 import com.softserve.edu.service.admin.StatisticService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +22,9 @@ public class StatisticServiceImpl implements StatisticService {
     @Autowired
     private VerificationRepository verificationRepository;
 
+    @Autowired
+    private CounterTypeRepository counterTypeRepository;
+
     @Override
     public Long countOrganizations() {
         return organizationRepository.count();
@@ -38,6 +38,11 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public Long countDevices() {
         return deviceRepository.count();
+    }
+
+    @Override
+    public Long countCounterTypes() {
+        return counterTypeRepository.count();
     }
 
     @Override

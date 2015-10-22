@@ -7,7 +7,9 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.utils.*;
+
 import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,6 +48,9 @@ public interface VerificationService {
 
      ListToPageTransformer<Verification> findPageOfArchiveVerificationsByProviderIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
                                                                                                      String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee);
+     
+     ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
+             String streetToSearch, String region, String district, String locality, String status, String employeeName, User providerEmployee);
 
 
      ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(Long calibratorId, int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String idToSearch, String fullNameToSearch,
@@ -91,6 +96,10 @@ public interface VerificationService {
     int findCountOfAllSentVerifications(Organization organization);
 
     int findCountOfAllAcceptedVerification(Organization organization);
+    
+    int findCountOfAllCalibratorVerificationWithoutEmployee (Organization organization);
+    
+    int findCountOfAllCalibratorVerificationWithEmployee (Organization organization);
 
     List<Object[]> getProcessTimeProvider();
 
@@ -105,4 +114,6 @@ public interface VerificationService {
     java.sql.Date getNewVerificationEarliestDateByCalibrator(Organization organization);
 
     java.sql.Date getArchivalVerificationEarliestDateByCalibrator(Organization organization);
+    
+    
 }

@@ -12,10 +12,19 @@ import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.utils.EmployeeDTO;
+
+import com.softserve.edu.service.utils.ExcelFileDTO;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalTime;
@@ -44,6 +53,8 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Autowired
     private AdditionalInfoRepository additionalInfoRepository;
+
+    private final Logger logger = Logger.getLogger(CalibratorServiceImpl.class);
 
     @Override
     @Transactional(readOnly = true)
@@ -134,4 +145,16 @@ public class CalibratorServiceImpl implements CalibratorService {
                 noWaterToDate, notes, verification));
         verificationRepository.save(verification);
     }
+
+    @Override
+    public boolean checkIfAdditionalInfoExists(String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        return verification.isAddInfoExists();
+    }
+
+    @Override
+    public AdditionalInfo findAdditionalInfoByVerifId(String verificationId) {
+        return additionalInfoRepository.findAdditionalInfoByVerificationId(verificationId);
+    }
+
 }
