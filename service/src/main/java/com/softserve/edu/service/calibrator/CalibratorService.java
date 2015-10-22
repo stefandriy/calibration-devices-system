@@ -2,6 +2,7 @@ package com.softserve.edu.service.calibrator;
 
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.service.utils.EmployeeDTO;
 
 import java.io.IOException;
