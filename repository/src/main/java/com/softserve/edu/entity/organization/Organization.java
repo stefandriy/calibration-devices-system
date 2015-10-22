@@ -90,9 +90,7 @@ public class Organization {
     }
 
     public Organization(String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, Address address) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
+        this(name, email, phone);
         this.employeesCapacity = employeesCapacity;
         this.maxProcessTime = maxProcessTime;
         this.address = address;

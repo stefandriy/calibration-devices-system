@@ -49,6 +49,12 @@ angular
                     templateUrl: '/resources/app/admin/views/organizations-panel.html'
                 })
                 .state(
+                'agreements',
+                {
+                    url: '/agreements',
+                    templateUrl: '/resources/app/admin/views/agreement-panel.html'
+                })
+                .state(
                 'users',
                 {
                     url: '/users',
@@ -139,10 +145,13 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/UsersController',
     'controllers/SysAdminAddModalController',
     'controllers/InternationalizationController',
+    'controllers/agreement/AgreementController',
+    'controllers/agreement/AgreementAddController',
     'services/OrganizationService', 'services/StatisticService',
     'services/UserService', 'services/AddressService',
     'services/DeviceService', 'services/DevicesService',
     'services/CounterTypeService',
+    'services/AgreementService',
     'services/SettingsService', 'services/UsersService','directives/unique',
     'controllers/CommonController'
 

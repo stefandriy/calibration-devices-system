@@ -1,7 +1,5 @@
 package com.softserve.edu.dto.admin;
 
-import com.softserve.edu.entity.Address;
-
 import java.util.List;
 
 public class OrganizationDTO {
@@ -28,6 +26,7 @@ public class OrganizationDTO {
 	private String building;
 	private String flat;
 
+	//todo change to list
     private Long[] serviceAreas;
 
 	public OrganizationDTO() {

@@ -62,10 +62,10 @@ public class CalibratorPlanningTaskController {
         return new PageDTO<VerificationPlanningTaskDTO>(count, content);
     }
 
-    @RequestMapping(value = "findAllModules/{moduleType}/{workDate}", method = RequestMethod.GET)
-    public List<String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate,
+    @RequestMapping(value = "findAllModules/{moduleType}/{workDate}/{applicationFiled}", method = RequestMethod.GET)
+    public List<String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate, @PathVariable String applicationFiled,
                                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
-        return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, employeeUser.getUsername());
+        return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, applicationFiled, employeeUser.getUsername());
     }
 
 //    @RequestMapping(value = "/createExcelFile", method = RequestMethod.PUT)

@@ -6,12 +6,12 @@ angular
            getVerificationsByCalibratorEmployeeAndTaskStatus: function (pageNumber, itemsPerPage) {
                 return getData('task/findAll/' + pageNumber + '/' + itemsPerPage);
            },
-           getModuls: function (place, pickerDate) {
-                return getAvailableModules('task/findAllModules/' + place + '/' + pickerDate);
+           getModuls: function (place, pickerDate, applicationFiled) {
+                return getAvailableModules('task/findAllModules/' + place + '/' + pickerDate + '/' + applicationFiled);
            },
-           createExcelFileForVerifications: function (data) {
-                return createExcelFile ('task/createExcelFile/', data);
-           }
+           //createExcelFileForVerifications: function (data) {
+           //     return createExcelFile ('task/createExcelFile/', data);
+           //}
 
         };
 
