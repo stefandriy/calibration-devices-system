@@ -60,22 +60,29 @@ angular
                 });
             };
 
-           $scope.createExcelFile = function (){
-               verificationPlanningTaskService.createExcelFileForVerifications($scope.idsOfVerifications)
-                   .then(function (result) {
-                       $log.debug('result ', result);
-                       if (result.status == 200){
-                           $modal.open({
-                               animation: true,
-                               templateUrl: '/resources/app/calibrator/views/modals/create-excelfile-success.html',
-                               controllerAs: 'successController',
-                               size: 'md'
-                           });
-                       }
-                   }, function (result) {
-                       $log.debug('error fetching data:', result);
-                   });
-           }
+           // $scope.dawnloadFile = {
+           //     url: null
+           // }
+           //$scope.createExcelFile = function (){
+           //    verificationPlanningTaskService.createExcelFileForVerifications($scope.idsOfVerifications)
+           //        .then(function (result) {
+           //            $log.debug('result ', result);
+           //            if (result.status == 200){
+           //                $log.debug(result.data);
+           //                $scope.dawnloadFile.url = "/"+ result.data;
+           //                $("#downloadFile").attr("href", $scope.dawnloadFile.url);
+           //                $log.debug($scope.dawnloadFile.url);
+           //                $modal.open({
+           //                    animation: true,
+           //                    templateUrl: '/resources/app/calibrator/views/modals/create-excelfile-success.html',
+           //                    controllerAs: 'successController',
+           //                    size: 'md'
+           //                });
+           //            }
+           //        }, function (result) {
+           //            $log.debug('error fetching data:', result);
+           //        });
+           //}
 
 
 
