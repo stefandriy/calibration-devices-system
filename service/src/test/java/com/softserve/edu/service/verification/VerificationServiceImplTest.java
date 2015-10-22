@@ -4,19 +4,26 @@ package com.softserve.edu.service.verification;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
+import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorProvider;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.impl.VerificationServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -24,62 +31,82 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(ArchivalVerificationsQueryConstructorProvider.class)
 public class VerificationServiceImplTest {
-	
+
 	@InjectMocks
 	private static VerificationService verificationService = new VerificationServiceImpl();
-	
+
 	@Mock
 	private Logger mockLogger;
-	
+
 	@Mock
 	private VerificationRepository mockVerificationRepository;
-	
+
 	@Mock
 	private CalibrationTestRepository mockCalibrationTestRepository;
-	
+
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-	
-	private Verification mockVerification = mock(Verification.class);
-	
+
+	@Mock
+	private Verification mockVerification;
+
 	@Mock
 	private EntityManager mockEntityManager;
 
-	/*
+	@Mock
+	CriteriaBuilder cb;
+	@Mock
+	CriteriaQuery<Verification> criteriaQuery;
+
+	@Mock
+	TypedQuery<Verification> verificationTypedQuery;
+
+	@Mock
+	TypedQuery<Long> longTypedQuery;
+
+	@Mock
+	CriteriaQuery<Long> longCriteriaQuery;
+
+
+
 	@BeforeClass
 	public static void testCreateVerificationProviderEmployeeService() {
 		verificationService = new VerificationServiceImpl();
 	}
-	*/
 
 	@Before
 	public void init() {
 		MockitoAnnotations.initMocks(this);
 	}
-	
+
 	@Test
 	public void testSaveVerification() {
 		verificationService.saveVerification(mockVerification);
 		verify(mockVerificationRepository, times(1)).save(mockVerification);
 	}
-	
+
 	@Test
 	public void testFindById() {
 		String code = "code";
 		when(mockVerificationRepository.findOne(code)).thenReturn(mockVerification);
 		Verification expected = verificationService.findById(code);
-		Assert.assertEquals(expected, mockVerification);
+		assertEquals(expected, mockVerification);
 	}
-	
+
 	@Test
 	public void testFindPageOfAllVerificationsByProviderId() {
 		long providerId = 1;
@@ -90,7 +117,7 @@ public class VerificationServiceImplTest {
 		when(mockVerificationRepository.findByProviderId(providerId, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService.findPageOfAllVerificationsByProviderId(providerId, 1, 1));
 	}
-	
+
 	@Test
 	public void testFindPageOfAllVerificationsByCalibratorId() {
 		long providerId = 1;
@@ -101,7 +128,7 @@ public class VerificationServiceImplTest {
 		when(mockVerificationRepository.findByCalibratorId(providerId, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService.findPageOfAllVerificationsByCalibratorId(providerId, 1, 1));
 	}
-	
+
 	@Test
 	public void testFindPageOfAllVerificationsByStateVerificatorId() {
 		long providerId = 1;
@@ -112,27 +139,27 @@ public class VerificationServiceImplTest {
 		when(mockVerificationRepository.findByStateVerificatorId(providerId, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService.findPageOfAllVerificationsByStateVerificatorId(providerId, 1, 1));
 	}
-	
+
 	@Test
 	public void testFindCountOfNewVerificationsByCalibratorId() {
 		long calibratorId = 1;
 		when(mockVerificationRepository
-						.countByCalibratorIdAndStatusAndReadStatus(calibratorId,
-								Status.IN_PROGRESS, ReadStatus.UNREAD))
+				.countByCalibratorIdAndStatusAndReadStatus(calibratorId,
+						Status.IN_PROGRESS, ReadStatus.UNREAD))
 				.thenReturn(null);
 		Assert.assertNull(verificationService.findCountOfNewVerificationsByCalibratorId(calibratorId));
 	}
-	
+
 	@Test
 	public void testFindCountOfNewVerificationsByProviderId() {
 		long providerId = 1;
 		when(mockVerificationRepository
-						.countByProviderIdAndStatusAndReadStatus(providerId,
-								Status.SENT, ReadStatus.UNREAD))
+				.countByProviderIdAndStatusAndReadStatus(providerId,
+						Status.SENT, ReadStatus.UNREAD))
 				.thenReturn(null);
 		Assert.assertNull(verificationService.findCountOfNewVerificationsByProviderId(providerId));
 	}
-	
+
 	@Test
 	public void testFindCountOfNewVerificationsByStateVerificatorId() {
 		long providerId = 1;
@@ -143,7 +170,7 @@ public class VerificationServiceImplTest {
 				.thenReturn(null);
 		Assert.assertNull(verificationService.findCountOfNewVerificationsByStateVerificatorId(providerId));
 	}
-	
+
 	@Test
 	public void testFindPageOfSentVerificationsByProviderId() {
 		long providerId = 1;
@@ -152,12 +179,12 @@ public class VerificationServiceImplTest {
 		List<Verification> list = new ArrayList<Verification>();
 		Page<Verification> page = (Page<Verification>) new PageImpl(list);
 		when(mockVerificationRepository
-						.findByProviderIdAndStatusOrderByInitialDateDesc(
-								providerId, Status.SENT, pageable)).thenReturn(page);
+				.findByProviderIdAndStatusOrderByInitialDateDesc(
+						providerId, Status.SENT, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService
-                .findPageOfSentVerificationsByProviderId(providerId, 1, 1));
+				.findPageOfSentVerificationsByProviderId(providerId, 1, 1));
 	}
-	
+
 	@Test
 	public void testFindPageOfSentVerificationsByCalibratorId() {
 		long providerId = 1;
@@ -166,13 +193,13 @@ public class VerificationServiceImplTest {
 		List<Verification> list = new ArrayList<Verification>();
 		Page<Verification> page = (Page<Verification>) new PageImpl(list);
 		when(mockVerificationRepository
-						.findByCalibratorIdAndStatusOrderByInitialDateDesc(
-								providerId, Status.IN_PROGRESS, pageable)).thenReturn(page);
+				.findByCalibratorIdAndStatusOrderByInitialDateDesc(
+						providerId, Status.IN_PROGRESS, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService
-                .findPageOfSentVerificationsByCalibratorId(providerId, 1, 1));
+				.findPageOfSentVerificationsByCalibratorId(providerId, 1, 1));
 	}
-	
-	
+
+
 	@Test
 	public void testFindPageOfSentVerificationsByStateVerificatorId() {
 		long providerId = 1;
@@ -181,15 +208,80 @@ public class VerificationServiceImplTest {
 		List<Verification> list = new ArrayList<Verification>();
 		Page<Verification> page = (Page<Verification>) new PageImpl(list);
 		when(mockVerificationRepository
-						.findByStateVerificatorIdAndStatus(
-								providerId, Status.SENT_TO_VERIFICATOR, pageable)).thenReturn(page);
+				.findByStateVerificatorIdAndStatus(
+						providerId, Status.SENT_TO_VERIFICATOR, pageable)).thenReturn(page);
 		Assert.assertNull(verificationService
-                .findPageOfSentVerificationsByStateVerificatorId(providerId, 1, 1));
+				.findPageOfSentVerificationsByStateVerificatorId(providerId, 1, 1));
 	}
-	
-	//// dobavutu testy
 
-	
+	@Test
+	public void testFindPageOfSentVerificationsByProviderIdAndCriteriaSearch() {
+
+	}
+
+	@Test
+	public void testFindPageOfArchiveVerificationsByProviderId() throws Exception {
+		Long organizationId = 1L;
+		int pageNumber = 2;
+		int itemsPerPage = 5;
+		String startDateToSearch = "1/9/2015";
+		String endDateToSearch = "1/10/2015";
+		String idToSearch = "2";
+		String fullNameToSearch = "fullName";
+		String streetToSearch = "street";
+		String region = "region";
+		String district = "district";
+		String locality = "locality";
+		String status = "status";
+		String employeeName = "employeeName";
+		String sortCriteria = "sortCriteria";
+		String sortOrder = "sortOrded";
+		User providerEmployee = mock(User.class);
+
+		PowerMockito.mockStatic(ArchivalVerificationsQueryConstructorProvider.class);
+		PowerMockito.when(ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, employeeName, sortCriteria, sortOrder, providerEmployee, mockEntityManager)).thenReturn(criteriaQuery);
+		PowerMockito.when(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, status, employeeName, providerEmployee, mockEntityManager)).thenReturn(longCriteriaQuery);
+
+		stub(mockEntityManager.createQuery(criteriaQuery)).toReturn(verificationTypedQuery);
+		stub(mockEntityManager.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+		stub(cb.createQuery(Verification.class)).toReturn(criteriaQuery);
+
+		List<Verification> verificationList = verificationTypedQuery.getResultList();
+		Long count = mockEntityManager.createQuery(longCriteriaQuery).getSingleResult();
+
+		ListToPageTransformer<Verification> actual = verificationService.findPageOfArchiveVerificationsByProviderId(organizationId, pageNumber, itemsPerPage, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch,
+				streetToSearch, region, district, locality, status, employeeName, sortCriteria, sortOrder, providerEmployee);
+
+		assertEquals(verificationList, actual.getContent());
+		assertEquals(count, actual.getTotalItems());
+	}
+
+	@Test
+	public void testFindPageOfArchiveVerificationsByProviderIdOnMainPanel() throws Exception {
+
+	}
+
+	@Test
+	public void testFindPageOfVerificationsByCalibratorIdAndCriteriaSearch() throws Exception {
+
+	}
+
+	@Test
+	public void testFindPageOfArchiveVerificationsByCalibratorId() throws Exception {
+
+	}
+
+	@Test
+	public void testFindPageOfVerificationsByVerificatorIdAndCriteriaSearch() throws Exception {
+
+	}
+
+	@Test
+	public void testFindPageOfArchiveVerificationsByVerificatorId() throws Exception {
+
+	}
+
+
 	@Test
 	public void testFindByIdAndProviderId() {
 		String id = "id";
@@ -199,16 +291,16 @@ public class VerificationServiceImplTest {
 		exception.expectMessage("You have not permission to get this data.");
 		Verification actual = verificationService.findByIdAndProviderId(id, providerId);
 	}
-	
+
 	@Test
 	public void testFindByIdAndProviderIdSecondBranch() {
 		String id = "id";
 		long providerId = 1;
 		when(mockVerificationRepository.findByIdAndProviderId(id, providerId)).thenReturn(mockVerification);
 		Verification actual = verificationService.findByIdAndProviderId(id, providerId);
-		Assert.assertEquals(actual, mockVerification);
+		assertEquals(actual, mockVerification);
 	}
-	
+
 	@Test
 	public void testFindByIdAndCalibratorId() {
 		String id = "id";
@@ -218,16 +310,16 @@ public class VerificationServiceImplTest {
 		exception.expectMessage("You have not permission to get this data.");
 		Verification actual = verificationService.findByIdAndCalibratorId(id, calibratorId);
 	}
-	
+
 	@Test
 	public void testFindByIdAndCalibratorSecondBranch() {
 		String id = "id";
 		long calibratorId = 1;
 		when(mockVerificationRepository.findByIdAndCalibratorId(id, calibratorId)).thenReturn(mockVerification);
 		Verification actual = verificationService.findByIdAndCalibratorId(id, calibratorId);
-		Assert.assertEquals(actual, mockVerification);
+		assertEquals(actual, mockVerification);
 	}
-	
+
 	@Test
 	public void testFindByIdAndStateVerificatorId() {
 		String id = "id";
@@ -237,16 +329,16 @@ public class VerificationServiceImplTest {
 		exception.expectMessage("You have not permission to get this data.");
 		Verification actual = verificationService.findByIdAndStateVerificatorId(id, stateVerificatorId);
 	}
-	
+
 	@Test
 	public void testFindByIdAndStateVerificatorIdSecondBranch() {
 		String id = "id";
 		long stateVerificatorId = 1;
 		when(mockVerificationRepository.findByIdAndStateVerificatorId(id, stateVerificatorId)).thenReturn(mockVerification);
 		Verification actual = verificationService.findByIdAndStateVerificatorId(id, stateVerificatorId);
-		Assert.assertEquals(actual, mockVerification);
+		assertEquals(actual, mockVerification);
 	}
-	
+
 	@Test
 	public void testUpdateVerificationReadStatus() {
 		String verificationId = "id";
@@ -259,7 +351,7 @@ public class VerificationServiceImplTest {
 		verify(mockVerification, times(1)).setReadStatus(ReadStatus.READ);
 		verify(mockVerificationRepository, times(1)).save(mockVerification);
 	}
-	
+
 	@Test
 	public void testUpdateVerificationStatus() {
 		String verificationId = "id";
@@ -274,7 +366,7 @@ public class VerificationServiceImplTest {
 		verify(mockVerification, times(1)).setExpirationDate(any());
 		verify(mockVerificationRepository, times(1)).save(mockVerification);
 	}
-	
+
 	@Test
 	public void testSendVerificationTo() {
 		String verificationId = "id";
@@ -304,7 +396,7 @@ public class VerificationServiceImplTest {
 		verify(mockVerification, times(5)).setExpirationDate(any());
 		verify(mockVerificationRepository, times(5)).save(mockVerification);
 	}
-	
+
 	@Test
 	public void testUpdateVerification(){
 		Organization mockStateVerificator = mock(Organization.class);
@@ -318,7 +410,7 @@ public class VerificationServiceImplTest {
 		verify(mockVerification, times(1)).setStateVerificator(mockStateVerificator);
 		verify(mockVerificationRepository, times(1)).save(mockVerification);
 	}
-	
+
 	@Test
 	public void testUpdateVerificationData(){
 		Organization mockProvider = mock(Organization.class);
@@ -333,7 +425,7 @@ public class VerificationServiceImplTest {
 		verify(mockVerification, times(1)).setReadStatus(ReadStatus.UNREAD);
 		verify(mockVerificationRepository, times(1)).save(mockVerification);
 	}
-	
+
 	@Test
 	public void testCreateCalibrationTestException(){
 		String verificationId = "id";
@@ -343,7 +435,7 @@ public class VerificationServiceImplTest {
 		exception.expectMessage("Повірки з таким ID не існує");
 		mockCalibrationTest = verificationService.createCalibrationTest(verificationId, mockCalibrationTest);
 	}
-	
+
 	@Test
 	public void testCreateCalibrationTest(){
 		String verificationId = "id";
@@ -354,7 +446,7 @@ public class VerificationServiceImplTest {
 		CalibrationTest calibrationTest = verificationService.createCalibrationTest(verificationId, mockCalibrationTest);
 		verify(calibrationTest, times(1)).setVerification(mockVerification);
 	}
-	
+
 	@Test
 	public void testFindByCalibrationTestIdException(){
 		long id = 1;
@@ -362,25 +454,25 @@ public class VerificationServiceImplTest {
 		exception.expectMessage("You have not permission to get this data");
 		verificationService.findByCalibrationTestId(id);
 	}
-	
+
 	@Test
 	public void testFindByCalibrationTestId(){
 		long id = 1;
 		CalibrationTest expected = mock(CalibrationTest.class);
 		when(mockCalibrationTestRepository.findById(id)).thenReturn(expected);
 		CalibrationTest actual = verificationService.findByCalibrationTestId(id);
-		Assert.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 	}
-	
+
 	@Test
 	public void testFindCountOfAllSentVerifications(){
 		int expected = 0;
 		Organization mockOrganization = mock(Organization.class);
 		when(mockVerificationRepository.getCountOfAllSentVerifications(mockOrganization)).thenReturn(expected);
 		int actual = verificationService.findCountOfAllSentVerifications(mockOrganization);
-		Assert.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 	}
-	
+
 
 	@Test
 	public void testFindCountOfAllAcceptedVerification(){
@@ -388,8 +480,18 @@ public class VerificationServiceImplTest {
 		Organization mockOrganization = mock(Organization.class);
 		when(mockVerificationRepository.getCountOfAllAcceptedVerifications(mockOrganization)).thenReturn(expected);
 		int actual = verificationService.findCountOfAllAcceptedVerification(mockOrganization);
-		Assert.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 	}
-	
+
+    /* not tested
+    getProcessTimeProvider
+    getProcessTimeCalibrator
+    getProcessTimeVerificator
+    getNewVerificationEarliestDateByProvider
+    getArchivalVerificationEarliestDateByProvider
+    getNewVerificationEarliestDateByCalibrator
+    getArchivalVerificationEarliestDateByCalibrator
+     */
+
 }
 
