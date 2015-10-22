@@ -9,87 +9,32 @@ angular
         '$modalInstance',
         '$timeout',
         'CounterTypeService',
+        'devices',
         function ($rootScope, $scope, $translate, $modalInstance, $timeout,
-                  devicesService) {
+                  counterTypeService, devices) {
 
-            $scope.defaultData = {};
-            $scope.defaultData.deviceType = {
-                type: $rootScope.countersCategory.deviceType,
-                label: null
-            };
+            $scope.names = devices.data;
+            $scope.standardSizes = ['DN 10','DN 15','DN 20','DN 25','DN 32',
+                'DN 40','DN 50','DN 65','DN 80','DN 100',
+                'DN 125','DN 150', 'DN 200', 'DN 250'];
 
-            $scope.deviceTypeData = [
-                /*{
-                 type: 'ELECTRICAL',
-                 label: null
-                 },
-                 {
-                 type: 'GASEOUS',
-                 label: null
-                 },*/
-                {
-                    type: 'WATER',
-                    label: null
-                },
-                {
-                    type: 'THERMAL',
-                    label: null
-                }
-            ];
-
-            /**
-             * Localization of multiselect for type of organization
-             */
-            $scope.setTypeDataLanguage = function () {
-                var lang = $translate.use();
-                if (lang === 'ukr') {
-                    // $scope.deviceTypeData[0].label = 'Електричний';
-                    //$scope.deviceTypeData[1].label = 'Газовий';
-                    $scope.deviceTypeData[0].label = 'Холодна вода';
-                    $scope.deviceTypeData[1].label = 'Гаряча вода';
-                } else if (lang === 'eng') {
-                    //$scope.deviceTypeData[0].label = 'Electrical';
-                    // $scope.deviceTypeData[1].label = 'Gaseous';
-                    $scope.deviceTypeData[0].label = 'Cold water';
-                    $scope.deviceTypeData[1].label = 'Hot water';
-                }
-            };
-
-            /*
-             */
-
-            var setCurrentTypeDataLanguage = function () {
-                var lang = $translate.use();
-                if (lang === 'ukr') {
-                    switch ($scope.defaultData.deviceType.type) {
-                        case "WATER":
-                            console.log($scope.defaultData.deviceType);
-                            $scope.defaultData.deviceType.label = 'Холодна вода';
-                            break;
-                        case "THERMAL":
-                            console.log($scope.defaultData.deviceType);
-                            $scope.defaultData.deviceType.label = 'Гаряча вода';
-                            break;
-                        default:
-                            console.log($scope.defaultData.deviceType.type + " not device type");
-                    }
-                } else if (lang === 'eng') {
-                    switch ($scope.defaultData.deviceType.type) {
-                        case "WATER":
-                            $scope.defaultData.deviceType.label = 'Cold water';
-                            break;
-                        case "THERMAL":
-                            $scope.defaultData.deviceType.label = 'Hot water';
-                            break;
-                        default:
-                            console.log($scope.defaultData.deviceType.type + " not device type");
+            function arrayObjectIndexOf(myArray, searchTerm, property) {
+                for (var i = 0, len = myArray.length; i < len; i++) {
+                    if (myArray[i][property] === searchTerm) {
+                        return i;
                     }
                 }
-            };
+                var elem = {
+                    id: length,
+                    designation: searchTerm
+                };
+                myArray.push(elem);
+                return (myArray.length - 1);
+            }
 
-            $scope.setTypeDataLanguage();
-            setTimeout(setCurrentTypeDataLanguage(), 2000);
-
+            var index = arrayObjectIndexOf($scope.names, $rootScope.countersType.name, "designation");
+            $scope.deviceCategoryName = $scope.names[index];
+            $scope.deviceId = $scope.names[index].id;
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -106,18 +51,26 @@ angular
                 $modalInstance.close();
             };
 
+            $scope.setDeviceId = function (selectedDevice) {
+                $scope.deviceId = selectedDevice.id;
+            };
+
             /**
              * Validates organization form before saving
              */
-            $scope.onEditCategoryFormSubmit = function () {
+            $scope.onEditCounterTypeFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if ($scope.editCategoryForm.$valid) {
+                if ($scope.editCounterTypeForm.$valid) {
                     var counterTypeForm = {
-                        number: $rootScope.countersCategory.number,
-                        deviceType: $scope.defaultData.deviceType.type,
-                        deviceName: $rootScope.countersCategory.deviceName
+                        name: $scope.deviceCategoryName.designation,
+                        symbol: $rootScope.countersType.symbol,
+                        standardSize: $rootScope.countersType.standardSize,
+                        manufacturer: $rootScope.countersType.manufacturer,
+                        calibrationInterval: $rootScope.countersType.calibrationInterval,
+                        yearIntroduction: $rootScope.countersType.yearIntroduction,
+                        gost: $rootScope.countersType.gost,
+                        deviceId: $scope.deviceId
                     };
-                    console.log(counterTypeForm);
                     saveCounterType(counterTypeForm);
                 }
             };
@@ -128,11 +81,9 @@ angular
              * form and updates table with organizations.
              */
             function saveCounterType(counterTypeForm) {
-                console.log(counterTypeForm);
-                console.log($rootScope.countersCategory.id);
-                devicesService.editCounterType(
+                counterTypeService.editCounterType(
                     counterTypeForm,
-                    $rootScope.countersCategory.id).then(
+                    $rootScope.countersType.id).then(
                     function (data) {
                         if (data == 200) {
                             $scope.closeModal();
@@ -141,9 +92,6 @@ angular
                         }
                     });
             }
-
-
-
 
             $scope.CATEGORY_DEVICE_CODE = /^[\u0430-\u044f\u0456\u0457\u0454a-z\d]{13}$/;
             $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
@@ -154,10 +102,5 @@ angular
             $scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
             $scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
             $scope.FLAT_REGEX = /^([1-9]{1}[0-9]{0,3}|0)$/;
-
-
-
-
         }
-
     ]);
