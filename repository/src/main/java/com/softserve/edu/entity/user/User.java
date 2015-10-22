@@ -34,6 +34,11 @@ public class User {
     @Embedded
     private Address address;
 
+    /**
+     * @JsonManagedReference - added to prevent JsonMappingException: Infinite recursion (StackOverflowError)
+     * @see <a href="http://vard-lokkur.blogspot.com/2010/10/json-jackson-to-rescue.html">
+     * http://vard-lokkur.blogspot.com/2010/10/json-jackson-to-rescue.html</a>
+     */
     @ManyToOne
     @JoinColumn(name = "organizationId")
     @JsonManagedReference

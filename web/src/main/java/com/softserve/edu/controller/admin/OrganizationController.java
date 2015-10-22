@@ -220,7 +220,7 @@ public class OrganizationController {
                     adminName,
                     organization.getServiceAreas());
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION ",e);
+            logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
 
@@ -279,6 +279,15 @@ public class OrganizationController {
     @RequestMapping(value = "serviceArea/region/{districtId}", method = RequestMethod.GET)
     public Region getServiceAreaRegion(@PathVariable("districtId") Long districtId) {
         return regionService.findByDistrictId(districtId);
+    }
+
+    @RequestMapping(value = "getOrganization/{organizationType}/{deviceType}", method = RequestMethod.GET)
+    public List<ApplicationFieldDTO> getOrganizationByOrganizationTypeAndDeviceType(@PathVariable("organizationType") String organizationType,
+                                                          @PathVariable("deviceType") String deviceType) {
+        return organizationService.findByOrganizationTypeAndDeviceType(OrganizationType.valueOf(organizationType.toUpperCase()),
+                DeviceType.valueOf(deviceType.toUpperCase())).stream()
+                .map(organization -> new ApplicationFieldDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toList());
     }
 }
 

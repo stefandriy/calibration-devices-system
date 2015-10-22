@@ -48,13 +48,24 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
      * Find all organizations in selected locality and organization type
      *
      * @param localityId
-     * @param typeId
+     * @param organizationType
      * @return
      */
     @Query("SELECT org FROM Organization org " +
             "INNER JOIN org.localities l " +
-            "WHERE l.id=:localityId AND  :typeId in elements(org.organizationTypes)")
-    List<Organization> findOrganizationByLocalityIdAndType(@Param("localityId") Long localityId, @Param("typeId") OrganizationType typeId);
+            "WHERE l.id=:localityId AND  :organizationType in elements(org.organizationTypes)")
+    List<Organization> findOrganizationByLocalityIdAndType(@Param("localityId") Long localityId, @Param("organizationType") OrganizationType organizationType);
+
+    /**
+     * Find all organizations in selected  and organization type
+     *
+     * @param organizationType
+     * @return
+     */
+    @Query("SELECT org FROM Organization org " +
+            "WHERE ( :organizationType in elements(org.organizationTypes)) AND ( :deviceType in elements(org.deviceTypes)) ")
+    List<Organization> findByOrganizationTypeAndDeviceType(@Param("organizationType") OrganizationType organizationType,
+                                                           @Param("deviceType") DeviceType deviceType);
 
     /**
      * Find all organizations in selected locality, organization type and device type
@@ -67,7 +78,8 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     @Query("SELECT org FROM Organization org " +
             "INNER JOIN org.localities l " +
             "WHERE l.id=:localityId AND  :orgType in elements(org.organizationTypes) AND :deviceType in elements(org.deviceTypes)")
-    List<Organization> findByLocalityIdAndTypeAndDevice(@Param("localityId") Long localityId, @Param("orgType") OrganizationType orgType, @Param("deviceType") DeviceType deviceType );
+    List<Organization> findByLocalityIdAndTypeAndDevice(@Param("localityId") Long localityId,
+                                                        @Param("orgType") OrganizationType orgType, @Param("deviceType") DeviceType deviceType );
 
 
 
