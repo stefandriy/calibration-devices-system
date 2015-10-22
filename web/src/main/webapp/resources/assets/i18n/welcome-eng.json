@@ -373,5 +373,6 @@
   "NO_WATER_TO" : "No water to: ",
   "DATE_OF_VERIF/DISASSEMBLY": "Desired date of verification/disassembly:",
   "DATE_TEST" : "Testing date",
-  "CALIBRATION_TEST_NAME" : " Test name"
+  "CALIBRATION_TEST_NAME" : " Test name",
+  "SYS_ADMINS" : "System Admins"
 }

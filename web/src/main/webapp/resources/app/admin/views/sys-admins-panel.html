@@ -27,33 +27,41 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <button ng-click="clearAll()" ng-show="isFilter()"
-                                    class="btn btn-warning pull-right is-filter">Скинути пошук
-                            </button>
 
-                            <table show-filter="true" ng-table="tableParams" template-pagination="sys-admins/pager"
+                            <table ng-table="tableParams" template-pagination="sys-admins/pager"
                                    class="table table-bordered table-hover users_table">
 
                                 <tbody>
-                                <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
-                                    <td data-title="'USERNAME'|translate " sortable="'username'"
-                                        filter="{ 'username': 'text' }">{{
-                                        user.username }}
+                                <tr ng-repeat="sysAdmin in $data">
+                                    <td data-title="'USERNAME'|translate ">{{
+                                        sysAdmin.username }}
                                     </td>
-                                    <td data-title="'ROLE' |translate" sortable="'role'" filter="{ 'role': 'text' }">{{ user.role
+                                    <td data-title="'ROLE' |translate">{{ sysAdmin.role
                                         }}
                                     </td>
-                                    <td data-title="'FIRST_NAME'|translate" sortable="'firstName'" filter="{ 'firstName': 'text' }">{{
-                                        user.firstName }}
+                                    <td data-title="'FIRST_NAME'|translate">{{
+                                        sysAdmin.firstName }}
                                     </td>
-                                    <td data-title="'LAST_NAME'|translate" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{
-                                        user.lastName }}
+                                    <td data-title="'LAST_NAME'|translate">{{
+                                        sysAdmin.lastName }}
                                     </td>
-                                    <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'" filter="{ 'phone': 'text' }">{{
-                                        user.phone }}
+                                    <td data-title="'PHONE_NUMBER'|translate">{{
+                                        sysAdmin.phone }}
                                     </td>
                                     <td data-title="'EMAIL'|translate">{{
-                                        user.email }}
+                                        sysAdmin.email }}
+                                    </td>
+                                    <td data-title="'EDIT'|translate">
+                                        <button type="button" class="btn btn-primary"
+                                                ng-click="openEditSysAdminModal(sysAdmin.username)">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </td>
+                                    <td data-title="'DELETE'|translate">
+                                        <button type="button" class="btn btn-danger"
+                                                ng-click="deleteSysAdmin(sysAdmin.username)">
+                                            <span class="glyphicon glyphicon-remove-sign"></span>
+                                        </button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -84,13 +92,10 @@
                             </ul>
                         </div>
                     </script>
-
                 </div>
             </div>
             <!-- /.panel-body -->
         </div>
         <!-- /.panel -->
     </div>
-</div>
-
-</div>
+    </div>

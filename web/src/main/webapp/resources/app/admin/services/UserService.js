@@ -21,7 +21,7 @@ angular
                         alert("in error");
                         return err;
                     });
-            }
+            },
 
           /*      function (username) {
                 var url = '/admin/users/available/' + username;

@@ -28,6 +28,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersServiceImpl implements UserService  {
@@ -115,19 +116,23 @@ public class UsersServiceImpl implements UserService  {
     @Transactional
     public ListToPageTransformer<User> findAllSysAdmins() {
 
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-
-        CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
-                Root<User> root = criteriaQuery.from(User.class);
-        Predicate queryPredicate = cb.conjunction();
-        queryPredicate = cb.and(cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")), queryPredicate);
-        criteriaQuery.select(root).distinct(true);
-        criteriaQuery.where(queryPredicate);
-        TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
-        List<User> providerEmployeeList = typedQuery.getResultList();
-
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//
+//        CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
+//                Root<User> root = criteriaQuery.from(User.class);
+//        Predicate queryPredicate = cb.conjunction();
+//        queryPredicate = cb.and(cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")), queryPredicate);
+//        criteriaQuery.select(root).distinct(true);
+//        criteriaQuery.where(queryPredicate);
+//        TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
+//        List<User> providerEmployeeList = typedQuery.getResultList();
+//
+//        ListToPageTransformer<User> result = new ListToPageTransformer<>();
+//        result.setContent(providerEmployeeList);
+//        result.setTotalItems(7L);
+        userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
         ListToPageTransformer<User> result = new ListToPageTransformer<>();
-        result.setContent(providerEmployeeList);
+        result.setContent(userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN).stream().distinct().collect(Collectors.toList()));
         result.setTotalItems(7L);
 
         return result;

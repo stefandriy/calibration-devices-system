@@ -99,26 +99,6 @@ angular
                 return false;
             };
 
-            $scope.openAddUserModal = function() {
-                var addEmployeeModal = $modal
-                    .open({
-                        animation : true,
-                        controller : 'UserAddModalController',
-                        templateUrl : '/resources/app/admin/views/modals/user-add-modal.html',
-                    });
-
-                /**
-                 * executes when modal closing
-                 */
-                addEmployeeModal.result.then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ADMIN'));
-                });
-            };
-
-
-
-
-
 
             $scope.cantAddNewEmployee = function() {
                 userService.getOrganizationEmployeeCapacity().success(

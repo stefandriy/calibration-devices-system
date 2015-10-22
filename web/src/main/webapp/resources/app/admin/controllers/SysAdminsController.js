@@ -1,8 +1,8 @@
 angular
     .module('adminModule')
-    .controller('SysAdminsController', ['$scope', 'UsersService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
+    .controller('SysAdminsController', ['$scope', 'UsersService', 'AddressService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
         'toaster',
-        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope, toaster) {
+        function ($scope, userService, addressService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope, toaster) {
 
 
             $scope.cantAddEmployee;
@@ -51,8 +51,8 @@ angular
                 var addEmployeeModal = $modal
                     .open({
                         animation : true,
-                        controller : 'UserAddModalController',
-                        templateUrl : '/resources/app/admin/views/modals/user-add-modal.html',
+                        controller : 'SysAdminAddModalController',
+                        templateUrl : '/resources/app/admin/views/modals/sys-admin-add-modal.html',
                     });
 
                 /**
@@ -63,8 +63,36 @@ angular
                 });
             };
 
+            $scope.openEditSysAdminModal = function (username) {
+                $rootScope.username = username;
+                userService.getSysAdminByUsername(
+                    $rootScope.username).then(
+                    function (data) {
+                        $rootScope.sysAdmin = data;
+                        console.log($rootScope.sysAdmin);
 
+                        var sysAdminDTOModal = $modal
+                            .open({
+                                animation: true,
+                                controller: 'SysAdminEditModalController',
+                                templateUrl: '/resources/app/admin/views/modals/sys-admin-edit-modal.html',
+                                size: 'lg',
+                                resolve: {
+                                    regions: function () {
+                                        return addressService.findAllRegions();
+                                    }
+                                }
+                            });
+                    });
+            };
 
+            $scope.deleteSysAdmin = function (username){
+                userService.deleteSysAdmin(username);
+                $timeout(function() {
+                    console.log('delete with timeout');
+                   $rootScope.tableParams.reload();
+                }, 700);
+            }
 
 
 

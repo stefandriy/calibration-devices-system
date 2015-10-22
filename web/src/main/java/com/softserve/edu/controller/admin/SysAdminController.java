@@ -3,8 +3,10 @@ package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.SysAdminDTO;
 import com.softserve.edu.dto.admin.UserFilterSearch;
-import com.softserve.edu.dto.admin.UsersPageItem;
+import com.softserve.edu.dto.admin.SysAdminDTO;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
@@ -31,7 +33,7 @@ public class SysAdminController {
 
 
     @RequestMapping(value = "/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    public PageDTO<UsersPageItem> getPaginationUsers(
+    public PageDTO<SysAdminDTO> getPaginationUsers(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
             @PathVariable String sortCriteria,
@@ -40,7 +42,7 @@ public class SysAdminController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         ListToPageTransformer<User> queryResult = userService.findAllSysAdmins();
-        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
+        List<SysAdminDTO> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
     /**
@@ -49,8 +51,8 @@ public class SysAdminController {
      * @param queryResult
      * @return full information witch connect with employees
      */
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
-        List<UsersPageItem> resultList = new ArrayList<>();
+    private List<SysAdminDTO> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
+        List<SysAdminDTO> resultList = new ArrayList<>();
         for (User employee : queryResult.getContent()) {
 
             List<String> userRoles = userService.getRoles(employee.getUsername())
@@ -58,17 +60,13 @@ public class SysAdminController {
                     .distinct()
                     .collect(Collectors.toList());
 
-            resultList.add(new UsersPageItem(
+            resultList.add(new SysAdminDTO(
                             employee.getUsername(),
-                            userRoles,
                             employee.getFirstName(),
                             employee.getLastName(),
                             employee.getMiddleName(),
-                            employee.getPhone(),
-                            employee.getSecondPhone(),
-                            null,
-                            null, null,
-                            employee.getIsAvailable())
+                            employee.getEmail(),
+                            employee.getPhone())
             );
         }
         return resultList;
@@ -99,6 +97,23 @@ public class SysAdminController {
 
 
         return new ResponseEntity<>(httpStatus);
+    }
+
+    /**
+     * Add new employee
+     *
+     */
+    @RequestMapping(value = "get_sys_admin/{username}", method = RequestMethod.GET)
+    public SysAdminDTO findSysAdminByUsername(@PathVariable("username") String username) {
+        User sysAdmin = userService.findOne(username);
+        SysAdminDTO SysAdminDTO = new SysAdminDTO(
+                sysAdmin.getUsername(),
+                sysAdmin.getFirstName(),
+                sysAdmin.getLastName(),
+                sysAdmin.getMiddleName(),
+                sysAdmin.getEmail(),
+                sysAdmin.getPhone());
+        return SysAdminDTO;
     }
 
     /**

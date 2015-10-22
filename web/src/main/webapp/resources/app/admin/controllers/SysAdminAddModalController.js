@@ -1,7 +1,7 @@
 angular
     .module('adminModule')
     .controller(
-    'UserAddModalController',
+    'SysAdminAddModalController',
     [
         '$rootScope',
         '$scope',
