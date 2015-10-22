@@ -28,7 +28,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <button ng-click="tableParams.filter({})" ng-show="isFilter()"
+                            <button ng-click="clearAll()" ng-show="isFilter()"
                                     class="btn btn-warning pull-right is-filter">Скинути пошук
                             </button>
 
@@ -41,13 +41,14 @@
                                         filter="{ 'username': 'text' }">{{
                                         user.username }}
                                     </td>
-                                    <td data-title="'ROLE' |translate" sortable="'role'" filter="{ 'role': 'text' }">{{ user.role
-                                        }}
+                                    <td data-title="'ROLE' | translate" sortable="'roles'"
+                                         filter="{ 'role': 'userType' }">
+                                        {{ user.role }}
                                     </td>
-                                    <td data-title="'FIRST_NAME'|translate" sortable="'firstName'" filter="{ 'firstName': 'text' }">{{
+                                    <td data-title="'FIRST_NAME'|translate" sortable="'firstname'" filter="{ 'firstName': 'text' }">{{
                                         user.firstName }}
                                     </td>
-                                    <td data-title="'LAST_NAME'|translate" sortable="'lastName'" filter="{ 'lastName': 'text' }">{{
+                                    <td data-title="'LAST_NAME'|translate" sortable="'lastname'" filter="{ 'lastName': 'text' }">{{
                                         user.lastName }}
                                     </td>
                                     <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'" filter="{ 'organization': 'text' }">{{
@@ -94,6 +95,20 @@
                                 </li>
                             </ul>
                         </div>
+                    </script>
+                    <script type="text/ng-template" id="ng-table/filters/userType.html">
+                        <ui-select ng-model="selectedUserType.name" theme="select2" on-select='doSearch()'
+                                   search-enabled="false"
+                                   name="filter-userType">
+                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="userType in userTypeData">
+                                <span ng-bind-html="userType.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
                     </script>
 
                 </div>

@@ -2,9 +2,9 @@ package com.softserve.edu.entity.device;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import lombok.*;
 
 import javax.persistence.*;

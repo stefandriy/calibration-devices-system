@@ -113,7 +113,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .buildSearchQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
 
         Long count = entityManager.createQuery(ArchivalOrganizationsQueryConstructorAdmin
-                .buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager)).getSingleResult();
+                .buildCountQuery(name, email, number, type, region, district, locality, streetToSearch, entityManager)).getSingleResult();
 
         TypedQuery<Organization> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -264,7 +264,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<Organization> findByServiceAreaIdsAndOrganizationTypeId(Set<Long> serviceAreaIds, OrganizationType type) {
+    @Transactional(readOnly = true)
+    public List<Organization> findByServiceAreaIdsAndOrganizationType(Set<Long> serviceAreaIds, OrganizationType type) {
         List<Organization> organizations = new ArrayList<>();
         serviceAreaIds.stream()
                 .forEach(serviceAreaId -> {
@@ -272,5 +273,11 @@ public class OrganizationServiceImpl implements OrganizationService {
                     organizations.addAll(organizationList);
                 });
         return organizations;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Organization> findByOrganizationTypeAndDeviceType(OrganizationType organizationType, DeviceType deviceType) {
+        return organizationRepository.findByOrganizationTypeAndDeviceType(organizationType, deviceType);
     }
 }

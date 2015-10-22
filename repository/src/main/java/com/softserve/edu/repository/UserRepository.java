@@ -46,6 +46,7 @@ public interface UserRepository extends PagingAndSortingRepository<User, String>
 
     Page<User> findByOrganizationId(@Param("organizationId")Long organizationId, Pageable pageable);
 
+
     List<User> findAll(Specification<User> userSpecification);
 }
 

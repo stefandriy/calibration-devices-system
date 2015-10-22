@@ -14,8 +14,8 @@ public interface CalibratorService {
     
     Organization findById(Long id);
 
-    void uploadBbi(InputStream file, String idVerification, Long installmentNumber,
-                   String originalFileFullName) throws IOException ;
+    void uploadBbi(InputStream fileStream, String idVerification,
+                   Long installmentNumber, String originalFileFullName) throws IOException ;
 
     String findBbiFileByOrganizationId(String id);
 
@@ -27,7 +27,8 @@ public interface CalibratorService {
 
     void assignCalibratorEmployee(String verificationId, User calibratorEmployee);
 
-    void saveInfo (int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate,String notes, String verificationId);
+    void saveInfo (int entrance, int doorCode, int floor, Date dateOfVerif,
+                   String time, boolean serviceability, Date noWaterToDate,String notes, String verificationId);
 
     boolean checkIfAdditionalInfoExists(String verificationId);
 

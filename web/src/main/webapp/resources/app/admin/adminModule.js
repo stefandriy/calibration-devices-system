@@ -49,10 +49,22 @@ angular
                     templateUrl: '/resources/app/admin/views/organizations-panel.html'
                 })
                 .state(
+                'agreements',
+                {
+                    url: '/agreements',
+                    templateUrl: '/resources/app/admin/views/agreement-panel.html'
+                })
+                .state(
                 'users',
                 {
                     url: '/users',
                     templateUrl: '/resources/app/admin/views/users-panel.html'
+                })
+                .state(
+                'sys-admins',
+                {
+                    url: '/sys-admins',
+                    templateUrl: '/resources/app/admin/views/sys-admins-panel.html'
                 })
                 .state(
                 'address',
@@ -128,13 +140,18 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/CounterTypeAddController',
     'controllers/CounterTypeEditController',
     'controllers/SettingsController',
+    'controllers/SysAdminsController',
+    'controllers/SysAdminEditModalController',
     'controllers/UsersController',
-    'controllers/UserAddModalController',
+    'controllers/SysAdminAddModalController',
     'controllers/InternationalizationController',
+    'controllers/agreement/AgreementController',
+    'controllers/agreement/AgreementAddController',
     'services/OrganizationService', 'services/StatisticService',
     'services/UserService', 'services/AddressService',
     'services/DeviceService', 'services/DevicesService',
     'services/CounterTypeService',
+    'services/AgreementService',
     'services/SettingsService', 'services/UsersService','directives/unique',
     'controllers/CommonController'
 

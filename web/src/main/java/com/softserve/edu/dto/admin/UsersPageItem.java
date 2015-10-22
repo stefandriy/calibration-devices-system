@@ -24,6 +24,21 @@ public class UsersPageItem {
     public UsersPageItem() {
     }
 
+    public UsersPageItem(String username, List<String> roles, String firstName, String lastName, String middleName, String email, String phone) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String someRole : roles) {
+            stringBuilder.append(someRole).append(" ");
+        }
+        role = stringBuilder.toString().trim();
+
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.email = email;
+        this.phone = phone;
+    }
+
     public String getUsername() {
         return username;
     }

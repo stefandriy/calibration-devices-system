@@ -61,7 +61,7 @@ public class DeviceController {
      * Edit organization in database
      *
      * @param deviceCategoryDTO object with device category data
-     * @return a response body with http status {@literal OK} if organization
+     * @return a response body with http status {@literal OK} if device category
      * successfully edited or else http status {@literal CONFLICT}
      */
     @RequestMapping(value = "edit/{deviceCategoryId}", method = RequestMethod.POST)
