@@ -43,4 +43,16 @@ public class CounterType {
     public void setName() {
         this.name = device.getDeviceName();
     }
+
+    public CounterType(String name, String symbol, String standardSize, String manufacturer,
+                       Integer calibrationInterval, String yearIntroduction, String gost, Device device) {
+        this.name = name;
+        this.symbol = symbol;
+        this.standardSize = standardSize;
+        this.manufacturer = manufacturer;
+        this.calibrationInterval = calibrationInterval;
+        this.yearIntroduction = yearIntroduction;
+        this.gost = gost;
+        this.device = device;
+    }
 }

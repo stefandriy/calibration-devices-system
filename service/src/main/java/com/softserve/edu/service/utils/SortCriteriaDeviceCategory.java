@@ -5,9 +5,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-/**
- * Created by Dmytro on 10/15/2015.
- */
 public enum SortCriteriaDeviceCategory {
     ID() {
         public Order getSortOrder(Root<Device> root, CriteriaBuilder cb, String sortOrder) {

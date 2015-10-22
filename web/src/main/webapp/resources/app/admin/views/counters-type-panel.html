@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <button type="submit" class="btn btn-primary" ng-click="openAddCategoryCounterModal()">
+            <button type="submit" class="btn btn-primary" ng-click="openAddCounterTypeModal()">
                 <span class="glyphicon glyphicon-plus"></span>
                 {{'ADD_COUNTER_TYPE' | translate}}
             </button>
@@ -28,39 +28,38 @@
                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                        class="table table-bordered table-hover users_table">
                     <tbody>
-                    <tr ng-repeat="device in $data">
-                        <td data-title="'COUNTER_NAME' | translate " sortable="'deviceName'"
-                            filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
+                    <tr ng-repeat="counterType in $data">
+                        <td data-title="'COUNTER_NAME' | translate " sortable="'name'"
+                            filter="{ 'name': 'text' }">{{ counterType.name}}
                         </td>
-                        <td data-title="'SYMBOL' | translate " sortable="'deviceName'"
-                            filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
+                        <td data-title="'SYMBOL' | translate " sortable="'symbol'"
+                            filter="{ 'symbol': 'text' }">{{ counterType.symbol}}
                         </td>
                         <td data-title="'STANDARD_SIZE' | translate"
-                            sortable="'deviceType'"
-                            filter="{ deviceType : 'deviceType' }">{{
-                            device.deviceType }}
+                            sortable="'standardSize'"
+                            filter="{ 'standardSize': 'text' }">{{ counterType.standardSize}}
                         </td>
-                        <td data-title="'MANUFACTURER' | translate " sortable="'deviceName'"
-                            filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
+                        <td data-title="'MANUFACTURER' | translate " sortable="'manufacturer'"
+                            filter="{ 'manufacturer': 'text' }">{{ counterType.manufacturer}}
                         </td>
-                        <td data-title="'INSPECTION_INTERVAL' | translate " sortable="'deviceName'"
-                            filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
+                        <td data-title="'INSPECTION_INTERVAL' | translate " sortable="'calibrationInterval'"
+                            filter="{ 'calibrationInterval': 'text' }">{{ counterType.calibrationInterval}}
                         </td>
-                        <td data-title="'YEAR_INSPECTION_INTERVAL' | translate " sortable="'deviceName'"
-                            filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
+                        <td data-title="'YEAR_INSPECTION_INTERVAL' | translate " sortable="'yearIntroduction'"
+                            filter="{ 'yearIntroduction': 'text' }">{{ counterType.yearIntroduction}}
                         </td>
-                        <td data-title="'GOST' | translate " sortable="'deviceName'"
-                            filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
+                        <td data-title="'GOST' | translate " sortable="'gost'"
+                            filter="{ 'gost': 'text' }">{{ counterType.gost}}
                         </td>
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
-                            <div class="btn-group">
+                            <div class="btn-group-vertical">
                                 <button type="button" class="btn btn-primary"
-                                        ng-click="openEditCategoryCounterModal(device.id)">
+                                        ng-click="openEditCounterTypeModal(counterType.id)">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
                                 <button type="button" class="btn btn-danger"
-                                        ng-click="deleteDeviceCategory(device.id)">
+                                        ng-click="deleteCounterType(counterType.id)">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
                             </div>
@@ -99,20 +98,6 @@
                         </li>
                     </ul>
                 </div>
-            </script>
-            <script type="text/ng-template" id="ng-table/filters/deviceType.html">
-                <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
-                           search-enabled="false"
-                           name="filter-deviceType">
-                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
-                                     allow-clear="true">
-                        {{$select.selected.label}}
-                    </ui-select-match>
-                    <ui-select-choices
-                            repeat="deviceType in deviceTypeData">
-                        <span ng-bind-html="deviceType.label"></span>
-                    </ui-select-choices>
-                </ui-select>
             </script>
         </div>
         <!-- /.col-lg-12 -->
