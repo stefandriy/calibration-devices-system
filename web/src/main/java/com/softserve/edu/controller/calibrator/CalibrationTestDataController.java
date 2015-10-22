@@ -90,19 +90,19 @@ public class CalibrationTestDataController {
         return new ResponseEntity<>(testData, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "parseBbi/{fileName}/{extension}", method = RequestMethod.GET)
-    public ResponseEntity parseBbiData(@PathVariable String fileName, @PathVariable String extension) {
-        ResponseEntity responseEntity;
-        fileName = fileName.concat(".").concat(extension);
-        DeviceTestData deviceTestData;
-        try {
-            deviceTestData = bbiFileService.findBbiFileContentByFileName(fileName);
-            responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
-        } catch (IOException e) {
-            logger.error("Unable to parse file " + fileName, e);
-            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
-    }
+//    @RequestMapping(value = "parseBbi/{fileName}/{extension}", method = RequestMethod.GET)
+//    public ResponseEntity parseBbiData(@PathVariable String fileName, @PathVariable String extension) {
+//        ResponseEntity responseEntity;
+//        fileName = fileName.concat(".").concat(extension);
+//        DeviceTestData deviceTestData;
+//        try {
+//            deviceTestData = bbiFileService.findBbiFileContentByFileName(fileName);
+//            responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
+//        } catch (IOException e) {
+//            logger.error("Unable to parse file " + fileName, e);
+//            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        }
+//        return responseEntity;
+//    }
 
 }

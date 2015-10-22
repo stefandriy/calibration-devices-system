@@ -1,19 +1,17 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.entity.verification.BbiProtocol;
-import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.BbiProtocol;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
-import com.softserve.edu.service.storage.impl.FileOperationsImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,9 +53,9 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Override
     @Transactional
-    public void uploadBbi(InputStream file, String idVerification,
+    public void uploadBbi(InputStream fileStream, String idVerification,
                           Long installmentNumber, String originalFileFullName) throws IOException {
-        String absolutePath = fileOperations.putBbiFile(file, installmentNumber, originalFileFullName);
+        String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
         Verification verification = verificationRepository.findOne(idVerification);
         BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
         verification.setBbiProtocol(bbiProtocol);
