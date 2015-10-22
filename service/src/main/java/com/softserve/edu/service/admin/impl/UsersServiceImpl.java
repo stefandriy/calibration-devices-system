@@ -10,6 +10,8 @@ import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.impl.UserRepositoryImpl;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.tool.MailService;
+import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersServiceImpl implements UserService  {
@@ -29,9 +40,8 @@ public class UsersServiceImpl implements UserService  {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UserRepositoryImpl userRepositoryImpl;
-
+    @PersistenceContext
+    private EntityManager em;
     /**
      * Check whereas user with {@code username} exist in database
      *
@@ -51,6 +61,29 @@ public class UsersServiceImpl implements UserService  {
                 .convertToListString(userRepository.getRolesByUserName(username));
     }
 
+    @Override
+    @Transactional
+    public ListToPageTransformer<User>
+    findPageOfAllEmployees(int pageNumber, int itemsPerPage,  String userName,
+                           String role, String firstName, String lastName, String organization,
+                           String telephone,  String sortCriteria, String sortOrder){
+        CriteriaQuery<User> criteriaQuery = ArchivalEmployeeQueryConstructorAdmin.buildSearchQuery(userName, role, firstName,
+                lastName, organization, telephone, sortCriteria, sortOrder, em);
+
+        Long count = em.createQuery(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(userName, role, firstName,
+                lastName, organization, telephone, em)).getSingleResult();
+
+        TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<User> employeeList = typedQuery.getResultList();
+
+        ListToPageTransformer<User> result = new ListToPageTransformer<>();
+        result.setContent(employeeList);
+        result.setTotalItems(count);
+
+        return result;
+    };
 
     @Override
     @Transactional
@@ -76,6 +109,33 @@ public class UsersServiceImpl implements UserService  {
         newUser.setPassword(passwordEncoded);
 
         userRepository.save(newUser);
+    }
+
+
+    @Override
+    @Transactional
+    public ListToPageTransformer<User> findAllSysAdmins() {
+
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//
+//        CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
+//                Root<User> root = criteriaQuery.from(User.class);
+//        Predicate queryPredicate = cb.conjunction();
+//        queryPredicate = cb.and(cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")), queryPredicate);
+//        criteriaQuery.select(root).distinct(true);
+//        criteriaQuery.where(queryPredicate);
+//        TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
+//        List<User> providerEmployeeList = typedQuery.getResultList();
+//
+//        ListToPageTransformer<User> result = new ListToPageTransformer<>();
+//        result.setContent(providerEmployeeList);
+//        result.setTotalItems(7L);
+        userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
+        ListToPageTransformer<User> result = new ListToPageTransformer<>();
+        result.setContent(userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN).stream().distinct().collect(Collectors.toList()));
+        result.setTotalItems(7L);
+
+        return result;
     }
 
     @Override
@@ -125,7 +185,7 @@ public class UsersServiceImpl implements UserService  {
         return user
                 .getUserRoles()
                 .stream()
-                .mapToLong(userRole -> userRepositoryImpl.countEmployeeVerifications(userRole, username))
+                .mapToLong(userRole -> userRepository.countEmployeeVerifications(userRole, username))
                 .sum();
     }
 

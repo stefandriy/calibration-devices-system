@@ -2,6 +2,7 @@ package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.UserFilterSearch;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
@@ -29,9 +30,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ProviderEmployeeService providerEmployeeService;
-
     Logger logger = Logger.getLogger(UserController.class);
 
     /**
@@ -55,22 +53,24 @@ public class UserController {
      *
      * @param pageNumber
      * @param itemsPerPage
-     * @param fieldToSort
+     * @param sortCriteria
+     * @param sortOrder
      * @param search
      * @param user
-     * @return list of employees
+     * @return
      */
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{fieldToSort}", method = RequestMethod.GET)
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<UsersPageItem> getPaginationUsers(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage,
-            @PathVariable String fieldToSort,
-            UsersPageItem search,
+            @PathVariable String sortCriteria,
+            @PathVariable String sortOrder,
+            UserFilterSearch search,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
-                pageNumber, itemsPerPage, null, search.getUsername(), search.getRole(),
-                search.getFirstName(), search.getLastName(), search.getOrganization(),
-                search.getPhone(), search.getSecondPhone(), fieldToSort);
+
+        ListToPageTransformer<User> queryResult = userService.findPageOfAllEmployees(
+                pageNumber, itemsPerPage, search.getUsername(), search.getRole(), search.getFirstName(), search.getLastName(), search.getOrganization(),
+                search.getPhone(), sortCriteria, sortOrder);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
@@ -106,75 +106,4 @@ public class UserController {
         return resultList;
     }
 
-    /**
-     * Add new employee
-     *
-     * @param sysAdmin
-     * @param user
-     * @return status
-     */
-    @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> addSysAdmin(
-            @RequestBody UserDTO sysAdmin,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        HttpStatus httpStatus = HttpStatus.CREATED;
-
-        try {
-            userService.addSysAdmin(sysAdmin.getUsername(), sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
-                    sysAdmin.getEmail(), sysAdmin.getAddress(), sysAdmin.getIsAvaliable()); ;
-        } catch (Exception e) {
-            // TODO
-            logger.error("GOT EXCEPTION ", e);
-            httpStatus = HttpStatus.CONFLICT;
-        }
-
-
-        return new ResponseEntity<>(httpStatus);
-    }
-
-    /**
-     *
-     * Delete sys admin with current username
-     *
-     * @param username
-     * @return
-     */
-    @RequestMapping(value = "delete/{username}", method = RequestMethod.DELETE)
-    public ResponseEntity<HttpStatus> deleteSysAdmin(
-            @PathVariable String username) {
-        HttpStatus httpStatus = HttpStatus.OK;
-
-        try {
-            userService.deleteSysAdmin(username);
-        } catch (Exception e) {
-                // TODO
-                logger.error("GOT EXCEPTION ", e);
-                httpStatus = HttpStatus.NOT_FOUND;
-            }
-        return new ResponseEntity<>(httpStatus);
-    }
-
-    /**
-     *
-     * Edit sys admin with current username
-     *
-     * @return
-     */
-    @RequestMapping(value = "edit/{username}", method = RequestMethod.POST)
-    public ResponseEntity<HttpStatus> editSysAdmin(
-            @RequestBody UserDTO sysAdmin,
-            @PathVariable String username,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        HttpStatus httpStatus = HttpStatus.OK;
-
-        try {
-            userService.editSysAdmin(username, sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
-                    sysAdmin.getEmail(), sysAdmin.getAddress(), sysAdmin.getIsAvaliable());
-        } catch (Exception e) {
-            // TODO
-            logger.error("GOT EXCEPTION ", e);
-            httpStatus = HttpStatus.CONFLICT;
-        }
-        return new ResponseEntity<>(httpStatus);
-    }
 }

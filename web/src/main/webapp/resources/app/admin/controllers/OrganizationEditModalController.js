@@ -727,9 +727,6 @@ angular
                     password: $scope.password,
                     serviceAreas : $scope.selectedServiseAreaLocalities
                 };
-                console.log(organizationForm);
-                console.log($scope.defaultData.organizationTypes);
-                console.log($scope.defaultData.deviceType);
 
                 saveOrganization(organizationForm);
                 $scope.closeModal();

@@ -129,6 +129,20 @@ angular
                         return true;
                     } else if ($scope.calibrationTask.place == 'stationary_station') {
                         return false;
+                    } else if ($scope.calibrationTask.place == 'stationary_station' && $scope.calibrationTask.counterStatus == 'not_removed'){
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }  catch (e) {
+                    console.log("Got an error!",e);
+                }
+            }
+
+            $scope.checkCounterStatus = function(){
+                try{
+                   if ($scope.calibrationTask.counterStatus == 'not_removed'){
+                        return false;
                     } else {
                         return true;
                     }
@@ -254,7 +268,7 @@ angular
                 }
             }
 
-            $scope.modulesSerialNumbers = [];
+            $scope.modulesSerialNumbers = {};
 
             $scope.receiveModuleNumbers = function(){
                 console.log($scope.calibrationTask.place + " " + $scope.calibrationTask.taskDate);
@@ -263,7 +277,7 @@ angular
                 verificationPlanningTaskService.getModuls(place, taskDate)
                     .then(function (result) {
                         $log.debug('result ', result);
-                        $scope.modulesSerialNumbers.push(result.data);
+                        $scope.modulesSerialNumbers = result.data;
                         $log.debug('my array ', $scope.modulesSerialNumbers);
                     }, function (result) {
                         $log.debug('error fetching data:', result);

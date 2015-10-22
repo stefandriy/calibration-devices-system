@@ -47,16 +47,6 @@ angular
             });
         }
 
-        function getDataWithParam(url, params) {
-            return $http.get(url, {
-                params : params
-            }).success(function (data) {
-                return data;
-            }).error(function (err) {
-                return err;
-            });
-        }
-
         function saveData(url, data) {
             return $http.post(url, data)
                 .success(function (response) {
