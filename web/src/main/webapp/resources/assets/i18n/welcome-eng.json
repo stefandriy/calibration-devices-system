@@ -385,5 +385,7 @@
   "CALIBRATION_TEST_NAME" : " Test name",
   "MESSAGE_ERROR": "If you want tu save data at least some of the fields must be filled",
   "MOUNTING_CREW" : "Mounting crew",
-  "CHOOSE_MOUNTING_CREW" : "Choose mounting crew"
+  "CHOOSE_MOUNTING_CREW" : "Choose mounting crew",
+  "APPLICATION_FIELD": "Application field",
+  "CHOOSE_APPLICATION_FIELD" : "Choose application field"
 }

@@ -32,11 +32,17 @@ public class CalibrationModuleSpecifications {
         };
     }
 
-    public static Specification<CalibrationModule> moduleDeviceTyp(DeviceType deviceType){
+    public static Specification<CalibrationModule> moduleDeviceType(String applicationFiled){
         return new Specification<CalibrationModule>() {
             @Override
             public Predicate toPredicate(Root<CalibrationModule> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get("deviceType"), deviceType);
+                Predicate predicate = null;
+                if (applicationFiled.equals("WATER")) {
+                    predicate = criteriaBuilder.equal(root.get("deviceType"), DeviceType.WATER);
+                } else if (applicationFiled.equals("THERMAL")) {
+                    predicate = criteriaBuilder.equal(root.get("deviceType"), DeviceType.THERMAL);
+                }
+                return predicate;
             }
         };
     }

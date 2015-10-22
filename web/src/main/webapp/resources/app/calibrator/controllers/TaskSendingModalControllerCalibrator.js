@@ -118,6 +118,7 @@ angular
                 $scope.floorValidation = null;
                 $scope.counterNumberValidation = null;
                 $scope.showSendingMessage = false;
+                $scope.modulesSerialNumbers = {};
                 $scope.checkPlaceAndStatus();
                 $scope.checkPlace();
             };
@@ -274,7 +275,8 @@ angular
                 console.log($scope.calibrationTask.place + " " + $scope.calibrationTask.taskDate);
                 var place = $scope.calibrationTask.place;
                 var taskDate = $scope.calibrationTask.taskDate;
-                verificationPlanningTaskService.getModuls(place, taskDate)
+                var applicationFiled = $scope.calibrationTask.applicationFiled;
+                verificationPlanningTaskService.getModuls(place, taskDate, applicationFiled)
                     .then(function (result) {
                         $log.debug('result ', result);
                         $scope.modulesSerialNumbers = result.data;
