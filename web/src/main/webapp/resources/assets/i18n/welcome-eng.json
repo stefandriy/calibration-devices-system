@@ -152,6 +152,18 @@
   "SENT_TO_VERIFICATOR_TRANSLATION":"The application brought against state attorneys",
   "ACCEPTED_TRASLATION":"Application accepted performer.",
   "REJECTED_TRASLATION":"Application rejected performer.",
+
+
+  "DISASSEMBLY_TEAM":"Disassembly team",
+  "DISASSEMBLY_TEAMS":"Disassembly teams",
+  "ADD_TEAM":"Add team",
+  "FIND_BY_TEAM_NAME":"Find by name: ",
+  "EFFECTIVE_TO_DATE":"Effective to",
+  "LEADER_FULL_NAME":"Leader full name",
+  "LEADER_PHONE":"Leader phone",
+  "LEADER_EMAIL":"Leader email",
+
+
   "FIND_BY_EQUIPMENT_NAME":"Find by equipment name:",
   "MEASURING_EQUIPMENTS":"Measuring equipments",
   

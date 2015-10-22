@@ -16,7 +16,8 @@ public interface CalibrationDisassemblyTeamRepository extends
         @Query (value = "SELECT t FROM DisassemblyTeam t WHERE t.id = :teamId", nativeQuery = true)
         DisassemblyTeam findOne(String teamId);
 
-        Page<DisassemblyTeam> findByCalibratorId(Long calibratorId, Pageable pageable);
+
+        //Page<DisassemblyTeam> findByCalibratorId(Long calibratorId, Pageable pageable);
 
         Page<DisassemblyTeam> findByNameLikeIgnoreCase(String name, Pageable pageable);
 }

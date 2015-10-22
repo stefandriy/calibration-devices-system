@@ -224,8 +224,8 @@
                                     translate="EMPLOYEE"></span></a>
                         </li>
 
-                        <li ui-sref-active="active" ng-controller="DisassemblyTeamControllerCalibrator">
-                            <a ui-sref="disassembly-team-calibrator" ng-click="onTableHandling()">
+                        <li ui-sref-active="active">
+                            <a ui-sref="disassembly-team-calibrator">
                                 <i class="fa fa-desktop"></i><span>Довідник демонтажних бригад</span>
                             </a>
                         </li>
