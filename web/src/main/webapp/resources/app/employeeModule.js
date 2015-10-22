@@ -97,6 +97,11 @@
                         templateUrl: '/resources/app/calibrator/views/measurement-equipments.html',
                         controller: 'MeasuringEquipmentControllerCalibrator'
                     })
+                    .state("disassembly-team-calibrator", {
+                        url: 'calibrator/disassemblyTeam/',
+                        templateUrl: 'resources/app/calibrator/views/disassembly-team.html',
+                        controller: 'DisassemblyTeamControllerCalibrator'
+                    })
                     .state("employee-show-calibrator", {
                         url: '/calibrator/employee-show',
                         templateUrl: '/resources/app/calibrator/views/employee/show-employee.html',
