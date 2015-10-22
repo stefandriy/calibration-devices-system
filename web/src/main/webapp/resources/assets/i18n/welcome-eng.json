@@ -383,5 +383,7 @@
   "DATE_OF_VERIF/DISASSEMBLY": "Desired date of verification/disassembly:",
   "DATE_TEST" : "Testing date",
   "CALIBRATION_TEST_NAME" : " Test name",
-  "MESSAGE_ERROR": "If you want tu save data at least some of the fields must be filled"
+  "MESSAGE_ERROR": "If you want tu save data at least some of the fields must be filled",
+  "MOUNTING_CREW" : "Mounting crew",
+  "CHOOSE_MOUNTING_CREW" : "Choose mounting crew"
 }

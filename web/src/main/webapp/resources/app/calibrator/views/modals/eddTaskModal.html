@@ -13,16 +13,6 @@
                     <label class="control-label">{{'CALIBRATION_PLACE' | translate}}</label>
                 </div>
                 <div class="form-group col-md-8">
-                    <!--<ui-select class="form-control" type="text" theme="select2"
-                               ng-model="calibrationTask.place"
-                               name="place" id="place" >
-                        <ui-select-match placeholder="{{'CHOOSE_CALIBRATION_PLACE'| translate}}" allow-clear="true">
-                            {{$select.selected.lable}}
-                        </ui-select-match>
-                        <ui-select-choices repeat="place in places">
-                            <span ng-bind-html="place.lable"></span>
-                        </ui-select-choices>
-                    </ui-select>-->
                     <select chosen data-placeholder="{{'CHOOSE_CALIBRATION_PLACE'| translate}}" class="form-control" ng-model="calibrationTask.place"
                             class="col-xs-5 selectContainer"
                             id="place" name="place" allow-single-deselect="true"
@@ -46,7 +36,8 @@
                 <div class="form-group col-md-8">
                     <select chosen data-placeholder="{{'CHOOSE_COUNTER_STATUS'| translate}}" class="form-control" ng-model="calibrationTask.counterStatus"
                             class="col-xs-5 selectContainer"
-                            id="counterStatus" name="counterStatus" allow-single-deselect="true" disable-search="true" required>
+                            id="counterStatus" name="counterStatus" allow-single-deselect="true" disable-search="true"
+                            required>
                         <option value="removed">Демонтований</option>
                         <option value="not_removed">Не демонтований</option>
                     </select>
@@ -55,7 +46,24 @@
                             <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
                         </div>
                     </div>
-                    <p class="validation-message" ng-show="temperatureValidation.isValid">{{'TEMPERATURE_REGEX' | translate}}</p>
+                </div>
+            </div>
+
+            <!-- MOUNTING CREW -->
+            <div class="row" ng-hide="checkCounterStatus()">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'MOUNTING_CREW' | translate}}</label>
+                </div>
+                <div class="form-group col-md-8">
+                    <select chosen data-placeholder="{{'CHOOSE_MOUNTING_CREW'| translate}}" class="form-control" ng-model="calibrationTask.mountingCrew"
+                            class="col-xs-5 selectContainer"
+                            id="mountingCrew" name="mountingCrew" allow-single-deselect="true" disable-search="true" required>
+                    </select>
+                    <div ng-show="formTask.$submitted || formTask.counterStatus.$touched">
+                        <div ng-show="formTask.counterStatus.$error.required">
+                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -106,7 +114,7 @@
                     <select chosen id="district" name="district" class="form-control" type="text"
                             ng-model="calibrationTask.installationNumber"
                             allow-single-deselect="false"
-                            ng-options="option for option in modulesSerialNumbers track by option.serialNumber"
+                            ng-options="option for option in modulesSerialNumbers"
                             <!--option.name for option in data.availableOptions track by option.id-->
                             required>
                     </select>
