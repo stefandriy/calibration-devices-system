@@ -20,8 +20,6 @@ public interface CalibratorService {
     void uploadBbi(InputStream fileStream, String idVerification,
                    Long installmentNumber, String originalFileFullName) throws IOException ;
 
-    Map<Boolean, String> uploadArchive(InputStream file, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException;
-
     String findBbiFileByOrganizationId(String id);
 
     void deleteBbiFile(String idVerification);

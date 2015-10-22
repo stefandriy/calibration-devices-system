@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
@@ -37,9 +38,6 @@ import java.util.stream.Collectors;
 @Service
 public class CalibratorServiceImpl implements CalibratorService {
 
-    private static final String[] bbiExtensions = {"bbi", "BBI"};
-    private static final String[] dbfExtensions = {"db", "dbf", "DB", "DBF"};
-
     @Autowired
     private OrganizationRepository calibratorRepository;
 
@@ -64,68 +62,6 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Transactional(readOnly = true)
     public Organization findById(Long id) {
         return calibratorRepository.findOne(id);
-    }
-
-    @Override
-    @Transactional
-    public Map<Boolean, String> uploadArchive(InputStream inputStream, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException {
-        File directoryWithUnpackedFiles = null;
-        directoryWithUnpackedFiles = unpackArchive(inputStream, originalFileFullName);
-
-        Map<String, String> bbiFileNamesToVerificationMap = getBBIfileNamesToVerificationMap(directoryWithUnpackedFiles);
-        List<File> listOfBBIfiles = new ArrayList<>(FileUtils.listFiles(directoryWithUnpackedFiles, bbiExtensions, true));
-        Map<Boolean, String> resultsOfBBIProcessing = processListOfBBIFiles(bbiFileNamesToVerificationMap, listOfBBIfiles);
-        return resultsOfBBIProcessing;
-    }
-
-    private Map<Boolean, String> processListOfBBIFiles(Map<String, String> bbiFileNamesToVerificationMap, List<File> listOfBBIfiles){
-        Map<Boolean, String> resultsOfBBIProcessing = new LinkedHashMap<>();
-        for (File bbiFile : listOfBBIfiles) {
-            String verification = bbiFileNamesToVerificationMap.getOrDefault(bbiFile.getName(), null);
-            if (verification != null) {
-                try {
-                    uploadBbi(FileUtils.openInputStream(bbiFile), verification, bbiFile.getName());
-                } catch (IOException e) {
-                    resultsOfBBIProcessing.put(false, bbiFile.getName());
-                }
-                resultsOfBBIProcessing.put(true, bbiFile.getName());
-            }
-        }
-        return resultsOfBBIProcessing;
-    }
-
-    private File unpackArchive(InputStream inputStream, String originalFileFullName) throws IOException, ZipException {
-        String randomDirectoryName = RandomStringUtils.random(8);
-        File directoryForUnpacking = FileUtils.getFile(FileUtils.getTempDirectoryPath(), randomDirectoryName);
-        FileUtils.forceMkdir(directoryForUnpacking);
-        File zipFileDownloaded = FileUtils.getFile(FileUtils.getTempDirectoryPath(), originalFileFullName);
-
-        try (OutputStream os = new FileOutputStream(zipFileDownloaded)) {
-            IOUtils.copy(inputStream, os);
-        }
-
-        ZipFile zipFile = new ZipFile(zipFileDownloaded);
-        zipFile.extractAll(directoryForUnpacking.toString());
-        return directoryForUnpacking;
-    }
-
-    private Map<String, String> getBBIfileNamesToVerificationMap(File directoryWithUnpackedFiles) throws SQLException, ClassNotFoundException, FileNotFoundException {
-        Map<String, String> bbiFilesToVerification = new LinkedHashMap<>();
-        Optional<File> foundDBFile = FileUtils.listFiles(directoryWithUnpackedFiles, dbfExtensions, true).stream().findFirst();
-        File dbFile = foundDBFile.orElseThrow(() -> new FileNotFoundException("DBF not found"));
-
-        Class.forName("org.sqlite.JDBC");
-
-        try(Connection connection = DriverManager.getConnection("jdbc:sqlite:" + dbFile)) {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT FileNumber, Id_pc FROM Results");
-            while (rs.next()) {
-                String verificationID = rs.getString("Id_pc");
-                String fileNumber = rs.getString("FileNumber");
-                bbiFilesToVerification.put(fileNumber, verificationID);
-            }
-        }
-        return bbiFilesToVerification;
     }
 
     @Override

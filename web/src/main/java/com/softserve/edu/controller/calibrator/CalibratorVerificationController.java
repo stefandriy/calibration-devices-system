@@ -18,6 +18,7 @@ import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -77,6 +78,9 @@ public class CalibratorVerificationController {
 
     @Autowired
     BbiFileService bbiFileService;
+
+    @Autowired
+    BBIFileServiceFacade bbiFileServiceFacade;
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
@@ -253,8 +257,7 @@ public class CalibratorVerificationController {
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
 
-                DeviceTestData deviceTestData = bbiFileService.parseBbiFile(file.getInputStream(), originalFileFullName);
-                calibratorService.uploadBbi(file.getInputStream(), idVerification, deviceTestData.getInstallmentNumber(), originalFileFullName);
+                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, idVerification);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
             } else {
                 logger.error("Failed to load file: pattern does not match.");
@@ -275,7 +278,7 @@ public class CalibratorVerificationController {
             String originalFileFullName = file.getOriginalFilename();
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
             if (Pattern.compile(archiveExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                calibratorService.uploadArchive(file.getInputStream(), originalFileFullName);
+                bbiFileServiceFacade.parseAndSaveArchiveOfBBIfiles(file, originalFileFullName);
             } else {
                 logger.error("Failed to load file ");
                 httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
