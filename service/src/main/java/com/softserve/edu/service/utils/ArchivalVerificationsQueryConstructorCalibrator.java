@@ -23,7 +23,7 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
                                                                Long protocolId, String protocolStatus,
                                                                Long measurementDeviceId,
                                                                String measurementDeviceType,
-                                                               String sortCriteria, String sortOrder, User providerEmployee, EntityManager em) {
+                                                               String sortCriteria, String sortOrder, User calibratorEmployee, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         System.out.println("ArchiveVeriQueryConstructorCalibrator protocolId=" + protocolId);
@@ -33,7 +33,7 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
         Join<Verification, Organization> calibratorJoin = root.join("calibrator");
 
         Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch,
-                status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
+                status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, calibratorEmployee, calibratorJoin);
         if ((sortCriteria != null) && (sortOrder != null)) {
             criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
         } else {
@@ -49,14 +49,14 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
                                                       String idToSearch, String fullNameToSearch,
                                                       String streetToSearch, String status, String employeeName,
                                                       Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType,
-                                                      User providerEmployee, EntityManager em) {
+                                                      User calibratorEmployee, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Verification> root = countQuery.from(Verification.class);
         Join<Verification, Organization> calibratorJoin = root.join("calibrator");
         Predicate predicate = ArchivalVerificationsQueryConstructorCalibrator.buildPredicate(root, cb, employeeId, startDateToSearch, endDateToSearch,
-                idToSearch, fullNameToSearch, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, providerEmployee, calibratorJoin);
+                idToSearch, fullNameToSearch, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, calibratorEmployee, calibratorJoin);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
         return countQuery;
@@ -150,6 +150,10 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
             queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("testResult"),
                     CalibrationTestResult.valueOf(protocolStatus.trim())), queryPredicate);
         }
+        
+        if(employee == null) {
+        	queryPredicate = cb.and(root.get("calibratorEmployee").isNull());   	
+        }         	
 
         return queryPredicate;
     }
