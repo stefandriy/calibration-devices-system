@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
 import static org.mockito.Mockito.verify;
 
@@ -46,7 +47,7 @@ public class DistrictServiceImplTest extends TestCase {
     public void testFindDistrictByDesignationAndRegion() throws Exception {
         final String designation="anydestination";
         final long region = 1L;
-        District district = null;
+        District district = mock(District.class);
         stub(districtRepository.findByDesignationAndRegionId(designation, region)).toReturn(district);
         District actual = districtServiceImpl.findDistrictByDesignationAndRegion(designation, region);
         assertEquals(actual, district);
