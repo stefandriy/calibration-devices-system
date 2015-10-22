@@ -3,7 +3,7 @@ angular.module('adminModule')
 
         return {
             getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
-                return getDataWithParams('/admin/organization/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                return getDataWithParams(currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             saveOrganization: function (formData) {
                 return $http.post("/admin/organization/add", formData)
@@ -45,12 +45,14 @@ angular.module('adminModule')
             },
             getServiceAreaRegion: function (districtId) {
                 return getData('/serviceArea/region/' + districtId);
+            },
+            getOrganizationByOrganizationTypeAndDeviceType: function (organizationType, deviceType) {
+                return getData('getOrganization/' + organizationType + '/' + deviceType);
             }
-
 
         };
         function getDataWithParams(url, params) {
-            return $http.get(url, {
+            return $http.get('/admin/organization/' + url, {
                 params: params
             }).success(function (data) {
                 return data;
@@ -60,11 +62,12 @@ angular.module('adminModule')
         }
 
         function getData(url) {
-            return $http.get('/admin/organization' + url).success(function (data) {
-                return data;
-            }).error(function (err) {
-                return err;
-            });
+            return $http.get('/admin/organization/' + url)
+                .success(function (data) {
+                    return data;
+                }).error(function (err) {
+                    return err;
+                });
         }
 
     }]);

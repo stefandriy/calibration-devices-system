@@ -1,0 +1,200 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_AGREEMENT'
+        | translate}}</h3>
+</div>
+
+<div class="modal-body">
+    <form name="addAgreementForm" id="addAgreementForm" role="form" ng-submit="onAddAgreementFormSubmit()"
+          class="form-group" novalidate>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{'GENERAL_INFORMATION' | translate}}
+            </div>
+            <div class="panel-body">
+                <!-- todo DEVICE TYPE-->
+                <div class="form-group row">
+                    <label for="deviceType" class="control-label col-md-4">
+                        {{'COUNTER_KIND' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select style="display: block;" ng-model="addAgreementFormData.deviceType" theme="select2"
+                                   search-enabled="false" name="deviceType" id="deviceType" required>
+                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="deviceType in deviceTypeData">
+                                <span ng-bind-html="deviceType.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addAgreementForm.deviceType.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- todo Customer TYPE-->
+                <div class="form-group row">
+                    <label for="organizationType" class="control-label col-md-4">
+                        {{'AGREEMENT_CUSTOMER_TYPE' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select style="display: block;" ng-model="data.customerType" theme="select2"
+                                   search-enabled="false" name="organizationType" id="organizationType"
+                                   ng-disabled="!addAgreementFormData.deviceType"
+                                   on-select="receiveCustomer(data.customerType.type,addAgreementFormData.deviceType.type)"
+                                   required>
+                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="organizationType in organizationTypeData">
+                                <span ng-bind-html="organizationType.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addAgreementForm.organizationType.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- todo Customer select-->
+                <div class="form-group row">
+                    <label for="customers" class="control-label col-md-4">
+                        {{'AGREEMENT_CUSTOMER' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select style="display: block;" ng-model="data.selectedCustomer" theme="select2"
+                                   search-enabled="false" name="customers" id="customers"
+                                   ng-disabled="!data.customerType"
+                                   required>
+                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.designation}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="customer in data.customers">
+                                <span ng-bind-html="customer.designation"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addAgreementForm.customers.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- todo executor select-->
+                <div class="form-group row">
+                    <label for="executors" class="control-label col-md-4">
+                        {{'AGREEMENT_EXECUTOR' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select style="display: block;" ng-model="data.selectedExecutors" theme="select2"
+                                   search-enabled="false" name="executors" id="executors"
+                                   ng-disabled="!data.customerType"
+                                   required>
+                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.designation}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="executor in data.executors">
+                                <span ng-bind-html="executor.designation"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addAgreementForm.executors.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+
+                <!-- todo number-->
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="number">
+                        {{'NUMBER' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input type="text" ng-model="addAgreementFormData.number" id="number"
+                               name="number"
+                               class="form-control" popover="Введіть код"
+                               popover-trigger="focus" popover-placement="top"
+                               required>
+						 	<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addAgreementForm.number.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addAgreementForm.number.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'ORGANIZATION_NAME_LENGTH' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="deviceCount">
+                        {{'AGREEMENT_COUNTER_COUNT' |translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input id="deviceCount" name="deviceCount" class="form-control"
+                               type="number" ng-model="addAgreementFormData.deviceCount"
+                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="top"
+                               required>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addAgreementForm.deviceCount.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addAgreementForm.deviceCount.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success">
+                    {{'ADD' | translate}}
+                </button>
+                <button type="reset" class="btn btn-warning" ng-click="resetAddAgreementForm()">
+                    {{'CLEAR_FORM' | translate }}
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
+                    | translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
