@@ -1,11 +1,10 @@
 package com.softserve.edu.service.calibrator;
 
-import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.Verification;
 import org.springframework.data.domain.Page;
 
+import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 
 public interface CalibratorPlanningTaskService {
@@ -20,4 +19,5 @@ public interface CalibratorPlanningTaskService {
 
     Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
                                                                                      int itemsPerPage);
+    void createExcelFileFromVerifications(String [] verificationsId) throws IOException;
 }

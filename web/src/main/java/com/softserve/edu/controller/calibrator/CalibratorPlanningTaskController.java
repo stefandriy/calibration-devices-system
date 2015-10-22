@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "task/", produces = "application/json")
@@ -32,6 +33,8 @@ public class CalibratorPlanningTaskController {
 
     @Autowired
     private CalibrationModuleService moduleService;
+
+
 
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
@@ -60,9 +63,21 @@ public class CalibratorPlanningTaskController {
     }
 
     @RequestMapping(value = "findAllModules/{moduleType}/{workDate}", method = RequestMethod.GET)
-    public List<String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate,
+    public Map<String,String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate,
                                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
         return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, employeeUser.getUsername());
+    }
+
+    @RequestMapping(value = "/createExcelFile", method = RequestMethod.PUT)
+    public ResponseEntity createExcelFileForSelectedVerifications(@RequestBody String [] verificationsId){
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            taskService.createExcelFileFromVerifications(verificationsId);
+        } catch (Exception e) {
+            logger.error("FILE CAN NOT BE SAVED!" + e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity<>(httpStatus);
     }
 
 }

@@ -61,10 +61,16 @@ angular
                     templateUrl: '/resources/app/admin/views/address-panel.html'
                 })
                 .state(
-                'devices',
+                'device-category',
                 {
-                    url: '/devices',
+                    url: '/device-category',
                     templateUrl: '/resources/app/admin/views/devices-panel.html'
+                })
+                .state(
+                'counters-type',
+                {
+                    url: '/counters-type',
+                    templateUrl: '/resources/app/admin/views/counters-type-panel.html'
                 })
                 .state(
                 'settings',
@@ -115,13 +121,20 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/OrganizationAddModalController',
     'controllers/OrganizationEditModalController',
     'controllers/OrganizationEditHistoryModalController',
-    'controllers/DeviceController', 'controllers/SettingsController',
+    'controllers/DeviceController',
+    'controllers/CategoryDeviceAddModalController',
+    'controllers/CategoryDeviceEditModalController',
+    'controllers/CounterTypePanelController',
+    'controllers/CounterTypeAddController',
+    'controllers/CounterTypeEditController',
+    'controllers/SettingsController',
     'controllers/UsersController',
     'controllers/UserAddModalController',
     'controllers/InternationalizationController',
     'services/OrganizationService', 'services/StatisticService',
     'services/UserService', 'services/AddressService',
     'services/DeviceService', 'services/DevicesService',
+    'services/CounterTypeService',
     'services/SettingsService', 'services/UsersService','directives/unique',
     'controllers/CommonController'
 

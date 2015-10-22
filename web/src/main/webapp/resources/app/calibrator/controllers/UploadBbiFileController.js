@@ -43,11 +43,12 @@ angular
                         }).success(function (data, status, headers, config) {
                                 $timeout(function () {
                                     if (status === 200) {
+                                        console.log("Successfully uploaded!")
                                         $scope.messageError = null;
                                         $scope.fileName = config.file.name;
                                         $scope.messageSuccess = 'Ви успішно завантажили файл ' + config.file.name;
                                         console.log('uploadBbiController: ' + $scope.fileName);
-                                        parseBbiFile($scope.fileName);
+                                        parseBbiFile(data);
                                     } else {
                                         $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
                                         $scope.progressPercentage = parseInt(0);

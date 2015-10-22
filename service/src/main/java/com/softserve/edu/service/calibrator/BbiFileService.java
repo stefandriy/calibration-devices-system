@@ -2,12 +2,16 @@ package com.softserve.edu.service.calibrator;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
- * Created by Taras on 07.10.2015.
+ * This service provides functionality of getting Bbi file and its content.
  */
 public interface BbiFileService {
 
-    byte[] findBbiFileBytesByFileName(String fileName);
+    File findBbiFileByFileName(String fileName);
 
-    public DeviceTestData findBbiFileContentByFileName(String fileName);
+    DeviceTestData findBbiFileContentByFileName(String fileName) throws IOException;
+
 }

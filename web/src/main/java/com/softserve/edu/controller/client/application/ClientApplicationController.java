@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.softserve.edu.controller.client.application.util.DeviceDTO;
+import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
@@ -35,7 +35,6 @@ import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.tool.DeviceService;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
@@ -183,9 +182,9 @@ public class ClientApplicationController {
      * @return
      */
     @RequestMapping(value = "devices", method = RequestMethod.GET)
-    public List<DeviceDTO> getAll() {
+    public List<DeviceLightDTO> getAll() {
         return deviceService.getAll().stream()
-                .map(device -> new DeviceDTO(device.getId(), device.getDeviceName(), device.getDeviceType().name()))
+                .map(device -> new DeviceLightDTO(device.getId(), device.getDeviceName(), device.getDeviceType().name()))
                 .collect(Collectors.toList());
     }
 
@@ -229,6 +228,7 @@ public class ClientApplicationController {
     @RequestMapping(value = "clientMessageNoProvider", method = RequestMethod.POST)
     public String sentMailFromClientNoProvider(@RequestBody ClientMailDTO mailDto) {
 
+        // TODO We'd send email to some configured email address
         List<User> adminList = userService.findByRole("SYS_ADMIN");
         if (!adminList.isEmpty() && adminList.get(0).getEmail() != null) {
             mail.sendClientMail(adminList.get(0).getEmail(), mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(), mailDto.getVerifID(), mailDto.getMsg());

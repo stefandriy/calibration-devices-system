@@ -7,10 +7,10 @@ import com.softserve.edu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -21,16 +21,13 @@ public class Main {
 
     public static void main(String[] args) {
         ApplicationContext context = new AnnotationConfigApplicationContext(JPAConfig.class);
-        context.getBean(Main.class).getAllAvailableUser();
+        context.getBean(Main.class).testQuery();
 
     }
 
     public void testQuery() {
-
-        Set<UserRole> userRoles = userRepository.getRolesByUserName("universal-first");
-        for (UserRole userRole : userRoles) {
-            System.out.println(userRole);
-        }
+        userRepository.findByOrganizationId(43L, new PageRequest(0, 10))
+                .forEach(System.out::println);
     }
 
     public void getAllAvailableUser () {

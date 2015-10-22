@@ -17,9 +17,9 @@ import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,9 +45,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationRepository organizationRepository;
 
     @Autowired
-    private ProviderEmployeeService providerEmployeeService;
-
-    @Autowired
     private OrganizationChangesHistoryRepository organizationChangesHistoryRepository;
 
     @Autowired
@@ -71,9 +68,11 @@ public class OrganizationServiceImpl implements OrganizationService {
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
+        employeeAdmin.setIsAvailable(true);
 
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
+            // TODO add getAdminRole method to enum
             employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
             organization.addOrganizationType(organizationType);
             organization.addUser(employeeAdmin);
@@ -85,6 +84,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
 
         for (Long localityId : localityIdList) {
+            // TODO You'd move the 'localityService.findById()' out of the loop and refactor it to something like  'localityService.findByIds'
             Locality locality = localityService.findById(localityId);
             organization.addLocality(locality);
         }
@@ -133,6 +133,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    // TODO is it readOnly !!!
     @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public void editOrganization(Long organizationId, String name,
                                  String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
@@ -179,8 +180,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         employeeAdmin.setPassword(password != null && password.equals("generate") ? "generate" : employeeAdmin.getPassword());
 
+        if (employeeAdmin.getPassword().equals("generate")) {
+            String newPassword = RandomStringUtils.randomAlphanumeric(5);
+            System.out.println(employeeAdmin.getEmail());
+            System.out.println(newPassword);
+            mail.sendNewPasswordMail(employeeAdmin.getEmail(), employeeAdmin.getFirstName(), newPassword);
+            String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
+            employeeAdmin.setPassword(passwordEncoded);
+        }
+
         userRepository.save(employeeAdmin);
-        providerEmployeeService.updateEmployee(employeeAdmin);
 
         logger.info("password===========");
         logger.info(employeeAdmin.getPassword());

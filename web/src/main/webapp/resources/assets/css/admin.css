@@ -399,6 +399,24 @@ table.dataTable thead .sorting:after {
     color: #df8a13;
 }
 
+.panel-darkgreen {
+    border-color: #186467;
+}
+
+.panel-darkgreen .panel-heading {
+    border-color: #186467;
+    color: #fff;
+    background-color: #186467;
+}
+
+.panel-darkgreen a {
+    color: #186467;
+}
+
+.panel-darkgreen a:hover {
+    color: #3BA9AD;
+}
+
 /* Form validation */
 
 .form-group .has-error .help-block {

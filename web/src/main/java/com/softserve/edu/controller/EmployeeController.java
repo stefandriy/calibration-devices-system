@@ -13,6 +13,7 @@ import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.impl.UsersServiceImpl;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
@@ -193,22 +194,6 @@ public class EmployeeController {
         return new PageDTO<>(content);
     }
 
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{fieldToSort}", method = RequestMethod.GET)
-    public PageDTO<UsersPageItem> getPaginationUsers(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @PathVariable String fieldToSort,
-            UsersPageItem search,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        Long idOrganization = user.getOrganizationId();
-        ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
-                pageNumber, itemsPerPage, idOrganization, search.getUsername(), search.getRole(),
-                search.getFirstName(), search.getLastName(), search.getOrganization(),
-                search.getPhone(), search.getSecondPhone(), fieldToSort);
-        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
-        return new PageDTO<>(queryResult.getTotalItems(), resultList);
-    }
-
     /**
      * return data about admin employees.
      * return only employees, without admins.
@@ -250,6 +235,22 @@ public class EmployeeController {
         return resultList;
     }
 
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{fieldToSort}", method = RequestMethod.GET)
+    public PageDTO<UsersPageItem> getPaginationUsers(
+            @PathVariable Integer pageNumber,
+            @PathVariable Integer itemsPerPage,
+            @PathVariable String fieldToSort,
+            UsersPageItem search,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        Long idOrganization = user.getOrganizationId();
+        ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
+                pageNumber, itemsPerPage, idOrganization, search.getUsername(), search.getRole(),
+                search.getFirstName(), search.getLastName(), search.getOrganization(),
+                search.getPhone(), search.getSecondPhone(), fieldToSort);
+        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
+        return new PageDTO<>(queryResult.getTotalItems(), resultList);
+    }
+
     @RequestMapping(value = "/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     private List<UserInfoDTO> getUsersByOrganizationId(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails userDetails,
@@ -258,6 +259,12 @@ public class EmployeeController {
     ) {
         return userService.findByOrganizationId(userDetails.getOrganizationId(), pageNumber, itemsPerPage)
                 .stream()
+                .filter(user -> user
+                                .getUserRoles()
+                                .stream()
+                                .filter(userRole -> userRole.name().matches("\\w+_ADMIN"))
+                                .count() == 0
+                )
                 .map(user -> new UserInfoDTO(
                                 user.getUsername(),
                                 user.getUserRoles()
@@ -267,10 +274,12 @@ public class EmployeeController {
                                 user.getFirstName(),
                                 user.getLastName(),
                                 user.getPhone(),
-                                0L
+                                user.getSecondPhone(),
+                                userService.countVerifications(user),
+                                user.getIsAvailable()
                         )
                 )
+                .sorted((first, second) -> first.getLastName().compareTo(second.getLastName()))
                 .collect(Collectors.toList());
     }
 }
-

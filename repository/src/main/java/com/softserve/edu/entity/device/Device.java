@@ -19,7 +19,8 @@ import java.util.Set;
 public class Device {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
 
     @Column(nullable = false)
@@ -45,9 +46,19 @@ public class Device {
     @JoinColumn(name = "manufacturerId")
     private Manufacturer manufacturer;
 
+    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<CounterType> counterTypeSet;
+
     public Device(String number, Set<Verification> verifications, Manufacturer manufacturer) {
         this.number = number;
         this.verifications = verifications;
         this.manufacturer = manufacturer;
+    }
+
+    public Device(String number, DeviceType deviceType, String deviceName) {
+        this.number = number;
+        this.deviceType = deviceType;
+        this.deviceName = deviceName;
     }
 }

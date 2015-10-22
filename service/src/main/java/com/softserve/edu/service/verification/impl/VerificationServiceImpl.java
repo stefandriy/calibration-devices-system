@@ -228,6 +228,25 @@ public class VerificationServiceImpl implements VerificationService {
         result.setTotalItems(count);
         return result;
     }
+    
+    @Transactional(readOnly = true)
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
+            																							String streetToSearch, String region, String district, String locality, String status, String employeeName, User calibratorEmployee) {
+    	// Check correct statuses for calibrator verification (in documentation, co-workers, etc)
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "SENT", employeeName, null, null, null, null, null, null, calibratorEmployee, em);
+
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "SENT", employeeName, null, null, null, null, calibratorEmployee, em)).getSingleResult();
+
+        TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<Verification> verificationList = typedQuery.getResultList();
+
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
+        result.setContent(verificationList);
+        result.setTotalItems(count);
+        return result;
+    }
 
 
     //TODO: refactor methods of other guys (not only provider) to include endDateToSearch and name
@@ -311,11 +330,14 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     @Transactional(readOnly = true)
-    public ListToPageTransformer<CalibrationTest> findPageOfCalibrationTestsByVerificationId(Long organizationId, int pageNumber, int itemsPerPage, String idToSearch, String fullNameToSearch, String region, String district, String locality, String streetToSearch, String status, String employeeName, Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder) {
+    public ListToPageTransformer<CalibrationTest> findPageOfCalibrationTestsByVerificationId(int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String name, String region, String district, String locality, String streetToSearch, String idToSearch,
+                                                                                             String fullNameToSearch, Integer settingNumber, String consumptionStatus, Long protocolId, String testResult, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder) {
 
-        CriteriaQuery<CalibrationTest> criteriaQuery = CalibrationTestQueryConstructorCalibrator.buildSearchQuery(organizationId, region, district, locality, streetToSearch, idToSearch, fullNameToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, sortCriteria, sortOrder, em);
-        System.out.println("VerificationService protocol status " + criteriaQuery.toString() + protocolStatus);
-        Long count = em.createQuery(CalibrationTestQueryConstructorCalibrator.buildCountQuery(organizationId, idToSearch, fullNameToSearch, region, district, locality, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, em)).getSingleResult();
+        CriteriaQuery<CalibrationTest> criteriaQuery = CalibrationTestQueryConstructorCalibrator.buildSearchQuery( startDateToSearch, endDateToSearch, name, region, district, locality, streetToSearch,
+                idToSearch, fullNameToSearch, settingNumber, consumptionStatus, protocolId, testResult, measurementDeviceId, measurementDeviceType, sortCriteria, sortOrder, em);
+
+        Long count = em.createQuery(CalibrationTestQueryConstructorCalibrator.buildCountQuery(startDateToSearch, endDateToSearch, name, region, district, locality, streetToSearch,
+                idToSearch, fullNameToSearch, settingNumber, consumptionStatus, protocolId, testResult, measurementDeviceId, measurementDeviceType, em)).getSingleResult();
 
         TypedQuery<CalibrationTest> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);

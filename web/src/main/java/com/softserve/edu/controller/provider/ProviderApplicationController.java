@@ -1,14 +1,13 @@
 package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
-import com.softserve.edu.controller.client.application.util.DeviceDTO;
+import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
-import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
@@ -22,7 +21,6 @@ import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailExistValidation;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.catalogue.DistrictService;
@@ -138,12 +136,12 @@ public class ProviderApplicationController {
      * @return
      */
     @RequestMapping(value = "devices", method = RequestMethod.GET)
-    public List<DeviceDTO> getDevicesCorrespondingProvider(
+    public List<DeviceLightDTO> getDevicesCorrespondingProvider(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         Set<DeviceType> providerDeviceTypes = organizationService.findDeviceTypesByOrganizationId(employeeUser.getOrganizationId());
         return deviceService.getAll().stream()
                 .filter(device -> providerDeviceTypes.contains(device.getDeviceType()))
-                .map(device -> new DeviceDTO(device.getId(), device.getDeviceName(), device.getDeviceType().name()))
+                .map(device -> new DeviceLightDTO(device.getId(), device.getDeviceName(), device.getDeviceType().name()))
                 .collect(Collectors.toList());
     }
 

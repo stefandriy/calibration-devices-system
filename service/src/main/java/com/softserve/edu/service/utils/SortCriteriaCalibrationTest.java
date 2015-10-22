@@ -18,23 +18,23 @@ public enum SortCriteriaCalibrationTest {
             }
         }
     },
-    CLIENT_LAST_NAME() {
+    NAME() {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
 
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("verificationId").get("clientData").get("lastName"));
+                return cb.asc(root.get("name"));
             } else {
-                return cb.desc(root.join("verificationId").get("clientData").get("lastName"));
+                return cb.desc(root.get("name"));
             }
         }
     },
-    CLIENT_FIRST_NAME() {
+    CLIENT_FULL_NAME() {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
 
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("verificationId").get("clientData").get("firstName"));
+                return cb.asc(root.join("verification").get("clientData").get("lastName"));
             } else {
-                return cb.desc(root.join("verificationId").get("clientData").get("firstName"));
+                return cb.desc(root.join("verification").get("clientData").get("lastName"));
             }
         }
     },
@@ -42,9 +42,9 @@ public enum SortCriteriaCalibrationTest {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
 
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("verificationId").get("clientData").get("clientAddress").get("street"));
+                return cb.asc(root.join("verification").get("clientData").get("clientAddress").get("street"));
             } else {
-                return cb.desc(root.join("verificationId").get("clientData").get("clientAddress").get("street"));
+                return cb.desc(root.join("verification").get("clientData").get("clientAddress").get("street"));
             }
         }
     },
@@ -52,9 +52,9 @@ public enum SortCriteriaCalibrationTest {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
 
             if (sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("verificationId").get("clientData").get("clientAddress").get("district"));
+                return cb.asc(root.join("verification").get("clientData").get("clientAddress").get("district"));
             } else {
-                return cb.desc(root.join("verificationId").get("clientData").get("clientAddress").get("district"));
+                return cb.desc(root.join("verification").get("clientData").get("clientAddress").get("district"));
             }
         }
     },
@@ -63,9 +63,9 @@ public enum SortCriteriaCalibrationTest {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
 
             if (sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("verificationId").get("clientData").get("clientAddress").get("region"));
+                return cb.asc(root.join("verification").get("clientData").get("clientAddress").get("region"));
             } else {
-                return cb.desc(root.join("verificationId").get("clientData").get("clientAddress").get("region"));
+                return cb.desc(root.join("verification").get("clientData").get("clientAddress").get("region"));
             }
         }
     },
@@ -74,9 +74,9 @@ public enum SortCriteriaCalibrationTest {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
 
             if (sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("verificationId").get("clientData").get("clientAddress").get("locality"));
+                return cb.asc(root.join("verification").get("clientData").get("clientAddress").get("locality"));
             } else {
-                return cb.desc(root.join("verificationId").get("clientData").get("clientAddress").get("locality"));
+                return cb.desc(root.join("verification").get("clientData").get("clientAddress").get("locality"));
             }
         }
     },
@@ -84,18 +84,18 @@ public enum SortCriteriaCalibrationTest {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
 
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return (cb.asc(root.join("verificationId").join("device").get("id")));
+                return (cb.asc(root.join("verification").join("device").get("id")));
             } else {
-                return (cb.desc(root.join("verificationId").join("device").get("id")));
+                return (cb.desc(root.join("verification").join("device").get("id")));
             }
         }
     },
     MEASUREMENT_DEVICE_TYPE() {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return (cb.asc(root.join("verificationId").join("device").get("deviceType")));
+                return (cb.asc(root.join("verification").join("device").get("deviceType")));
             } else {
-                return (cb.desc(root.join("verificationId").join("device").get("deviceType")));
+                return (cb.desc(root.join("verification").join("device").get("deviceType")));
             }
         }
     },
@@ -108,12 +108,30 @@ public enum SortCriteriaCalibrationTest {
             }
         }
     },
-    PROTOCOL_STATUS() {
+    TEST_RESULT() {
         public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
                 return (cb.asc(root.get("testResult")));
             } else {
                 return (cb.desc(root.get("testResult")));
+            }
+        }
+    },
+    SETTING_NUMBER(){
+        public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder){
+            if(sortOrder.equalsIgnoreCase("asc")) {
+                return (cb.asc(root.get("settingNumber")));
+            }else {
+                return (cb.desc(root.get("settingNumber")));
+            }
+        }
+    },
+    CONSUMPTION_STATUS(){
+        public Order getSortOrder(Root<CalibrationTest> root, CriteriaBuilder cb, String sortOrder){
+            if(sortOrder.equalsIgnoreCase("asc")) {
+                return (cb.asc(root.get("consumptionStatus")));
+            }else {
+                return (cb.desc(root.get("consumptionStatus")));
             }
         }
     };

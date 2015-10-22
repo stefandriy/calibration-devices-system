@@ -147,7 +147,7 @@ public class CalibrationTestController {
      *
      * @param file              chosen file oject
      * @param idCalibrationTest
-     * @return httpStatus 200 OK if everything did well
+     * @return httpStatus 200 OK if everything went well
      */
     @RequestMapping(value = "uploadPhotos", method = RequestMethod.POST)
     public ResponseEntity<String> uploadFilePhoto(@RequestBody MultipartFile file, @RequestParam Long idCalibrationTest) {

@@ -3,16 +3,16 @@ package com.softserve.edu.controller.client.application.util;
 /**
  * Created by Назік on 10/2/2015.
  */
-public class DeviceDTO {
+public class DeviceLightDTO {
     private Long id;
     private String designation;
 
     private String deviceType;
 
-    protected DeviceDTO() {
+    protected DeviceLightDTO() {
     }
 
-    public DeviceDTO(Long id, String name, String deviceType) {
+    public DeviceLightDTO(Long id, String name, String deviceType) {
         this.id = id;
         this.designation = name;
         this.deviceType = deviceType;
