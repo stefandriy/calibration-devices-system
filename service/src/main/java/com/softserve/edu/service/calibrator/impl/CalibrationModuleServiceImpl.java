@@ -1,6 +1,7 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -33,17 +34,18 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
     private Logger logger = Logger.getLogger(CalibrationModule.class);
 
     @Override
-    public Map<String, String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String userName) {
+    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String userName) {
         User user = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
         }
         // TODO potential NPE here
         List<CalibrationModule> modules = moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
-                .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId())));
-        Map<String, String> serialNumbersList = new HashMap<>();
+                .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
+                .and(CalibrationModuleSpecifications.moduleDeviceTyp(DeviceType.WATER)));
+        List<String> serialNumbersList = new ArrayList<>();
         for (CalibrationModule module : modules) {
-            serialNumbersList.put("serialNumber", module.getSerialNumber());
+            serialNumbersList.add(module.getSerialNumber());
         }
         return serialNumbersList;
     }

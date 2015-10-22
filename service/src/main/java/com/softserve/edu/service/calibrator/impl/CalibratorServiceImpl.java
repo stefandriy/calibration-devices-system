@@ -1,27 +1,31 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.entity.verification.BbiProtocol;
-import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.BbiProtocol;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.utils.EmployeeDTO;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
-import org.apache.commons.io.FileUtils;
+
+import com.softserve.edu.service.utils.ExcelFileDTO;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import org.apache.commons.io.FileUtils;
 
 import java.time.LocalTime;
 import java.io.*;
@@ -126,9 +130,9 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Override
     @Transactional
-    public void uploadBbi(InputStream file, String idVerification,
+    public void uploadBbi(InputStream fileStream, String idVerification,
                           Long installmentNumber, String originalFileFullName) throws IOException {
-        String absolutePath = fileOperations.putBbiFile(file, installmentNumber, originalFileFullName);
+        String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
         Verification verification = verificationRepository.findOne(idVerification);
         BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
         verification.setBbiProtocol(bbiProtocol);
@@ -194,7 +198,7 @@ public class CalibratorServiceImpl implements CalibratorService {
         verification.setAddInfoExists(true);
         LocalTime timeFrom;
         LocalTime timeTo;
-        if (time == null) {
+        if (time == null){
             timeFrom = null;
             timeTo = null;
         } else {

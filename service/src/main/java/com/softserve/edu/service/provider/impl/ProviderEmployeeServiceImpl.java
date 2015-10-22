@@ -138,7 +138,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
         typedQuery.setMaxResults(itemsPerPage);
         List<User> providerEmployeeList = typedQuery.getResultList();
 
-        ListToPageTransformer<User> result = new ListToPageTransformer<User>();
+        ListToPageTransformer<User> result = new ListToPageTransformer<>();
         result.setContent(providerEmployeeList);
         result.setTotalItems(count);
 

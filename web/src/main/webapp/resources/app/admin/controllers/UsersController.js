@@ -1,23 +1,84 @@
 angular
     .module('adminModule')
     .controller('UsersController', ['$scope', 'UsersService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
-        'toaster',
-        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope, toaster) {
+        'toaster','$translate',
+        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope, toaster, $translate) {
 
 
             $scope.cantAddEmployee;
+
+            $scope.clearAll = function () {
+                $scope.selectedUserType.name = null;
+                $scope.tableParams.filter({});
+            };
+
+            $scope.selectedUserType = {
+                name: null
+            };
+
+            $scope.userTypeData = [
+                {id: 'CALIBRATOR_EMPLOYEE', label: null},
+                {id: 'CALIBRATOR_ADMIN', label: null},
+                {id: 'PROVIDER_EMPLOYEE', label: null},
+                {id: 'PROVIDER_ADMIN', label: null},
+                {id: 'STATE_VERIFICATOR_EMPLOYEE', label: null},
+                {id: 'STATE_VERIFICATOR_ADMIN', label: null},
+            ];
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.userTypeData[0].label = 'Робітник вимірювальної лабораторії';
+                    $scope.userTypeData[1].label = 'Адмін вимірювальної лабораторії';
+                    $scope.userTypeData[2].label = 'Робітник постачальник послуг';
+                    $scope.userTypeData[3].label = 'Адмін постачальник послу';
+                    $scope.userTypeData[4].label = 'Робітник уповноваженої повірочної лабораторії';
+                    $scope.userTypeData[5].label = 'Адмін уповноваженої повірочної лабораторії';
+
+
+                } else if (lang === 'eng') {
+                    $scope.userTypeData[0].label = 'Employee calibrator';
+                    $scope.userTypeData[1].label = 'Admin calibrator';
+                    $scope.userTypeData[2].label = 'Employee provider';
+                    $scope.userTypeData[3].label = 'Admin provider';
+                    $scope.userTypeData[4].label = 'Employee state verificator';
+                    $scope.userTypeData[5].label = 'Admin state verificator';
+                } else {
+                    $log.debug(lang);
+                }
+            };
+
+
+            $scope.setTypeDataLanguage();
+
+            $scope.doSearch = function () {
+                $scope.tableParams.reload();
+            };
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 5,
                 sorting: {
-                    lastName: 'asc'     // initial sorting
+                    lastname: 'asc'     // initial sorting
                 }
             }, {
                 total: 0,
                 getData: function ($defer, params) {
-                    userService.getPage(params.page(), params.count(), params.filter(),params.sorting())
+                    if ($scope.selectedUserType.name != null) {
+                        params.filter().role = $scope.selectedUserType.name.id;
+                    }
+                    else {
+                        params.filter().role = null;//case when the filter is cleared with a button on the select
+                    }
+                    var sortCriteria = Object.keys(params.sorting())[0];
+                    var sortOrder = params.sorting()[sortCriteria];
+
+
+                    userService.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                         .success(function (result) {
+                            console.log(sortCriteria);
+                            console.log(result);
+                            console.log(result.totalItems);
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
@@ -37,26 +98,6 @@ angular
                 }
                 return false;
             };
-
-            $scope.openAddUserModal = function() {
-                var addEmployeeModal = $modal
-                    .open({
-                        animation : true,
-                        controller : 'UserAddModalController',
-                        templateUrl : '/resources/app/admin/views/modals/user-add-modal.html',
-                    });
-
-                /**
-                 * executes when modal closing
-                 */
-                addEmployeeModal.result.then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ADMIN'));
-                });
-            };
-
-
-
-
 
 
             $scope.cantAddNewEmployee = function() {

@@ -63,21 +63,20 @@ public class CalibratorPlanningTaskController {
     }
 
     @RequestMapping(value = "findAllModules/{moduleType}/{workDate}", method = RequestMethod.GET)
-    public Map<String,String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate,
+    public List<String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate,
                                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
         return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, employeeUser.getUsername());
     }
 
-    @RequestMapping(value = "/createExcelFile", method = RequestMethod.PUT)
-    public ResponseEntity createExcelFileForSelectedVerifications(@RequestBody String [] verificationsId){
-        HttpStatus httpStatus = HttpStatus.OK;
-        try {
-            taskService.createExcelFileFromVerifications(verificationsId);
-        } catch (Exception e) {
-            logger.error("FILE CAN NOT BE SAVED!" + e);
-            httpStatus = HttpStatus.CONFLICT;
-        }
-        return new ResponseEntity<>(httpStatus);
-    }
+//    @RequestMapping(value = "/createExcelFile", method = RequestMethod.PUT)
+//    public String createExcelFileForSelectedVerifications(@RequestBody String [] verificationsId){
+//        String fileName = null;
+//        try {
+//            fileName = taskService.createExcelFileFromVerifications(verificationsId);
+//        } catch (Exception e) {
+//            logger.error("FILE CAN NOT BE SAVED!" + e);
+//        }
+//        return fileName;
+//    }
 
 }

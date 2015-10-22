@@ -11,6 +11,6 @@ import java.util.Map;
  */
 public interface CalibrationModuleService {
 
-    Map<String, String> findAllCalibrationModulsNumbers (String moduleType, Date workDate, String userName);
+    List<String> findAllCalibrationModulsNumbers (String moduleType, Date workDate, String userName);
 
 }
