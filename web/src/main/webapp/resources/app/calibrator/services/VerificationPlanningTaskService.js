@@ -8,6 +8,9 @@ angular
            },
            getModuls: function (place, pickerDate) {
                 return getAvailableModules('task/findAllModules/' + place + '/' + pickerDate);
+           },
+           createExcelFileForVerifications: function (data) {
+                return createExcelFile ('task/createExcelFile/', data);
            }
 
         };
@@ -28,6 +31,15 @@ angular
             }).error(function (err) {
                     return err;
             });
+        }
+
+        function createExcelFile (url, data) {
+            return $http.put (url, data)
+                .success(function (data) {
+                    return data;
+                }).error(function (err) {
+                    return err;
+                });
         }
 
 

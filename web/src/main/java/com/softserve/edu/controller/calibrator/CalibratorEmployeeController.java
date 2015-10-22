@@ -11,6 +11,7 @@ import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.utils.EmployeeDTO;
+import com.softserve.edu.service.verification.VerificationService;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 ;
 
@@ -42,6 +45,9 @@ public class CalibratorEmployeeController {
 
     @Autowired
     private CalibratorService calibratorService;
+    
+    @Autowired
+    private VerificationService verificationService;
 
 
     /**
@@ -108,6 +114,16 @@ public class CalibratorEmployeeController {
             logger.error("Failed to get graphic data");
         }        
         return list;
+    }
+    
+    @RequestMapping(value = "piemainpanel", method = RequestMethod.GET)
+    public Map pieMainPanel(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        Long idOrganization = user.getOrganizationId();
+        Organization organization = organizationsService.getOrganizationById(idOrganization);
+        Map tmp = new HashMap<>();
+        tmp.put("NO_EMPLOYEE", verificationService.findCountOfAllCalibratorVerificationWithoutEmployee(organization));
+        tmp.put("HAS_EMPLOYEE", verificationService.findCountOfAllCalibratorVerificationWithEmployee(organization));
+        return tmp;
     }
 
 }

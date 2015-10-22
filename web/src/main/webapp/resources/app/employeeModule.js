@@ -262,6 +262,7 @@
         'calibrator/services/UserServiceCalibrator',
         'calibrator/services/VerificationServiceCalibrator',
         'calibrator/services/MeasuringEquipmentServiceCalibrator',
+        'calibrator/controllers/PieCalibratorEmployee',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',
@@ -286,6 +287,7 @@
         'common/controllers/ProfileInfoController',
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
+        'common/services/EmployeeService',
         'common/controllers/CommonController'
 
     ], function () {});

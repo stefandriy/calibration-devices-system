@@ -9,6 +9,9 @@ angular
             getNewVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
                 return getDataWithParams('calibrator/verifications/new/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
+            getNewVerificationsForMainPanel: function (currentPage, itemsPerPage, search) {
+                return getDataWithParams('calibrator/verifications/new/mainpanel/' + currentPage + '/' + itemsPerPage, search);
+            },
             getArchiveVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
                 return getDataWithParams('calibrator/verifications/archive/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
@@ -18,7 +21,7 @@ angular
             getCalibrators: function (url) {
                 return getEmployeeData('verifications/new/calibratorEmployees');
             },
-            //todo need to find verificators by agreements(договорах)
+            //todo need to find verificators by agreements(пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
             getVerificators: function (url) {
                 return getData('verifications/new/verificators');
             },
@@ -70,6 +73,15 @@ angular
             },
             getIfEmployeeCalibrator: function(url) {
                 return getData('verifications/calibrator/role');
+            },
+            saveAdditionalInfo: function(data) {
+                return saveInfo('/calibrator/verifications/saveInfo', data);
+            },
+            checkIfAdditionalInfoExists: function(verifId) {
+                return checkInfo('/calibrator/verifications/checkInfo/' +  verifId);
+            },
+            findAdditionalInfoByVerifId: function(verifId) {
+                return findInfo('/calibrator/verifications/findInfo/'+ verifId);
             },
         };
 
@@ -150,5 +162,31 @@ angular
                     return err;
                 });
         }
-
+        function saveInfo(url, data) {
+            return $http.post(url, data)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function checkInfo(url) {
+            return $http.get(url)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function findInfo(url) {
+            return $http.get(url)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
     }]);

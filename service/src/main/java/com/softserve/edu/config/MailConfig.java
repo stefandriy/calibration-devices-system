@@ -27,6 +27,7 @@ public class MailConfig {
 	@Bean
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		// TODO Move all strings to static final fields
 		mailSender.setDefaultEncoding("UTF-8");
 		
 		mailSender.setHost(env.getProperty("mail.config.host"));

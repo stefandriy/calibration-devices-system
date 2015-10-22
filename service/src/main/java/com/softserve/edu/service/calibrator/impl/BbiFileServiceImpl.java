@@ -1,6 +1,7 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.repository.UploadBbiRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BbiFileService;
@@ -31,16 +32,13 @@ public class BbiFileServiceImpl implements BbiFileService {
         return file;
     }
 
-    public DeviceTestData findBbiFileContentByFileName(String fileName) {
+    public DeviceTestData findBbiFileContentByFileName(String fileName) throws IOException {
         DeviceTestDataParser parser = testDataParserFactory.getParser(fileName);
         File bbiFile = findBbiFileByFileName(fileName);
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(bbiFile);
-        } catch (FileNotFoundException e) {
-            System.out.println(e);
-        }
-        return parser.parse(inputStream);
+        InputStream inputStream = new FileInputStream(bbiFile);
+        DeviceTestData parsedData = parser.parse(inputStream);
+        inputStream.close();
+        return parsedData;
     }
 
 }

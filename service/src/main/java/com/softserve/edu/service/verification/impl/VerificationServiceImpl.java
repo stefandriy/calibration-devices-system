@@ -228,6 +228,24 @@ public class VerificationServiceImpl implements VerificationService {
         result.setTotalItems(count);
         return result;
     }
+    
+    @Transactional(readOnly = true)
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
+            																							String streetToSearch, String region, String district, String locality, String status, String employeeName, User calibratorEmployee) {
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "IN_PROGRESS", employeeName, null, null, null, null, null, null, calibratorEmployee, em);
+
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "IN_PROGRESS", employeeName, null, null, null, null, calibratorEmployee, em)).getSingleResult();
+
+        TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<Verification> verificationList = typedQuery.getResultList();
+
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
+        result.setContent(verificationList);
+        result.setTotalItems(count);
+        return result;
+    }
 
 
     //TODO: refactor methods of other guys (not only provider) to include endDateToSearch and name
@@ -488,6 +506,16 @@ public class VerificationServiceImpl implements VerificationService {
     @Transactional
     public int findCountOfAllAcceptedVerification(Organization organization) {
         return verificationRepository.getCountOfAllAcceptedVerifications(organization);
+    }
+    
+    @Transactional
+    public int findCountOfAllCalibratorVerificationWithoutEmployee (Organization organization) {
+        return verificationRepository.findCountOfAllCalibratorVerificationWithoutEmployee (organization);
+    }
+    
+    @Transactional
+    public int findCountOfAllCalibratorVerificationWithEmployee (Organization organization) {
+        return verificationRepository.findCountOfAllCalibratorVerificationWithEmployee (organization);
     }
 
     @Transactional(readOnly = true)

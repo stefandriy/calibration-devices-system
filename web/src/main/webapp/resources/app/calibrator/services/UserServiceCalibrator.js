@@ -17,6 +17,9 @@ angular
             getGraficDataMainPanel: function(dataToSearch) {        		
                 return getData('calibrator/admin/users/graphicmainpanel', dataToSearch);
             },
+            getPieDataMainPanel: function(){
+                return getData('calibrator/admin/users/piemainpanel');
+            },
             getPage: function (currentPage, itemsPerPage,searchObj,filterObj) {
                 var field;
                 var value;

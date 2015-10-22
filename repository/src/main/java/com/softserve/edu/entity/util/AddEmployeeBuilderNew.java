@@ -62,6 +62,7 @@ public class AddEmployeeBuilderNew {
     }
 
     public AddEmployeeBuilderNew isAvailable(Boolean isAvailable) {
+        //TODO Why true?
         this.isAvailable = true;
         return this;
     }

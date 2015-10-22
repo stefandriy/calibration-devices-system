@@ -25,6 +25,8 @@
 
                 <div class="panel-body">
 
+
+
                     <div class="row">
                         <div class="col-md-12">
                             <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
@@ -123,6 +125,14 @@
                                         {{'CREATE_TASK' | translate}}
                                 </button>
                             </div>
+
+                            <div class="pull-right">
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="createExcelFile()"><span class="glyphicon glyphicon-send"></span>
+                                    Створити ексель документ
+                                </button>
+                            </div>
+
 
                         </div>
                     </div>

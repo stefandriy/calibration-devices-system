@@ -7,22 +7,28 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
-import com.softserve.edu.repository.OrganizationRepository;
-import com.softserve.edu.repository.UploadBbiRepository;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
+import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.storage.impl.FileOperationsImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
+import com.softserve.edu.service.utils.ExcelFileDTO;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +50,11 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Autowired
     private FileOperations fileOperations;
 
+    @Autowired
+    private AdditionalInfoRepository additionalInfoRepository;
+
+    private final Logger logger = Logger.getLogger(CalibratorServiceImpl.class);
+
     @Override
     @Transactional(readOnly = true)
     public Organization findById(Long id) {
@@ -52,8 +63,9 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Override
     @Transactional
-    public void uploadBbi(InputStream file, String idVerification, String originalFileFullName) throws IOException {
-        String absolutePath = fileOperations.putBbiFile(file, originalFileFullName);
+    public void uploadBbi(InputStream file, String idVerification,
+                          Long installmentNumber, String originalFileFullName) throws IOException {
+        String absolutePath = fileOperations.putBbiFile(file, installmentNumber, originalFileFullName);
         Verification verification = verificationRepository.findOne(idVerification);
         BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
         verification.setBbiProtocol(bbiProtocol);
@@ -112,4 +124,36 @@ public class CalibratorServiceImpl implements CalibratorService {
         verification.setTaskStatus(Status.PLANNING_TASK);
         verificationRepository.save(verification);
     }
+
+    @Override
+    public void saveInfo(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate, String notes, String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        verification.setAddInfoExists(true);
+        LocalTime timeFrom;
+        LocalTime timeTo;
+        if (time == null){
+            timeFrom = null;
+            timeTo = null;
+        } else {
+            String timeFromString = time.substring(0, 5);
+            String timeToString = time.substring(6, 11);
+            timeFrom = LocalTime.parse(timeFromString);
+            timeTo = LocalTime.parse(timeToString);
+        }
+        additionalInfoRepository.save(new AdditionalInfo(entrance, doorCode, floor, dateOfVerif, timeFrom, timeTo, serviceability,
+                noWaterToDate, notes, verification));
+        verificationRepository.save(verification);
+    }
+
+    @Override
+    public boolean checkIfAdditionalInfoExists(String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        return verification.isAddInfoExists();
+    }
+
+    @Override
+    public AdditionalInfo findAdditionalInfoByVerifId(String verificationId) {
+        return additionalInfoRepository.findAdditionalInfoByVerificationId(verificationId);
+    }
+
 }

@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('MainPanelControllerCalibrator', ['$scope', '$log','VerificationServiceProvider','ngTableParams','$modal', 'UserServiceCalibrator', '$controller', '$filter',
-        function ($scope, $log, verificationServiceProvider, ngTableParams, $modal, userServiceCalibrator, $controller, $filter) {
+    .controller('MainPanelControllerCalibrator', ['$scope', '$log','VerificationServiceCalibrator','ngTableParams','$modal', 'UserServiceCalibrator', '$controller', '$filter',
+        function ($scope, $log, verificationServiceCalibrator, ngTableParams, $modal, userServiceCalibrator, $controller, $filter) {
     		$log.debug('inside main panel contr calibr');
     		
     		
@@ -145,5 +145,85 @@ angular
                 var calibrator = function() {
                     $scope.showGrafic();
                     $scope.showGraficTwo();
+                };
+                
+                
+                /**
+                 * Pie of sent and accepted
+                 */
+                var mo = $scope;
+                $controller('PieCalibratorEmployee', {
+                    $scope: $scope
+                });
+
+
+                $scope.showGraficTwo = function () {
+                    userServiceCalibrator.getPieDataMainPanel()
+                        .success(function (data) {
+                            return mo.displayGraficPipe(data);
+                        });
+                };
+
+
+            $scope.checkIfNewVerificationsAvailable = function () {
+                return $scope.resultsCount != 0;
+
+            };
+                /**
+                 * Table of unread verifications
+                 */
+                $scope.tableParamsVerifications = new ngTableParams({
+                    page: 1,
+                    count: 5
+                }, {
+                    total: 0,
+                    getData: function ($defer, params) {
+
+                        verificationServiceCalibrator.getNewVerificationsForMainPanel(params.page(), params.count(), $scope.search)
+                            .success(function (result) {
+                                $scope.resultsCount = result.totalItems;
+                                $defer.resolve(result.content);
+                                params.total(result.totalItems);
+                            }, function (result) {
+                                $log.debug('error fetching data:', result);
+                            });
+                    }
+                });
+
+                $scope.addProviderEmployee = function (verifId, providerEmployee) {
+                    var modalInstance = $modal.open({
+                        animation: true,
+                        templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
+                        controller: 'ProviderEmployeeControllerProvider',
+                        size: 'md',
+                        windowClass: 'xx-dialog',
+                        resolve: {
+                            providerEmploy: function () {
+                                return verificationServiceCalibrator.getProviders()
+                                    .success(function (providers) {
+                                        return providers;
+                                    }
+                                );
+                            }
+                        }
+                    });
+                    /**
+                     * executes when modal closing
+                     */
+                    modalInstance.result.then(function (formData) {
+                        idVerification = 0;
+                        var dataToSend = {
+                            idVerification: verifId,
+                            employeeProvider: formData.provider
+                        };
+                        $log.info(dataToSend);
+                        verificationServiceCalibrator
+                            .sendEmployeeProvider(dataToSend)
+                            .success(function () {
+                                $scope.tableParamsVerifications.reload();
+                                $scope.tableParamsEmployee.reload();
+                                $scope.showGraficTwo();
+                            });
+                    });
                 };
     }]);
