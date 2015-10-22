@@ -232,10 +232,9 @@ public class VerificationServiceImpl implements VerificationService {
     @Transactional(readOnly = true)
     public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
             																							String streetToSearch, String region, String district, String locality, String status, String employeeName, User calibratorEmployee) {
-    	// Check correct statuses for calibrator verification (in documentation, co-workers, etc)
-        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "SENT", employeeName, null, null, null, null, null, null, calibratorEmployee, em);
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "IN_PROGRESS", employeeName, null, null, null, null, null, null, calibratorEmployee, em);
 
-        Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "SENT", employeeName, null, null, null, null, calibratorEmployee, em)).getSingleResult();
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "IN_PROGRESS", employeeName, null, null, null, null, calibratorEmployee, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -507,6 +506,16 @@ public class VerificationServiceImpl implements VerificationService {
     @Transactional
     public int findCountOfAllAcceptedVerification(Organization organization) {
         return verificationRepository.getCountOfAllAcceptedVerifications(organization);
+    }
+    
+    @Transactional
+    public int findCountOfAllCalibratorVerificationWithoutEmployee (Organization organization) {
+        return verificationRepository.findCountOfAllCalibratorVerificationWithoutEmployee (organization);
+    }
+    
+    @Transactional
+    public int findCountOfAllCalibratorVerificationWithEmployee (Organization organization) {
+        return verificationRepository.findCountOfAllCalibratorVerificationWithEmployee (organization);
     }
 
     @Transactional(readOnly = true)
