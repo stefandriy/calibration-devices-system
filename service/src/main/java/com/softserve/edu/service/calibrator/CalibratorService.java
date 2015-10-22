@@ -4,11 +4,14 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.service.utils.EmployeeDTO;
+import net.lingala.zip4j.exception.ZipException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface CalibratorService {
     
@@ -17,7 +20,7 @@ public interface CalibratorService {
     void uploadBbi(InputStream file, String idVerification, Long installmentNumber,
                    String originalFileFullName) throws IOException;
 
-    void uploadArchive(InputStream file, String originalFileFullName) throws IOException;
+    Map<Boolean, String> uploadArchive(InputStream file, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException;
 
     String findBbiFileByOrganizationId(String id);
 
