@@ -18,7 +18,7 @@ public enum SortCriteriaUser {
             }
         }
     },
-    LAST_NAME() {
+    LASTNAME() {
         public Order getSortOrder(Root<User> root, CriteriaBuilder cb, String sortOrder) {
 
             if (sortOrder.equalsIgnoreCase("asc")) {
@@ -28,7 +28,7 @@ public enum SortCriteriaUser {
             }
         }
     },
-    FIRST_NAME() {
+    FIRSTNAME() {
         public Order getSortOrder(Root<User> root, CriteriaBuilder cb, String sortOrder) {
 
             if (sortOrder.equalsIgnoreCase("asc")) {
@@ -89,18 +89,6 @@ public enum SortCriteriaUser {
             }
         }
     },
-
-    NAN() {
-        public Order getSortOrder(Root<User> root, CriteriaBuilder cb, String sortOrder) {
-
-            if (sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.get("address").get("region"));
-            } else {
-                return cb.desc(root.get("address").get("region"));
-            }
-        }
-    },
-
     LOCALITY() {
         public Order getSortOrder(Root<User> root, CriteriaBuilder cb, String sortOrder) {
 
@@ -109,6 +97,25 @@ public enum SortCriteriaUser {
             } else {
                 return cb.desc(root.get("address").get("locality"));
             }
+        }
+    },
+    ORGANIZATION() {
+        public Order getSortOrder(Root<User> root, CriteriaBuilder cb, String sortOrder){
+            if (sortOrder.equalsIgnoreCase("asc")) {
+                return cb.asc(root.get("organization").get("name"));
+            } else {
+                return cb.desc(root.get("organization").get("name"));
+            }
+        }
+    },
+    ROLES() {
+        public Order getSortOrder(Root<User> root, CriteriaBuilder cb, String sortOrder){
+//            if (sortOrder.equalsIgnoreCase("asc")) {
+//                return cb.asc(root.get("userRoles"));
+//            } else {
+//                return cb.desc(root.get("userRoles"));
+//            }
+            return null;
         }
     };
 

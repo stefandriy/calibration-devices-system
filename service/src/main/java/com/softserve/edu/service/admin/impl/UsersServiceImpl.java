@@ -23,8 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UsersServiceImpl implements UserService  {
@@ -71,10 +76,10 @@ public class UsersServiceImpl implements UserService  {
         TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
         typedQuery.setMaxResults(itemsPerPage);
-        List<User> providerEmployeeList = typedQuery.getResultList();
+        List<User> employeeList = typedQuery.getResultList();
 
         ListToPageTransformer<User> result = new ListToPageTransformer<>();
-        result.setContent(providerEmployeeList);
+        result.setContent(employeeList);
         result.setTotalItems(count);
 
         return result;
@@ -104,6 +109,33 @@ public class UsersServiceImpl implements UserService  {
         newUser.setPassword(passwordEncoded);
 
         userRepository.save(newUser);
+    }
+
+
+    @Override
+    @Transactional
+    public ListToPageTransformer<User> findAllSysAdmins() {
+
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//
+//        CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
+//                Root<User> root = criteriaQuery.from(User.class);
+//        Predicate queryPredicate = cb.conjunction();
+//        queryPredicate = cb.and(cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")), queryPredicate);
+//        criteriaQuery.select(root).distinct(true);
+//        criteriaQuery.where(queryPredicate);
+//        TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
+//        List<User> providerEmployeeList = typedQuery.getResultList();
+//
+//        ListToPageTransformer<User> result = new ListToPageTransformer<>();
+//        result.setContent(providerEmployeeList);
+//        result.setTotalItems(7L);
+        userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
+        ListToPageTransformer<User> result = new ListToPageTransformer<>();
+        result.setContent(userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN).stream().distinct().collect(Collectors.toList()));
+        result.setTotalItems(7L);
+
+        return result;
     }
 
     @Override

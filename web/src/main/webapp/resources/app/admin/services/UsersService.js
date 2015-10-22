@@ -3,13 +3,35 @@ angular
     .factory('UsersService', function ($http) {
         return {
             getPage: function (currentPage, itemsPerPage, searchObj, sortCriteria, sortOrder) {
-                return getData('admin/users/' + currentPage + '/' + itemsPerPage + '/' +
-                 + sortCriteria +  '/' + sortOrder, searchObj);
+                return getData('admin/users/' + currentPage + '/' + itemsPerPage + '/'
+                   + sortCriteria +  '/' + sortOrder, searchObj);
             },
-            getSysAdminsPage : function (currentPage, itemsPerPage , sortCriteria, sortOrder) {
+            getSysAdminsPage : function (currentPage, itemsPerPage, searchObj, sortCriteria, sortOrder) {
 
-                return getData('admin/users/' + currentPage + '/' + itemsPerPage + '/' +
-                    + '/' + sortCriteria +  '/' + sortOrder, searchObj);
+                return getData('admin/sysadmins/' + currentPage + '/' + itemsPerPage + '/'
+                    + sortCriteria +  '/' + sortOrder, searchObj);
+            },
+            getSysAdminByUsername: function (username) {
+                var url = '/admin/sysadmins/get_sys_admin/' + username;
+                return $http.get(url).then(function (result) {
+                    return result;
+                });
+            },
+
+            editSysAdmin: function (formData, username) {
+                var url = '/admin/sysadmins/edit/' + username;
+                return $http.post(url, formData)
+                    .then(function (result) {
+                        return result.status;
+                    });
+            },
+
+            deleteSysAdmin: function (username) {
+                var url = '/admin/sysadmins/delete/' + username;
+                return $http.delete(url)
+                    .then(function (result) {
+                        return result.status;
+                    });
             }
         }
 
