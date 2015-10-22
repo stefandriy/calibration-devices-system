@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.*;
 
+@Service
 public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     private static final String[] bbiExtensions = {"bbi", "BBI"};
     private static final String[] dbfExtensions = {"db", "dbf", "DB", "DBF"};
@@ -56,8 +58,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     }
 
     @Override
-    public Map<Boolean, String> parseAndSaveArchiveOfBBIfiles(MultipartFile archiveStream, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException {
-        Map<Boolean, String> resultsOfBBIProcessing = parseAndSaveArchiveOfBBIfiles(archiveStream, originalFileFullName);
+    public Map<Boolean, String> parseAndSaveArchiveOfBBIfiles(MultipartFile archive, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException {
+        Map<Boolean, String> resultsOfBBIProcessing = parseAndSaveArchiveOfBBIfiles(archive.getInputStream(), originalFileFullName);
         return resultsOfBBIProcessing;
     }
 
