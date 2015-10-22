@@ -68,20 +68,19 @@ public class VerificationServiceImplTest {
 	private EntityManager mockEntityManager;
 
 	@Mock
-	CriteriaBuilder cb;
-	@Mock
-	CriteriaQuery<Verification> criteriaQuery;
+	private CriteriaBuilder cb;
 
 	@Mock
-	TypedQuery<Verification> verificationTypedQuery;
+	private CriteriaQuery<Verification> criteriaQuery;
 
 	@Mock
-	TypedQuery<Long> longTypedQuery;
+	private TypedQuery<Verification> verificationTypedQuery;
 
 	@Mock
-	CriteriaQuery<Long> longCriteriaQuery;
+	private TypedQuery<Long> longTypedQuery;
 
-
+	@Mock
+	private CriteriaQuery<Long> longCriteriaQuery;
 
 	@BeforeClass
 	public static void testCreateVerificationProviderEmployeeService() {
