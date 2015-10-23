@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_CATEGORY_DEVICES'
+    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_COUNTER_TYPE'
         | translate}}</h3>
 </div>
 
@@ -21,7 +21,7 @@
                                    ng-model="deviceCategoryName"
                                    on-select="setDeviceId(deviceCategoryName)"
                                    name="name" id="name" required>
-                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_NAME_OF_COUNTER' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="name in names | filter: $select.search">
@@ -71,7 +71,7 @@
                         <ui-select class="form-control" type="text" theme="select2"
                                    ng-model="$root.countersType.standardSize"
                                    name="standardSize" id="standardSize" required>
-                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_STANDARD_SIZE' | translate}}" allow-clear="true">
                                 {{$select.selected}}
                             </ui-select-match>
                             <ui-select-choices repeat="standardSize in standardSizes | filter: $select.search">
