@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
@@ -16,21 +17,22 @@ import com.softserve.edu.service.utils.EmployeeDTO;
 import com.softserve.edu.service.utils.ExcelFileDTO;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import org.apache.commons.io.FileUtils;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +71,9 @@ public class CalibratorServiceImpl implements CalibratorService {
         String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
         Verification verification = verificationRepository.findOne(idVerification);
         BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
-        verification.setBbiProtocol(bbiProtocol);
+        Set<BbiProtocol> bbiProtocolsOfVerification = verification.getBbiProtocols();
+        bbiProtocolsOfVerification.add(bbiProtocol);
+        verification.setBbiProtocols(bbiProtocolsOfVerification);
         verificationRepository.save(verification);
         System.out.println("saved verification");
         uploadBbiRepository.save(bbiProtocol);
@@ -80,16 +84,6 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Transactional(readOnly = true)
     public String findBbiFileByOrganizationId(String id) {
         return uploadBbiRepository.findFileNameByVerificationId(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteBbiFile(String idVerification) {
-        Verification verification = verificationRepository.findOne(idVerification);
-        BbiProtocol bbiProtocol = uploadBbiRepository.findByVerification(verification);
-        verification.setBbiProtocol(null);
-        verificationRepository.save(verification);
-        uploadBbiRepository.delete(bbiProtocol);
     }
 
     @Override
