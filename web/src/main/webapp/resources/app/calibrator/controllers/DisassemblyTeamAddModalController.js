@@ -40,11 +40,11 @@ angular.module('employeeModule')
              */
             $scope.onTeamFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if (!$scope.teamNumberValidation.isValid ) {
+                if (!$scope.teamNumberValidation.isValid) {
                     saveDisassemblyTeam();
                     $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/calibrator/views/modals/measuring-equipment-adding-success.html',
+                        templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-success.html',
                         controller: function ($modalInstance) {
                             this.ok = function () {
                                 $modalInstance.close();
