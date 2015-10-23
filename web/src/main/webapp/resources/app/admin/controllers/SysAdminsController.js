@@ -67,7 +67,7 @@ angular
                 $rootScope.username = username;
                 userService.getSysAdminByUsername(
                     $rootScope.username).then(
-                    function (data) {$rootScope.sysAdmin = data;
+                    function (result) {$rootScope.sysAdmin = result.data;
                         console.log($rootScope.sysAdmin);
 
                         var sysAdminDTOModal = $modal

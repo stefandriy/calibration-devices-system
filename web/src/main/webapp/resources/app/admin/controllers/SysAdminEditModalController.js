@@ -1,10 +1,9 @@
 angular
     .module('adminModule')
-    .controller('SysAdminEditModalController', ['$scope', 'UsersService', '$modal', '$log', '$timeout', '$filter','$rootScope',
+    .controller('SysAdminEditModalController', ['$rootScope', '$scope', '$filter', '$modal', '$log', '$timeout', 'UsersService',
         'AddressService',
         'toaster','regions',
-        function ($scope, userService, $modal, $log,  $timeout, $filter, $rootScope, toaster, addressService, regions) {
-
+        function ( $rootScope, $scope, $filter, $modal, $log, $timeout, userService, addressService, toaster, regions) {
             $scope.regions = regions;
             $scope.districts = [];
             $scope.localities = [];

@@ -19,7 +19,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    // TODO Setter for username MUST be private !!!
+    @Column(unique = true)
     private String username;
 
     private String password;
