@@ -28,13 +28,13 @@ public class MailConfig {
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		// TODO Move all strings to static final fields
-		mailSender.setDefaultEncoding("UTF-8");
+		mailSender.setDefaultEncoding(MailConstant.DEFAULT_ENCODING);
 		
-		mailSender.setHost(env.getProperty("mail.config.host"));
-		mailSender.setPort(env.getProperty("mail.config.port", Integer.class, 25));
-		mailSender.setProtocol(env.getProperty("mail.config.protocol"));
-		mailSender.setUsername(env.getProperty("mail.credentials.username"));
-		mailSender.setPassword(env.getProperty("mail.credentials.password"));
+		mailSender.setHost(env.getProperty(MailConstant.CONFIG_HOST));
+		mailSender.setPort(env.getProperty(MailConstant.CONFIG_PORT, Integer.class, 25));
+		mailSender.setProtocol(env.getProperty(MailConstant.CONFIG_PROTOCOL));
+		mailSender.setUsername(env.getProperty(MailConstant.CREDENTIAL_USERNAME));
+		mailSender.setPassword(env.getProperty(MailConstant.CREDENTIAL_PASSWORD));
 		Properties properties = new Properties();
 		properties.put("mail.smtp.aut", env.getProperty("mail.config.smtp.auth", Boolean.class, false));
 		properties.put("mail.smtp.starttls.enable", env.getProperty("mail.config.smtp.starttls.enable", Boolean.class, false));

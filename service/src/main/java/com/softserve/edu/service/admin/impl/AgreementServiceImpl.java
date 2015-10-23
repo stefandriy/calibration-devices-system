@@ -101,4 +101,9 @@ public class AgreementServiceImpl implements AgreementService {
         result.setTotalItems(count);
         return result;
     }
+
+    @Override
+    public Set<Agreement> findByCustomerIdAndDeviceType(Long customerId, Device.DeviceType deviceType) {
+        return agreementRepository.findByCustomerIdAndDeviceType(customerId, deviceType);
+    }
 }

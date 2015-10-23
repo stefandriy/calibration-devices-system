@@ -109,12 +109,16 @@ public class OrganizationsServiceTest {
         final String password = "root";
 
         organizationsService.editOrganization(54L, name, email, phone, types, counters, employeesCapacity, maxProcessTime, address,
-                username, mname, mname, mname, password,  username, localities);
+                username, mname, mname, mname, password, username, localities);
 
         assertTrue(true);
     }
 
-
+    @Test
+    public void testFindByIdAndActiveAgreementDeviceType() {
+        Set<Organization> agreements = organizationsService.findByIdAndTypeAndActiveAgreementDeviceType(1L, OrganizationType.CALIBRATOR, Device.DeviceType.WATER);
+        assertTrue(!agreements.isEmpty());
+    }
 
     /*   @InjectMocks
     private OrganizationService organizationsService;

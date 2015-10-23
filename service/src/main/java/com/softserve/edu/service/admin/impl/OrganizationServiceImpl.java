@@ -278,4 +278,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<Organization> findByOrganizationTypeAndDeviceType(OrganizationType organizationType, Device.DeviceType deviceType) {
         return organizationRepository.findByOrganizationTypeAndDeviceType(organizationType, deviceType);
     }
+
+    @Override
+    public Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType(Long customerId, OrganizationType organizationType, Device.DeviceType deviceType) {
+        return organizationRepository.findByIdAndTypeAndActiveAgreementDeviceType(customerId, organizationType, deviceType);
+    }
+
+
 }

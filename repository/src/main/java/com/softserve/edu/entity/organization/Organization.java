@@ -71,6 +71,10 @@ public class Organization {
     @JsonBackReference
     private Set<CalibrationTask> tasks = new HashSet<>();
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Agreement> agreements = new HashSet<>();
+
     @ElementCollection
     @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
     @Column(name = "value", length = 20)

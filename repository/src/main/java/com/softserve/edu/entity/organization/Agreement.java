@@ -40,11 +40,17 @@ public class Agreement {
     private Device.DeviceType deviceType;
 
     public Agreement(Organization customer, Organization executor, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
+        this(customer, executor, number, deviceCount, date, deviceType, true);
+    }
+
+    public Agreement(Organization customer, Organization executor, String number, Long deviceCount, Date date, Device.DeviceType deviceType, Boolean isAvailable) {
         this.setCustomer(customer);
         this.setExecutor(executor);
         this.setNumber(number);
         this.setDeviceCount(deviceCount);
         this.setDate(date);
         this.setDeviceType(deviceType);
+        this.setIsAvailable(true);
+        this.setIsAvailable(isAvailable);
     }
 }

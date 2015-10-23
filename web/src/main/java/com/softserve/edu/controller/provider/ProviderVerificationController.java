@@ -2,7 +2,9 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.*;
+import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
@@ -237,19 +239,19 @@ public class ProviderVerificationController {
 
 
     /**
-     * Find calibrators by district which correspond provider district
+     * Find calibrators which correspond provider agreements
      *
      * @return calibrator
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
-    public List<Organization> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public Set<OrganizationDTO> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         //return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
         //todo need to find verificators by agreements(договорах)
-        //todo it`s a MOCK
-        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
-                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
 
-        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.CALIBRATOR);
+        Organization organizationu = organizationService.getOrganizationById(user.getOrganizationId());
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.CALIBRATOR, organizationu.getDeviceTypes().iterator().next()).stream()
+                .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toSet());
     }
 
 
@@ -351,9 +353,10 @@ public class ProviderVerificationController {
 
     /**
      * Check if current user is Employee
+     *
      * @param user
      * @return true if user has role PROVIDER_EMPLOYEE
-     *         false if user has role PROVIDER_ADMIN
+     * false if user has role PROVIDER_ADMIN
      */
     @RequestMapping(value = "provider/role", method = RequestMethod.GET)
     public Boolean isEmployeeProvider(
