@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class BbiProtocol {
 
     @Id
+    @Setter(AccessLevel.PRIVATE)
     private String fileName;
 
     private String filePath;

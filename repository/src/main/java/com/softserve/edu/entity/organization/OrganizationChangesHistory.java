@@ -7,8 +7,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Getter
-//TODO All setters must be private here
-@Setter
+@Setter(AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 @Entity

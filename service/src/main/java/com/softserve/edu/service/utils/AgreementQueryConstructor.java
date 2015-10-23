@@ -1,6 +1,6 @@
 package com.softserve.edu.service.utils;
 
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
 import com.softserve.edu.entity.organization.Organization;
 import org.apache.log4j.Logger;
@@ -100,7 +100,7 @@ public class AgreementQueryConstructor {
         }
         if ((deviceType != null) && (deviceType.length() > 0)) {
             queryPredicate = cb.and(cb.equal(root.get("deviceType"),
-                    DeviceType.valueOf(deviceType.trim())), queryPredicate);
+                    Device.DeviceType.valueOf(deviceType.trim())), queryPredicate);
         }
 
         return queryPredicate;

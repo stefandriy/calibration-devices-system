@@ -2,7 +2,6 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
-import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
@@ -11,7 +10,6 @@ import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
@@ -138,7 +136,7 @@ public class ProviderApplicationController {
     @RequestMapping(value = "devices", method = RequestMethod.GET)
     public List<DeviceLightDTO> getDevicesCorrespondingProvider(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        Set<DeviceType> providerDeviceTypes = organizationService.findDeviceTypesByOrganizationId(employeeUser.getOrganizationId());
+        Set<Device.DeviceType> providerDeviceTypes = organizationService.findDeviceTypesByOrganizationId(employeeUser.getOrganizationId());
         return deviceService.getAll().stream()
                 .filter(device -> providerDeviceTypes.contains(device.getDeviceType()))
                 .map(device -> new DeviceLightDTO(device.getId(), device.getDeviceName(), device.getDeviceType().name()))

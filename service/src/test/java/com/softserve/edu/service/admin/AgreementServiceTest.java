@@ -2,9 +2,7 @@ package com.softserve.edu.service.admin;
 
 import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.organization.Agreement;
-import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.service.tool.DeviceService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +35,7 @@ public class AgreementServiceTest {
        // Organization executor = organizationService.getOrganizationById(1L);
         String number = "A 123";
         Long deviceCount = 33L;
-        DeviceType deviceType = DeviceType.WATER;
+        Device.DeviceType deviceType = Device.DeviceType.WATER;
         Date date = new Date();
         Agreement newAgreement = agreementService.add(1L, 1L, number, deviceCount, date, deviceType);
 

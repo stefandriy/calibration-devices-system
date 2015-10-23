@@ -18,14 +18,14 @@
 
                     <div class="col-md-8">
                         <ui-select class="form-control" type="text" theme="select2"
-                                   ng-model="addCounterTypeFormData.name"
-                                  on-select="setDeviceId(addCounterTypeFormData.name)"
+                                   ng-model="addCounterTypeFormData.counterName"
+                                  on-select="setDeviceId(addCounterTypeFormData.counterName)"
                                    name="name" id="name" required>
                             <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
-                            <ui-select-choices repeat="name in names | filter: $select.search">
-                                <span ng-bind-html="name.designation"></span>
+                            <ui-select-choices repeat="counterName in names | filter: $select.search">
+                                <span ng-bind-html="counterName.designation"></span>
                             </ui-select-choices>
                         </ui-select>
 
@@ -42,7 +42,7 @@
                     </label>
 
                     <div class="col-md-8">
-                        <input id="symbol" name="deviceName" class="form-control"
+                        <input id="symbol" name="symbol" class="form-control"
                                type="text" ng-model="addCounterTypeFormData.symbol"
                                ng-pattern=""
                                popover="{{'ALPHABETIC_INFO' | translate}}"
@@ -199,7 +199,7 @@
                 <button type="submit" class="btn btn-success">
                     {{'ADD' | translate}}
                 </button>
-                <button type="reset" class="btn btn-warning" ng-click="resetaddCounterTypeForm()">
+                <button type="reset" class="btn btn-warning" ng-click="resetAddCounterTypeForm()">
                     {{'CLEAR_FORM' | translate }}
                 </button>
             </div>

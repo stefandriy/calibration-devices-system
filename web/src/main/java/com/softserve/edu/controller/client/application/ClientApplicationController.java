@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
@@ -152,7 +151,7 @@ public class ClientApplicationController {
      */
     @RequestMapping(value = "providers/{localityId}/{deviceType}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getProvidersCorrespondingLocalityAndType(@PathVariable Long localityId, @PathVariable String deviceType) {
-        return organizationService.findByLocalityIdAndTypeAndDevice(localityId, OrganizationType.PROVIDER, DeviceType.valueOf(deviceType))
+        return organizationService.findByLocalityIdAndTypeAndDevice(localityId, OrganizationType.PROVIDER, Device.DeviceType.valueOf(deviceType))
                 .stream().map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
                 .collect(Collectors.toList());
     }
