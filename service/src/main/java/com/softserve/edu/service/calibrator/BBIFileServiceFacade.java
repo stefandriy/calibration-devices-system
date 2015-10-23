@@ -11,9 +11,10 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface BBIFileServiceFacade {
-    DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID) throws IOException;
-    DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID) throws IOException;
+    DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException;
+    DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException;
     DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException;
+
     Map<Boolean, String> parseAndSaveArchiveOfBBIfiles(MultipartFile archiveStream, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException;
     Map<Boolean, String> parseAndSaveArchiveOfBBIfiles(File archive, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException;
     Map<Boolean, String> parseAndSaveArchiveOfBBIfiles(InputStream archiveStream, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException;

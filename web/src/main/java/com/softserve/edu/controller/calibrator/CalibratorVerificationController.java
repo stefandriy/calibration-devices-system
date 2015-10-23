@@ -256,8 +256,8 @@ public class CalibratorVerificationController {
             String originalFileFullName = file.getOriginalFilename();
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-
-                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, idVerification);
+                String originalFileName = file.getOriginalFilename();
+                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, idVerification, originalFileName);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
             } else {
                 logger.error("Failed to load file: pattern does not match.");

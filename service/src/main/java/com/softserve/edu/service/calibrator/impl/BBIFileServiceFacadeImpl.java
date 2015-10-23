@@ -31,17 +31,17 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     private CalibratorService calibratorService;
 
     @Override
-    public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID) throws IOException {
+    public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException {
         DeviceTestData deviceTestData;
         try(InputStream inputStream = FileUtils.openInputStream(BBIfile)){
-            deviceTestData = parseAndSaveBBIFile(inputStream, verificationID, BBIfile.getName());
+            deviceTestData = parseAndSaveBBIFile(inputStream, verificationID, originalFileName);
         }
         return deviceTestData;
     }
 
     @Override
-    public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID) throws IOException {
-        DeviceTestData deviceTestData = parseAndSaveBBIFile(BBIfile.getInputStream(), verificationID, BBIfile.getName());
+    public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException {
+        DeviceTestData deviceTestData = parseAndSaveBBIFile(BBIfile.getInputStream(), verificationID, originalFileName);
         return deviceTestData;
     }
 
@@ -78,7 +78,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             String correspondingVerification = bbiFileNamesToVerificationMap.getOrDefault(bbiFile.getName(), null);
             if (correspondingVerification != null) {
                 try {
-                    parseAndSaveBBIFile(bbiFile, correspondingVerification);
+                    parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
                 } catch (IOException e) {
                     resultsOfBBIProcessing.put(false, bbiFile.getName());
                 }
@@ -114,8 +114,8 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT FileNumber, Id_pc FROM Results");
             while (rs.next()) {
-                String verificationID = rs.getString("Id_pc");
                 String fileNumber = rs.getString("FileNumber");
+                String verificationID = rs.getString("Id_pc");
                 bbiFilesToVerification.put(fileNumber, verificationID);
             }
         }
