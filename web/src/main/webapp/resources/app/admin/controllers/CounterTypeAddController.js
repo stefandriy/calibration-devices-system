@@ -11,6 +11,8 @@ angular
         'CounterTypeService',
         function ($rootScope, $scope, $translate, devices, $modalInstance,
                   counterTypeService) {
+
+            $scope.addCounterTypeFormData = {};
             $scope.names = devices.data;
             $scope.standardSizes = ['DN 10','DN 15','DN 20','DN 25','DN 32',
                                     'DN 40','DN 50','DN 65','DN 80','DN 100',
