@@ -250,7 +250,6 @@
         'calibrator/controllers/UploadBbiFileController',
         'calibrator/controllers/UploadArchiveController',
         'calibrator/controllers/UploadPhotoController',
-        'calibrator/controllers/CancelBbiProtocolCalibrator',
         'calibrator/controllers/UsersControllerCalibrator',
         'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',

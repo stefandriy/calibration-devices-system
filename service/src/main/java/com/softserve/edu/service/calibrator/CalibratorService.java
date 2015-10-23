@@ -22,8 +22,6 @@ public interface CalibratorService {
 
     String findBbiFileByOrganizationId(String id);
 
-    void deleteBbiFile(String idVerification);
-
     User oneCalibratorEmployee(String username);
 
     List<EmployeeDTO> getAllCalibratorEmployee(List<String> role, User employee);

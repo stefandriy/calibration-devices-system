@@ -17,7 +17,7 @@ public class BbiProtocol {
 
     private String filePath;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "verificationId")
     private Verification verification;
 

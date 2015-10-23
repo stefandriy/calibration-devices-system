@@ -71,7 +71,9 @@ public class CalibratorServiceImpl implements CalibratorService {
         String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
         Verification verification = verificationRepository.findOne(idVerification);
         BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
-        verification.setBbiProtocol(bbiProtocol);
+        Set<BbiProtocol> bbiProtocolsOfVerification = verification.getBbiProtocols();
+        bbiProtocolsOfVerification.add(bbiProtocol);
+        verification.setBbiProtocols(bbiProtocolsOfVerification);
         verificationRepository.save(verification);
         System.out.println("saved verification");
         uploadBbiRepository.save(bbiProtocol);
@@ -82,16 +84,6 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Transactional(readOnly = true)
     public String findBbiFileByOrganizationId(String id) {
         return uploadBbiRepository.findFileNameByVerificationId(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteBbiFile(String idVerification) {
-        Verification verification = verificationRepository.findOne(idVerification);
-        BbiProtocol bbiProtocol = uploadBbiRepository.findByVerification(verification);
-        verification.setBbiProtocol(null);
-        verificationRepository.save(verification);
-        uploadBbiRepository.delete(bbiProtocol);
     }
 
     @Override

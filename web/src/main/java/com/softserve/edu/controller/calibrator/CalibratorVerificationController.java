@@ -402,24 +402,6 @@ public class CalibratorVerificationController {
     }
 
     /**
-     * Current method deletes file
-     *
-     * @param idVerification
-     * @return status of deletion
-     */
-    @RequestMapping(value = "deleteBbiprotocol", method = RequestMethod.PUT)
-    public ResponseEntity deleteBbiprotocol(@RequestParam String idVerification) {
-        HttpStatus httpStatus = HttpStatus.OK;
-        try {
-            calibratorService.deleteBbiFile(idVerification);
-        } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
-            httpStatus = HttpStatus.CONFLICT;
-        }
-        return new ResponseEntity<>(httpStatus);
-    }
-
-    /**
      * Check if current user is Employee
      *
      * @param user
