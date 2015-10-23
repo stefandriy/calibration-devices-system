@@ -21,6 +21,7 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
 
     /**
      * Find organization types by organization id
+     *
      * @param organizationId
      * @return
      */
@@ -29,6 +30,7 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
 
     /**
      * Find all device types by organization id
+     *
      * @param organizationId
      * @return
      */
@@ -37,6 +39,7 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
 
     /**
      * FInd all organizations in selected location by
+     *
      * @param localityId
      * @return
      */
@@ -69,21 +72,21 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     /**
      * Find all organizations in selected locality, organization type and device type
      *
-     * @param localityId  id of locality
-     * @param orgType  type of organization
-     * @param deviceType  device type
+     * @param localityId id of locality
+     * @param orgType    type of organization
+     * @param deviceType device type
      * @return list of organizations
      */
     @Query("SELECT org FROM Organization org " +
             "INNER JOIN org.localities l " +
             "WHERE l.id=:localityId AND  :orgType in elements(org.organizationTypes) AND :deviceType in elements(org.deviceTypes)")
     List<Organization> findByLocalityIdAndTypeAndDevice(@Param("localityId") Long localityId,
-                                                        @Param("orgType") OrganizationType orgType, @Param("deviceType") Device.DeviceType deviceType );
-
+                                                        @Param("orgType") OrganizationType orgType, @Param("deviceType") Device.DeviceType deviceType);
 
 
     /**
      * Find all localities by organization id
+     *
      * @param organizationId
      * @return
      */
@@ -92,4 +95,17 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
             "WHERE org.id=:organizationId")
     List<LocalityDTO> findLocalitiesByOrganizationId(@Param("organizationId") Long organizationId);
 
+    /**
+     * Find organizations by organization id and
+     * @param customerId
+     * @param orgType
+     * @param deviceType
+     * @return
+     */
+    @Query("SELECT E FROM Organization O INNER JOIN O.agreements A " +
+            "INNER JOIN A.executor E " +
+            "WHERE O.id =:customerId AND A.deviceType =:deviceType AND A.isAvailable = true AND  :orgType in elements(E.organizationTypes)")
+    Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType(@Param("customerId") Long customerId,
+                                                           @Param("orgType") OrganizationType orgType,
+                                                           @Param("deviceType") Device.DeviceType deviceType);
 }

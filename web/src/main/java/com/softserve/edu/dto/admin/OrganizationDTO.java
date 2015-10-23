@@ -3,213 +3,217 @@ package com.softserve.edu.dto.admin;
 import java.util.List;
 
 public class OrganizationDTO {
-	private Long id;
-	private String name;
-	private String email;
-	private String phone;
-	private List<String> types;
-	private List<String> counters;
-	private Integer employeesCapacity;
-	private Integer maxProcessTime;
+    private Long id;
+    private String name;
+    private String email;
+    private String phone;
+    private List<String> types;
+    private List<String> counters;
+    private Integer employeesCapacity;
+    private Integer maxProcessTime;
 
-	private String firstName;
-	private String lastName;
-	private String middleName;
-	private String username;
-	private String password;
-	private String rePassword;
+    private String firstName;
+    private String lastName;
+    private String middleName;
+    private String username;
+    private String password;
+    private String rePassword;
 
-	private String region;
-	private String locality;
-	private String district;
-	private String street;
-	private String building;
-	private String flat;
+    private String region;
+    private String locality;
+    private String district;
+    private String street;
+    private String building;
+    private String flat;
 
-	//todo change to list
+    //todo change to list
     private Long[] serviceAreas;
 
-	public OrganizationDTO() {
-	}
+    public OrganizationDTO() {
+    }
 
 
-	public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
-		this.id =id;
-		this.email = email;
-		this.name = name;
-		this.phone = phone;
-		this.types = types;
-		this.counters = counters;
-		this.employeesCapacity = employeesCapacity;
-		this.maxProcessTime = maxProcessTime;
-		this.region = region;
-		this.locality = locality;
-		this.district = district;
-		this.street = street;
-		this.building = building;
-		this.flat = flat;
-	}
+    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
+        this.id = id;
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+        this.types = types;
+        this.counters = counters;
+        this.employeesCapacity = employeesCapacity;
+        this.maxProcessTime = maxProcessTime;
+        this.region = region;
+        this.locality = locality;
+        this.district = district;
+        this.street = street;
+        this.building = building;
+        this.flat = flat;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public OrganizationDTO(Long id, String name) {
+        this(id, name, null, null, null, null, null, null, null, null, null, null, null, null);
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    }
 
-	public String getName() {
-		return name;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public List<String> getTypes() {
-		return types;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setTypes(List<String> types) {
-		this.types = types;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public List<String> getCounters() {
-		return counters;
-	}
+    public List<String> getTypes() {
+        return types;
+    }
 
-	public void setCounters(List<String> counters) {
-		this.counters = counters;
-	}
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
 
-	public Integer getEmployeesCapacity() {
-		return employeesCapacity;
-	}
+    public List<String> getCounters() {
+        return counters;
+    }
 
-	public void setEmployeesCapacity(Integer employeesCapacity) {
-		this.employeesCapacity = employeesCapacity;
-	}
+    public void setCounters(List<String> counters) {
+        this.counters = counters;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public Integer getEmployeesCapacity() {
+        return employeesCapacity;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setEmployeesCapacity(Integer employeesCapacity) {
+        this.employeesCapacity = employeesCapacity;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public String getMiddleName() {
-		return middleName;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getMiddleName() {
+        return middleName;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public String getRePassword() {
-		return rePassword;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setRePassword(String rePassword) {
-		this.rePassword = rePassword;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public String getRegion() {
-		return region;
-	}
+    public String getRePassword() {
+        return rePassword;
+    }
 
-	public void setRegion(String region) {
-		this.region = region;
-	}
+    public void setRePassword(String rePassword) {
+        this.rePassword = rePassword;
+    }
 
-	public String getLocality() {
-		return locality;
-	}
+    public String getRegion() {
+        return region;
+    }
 
-	public void setLocality(String locality) {
-		this.locality = locality;
-	}
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
-	public String getDistrict() {
-		return district;
-	}
+    public String getLocality() {
+        return locality;
+    }
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
 
-	public String getStreet() {
-		return street;
-	}
+    public String getDistrict() {
+        return district;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public void setDistrict(String district) {
+        this.district = district;
+    }
 
-	public String getBuilding() {
-		return building;
-	}
+    public String getStreet() {
+        return street;
+    }
 
-	public void setBuilding(String building) {
-		this.building = building;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	public String getFlat() {
-		return flat;
-	}
+    public String getBuilding() {
+        return building;
+    }
 
-	public void setFlat(String flat) {
-		this.flat = flat;
-	}
-	
-	public Integer getMaxProcessTime() {
-		return maxProcessTime;
-	}
+    public void setBuilding(String building) {
+        this.building = building;
+    }
 
-	public void setMaxProcessTime(Integer maxProcessTime) {
-		this.maxProcessTime = maxProcessTime;
-	}
+    public String getFlat() {
+        return flat;
+    }
 
+    public void setFlat(String flat) {
+        this.flat = flat;
+    }
+
+    public Integer getMaxProcessTime() {
+        return maxProcessTime;
+    }
+
+    public void setMaxProcessTime(Integer maxProcessTime) {
+        this.maxProcessTime = maxProcessTime;
+    }
 
 
     /**
@@ -234,6 +238,7 @@ public class OrganizationDTO {
         this(id, email, name, phone, types, counters, employeesCapacity, maxProcessTime, region, locality, district, street, building, flat);
         this.serviceAreas = serviceAreas;
     }
+
 
     public Long[] getServiceAreas() {
         return serviceAreas;
