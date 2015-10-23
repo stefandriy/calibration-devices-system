@@ -13,6 +13,7 @@ angular
             devices: function() { return getData('device-category'); },
             countertypes: function() {return getData('counters-type'); },
             verifications: function() { return getData('verifications'); },
-            employee: function() { return getData('employee'); }
+            employee: function() { return getData('employee'); },
+            sysAdmins: function() { return getData('sys_admins'); }
         }
     });
