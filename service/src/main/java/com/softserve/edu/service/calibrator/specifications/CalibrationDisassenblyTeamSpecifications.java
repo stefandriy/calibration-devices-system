@@ -1,7 +1,7 @@
 package com.softserve.edu.service.calibrator.specifications;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Date;
@@ -43,7 +43,7 @@ public class CalibrationDisassenblyTeamSpecifications {
      * @param disassemblyTeamType
      * @return query, for searching
      */
-    public static Specification<DisassemblyTeam> disassemblyTeamHasType(DeviceType disassemblyTeamType){
+    public static Specification<DisassemblyTeam> disassemblyTeamHasType(Device.DeviceType disassemblyTeamType){
         return (root, criteriaQuery, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get("specialization"), disassemblyTeamType);
     }

@@ -2,7 +2,7 @@ package com.softserve.edu.dto.calibrator;
 
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class CalibrationDisassemblyTeamDTO {
     private String id;
     private String name;
     private Date effectiveTo;
-    private DeviceType specialization;
+    private Device.DeviceType specialization;
     private String leaderFullName;
     private String leaderPhone;
     private String leaderEmail;

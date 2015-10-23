@@ -1,7 +1,6 @@
 package com.softserve.edu.entity.organization;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
@@ -10,15 +9,9 @@ import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
-
 import lombok.*;
-import org.hibernate.annotations.*;
-
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

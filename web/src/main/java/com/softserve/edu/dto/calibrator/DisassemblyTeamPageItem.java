@@ -1,6 +1,6 @@
 package com.softserve.edu.dto.calibrator;
 
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,12 +17,12 @@ public class DisassemblyTeamPageItem {
     private String id;
     private String name;
     private Date effectiveTo;
-    private DeviceType specialization;
+    private Device.DeviceType specialization;
     private String leaderFullName;
     private String leaderPhone;
     private String leaderEmail;
 
-    public DisassemblyTeamPageItem(String id, String name, Date effectiveTo, DeviceType specialization, String leaderFullName,
+    public DisassemblyTeamPageItem(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
                            String leaderPhone, String leaderEmail) {
         this.id = id;
         this.name = name;

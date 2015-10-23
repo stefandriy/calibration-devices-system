@@ -1,7 +1,7 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.repository.CalibrationDisassemblyTeamRepository;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
 import com.softserve.edu.service.exceptions.DuplicateRecordException;
@@ -53,7 +53,7 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
 
     @Override
     @Transactional
-    public void editDisassemblyTeam(String id, String name, Date effectiveTo, DeviceType specialization,
+    public void editDisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization,
                                     String leaderFullName, String leaderPhone, String leaderEmail) {
         DisassemblyTeam team = teamRepository.findOne(id);
         team.setName(name);

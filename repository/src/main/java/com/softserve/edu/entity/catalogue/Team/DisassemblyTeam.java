@@ -1,6 +1,7 @@
 package com.softserve.edu.entity.catalogue.Team;
 
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import lombok.*;
 
@@ -28,7 +29,7 @@ public class DisassemblyTeam {
     private Date effectiveTo;
 
     @Enumerated(EnumType.STRING)
-    private DeviceType specialization;
+    private Device.DeviceType specialization;
 
     private String leaderFullName;
 
@@ -40,7 +41,7 @@ public class DisassemblyTeam {
     @JoinColumn(name = "calibratorId")
     private Organization organization;
 
-    public DisassemblyTeam(String id, String name, Date effectiveTo, DeviceType specialization, String leaderFullName,
+    public DisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
                            String leaderPhone, String leaderEmail) {
         this.id = id;
         this.name = name;

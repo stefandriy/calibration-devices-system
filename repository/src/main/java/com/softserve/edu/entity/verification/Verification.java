@@ -30,7 +30,6 @@ public class Verification {
 
     @Setter(AccessLevel.PRIVATE)
     @Id
-    @Setter(AccessLevel.PRIVATE)
     private String id;
 
     @Enumerated(EnumType.STRING)
