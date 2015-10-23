@@ -38,7 +38,7 @@ public class VerificationPageDTOTransformer {
                             verification.getClientData().getClientAddress().getDistrict(),
                             verification.getClientData().getClientAddress().getLocality(),
                             verification.getClientData().getPhone(),
-                            verification.getBbiProtocol()==null?false:true,
+                            verification.getBbiProtocols()==null?false:true,
                             verification.getProcessTimeExceeding(),
                             calibrationTest,
                             verification.getDevice(),

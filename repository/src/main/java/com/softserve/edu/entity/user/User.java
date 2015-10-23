@@ -19,6 +19,7 @@ import java.util.Set;
 public class User {
 
     @Id
+    @Column(unique = true)
     @Setter(AccessLevel.PRIVATE)
     private String username;
 

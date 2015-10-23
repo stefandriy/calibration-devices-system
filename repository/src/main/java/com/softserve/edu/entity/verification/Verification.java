@@ -7,7 +7,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
-import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import lombok.*;
 
@@ -89,11 +89,12 @@ public class Verification {
     private String comment;
 
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ,mappedBy = "verification")
-    private BbiProtocol bbiProtocol;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL ,mappedBy = "verification")
+    private Set<BbiProtocol> bbiProtocols;
 
-    @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
-    private CalibrationPlanningTask task;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "taskId")
+    private CalibrationTask task;
 
     @Column(columnDefinition = "boolean default false")
     private boolean isAddInfoExists;

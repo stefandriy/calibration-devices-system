@@ -1,23 +1,31 @@
 package com.softserve.edu.entity.device;
 
 import com.softserve.edu.entity.organization.Organization;
+
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import lombok.*;
+
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "CALIBRATION_MODULE")
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 @NoArgsConstructor
 public class CalibrationModule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Setter(AccessLevel.PRIVATE)
-    private Long id;
+    private Long moduleId;
 
     @Enumerated(EnumType.STRING)
     private Device.DeviceType deviceType;
@@ -43,11 +51,14 @@ public class CalibrationModule {
     @Temporal(TemporalType.DATE)
     private Date workDate;
 
+    @OneToMany(mappedBy = "module")
+    private Set<CalibrationTask> tasks;
+
 
     public CalibrationModule(Long id, Device.DeviceType deviceType, String organizationCode, String condDesignation, String serialNumber,
                              String employeeFullName, String telephone, String moduleType, String email, Organization calibrator, Date workDate){
         super();
-        this.id = id;
+        this.moduleId = id;
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
         this.condDesignation = condDesignation;

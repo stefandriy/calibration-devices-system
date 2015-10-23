@@ -9,4 +9,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  */
 public interface CalibrationModuleRepository extends PagingAndSortingRepository<CalibrationModule, Long>, JpaSpecificationExecutor {
 
+    CalibrationModule findCalibrationModuleBySerialNumber(String serialNumber);
+
 }

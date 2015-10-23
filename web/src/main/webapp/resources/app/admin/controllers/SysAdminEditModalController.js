@@ -1,10 +1,9 @@
 angular
     .module('adminModule')
-    .controller('SysAdminEditModalController', ['$scope', 'UsersService', '$modal', '$log', '$timeout', '$filter','$rootScope',
+    .controller('SysAdminEditModalController', ['$rootScope', '$scope', '$filter', '$modal', '$modalInstance', '$log', '$timeout', 'UsersService',
         'AddressService',
         'toaster','regions',
-        function ($scope, userService, $modal, $log,  $timeout, $filter, $rootScope, toaster, addressService, regions) {
-
+        function ( $rootScope, $scope, $filter, $modal, $modalInstance, $log, $timeout, userService, addressService, toaster, regions) {
             $scope.regions = regions;
             $scope.districts = [];
             $scope.localities = [];
@@ -147,6 +146,25 @@ angular
                 };
 
 
+                /**
+                 * Resets organization form
+                 */
+                $scope.resetSysAdminForm = function () {
+                    $scope.$broadcast('show-errors-reset');
+                    $rootScope.sysAdmin = null;
+                };
+
+
+                /**
+                 * Change password
+                 */
+                $scope.changePassword = function () {
+                    //$scope.preventDefault();
+                    $scope.password = 'generate';
+                    $scope.generationMessage = true;
+                }
+
+
                 function addressFormToSysAdminForm() {
                     if (typeof $rootScope.sysAdmin.region == 'object') {
                         $rootScope.sysAdmin.region = $rootScope.sysAdmin.region.designation;
@@ -165,23 +183,31 @@ angular
                     }
                 }
 
+                $scope.closeModal = function () {
+                    $rootScope.onTableHandling();
+                    $modalInstance.close();
+                };
 
-                $scope.editsysAdmin = function () {
+
+                $scope.editSysAdmin = function () {
                     $scope.$broadcast('show-errors-check-validity');
                     addressFormToSysAdminForm();
-                    var sysAdminForm = {
-                        name: $rootScope.sysAdmin.name,
-                        email: $rootScope.sysAdmin.email,
-                        phone: $rootScope.sysAdmin.phone,
+                    var address = {
                         region: $scope.selectedValues.selectedRegion.designation,
                         locality: $scope.selectedValues.selectedLocality.designation,
                         district: $scope.selectedValues.selectedDistrict.designation,
                         street: $scope.selectedValues.selectedStreet.designation || $scope.selectedValues.selectedStreet,
                         building: $rootScope.sysAdmin.building,
-                        flat: $rootScope.sysAdmin.flat,
-                        firstName: $scope.adminsFirstName,
-                        lastName: $scope.adminsLastName,
-                        middleName: $scope.adminsMiddleName,
+                        flat: $rootScope.sysAdmin.flat
+                    }
+                    var sysAdminForm = {
+                        name: $rootScope.sysAdmin.name,
+                        email: $rootScope.sysAdmin.email,
+                        phone: $rootScope.sysAdmin.phone,
+                        address : address,
+                        firstName: $rootScope.sysAdmin.firstName,
+                        lastName: $rootScope.sysAdmin.lastName,
+                        middleName: $rootScope.sysAdmin.middleName,
                         password: $scope.password
                     };
 
@@ -190,14 +216,14 @@ angular
                 };
 
 
-                function saveSysAdmin() {
-                    sysAdminService.editsysAdmin(
+                function saveSysAdmin(sysAdminForm) {
+                    userService.editSysAdmin(
                         sysAdminForm,
-                        $rootScope.sysAdminId).then(
+                        $rootScope.sysAdmin.username).then(
                         function (data) {
                             if (data == 200) {
                                 $scope.closeModal();
-                                $scope.resetsysAdminForm();
+                                $scope.resetSysAdminForm();
                                 console.log(data);
                                 $rootScope.onTableHandling();
                             }
@@ -208,6 +234,14 @@ angular
                 $scope.popNotification = function (title, text) {
                     toaster.pop('success', title, text);
                 };
+
+                $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
+                $scope.EMAIL_REGEX = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                $scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20})$/;
+                $scope.MIDDLE_NAME_REGEX = /^[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}$/;
+                $scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
+                $scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
+                $scope.FLAT_REGEX = /^([1-9]{1}[0-9]{0,3}|0)$/;
 
             }
         }]);

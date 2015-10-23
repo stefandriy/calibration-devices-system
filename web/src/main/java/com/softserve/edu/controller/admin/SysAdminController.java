@@ -53,20 +53,26 @@ public class SysAdminController {
      */
     private List<SysAdminDTO> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
         List<SysAdminDTO> resultList = new ArrayList<>();
-        for (User employee : queryResult.getContent()) {
+        for (User sysAdmin : queryResult.getContent()) {
 
-            List<String> userRoles = userService.getRoles(employee.getUsername())
-                    .stream()
-                    .distinct()
-                    .collect(Collectors.toList());
+//            List<String> userRoles = userService.getRoles(employee.getUsername())
+//                    .stream()
+//                    .distinct()
+//                    .collect(Collectors.toList());
 
             resultList.add(new SysAdminDTO(
-                            employee.getUsername(),
-                            employee.getFirstName(),
-                            employee.getLastName(),
-                            employee.getMiddleName(),
-                            employee.getEmail(),
-                            employee.getPhone())
+                            sysAdmin.getUsername(),
+                            sysAdmin.getFirstName(),
+                            sysAdmin.getLastName(),
+                            sysAdmin.getMiddleName(),
+                            sysAdmin.getEmail(),
+                            sysAdmin.getPhone(),
+                            sysAdmin.getAddress().getRegion(),
+                            sysAdmin.getAddress().getDistrict(),
+                            sysAdmin.getAddress().getLocality(),
+                            sysAdmin.getAddress().getStreet(),
+                            sysAdmin.getAddress().getBuilding(),
+                            sysAdmin.getAddress().getFlat())
             );
         }
         return resultList;
@@ -112,7 +118,14 @@ public class SysAdminController {
                 sysAdmin.getLastName(),
                 sysAdmin.getMiddleName(),
                 sysAdmin.getEmail(),
-                sysAdmin.getPhone());
+                sysAdmin.getPhone(),
+                sysAdmin.getAddress().getRegion(),
+                sysAdmin.getAddress().getDistrict(),
+                sysAdmin.getAddress().getLocality(),
+                sysAdmin.getAddress().getStreet(),
+                sysAdmin.getAddress().getBuilding(),
+                sysAdmin.getAddress().getFlat()
+        );
         return SysAdminDTO;
     }
 

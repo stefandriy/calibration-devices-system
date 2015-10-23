@@ -1,6 +1,6 @@
 package com.softserve.edu.controller.admin;
 
-import com.softserve.edu.controller.admin.util.OrganizationHistoryPageDTOTransformer;
+import com.softserve.edu.controller.admin.util.OrganizationEditPageDTOTransformer;
 import com.softserve.edu.controller.admin.util.OrganizationPageDTOTransformer;
 import com.softserve.edu.dto.NewOrganizationFilterSearch;
 import com.softserve.edu.dto.PageDTO;
@@ -13,7 +13,7 @@ import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.organization.OrganizationChangesHistory;
+import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.catalogue.RegionService;
@@ -266,9 +266,9 @@ public class OrganizationController {
     @RequestMapping(value = "edit/history/{organizationId}")
     public PageDTO<OrganizationEditHistoryPageDTO> getEditHistory(@PathVariable("organizationId") Long organizationId) {
 
-        List<OrganizationChangesHistory> organizationChangesHistoryList = organizationService.getHistoryByOrganizationId(organizationId);
+        List<OrganizationEditHistory> organizationEditHistoryList = organizationService.getHistoryByOrganizationId(organizationId);
 
-        return new PageDTO<>(OrganizationHistoryPageDTOTransformer.toDtoFromList(organizationChangesHistoryList));
+        return new PageDTO<>(OrganizationEditPageDTOTransformer.toDtoFromList(organizationEditHistoryList));
     }
 
     @RequestMapping(value = "serviceArea/localities/{organizationId}", method = RequestMethod.GET)

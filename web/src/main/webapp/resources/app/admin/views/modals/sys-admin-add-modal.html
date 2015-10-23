@@ -5,8 +5,8 @@
 
 <div class="modal-body">
 
-    <form name="employeeForm" novalidate ng-submit="!employeeForm.phone.$error.pattern && !employeeForm.rePassword.$error.required
-    && !employeeForm.password.$error.required && onEmployeeFormSubmit()&&!employeeForm.username.$error.required&&!employeeForm.lastName.$error.required">
+    <form name="sysAdminForm" novalidate ng-submit="!sysAdminForm.phone.$error.pattern && !sysAdminForm.rePassword.$error.required
+    && !sysAdminForm.password.$error.required && onSysAdminFormSubmit()&&!sysAdminForm.username.$error.required&&!sysAdminForm.lastName.$error.required">
 
         <div class="panel panel-primary">
             <div class="panel-heading">{{'GENERAL_INFORMATION' | translate }}</div>
@@ -18,16 +18,16 @@
                     </div>
                     <div class="form-group col-md-8" show-errors>
                         <input id="lastName" name="lastName" class="form-control"
-                               type="text" ng-model="employeeFormData.lastName"
+                               type="text" ng-model="sysAdminFormData.lastName"
                                ng-change="checkField('lastName')"
                                ng-pattern="FIRST_LAST_NAME_REGEX" required>
-                        <div ng-show="employeeForm.$submitted || employeeForm.lastName.$touched">
-                            <p class="validation-message" ng-if="employeeForm.lastName.$error.required">
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.lastName.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.lastName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
                             </p>
 
-                            <p class="validation-message" ng-if="employeeForm.lastName.$error.pattern">
+                            <p class="validation-message" ng-if="sysAdminForm.lastName.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
                             </p>
@@ -39,18 +39,18 @@
                     </div>
                     <!--ng-change="checkField('firstName')" -->
                     <div class="form-group col-md-8" ng-class="firstNameValidation.css" show-errors>
-                        <input type="text" ng-model="employeeFormData.firstName"
+                        <input type="text" ng-model="sysAdminFormData.firstName"
                                ng-change="checkField('firstName')"
                                id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
                                name="firstName" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.firstName.$touched">
-                            <p class="validation-message" ng-if="employeeForm.firstName.$error.required">
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.firstName.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.firstName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign "></span>
                                 {{'REQUIRED' | translate}}
                             </p>
 
-                            <p class="validation-message" ng-if="employeeForm.firstName.$error.pattern">
+                            <p class="validation-message" ng-if="sysAdminForm.firstName.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE' | translate }}
                             </p>
@@ -61,19 +61,19 @@
                         <label class="control-label">{{'MIDDLE_NAME' | translate }}*</label>
                     </div>
                     <div class="form-group col-md-8" ng-class="middleNameValidation.css" show-errors>
-                        <input type="text" ng-model="employeeFormData.middleName"
+                        <input type="text" ng-model="sysAdminFormData.middleName"
                                ng-pattern="MIDDLE_NAME_REGEX"
                                ng-change="checkField('middleName')"
                                id="middleName" name="middleName" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.middleName.$touched">
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.middleName.$touched">
 
-                            <p class="validation-message" ng-if="employeeForm.middleName.$error.required">
+                            <p class="validation-message" ng-if="sysAdminForm.middleName.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
                             </p>
 
-                            <p class="validation-message" ng-if="employeeForm.middleName.$error.pattern">
+                            <p class="validation-message" ng-if="sysAdminForm.middleName.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'INCORRECT_VALUE_MIDDLE_NAME_ADD_EMPLOYEE' | translate }}
                             </p>
@@ -86,12 +86,12 @@
                     <div class="form-group col-md-8 " ng-class="phoneNumberValidation.css" show-errors>
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon-code">+380</span> <input
-                                type="text" ng-model="employeeFormData.phone"
+                                type="text" ng-model="sysAdminFormData.phone"
                                 ng-pattern="PHONE_REGEX" placeholder="XXXXXXXXX"
                                 id="phone" name="phone" class="form-control">
                         </div>
-                        <div ng-show="employeeForm.$submitted || employeeForm.phone.$touched">
-                            <p class="validation-message" ng-if="employeeForm.phone.$error.pattern">
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.phone.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.phone.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'INCORRECT_VALUE_PHONE_ADD_EMPLOYEE' | translate }}
                             </p>
@@ -102,18 +102,18 @@
                         <label class="control-label">{{'EMAIL' | translate }}*</label>
                     </div>
                     <div class="form-group col-md-8" ng-class="emailValidation.css" show-errors>
-                        <input type="text" ng-model="employeeFormData.email"
+                        <input type="text" ng-model="sysAdminFormData.email"
                                ng-pattern="EMAIL_REGEX"
                                ng-change="checkField('email')"
                                id="email" name="email" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.email.$touched">
-                            <p class="validation-message" ng-if="employeeForm.email.$error.required">
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.email.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.email.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
                             </p>
 
-                            <p class="validation-message" ng-if="employeeForm.email.$error.pattern">
+                            <p class="validation-message" ng-if="sysAdminForm.email.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}
                             </p>
@@ -132,22 +132,22 @@
                         <label class="control-label">{{'LOGIN_TWO' | translate }}*</label>
                     </div>
                     <div class="form-group col-md-8" ng-class="usernameValidation.css">
-                        <input type="text" ng-model="employeeFormData.username"
+                        <input type="text" ng-model="sysAdminFormData.username"
                                ng-change="checkField('login')"
                                popover="{{'USERNAME_INFO' | translate}}"
                                popover-trigger="focus" popover-placement="right"
                                ng-model-options="{debounce: 350}"
                                id="username" name="username" class="form-control" required>
 
-                        <div ng-show="employeeForm.$submitted || employeeForm.username.$touched">
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.username.$touched">
                             <p class="validation-message" ng-if="!usernameValidation.isValid">
                                 {{usernameValidation.message }}
                             </p>
-                            <p class="validation-message" ng-if="employeeForm.username.$error.required">
+                            <p class="validation-message" ng-if="sysAdminForm.username.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
                             </p>
-                            <!--<p class="validation-message" ng-if="employeeForm.username.$error.pattern">-->
+                            <!--<p class="validation-message" ng-if="sysAdminForm.username.$error.pattern">-->
                             <!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
                             <!--{{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}-->
                             <!--</p>-->
@@ -163,22 +163,22 @@
                     <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
                         <div class="form-group" show-errors>
                             <input type="password" name="password" class="form-control hidden">
-                            <input type="password" ng-model="employeeFormData.password"
+                            <input type="password" ng-model="sysAdminFormData.password"
                                    ng-pattern="PASSWORD_REGEX" name="password" class="form-control"
                                    required>
                             <p class="help-block"
-                               ng-if="employeeForm.password.$error.pattern">
+                               ng-if="sysAdminForm.password.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'PASSWORD_TOO_SHORT' | translate }}
                             </p>
                     </div>
-                        <div ng-show="employeeForm.$submitted || employeeForm.Password.$touched">
-                            <p class="validation-message" ng-if="employeeForm.Password.$error.required">
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.Password.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.Password.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
                             </p>
                             <p class="help-block"
-                               ng-if="employeeForm.password.$error.pattern">
+                               ng-if="sysAdminForm.password.$error.pattern">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'PASSWORD_TOO_SHORT' | translate }}
                             </p>
@@ -188,12 +188,12 @@
                         <label class="control-label">{{'REPEAT_PASSWORD' | translate}}*</label>
                     </div>
                     <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
-                        <input type="password" ng-model="employeeFormData.rePassword"
+                        <input type="password" ng-model="sysAdminFormData.rePassword"
                                ng-change="checkPasswords()"
                                name="rePassword" class="form-control"
                                required>
-                        <div ng-show="employeeForm.$submitted || employeeForm.rePassword.$touched">
-                            <p class="validation-message" ng-if="employeeForm.rePassword.$error.required">
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.rePassword.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.rePassword.$error.required">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'REQUIRED' | translate}}
                             </p>
@@ -221,8 +221,8 @@
                                 </div>
                                 <div class="form-group col-md-8" show-errors>
                                     <ui-select class="form-control" type="text" theme="select2"
-                                               ng-model="employeeFormData.region"
-                                               on-select="receiveDistricts(employeeFormData.region)"
+                                               ng-model="sysAdminFormData.region"
+                                               on-select="receiveDistricts(sysAdminFormData.region)"
                                                name="region" id="region" required>
                                         <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
@@ -231,7 +231,7 @@
                                             <span ng-bind-html="region.designation"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <p class="help-block"  ng-show="organizationForm.$submitted || employeeFormData.region.$touched">
+                                    <p class="help-block"  ng-show="organizationForm.$submitted || sysAdminFormData.region.$touched">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         {{'TYPEAHEAD_ERROR' | translate}}
                                     </p>
@@ -245,9 +245,9 @@
                                 </div>
                                 <div class="form-group col-md-8" show-errors>
                                     <ui-select class="form-control" type="text" theme="select2"
-                                               ng-model="employeeFormData.district"
-                                               on-select="receiveLocalities(employeeFormData.district)"
-                                               ng-disabled="!employeeFormData.region"
+                                               ng-model="sysAdminFormData.district"
+                                               on-select="receiveLocalities(sysAdminFormData.district)"
+                                               ng-disabled="!sysAdminFormData.region"
                                                name="district" id="district" required>
                                         <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
@@ -256,7 +256,7 @@
                                             <span ng-bind-html="district.designation"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <p class="help-block"  ng-show="organizationForm.$submitted || employeeFormData.district.$touched">
+                                    <p class="help-block"  ng-show="organizationForm.$submitted || sysAdminFormData.district.$touched">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         {{'TYPEAHEAD_ERROR' | translate}}
                                     </p>
@@ -271,9 +271,9 @@
                                 </div>
                                 <div class="form-group col-md-8" show-errors>
                                     <ui-select class="form-control" type="text" theme="select2"
-                                               ng-model="employeeFormData.locality"
-                                               ng-disabled="!employeeFormData.district"
-                                               on-select="receiveStreets(employeeFormData.locality)"
+                                               ng-model="sysAdminFormData.locality"
+                                               ng-disabled="!sysAdminFormData.district"
+                                               on-select="receiveStreets(sysAdminFormData.locality)"
                                                name="locality" id="locality" required>
                                         <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
@@ -282,7 +282,7 @@
                                             <span ng-bind-html="locality.designation"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <p class="help-block"  ng-show="organizationForm.$submitted || employeeFormData.locality.$touched">
+                                    <p class="help-block"  ng-show="organizationForm.$submitted || sysAdminFormData.locality.$touched">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         {{'TYPEAHEAD_ERROR' | translate}}
                                     </p>
@@ -296,12 +296,12 @@
                                 <div class="form-group col-md-8" show-errors>
                                     <input name="street" class="form-control"
                                            type="text" id="street"
-                                           ng-model="employeeFormData.street"
-                                           ng-disabled="!employeeFormData.locality"
+                                           ng-model="sysAdminFormData.street"
+                                           ng-disabled="!sysAdminFormData.locality"
                                            typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
                                            typeahead-editable="false" required>
-                                    <div ng-show="organizationFormData.$submitted || employeeFormData.street.$touched" >
-                                        <p class="help-block" ng-if="!employeeFormData.street.$error.required">
+                                    <div ng-show="organizationFormData.$submitted || sysAdminFormData.street.$touched" >
+                                        <p class="help-block" ng-if="!sysAdminFormData.street.$error.required">
                                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                                             {{'ORGANIZATION_INVALID_STREET'
                                             | translate }}
@@ -317,7 +317,7 @@
                                 </div>
                                 <div class="form-group col-md-8">
                                     <input name="building" type="text"
-                                           ng-model="employeeFormData.building"
+                                           ng-model="sysAdminFormData.building"
                                            typeahead="building as building.designation for building in buildings | filter: $viewValue"
                                            class="form-control" required>
                                 </div>
@@ -329,7 +329,7 @@
                                 </div>
                                 <div class="form-group col-md-8">
                                     <input name="flat" type="text"
-                                           ng-model="employeeFormData.flat" class="form-control"
+                                           ng-model="sysAdminFormData.flat" class="form-control"
                                            required>
                                 </div>
                             </div>
@@ -339,10 +339,10 @@
 
         <div class="form-group row">
             <div class="col-md-10">
-                <button type="submit" class="btn btn-success" ng-click="onEmployeeFormSubmit()">
+                <button type="submit" class="btn btn-success" ng-click="onsysAdminFormSubmit()">
                     {{'ADD' | translate}}
                 </button>
-                <button type="reset" class="btn btn-warning" ng-click="resetEmployeeForm()">
+                <button type="reset" class="btn btn-warning" ng-click="resetsysAdminForm()">
                     {{'CLEAR_FORM' | translate }}
                 </button>
             </div>

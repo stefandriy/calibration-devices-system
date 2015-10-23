@@ -11,6 +11,7 @@ angular
                 $scope.tableParams.filter({});
             };
 
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 5,
@@ -35,6 +36,12 @@ angular
                         });
                 }
             });
+
+            $rootScope.onTableHandling = function () {
+                $scope.tableParams.reload();
+            };
+
+            $rootScope.onTableHandling();
 
 
             $scope.isFilter = function () {
@@ -67,7 +74,7 @@ angular
                 $rootScope.username = username;
                 userService.getSysAdminByUsername(
                     $rootScope.username).then(
-                    function (data) {$rootScope.sysAdmin = data;
+                    function (result) {$rootScope.sysAdmin = result.data;
                         console.log($rootScope.sysAdmin);
 
                         var sysAdminDTOModal = $modal
@@ -89,7 +96,7 @@ angular
                 userService.deleteSysAdmin(username);
                 $timeout(function() {
                     console.log('delete with timeout');
-                   $rootScope.tableParams.reload();
+                    $rootScope.onTableHandling();
                 }, 700);
             }
 

@@ -186,11 +186,11 @@
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a><i class="fa fa-wrench"></i> <span>Переносний модуль</span>
+                            <a><i class="fa fa-thumb-tack"></i></i> <span>Завдання для станцій</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a><i class="fa fa-wrench"></i> <span>Стаціонарний модуль</span>
+                            <a><i class="fa fa-thumb-tack"></i></i> <span>Завдання для бригад</span>
                             </a>
                         </li>
 
