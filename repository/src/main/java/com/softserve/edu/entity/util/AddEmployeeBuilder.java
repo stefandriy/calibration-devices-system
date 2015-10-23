@@ -4,7 +4,7 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.user.User;
 
 
-public class AddEmployeeBuilderNew {
+public class AddEmployeeBuilder {
     public String firstName;
     public String lastName;
     public String middleName;
@@ -16,54 +16,53 @@ public class AddEmployeeBuilderNew {
     public Address address;
     public Boolean isAvailable;
 
-    public AddEmployeeBuilderNew firstName(String firstName) {
+    public AddEmployeeBuilder firstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
 
-    public AddEmployeeBuilderNew lastName(String lastName) {
+    public AddEmployeeBuilder lastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
 
-    public AddEmployeeBuilderNew middleName(String middleName) {
+    public AddEmployeeBuilder middleName(String middleName) {
         this.middleName = middleName;
         return this;
     }
 
-    public AddEmployeeBuilderNew phone(String phone) {
+    public AddEmployeeBuilder phone(String phone) {
         this.phone = phone;
         return this;
     }
     
-    public AddEmployeeBuilderNew secondPhone(String secondPhone) {
+    public AddEmployeeBuilder secondPhone(String secondPhone) {
         this.secondPhone = secondPhone;
         return this;
     }
 
-    public AddEmployeeBuilderNew email(String email) {
+    public AddEmployeeBuilder email(String email) {
         this.email = email;
         return this;
     }
 
-    public AddEmployeeBuilderNew username(String username) {
+    public AddEmployeeBuilder username(String username) {
         this.username = username;
         return this;
     }
 
-    public AddEmployeeBuilderNew password(String password) {
+    public AddEmployeeBuilder password(String password) {
         this.password = password;
         return this;
     }
 
-    public AddEmployeeBuilderNew address(Address address) {
+    public AddEmployeeBuilder address(Address address) {
         this.address = address;
         return this;
     }
 
-    public AddEmployeeBuilderNew isAvailable(Boolean isAvailable) {
-        //TODO Why true?
-        this.isAvailable = true;
+    public AddEmployeeBuilder setIsAvailable(Boolean isAvailable) {
+        this.isAvailable = isAvailable;
         return this;
     }
 

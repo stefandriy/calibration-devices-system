@@ -15,6 +15,7 @@ public class Manufacturer {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
 
     @Column(nullable = false)

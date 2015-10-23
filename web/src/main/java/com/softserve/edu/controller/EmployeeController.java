@@ -6,15 +6,14 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.AddEmployeeBuilder;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
-import com.softserve.edu.service.admin.impl.UsersServiceImpl;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import org.apache.log4j.Logger;
@@ -102,7 +101,7 @@ public class EmployeeController {
         userFromDataBase.setAddress(temporalUser.getAddress());
         userFromDataBase.setUsername(temporalUser.getUsername());
         userFromDataBase.setIsAvaliable(temporalUser.getIsAvailable());
-        userFromDataBase.setUserRoles(new HashSet<String>(userService.getRoles(username)));
+        userFromDataBase.setUserRoles(new HashSet<>(userService.getRoles(username)));
         return userFromDataBase;
     }
 
@@ -132,7 +131,6 @@ public class EmployeeController {
         newUser.setEmail(providerEmployee.getEmail());
         newUser.setPhone(providerEmployee.getPhone());
         newUser.setSecondPhone(providerEmployee.getSecondPhone());
-        newUser.setUsername(providerEmployee.getUsername());
 
         String password = providerEmployee.getPassword();
         if (password != null && password.equals("generate")) {
@@ -151,14 +149,14 @@ public class EmployeeController {
 
 
         providerEmployeeService.updateEmployee(newUser);
-        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
             @RequestBody UserDTO employee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        User newUser = new AddEmployeeBuilderNew().username(employee.getUsername())
+        User newUser = new AddEmployeeBuilder().username(employee.getUsername())
                 .password(employee.getPassword())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
@@ -167,7 +165,7 @@ public class EmployeeController {
                 .secondPhone(employee.getSecondPhone())
                 .email(employee.getEmail())
                 .address(employee.getAddress())
-                .isAvailable(employee.getIsAvaliable())
+                .setIsAvailable(employee.getIsAvaliable())
                 .build();
 
         for (String role : employee.getUserRoles()) {

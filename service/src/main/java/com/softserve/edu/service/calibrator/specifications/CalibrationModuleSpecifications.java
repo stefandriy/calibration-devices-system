@@ -1,8 +1,7 @@
 package com.softserve.edu.service.calibrator.specifications;
 
 import com.softserve.edu.entity.device.CalibrationModule;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
-import org.hibernate.mapping.Join;
+import com.softserve.edu.entity.device.Device;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
@@ -38,9 +37,9 @@ public class CalibrationModuleSpecifications {
             public Predicate toPredicate(Root<CalibrationModule> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 Predicate predicate = null;
                 if (applicationFiled.equals("WATER")) {
-                    predicate = criteriaBuilder.equal(root.get("deviceType"), DeviceType.WATER);
+                    predicate = criteriaBuilder.equal(root.get("deviceType"), Device.DeviceType.WATER);
                 } else if (applicationFiled.equals("THERMAL")) {
-                    predicate = criteriaBuilder.equal(root.get("deviceType"), DeviceType.THERMAL);
+                    predicate = criteriaBuilder.equal(root.get("deviceType"), Device.DeviceType.THERMAL);
                 }
                 return predicate;
             }

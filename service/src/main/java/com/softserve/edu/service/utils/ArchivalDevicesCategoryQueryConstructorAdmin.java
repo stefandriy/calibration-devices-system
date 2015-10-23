@@ -1,7 +1,6 @@
 package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -44,7 +43,7 @@ public class ArchivalDevicesCategoryQueryConstructorAdmin {
         }
         if ((deviceType != null)&&(deviceType.length()>0)) {
             queryPredicate = cb.and(cb.equal(root.get("deviceType"),
-                    DeviceType.valueOf(deviceType.trim())), queryPredicate);
+                    Device.DeviceType.valueOf(deviceType.trim())), queryPredicate);
         }
         if ((deviceName != null)&&(deviceName.length()>0)) {
             queryPredicate = cb.and(

@@ -2,7 +2,7 @@ package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.AgreementDTO;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
 import com.softserve.edu.service.admin.AgreementService;
 import com.softserve.edu.service.admin.OrganizationService;
@@ -34,7 +34,7 @@ public class AgreementController {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
             agreementService.add(agreementDTO.getCustomerId(), agreementDTO.getExecutorId(), agreementDTO.getNumber(),
-                    agreementDTO.getDeviceCount(), new Date(), DeviceType.valueOf(agreementDTO.getDeviceType()));
+                    agreementDTO.getDeviceCount(), new Date(), Device.DeviceType.valueOf(agreementDTO.getDeviceType()));
         } catch (Exception e) {
             logger.error("Error when adding agreement", e);
             httpStatus = HttpStatus.CONFLICT;

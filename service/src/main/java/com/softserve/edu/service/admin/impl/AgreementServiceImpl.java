@@ -1,6 +1,6 @@
 package com.softserve.edu.service.admin.impl;
 
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.repository.AgreementRepository;
@@ -46,14 +46,14 @@ public class AgreementServiceImpl implements AgreementService {
 
     @Override
     @Transactional
-    public Agreement add(Organization customer, Organization executor, String number, Long deviceCount, Date date, DeviceType deviceType) {
+    public Agreement add(Organization customer, Organization executor, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
         Agreement agreement = new Agreement(customer, executor, number, deviceCount, date, deviceType);
         return agreementRepository.save(agreement);
     }
 
     @Override
     @Transactional
-    public Agreement add(Long customerId, Long executorId, String number, Long deviceCount, Date date, DeviceType deviceType) {
+    public Agreement add(Long customerId, Long executorId, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
         Organization customer = organizationService.getOrganizationById(customerId);
         Organization executor = organizationService.getOrganizationById(executorId);
         if (customer == null || executor == null) {

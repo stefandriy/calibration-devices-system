@@ -4,10 +4,9 @@ package com.softserve.edu.service.admin.impl;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
+import com.softserve.edu.entity.util.AddEmployeeBuilder;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.impl.UserRepositoryImpl;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
@@ -23,12 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,14 +78,14 @@ public class UsersServiceImpl implements UserService  {
         result.setTotalItems(count);
 
         return result;
-    };
+    }
 
     @Override
     @Transactional
     public void addSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
                              String email,  Address address, Boolean isAvailable) {
 
-        User newUser = new AddEmployeeBuilderNew().username(username)
+        User newUser = new AddEmployeeBuilder().username(username)
                 .password(password)
                 .firstName(firstName)
                 .lastName(lastName)
@@ -98,7 +93,7 @@ public class UsersServiceImpl implements UserService  {
                 .phone(phone)
                 .email(email)
                 .address(address)
-                .isAvailable(isAvailable)
+                .setIsAvailable(isAvailable)
                 .build();
 
 
