@@ -18,6 +18,7 @@ import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -47,7 +48,9 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/calibrator/verifications/")
 public class CalibratorVerificationController {
 
-    private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
+    private static final String contentExtensionPattern = "^.*\\.(bbi|BBI|)$";
+    private static final String archiveExtensionPattern = "^.*\\.(zip|ZIP|)$";
+
     private final Logger logger = Logger.getLogger(CalibratorVerificationController.class);
     @Autowired
     VerificationService verificationService;
@@ -75,6 +78,9 @@ public class CalibratorVerificationController {
 
     @Autowired
     BbiFileService bbiFileService;
+
+    @Autowired
+    BBIFileServiceFacade bbiFileServiceFacade;
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
@@ -134,7 +140,7 @@ public class CalibratorVerificationController {
         return new PageDTO<>(queryResult.getTotalItems(), content);
 
     }
-    
+
     /**
      * Find page of verifications by specific criterias on main panel
      *
@@ -249,10 +255,9 @@ public class CalibratorVerificationController {
         try {
             String originalFileFullName = file.getOriginalFilename();
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
-            if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-
-                DeviceTestData deviceTestData = bbiFileService.parseBbiFile(file.getInputStream(), originalFileFullName);
-                calibratorService.uploadBbi(file.getInputStream(), idVerification, deviceTestData.getInstallmentNumber(), originalFileFullName);
+            if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                String originalFileName = file.getOriginalFilename();
+                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, idVerification, originalFileName);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
             } else {
                 logger.error("Failed to load file: pattern does not match.");
@@ -264,6 +269,27 @@ public class CalibratorVerificationController {
         }
         return responseEntity;
     }
+
+
+    @RequestMapping(value = "new/upload-archive", method = RequestMethod.POST)
+    public ResponseEntity<String> uploadFileArchive(@RequestBody MultipartFile file) {
+        ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
+        try {
+            String originalFileFullName = file.getOriginalFilename();
+            String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
+            if (Pattern.compile(archiveExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                bbiFileServiceFacade.parseAndSaveArchiveOfBBIfiles(file, originalFileFullName);
+            } else {
+                logger.error("Failed to load file ");
+                httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            logger.error("Failed to load file " + e.getMessage());
+            httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return httpStatus;
+    }
+
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber,
@@ -373,24 +399,6 @@ public class CalibratorVerificationController {
         String fileName = calibratorService.findBbiFileByOrganizationId(idVerification);
         data = Arrays.asList(idVerification, fileName);
         return data;
-    }
-
-    /**
-     * Current method deletes file
-     *
-     * @param idVerification
-     * @return status of deletion
-     */
-    @RequestMapping(value = "deleteBbiprotocol", method = RequestMethod.PUT)
-    public ResponseEntity deleteBbiprotocol(@RequestParam String idVerification) {
-        HttpStatus httpStatus = HttpStatus.OK;
-        try {
-            calibratorService.deleteBbiFile(idVerification);
-        } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
-            httpStatus = HttpStatus.CONFLICT;
-        }
-        return new ResponseEntity<>(httpStatus);
     }
 
     /**
