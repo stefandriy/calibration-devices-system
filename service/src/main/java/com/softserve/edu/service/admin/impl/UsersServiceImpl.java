@@ -127,8 +127,11 @@ public class UsersServiceImpl implements UserService  {
 //        result.setTotalItems(7L);
         userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
         ListToPageTransformer<User> result = new ListToPageTransformer<>();
-        result.setContent(userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN).stream().distinct().collect(Collectors.toList()));
-        result.setTotalItems(7L);
+        result.setContent(userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN)
+                .stream()
+                .distinct()
+                .collect(Collectors.toList()));
+        result.setTotalItems(result.getTotalItems());
 
         return result;
     }
