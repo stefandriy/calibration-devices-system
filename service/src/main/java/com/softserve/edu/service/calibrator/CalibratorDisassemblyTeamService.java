@@ -3,6 +3,7 @@ package com.softserve.edu.service.calibrator;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.service.exceptions.DuplicateRecordException;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;
@@ -14,7 +15,7 @@ public interface CalibratorDisassemblyTeamService {
 
     Page<DisassemblyTeam> getDisassemblyTeamBySearchAndPagination(int pageNumber,int itemsPerPage, String search);
 
-    void addDisassemblyTeam(DisassemblyTeam disassemblyTeam);
+    void addDisassemblyTeam(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException;
 
     DisassemblyTeam getDisassemblyTeamById(String teamId);
 

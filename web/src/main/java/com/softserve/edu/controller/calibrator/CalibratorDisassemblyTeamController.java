@@ -6,6 +6,7 @@ import com.softserve.edu.dto.calibrator.CalibrationDisassemblyTeamDTO;
 import com.softserve.edu.dto.calibrator.DisassemblyTeamPageItem;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
+import com.softserve.edu.service.exceptions.DuplicateRecordException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "calibrator/disassemblyTeam/", produces = "application/json")
+@RequestMapping(value = "/calibrator/disassemblyTeam/", produces = "application/json")
 public class CalibratorDisassemblyTeamController {
 
     private final Logger logger = Logger.getLogger(MeasuringEquipmentController.class);
@@ -84,7 +85,11 @@ public class CalibratorDisassemblyTeamController {
         try {
             DisassemblyTeam createdDisassemblyTeam = disassemblyTeamDTO.saveTeam();
             teamService.addDisassemblyTeam(createdDisassemblyTeam);
-        } catch (Exception e) {
+        }catch (DuplicateRecordException e) {
+            logger.error("GOT EXCEPTION " + e.getMessage());
+            httpStatus = HttpStatus.CONFLICT;//from body get a message
+            return new ResponseEntity(e, httpStatus);
+        }catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
         }

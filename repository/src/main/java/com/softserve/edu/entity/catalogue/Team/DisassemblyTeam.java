@@ -15,7 +15,7 @@ import java.util.Date;
 @Setter
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "DisassemblyTeam")
+@Table(name = "DISASSEMBLY_TEAM")
 public class DisassemblyTeam {
 
     @Setter(AccessLevel.PRIVATE)

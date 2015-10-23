@@ -2,7 +2,7 @@ angular
     .module('employeeModule')
     .controller('DisassemblyTeamControllerCalibrator', ['$rootScope', '$scope', '$modal',
         'DisassemblyTeamServiceCalibrator', '$timeout',
-        function ($rootScope, $scope, disassemblyTeamServiceCalibrator, $timeout) {
+        function ($rootScope, $scope,$modal, disassemblyTeamServiceCalibrator, $timeout) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -13,7 +13,7 @@ angular
              */
             $rootScope.onTableHandling = function () {
                 disassemblyTeamServiceCalibrator
-                    .getPage($scope.currentPage, itemsPerPage, $scope.searchData)
+                    .getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData)
                     .then(function (data) {
                         $scope.pageContent = data.content;
                         $scope.totalItems = data.totalItems;

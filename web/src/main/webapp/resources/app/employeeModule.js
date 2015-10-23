@@ -252,6 +252,11 @@
         'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
         'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
         'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',
+
+        'calibrator/controllers/DisassemblyTeamAddModalController',
+        'calibrator/controllers/DisassemblyTeamEditModalController',
+        'calibrator/controllers/DisassemblyTeamControllerCalibrator',
+
         'calibrator/controllers/UploadBbiFileController',
         'calibrator/controllers/UploadPhotoController',
         'calibrator/controllers/CancelBbiProtocolCalibrator',
@@ -267,6 +272,8 @@
         'calibrator/services/UserServiceCalibrator',
         'calibrator/services/VerificationServiceCalibrator',
         'calibrator/services/MeasuringEquipmentServiceCalibrator',
+
+        'calibrator/services/DisassemblyTeamServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',

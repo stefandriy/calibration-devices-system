@@ -21,7 +21,7 @@ function ($http) {
                    return result.data;
                });
        },
-       saveTeam : function(formData) {
+       saveDisassemblyTeam : function(formData) {
            return $http.post("/calibrator/disassemblyTeam/add", formData)
                .then(function (result) {
                    return result.status;

@@ -4,6 +4,7 @@ import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.repository.CalibrationDisassemblyTeamRepository;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
+import com.softserve.edu.service.exceptions.DuplicateRecordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,8 +37,12 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
 
     @Override
     @Transactional
-    public void addDisassemblyTeam(DisassemblyTeam disassemblyTeam) {
-        teamRepository.save(disassemblyTeam);
+    public void addDisassemblyTeam(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException {
+        try {
+            teamRepository.save(disassemblyTeam);
+        } catch (Exception e) {
+            throw new DuplicateRecordException(String.format("Team %s already exists.", disassemblyTeam.getId()));
+        }
     }
 
     @Override
