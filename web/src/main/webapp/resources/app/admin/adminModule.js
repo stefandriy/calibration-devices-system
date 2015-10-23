@@ -152,7 +152,10 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/DeviceService', 'services/DevicesService',
     'services/CounterTypeService',
     'services/AgreementService',
-    'services/SettingsService', 'services/UsersService','directives/unique',
+    'services/SettingsService',
+    'services/UsersService',
+    'services/RoleService',
+    'directives/unique',
     'controllers/CommonController'
 
 ], function () {

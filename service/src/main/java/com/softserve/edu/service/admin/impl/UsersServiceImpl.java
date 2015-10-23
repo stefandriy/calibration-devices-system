@@ -24,6 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -125,8 +126,10 @@ public class UsersServiceImpl implements UserService  {
 //        ListToPageTransformer<User> result = new ListToPageTransformer<>();
 //        result.setContent(providerEmployeeList);
 //        result.setTotalItems(7L);
-        userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
+        Set<User> sysAdmins = userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
         ListToPageTransformer<User> result = new ListToPageTransformer<>();
+        Long countItems = new Long(sysAdmins.size());
+        result.setTotalItems(countItems);
         result.setContent(userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN)
                 .stream()
                 .distinct()

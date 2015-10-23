@@ -1,12 +1,11 @@
 package com.softserve.edu.controller.admin;
 
 
+import com.softserve.edu.controller.admin.util.UserDTOTransformer;
 import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.SysAdminDTO;
 import com.softserve.edu.dto.admin.UserFilterSearch;
-import com.softserve.edu.dto.admin.SysAdminDTO;
-import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
@@ -18,9 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/admin/sysadmins/")
@@ -42,40 +39,8 @@ public class SysAdminController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         ListToPageTransformer<User> queryResult = userService.findAllSysAdmins();
-        List<SysAdminDTO> resultList = toDTOFromListProviderEmployee(queryResult);
+        List<SysAdminDTO> resultList = UserDTOTransformer.toDTOFromListSysAdmin(queryResult);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
-    }
-    /**
-     * Current method transform list of users to List DTO
-     *
-     * @param queryResult
-     * @return full information witch connect with employees
-     */
-    private List<SysAdminDTO> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
-        List<SysAdminDTO> resultList = new ArrayList<>();
-        for (User sysAdmin : queryResult.getContent()) {
-
-//            List<String> userRoles = userService.getRoles(employee.getUsername())
-//                    .stream()
-//                    .distinct()
-//                    .collect(Collectors.toList());
-
-            resultList.add(new SysAdminDTO(
-                            sysAdmin.getUsername(),
-                            sysAdmin.getFirstName(),
-                            sysAdmin.getLastName(),
-                            sysAdmin.getMiddleName(),
-                            sysAdmin.getEmail(),
-                            sysAdmin.getPhone(),
-                            sysAdmin.getAddress().getRegion(),
-                            sysAdmin.getAddress().getDistrict(),
-                            sysAdmin.getAddress().getLocality(),
-                            sysAdmin.getAddress().getStreet(),
-                            sysAdmin.getAddress().getBuilding(),
-                            sysAdmin.getAddress().getFlat())
-            );
-        }
-        return resultList;
     }
 
 
