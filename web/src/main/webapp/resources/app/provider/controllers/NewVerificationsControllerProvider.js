@@ -300,6 +300,7 @@ angular
             /**
              * push verification id to array
              */
+            //todo
             $scope.resolveVerificationId = function (id) {
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {

@@ -45,8 +45,8 @@ public class AgreementController {
 
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<AgreementDTO> pageDeviceCategoryWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                              @PathVariable String sortCriteria, @PathVariable String sortOrder,
-                                                              AgreementDTO searchData) {
+                                                @PathVariable String sortCriteria, @PathVariable String sortOrder,
+                                                AgreementDTO searchData) {
         ListToPageTransformer<Agreement> queryResult = agreementService.getCategoryDevicesBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
@@ -64,7 +64,7 @@ public class AgreementController {
                         Agreement.getExecutor().getId(), Agreement.getCustomer().getName(),
                         Agreement.getExecutor().getName(), Agreement.getNumber(), Agreement.getDeviceCount(), Agreement.getDeviceType().name()))
                 .collect(Collectors.toList());
-        return new PageDTO(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
 

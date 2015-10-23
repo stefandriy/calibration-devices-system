@@ -24,6 +24,7 @@ public interface AgreementService {
     void update(Agreement agreement);
 
     ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String customer, String executor, String number,
-                                                                                    String deviceCount, String date, String deviceType, String sortCriteria, String sortOrder);
+                                                                             String deviceCount, String date, String deviceType, String sortCriteria, String sortOrder);
 
-    }
+    Set<Agreement> findByCustomerIdAndDeviceType(Long customerId, Device.DeviceType deviceType);
+}
