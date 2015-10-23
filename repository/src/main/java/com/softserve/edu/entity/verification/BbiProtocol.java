@@ -21,31 +21,7 @@ public class BbiProtocol {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "verificationId")
     private Verification verification;
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public Verification getVerification() {
-        return verification;
-    }
-
-    public void setVerification(Verification verification) {
-        this.verification = verification;
-    }
-
+    
     public BbiProtocol(String fileName, String filePath, Verification verification) {
         this.fileName = fileName;
         this.filePath = filePath;
