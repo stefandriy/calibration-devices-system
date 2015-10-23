@@ -94,7 +94,7 @@ public class SysAdminController {
 
         try {
             userService.addSysAdmin(sysAdmin.getUsername(), sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
-                    sysAdmin.getEmail(), sysAdmin.getAddress(), sysAdmin.getIsAvaliable());
+                    sysAdmin.getEmail(), sysAdmin.getAddress());
         } catch (Exception e) {
             // TODO
             logger.error("GOT EXCEPTION ", e);
@@ -166,7 +166,7 @@ public class SysAdminController {
 
         try {
             userService.editSysAdmin(username, sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
-                    sysAdmin.getEmail(), sysAdmin.getAddress(), sysAdmin.getIsAvaliable());
+                    sysAdmin.getEmail(), sysAdmin.getAddress());
         } catch (Exception e) {
             // TODO
             logger.error("GOT EXCEPTION ", e);

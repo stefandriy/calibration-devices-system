@@ -83,7 +83,7 @@ public class UsersServiceImpl implements UserService  {
     @Override
     @Transactional
     public void addSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                             String email,  Address address, Boolean isAvailable) {
+                             String email,  Address address) {
 
         User newUser = new AddEmployeeBuilder().username(username)
                 .password(password)
@@ -93,7 +93,7 @@ public class UsersServiceImpl implements UserService  {
                 .phone(phone)
                 .email(email)
                 .address(address)
-                .setIsAvailable(isAvailable)
+                .setIsAvailable(true)
                 .build();
 
 
@@ -145,7 +145,7 @@ public class UsersServiceImpl implements UserService  {
     @Override
     @Transactional
     public void editSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                              String email,  Address address, Boolean isAvailable) {
+                              String email,  Address address) {
         User sysAdmin = userRepository.findOne(username);
 
         sysAdmin.setAddress(address);
@@ -154,7 +154,6 @@ public class UsersServiceImpl implements UserService  {
         sysAdmin.setLastName(lastName);
         sysAdmin.setMiddleName(middleName);
         sysAdmin.setPhone(phone);
-        sysAdmin.setIsAvailable(isAvailable);
 
         sysAdmin.setPassword(password != null && password.equals("generate") ? "generate" : sysAdmin.getPassword());
 

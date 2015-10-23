@@ -342,7 +342,7 @@ angular
                     building: $scope.sysAdminFormData.building,
                     flat: $scope.sysAdminFormData.flat
                 };
-                employeeData = {
+                sysAdmin = {
                     firstName: $scope.sysAdminFormData.firstName,
                     lastName: $scope.sysAdminFormData.lastName,
                     middleName: $scope.sysAdminFormData.middleName,
@@ -354,7 +354,7 @@ angular
                     address: $scope.sysAdminFormData.address
                 };
 
-                employeeData.address = {
+                sysAdmin.address = {
                     region: $scope.sysAdminFormData.region.designation,
                     district: $scope.sysAdminFormData.district.designation,
                     locality: $scope.sysAdminFormData.locality.designation,
@@ -386,7 +386,7 @@ angular
                     if (!$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
                         && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
                         retranslater();
-                        saveEmployee();
+                        saveSysAdmin();
                     } else {
                         $scope.incorrectValue = true;
                     }
@@ -396,9 +396,9 @@ angular
             /**
              * Update new employee in database.
              */
-            function saveEmployee() {
+            function saveSysAdmin() {
                 userService.saveUser(
-                    employeeData).then(
+                    sysAdmin).then(
                     function (data) {
                         if (data.status == 201) {
                             $rootScope.$broadcast('new-employee-added');
