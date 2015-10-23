@@ -14,6 +14,9 @@ import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.*;
 import com.softserve.edu.service.verification.impl.VerificationServiceImpl;
 import org.apache.log4j.Logger;
+import org.hibernate.jpa.criteria.CriteriaQueryImpl;
+import org.hibernate.jpa.criteria.expression.CompoundSelectionImpl;
+import org.hibernate.jpa.criteria.path.AbstractPathImpl;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
@@ -31,8 +34,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,21 +74,25 @@ public class VerificationServiceImplTest {
 	private EntityManager mockEntityManager;
 
 	@Mock
-	CriteriaBuilder cb;
+	private CriteriaBuilder cb;
 
 	@Mock
-	CriteriaQuery<Verification> criteriaQuery;
+	private CriteriaQuery<Verification> criteriaQuery;
 
 	@Mock
-	TypedQuery<Verification> verificationTypedQuery;
+	private TypedQuery<Verification> verificationTypedQuery;
 
 	@Mock
-	TypedQuery<Long> longTypedQuery;
+	private TypedQuery<Long> longTypedQuery;
 
 	@Mock
-	CriteriaQuery<Long> longCriteriaQuery;
+	private CriteriaQuery<Long> longCriteriaQuery;
 
+	@Mock
+	private CriteriaQuery<Object[]> objectCriteriaQuery;
 
+	@Mock
+	private Root<Verification> root;
 
 	@BeforeClass
 	public static void testCreateVerificationProviderEmployeeService() {
@@ -668,11 +674,38 @@ public class VerificationServiceImplTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void testGetProcessTimeProvider() {
+		Join<Verification, Organization> provider = mock(Join.class);
+		Path<Object> path = mock(Path.class);
+		AbstractPathImpl<Object> path1 = mock(AbstractPathImpl.class);
+		CompoundSelectionImpl<Object[]> compoundSelection = mock(CompoundSelectionImpl.class);
+		CriteriaQueryImpl<Object> criteriaQuery = mock(CriteriaQueryImpl.class);
+
+		stub(mockEntityManager.getCriteriaBuilder()).toReturn(cb);
+		stub(cb.createQuery(Object[].class)).toReturn(objectCriteriaQuery);
+		stub(objectCriteriaQuery.from(Verification.class)).toReturn(root);
+		stub(root.get(anyString())).toReturn(path);
+		stub(provider.get(anyString())).toReturn(path);
+		stub(path1.get(anyString())).toReturn(path1);
+//		stub(cb.array(path)).toReturn(compoundSelection);
+		stub(objectCriteriaQuery.select(compoundSelection)).toReturn(objectCriteriaQuery);
+		stub(criteriaQuery.select(any())).toReturn(criteriaQuery);
+
+		List<Object[]> actual = verificationService.getProcessTimeProvider();
+	}
+
+	@Test
+	public void testGetProcessTimeCalibrator() {
+
+	}
+
+	@Test
+	public void testGetProcessTimeVerificator() {
+
+	}
 
     /* not tested
-    getProcessTimeProvider
-    getProcessTimeCalibrator
-    getProcessTimeVerificator
     getNewVerificationEarliestDateByProvider
     getArchivalVerificationEarliestDateByProvider
     getNewVerificationEarliestDateByCalibrator
