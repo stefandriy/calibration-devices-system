@@ -1,15 +1,14 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
-import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
-import com.softserve.edu.service.utils.ExcelFileDTO;
-import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
 //import org.apache.poi.hssf.usermodel.HSSFRow;
 //import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -20,11 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -47,43 +41,35 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
     @Autowired
+    private CalibrationModuleRepository moduleRepository;
+
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+    @Autowired
     private AdditionalInfoRepository additionalInfoRepository;
 
+
+
     @Override
-    public void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
-                           Date dateOfVisit, Date dateOfVisitTo, String installationNumber, String notes, int floor) {
-        Verification verification = verificationRepository.findOne(verifiedId);
-        if (verification == null) {
-            logger.error("verification haven't found");
-        } else {
-            if ((placeOfCalibration == null) || (counterStatus == null)
-                    || (installationNumber == null)) {
-                throw new IllegalArgumentException();
-            }
-            CalibrationPlanningTask task = new CalibrationPlanningTask();
-            task.setVerification(verification);
-            task.setPlaceOfCalibration(placeOfCalibration);
-            task.setRemoveStatus(counterStatus);
-            task.setSerialNumberOfMeasuringInstallation(installationNumber);
-            task.setSerialNumberOfCounter(counterNumber);
-            task.setNotes(notes);
-            if (placeOfCalibration == "fixed_station" && counterStatus == "removed") { //TODO: WHY??!!!
-                task.setDateOfVisit(null);
-                task.setDateOfVisitTo(null);
+    public void addNewTask(Date taskDate, String serialNumber, List<String> verificationsId, Long organizationId) {
+        Set<Verification> verifications = new HashSet<>();
+        for (String verifID : verificationsId) {
+            Verification verification = verificationRepository.findOne(verifID);
+            if (verification == null) {
+                logger.error("verification haven't found");
             } else {
-                if ((placeOfCalibration == "fixed_station" && counterStatus == "not_removed") || //TODO: WHY??!!!
-                        (placeOfCalibration == "fixed_station")) {
-                    if (dateOfVisit == null && dateOfVisitTo == null) {
-                        throw new IllegalArgumentException();
-                    } else {
-                        task.setDateOfVisit(dateOfVisit);
-                        task.setDateOfVisitTo(dateOfVisitTo);
-                    }
-                }
+                verification.setTaskStatus(Status.TASK_PLANED);
+                verificationRepository.save(verification);
+                verifications.add(verification);
             }
-            task.setFloor(floor);
-            taskRepository.save(task);
         }
+        CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
+        module.setWorkDate(taskDate);
+        moduleRepository.save(module);
+        Organization organization = organizationRepository.findOne(organizationId);
+        CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, organization, verifications);
+        taskRepository.save(task);
     }
 
     @Override

@@ -5,12 +5,12 @@ import org.springframework.data.domain.Page;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 
 public interface CalibratorPlanningTaskService {
 
-    void addNewTask(String verifiedId, String placeOfCalibration, String counterStatus, String counterNumber,
-                           Date dateOfVisit, Date dateOfVisitTo, String installationNumber, String notes, int floor);
+    void addNewTask(Date taskDate, String serialNumber, List<String> verificationsId, Long organizationId);
 
     int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 

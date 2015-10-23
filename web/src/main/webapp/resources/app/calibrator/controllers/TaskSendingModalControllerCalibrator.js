@@ -288,34 +288,30 @@ angular
 
 
             $scope.showSendingMessage = false;
-
-            $scope.editTask = function (){
+            $scope.task = {};
+            $scope.save = function (){
                 if ($rootScope.emptyStatus == true) {
                     $scope.showSendingMessage = true;
                     console.log("Ви не вибрали заявок для надсилання")
                 } else {
                     console.log($rootScope.verifIds);
+                    $scope.calibrationTask = {
+                        taskDate: $scope.calibrationTask.taskDate,
+                        serialNumber: $scope.calibrationTask.installationNumber,
+                        verificationsId: $rootScope.verifIds
+                    };
+                    console.log($scope.calibrationTask);
+                    verificationPlanningTaskService.saveTask($scope.calibrationTask).then(
+                        function (data) {
+                            if (data == 200) {
+                                $scope.closeModal();
+                            } else {
+                             $scope.incorrectValue = true;
+                             console.log($scope.incorrectValue);
+                            }
+                        });
+
                 }
-                    //$scope.calibrationTask = {
-                    //    place : $scope.calibrationTask.place,
-                    //    counterStatus: $scope.calibrationTask.counterStatus,
-                    //    installationNumber: $scope.calibrationTask.installationNumber,
-                    //    startDate: $scope.calibrationTask.pickerDate.startDate,
-                    //    endDate: $scope.calibrationTask.pickerDate.endDate,
-                    //    floor: $scope.calibrationTask.floor,
-                    //    counterNumber: $scope.calibrationTask.counterNumber,
-                    //    notes: $scope.calibrationTask.notes
-                    //};
-                    //console.log($scope.calibrationTask);
-                    //taskServiceCalibrator.saveTask($rootScope.verifId, $scope.calibrationTask).then(
-                    //    function (data) {
-                    //        if (data == 200) {
-                    //            $scope.closeModal();
-                    //        } else {
-                    //         $scope.incorrectValue = true;
-                    //         console.log($scope.incorrectValue);
-                    //        }
-                    //    });
 
             }
 

@@ -8,6 +8,7 @@ import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.*;
 
 
@@ -60,6 +61,10 @@ public class Organization {
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<CalibrationModule> modules = new HashSet<>();
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<CalibrationTask> tasks = new HashSet<>();
 
     @ElementCollection
     @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
