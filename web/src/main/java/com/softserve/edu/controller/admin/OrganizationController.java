@@ -9,7 +9,7 @@ import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
@@ -168,7 +168,7 @@ public class OrganizationController {
         List<String> counters = new ArrayList<>();
         organization.getDeviceTypes().
                 stream()
-                .map(DeviceType::name)
+                .map(Device.DeviceType::name)
                 .forEach(counters::add);
 
 
@@ -220,7 +220,7 @@ public class OrganizationController {
                     adminName,
                     organization.getServiceAreas());
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION ",e);
+            logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
 
@@ -279,6 +279,15 @@ public class OrganizationController {
     @RequestMapping(value = "serviceArea/region/{districtId}", method = RequestMethod.GET)
     public Region getServiceAreaRegion(@PathVariable("districtId") Long districtId) {
         return regionService.findByDistrictId(districtId);
+    }
+
+    @RequestMapping(value = "getOrganization/{organizationType}/{deviceType}", method = RequestMethod.GET)
+    public List<ApplicationFieldDTO> getOrganizationByOrganizationTypeAndDeviceType(@PathVariable("organizationType") String organizationType,
+                                                          @PathVariable("deviceType") String deviceType) {
+        return organizationService.findByOrganizationTypeAndDeviceType(OrganizationType.valueOf(organizationType.toUpperCase()),
+                Device.DeviceType.valueOf(deviceType.toUpperCase())).stream()
+                .map(organization -> new ApplicationFieldDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toList());
     }
 }
 

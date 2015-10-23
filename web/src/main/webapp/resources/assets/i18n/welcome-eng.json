@@ -366,7 +366,20 @@
   "INFORMATION" : "Recent information",
 
   "ORGANIZATION_SERVICE_AREA" : "Organization service area",
-  
+  "AGREEMENTS" : "Agreements",
+  "NUMBER" : "Number",
+  "AGREEMENT_CUSTOMER" : "Customer",
+  "AGREEMENT_EXECUTOR" : "Executor",
+  "AGREEMENT_COUNTER_COUNT" : "Counter count",
+  "AGREEMENT_DATE" : "Date",
+  "AGREEMENT_CUSTOMER_TYPE" : "Customer type",
+  "ADD_AGREEMENT" : "Add Agreement",
+
+  "WATER" : "Cold water",
+  "THERMAL" : "Hot water",
+  "FILL_IN_INFORMATION_ABOUT_AGREEMENT" : "Fill in information about agreement",
+
+
   "NO_DATA": "No data available",
   "ENTRANCE" : "Entrance",
   "ENTRANCE_REGEX" : "Only numbers! No more than 2 symbols",
@@ -386,5 +399,7 @@
   "MESSAGE_ERROR": "If you want tu save data at least some of the fields must be filled",
   "SYS_ADMINS" : "System Admins",
   "MOUNTING_CREW" : "Mounting crew",
-  "CHOOSE_MOUNTING_CREW" : "Choose mounting crew"
+  "CHOOSE_MOUNTING_CREW" : "Choose mounting crew",
+  "APPLICATION_FIELD": "Application field",
+  "CHOOSE_APPLICATION_FIELD" : "Choose application field"
 }

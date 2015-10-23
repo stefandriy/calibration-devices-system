@@ -29,6 +29,7 @@ import java.util.UUID;
 public class Verification {
 
     @Id
+    @Setter(AccessLevel.PRIVATE)
     private String id;
 
     @Enumerated(EnumType.STRING)

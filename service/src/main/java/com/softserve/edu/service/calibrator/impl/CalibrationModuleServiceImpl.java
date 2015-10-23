@@ -1,7 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -34,15 +33,21 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
     private Logger logger = Logger.getLogger(CalibrationModule.class);
 
     @Override
-    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String userName) {
+    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,String userName) {
         User user = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
         }
         // TODO potential NPE here
-        List<CalibrationModule> modules = moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
-                .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
-                .and(CalibrationModuleSpecifications.moduleDeviceTyp(DeviceType.WATER)));
+        List<CalibrationModule> modules = new ArrayList<>();
+        try {
+            modules = moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
+                    .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
+                    .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)));
+        } catch (NullPointerException e){
+            logger.error("Cannot found modules!");
+        }
+
         List<String> serialNumbersList = new ArrayList<>();
         for (CalibrationModule module : modules) {
             serialNumbersList.add(module.getSerialNumber());

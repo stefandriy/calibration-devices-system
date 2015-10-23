@@ -1,8 +1,7 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import org.springframework.data.domain.Page;
@@ -34,7 +33,7 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
      * @return
      */
     @Query("SELECT elements(org.deviceTypes) FROM Organization org WHERE org.id=:organizationId")
-    Set<DeviceType> findDeviceTypesByOrganizationId(@Param("organizationId") Long organizationId);
+    Set<Device.DeviceType> findDeviceTypesByOrganizationId(@Param("organizationId") Long organizationId);
 
     /**
      * FInd all organizations in selected location by
@@ -48,13 +47,24 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
      * Find all organizations in selected locality and organization type
      *
      * @param localityId
-     * @param typeId
+     * @param organizationType
      * @return
      */
     @Query("SELECT org FROM Organization org " +
             "INNER JOIN org.localities l " +
-            "WHERE l.id=:localityId AND  :typeId in elements(org.organizationTypes)")
-    List<Organization> findOrganizationByLocalityIdAndType(@Param("localityId") Long localityId, @Param("typeId") OrganizationType typeId);
+            "WHERE l.id=:localityId AND  :organizationType in elements(org.organizationTypes)")
+    List<Organization> findOrganizationByLocalityIdAndType(@Param("localityId") Long localityId, @Param("organizationType") OrganizationType organizationType);
+
+    /**
+     * Find all organizations in selected  and organization type
+     *
+     * @param organizationType
+     * @return
+     */
+    @Query("SELECT org FROM Organization org " +
+            "WHERE ( :organizationType in elements(org.organizationTypes)) AND ( :deviceType in elements(org.deviceTypes)) ")
+    List<Organization> findByOrganizationTypeAndDeviceType(@Param("organizationType") OrganizationType organizationType,
+                                                           @Param("deviceType") Device.DeviceType deviceType);
 
     /**
      * Find all organizations in selected locality, organization type and device type
@@ -67,7 +77,8 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     @Query("SELECT org FROM Organization org " +
             "INNER JOIN org.localities l " +
             "WHERE l.id=:localityId AND  :orgType in elements(org.organizationTypes) AND :deviceType in elements(org.deviceTypes)")
-    List<Organization> findByLocalityIdAndTypeAndDevice(@Param("localityId") Long localityId, @Param("orgType") OrganizationType orgType, @Param("deviceType") DeviceType deviceType );
+    List<Organization> findByLocalityIdAndTypeAndDevice(@Param("localityId") Long localityId,
+                                                        @Param("orgType") OrganizationType orgType, @Param("deviceType") Device.DeviceType deviceType );
 
 
 

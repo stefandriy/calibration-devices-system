@@ -190,18 +190,18 @@ angular
                     }
                 });
 
-                $scope.addProviderEmployee = function (verifId, providerEmployee) {
+                $scope.addCalibratorEmployee = function (verifId, providerEmployee) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
-                        controller: 'ProviderEmployeeControllerProvider',
+                        templateUrl: '/resources/app/calibrator/views/employee/assigning-calibratorEmployee.html',
+                        controller: 'CalibratorEmployeeControllerCalibrator',
                         size: 'md',
                         windowClass: 'xx-dialog',
                         resolve: {
-                            providerEmploy: function () {
-                                return verificationServiceCalibrator.getProviders()
-                                    .success(function (providers) {
-                                        return providers;
+                            calibratorEmploy: function () {
+                                return verificationServiceCalibrator.getCalibrators()
+                                    .success(function (calibrators) {
+                                        return calibrators;
                                     }
                                 );
                             }
@@ -214,11 +214,11 @@ angular
                         idVerification = 0;
                         var dataToSend = {
                             idVerification: verifId,
-                            employeeProvider: formData.provider
+                            employeeCalibrator: formData.calibrator
                         };
                         $log.info(dataToSend);
                         verificationServiceCalibrator
-                            .sendEmployeeProvider(dataToSend)
+                            .sendEmployeeCalibrator(dataToSend)
                             .success(function () {
                                 $scope.tableParamsVerifications.reload();
                                 $scope.tableParamsEmployee.reload();

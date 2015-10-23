@@ -3,7 +3,6 @@ package com.softserve.edu.service.admin.impl;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
@@ -15,7 +14,6 @@ import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -79,7 +77,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
 
         for (String counter : counters) {
-            DeviceType deviceType = DeviceType.valueOf(counter);
+            Device.DeviceType deviceType = Device.DeviceType.valueOf(counter);
             organization.addDeviceType(deviceType);
         }
 
@@ -160,7 +158,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         organization.removeDeviceType();
         counters.
                 stream()
-                .map(DeviceType::valueOf)
+                .map(Device.DeviceType::valueOf)
                 .forEach(organization::addDeviceType);
 
         organization.removeServiceAreas();
@@ -247,7 +245,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Organization> findByLocalityIdAndTypeAndDevice(Long localityId, OrganizationType orgType, DeviceType deviceType) {
+    public List<Organization> findByLocalityIdAndTypeAndDevice(Long localityId, OrganizationType orgType, Device.DeviceType deviceType) {
         return organizationRepository.findByLocalityIdAndTypeAndDevice(localityId, orgType, deviceType);
     }
 
@@ -259,12 +257,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<DeviceType> findDeviceTypesByOrganizationId(Long organizationId) {
+    public Set<Device.DeviceType> findDeviceTypesByOrganizationId(Long organizationId) {
         return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
     }
 
     @Override
-    public List<Organization> findByServiceAreaIdsAndOrganizationTypeId(Set<Long> serviceAreaIds, OrganizationType type) {
+    @Transactional(readOnly = true)
+    public List<Organization> findByServiceAreaIdsAndOrganizationType(Set<Long> serviceAreaIds, OrganizationType type) {
         List<Organization> organizations = new ArrayList<>();
         serviceAreaIds.stream()
                 .forEach(serviceAreaId -> {
@@ -272,5 +271,11 @@ public class OrganizationServiceImpl implements OrganizationService {
                     organizations.addAll(organizationList);
                 });
         return organizations;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Organization> findByOrganizationTypeAndDeviceType(OrganizationType organizationType, Device.DeviceType deviceType) {
+        return organizationRepository.findByOrganizationTypeAndDeviceType(organizationType, deviceType);
     }
 }

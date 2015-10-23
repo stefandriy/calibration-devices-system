@@ -2,7 +2,7 @@ package com.softserve.edu.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
+import com.softserve.edu.entity.util.AddEmployeeBuilder;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.organization.Organization;
 import lombok.*;
@@ -19,7 +19,7 @@ import java.util.Set;
 public class User {
 
     @Id
-    // TODO Setter for username MUST be private !!!
+    @Setter(AccessLevel.PRIVATE)
     private String username;
 
     private String password;
@@ -34,6 +34,11 @@ public class User {
     @Embedded
     private Address address;
 
+    /**
+     * @JsonManagedReference - added to prevent JsonMappingException: Infinite recursion (StackOverflowError)
+     * @see <a href="http://vard-lokkur.blogspot.com/2010/10/json-jackson-to-rescue.html">
+     * http://vard-lokkur.blogspot.com/2010/10/json-jackson-to-rescue.html</a>
+     */
     @ManyToOne
     @JoinColumn(name = "organizationId")
     @JsonManagedReference
@@ -45,7 +50,7 @@ public class User {
     @Column(name = "value", length = 30)
     private Set<UserRole> userRoles = new HashSet<>();
 
-    public User(AddEmployeeBuilderNew builder) {
+    public User(AddEmployeeBuilder builder) {
         username = builder.username;
         password = builder.password;
         firstName = builder.firstName;

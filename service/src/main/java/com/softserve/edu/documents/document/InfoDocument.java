@@ -9,7 +9,6 @@ import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 
 @com.softserve.edu.documents.document.meta.Document
 public class InfoDocument  implements Document {
@@ -52,7 +51,7 @@ public class InfoDocument  implements Document {
 			Device device = getVerification().getDevice();
 			
 			if (device != null) {			
-			DeviceType deviceType = device.getDeviceType();
+			Device.DeviceType deviceType = device.getDeviceType();
 			switch (deviceType) {
 				case ELECTRICAL:
 					deviceName += "електрики";

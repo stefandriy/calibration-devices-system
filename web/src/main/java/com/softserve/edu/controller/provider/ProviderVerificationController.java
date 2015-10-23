@@ -10,7 +10,6 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
@@ -250,7 +249,7 @@ public class ProviderVerificationController {
         Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
                 .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
 
-        return organizationService.findByServiceAreaIdsAndOrganizationTypeId(serviceAreaIds, OrganizationType.CALIBRATOR);
+        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.CALIBRATOR);
     }
 
 

@@ -3,7 +3,7 @@ package com.softserve.edu.dto;
 import java.util.Date;
 
 import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
@@ -37,7 +37,7 @@ public class CalibrationTestDTO  {
     private String documentTypeName;
     private String documentDate;
 
-    public CalibrationTestDTO(String s, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult, String fullName, String street, String region, String district, String locality, Long calibrationTestId, Long id, DeviceType deviceType) {
+    public CalibrationTestDTO(String s, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult, String fullName, String street, String region, String district, String locality, Long calibrationTestId, Long id, Device.DeviceType deviceType) {
     }
 
     public CalibrationTestDTO(String name, Integer temperature, Integer settingNumber, Double latitude,
