@@ -163,6 +163,8 @@ public class UsersServiceImpl implements UserService  {
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
             sysAdmin.setPassword(passwordEncoded);
         }
+
+        userRepository.save(sysAdmin);
     }
 
     @Override

@@ -4,9 +4,6 @@
 
 <div class="modal-body">
     <form name="sysAdminForm" role="form" ng-submit="!sysAdminForm.phone.$error.pattern && !sysAdminForm.phone.$error.required
-          && !sysAdminForm.types.$error.required
-          && !sysAdminForm.processTime.$error.required
-          && !sysAdminForm.capacity.$error.required
           && !sysAdminForm.email.$error.pattern && !sysAdminForm.email.$error.required
           && !sysAdminForm.firstName.$error.pattern && !sysAdminForm.firstName.$error.required
           && !sysAdminForm.lastName.$error.pattern && !sysAdminForm.lastName.$error.required
@@ -16,7 +13,7 @@
           && !sysAdminForm.locality.$error.pattern && !sysAdminForm.locality.$error.required
           && !sysAdminForm.street.$error.pattern && !sysAdminForm.street.$error.required
           && !sysAdminForm.building.$error.pattern && !sysAdminForm.building.$error.required
-          && editOrganization()" novalidate>
+          && editSysAdmin()" novalidate>
         <div class="panel panel-primary">
             <div class="panel-heading">{{'GENERAL_INFORMATION' | translate}}</div>
             <div class="panel-body">
@@ -155,22 +152,6 @@
                                ng-model-options="{debounce: 350}"
                                ng-pattern="USERNAME_REGEX"
                                id="username" name="username" class="form-control" required>
-
-                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.username.$touched">
-                            <p class="help-block has-error"
-                               ng-if="sysAdminForm.username.$error.pattern">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'LOGIN_HAS_INVALID_LENGTH' | translate }}
-                            </p>
-                            <p class="validation-message has-error" ng-if="!isUsernameAvailable">
-                                {{'LOGIN_ISNT_AVAILABLE'
-                                | translate }}
-                            </p>
-                            <p class="validation-message has-error" ng-if="sysAdminForm.username.$error.required">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'REQUIRED' | translate}}
-                            </p>
-                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -300,9 +281,15 @@
                                 </div>
                                 <div class="form-group col-md-8">
                                     <input name="building" type="text"
-                                           ng-model="$root.organization.building"
+                                           ng-model="$root.sysAdmin.building"
                                            typeahead="building as building.designation for building in buildings | filter: $viewValue"
                                            class="form-control" required>
+                                </div>
+                                <div ng-show="sysAdminForm.$submitted  || sysAdminForm.building.$touched">
+                                    <p class="validation-message has-error" ng-if="sysAdminForm.building.$error.required">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        {{'REQUIRED' | translate}}
+                                    </p>
                                 </div>
                             </div>
 
@@ -312,9 +299,9 @@
                                 </div>
                                 <div class="form-group col-md-8">
                                     <input name="flat" type="text"
-                                           ng-model="$root.organization.flat" class="form-control" required>
+                                           ng-model="$root.sysAdmin.flat" class="form-control" required>
                                 </div>
-                                <div ng-show="$root.organization.$submitted || sysAdminForm.flat.$touched">
+                                <div ng-show="sysAdminForm.$submitted  || sysAdminForm.flat.$touched">
                                     <p class="validation-message has-error" ng-if="sysAdminForm.flat.$error.required">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         {{'REQUIRED' | translate}}
@@ -334,7 +321,6 @@
             <div class="form-group col-md-10">
 
                 <button class="btn btn-success">{{'EDIT' | translate}}</button>
-                <!--<a class="btn btn-warning" ng-click="reset$root.organization()">{{'CLEAR_FORM' | translate }}</a>-->
             </div>
             <div class="form-group col-md-2">
                 <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}</button>

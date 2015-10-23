@@ -4,12 +4,12 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.organization.OrganizationChangesHistory;
+import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.repository.OrganizationChangesHistoryRepository;
+import com.softserve.edu.repository.OrganizationEditHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.catalogue.LocalityService;
@@ -43,7 +43,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationRepository organizationRepository;
 
     @Autowired
-    private OrganizationChangesHistoryRepository organizationChangesHistoryRepository;
+    private OrganizationEditHistoryRepository organizationEditHistoryRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -90,10 +90,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         String stringOrganizationTypes = String.join(",", types);
 
         Date date = new Date();
-        OrganizationChangesHistory organizationChangesHistory = new OrganizationChangesHistory(date, name, email, phone, employeesCapacity,
+        OrganizationEditHistory organizationEditHistory = new OrganizationEditHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
-        organizationChangesHistoryRepository.save(organizationChangesHistory);
-        organization.addOrganizationChangeHistory(organizationChangesHistory);
+        organizationEditHistoryRepository.save(organizationEditHistory);
+        organization.addOrganizationChangeHistory(organizationEditHistory);
         organizationRepository.save(organization);
 
         mail.sendOrganizationPasswordMail(email, name, username, password);
@@ -199,11 +199,11 @@ public class OrganizationServiceImpl implements OrganizationService {
         logger.info(employeeAdmin.getPassword());
         Date date = new Date();
 
-        OrganizationChangesHistory organizationChangesHistory = new OrganizationChangesHistory(date, name, email, phone, employeesCapacity,
+        OrganizationEditHistory organizationEditHistory = new OrganizationEditHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
-        organizationChangesHistoryRepository.save(organizationChangesHistory);
-        organization.addOrganizationChangeHistory(organizationChangesHistory);
+        organizationEditHistoryRepository.save(organizationEditHistory);
+        organization.addOrganizationChangeHistory(organizationEditHistory);
         organizationRepository.save(organization);
     }
 
@@ -221,8 +221,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public List<OrganizationChangesHistory> getHistoryByOrganizationId(Long organizationId) {
-        return organizationChangesHistoryRepository.findByOrganizationId(organizationId);
+    public List<OrganizationEditHistory> getHistoryByOrganizationId(Long organizationId) {
+        return organizationEditHistoryRepository.findByOrganizationId(organizationId);
     }
 
     @Override

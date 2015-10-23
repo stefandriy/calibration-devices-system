@@ -12,7 +12,7 @@ import java.util.Date;
 @EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "ORGANIZATION_CHANGES_HISTORY")
-public class OrganizationChangesHistory {
+public class OrganizationEditHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class OrganizationChangesHistory {
     @JoinColumn(name = "organizationId")
     private Organization organization;
 
-    public OrganizationChangesHistory(Date date, String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, String types, String username, String firstName, String lastName, String middleName, Organization organization, Address address, String adminName) {
+    public OrganizationEditHistory(Date date, String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, String types, String username, String firstName, String lastName, String middleName, Organization organization, Address address, String adminName) {
         this.date = date;
         this.name = name;
         this.email = email;

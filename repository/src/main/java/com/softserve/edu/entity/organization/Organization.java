@@ -11,9 +11,13 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 
 import lombok.*;
+import org.hibernate.annotations.*;
 
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -52,8 +56,8 @@ public class Organization {
      */
     private Date certificateGrantedDate;
 
-    @OneToMany(mappedBy = "organization")
-    private Set<OrganizationChangesHistory> organizationChangesHistorySet = new HashSet<>();
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private Set<OrganizationEditHistory> organizationEditHistorySet = new HashSet<>();
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
@@ -85,8 +89,8 @@ public class Organization {
             inverseJoinColumns = @JoinColumn(name = "localityId"))
     private Set<Locality> localities = new HashSet<>();
 
-    public void addOrganizationChangeHistory(OrganizationChangesHistory organizationChangesHistory) {
-        this.organizationChangesHistorySet.add(organizationChangesHistory);
+    public void addOrganizationChangeHistory(OrganizationEditHistory organizationEditHistory) {
+        this.organizationEditHistorySet.add(organizationEditHistory);
     }
 
     public Organization(String name, String email, String phone) {
@@ -127,8 +131,8 @@ public class Organization {
         deviceTypes.clear();
     }
 
-    public void addHistory(OrganizationChangesHistory history) {
-        this.organizationChangesHistorySet.add(history);
+    public void addHistory(OrganizationEditHistory history) {
+        this.organizationEditHistorySet.add(history);
     }
 
     public void addLocality(Locality locality) {
