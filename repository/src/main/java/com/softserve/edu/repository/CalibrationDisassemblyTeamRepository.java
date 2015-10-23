@@ -8,12 +8,10 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 
 public interface CalibrationDisassemblyTeamRepository extends
-        PagingAndSortingRepository<DisassemblyTeam, Long>, JpaSpecificationExecutor {
+        PagingAndSortingRepository<DisassemblyTeam, String>, JpaSpecificationExecutor {
 
         Page<DisassemblyTeam> findAll(Pageable pageable);
 
-        DisassemblyTeam findOne(String teamId);
-        
         //Page<DisassemblyTeam> findByCalibratorId(Long calibratorId, Pageable pageable);
 
         Page<DisassemblyTeam> findByNameLikeIgnoreCase(String name, Pageable pageable);

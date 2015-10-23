@@ -2,7 +2,7 @@ angular
     .module('employeeModule')
     .controller('DisassemblyTeamControllerCalibrator', ['$rootScope', '$scope', '$modal',
         'DisassemblyTeamServiceCalibrator', '$timeout',
-        function ($rootScope, $scope,$modal, disassemblyTeamServiceCalibrator, $timeout) {
+        function ($rootScope, $scope, $modal, disassemblyTeamServiceCalibrator, $timeout) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;

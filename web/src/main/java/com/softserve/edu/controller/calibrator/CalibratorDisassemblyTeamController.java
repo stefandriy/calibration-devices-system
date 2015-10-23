@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/calibrator/disassemblyTeam/", produces = "application/json")
 public class CalibratorDisassemblyTeamController {
 
-    private final Logger logger = Logger.getLogger(MeasuringEquipmentController.class);
+    private final Logger logger = Logger.getLogger(CalibratorDisassemblyTeamController.class);
 
 
     @Autowired
