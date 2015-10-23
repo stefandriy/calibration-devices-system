@@ -181,6 +181,7 @@
                                 лабораторія)</span>
                             </a>
                         </li>
+
                         <li ui-sref-active="active">
                             <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> <span>Планування завдання</span>
                             </a>
@@ -222,6 +223,13 @@
                             <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span
                                     translate="EMPLOYEE"></span></a>
                         </li>
+
+                        <li ui-sref-active="active">
+                            <a ui-sref="disassembly-team-calibrator">
+                                <i class="fa fa-desktop"></i><span>Довідник демонтажних бригад</span>
+                            </a>
+                        </li>
+
                     </sec:authorize>
 
                     <sec:authorize url="/verificator/admin/">
