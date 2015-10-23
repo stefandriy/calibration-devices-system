@@ -1,20 +1,14 @@
 package com.softserve.edu.controller.admin;
 
-import com.softserve.edu.controller.provider.util.UserDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UserFilterSearch;
 import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
 import com.softserve.edu.service.admin.UserService;
-import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 

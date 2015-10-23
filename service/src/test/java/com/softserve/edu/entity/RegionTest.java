@@ -9,7 +9,7 @@ public class RegionTest extends DBUnitConfig{
 
 	public RegionTest(String name) {
 		//super(name);
-		// TODO Auto-generated constructor stub
+		// Auto-generated constructor stub
 	}
 
 	//  private EntityManager em = Persistence.createEntityManagerFactory("DBUnitEx").createEntityManager();

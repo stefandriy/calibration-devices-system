@@ -1,6 +1,6 @@
 package com.softserve.edu.entity.organization;
 
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,13 +31,15 @@ public class Agreement {
 
     private Long deviceCount;
 
+    private Boolean isAvailable = false;
+
     @Temporal(TemporalType.DATE)
     private Date date;
 
     @Enumerated(EnumType.STRING)
-    private DeviceType deviceType;
+    private Device.DeviceType deviceType;
 
-    public Agreement(Organization customer, Organization executor, String number, Long deviceCount, Date date, DeviceType deviceType) {
+    public Agreement(Organization customer, Organization executor, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
         this.setCustomer(customer);
         this.setExecutor(executor);
         this.setNumber(number);

@@ -5,10 +5,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
+
 import lombok.*;
 
 
@@ -76,7 +78,7 @@ public class Organization {
     @JoinTable(name = "DEVICE_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
     @Column(name = "value", length = 20)
     @Enumerated(EnumType.STRING)
-    private Set<DeviceType> deviceTypes = new HashSet<>();
+    private Set<Device.DeviceType> deviceTypes = new HashSet<>();
 
 
     @ManyToMany
@@ -118,7 +120,7 @@ public class Organization {
         localities.clear();
     }
 
-    public void addDeviceType(DeviceType deviceType) {
+    public void addDeviceType(Device.DeviceType deviceType) {
         deviceTypes.add(deviceType);
     }
 

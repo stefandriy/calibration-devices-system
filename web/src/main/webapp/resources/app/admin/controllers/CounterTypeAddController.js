@@ -11,7 +11,6 @@ angular
         'CounterTypeService',
         function ($rootScope, $scope, $translate, devices, $modalInstance,
                   counterTypeService) {
-
             $scope.names = devices.data;
             $scope.standardSizes = ['DN 10','DN 15','DN 20','DN 25','DN 32',
                                     'DN 40','DN 50','DN 65','DN 80','DN 100',
@@ -26,7 +25,7 @@ angular
             /**
              * Resets organization form
              */
-            $scope.resetaddCounterTypeForm = function () {
+            $scope.resetAddCounterTypeForm = function () {
                 $scope.$broadcast('show-errors-reset');
                 $scope.addCounterTypeForm.$setPristine();
                 $scope.addCounterTypeForm.$setUntouched();
@@ -47,7 +46,7 @@ angular
              * organization.
              */
             $rootScope.closeModal = function () {
-                $scope.resetaddCounterTypeForm();
+                $scope.resetAddCounterTypeForm();
                 $modalInstance.close();
             };
 
@@ -74,7 +73,7 @@ angular
                     .then(function (data) {
                         if (data == 201) {
                             $scope.closeModal();
-                            $scope.resetaddCounterTypeForm();
+                            $scope.resetAddCounterTypeForm();
                             $rootScope.onTableHandling();
                         }
                     });

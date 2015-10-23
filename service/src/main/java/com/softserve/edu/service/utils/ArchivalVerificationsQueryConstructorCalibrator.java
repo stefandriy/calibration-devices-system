@@ -1,11 +1,11 @@
 package com.softserve.edu.service.utils;
 
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import org.apache.log4j.Logger;
 
@@ -136,7 +136,7 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
         }
         if (measurementDeviceType != null) {
             queryPredicate = cb.and(cb.equal(root.get("device").get("deviceType"),
-                    DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
+                    Device.DeviceType.valueOf(measurementDeviceType.trim())), queryPredicate);
         }
         if (protocolId != null) {
             Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");

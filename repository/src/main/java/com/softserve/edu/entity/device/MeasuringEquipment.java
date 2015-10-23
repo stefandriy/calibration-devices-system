@@ -18,6 +18,7 @@ public class MeasuringEquipment {
 
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
 
     private String name;

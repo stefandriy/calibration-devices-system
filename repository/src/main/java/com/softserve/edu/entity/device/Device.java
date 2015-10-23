@@ -2,7 +2,6 @@ package com.softserve.edu.entity.device;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
@@ -60,5 +59,17 @@ public class Device {
         this.number = number;
         this.deviceType = deviceType;
         this.deviceName = deviceName;
+    }
+
+    /**
+     *
+     * Represents types of measurement devices.
+     *
+     */
+    public enum DeviceType {
+        ELECTRICAL,
+        GASEOUS,
+        WATER,
+        THERMAL
     }
 }

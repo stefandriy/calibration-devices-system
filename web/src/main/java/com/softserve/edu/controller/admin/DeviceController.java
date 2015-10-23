@@ -3,16 +3,12 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.DeviceDTO;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.service.tool.DeviceService;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

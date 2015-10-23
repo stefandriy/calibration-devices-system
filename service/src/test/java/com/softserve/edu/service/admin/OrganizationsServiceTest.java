@@ -4,7 +4,7 @@ package com.softserve.edu.service.admin;
 import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.service.utils.TypeConverter;
@@ -52,7 +52,7 @@ public class OrganizationsServiceTest {
 
     @Test
     public void testFindByLocalityIdAndTypeAndDevice() {
-        List<Organization> list = organizationsService.findByLocalityIdAndTypeAndDevice(116031L, OrganizationType.PROVIDER, DeviceType.WATER);
+        List<Organization> list = organizationsService.findByLocalityIdAndTypeAndDevice(116031L, OrganizationType.PROVIDER, Device.DeviceType.WATER);
 
         assertTrue(!list.isEmpty());
     }

@@ -125,6 +125,27 @@ angular
                     });
 
             };
+            $scope.openEditSysAdminModal = function (username) {
+                $rootScope.username = username;
+                userService.getSysAdminByUsername(
+                    $rootScope.username).then(
+                    function (data) {$rootScope.sysAdmin = data;
+                        console.log($rootScope.sysAdmin);
+
+                        var sysAdminDTOModal = $modal
+                            .open({
+                                animation: true,
+                                controller: 'SysAdminEditModalController',
+                                templateUrl: '/resources/app/admin/views/modals/sys-admin-edit-modal.html',
+                                size: 'lg',
+                                resolve: {
+                                    regions: function () {
+                                        return addressService.findAllRegions();
+                                    }
+                                }
+                            });
+                    });
+            };
 
             /**
              * Opens modal window for show history editing organization.

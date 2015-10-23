@@ -2,7 +2,6 @@ package com.softserve.edu.service.tool.impl;
 
 
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.repository.DeviceRepository;
 import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.utils.ArchivalDevicesCategoryQueryConstructorAdmin;
@@ -83,7 +82,7 @@ public class DeviceServiceImpl implements DeviceService {
 	@Override
 	@Transactional
 	public void addDeviceCategory(String number, String deviceType, String deviceName) {
-		Device deviceCategory = new Device(number, DeviceType.valueOf(deviceType), deviceName);
+		Device deviceCategory = new Device(number, Device.DeviceType.valueOf(deviceType), deviceName);
 		deviceRepository.save(deviceCategory);
 	}
 
@@ -93,7 +92,7 @@ public class DeviceServiceImpl implements DeviceService {
 		Device device = deviceRepository.findOne(id);
 
 		device.setNumber(number);
-		device.setDeviceType(DeviceType.valueOf(deviceType));
+		device.setDeviceType(Device.DeviceType.valueOf(deviceType));
 		device.setDeviceName(deviceName);
 
 		deviceRepository.save(device);
