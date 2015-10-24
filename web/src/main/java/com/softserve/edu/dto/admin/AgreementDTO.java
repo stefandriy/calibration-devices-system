@@ -15,9 +15,13 @@ public class AgreementDTO {
     private String number;
     private Long deviceCount;
     private String deviceType;
+    private String customerType;
 
-    public AgreementDTO(){}
-    public AgreementDTO(Long id, Long customerId, Long executorId, String customerName, String executorName, String number, Long deviceCount, String deviceType) {
+    public AgreementDTO() {
+    }
+
+    public AgreementDTO(Long id, Long customerId, Long executorId, String customerName, String executorName,
+                        String number, Long deviceCount, String deviceType, String customerType) {
         this.setId(id);
         this.setCustomerId(customerId);
         this.setExecutorId(executorId);
@@ -26,6 +30,12 @@ public class AgreementDTO {
         this.setNumber(number);
         this.setDeviceCount(deviceCount);
         this.setDeviceType(deviceType);
+        this.setCustomerType(customerType);
+    }
+
+    public AgreementDTO(Long id, Long customerId, Long executorId, String customerName, String executorName,
+                        String number, Long deviceCount, String deviceType) {
+        this(id, customerId, executorId, customerName, executorName, number, deviceCount, deviceType, null);
     }
 
     public AgreementDTO(Long customerId, Long executorId, String number, Long deviceCount, String deviceType) {
