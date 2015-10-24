@@ -25,52 +25,41 @@
 
                 <div class="panel-body">
 
+
+
                     <div class="row">
                         <div class="col-md-12">
                             <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                                    class="table table-bordered table-hover users_table">
 
                                 <tbody>
-                                <tr ng-repeat="verification in $data"  ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                    <td data-title="''"><input type="checkbox" ng-show="verification.calibratorEmployee"
-                                                               ng-click="resolveVerificationId(verification.id)"/>
+                                <tr ng-repeat="verification in $data" >
+                                    <td data-title="''"><input type="checkbox" ng-click="resolveVerificationId(verification.verficationId)"/>
                                     </td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
-                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
+                                        filter="{ 'date': 'daterange' }">{{ verification.sentToCalibrator | date :
                                         'dd-MM-yyyy'}}
                                         <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
                                             translate}} {{verification.processTimeExceeding}} {{'DAYS' |
                                             translate}}</b>
                                         </div>
                                     </td>
-                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
-                                        filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
+                                    <td data-title="'VERIFICATION_ID' | translate"
+                                        filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.verficationId }}
                                     </td>
-                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'id'"
-                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.provider }}
+                                    <td data-title="'PROVIDER_NAME' | translate"
+                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.providerName }}
                                     </td>
-                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'"
-                                        filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
+                                    <td data-title="'CLIENT_FULL_NAME' | translate"
+                                        filter="{ 'client_full_name': 'text' }">{{ verification.clientFullName }}
                                     </td>
-                                    <td data-title="'CLIENT_ADDRESS' | translate" sortable="'address'"
+                                    <td data-title="'CLIENT_ADDRESS' | translate"
                                         filter="{ 'address': 'text' }">{{ verification.address }}
                                     </td>
-                                   <!-- <td data-title="'COUNTER_QUANTITY' | translate" sortable="'quantity'"
-                                        filter="{ 'quantity': 'text' }">{{ verification.counterQuantity }}
-                                    </td> -->
-                                    <td data-title="'TELEPHONE' | translate" sortable="'quantity'"
-                                        filter="{ 'quantity': 'text' }">{{ verification.counterQuantity }}
+                                    <td data-title="'TELEPHONE' | translate"
+                                        filter="{ 'quantity': 'text' }">{{ verification.telephone }}
                                     </td>
 
-
-                                    <td data-title="'ACTIONS' | translate" style="width: 15%">
-                                        <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
-                                            <span style="color: forestgreen;" popover="Р”РѕРґР°С‚РєРѕРІР° С–РЅС„РѕСЂРјР°С†С–СЏ" popover-trigger="mouseenter"
-                                                  ng-click="openTask(verification.id)">
-                                                    <i class="fa fa-info-circle"></i>
-                                            </span>
-                                        </div>
-                                    </td>
                                 </tr>
                                 </tbody>
 
@@ -124,32 +113,28 @@
                                 </div>
                             </script>
 
-                            <script type="text/ng-template" id="ng-table/filters/status.html">
-                                <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
-                                           search-enabled="false"
-                                           name="filter-status">
-                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                                     allow-clear="true">
-                                        {{$select.selected.label}}
-                                    </ui-select-match>
-                                    <ui-select-choices
-                                            repeat="status in statusData">
-                                        <span ng-bind-html="status.label"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </script>
+
                             <p id="emptyError" ng-if="allIsEmpty && isClicked"
                                class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
-
                             </p>
 
                             <div class="pull-left">
                                 <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
-                                        {{'SEND' | translate}}
+                                        ng-click="openTask()"><span class="glyphicon glyphicon-send"></span>
+                                        {{'CREATE_TASK' | translate}}
                                 </button>
                             </div>
+
+                            <!--<div class="pull-right">-->
+                                <!--<button type="button" class="btn btn-primary"-->
+                                        <!--ng-click="createExcelFile()"><span class="glyphicon glyphicon-send"></span>-->
+                                    <!--Створити ексель документ-->
+                                <!--</button>-->
+
+                                <!--<a href="" id="dawnloadFile" download>Скачати файл ексель</a>-->
+                            <!--</div>-->
+
 
                         </div>
                     </div>

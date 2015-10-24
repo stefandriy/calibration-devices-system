@@ -18,6 +18,23 @@ public class CalibrationTestPageItem {
     private String consumptionStatus;
     private CalibrationTestResult testResult;
 
+    private String fullName;
+    private String region;
+    private String district;
+    private String locality;
+    private String street;
+
+    private Long protocolId;
+    private String protocolDate;
+    private String protocolStatus;
+
+    private String measurementDeviceId;
+    private String measurementDeviceType;
+
+    private String documentType;
+    private String documentTypeName;
+    private String documentDate;
+
     public CalibrationTestPageItem() {
     }
 

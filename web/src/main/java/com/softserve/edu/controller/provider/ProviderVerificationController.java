@@ -2,12 +2,16 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.*;
+import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.provider.*;
+import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
@@ -27,6 +31,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/provider/verifications/")
@@ -42,6 +48,9 @@ public class ProviderVerificationController {
     ProviderEmployeeService providerEmployeeService;
 
     @Autowired
+    OrganizationService organizationService;
+
+    @Autowired
     CalibratorService calibratorService;
 
     @Autowired
@@ -54,7 +63,7 @@ public class ProviderVerificationController {
     private UserService userService;
 
     @Autowired
-    private MailServiceImpl mailServiceImpl;
+    private MailService mailService;
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
@@ -159,7 +168,7 @@ public class ProviderVerificationController {
                 searchData.getEmployee(),
                 providerEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        return new PageDTO<>(queryResult.getTotalItems(), content);
     }
 
     /**
@@ -230,13 +239,19 @@ public class ProviderVerificationController {
 
 
     /**
-     * Find calibrators by district which correspond provider district
+     * Find calibrators which correspond provider agreements
      *
      * @return calibrator
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
-    public List<Organization> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
+    public Set<OrganizationDTO> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        //return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
+        //todo need to find verificators by agreements(договорах)
+
+        Organization organizationu = organizationService.getOrganizationById(user.getOrganizationId());
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.CALIBRATOR, organizationu.getDeviceTypes().iterator().next()).stream()
+                .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toSet());
     }
 
 
@@ -285,9 +300,13 @@ public class ProviderVerificationController {
 
     @RequestMapping(value = "assign/providerEmployee", method = RequestMethod.PUT)
     public void assignProviderEmployee(@RequestBody VerificationProviderEmployeeDTO verificationProviderEmployeeDTO) {
+
         String userNameProvider = verificationProviderEmployeeDTO.getEmployeeProvider().getUsername();
+
         String idVerification = verificationProviderEmployeeDTO.getIdVerification();
+
         User employeeProvider = verificationProviderEmployeeService.oneProviderEmployee(userNameProvider);
+
         verificationProviderEmployeeService.assignProviderEmployee(idVerification, employeeProvider);
     }
 
@@ -331,4 +350,19 @@ public class ProviderVerificationController {
                 verification.getProviderEmployee(), verification.getStateVerificator(),
                 verification.getStateVerificatorEmployee(), verification.getRejectedMessage());//add rejectMessage
     }
+
+    /**
+     * Check if current user is Employee
+     *
+     * @param user
+     * @return true if user has role PROVIDER_EMPLOYEE
+     * false if user has role PROVIDER_ADMIN
+     */
+    @RequestMapping(value = "provider/role", method = RequestMethod.GET)
+    public Boolean isEmployeeProvider(
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        User checkedUser = userService.findOne(user.getUsername());
+        return checkedUser.getUserRoles().contains(UserRole.PROVIDER_EMPLOYEE);
+    }
+
 }

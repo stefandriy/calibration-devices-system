@@ -25,7 +25,7 @@ public class ProviderServiceImplTest {
         MockitoAnnotations.initMocks(this);
     }
 	
-	@Test
+	/*@Test
 	public void testFindByDistrictParametersPropagation() {
 		final String district = "district"; 
 		final String type = "type";
@@ -44,7 +44,7 @@ public class ProviderServiceImplTest {
 		Assert.assertEquals(district, distinctArg.getValue());
 		Assert.assertEquals(type, typeArg.getValue());
 		Assert.assertEquals(organizations, providerService.findByDistrictAndType(district, type));
-	}
+	}*/
 
 	@Test
     public void testFindByIdParametersPropagation() {

@@ -7,4 +7,6 @@ public interface RegionService {
     Iterable<Region> getAll();
 
     Region getRegionByDesignation(String designation);
+
+    Region findByDistrictId(Long districtId);
 }

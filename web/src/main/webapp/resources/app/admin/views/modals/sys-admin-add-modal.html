@@ -1,0 +1,356 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_SYS_ADMIN'
+        | translate}}</h3>
+</div>
+
+<div class="modal-body">
+
+    <form name="sysAdminForm" novalidate ng-submit="!sysAdminForm.phone.$error.pattern && !sysAdminForm.rePassword.$error.required
+    && !sysAdminForm.password.$error.required && onSysAdminFormSubmit()&&!sysAdminForm.username.$error.required&&!sysAdminForm.lastName.$error.required">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">{{'GENERAL_INFORMATION' | translate }}</div>
+            <div class="panel-body">
+                <div class="row">
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'LAST_NAME' |translate }}*</label>
+                    </div>
+                    <div class="form-group col-md-8" show-errors>
+                        <input id="lastName" name="lastName" class="form-control"
+                               type="text" ng-model="sysAdminFormData.lastName"
+                               ng-change="checkField('lastName')"
+                               ng-pattern="FIRST_LAST_NAME_REGEX" required>
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.lastName.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.lastName.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="sysAdminForm.lastName.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'FIRST_NAME' |translate }}*</label>
+                    </div>
+                    <!--ng-change="checkField('firstName')" -->
+                    <div class="form-group col-md-8" ng-class="firstNameValidation.css" show-errors>
+                        <input type="text" ng-model="sysAdminFormData.firstName"
+                               ng-change="checkField('firstName')"
+                               id="firstName" ng-pattern="FIRST_LAST_NAME_REGEX"
+                               name="firstName" class="form-control" required>
+
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.firstName.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.firstName.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign "></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="sysAdminForm.firstName.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_FIRST_NAME_ADD_EMPLOYEE' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'MIDDLE_NAME' | translate }}*</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="middleNameValidation.css" show-errors>
+                        <input type="text" ng-model="sysAdminFormData.middleName"
+                               ng-pattern="MIDDLE_NAME_REGEX"
+                               ng-change="checkField('middleName')"
+                               id="middleName" name="middleName" class="form-control" required>
+
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.middleName.$touched">
+
+                            <p class="validation-message" ng-if="sysAdminForm.middleName.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="sysAdminForm.middleName.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_MIDDLE_NAME_ADD_EMPLOYEE' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'PHONE_NUMBER_TWO' | translate }}</label>
+                    </div>
+                    <div class="form-group col-md-8 " ng-class="phoneNumberValidation.css" show-errors>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon-code">+380</span> <input
+                                type="text" ng-model="sysAdminFormData.phone"
+                                ng-pattern="PHONE_REGEX" placeholder="XXXXXXXXX"
+                                id="phone" name="phone" class="form-control">
+                        </div>
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.phone.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.phone.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_PHONE_ADD_EMPLOYEE' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'EMAIL' | translate }}*</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="emailValidation.css" show-errors>
+                        <input type="text" ng-model="sysAdminFormData.email"
+                               ng-pattern="EMAIL_REGEX"
+                               ng-change="checkField('email')"
+                               id="email" name="email" class="form-control" required>
+
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.email.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.email.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="sysAdminForm.email.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">{{'ACCOUNT_INFORMATION' | translate }}</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'LOGIN_TWO' | translate }}*</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="usernameValidation.css">
+                        <input type="text" ng-model="sysAdminFormData.username"
+                               ng-change="checkField('login')"
+                               popover="{{'USERNAME_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="right"
+                               ng-model-options="{debounce: 350}"
+                               id="username" name="username" class="form-control" required>
+
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.username.$touched">
+                            <p class="validation-message" ng-if="!usernameValidation.isValid">
+                                {{usernameValidation.message }}
+                            </p>
+                            <p class="validation-message" ng-if="sysAdminForm.username.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+                            <!--<p class="validation-message" ng-if="sysAdminForm.username.$error.pattern">-->
+                            <!--<span class="glyphicon glyphicon-exclamation-sign"></span>-->
+                            <!--{{'INCORRECT_VALUE_EMAIL_ADD_EMPLOYEE' | translate }}-->
+                            <!--</p>-->
+                            </div>
+                </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'PASSWORD_TWO' | translate}}*</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
+                        <div class="form-group" show-errors>
+                            <input type="password" name="password" class="form-control hidden">
+                            <input type="password" ng-model="sysAdminFormData.password"
+                                   ng-pattern="PASSWORD_REGEX" name="password" class="form-control"
+                                   required>
+                            <p class="help-block"
+                               ng-if="sysAdminForm.password.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'PASSWORD_TOO_SHORT' | translate }}
+                            </p>
+                    </div>
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.Password.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.Password.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+                            <p class="help-block"
+                               ng-if="sysAdminForm.password.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'PASSWORD_TOO_SHORT' | translate }}
+                            </p>
+                </div>
+                        </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'REPEAT_PASSWORD' | translate}}*</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
+                        <input type="password" ng-model="sysAdminFormData.rePassword"
+                               ng-change="checkPasswords()"
+                               name="rePassword" class="form-control"
+                               required>
+                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.rePassword.$touched">
+                            <p class="validation-message" ng-if="sysAdminForm.rePassword.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message " ng-if="passwordValidation.isValid"  ng-class="passwordValidation.css">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'PASSWORDS_DID_NOT_MATCH' | translate}}
+                            </p>
+                        </div>
+                        <!--<h4 ng-show="incorrectValue" style="color: red">-->
+                        <!--{{'INCORRECT_VALUE_INPUT_ADD_EMPLOYEE' | translate}}</h4>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">{{'ADDRESS' | translate }}</div>
+                    <div class="panel-body">
+                        <div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+
+                                    <label class="control-label">{{'REGION' | translate}}</label>
+                                </div>
+                                <div class="form-group col-md-8" show-errors>
+                                    <ui-select class="form-control" type="text" theme="select2"
+                                               ng-model="sysAdminFormData.region"
+                                               on-select="receiveDistricts(sysAdminFormData.region)"
+                                               name="region" id="region" required>
+                                        <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
+                                            {{$select.selected.designation}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="region in regions | filter: $select.search">
+                                            <span ng-bind-html="region.designation"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <p class="help-block"  ng-show="organizationForm.$submitted || sysAdminFormData.region.$touched">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        {{'TYPEAHEAD_ERROR' | translate}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="district" class="control-label">
+                                        {{'DISTRICT' | translate}} </label>
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-8" show-errors>
+                                    <ui-select class="form-control" type="text" theme="select2"
+                                               ng-model="sysAdminFormData.district"
+                                               on-select="receiveLocalities(sysAdminFormData.district)"
+                                               ng-disabled="!sysAdminFormData.region"
+                                               name="district" id="district" required>
+                                        <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
+                                            {{$select.selected.designation}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="district in districts | filter: $select.search">
+                                            <span ng-bind-html="district.designation"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <p class="help-block"  ng-show="organizationForm.$submitted || sysAdminFormData.district.$touched">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        {{'TYPEAHEAD_ERROR' | translate}}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="locality" class="control-label">
+                                        {{'LOCALITY' | translate}}
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-8" show-errors>
+                                    <ui-select class="form-control" type="text" theme="select2"
+                                               ng-model="sysAdminFormData.locality"
+                                               ng-disabled="!sysAdminFormData.district"
+                                               on-select="receiveStreets(sysAdminFormData.locality)"
+                                               name="locality" id="locality" required>
+                                        <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
+                                            {{$select.selected.designation}}
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="locality in localities | filter: $select.search">
+                                            <span ng-bind-html="locality.designation"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <p class="help-block"  ng-show="organizationForm.$submitted || sysAdminFormData.locality.$touched">
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                        {{'TYPEAHEAD_ERROR' | translate}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">{{'STREET_TWO' | translate
+                                        }} </label>
+                                </div>
+                                <div class="form-group col-md-8" show-errors>
+                                    <input name="street" class="form-control"
+                                           type="text" id="street"
+                                           ng-model="sysAdminFormData.street"
+                                           ng-disabled="!sysAdminFormData.locality"
+                                           typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
+                                           typeahead-editable="false" required>
+                                    <div ng-show="organizationFormData.$submitted || sysAdminFormData.street.$touched" >
+                                        <p class="help-block" ng-if="!sysAdminFormData.street.$error.required">
+                                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                            {{'ORGANIZATION_INVALID_STREET'
+                                            | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">{{'HOUSE_TWO' |
+                                        translate}} </label>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <input name="building" type="text"
+                                           ng-model="sysAdminFormData.building"
+                                           typeahead="building as building.designation for building in buildings | filter: $viewValue"
+                                           class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="control-label">{{'FLAT' | translate}}</label>
+                                </div>
+                                <div class="form-group col-md-8">
+                                    <input name="flat" type="text"
+                                           ng-model="sysAdminFormData.flat" class="form-control"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success" ng-click="onsysAdminFormSubmit()">
+                    {{'ADD' | translate}}
+                </button>
+                <button type="reset" class="btn btn-warning" ng-click="resetsysAdminForm()">
+                    {{'CLEAR_FORM' | translate }}
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-danger pull-right" ng-click="closeModal()">
+                    {{'CLOSE' | translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

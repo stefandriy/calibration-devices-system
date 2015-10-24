@@ -46,6 +46,10 @@ public class VerificationPageDTO {
     private String documentTypeName;
     private String documentDate;
 
+    private  Long  calibrationTestId;
+
+
+
 
     public VerificationPageDTO() {
     }
@@ -126,6 +130,85 @@ public class VerificationPageDTO {
             this.documentDate = documentDate;
         }
     }
+
+    public VerificationPageDTO(String id, Date initialDate, String surname, String street, String region,
+                               Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee,
+                               String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
+                               CalibrationTest calibrationTest, Long calibrationTestId,
+                               Device device,
+                               String documentType, String documentDate) {
+
+        this.id = id;
+        this.initialDate = initialDate;
+        this.surname = surname;
+        this.name = name;
+        this.street = street;
+        this.region = region;
+        this.status = status;
+        this.readStatus = readStatus;
+        if (providerEmployee != null) {
+            if (providerEmployee.getMiddleName() != null) {
+                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
+            } else {
+                this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName();
+            }
+        }
+        if (calibratorEmployee != null) {
+            if (calibratorEmployee.getMiddleName() != null) {
+                this.calibratorEmployee = calibratorEmployee.getLastName() + " " + calibratorEmployee.getFirstName() + " " + calibratorEmployee.getMiddleName();
+            } else {
+                this.calibratorEmployee = calibratorEmployee.getLastName() + " " + calibratorEmployee.getFirstName();
+            }
+        }
+        if (stateVerificatorEmployee != null) {
+            if (stateVerificatorEmployee.getMiddleName() != null) {
+                this.stateVerificatorEmployee = stateVerificatorEmployee.getLastName() + " " + stateVerificatorEmployee.getFirstName() + " " + stateVerificatorEmployee.getMiddleName();
+            } else {
+                this.stateVerificatorEmployee = stateVerificatorEmployee.getLastName() + " " + stateVerificatorEmployee.getFirstName();
+            }
+        }
+        this.fullName = fullName;
+        this.district = district;
+        this.locality = locality;
+        this.phone = phone;
+        this.isUpload = isUpload;
+        this.processTimeExceeding = processTimeExceeding;
+        if (calibrationTest != null) {
+            if (calibrationTest.getId() != null) {
+                System.out.println("PageDTO protocolId " + protocolId);
+                this.protocolId = calibrationTest.getId();
+            }
+            if (calibrationTest.getDateTest() != null) {
+                this.protocolDate = calibrationTest.getDateTest().toString();
+            }
+            if (calibrationTest.getTestResult() != null) {
+                this.protocolStatus = calibrationTest.getTestResult().toString();
+                logger.debug("protocolStatus = " + protocolStatus);
+                if (protocolStatus == CalibrationTestResult.SUCCESS.toString()) {
+                    logger.debug("documentType = " +  this.documentType);
+                    this.documentType = DocumentType.VERIFICATION_CERTIFICATE;
+                    this.documentTypeName = "СПП";
+                } else {
+                    this.documentType = DocumentType.UNFITNESS_CERTIFICATE;
+                    this.documentTypeName = "Довідка про непридатність";
+                }
+                logger.debug("documentType = " +  this.documentType);
+            }
+        }
+        if (device != null) {
+            if (device.getId() != null) {
+                this.measurementDeviceId = device.getId().toString();
+            }
+            if (device.getDeviceType() != null) {
+                this.measurementDeviceType = device.getDeviceType().toString();
+            }
+        }
+        if (documentDate != null) {
+            this.documentDate = documentDate;
+        }
+        this.calibrationTestId = calibrationTestId;
+    }
+
 
     public VerificationPageDTO(Long count) {
         this.countOfWork = count;
@@ -353,6 +436,14 @@ public class VerificationPageDTO {
 
     public void setDocumentTypeName(String documentTypeName) {
         this.documentTypeName = documentTypeName;
+    }
+
+    public Long getCalibrationTestId() {
+        return calibrationTestId;
+    }
+
+    public void setCalibrationTestId(Long calibrationTestId) {
+        this.calibrationTestId = calibrationTestId;
     }
 }
 

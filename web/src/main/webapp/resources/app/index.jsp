@@ -46,24 +46,35 @@
         .x-ng-cloak {
             display: none !important;
         }
-
     </style>
 
 </head>
 
-<body>
+<body id="employeeModule">
 
-<div id="employeeModule" class="wrapper">
+<div id="content" class="wrapper ng-cloak" ng-controller="CommonController as common">
 
     <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-static-top" role="navigation"
+    <nav class="navbar navbar-default navbar-static-top" id="dark" role="navigation"
          ng-controller="TopNavBarControllerProvider">
+        <ul class="nav navbar-nav" id="menubuttonelem">
+            <li>
+                <button class="btn btn-default navbar-btn"
+                        ng-class="{'toggle_button' : common.menuState}"
+                        ng-init="common.menuState = true"
+                        ng-click="common.menuState = !common.menuState"
+                        type="button" id="menubutton">
+                    <i class="fa fa-bars" style="padding-right: 0"></i></button>
+            </li>
+            </ul>
         <div class="navbar-header">
-            <a class="navbar-brand" style="color:honeydew">Централізована система повірки лічильників</a>
+            <a class="navbar-brand" translate="HEAD_TITLE"></a>
         </div>
+
 
         <div ng-controller="InternationalizationController">
             <ul class="nav navbar-nav">
+
                 <li class="dropdown" dropdown on-toggle="toggled(open)">
                     <a class="dropdown-toggle" dropdown-toggle translate="LANG">
                         <span class="caret"></span>
@@ -81,37 +92,37 @@
         <!-- Nav bar top right links -->
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown" dropdown>
-                <a class="dropdown-toggle" dropdown-toggle>
+                <a class="dropdown-toggle" style="width:250px; padding: 10px 15px; text-align: right" dropdown-toggle>
                     <div>
-                        <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}}"></label>
+                        <label  translate="{{employee.firstName}} {{employee.lastName}}"></label>
                         <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                     </div>
-
                 </a>
 
-
-                <ul class="dropdown-menu dropdown-user dropdown_style">
-                    <li class="user-header bg-light-blue">
-                        <div class="profile_information_labal">
-                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png" class="img-rounded"
-                                 style="width: 200px; border-radius: 30px"
+                <ul class="dropdown-menu dropdown-user">
+                    <div class="ui card" style="width:250px">
+                        <div class="ui image center aligned">
+                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png"
+                                 style="width: 250px;"
                                  alt="User Image"/>
-                            <label translate="{{employee.firstName}} {{employee.lastName}}
-                        {{employee.middleName}} ({{employee.username}})"/>
                         </div>
-                    </li>
-                    <li class="user-footer">
-                        <div class="profile_information_labal">
-                            <a href="#" class="btn btn-default ref_style_label" translate="PROFILE"></a>
+                        <div class="content" style="padding:0;">
+                            <div class="ui top attached secondary segment" style="padding:10px;">
+                                <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}} {{employee.middleName}} <br/> ({{employee.username}})"></label>
+                            </div>
+                            <div class="ui vertical menu" style="margin-top:0">
+                                <div ui-sref="profile-info" class="link item middle center aligned">
+                                    <p translate="PROFILE"></p>
+                                </div>
+                                <div class="link item middle center aligned">
+                                    <p translate="SETTINGS"></p>
+                                </div>
+                                <div ng-click="logout()" class="link item middle center aligned">
+                                    <p translate="LOG_OUT"> </p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="profile_information_labal">
-                            <a class="btn btn-default ref_style_label" translate="SETTINGS"></a>
-                        </div>
-                        <div class="profile_information_labal">
-                            <a ng-click="logout()" class="btn btn-default ref_style_label"
-                               translate="LOG_OUT"> </a>
-                        </div>
-                    </li>
+                    </div>
                 </ul>
             </li>
         </ul>
@@ -119,36 +130,27 @@
     <!-- Sidebar -->
 
     <div class="row ng-cloak">
-        <div class="col-md-3 menu_column">
-            <div class="ui primary button" ng-class="{'toggle_button' : menuState}" ng-init="menuState = true" ng-click="menuState = !menuState">
-                <div ng-show="menuState" ><i class="fa fa-chevron-left" style="font-size: 30px; vertical-align: middle"></i><span>Сховати</span></div>
-                <div ng-show="!menuState"><i class="fa fa-chevron-right" style="font-size: 30px;vertical-align: middle"></i><span>Показати</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row ng-cloak">
-        <div ng-class="{'col-md-3 menu_column' : menuState, '': !menuState}">
-            <div class="ui visible sticky visible very wide sidebar" ng-hide="!menuState" role="navigation">
-                <ul class="nav ui vertical menu">
+        <div id="sidebar-wrapper" ng-class="{'sidebar-toggle-close' : common.menuState}">
+            <div class="ui visible sticky visible very wide sidebar" role="navigation">
+                <ul class="nav ui vertical menu" id="sidemenu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (постачальник послуг)</a>
+                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> <span>Головна панель
+                                (постачальник послуг)</span></a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (вимірювальна лабораторія)</a>
+                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> <span>Головна панель
+                                (вимірювальна лабораторія)</span></a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> Головна панель
-                                (уповноважена повірочна лабораторія)</a>
+                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> <span>Головна панель
+                                (уповноважена повірочна лабораторія)</span></a>
                         </li>
                     </sec:authorize>
 
@@ -156,7 +158,7 @@
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
                             <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()">
-                                <i class="fa fa-list-alt fa-fw"></i> Нові заявки (постачальник послуг)
+                                <i class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (постачальник послуг)</span>
                               <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                     ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
@@ -167,7 +169,7 @@
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (вимірювальна лабораторія)
+                                    class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (вимірювальна лабораторія)</span>
                            		<span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
@@ -175,20 +177,21 @@
                         </li>
                         <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
                             <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i> Довідник засобів вимірювальної техніки (вимірювальна
-                                лабораторія)
+                                    class="fa fa-desktop"></i> <span>Довідник засобів вимірювальної техніки (вимірювальна
+                                лабораторія)</span>
+                            </a>
+                        </li>
+
+                        <li ui-sref-active="active">
+                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> <span>Планування завдання</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> Планування завдання
+                            <a><i class="fa fa-thumb-tack"></i></i> <span>Завдання для станцій</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a ui-sref=""><i class="fa fa-wrench"></i> Переносний модуль
-                            </a>
-                        </li>
-                        <li ui-sref-active="active">
-                            <a ui-sref=""><i class="fa fa-wrench"></i> Стаціонарний модуль
+                            <a><i class="fa fa-thumb-tack"></i></i> <span>Завдання для бригад</span>
                             </a>
                         </li>
 
@@ -199,8 +202,8 @@
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
                             <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> Нові заявки (уповноважена повірочна
-                                лабораторія)
+                                    class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (уповноважена повірочна
+                                лабораторія)</span>
                                 <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
@@ -220,24 +223,38 @@
                             <a ui-sref="employee-show-calibrator"><i class="fa fa-users"></i> <span
                                     translate="EMPLOYEE"></span></a>
                         </li>
+
+                        <li ui-sref-active="active">
+                            <a ui-sref="disassembly-team-calibrator">
+                                <i class="fa fa-desktop"></i><span>Довідник демонтажних бригад</span>
+                            </a>
+                        </li>
+
+                    </sec:authorize>
+
+                    <sec:authorize url="/verificator/admin/">
+                        <li ui-sref-active="active">
+                            <a ui-sref="employee-show-verificator"><i class="fa fa-users"></i> <span
+                                    translate="EMPLOYEE"></span></a>
+                        </li>
                     </sec:authorize>
 
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
+                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i><span> Архів
+                                повірок</span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
+                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> <span>Архів
+                                повірок</span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> Архів
-                                повірок</a>
+                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> <span>Архів
+                                повірок</span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/provider/admin/">
@@ -250,10 +267,14 @@
                 </ul>
             </div>
         </div>
-        <div ng-class="{'col-md-12' : !menuState, 'col-md-9 main_column' : menuState}">
+        <div ng-class="{'col-md-11 sidebar-close' : !common.menuState, 'col-md-12 sidebar-open' : common.menuState}">
             <div ui-view></div>
         </div>
     </div>
+
+</div>
+<div id="loader-wrapper">
+    <div id="loader" class="ui large loader"></div>
 </div>
 <toaster-container
         toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
@@ -270,7 +291,13 @@
     $("#states").chosen();
 </script>
 
-<%--<script src="/resources/assets/js/main.js"></script>--%>
+<script type="text/javascript">
+    $("#menubutton").click(function() {
+        $("#sidebar-wrapper").find("a span").toggle();
+    });
+</script>
+
+<script src="/resources/assets/js/loader-employee.js"></script>
 
 
 </body>

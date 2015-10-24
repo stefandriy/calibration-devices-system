@@ -76,7 +76,7 @@ public class SettingsProviderController {
     public ResponseEntity<EmployeeDTO> getEmployeeData(@AuthenticationPrincipal UserDetails userDetails) {
         ResponseEntity<EmployeeDTO> response;
         try {
-        	User employee = userService.getEmployee(userDetails.getUsername());
+        	User employee = userService.getUser(userDetails.getUsername());
             EmployeeDTO employeeDTO = new EmployeeDTO(
                     employee.getFirstName(),
                     employee.getLastName(),
