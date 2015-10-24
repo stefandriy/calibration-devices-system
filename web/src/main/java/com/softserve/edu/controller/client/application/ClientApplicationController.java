@@ -156,23 +156,20 @@ public class ClientApplicationController {
                 .collect(Collectors.toList());
     }
 
-    //todo
-    @RequestMapping(value = "calibrators/{district}", method = RequestMethod.GET)
-    public List<ApplicationFieldDTO> getCalibratorsCorrespondingDistrict(@PathVariable String district,
-                                                                         @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
-        /*return calibratorService.findByDistrict(district, "CALIBRATOR")
+    /**
+     * Return calibrators corresponding organization and device type
+     * @param type type of device.
+     * @param user user of current organization
+     * @return set of ApplicationFieldDTO where stored organization id and name
+     */
+    @RequestMapping(value = "calibrators/{type}", method = RequestMethod.GET)
+    public Set<ApplicationFieldDTO> getCalibratorsCorrespondingDeviceType(@PathVariable String type,
+                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        //todo agreement
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.CALIBRATOR, Device.DeviceType.valueOf(type))
                 .stream()
-                .map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
-                .collect(Collectors.toList());*/
-        //todo need to find calibrators by agreements(договорах)
-        //todo it`s a MOCK
-        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
-                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
-
-        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.CALIBRATOR).stream()
-                .map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
-                .collect(Collectors.toList());
+                .map(organization -> new ApplicationFieldDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toSet());
     }
 
     /**
