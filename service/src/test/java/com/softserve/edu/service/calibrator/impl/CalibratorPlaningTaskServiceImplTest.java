@@ -1,8 +1,5 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
-import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
@@ -11,8 +8,6 @@ import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationPlanningTaskRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.sun.star.ucb.VerificationMode;
-import org.apache.poi.openxml4j.exceptions.InvalidOperationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +17,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.*;
-import org.springframework.data.repository.query.Param;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +26,7 @@ import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 /**
- * Created by Yurko on 20.10.2015.
+ * Created by Yurij Dvornyk on 20.10.2015.
  */
 @RunWith(MockitoJUnitRunner.class)
 @PrepareForTest(CalibratorPlaningTaskServiceImpl.class)
