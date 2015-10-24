@@ -47,6 +47,7 @@ public class ProcessTimeCheckerTest extends TestCase {
         List<Object[]> providerList = mock(List.class);
         List<Object[]> calibratorList = mock(List.class);
         List<Object[]> verificatorList = mock(List.class);
+        List<Object[]> anyList = new ArrayList<Object[]>();
 
         processTimeChecker.runProcessTimeCheck();
         when(verificationService.getProcessTimeProvider()).thenReturn(providerList);
@@ -55,7 +56,6 @@ public class ProcessTimeCheckerTest extends TestCase {
         verify(verificationService).getProcessTimeCalibrator();
         when(verificationService.getProcessTimeVerificator()).thenReturn(verificatorList);
         verify(verificationService).getProcessTimeVerificator();
-        List<Object[]> anyList = new ArrayList<Object[]>();
         verifyPrivate(processTimeChecker, times(3)).invoke("processTime", anyList);
     }
 
