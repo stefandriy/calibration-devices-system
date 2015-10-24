@@ -190,7 +190,7 @@ angular
                     }
                 });
 
-                $scope.addCalibratorEmployee = function (verifId, providerEmployee) {
+                $scope.addCalibratorEmployee = function (verifId, calibratorEmployee) {
                     var modalInstance = $modal.open({
                         animation: true,
                         templateUrl: '/resources/app/calibrator/views/employee/assigning-calibratorEmployee.html',
@@ -214,7 +214,7 @@ angular
                         idVerification = 0;
                         var dataToSend = {
                             idVerification: verifId,
-                            employeeCalibrator: formData.calibrator
+                            employeeCalibrator: formData.provider
                         };
                         $log.info(dataToSend);
                         verificationServiceCalibrator
@@ -224,6 +224,48 @@ angular
                                 $scope.tableParamsEmployee.reload();
                                 $scope.showGraficTwo();
                             });
+                    });
+                };
+                
+                /**
+                 * Table of employee
+                 */
+                $scope.tableParamsEmployee = new ngTableParams({
+                    page: 1,
+                    count: 5,
+                    sorting: {
+                        lastName: 'asc'     // initial sorting
+                    },
+                }, {
+                    total: 0,
+                    getData: function ($defer, params) {
+                        userServiceCalibrator.getPage(params.page(), params.count(), params.filter(), params.sorting())
+                            .success(function (result) {
+                                $scope.totalEmployee = result.totalItems;
+                                $defer.resolve(result.content);
+                                params.total(result.totalItems);
+                            }, function (result) {
+                                $log.debug('error fetching data:', result);
+                            });
+                    }
+                });
+
+                $scope.showCapacity = function (username) {
+
+                    $modal.open({
+                        animation: true,
+                        templateUrl: '/resources/app/calibrator/views/employee/capacity-calibratorEmployee.html',
+                        controller: 'CapacityEmployeeControllerCalibrator',
+                        size: 'lg',
+                        resolve: {
+
+                            capacity: function () {
+                                return userServiceCalibrator.getCapacityOfWork(username)
+                                    .success(function (verifications) {
+                                        return verifications;
+                                    });
+                            }
+                        }
                     });
                 };
     }]);
