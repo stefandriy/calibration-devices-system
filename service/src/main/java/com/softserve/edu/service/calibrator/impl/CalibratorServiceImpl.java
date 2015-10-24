@@ -38,6 +38,11 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Autowired
     private UserRepository userRepository;
 
+    public void setUserRepository(UserRepository userRepository){
+        this.userRepository=userRepository;
+    }
+
+
     @Override
     @Transactional(readOnly = true)
     public List<Organization> findByDistrict(String district, String type) {

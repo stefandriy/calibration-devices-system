@@ -23,12 +23,11 @@ public class EmployeeDTOTest {
 
     @Test
     public void testgiveListOfEmployeeDTOs() {
-        List listUser = new ArrayList();
         when(user.getUsername()).thenReturn("testName");
         when(user.getFirstName()).thenReturn("testFirstName");
         when(user.getLastName()).thenReturn("testgetLastName");
         when(user.getMiddleName()).thenReturn("testMiddleName");
-        listUser = Arrays.asList(user, user);
+        List<User>listUser = Arrays.asList(user, user);
         List<EmployeeDTO> employeeDTOList = EmployeeDTO.giveListOfEmployeeDTOs(listUser);
         assertEquals(2, employeeDTOList.size());
     }
