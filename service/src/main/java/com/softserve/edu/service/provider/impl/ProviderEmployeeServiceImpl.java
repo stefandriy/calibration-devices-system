@@ -108,7 +108,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
 
     @Override
     @Transactional()
-    public User findByUserame(String userName) {
+    public User findByUsername(String userName) {
         return providerEmployeeRepository.findOne(userName);
     }
 
