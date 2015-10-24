@@ -26,7 +26,7 @@ public interface ProviderEmployeeService {
     ListToPageTransformer<User>
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, Long idOrganization, String userName,
                                                    String role, String firstName, String lastName, String organization,
-                                                   String telephone, String fieldToSort);
+                                                   String telephone, String secondTelephone, String fieldToSort);
 
     List<ProviderEmployeeGraphic> buildGraphic(Date from, Date to, Long idOrganization, List<User> listOfEmployee);
 

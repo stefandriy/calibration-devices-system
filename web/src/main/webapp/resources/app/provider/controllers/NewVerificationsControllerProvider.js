@@ -5,6 +5,18 @@ angular
 
             $scope.resultsCount = 0;
 
+            /**
+             * this function return true if is StateVerificatorEmployee
+             */
+            $scope.isVerificatorEmployee = function () {
+                verificationServiceProvider.getIfEmployeeProvider().success(function(data){
+                    $scope.isEmployee =  data;
+                });
+
+            };
+
+            $scope.isVerificatorEmployee();
+
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
@@ -288,6 +300,7 @@ angular
             /**
              * push verification id to array
              */
+            //todo
             $scope.resolveVerificationId = function (id) {
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {

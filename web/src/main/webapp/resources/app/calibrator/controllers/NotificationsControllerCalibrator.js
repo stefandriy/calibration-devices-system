@@ -27,7 +27,7 @@ angular
 						verificationServiceCalibrator.getCountOfNewVerifications().success(function (count) {
 				       		$scope.countOfUnreadVerifications = count;
 							})
-					}, 5000); 
+					}, 10000);
 			}
 
     	$scope.stopPolling = function() {

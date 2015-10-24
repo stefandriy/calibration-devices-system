@@ -14,6 +14,12 @@ angular
             getCapacityOfWork: function(username){
                 return getData('employee/admin/users/capacityOfEmployee'+ '/'+username);
             },
+            getGraficDataMainPanel: function(dataToSearch) {        		
+                return getData('calibrator/admin/users/graphicmainpanel', dataToSearch);
+            },
+            getPieDataMainPanel: function(){
+                return getData('calibrator/admin/users/piemainpanel');
+            },
             getPage: function (currentPage, itemsPerPage,searchObj,filterObj) {
                 var field;
                 var value;
@@ -31,16 +37,9 @@ angular
 
         };
 
-        function getData(url) {
-            return $http.get(url)
-                .success(function (result) {
-                    return result;
-                });
-        }
-
-        function getDataWithParam(url, params) {
+        function getData(url, params) {
             return $http.get(url, {
-                params : params
+                params: params
             }).success(function (data) {
                 return data;
             }).error(function (err) {

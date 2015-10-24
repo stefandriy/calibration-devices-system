@@ -1,9 +1,8 @@
 angular
     .module('adminModule')
-    .filter('organizationFilter', function () {
+    .filter('organizationAddFilter', function () {
         return function (allTypes, currentTypes) {
             var filtered = allTypes;
-
             for (var i in currentTypes) {
                 if (currentTypes[i].id != 'CALIBRATOR') {
                     var filtered = [];
@@ -11,7 +10,6 @@ angular
                     filtered.push(currentTypes[i]);
                 }
             }
-
             return filtered;
         }
     })
@@ -46,6 +44,17 @@ angular
                 }
             ];
 
+            $scope.counterData = [
+                {
+                    id: 'WATER',
+                    label: null
+                },
+                {
+                    id: 'THERMAL',
+                    label: null
+                },
+            ];
+
             /**
              * Localization of multiselect for type of organization
              */
@@ -55,10 +64,14 @@ angular
                     $scope.typeData[0].label = 'Постачальник послуг';
                     $scope.typeData[1].label = 'Вимірювальна лабораторія';
                     $scope.typeData[2].label = 'Уповноважена повірочна лабораторія';
+                    $scope.counterData[0].label = 'Холодна вода';
+                    $scope.counterData[1].label = 'Гаряча вода';
                 } else if (lang === 'eng') {
                     $scope.typeData[0].label = 'Service provider';
                     $scope.typeData[1].label = 'Measuring laboratory';
                     $scope.typeData[2].label = 'Authorized calibration laboratory';
+                    $scope.counterData[0].label = 'Cold water';
+                    $scope.counterData[1].label = 'Hot water';
                 }
             };
             $scope.setTypeDataLanguage();
@@ -77,15 +90,19 @@ angular
                 $scope.$broadcast('show-errors-reset');
                 $scope.organizationForm.$setPristine();
                 $scope.organizationForm.$setUntouched();
-
-
-                $scope.organizationFormData.types = null;
+                $scope.organizationFormData.types = undefined;
+                $scope.organizationFormData.counters = undefined;
                 $scope.organizationFormData.region = undefined;
                 $scope.organizationFormData.district = undefined;
                 $scope.organizationFormData.locality = undefined;
                 $scope.organizationFormData.street = "";
                 $scope.organizationFormData.building = "";
                 $scope.organizationFormData.flat = null;
+                $scope.selectedServiceAreaLocalities = [];
+                $scope.serviceArea.locality = [[]];
+                $scope.serviceArea.districts = [];
+                $scope.serviceArea.region = undefined;
+                $scope.serviceArea = {};
                 $scope.organizationFormData.serviceArea = null;
             };
 
@@ -104,7 +121,6 @@ angular
              *
              */
             $scope.isUsernameAvailable = true;
-
             $scope.checkIfUsernameIsAvailable = function () {
                 var username = $scope.organizationFormData.username;
                 userService.isUsernameAvailable(username).then(
@@ -112,7 +128,7 @@ angular
                         $scope.isUsernameAvailable = data;
                         $scope.organizationForm.username.$valid = data;
                         $scope.organizationForm.username.$invalid = !data;
-                    })
+            })
             }
 
             /**
@@ -121,7 +137,6 @@ angular
              *
              */
             $scope.isPasswordsEqual = true;
-
             $scope.checkRePassword = function () {
                 var password = $scope.organizationFormData.password;
                 var rePassword = $scope.organizationFormData.rePassword;
@@ -138,6 +153,21 @@ angular
                 }
             }
 
+            /**
+             * Checks whereas given username is available to use
+             * for new user
+             *
+             */
+            $scope.isValidAcordion = true;
+            function checkValidAcardion() {
+                if($scope.selectedServiceAreaLocalities.length === 0) {
+                    $scope.isValidAcordion = false;
+                    $scope.organizationForm.serviceAreaRegion.$invalid = true;
+                    $scope.organizationForm.serviceAreaRegion.$valid = false;
+                    $scope.organizationForm.$valid = false;
+                    $scope.organizationForm.$invalid = true;
+                }
+            }
 
             $scope.regions = regions;
             $scope.districts = undefined;
@@ -200,10 +230,10 @@ angular
             };
 
             $scope.serviceArea = {};
-            $scope.serviceArea.region = [];
+            $scope.serviceArea.region = undefined;
             $scope.serviceArea.districts = [];
             $scope.serviceArea.locality = [[]];
-            $scope.selectedServiseAreaLocalities = [];
+            $scope.selectedServiceAreaLocalities = [];
 
             /**
              * Receives all possible Districts for service area
@@ -255,36 +285,41 @@ angular
                 if ($scope.serviceArea.locality === undefined) {
                     $scope.serviceArea.locality = [[]];
                 }
+
+                /**
+                 * fill district by localities
+                 */
                 if ($scope.serviceArea.locality[index] === undefined || $scope.serviceArea.locality[index].length === 0) {
                     addressService.findLocalitiesByDistrictId(district.id)
                         .then(function (localities) {
                             $scope.serviceArea.locality[index] = localities;
 
+                            /**
+                             * check all localities
+                             */
                             $scope.serviceArea.locality[index].forEach(function (element) {
-                                var selectedIndex = $scope.selectedServiseAreaLocalities.indexOf(element.id);
+                                var selectedIndex = $scope.selectedServiceAreaLocalities.indexOf(element.id);
                                 if (selectedIndex === -1) {
-                                    $scope.selectedServiseAreaLocalities.push(element.id);
+                                    $scope.selectedServiceAreaLocalities.push(element.id);
                                 }
                             });
                         });
                 } else if (district.checked) {
                     $scope.serviceArea.locality[index].forEach(function (element) {
-                        var selectedIndex = $scope.selectedServiseAreaLocalities.indexOf(element.id);
+                        var selectedIndex = $scope.selectedServiceAreaLocalities.indexOf(element.id);
                         if (selectedIndex === -1) {
-                            $scope.selectedServiseAreaLocalities.push(element.id);
+                            $scope.selectedServiceAreaLocalities.push(element.id);
                         }
                     });
                 }
                 else {
                     $scope.serviceArea.locality[index].forEach(function (element) {
-                        var selectedIndex = $scope.selectedServiseAreaLocalities.indexOf(element.id);
+                        var selectedIndex = $scope.selectedServiceAreaLocalities.indexOf(element.id);
                         if (selectedIndex > -1) {
-                            $scope.selectedServiseAreaLocalities.splice(selectedIndex, 1);
+                            $scope.selectedServiceAreaLocalities.splice(selectedIndex, 1);
                         }
                     });
                 }
-
-
             };
 
             /**
@@ -297,21 +332,33 @@ angular
                 $scope.organizationFormData.street = $scope.organizationFormData.street.designation;
                 $scope.organizationFormData.building = $scope.organizationFormData.building;
                 $scope.organizationFormData.flat = $scope.organizationFormData.flat;
-                $scope.organizationFormData.serviceAreas = $scope.selectedServiseAreaLocalities;
+                $scope.organizationFormData.serviceAreas = $scope.selectedServiceAreaLocalities;
             }
 
             function objectTypesToStringTypes() {
                 for (var i in $scope.organizationFormData.types) {
                     $scope.organizationFormData.types[i] = $scope.organizationFormData.types[i].id;
                 }
-
-
+                for (var i in $scope.organizationFormData.counters) {
+                    $scope.organizationFormData.counters[i] = $scope.organizationFormData.counters[i].id;
+                }
             }
 
             /**
              * Validates organization form before saving
              */
             $scope.onOrganizationFormSubmit = function () {
+                if ($scope.organizationFormData.counters === undefined) {
+                    $scope.organizationForm.counters.$error = {"required":true};
+                    $scope.organizationForm.counters.$valid = false;
+                    $scope.organizationForm.counters.$invalid = true;
+                }
+                if ($scope.organizationFormData.types === undefined) {
+                    $scope.organizationForm.types.$error = {"required":true};
+                    $scope.organizationForm.types.$valid = false;
+                    $scope.organizationForm.types.$invalid = true;
+                }
+                checkValidAcardion();
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.organizationForm.$valid) {
                     addressFormToOrganizationForm();
@@ -337,7 +384,7 @@ angular
                     });
             }
 
-            /*	$scope.$watch('organizationFormData.region', function () {
+             $scope.$watch('organizationFormData.region', function () {
              $scope.organizationFormData.district = undefined;
              $scope.organizationFormData.locality = undefined;
              $scope.organizationFormData.street = "";
@@ -357,12 +404,12 @@ angular
              $scope.organizationFormData.building = "";
              $scope.organizationFormData.flat = null;
              });
-             */
 
 
-            $scope.ORGANIZATION_NAME_REGEX = /^[\wА-ЯЄІЇҐ"'а-яєіїґ ]+$/;
+
+            $scope.ORGANIZATION_NAME_REGEX = /^[A-Za-zА-ЯЄІЇҐ"'а-яєіїґ ]+$/;
             $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
-            $scope.EMAIL_REGEX = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+            $scope.EMAIL_REGEX = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
             $scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20})$/;
             $scope.MIDDLE_NAME_REGEX = /^[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}$/;
             $scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;

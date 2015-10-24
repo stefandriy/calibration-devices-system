@@ -45,12 +45,6 @@ public class StateVerificatorServiceImplTest {
     }
 
     @Test
-    public void testFindByDistrict() throws Exception {
-        when(stateVerificatorRepository.findByDistrictAndType(district, type)).thenReturn(listOrganizations);
-        Assert.assertEquals(listOrganizations, stateVerificatorService.findByDistrictAndType(district, type));
-    }
-
-    @Test
     public void testFindById() throws Exception {
         when(stateVerificatorRepository.findOne(id)).thenReturn(cstateVerificatorlibrator);
         Assert.assertEquals(cstateVerificatorlibrator, stateVerificatorService.findById(id));

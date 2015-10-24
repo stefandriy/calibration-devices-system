@@ -37,6 +37,9 @@ angular
             sendInitiatedVerification:function(form){
                 return sendData('send',form);
             },
+            checkMailIsExist: function(form) {
+                return sendData('mailExist', form);
+            },
             getLocalitiesCorrespondingProvider:function(url){
                 return getData('applications/localities');
             },
@@ -66,7 +69,11 @@ angular
             },
             getArchivalVerificationEarliestDate: function () {
                 return getData('verifications/archive/earliest_date/provider');
+            },
+            getIfEmployeeProvider: function(url) {
+                return getData('verifications/provider/role');
             }
+
         };
 
         function getData(url) {
@@ -88,6 +95,16 @@ angular
             }).error(function (err) {
                 return err;
             });
+        }
+
+        function getMailExistValidation(url) {
+            return $http.get('provider/applications/' + url)
+                .success(function (data) {
+                    return data;
+                })
+                .error(function (err) {
+                    return err;
+                });
         }
 
         function updateData(url, data) {
