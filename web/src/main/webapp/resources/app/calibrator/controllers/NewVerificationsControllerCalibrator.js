@@ -7,6 +7,19 @@ angular
 
             $scope.resultsCount = 0;
 
+
+            /**
+             * this function return true if is StateVerificatorEmployee
+             */
+            $scope.isCalibratorEmployee = function () {
+                verificationServiceCalibrator.getIfEmployeeCalibrator().success(function(data){
+                    $scope.isEmployee =  data;
+                });
+
+            };
+
+            $scope.isCalibratorEmployee();
+
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
                 $scope.tableParams.filter({});
@@ -44,7 +57,6 @@ angular
                     $scope.statusData[1].label = 'Визначено спосіб повірки';
                     $scope.statusData[2].label = 'Відправлено на установку';
                     $scope.statusData[3].label = 'Проведено вимірювання';
-
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'In progress';
                     $scope.statusData[1].label = 'Test place determined';
@@ -201,7 +213,6 @@ angular
                 });
             };
 
-
             $scope.openDetails = function (verifId, verifDate, verifReadStatus) {
                 $modal.open({
                     animation: true,
@@ -252,6 +263,7 @@ angular
             };
 
 
+
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
@@ -261,6 +273,7 @@ angular
                         size: 'md',
                         resolve: {
                             response: function () {
+                                //todo need to find verificators by agreements(договорах)
                                 return verificationServiceCalibrator.getVerificators()
                                     .success(function (verificators) {
                                         $log.debug(verificators);
@@ -285,7 +298,7 @@ angular
                             .sendVerificationsToCalibrator(dataToSend)
                             .success(function () {
                                 $scope.tableParams.reload();
-                                $rootScope.$broadcast('verification-sent-to-verifikator');
+                                $rootScope.$broadcast('verification-sent-to-verificator');
                             });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
@@ -422,15 +435,14 @@ angular
                 });
             };
 
-            $scope.openTask = function(verificationId){
-                $rootScope.verifId = verificationId;
-
-                $scope.$modalInstance  = $modal.open({
+            $scope.uploadArchive = function() {
+                console.log("Entered upload archive function");
+                var modalInstance = $modal.open({
                     animation: true,
-                    controller: 'TaskControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                    templateUrl: '/resources/app/calibrator/views/modals/upload-archive.html',
+                    controller: 'UploadArchiveController',
+                    size: 'lg'
                 });
-            };
-
+            }
         }]);
 

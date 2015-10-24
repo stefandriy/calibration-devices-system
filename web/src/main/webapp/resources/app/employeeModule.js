@@ -1,7 +1,7 @@
 (function () {
     angular.module('employeeModule', ['spring-security-csrf-token-interceptor',
         'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
-        'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize'/*, 'angularJsToaster'*/])
+        'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize', 'ngAnimate', 'toaster'])
 
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
 
@@ -28,7 +28,7 @@
 
                 $stateProvider
                     .state('main-panel-provider', {
-                        url: '/',
+                        url: '/provider/',
                         templateUrl: '/resources/app/provider/views/main-panel.html',
                         controller: 'MainPanelControllerProvider'
                     })
@@ -59,7 +59,13 @@
                     })
                     .state('main-panel-calibrator', {
                         url: '/calibrator/',
-                        templateUrl: '/resources/app/calibrator/views/main-panel.html'
+                        templateUrl: '/resources/app/calibrator/views/main-panel.html',
+                        controller: 'MainPanelControllerCalibrator'
+                    })
+                    .state("profile-info", {
+                    url: '/profile-info',
+                    templateUrl: '/resources/app/common/views/profile-info.html',
+                    controller: 'ProfileInfoController'
                     })
                     .state("new-verifications-calibrator", {
                         url: '/calibrator/verifications/new',
@@ -91,6 +97,11 @@
                         templateUrl: '/resources/app/calibrator/views/measurement-equipments.html',
                         controller: 'MeasuringEquipmentControllerCalibrator'
                     })
+                    .state("disassembly-team-calibrator", {
+                        url: 'calibrator/disassemblyTeam/',
+                        templateUrl: 'resources/app/calibrator/views/disassembly-team.html',
+                        controller: 'DisassemblyTeamControllerCalibrator'
+                    })
                     .state("employee-show-calibrator", {
                         url: '/calibrator/employee-show',
                         templateUrl: '/resources/app/calibrator/views/employee/show-employee.html',
@@ -102,18 +113,23 @@
                         controller: 'VerificationPlanningTaskController'
                     })
                     .state("calibrator-task-add", {
-                        url: '/',
+                        url: '/calibrator/task/',
                         templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
-                        controller: 'TaskControllerCalibrator'
+                        controller: 'TaskSendingModalControllerCalibrator'
                     })
                     .state('main-panel-verificator', {
-                        url: '/',
+                        url: '/verificator/',
                         templateUrl: '/resources/app/verificator/views/main-panel.html'
                     })
                     .state("new-verifications-verificator", {
                         url: '/verifications/new',
                         templateUrl: '/resources/app/verificator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerVerificator'
+                    })
+                    .state("employee-show-verificator", {
+                        url: '/verificator/employee-show',
+                        templateUrl: '/resources/app/verificator/views/employee/show-employee.html',
+                        controller: 'UsersControllerVerificator'
                     })
                     .state("verifications-archive-verificator", {
                         url: '/verifications/archive',
@@ -154,12 +170,30 @@
 
             }]);
 
-    angular.module('employeeModule').run(function (paginationConfig) {
+    angular.module('employeeModule').run(['UserService', '$state', 'paginationConfig', function (userService, $state, paginationConfig) {
         paginationConfig.firstText = 'Перша';
         paginationConfig.previousText = 'Попередня';
         paginationConfig.nextText = 'Наступна';
         paginationConfig.lastText = 'Остання';
-    });
+        
+        /**
+         * Initial state
+         */
+        userService.getLoggedInUserRoles().success(function (response) {
+        	var roles = response + '';
+            var role = roles.split(',');
+        	            
+        	for (var i = 0; i < role.length; i++) {
+                if (role[i] === 'PROVIDER_ADMIN' || role[i] === 'PROVIDER_EMPLOYEE')
+                	$state.transitionTo('main-panel-provider');
+                if (role[i] === 'CALIBRATOR_ADMIN' || role[i] === 'CALIBRATOR_EMPLOYEE')
+                	$state.transitionTo('main-panel-calibrator');
+                if (role[i] === 'STATE_VERIFICATOR_ADMIN' || role[i] === 'STATE_VERIFICATOR_EMPLOYEE')
+                	$state.transitionTo('main-panel-verificator');
+            }
+        	
+        })
+    }]);
 
 
     angular.module('employeeModule').directive('chosen', function () {
@@ -218,20 +252,29 @@
         'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
         'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
         'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',
+
+        'calibrator/controllers/DisassemblyTeamAddModalController',
+        'calibrator/controllers/DisassemblyTeamEditModalController',
+        'calibrator/controllers/DisassemblyTeamControllerCalibrator',
+
         'calibrator/controllers/UploadBbiFileController',
+        'calibrator/controllers/UploadArchiveController',
         'calibrator/controllers/UploadPhotoController',
-        'calibrator/controllers/CancelBbiProtocolCalibrator',
         'calibrator/controllers/UsersControllerCalibrator',
         'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
-        'calibrator/controllers/TaskControllerCalibrator',
+        'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
-        'calibrator/services/TaskServiceCalibrator',
+        'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
+        'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',
         'calibrator/services/AddressServiceCalibrator',
         'calibrator/services/UserServiceCalibrator',
         'calibrator/services/VerificationServiceCalibrator',
         'calibrator/services/MeasuringEquipmentServiceCalibrator',
+        'calibrator/controllers/PieCalibratorEmployee',
+
+        'calibrator/services/DisassemblyTeamServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',
@@ -244,11 +287,20 @@
         'verificator/controllers/TestRejectControllerVerificator',
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
+
+        'verificator/controllers/VerificatorEmployeeControllerVerificator',
+
+        'verificator/controllers/UsersControllerVerificator',
+
         'verificator/services/AddressServiceVerificator',
         'verificator/services/UserServiceVerificator',
         'verificator/services/VerificationServiceVerificator',
-        'provider/filters/unique'
-
+        'provider/filters/unique',
+        'common/controllers/ProfileInfoController',
+        'common/controllers/EditProfileInfoController',
+        'common/services/ProfileService',
+        'common/services/EmployeeService',
+        'common/controllers/CommonController'
 
     ], function () {});
 })();

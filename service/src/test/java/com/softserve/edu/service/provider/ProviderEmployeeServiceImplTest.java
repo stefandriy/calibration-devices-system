@@ -8,6 +8,7 @@ import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.provider.impl.ProviderEmployeeServiceImpl;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import org.apache.commons.lang.RandomStringUtils;
@@ -44,6 +45,7 @@ public class ProviderEmployeeServiceImplTest {
 	private VerificationRepository verificationRepository;
 
 	@Mock
+	private MailService mockMail;
 	private OrganizationRepository organizationRepository;
 
 	@Mock(name = "mail")

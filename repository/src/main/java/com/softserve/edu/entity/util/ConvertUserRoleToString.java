@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
  *     Use for conversion data, that we got from database
  *     using hql query
  */
+//TODO Lets rename the class and make it generic
 public class ConvertUserRoleToString {
 
     /**

@@ -9,12 +9,19 @@ angular
             getNewVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
                 return getDataWithParams('calibrator/verifications/new/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
+            getNewVerificationsForMainPanel: function (currentPage, itemsPerPage, search) {
+                return getDataWithParams('calibrator/verifications/new/mainpanel/' + currentPage + '/' + itemsPerPage, search);
+            },
             getArchiveVerifications: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
                 return getDataWithParams('calibrator/verifications/archive/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             getNewVerificationDetails: function (verificationId) {
                 return getData('verifications/new/' + verificationId);
             },
+            getCalibrators: function (url) {
+                return getEmployeeData('verifications/new/calibratorEmployees');
+            },
+            //todo need to find verificators by agreements(���������)
             getVerificators: function (url) {
                 return getData('verifications/new/verificators');
             },
@@ -45,14 +52,11 @@ angular
             cancelUploadFile: function (idVerification) {
                 return getData('verifications/find/uploadFile?idVerification=' + idVerification);
             },
-            deleteBbiProtocol: function (idVerification) {
-                return sendDataProtocol("deleteBbiprotocol?idVerification="+ idVerification);
-            },
             getCalibrators: function (url) {
-                return getEmployeeData('new/calibratorEmployees');
+                return getData('verifications/new/calibratorEmployees');
             },
             sendEmployeeCalibrator: function (data) {
-                return employeeUpdateData('assign/calibratorEmployee', data);
+                return updateData('assign/calibratorEmployee', data);
             },
             cleanCalibratorEmployeeField:function (data) {
                 return employeeUpdateData('remove/calibratorEmployee', data);
@@ -63,7 +67,19 @@ angular
             },
             getArchivalVerificationEarliestDate: function () {
                 return getData('verifications/archive/earliest_date/calibrator');
-            }
+            },
+            getIfEmployeeCalibrator: function(url) {
+                return getData('verifications/calibrator/role');
+            },
+            saveAdditionalInfo: function(data) {
+                return saveInfo('/calibrator/verifications/saveInfo', data);
+            },
+            checkIfAdditionalInfoExists: function(verifId) {
+                return checkInfo('/calibrator/verifications/checkInfo/' +  verifId);
+            },
+            findAdditionalInfoByVerifId: function(verifId) {
+                return findInfo('/calibrator/verifications/findInfo/'+ verifId);
+            },
         };
 
         function getData(url) {
@@ -74,7 +90,18 @@ angular
                 .error(function (err) {
                     return err;
                 });
-        }
+        };
+
+        function updateData(url, data) {
+            return $http.put('calibrator/verifications/' + url, data)
+                .success(function (responseData) {
+                    $log.info('response'  + responseData);
+                    return responseData;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        };
 
         function getDataWithParams(url, params) {
             return $http.get(url, {
@@ -132,5 +159,31 @@ angular
                     return err;
                 });
         }
-
+        function saveInfo(url, data) {
+            return $http.post(url, data)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function checkInfo(url) {
+            return $http.get(url)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function findInfo(url) {
+            return $http.get(url)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
     }]);

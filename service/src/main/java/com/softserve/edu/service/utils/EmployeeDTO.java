@@ -70,6 +70,7 @@ public class EmployeeDTO {
 
     @Override
     public String toString() {
+        // TODO Use StringBuilder here
         return "EmployeeDTO{" +
                 "username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +

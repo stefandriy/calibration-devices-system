@@ -1,6 +1,7 @@
 package com.softserve.edu.entity.verification.calibration;
 
 import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
+import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
 
@@ -20,7 +21,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class CalibrationTest {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
@@ -31,7 +32,9 @@ public class CalibrationTest {
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
-    private String consumptionStatus;
+
+    @Enumerated(EnumType.STRING)
+    private ConsumptionStatus consumptionStatus;
 
     @Enumerated(EnumType.STRING)
     private CalibrationTestResult testResult;
@@ -58,7 +61,7 @@ public class CalibrationTest {
     private Set<CalibrationTestData> calibrationTestDataSet;
 
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
+                           Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult) {
         this.name = name;
         this.dateTest = new Date();
         this.temperature = temperature;

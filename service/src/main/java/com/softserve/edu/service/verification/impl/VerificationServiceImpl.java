@@ -162,8 +162,6 @@ public class VerificationServiceImpl implements VerificationService {
      * @param startDateToSearch search by initial date of verification
      * @param endDateToSearch   end date
      * @param idToSearch        search by verification ID
-     * @param lastNameToSearch  search by last name of client
-     * @param firstNameToSearch
      * @param streetToSearch    search by street where client lives
      * @param providerEmployee  restrict query by provider employee user name. Allows restrict query so that simple employee user
      *                          can only see verifications assigned to him and free verifications (not yet assigned)
@@ -206,7 +204,7 @@ public class VerificationServiceImpl implements VerificationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Verification> verificationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
         result.setContent(verificationList);
         result.setTotalItems(count);
         return result;
@@ -219,6 +217,24 @@ public class VerificationServiceImpl implements VerificationService {
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorProvider.buildSearchQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, "SENT", employeeName, null, null, providerEmployee, em);
 
         Long count = em.createQuery(ArchivalVerificationsQueryConstructorProvider.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, region, district, locality, "SENT", employeeName, providerEmployee, em)).getSingleResult();
+
+        TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<Verification> verificationList = typedQuery.getResultList();
+
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
+        result.setContent(verificationList);
+        result.setTotalItems(count);
+        return result;
+    }
+    
+    @Transactional(readOnly = true)
+    public ListToPageTransformer<Verification> findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch, String fullNameToSearch,
+            																							String streetToSearch, String region, String district, String locality, String status, String employeeName, User calibratorEmployee) {
+        CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "IN_PROGRESS", employeeName, null, null, null, null, null, null, null, em);
+
+        Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, initialDateToSearch, null, idToSearch, fullNameToSearch, streetToSearch, "IN_PROGRESS", employeeName, null, null, null, null, null, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -305,11 +321,34 @@ public class VerificationServiceImpl implements VerificationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Verification> verificationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Verification> result = new ListToPageTransformer<Verification>();
+        ListToPageTransformer<Verification> result = new ListToPageTransformer<>();
         result.setContent(verificationList);
         result.setTotalItems(count);
         return result;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ListToPageTransformer<CalibrationTest> findPageOfCalibrationTestsByVerificationId(int pageNumber, int itemsPerPage, String startDateToSearch, String endDateToSearch, String name, String region, String district, String locality, String streetToSearch, String idToSearch,
+                                                                                             String fullNameToSearch, Integer settingNumber, String consumptionStatus, Long protocolId, String testResult, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder) {
+
+        CriteriaQuery<CalibrationTest> criteriaQuery = CalibrationTestQueryConstructorCalibrator.buildSearchQuery( startDateToSearch, endDateToSearch, name, region, district, locality, streetToSearch,
+                idToSearch, fullNameToSearch, settingNumber, consumptionStatus, protocolId, testResult, measurementDeviceId, measurementDeviceType, sortCriteria, sortOrder, em);
+
+        Long count = em.createQuery(CalibrationTestQueryConstructorCalibrator.buildCountQuery(startDateToSearch, endDateToSearch, name, region, district, locality, streetToSearch,
+                idToSearch, fullNameToSearch, settingNumber, consumptionStatus, protocolId, testResult, measurementDeviceId, measurementDeviceType, em)).getSingleResult();
+
+        TypedQuery<CalibrationTest> typedQuery = em.createQuery(criteriaQuery);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+        List<CalibrationTest> calibrationTestList = typedQuery.getResultList();
+
+        ListToPageTransformer<CalibrationTest> result = new ListToPageTransformer<>();
+        result.setContent(calibrationTestList);
+        result.setTotalItems(count);
+        return result;
+    }
+
 
 
     @Transactional(readOnly = true)
@@ -467,6 +506,16 @@ public class VerificationServiceImpl implements VerificationService {
     @Transactional
     public int findCountOfAllAcceptedVerification(Organization organization) {
         return verificationRepository.getCountOfAllAcceptedVerifications(organization);
+    }
+    
+    @Transactional
+    public int findCountOfAllCalibratorVerificationWithoutEmployee (Organization organization) {
+        return verificationRepository.findCountOfAllCalibratorVerificationWithoutEmployee (organization);
+    }
+    
+    @Transactional
+    public int findCountOfAllCalibratorVerificationWithEmployee (Organization organization) {
+        return verificationRepository.findCountOfAllCalibratorVerificationWithEmployee (organization);
     }
 
     @Transactional(readOnly = true)
