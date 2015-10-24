@@ -14,6 +14,7 @@ import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.*;
 import com.softserve.edu.service.verification.impl.VerificationServiceImpl;
 import org.apache.log4j.Logger;
+import org.hibernate.jpa.criteria.expression.CompoundSelectionImpl;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
@@ -31,8 +32,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,21 +72,40 @@ public class VerificationServiceImplTest {
 	private EntityManager mockEntityManager;
 
 	@Mock
-	CriteriaBuilder cb;
+	private CriteriaBuilder cb;
 
 	@Mock
-	CriteriaQuery<Verification> criteriaQuery;
+	private CriteriaQuery<Verification> criteriaQuery;
 
 	@Mock
-	TypedQuery<Verification> verificationTypedQuery;
+	private TypedQuery<Verification> verificationTypedQuery;
 
 	@Mock
-	TypedQuery<Long> longTypedQuery;
+	private TypedQuery<Long> longTypedQuery;
 
 	@Mock
-	CriteriaQuery<Long> longCriteriaQuery;
+	private CriteriaQuery<Long> longCriteriaQuery;
 
+	@Mock
+	private CriteriaQuery<Object[]> objectCriteriaQuery;
 
+	@Mock
+	private Root<Verification> root;
+
+	@Mock
+	private Join<Object, Object> objectJoin;
+
+	@Mock
+	private Path<Object> path;
+
+	@Mock
+	private CompoundSelectionImpl<Object[]> compoundSelection;
+
+	@Mock
+	private TypedQuery<Object[]> typedQuery;
+
+	@Mock
+	Organization organization;
 
 	@BeforeClass
 	public static void testCreateVerificationProviderEmployeeService() {
@@ -668,15 +687,77 @@ public class VerificationServiceImplTest {
 		assertEquals(expected, actual);
 	}
 
+	@Test
+	public void testGetProcessTimeProvider() {
+		stub(mockEntityManager.getCriteriaBuilder()).toReturn(cb);
+		stub(cb.createQuery(Object[].class)).toReturn(objectCriteriaQuery);
+		stub(objectCriteriaQuery.from(Verification.class)).toReturn(root);
+		stub(root.get(anyString())).toReturn(path);
+		stub(root.join("provider")).toReturn(objectJoin);
+		stub(objectJoin.get(anyString())).toReturn(path);
+		stub(path.get(anyString())).toReturn(path);
+		stub(cb.array(any())).toReturn(compoundSelection);
+		stub(objectCriteriaQuery.select(any())).toReturn(objectCriteriaQuery);
+		stub(mockEntityManager.createQuery(objectCriteriaQuery)).toReturn(typedQuery);
 
-    /* not tested
-    getProcessTimeProvider
-    getProcessTimeCalibrator
-    getProcessTimeVerificator
-    getNewVerificationEarliestDateByProvider
-    getArchivalVerificationEarliestDateByProvider
-    getNewVerificationEarliestDateByCalibrator
-    getArchivalVerificationEarliestDateByCalibrator
-     */
+		List<Object[]> actual = verificationService.getProcessTimeProvider();
 
+		assertEquals(typedQuery.getResultList().hashCode(), actual.hashCode());
+	}
+
+	@Test
+	public void testGetProcessTimeCalibrator() {
+		stub(mockEntityManager.getCriteriaBuilder()).toReturn(cb);
+		stub(cb.createQuery(Object[].class)).toReturn(objectCriteriaQuery);
+		stub(objectCriteriaQuery.from(Verification.class)).toReturn(root);
+		stub(root.get(anyString())).toReturn(path);
+		stub(root.join("calibrator")).toReturn(objectJoin);
+		stub(objectJoin.get(anyString())).toReturn(path);
+		stub(path.get(anyString())).toReturn(path);
+		stub(cb.array(any())).toReturn(compoundSelection);
+		stub(objectCriteriaQuery.select(any())).toReturn(objectCriteriaQuery);
+		stub(mockEntityManager.createQuery(objectCriteriaQuery)).toReturn(typedQuery);
+
+		List<Object[]> actual = verificationService.getProcessTimeCalibrator();
+
+		assertEquals(typedQuery.getResultList().hashCode(), actual.hashCode());
+	}
+
+	@Test
+	public void testGetProcessTimeVerificator() {
+		stub(mockEntityManager.getCriteriaBuilder()).toReturn(cb);
+		stub(cb.createQuery(Object[].class)).toReturn(objectCriteriaQuery);
+		stub(objectCriteriaQuery.from(Verification.class)).toReturn(root);
+		stub(root.get(anyString())).toReturn(path);
+		stub(root.join("stateVerificator")).toReturn(objectJoin);
+		stub(objectJoin.get(anyString())).toReturn(path);
+		stub(path.get(anyString())).toReturn(path);
+		stub(cb.array(any())).toReturn(compoundSelection);
+		stub(objectCriteriaQuery.select(any())).toReturn(objectCriteriaQuery);
+		stub(mockEntityManager.createQuery(objectCriteriaQuery)).toReturn(typedQuery);
+
+		List<Object[]> actual = verificationService.getProcessTimeVerificator();
+
+		assertEquals(typedQuery.getResultList().hashCode(), actual.hashCode());
+	}
+
+	@Test
+	public void testGetNewVerificationEarliestDateByProvider() {
+		assertEquals(mockVerificationRepository.getEarliestDateOfAllAcceptedOrSentVerificationsByProvider(organization), verificationService.getNewVerificationEarliestDateByProvider(organization));
+	}
+
+	@Test
+	public void testGetArchivalVerificationEarliestDateByProvider() {
+		assertEquals(mockVerificationRepository.getEarliestDateOfArchivalVerificationsByProvider(organization), verificationService.getArchivalVerificationEarliestDateByProvider(organization));
+	}
+
+	@Test
+	public void testGetNewVerificationEarliestDateByCalibrator() {
+		assertEquals(mockVerificationRepository.getEarliestDateOfAllNewVerificationsByCalibrator(organization), verificationService.getNewVerificationEarliestDateByCalibrator(organization));
+	}
+
+	@Test
+	public void testGetArchivalVerificationEarliestDateByCalibrator() {
+		assertEquals(mockVerificationRepository.getEarliestDateOfArchivalVerificationsByCalibrator(organization), verificationService.getArchivalVerificationEarliestDateByCalibrator(organization));
+	}
 }
