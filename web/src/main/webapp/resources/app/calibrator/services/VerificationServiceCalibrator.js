@@ -59,6 +59,7 @@ angular
                 return getData('verifications/new/calibratorEmployees');
             },
             sendEmployeeCalibrator: function (data) {
+                $log.debug("from service " +  data);
                 return updateData('assign/calibratorEmployee', data);
             },
             cleanCalibratorEmployeeField:function (data) {
@@ -75,13 +76,14 @@ angular
                 return getData('verifications/calibrator/role');
             },
             saveAdditionalInfo: function(data) {
-                return saveInfo('/calibrator/verifications/saveInfo', data);
+                $log.debug("from service " +  data)
+                return saveInfo('calibrator/verifications/saveInfo', data);
             },
             checkIfAdditionalInfoExists: function(verifId) {
-                return checkInfo('/calibrator/verifications/checkInfo/' +  verifId);
+                return checkInfo('calibrator/verifications/checkInfo/' +  verifId);
             },
             findAdditionalInfoByVerifId: function(verifId) {
-                return findInfo('/calibrator/verifications/findInfo/'+ verifId);
+                return findInfo('calibrator/verifications/findInfo/'+ verifId);
             },
         };
 
@@ -163,11 +165,14 @@ angular
                 });
         }
         function saveInfo(url, data) {
+            //console.log("from service" + data);
             return $http.post(url, data)
                 .success(function (response) {
+                    console.log(response);
                     return response;
                 })
                 .error(function (err) {
+                    console.log(err);
                     return err;
                 });
         }

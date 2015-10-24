@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/calibrator/verifications/")
+@RequestMapping(value = "/calibrator/verifications/", produces = "application/json")
 public class CalibratorVerificationController {
 
     private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
@@ -451,6 +451,7 @@ public class CalibratorVerificationController {
 
     @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
     public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO){
+        System.out.println("You are in save Info");
         HttpStatus httpStatus = HttpStatus.OK;
         try {
             calibratorService.saveInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),

@@ -90,7 +90,7 @@ angular
 
             };
 
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
 
             $scope.clear = function () {
@@ -242,19 +242,19 @@ angular
                         $scope.addInfo.serviceability = true;
                     }
                     $scope.showMessage.status = false;
-                    $scope.info = {
-                        entrance: $scope.addInfo.entrance,
-                        doorCode: $scope.addInfo.doorCode,
-                        floor: $scope.addInfo.floor,
-                        dateOfVerif: $scope.addInfo.dateOfVerif,
-                        time: $scope.addInfo.time,
-                        serviceability: $scope.addInfo.serviceability,
-                        noWaterToDate: $scope.addInfo.noWaterToDate,
-                        notes: $scope.addInfo.notes,
-                        verificationId: $scope.verificationData.id
+                    var info = {
+                        "entrance": $scope.addInfo.entrance,
+                        "doorCode": $scope.addInfo.doorCode,
+                        "floor": $scope.addInfo.floor,
+                        "dateOfVerif": $scope.addInfo.dateOfVerif,
+                        "time": $scope.addInfo.time,
+                        "serviceability": $scope.addInfo.serviceability,
+                        "noWaterToDate": $scope.addInfo.noWaterToDate,
+                        "notes": $scope.addInfo.notes,
+                        "verificationId": $scope.verificationData.id
                     }
-                    $log.debug($scope.info);
-                    verificationService.saveAdditionalInfo($scope.info)
+                    //$log.debug($scope.info);
+                    verificationService.saveAdditionalInfo(info)
                         .then(function (response) {
                             if (response.status == 200) {
                                 $scope.close();

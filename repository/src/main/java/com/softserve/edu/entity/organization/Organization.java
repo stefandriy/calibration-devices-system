@@ -8,7 +8,6 @@ import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 
 import lombok.*;
