@@ -2,6 +2,7 @@ package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.repository.CalibrationDisassemblyTeamRepository;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
 import com.softserve.edu.service.exceptions.DuplicateRecordException;
@@ -27,17 +28,43 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
         return (List<DisassemblyTeam>) teamRepository.findAll();
     }
 
+
     @Override
     @Transactional
-    public Page<DisassemblyTeam> getDisassemblyTeamBySearchAndPagination(int pageNumber, int itemsPerPage, String search) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return search == null ? teamRepository.findAll(pageRequest) :
-                teamRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
+    public List<DisassemblyTeam> getByOrganization(Organization organization) {
+            return teamRepository.findByOrganization(organization);
     }
 
     @Override
     @Transactional
-    public void addDisassemblyTeam(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException {
+    public Page<DisassemblyTeam> getByOrganization(Organization organization, int pageNumber, int itemsPerPage) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return teamRepository.findByOrganization(organization, pageRequest);
+    }
+
+    @Override
+    @Transactional
+    public Page<DisassemblyTeam> findByOrganizationAndSearchAndPagination(int pageNumber, int itemsPerPage,
+                                                                          Organization organization, String search) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return search == null ? teamRepository.findByOrganization(organization, pageRequest) :
+                teamRepository.findByOrganizationAndNameLikeIgnoreCase(organization, "%" + search + "%", pageRequest);
+    }
+
+
+
+    /*@Override
+    @Transactional
+    public Page<DisassemblyTeam> findBySearchAndPagination(Long calibratorId, int pageNumber, int itemsPerPage,
+                                                           String search) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return search == null ? teamRepository.findAllByCalibratorId(calibratorId, pageRequest) :
+                teamRepository.findByCalibratorIdAndNameLikeIgnoreCase(calibratorId, "%" + search + "%", pageRequest);
+    }*/
+
+    @Override
+    @Transactional
+    public void add(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException {
         try {
             teamRepository.save(disassemblyTeam);
         } catch (Exception e) {
@@ -47,14 +74,14 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
 
     @Override
     @Transactional
-    public DisassemblyTeam getDisassemblyTeamById(String teamId) {
+    public DisassemblyTeam findById(String teamId) {
         return teamRepository.findOne(teamId);
     }
 
     @Override
     @Transactional
-    public void editDisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization,
-                                    String leaderFullName, String leaderPhone, String leaderEmail) {
+    public void edit(String id, String name, Date effectiveTo, Device.DeviceType specialization,
+                     String leaderFullName, String leaderPhone, String leaderEmail) {
         DisassemblyTeam team = teamRepository.findOne(id);
         team.setName(name);
         team.setEffectiveTo(effectiveTo);
@@ -67,7 +94,7 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
 
     @Override
     @Transactional
-    public void deleteDisassemblyTeam(String teamId) {
+    public void delete(String teamId) {
         teamRepository.delete(teamRepository.findOne(teamId));
     }
 }

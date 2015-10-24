@@ -5,13 +5,18 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.CalibrationDisassemblyTeamDTO;
 import com.softserve.edu.dto.calibrator.DisassemblyTeamPageItem;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
 import com.softserve.edu.service.exceptions.DuplicateRecordException;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.service.user.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,6 +29,12 @@ public class CalibratorDisassemblyTeamController {
     @Autowired
     private CalibratorDisassemblyTeamService teamService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private OrganizationService organizationService;
+
     /**
      * Responds a page according to input data and search value
      * @param pageNumber current page number
@@ -33,10 +44,12 @@ public class CalibratorDisassemblyTeamController {
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
     public PageDTO<DisassemblyTeamPageItem> pageDisassemblyTeamsWithSearch(
-            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String search) {
+            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String search,
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
+        Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
         Page<DisassemblyTeamPageItem> page = teamService
-                .getDisassemblyTeamBySearchAndPagination(pageNumber, itemsPerPage, search)
+                .findByOrganizationAndSearchAndPagination(pageNumber, itemsPerPage,organization, search)
                 .map(disassemblyTeam -> new DisassemblyTeamPageItem(disassemblyTeam.getId(),
                         disassemblyTeam.getName(), disassemblyTeam.getEffectiveTo(),
                         disassemblyTeam.getSpecialization(), disassemblyTeam.getLeaderFullName(),
@@ -57,8 +70,9 @@ public class CalibratorDisassemblyTeamController {
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<DisassemblyTeamPageItem> getDisassemblyTeamsPage(@PathVariable Integer pageNumber,
-                                                                          @PathVariable Integer itemsPerPage) {
-        return pageDisassemblyTeamsWithSearch(pageNumber, itemsPerPage, null);
+                                                                    @PathVariable Integer itemsPerPage,
+                                                                    @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        return pageDisassemblyTeamsWithSearch(pageNumber, itemsPerPage, null, user);
     }
 
     /**
@@ -68,7 +82,7 @@ public class CalibratorDisassemblyTeamController {
      */
     @RequestMapping(value = "getDisassemblyTeam/{disassemblyTeamId}", method = RequestMethod.GET)
     public ResponseEntity getDisassemblyTeam(@PathVariable String disassemblyTeamId){
-        DisassemblyTeam foundDisassemblyTeam = teamService.getDisassemblyTeamById(disassemblyTeamId);
+        DisassemblyTeam foundDisassemblyTeam = teamService.findById(disassemblyTeamId);
         return new ResponseEntity<>(foundDisassemblyTeam, HttpStatus.OK);
     }
 
@@ -84,7 +98,7 @@ public class CalibratorDisassemblyTeamController {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
             DisassemblyTeam createdDisassemblyTeam = disassemblyTeamDTO.saveTeam();
-            teamService.addDisassemblyTeam(createdDisassemblyTeam);
+            teamService.add(createdDisassemblyTeam);
         }catch (DuplicateRecordException e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;//from body get a message
@@ -109,7 +123,7 @@ public class CalibratorDisassemblyTeamController {
                                                  @PathVariable String disassemblyTeamId){
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            teamService.editDisassemblyTeam(disassemblyTeamId, disassemblyTeamDTO.getName(),
+            teamService.edit(disassemblyTeamId, disassemblyTeamDTO.getName(),
                     disassemblyTeamDTO.getEffectiveTo(), disassemblyTeamDTO.getSpecialization(),
                     disassemblyTeamDTO.getLeaderFullName(), disassemblyTeamDTO.getLeaderPhone(),
                     disassemblyTeamDTO.getLeaderEmail());
@@ -130,7 +144,7 @@ public class CalibratorDisassemblyTeamController {
     private ResponseEntity deleteDisassemblyTeam(@PathVariable String disassemblyTeamId) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            teamService.deleteDisassemblyTeam(disassemblyTeamId);
+            teamService.delete(disassemblyTeamId);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
             httpStatus = HttpStatus.CONFLICT;
