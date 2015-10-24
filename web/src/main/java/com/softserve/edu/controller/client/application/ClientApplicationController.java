@@ -1,42 +1,37 @@
 package com.softserve.edu.controller.client.application;
 
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
+import com.softserve.edu.dto.application.ApplicationFieldDTO;
+import com.softserve.edu.dto.application.ClientMailDTO;
+import com.softserve.edu.dto.application.ClientStageVerificationDTO;
+import com.softserve.edu.dto.provider.VerificationDTO;
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import com.softserve.edu.entity.enumeration.verification.ReadStatus;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.provider.ProviderService;
+import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
+import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.softserve.edu.dto.application.ApplicationFieldDTO;
-import com.softserve.edu.dto.application.ClientMailDTO;
-import com.softserve.edu.dto.application.ClientStageVerificationDTO;
-import com.softserve.edu.dto.provider.VerificationDTO;
-import com.softserve.edu.entity.*;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
-import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.service.tool.DeviceService;
-import com.softserve.edu.service.calibrator.CalibratorService;
-import com.softserve.edu.service.provider.ProviderService;
-import com.softserve.edu.service.verification.VerificationService;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/application/")

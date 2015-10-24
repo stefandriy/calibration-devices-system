@@ -8,20 +8,20 @@ import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.dto.provider.VerificationReadStatusUpdateDTO;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.entity.verification.calibration.CalibrationTest;
-import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
-import com.softserve.edu.service.utils.*;
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/verificator/verifications/")
@@ -98,16 +97,11 @@ public class StateVerificatorController {
      * @return provider
      */
     @RequestMapping(value = "new/providers", method = RequestMethod.GET)
-    public List<Organization> getMatchingVerificators(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-       /* return providerService.findByDistrictAndType(stateVerificatorService
-                .findById(user.getOrganizationId()).getAddress().getDistrict(), "PROVIDER");*/
+    public Set<Organization> getMatchingVerificators(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        //todo need to find verificators by agreements(договорах)
-        //todo it`s a MOCK
-         Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
-                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
-
-        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.PROVIDER);
+        //todo need to fix finding verificators by agreements(договорах)
+        Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.PROVIDER, userOrganization.getDeviceTypes().iterator().next());
     }
 
     /**
@@ -116,15 +110,11 @@ public class StateVerificatorController {
      * @return calibrator
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
-    public List<Organization> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public Set<Organization> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        //todo need to find verificators by agreements(договорах)
-        //todo it`s a MOCK
-       // return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
-        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
-                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
-
-        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.CALIBRATOR);
+        //todo need to fix finding calibrators by agreements(договорах)
+        Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.PROVIDER, userOrganization.getDeviceTypes().iterator().next());
     }
 
     /**
