@@ -4,42 +4,42 @@
         <h3 class="capacity-employee" translate="CHOOSE_THE_DATE_TO_SEARCH_INFORMATION"></h3>
     </div>
     <form name="myForm" novalidate class="formCalendar">
+							<div class="calendar-wd, col-md-3">
+								<input readonly type="text" datepicker-popup="{{format}}"
+									ng-model="dataToSearch.fromDate"
+									ng-change="changeDateToSend(dataToSearch.fromDate)"
+									is-open="firstCalendar.isOpen"
+									min-date="fromMinDate"
+									max-date="fromMaxDate"
+									datepicker-options="dateOptions"
+									date-disabled="disabled(date, mode)" ng-required="true"
+									close-on-date-selection="false"
+									close-text="Close" /> <span>
+									<button type="button" class="btn btn-default myGroupBtn"
+										ng-click="open1($event)">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</div>
 
 
-                <div class="calendar-wd">
-                    <input readonly type="text"
-                           datepicker-popup="{{format}}" ng-model="dataToSearch.fromDate"
-                           ng-change="changeDateToSend(dataToSearch.fromDate)" is-open="firstCalendar.isOpen"
-                           min-date="minDate" datepicker-options="dateOptions"
-                           date-disabled="disabled(date, mode)" ng-required="true"
-                           close-text="Close"/>
-
-        <span >
-            <button type="button" class="btn btn-default myGroupBtn"
-                    ng-click="open1($event)">
-                <i class="glyphicon glyphicon-calendar"></i>
-            </button>
-        </span>
-                </div>
-
-
-
-                <div class="calendar-wd unhidden-pick">
-                <input readonly type="text" value="{{dataToSearch.toDate | date: 'dd.MM.yyyy' }}" />
-                    <input readonly type="hidden"
-                           datepicker-popup="{{format}}" ng-model="dataToSearch.toDate"
-                           ng-change="changeDateToSend(dataToSearch.toDate)" is-open="secondCalendar.isOpen"
-                           min-date="minDate" datepicker-options="dateOptions"
-                           date-disabled="disabled(date, mode)" ng-required="true"
-                           close-text="Close"/>
-
-                            <span >
-                                <button type="button" class="btn btn-default myGroupBtn"
-                                        ng-click="open2($event)">
-                                    <i class="glyphicon glyphicon-calendar"></i>
-                                </button>
-                            </span>
-                </div>
+							<div class="calendar-wd, col-md-3">
+								<input readonly type="text" datepicker-popup="{{format}}"
+									ng-model="dataToSearch.toDate"
+									ng-change="changeDateToSend(dataToSearch.toDate)"
+									is-open="secondCalendar.isOpen" 
+									min-date="toMinDate"
+									max-date="toMaxDate"
+									datepicker-options="dateOptions"
+									date-disabled="disabled(date, mode)" ng-required="true"
+									close-on-date-selection="false"
+									close-text="Close" /> <span>
+									<button type="button" class="btn btn-default myGroupBtn"
+										ng-click="open2($event)">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</div>
 
 
 
