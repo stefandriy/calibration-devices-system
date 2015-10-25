@@ -86,8 +86,8 @@ angular
 
             $scope.rotate180 = function() {
                 $scope.rotateIndex += 2;
-                if ($scope.rotateIndex == 6) {
-                    $scope.rotateIndex = 2;
+                if ($scope.rotateIndex > 4) {
+                    $scope.rotateIndex -= 4;
                 }
                 $scope.changeShownPhoto();
             }
