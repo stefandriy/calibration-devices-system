@@ -52,9 +52,6 @@ angular
             cancelUploadFile: function (idVerification) {
                 return getData('verifications/find/uploadFile?idVerification=' + idVerification);
             },
-            deleteBbiProtocol: function (idVerification) {
-                return sendDataProtocol("deleteBbiprotocol?idVerification="+ idVerification);
-            },
             getCalibrators: function (url) {
                 return getData('verifications/new/calibratorEmployees');
             },

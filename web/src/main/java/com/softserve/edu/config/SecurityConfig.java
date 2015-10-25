@@ -42,11 +42,12 @@ public class
                 .and()
                 .authorizeRequests()
                 .antMatchers("/resources/assets/**", "/resources/app/welcome/**",
-                         "/application/**", "/calibrationTests/**" /*Some one has to move these tests out to verificator page!*/
+                        "/application/**", "/calibrationTests/**" /*Some one has to move these tests out to verificator page!*/
                         , "/calibrationTestData/**").permitAll()
 
-                .antMatchers("/resources/app/admin/**", "/admin/**").hasAuthority("SYS_ADMIN")
-                
+                .antMatchers("/resources/app/admin/**", "/admin").hasAnyAuthority("SYS_ADMIN", "SUPER_ADMIN")
+                .antMatchers("/admin/sysadmins/**").hasAuthority("SUPER_ADMIN")
+
                 .antMatchers("/uploadFile/**").fullyAuthenticated()
                 
                 .antMatchers("/resources/app/**").hasAnyAuthority("PROVIDER_EMPLOYEE", "PROVIDER_ADMIN", "CALIBRATOR_EMPLOYEE", "CALIBRATOR_ADMIN", "STATE_VERIFICATOR_EMPLOYEE", "STATE_VERIFICATOR_ADMIN")

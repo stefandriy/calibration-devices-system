@@ -143,9 +143,9 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      *          long value.
      * @throws IOException
      */
-    private Long readLongValue(long bytesAmount) throws  IOException {
+    private long readLongValue(int bytesAmount) throws  IOException {
         long result = 0;
-        for (long i = 0; i < bytesAmount; ++i) {
+        for (int i = 0; i < bytesAmount; ++i) {
             result <<= 8;
             result += reader.read();
         }
@@ -162,7 +162,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      *          long value.
      * @throws IOException
      */
-    private Long readLongValueReversed(long bytesAmount) throws IOException {
+    private long readLongValueReversed(int bytesAmount) throws IOException {
         long result = 0;
         for (int i = 0; i < bytesAmount; ++i) {
             result += reader.read() << 8 * i;
@@ -203,10 +203,11 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     private String readImageBase64() throws IOException, DecoderException {
         final int ALLOCATED_IMAGE_SIZE = 16380;
 
-        Long imageSize = readLongValue(4);
-        String imageHex = readConsecutiveBytes(imageSize);
+        long imageSize = readLongValue(4);
+        //String imageHex = readConsecutiveBytes(imageSize);
 
-        byte[] decodedHex = Hex.decodeHex(imageHex.toCharArray());
+        byte[] decodedHex = new byte[ALLOCATED_IMAGE_SIZE];
+        reader.read(decodedHex, 0, (int)imageSize);
         String encodedHexB64 = Base64.encodeBase64String(decodedHex);
 
         // skips all empty bytes till the next image beginning.

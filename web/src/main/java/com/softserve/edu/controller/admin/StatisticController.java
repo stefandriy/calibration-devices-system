@@ -56,4 +56,8 @@ public class StatisticController {
         return  usersPageItem;
     }
 
+    @RequestMapping(value = "sys_admins", method = RequestMethod.GET)
+    public CountDTO countSysAdmins() {
+        return new CountDTO(statisticService.countSysAdmins());
+    }
 }

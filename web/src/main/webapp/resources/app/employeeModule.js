@@ -97,6 +97,11 @@
                         templateUrl: '/resources/app/calibrator/views/measurement-equipments.html',
                         controller: 'MeasuringEquipmentControllerCalibrator'
                     })
+                    .state("disassembly-team-calibrator", {
+                        url: 'calibrator/disassemblyTeam/',
+                        templateUrl: 'resources/app/calibrator/views/disassembly-team.html',
+                        controller: 'DisassemblyTeamControllerCalibrator'
+                    })
                     .state("employee-show-calibrator", {
                         url: '/calibrator/employee-show',
                         templateUrl: '/resources/app/calibrator/views/employee/show-employee.html',
@@ -247,9 +252,14 @@
         'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
         'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
         'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',
+
+        'calibrator/controllers/DisassemblyTeamAddModalController',
+        'calibrator/controllers/DisassemblyTeamEditModalController',
+        'calibrator/controllers/DisassemblyTeamControllerCalibrator',
+
         'calibrator/controllers/UploadBbiFileController',
+        'calibrator/controllers/UploadArchiveController',
         'calibrator/controllers/UploadPhotoController',
-        'calibrator/controllers/CancelBbiProtocolCalibrator',
         'calibrator/controllers/UsersControllerCalibrator',
         'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
@@ -263,6 +273,8 @@
         'calibrator/services/VerificationServiceCalibrator',
         'calibrator/services/MeasuringEquipmentServiceCalibrator',
         'calibrator/controllers/PieCalibratorEmployee',
+
+        'calibrator/services/DisassemblyTeamServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',

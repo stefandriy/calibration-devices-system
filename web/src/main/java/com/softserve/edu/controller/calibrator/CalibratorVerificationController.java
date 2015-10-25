@@ -4,6 +4,7 @@ import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransfo
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.*;
+import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
@@ -18,6 +19,7 @@ import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -47,7 +49,9 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/calibrator/verifications/", produces = "application/json")
 public class CalibratorVerificationController {
 
-    private static final String contentExtPattern = "^.*\\.(bbi|BBI|)$";
+    private static final String contentExtensionPattern = "^.*\\.(bbi|BBI|)$";
+    private static final String archiveExtensionPattern = "^.*\\.(zip|ZIP|)$";
+
     private final Logger logger = Logger.getLogger(CalibratorVerificationController.class);
     @Autowired
     VerificationService verificationService;
@@ -75,6 +79,9 @@ public class CalibratorVerificationController {
 
     @Autowired
     BbiFileService bbiFileService;
+
+    @Autowired
+    BBIFileServiceFacade bbiFileServiceFacade;
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
@@ -106,7 +113,7 @@ public class CalibratorVerificationController {
      */
     @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<CalibrationTestDTO> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
-                                                    @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData) {
+                                                                     @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData) {
 
         ListToPageTransformer<CalibrationTest> queryResult = verificationService
                 .findPageOfCalibrationTestsByVerificationId(
@@ -134,17 +141,12 @@ public class CalibratorVerificationController {
         return new PageDTO<>(queryResult.getTotalItems(), content);
 
     }
-    
+
     /**
      * Find page of verifications by specific criterias on main panel
      *
      * @param pageNumber
      * @param itemsPerPage
-     * @param verifDate    (optional)
-     * @param verifId      (optional)
-     * @param lastName     (optional)
-     * @param firstName    (optional)
-     * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
      */
@@ -189,17 +191,13 @@ public class CalibratorVerificationController {
     }
 
     @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
-    public List<Organization> getMatchingVerificators(
+    public Set<OrganizationDTO> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
-        //todo need to find verificators by agreements(договорах)
-        //todo it`s a MOCK
-        /*return verificatorService.findByDistrictAndType(
-                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");*/
-        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
-                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
-
-        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.STATE_VERIFICATOR);
+        //todo agreement
+        Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.STATE_VERIFICATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
+                .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toSet());
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
@@ -249,10 +247,9 @@ public class CalibratorVerificationController {
         try {
             String originalFileFullName = file.getOriginalFilename();
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
-            if (Pattern.compile(contentExtPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-
-                DeviceTestData deviceTestData = bbiFileService.parseBbiFile(file.getInputStream(), originalFileFullName);
-                calibratorService.uploadBbi(file.getInputStream(), idVerification, deviceTestData.getInstallmentNumber(), originalFileFullName);
+            if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                String originalFileName = file.getOriginalFilename();
+                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, idVerification, originalFileName);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
             } else {
                 logger.error("Failed to load file: pattern does not match.");
@@ -265,9 +262,32 @@ public class CalibratorVerificationController {
         return responseEntity;
     }
 
+
+    @RequestMapping(value = "new/upload-archive", method = RequestMethod.POST)
+    public ResponseEntity<String> uploadFileArchive(@RequestBody MultipartFile file) {
+        ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
+        try {
+            String originalFileFullName = file.getOriginalFilename();
+            String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
+            if (Pattern.compile(archiveExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                bbiFileServiceFacade.parseAndSaveArchiveOfBBIfiles(file, originalFileFullName);
+            } else {
+                logger.error("Failed to load file ");
+                httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            logger.error("Failed to load file " + e.getMessage());
+            httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return httpStatus;
+    }
+
+
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber,
-                                                                                       @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, ArchiveVerificationsFilterAndSort searchData,
+                                                                                       @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
+                                                                                       @PathVariable String sortOrder,
+                                                                                       ArchiveVerificationsFilterAndSort searchData,
                                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 //        System.out.println("CalibratorController searchData.getMeasurement_device_type() " + searchData.getMeasurement_device_type());
@@ -376,24 +396,6 @@ public class CalibratorVerificationController {
     }
 
     /**
-     * Current method deletes file
-     *
-     * @param idVerification
-     * @return status of deletion
-     */
-    @RequestMapping(value = "deleteBbiprotocol", method = RequestMethod.PUT)
-    public ResponseEntity deleteBbiprotocol(@RequestParam String idVerification) {
-        HttpStatus httpStatus = HttpStatus.OK;
-        try {
-            calibratorService.deleteBbiFile(idVerification);
-        } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
-            httpStatus = HttpStatus.CONFLICT;
-        }
-        return new ResponseEntity<>(httpStatus);
-    }
-
-    /**
      * Check if current user is Employee
      *
      * @param user
@@ -401,8 +403,7 @@ public class CalibratorVerificationController {
      * false if user has role CALIBRATOR_ADMIN
      */
     @RequestMapping(value = "calibrator/role", method = RequestMethod.GET)
-    public Boolean isEmployeeCalibrator(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public Boolean isEmployeeCalibrator(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User checkedUser = userService.findOne(user.getUsername());
         return checkedUser.getUserRoles().contains(UserRole.CALIBRATOR_EMPLOYEE);
     }
@@ -450,8 +451,7 @@ public class CalibratorVerificationController {
 
 
     @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
-    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO){
-        System.out.println("You are in save Info");
+    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
             calibratorService.saveInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
@@ -462,19 +462,18 @@ public class CalibratorVerificationController {
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<>(httpStatus);
-
     }
 
     @RequestMapping(value = "/checkInfo/{verificationId}", method = RequestMethod.GET)
-    public boolean checkIfAdditionalInfoExists(@PathVariable String verificationId){
+    public boolean checkIfAdditionalInfoExists(@PathVariable String verificationId) {
         boolean exists = calibratorService.checkIfAdditionalInfoExists(verificationId);
         return exists;
     }
 
     @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
-    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId){
+    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId) {
         AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
-        String time = ((info.getTimeFrom()==null) && (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" +info.getTimeTo().toString());
+        String time = ((info.getTimeFrom() == null) && (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
         AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
                 info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
         return infoDTO;

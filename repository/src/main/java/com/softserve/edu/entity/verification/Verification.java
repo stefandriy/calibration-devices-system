@@ -28,8 +28,8 @@ import java.util.UUID;
 @Table(name = "VERIFICATION")
 public class Verification {
 
-    @Id
     @Setter(AccessLevel.PRIVATE)
+    @Id
     private String id;
 
     @Enumerated(EnumType.STRING)
@@ -89,8 +89,8 @@ public class Verification {
     private String comment;
 
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ,mappedBy = "verification")
-    private BbiProtocol bbiProtocol;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL ,mappedBy = "verification")
+    private Set<BbiProtocol> bbiProtocols;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "taskId")

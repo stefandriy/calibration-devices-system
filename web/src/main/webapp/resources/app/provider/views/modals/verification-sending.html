@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <h3 class="modal-title">Будь ласка, виберіть працівника вимірювальної лабораторії</h3>
+    <h3 class="modal-title">Будь ласка, виберіть вимірювальну лабораторію</h3>
 
 </div>
 
@@ -11,12 +11,22 @@
         <div class="modal-body form-group has-feedback">
 
 
-            <select name="calibrator" class="form-control" chosen options="calibrator.name"
+            <!--select name="calibrator" class="form-control" chosen options="calibrator.name"
                     ng-model="formData.calibrator"
                     ng-options="calibrator as calibrator.name for calibrator in calibrators | filter: $viewValue"
                     typeahead-editable="false" required>
-            </select>
+            </select -->
 
+            <ui-select ng-model="formData.calibrator" theme="select2" search-enabled="false"
+                       name="filter-status">
+                <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" allow-clear="true">
+                    {{$select.selected.name}}
+                </ui-select-match>
+                <ui-select-choices
+                        repeat="calibrator in calibrators">
+                    <span ng-bind-html="calibrator.name"></span>
+                </ui-select-choices>
+            </ui-select>
 
         </div>
 

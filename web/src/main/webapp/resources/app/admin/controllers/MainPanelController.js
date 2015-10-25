@@ -7,7 +7,8 @@ angular
                 users: 0,
                 devices: 0,
                 countertypes: 0,
-                verifications: 0
+                verifications: 0,
+                sysAdmins : 0
             };
             statisticService.organizations().then(function (data) {
                 $scope.statistics.organization = data.count;
@@ -23,5 +24,8 @@ angular
             });
             statisticService.verifications().then(function (data) {
                 $scope.statistics.verifications = data.count;
+            });
+            statisticService.sysAdmins().then(function (data) {
+                $scope.statistics.sysAdmins = data.count;
             });
     }]);

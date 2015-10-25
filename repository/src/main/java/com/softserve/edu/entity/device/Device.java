@@ -45,7 +45,7 @@ public class Device {
     @JoinColumn(name = "manufacturerId")
     private Manufacturer manufacturer;
 
-    @OneToMany(mappedBy = "device", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "device")
     @JsonBackReference
     private Set<CounterType> counterTypeSet;
 
