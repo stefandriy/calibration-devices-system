@@ -24,9 +24,11 @@ public interface AgreementService {
     void update(Long agreementId, Long customerId, Long executorId, String number, Long deviceCount, Date date, Device.DeviceType deviceType);
 
     ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String customer, String executor, String number,
-                                                                             String deviceCount, String date, String deviceType, String isActive, String sortCriteria, String sortOrder);
+                                                                             String deviceCount, String startDateToSearch, String endDateToSearch, String deviceType, String isActive, String sortCriteria, String sortOrder);
 
     void disableAgreement(Long agreementId);
 
     Set<Agreement> findByCustomerIdAndDeviceType(Long customerId, Device.DeviceType deviceType);
+
+    java.sql.Date getEarliestDateAvailableAgreement();
 }

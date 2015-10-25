@@ -95,13 +95,13 @@ public class AgreementServiceImpl implements AgreementService {
     @Override
     @Transactional
     public ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String customer, String executor, String number,
-                                                                                    String deviceCount, String date, String deviceType,
+                                                                                    String deviceCount, String deviceType, String startDateToSearch, String endDateToSearch,
                                                                                     String isActive, String sortCriteria, String sortOrder) {
         CriteriaQuery<Agreement> criteriaQuery = AgreementQueryConstructor
-                .buildSearchQuery(customer, executor, number, deviceCount, date, deviceType, isActive, sortCriteria, sortOrder, entityManager);
+                .buildSearchQuery(customer, executor, number, deviceCount, startDateToSearch, endDateToSearch, deviceType, isActive, sortCriteria, sortOrder, entityManager);
 
         Long count = entityManager.createQuery(AgreementQueryConstructor
-                .buildCountQuery(customer, executor, number, deviceCount, date, deviceType, isActive, entityManager)).getSingleResult();
+                .buildCountQuery(customer, executor, number, deviceCount, startDateToSearch, endDateToSearch, deviceType, isActive, entityManager)).getSingleResult();
 
         TypedQuery<Agreement> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -115,6 +115,7 @@ public class AgreementServiceImpl implements AgreementService {
     }
 
     @Override
+    @Transactional
     public void disableAgreement(Long agreementId) {
         Agreement agreement = agreementRepository.findOne(agreementId);
         agreement.setIsAvailable(false);
@@ -122,7 +123,13 @@ public class AgreementServiceImpl implements AgreementService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Agreement> findByCustomerIdAndDeviceType(Long customerId, Device.DeviceType deviceType) {
         return agreementRepository.findByCustomerIdAndDeviceType(customerId, deviceType);
+    }
+
+    @Override
+    public java.sql.Date getEarliestDateAvailableAgreement() {
+        return agreementRepository.findEarliestDateAvalibleAgreement();
     }
 }
