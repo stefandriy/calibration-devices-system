@@ -12,6 +12,7 @@ import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.utils.EmployeeDTO;
+import lombok.Setter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
+@Setter
 @Service
 public class CalibratorServiceImpl implements CalibratorService {
 
