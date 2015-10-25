@@ -1,9 +1,5 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
-/**
- * Created by vova on 20.08.15.
- */
-
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import org.junit.Assert;
