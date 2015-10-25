@@ -1,13 +1,15 @@
 package com.softserve.edu.service.calibrator;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.service.utils.BBIOutcomeDTO;
 import net.lingala.zip4j.exception.ZipException;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Map;
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -46,26 +48,26 @@ public interface BBIFileServiceFacade {
      * Parses the bbi files from the archive and saves them in the system
      * @param archiveFile MultipartFile representing archive with BBIs and DBF
      * @param originalFileName Original name of the archive file
-     * @return Map of BBI filenames to the result of parsing (true/false)
+     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
      * @throws IOException If the archive doesn't contain DBF file
      * **/
-    Map<String, Boolean> parseAndSaveArchiveOfBBIfiles(MultipartFile archiveFile, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException;
+    List<BBIOutcomeDTO> parseAndSaveArchiveOfBBIfiles(MultipartFile archiveFile, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException;
     
     /**
      * Parses the bbi files from the archive and saves them in the system
      * @param archive File representing archive with BBIs and DBF
      * @param originalFileName Original name of the archive file
-     * @return Map of BBI filenames to the result of parsing (true/false)
+     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
      * @throws IOException If the archive doesn't contain DBF file
      * **/
-    Map<String, Boolean> parseAndSaveArchiveOfBBIfiles(File archive, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException;
+    List<BBIOutcomeDTO> parseAndSaveArchiveOfBBIfiles(File archive, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException;
 
     /**
      * Parses the bbi files from the archive and saves them in the system
      * @param archiveStream InputStream representing archive with BBIs and DBF
      * @param originalFileName Original name of the archive file
-     * @return Map of BBI filenames to the result of parsing (true/false)
+     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
      * @throws IOException If the archive doesn't contain DBF file
      * **/
-    Map<String, Boolean> parseAndSaveArchiveOfBBIfiles(InputStream archiveStream, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException;
+    List<BBIOutcomeDTO> parseAndSaveArchiveOfBBIfiles(InputStream archiveStream, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException;
 }
