@@ -47,7 +47,7 @@ public class TypeConverter {
         return res;
     }
 
-    public static <T> Map<String, String> ObjectToMap(Object object) {
+    public static Map<String, String> ObjectToMap(Object object) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         //noinspection unchecked

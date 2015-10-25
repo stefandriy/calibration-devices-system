@@ -1,5 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
+import com.softserve.edu.specification.AgreementSpecification;
+
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
 import com.softserve.edu.entity.organization.Organization;
@@ -10,6 +12,10 @@ import com.softserve.edu.service.utils.AgreementQueryConstructor;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,7 +103,15 @@ public class AgreementServiceImpl implements AgreementService {
     @Transactional
     public ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage,
                                                                                     Map<String, String> searchKeys, String sortCriteria, String sortOrder) {
-        CriteriaQuery<Agreement> criteriaQuery = AgreementQueryConstructor
+
+        Specification<Agreement> searchSpec = AgreementSpecification.buildPredicate(searchKeys);
+        Pageable pageSpec = AgreementSpecification.constructPageSpecification(pageNumber -1, itemsPerPage, sortCriteria, sortOrder);
+
+        Page<Agreement> agreementPage = agreementRepository.findAll(searchSpec, pageSpec);
+        List<Agreement> agreements = agreementPage.getContent();
+
+
+        /*CriteriaQuery<Agreement> criteriaQuery = AgreementQueryConstructor
                 .buildSearchQuery(searchKeys, sortCriteria, sortOrder, entityManager);
 
         Long count = entityManager.createQuery(AgreementQueryConstructor
@@ -107,10 +121,10 @@ public class AgreementServiceImpl implements AgreementService {
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
         typedQuery.setMaxResults(itemsPerPage);
         List<Agreement> AgreementList = typedQuery.getResultList();
-
+*/
         ListToPageTransformer<Agreement> result = new ListToPageTransformer<>();
-        result.setContent(AgreementList);
-        result.setTotalItems(count);
+        result.setContent(agreements);
+        result.setTotalItems((long) agreements.size());
         return result;
     }
 

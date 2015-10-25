@@ -22,7 +22,6 @@ public class AgreementDTO {
     private String startDateToSearch;
     private String endDateToSearch;
 
-
     public AgreementDTO() {
     }
 

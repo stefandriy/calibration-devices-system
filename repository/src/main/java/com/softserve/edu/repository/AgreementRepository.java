@@ -2,8 +2,10 @@ package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +13,7 @@ import java.sql.Date;
 import java.util.Set;
 
 @Repository
-public interface AgreementRepository extends CrudRepository<Agreement, Long> {
+public interface AgreementRepository extends PagingAndSortingRepository<Agreement, Long>, JpaSpecificationExecutor<Agreement> {
 
     Set<Agreement> findAll();
 
