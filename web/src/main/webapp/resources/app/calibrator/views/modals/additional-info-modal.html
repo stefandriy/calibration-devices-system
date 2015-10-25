@@ -1,0 +1,171 @@
+<form name="addInfoForm" novalidate>
+
+    <h4 style="color: red;" ng-show="showMessage.info">{{MESSAGE_ERROR | translate}}</h4>
+
+    <!-- ENTRANCE -->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{'ENTRANCE' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8" ng-class="floorValidation.css">
+            <input type="text"
+                   ng-model="addInfo.entrance"
+                   ng-change="checkAll('entrance')"
+                   id="entrance" name="entrance" class="form-control">
+
+            <p class="validation-message" ng-show="entranceValidation.isValid">{{'FLOOR_REGEX' |  translate}}</p>
+        </div>
+    </div>
+
+    <!-- DOOR CODE-->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{'DOOR_CODE' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8" ng-class="floorValidation.css">
+            <input type="text"
+                   ng-model="addInfo.doorCode"
+                   ng-change="checkAll('doorCode')"
+                   id="doorCode" name="doorCode" class="form-control">
+
+            <p class="validation-message" ng-show="doorCodeValidation.isValid">{{'DOOR_CODE_REGEX' |  translate}}</p>
+        </div>
+    </div>
+
+    <!-- FLOOR -->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{ 'FLOOR' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8" ng-class="floorValidation.css">
+            <input type="text"
+                   ng-model="addInfo.floor"
+                   ng-change="checkAll('floor')"
+                   id="floor" name="floor" class="form-control">
+
+            <p class="validation-message" ng-show="floorValidation.isValid">{{'FLOOR_REGEX' |  translate}}</p>
+        </div>
+    </div>
+
+    <!-- DATE OF verification/disassembly -->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4" >
+            <label class="control-label">{{'DATE_OF_VERIF/DISASSEMBLY'| translate }}</label>
+        </div>
+
+        <div class="form-group col-md-8" ng-class="dateValidation.css" >
+            <div class="input-group right-inner-addon" style="width: 100%">
+                <span class="input-group-btn" style="height: 100%">
+                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open1($event)">
+                         <i class="glyphicon glyphicon-calendar" ></i>
+                     </button>
+                </span>
+
+                <input type="text" class="form-control date-picker" datepicker-popup
+                       ng-model="addInfo.dateOfVerif"
+                       is-open="firstCalendar.isOpen"
+                       min-date="minDate" max-date="maxDate"
+                       datepicker-options="dateOptions"
+                       date-disabled="disabled(date, mode)" close-text="Close"
+                       ng-change="receiveModuleNumbers()" readonly required/>
+                         <span class="input-group-btn">
+                               <button type="button" class="btn btn-default myGroupBtn"
+                                       ng-show="!isDateDefault()"
+                                       ng-click="clearDate1()">
+                                   <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                         </span>
+
+
+            </div>
+            <div ng-show="formTask.$submitted || formTask.date.$touched">
+                <div ng-show="formTask.date.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIME OF CALIBRATION -->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{ 'TIME_OF_CALIBRATION' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8" ng-class="timeValidation.css">
+            <input type="text"
+                   ng-model="addInfo.time"
+                   ng-change="checkAll('time')"
+                   id="time" name="time" class="form-control">
+
+            <p class="validation-message" ng-show="timeValidation.isValid">{{'TIME_REGEX' |  translate}}</p>
+        </div>
+    </div>
+
+    <!-- Plumbing serviceability -->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{ 'PLUMBING_SERVICEABILITY' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8">
+            <input type="checkbox" value="true"
+                   ng-model="addInfo.serviceability"
+                   id="serviceability" name="serviceability" class="form-control"/>
+        </div>
+    </div>
+
+    <!-- No water to date-->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4" >
+            <label class="control-label">{{'NO_WATER_TO'| translate }}</label>
+        </div>
+
+        <div class="form-group col-md-8" ng-class="dateValidation.css" >
+            <div class="input-group right-inner-addon" style="width: 100%">
+                <span class="input-group-btn" style="height: 100%">
+                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open2($event)">
+                         <i class="glyphicon glyphicon-calendar" ></i>
+                     </button>
+                </span>
+
+                <input type="text" class="form-control date-picker" datepicker-popup
+                       ng-model="addInfo.noWaterToDate"
+                       is-open="secondCalendar.isOpen"
+                       min-date="minDate" max-date="maxDate"
+                       datepicker-options="dateOptions"
+                       date-disabled="disabled(date, mode)" close-text="Close"
+                       ng-change="receiveModuleNumbers()" readonly required/>
+                         <span class="input-group-btn">
+                               <button type="button" class="btn btn-default myGroupBtn"
+                                       ng-show="!isDateDefault()"
+                                       ng-click="clearDate2()">
+                                   <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                         </span>
+            </div>
+            <div ng-show="formTask.$submitted || formTask.date.$touched">
+                <div ng-show="formTask.date.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{'NOTES' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8">
+                   <textarea type="text" rows="5" cols="45" ng-model="addInfo.notes"
+                             id="notes" name="notes" class="form-control"></textarea>
+        </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="row">
+        <div class="form-group col-md-10">
+            <button class="btn btn-success" ng-click="editAdditionalInfo()">{{'SAVE' | translate}}</button>
+            <a class="btn btn-warning" ng-click="resetForm()">{{'RESET' | translate}}</a>
+        </div>
+    </div>
+</form>

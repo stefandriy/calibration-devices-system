@@ -26,7 +26,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <button ng-click="tableParams.filter({})" ng-show="isFilter()"
+                            <button ng-click="clearAll()" ng-show="isFilter()"
                                     class="btn btn-warning pull-right is-filter" translate="DROP_SEARCH">
                             </button>
 
@@ -40,10 +40,13 @@
                                         filter="{ 'username': 'text' }">{{
                                         user.username }}
                                     </td>
-                                    <td data-title="'ROLE' |translate" sortable="'role'" filter="{ 'role': 'text' }">{{
-                                        user.role
-                                        }}
+
+                                    <td data-title="'ROLE' | translate"
+                                        sortable="'userRoles'"
+                                        filter="{ 'role': 'userType' }">
+                                        {{ user.role }}
                                     </td>
+
                                     <td data-title="'FIRST_NAME'|translate" sortable="'firstName'"
                                         filter="{ 'firstName': 'text' }">{{
                                         user.firstName }}
@@ -60,6 +63,10 @@
                                         filter="{ 'phone': 'text' }">{{
                                         user.phone }}
                                     </td>
+                                    <td data-title="'SECOND_PHONE'|translate" sortable="'secondPhone'"
+                                            filter="{ 'secondPhone': 'text' }">{{
+                                            user.secondPhone }}
+                                        </td>
                                     <td data-title="'EMPLOYEE_CAPACITY'|translate">
                                         <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)"
                                            class="cursor-pointer">
@@ -109,6 +116,20 @@
                                 </li>
                             </ul>
                         </div>
+                    </script>
+                    <script type="text/ng-template" id="ng-table/filters/userType.html">
+                        <ui-select ng-model="selectedUserType.name" theme="select2" on-select='doSearch()'
+                                   search-enabled="false"
+                                   name="filter-userType">
+                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="userType in userTypeData">
+                                <span ng-bind-html="userType.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
                     </script>
 
                 </div>

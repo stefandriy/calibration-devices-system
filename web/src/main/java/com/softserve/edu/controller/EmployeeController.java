@@ -6,14 +6,14 @@ import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
-import com.softserve.edu.entity.util.AddEmployeeBuilderNew;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.AddEmployeeBuilder;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
 import org.apache.log4j.Logger;
@@ -96,11 +96,12 @@ public class EmployeeController {
         userFromDataBase.setLastName(temporalUser.getLastName());
         userFromDataBase.setMiddleName(temporalUser.getMiddleName());
         userFromDataBase.setPhone(temporalUser.getPhone());
+        userFromDataBase.setSecondPhone(temporalUser.getSecondPhone());
         userFromDataBase.setEmail(temporalUser.getEmail());
         userFromDataBase.setAddress(temporalUser.getAddress());
         userFromDataBase.setUsername(temporalUser.getUsername());
         userFromDataBase.setIsAvaliable(temporalUser.getIsAvailable());
-        userFromDataBase.setUserRoles(new HashSet<String>(userService.getRoles(username)));
+        userFromDataBase.setUserRoles(new HashSet<>(userService.getRoles(username)));
         return userFromDataBase;
     }
 
@@ -108,14 +109,15 @@ public class EmployeeController {
      * Update user
      *
      * @param providerEmployee
-     * @param user
      * @return status
      */
 
     @RequestMapping(value = "update", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> updateEmployee(
             @RequestBody UserDTO providerEmployee) {
+
         User newUser = providerEmployeeService.oneProviderEmployee(temporalUser.getUsername());
+
         if (providerEmployee.getIsAvaliable().equals(false)) {
             newUser.setIsAvailable(providerEmployee.getIsAvaliable());
             providerEmployeeService.updateEmployee(newUser);
@@ -128,26 +130,33 @@ public class EmployeeController {
         newUser.setMiddleName(providerEmployee.getMiddleName());
         newUser.setEmail(providerEmployee.getEmail());
         newUser.setPhone(providerEmployee.getPhone());
-        newUser.setUsername(providerEmployee.getUsername());
-        //newUser.setAddress(providerEmployee.getAddress().getDistrict() != null ?
-        //      providerEmployee.getAddress() : newUser.getAddress());
-        String p = providerEmployee.getPassword();
-        newUser.setPassword(providerEmployee.getPassword() != null && providerEmployee.getPassword().equals("generate") ?
-                "generate" : newUser.getPassword());
-        newUser.getUserRoles().clear();
-        for (String role : providerEmployee.getUserRoles()) {
-            UserRole userRole = UserRole.valueOf(role);
-            newUser.addRole(userRole);
+        newUser.setSecondPhone(providerEmployee.getSecondPhone());
+
+        String password = providerEmployee.getPassword();
+        if (password != null && password.equals("generate")) {
+            newUser.setPassword("generate");
         }
+        //else newUser.setPassword(newUser.getPassword());
+
+        if (!providerEmployee.getUserRoles().isEmpty()) {
+            newUser.removeAllRoles();
+
+            for (String role : providerEmployee.getUserRoles()) {
+                UserRole userRole = UserRole.valueOf(role);
+                newUser.addRole(userRole);
+            }
+        }
+
+
         providerEmployeeService.updateEmployee(newUser);
-        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addEmployee(
             @RequestBody UserDTO employee,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        User newUser = new AddEmployeeBuilderNew().username(employee.getUsername())
+        User newUser = new AddEmployeeBuilder().username(employee.getUsername())
                 .password(employee.getPassword())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
@@ -156,7 +165,7 @@ public class EmployeeController {
                 .secondPhone(employee.getSecondPhone())
                 .email(employee.getEmail())
                 .address(employee.getAddress())
-                .isAvailable(employee.getIsAvaliable())
+                .setIsAvailable(employee.getIsAvaliable())
                 .build();
 
         for (String role : employee.getUserRoles()) {
@@ -168,20 +177,60 @@ public class EmployeeController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    //TODO: maybe here should add STATE_VERIFICATION
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> capacityEmployeeData(
             @PathVariable String username) {
         List<String> role = userService.getRoles(username);
         List<Verification> list = null;
         if (role.contains(UserRole.PROVIDER_EMPLOYEE.name())) {
-            list = verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username);
+            list = verificationProviderEmployeeService.getVerificationListByProviderEmployee(username);
         }
         if (role.contains(UserRole.CALIBRATOR_EMPLOYEE.name())) {
-            list = verificationProviderEmployeeService.getVerificationListbyCalibratormployee(username);
+            list = verificationProviderEmployeeService.getVerificationListByCalibratorEmployee(username);
         }
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
         return new PageDTO<>(content);
+    }
+
+    /**
+     * return data about admin employees.
+     * return only employees, without admins.
+     *
+     * @param queryResult
+     * @return page with employees of current admin.
+     */
+    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
+        List<UsersPageItem> resultList = new ArrayList<>();
+        for (User providerEmployee : queryResult.getContent()) {
+
+            //hide information about PROVIDER_ADMIN, CALIBRATOR_ADMIN, STATE_VERIFICATOR_ADMIN
+            List<String> userRoles = userService.getRoles(providerEmployee.getUsername())
+                    .stream()
+                    .distinct()
+                    .collect(Collectors.toList());
+
+            boolean isProviderAdmin = userRoles.contains(UserRole.PROVIDER_ADMIN.name());
+            boolean isCalibratorAdmin = userRoles.contains(UserRole.CALIBRATOR_ADMIN.name());
+            boolean isStateVerificatorAdmin = userRoles.contains(UserRole.STATE_VERIFICATOR_ADMIN.name());
+
+            if (!isProviderAdmin && !isCalibratorAdmin && !isStateVerificatorAdmin) {
+                resultList.add(new UsersPageItem(
+                                providerEmployee.getUsername(),
+                                userRoles,
+                                providerEmployee.getFirstName(),
+                                providerEmployee.getLastName(),
+                                providerEmployee.getMiddleName(),
+                                providerEmployee.getPhone(),
+                                providerEmployee.getSecondPhone(),
+                                providerEmployee.getOrganization().getName(),
+                                verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
+                                verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
+                                providerEmployee.getIsAvailable()
+                        )
+                );
+            }
+        }
+        return resultList;
     }
 
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{fieldToSort}", method = RequestMethod.GET)
@@ -195,41 +244,9 @@ public class EmployeeController {
         ListToPageTransformer<User> queryResult = providerEmployeeService.findPageOfAllProviderEmployeeAndCriteriaSearch(
                 pageNumber, itemsPerPage, idOrganization, search.getUsername(), search.getRole(),
                 search.getFirstName(), search.getLastName(), search.getOrganization(),
-                search.getPhone(), fieldToSort);
+                search.getPhone(), search.getSecondPhone(), fieldToSort);
         List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
-    }
-
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
-        List<UsersPageItem> resultList = new ArrayList<>();
-        for (User providerEmployee : queryResult.getContent()) {
-
-            //hide information about PROVIDER_ADMIN and CALIBRATOR_ADMIN
-            List<String> userRoles = userService.getRoles(providerEmployee.getUsername())
-                    .stream()
-                    .distinct()
-                    .collect(Collectors.toList());
-
-            boolean isProviderAdmin = userRoles.contains(UserRole.PROVIDER_ADMIN.name());
-            boolean isCalibratorAdmin = userRoles.contains(UserRole.CALIBRATOR_ADMIN.name());
-
-            if (!isProviderAdmin && !isCalibratorAdmin) {
-                resultList.add(new UsersPageItem(
-                                providerEmployee.getUsername(),
-                                userRoles,
-                                providerEmployee.getFirstName(),
-                                providerEmployee.getLastName(),
-                                providerEmployee.getMiddleName(),
-                                providerEmployee.getPhone(),
-                                providerEmployee.getOrganization().getName(),
-                                verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
-                                verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
-                                providerEmployee.getIsAvailable()
-                        )
-                );
-            }
-        }
-        return resultList;
     }
 
     @RequestMapping(value = "/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
@@ -240,6 +257,12 @@ public class EmployeeController {
     ) {
         return userService.findByOrganizationId(userDetails.getOrganizationId(), pageNumber, itemsPerPage)
                 .stream()
+                .filter(user -> user
+                                .getUserRoles()
+                                .stream()
+                                .filter(userRole -> userRole.name().matches("\\w+_ADMIN"))
+                                .count() == 0
+                )
                 .map(user -> new UserInfoDTO(
                                 user.getUsername(),
                                 user.getUserRoles()
@@ -249,10 +272,12 @@ public class EmployeeController {
                                 user.getFirstName(),
                                 user.getLastName(),
                                 user.getPhone(),
-                                0L
+                                user.getSecondPhone(),
+                                userService.countVerifications(user),
+                                user.getIsAvailable()
                         )
                 )
+                .sorted((first, second) -> first.getLastName().compareTo(second.getLastName()))
                 .collect(Collectors.toList());
     }
 }
-

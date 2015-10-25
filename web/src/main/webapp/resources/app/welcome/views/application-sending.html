@@ -1,6 +1,6 @@
 <section id=applicationSection>
 
-    <div class="col-md-12 text-center"  ng-show="isShownForm">
+    <div class="col-md-12 text-center" ng-show="isShownForm">
         <h1>{{ 'APP_SENDING_TITLE' | translate }}</h1>
     </div>
     <div class="row">
@@ -184,7 +184,7 @@
                                    ng-model="selectedValues.selectedRegion"
                                    on-select="receiveDistricts(selectedValues.selectedRegion)"
                                    name="region" required>
-                            <ui-select-match placeholder="Оберіть область" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="region in regions | filter: $select.search">
@@ -209,7 +209,7 @@
                                    ng-disabled="!selectedValues.selectedRegion"
                                    on-select="receiveLocalitiesAndProviders(selectedValues.selectedDistrict)"
                                    name="district" required>
-                            <ui-select-match placeholder="Оберіть район" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="district in districts | filter: $select.search">
@@ -233,7 +233,7 @@
                                    ng-disabled="!selectedValues.selectedDistrict"
                                    on-select="receiveStreets(selectedValues.selectedLocality,selectedValues.selectedDistrict)"
                                    name="locality" required>
-                            <ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices
@@ -266,7 +266,7 @@
                                    ng-disabled="!selectedValues.selectedLocality"
                                    on-select="receiveStreetsTypes()"
                                    name="index" required>
-                            <ui-select-match placeholder="Поштовий індекс" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_MAIL_INDEX' | translate}}" allow-clear="true">
                                 {{$select.selected}}
                             </ui-select-match>
                             <ui-select-choices repeat="index in indexes | filter: $select.search">
@@ -287,7 +287,7 @@
                                        ng-disabled="!selectedValues.selectedIndex"
                                        search-enabled="false"
                                        name="streetType" required>
-                                <ui-select-match placeholder="Тип вулиці" allow-clear="true">
+                                <ui-select-match placeholder="{{'TYPE_OF_STREET' | translate}}" allow-clear="true">
                                     {{$select.selected.designation}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="streetsType in streetsTypes | filter: $select.search">
@@ -302,6 +302,7 @@
                                         'has-error' : !selectedValues.selectedStreet &&  clientForm.street.$dirty && selectedValues.selectedIndex}">
                             <input name="street" class="form-control"
                                    type="text" id="street"
+                                   autocomplete="off"
                                    ng-model="selectedValues.selectedStreet"
                                    ng-disabled="!selectedValues.selectedIndex"
                                    typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
@@ -388,7 +389,7 @@
                                        search-enabled="false"
                                        name="firstDeviceCount"
                                        id="counterNumber" required>
-                                <ui-select-match placeholder="Кількість">
+                                <ui-select-match placeholder="{{'NUMBER_OF_COUNTERS' | translate}}">
                                     {{$select.selected}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="value in values">
@@ -404,7 +405,7 @@
                                        id="firstSelectedDevice"
                                        ng-required="test"
                                        name="firstSelectedDevice" required>
-                                <ui-select-match placeholder="Категорія лічильника">
+                                <ui-select-match placeholder="{{'CATEGORY_OF_COUNTER' | translate}}">
                                     {{$select.selected.designation}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="device in devices | filter: $select.search">
@@ -418,7 +419,7 @@
                                        ng-model="selectedValues.firstSelectedProvider"
                                        search-enable="false"
                                        name="firstDeviceProvider" required>
-                                <ui-select-match placeholder="Провайдер">
+                                <ui-select-match placeholder="{{'SELECT_PROVIDER' | translate}}">
                                     {{ $select.selected.designation}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="provider in firstDeviceProviders">
@@ -431,7 +432,8 @@
                                 <i class="glyphicon glyphicon-plus input-block-level"></i>
                             </div>
                         </div>
-                        <p class="help-block" ng-if="clientForm.firstDeviceCount.$error.required || clientForm.firstDeviceCount.$invalid">
+                        <p class="help-block"
+                           ng-if="clientForm.firstDeviceCount.$error.required || clientForm.firstDeviceCount.$invalid">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
@@ -504,7 +506,7 @@
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedValues.secondSelectedProvider"
                                            search-enable="false"
-                                           name="secondDeviceProvider" required>
+                                           name="secondDeviceProvider">
                                     <ui-select-match placeholder="Провайдер">
                                         {{ $select.selected.designation}}
                                     </ui-select-match>
@@ -513,7 +515,8 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
-                            <p class="help-block" ng-if="clientForm.secondDeviceCount.$error.required || clientForm.secondDeviceCount.$invalid">
+                            <p class="help-block"
+                               ng-if="clientForm.secondDeviceCount.$error.required || clientForm.secondDeviceCount.$invalid">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
                                 {{'TYPEAHEAD_ERROR' | translate}}
                             </p>

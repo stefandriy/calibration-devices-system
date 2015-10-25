@@ -24,8 +24,11 @@ angular.module('adminModule').factory('DataReceivingService',
 				findMailIndexByLocality : function(localityDesignation ,districtId) {
 					return getData('localities/' + localityDesignation+'/'+districtId);
 				},
-				findProvidersByDistrict : function(district) {
-					return getData("providers/" + district);
+				findProvidersByLocality: function (localityId) {
+					return getData("providersInLocality/" + localityId)
+				},
+				findProvidersByLocalityAndDeviceType: function (localityId, deviceType) {
+					return getData("providers/" + localityId + "/" + deviceType)
 				},
 				findStreetsByLocalityId : function(id) {
 					return getData('streets/' + id);
