@@ -5,7 +5,7 @@ import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.organization.OrganizationChangesHistory;
+import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
@@ -35,7 +35,7 @@ public interface OrganizationService {
 
     void sendOrganizationChanges(Organization organization, User admin);
 
-    List<OrganizationChangesHistory> getHistoryByOrganizationId(Long organizationId);
+    List<OrganizationEditHistory> getHistoryByOrganizationId(Long organizationId);
 
     List<Organization> findAllByLocalityId(Long localityId);
 
@@ -52,5 +52,7 @@ public interface OrganizationService {
     List<Organization> findByServiceAreaIdsAndOrganizationType(Set<Long> serviceAreaIds, OrganizationType type);
 
     List<Organization> findByOrganizationTypeAndDeviceType( OrganizationType organizationType, Device.DeviceType deviceType);
+
+    Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType( Long customerId, OrganizationType organizationType, Device.DeviceType deviceType);
 
 }

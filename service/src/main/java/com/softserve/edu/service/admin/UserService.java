@@ -14,7 +14,7 @@ public interface UserService {
     List<String> getRoles(String username);
 
     void addSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                             String email,  Address address, Boolean isAvailable);
+                             String email,  Address address);
 
     List<User> findByOrganizationId(Long organizationId, int pageNumber, int itemsPerPage);
 
@@ -25,7 +25,7 @@ public interface UserService {
     void deleteSysAdmin(String username);
 
     void editSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                       String email,  Address address, Boolean isAvailable);
+                       String email,  Address address);
 
     ListToPageTransformer<User>
     findPageOfAllEmployees(int pageNumber, int itemsPerPage, String userName,

@@ -2,20 +2,21 @@ package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.*;
+import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.provider.*;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UserService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
+import com.softserve.edu.service.tool.MailService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationProviderEmployeeService;
@@ -96,11 +97,6 @@ public class ProviderVerificationController {
      *
      * @param pageNumber
      * @param itemsPerPage
-     * @param verifDate    (optional)
-     * @param verifId      (optional)
-     * @param lastName     (optional)
-     * @param firstName    (optional).
-     * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
      */
@@ -138,11 +134,6 @@ public class ProviderVerificationController {
      *
      * @param pageNumber
      * @param itemsPerPage
-     * @param verifDate    (optional)
-     * @param verifId      (optional)
-     * @param lastName     (optional)
-     * @param firstName    (optional)
-     * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
      */
@@ -237,19 +228,17 @@ public class ProviderVerificationController {
 
 
     /**
-     * Find calibrators by district which correspond provider district
+     * Find calibrators which correspond provider agreements
      *
      * @return calibrator
      */
     @RequestMapping(value = "new/calibrators", method = RequestMethod.GET)
-    public List<Organization> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        //return calibratorService.findByDistrict(providerService.findById(user.getOrganizationId()).getAddress().getDistrict(), "CALIBRATOR");
-        //todo need to find verificators by agreements(договорах)
-        //todo it`s a MOCK
-        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
-                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
-
-        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.CALIBRATOR);
+    public Set<OrganizationDTO> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        //todo agreement
+        Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.CALIBRATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
+                .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toSet());
     }
 
 
@@ -258,9 +247,9 @@ public class ProviderVerificationController {
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = providerEmployeeService.oneProviderEmployee(user.getUsername());
         List<String> role = userService.getRoles(user.getUsername());
-        List<EmployeeDTO> providerListEmployee = providerEmployeeService
+
+        return providerEmployeeService
                 .getAllProviders(role, employee);
-        return providerListEmployee;
     }
 
     /**
@@ -351,9 +340,10 @@ public class ProviderVerificationController {
 
     /**
      * Check if current user is Employee
+     *
      * @param user
      * @return true if user has role PROVIDER_EMPLOYEE
-     *         false if user has role PROVIDER_ADMIN
+     * false if user has role PROVIDER_ADMIN
      */
     @RequestMapping(value = "provider/role", method = RequestMethod.GET)
     public Boolean isEmployeeProvider(

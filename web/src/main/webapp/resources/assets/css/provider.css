@@ -28,12 +28,6 @@ body {
     width: 30px;
 }
 
-.unhidden-pick ul {
-    display: block;
-    top: 92px !important;
-    left: 412px !important;
-}
-
 .glyphicon {
 
     font-size: 17px;
@@ -650,6 +644,18 @@ input[type="radio"], input[type="checkbox"] {
     float: left;
     padding-right: 1%;
 }
+
+.formCalendar .dropdown-menu td button:enabled {
+  font-weight: bold;
+  background-color: #f3fcff;
+}
+
+.formCalendar .dropdown-menu td button.active, 
+.formCalendar .dropdown-menu td button:active {
+  font-weight: bold;
+  background-color: #31B0D5;
+}
+
 
 .formCalendar.cal {
     float: left;

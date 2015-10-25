@@ -90,6 +90,7 @@
   "ADD_ORGANIZATION":"Add organization",
   "FILL_IN_INFORMATION_ABOUT_ORGANIZATION":"Fill in information about organization",
   "FILL_IN_INFORMATION_ABOUT_CATEGORY_DEVICES":"Fill in information about category devices",
+  "FILL_IN_INFORMATION_ABOUT_COUNTER_TYPE":"Fill in information about counters type",
   "ORGANIZATION_NAME_ADMIN":"Organization name",
   "ORGANIZATION_TYPE_ADMIN":"Organization type",
   "ORGANIZATION_DEVICE_TYPE_ADMIN":"Device type",
@@ -160,6 +161,18 @@
   "SENT_TO_VERIFICATOR_TRANSLATION":"The application brought against state attorneys",
   "ACCEPTED_TRASLATION":"Application accepted performer.",
   "REJECTED_TRASLATION":"Application rejected performer.",
+
+
+  "DISASSEMBLY_TEAM":"Disassembly team",
+  "DISASSEMBLY_TEAMS":"Disassembly teams",
+  "ADD_TEAM":"Add team",
+  "FIND_BY_TEAM_NAME":"Find by name: ",
+  "EFFECTIVE_TO_DATE":"Effective to",
+  "LEADER_FULL_NAME":"Leader full name",
+  "LEADER_PHONE":"Leader phone",
+  "LEADER_EMAIL":"Leader email",
+
+
   "FIND_BY_EQUIPMENT_NAME":"Find by equipment name:",
   "MEASURING_EQUIPMENTS":"Measuring equipments",
   
@@ -288,7 +301,8 @@
 
   "ADD_USER":"Add user",
   "SELECT_TYPE_OF_ORGANIZATION": "Select type",
-
+  "SELECT_NAME_OF_COUNTER": "Select counter name",
+  "SELECT_STANDARD_SIZE": "Select standard size",
   "PHONE_NUMBER":"Phone number",
   "EMPLOYEE_CAPACITY":"Work in progress",
   "CHOOSE_THE_DATE_TO_SEARCH_INFORMATION":"Choose the date to search information",
@@ -374,6 +388,10 @@
   "AGREEMENT_DATE" : "Date",
   "AGREEMENT_CUSTOMER_TYPE" : "Customer type",
   "ADD_AGREEMENT" : "Add Agreement",
+  "SUCCESSFUL_ADDED_AGREEMENT" : "Agreement was successful added",
+  "SUCCESSFUL_EDITED_AGREEMENT" : "Agreement was successful edited",
+  "SUCCESSFUL_DISABLED_AGREEMENT" : "Agreement was successful disabled",
+  "SUCCESSFUL_DELETED_AGREEMENT" : "Agreement was successful deleted",
 
   "WATER" : "Cold water",
   "THERMAL" : "Hot water",
@@ -401,5 +419,6 @@
   "MOUNTING_CREW" : "Mounting crew",
   "CHOOSE_MOUNTING_CREW" : "Choose mounting crew",
   "APPLICATION_FIELD": "Application field",
-  "CHOOSE_APPLICATION_FIELD" : "Choose application field"
+  "CHOOSE_APPLICATION_FIELD" : "Choose application field",
+  "ALL_SYS_ADMINS" : "Amount of system admins :"
 }

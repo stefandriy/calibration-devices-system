@@ -14,6 +14,8 @@ public interface StatisticService {
 
     Long countVerifications();
 
+    Long countSysAdmins();
+
     User employeeExist(String username);
 
 }

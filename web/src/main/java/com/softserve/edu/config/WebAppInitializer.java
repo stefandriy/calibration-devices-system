@@ -4,6 +4,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 /**
  * Replacement for web.xml, sets up the root and the servlet context config.
@@ -15,6 +17,14 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Class<?>[]{SecurityConfig.class, JPAConfig.class, ServiceConfig.class,
                 MailConfig.class};
     }
+
+//    @Override
+//    //TODO!!!
+//    public void onStartup(ServletContext servletContext) throws ServletException {
+//
+//        super.onStartup(servletContext);
+//        this.registerDispatcherServlet(servletContext);
+//    }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {

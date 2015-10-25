@@ -31,8 +31,8 @@ public class AgreementServiceTest {
 
     @Test
     public void testAdd() {
-       // Organization customer = organizationService.getOrganizationById(1L);
-       // Organization executor = organizationService.getOrganizationById(1L);
+        // Organization customer = organizationService.getOrganizationById(1L);
+        // Organization executor = organizationService.getOrganizationById(1L);
         String number = "A 123";
         Long deviceCount = 33L;
         Device.DeviceType deviceType = Device.DeviceType.WATER;
@@ -42,5 +42,11 @@ public class AgreementServiceTest {
         Set<Agreement> agreements = agreementService.findAll();
         assertEquals(number, newAgreement.getNumber());
         assertTrue(agreements.contains(newAgreement));
+    }
+
+    @Test
+    public void testFindByCustomerIdAndDeviceType() {
+        Set<Agreement> agreements = agreementService.findByCustomerIdAndDeviceType(1L, Device.DeviceType.WATER);
+        assertTrue(!agreements.isEmpty());
     }
 }

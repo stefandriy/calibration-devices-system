@@ -1,5 +1,6 @@
 package com.softserve.edu.service.admin.impl;
 
+import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.admin.StatisticService;
@@ -48,6 +49,14 @@ public class StatisticServiceImpl implements StatisticService {
     @Override
     public Long countVerifications() {
         return verificationRepository.count();
+    }
+
+    @Override
+    public Long countSysAdmins() {
+        return new Long(userRepository
+                        .findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN)
+                        .size()
+        );
     }
 
     @Override

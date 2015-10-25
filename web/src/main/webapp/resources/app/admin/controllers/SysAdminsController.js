@@ -11,6 +11,7 @@ angular
                 $scope.tableParams.filter({});
             };
 
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 5,
@@ -35,6 +36,12 @@ angular
                         });
                 }
             });
+
+            $rootScope.onTableHandling = function () {
+                $scope.tableParams.reload();
+            };
+
+            $rootScope.onTableHandling();
 
 
             $scope.isFilter = function () {
@@ -89,7 +96,7 @@ angular
                 userService.deleteSysAdmin(username);
                 $timeout(function() {
                     console.log('delete with timeout');
-                   $rootScope.tableParams.reload();
+                    $rootScope.onTableHandling();
                 }, 700);
             }
 

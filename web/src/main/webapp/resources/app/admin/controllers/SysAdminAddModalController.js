@@ -35,7 +35,7 @@ angular
                 if (!$scope.regions) {
                     addressService.findAllRegions().then(
                         function (respRegions) {
-                            $log.debug($scope.employeeFormData);
+                            $log.debug($scope.sysAdminFormData);
                             $scope.regions = respRegions;
 
                         });
@@ -55,21 +55,17 @@ angular
             /**
              * Resets employee form
              */
-            $scope.resetEmployeeForm = function () {
+            $scope.resetSysAdminFormData = function () {
                 $scope.$broadcast('show-errors-reset');
-                if ($scope.employeeForm) {
-                    //$scope.employeeForm.$setValidity(true);
-                    $scope.employeeForm.$setPristine();
-                    $scope.employeeForm.$setUntouched();
-                    // $scope.employeeForm.lastName.dataset = {};
-                    //$scope.employeeForm.$rollbackViewValue();
-                    //$scope.employeeFormData.lastName="";
+                if ($scope.sysAdminForm) {
+                    $scope.sysAdminForm.$setPristine();
+                    $scope.sysAdminForm.$setUntouched();
                 }
                 $scope.usernameValidation = null;
-                $scope.employeeFormData = null;
+                $scope.sysAdminFormData = null;
             };
 
-            $scope.resetEmployeeForm();
+            $scope.resetSysAdminFormData();
 
             /**
              * Validates
@@ -77,7 +73,7 @@ angular
             $scope.checkField = function (caseForValidation) {
                 switch (caseForValidation) {
                     case ('firstName') :
-                        var firstName = $scope.employeeFormData.firstName;
+                        var firstName = $scope.sysAdminFormData.firstName;
                         if (firstName == null) {
                         } else if ($scope.FIRST_LAST_NAME_REGEX.test(firstName)) {
                             validator('firstName', false);
@@ -86,7 +82,7 @@ angular
                         }
                         break;
                     case ('lastName') :
-                        var lastName = $scope.employeeFormData.lastName;
+                        var lastName = $scope.sysAdminFormData.lastName;
                         if (lastName == null) {
 
                         } else if ($scope.FIRST_LAST_NAME_REGEX.test(lastName)) {
@@ -97,7 +93,7 @@ angular
                         }
                         break;
                     case ('middleName') :
-                        var middleName = $scope.employeeFormData.middleName;
+                        var middleName = $scope.sysAdminFormData.middleName;
                         if (middleName == null) {
                         } else if ($scope.MIDDLE_NAME_REGEX.test(middleName)) {
                             validator('middleName', false);
@@ -106,7 +102,7 @@ angular
                         }
                         break;
                     case ('phone') :
-                        var phone = $scope.employeeFormData.phone;
+                        var phone = $scope.sysAdminFormData.phone;
                         if (phone == null) {
                         } else if ($scope.PHONE_REGEX.test(phone)) {
                             validator('phone', false);
@@ -115,7 +111,7 @@ angular
                         }
                         break;
                     case ('email') :
-                        var email = $scope.employeeFormData.email;
+                        var email = $scope.sysAdminFormData.email;
                         if (email == null) {
                         } else if ($scope.EMAIL_REGEX.test(email)) {
                             validator('email', false);
@@ -124,7 +120,7 @@ angular
                         }
                         break;
                     case ('login') :
-                        var username = $scope.employeeFormData.username;
+                        var username = $scope.sysAdminFormData.username;
                         if (username == null) {
                         } else if ($scope.USERNAME_REGEX.test(username)) {
                             isUsernameAvailable(username);
@@ -141,7 +137,7 @@ angular
              * @param username
              */
             $scope.isUsernameAvailable = true;
-            $scope.employeeFormData = {};
+            $scope.sysAdminFormData = {};
 
 
             function isUsernameAvailable(username) {
@@ -208,8 +204,8 @@ angular
              */
 
             $scope.checkPasswords = function () {
-                var first = $scope.employeeFormData.password;
-                var second = $scope.employeeFormData.rePassword;
+                var first = $scope.sysAdminFormData.password;
+                var second = $scope.sysAdminFormData.rePassword;
                 $log.info(first);
                 $log.info(second);
                 var isValid = false;
@@ -224,7 +220,7 @@ angular
 
 
             /*var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.region, "designation");
-             $scope.employeeFormData.region = $scope.regions[index];
+             $scope.sysAdminFormData.region = $scope.regions[index];
              $scope.onRegionSelected($scope.regions[index].id);*/
             initFormData();
 
@@ -235,13 +231,13 @@ angular
             $scope.receiveDistricts = function (selectedRegion) {
                 if (!$scope.blockSearchFunctions) {
                     $scope.districts = [];
-                    $scope.employeeFormData.address = {};
+                    $scope.sysAdminFormData.address = {};
                     addressService.findDistrictsByRegionId(selectedRegion.id)
                         .then(function (districts) {
                             $scope.districts = districts;
-                            $scope.employeeFormData.address.district = undefined;
-                            $scope.employeeFormData.address.locality = undefined;
-                            $scope.employeeFormData.address.street = "";
+                            $scope.sysAdminFormData.address.district = undefined;
+                            $scope.sysAdminFormData.address.locality = undefined;
+                            $scope.sysAdminFormData.address.street = "";
                         });
                 }
             };
@@ -257,8 +253,8 @@ angular
                         .then(function (localities) {
                             console.log(localities);
                             $scope.localities = localities;
-                            $scope.employeeFormData.address.locality = undefined;
-                            $scope.employeeFormData.address.street = "";
+                            $scope.sysAdminFormData.address.locality = undefined;
+                            $scope.sysAdminFormData.address.street = "";
 
                         });
                 }
@@ -270,9 +266,9 @@ angular
                     addressService.findStreetsByLocalityId(selectedLocality.id)
                         .then(function (streets) {
                             $scope.streets = streets;
-                            $scope.employeeFormData.address.street = "";
-                            $scope.employeeFormData.address.building = "";
-                            $scope.employeeFormData.address.flat = "";
+                            $scope.sysAdminFormData.address.street = "";
+                            $scope.sysAdminFormData.address.building = "";
+                            $scope.sysAdminFormData.address.flat = "";
                             $log.debug("$scope.streets");
                             $log.debug($scope.streets);
 
@@ -338,33 +334,33 @@ angular
              * Refactor data
              */
             function retranslater() {
-                $scope.employeeFormData.address = {
-                    region: $scope.employeeFormData.region.designation,
-                    district: $scope.employeeFormData.district.designation,
-                    locality: $scope.employeeFormData.locality.designation,
-                    street: $scope.employeeFormData.street.designation,
-                    building: $scope.employeeFormData.building,
-                    flat: $scope.employeeFormData.flat
+                $scope.sysAdminFormData.address = {
+                    region: $scope.sysAdminFormData.region.designation,
+                    district: $scope.sysAdminFormData.district.designation,
+                    locality: $scope.sysAdminFormData.locality.designation,
+                    street: $scope.sysAdminFormData.street.designation,
+                    building: $scope.sysAdminFormData.building,
+                    flat: $scope.sysAdminFormData.flat
                 };
-                employeeData = {
-                    firstName: $scope.employeeFormData.firstName,
-                    lastName: $scope.employeeFormData.lastName,
-                    middleName: $scope.employeeFormData.middleName,
-                    phone: $scope.employeeFormData.phone,
-                    email: $scope.employeeFormData.email,
-                    username: $scope.employeeFormData.username,
-                    password: $scope.employeeFormData.password,
+                sysAdmin = {
+                    firstName: $scope.sysAdminFormData.firstName,
+                    lastName: $scope.sysAdminFormData.lastName,
+                    middleName: $scope.sysAdminFormData.middleName,
+                    phone: $scope.sysAdminFormData.phone,
+                    email: $scope.sysAdminFormData.email,
+                    username: $scope.sysAdminFormData.username,
+                    password: $scope.sysAdminFormData.password,
                     userRoles: ['SYS_ADMIN'],
-                    address: $scope.employeeFormData.address
+                    address: $scope.sysAdminFormData.address
                 };
 
-                employeeData.address = {
-                    region: $scope.employeeFormData.region.designation,
-                    district: $scope.employeeFormData.district.designation,
-                    locality: $scope.employeeFormData.locality.designation,
-                    street: $scope.employeeFormData.street.designation,
-                    building: $scope.employeeFormData.building,
-                    flat: $scope.employeeFormData.flat
+                sysAdmin.address = {
+                    region: $scope.sysAdminFormData.region.designation,
+                    district: $scope.sysAdminFormData.district.designation,
+                    locality: $scope.sysAdminFormData.locality.designation,
+                    street: $scope.sysAdminFormData.street.designation,
+                    building: $scope.sysAdminFormData.building,
+                    flat: $scope.sysAdminFormData.flat
                 }
 
 
@@ -374,8 +370,8 @@ angular
                 if (( $scope.firstNameValidation === undefined) || ($scope.lastNameValidation === undefined)
                     || ($scope.middleNameValidation === undefined) || ($scope.emailValidation === undefined)
                     || ($scope.passwordValidation === undefined) || ($scope.usernameValidation === undefined)
-                    || ($scope.employeeFormData.region === undefined) || ($scope.employeeFormData.district === undefined)
-                    || ($scope.employeeFormData.locality === undefined)
+                    || ($scope.sysAdminFormData.region === undefined) || ($scope.sysAdminFormData.district === undefined)
+                    || ($scope.sysAdminFormData.locality === undefined)
                 ) {
                     $scope.incorrectValue = true;
                     return false;
@@ -384,13 +380,13 @@ angular
                 }
             };
 
-            $scope.onEmployeeFormSubmit = function () {
+            $scope.onSysAdminFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if (bValidation()) {
                     if (!$scope.firstNameValidation.isValid && !$scope.lastNameValidation.isValid
                         && !$scope.middleNameValidation.isValid && !$scope.emailValidation.isValid) {
                         retranslater();
-                        saveEmployee();
+                        saveSysAdmin();
                     } else {
                         $scope.incorrectValue = true;
                     }
@@ -400,14 +396,15 @@ angular
             /**
              * Update new employee in database.
              */
-            function saveEmployee() {
+            function saveSysAdmin() {
                 userService.saveUser(
-                    employeeData).then(
+                    sysAdmin).then(
                     function (data) {
                         if (data.status == 201) {
                             $rootScope.$broadcast('new-employee-added');
                             $scope.closeModal();
-                            $scope.resetEmployeeForm();
+                            $rootScope.onTableHandling();
+                            $scope.resetSysAdminFormData();
 
                         } else {
                             console.log(data.status);
@@ -436,6 +433,6 @@ angular
                 $modalInstance.close();
             };
 
-            //   $log.info(employeeFormData);
+            //   $log.info(sysAdminFormData);
 
         }]);

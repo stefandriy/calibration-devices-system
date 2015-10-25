@@ -28,8 +28,8 @@ import java.util.UUID;
 @Table(name = "VERIFICATION")
 public class Verification {
 
-    @Id
     @Setter(AccessLevel.PRIVATE)
+    @Id
     private String id;
 
     @Enumerated(EnumType.STRING)

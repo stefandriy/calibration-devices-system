@@ -10,7 +10,7 @@ import com.softserve.edu.entity.device.MeasuringEquipment;
 @Repository
 public interface MeasuringEquipmentRepository extends CrudRepository<MeasuringEquipment, Long> {
 	
-	public Page<MeasuringEquipment> findAll(Pageable pageable);
+	Page<MeasuringEquipment> findAll(Pageable pageable);
 	Page<MeasuringEquipment> findByNameLikeIgnoreCase(String name, Pageable pageable);
 
 }

@@ -4,6 +4,7 @@ import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransfo
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.*;
+import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
@@ -112,7 +113,7 @@ public class CalibratorVerificationController {
      */
     @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<CalibrationTestDTO> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
-                                                    @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData) {
+                                                                     @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData) {
 
         ListToPageTransformer<CalibrationTest> queryResult = verificationService
                 .findPageOfCalibrationTestsByVerificationId(
@@ -146,11 +147,6 @@ public class CalibratorVerificationController {
      *
      * @param pageNumber
      * @param itemsPerPage
-     * @param verifDate    (optional)
-     * @param verifId      (optional)
-     * @param lastName     (optional)
-     * @param firstName    (optional)
-     * @param street       (optional)
      * @param employeeUser
      * @return PageDTO<VerificationPageDTO>
      */
@@ -195,17 +191,13 @@ public class CalibratorVerificationController {
     }
 
     @RequestMapping(value = "new/verificators", method = RequestMethod.GET)
-    public List<Organization> getMatchingVerificators(
+    public Set<OrganizationDTO> getMatchingVerificators(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-
-        //todo need to find verificators by agreements(договорах)
-        //todo it`s a MOCK
-        /*return verificatorService.findByDistrictAndType(
-                calibratorService.findById(user.getOrganizationId()).getAddress().getDistrict(), "STATE_VERIFICATOR");*/
-        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
-                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
-
-        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.STATE_VERIFICATOR);
+        //todo agreement
+        Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.STATE_VERIFICATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
+                .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toSet());
     }
 
     @RequestMapping(value = "new/update", method = RequestMethod.PUT)
@@ -458,7 +450,7 @@ public class CalibratorVerificationController {
 
 
     @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
-    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO){
+    public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
             calibratorService.saveInfo(infoDTO.getEntrance(), infoDTO.getDoorCode(), infoDTO.getFloor(),
@@ -473,15 +465,15 @@ public class CalibratorVerificationController {
     }
 
     @RequestMapping(value = "/checkInfo/{verificationId}", method = RequestMethod.GET)
-    public boolean checkIfAdditionalInfoExists(@PathVariable String verificationId){
+    public boolean checkIfAdditionalInfoExists(@PathVariable String verificationId) {
         boolean exists = calibratorService.checkIfAdditionalInfoExists(verificationId);
         return exists;
     }
 
     @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
-    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId){
+    public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId) {
         AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);
-        String time = ((info.getTimeFrom()==null) && (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" +info.getTimeTo().toString());
+        String time = ((info.getTimeFrom() == null) && (info.getTimeTo() == null)) ? "час відсутній" : (info.getTimeFrom().toString() + "-" + info.getTimeTo().toString());
         AdditionalInfoDTO infoDTO = new AdditionalInfoDTO(info.getEntrance(), info.getDoorCode(), info.getFloor(),
                 info.getDateOfVerif(), time, info.isServiceability(), info.getNoWaterToDate(), info.getNotes(), info.getVerification().getId());
         return infoDTO;
