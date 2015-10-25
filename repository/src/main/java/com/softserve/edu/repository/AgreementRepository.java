@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.Set;
 
 @Repository
@@ -23,5 +24,6 @@ public interface AgreementRepository extends CrudRepository<Agreement, Long> {
             "WHERE C.id =:customerId AND A.isAvailable = true")
     Set<Agreement> findByCustomerId(@Param("customerId") Long customerId);
 
-
+    @Query("SELECT MIN(A.date) FROM Agreement A WHERE  A.isAvailable = true")
+    Date findEarliestDateAvalibleAgreement();
 }
