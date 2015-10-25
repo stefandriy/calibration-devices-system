@@ -388,6 +388,10 @@
   "AGREEMENT_DATE" : "Date",
   "AGREEMENT_CUSTOMER_TYPE" : "Customer type",
   "ADD_AGREEMENT" : "Add Agreement",
+  "SUCCESSFUL_ADDED_AGREEMENT" : "Agreement was successful added",
+  "SUCCESSFUL_EDITED_AGREEMENT" : "Agreement was successful edited",
+  "SUCCESSFUL_DISABLED_AGREEMENT" : "Agreement was successful disabled",
+  "SUCCESSFUL_DELETED_AGREEMENT" : "Agreement was successful deleted",
 
   "WATER" : "Cold water",
   "THERMAL" : "Hot water",

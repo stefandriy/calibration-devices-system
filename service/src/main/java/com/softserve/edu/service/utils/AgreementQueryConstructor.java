@@ -26,13 +26,13 @@ public class AgreementQueryConstructor {
      * @return
      */
     public static CriteriaQuery<Agreement> buildSearchQuery(String customer, String executor, String number,
-                                                            String deviceCount, String date, String deviceType,
+                                                            String deviceCount, String date, String deviceType, String isActive,
                                                             String sortCriteria, String sortOrder, EntityManager em) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Agreement> criteriaQuery = cb.createQuery(Agreement.class);
         Root<Agreement> root = criteriaQuery.from(Agreement.class);
 
-        Predicate predicate = AgreementQueryConstructor.buildPredicate(customer, executor, number, deviceCount, date, deviceType, root, cb);
+        Predicate predicate = AgreementQueryConstructor.buildPredicate(customer, executor, number, deviceCount, date, deviceType, isActive, root, cb);
         if ((sortCriteria != null) && (sortOrder != null)) {
             criteriaQuery.orderBy(SortCriteriaAgreement.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
         } else {
@@ -55,13 +55,13 @@ public class AgreementQueryConstructor {
      * @return
      */
     public static CriteriaQuery<Long> buildCountQuery(String customer, String executor, String number,
-                                                      String deviceCount, String date, String deviceType, EntityManager em) {
+                                                      String deviceCount, String date, String deviceType, String isActive, EntityManager em) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Agreement> root = countQuery.from(Agreement.class);
 
 
-        Predicate predicate = AgreementQueryConstructor.buildPredicate(customer, executor, number, deviceCount, date, deviceType, root, cb);
+        Predicate predicate = AgreementQueryConstructor.buildPredicate(customer, executor, number, deviceCount, date, deviceType, isActive, root, cb);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
 
@@ -81,7 +81,8 @@ public class AgreementQueryConstructor {
      * @return predicate for query
      */
     private static Predicate buildPredicate(String customer, String executor, String number,
-                                            String deviceCount, String date, String deviceType, Root<Agreement> root, CriteriaBuilder cb) {
+                                            String deviceCount, String date, String deviceType, String isActive,
+                                            Root<Agreement> root, CriteriaBuilder cb) {
         Join<Agreement, Organization> customerJoin = root.join("customer");
         Join<Agreement, Organization> executorJoin = root.join("executor");
 
@@ -98,11 +99,13 @@ public class AgreementQueryConstructor {
         if ((deviceCount != null) && (deviceCount.length() > 0)) {
             queryPredicate = cb.and(cb.equal(root.get("deviceCount"), deviceCount.trim()), queryPredicate);
         }
+        if ((isActive != null) && (isActive.length() > 0)) {
+            queryPredicate = cb.and(cb.equal(root.get("isAvailable"), true), queryPredicate);
+        }
         if ((deviceType != null) && (deviceType.length() > 0)) {
             queryPredicate = cb.and(cb.equal(root.get("deviceType"),
                     Device.DeviceType.valueOf(deviceType.trim())), queryPredicate);
         }
-
         return queryPredicate;
     }
 }

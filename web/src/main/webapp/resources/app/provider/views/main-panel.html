@@ -21,34 +21,36 @@
                         <form name="myForm" novalidate class="formCalendar">
 
 
-							<div class="calendar-wd">
+							<div class="calendar-wd, col-md-5">
 								<input readonly type="text" datepicker-popup="{{format}}"
 									ng-model="dataToSearch.fromDate"
 									ng-change="changeDateToSend(dataToSearch.fromDate)"
-									is-open="firstCalendar.isOpen" min-date="minDate"
+									is-open="firstCalendar.isOpen"
+									min-date="fromMinDate"
+									max-date="fromMaxDate"
 									datepicker-options="dateOptions"
 									date-disabled="disabled(date, mode)" ng-required="true"
+									close-on-date-selection="false"
 									close-text="Close" /> <span>
 									<button type="button" class="btn btn-default myGroupBtn"
 										ng-click="open1($event)">
 										<i class="glyphicon glyphicon-calendar"></i>
 									</button>
 								</span>
-								<p class="validation-message date-validation-message" ng-if="fromDateInTheFuture">
-									<span class="glyphicon glyphicon-exclamation-sign"></span>
-									{{'DATE_IN_THE_FUTURE' | translate }}
-								</p>
 							</div>
 
 
-							<div class="calendar-wd">
+							<div class="calendar-wd, col-md-5">
                                 <input readonly type="text"
                                        datepicker-popup="{{format}}"
                                        ng-model="dataToSearch.toDate"
                                        ng-change="changeDateToSend(dataToSearch.toDate)"
                                        is-open="secondCalendar.isOpen"
-                                       min-date="minDate" datepicker-options="dateOptions"
+                                       min-date="toMinDate"
+                                       max-date="toMaxDate"
+                                       datepicker-options="dateOptions"
                                        date-disabled="disabled(date, mode)" ng-required="true"
+                                       close-on-date-selection="false"
                                        close-text="Close"/>
 
                             <span>
@@ -57,14 +59,6 @@
                                     <i class="glyphicon glyphicon-calendar"></i>
                                 </button>
                             </span>
-                            <p class="validation-message date-validation-message" ng-if="toDateInTheFuture">
-									<span class="glyphicon glyphicon-exclamation-sign"></span>
-									{{'DATE_IN_THE_FUTURE' | translate }}
-							</p>
-							<p class="validation-message date-validation-message" ng-if="toDateInvalid">
-									<span class="glyphicon glyphicon-exclamation-sign"></span>
-									{{'TO_DATE_EARLIER_THAN_FROM' | translate }}
-							</p>
                             </div>
 
 

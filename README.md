@@ -65,6 +65,12 @@ Check `database_script.sql` for additional information about other users such as
 
 ## Team members
 
+
+### REST API
+
+
+> TODO
+
 #### LV-144 Java:
 Експерт: Михайло Партика
 

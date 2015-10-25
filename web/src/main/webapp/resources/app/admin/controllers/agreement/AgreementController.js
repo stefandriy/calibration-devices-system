@@ -12,7 +12,8 @@ angular
         'ngTableParams',
         '$translate',
         '$timeout',
-        function ($rootScope, $scope, $modal, $http, $filter, agreementService, ngTableParams, $translate, $timeout) {
+        'toaster',
+        function ($rootScope, $scope, $modal, $http, $filter, agreementService, ngTableParams, $translate, $timeout, toaster) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -31,7 +32,19 @@ angular
                     animation: true,
                     controller: 'AgreementAddController',
                     templateUrl: '/resources/app/admin/views/modals/agreement-add-modal.html',
-                    size: 'md'
+                    size: 'md',
+                    resolve: {
+                        agreement: function() {
+                            return undefined;
+                        }
+                    }
+                });
+
+                /**
+                 * executes when modal closing
+                 */
+                addAgreementModal.result.then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_AGREEMENT'));
                 });
             };
 
@@ -117,35 +130,47 @@ angular
 
 
             /**
-             * Opens modal window for editing category of counter.
+             * Opens modal window for editing agreement
              */
-            $scope.openEditCategoryCounterModal = function (deviceId) {
-                $rootScope.categoryId = deviceId;
-                agreementService.getDeviceCategoryById(
-                    $rootScope.categoryId).then(
-                    function (data) {
-                        $rootScope.countersCategory = data;
-                        console.log($rootScope.countersCategory);
-
+            $scope.openEditAgreementModal = function (agreementId) {
+                agreementService.getAgreementById(agreementId).then(
+                    function (agreement) {
                         var deviceDTOModal = $modal
                             .open({
                                 animation: true,
-                                controller: 'CategoryDeviceEditModalController',
-                                templateUrl: '/resources/app/admin/views/modals/device-category-edit-modal.html',
-                                size: 'md'
+                                controller: 'AgreementAddController',
+                                templateUrl: '/resources/app/admin/views/modals/agreement-add-modal.html',
+                                size: 'md',
+                                resolve: {
+                                    agreement: function() {
+                                        return agreement.data;
+                                    }
+                                }
                             });
+
+                        /**
+                         * executes when modal closing
+                         */
+                        deviceDTOModal.result.then(function () {
+                            $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_AGREEMENT'));
+                        });
                     });
 
             };
 
-            $scope.deleteDeviceCategory = function (id) {
-                $rootScope.deviceCategoryId = id;
-                console.log($rootScope.deviceCategoryId);
-                agreementService.deleteDeviceCategory(id);
+            $scope.disableAgreement = function (id) {
+                agreementService.disableAgreement(id).then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DISABLED_AGREEMENT'));
+                });
+
                 $timeout(function () {
                     console.log('delete with timeout');
                     $rootScope.onTableHandling();
                 }, 700);
+            };
+
+            $scope.popNotification = function (title, text) {
+                toaster.pop('success', title, text);
             };
 
         }]);
