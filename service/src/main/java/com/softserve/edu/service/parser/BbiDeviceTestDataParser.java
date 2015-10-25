@@ -204,10 +204,10 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         final int ALLOCATED_IMAGE_SIZE = 16380;
 
         long imageSize = readLongValue(4);
-        String imageHex = readConsecutiveBytes(imageSize);
+        //String imageHex = readConsecutiveBytes(imageSize);
 
         byte[] decodedHex = new byte[ALLOCATED_IMAGE_SIZE];
-        reader.read(decodedHex, 0, ALLOCATED_IMAGE_SIZE);
+        reader.read(decodedHex, 0, (int)imageSize);
         String encodedHexB64 = Base64.encodeBase64String(decodedHex);
 
         // skips all empty bytes till the next image beginning.
