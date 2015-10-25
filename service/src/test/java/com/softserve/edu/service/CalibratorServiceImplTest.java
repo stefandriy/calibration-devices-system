@@ -66,12 +66,12 @@ public class CalibratorServiceImplTest {
     @Test(expected = IOException.class)
     public void testUploadBbiIncorrectIn()throws IOException {
         InputStream in = new FileInputStream("R:/Incorrect/");
-        calibratorService.uploadBbi(in,"1","originalFileFullName.bbi");
+        calibratorService.uploadBbi(in,"1",1L,"originalFileFullName.bbi");
     }
 
     @Test(expected = NullPointerException.class)
     public void testUploadBbiNullIn()throws IOException {
-        calibratorService.uploadBbi(null,"1","originalFileFullName.bbi");
+        calibratorService.uploadBbi(null,"1",1L,"originalFileFullName.bbi");
     }
 
 
