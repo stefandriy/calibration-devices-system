@@ -18,10 +18,7 @@ public interface CalibrationDisassemblyTeamRepository extends
 
         List<DisassemblyTeam> findByOrganization(Organization organization);
 
-
         Page<DisassemblyTeam> findByOrganization(Organization organization, Pageable pageable);
-
-//        Page<DisassemblyTeam> findByCalibratorId(Long calibratorId, Pageable pageable);
 
         Page<DisassemblyTeam> findByOrganizationAndNameLikeIgnoreCase(Organization organization, String name, Pageable pageable);
 }

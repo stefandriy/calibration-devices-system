@@ -3,6 +3,7 @@ package com.softserve.edu.dto.calibrator;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.organization.Organization;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,8 @@ public class CalibrationDisassemblyTeamDTO {
     private String leaderPhone;
     private String leaderEmail;
 
-    public DisassemblyTeam saveTeam() {
-        return new DisassemblyTeam(id, name, effectiveTo, specialization, leaderFullName, leaderPhone, leaderEmail);
+    public DisassemblyTeam saveTeam(Organization organization) {
+        return new DisassemblyTeam(id, name, effectiveTo, specialization, leaderFullName, leaderPhone, leaderEmail, organization);
+
     }
 }

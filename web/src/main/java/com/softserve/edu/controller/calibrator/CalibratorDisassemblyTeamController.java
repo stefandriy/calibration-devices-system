@@ -94,10 +94,12 @@ public class CalibratorDisassemblyTeamController {
      *         status {@literal CONFLICT}
      */
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public ResponseEntity addDisassemblyTeam(@RequestBody CalibrationDisassemblyTeamDTO disassemblyTeamDTO){
+    public ResponseEntity addDisassemblyTeam(@RequestBody CalibrationDisassemblyTeamDTO disassemblyTeamDTO,
+                                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user){
         HttpStatus httpStatus = HttpStatus.CREATED;
+        Organization currentOrganization = organizationService.getOrganizationById(user.getOrganizationId());
         try {
-            DisassemblyTeam createdDisassemblyTeam = disassemblyTeamDTO.saveTeam();
+            DisassemblyTeam createdDisassemblyTeam = disassemblyTeamDTO.saveTeam(currentOrganization);
             teamService.add(createdDisassemblyTeam);
         }catch (DuplicateRecordException e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
