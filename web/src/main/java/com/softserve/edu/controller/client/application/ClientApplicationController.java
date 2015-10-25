@@ -3,20 +3,23 @@ package com.softserve.edu.controller.client.application;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.softserve.edu.controller.client.application.util.DeviceDTO;
+import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.tool.MailService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +34,17 @@ import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.tool.DeviceService;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.verification.VerificationService;
 
 @RestController
 @RequestMapping(value = "/application/")
+/**
+ * Used in main application form (application-sending.html)
+ * for creating verifications
+ * and sending notifications about that to customerID's email
+ */
 public class ClientApplicationController {
 
     Logger logger = Logger.getLogger(ClientApplicationController.class);
@@ -61,7 +68,7 @@ public class ClientApplicationController {
     private DeviceService deviceService;
 
     @Autowired
-    private MailServiceImpl mail;
+    private MailService mail;
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String saveApplication(@RequestBody ClientStageVerificationDTO verificationDTO) {
@@ -121,15 +128,6 @@ public class ClientApplicationController {
         }
     }
 
-    @Deprecated //need to delete in future
-    @RequestMapping(value = "providers/{district}", method = RequestMethod.GET)
-    public List<ApplicationFieldDTO> getProvidersCorrespondingDistrict(@PathVariable String district) {
-
-        return providerService.findByDistrictAndType(district, "PROVIDER").stream()
-                .map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
-                .collect(Collectors.toList());
-    }
-
     /**
      * Find Providers corresponding to Locality
      *
@@ -146,22 +144,33 @@ public class ClientApplicationController {
 
     /**
      * Return all providers in locality by device type
+     *
      * @param localityId
      * @param deviceType
      * @return
      */
     @RequestMapping(value = "providers/{localityId}/{deviceType}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getProvidersCorrespondingLocalityAndType(@PathVariable Long localityId, @PathVariable String deviceType) {
-        return organizationService.findByLocalityIdAndTypeAndDevice(localityId, OrganizationType.PROVIDER, DeviceType.valueOf(deviceType))
+        return organizationService.findByLocalityIdAndTypeAndDevice(localityId, OrganizationType.PROVIDER, Device.DeviceType.valueOf(deviceType))
                 .stream().map(provider -> new ApplicationFieldDTO(provider.getId(), provider.getName()))
                 .collect(Collectors.toList());
     }
 
+    //todo
     @RequestMapping(value = "calibrators/{district}", method = RequestMethod.GET)
-    public List<ApplicationFieldDTO> getCalibratorsCorrespondingDistrict(@PathVariable String district) {
+    public List<ApplicationFieldDTO> getCalibratorsCorrespondingDistrict(@PathVariable String district,
+                                                                         @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        return calibratorService.findByDistrict(district, "CALIBRATOR")
+        /*return calibratorService.findByDistrict(district, "CALIBRATOR")
                 .stream()
+                .map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
+                .collect(Collectors.toList());*/
+        //todo need to find calibrators by agreements(договорах)
+        //todo it`s a MOCK
+        Set<Long> serviceAreaIds = organizationService.getOrganizationById(user.getOrganizationId()).getLocalities()
+                .stream().map(locality -> locality.getId()).collect(Collectors.toSet());
+
+        return organizationService.findByServiceAreaIdsAndOrganizationType(serviceAreaIds, OrganizationType.CALIBRATOR).stream()
                 .map(calibrator -> new ApplicationFieldDTO(calibrator.getId(), calibrator.getName()))
                 .collect(Collectors.toList());
     }
@@ -172,9 +181,9 @@ public class ClientApplicationController {
      * @return
      */
     @RequestMapping(value = "devices", method = RequestMethod.GET)
-    public List<DeviceDTO> getAll() {
+    public List<DeviceLightDTO> getAll() {
         return deviceService.getAll().stream()
-                .map(device -> new DeviceDTO(device.getId(), device.getDeviceName(), device.getDeviceType().name()))
+                .map(device -> new DeviceLightDTO(device.getId(), device.getDeviceName(), device.getDeviceType().name()))
                 .collect(Collectors.toList());
     }
 
@@ -209,6 +218,8 @@ public class ClientApplicationController {
 
     /**
      * Sends email to System Administrator from client
+     * when there is no provider in database for specified location (for example district)
+     * and client wants to send a message
      *
      * @param mailDto
      * @return
@@ -216,6 +227,7 @@ public class ClientApplicationController {
     @RequestMapping(value = "clientMessageNoProvider", method = RequestMethod.POST)
     public String sentMailFromClientNoProvider(@RequestBody ClientMailDTO mailDto) {
 
+        // TODO We'd send email to some configured email address
         List<User> adminList = userService.findByRole("SYS_ADMIN");
         if (!adminList.isEmpty() && adminList.get(0).getEmail() != null) {
             mail.sendClientMail(adminList.get(0).getEmail(), mailDto.getEmail(), mailDto.getName(), mailDto.getSurname(), mailDto.getVerifID(), mailDto.getMsg());

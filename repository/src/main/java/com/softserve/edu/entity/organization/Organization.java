@@ -1,15 +1,15 @@
 package com.softserve.edu.entity.organization;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Locality;
+import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
+import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
-import com.softserve.edu.entity.organization.OrganizationChangesHistory;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.*;
-
 
 import javax.persistence.*;
 import java.util.Date;
@@ -50,12 +50,28 @@ public class Organization {
      */
     private Date certificateGrantedDate;
 
-    @OneToMany(mappedBy = "organization")
-    private Set<OrganizationChangesHistory> organizationChangesHistorySet = new HashSet<>();
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    private Set<OrganizationEditHistory> organizationEditHistorySet = new HashSet<>();
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
     private Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<CalibrationModule> modules = new HashSet<>();
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<DisassemblyTeam> disassemblyTeams = new HashSet<>();
+
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<CalibrationTask> tasks = new HashSet<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Set<Agreement> agreements = new HashSet<>();
 
     @ElementCollection
     @JoinTable(name = "ORGANIZATION_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
@@ -67,7 +83,7 @@ public class Organization {
     @JoinTable(name = "DEVICE_TYPE", joinColumns = @JoinColumn(name = "organizationId"))
     @Column(name = "value", length = 20)
     @Enumerated(EnumType.STRING)
-    private Set<DeviceType> deviceTypes = new HashSet<>();
+    private Set<Device.DeviceType> deviceTypes = new HashSet<>();
 
 
     @ManyToMany
@@ -75,8 +91,8 @@ public class Organization {
             inverseJoinColumns = @JoinColumn(name = "localityId"))
     private Set<Locality> localities = new HashSet<>();
 
-    public void addOrganizationChangeHistory(OrganizationChangesHistory organizationChangesHistory) {
-        this.organizationChangesHistorySet.add(organizationChangesHistory);
+    public void addOrganizationChangeHistory(OrganizationEditHistory organizationEditHistory) {
+        this.organizationEditHistorySet.add(organizationEditHistory);
     }
 
     public Organization(String name, String email, String phone) {
@@ -86,9 +102,7 @@ public class Organization {
     }
 
     public Organization(String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime, Address address) {
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
+        this(name, email, phone);
         this.employeesCapacity = employeesCapacity;
         this.maxProcessTime = maxProcessTime;
         this.address = address;
@@ -107,12 +121,20 @@ public class Organization {
         organizationTypes.clear();
     }
 
-    public void addDeviceType(DeviceType deviceType) {
+    public void removeServiceAreas() {
+        localities.clear();
+    }
+
+    public void addDeviceType(Device.DeviceType deviceType) {
         deviceTypes.add(deviceType);
     }
 
-    public void addHistory(OrganizationChangesHistory history) {
-        this.organizationChangesHistorySet.add(history);
+    public void removeDeviceType() {
+        deviceTypes.clear();
+    }
+
+    public void addHistory(OrganizationEditHistory history) {
+        this.organizationEditHistorySet.add(history);
     }
 
     public void addLocality(Locality locality) {

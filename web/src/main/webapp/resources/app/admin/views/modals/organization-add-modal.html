@@ -1,7 +1,6 @@
 <div class="modal-header">
     <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_ORGANIZATION'
         | translate}}</h3>
-    <h6>{{'ALL_FIELDS_REQUIRED' | translate}}</h6>
 </div>
 
 <div class="modal-body">
@@ -44,14 +43,23 @@
                     </label>
 
                     <div class="col-md-8">
-                        <select multiple chosen type="text" class="form-control" id="types" name="types"
+                        <!--<select multiple chosen type="text" class="form-control" id="types" name="types"
                                 ng-model="organizationFormData.types" data-placeholder="Оберіть тип організації"
                                 ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types"
                                 popover="Введіть тип організації" popover-trigger="focus" popover-placement="top"
                                 required>
                         </select> <span class="form-control-feedback glyphicon
 							form-horizontal glyphicon glyphicon-ok-sign"></span>
-
+                        -->
+                        <ui-select multiple required theme="select2" id="types" name="types" class="form-control"
+                                   ng-model="organizationFormData.types">
+                            <ui-select-match ui-disable-choice="$item in organizationFormData.types">{{$item.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="type in typeData | organizationAddFilter:organizationFormData.types | filter: $select.search">
+                                <div ng-bind-html="type.label"></div>
+                            </ui-select-choices>
+                        </ui-select>
                         <p class="help-block" ng-if="organizationForm.types.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
@@ -59,6 +67,35 @@
                     </div>
                 </div>
 
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="counters">
+                        {{'ORGANIZATION_DEVICE_TYPE_ADMIN' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <!--<select multiple chosen type="text" class="form-control" id="counters" name="counters"
+                                ng-model="organizationFormData.counters" data-placeholder="Оберіть тип лічильників"
+                                ng-options="counter as counter.label for counter in counterData"
+                                popover="Введіть тип лічильників організації" popover-trigger="focus" popover-placement="top"
+                                required>
+                        </select> <span class="form-control-feedback glyphicon
+							form-horizontal glyphicon glyphicon-ok-sign"></span>
+                        -->
+                        <ui-select multiple required theme="select2" id="counters" name="counters" class="form-control"
+                                   ng-model="organizationFormData.counters">
+                            <ui-select-match ui-disable-choice="$item in organizationFormData.counters">
+                                {{$item.label}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="counter in counterData | filter: $select.search">
+                                <div ng-bind-html="counter.label"></div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <p class="help-block" ng-if="organizationForm.counters.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+                    </div>
+                </div>
 
                 <div class="form-group row" show-errors>
                     <label class="control-label col-md-4" for="email">
@@ -266,7 +303,7 @@
 
                     <div class="col-md-8">
                         <input type="text" ng-model="organizationFormData.username"
-                               ng-change="checkIfUsernameIsAvailable()"
+                               ng-blur="checkIfUsernameIsAvailable()"
                                ng-pattern="USERNAME_REGEX" id="username" name="username"
                                class="form-control" popover="Введіть логін адміна організації"
                                popover-trigger="focus" popover-placement="top" required>
@@ -367,7 +404,7 @@
                                    ng-model="organizationFormData.region"
                                    on-select="receiveDistricts(organizationFormData.region)"
                                    name="region" id="region" required>
-                            <ui-select-match placeholder="Оберіть область" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="region in regions | filter: $select.search">
@@ -393,7 +430,7 @@
                                    ng-disabled="!organizationFormData.region"
                                    on-select="receiveLocalities(organizationFormData.district)"
                                    name="district" id="district" required>
-                            <ui-select-match placeholder="Оберіть район" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="district in districts | filter: $select.search">
@@ -420,10 +457,11 @@
                                    ng-disabled="!organizationFormData.district"
                                    on-select="receiveStreets(organizationFormData.locality, organizationFormData.district)"
                                    name="locality" id="locality" required>
-                            <ui-select-match placeholder="Оберіть населений пункт" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
-                            <ui-select-choices repeat="locality in localities | filter: $select.search">
+                            <ui-select-choices
+                                    repeat="locality in localities | filter: $select.search | unique:'designation'">
                                 <span ng-bind-html="locality.designation"></span>
                             </ui-select-choices>
                         </ui-select>
@@ -518,93 +556,92 @@
             </div>
         </div>
 
-        <!--TODO Organization area-->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Organizarion service area</div>
-                    <div class="panel-body">
+        <div class="panel panel-primary">
+            <div class="panel-heading">{{'ORGANIZATION_SERVICE_AREA'|translate}}</div>
+            <div class="panel-body">
+                <div class="form-group row" show-errors>
+                    <div class="col-md-4">
+                        <label for="serviceAreaRegion" class="control-label">
+                            {{'REGION' | translate}}
+                        </label>
+                    </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="serviceAreaRegion" class="control-label">
-                                    {{'REGION' | translate}}
-                                </label>
-                            </div>
-
-                            <div class="form-group col-md-8">
-                                <ui-select class="form-control" type="text" theme="select2"
-                                           ng-model="serviceArea.region"
-                                           on-select="receiveDistrictsForServiceArea(serviceArea.region)"
-                                           name="serviceAreaRegion" id="serviceAreaRegion">
-                                    <ui-select-match placeholder="Оберіть область" allow-clear="true">
-                                        {{$select.selected.designation}}
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="region in regions | filter: $select.search">
-                                        <span ng-bind-html="region.designation"></span>
-                                    </ui-select-choices>
-                                </ui-select>
+                    <div class="col-md-8">
+                        <ui-select class="form-control" type="text" theme="select2"
+                                   ng-model="serviceArea.region"
+                                   on-select="receiveDistrictsForServiceArea(serviceArea.region)"
+                                   name="serviceAreaRegion" id="serviceAreaRegion" required>
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
+                                {{$select.selected.designation}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="region in regions | filter: $select.search">
+                                <span ng-bind-html="region.designation"></span>
+                            </ui-select-choices>
+                        </ui-select>
 								<span class="form-control-feedback glyphicon
 										 form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                                <p class="help-block"
-                                   ng-show="organizationForm.$submitted || organizationForm.serviceAreaRegion.$touched"
-                                   ng-if="organizationForm.serviceAreaRegion.$error.required">
-                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                    {{'REQUIRED' | translate}}
-                                </p>
+                        <p class="help-block" ng-if="organizationForm.serviceAreaRegion.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
 
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="region" class="control-label">
-                                    {{'DISTRICT' | translate}}
-                                </label>
+                        <p class="help-block" ng-if="!isValidAcordion">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED_ACORDION' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <label class="control-label">
+                            {{'DISTRICT' | translate}}
+                            {{$scope.selectedServiceAreaLocalities}}
+                        </label>
+                    </div>
+                    <div class="col-md-8">
+                        <accordion close-others="false">
+                            <div ng-repeat="district in serviceArea.districts">
+                                <accordion-group panel-class="panel-warning">
+                                    <accordion-heading>
+                                        <input type="checkbox"
+                                               ng-model="district.checked"
+                                               ng-click="selectAllLocalities(district, $index, $event)">
+                                        <span class="" ng-click="selectRegionsFromDistrict(district, $index)">{{district.designation}}</span>
+                                    </accordion-heading>
+                                    <label class="col-md-6"
+                                           ng-repeat="locality in serviceArea.locality[$index] | unique:'designation'">
+                                        <input type="checkbox" checklist-model="selectedServiceAreaLocalities"
+                                               checklist-value="locality.id">
+                                        {{locality.designation}}
+                                    </label>
+                                </accordion-group>
                             </div>
-                            <div class="form-group col-md-8">
-                                <accordion close-others="false">
-                                    <div ng-repeat="district in serviceArea.districts">
-                                        <accordion-group panel-class="panel-warning">
-                                            <accordion-heading>
-                                                <input type="checkbox"
-                                                       ng-model="district.checked"
-                                                       ng-click="selectAllLocalities(district, $index, $event)">
-                                                <span class="" ng-click="selectRegionsFromDistrict(district, $index)">{{district.designation}}</span>
-                                            </accordion-heading>
-                                            <label class="col-md-6"
-                                                   ng-repeat="locality in serviceArea.locality[$index] | unique:'designation'">
-                                                <input type="checkbox" checklist-model="selectedServiseAreaLocalities"
-                                                       checklist-value="locality.id">
-                                                {{locality.designation}}
-                                            </label>
-                                        </accordion-group>
-                                    </div>
-                                </accordion>
-                            </div>
-                        </div>
+                        </accordion>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="form-group row">
-            <div class="col-md-10">
-                <button type="submit" class="btn btn-success">
-                    {{'ADD' | translate}}
-                </button>
-                <button type="reset" class="btn btn-warning" ng-click="resetOrganizationForm()">
-                    {{'CLEAR_FORM' | translate }}
-                </button>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
-                    | translate}}
-                </button>
-            </div>
-        </div>
 
-    </form>
+<div class="form-group row">
+    <div class="col-md-10">
+        <button type="submit" class="btn btn-success">
+            {{'ADD' | translate}}
+        </button>
+        <button type="reset" class="btn btn-warning" ng-click="resetOrganizationForm()">
+            {{'CLEAR_FORM' | translate }}
+        </button>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
+            | translate}}
+        </button>
+    </div>
+</div>
+
+</form>
 
 </div>

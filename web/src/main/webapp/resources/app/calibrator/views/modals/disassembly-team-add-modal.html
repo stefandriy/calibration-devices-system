@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_TEAM' | translate}}</h3>
+</div>
+
+<div class="modal-body">
+
+    <form name="teamForm" novalidate ng-submit="onTeamFormSubmit()">
+        <div class="panel panel-primary">
+            <div class="panel-heading">{{'FILL_IN_INFORMATION_ABOUT_EQUIPMENT' | translate }}</div>
+            <div class="panel-body">
+                <div class="row">
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'TEAM_NUMBER' |translate }}</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="teamNumberValidation.css" show-errors>
+                        <input id="teamNumber" name="teamNumber" class="form-control"
+                               type="text" ng-model="teamFormData.teamNumber"
+                               ng-change="checkTeamNumber('login')"
+                               ng-pattern="TEAM_NUMBER_REGEX" required>
+
+                        <div ng-show="teamForm.$submitted || (teamForm.teamNumber.$touched   && !teamForm.teamNumber.$pristine)
+                        || (teamForm.teamNumber.$dirty)">
+
+                            <p class="validation-message" ng-if="!teamNumberValidation.isValid">
+                                {{teamNumberValidation.message }}
+                            </p>
+
+                            <p class="validation-message" ng-if="teamForm.teamNumber.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="teamForm.teamNumber.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_TEAM_NUMBER' | translate }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="form-group col-md-10">
+                <button type="submit" class="btn btn-success"
+                        >{{'ADD' | translate}}
+                </button>
+                <button type="reset" class="btn btn-warning" ng-click="resetTeamForm()">
+                    {{'CLEAR_FORM' | translate }}
+                </button>
+            </div>
+            <div class="form-group col-md-2">
+                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>

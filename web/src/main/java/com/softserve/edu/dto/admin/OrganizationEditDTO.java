@@ -11,6 +11,7 @@ public class OrganizationEditDTO {
     private String email;
     private String phone;
     private List<String> types;
+    private List<String> counters;
     private Integer employeesCapacity;
     private Integer maxProcessTime;
 
@@ -27,4 +28,5 @@ public class OrganizationEditDTO {
     private String firstName;
     private String lastName;
     private String middleName;
+    private List<Long> serviceAreas;
 }

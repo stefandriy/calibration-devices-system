@@ -1,0 +1,44 @@
+/**
+ * Created by Володя on 08.08.2015.
+ */
+angular
+    .module('employeeModule')
+    .controller('PieCalibratorEmployee', ['$scope', '$log',
+        function ($scope, $log) {
+            $scope.displayGraficPipe = function (data) {
+                    $scope.chartConfic = {
+                        options: {
+                            chart: {
+                                type: 'pie'
+                            },
+                            title: {
+                                text: '',
+                                x: -20 //center
+                            },
+
+                            tooltip: {
+                                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                pointFormat: '<tr><td style="color:{series.color};padding:0"> </td>' +
+                                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+                                footerFormat: '</table>',
+                                shared: true,
+                                useHTML: true
+                            },
+                            plotOptions: {
+                                column: {
+                                    pointPadding: 0.2,
+                                    borderWidth: 0
+                                }
+                            }
+                        },
+                        series:
+                            [{
+                            data: [['Не розподілених заявок',data.NO_EMPLOYEE],['Заявок на опрацюванні',data.HAS_EMPLOYEE]]
+                        }]
+
+
+
+                }
+            }
+        }
+    ]);

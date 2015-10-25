@@ -104,7 +104,7 @@
 
 
                                             <i class="fa fa-times-circle remove_attached_user_icon"
-                                               ng-show="verification.providerEmployee"
+                                               ng-show="verification.providerEmployee && !isEmployee"
                                                popover="Скасувати відповідальну особу"
                                                popover-trigger="mouseenter"
                                                ng-click="removeProviderEmployee(verification.id)">

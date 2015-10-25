@@ -28,7 +28,8 @@ public class MeasuringEquipmentServiceImpl implements MeasureEquipmentService {
     public Page<MeasuringEquipment> getMeasuringEquipmentsBySearchAndPagination(int pageNumber,
                                                                                 int itemsPerPage, String search) {
         PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return search == null ? measuringEquipmentRepository.findAll(pageRequest) : measuringEquipmentRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
+        return search == null ? measuringEquipmentRepository.findAll(pageRequest) :
+                measuringEquipmentRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
     }
 
     @Override
@@ -45,12 +46,14 @@ public class MeasuringEquipmentServiceImpl implements MeasureEquipmentService {
 
     @Override
     @Transactional
-    public void editMeasuringEquipment(Long equipmentId, String name, String deviceType, String manufacturer, String verificationInterval) {
+    public void editMeasuringEquipment(Long equipmentId, String name, String deviceType, String manufacturer,
+                                       String verificationInterval) {
         MeasuringEquipment measuringEquipment = measuringEquipmentRepository.findOne(equipmentId);
         measuringEquipment.setName(name);
         measuringEquipment.setDeviceType(deviceType);
         measuringEquipment.setManufacturer(manufacturer);
         measuringEquipment.setVerificationInterval(verificationInterval);
+        measuringEquipmentRepository.save(measuringEquipment);
     }
 
     @Override
