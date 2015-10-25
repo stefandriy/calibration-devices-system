@@ -16,16 +16,16 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class CalibrationDisassemblyTeamDTO {
 
-    private String id;
-    private String name;
-    private Date effectiveTo;
-    private Device.DeviceType specialization;
+    private String teamNumber;
+    private String teamName;
+    private Date effectiveTo = new Date();
+    private Device.DeviceType specialization = Device.DeviceType.WATER;
     private String leaderFullName;
     private String leaderPhone;
     private String leaderEmail;
 
     public DisassemblyTeam saveTeam(Organization organization) {
-        return new DisassemblyTeam(id, name, effectiveTo, specialization, leaderFullName, leaderPhone, leaderEmail, organization);
+        return new DisassemblyTeam(teamNumber, teamName, effectiveTo, specialization, leaderFullName, leaderPhone, leaderEmail, organization);
 
     }
 }

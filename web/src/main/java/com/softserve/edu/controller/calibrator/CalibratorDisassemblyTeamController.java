@@ -125,7 +125,7 @@ public class CalibratorDisassemblyTeamController {
                                                  @PathVariable String disassemblyTeamId){
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            teamService.edit(disassemblyTeamId, disassemblyTeamDTO.getName(),
+            teamService.edit(disassemblyTeamId, disassemblyTeamDTO.getTeamName(),
                     disassemblyTeamDTO.getEffectiveTo(), disassemblyTeamDTO.getSpecialization(),
                     disassemblyTeamDTO.getLeaderFullName(), disassemblyTeamDTO.getLeaderPhone(),
                     disassemblyTeamDTO.getLeaderEmail());
