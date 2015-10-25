@@ -39,60 +39,75 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         return deviceTestData;
     }
 
-    @Override
+
     public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException {
         DeviceTestData deviceTestData = parseAndSaveBBIFile(BBIfile.getInputStream(), verificationID, originalFileName);
         return deviceTestData;
     }
 
+    @Transactional
     public DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException {
             DeviceTestData deviceTestData = bbiFileService.parseBbiFile(inputStream, originalFileName);
             calibratorService.uploadBbi(inputStream, verificationID, deviceTestData.getInstallmentNumber(), originalFileName);
         return deviceTestData;
     }
 
-    public Map<Boolean, String> parseAndSaveArchiveOfBBIfiles(File archive, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException {
+    public Map<String, Boolean> parseAndSaveArchiveOfBBIfiles(File archive, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException {
         try(InputStream inputStream = FileUtils.openInputStream(archive)){
-            return parseAndSaveArchiveOfBBIfiles(inputStream, originalFileFullName);
+            return parseAndSaveArchiveOfBBIfiles(inputStream, originalFileName);
         }
     }
 
-    @Override
-    public Map<Boolean, String> parseAndSaveArchiveOfBBIfiles(MultipartFile archive, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException {
-        Map<Boolean, String> resultsOfBBIProcessing = parseAndSaveArchiveOfBBIfiles(archive.getInputStream(), originalFileFullName);
+
+    public Map<String, Boolean> parseAndSaveArchiveOfBBIfiles(MultipartFile archiveFile, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException {
+        Map<String, Boolean> resultsOfBBIProcessing = parseAndSaveArchiveOfBBIfiles(archiveFile.getInputStream(), originalFileName);
         return resultsOfBBIProcessing;
     }
 
     @Transactional
-    public Map<Boolean, String> parseAndSaveArchiveOfBBIfiles(InputStream archiveStream, String originalFileFullName) throws IOException, ZipException, SQLException, ClassNotFoundException {
-        File directoryWithUnpackedFiles = unpackArchive(archiveStream, originalFileFullName);
+    public Map<String, Boolean> parseAndSaveArchiveOfBBIfiles(InputStream archiveStream, String originalFileName) throws IOException, ZipException, SQLException, ClassNotFoundException {
+        File directoryWithUnpackedFiles = unpackArchive(archiveStream, originalFileName);
         Map<String, String> bbiFileNamesToVerificationMap = getBBIfileNamesToVerificationMap(directoryWithUnpackedFiles);
         List<File> listOfBBIfiles = new ArrayList<>(FileUtils.listFiles(directoryWithUnpackedFiles, bbiExtensions, true));
-        Map<Boolean, String> resultsOfBBIProcessing = processListOfBBIFiles(bbiFileNamesToVerificationMap, listOfBBIfiles);
+        Map<String, Boolean> resultsOfBBIProcessing = processListOfBBIFiles(bbiFileNamesToVerificationMap, listOfBBIfiles);
         return resultsOfBBIProcessing;
     }
 
-    private Map<Boolean, String> processListOfBBIFiles(Map<String, String> bbiFileNamesToVerificationMap, List<File> listOfBBIfiles){
-        Map<Boolean, String> resultsOfBBIProcessing = new LinkedHashMap<>();
+    /**
+     *
+     * @param bbiFileNamesToVerificationMap Map of BBI files names to their corresponding verifications
+     * @param listOfBBIfiles List with BBI files extracted from the archive
+     * @return Map of BBI filenames to the result of parsing (true/false)
+     */
+    private Map<String, Boolean> processListOfBBIFiles(Map<String, String> bbiFileNamesToVerificationMap, List<File> listOfBBIfiles){
+        Map<String, Boolean> resultsOfBBIProcessing = new LinkedHashMap<>();
         for (File bbiFile : listOfBBIfiles) {
             String correspondingVerification = bbiFileNamesToVerificationMap.getOrDefault(bbiFile.getName(), null);
             if (correspondingVerification != null) {
                 try {
                     parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
                 } catch (IOException e) {
-                    resultsOfBBIProcessing.put(false, bbiFile.getName());
+                    resultsOfBBIProcessing.put(bbiFile.getName(), false);
                 }
-                resultsOfBBIProcessing.put(true, bbiFile.getName());
+                resultsOfBBIProcessing.put(bbiFile.getName(), true);
             }
         }
         return resultsOfBBIProcessing;
     }
 
-    private File unpackArchive(InputStream inputStream, String originalFileFullName) throws IOException, ZipException {
+    /**
+     * Unpacks file into temporary directory
+     * @param inputStream InputStream representing archive file
+     * @param originalFileName Name of the archive
+     * @return Directory to which the archive was unpacked
+     * @throws IOException
+     * @throws ZipException
+     */
+    private File unpackArchive(InputStream inputStream, String originalFileName) throws IOException, ZipException {
         String randomDirectoryName = RandomStringUtils.random(8);
         File directoryForUnpacking = FileUtils.getFile(FileUtils.getTempDirectoryPath(), randomDirectoryName);
         FileUtils.forceMkdir(directoryForUnpacking);
-        File zipFileDownloaded = FileUtils.getFile(FileUtils.getTempDirectoryPath(), originalFileFullName);
+        File zipFileDownloaded = FileUtils.getFile(FileUtils.getTempDirectoryPath(), originalFileName);
 
         try (OutputStream os = new FileOutputStream(zipFileDownloaded)) {
             IOUtils.copy(inputStream, os);
@@ -103,6 +118,15 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         return directoryForUnpacking;
     }
 
+    /**
+     *
+     * @param directoryWithUnpackedFiles Directory with unpacked files (should include BBIs and DBF)
+     * @return Map of BBI files names to their corresponding verifications
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     * @throws FileNotFoundException
+     * @implNote Uses sqlite to open DBF
+     */
     private Map<String, String> getBBIfileNamesToVerificationMap(File directoryWithUnpackedFiles) throws SQLException, ClassNotFoundException, FileNotFoundException {
         Map<String, String> bbiFilesToVerification = new LinkedHashMap<>();
         Optional<File> foundDBFile = FileUtils.listFiles(directoryWithUnpackedFiles, dbfExtensions, true).stream().findFirst();

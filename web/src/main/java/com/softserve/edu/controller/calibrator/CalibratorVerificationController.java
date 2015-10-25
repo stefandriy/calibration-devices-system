@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/calibrator/verifications/")
+@RequestMapping(value = "/calibrator/verifications/", produces = "application/json")
 public class CalibratorVerificationController {
 
     private static final String contentExtensionPattern = "^.*\\.(bbi|BBI|)$";
@@ -285,7 +285,9 @@ public class CalibratorVerificationController {
 
     @RequestMapping(value = "archive/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfArchivalVerificationsByOrganizationId(@PathVariable Integer pageNumber,
-                                                                                       @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, ArchiveVerificationsFilterAndSort searchData,
+                                                                                       @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
+                                                                                       @PathVariable String sortOrder,
+                                                                                       ArchiveVerificationsFilterAndSort searchData,
                                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 //        System.out.println("CalibratorController searchData.getMeasurement_device_type() " + searchData.getMeasurement_device_type());
@@ -401,8 +403,7 @@ public class CalibratorVerificationController {
      * false if user has role CALIBRATOR_ADMIN
      */
     @RequestMapping(value = "calibrator/role", method = RequestMethod.GET)
-    public Boolean isEmployeeCalibrator(
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    public Boolean isEmployeeCalibrator(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User checkedUser = userService.findOne(user.getUsername());
         return checkedUser.getUserRoles().contains(UserRole.CALIBRATOR_EMPLOYEE);
     }
@@ -461,7 +462,6 @@ public class CalibratorVerificationController {
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<>(httpStatus);
-
     }
 
     @RequestMapping(value = "/checkInfo/{verificationId}", method = RequestMethod.GET)
