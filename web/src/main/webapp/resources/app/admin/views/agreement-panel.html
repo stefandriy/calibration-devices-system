@@ -104,7 +104,8 @@
                 </div>
             </script>
             <script type="text/ng-template" id="ng-table/filters/deviceType.html">
-                <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
+                <ui-select ng-model="selectedDeviceType.name" theme="select2"
+                           on-select='onTableHandling()'
                            search-enabled="false"
                            name="filter-deviceType">
                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
