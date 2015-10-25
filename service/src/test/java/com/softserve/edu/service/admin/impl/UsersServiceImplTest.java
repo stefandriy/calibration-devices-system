@@ -13,6 +13,9 @@ import org.junit.runner.RunWith;
 
 import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.*;
 import java.lang.String;
@@ -28,8 +31,6 @@ import static org.mockito.Mockito.*;
 public class UsersServiceImplTest {
 
     private final Long organizationId = 1L;
-    private final int pageNumber = 1;
-    private final int itemsPerPage = 10;
     private final String username = "admin";
     private long expectedGetCountOfVerifications;
     private boolean expectedExistsWithUsername;
@@ -96,7 +97,7 @@ public class UsersServiceImplTest {
     }
 
     @Test
-    public void testGetCountOfVerifications1() {
+    public void testGetCountOfVerifications() {
         long actual = usersServiceImpl.getCountOfVerifications(organizationId, username);
         assertEquals(actual, expectedGetCountOfVerifications);
     }
