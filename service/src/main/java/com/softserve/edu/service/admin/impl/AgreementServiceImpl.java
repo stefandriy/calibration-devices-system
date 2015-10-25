@@ -19,6 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -77,19 +78,30 @@ public class AgreementServiceImpl implements AgreementService {
 
     @Override
     @Transactional
-    public void update(Agreement agreement) {
+    public void update(Long agreementId, Long customerId, Long executorId, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
+        Agreement agreement = agreementRepository.findOne(agreementId);
+        Organization customer = organizationService.getOrganizationById(customerId);
+        Organization executor = organizationService.getOrganizationById(executorId);
 
+        agreement.setCustomer(customer);
+        agreement.setExecutor(executor);
+        agreement.setNumber(number);
+        agreement.setDate(date);
+        agreement.setDeviceCount(deviceCount);
+        agreement.setDeviceType(deviceType);
+
+        agreementRepository.save(agreement);
     }
 
     @Override
     @Transactional
-    public ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String customer, String executor, String number,
-                                                                                    String deviceCount, String date, String deviceType, String sortCriteria, String sortOrder) {
+    public ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage,
+                                                                                    Map<String, String> searchKeys, String sortCriteria, String sortOrder) {
         CriteriaQuery<Agreement> criteriaQuery = AgreementQueryConstructor
-                .buildSearchQuery(customer, executor, number, deviceCount, date, deviceType, sortCriteria, sortOrder, entityManager);
+                .buildSearchQuery(searchKeys, sortCriteria, sortOrder, entityManager);
 
         Long count = entityManager.createQuery(AgreementQueryConstructor
-                .buildCountQuery(customer, executor, number, deviceCount, date, deviceType, entityManager)).getSingleResult();
+                .buildCountQuery(searchKeys, entityManager)).getSingleResult();
 
         TypedQuery<Agreement> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
@@ -103,7 +115,21 @@ public class AgreementServiceImpl implements AgreementService {
     }
 
     @Override
+    @Transactional
+    public void disableAgreement(Long agreementId) {
+        Agreement agreement = agreementRepository.findOne(agreementId);
+        agreement.setIsAvailable(false);
+        agreementRepository.save(agreement);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Set<Agreement> findByCustomerIdAndDeviceType(Long customerId, Device.DeviceType deviceType) {
         return agreementRepository.findByCustomerIdAndDeviceType(customerId, deviceType);
+    }
+
+    @Override
+    public java.sql.Date getEarliestDateAvailableAgreement() {
+        return agreementRepository.findEarliestDateAvalibleAgreement();
     }
 }

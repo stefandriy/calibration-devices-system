@@ -3,7 +3,7 @@ angular
     'adminModule',
     ['spring-security-csrf-token-interceptor', 'ui.bootstrap',
         'ui.router', 'ui.bootstrap.showErrors', 'ngTable',
-        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives', 'checklist-model','ngAnimate', 'toaster',
+        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives', 'daterangepicker', 'checklist-model','ngAnimate', 'toaster',
         'angular-loading-bar'])
 
     .config(
@@ -13,9 +13,12 @@ angular
         '$urlRouterProvider',
         'showErrorsConfigProvider',
         'cfpLoadingBarProvider',
-        '$provide',
+        '$provide', '$httpProvider',
         function ($translateProvider, $stateProvider,
-                  $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
+                  $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide, $httpProvider) {
+
+            $httpProvider.interceptors.push('responseObserver');
+
             showErrorsConfigProvider.showSuccess(true);
             cfpLoadingBarProvider.includeSpinner = false;
             cfpLoadingBarProvider.latencyThreshold = 500;
@@ -152,7 +155,11 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/DeviceService', 'services/DevicesService',
     'services/CounterTypeService',
     'services/AgreementService',
-    'services/SettingsService', 'services/UsersService','directives/unique',
+    'services/SettingsService',
+    'services/UsersService',
+    'services/RoleService',
+    'services/ResponseObserver',
+    'directives/unique',
     'controllers/CommonController'
 
 ], function () {

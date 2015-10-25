@@ -31,11 +31,6 @@ angular
                     templateUrl: '/resources/app/provider/views/new-verifications.html',
                     controller: 'NewVerificationsController'
                 })
-                .state("adding-verifications", {
-                    url: '/verifications/add',
-                    templateUrl: '/resources/app/provider/views/adding-verifications.html',
-                    controller: 'AddingVerificationsController'
-                })
                 .state("employees", {
                     url: '/employees',
                     templateUrl: '/resources/app/provider/views/employee/main-panel.html',
@@ -71,7 +66,6 @@ define([
     'controllers/MainPanelController',
     'controllers/ArchivalVerificationsController',
     'controllers/NewVerificationsController',
-    'controllers/AddingVerificationsController',
     'controllers/DetailsModalController',
     'controllers/SendingModalController',
     'controllers/EmployeeController',

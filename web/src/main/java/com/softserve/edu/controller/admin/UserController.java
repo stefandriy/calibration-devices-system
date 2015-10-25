@@ -1,5 +1,6 @@
 package com.softserve.edu.controller.admin;
 
+import com.softserve.edu.controller.admin.util.UserDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UserFilterSearch;
 import com.softserve.edu.dto.admin.UsersPageItem;
@@ -65,7 +66,7 @@ public class UserController {
         ListToPageTransformer<User> queryResult = userService.findPageOfAllEmployees(
                 pageNumber, itemsPerPage, search.getUsername(), search.getRole(), search.getFirstName(), search.getLastName(), search.getOrganization(),
                 search.getPhone(), sortCriteria, sortOrder);
-        List<UsersPageItem> resultList = toDTOFromListProviderEmployee(queryResult);
+        List<UsersPageItem> resultList = UserDTOTransformer.toDTOFromListEmployee(queryResult, userService);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
 
@@ -75,29 +76,6 @@ public class UserController {
      * @param queryResult
      * @return full information witch connect with employees
      */
-    private List<UsersPageItem> toDTOFromListProviderEmployee(ListToPageTransformer<User> queryResult) {
-        List<UsersPageItem> resultList = new ArrayList<>();
-        for (User employee : queryResult.getContent()) {
 
-            List<String> userRoles = userService.getRoles(employee.getUsername())
-                    .stream()
-                    .distinct()
-                    .collect(Collectors.toList());
-
-            resultList.add(new UsersPageItem(
-                            employee.getUsername(),
-                            userRoles,
-                            employee.getFirstName(),
-                            employee.getLastName(),
-                            employee.getMiddleName(),
-                            employee.getPhone(),
-                            employee.getSecondPhone(),
-                            employee.getOrganization().getName(),
-                            null, null,
-                            employee.getIsAvailable())
-            );
-        }
-        return resultList;
-    }
 
 }

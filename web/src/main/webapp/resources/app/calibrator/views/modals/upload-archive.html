@@ -14,12 +14,60 @@
              ng-model="files">Перетягніть файл сюди
         </div>
 
-        <progressbar value="progressPercentage" max="100" min="0" class="progress-striped active" type="success">
+        <progressbar value="progressPercentage" max="100" min="0" class="progress-striped" type="success">
             {{progressPercentage}}%
         </progressbar>
 
         <div ng-show="messageSuccess" class="alert alert-success" role="alert">{{messageSuccess}}</div>
         <div ng-show="messageError" class="alert alert-danger" role="alert">{{messageError}}</div>
+        <div class="ui segment" ng-show="messageSuccess">
+            <h3 class="ui header">Результати</h3>
+            <div class="ui middle aligned selection divided list" ng-repeat="bbiFileOutcome in uploadedBBIOutcomes">
+                <div class="item" ng-class="bbiFileOutcome.success">
+                    <div class="right floated content">
+                        <div ng-show="bbiFileOutcome.success == false">
+                            <span class="fa fa-times-circle text-danger"></span>
+                        </div>
+
+                        <div ng-show="bbiFileOutcome.success == true">
+                            <span class="fa fa-check-circle text-success"></span>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="header">[{{bbiFileOutcome.bbiFileName}}] {{bbiFileOutcome.verificationID}}</div>
+                    </div>
+                </div>
+            </div>
+                <div class="ui segment">
+                    <div class="ui three statistics">
+                        <div class="tiny statistic">
+                            <div class="value">
+                                {{totalBBIs}}
+                            </div>
+                            <div class="label">
+                                Всього
+                            </div>
+                        </div>
+                        <div class="tiny green statistic">
+                            <div class="value">
+                                {{successfulBBIs}}
+                            </div>
+                            <div class="label">
+                                Успішно
+                            </div>
+                        </div>
+                        <div class="tiny red statistic">
+                            <div class="value">
+                                {{unsuccessfulBBIs}}
+                            </div>
+                            <div class="label">
+                                Невдало
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
     </div>

@@ -56,9 +56,9 @@ public enum SortCriteriaAgreement {
         public Order getSortOrder(Root<Agreement> root, CriteriaBuilder cb, String sortOrder) {
 
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return (cb.asc(root.join("customerID").get("name")));
+                return (cb.asc(root.join("customer").get("name")));
             } else {
-                return (cb.desc(root.join("customerID").get("name")));
+                return (cb.desc(root.join("customer").get("name")));
             }
         }
     },

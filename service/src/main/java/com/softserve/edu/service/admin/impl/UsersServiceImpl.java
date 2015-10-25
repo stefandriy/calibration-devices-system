@@ -24,6 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,7 +84,7 @@ public class UsersServiceImpl implements UserService  {
     @Override
     @Transactional
     public void addSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                             String email,  Address address, Boolean isAvailable) {
+                             String email,  Address address) {
 
         User newUser = new AddEmployeeBuilder().username(username)
                 .password(password)
@@ -93,7 +94,7 @@ public class UsersServiceImpl implements UserService  {
                 .phone(phone)
                 .email(email)
                 .address(address)
-                .setIsAvailable(isAvailable)
+                .setIsAvailable(true)
                 .build();
 
 
@@ -125,8 +126,10 @@ public class UsersServiceImpl implements UserService  {
 //        ListToPageTransformer<User> result = new ListToPageTransformer<>();
 //        result.setContent(providerEmployeeList);
 //        result.setTotalItems(7L);
-        userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
+        Set<User> sysAdmins = userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
         ListToPageTransformer<User> result = new ListToPageTransformer<>();
+        Long countItems = new Long(sysAdmins.size());
+        result.setTotalItems(countItems);
         result.setContent(userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN)
                 .stream()
                 .distinct()
@@ -145,7 +148,7 @@ public class UsersServiceImpl implements UserService  {
     @Override
     @Transactional
     public void editSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                              String email,  Address address, Boolean isAvailable) {
+                              String email,  Address address) {
         User sysAdmin = userRepository.findOne(username);
 
         sysAdmin.setAddress(address);
@@ -154,7 +157,6 @@ public class UsersServiceImpl implements UserService  {
         sysAdmin.setLastName(lastName);
         sysAdmin.setMiddleName(middleName);
         sysAdmin.setPhone(phone);
-        sysAdmin.setIsAvailable(isAvailable);
 
         sysAdmin.setPassword(password != null && password.equals("generate") ? "generate" : sysAdmin.getPassword());
 

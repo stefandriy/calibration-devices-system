@@ -10,45 +10,78 @@ angular
         '$filter',
         'AgreementService',
         'OrganizationService',
+        'agreement',
         function ($rootScope, $scope, $translate, $modalInstance, $filter,
-                  agreementService, organizationService) {
+                  agreementService, organizationService, agreement) {
 
-            $scope.addAgreementFormData = {};
-            $scope.addAgreementFormData.number = '';
-            $scope.addAgreementFormData.deviceType = undefined;
-            $scope.addAgreementFormData.customerId = '';
-            $scope.addAgreementFormData.executorId = '';
-            $scope.addAgreementFormData.deviceCount = '';
+            /**
+             * Initialize all variables
+             */
+            $scope.init = function () {
 
-            $scope.data = {};
-            $scope.data.customerType = "";
-            $scope.data.customers = [];
-            $scope.data.selectedCustomer = {};
-            $scope.data.executorType = "";
-            $scope.data.executors = [];
-            $scope.data.selectedExecutors = {};
+                $scope.addAgreementFormData = {};
+                $scope.data = {};
+                $scope.data.customerType = "";
+                $scope.data.customers = [];
+                $scope.data.selectedCustomer = {};
+                $scope.data.executorType = "";
+                $scope.data.executors = [];
+                $scope.data.selectedExecutors = {};
 
-            $scope.deviceTypeData = [
-                {
-                    type: 'WATER',
-                    label: $filter('translate')('WATER')
-                },
-                {
-                    type: 'THERMAL',
-                    label: $filter('translate')('THERMAL')
+                $scope.deviceTypeData = [
+                    {
+                        type: 'WATER',
+                        label: $filter('translate')('WATER')
+                    },
+                    {
+                        type: 'THERMAL',
+                        label: $filter('translate')('THERMAL')
+                    }
+                ];
+
+                $scope.organizationTypeData = [
+                    {
+                        type: 'PROVIDER',
+                        label: $filter('translate')('PROVIDER')
+                    },
+                    {
+                        type: 'CALIBRATOR',
+                        label: $filter('translate')('CALIBRATOR')
+                    }
+                ];
+
+                if (agreement !== undefined) {
+                    $scope.addAgreementFormData.number = agreement.number;
+                    $scope.addAgreementFormData.deviceType = {
+                        type: agreement.deviceType,
+                        label: $filter('translate')(agreement.deviceType)
+                    };
+
+                    $scope.addAgreementFormData.customerId = agreement.customerId;
+                    $scope.addAgreementFormData.executorId = agreement.executorId;
+                    $scope.addAgreementFormData.deviceCount = agreement.deviceCount;
+                    $scope.receiveCustomer(agreement.customerType, agreement.deviceType);
+                    $scope.data.customerType = {
+                        type: agreement.customerType,
+                        label: $filter('translate')(agreement.customerType)
+                    };
+                    $scope.data.selectedCustomer = {
+                        id: agreement.customerId,
+                        designation: agreement.customerName
+                    };
+                    $scope.data.selectedExecutors = {
+                        id: agreement.executorId,
+                        designation: agreement.executorName
+                    };
+                } else {
+                    $scope.addAgreementFormData.number = '';
+                    $scope.addAgreementFormData.deviceType = undefined;
+                    $scope.addAgreementFormData.customerId = '';
+                    $scope.addAgreementFormData.executorId = '';
+                    $scope.addAgreementFormData.deviceCount = '';
                 }
-            ];
+            };
 
-            $scope.organizationTypeData = [
-                {
-                    type: 'PROVIDER',
-                    label: $filter('translate')('PROVIDER')
-                },
-                {
-                    type: 'CALIBRATOR',
-                    label: $filter('translate')('CALIBRATOR')
-                }
-            ];
 
             $scope.receiveCustomer = function (customerType, deviceType) {
                 $scope.data.selectedCustomer = {};
@@ -62,6 +95,8 @@ angular
                 })
 
             };
+
+            $scope.init();
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -78,14 +113,18 @@ angular
                 $scope.addAgreementForm.$setPristine();
                 $scope.addAgreementForm.$setUntouched();
                 $scope.addAgreementFormData = {};
+                $scope.data = {};
             };
 
             /**
              * Closes the modal window
              */
-            $rootScope.closeModal = function () {
+            $rootScope.closeModal = function (dismiss) {
                 $scope.resetAddAgreementForm();
-                $modalInstance.close();
+                if (dismiss === true) {
+                    $modalInstance.close();
+                }
+                $modalInstance.dismiss();
             };
 
             /**
@@ -102,20 +141,29 @@ angular
             };
 
             /**
-             * Saves new organization from the form in database.
-             * If everything is ok then resets the organization
-             * form and updates table with organizations.
+             * Saves agreement
              */
             function saveAgreement() {
                 console.log($scope.addAgreementFormData);
-                agreementService.saveAgreement($scope.addAgreementFormData)
-                    .then(function (data) {
-                        if (data == 201) {
-                            $scope.closeModal();
-                            $scope.resetAddAgreementForm();
-                            $rootScope.onTableHandling();
-                        }
-                    });
+                if (agreement === undefined) {
+                    agreementService.saveAgreement($scope.addAgreementFormData)
+                        .then(function (result) {
+                            if (result == 201) {
+                                $scope.closeModal(true);
+                                $scope.resetAddAgreementForm();
+                                $rootScope.onTableHandling();
+                            }
+                        });
+                } else {
+                    agreementService.editAgreement($scope.addAgreementFormData, agreement.id)
+                        .then(function (result) {
+                            if (result == 200) {
+                                $scope.closeModal(true);
+                                $scope.resetAddAgreementForm();
+                                $rootScope.onTableHandling();
+                            }
+                        });
+                }
             }
 
 
@@ -128,5 +176,10 @@ angular
             $scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
             $scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
             $scope.FLAT_REGEX = /^([1-9]{1}[0-9]{0,3}|0)$/;
+
+            if (agreement !== undefined) {
+
+
+            }
         }
     ]);

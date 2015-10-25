@@ -21,8 +21,8 @@ angular
                 return getData('buildings/' + id);
             },
 
-			findCalibratorsByDistrict : function(district) {
-				return getData("calibrators/" + district);
+            findCalibratorsForProviderByType : function(type) {
+				return getData("calibrators/" + type);
 			},
 			checkOrganizationType : function() {
 				return getProviderData('organizationType');

@@ -262,6 +262,10 @@ body {
     clear: both;
 }
 
+ td.center {
+    text-align: center;
+}
+
 .cleared
 {
     display:block;
