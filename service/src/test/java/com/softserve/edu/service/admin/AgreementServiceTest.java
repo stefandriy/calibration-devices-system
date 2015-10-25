@@ -1,5 +1,6 @@
 package com.softserve.edu.service.admin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
@@ -11,10 +12,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.springframework.test.util.MatcherAssertionErrors.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceTestingConfig.class})
@@ -47,6 +50,11 @@ public class AgreementServiceTest {
     @Test
     public void testFindByCustomerIdAndDeviceType() {
         Set<Agreement> agreements = agreementService.findByCustomerIdAndDeviceType(1L, Device.DeviceType.WATER);
+
         assertTrue(!agreements.isEmpty());
     }
+
+
+
+
 }

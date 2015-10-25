@@ -7,6 +7,7 @@ import com.softserve.edu.entity.organization.Agreement;
 import com.softserve.edu.service.admin.AgreementService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.TypeConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -118,17 +120,12 @@ public class AgreementController {
     public PageDTO<AgreementDTO> pageDeviceCategoryWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                               @PathVariable String sortCriteria, @PathVariable String sortOrder,
                                                               AgreementDTO searchData) {
+        Map<String, String> searchDataMap = TypeConverter.ObjectToMap(searchData);
+        searchDataMap.put("isAvailable", "true");
         ListToPageTransformer<Agreement> queryResult = agreementService.getCategoryDevicesBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
-                searchData.getCustomerName(),
-                searchData.getExecutorName(),
-                searchData.getNumber(),
-                searchData.getDeviceCount() == null ? null : searchData.getDeviceCount().toString(),
-                searchData.getDeviceType(),
-                searchData.getStartDateToSearch(),
-                searchData.getEndDateToSearch(),
-                "true",
+                searchDataMap,
                 sortCriteria,
                 sortOrder
         );

@@ -19,6 +19,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -94,14 +95,13 @@ public class AgreementServiceImpl implements AgreementService {
 
     @Override
     @Transactional
-    public ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String customer, String executor, String number,
-                                                                                    String deviceCount, String deviceType, String startDateToSearch, String endDateToSearch,
-                                                                                    String isActive, String sortCriteria, String sortOrder) {
+    public ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage,
+                                                                                    Map<String, String> searchKeys, String sortCriteria, String sortOrder) {
         CriteriaQuery<Agreement> criteriaQuery = AgreementQueryConstructor
-                .buildSearchQuery(customer, executor, number, deviceCount, startDateToSearch, endDateToSearch, deviceType, isActive, sortCriteria, sortOrder, entityManager);
+                .buildSearchQuery(searchKeys, sortCriteria, sortOrder, entityManager);
 
         Long count = entityManager.createQuery(AgreementQueryConstructor
-                .buildCountQuery(customer, executor, number, deviceCount, startDateToSearch, endDateToSearch, deviceType, isActive, entityManager)).getSingleResult();
+                .buildCountQuery(searchKeys, entityManager)).getSingleResult();
 
         TypedQuery<Agreement> typedQuery = entityManager.createQuery(criteriaQuery);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
