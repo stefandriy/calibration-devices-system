@@ -13,9 +13,12 @@ angular
         '$urlRouterProvider',
         'showErrorsConfigProvider',
         'cfpLoadingBarProvider',
-        '$provide',
+        '$provide', '$httpProvider',
         function ($translateProvider, $stateProvider,
-                  $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
+                  $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide, $httpProvider) {
+
+            $httpProvider.interceptors.push('responseObserver');
+
             showErrorsConfigProvider.showSuccess(true);
             cfpLoadingBarProvider.includeSpinner = false;
             cfpLoadingBarProvider.latencyThreshold = 500;
@@ -155,6 +158,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/SettingsService',
     'services/UsersService',
     'services/RoleService',
+    'services/ResponseObserver',
     'directives/unique',
     'controllers/CommonController'
 
