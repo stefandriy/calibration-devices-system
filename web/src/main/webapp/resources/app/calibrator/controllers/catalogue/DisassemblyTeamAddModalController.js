@@ -12,6 +12,76 @@ angular.module('employeeModule')
                 $modalInstance.close();
             });
 
+
+            /**
+             *  Date picker and formatter setup
+             *
+             */
+            $scope.firstCalendar = {};
+            $scope.firstCalendar.isOpen = false;
+            $scope.secondCalendar = {};
+            $scope.secondCalendar.isOpen = false;
+            $scope.thirdCalendar = {};
+            $scope.thirdCalendar.isOpen = false;
+
+            $scope.open1 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.firstCalendar.isOpen = true;
+            };
+
+            $scope.open2 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.secondCalendar.isOpen = true;
+            };
+
+            $scope.open3 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.thirdCalendar.isOpen = true;
+            };
+
+            moment.locale('uk');
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false',
+
+            };
+
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
+
+            // Disable weekend selection
+            $scope.disabled = function(date, mode) {
+                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+            };
+
+            $scope.toggleMin = function() {
+                $scope.minDate = $scope.minDate ? null : new Date();
+            };
+
+            $scope.toggleMin();
+            $scope.maxDate = new Date(2100, 5, 22);
+
+
+            $scope.clearDate1 = function () {
+                $log.debug($scope.teamFormData.teamDate);
+                $scope.teamFormData.teamDate = null;
+            };
+
+            $scope.clearDate2 = function () {
+                $log.debug($scope.teamFormData.dateOfVerif);
+                $scope.teamFormData.dateOfVerif = null;
+            };
+
+            $scope.clearDate3 = function () {
+                $log.debug($scope.teamFormData.noWaterToDate);
+                $scope.teamFormData.noWaterToDate = null;
+            };
+
+
             /**
              * Resets Team form
              */
@@ -22,6 +92,7 @@ angular.module('employeeModule')
                     $scope.teamForm.$setUntouched();
                 }
                 $scope.teamNumber = null;
+                //$scope.teamFormData.pickerDate = null;
                 $scope.teamFormData = null;
             };
 
@@ -31,10 +102,12 @@ angular.module('employeeModule')
             function retranslater() {
                 teamData = {
                     teamNumber: $scope.teamFormData.teamNumber,
-                    teamName: $scope.teamFormData.teamNumber,
-                    teamLeaderFullName: $scope.teamFormData.teamNumber,
-                    teamLeaderPhone: $scope.teamFormData.teamNumber,
-                    teamLeaderEmail: $scope.teamFormData.teamNumber,
+                    teamName: $scope.teamFormData.teamName,
+                    teamDate: $scope.teamFormData.effectiveTo,
+                    teamSpecialization: $scope.teamFormData.specialization,
+                    teamLeaderFullName: $scope.teamFormData.leaderFullName,
+                    teamLeaderPhone: $scope.teamFormData.leaderPhone,
+                    teamLeaderEmail: $scope.teamFormData.leaderEmail
                 }
             }
 
@@ -58,6 +131,14 @@ angular.module('employeeModule')
                             validator('loginTeamValid', false);
                         }
                         break;
+                    case ('time'):
+                        var time = $scope.teamFormData.time;
+                        if (/^[0-1]{1}[0-9]{1}(\.)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\.)[0-9]{2}$/.test(time)) {
+                            validator('time', false);
+                        } else {
+                            validator('time', true);
+                        }
+                        break;
                 }
 
             };
@@ -78,6 +159,12 @@ angular.module('employeeModule')
                             message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
                         };
                         break;
+                    case ('time'):
+                    $scope.timeValidation = {
+                        isValid: isValid,
+                        css: isValid ? 'has-error' : 'has-success'
+                    }
+                    break;
                 }
             }
 
@@ -104,6 +191,7 @@ angular.module('employeeModule')
                 }
             };
 
+            
             /**
              * Saves new team from the form in database.
              * If everything is ok then resets the team

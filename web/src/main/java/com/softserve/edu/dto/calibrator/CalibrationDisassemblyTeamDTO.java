@@ -18,8 +18,8 @@ public class CalibrationDisassemblyTeamDTO {
 
     private String teamNumber;
     private String teamName;
-    private Date effectiveTo = new Date();
-    private Device.DeviceType specialization = Device.DeviceType.WATER;
+    private Date effectiveTo;
+    private Device.DeviceType specialization;
     private String leaderFullName;
     private String leaderPhone;
     private String leaderEmail;
