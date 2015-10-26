@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CalibratorPlanningTaskService {
 
-    void addNewTask(Date taskDate, String serialNumber, List<String> verificationsId, Long organizationId);
+    void addNewTask(Date taskDate, String serialNumber, List<String> verificationsId, String userId);
 
     int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 

@@ -33,6 +33,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
     private Logger logger = Logger.getLogger(CalibrationModule.class);
 
     @Override
+    @SuppressWarnings("all")
     public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,String userName) {
         User user = userRepository.findOne(userName);
         if (user == null){
@@ -41,9 +42,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
         // TODO potential NPE here
         List<CalibrationModule> modules = new ArrayList<>();
         try {
-            modules = moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
+            modules = (List<CalibrationModule>) moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
                     .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
-                    .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)));
+                    .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)).and(CalibrationModuleSpecifications.moduleIsAvaliable()));
         } catch (NullPointerException e){
             logger.error("Cannot found modules!");
         }

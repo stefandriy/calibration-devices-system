@@ -21,7 +21,6 @@ angular
         function save (url, task) {
             return $http.post(url, task)
                 .success(function (data) {
-                    console.log(data);
                     return data;
                 }).error(function (err) {
                     console.log(err);

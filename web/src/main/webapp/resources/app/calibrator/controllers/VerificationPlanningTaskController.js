@@ -51,12 +51,17 @@ angular
 
             $scope.openTask = function(){
                 $rootScope.verifIds = [];
-                $rootScope.verifIds.push($scope.idsOfVerifications);
+                for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
+                    $rootScope.verifIds[i] = $scope.idsOfVerifications[i];
+                }
                 $rootScope.emptyStatus = $scope.allIsEmpty;
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
                     controller: 'TaskSendingModalControllerCalibrator',
                     templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                });
+                $scope.$modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
                 });
             };
 

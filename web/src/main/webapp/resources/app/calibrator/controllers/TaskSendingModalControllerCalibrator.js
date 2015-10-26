@@ -278,39 +278,34 @@ angular
                 var applicationFiled = $scope.calibrationTask.applicationFiled;
                 verificationPlanningTaskService.getModuls(place, taskDate, applicationFiled)
                     .then(function (result) {
-                        $log.debug('result ', result);
                         $scope.modulesSerialNumbers = result.data;
-                        $log.debug('my array ', $scope.modulesSerialNumbers);
                     }, function (result) {
                         $log.debug('error fetching data:', result);
                     });
             }
 
 
+
             $scope.showSendingMessage = false;
-            $scope.task = {};
             $scope.save = function (){
                 if ($rootScope.emptyStatus == true) {
                     $scope.showSendingMessage = true;
-                    console.log("Ви не вибрали заявок для надсилання")
                 } else {
-                    console.log($rootScope.verifIds);
-                    $scope.calibrationTask = {
-                        taskDate: $scope.calibrationTask.taskDate,
-                        serialNumber: $scope.calibrationTask.installationNumber,
-                        verificationsId: $rootScope.verifIds
+                    var calibrationTask = {
+                        "taskDate": $scope.calibrationTask.taskDate,
+                        "serialNumber": $scope.calibrationTask.installationNumber,
+                        "verificationsId": $rootScope.verifIds
                     };
-                    console.log($scope.calibrationTask);
-                    verificationPlanningTaskService.saveTask($scope.calibrationTask).then(
-                        function (data) {
-                            if (data == 200) {
+                    console.log(calibrationTask);
+                    verificationPlanningTaskService.saveTask(calibrationTask).
+                        then(function (data) {
+                            if (data.status == 200) {
                                 $scope.closeModal();
                             } else {
                              $scope.incorrectValue = true;
                              console.log($scope.incorrectValue);
                             }
                         });
-
                 }
 
             }
