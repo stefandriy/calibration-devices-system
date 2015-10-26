@@ -48,23 +48,31 @@ public class BBIOutcomeDTO {
         this.success = success;
     }
 
-    public BBIOutcomeDTO(){
+    private BBIOutcomeDTO(){
 
     }
 
-    public BBIOutcomeDTO(String bbiFileName, String verificationID, boolean success) {
+    private BBIOutcomeDTO(String bbiFileName, String verificationID, boolean success) {
 
         this.verificationID = verificationID;
         this.bbiFileName = bbiFileName;
         this.success = success;
     }
 
-    public BBIOutcomeDTO(String bbiFileName, String verificationID, boolean success, ReasonOfRejection reasonOfRejection) {
+    private BBIOutcomeDTO(String bbiFileName, String verificationID, boolean success, ReasonOfRejection reasonOfRejection) {
 
         this.verificationID = verificationID;
         this.bbiFileName = bbiFileName;
         this.success = success;
         this.reasonOfRejection = reasonOfRejection.toString();
+    }
+
+    public static BBIOutcomeDTO reject(String bbiFileName, String verificationID, ReasonOfRejection reasonOfRejection){
+        return new BBIOutcomeDTO(bbiFileName, verificationID, false, reasonOfRejection);
+    }
+
+    public static BBIOutcomeDTO accept(String bbiFileName, String verificationID){
+        return new BBIOutcomeDTO(bbiFileName, verificationID, true);
     }
 
     @Override
