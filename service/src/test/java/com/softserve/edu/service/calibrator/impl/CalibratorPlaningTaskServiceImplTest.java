@@ -1,13 +1,13 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.verification.calibration.CalibrationPlanningTask;
-import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationPlanningTaskRepository;
-import com.softserve.edu.repository.VerificationRepository;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
+import com.softserve.edu.repository.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +18,13 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.*;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.*;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
@@ -45,7 +47,13 @@ public class CalibratorPlaningTaskServiceImplTest {
     private UserRepository userRepository;
 
     @Mock
+    private CalibrationModuleRepository moduleRepository;
+
+    @Mock
     private Pageable pageRequest;
+
+    @Mock
+    private OrganizationRepository organizationRepository;
 
     @Mock
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
@@ -59,89 +67,140 @@ public class CalibratorPlaningTaskServiceImplTest {
 
     @Test
     public void testAddNewTask() throws Exception {
-        boolean actual;
-        try {
-            CalibratorPlaningTaskServiceImpl cptsi = new CalibratorPlaningTaskServiceImpl();
-            cptsi.addNewTask("", "", "", "", null, null, "", "", 1);
-            actual = true;
-        } catch (Exception ex) {
-            actual = false;
-        }
-        assertEquals(false, actual);
+        Date date = new Date(LocalDate.of(2015, 9, 20).toEpochDay());
+        List<String> verificationsId = new ArrayList<>();
+        verificationsId.add("id1");
+        verificationsId.add("id2");
+        verificationsId.add("id3");
+
+        when(organizationRepository.findOne(anyLong())).thenReturn(new Organization("", "", ""));
+        when(taskRepository.save(any(CalibrationTask.class))).thenReturn(new CalibrationTask());
+
+        CalibrationModule calibrationModule = mock(CalibrationModule.class);
+        when(moduleRepository.findCalibrationModuleBySerialNumber(anyString())).thenReturn(calibrationModule);
+
+        calibratorPlaningTaskService.addNewTask(date, "n123", verificationsId, 123L);
+
+        verify(taskRepository).save(any(CalibrationTask.class));
     }
 
     @Test
     public void test1AddNewTask() throws Exception {
-        when(verificationRepository.findOne(anyString())).thenReturn(null);
-        doThrow(new RuntimeException()).when(logger).error(anyString());
+        Date date = new Date(LocalDate.of(2015, 9, 20).toEpochDay());
+        List<String> verificationsId = new ArrayList<>();
+        verificationsId.add("id1");
+        verificationsId.add("id2");
+        verificationsId.add("id3");
+
+        when(organizationRepository.findOne(anyLong())).thenReturn(new Organization("", "", ""));
+        when(taskRepository.save(any(CalibrationTask.class))).thenReturn(new CalibrationTask());
+        when(verificationRepository.findOne(anyString())).thenReturn(new Verification());
+
+        CalibrationModule calibrationModule = mock(CalibrationModule.class);
+        when(moduleRepository.findCalibrationModuleBySerialNumber(anyString())).thenReturn(calibrationModule);
+
+        calibratorPlaningTaskService.addNewTask(date, "n123", verificationsId, 123L);
+
+        verify(verificationRepository, times(verificationsId.size())).findOne(anyString());
+        verify(moduleRepository).findCalibrationModuleBySerialNumber(anyString());
+        verify(moduleRepository).save(any(CalibrationModule.class));
+        verify(taskRepository).save(any(CalibrationTask.class));
+    }
+
+    @Test
+    public void testFindVerificationsByCalibratorEmployeeAndTaskStatusCount() throws Exception {
+        String username = "john";
+
+        when(userRepository.findOne(username)).thenReturn(new User(username, "pass"));
+        List<Verification> verifications = new ArrayList<>();
+        verifications.add(new Verification());
+        verifications.add(new Verification());
+
+        when(planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(anyString(), any(Status.class))).
+                thenReturn(verifications);
+
+        int actual = calibratorPlaningTaskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(username);
+
+        assertEquals(verifications.size(), actual);
+    }
+
+    @Test
+    public void test1FindVerificationsByCalibratorEmployeeAndTaskStatusCount() throws Exception {
+        String username = "john";
+
+        when(userRepository.findOne(username)).thenReturn(null);
+        List<Verification> verifications = new ArrayList<>();
+        verifications.add(new Verification());
+        verifications.add(new Verification());
+
+
+        doNothing().when(logger).error("Cannot found user!");
+        when(planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(anyString(), any(Status.class))).
+                thenReturn(verifications);
+
         boolean actual;
         try {
-            calibratorPlaningTaskService.addNewTask("", "", "", "", null, null, "", "", 1);
+            calibratorPlaningTaskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(username);
             actual = true;
         } catch (Exception ex) {
             actual = false;
         }
+
         assertEquals(false, actual);
     }
 
     @Test
-    public void test2AddNewTask() throws Exception {
-        when(verificationRepository.findOne(anyString())).thenReturn(new Verification());
-        doThrow(new RuntimeException()).when(logger).error(anyString());
-        boolean actual;
-        try {
-            calibratorPlaningTaskService.addNewTask(null, null, null, null, null, null, null, null, 1);
-            actual = true;
-        } catch (IllegalArgumentException ex) {
-            actual = false;
-        }
-        assertEquals(false, actual);
+    public void testFindByTaskStatus() throws Exception {
+        when(planningTaskRepository.findByTaskStatus(any(Status.class), any(Pageable.class))).
+                thenReturn(null);
+        Page<Verification> actual = calibratorPlaningTaskService.findByTaskStatus(5, 5);
+        verify(planningTaskRepository).findByTaskStatus(any(Status.class), any(Pageable.class));
+        assertEquals(null, actual);
     }
 
     @Test
-    public void test3AddNewTask() throws Exception {
-        when(verificationRepository.findOne(anyString())).thenReturn(new Verification());
-        calibratorPlaningTaskService.addNewTask("vId", "fixed_station", "removed", "cNum", new Date(999L), new Date(999L), "instN123", "", 1);
-        verify(taskRepository).save(any(CalibrationPlanningTask.class));
-    }
+    public void testFindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
+        String username = "john";
+        when(userRepository.findOne(anyString())).thenReturn(null);
 
-    @Test
-    public void testFindVerificationsByCalibratorIdAndReadStatus() throws Exception {
-        User user = new User("name", "surname");
-        Organization organization = mock(Organization.class);
-        when(organization.getId()).thenReturn(123L);
-
-        user.setOrganization(organization);
-        when(userRepository.findOne(user.getFirstName())).thenReturn(user);
-
-        Page<Verification> result = new PageImpl<Verification>(new ArrayList<Verification>());
-        when(planningTaskRepository.findByCalibratorIdAndReadStatus(anyLong(), any(), any())).thenReturn(result);
-
-        when(calibratorPlaningTaskService.findVerificationsByCalibratorIdAndReadStatus(user.getFirstName(), 1, 1))
-                .thenReturn(result);
-
-        calibratorPlaningTaskService.findVerificationsByCalibratorIdAndReadStatus(user.getFirstName(), 1, 1);
-        verify(planningTaskRepository).findByCalibratorIdAndReadStatus(anyLong(), any(), any());
-    }
-
-    @Test
-    public void test1FindVerificationsByCalibratorIdAndReadStatus() throws Exception {
-        User user = new User("name", "surname");
-        Organization organization = mock(Organization.class);
-        when(organization.getId()).thenReturn(123L);
-
-        user.setOrganization(organization);
-        when(userRepository.findOne(user.getFirstName())).thenReturn(null);
-
-        doThrow(new RuntimeException()).when(logger).error(anyString());
+        doThrow(Exception.class).when(logger).error(eq("Cannot found user!"));
 
         boolean actual;
         try {
-            calibratorPlaningTaskService.findVerificationsByCalibratorIdAndReadStatus(user.getFirstName(), 1, 1);
+            Page<Verification> result =
+                    calibratorPlaningTaskService.findVerificationsByCalibratorEmployeeAndTaskStatus(username, 5, 5);
             actual = true;
-        } catch (RuntimeException ex) {
+        } catch (Exception ex) {
             actual = false;
         }
+
         assertEquals(false, actual);
+    }
+
+    @Test
+    public void test1FindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
+        String username = "john";
+        when(userRepository.findOne(anyString())).thenReturn(new User(username, ""));
+
+        Page<Verification> actual =
+                calibratorPlaningTaskService.findVerificationsByCalibratorEmployeeAndTaskStatus(username, 5, 5);
+
+        assertTrue(actual == null);
+    }
+
+    @Test
+    public void test2FindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
+        String username = "john";
+        User user = mock(User.class);
+        when(userRepository.findOne(anyString())).thenReturn(user);
+        when(user.getUsername()).thenReturn(username);
+
+        Set<UserRole> userRoleSet = new TreeSet<>();
+        userRoleSet.add(UserRole.CALIBRATOR_ADMIN);
+        when(user.getUserRoles()).thenReturn(userRoleSet);
+
+        Page<Verification> actual =
+                calibratorPlaningTaskService.findVerificationsByCalibratorEmployeeAndTaskStatus(username, 5, 5);
+        assertTrue(actual == null);
     }
 }
