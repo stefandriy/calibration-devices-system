@@ -5,6 +5,8 @@ import com.softserve.edu.entity.organization.Agreement;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
+//import java.lang.D*;
+@Deprecated
 public enum SortCriteriaAgreement {
     ID() {
         public Order getSortOrder(Root<Agreement> root, CriteriaBuilder cb, String sortOrder) {

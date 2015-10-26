@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-
+@Deprecated
 public class AgreementQueryConstructor {
     static Logger logger = Logger.getLogger(AgreementQueryConstructor.class);
 
@@ -56,7 +56,6 @@ public class AgreementQueryConstructor {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Agreement> root = countQuery.from(Agreement.class);
-
 
         Predicate predicate = AgreementQueryConstructor.buildPredicate(searchKeys, root, cb);
         countQuery.select(cb.count(root));

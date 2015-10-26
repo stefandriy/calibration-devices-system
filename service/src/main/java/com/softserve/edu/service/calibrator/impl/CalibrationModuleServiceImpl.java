@@ -20,7 +20,7 @@ import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
-public class CalibrationModuleServiceImpl implements CalibrationModuleService{
+public class CalibrationModuleServiceImpl implements CalibrationModuleService {
 
     @Autowired
     private CalibrationModuleRepository moduleRepository;
@@ -33,18 +33,19 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
     private Logger logger = Logger.getLogger(CalibrationModule.class);
 
     @Override
-    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,String userName) {
+    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled, String userName) {
         User user = userRepository.findOne(userName);
-        if (user == null){
+        if (user == null) {
             logger.error("Cannot found user!");
         }
         // TODO potential NPE here
         List<CalibrationModule> modules = new ArrayList<>();
         try {
             modules = moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
-                    .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
+                    .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate))
+                    .and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
                     .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)));
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             logger.error("Cannot found modules!");
         }
 
