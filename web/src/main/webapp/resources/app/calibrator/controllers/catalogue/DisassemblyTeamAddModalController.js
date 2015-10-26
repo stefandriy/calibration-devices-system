@@ -12,6 +12,76 @@ angular.module('employeeModule')
                 $modalInstance.close();
             });
 
+
+            /**
+             *  Date picker and formatter setup
+             *
+             */
+            $scope.firstCalendar = {};
+            $scope.firstCalendar.isOpen = false;
+            $scope.secondCalendar = {};
+            $scope.secondCalendar.isOpen = false;
+            $scope.thirdCalendar = {};
+            $scope.thirdCalendar.isOpen = false;
+
+            $scope.open1 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.firstCalendar.isOpen = true;
+            };
+
+            $scope.open2 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.secondCalendar.isOpen = true;
+            };
+
+            $scope.open3 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.thirdCalendar.isOpen = true;
+            };
+
+            moment.locale('uk');
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false',
+
+            };
+
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
+
+            // Disable weekend selection
+            $scope.disabled = function(date, mode) {
+                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+            };
+
+            $scope.toggleMin = function() {
+                $scope.minDate = $scope.minDate ? null : new Date();
+            };
+
+            $scope.toggleMin();
+            $scope.maxDate = new Date(2100, 5, 22);
+
+
+            $scope.clearDate1 = function () {
+                $log.debug($scope.teamFormData.teamDate);
+                $scope.teamFormData.teamDate = null;
+            };
+
+            $scope.clearDate2 = function () {
+                $log.debug($scope.teamFormData.dateOfVerif);
+                $scope.teamFormData.dateOfVerif = null;
+            };
+
+            $scope.clearDate3 = function () {
+                $log.debug($scope.teamFormData.noWaterToDate);
+                $scope.teamFormData.noWaterToDate = null;
+            };
+
+
             /**
              * Resets Team form
              */
@@ -22,6 +92,7 @@ angular.module('employeeModule')
                     $scope.teamForm.$setUntouched();
                 }
                 $scope.teamNumber = null;
+                //$scope.teamFormData.pickerDate = null;
                 $scope.teamFormData = null;
             };
 
@@ -31,18 +102,21 @@ angular.module('employeeModule')
             function retranslater() {
                 teamData = {
                     teamNumber: $scope.teamFormData.teamNumber,
-                    teamName: $scope.teamFormData.teamNumber,
-                    teamLeaderFullName: $scope.teamFormData.teamNumber,
-                    teamLeaderPhone: $scope.teamFormData.teamNumber,
-                    teamLeaderEmail: $scope.teamFormData.teamNumber,
+                    teamName: $scope.teamFormData.teamName,
+                    teamDate: $scope.teamFormData.effectiveTo,
+                    teamSpecialization: $scope.teamFormData.specialization,
+                    teamLeaderFullName: $scope.teamFormData.leaderFullName,
+                    teamLeaderPhone: $scope.teamFormData.leaderPhone,
+                    teamLeaderEmail: $scope.teamFormData.leaderEmail
                 }
             }
 
 
             function isDisassemblyTeamAvailable(teamUsername) {
-                DisassemblyTeamServiceCalibrator.isDisassemblyTeamAvailable(teamUsername)
+                DisassemblyTeamServiceCalibrator.isDisassemblyTeamNameAvailable(teamUsername)
                     .then(function (data) {
-                        validator('existTeamLogin', data.data);
+                        validator('availableTeamLogin', data);
+                        //validator('availableTeamLogin', true);
                     })
             }
 
@@ -52,9 +126,17 @@ angular.module('employeeModule')
                         var teamNumber = $scope.teamFormData.teamNumber;
                         if (teamNumber == null) {
                         } else if ($scope.TEAM_USERNAME_REGEX.test(teamNumber)) {
-                            isDisassemblyTeamAvailable(teamNumber)
+                            isDisassemblyTeamAvailable(teamNumber);
                         } else {
                             validator('loginTeamValid', false);
+                        }
+                        break;
+                    case ('time'):
+                        var time = $scope.teamFormData.time;
+                        if (/^[0-1]{1}[0-9]{1}(\.)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\.)[0-9]{2}$/.test(time)) {
+                            validator('time', false);
+                        } else {
+                            validator('time', true);
                         }
                         break;
                 }
@@ -63,25 +145,32 @@ angular.module('employeeModule')
 
             function validator(caseForValidation, isValid) {
                 switch (caseForValidation) {
-                    case 'existTeamLogin' :
+                    case 'availableTeamLogin' :
                         $scope.teamNumberValidation = {
                             isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success',
+                            css: isValid ? 'has-success' : 'has-error',
                             message: isValid ? undefined : 'Такий логін вже існує'
-                        };
+                };
                         break;
                     case 'loginTeamValid' :
                         $scope.teamNumberValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-success' : 'has-error',
                             message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
-                        }
+                        };
+                        break;
+                    case ('time'):
+                    $scope.timeValidation = {
+                        isValid: isValid,
+                        css: isValid ? 'has-error' : 'has-success'
+                    }
+                    break;
                 }
             }
 
 
             bValidation = function () {
-                if ( $scope.teamNumberValidation === undefined) {
+                if ( $scope.teamNumberValidation === undefined || $scope.teamNumberValidation.isValid === false) {
                     $scope.incorrectValue = true;
                     return false;
                 } else {
@@ -94,33 +183,22 @@ angular.module('employeeModule')
              */
             $scope.onTeamFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if (!bValidation()) {
-
+                if (bValidation()) {
                         retranslater();
                         saveDisassemblyTeam();
-                        $modal.open({
-                            animation: true,
-                            templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-success.html',
-                            controller: function ($modalInstance) {
-                                this.ok = function () {
-                                    $modalInstance.close();
-                                }
-                            },
-                            controllerAs: 'successController',
-                            size: 'md'
-                        });
-
                 } else {
                     $scope.incorrectValue = true;
                 }
             };
 
+            
             /**
              * Saves new team from the form in database.
              * If everything is ok then resets the team
              * form and updates table with teams.
              */
             function saveDisassemblyTeam() {
+
                 DisassemblyTeamServiceCalibrator.saveDisassemblyTeam(
                     $scope.teamFormData).then(
                     function (data) {
@@ -128,23 +206,34 @@ angular.module('employeeModule')
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-success.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'successController',
+                                size: 'md'
+                            });
                         }
-                    })
-                    .error(function (data) {
-                        $scope.closeModal();
-                        $scope.resetTeamForm();
-                        $rootScope.onTableHandling();
-                        $modal.open({
-                            animation: true,
-                            templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-denied.html',
-                            controller: function ($modalInstance) {
-                                this.ok = function () {
-                                    $modalInstance.close();
-                                }
-                            },
-                            controllerAs: 'deniedController',
-                            size: 'md'
-                        });
+                        if (data == 409) {
+                            $scope.closeModal();
+                            $scope.resetTeamForm();
+                            $rootScope.onTableHandling();
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-denied.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'deniedController',
+                                size: 'md'
+                            });
+                        }
                     });
             }
 

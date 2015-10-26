@@ -23,7 +23,9 @@ public final class AgreementSpecification {
     static Logger logger = Logger.getLogger(AgreementSpecification.class);
 
     public static final String ID = "id";
+    public static final String CUSTOMER_JOIN_NAME = "customer.name";
     public static final String CUSTOMER_NAME = "customerName";
+    public static final String EXECUTOR_JOIN_NAME = "executor.name";
     public static final String EXECUTOR_NAME = "executorName";
     public static final String NUMBER = "number";
     public static final String DEVICE_TYPE = "deviceType";

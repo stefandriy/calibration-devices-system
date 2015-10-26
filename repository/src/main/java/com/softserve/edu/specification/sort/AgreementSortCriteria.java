@@ -50,26 +50,24 @@ public enum AgreementSortCriteria {
             }
         }
     },
-    /*CUSTOMER_NAME() {
+    CUSTOMER_NAME() {
         public Sort getSort(String sortOrder) {
-
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return (cb.asc(root.join("customer").get("name")));
+                return new Sort(Sort.Direction.ASC, AgreementSpecification.CUSTOMER_JOIN_NAME);
             } else {
-                return (cb.desc(root.join("customer").get("name")));
+                return new Sort(Sort.Direction.DESC, AgreementSpecification.CUSTOMER_JOIN_NAME);
             }
         }
     },
     EXECUTOR_NAME() {
         public Sort getSort(String sortOrder) {
-
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return (cb.asc(root.join("executor").get("name")));
+                return new Sort(Sort.Direction.ASC, AgreementSpecification.EXECUTOR_JOIN_NAME);
             } else {
-                return (cb.desc(root.join("executor").get("name")));
+                return new Sort(Sort.Direction.DESC, AgreementSpecification.EXECUTOR_JOIN_NAME);
             }
         }
-    },*/
+    },
     DATE() {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
