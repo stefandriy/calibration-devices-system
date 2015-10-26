@@ -51,25 +51,14 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
                 teamRepository.findByOrganizationAndNameLikeIgnoreCase(organization, "%" + search + "%", pageRequest);
     }
 
-
-
-    /*@Override
-    @Transactional
-    public Page<DisassemblyTeam> findBySearchAndPagination(Long calibratorId, int pageNumber, int itemsPerPage,
-                                                           String search) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return search == null ? teamRepository.findAllByCalibratorId(calibratorId, pageRequest) :
-                teamRepository.findByCalibratorIdAndNameLikeIgnoreCase(calibratorId, "%" + search + "%", pageRequest);
-    }*/
-
     @Override
     @Transactional
     public void add(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException {
         try {
-            if (teamRepository.exists(disassemblyTeam.getId())) {
-                throw new DuplicateRecordException(String.format("Team %s already exists.", disassemblyTeam.getId()));
-            } else {
+            if (!teamRepository.exists(disassemblyTeam.getId())) {
                 teamRepository.save(disassemblyTeam);
+            } else {
+                throw new DuplicateRecordException(String.format("Team %s already exists.", disassemblyTeam.getId()));
             }
         } catch (Exception e) {
             throw new DuplicateRecordException(String.format("Team %s already exists.", disassemblyTeam.getId()));
@@ -103,6 +92,12 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
     }
 
 
+    /**
+     *
+     * @param teamUsername
+     * @return {@Literal true} if DisassemblyTeam already exist
+     * else {@Literal false}
+     */
     @Override
     @Transactional
     public boolean isTeamExist(String teamUsername) {

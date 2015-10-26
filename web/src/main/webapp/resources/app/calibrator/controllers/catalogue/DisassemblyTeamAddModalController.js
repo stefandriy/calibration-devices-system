@@ -43,6 +43,7 @@ angular.module('employeeModule')
                 DisassemblyTeamServiceCalibrator.isDisassemblyTeamNameAvailable(teamUsername)
                     .then(function (data) {
                         validator('availableTeamLogin', data);
+                        //validator('availableTeamLogin', true);
                     })
             }
 

@@ -90,11 +90,11 @@ public class CalibratorDisassemblyTeamController {
 
 
     /**
-     * Check whereas {@code username} is available,
-     * i.e. it is possible to create new user with this {@code username}
+     * Check whereas {@code teamUsername} is available,
+     * i.e. it is possible to create new user with this {@code teamUsername}
      *
      * @param teamUsername username
-     * @return {@literal true} if {@code username} available or else {@literal false}
+     * @return {@literal true} if {@code teamUsername} available or else {@literal false}
      */
     @RequestMapping(value = "available/{teamUsername}", method = RequestMethod.GET)
     public Boolean isAvailableUsername(@PathVariable String teamUsername) {

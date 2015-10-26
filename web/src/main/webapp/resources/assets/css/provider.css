@@ -546,8 +546,13 @@ input[type="radio"], input[type="checkbox"] {
 }
 
 #successMessage {
+     font-size: 10em;
+     color: green;
+ }
+
+#errorMessage {
     font-size: 10em;
-    color: green;
+    color: darkred;
 }
 
 #userData .form-control-feedback {
