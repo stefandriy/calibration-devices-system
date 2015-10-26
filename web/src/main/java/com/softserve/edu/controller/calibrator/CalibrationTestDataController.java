@@ -1,6 +1,9 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.dto.CalibrationTestFileDataDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import org.apache.log4j.Logger;
@@ -8,14 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 
+import java.io.IOException;
 
 
 @Controller
@@ -27,17 +28,20 @@ public class CalibrationTestDataController {
 
     @Autowired
     private CalibrationTestService calibrationTestServiceImpl;
-    
+
+    @Autowired
+    private BbiFileService bbiFileService;
+
     private final Logger logger = Logger.getLogger(CalibrationTestDataController.class);
 
     @RequestMapping(value = "{testDataId}", method = RequestMethod.GET)
     public ResponseEntity getTestData(@PathVariable Long testDataId) {
-        CalibrationTestData foundtestData = service.findTestData(testDataId);
-        if (foundtestData != null) {
-            return new ResponseEntity<>(foundtestData, HttpStatus.OK);
+        CalibrationTestData foundTestData = service.findTestData(testDataId);
+        if (foundTestData != null) {
+            return new ResponseEntity<>(foundTestData, HttpStatus.OK);
         } else {
             logger.error("Not found");
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -56,7 +60,7 @@ public class CalibrationTestDataController {
         try {
             CalibrationTest foundTest = calibrationTestServiceImpl.findTestById(testId);
             CalibrationTestData calibrationTestData = new CalibrationTestData(testDataDTO.getGivenConsumption(), testDataDTO.getAcceptableError(),
-                    testDataDTO.getVolumeOfStandart(), testDataDTO.getInitialValue(), testDataDTO.getEndValue(), testDataDTO.getVolumeInDevice(),
+                    testDataDTO.getVolumeOfStandard(), testDataDTO.getInitialValue(), testDataDTO.getEndValue(), testDataDTO.getVolumeInDevice(),
                     testDataDTO.getActualConsumption(), testDataDTO.getConsumptionStatus(), testDataDTO.getCalculationError(), testDataDTO.getTestResult(), foundTest);
             calibrationTestServiceImpl.createTestData(testId, calibrationTestData);
         } catch (Exception e) {
@@ -86,5 +90,19 @@ public class CalibrationTestDataController {
         return new ResponseEntity<>(testData, HttpStatus.OK);
     }
 
+//    @RequestMapping(value = "parseBbi/{fileName}/{extension}", method = RequestMethod.GET)
+//    public ResponseEntity parseBbiData(@PathVariable String fileName, @PathVariable String extension) {
+//        ResponseEntity responseEntity;
+//        fileName = fileName.concat(".").concat(extension);
+//        DeviceTestData deviceTestData;
+//        try {
+//            deviceTestData = bbiFileService.findBbiFileContentByFileName(fileName);
+//            responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
+//        } catch (IOException e) {
+//            logger.error("Unable to parse file " + fileName, e);
+//            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        }
+//        return responseEntity;
+//    }
 
 }

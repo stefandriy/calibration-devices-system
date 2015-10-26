@@ -24,8 +24,9 @@
 
 
 
-                <div class="calendar-wd">
-                    <input readonly type="text"
+                <div class="calendar-wd unhidden-pick">
+                <input readonly type="text" value="{{dataToSearch.toDate | date: 'dd.MM.yyyy' }}" />
+                    <input readonly type="hidden"
                            datepicker-popup="{{format}}" ng-model="dataToSearch.toDate"
                            ng-change="changeDateToSend(dataToSearch.toDate)" is-open="secondCalendar.isOpen"
                            min-date="minDate" datepicker-options="dateOptions"

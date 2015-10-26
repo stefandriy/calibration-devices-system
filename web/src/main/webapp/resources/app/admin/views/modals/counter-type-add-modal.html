@@ -1,0 +1,213 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_COUNTER_TYPE'
+        | translate}}</h3>
+</div>
+
+<div class="modal-body">
+    <form name="addCounterTypeForm" id="addCounterTypeForm" role="form" ng-submit="onAddCounterTypeFormSubmit()"
+          class="form-group" novalidate>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{'GENERAL_INFORMATION' | translate}}
+            </div>
+            <div class="panel-body">
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="name">
+                        {{'COUNTER_NAME' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select class="form-control" type="text" theme="select2"
+                                   ng-model="addCounterTypeFormData.name"
+                                  on-select="setDeviceId(addCounterTypeFormData.name)"
+                                   name="name" id="name" required>
+                            <ui-select-match placeholder="{{'SELECT_NAME_OF_COUNTER' | translate}}" allow-clear="true">
+                                {{$select.selected.designation}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="name in names | filter: $select.search">
+                                <span ng-bind-html="name.designation"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.name.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="symbol" class="control-label col-md-4">
+                        {{'SYMBOL' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input id="symbol" name="symbol" class="form-control"
+                               type="text" ng-model="addCounterTypeFormData.symbol"
+                               ng-pattern=""
+                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="top" required>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.symbol.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.symbol.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="standardSize">
+                        {{'STANDARD_SIZE' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select class="form-control" type="text" theme="select2"
+                                   ng-model="addCounterTypeFormData.standardSize"
+                                   name="standardSize" id="standardSize" required>
+                            <ui-select-match placeholder="{{'SELECT_STANDARD_SIZE' | translate}}" allow-clear="true">
+                                {{$select.selected}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="standardSize in standardSizes | filter: $select.search">
+                                <span ng-bind-html="standardSize"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.standardSize.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="manufacturer" class="control-label col-md-4">
+                        {{'MANUFACTURER' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input id="manufacturer" name="manufacturer" class="form-control"
+                               type="text" ng-model="addCounterTypeFormData.manufacturer"
+                               ng-pattern=""
+                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="top" required>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.manufacturer.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.manufacturer.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="calibrationInterval" class="control-label col-md-4">
+                        {{'INSPECTION_INTERVAL' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input id="calibrationInterval" name="calibrationInterval" class="form-control"
+                               type="number" ng-model="addCounterTypeFormData.calibrationInterval"
+                               min="1" max="10"
+                               ng-pattern=""
+                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="top" required>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.calibrationInterval.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.calibrationInterval.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="yearIntroduction" class="control-label col-md-4">
+                        {{'YEAR_INSPECTION_INTERVAL' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input id="yearIntroduction" name="yearIntroduction" class="form-control"
+                               type="text" ng-model="addCounterTypeFormData.yearIntroduction"
+                               ng-pattern=""
+                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="top" required>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.yearIntroduction.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.yearIntroduction.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="gost" class="control-label col-md-4">
+                        {{'GOST' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input id="gost" name="gost" class="form-control"
+                               type="text" ng-model="addCounterTypeFormData.gost"
+                               ng-pattern=""
+                               popover="{{'ALPHABETIC_INFO' | translate}}"
+                               popover-trigger="focus" popover-placement="top" required>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.yearIntroduction.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCounterTypeForm.yearIntroduction.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success">
+                    {{'ADD' | translate}}
+                </button>
+                <button type="reset" class="btn btn-warning" ng-click="resetAddCounterTypeForm()">
+                    {{'CLEAR_FORM' | translate }}
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
+                    | translate}}
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

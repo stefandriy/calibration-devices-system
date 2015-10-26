@@ -39,6 +39,7 @@ public enum Cleanse implements Operation {
         XWPFDocument templateDocument;
 
         FileContent sourceFileContent = sourceFile.getContent();
+
         try (InputStream inputStream = sourceFileContent.getInputStream()) {
             templateDocument = new XWPFDocument(inputStream);
         } catch (IOException exception) {

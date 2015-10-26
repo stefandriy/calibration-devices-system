@@ -7,8 +7,13 @@ import java.io.File;
  */
 public class DeviceTestDataParserFactory {
     public DeviceTestDataParser getParser(File f) {
-        String fileExtension = f.getName().substring(f.getName().lastIndexOf('.'));
-        if (fileExtension.equals(".bbi")) {
+        return getParser(f.getName());
+    }
+
+    public DeviceTestDataParser getParser(String fileName) {
+        System.out.println("factory: " + fileName);
+        System.out.println(fileName.endsWith(".bbi"));
+        if (fileName.endsWith(".bbi")) {
             return new BbiDeviceTestDataParser();
         }
         throw new IllegalArgumentException("DeviceTestDataParser for specified file's format was not found.");

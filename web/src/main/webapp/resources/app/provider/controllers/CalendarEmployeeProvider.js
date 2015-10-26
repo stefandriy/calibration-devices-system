@@ -27,7 +27,16 @@ angular
             };
 
             $scope.showGrafic = function () {
+            	if ($scope.dataToSearch.toDate < $scope.dataToSearch.fromDate) {
+            		$scope.dataToSearch.toDate.setTime($scope.dataToSearch.fromDate.getTime() + 24*60*60*1000);
+            	}
+            	
+            	if ($scope.dataToSearch.toDate > new Date()) {
+            		$scope.dataToSearch.toDate.setTime(new Date().getTime());
+            	}
+            	
                 var dataToSearch = {
+                		
                     fromDate: $scope.changeDateToSend($scope.dataToSearch.fromDate),
                     toDate: $scope.changeDateToSend($scope.dataToSearch.toDate)
                 };

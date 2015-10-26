@@ -1,95 +1,54 @@
 package com.softserve.edu.dto.calibrator;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by Vasyl on 15.09.2015.
  */
 public class CalibrationTaskDTO {
 
-    private String place;
+    private Date taskDate;
 
-    private String counterStatus;
+    private String serialNumber;
 
-    private String counterNumber;
-
-    private Date startDate;
-
-    private Date endDate;
-
-    private String installationNumber;
-
-    private String notes;
-
-    private int floor;
+    private List<String> verificationsId;
 
     public CalibrationTaskDTO() {
     }
 
-    public String getPlace() {
-        return place;
+    public CalibrationTaskDTO(Date taskDate, String serialNumber, List<String> verificationsId) {
+        this.taskDate = taskDate;
+        this.serialNumber = serialNumber;
+        this.verificationsId = verificationsId;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public Date getTaskDate() {
+        return taskDate;
     }
 
-    public String getCounterStatus() {
-        return counterStatus;
+    public void setTaskDate(Date taskDate) {
+        this.taskDate = taskDate;
     }
 
-    public void setCounterStatus(String counterStatus) {
-        this.counterStatus = counterStatus;
+    public String getSerialNumber() {
+        return serialNumber;
     }
 
-    public String getCounterNumber() {
-        return counterNumber;
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
-    public void setCounterNumber(String counterNumber) {
-        this.counterNumber = counterNumber;
+    public List<String> getVerificationsId() {
+        return verificationsId;
     }
 
-
-
-    public String getInstallationNumber() {
-        return installationNumber;
-    }
-
-    public void setInstallationNumber(String installationNumber) {
-        this.installationNumber = installationNumber;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public int getFloor() {
-        return floor;
-    }
-
-    public void setFloor(int floor) {
-        this.floor = floor;
+    public void setVerificationsId(List<String> verificationsId) {
+        this.verificationsId = verificationsId;
     }
 }

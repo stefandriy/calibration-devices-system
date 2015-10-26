@@ -7,7 +7,7 @@
 							'ui.bootstrap.showErrors', 'ngTable',
 							'localytics.directives',
 							'frapontillo.bootstrap-switch', 'luegg.directives',
-							'irontec.simpleChat',  'ui.select', 'ngSanitize', 'ngAnimate', 'toaster'])
+							'irontec.simpleChat',  'ui.select', 'ngSanitize', 'ngAnimate', 'toaster', 'slick'])
 
 			.config(
 					[
@@ -15,10 +15,10 @@
 							'$stateProvider',
 							'$urlRouterProvider',
 							'showErrorsConfigProvider',
-
+							'$provide',
 							function($translateProvider, $stateProvider,
 									$urlRouterProvider,
-									showErrorsConfigProvider) {
+									showErrorsConfigProvider, $provide) {
 
 								showErrorsConfigProvider.showSuccess(true);
 
@@ -73,7 +73,35 @@
 													url : '/application-status/{clientCode}',
 													templateUrl : '/resources/app/welcome/views/application-status.html',
 													controller : 'ApplicationStatusController'
-												});
+												})
+								/*
+								 Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
+								 When translation of page will end, items of select (on the scope) will be changed too.
+								 Then we refresh the items of select to get them from scope.
+								 */
+								$provide.decorator('uiSelectDirective', function( $delegate, $parse, $injector) {
+									var some_directive = $delegate[ 0],
+										preCompile = some_directive.compile;
+
+									some_directive.compile = function compile() {
+										var link = preCompile.apply( this, arguments );
+
+										return function( scope, element, attrs, controller ) {
+											link.apply( this, arguments );
+
+											var $select = controller[ 0 ];
+
+											var rootScope= $injector.get('$rootScope');
+
+											rootScope.$on('$translateChangeEnd', function(event){
+												$select.refreshItems();
+											});
+
+										};
+									};
+
+									return $delegate;
+								});
 							} ]);
 
 	define([ 'controllers/LoginController',

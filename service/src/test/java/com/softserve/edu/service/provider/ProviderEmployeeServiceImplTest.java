@@ -6,8 +6,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.provider.impl.ProviderEmployeeServiceImpl;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import org.apache.commons.lang.RandomStringUtils;
@@ -44,10 +43,8 @@ public class ProviderEmployeeServiceImplTest {
 	private VerificationRepository verificationRepository;
 
 	@Mock
-	private OrganizationRepository organizationRepository;
 
-	@Mock(name = "mail")
-	private MailServiceImpl mockMail;
+	private MailService mockMail;
 
 	@Mock(name = "em")
 	private EntityManager mockEntityManager;

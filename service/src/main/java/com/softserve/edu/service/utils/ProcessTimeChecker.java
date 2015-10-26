@@ -2,7 +2,7 @@ package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.verification.VerificationService;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProcessTimeChecker {
 	
 	@Autowired
-	private MailServiceImpl mailServiceImpl;
+	private MailService mailService;
 	
 	@Autowired
 	private  VerificationRepository verificationRepository;
@@ -45,7 +45,7 @@ public class ProcessTimeChecker {
 				Verification verification = verificationRepository.findOne((String) array[1]);
 				verification.setProcessTimeExceeding(processTimeExceeding);
 				verificationRepository.save(verification);
-				mailServiceImpl.sendTimeExceededMail (verification.getId(), processTimeExceeding, maxProcessTime, (String) array[3]);
+				mailService.sendTimeExceededMail (verification.getId(), processTimeExceeding, maxProcessTime, (String) array[3]);
 			}
 		}
 		

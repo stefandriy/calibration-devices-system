@@ -10,7 +10,11 @@ public interface StatisticService {
 
     Long countDevices();
 
+    Long countCounterTypes();
+
     Long countVerifications();
+
+    Long countSysAdmins();
 
     User employeeExist(String username);
 

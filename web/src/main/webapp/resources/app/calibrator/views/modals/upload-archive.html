@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title">Завантаження архіву</h4>
+</div>
+
+<div class="modal-body">
+    <div class="uploadFile">
+        <button ng-hide="uploaded" class="btn btn-info" ngf-select="upload($files)" accept=".zip">Оберіть файл
+        </button>
+
+        <div ng-hide="uploaded" ngf-drop ngf-select class="drop-box" ngf-drag-over-class="dragover"
+             ngf-multiple="false"
+             ngf-allow-dir="false"
+             accept=".zip"
+             ng-model="files">Перетягніть файл сюди
+        </div>
+
+        <progressbar value="progressPercentage" max="100" min="0" class="progress-striped active" type="success">
+            {{progressPercentage}}%
+        </progressbar>
+
+        <div ng-show="messageSuccess" class="alert alert-success" role="alert">{{messageSuccess}}</div>
+        <div ng-show="messageError" class="alert alert-danger" role="alert">{{messageError}}</div>
+
+        <div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button ng-click="cancel()" class="btn btn-info pull-right" type="button">
+        Закрити
+    </button>
+</div>
