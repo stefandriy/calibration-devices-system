@@ -1,10 +1,11 @@
-package com.softserve.edu.service.utils;
+package com.softserve.edu.service;
 
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.service.utils.NewVerificationsQueryConstructorCalibrator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

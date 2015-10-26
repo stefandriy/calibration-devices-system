@@ -57,12 +57,12 @@ public class VerificationPhotoServiceImplTest {
 
     @Test
     public void testPutResource() {
+        boolean actual = verificationPhotoServiceImpl.putResource(TEST_ID, inputStream, FILETYPE);
         verify(calibrationTestService).findTestById(TEST_ID);
         verify(calibrationTest).getVerification();
         verify(verification).getId();
         verify(fileOperations).putResourse(inputStream, relfolder, FILETYPE);
         verify(calibrationTest).setPhotoPath(FILEPATH);
-        assertTrue("the method returns false instead of true", verificationPhotoServiceImpl
-                .putResource(TEST_ID, inputStream, FILETYPE));
+        assertTrue("the method returns false instead of true", actual);
     }
 }
