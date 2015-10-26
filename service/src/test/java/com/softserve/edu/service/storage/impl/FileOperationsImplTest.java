@@ -9,10 +9,9 @@ import static org.junit.Assert.*;
 /**
  * Created by Yurij Dvornyk on 21.10.2015.
  */
-public class FileOperationImplTest {
-
+public class FileOperationsImplTest {
     @InjectMocks
-    FileOperationImpl fileOperationImpl = new FileOperationImpl();
+    FileOperationsImpl fileOperationImpl = new FileOperationsImpl();
 
     @Test
     public void testPutResourse() throws Exception {
