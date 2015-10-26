@@ -1,7 +1,6 @@
 package com.softserve.edu.service.verification;
 
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.device.DeviceType;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.ClientData;
@@ -20,9 +19,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.*;
-//import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
 
 import static org.mockito.Mockito.*;
 
@@ -63,20 +60,21 @@ public class VerificationProviderEmployeeServiceImplTest {
         User mockUser = mock(User.class);
         ClientData mockClientData = mock(ClientData.class);
         Device mockDevice = mock(Device.class);
-        DeviceType device = DeviceType.ELECTRICAL;
+        Device.DeviceType type = Device.DeviceType.ELECTRICAL;
+        String device = type.name();
 
         when(verificationRepository.findOne(anyString())).thenReturn(verification);
 
         when(verification.getClientData()).thenReturn(mockClientData);
         when(mockClientData.getEmail()).thenReturn(mail);
         when(verification.getDevice()).thenReturn(mockDevice);
-        when(mockDevice.getDeviceType()).thenReturn(device);
+        when(mockDevice.getDeviceType()).thenReturn(type);
 
         verificationProviderEmployeeService.assignProviderEmployee(verificationID, mockUser);
 
         verify(verification).setProviderEmployee(mockUser);
         verify(verification).setStatus(Status.ACCEPTED);
-        verify(mailServiceImpl).sendAcceptMail(mail, verificationID, device.name());
+        verify(mailServiceImpl).sendAcceptMail(mail, verificationID, device);
 
         verify(verification).setReadStatus(ReadStatus.READ);
         verify(verification).setExpirationDate(any(Date.class));
@@ -114,7 +112,7 @@ public class VerificationProviderEmployeeServiceImplTest {
         String username = "username";
         when(verificationRepository.findByProviderEmployeeUsernameAndStatus(username, Status.ACCEPTED)).thenReturn(expected);
 
-        Assert.assertEquals(expected, verificationProviderEmployeeService.getVerificationListbyProviderEmployee(username));
+        Assert.assertEquals(expected, verificationProviderEmployeeService.getVerificationListByProviderEmployee(username));
     }
 
     @Test
@@ -123,7 +121,7 @@ public class VerificationProviderEmployeeServiceImplTest {
         String username = "username";
         when(verificationRepository.findByCalibratorEmployeeUsernameAndStatus(username, Status.IN_PROGRESS)).thenReturn(expected);
 
-        Assert.assertEquals(expected, verificationProviderEmployeeService.getVerificationListbyCalibratormployee(username));
+        Assert.assertEquals(expected, verificationProviderEmployeeService.getVerificationListByCalibratorEmployee(username));
 
     }
 

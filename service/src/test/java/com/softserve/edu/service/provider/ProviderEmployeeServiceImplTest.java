@@ -12,7 +12,7 @@ import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
 import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.provider.impl.ProviderEmployeeServiceImpl;
-import com.softserve.edu.service.tool.MailService;
+
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +20,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.ArgumentCaptor;
 
 import javax.persistence.EntityManager;
@@ -47,7 +46,6 @@ public class ProviderEmployeeServiceImplTest {
 	private VerificationRepository verificationRepository;
 
 	@Mock
-	private MailService mockMail;
 	private OrganizationRepository organizationRepository;
 
 	@Mock(name = "mail")
