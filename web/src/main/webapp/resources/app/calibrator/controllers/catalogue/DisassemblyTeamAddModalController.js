@@ -67,8 +67,8 @@ angular.module('employeeModule')
 
 
             $scope.clearDate1 = function () {
-                $log.debug($scope.teamFormData.teamDate);
-                $scope.teamFormData.teamDate = null;
+                $log.debug($scope.teamFormData.effectiveTo);
+                $scope.teamFormData.effectiveTo = null;
             };
 
             $scope.clearDate2 = function () {
@@ -103,11 +103,11 @@ angular.module('employeeModule')
                 teamData = {
                     teamNumber: $scope.teamFormData.teamNumber,
                     teamName: $scope.teamFormData.teamName,
-                    teamDate: $scope.teamFormData.effectiveTo,
-                    teamSpecialization: $scope.teamFormData.specialization,
-                    teamLeaderFullName: $scope.teamFormData.leaderFullName,
-                    teamLeaderPhone: $scope.teamFormData.leaderPhone,
-                    teamLeaderEmail: $scope.teamFormData.leaderEmail
+                    effectiveTo: $scope.teamFormData.effectiveTo,
+                    specialization: $scope.teamFormData.specialization,
+                    leaderFullName: $scope.teamFormData.leaderFullName,
+                    leaderPhone: $scope.teamFormData.leaderPhone,
+                    leaderEmail: $scope.teamFormData.leaderEmail
                 }
             }
 
@@ -191,7 +191,7 @@ angular.module('employeeModule')
                 }
             };
 
-            
+
             /**
              * Saves new team from the form in database.
              * If everything is ok then resets the team
