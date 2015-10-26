@@ -37,9 +37,10 @@ public class CalibratorDisassemblyTeamController {
 
     /**
      * Responds a page according to input data and search value
-     * @param pageNumber current page number
+     *
+     * @param pageNumber   current page number
      * @param itemsPerPage counts of elements per one page
-     * @param search keyword for looking entities by DisassemblyTeam.name
+     * @param search       keyword for looking entities by DisassemblyTeam.name
      * @return a page of DisassemblyTeam with their total amount
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{search}", method = RequestMethod.GET)
@@ -49,7 +50,7 @@ public class CalibratorDisassemblyTeamController {
 
         Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
         Page<DisassemblyTeamPageItem> page = teamService
-                .findByOrganizationAndSearchAndPagination(pageNumber, itemsPerPage,organization, search)
+                .findByOrganizationAndSearchAndPagination(pageNumber, itemsPerPage, organization, search)
                 .map(disassemblyTeam -> new DisassemblyTeamPageItem(disassemblyTeam.getId(),
                         disassemblyTeam.getName(), disassemblyTeam.getEffectiveTo(),
                         disassemblyTeam.getSpecialization(), disassemblyTeam.getLeaderFullName(),
@@ -58,13 +59,13 @@ public class CalibratorDisassemblyTeamController {
     }
 
     /**
-     *  Responds a page according to input data.
-     *
-     *  <p>
+     * Responds a page according to input data.
+     * <p>
+     * <p>
      * Note that this uses method {@code pageDisassemblyTeamsWithSearch}, whereas
      * search values is {@literal null}
      *
-     * @param pageNumber current page number
+     * @param pageNumber   current page number
      * @param itemsPerPage counts of elements per one page
      * @return a page of DisassemblyTeam with their total amount
      */
@@ -77,36 +78,52 @@ public class CalibratorDisassemblyTeamController {
 
     /**
      * Responds DisassemblyTeam by Id
+     *
      * @param disassemblyTeamId
      * @return DisassemblyTeam
      */
     @RequestMapping(value = "getDisassemblyTeam/{disassemblyTeamId}", method = RequestMethod.GET)
-    public ResponseEntity getDisassemblyTeam(@PathVariable String disassemblyTeamId){
+    public ResponseEntity getDisassemblyTeam(@PathVariable String disassemblyTeamId) {
         DisassemblyTeam foundDisassemblyTeam = teamService.findById(disassemblyTeamId);
         return new ResponseEntity<>(foundDisassemblyTeam, HttpStatus.OK);
     }
 
+
+    /**
+     * Check whereas {@code username} is available,
+     * i.e. it is possible to create new user with this {@code username}
+     *
+     * @param teamUsername username
+     * @return {@literal true} if {@code username} available or else {@literal false}
+     */
+    @RequestMapping(value = "available/{teamUsername}", method = RequestMethod.GET)
+    public Boolean isAvailableUsername(@PathVariable String teamUsername) {
+        return teamUsername != null && !teamService.isTeamExist(teamUsername);
+    }
+
+
     /**
      * Saves Disassembly team in database
+     *
      * @param disassemblyTeamDTO object with disassembly team data
      * @return a response body with http status {@literal CREATED} if everything
-     *         DisassemblyTeam successfully created or else http
-     *         status {@literal CONFLICT}
+     * DisassemblyTeam successfully created or else http
+     * status {@literal CONFLICT}
      */
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity addDisassemblyTeam(@RequestBody CalibrationDisassemblyTeamDTO disassemblyTeamDTO,
-                                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user){
+                                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         Organization currentOrganization = organizationService.getOrganizationById(user.getOrganizationId());
         try {
             DisassemblyTeam createdDisassemblyTeam = disassemblyTeamDTO.saveTeam(currentOrganization);
             teamService.add(createdDisassemblyTeam);
-        }catch (DuplicateRecordException e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
+        } catch (DuplicateRecordException e) {
+            logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;//from body get a message
             return new ResponseEntity(e, httpStatus);
-        }catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION " + e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
@@ -122,7 +139,7 @@ public class CalibratorDisassemblyTeamController {
      */
     @RequestMapping(value = "edit/{disassemblyTeamId}", method = RequestMethod.POST)
     public ResponseEntity editDisassemblyTeam(@RequestBody CalibrationDisassemblyTeamDTO disassemblyTeamDTO,
-                                                 @PathVariable String disassemblyTeamId){
+                                              @PathVariable String disassemblyTeamId) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
             teamService.edit(disassemblyTeamId, disassemblyTeamDTO.getTeamName(),
@@ -138,9 +155,9 @@ public class CalibratorDisassemblyTeamController {
 
     /**
      * Delete disassembly team from database
-     * @param disassemblyTeamId
-     * return http status {@Literal OK} if disassembly team successfully deleted from database,
-     * else http status {@literal CONFLICT}
+     *
+     * @param disassemblyTeamId return http status {@Literal OK} if disassembly team successfully deleted from database,
+     *                          else http status {@literal CONFLICT}
      */
     @RequestMapping(value = "delete/{disassemblyTeamId}", method = RequestMethod.POST)
     private ResponseEntity deleteDisassemblyTeam(@PathVariable String disassemblyTeamId) {

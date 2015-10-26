@@ -40,9 +40,9 @@ angular.module('employeeModule')
 
 
             function isDisassemblyTeamAvailable(teamUsername) {
-                DisassemblyTeamServiceCalibrator.isDisassemblyTeamAvailable(teamUsername)
+                DisassemblyTeamServiceCalibrator.isDisassemblyTeamNameAvailable(teamUsername)
                     .then(function (data) {
-                        validator('existTeamLogin', data.data);
+                        validator('availableTeamLogin', data);
                     })
             }
 
@@ -52,7 +52,7 @@ angular.module('employeeModule')
                         var teamNumber = $scope.teamFormData.teamNumber;
                         if (teamNumber == null) {
                         } else if ($scope.TEAM_USERNAME_REGEX.test(teamNumber)) {
-                            isDisassemblyTeamAvailable(teamNumber)
+                            isDisassemblyTeamAvailable(teamNumber);
                         } else {
                             validator('loginTeamValid', false);
                         }
@@ -63,25 +63,26 @@ angular.module('employeeModule')
 
             function validator(caseForValidation, isValid) {
                 switch (caseForValidation) {
-                    case 'existTeamLogin' :
+                    case 'availableTeamLogin' :
                         $scope.teamNumberValidation = {
                             isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success',
+                            css: isValid ? 'has-success' : 'has-error',
                             message: isValid ? undefined : 'Такий логін вже існує'
-                        };
+                };
                         break;
                     case 'loginTeamValid' :
                         $scope.teamNumberValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-success' : 'has-error',
                             message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
-                        }
+                        };
+                        break;
                 }
             }
 
 
             bValidation = function () {
-                if ( $scope.teamNumberValidation === undefined) {
+                if ( $scope.teamNumberValidation === undefined || $scope.teamNumberValidation.isValid === false) {
                     $scope.incorrectValue = true;
                     return false;
                 } else {
@@ -94,22 +95,9 @@ angular.module('employeeModule')
              */
             $scope.onTeamFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if (!bValidation()) {
-
+                if (bValidation()) {
                         retranslater();
                         saveDisassemblyTeam();
-                        $modal.open({
-                            animation: true,
-                            templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-success.html',
-                            controller: function ($modalInstance) {
-                                this.ok = function () {
-                                    $modalInstance.close();
-                                }
-                            },
-                            controllerAs: 'successController',
-                            size: 'md'
-                        });
-
                 } else {
                     $scope.incorrectValue = true;
                 }
@@ -121,6 +109,7 @@ angular.module('employeeModule')
              * form and updates table with teams.
              */
             function saveDisassemblyTeam() {
+
                 DisassemblyTeamServiceCalibrator.saveDisassemblyTeam(
                     $scope.teamFormData).then(
                     function (data) {
@@ -128,23 +117,34 @@ angular.module('employeeModule')
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-success.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'successController',
+                                size: 'md'
+                            });
                         }
-                    })
-                    .error(function (data) {
-                        $scope.closeModal();
-                        $scope.resetTeamForm();
-                        $rootScope.onTableHandling();
-                        $modal.open({
-                            animation: true,
-                            templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-denied.html',
-                            controller: function ($modalInstance) {
-                                this.ok = function () {
-                                    $modalInstance.close();
-                                }
-                            },
-                            controllerAs: 'deniedController',
-                            size: 'md'
-                        });
+                        if (data == 409) {
+                            $scope.closeModal();
+                            $scope.resetTeamForm();
+                            $rootScope.onTableHandling();
+                            $modal.open({
+                                animation: true,
+                                templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-denied.html',
+                                controller: function ($modalInstance) {
+                                    this.ok = function () {
+                                        $modalInstance.close();
+                                    }
+                                },
+                                controllerAs: 'deniedController',
+                                size: 'md'
+                            });
+                        }
                     });
             }
 

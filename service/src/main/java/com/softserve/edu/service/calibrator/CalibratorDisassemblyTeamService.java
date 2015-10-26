@@ -30,4 +30,6 @@ public interface CalibratorDisassemblyTeamService {
 
     void delete(String teamId);
 
+
+    boolean isTeamExist(String teamUsername);
 }

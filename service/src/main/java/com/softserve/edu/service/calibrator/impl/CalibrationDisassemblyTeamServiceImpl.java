@@ -66,7 +66,11 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
     @Transactional
     public void add(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException {
         try {
-            teamRepository.save(disassemblyTeam);
+            if (teamRepository.exists(disassemblyTeam.getId())) {
+                throw new DuplicateRecordException(String.format("Team %s already exists.", disassemblyTeam.getId()));
+            } else {
+                teamRepository.save(disassemblyTeam);
+            }
         } catch (Exception e) {
             throw new DuplicateRecordException(String.format("Team %s already exists.", disassemblyTeam.getId()));
         }
@@ -96,5 +100,12 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
     @Transactional
     public void delete(String teamId) {
         teamRepository.delete(teamRepository.findOne(teamId));
+    }
+
+
+    @Override
+    @Transactional
+    public boolean isTeamExist(String teamUsername) {
+        return teamRepository.exists(teamUsername);
     }
 }
