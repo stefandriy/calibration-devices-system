@@ -1,13 +1,11 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
-import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FileUtils;
