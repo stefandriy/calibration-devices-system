@@ -12,7 +12,9 @@ import com.softserve.edu.service.provider.buildGraphic.GraphicBuilder;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
 import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
+import com.softserve.edu.service.provider.impl.ProviderEmployeeServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,29 +23,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import java.text.SimpleDateFormat;
 
 /**
  * Service for adding employees for calibrator and return data for charts.
  */
 
 @Service
-public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
+public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService {
 
     @Autowired
     private UserRepository calibratorEmployeeRepository;
 
     @Autowired
     private VerificationRepository verificationRepository;
-
+    
     @Autowired
     private OrganizationRepository organizationRepository;
-
+    
     private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     Logger logger = Logger.getLogger(CalibratorEmployeeServiceImpl.class);
@@ -60,8 +61,9 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
     public void addEmployee(User calibratorEmployee) {
         // TODO Extract all passwork encoding/decoding ops to single place
         String passwordEncoded = new BCryptPasswordEncoder().encode(calibratorEmployee.getPassword());
+
         calibratorEmployee.setPassword(passwordEncoded);
-//        calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
+        // calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
         calibratorEmployeeRepository.save(calibratorEmployee);
     }
 
@@ -88,14 +90,14 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
         }
         return calibratorListEmployee;
     }
-
-
+    
+    
     @Override
     @Transactional
-    public List<ProviderEmployeeGraphic> buidGraphicMainPanel(Date from, Date to, Long idOrganization) {
+    public List<ProviderEmployeeGraphic> buidGraphicMainPanel(Date from, Date to, Long idOrganization) {    	
         Organization organization = organizationRepository.findOne(idOrganization);
         List<Verification> verifications = verificationRepository.
-                findByCalibratorAndInitialDateBetween
+        		findByCalibratorAndInitialDateBetween
                         (organization, from, to);
         List<ProviderEmployeeGraphic> graficData = null;
         try {
@@ -108,7 +110,7 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
         return graficData;
     }
 
-
+    
     @Override
     public Date convertToDate(String date) throws IllegalArgumentException {
         Date result = null;
