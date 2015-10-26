@@ -81,7 +81,6 @@ public class DocumentsServiceImplTest {
         calibrationTestSet = new LinkedHashSet<>();
         calibrationTestSet.add(calibrationTest);
         when(verification.getCalibrationTests()).thenReturn(calibrationTestSet);
-
     }
 
     @Test
@@ -123,9 +122,9 @@ public class DocumentsServiceImplTest {
 
     @Test
     public void testBuildFileWithoutTestResultWithIncorrectResult() throws Exception {
-        CalibrationTestResult wrongTestResult = CalibrationTestResult.valueOf("wrong");
+        thrown.expect(IllegalArgumentException.class);
         documentType = DocumentType.UNFITNESS_CERTIFICATE;
-        when(calibrationTest.getTestResult()).thenReturn(wrongTestResult);
+        when(calibrationTest.getTestResult()).thenReturn(CalibrationTestResult.valueOf("not a result"));
         when(DocumentFactory.build(documentType, verification, calibrationTest))
                 .thenReturn(document);
         PowerMockito.whenNew(FileParameters.class).withArguments(document, documentType, fileFormat)
@@ -226,7 +225,5 @@ public class DocumentsServiceImplTest {
         FileObject expected = FileFactory.buildInfoFile(fileParameters);
         FileObject actual = documentsService.buildInfoFile(verificationCode, fileFormat);
         assertEquals(expected, actual);
-
-
     }
 }
