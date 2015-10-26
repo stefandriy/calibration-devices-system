@@ -1,10 +1,13 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.io.FileUtils;
@@ -31,8 +34,11 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     @Autowired
     private CalibratorService calibratorService;
 
+    @Autowired
+    private VerificationRepository verificationRepository;
+
     @Override
-    public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException {
+    public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException {
         DeviceTestData deviceTestData;
         try(InputStream inputStream = FileUtils.openInputStream(BBIfile)){
             deviceTestData = parseAndSaveBBIFile(inputStream, verificationID, originalFileName);
@@ -41,7 +47,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     }
 
 
-    public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException {
+    public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException {
         DeviceTestData deviceTestData = parseAndSaveBBIFile(BBIfile.getInputStream(), verificationID, originalFileName);
         return deviceTestData;
     }
@@ -78,20 +84,22 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
      *
      * @param bbiFileNamesToVerificationMap Map of BBI files names to their corresponding verifications
      * @param listOfBBIfiles List with BBI files extracted from the archive
-     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
+     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false), and reason of rejection (if the bbi file was rejected)
      */
     private List<BBIOutcomeDTO> processListOfBBIFiles(Map<String, String> bbiFileNamesToVerificationMap, List<File> listOfBBIfiles){
         List<BBIOutcomeDTO> resultsOfBBIProcessing = new ArrayList<>();
         for (File bbiFile : listOfBBIfiles) {
             String correspondingVerification = bbiFileNamesToVerificationMap.getOrDefault(bbiFile.getName(), null);
-            if (correspondingVerification != null) {
-                try {
-                    parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
-                } catch (IOException e) {
-                    resultsOfBBIProcessing.add(new BBIOutcomeDTO(bbiFile.getName(), correspondingVerification, false));
-                }
-                resultsOfBBIProcessing.add(new BBIOutcomeDTO(bbiFile.getName(), correspondingVerification, true));
+            try {
+                parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
+            } catch (NoSuchElementException e) {
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
+                continue;
+            } catch (Exception e) {
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
+                continue;
             }
+            resultsOfBBIProcessing.add(BBIOutcomeDTO.accept(bbiFile.getName(), correspondingVerification));
         }
         return resultsOfBBIProcessing;
     }

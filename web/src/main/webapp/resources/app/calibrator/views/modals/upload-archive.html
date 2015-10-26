@@ -1,3 +1,9 @@
+<script language='javascript'>
+    $(document).ready(function(){
+        $('.ui.accordion').accordion({exclusive: false});
+    });
+</script>
+
 <div class="modal-header">
     <h4 class="modal-title">Завантаження архіву</h4>
 </div>
@@ -20,57 +26,62 @@
 
         <div ng-show="messageSuccess" class="alert alert-success" role="alert">{{messageSuccess}}</div>
         <div ng-show="messageError" class="alert alert-danger" role="alert">{{messageError}}</div>
-        <div class="ui segment" ng-show="messageSuccess">
-            <h3 class="ui header">Результати</h3>
-            <div class="ui middle aligned selection divided list" ng-repeat="bbiFileOutcome in uploadedBBIOutcomes">
-                <div class="item" ng-class="bbiFileOutcome.success">
-                    <div class="right floated content">
-                        <div ng-show="bbiFileOutcome.success == false">
-                            <span class="fa fa-times-circle text-danger"></span>
+        <div class="ui segment" ng-show="uploadedBBIOutcomes">
+            <h3 class="ui header">Результати обробки</h3>
+            <div class="ui styled fluid accordion">
+                <div ng-repeat="bbiFileOutcome in uploadedBBIOutcomes">
+                    <div class="title">
+                        <div class="header">
+                            <i class="dropdown icon"></i>
+                            [{{bbiFileOutcome.bbiFileName}}] {{bbiFileOutcome.verificationID}}
+                            <i class="fa fa-times-circle text-danger" ng-show="bbiFileOutcome.success == false"></i>
+                            <i class="fa fa-check-circle text-success" ng-show="bbiFileOutcome.success == true"></i>
                         </div>
+                    </div>
 
-                        <div ng-show="bbiFileOutcome.success == true">
-                            <span class="fa fa-check-circle text-success"></span>
-                        </div>
-                    </div>
                     <div class="content">
-                        <div class="header">[{{bbiFileOutcome.bbiFileName}}] {{bbiFileOutcome.verificationID}}</div>
-                    </div>
-                </div>
-            </div>
-                <div class="ui segment">
-                    <div class="ui three statistics">
-                        <div class="tiny statistic">
-                            <div class="value">
-                                {{totalBBIs}}
-                            </div>
-                            <div class="label">
-                                Всього
-                            </div>
-                        </div>
-                        <div class="tiny green statistic">
-                            <div class="value">
-                                {{successfulBBIs}}
-                            </div>
-                            <div class="label">
-                                Успішно
-                            </div>
-                        </div>
-                        <div class="tiny red statistic">
-                            <div class="value">
-                                {{unsuccessfulBBIs}}
-                            </div>
-                            <div class="label">
-                                Невдало
-                            </div>
-                        </div>
+                        <p class="transition hidden" ng-if="bbiFileOutcome.success == false">
+                            {{bbiFileOutcome.reasonOfRejection}}</p>
+
+                        <p class="transition hidden" ng-if="bbiFileOutcome.success == true">Успішно оброблено!</p>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
     </div>
+    <div class="ui segment" ng-show="uploadedBBIOutcomes">
+        <div class="ui three statistics">
+            <div class="tiny statistic">
+                <div class="value">
+                    {{totalBBIs}}
+                </div>
+                <div class="label">
+                    Всього
+                </div>
+            </div>
+            <div class="tiny green statistic">
+                <div class="value">
+                    {{successfulBBIs}}
+                </div>
+                <div class="label">
+                    Успішно
+                </div>
+            </div>
+            <div class="tiny red statistic">
+                <div class="value">
+                    {{unsuccessfulBBIs}}
+                </div>
+                <div class="label">
+                    Невдало
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
+</div>
 </div>
 <div class="modal-footer">
     <button ng-click="cancel()" class="btn btn-info pull-right" type="button">
