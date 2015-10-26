@@ -3,7 +3,7 @@ package com.softserve.edu.service.verification;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
-import com.softserve.edu.service.storage.impl.FileOperationImpl;
+import com.softserve.edu.service.storage.impl.FileOperationsImpl;
 import com.softserve.edu.service.verification.impl.VerificationPhotoServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +37,7 @@ public class VerificationPhotoServiceImplTest {
 
     @Mock private CalibrationTest calibrationTest;
     @Mock private CalibrationTestService calibrationTestService;
-    @Mock private FileOperationImpl fileOperationImpl;
+    @Mock private FileOperationsImpl fileOperationImpl;
     @Mock private InputStream inputStream;
     @Mock private Verification verification;
 
