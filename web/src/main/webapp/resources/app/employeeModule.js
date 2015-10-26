@@ -303,7 +303,8 @@
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController'
+        'common/controllers/CommonController',
+        'common/services/ResponseObserver'
 
     ], function () {});
 })();
