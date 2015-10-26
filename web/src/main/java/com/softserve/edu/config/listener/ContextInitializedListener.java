@@ -14,6 +14,9 @@ import org.springframework.stereotype.Component;
 public class ContextInitializedListener implements ApplicationListener<ContextRefreshedEvent>{
 
 
+    static final String password = "$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2";
+    static final String username = "Super_Admin";
+
     @Autowired
     UserService userService;
 
@@ -21,19 +24,9 @@ public class ContextInitializedListener implements ApplicationListener<ContextRe
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        String password = "$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2";
-        String username = "Funy";
-        String lastName = "SuperAdmin2";
         User user = new User(username, password);
         user.addRole(UserRole.SUPER_ADMIN);
-        user.setLastName(lastName);
         user.setIsAvailable(true);
-
-
-        System.out.println(user.getLastName());
-        System.out.println(user.getPassword());
-        System.out.println(user.getUsername());
-
 
         userService.createSuperAdminIfNotExists(user);
 

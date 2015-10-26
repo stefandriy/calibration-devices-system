@@ -46,7 +46,7 @@ public class UsersServiceImpl implements UsersService {
      * database, else {@literal false}
      */
     @Override
-    public boolean existsWithUsername(String username) {
+    public boolean isExistsWithUsername(String username) {
         return userRepository.findOne(username) == null;
     }
 

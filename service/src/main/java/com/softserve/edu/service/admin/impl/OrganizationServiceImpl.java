@@ -130,8 +130,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    // TODO is it readOnly !!!
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Transactional
     public void editOrganization(Long organizationId, String name,
                                  String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
                                  Integer maxProcessTime, Address address, String password, String username,

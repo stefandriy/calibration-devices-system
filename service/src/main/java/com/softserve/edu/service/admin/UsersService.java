@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface UsersService {
 
-    boolean existsWithUsername(String username);
+    boolean isExistsWithUsername(String username);
 
     List<String> getRoles(String username);
 

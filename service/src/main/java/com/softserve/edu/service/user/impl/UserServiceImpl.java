@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     @Override
-    public boolean existsWithUsername(String username) {
+    public boolean isExistsWithUsername(String username) {
         return userRepository.findOne(username) == null;
     }
 
@@ -149,6 +149,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void createSuperAdminIfNotExists(User user){
-        userRepository.save(user);
+        
+        if (isExistsWithUsername(user.getUsername()) && findByRole("SUPER_ADMIN").isEmpty()){
+
+            userRepository.save(user);
+
+        }
     }
 }

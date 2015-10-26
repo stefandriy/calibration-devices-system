@@ -60,7 +60,7 @@ public class CalibratorEmployeeController {
     public Boolean isValidUsername(@PathVariable String username) {
         boolean isAvailable = false;
         if (username != null) {
-            isAvailable = usersService.existsWithUsername(username);
+            isAvailable = usersService.isExistsWithUsername(username);
         }
         return isAvailable;
     }
