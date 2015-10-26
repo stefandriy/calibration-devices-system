@@ -70,8 +70,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
-            // TODO add getAdminRole method to enum
-            employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
+            employeeAdmin.addRole(OrganizationType.getOrganizationAdminRole(organizationType));
             organization.addOrganizationType(organizationType);
             organization.addUser(employeeAdmin);
         }

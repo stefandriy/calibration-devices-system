@@ -27,6 +27,7 @@ public class ContextInitializedListener implements ApplicationListener<ContextRe
         User user = new User(username, password);
         user.addRole(UserRole.SUPER_ADMIN);
         user.setLastName(lastName);
+        user.setIsAvailable(true);
 
 
         System.out.println(user.getLastName());
