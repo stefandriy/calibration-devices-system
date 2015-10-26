@@ -193,9 +193,8 @@ public class ProviderEmployeeServiceImplTest {
 	@Test
 	public void testGetRoleByUserNam() {
 
-		List<String> mockList = Arrays.asList(UserRole.CALIBRATOR_ADMIN.toString()/*, UserRole.SYS_ADMIN.toString()*/);
-		Set<UserRole> mockSet = new HashSet<UserRole>(Arrays.asList(UserRole.CALIBRATOR_ADMIN/*, UserRole.SYS_ADMIN*/));
-	//	Collections.reverse(mockList);
+		List<String> mockList = Arrays.asList(UserRole.CALIBRATOR_ADMIN.toString());
+		Set<UserRole> mockSet = new HashSet<UserRole>(Arrays.asList(UserRole.CALIBRATOR_ADMIN));
 
 		when(mockProviderEmployeeRepository.getRolesByUserName(anyString())).
 				thenReturn(mockSet);
