@@ -1,5 +1,6 @@
 package com.softserve.edu.service.admin.impl;
 
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
@@ -85,14 +86,14 @@ public class UsersServiceImplTest {
     public void testFindPageOfAllEmployees() {
         int pageNumber = 1;
         int itemsPerPage = 10;
-        String userName="username";
-        String role="Role";
-        String firstName="firstName";
-        String lastName="lastName";
-        String organization="organization";
-        String telephone="telephone";
-        String sortCriteria="";
-        String sortOrder="asc";
+        String userName = "username";
+        String role = "Role";
+        String firstName = "firstName";
+        String lastName = "lastName";
+        String organization = "organization";
+        String telephone = "+38050000501";
+        String sortCriteria = "";
+        String sortOrder = "asc";
         ListToPageTransformer<User> actual = usersServiceImpl.findPageOfAllEmployees(pageNumber, itemsPerPage, userName,
                 role, firstName, lastName, organization, telephone, sortCriteria, sortOrder);
     }*/
