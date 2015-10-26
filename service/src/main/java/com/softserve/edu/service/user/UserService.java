@@ -21,4 +21,6 @@ public interface UserService {
     List<String> getRoles(String username);
 
     void updateUser(User user);
+
+    void createSuperAdminIfNotExists(User user);
 }

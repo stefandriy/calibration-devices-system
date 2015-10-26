@@ -18,7 +18,7 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
@@ -76,7 +76,7 @@ public class CalibratorVerificationController {
     OrganizationService organizationService;
 
     @Autowired
-    UserService userService;
+    UsersService usersService;
 
     @Autowired
     BbiFileService bbiFileService;
@@ -407,7 +407,7 @@ public class CalibratorVerificationController {
      */
     @RequestMapping(value = "calibrator/role", method = RequestMethod.GET)
     public Boolean isEmployeeCalibrator(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        User checkedUser = userService.findOne(user.getUsername());
+        User checkedUser = usersService.findOne(user.getUsername());
         return checkedUser.getUserRoles().contains(UserRole.CALIBRATOR_EMPLOYEE);
     }
 
@@ -423,7 +423,7 @@ public class CalibratorVerificationController {
     public List<com.softserve.edu.service.utils.EmployeeDTO> employeeVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = calibratorEmployeeService.oneCalibratorEmployee(user.getUsername());
-        List<String> role = userService.getRoles(user.getUsername());
+        List<String> role = usersService.getRoles(user.getUsername());
         return calibratorEmployeeService
                 .getAllCalibrators(role, employee);
     }

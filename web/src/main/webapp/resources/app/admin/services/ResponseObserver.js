@@ -7,6 +7,9 @@ angular
                 case 403:
                     $window.location = './403.html';
                     break;
+                case 404:
+                    $window.location = './404.html';
+                    break;
                 case 500:
                     $window.location = './500.html';
                     break;
