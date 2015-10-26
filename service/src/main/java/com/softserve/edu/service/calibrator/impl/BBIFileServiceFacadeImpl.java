@@ -1,6 +1,8 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorService;
@@ -30,6 +32,9 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
     @Autowired
     private CalibratorService calibratorService;
+
+    @Autowired
+    private VerificationRepository verificationRepository;
 
     @Override
     public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException {
@@ -78,7 +83,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
      *
      * @param bbiFileNamesToVerificationMap Map of BBI files names to their corresponding verifications
      * @param listOfBBIfiles List with BBI files extracted from the archive
-     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
+     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false), and reason of rejection (if the bbi file was rejected)
      */
     private List<BBIOutcomeDTO> processListOfBBIFiles(Map<String, String> bbiFileNamesToVerificationMap, List<File> listOfBBIfiles){
         List<BBIOutcomeDTO> resultsOfBBIProcessing = new ArrayList<>();
@@ -87,10 +92,17 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
             if (correspondingVerification != null) {
                 try {
                     parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
-                } catch (IOException e) {
-                    resultsOfBBIProcessing.add(new BBIOutcomeDTO(bbiFile.getName(), correspondingVerification, false));
+                }
+                catch (NoSuchElementException e) {
+                    resultsOfBBIProcessing.add(new BBIOutcomeDTO(bbiFile.getName(), correspondingVerification, false, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
+                }
+                catch (Exception e) {
+                    resultsOfBBIProcessing.add(new BBIOutcomeDTO(bbiFile.getName(), correspondingVerification, false, BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
                 }
                 resultsOfBBIProcessing.add(new BBIOutcomeDTO(bbiFile.getName(), correspondingVerification, true));
+            }
+            else{
+                resultsOfBBIProcessing.add(new BBIOutcomeDTO(bbiFile.getName(), correspondingVerification, false, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
             }
         }
         return resultsOfBBIProcessing;

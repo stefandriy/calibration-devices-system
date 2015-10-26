@@ -69,7 +69,8 @@ public class CalibratorServiceImpl implements CalibratorService {
     public void uploadBbi(InputStream fileStream, String idVerification,
                           Long installmentNumber, String originalFileFullName) throws IOException {
         String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
-        Verification verification = verificationRepository.findOne(idVerification);
+        Optional<Verification> retrievedVerification = Optional.of(verificationRepository.findOne(idVerification));
+        Verification verification = retrievedVerification.orElseThrow(() -> new NoSuchElementException("No such verification"));
         BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
         Set<BbiProtocol> bbiProtocolsOfVerification = verification.getBbiProtocols();
         bbiProtocolsOfVerification.add(bbiProtocol);

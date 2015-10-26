@@ -4,9 +4,25 @@ package com.softserve.edu.service.utils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class BBIOutcomeDTO {
+
+    public enum ReasonOfRejection{
+        NO_CORRESPONDING_VERIFICATION,
+        BBI_IS_NOT_VALID
+    }
+
     private String verificationID;
     private String bbiFileName;
     private boolean success;
+
+    public String getReasonOfRejection() {
+        return reasonOfRejection;
+    }
+
+    public void setReasonOfRejection(String reasonOfRejection) {
+        this.reasonOfRejection = reasonOfRejection;
+    }
+
+    private String reasonOfRejection;
 
     public String getVerificationID() {
         return verificationID;
@@ -32,11 +48,23 @@ public class BBIOutcomeDTO {
         this.success = success;
     }
 
+    public BBIOutcomeDTO(){
+
+    }
+
     public BBIOutcomeDTO(String bbiFileName, String verificationID, boolean success) {
 
         this.verificationID = verificationID;
         this.bbiFileName = bbiFileName;
         this.success = success;
+    }
+
+    public BBIOutcomeDTO(String bbiFileName, String verificationID, boolean success, ReasonOfRejection reasonOfRejection) {
+
+        this.verificationID = verificationID;
+        this.bbiFileName = bbiFileName;
+        this.success = success;
+        this.reasonOfRejection = reasonOfRejection.toString();
     }
 
     @Override
@@ -45,6 +73,7 @@ public class BBIOutcomeDTO {
                 .append("verificationID", verificationID)
                 .append("bbiFileName", bbiFileName)
                 .append("success", success)
+                .append("reasonOfRejection", reasonOfRejection)
                 .toString();
     }
 }
