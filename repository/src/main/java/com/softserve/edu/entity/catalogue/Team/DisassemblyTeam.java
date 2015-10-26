@@ -52,6 +52,18 @@ public class DisassemblyTeam {
         this.leaderEmail = leaderEmail;
     }
 
+    public DisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
+                           String leaderPhone, String leaderEmail, Organization organization) {
+        this.id = id;
+        this.name = name;
+        this.effectiveTo = effectiveTo;
+        this.specialization = specialization;
+        this.leaderFullName = leaderFullName;
+        this.leaderPhone = leaderPhone;
+        this.leaderEmail = leaderEmail;
+        this.organization = organization;
+    }
+
     @Override
     public String toString() {
         return "DisassemblyTeam{" +

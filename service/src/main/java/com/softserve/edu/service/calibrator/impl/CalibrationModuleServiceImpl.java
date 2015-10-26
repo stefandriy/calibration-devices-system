@@ -20,7 +20,7 @@ import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
-public class CalibrationModuleServiceImpl implements CalibrationModuleService{
+public class CalibrationModuleServiceImpl implements CalibrationModuleService {
 
     @Autowired
     private CalibrationModuleRepository moduleRepository;
@@ -35,8 +35,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService{
     @Override
     @SuppressWarnings("all")
     public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,String userName) {
+
         User user = userRepository.findOne(userName);
-        if (user == null){
+        if (user == null) {
             logger.error("Cannot found user!");
         }
         // TODO potential NPE here

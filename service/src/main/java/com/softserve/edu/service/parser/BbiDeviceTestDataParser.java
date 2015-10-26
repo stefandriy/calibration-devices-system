@@ -96,9 +96,9 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      *          string which contains concatenated bytes in reverse order.
      * @throws IOException
      */
-    private String readConsecutiveBytesReversed(long amount) throws IOException {
+    private String readConsecutiveBytesReversed(int amount) throws IOException {
         String result = "";
-        for (long i = 0; i < amount; ++i) {
+        for (int i = 0; i < amount; ++i) {
             result = normalizeByte(Integer.toHexString(reader.read())) + result;
         }
         return result;
@@ -113,9 +113,9 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      *          string which contains concatenated bytes.
      * @throws IOException
      */
-    private String readConsecutiveBytes(long amount) throws IOException {
+    private String readConsecutiveBytes(int amount) throws IOException {
         String result = "";
-        for (long i = 0; i < amount; ++i) {
+        for (int i = 0; i < amount; ++i) {
             result = result + normalizeByte(Integer.toHexString(reader.read()));
         }
         return result;
@@ -130,7 +130,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      *          string which contains UTF8 symbols.
      * @throws IOException
      */
-    private String readConsecutiveBytesAsUTF8(long amount) throws IOException {
+    private String readConsecutiveBytesAsUTF8(int amount) throws IOException {
         return new String(DatatypeConverter.parseHexBinary(readConsecutiveBytes(amount))).trim();
     }
 

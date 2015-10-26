@@ -30,25 +30,31 @@
                        class="table table-bordered table-hover users_table">
                     <tbody>
                     <tr ng-repeat="agreement in $data">
-                        <td data-title="'NUMBER' | translate" sortable="'number'"
+                        <td data-title="'NUMBER' | translate" sortable="'number'" 
                             filter="{ 'number': 'text' }">
                             {{ agreement.number }}
                         </td>
-                        <td data-title="'AGREEMENT_CUSTOMER' | translate" sortable="'customerName'"
+                        <td data-title="'DATE_TIME' | translate" class="datecolumn" sortable="'date'"
+                            filter="{ 'date': 'daterange' }">{{ agreement.date | date :
+                            'dd-MM-yyyy'}}
+                        </td>
+                        <td data-title="'AGREEMENT_CUSTOMER' | translate" sortable="'customer_name'"
                             filter="{ 'customerName': 'text' }">
                             {{ agreement.customerName }}
                         </td>
-                        <td data-title="'AGREEMENT_EXECUTOR' | translate" sortable="'executorName'"
+                        <td data-title="'AGREEMENT_EXECUTOR' | translate" sortable="'executor_name'"
                             filter="{ 'executorName': 'text' }">
                             {{ agreement.executorName }}
                         </td>
                         <td data-title="'COUNTER_KIND' | translate"
-                            sortable="'deviceType'"
+                            sortable="'device_type'"
                             filter="{ deviceType : 'deviceType' }">
                             {{ agreement.deviceType | translate }}
                         </td>
-                        <td data-title="'AGREEMENT_COUNTER_COUNT' | translate " sortable="'deviceCount'"
+                        <td data-title="'AGREEMENT_COUNTER_COUNT' | translate " sortable="'device_Count'"
                             filter="{ 'deviceCount': 'text' }">{{ agreement.deviceCount}}
+                        </td>
+
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
                             <div class="btn-group">
@@ -98,7 +104,8 @@
                 </div>
             </script>
             <script type="text/ng-template" id="ng-table/filters/deviceType.html">
-                <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
+                <ui-select ng-model="selectedDeviceType.name" theme="select2"
+                           on-select='onTableHandling()'
                            search-enabled="false"
                            name="filter-deviceType">
                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
@@ -111,6 +118,24 @@
                     </ui-select-choices>
                 </ui-select>
             </script>
+
+            <script type="text/ng-template" id="ng-table/filters/daterange.html">
+                <div class="input-group right-inner-addon" style="width: 100%">
+                    <i id="calendar_icon" class="glyphicon glyphicon-calendar"
+                       ng-click="showPicker($event)"></i>
+                    <input date-range-picker="opts" class="form-control date-picker" type="text"
+                           ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
+                           id="datepickerfield" readonly/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default myGroupBtn"
+                                ng-show="!isDateDefault()"
+                                ng-click="clearDate()">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    </span>
+                </div>
+            </script>
+
         </div>
         <!-- /.col-lg-12 -->
     </div>
