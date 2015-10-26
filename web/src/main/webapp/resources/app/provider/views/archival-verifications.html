@@ -39,7 +39,8 @@
                                 <tbody>
                                 <tr ng-repeat="verification in $data">
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
-                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate }}
+                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
+                                        'dd-MM-yyyy' }}
                                     </td>
                                     <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
                                         filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}

@@ -2,7 +2,7 @@ package com.softserve.edu.service.verification.impl;
 
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
-import com.softserve.edu.service.storage.impl.FileOperationImpl;
+import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.verification.VerificationPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class VerificationPhotoServiceImpl implements VerificationPhotoService {
     private CalibrationTestService calibrationTestService;
 
     @Autowired
-    private FileOperationImpl fileOperationImpl;
+    private FileOperations fileOperations;
 
     private String sep = FileSystems.getDefault().getSeparator();
 
@@ -26,7 +26,7 @@ public class VerificationPhotoServiceImpl implements VerificationPhotoService {
         CalibrationTest test = calibrationTestService.findTestById(testId);
         String verId = test.getVerification().getId();
         String relFolder = verId + sep + testId + sep;
-        test.setPhotoPath(fileOperationImpl.putResourse(stream, relFolder, fileType));
+        test.setPhotoPath(fileOperations.putResourse(stream, relFolder, fileType));
         return true;
     }
 }

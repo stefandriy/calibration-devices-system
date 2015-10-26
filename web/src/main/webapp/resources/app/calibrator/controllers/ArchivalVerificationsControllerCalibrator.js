@@ -1,8 +1,10 @@
 angular
     .module('employeeModule')
-    .controller('ArchivalVerificationsControllerCalibrator', ['$scope', '$modal', '$log', 'VerificationServiceCalibrator', 'ngTableParams', '$filter', '$rootScope', '$timeout', '$translate',
+    .controller('ArchivalVerificationsControllerCalibrator', ['$scope', '$modal', '$log',
+        'VerificationServiceCalibrator', 'ngTableParams', '$filter', '$rootScope', '$timeout', '$translate',
 
-        function ($scope, $modal, $log, verificationServiceCalibrator, ngTableParams, $filter, $rootScope, $timeout, $translate) {
+        function ($scope, $modal, $log, verificationServiceCalibrator, ngTableParams, $filter, $rootScope,
+                  $timeout, $translate) {
 
             $scope.resultsCount = 0;
 
@@ -13,7 +15,6 @@ angular
                 $scope.tableParams.filter({});
                 $scope.clearDate(); // sets 'all time' timerange
             };
-
 
 
             $scope.clearDate = function () {
@@ -152,7 +153,6 @@ angular
             $scope.showPicker = function ($event) {
                 angular.element("#datepickerfield").trigger("click");
             };
-
 
             $scope.isDateDefault = function () {
                 var pickerDate = $scope.myDatePicker.pickerDate;

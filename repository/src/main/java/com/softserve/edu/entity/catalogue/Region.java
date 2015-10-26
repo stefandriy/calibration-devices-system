@@ -14,8 +14,8 @@ import static com.softserve.edu.entity.catalogue.util.Checker.checkForEmptyText;
 public class Region extends AbstractCatalogue {
 
     @Id
-    @Setter
     @GeneratedValue
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
 
     @Column(nullable = false)
