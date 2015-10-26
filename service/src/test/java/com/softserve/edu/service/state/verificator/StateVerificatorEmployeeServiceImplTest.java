@@ -13,7 +13,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * @author Veronika
+ * @author Veronika Herasymenko
  */
 @RunWith(MockitoJUnitRunner.class)
 public class StateVerificatorEmployeeServiceImplTest {

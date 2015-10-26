@@ -23,6 +23,9 @@ import java.util.*;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * @author Veronika Herasymenko
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class VerificationProviderEmployeeServiceImplTest {
 

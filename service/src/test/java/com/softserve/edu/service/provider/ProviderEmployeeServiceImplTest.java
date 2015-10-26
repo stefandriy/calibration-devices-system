@@ -35,6 +35,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.api.mockito.PowerMockito;
 
+/**
+* @author Veronika Herasymenko
+*/
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProviderEmployeeServiceImpl.class, Logger.class, GraphicBuilder.class, GraphicBuilderMainPanel.class})
 public class ProviderEmployeeServiceImplTest {
