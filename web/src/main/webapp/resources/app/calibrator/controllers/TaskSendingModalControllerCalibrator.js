@@ -301,6 +301,12 @@ angular
                         then(function (data) {
                             if (data.status == 200) {
                                 $scope.closeModal();
+                                $modal.open({
+                                    animation: true,
+                                    templateUrl: '/resources/app/calibrator/views/modals/task-add-success.html',
+                                    controllerAs: 'successController',
+                                    size: 'md'
+                               });
                             } else {
                              $scope.incorrectValue = true;
                              console.log($scope.incorrectValue);
