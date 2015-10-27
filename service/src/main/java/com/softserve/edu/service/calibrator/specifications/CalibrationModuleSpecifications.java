@@ -54,4 +54,13 @@ public class CalibrationModuleSpecifications {
             }
         };
     }
+
+    public static Specification<CalibrationModule> moduleIsAvaliable(){
+        return new Specification<CalibrationModule>() {
+            @Override
+            public Predicate toPredicate(Root<CalibrationModule> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("isAvaliable"), true);
+            }
+        };
+    }
 }

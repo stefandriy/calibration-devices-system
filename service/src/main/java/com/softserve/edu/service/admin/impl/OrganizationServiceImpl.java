@@ -70,8 +70,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
-            // TODO add getAdminRole method to enum
-            employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
+            employeeAdmin.addRole(OrganizationType.getOrganizationAdminRole(organizationType));
             organization.addOrganizationType(organizationType);
             organization.addUser(employeeAdmin);
         }
@@ -131,8 +130,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    // TODO is it readOnly !!!
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Transactional
     public void editOrganization(Long organizationId, String name,
                                  String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
                                  Integer maxProcessTime, Address address, String password, String username,

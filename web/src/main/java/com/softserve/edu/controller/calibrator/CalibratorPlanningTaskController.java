@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "task/", produces = "application/json")
+@RequestMapping(value = "/task/")
 public class CalibratorPlanningTaskController {
 
     @Autowired
@@ -34,19 +34,17 @@ public class CalibratorPlanningTaskController {
     @Autowired
     private CalibrationModuleService moduleService;
 
-
-
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    private ResponseEntity saveTask (@RequestBody CalibrationTaskDTO taskDTO, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        System.out.print(taskDTO);
+    private ResponseEntity saveTask (@RequestBody CalibrationTaskDTO taskDTO,
+                                     @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            taskService.addNewTask(taskDTO.getTaskDate(), taskDTO.getSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getOrganizationId());
+            taskService.addNewTask(taskDTO.getTaskDate(), taskDTO.getSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);

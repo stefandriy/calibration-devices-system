@@ -163,6 +163,10 @@
   "REJECTED_TRASLATION":"Application rejected performer.",
 
 
+  "FILL_IN_INFORMATION_ABOUT_TEAM":"Fill information about disassembly team",
+  "TEAM_NUMBER":"Team ID",
+  "TEAM_NAME":"Team name",
+  "SPECIALIZATION":"Specialization",
   "DISASSEMBLY_TEAM":"Disassembly team",
   "DISASSEMBLY_TEAMS":"Disassembly teams",
   "ADD_TEAM":"Add team",

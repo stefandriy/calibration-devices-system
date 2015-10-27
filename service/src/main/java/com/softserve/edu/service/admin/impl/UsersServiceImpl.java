@@ -7,7 +7,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -28,7 +28,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UsersServiceImpl implements UserService  {
+public class UsersServiceImpl implements UsersService {
 
     @Autowired
     private MailService mail;
@@ -46,7 +46,7 @@ public class UsersServiceImpl implements UserService  {
      * database, else {@literal false}
      */
     @Override
-    public boolean existsWithUsername(String username) {
+    public boolean isExistsWithUsername(String username) {
         return userRepository.findOne(username) == null;
     }
 

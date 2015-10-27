@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
  * Modified by Nazariy Melnychuk on 17.08.2015
  */
 @RunWith(MockitoJUnitRunner.class)
-public class UserServiceImplTest {
+public class UsersServiceImplTest {
     @Mock
     private UserRepository userRepository;
 

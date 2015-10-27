@@ -2,6 +2,7 @@ package com.softserve.edu.entity.verification.calibration;
 
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,13 +17,13 @@ import java.util.Set;
 @Table(name = "CALIBRATION_TASK")
 @Getter
 @Setter
-@EqualsAndHashCode(of = "taskId")
+@EqualsAndHashCode(of = "Id")
 @NoArgsConstructor
 public class CalibrationTask {
 
     @Id
-    @GeneratedValue
-    private Long taskId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "moduleId")
@@ -37,18 +38,18 @@ public class CalibrationTask {
     private Date dateOfTask;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "calibratorId")
-    private Organization organization;
+    @JoinColumn(name = "username")
+    private User user;
 
     @OneToMany(mappedBy = "task")
     private Set<Verification> verifications;
 
-    public CalibrationTask(CalibrationModule module, String crewName, Date createTaskDate, Date dateOfTask, Organization organization, Set<Verification> verifications) {
+    public CalibrationTask(CalibrationModule module, String crewName, Date createTaskDate, Date dateOfTask, User user, Set<Verification> verifications) {
         this.module = module;
         this.crewName = crewName;
         this.createTaskDate = createTaskDate;
         this.dateOfTask = dateOfTask;
-        this.organization = organization;
+        this.user = user;
         this.verifications = verifications;
     }
 }

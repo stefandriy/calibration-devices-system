@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskService {
 
 
@@ -36,23 +36,19 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private VerificationPlanningTaskRepository planningTaskRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
-
-    @Autowired
     private CalibrationModuleRepository moduleRepository;
 
     @Autowired
-    private OrganizationRepository organizationRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private AdditionalInfoRepository additionalInfoRepository;
 
 
+    private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
     @Override
-    public void addNewTask(Date taskDate, String serialNumber, List<String> verificationsId, Long organizationId) {
+    public void addNewTask(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
         Set<Verification> verifications = new HashSet<>();
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
@@ -66,10 +62,10 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
         module.setWorkDate(taskDate);
+        module.setAvaliable(false);
         moduleRepository.save(module);
-        Organization organization = organizationRepository.findOne(organizationId);
-        CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, organization, verifications);
-        taskRepository.save(task);
+        User user = userRepository.findOne(userId);
+        taskRepository.save( new CalibrationTask(module, null, new Date(), taskDate, user, verifications));
     }
 
     @Override

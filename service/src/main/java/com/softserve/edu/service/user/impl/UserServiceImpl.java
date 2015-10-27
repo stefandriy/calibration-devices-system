@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +27,9 @@ public class UserServiceImpl implements UserService {
      * @param username must not be non {@literal null}
      * @return {@literal true} if user with {@code username} doesn't exist in database, else {@literal false}
      */
+    @Transactional
     @Override
-    public boolean existsWithUsername(String username) {
+    public boolean isExistsWithUsername(String username) {
         return userRepository.findOne(username) == null;
     }
 
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
      * @param typeOfField   type  of user's field
      * @return {@literal true} if changed, else - {@literal false}
      */
+    @Transactional
     @Override
     public boolean changeField(String username, String newValue, String typeOfField) {
         boolean isChanged = false;
@@ -83,6 +86,7 @@ public class UserServiceImpl implements UserService {
      * @return employee entity
      * @throws ClassCastException if username isn't a employee
      */
+    @Transactional
     @Override
     public User getUser(String username) throws ClassCastException {
         return userRepository.findOne(username);
@@ -96,6 +100,7 @@ public class UserServiceImpl implements UserService {
      * @param newPassword new password
      * @return {@literal true} if changed, if not or passwords don't match - {@literal false}
      */
+    @Transactional
     @Override
     public boolean changePassword(String username, String oldPassword, String newPassword) {
         boolean isChanged = false;
@@ -113,6 +118,7 @@ public class UserServiceImpl implements UserService {
         return isChanged;
     }
 
+    @Transactional
     @Override
     public List<User> findByRole(String role){
         return userRepository
@@ -121,19 +127,33 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public User findOne(String username) {
         return userRepository.findOne(username);
     }
 
+    @Transactional
     @Override
     public List<String> getRoles(String username) {
         return ConvertUserRoleToString.convertToListString(
                 userRepository.getRolesByUserName(username));
     }
 
+    @Transactional
     @Override
     public void updateUser(User user) {
         userRepository.save(user);
+    }
+
+    @Transactional
+    @Override
+    public void createSuperAdminIfNotExists(User user){
+        
+        if (isExistsWithUsername(user.getUsername()) && findByRole("SUPER_ADMIN").isEmpty()){
+
+            userRepository.save(user);
+
+        }
     }
 }

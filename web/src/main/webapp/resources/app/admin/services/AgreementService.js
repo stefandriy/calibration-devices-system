@@ -17,6 +17,9 @@ angular
             },
             disableAgreement: function (id) {
                 return getData("disable/" + id);
+            },
+            getEarliestAgreementDate: function() {
+                return getData('earliest_date');
             }
         };
 

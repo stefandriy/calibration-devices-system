@@ -18,14 +18,6 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
                 MailConfig.class};
     }
 
-//    @Override
-//    //TODO!!!
-//    public void onStartup(ServletContext servletContext) throws ServletException {
-//
-//        super.onStartup(servletContext);
-//        this.registerDispatcherServlet(servletContext);
-//    }
-
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{ServletContextConfig.class};

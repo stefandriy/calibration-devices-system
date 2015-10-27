@@ -3,9 +3,12 @@
         'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
         'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize', 'ngAnimate', 'toaster'])
 
-        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
+        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide', '$httpProvider',
 
-            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
+            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide, $httpProvider) {
+
+                $httpProvider.interceptors.push('responseObserver');
+
                 cfpLoadingBarProvider.includeSpinner = false;
                 cfpLoadingBarProvider.latencyThreshold = 500;
                 showErrorsConfigProvider.showSuccess(true);
@@ -253,9 +256,9 @@
         'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
         'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',
 
-        'calibrator/controllers/DisassemblyTeamAddModalController',
-        'calibrator/controllers/DisassemblyTeamEditModalController',
-        'calibrator/controllers/DisassemblyTeamControllerCalibrator',
+        'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
+        'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
+        'calibrator/controllers/catalogue/DisassemblyTeamControllerCalibrator',
 
         'calibrator/controllers/UploadBbiFileController',
         'calibrator/controllers/UploadArchiveController',
@@ -273,7 +276,7 @@
         'calibrator/services/VerificationServiceCalibrator',
         'calibrator/services/MeasuringEquipmentServiceCalibrator',
         'calibrator/controllers/PieCalibratorEmployee',
-
+        'calibrator/controllers/EditMainPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
@@ -300,7 +303,8 @@
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController'
+        'common/controllers/CommonController',
+        'common/services/ResponseObserver'
 
     ], function () {});
 })();

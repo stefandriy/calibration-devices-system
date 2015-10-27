@@ -11,6 +11,7 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.utils.EmployeeDTO;
 
@@ -67,9 +68,17 @@ public class CalibratorServiceImpl implements CalibratorService {
     @Override
     @Transactional
     public void uploadBbi(InputStream fileStream, String idVerification,
-                          Long installmentNumber, String originalFileFullName) throws IOException {
+                          Long installmentNumber, String originalFileFullName) throws IOException{
+        Optional<Verification> retrievedVerification = Optional.ofNullable(verificationRepository.findOne(idVerification));
+        Verification verification = retrievedVerification.get();
+        uploadBbi(fileStream, verification, installmentNumber, originalFileFullName);
+    }
+
+    @Override
+    @Transactional
+    public void uploadBbi(InputStream fileStream, Verification verification,
+                          Long installmentNumber, String originalFileFullName) throws IOException{
         String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
-        Verification verification = verificationRepository.findOne(idVerification);
         BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
         Set<BbiProtocol> bbiProtocolsOfVerification = verification.getBbiProtocols();
         bbiProtocolsOfVerification.add(bbiProtocol);
@@ -79,6 +88,7 @@ public class CalibratorServiceImpl implements CalibratorService {
         uploadBbiRepository.save(bbiProtocol);
         System.out.println("saved bbi!!!!111");
     }
+
 
     @Override
     @Transactional(readOnly = true)
