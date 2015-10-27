@@ -34,6 +34,8 @@ import static org.mockito.Mockito.*;
 @PrepareForTest(CalibratorPlaningTaskServiceImpl.class)
 public class CalibratorPlaningTaskServiceImplTest {
 
+    // region Mocks
+
     @Mock
     private CalibrationPlanningTaskRepository taskRepository;
 
@@ -61,10 +63,16 @@ public class CalibratorPlaningTaskServiceImplTest {
     @InjectMocks
     CalibratorPlaningTaskServiceImpl calibratorPlaningTaskService;
 
+    // endregion
+
     @Before
     public void setUp() throws Exception {
     }
 
+    /**
+     * Tests when verification == null
+     * @throws Exception
+     */
     @Test
     public void testAddNewTask() throws Exception {
         Date date = new Date(LocalDate.of(2015, 9, 20).toEpochDay());
@@ -84,6 +92,10 @@ public class CalibratorPlaningTaskServiceImplTest {
         verify(taskRepository).save(any(CalibrationTask.class));
     }
 
+    /**
+     * Tests when verification != null
+     * @throws Exception
+     */
     @Test
     public void test1AddNewTask() throws Exception {
         Date date = new Date(LocalDate.of(2015, 9, 20).toEpochDay());
@@ -107,6 +119,10 @@ public class CalibratorPlaningTaskServiceImplTest {
         verify(taskRepository).save(any(CalibrationTask.class));
     }
 
+    /**
+     * Tests when data is valid
+     * @throws Exception
+     */
     @Test
     public void testFindVerificationsByCalibratorEmployeeAndTaskStatusCount() throws Exception {
         String username = "john";
@@ -124,6 +140,10 @@ public class CalibratorPlaningTaskServiceImplTest {
         assertEquals(verifications.size(), actual);
     }
 
+    /**
+     * Tests when there is logger.error calling: Cannot found user!
+     * @throws Exception
+     */
     @Test
     public void test1FindVerificationsByCalibratorEmployeeAndTaskStatusCount() throws Exception {
         String username = "john";
@@ -149,6 +169,10 @@ public class CalibratorPlaningTaskServiceImplTest {
         assertEquals(false, actual);
     }
 
+    /**
+     * If findByTaskRepository in planningTaskRepository returns null
+     * @throws Exception
+     */
     @Test
     public void testFindByTaskStatus() throws Exception {
         when(planningTaskRepository.findByTaskStatus(any(Status.class), any(Pageable.class))).
@@ -158,6 +182,10 @@ public class CalibratorPlaningTaskServiceImplTest {
         assertEquals(null, actual);
     }
 
+    /**
+     * When the user can't be found in userRepository
+     * @throws Exception
+     */
     @Test
     public void testFindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
         String username = "john";
@@ -177,6 +205,10 @@ public class CalibratorPlaningTaskServiceImplTest {
         assertEquals(false, actual);
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void test1FindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
         String username = "john";
@@ -185,9 +217,14 @@ public class CalibratorPlaningTaskServiceImplTest {
         Page<Verification> actual =
                 calibratorPlaningTaskService.findVerificationsByCalibratorEmployeeAndTaskStatus(username, 5, 5);
 
-        assertTrue(actual == null);
+        verify(planningTaskRepository, atLeastOnce()).findByCalibratorEmployeeUsernameAndTaskStatus(
+                anyString(), any(Status.class), any(Pageable.class));
     }
 
+    /**
+     * Testing with UserRoleSet
+     * @throws Exception
+     */
     @Test
     public void test2FindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
         String username = "john";
