@@ -13,6 +13,8 @@ public interface CalibratorPlanningTaskService {
 
     void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId);
 
+    void addNewTaskForTeam (Date taskDate, String serialNumber, List<String> verificationsId, String userId);
+
     int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 
     Page<Verification> findByTaskStatus(int pageNumber,

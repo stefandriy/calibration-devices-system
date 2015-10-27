@@ -56,6 +56,19 @@ public class CalibratorPlanningTaskController {
         return new ResponseEntity(httpStatus);
     }
 
+    @RequestMapping(value = "/team/save", method = RequestMethod.POST)
+    private ResponseEntity saveTaskForTeam (@RequestBody CalibrationTaskDTO taskDTO,
+                                               @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            taskService.addNewTaskForTeam(taskDTO.getTaskDate(), taskDTO.getSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
     @RequestMapping(value = "findAll/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     private PageDTO<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndReadStatus (@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {

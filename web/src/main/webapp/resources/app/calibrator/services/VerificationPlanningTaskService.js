@@ -6,6 +6,9 @@ angular
            saveTask: function (task) {
               return save('task/save', task);
            },
+           saveTaskForTeam: function (task) {
+                return save('task/team/save', task);
+           },
            getVerificationsByCalibratorEmployeeAndTaskStatus: function (pageNumber, itemsPerPage) {
                 return getData('task/findAll/' + pageNumber + '/' + itemsPerPage);
            },
@@ -14,11 +17,7 @@ angular
            },
            getTeams: function (pickerDate, applicationFiled) {
                 return getAvailableTeams('task/findAllTeams/'  + pickerDate + '/' + applicationFiled);
-           },
-           //createExcelFileForVerifications: function (data) {
-           //     return createExcelFile ('task/createExcelFile/', data);
-           //}
-
+           }
         };
 
         function save (url, task) {
@@ -57,18 +56,5 @@ angular
                     return err;
                 });
         }
-
-        //function createExcelFile (url, data) {
-        //    return $http.put (url, data)
-        //        .success(function (data) {
-        //            return data;
-        //        }).error(function (err) {
-        //            return err;
-        //        });
-        //}
-
-
-
-
 
     }]);

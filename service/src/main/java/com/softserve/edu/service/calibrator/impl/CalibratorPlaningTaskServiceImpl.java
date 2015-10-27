@@ -39,6 +39,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private UserRepository userRepository;
 
     @Autowired
+    private CalibrationDisassemblyTeamRepository teamRepository;
+
+    @Autowired
     private AdditionalInfoRepository additionalInfoRepository;
 
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
@@ -61,7 +64,28 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         module.setAvaliable(false);
         moduleRepository.save(module);
         User user = userRepository.findOne(userId);
-        taskRepository.save( new CalibrationTask(module, null, new Date(), taskDate, user, verifications));
+        taskRepository.save(new CalibrationTask(module, null, new Date(), taskDate, user, verifications));
+    }
+
+    @Override
+    public void addNewTaskForTeam(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
+        Set<Verification> verifications = new HashSet<>();
+        for (String verifID : verificationsId) {
+            Verification verification = verificationRepository.findOne(verifID);
+            if (verification == null) {
+                logger.error("verification haven't found");
+            } else {
+                verification.setTaskStatus(Status.TASK_PLANED);
+                verificationRepository.save(verification);
+                verifications.add(verification);
+            }
+        }
+        DisassemblyTeam team = teamRepository.findOne(serialNumber);
+        team.setEffectiveTo(taskDate);
+        team.setAvaliable(false);
+        teamRepository.save(team);
+        User user = userRepository.findOne(userId);
+        taskRepository.save(new CalibrationTask(null, team, new Date(), taskDate, user, verifications));
     }
 
     @Override

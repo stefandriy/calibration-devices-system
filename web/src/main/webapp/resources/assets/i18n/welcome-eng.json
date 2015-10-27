@@ -101,6 +101,8 @@
   "SUCCESSFUL_CREATED_ORGANIZATION":"Organization have been created",
   "SUCCESSFUL_EDITED_ORGANIZATION":"Organization have been changed",
   "SUCCESSFUL_CREATED_ADMIN":"Admin have been created",
+  "SUCCESSFUL_EDITED_ADMIN" :"Admin have been edited",
+  "SUCCESSFUL_DELETED_ADMIN" :"Admin have been deleted",
 
   "ACCOUNT_INFORMATION":"Account information",
   "GENERAL_INFORMATION":"General information",
@@ -425,6 +427,8 @@
   "APPLICATION_FIELD": "Application field",
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
   "ALL_SYS_ADMINS" : "Amount of system admins :",
+  "SUBMIT_DELETE_SYS_ADMIN" : "Submit delete system admin with login",
+  "Are_YOU_SURE" : "Are you sure?",
   "COUNTER_STATUS" : "Counter status",
   "CREATE_TASK_FOR_TEAM" : "Task for team"
 }
