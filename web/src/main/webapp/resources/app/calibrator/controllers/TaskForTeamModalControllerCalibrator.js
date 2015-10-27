@@ -101,17 +101,18 @@ angular
             }
 
             $scope.showSendingMessage = false;
+
             $scope.save = function (){
                 if ($rootScope.emptyStatus == true) {
                     $scope.showSendingMessage = true;
                 } else {
                     var calibrationTask = {
                         "taskDate": $scope.calibrationTask.taskDate,
-                        "serialNumber": $scope.calibrationTask.installationNumber,
+                        "serialNumber": $scope.calibrationTask.mountingCrew.teamNumber,
                         "verificationsId": $rootScope.verifIds
                     };
                     console.log(calibrationTask);
-                    verificationPlanningTaskService.saveTask(calibrationTask).
+                    verificationPlanningTaskService.saveTaskForTeam(calibrationTask).
                         then(function (data) {
                             if (data.status == 200) {
                                 $scope.closeModal();
