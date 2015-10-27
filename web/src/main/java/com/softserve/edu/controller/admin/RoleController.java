@@ -17,7 +17,6 @@ public class RoleController {
     @Autowired
     private UsersService usersService;
 
-
     @RequestMapping(value = "is_super_admin/", method = RequestMethod.GET)
     public Boolean isSuperAdmin(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
