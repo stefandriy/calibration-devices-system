@@ -54,8 +54,6 @@ public class DocumentsServiceImplTest {
     @Mock
     private CalibrationTest calibrationTest;
     @Mock
-    private CalibrationTest calibrationTest2;
-    @Mock
     private Document document;
     private DocumentType documentType;
     private FileFormat fileFormat;
@@ -142,7 +140,6 @@ public class DocumentsServiceImplTest {
     @Test
     public void testBuildFileWithoutCalibrationTestWithoutAssignedCalibrationTests() throws Exception {
         calibrationTestSet = new LinkedHashSet<>();
-        //calibrationTestSet.add(calibrationTest);
         when(verification.getCalibrationTests()).thenReturn(calibrationTestSet);
         thrown.expect(IllegalStateException.class);
         thrown.expectMessage(Verification.class.getSimpleName() + " with id " +
@@ -154,7 +151,7 @@ public class DocumentsServiceImplTest {
     public void testBuildFileWithoutCalibrationTestWithTooMuchCalibrationTests() throws Exception {
         calibrationTestSet = new LinkedHashSet<>();
         calibrationTestSet.add(calibrationTest);
-        calibrationTestSet.add(calibrationTest2);
+        calibrationTestSet.add(new CalibrationTest());
         when(verification.getCalibrationTests()).thenReturn(calibrationTestSet);
         thrown.expect(IllegalStateException.class);
         thrown.expectMessage(Verification.class.getSimpleName() + " with id " +
