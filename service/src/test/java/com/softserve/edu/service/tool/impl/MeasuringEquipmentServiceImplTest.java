@@ -61,6 +61,7 @@ public class MeasuringEquipmentServiceImplTest {
 
     @Test
     public void testGetMeasuringEquipmentsBySearchAndPagination() {
+
         measuringEquipmentServiceImpl.getMeasuringEquipmentsBySearchAndPagination(2,5,null);
         verify(measuringEquipmentRepository).findAll(any(PageRequest.class));
 
@@ -90,9 +91,16 @@ public class MeasuringEquipmentServiceImplTest {
     }
 
     @Test
-    public void testEditMeasuringEquipment()  {
-           measuringEquipmentServiceImpl.editMeasuringEquipment(1L,"name 1","deviceType 1","manufacturer 1","verificationInterval 1");
-           verify(measuringEquipmentServiceImpl, times(1)).editMeasuringEquipment(1L,"name 1","deviceType 1","manufacturer 1","verificationInterval 1");
+    public void testEditMeasuringEquipment() {
+        boolean result;
+        try {
+            measuringEquipmentServiceImpl.editMeasuringEquipment(1L, "name 1", "deviceType 1", "manufacturer 1", "verificationInterval 1");
+            result = true;
+        } catch (Exception ex) {
+            result = false;
+        }
+        assertEquals(true, result);
+
     }
 
     @Test
