@@ -99,6 +99,12 @@ angular
                     url: '/403',
                     templateUrl: '/resources/app/admin/views/403.html'
                 })
+                .state(
+                '404',
+                {
+                    url: '/404',
+                    templateUrl: '/resources/app/admin/views/404.html'
+                });
             /*
              Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
              When translation of page will end, items of select (on the scope) will be changed too.

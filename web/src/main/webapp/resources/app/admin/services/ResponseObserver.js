@@ -10,9 +10,6 @@ angular
                 case 404:
                     $window.location = '/admin#/404';
                     break;
-                case 500:
-                    $window.location = '/admin#/500';
-                    break;
             }
             return $q.reject(errorResponse);
         }
