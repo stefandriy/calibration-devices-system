@@ -48,10 +48,7 @@ public class ArchivalOrganizationsQueryConstructorAdminTest {
     @Mock
     private Predicate predicate;
 
-    @Mock
-    private Answer<Integer> answer;
-
-
+  
     private String name, email, phone, type, region, district, locality, streetToSearch;
 
     private String sortCriteria ;
