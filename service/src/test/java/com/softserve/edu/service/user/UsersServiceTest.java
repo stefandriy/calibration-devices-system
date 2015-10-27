@@ -20,7 +20,7 @@ import java.util.List;
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceTestingConfig.class})
-public class UserServiceTest {
+public class UsersServiceTest {
 
     @Autowired
     UserService userService;

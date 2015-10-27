@@ -5,7 +5,7 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UserFilterSearch;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -23,7 +21,7 @@ import java.util.stream.Collectors;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UsersService usersService;
 
     Logger logger = Logger.getLogger(UserController.class);
 
@@ -38,7 +36,7 @@ public class UserController {
     public Boolean isValidUsername(@PathVariable String username) {
         boolean isAvailable = false;
         if (username != null) {
-            isAvailable = userService.existsWithUsername(username);
+            isAvailable = usersService.isExistsWithUsername(username);
         }
         return isAvailable;
     }
@@ -63,10 +61,10 @@ public class UserController {
             UserFilterSearch search,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        ListToPageTransformer<User> queryResult = userService.findPageOfAllEmployees(
+        ListToPageTransformer<User> queryResult = usersService.findPageOfAllEmployees(
                 pageNumber, itemsPerPage, search.getUsername(), search.getRole(), search.getFirstName(), search.getLastName(), search.getOrganization(),
                 search.getPhone(), sortCriteria, sortOrder);
-        List<UsersPageItem> resultList = UserDTOTransformer.toDTOFromListEmployee(queryResult, userService);
+        List<UsersPageItem> resultList = UserDTOTransformer.toDTOFromListEmployee(queryResult, usersService);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
 
