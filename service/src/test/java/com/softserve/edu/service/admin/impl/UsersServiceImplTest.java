@@ -1,22 +1,26 @@
 package com.softserve.edu.service.admin.impl;
 
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
+
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.mockito.*;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.*;
+import java.lang.String;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
