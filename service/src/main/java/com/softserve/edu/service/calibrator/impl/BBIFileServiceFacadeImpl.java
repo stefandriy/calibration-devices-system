@@ -32,9 +32,6 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     @Autowired
     private CalibratorService calibratorService;
 
-    @Autowired
-    private VerificationRepository verificationRepository;
-
     @Override
     public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException {
         DeviceTestData deviceTestData;
