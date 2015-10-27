@@ -4,21 +4,19 @@ import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
-import java.util.*;
-import java.lang.String;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -34,6 +32,7 @@ public class UsersServiceImplTest {
     private final String username = "admin";
     private long expectedGetCountOfVerifications;
     private boolean expectedExistsWithUsername;
+    private User user;
 
     @Mock
     private UserRepository userRepository;
@@ -50,6 +49,8 @@ public class UsersServiceImplTest {
         MockitoAnnotations.initMocks(this);
         expectedGetCountOfVerifications = 0L;
         expectedExistsWithUsername = false;
+        user = spy(User.class);
+
     }
 
     @After
@@ -75,10 +76,46 @@ public class UsersServiceImplTest {
         Assert.assertEquals(actual,strList);
 
         verify(userRepository).getRolesByUserName(anyString());
+    }
 
+/*    @Test
+    public void testFindPageOfAllEmployees() {
+        int pageNumber = 1;
+        int itemsPerPage = 10;
+        String userName = "username";
+        String role = "Role";
+        String firstName = "firstName";
+        String lastName = "lastName";
+        String organization = "organization";
+        String telephone = "+38050000501";
+        String sortCriteria = "";
+        String sortOrder = "asc";
+        ListToPageTransformer<User> actual = usersServiceImpl.findPageOfAllEmployees(pageNumber, itemsPerPage, userName,
+                role, firstName, lastName, organization, telephone, sortCriteria, sortOrder);
+    }*/
+
+    @Test
+    public void testDeleteSysAdmin() {
+        usersServiceImpl.deleteSysAdmin(username);
+        verify(userRepository).delete(username);
     }
 
     @Test
+    public void testCountOfVerifications() {
+        long actual = usersServiceImpl.countVerifications(user);
+        verify(user, times(1)).getUsername();
+        //assertEquals(actual, expectedCountOfVerifications);
+    }
+
+    @Test
+    public void testFindOne() {
+        stub(userRepository.findOne(username)).toReturn(user);
+        User actual = usersServiceImpl.findOne(username);
+        verify(userRepository, times(1)).findOne(username);
+        assertEquals(actual, user);
+    }
+
+    /*@Test
     public void testAddEmployee() {
         final String name = "admin";
         final String password = "pass";
@@ -94,11 +131,5 @@ public class UsersServiceImplTest {
 
         Assert.assertEquals(finalUsersEmployee.getPassword(),
                 passwordEncodedArg.getValue());
-    }
-
-    @Test
-    public void testGetCountOfVerifications() {
-        long actual = usersServiceImpl.getCountOfVerifications(organizationId, username);
-        assertEquals(actual, expectedGetCountOfVerifications);
-    }
+    }*/
 }
