@@ -51,6 +51,16 @@ angular
                                         $scope.fileName = config.file.name;
                                         $scope.messageSuccess = 'Ви успішно завантажили файл ' + config.file.name;
                                         console.log('uploadBbiController: ' + $scope.fileName);
+                                        $scope.uploadedBBIOutcomes = data;
+                                        var isSuccessful = function(obj){
+                                            return obj.success ? true : false;
+                                        };
+                                        var isNotSuccessful = function(obj){
+                                            return !obj.success;
+                                        };
+                                        $scope.unsuccessfulBBIs = data.filter(isNotSuccessful).length;
+                                        $scope.successfulBBIs = data.filter(isSuccessful).length;
+                                        $scope.totalBBIs = $scope.uploadedBBIOutcomes.length;
                                     } else {
                                         $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
                                         $scope.progressPercentage = parseInt(0);

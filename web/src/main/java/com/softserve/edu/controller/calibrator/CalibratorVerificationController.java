@@ -18,7 +18,7 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
@@ -27,6 +27,7 @@ import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.service.utils.BBIOutcomeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
 
@@ -75,7 +76,7 @@ public class CalibratorVerificationController {
     OrganizationService organizationService;
 
     @Autowired
-    UserService userService;
+    UsersService usersService;
 
     @Autowired
     BbiFileService bbiFileService;
@@ -262,24 +263,26 @@ public class CalibratorVerificationController {
         return responseEntity;
     }
 
-
+    /**
+     * Receives archive with BBI files and DB file, calls appropriate services
+     * and returns the outcomes of parsing back to the client.
+     * @param file Archive with BBIs and DBF
+     * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
+     */
     @RequestMapping(value = "new/upload-archive", method = RequestMethod.POST)
-    public ResponseEntity<String> uploadFileArchive(@RequestBody MultipartFile file) {
-        ResponseEntity<String> httpStatus = new ResponseEntity(HttpStatus.OK);
+    public @ResponseBody
+    List<BBIOutcomeDTO> uploadFileArchive(@RequestBody MultipartFile file) {
+        List<BBIOutcomeDTO> bbiOutcomeDTOList = null;
         try {
             String originalFileFullName = file.getOriginalFilename();
             String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
             if (Pattern.compile(archiveExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                bbiFileServiceFacade.parseAndSaveArchiveOfBBIfiles(file, originalFileFullName);
-            } else {
-                logger.error("Failed to load file ");
-                httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
+                bbiOutcomeDTOList = bbiFileServiceFacade.parseAndSaveArchiveOfBBIfiles(file, originalFileFullName);
             }
         } catch (Exception e) {
             logger.error("Failed to load file " + e.getMessage());
-            httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        return httpStatus;
+        return bbiOutcomeDTOList;
     }
 
 
@@ -404,7 +407,7 @@ public class CalibratorVerificationController {
      */
     @RequestMapping(value = "calibrator/role", method = RequestMethod.GET)
     public Boolean isEmployeeCalibrator(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        User checkedUser = userService.findOne(user.getUsername());
+        User checkedUser = usersService.findOne(user.getUsername());
         return checkedUser.getUserRoles().contains(UserRole.CALIBRATOR_EMPLOYEE);
     }
 
@@ -420,7 +423,7 @@ public class CalibratorVerificationController {
     public List<com.softserve.edu.service.utils.EmployeeDTO> employeeVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = calibratorEmployeeService.oneCalibratorEmployee(user.getUsername());
-        List<String> role = userService.getRoles(user.getUsername());
+        List<String> role = usersService.getRoles(user.getUsername());
         return calibratorEmployeeService
                 .getAllCalibrators(role, employee);
     }

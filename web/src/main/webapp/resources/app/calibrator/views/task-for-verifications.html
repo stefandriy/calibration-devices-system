@@ -56,10 +56,21 @@
                                     <td data-title="'CLIENT_ADDRESS' | translate"
                                         filter="{ 'address': 'text' }">{{ verification.address }}
                                     </td>
+                                    <td data-title="'COUNTER_STATUS' | translate"
+                                        filter="{ 'quantity': 'text' }">{{ verification.counterStatus }}
+                                    </td>
                                     <td data-title="'TELEPHONE' | translate"
                                         filter="{ 'quantity': 'text' }">{{ verification.telephone }}
                                     </td>
+                                    <td data-title="'ACTIONS' | translate" style="width: 15%">
 
+                                        <div style="width: auto; text-align: center;">
+                                           <span style="color: #1a531b" popover="Iнформація про лічильник"
+                                                  popover-trigger="mouseenter"
+                                                  ng-click="openCounterInfoModal(verification.verficationId)">
+                                                <i class="fa fa-info-circle"></i>
+                                           </span>
+                                        </div>
                                 </tr>
                                 </tbody>
 
@@ -121,21 +132,17 @@
 
                             <div class="pull-left">
                                 <button type="button" class="btn btn-primary"
-                                        ng-click="openTask()"><span class="glyphicon glyphicon-send"></span>
-                                        {{'CREATE_TASK' | translate}}
+                                        ng-click="openTaskForStation()"><span class="glyphicon glyphicon-send"></span>
+                                        {{'CREATE_TASK_FOR_STATION' | translate}}
                                 </button>
                             </div>
 
-                            <!--<div class="pull-right">-->
-                                <!--<button type="button" class="btn btn-primary"-->
-                                        <!--ng-click="createExcelFile()"><span class="glyphicon glyphicon-send"></span>-->
-                                    <!--Створити ексель документ-->
-                                <!--</button>-->
-
-                                <!--<a href="" id="dawnloadFile" download>Скачати файл ексель</a>-->
-                            <!--</div>-->
-
-
+                            <div class="pull-left" style="margin-left: 20px;">
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="openTaskForTeam()"><span class="glyphicon glyphicon-send"></span>
+                                    {{'CREATE_TASK_FOR_TEAM' | translate}}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator;
 
+import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.verification.Verification;
 import org.springframework.data.domain.Page;
 
@@ -10,7 +11,9 @@ import java.util.List;
 
 public interface CalibratorPlanningTaskService {
 
-    void addNewTask(Date taskDate, String serialNumber, List<String> verificationsId, Long organizationId);
+    void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId);
+
+    void addNewTaskForTeam (Date taskDate, String serialNumber, List<String> verificationsId, String userId);
 
     int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 
@@ -19,5 +22,5 @@ public interface CalibratorPlanningTaskService {
 
     Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
                                                                                      int itemsPerPage);
-//    String createExcelFileFromVerifications(String [] verificationsId) throws IOException;
+
 }

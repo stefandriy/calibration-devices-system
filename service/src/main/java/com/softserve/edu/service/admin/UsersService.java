@@ -7,9 +7,9 @@ import com.softserve.edu.service.utils.ListToPageTransformer;
 import java.util.List;
 import java.util.Set;
 
-public interface UserService {
+public interface UsersService {
 
-    boolean existsWithUsername(String username);
+    boolean isExistsWithUsername(String username);
 
     List<String> getRoles(String username);
 
