@@ -168,7 +168,12 @@
 
   "FILL_IN_INFORMATION_ABOUT_TEAM":"Заповніть інформацію про бригаду",
   "TEAM_NUMBER":"ID бригади",
+  "INCORRECT_VALUE_TEAM_NUMBER":"Некоректне значення ID бригади. Приклад: ",
   "TEAM_NAME":"Назва бригади",
+  "INCORRECT_VALUE_NAME_ADD_TEAM":"Некоректне значення імені бригади. Приклад: ",
+  "INCORRECT_VALUE_LEADER_FULL_NAME_ADD_TEAM":"Некоректне значення повного імені бригадира. Приклад: ",
+  "INCORRECT_VALUE_PHONE_ADD_TEAM":"Некоректне значення номера телефона бригадира. Приклад: 956111105",
+  "INCORRECT_VALUE_EMAIL_ADD_TEAM":"Некоректне значення електронної пошти бригадира. Приклад: teamLeader@gmail.com",
   "SPECIALIZATION":"Спеціалізація",
   "DISASSEMBLY_TEAM":"Демонтажна бригада",
   "DISASSEMBLY_TEAMS":"Демонтажна бригади",

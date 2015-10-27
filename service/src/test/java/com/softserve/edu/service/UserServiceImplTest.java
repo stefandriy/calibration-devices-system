@@ -13,10 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Created by Volodya NT on 12.08.2015.
- * Modified by Nazariy Melnychuk on 17.08.2015
- */
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {
     @Mock
