@@ -65,6 +65,7 @@ angular
                 });
             };
 
+
            // $scope.dawnloadFile = {
            //     url: null
            // }

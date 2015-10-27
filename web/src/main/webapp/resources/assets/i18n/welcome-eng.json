@@ -424,5 +424,6 @@
   "CHOOSE_MOUNTING_CREW" : "Choose mounting crew",
   "APPLICATION_FIELD": "Application field",
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
-  "ALL_SYS_ADMINS" : "Amount of system admins :"
+  "ALL_SYS_ADMINS" : "Amount of system admins :",
+  "COUNTER_STATUS" : "Counter status"
 }
