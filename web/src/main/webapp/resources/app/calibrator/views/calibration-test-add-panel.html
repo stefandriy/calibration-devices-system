@@ -322,7 +322,7 @@
                     </tr>
                     <tr>
                         <td ng-repeat="testData in TestDataFormData" ng-show="testData.dataAvailable" class="image-td">
-                                <img ng-show="testData.dataAvailable" id="{{ 'endPhoto' + $index }}"  ng-click="showEditMainPhotoModal( 'beginPhoto' + $index )"
+                                <img ng-show="testData.dataAvailable" id="{{ 'endPhoto' + $index }}"  ng-click="showEditMainPhotoModal( 'endPhoto' + $index )"
                                      style="width: 200px; height: 200px;" data-ng-src="data:image/png;base64,{{testData.endPhoto}}" width="100%" height="100%">
                         </td>
                     </tr>
