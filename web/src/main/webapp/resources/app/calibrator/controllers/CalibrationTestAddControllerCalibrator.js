@@ -58,7 +58,7 @@ angular
                     size: 'md',
                     resolve: {
                         photo: function() {
-                            return $scope.TestForm.testPhoto;
+                            return document.getElementById(id).src;
                         },
                         photoId: function() {
                             return id;
