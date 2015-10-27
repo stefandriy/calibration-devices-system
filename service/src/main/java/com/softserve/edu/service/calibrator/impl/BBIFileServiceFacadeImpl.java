@@ -32,9 +32,6 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     @Autowired
     private CalibratorService calibratorService;
 
-    @Autowired
-    private VerificationRepository verificationRepository;
-
     @Override
     public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException {
         DeviceTestData deviceTestData;
@@ -75,6 +72,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         Map<String, String> bbiFileNamesToVerificationMap = getBBIfileNamesToVerificationMap(directoryWithUnpackedFiles);
         List<File> listOfBBIfiles = new ArrayList<>(FileUtils.listFiles(directoryWithUnpackedFiles, bbiExtensions, true));
         List<BBIOutcomeDTO> resultsOfBBIProcessing = processListOfBBIFiles(bbiFileNamesToVerificationMap, listOfBBIfiles);
+        FileUtils.forceDelete(directoryWithUnpackedFiles);
         return resultsOfBBIProcessing;
     }
 
@@ -111,7 +109,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
      * @throws ZipException
      */
     private File unpackArchive(InputStream inputStream, String originalFileName) throws IOException, ZipException {
-        String randomDirectoryName = RandomStringUtils.random(8);
+        String randomDirectoryName = RandomStringUtils.randomAlphanumeric(8);
         File directoryForUnpacking = FileUtils.getFile(FileUtils.getTempDirectoryPath(), randomDirectoryName);
         FileUtils.forceMkdir(directoryForUnpacking);
         File zipFileDownloaded = FileUtils.getFile(FileUtils.getTempDirectoryPath(), originalFileName);
@@ -122,6 +120,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
         ZipFile zipFile = new ZipFile(zipFileDownloaded);
         zipFile.extractAll(directoryForUnpacking.toString());
+        FileUtils.forceDelete(zipFileDownloaded);
         return directoryForUnpacking;
     }
 

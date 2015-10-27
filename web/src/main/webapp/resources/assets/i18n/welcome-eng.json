@@ -382,7 +382,7 @@
   "TELEPHONE" : "Telephone",
   "TASK" : "Planning task",
   "SEND" : "Send",
-  "CREATE_TASK" : "Create task",
+  "CREATE_TASK_FOR_STATION" : "Task for stations",
   "INFORMATION" : "Recent information",
 
   "ORGANIZATION_SERVICE_AREA" : "Organization service area",
@@ -428,5 +428,7 @@
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
   "ALL_SYS_ADMINS" : "Amount of system admins :",
   "SUBMIT_DELETE_SYS_ADMIN" : "Submit delete system admin with login",
-  "Are_YOU_SURE" : "Are you sure?"
+  "Are_YOU_SURE" : "Are you sure?",
+  "COUNTER_STATUS" : "Counter status",
+  "CREATE_TASK_FOR_TEAM" : "Task for team"
 }

@@ -3,17 +3,21 @@ package com.softserve.edu.controller.calibrator;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.CalibrationTaskDTO;
+import com.softserve.edu.dto.calibrator.TeamDTO;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 //import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.calibrator.CalibrationModuleService;
+import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
+import com.softserve.edu.service.calibrator.impl.CalibrationDisassemblyTeamServiceImpl;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/task/")
@@ -34,15 +37,31 @@ public class CalibratorPlanningTaskController {
     @Autowired
     private CalibrationModuleService moduleService;
 
+    @Autowired
+    private CalibratorDisassemblyTeamService teamService;
+
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    private ResponseEntity saveTask (@RequestBody CalibrationTaskDTO taskDTO,
+    private ResponseEntity saveTaskForStation (@RequestBody CalibrationTaskDTO taskDTO,
                                      @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            taskService.addNewTask(taskDTO.getTaskDate(), taskDTO.getSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
+            taskService.addNewTaskForStation(taskDTO.getTaskDate(), taskDTO.getSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
+    @RequestMapping(value = "/team/save", method = RequestMethod.POST)
+    private ResponseEntity saveTaskForTeam (@RequestBody CalibrationTaskDTO taskDTO,
+                                               @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            taskService.addNewTaskForTeam(taskDTO.getTaskDate(), taskDTO.getSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
@@ -66,15 +85,16 @@ public class CalibratorPlanningTaskController {
         return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, applicationFiled, employeeUser.getUsername());
     }
 
-//    @RequestMapping(value = "/createExcelFile", method = RequestMethod.PUT)
-//    public String createExcelFileForSelectedVerifications(@RequestBody String [] verificationsId){
-//        String fileName = null;
-//        try {
-//            fileName = taskService.createExcelFileFromVerifications(verificationsId);
-//        } catch (Exception e) {
-//            logger.error("FILE CAN NOT BE SAVED!" + e);
-//        }
-//        return fileName;
-//    }
+    @RequestMapping(value = "findAllTeams/{workDate}/{applicationFiled}", method = RequestMethod.GET)
+    public List<TeamDTO> findAvailableTeams(@PathVariable Date workDate, @PathVariable String applicationFiled,
+                                                    @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
+        List<DisassemblyTeam> teams = teamService.findAllAvaliableTeams(workDate, applicationFiled, employeeUser.getUsername());
+        List<TeamDTO> teamDTOs = new ArrayList<>();
+        for (DisassemblyTeam team : teams) {
+            teamDTOs.add(new TeamDTO(team.getName(), team.getId()));
+        }
+        return teamDTOs;
+    }
+
 
 }

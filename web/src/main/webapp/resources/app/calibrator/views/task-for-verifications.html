@@ -56,10 +56,12 @@
                                     <td data-title="'CLIENT_ADDRESS' | translate"
                                         filter="{ 'address': 'text' }">{{ verification.address }}
                                     </td>
+                                    <td data-title="'COUNTER_STATUS' | translate"
+                                        filter="{ 'quantity': 'text' }">{{ verification.counterStatus }}
+                                    </td>
                                     <td data-title="'TELEPHONE' | translate"
                                         filter="{ 'quantity': 'text' }">{{ verification.telephone }}
                                     </td>
-
                                 </tr>
                                 </tbody>
 
@@ -121,8 +123,15 @@
 
                             <div class="pull-left">
                                 <button type="button" class="btn btn-primary"
-                                        ng-click="openTask()"><span class="glyphicon glyphicon-send"></span>
-                                        {{'CREATE_TASK' | translate}}
+                                        ng-click="openTaskForStation()"><span class="glyphicon glyphicon-send"></span>
+                                        {{'CREATE_TASK_FOR_STATION' | translate}}
+                                </button>
+                            </div>
+
+                            <div class="pull-left" style="margin-left: 20px;">
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="openTaskForTeam()"><span class="glyphicon glyphicon-send"></span>
+                                    {{'CREATE_TASK_FOR_TEAM' | translate}}
                                 </button>
                             </div>
 

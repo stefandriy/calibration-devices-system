@@ -49,7 +49,7 @@ angular
             }
 
 
-            $scope.openTask = function(){
+            $scope.openTaskForStation = function(){
                 $rootScope.verifIds = [];
                 for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
                     $rootScope.verifIds[i] = $scope.idsOfVerifications[i];
@@ -57,39 +57,29 @@ angular
                 $rootScope.emptyStatus = $scope.allIsEmpty;
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
-                    controller: 'TaskSendingModalControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                    controller: 'TaskForStationModalControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskForStationModal.html'
                 });
                 $scope.$modalInstance.result.then(function () {
                     $scope.tableParams.reload();
                 });
             };
 
-           // $scope.dawnloadFile = {
-           //     url: null
-           // }
-           //$scope.createExcelFile = function (){
-           //    verificationPlanningTaskService.createExcelFileForVerifications($scope.idsOfVerifications)
-           //        .then(function (result) {
-           //            $log.debug('result ', result);
-           //            if (result.status == 200){
-           //                $log.debug(result.data);
-           //                $scope.dawnloadFile.url = "/"+ result.data;
-           //                $("#downloadFile").attr("href", $scope.dawnloadFile.url);
-           //                $log.debug($scope.dawnloadFile.url);
-           //                $modal.open({
-           //                    animation: true,
-           //                    templateUrl: '/resources/app/calibrator/views/modals/create-excelfile-success.html',
-           //                    controllerAs: 'successController',
-           //                    size: 'md'
-           //                });
-           //            }
-           //        }, function (result) {
-           //            $log.debug('error fetching data:', result);
-           //        });
-           //}
-
-
+            $scope.openTaskForTeam = function(){
+                $rootScope.verifIds = [];
+                for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
+                    $rootScope.verifIds[i] = $scope.idsOfVerifications[i];
+                }
+                $rootScope.emptyStatus = $scope.allIsEmpty;
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'TaskForTeamModalControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskForTeamModal.html'
+                });
+                $scope.$modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                });
+            };
 
         }]);
 
