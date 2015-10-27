@@ -5,6 +5,7 @@ import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
@@ -26,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.imageio.ImageIO;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,8 +35,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @PrepareForTest({IOUtils.class, ImageIO.class})
@@ -172,29 +173,19 @@ public class CalibrationTestServiceImplTest {
         assertEquals(listCalibrationTestData, calibrationTestDataList.getListTestData());
     }
 
-    /*@Test
+    @Test
     public void testUploadPhotos() throws Exception {
-        String fileName = "test/photo.jpg";
-//        CalibrationTest test = new CalibrationTest();
-//        CalibrationTestIMG testIMG = new CalibrationTestIMG(test, fileName);
-//        mock(InputStream.class);
-        byte [] bytesOfImages = {1, 2, 3, 4, 5};
-        BufferedImage bufferedImage = mock(BufferedImage.class);
+        String fileName = "./src/test/resources/photo/logo.jpg";
         CalibrationTest calibrationTest = mock(CalibrationTest.class);
-
-        InputStream file = PowerMockito.mock(InputStream.class);
-        PowerMockito.mockStatic(IOUtils.class);
-        PowerMockito.when(IOUtils.toByteArray(file)).thenReturn(bytesOfImages);
-        PowerMockito.mockStatic(ImageIO.class);
-//        PowerMockito.when(ImageIO.read(any(ByteArrayInputStream.class))).thenReturn(bufferedImage);
-        PowerMockito.when(ImageIO.write(bufferedImage, anyString(), any(File.class))).thenReturn(true);
+        InputStream file = new FileInputStream("./src/test/resources/photo/logo.jpg");
+        CalibrationTestIMG testIMG = new CalibrationTestIMG(calibrationTest, fileName);
 
         stub(testRepository.findOne(testId)).toReturn(calibrationTest);
 
         calibrationTestService.uploadPhotos(file, testId, fileName);
 
-//        verify(testIMGRepository).save(testIMG);
-    }*/
+        verify(testIMGRepository).save(testIMG);
+    }
 
     @Test
     public void testCreateEmptyTest() throws Exception {
