@@ -7,6 +7,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,6 +18,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,7 +26,9 @@ import static org.mockito.Mockito.when;
 /**
  * Created by My on 10/26/2015.
  */
-@RunWith(MockitoJUnitRunner.class)
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(ArchivalOrganizationsQueryConstructorAdmin.class)
 public class ArchivalOrganizationsQueryConstructorAdminTest {
     @Mock
     private EntityManager entityManager;
@@ -67,10 +73,13 @@ public class ArchivalOrganizationsQueryConstructorAdminTest {
     }
 
     @Before
-    public void setUp(){
+    public void setUp() throws Exception{
+        ArchivalOrganizationsQueryConstructorAdmin archivalOrganizations=PowerMockito.spy(new ArchivalOrganizationsQueryConstructorAdmin());
         when(entityManager.getCriteriaBuilder()).thenReturn(criteriaBuilde);
         when(criteriaBuilde.createQuery(Organization.class)).thenReturn(criteriaQuery);
         when(criteriaQuery.from(Organization.class)).thenReturn(root);
+        PowerMockito.when(archivalOrganizations, "buildPredicate"
+                ,name,email,phone,type,region,district,locality,streetToSearch,root,criteriaBuilde).thenReturn(predicate);
     }
 
 
