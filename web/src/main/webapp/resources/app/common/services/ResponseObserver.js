@@ -4,9 +4,9 @@ angular
         return {
             'responseError': function(errorResponse) {
                 switch (errorResponse.status) {
-                    case 403:
-                        $window.location = './403.html';
-                        break;
+                    //case 403:
+                    //    $window.location = './403.html';
+                    //    break;
                     case 404:
                         $window.location = './404.html';
                         break;

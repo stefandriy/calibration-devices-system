@@ -12,6 +12,9 @@ angular
            getModuls: function (place, pickerDate, applicationFiled) {
                 return getAvailableModules('task/findAllModules/' + place + '/' + pickerDate + '/' + applicationFiled);
            },
+           getTeams: function (pickerDate, applicationFiled) {
+                return getAvailableTeams('task/findAllTeams/'  + pickerDate + '/' + applicationFiled);
+           },
            //createExcelFileForVerifications: function (data) {
            //     return createExcelFile ('task/createExcelFile/', data);
            //}
@@ -44,6 +47,15 @@ angular
             }).error(function (err) {
                     return err;
             });
+        }
+
+        function getAvailableTeams (url) {
+            return $http.get(url)
+                .success(function (data) {
+                    return data;
+                }).error(function (err) {
+                    return err;
+                });
         }
 
         //function createExcelFile (url, data) {

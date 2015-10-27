@@ -49,7 +49,7 @@ angular
             }
 
 
-            $scope.openTask = function(){
+            $scope.openTaskForStation = function(){
                 $rootScope.verifIds = [];
                 for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
                     $rootScope.verifIds[i] = $scope.idsOfVerifications[i];
@@ -57,8 +57,24 @@ angular
                 $rootScope.emptyStatus = $scope.allIsEmpty;
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
-                    controller: 'TaskSendingModalControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                    controller: 'TaskForStationModalControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskForStationModal.html'
+                });
+                $scope.$modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                });
+            };
+
+            $scope.openTaskForTeam = function(){
+                $rootScope.verifIds = [];
+                for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
+                    $rootScope.verifIds[i] = $scope.idsOfVerifications[i];
+                }
+                $rootScope.emptyStatus = $scope.allIsEmpty;
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'TaskForTeamModalControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskForTeamModal.html'
                 });
                 $scope.$modalInstance.result.then(function () {
                     $scope.tableParams.reload();
