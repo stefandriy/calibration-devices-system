@@ -19,7 +19,7 @@ public class BbiDeviceTestDataParserTest {
     @Before
     public void setUp() throws Exception {
         bbiDeviceTestDataParser = new BbiDeviceTestDataParser();
-        file = new BufferedInputStream(new FileInputStream("15101400.bbi"));
+        file = new BufferedInputStream(new FileInputStream("./src/test/resources/parser_bbi/15101400.bbi"));
     }
 
     @After
