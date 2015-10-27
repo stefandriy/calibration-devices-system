@@ -5,6 +5,7 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.CalibrationDisassemblyTeamDTO;
 import com.softserve.edu.dto.calibrator.DisassemblyTeamPageItem;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
@@ -84,7 +85,9 @@ public class CalibratorDisassemblyTeamController {
      */
     @RequestMapping(value = "getDisassemblyTeam/{disassemblyTeamId}", method = RequestMethod.GET)
     public ResponseEntity getDisassemblyTeam(@PathVariable String disassemblyTeamId) {
-        DisassemblyTeam foundDisassemblyTeam = teamService.findById(disassemblyTeamId);
+
+        CalibrationDisassemblyTeamDTO foundDisassemblyTeam =
+                new CalibrationDisassemblyTeamDTO(teamService.findById(disassemblyTeamId));
         return new ResponseEntity<>(foundDisassemblyTeam, HttpStatus.OK);
     }
 
@@ -120,8 +123,7 @@ public class CalibratorDisassemblyTeamController {
             teamService.add(createdDisassemblyTeam);
         } catch (DuplicateRecordException e) {
             logger.error("GOT EXCEPTION ", e);
-            httpStatus = HttpStatus.CONFLICT;//from body get a message
-            return new ResponseEntity(e, httpStatus);
+            return new ResponseEntity<>(e, HttpStatus.CONFLICT);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e);
             httpStatus = HttpStatus.CONFLICT;
@@ -143,7 +145,8 @@ public class CalibratorDisassemblyTeamController {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
             teamService.edit(disassemblyTeamId, disassemblyTeamDTO.getTeamName(),
-                    disassemblyTeamDTO.getEffectiveTo(), disassemblyTeamDTO.getSpecialization(),
+                    disassemblyTeamDTO.getEffectiveTo(),
+                    Device.DeviceType.valueOf(disassemblyTeamDTO.getSpecialization()),
                     disassemblyTeamDTO.getLeaderFullName(), disassemblyTeamDTO.getLeaderPhone(),
                     disassemblyTeamDTO.getLeaderEmail());
         } catch (Exception e) {

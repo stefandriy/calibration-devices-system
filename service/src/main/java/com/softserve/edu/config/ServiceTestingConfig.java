@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-//@Import(JPATestingConfig.class)
+@Import(JPATestingConfig.class)
 @ComponentScan("com.softserve.edu")
 public class ServiceTestingConfig {}
 

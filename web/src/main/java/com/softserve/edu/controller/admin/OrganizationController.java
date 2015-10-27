@@ -108,18 +108,6 @@ public class OrganizationController {
             NewOrganizationFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user
     ) {
 
-
-	/*	Page<OrganizationPageItem> page = organizationService
-                .getOrganizationsBySearchAndPagination(pageNumber,
-						itemsPerPage, search/*, adress, type).map(
-						organization -> new OrganizationPageItem(organization
-								.getId(), organization.getName(), organization
-								.getEmail(), organization.getPhone(),
-								organizationService
-										.getOrganizationTypes(organization)));аа
-
-		return new PageDTO<>(page.getTotalElements(), page.getContent());*/
-
         ListToPageTransformer<Organization> queryResult = organizationService.getOrganizationsBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
@@ -165,12 +153,12 @@ public class OrganizationController {
                 stream()
                 .map(OrganizationType::name)
                 .forEach(types::add);
+
         List<String> counters = new ArrayList<>();
         organization.getDeviceTypes().
                 stream()
                 .map(Device.DeviceType::name)
                 .forEach(counters::add);
-
 
         OrganizationDTO organizationDTO = new OrganizationDTO(organization.getId(), organization.getName(), organization.getEmail(), organization.getPhone(), types, counters,
                 organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
@@ -234,12 +222,16 @@ public class OrganizationController {
         return new ResponseEntity(httpStatus);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "getOrganizationAdmin/{id}")
     public OrganizationAdminDTO getAdmin(@PathVariable("id") Long id) {
         Organization organization = organizationService.getOrganizationById(id);
         OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO();
         try {
-
             User user = organization
                     .getUsers()
                     .stream()
@@ -265,7 +257,6 @@ public class OrganizationController {
 
     @RequestMapping(value = "edit/history/{organizationId}")
     public PageDTO<OrganizationEditHistoryPageDTO> getEditHistory(@PathVariable("organizationId") Long organizationId) {
-
         List<OrganizationEditHistory> organizationEditHistoryList = organizationService.getHistoryByOrganizationId(organizationId);
 
         return new PageDTO<>(OrganizationEditPageDTOTransformer.toDtoFromList(organizationEditHistoryList));

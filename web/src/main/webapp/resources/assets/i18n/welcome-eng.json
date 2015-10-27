@@ -167,7 +167,12 @@
 
   "FILL_IN_INFORMATION_ABOUT_TEAM":"Fill information about disassembly team",
   "TEAM_NUMBER":"Team ID",
+  "INCORRECT_VALUE_TEAM_NUMBER":"Incorrect value of team ID. Example: ",
   "TEAM_NAME":"Team name",
+  "INCORRECT_VALUE_NAME_ADD_TEAM":"Incorrect value of team name. Example: ",
+  "INCORRECT_VALUE_LEADER_FULL_NAME_ADD_TEAM":"Incorrect value of team leader full name. Example: ",
+  "INCORRECT_VALUE_PHONE_ADD_TEAM":"Incorrect value of team leader phone number. Example: 956111105",
+  "INCORRECT_VALUE_EMAIL_ADD_TEAM":"Incorrect value of team leader email. Example: teamLeader@gmail.com",
   "SPECIALIZATION":"Specialization",
   "DISASSEMBLY_TEAM":"Disassembly team",
   "DISASSEMBLY_TEAMS":"Disassembly teams",

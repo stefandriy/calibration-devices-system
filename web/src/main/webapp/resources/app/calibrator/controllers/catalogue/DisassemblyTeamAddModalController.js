@@ -176,7 +176,7 @@ angular.module('employeeModule')
                 } else {
                     return true;
                 }
-            }
+            };
 
             /**
              * Validates team form before saving
@@ -217,8 +217,7 @@ angular.module('employeeModule')
                                 controllerAs: 'successController',
                                 size: 'md'
                             });
-                        }
-                        if (data == 409) {
+                        } else if (data == 409) {
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();
