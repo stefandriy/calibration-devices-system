@@ -67,14 +67,14 @@ public class UserServiceImplTest {
     public void testChangePassword() {
         String username = "Petro";
         String hash_of_password = "$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2";
-        String old_pasword = "pass";
-        String new_pasword = "ddd";
+        String oldPassword = "pass";
+        String newPassword = "ddd";
 
         when(mockUser.getPassword()).thenReturn(hash_of_password);
         when(mockUser.getUsername()).thenReturn(username);
         when(userRepository.findOne(username)).thenReturn(mockUser);
 
-        boolean isChanged = userService.changePassword(mockUser.getUsername(), old_pasword, new_pasword);
+        boolean isChanged = userService.changePassword(mockUser.getUsername(), oldPassword, newPassword);
         assertTrue(isChanged);
         verify(mockUser, times(1)).setPassword(anyString());
         verify(userRepository, times(1)).save(mockUser);
