@@ -17,17 +17,14 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.stub;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-/**
- * Created by Sonka on 21.10.2015.
- */
+
+
 @RunWith(MockitoJUnitRunner.class)
 public class MeasuringEquipmentServiceImplTest {
-    private MeasuringEquipment measuringEquipment; // is used for editMeasuringEquipment
-    private MeasuringEquipment measuringEquipment2; // is used for addMeasuringEquipment
+    private MeasuringEquipment measuringEquipment;
+    private MeasuringEquipment measuringEquipment2;
     @Mock
     private MeasuringEquipmentRepository measuringEquipmentRepository;
     @Mock
@@ -94,14 +91,8 @@ public class MeasuringEquipmentServiceImplTest {
 
     @Test
     public void testEditMeasuringEquipment()  {
-      boolean result;
-        try {
-            measuringEquipmentServiceImpl.editMeasuringEquipment(1L,"name 1","deviceType 1","manufacturer 1","verificationInterval 1");
-            result = true;
-        } catch (Exception ex) {
-            result = false;
-        }
-        assertEquals(true, result);
+           measuringEquipmentServiceImpl.editMeasuringEquipment(1L,"name 1","deviceType 1","manufacturer 1","verificationInterval 1");
+           verify(measuringEquipmentServiceImpl, times(1)).editMeasuringEquipment(1L,"name 1","deviceType 1","manufacturer 1","verificationInterval 1");
     }
 
     @Test
