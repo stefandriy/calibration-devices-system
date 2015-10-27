@@ -3,10 +3,14 @@ package com.softserve.edu.service.admin.impl;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.util.AddEmployeeBuilder;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
 
+import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.service.utils.SortCriteriaUser;
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,21 +19,31 @@ import org.junit.runner.RunWith;
 
 import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.util.*;
 import java.lang.String;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
  * Created by lyubomyr on 18.10.2015.
  */
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(UsersServiceImpl.class)
 public class UsersServiceImplTest {
 
     private final Long organizationId = 1L;
@@ -43,6 +57,24 @@ public class UsersServiceImplTest {
 
     @Mock
     private ConvertUserRoleToString convertUserRoleToString;
+
+    @Mock
+    private EntityManager em;
+
+    @Mock
+    private CriteriaBuilder cb;
+
+    @Mock
+    private CriteriaQuery<User> criteriaQuery;
+
+    @Mock
+    private Path<Object> path;
+
+    @Mock
+    private Predicate queryPredicate;
+
+    @Mock
+    Root<User> root;
 
     @InjectMocks
     private UsersServiceImpl usersServiceImpl;
@@ -82,21 +114,86 @@ public class UsersServiceImplTest {
         verify(userRepository).getRolesByUserName(anyString());
     }
 
-/*    @Test
+    @Test
     public void testFindPageOfAllEmployees() {
         int pageNumber = 1;
         int itemsPerPage = 10;
         String userName = "username";
-        String role = "Role";
+        String role = "PROVIDER_ADMIN";
         String firstName = "firstName";
         String lastName = "lastName";
-        String organization = "organization";
+        String organization = null;
         String telephone = "+38050000501";
-        String sortCriteria = "";
+        String sortCriteria = "SortCriteriaUser.USERNAME";
         String sortOrder = "asc";
-        ListToPageTransformer<User> actual = usersServiceImpl.findPageOfAllEmployees(pageNumber, itemsPerPage, userName,
-                role, firstName, lastName, organization, telephone, sortCriteria, sortOrder);
-    }*/
+        when(em.getCriteriaBuilder()).thenReturn(cb);
+        when(cb.createQuery(User.class)).thenReturn(criteriaQuery);
+        when(criteriaQuery.from(User.class)).thenReturn(root);
+
+        //ListToPageTransformer < User > actual = usersServiceImpl.findPageOfAllEmployees(pageNumber, itemsPerPage, userName,
+        //                role, firstName, lastName, organization, telephone, sortCriteria, sortOrder);
+    }
+
+    @Test
+    public void testAddSysAdmin() {
+        String username = "Admin";
+        String password = "pass";
+        String firstName = "firstName";
+        String lastName = "lastName";
+        String middleName = "middleName";
+        String phone ="+38050000501";
+        String email = "mail@mail.com";
+        Address address = spy(Address.class);
+
+        usersServiceImpl.addSysAdmin(username, password, firstName, lastName, middleName, phone, email, address);
+        User spyUser = spy(new AddEmployeeBuilder().username(username)
+                .password(password)
+                .firstName(firstName)
+                .lastName(lastName)
+                .middleName(middleName)
+                .phone(phone)
+                .email(email)
+                .address(address)
+                .setIsAvailable(true)
+                .build());
+
+        assertTrue(spyUser != null);
+
+        verify(userRepository, times(1)).save(new AddEmployeeBuilder().username(username)
+                .password(password)
+                .firstName(firstName)
+                .lastName(lastName)
+                .middleName(middleName)
+                .phone(phone)
+                .email(email)
+                .address(address)
+                .setIsAvailable(true)
+                .build());
+    }
+
+    @Test
+    public void testEditSysAdmin() {
+        String username = "Admin";
+        String password = "pass";
+        String firstName = "firstName";
+        String lastName = "lastName";
+        String middleName = "middleName";
+        String phone ="+38050000501";
+        String email = "mail@mail.com";
+        Address address = mock(Address.class);
+
+        User sysAdmin = mock(User.class);
+        stub(userRepository.findOne(username)).toReturn(sysAdmin);
+        when(sysAdmin.getPassword()).thenReturn(password);
+        usersServiceImpl.editSysAdmin(username, password, firstName, lastName, middleName, phone, email, address);
+        verify(sysAdmin, times(1)).setAddress(address);
+        verify(sysAdmin, times(1)).setEmail(email);
+        verify(sysAdmin, times(1)).setFirstName(firstName);
+        verify(sysAdmin, times(1)).setLastName(lastName);
+        verify(sysAdmin, times(1)).setMiddleName(middleName);
+        verify(sysAdmin, times(1)).setPhone(phone);
+        verify(sysAdmin, times(1)).setPassword(password);
+    }
 
     @Test
     public void testDeleteSysAdmin() {
@@ -119,21 +216,9 @@ public class UsersServiceImplTest {
         assertEquals(actual, user);
     }
 
-    /*@Test
-    public void testAddEmployee() {
-        final String name = "admin";
-        final String password = "pass";
-        final User finalUsersEmployee = Mockito
-                .spy(new User(name, password));
-
-        usersServiceImpl.addEmployee(finalUsersEmployee);
-
-        ArgumentCaptor<String> passwordEncodedArg = ArgumentCaptor
-                .forClass(String.class);
-
-        verify(finalUsersEmployee).setPassword(passwordEncodedArg.capture());
-
-        Assert.assertEquals(finalUsersEmployee.getPassword(),
-                passwordEncodedArg.getValue());
-    }*/
+    @Test
+    public void testFindAllSysAdmins() {
+        ListToPageTransformer<User> actual = usersServiceImpl.findAllSysAdmins();
+        verify(userRepository, times(2)).findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
+    }
 }

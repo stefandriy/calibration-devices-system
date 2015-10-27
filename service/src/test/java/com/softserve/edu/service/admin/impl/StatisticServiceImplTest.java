@@ -6,7 +6,6 @@ import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,9 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.stub;
 
-/**
- * Created by Sonka on 17.10.2015.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class StatisticServiceImplTest {
     private long expected;
@@ -41,7 +37,7 @@ public class StatisticServiceImplTest {
     @Before
     public void initializeMockito() {
         MockitoAnnotations.initMocks(this);
-        expected = 5L;
+        expected= 5L;
         userExpected = new User("Anton","0123");
     }
 
