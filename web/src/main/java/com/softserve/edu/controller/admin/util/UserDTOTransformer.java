@@ -3,8 +3,7 @@ package com.softserve.edu.controller.admin.util;
 import com.softserve.edu.dto.admin.SysAdminDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.admin.UserService;
-import com.softserve.edu.service.admin.impl.UsersServiceImpl;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
 import java.util.ArrayList;
@@ -42,11 +41,11 @@ public class UserDTOTransformer {
     }
 
 
-    public static List<UsersPageItem> toDTOFromListEmployee(ListToPageTransformer<User> queryResult, UserService userService) {
+    public static List<UsersPageItem> toDTOFromListEmployee(ListToPageTransformer<User> queryResult, UsersService usersService) {
         List<UsersPageItem> resultList = new ArrayList<>();
         for (User employee : queryResult.getContent()) {
 
-            List<String> userRoles = userService.getRoles(employee.getUsername())
+            List<String> userRoles = usersService.getRoles(employee.getUsername())
                     .stream()
                     .distinct()
                     .collect(Collectors.toList());

@@ -11,7 +11,7 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.ProviderService;
@@ -59,7 +59,7 @@ public class ProviderVerificationController {
     private OrganizationService organizationServiceImpl;
 
     @Autowired
-    private UserService userService;
+    private UsersService usersService;
 
     @Autowired
     private MailService mailService;
@@ -246,7 +246,7 @@ public class ProviderVerificationController {
     public List<EmployeeDTO> employeeVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = providerEmployeeService.oneProviderEmployee(user.getUsername());
-        List<String> role = userService.getRoles(user.getUsername());
+        List<String> role = usersService.getRoles(user.getUsername());
 
         return providerEmployeeService
                 .getAllProviders(role, employee);
@@ -348,7 +348,7 @@ public class ProviderVerificationController {
     @RequestMapping(value = "provider/role", method = RequestMethod.GET)
     public Boolean isEmployeeProvider(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        User checkedUser = userService.findOne(user.getUsername());
+        User checkedUser = usersService.findOne(user.getUsername());
         return checkedUser.getUserRoles().contains(UserRole.PROVIDER_EMPLOYEE);
     }
 

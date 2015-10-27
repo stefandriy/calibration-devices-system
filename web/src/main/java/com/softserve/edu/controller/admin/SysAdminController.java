@@ -7,7 +7,7 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.SysAdminDTO;
 import com.softserve.edu.dto.admin.UserFilterSearch;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
@@ -24,7 +24,7 @@ import java.util.List;
 public class SysAdminController {
 
     @Autowired
-    private UserService userService;
+    private UsersService usersService;
 
     Logger logger = Logger.getLogger(SysAdminController.class);
 
@@ -38,7 +38,7 @@ public class SysAdminController {
             UserFilterSearch search,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        ListToPageTransformer<User> queryResult = userService.findAllSysAdmins();
+        ListToPageTransformer<User> queryResult = usersService.findAllSysAdmins();
         List<SysAdminDTO> resultList = UserDTOTransformer.toDTOFromListSysAdmin(queryResult);
         return new PageDTO<>(queryResult.getTotalItems(), resultList);
     }
@@ -58,7 +58,7 @@ public class SysAdminController {
         HttpStatus httpStatus = HttpStatus.CREATED;
 
         try {
-            userService.addSysAdmin(sysAdmin.getUsername(), sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
+            usersService.addSysAdmin(sysAdmin.getUsername(), sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
                     sysAdmin.getEmail(), sysAdmin.getAddress());
         } catch (Exception e) {
             // TODO
@@ -76,7 +76,7 @@ public class SysAdminController {
      */
     @RequestMapping(value = "get_sys_admin/{username}", method = RequestMethod.GET)
     public SysAdminDTO findSysAdminByUsername(@PathVariable("username") String username) {
-        User sysAdmin = userService.findOne(username);
+        User sysAdmin = usersService.findOne(username);
         SysAdminDTO SysAdminDTO = new SysAdminDTO(
                 sysAdmin.getUsername(),
                 sysAdmin.getFirstName(),
@@ -107,7 +107,7 @@ public class SysAdminController {
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {
-            userService.deleteSysAdmin(username);
+            usersService.deleteSysAdmin(username);
         } catch (Exception e) {
             // TODO
             logger.error("GOT EXCEPTION ", e);
@@ -130,7 +130,7 @@ public class SysAdminController {
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {
-            userService.editSysAdmin(username, sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
+            usersService.editSysAdmin(username, sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
                     sysAdmin.getEmail(), sysAdmin.getAddress());
         } catch (Exception e) {
             // TODO

@@ -101,6 +101,8 @@
   "SUCCESSFUL_CREATED_ORGANIZATION":"Organization have been created",
   "SUCCESSFUL_EDITED_ORGANIZATION":"Organization have been changed",
   "SUCCESSFUL_CREATED_ADMIN":"Admin have been created",
+  "SUCCESSFUL_EDITED_ADMIN" :"Admin have been edited",
+  "SUCCESSFUL_DELETED_ADMIN" :"Admin have been deleted",
 
   "ACCOUNT_INFORMATION":"Account information",
   "GENERAL_INFORMATION":"General information",
@@ -385,7 +387,7 @@
   "TELEPHONE" : "Telephone",
   "TASK" : "Planning task",
   "SEND" : "Send",
-  "CREATE_TASK" : "Create task",
+  "CREATE_TASK_FOR_STATION" : "Task for stations",
   "INFORMATION" : "Recent information",
 
   "ORGANIZATION_SERVICE_AREA" : "Organization service area",
@@ -429,5 +431,18 @@
   "CHOOSE_MOUNTING_CREW" : "Choose mounting crew",
   "APPLICATION_FIELD": "Application field",
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
-  "ALL_SYS_ADMINS" : "Amount of system admins :"
+  "ALL_SYS_ADMINS" : "Amount of system admins :",
+
+  "COUNTER_STATUS" : "Counter removed?",
+  "CREATE_TASK_FOR_TEAM" : "Task for team",
+  "CHOOSE" : "Choose",
+  "YEAR_OF_COUNTER_PRODUCTION" : "Year of counter production",
+  "DATE_OF_REMOVE" : "Date when counter will be removed",
+  "DATE_OF_INSTALLATION":"Date of counter installation",
+  "COUNTER_NUMBER_REGEX" : "Only figures! No more than 8 characters!",
+  "COUNTER_INFO_TITLE" : "Additional information about counter",
+  "SUBMIT_DELETE_SYS_ADMIN" : "Submit delete system admin with login",
+  "Are_YOU_SURE" : "Are you sure?"
+
+
 }

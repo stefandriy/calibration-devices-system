@@ -405,7 +405,6 @@ angular
                             $scope.closeModal();
                             $rootScope.onTableHandling();
                             $scope.resetSysAdminFormData();
-
                         } else {
                             console.log(data.status);
                         }

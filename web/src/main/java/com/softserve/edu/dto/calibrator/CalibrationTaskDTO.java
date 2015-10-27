@@ -1,54 +1,28 @@
 package com.softserve.edu.dto.calibrator;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Vasyl on 15.09.2015.
- */
+@Getter
+@Setter
 public class CalibrationTaskDTO {
 
-    private Date taskDate;
-
     private String serialNumber;
+
+    private Date taskDate;
 
     private List<String> verificationsId;
 
     public CalibrationTaskDTO() {
     }
 
-    public CalibrationTaskDTO(Date taskDate, String serialNumber, List<String> verificationsId) {
-        this.taskDate = taskDate;
+    public CalibrationTaskDTO(String serialNumber, Date taskDate, List<String> verificationsId) {
         this.serialNumber = serialNumber;
+        this.taskDate = taskDate;
         this.verificationsId = verificationsId;
     }
 
-    public Date getTaskDate() {
-        return taskDate;
-    }
 
-    public void setTaskDate(Date taskDate) {
-        this.taskDate = taskDate;
-    }
-
-    public String getSerialNumber() {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
-    }
-
-    public List<String> getVerificationsId() {
-        return verificationsId;
-    }
-
-    public void setVerificationsId(List<String> verificationsId) {
-        this.verificationsId = verificationsId;
-    }
 }

@@ -14,10 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-/**
- * Created by Vasyl on 08.10.2015.
- */
-
 @Service
 @Transactional(readOnly = true)
 public class CalibrationModuleServiceImpl implements CalibrationModuleService {
@@ -33,7 +29,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     private Logger logger = Logger.getLogger(CalibrationModule.class);
 
     @Override
-    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled, String userName) {
+    @SuppressWarnings("all")
+    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,String userName) {
+
         User user = userRepository.findOne(userName);
         if (user == null) {
             logger.error("Cannot found user!");
@@ -41,12 +39,11 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         // TODO potential NPE here
         List<CalibrationModule> modules = new ArrayList<>();
         try {
-            modules = moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
-                    .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate))
-                    .and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
-                    .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)));
-        } catch (NullPointerException e) {
-            logger.error("Cannot found modules!");
+            modules = (List<CalibrationModule>) moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
+                    .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
+                    .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)).and(CalibrationModuleSpecifications.moduleIsAvaliable()));
+        } catch (NullPointerException e){
+            logger.error("Cannot found modules!", e);
         }
 
         List<String> serialNumbersList = new ArrayList<>();

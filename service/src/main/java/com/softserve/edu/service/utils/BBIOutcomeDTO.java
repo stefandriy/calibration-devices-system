@@ -7,7 +7,8 @@ public class BBIOutcomeDTO {
 
     public enum ReasonOfRejection{
         NO_CORRESPONDING_VERIFICATION,
-        BBI_IS_NOT_VALID
+        BBI_IS_NOT_VALID,
+        INVALID_VERIFICATION_CODE
     }
 
     private String verificationID;
