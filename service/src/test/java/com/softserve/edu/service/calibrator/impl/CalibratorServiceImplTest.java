@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
