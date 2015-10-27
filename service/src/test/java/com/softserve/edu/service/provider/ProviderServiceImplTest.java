@@ -2,20 +2,21 @@ package com.softserve.edu.service.provider;
 
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.repository.OrganizationRepository;
+import com.softserve.edu.service.provider.impl.ProviderServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
-
-import java.util.Collections;
-import java.util.List;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.*;
 
 public class ProviderServiceImplTest {
 
 	@InjectMocks
-	private ProviderService providerService;
+	private ProviderService providerService = new ProviderServiceImpl();
 
 	@Mock
 	private OrganizationRepository mockProviderRepository;

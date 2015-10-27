@@ -46,10 +46,8 @@ public class UserServiceImplTest {
 
     @Test
     public void testExistsWithUsername() {
-
         assertFalse(userService.existsWithUsername(username));
         assertTrue(userService.existsWithUsername(anyString()));
-
     }
 
     @Test
@@ -67,7 +65,6 @@ public class UserServiceImplTest {
 
     @Test
     public void testChangePassword() {
-
         String username = "Petro";
         String hash_of_password = "$2a$10$59Mv7tEUrVH8iBeDsm9y7.zUcJoPHnnyOvMnC4zKRV8.wlnugQ2G2";
         String old_pasword = "pass";
@@ -117,7 +114,6 @@ public class UserServiceImplTest {
     public void testUpdateUser() {
         userService.updateUser(user);
         verify(userRepository).save(user);
-
     }
 
     @Test
@@ -137,6 +133,5 @@ public class UserServiceImplTest {
         List<String> expected = new ArrayList<>();
         expected.add(UserRole.CALIBRATOR_ADMIN.toString());
         assertEquals(expected, actual);
-
     }
 }

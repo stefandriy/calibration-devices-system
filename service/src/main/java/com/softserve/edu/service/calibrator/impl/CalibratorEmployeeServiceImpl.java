@@ -29,12 +29,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.text.SimpleDateFormat;
 
+
 /**
  * Service for adding employees for calibrator and return data for charts.
  */
 
 @Service
-public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService {
+public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
 
     @Autowired
     private UserRepository calibratorEmployeeRepository;
@@ -61,9 +62,8 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService 
     public void addEmployee(User calibratorEmployee) {
         // TODO Extract all passwork encoding/decoding ops to single place
         String passwordEncoded = new BCryptPasswordEncoder().encode(calibratorEmployee.getPassword());
-
         calibratorEmployee.setPassword(passwordEncoded);
-        // calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
+//        calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
         calibratorEmployeeRepository.save(calibratorEmployee);
     }
 
