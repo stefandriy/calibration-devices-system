@@ -27,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.imageio.ImageIO;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -177,7 +178,7 @@ public class CalibrationTestServiceImplTest {
     public void testUploadPhotos() throws Exception {
         String fileName = "./src/test/resources/photo/logo.jpg";
         CalibrationTest calibrationTest = mock(CalibrationTest.class);
-        InputStream file = new FileInputStream("./src/test/resources/photo/logo.jpg");
+        InputStream file = new BufferedInputStream(new FileInputStream("./src/test/resources/photo/logo.jpg"));
         CalibrationTestIMG testIMG = new CalibrationTestIMG(calibrationTest, fileName);
 
         stub(testRepository.findOne(testId)).toReturn(calibrationTest);
@@ -185,6 +186,8 @@ public class CalibrationTestServiceImplTest {
         calibrationTestService.uploadPhotos(file, testId, fileName);
 
         verify(testIMGRepository).save(testIMG);
+
+        file.close();
     }
 
     @Test
