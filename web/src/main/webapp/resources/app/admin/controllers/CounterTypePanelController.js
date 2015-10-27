@@ -11,19 +11,25 @@ angular
         'ngTableParams',
         '$timeout',
         function ($rootScope, $scope, $modal, $http, counterTypeService, ngTableParams, $timeout) {
+            /**
+             * init of page parametres
+             */
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
+            /**
+             * Clear filtering fields
+             */
             $scope.clearAll = function () {
                 $scope.tableParams.filter({});
             };
 
-            $scope.doSearch = function () {
-                $scope.tableParams.reload();
-            };
-
+            /**
+             * Sorting and filtering of table
+             * @type {ngTableParams|*}
+             */
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
@@ -49,14 +55,21 @@ angular
                 }
             });
             /**
-             * Updates the table with device.
+             * Updates the table with counter type params.
              */
             $rootScope.onTableHandling = function () {
                 $scope.tableParams.reload();
             };
-
+            /**
+             * initializing table params
+             */
             $rootScope.onTableHandling();
 
+            /**
+             * Function for ng-show. When filtering fields are not empty show button for
+             * clear this fields
+             * @returns {boolean}
+             */
             $scope.isFilter = function () {
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
@@ -67,7 +80,7 @@ angular
                 return false;
             };
             /**
-             * Opens modal window for adding new category of counters.
+             * Opens modal window for adding new counter type.
              */
             $scope.openAddCounterTypeModal = function() {
                 var addCategoryCounter = $modal.open({
@@ -85,7 +98,7 @@ angular
             };
 
             /**
-             * Opens modal window for editing category of counter.
+             * Opens modal window for editing countner type.
              */
             $scope.openEditCounterTypeModal = function(
                 counterTypeId) {
@@ -113,6 +126,10 @@ angular
 
             };
 
+            /**
+             * deleting of counter type
+             * @param id
+             */
             $scope.deleteCounterType = function (id) {
                 $rootScope.counterTypeId = id;
                 console.log($rootScope.counterTypeId);

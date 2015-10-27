@@ -121,6 +121,15 @@ public class CounterTypeController {
         return counterTypeDTO;
     }
 
+    /**
+     * Build page by SortCriteria, SortOrder and Searching data
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param sortCriteria
+     * @param sortOrder
+     * @param searchData
+     * @return
+     */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<CounterTypeDTO> pageCounterTypeWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                            @PathVariable String sortCriteria, @PathVariable String sortOrder,
@@ -143,12 +152,22 @@ public class CounterTypeController {
         return new PageDTO(queryResult.getTotalItems(), content);
     }
 
-
+    /**
+     * Build page without sorting, ordering and searching data
+     * @param pageNumber
+     * @param itemsPerPage
+     * @return
+     */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<CounterTypeDTO> getCounterTypePage(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
         return pageCounterTypeWithSearch(pageNumber, itemsPerPage, null, null, null);
     }
 
+    /**
+     * Convert list of counter types to list CounterTypeDTO
+     * @param list
+     * @return
+     */
     public static List<CounterTypeDTO> toCounterTypeDtoFromList(List<CounterType> list){
         List<CounterTypeDTO> resultList = new ArrayList<>();
         for (CounterType counterType : list) {
