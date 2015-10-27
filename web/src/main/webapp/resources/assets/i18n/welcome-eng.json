@@ -435,9 +435,9 @@
   "DATE_OF_REMOVE" : "Date when counter will be removed",
   "DATE_OF_INSTALLATION":"Date of counter installation",
   "COUNTER_NUMBER_REGEX" : "Only figures! No more than 8 characters!",
-  "COUNTER_INFO_TITLE" : "Additional information about counter"
+  "COUNTER_INFO_TITLE" : "Additional information about counter",
   "SUBMIT_DELETE_SYS_ADMIN" : "Submit delete system admin with login",
-  "Are_YOU_SURE" : "Are you sure?",
+  "Are_YOU_SURE" : "Are you sure?"
 
 
 }
