@@ -49,7 +49,7 @@ angular
                 $scope.TestDataFormData = data.listTestData;
             }
 
-            $scope.showEditMainPhotoModal = function () {
+            $scope.showEditMainPhotoModal = function (id) {
                 console.log("Entered edit main photo function");
                 var modalInstance =  $modal.open({
                     animation: true,
@@ -60,8 +60,8 @@ angular
                         photo: function() {
                             return $scope.TestForm.testPhoto;
                         },
-                        setMainPhoto: function() {
-                            return $scope.setMainPhoto;
+                        photoId: function() {
+                            return id;
                         }
                     }
                 });
