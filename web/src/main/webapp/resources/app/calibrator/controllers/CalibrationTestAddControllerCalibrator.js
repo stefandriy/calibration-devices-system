@@ -22,7 +22,6 @@ angular
                 $scope.TestDataFormData = [{}, {}, {}, {}, {}, {}];
             };
 
-            var self = $scope;
             $scope.uploadBbiFile = function(testId) {
                 var modalInstance =  $modal.open({
                     animation: true,
@@ -38,13 +37,6 @@ angular
                         }
                     }
                 });
-
-                modalInstance.result.then(function (status, fileName) {
-                    $scope.fileName = fileName;
-                    console.log(status + " " + fileName);
-                    $rootScope.onTableHandling();
-                });
-
             };
 
             $scope.parseBbiFile = function(data) {
@@ -53,7 +45,7 @@ angular
                 $scope.TestForm = data;
                 var date = $scope.TestForm.testDate;
                 $scope.TestForm.testDate = moment(date).utcOffset(0).format("DD.MM.YYYY HH:mm");
-                document.getElementById('testMainPhoto').setAttribute('src', 'data:image/png;base64,' + $scope.TestForm.testPhoto);
+                $scope.TestForm.testPhoto = "data:image/png;base64," + $scope.TestForm.testPhoto;
                 $scope.TestDataFormData = data.listTestData;
             }
 
@@ -62,20 +54,21 @@ angular
                 var modalInstance =  $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/edit-main-photo-modal.html',
-                    controller: 'EditMainPhotoController',
-                    size: 'sm',
+                    controller: 'EditPhotoController',
+                    size: 'md',
                     resolve: {
                         photo: function() {
                             return $scope.TestForm.testPhoto;
+                        },
+                        setMainPhoto: function() {
+                            return $scope.setMainPhoto;
                         }
                     }
                 });
+            }
 
-                modalInstance.result.then(function (status, fileName) {
-                    $scope.fileName = fileName;
-                    console.log(status + " " + fileName);
-                    $rootScope.onTableHandling();
-                });
+            $scope.setMainPhoto = function (data) {
+                $scope.TestForm.testPhoto = data;
             }
 
             function getCalibrationTests() {
@@ -87,7 +80,6 @@ angular
             }
 
             getCalibrationTests();
-
 
             /**
              * Saves new test from the form in database.
