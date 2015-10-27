@@ -89,6 +89,12 @@ angular
                                     }
                                 }
                             });
+                        /**
+                         * executes when modal closing
+                         */
+                        sysAdminDTOModal.result.then(function () {
+                            $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_ADMIN'));
+                        });
                     });
             };
 
@@ -98,19 +104,16 @@ angular
                 var sysAdminDTOModal = $modal
                     .open({
                         animation: true,
-                        controller: 'SysAdminEditModalController',
+                        controller: 'SysAdminDeleteModalController',
                         templateUrl: '/resources/app/admin/views/modals/submit-sys-admin-delete-modal.html',
-                        size: 'lg',
-                        resolve: {
-                            regions: function () {
-                                return addressService.findAllRegions();
-                            }
-                        }
+                        windowClass: 'center-modal'
                     });
-                $timeout(function() {
-                    console.log('delete with timeout');
-                    $rootScope.onTableHandling();
-                }, 700);
+                /**
+                 * executes when modal closing
+                 */
+                sysAdminDTOModal.result.then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ADMIN'));
+                });
             }
 
 
