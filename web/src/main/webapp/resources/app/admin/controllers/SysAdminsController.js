@@ -92,8 +92,21 @@ angular
                     });
             };
 
-            $scope.deleteSysAdmin = function (username){
-                userService.deleteSysAdmin(username);
+            $scope.openSubmitSysAdminDeleteModal = function (username){
+                $rootScope.username = username;
+                //userService.deleteSysAdmin(username);
+                var sysAdminDTOModal = $modal
+                    .open({
+                        animation: true,
+                        controller: 'SysAdminEditModalController',
+                        templateUrl: '/resources/app/admin/views/modals/submit-sys-admin-delete-modal.html',
+                        size: 'lg',
+                        resolve: {
+                            regions: function () {
+                                return addressService.findAllRegions();
+                            }
+                        }
+                    });
                 $timeout(function() {
                     console.log('delete with timeout');
                     $rootScope.onTableHandling();
