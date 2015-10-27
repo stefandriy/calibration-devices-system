@@ -13,9 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 
-/**
- * Created by Volodya NT on 08.10.2015.
- */
 
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)

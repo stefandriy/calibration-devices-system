@@ -167,7 +167,12 @@
 
   "FILL_IN_INFORMATION_ABOUT_TEAM":"Fill information about disassembly team",
   "TEAM_NUMBER":"Team ID",
+  "INCORRECT_VALUE_TEAM_NUMBER":"Incorrect value of team ID. Example: ",
   "TEAM_NAME":"Team name",
+  "INCORRECT_VALUE_NAME_ADD_TEAM":"Incorrect value of team name. Example: ",
+  "INCORRECT_VALUE_LEADER_FULL_NAME_ADD_TEAM":"Incorrect value of team leader full name. Example: ",
+  "INCORRECT_VALUE_PHONE_ADD_TEAM":"Incorrect value of team leader phone number. Example: 956111105",
+  "INCORRECT_VALUE_EMAIL_ADD_TEAM":"Incorrect value of team leader email. Example: teamLeader@gmail.com",
   "SPECIALIZATION":"Specialization",
   "DISASSEMBLY_TEAM":"Disassembly team",
   "DISASSEMBLY_TEAMS":"Disassembly teams",
@@ -427,8 +432,17 @@
   "APPLICATION_FIELD": "Application field",
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
   "ALL_SYS_ADMINS" : "Amount of system admins :",
+
+  "COUNTER_STATUS" : "Counter removed?",
+  "CREATE_TASK_FOR_TEAM" : "Task for team",
+  "CHOOSE" : "Choose",
+  "YEAR_OF_COUNTER_PRODUCTION" : "Year of counter production",
+  "DATE_OF_REMOVE" : "Date when counter will be removed",
+  "DATE_OF_INSTALLATION":"Date of counter installation",
+  "COUNTER_NUMBER_REGEX" : "Only figures! No more than 8 characters!",
+  "COUNTER_INFO_TITLE" : "Additional information about counter",
   "SUBMIT_DELETE_SYS_ADMIN" : "Submit delete system admin with login",
-  "Are_YOU_SURE" : "Are you sure?",
-  "COUNTER_STATUS" : "Counter status",
-  "CREATE_TASK_FOR_TEAM" : "Task for team"
+  "Are_YOU_SURE" : "Are you sure?"
+
+
 }

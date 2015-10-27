@@ -86,10 +86,14 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         List<BBIOutcomeDTO> resultsOfBBIProcessing = new ArrayList<>();
         for (File bbiFile : listOfBBIfiles) {
             String correspondingVerification = bbiFileNamesToVerificationMap.getOrDefault(bbiFile.getName(), null);
+            if(correspondingVerification == null){
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
+                continue;
+            }
             try {
                 parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
             } catch (NoSuchElementException e) {
-                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
                 continue;
             } catch (Exception e) {
                 resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));

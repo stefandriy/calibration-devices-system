@@ -1,9 +1,10 @@
-/**
- * Created by Volodya NT on 22.10.2015.
- */angular.module('employeeModule')
+angular.module('employeeModule')
     .controller('DisassemblyTeamEditModalControllerCalibrator',
-    ['$rootScope', '$scope', '$modalInstance', 'MeasuringEquipmentServiceCalibrator', '$log',
-        function ($rootScope, $scope, $modalInstance, MeasuringEquipmentServiceCalibrator, $log) {
+    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$log',
+        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $log) {
+
+            var teamForm = {};
+
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -13,48 +14,118 @@
             });
 
             /**
-             * Resets Equipment form
+             *  Date picker and formatter setup
+             *
              */
-            $scope.resetEquipmentForm = function () {
-                $scope.$broadcast('show-errors-reset');
-                $scope.equipment = null;
-                $scope.nameValidation = null;
-                $scope.deviceTypeValidation = null;
-                $scope.manufacturerValidation = null;
-                $scope.verificationIntervalValidation = null;
-                $scope.incorrectValue = false;
+            $scope.firstCalendar = {};
+            $scope.firstCalendar.isOpen = false;
+            $scope.secondCalendar = {};
+            $scope.secondCalendar.isOpen = false;
+            $scope.thirdCalendar = {};
+            $scope.thirdCalendar.isOpen = false;
+
+            $scope.open1 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.firstCalendar.isOpen = true;
+            };
+
+            $scope.open2 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.secondCalendar.isOpen = true;
+            };
+
+            $scope.open3 = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.thirdCalendar.isOpen = true;
+            };
+
+            moment.locale('uk');
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false',
+
+            };
+
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
+
+            // Disable weekend selection
+            $scope.disabled = function(date, mode) {
+                return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+            };
+
+            $scope.toggleMin = function() {
+                $scope.minDate = $scope.minDate ? null : new Date();
+            };
+
+            $scope.toggleMin();
+            $scope.maxDate = new Date(2100, 5, 22);
+
+
+            $scope.clearDate1 = function () {
+                $log.debug($scope.team.effectiveTo);
+                $scope.team.effectiveTo = null;
+            };
+
+            $scope.clearDate2 = function () {
+                $log.debug($scope.team.dateOfVerif);
+                $scope.team.dateOfVerif = null;
+            };
+
+            $scope.clearDate3 = function () {
+                $log.debug($scope.team.noWaterToDate);
+                $scope.team.noWaterToDate = null;
             };
 
             /**
-             * Edit equipment. If everything is ok then
-             * resets the equipment form and closes modal
+             * Resets Team form
+             */
+            $scope.resetTeamForm = function () {
+                $scope.$broadcast('show-errors-reset');
+                if ($scope.teamForm) {
+                    $scope.teamForm.$setPristine();
+                    $scope.teamForm.$setUntouched();
+                }
+                $scope.teamNumber = null;
+                $scope.teamFormData = null;
+            };
+
+            /**
+             * Edit team. If everything is ok then
+             * resets the team form and closes modal
              * window.
              */
-            $scope.editEquipment = function () {
-                var equipmentForm = {
-                    name: $scope.equipment.name,
-                    deviceType: $scope.equipment.deviceType,
-                    manufacturer: $scope.equipment.manufacturer,
-                    verificationInterval: $scope.equipment.verificationInterval
+            $scope.editDisassemblyTeam = function () {
+                var teamForm = {
+                    teamNumber: $scope.team.teamNumber,
+                    teamName: $scope.team.teamName,
+                    effectiveTo: $scope.team.effectiveTo,
+                    specialization: $scope.team.specialization,
+                    leaderFullName: $scope.team.leaderFullName,
+                    leaderPhone: $scope.team.leaderPhone,
+                    leaderEmail: $scope.team.leaderEmail
+                };
 
-                }
-                if (!$scope.nameValidation.isValid && !$scope.deviceTypeValidation.isValid
-                    && !$scope.manufacturerValidation.isValid && !$scope.verificationIntervalValidation.isValid) {
-                    MeasuringEquipmentServiceCalibrator.editEquipment(
-                        equipmentForm,
-                        $rootScope.equipmentId).then(
+                if (bValidation()) {
+                    DisassemblyTeamServiceCalibrator.editDisassemblyTeam(
+                        teamForm,
+                        $rootScope.teamId).then(
                         function (data) {
                             if (data == 200) {
                                 $scope.closeModal();
-                                $scope.resetEquipmentForm();
+                                $scope.resetTeamForm();
                                 $rootScope.onTableHandling();
                             }
                         });
                 } else {
                     $scope.incorrectValue = true;
                 }
-            }
-            $log.debug($rootScope.equipment);
+            };
+            $log.debug($rootScope.team);
             /**
              * Closes edit modal window.
              */
@@ -64,78 +135,38 @@
 
             $scope.checkAll = function (caseForValidation) {
                 switch (caseForValidation) {
-                    case ('name'):
-                        var name = $scope.equipment.name;
-                        if (name == null) {
-
-                        } else if (/^[a-zA-Z0-9]{5,20}$/.test(name)) {
-                            validator('name', false);
+                    case ('time'):
+                        var time = $scope.team.time;
+                        if (/^[0-1]{1}[0-9]{1}(\.)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\.)[0-9]{2}$/.test(time)) {
+                            validator('time', false);
                         } else {
-                            validator('name', true);
-                        }
-                        break;
-                    case ('deviceType'):
-                        var deviceType = $scope.equipment.deviceType;
-                        if (deviceType == null) {
-
-                        } else if (/^[A-Z]{4,16}$/.test(deviceType)) {
-                            validator('deviceType', false);
-                        } else {
-                            validator('deviceType', true);
-                        }
-                        break;
-                    case ('manufacturer'):
-                        var manufacturer = $scope.equipment.manufacturer;
-                        if (manufacturer == null) {
-                        }
-                        else if (/^[a-zA-Z0-9]{5,20}$/.test(manufacturer)) {
-                            validator('manufacturer', false);
-                        } else {
-                            validator('manufacturer', true);
-                        }
-                        break;
-                    case ('verificationInterval'):
-                        var verificationInterval = $scope.equipment.verificationInterval;
-                        if (verificationInterval == null) {
-                        }
-                        else if (/^\d{2,5}$/.test(verificationInterval)) {
-                            validator('verificationInterval', false);
-                        } else {
-                            validator('verificationInterval', true);
+                            validator('time', true);
                         }
                         break;
                 }
 
-            }
+            };
 
             function validator(caseForValidation, isValid) {
                 switch (caseForValidation) {
-                    case ('name'):
-                        $scope.nameValidation = {
+                    case ('time'):
+                        $scope.timeValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
-                        }
-                        break;
-                    case ('deviceType'):
-                        $scope.deviceTypeValidation = {
-                            isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success'
-                        }
-                        break;
-                    case ('manufacturer'):
-                        $scope.manufacturerValidation = {
-                            isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success'
-                        }
-                        break;
-                    case ('verificationInterval'):
-                        $scope.verificationIntervalValidation = {
-                            isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success'
-                        }
+                        };
                         break;
                 }
             }
+
+
+            bValidation = function () {
+                if ( $scope.timeValidation === undefined || $scope.timeValidation.isValid === false) {
+                    $scope.incorrectValue = true;
+                    return false;
+                } else {
+                    return true;
+                }
+            };
 
         }]);
 
