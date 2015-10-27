@@ -215,4 +215,10 @@ public class UsersServiceImplTest {
         verify(userRepository, times(1)).findOne(username);
         assertEquals(actual, user);
     }
+
+    @Test
+    public void testFindAllSysAdmins() {
+        ListToPageTransformer<User> actual = usersServiceImpl.findAllSysAdmins();
+        verify(userRepository, times(2)).findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
+    }
 }
