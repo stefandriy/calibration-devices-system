@@ -32,4 +32,6 @@ public interface CalibratorDisassemblyTeamService {
 
 
     boolean isTeamExist(String teamUsername);
+
+    List<DisassemblyTeam> findAllAvaliableTeams (Date workDate, String applicationFiled, String userId);
 }

@@ -1,5 +1,6 @@
 package com.softserve.edu.entity.verification.calibration;
 
+import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
@@ -29,7 +30,9 @@ public class CalibrationTask {
     @JoinColumn(name = "moduleId")
     private CalibrationModule module;
 
-    private String crewName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "teamId")
+    private DisassemblyTeam team;
 
     @Temporal(TemporalType.DATE)
     private Date createTaskDate;
@@ -44,9 +47,9 @@ public class CalibrationTask {
     @OneToMany(mappedBy = "task")
     private Set<Verification> verifications;
 
-    public CalibrationTask(CalibrationModule module, String crewName, Date createTaskDate, Date dateOfTask, User user, Set<Verification> verifications) {
+    public CalibrationTask(CalibrationModule module, DisassemblyTeam team, Date createTaskDate, Date dateOfTask, User user, Set<Verification> verifications) {
         this.module = module;
-        this.crewName = crewName;
+        this.team = team;
         this.createTaskDate = createTaskDate;
         this.dateOfTask = dateOfTask;
         this.user = user;
