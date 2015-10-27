@@ -425,6 +425,12 @@
   "APPLICATION_FIELD": "Application field",
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
   "ALL_SYS_ADMINS" : "Amount of system admins :",
-  "COUNTER_STATUS" : "Counter status",
-  "CREATE_TASK_FOR_TEAM" : "Task for team"
+  "COUNTER_STATUS" : "Counter removed?",
+  "CREATE_TASK_FOR_TEAM" : "Task for team",
+  "CHOOSE" : "Choose",
+  "YEAR_OF_COUNTER_PRODUCTION" : "Year of counter production",
+  "DATE_OF_REMOVE" : "Date when counter will be removed",
+  "DATE_OF_INSTALLATION":"Date of counter installation",
+  "COUNTER_NUMBER_REGEX" : "Only figures! No more than 8 characters!",
+  "COUNTER_INFO_TITLE" : "Additional information about counter"
 }

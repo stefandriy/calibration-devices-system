@@ -125,6 +125,11 @@
                         templateUrl: '/resources/app/calibrator/views/modals/eddTaskForTeamModal.html',
                         controller: 'TaskForTeamModalControllerCalibrator'
                     })
+                    .state("calibrator-counter-status", {
+                        url: '/calibrator/task/',
+                        templateUrl: '/resources/app/calibrator/views/modals/counterStatusModal.html',
+                        controller: 'CounterStatusControllerCalibrator'
+                    })
                     .state('main-panel-verificator', {
                         url: '/verificator/',
                         templateUrl: '/resources/app/verificator/views/main-panel.html'
@@ -274,6 +279,7 @@
         'calibrator/controllers/TaskForStationModalControllerCalibrator',
         'calibrator/controllers/TaskForTeamModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
+        'calibrator/controllers/CounterStatusControllerCalibrator',
         'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
         'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',

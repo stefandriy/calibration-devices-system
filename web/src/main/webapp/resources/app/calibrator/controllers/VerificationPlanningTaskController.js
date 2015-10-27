@@ -81,6 +81,19 @@ angular
                 });
             };
 
+            $scope.openCounterInfoModal = function(id){
+                $rootScope.verificationId = id;
+                $log.debug($rootScope.verificationId);
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'CounterStatusControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/counterStatusModal.html'
+                });
+                $scope.$modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                });
+            };
+
         }]);
 
 
