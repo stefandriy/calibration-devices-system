@@ -84,7 +84,7 @@ public class ArchivalOrganizationsQueryConstructorAdminTest {
     public void buildSearchQueryNotNullCriteriaQuery() {
         CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin
                 .buildSearchQuery(name, email, phone, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
-        assertNotNull("criteriaQuery present", criteriaQuery);
+        assertNotNull("verificationCriteriaQuery present", criteriaQuery);
     }
 
     @Test
@@ -106,7 +106,7 @@ public class ArchivalOrganizationsQueryConstructorAdminTest {
         when(criteriaBuilde.createQuery(Long.class)).thenReturn(countQueryForBuildCountQuery);
         CriteriaQuery<Long> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin
                 .buildCountQuery(name, email, phone, type, region, district, locality, streetToSearch, entityManager);
-        assertNotNull("criteriaQuery present", criteriaQuery);
+        assertNotNull("verificationCriteriaQuery present", criteriaQuery);
     }
 
 
