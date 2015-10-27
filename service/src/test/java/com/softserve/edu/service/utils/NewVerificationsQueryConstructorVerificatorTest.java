@@ -40,6 +40,7 @@ public class NewVerificationsQueryConstructorVerificatorTest {
     private String streetToSearch;
     private String status;
     private String username;
+
     @Mock
     private User verificatorEmployee;
     private String sortCriteria;
