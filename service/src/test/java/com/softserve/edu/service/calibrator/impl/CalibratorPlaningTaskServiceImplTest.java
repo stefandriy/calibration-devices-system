@@ -21,8 +21,9 @@ import org.springframework.data.domain.*;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -221,6 +222,11 @@ public class CalibratorPlaningTaskServiceImplTest {
      * @throws Exception
      */
     @Test
+    public void test2FindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
+        String username = "john";
+        User user = mock(User.class);
+        when(userRepository.findOne(anyString())).thenReturn(user);
+        when(user.getUsername()).thenReturn(username);
     public void test2FindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
         String username = "john";
         User user = mock(User.class);

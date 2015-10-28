@@ -19,7 +19,7 @@ public interface ProviderEmployeeService {
 
     List<EmployeeDTO> getAllProviders(List<String> role, User employee);
 
-    User findByUserame(String userName);
+    User findByUsername(String userName);
 
     List<String> getRoleByUserNam(String username);
 

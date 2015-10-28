@@ -1,6 +1,5 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
@@ -13,28 +12,21 @@ import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.utils.EmployeeDTO;
-
-import com.softserve.edu.service.utils.ExcelFileDTO;
-import org.apache.commons.io.IOUtils;
+import lombok.Setter;
 import org.apache.log4j.Logger;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
-import org.apache.commons.io.FileUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalTime;
-import java.io.*;
-import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
-
+@Setter
 @Service
 public class CalibratorServiceImpl implements CalibratorService {
 
