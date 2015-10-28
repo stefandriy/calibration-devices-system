@@ -13,7 +13,7 @@ public interface UsersService {
 
     List<String> getRoles(String username);
 
-    void addSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
+    void addSysAdmin( String  username, String firstName, String lastName, String middleName, String phone,
                              String email,  Address address);
 
     List<User> findByOrganizationId(Long organizationId, int pageNumber, int itemsPerPage);

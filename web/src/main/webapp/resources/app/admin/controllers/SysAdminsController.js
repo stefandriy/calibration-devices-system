@@ -24,6 +24,7 @@ angular
 
                     userService.getSysAdminsPage()
                         .success(function (result) {
+                            console.log(result);
                             $scope.totalEmployee=result.totalItems;
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
@@ -108,7 +109,7 @@ angular
                  * executes when modal closing
                  */
                 sysAdminDTOModal.result.then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ADMIN'));
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_ADMIN'));
                 });
             }
 

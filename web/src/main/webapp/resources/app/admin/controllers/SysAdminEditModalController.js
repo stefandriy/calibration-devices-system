@@ -185,7 +185,7 @@ angular
 
                 $scope.closeModal = function () {
                     $rootScope.onTableHandling();
-                    $modalInstance.close();
+                    $modalInstance.dismiss();
                 };
 
 
