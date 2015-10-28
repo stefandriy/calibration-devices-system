@@ -9,6 +9,10 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+
+/**
+ *Application event listener class handles ContextRefreshedEvent
+ */
 @Component
 public class ContextInitializedListener implements ApplicationListener<ContextRefreshedEvent>{
 
@@ -17,6 +21,12 @@ public class ContextInitializedListener implements ApplicationListener<ContextRe
     @Autowired
     UserService userService;
 
+    /**
+     * Handle an application event {@param ContextRefreshedEvent}
+     * Create new user with role SUPER_ADMIN if that user not exists
+     *
+     * @param event raised when an {@code ApplicationContext} gets initialized or refreshed.
+     */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         User user = new User(SUPER_USER_LOGIN, new BCryptPasswordEncoder().encode(SUPER_USER_LOGIN));

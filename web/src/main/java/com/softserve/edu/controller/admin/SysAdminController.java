@@ -29,14 +29,15 @@ public class SysAdminController {
     Logger logger = Logger.getLogger(SysAdminController.class);
 
 
-    @RequestMapping(value = "/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    public PageDTO<SysAdminDTO> getPaginationUsers(
-            @PathVariable Integer pageNumber,
-            @PathVariable Integer itemsPerPage,
-            @PathVariable String sortCriteria,
-            @PathVariable String sortOrder,
-            UserFilterSearch search,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+    /**
+     * Fetch required data about all sys admins
+     *
+     * @param user
+     * @return PageDTO that contains list with required data about all sys admins for
+     * sys_admins table
+     */
+    @RequestMapping(value = "/get_sys_admins", method = RequestMethod.GET)
+    public PageDTO<SysAdminDTO> getPaginationUsers(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
         ListToPageTransformer<User> queryResult = usersService.findAllSysAdmins();
         List<SysAdminDTO> resultList = UserDTOTransformer.toDTOFromListSysAdmin(queryResult);
@@ -45,16 +46,14 @@ public class SysAdminController {
 
 
     /**
-     * Add new employee
+     * Add new sys admin
      *
-     * @param sysAdmin
-     * @param user
+     * @param sysAdmin - required data for creating current sys admin
      * @return status
      */
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> addSysAdmin(
-            @RequestBody UserDTO sysAdmin,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            @RequestBody UserDTO sysAdmin) {
         HttpStatus httpStatus = HttpStatus.CREATED;
 
         try {
@@ -71,8 +70,10 @@ public class SysAdminController {
     }
 
     /**
-     * Add new employee
+     * Fetch required fields sys_admin with username @param username
      *
+     * @param username
+     * @return SysAdminDTO related on sys_admin with current username
      */
     @RequestMapping(value = "get_sys_admin/{username}", method = RequestMethod.GET)
     public SysAdminDTO findSysAdminByUsername(@PathVariable("username") String username) {
@@ -99,7 +100,9 @@ public class SysAdminController {
      * Delete sys admin with current username
      *
      * @param username
-     * @return
+     * @return a response body with http status {@literal CREATED} if sys admin
+     * have been successfully edited or else http
+     * status {@literal CONFLICT}
      */
     @RequestMapping(value = "delete/{username}", method = RequestMethod.DELETE)
     public ResponseEntity<HttpStatus> deleteSysAdmin(
@@ -120,13 +123,14 @@ public class SysAdminController {
      *
      * Edit sys admin with current username
      *
-     * @return
+     * @return a response body with http status {@literal CREATED} if sys admin
+     * have been successfully created or else http
+     * status {@literal CONFLICT}
      */
     @RequestMapping(value = "edit/{username}", method = RequestMethod.POST)
     public ResponseEntity<HttpStatus> editSysAdmin(
             @RequestBody UserDTO sysAdmin,
-            @PathVariable String username,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            @PathVariable String username) {
         HttpStatus httpStatus = HttpStatus.OK;
 
         try {

@@ -117,7 +117,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Organization> OrganizationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Organization> result = new ListToPageTransformer<Organization>();
+        ListToPageTransformer<Organization> result = new ListToPageTransformer<>();
         result.setContent(OrganizationList);
         result.setTotalItems(count);
         return result;

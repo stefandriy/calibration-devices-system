@@ -95,23 +95,25 @@ public class OrganizationController {
     }
 
     /**
+     *Fetch required data for all organization depends on  received {@param pageNumber}, {@param itemsPerPage},
+     * {@param sortCriteria} {@param sortOrder} and {@param searchData} that contains fields must be filtered
+     *
+     *
      * @param pageNumber
      * @param itemsPerPage
      * @param sortCriteria
      * @param sortOrder
      * @param searchData
-     * @return
+     *
+     * @return PageDTO that contains required data about current organizations depends on received filter, sort ,pagination and items per page
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(
-            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
-            NewOrganizationFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user
-    ) {
-
+    public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                     @PathVariable String sortCriteria, @PathVariable String sortOrder, NewOrganizationFilterSearch searchData) {
         ListToPageTransformer<Organization> queryResult = organizationService.getOrganizationsBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
-                searchData.getName_admin(),
+                searchData.getName(),
                 searchData.getEmail(),
                 searchData.getType_admin(),
                 searchData.getPhone_number(),
@@ -141,9 +143,15 @@ public class OrganizationController {
     public PageDTO<OrganizationPageItem> getOrganizationsPage(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage) {
-        return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null, null, null, null);
+        return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null, null, null);
     }
 
+    /**
+     * Fetch data depends on organization with received {@param id}
+     *
+     * @param id
+     * @return OrganizationDTO
+     */
     @RequestMapping(value = "getOrganization/{id}")
     public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
         Organization organization = organizationService.getOrganizationById(id);
@@ -223,9 +231,10 @@ public class OrganizationController {
     }
 
     /**
+     * Fetch organization admin data depends on organization with id {@param id}
      *
      * @param id
-     * @return
+     * @return OrganizationAdminDTO
      */
     @RequestMapping(value = "getOrganizationAdmin/{id}")
     public OrganizationAdminDTO getAdmin(@PathVariable("id") Long id) {
@@ -255,6 +264,12 @@ public class OrganizationController {
         return organizationAdminDTO;
     }
 
+    /**
+     * Fetch organization edit history for organization with  {@param organizationId}
+     *
+     * @param organizationId
+     * @return PageDTO<OrganizationEditHistoryPageDTO>
+     */
     @RequestMapping(value = "edit/history/{organizationId}")
     public PageDTO<OrganizationEditHistoryPageDTO> getEditHistory(@PathVariable("organizationId") Long organizationId) {
         List<OrganizationEditHistory> organizationEditHistoryList = organizationService.getHistoryByOrganizationId(organizationId);
