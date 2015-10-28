@@ -22,10 +22,7 @@ angular
                 total: 0,
                 getData: function ($defer, params) {
 
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
-
-                    userService.getSysAdminsPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                    userService.getSysAdminsPage()
                         .success(function (result) {
                             console.log(result);
                             $scope.totalEmployee=result.totalItems;
@@ -112,7 +109,7 @@ angular
                  * executes when modal closing
                  */
                 sysAdminDTOModal.result.then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ADMIN'));
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_ADMIN'));
                 });
             }
 

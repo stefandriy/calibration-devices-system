@@ -117,7 +117,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Organization> OrganizationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Organization> result = new ListToPageTransformer<Organization>();
+        ListToPageTransformer<Organization> result = new ListToPageTransformer<>();
         result.setContent(OrganizationList);
         result.setTotalItems(count);
         return result;
@@ -178,8 +178,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         if (employeeAdmin.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
-            System.out.println(employeeAdmin.getEmail());
-            System.out.println(newPassword);
             mail.sendNewPasswordMail(employeeAdmin.getEmail(), employeeAdmin.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
             employeeAdmin.setPassword(passwordEncoded);

@@ -87,6 +87,7 @@ public class CalibrationTestQueryConstructorCalibrator {
 
         }
 
+        System.out.println(name);
         if ((name != null) && (name.length() > 0)) {
             queryPredicate = cb.and(cb.like(root.get("name"), "%" + name + "%"), queryPredicate);
         }

@@ -5,8 +5,7 @@
 
 <div class="modal-body">
 
-    <form name="sysAdminForm" novalidate ng-submit="!sysAdminForm.phone.$error.pattern && !sysAdminForm.rePassword.$error.required
-    && !sysAdminForm.password.$error.required && onSysAdminFormSubmit()&&!sysAdminForm.username.$error.required&&!sysAdminForm.lastName.$error.required">
+    <form name="sysAdminForm" novalidate ng-submit="!sysAdminForm.phone.$error.pattern && onSysAdminFormSubmit()&&!sysAdminForm.username.$error.required&&!sysAdminForm.lastName.$error.required">
 
         <div class="panel panel-primary">
             <div class="panel-heading">{{'GENERAL_INFORMATION' | translate }}</div>
@@ -160,51 +159,10 @@
                     <div class="form-group col-md-4">
                         <label class="control-label">{{'PASSWORD_TWO' | translate}}*</label>
                     </div>
-                    <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
-                        <div class="form-group" show-errors>
-                            <input type="password" name="password" class="form-control hidden">
-                            <input type="password" ng-model="sysAdminFormData.password"
-                                   ng-pattern="PASSWORD_REGEX" name="password" class="form-control"
-                                   required>
-                            <p class="help-block"
-                               ng-if="sysAdminForm.password.$error.pattern">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'PASSWORD_TOO_SHORT' | translate }}
-                            </p>
-                    </div>
-                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.Password.$touched">
-                            <p class="validation-message" ng-if="sysAdminForm.Password.$error.required">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'REQUIRED' | translate}}
-                            </p>
-                            <p class="help-block"
-                               ng-if="sysAdminForm.password.$error.pattern">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'PASSWORD_TOO_SHORT' | translate }}
-                            </p>
-                </div>
+                    <div class="form-group col-md-8">
+                        <div class="form-group" aria-readonly="true">
+                            {{'PASSWORD_AUTOGENERATE' | translate}}
                         </div>
-                    <div class="form-group col-md-4">
-                        <label class="control-label">{{'REPEAT_PASSWORD' | translate}}*</label>
-                    </div>
-                    <div class="form-group col-md-8" ng-class="passwordValidation.css" show-errors>
-                        <input type="password" ng-model="sysAdminFormData.rePassword"
-                               ng-change="checkPasswords()"
-                               name="rePassword" class="form-control"
-                               required>
-                        <div ng-show="sysAdminForm.$submitted || sysAdminForm.rePassword.$touched">
-                            <p class="validation-message" ng-if="sysAdminForm.rePassword.$error.required">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'REQUIRED' | translate}}
-                            </p>
-
-                            <p class="validation-message " ng-if="passwordValidation.isValid"  ng-class="passwordValidation.css">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'PASSWORDS_DID_NOT_MATCH' | translate}}
-                            </p>
-                        </div>
-                        <!--<h4 ng-show="incorrectValue" style="color: red">-->
-                        <!--{{'INCORRECT_VALUE_INPUT_ADD_EMPLOYEE' | translate}}</h4>-->
                     </div>
                 </div>
             </div>
