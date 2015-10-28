@@ -21,8 +21,7 @@ import org.springframework.data.domain.*;
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
@@ -64,10 +63,6 @@ public class CalibratorPlaningTaskServiceImplTest {
     CalibratorPlaningTaskServiceImpl calibratorPlaningTaskService;
 
     // endregion
-
-    @Before
-    public void setUp() throws Exception {
-    }
 
     /**
      * Tests when verification == null
@@ -166,7 +161,7 @@ public class CalibratorPlaningTaskServiceImplTest {
             actual = false;
         }
 
-        assertEquals(false, actual);
+        assertFalse(actual);
     }
 
     /**
@@ -179,7 +174,7 @@ public class CalibratorPlaningTaskServiceImplTest {
                 thenReturn(null);
         Page<Verification> actual = calibratorPlaningTaskService.findByTaskStatus(5, 5);
         verify(planningTaskRepository).findByTaskStatus(any(Status.class), any(Pageable.class));
-        assertEquals(null, actual);
+        assertNull(actual);
     }
 
     /**
@@ -202,7 +197,7 @@ public class CalibratorPlaningTaskServiceImplTest {
             actual = false;
         }
 
-        assertEquals(false, actual);
+        assertFalse(actual);
     }
 
     /**
@@ -238,6 +233,6 @@ public class CalibratorPlaningTaskServiceImplTest {
 
         Page<Verification> actual =
                 calibratorPlaningTaskService.findVerificationsByCalibratorEmployeeAndTaskStatus(username, 5, 5);
-        assertTrue(actual == null);
+        assertNull(actual);
     }
 }
