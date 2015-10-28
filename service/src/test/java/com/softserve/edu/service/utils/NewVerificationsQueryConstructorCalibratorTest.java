@@ -10,19 +10,21 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.TreeSet;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
  * Created by Yurko on 25.10.2015.
  */
-@RunWith(MockitoJUnitRunner.class) // TODO
+@RunWith(MockitoJUnitRunner.class)
 @PrepareForTest(NewVerificationsQueryConstructorCalibrator.class)
 public class NewVerificationsQueryConstructorCalibratorTest {
 
@@ -30,18 +32,32 @@ public class NewVerificationsQueryConstructorCalibratorTest {
 
     // region mocks
 
-    @Mock private User calibratorEmployee;
-    @Mock private EntityManager em;
-    @Mock private CriteriaBuilder cb;
-    @Mock private CriteriaQuery<Verification> criteriaQuery;
-    @Mock private CriteriaQuery<Long> countQuery;
-    @Mock private Root<Verification> root;
-    @Mock private Join<Object, Object> calibratorJoin;
-    @Mock private Join<Object, Object> joinCalibratorEmployee;
-    @Mock private Predicate searchPredicateByUsername;
-    @Mock private Predicate searchPredicateByEmptyField;
-    @Mock private Predicate searchByCalibratorEmployee;
-    @Mock private Predicate queryPredicate;
+    @Mock
+    private User calibratorEmployee;
+    @Mock
+    private EntityManager em;
+    @Mock
+    private CriteriaBuilder cb;
+    @Mock
+    private CriteriaQuery<Verification> criteriaQuery;
+    @Mock
+    private CriteriaQuery<Long> countQuery;
+    @Mock
+    private Root<Verification> root;
+    @Mock
+    private Join<Object, Object> calibratorJoin;
+    @Mock
+    private Join<Object, Object> joinCalibratorEmployee;
+    @Mock
+    private Predicate searchPredicateByUsername;
+    @Mock
+    private Predicate searchPredicateByEmptyField;
+    @Mock
+    private Predicate searchByCalibratorEmployee;
+    @Mock
+    private Predicate queryPredicate;
+    @Mock
+    private Path path;
 
     // endregion
 
@@ -177,23 +193,29 @@ public class NewVerificationsQueryConstructorCalibratorTest {
 
     @Test
     public void test1BuildPredicate_withBuildCountQuery() throws Exception {
-        idToSearch = "u1";
+        /*idToSearch = "u1";
         fullNameToSearch = "john";
         streetToSearch = "zelena";
         region = "b13";
         district = "d15";
         employeeSearchName = "jack";
 
-        Path path = mock(Path.class);
-
         when(root.get("clientData")).thenReturn(path);
+        when(root.get("clientData").get("firstName")).thenReturn(path);
         when(path.get(anyString())).thenReturn(path);
 
+        when(cb.like(joinCalibratorEmployee.get("firstName"), "%" + employeeSearchName + "%")).
+                thenReturn(queryPredicate);
         when(cb.like(any(Expression.class), anyString())).thenReturn(queryPredicate);
-        when(cb.or(any(Predicate.class), any(Predicate.class), any(Predicate.class))).thenReturn(queryPredicate);
-        when(cb.and(any(Predicate.class), any(Predicate.class))).thenReturn(queryPredicate);
+        when(cb.like(root.get("clientData").get("firstName"), "%" + fullNameToSearch + "%")).
+                thenReturn(queryPredicate);
+        when(cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%")).
+                thenReturn(queryPredicate);
+        when(cb.like(root.get("clientData").get("middleName"), "%" + fullNameToSearch + "%")).
+                thenReturn(queryPredicate);
 
-        /*NewVerificationsQueryConstructorCalibrator.buildCountQuery(
+
+        NewVerificationsQueryConstructorCalibrator.buildCountQuery(
                 calibratorId, startDateToSearch, endDateToSearch, idToSearch,
                 fullNameToSearch, streetToSearch, region, district,
                 locality, status, calibratorEmployee, employeeSearchName, em);*/
