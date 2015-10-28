@@ -184,6 +184,11 @@ public class NewVerificationsQueryConstructorCalibratorTest {
         district = "d15";
         employeeSearchName = "jack";
 
+        Path path = mock(Path.class);
+
+        when(root.get("clientData")).thenReturn(path);
+        when(path.get(anyString())).thenReturn(path);
+
         when(cb.like(any(Expression.class), anyString())).thenReturn(queryPredicate);
         when(cb.or(any(Predicate.class), any(Predicate.class), any(Predicate.class))).thenReturn(queryPredicate);
         when(cb.and(any(Predicate.class), any(Predicate.class))).thenReturn(queryPredicate);
