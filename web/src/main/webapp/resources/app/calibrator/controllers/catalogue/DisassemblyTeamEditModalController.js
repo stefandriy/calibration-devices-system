@@ -91,7 +91,7 @@ angular.module('employeeModule')
                     $scope.teamForm.$setUntouched();
                 }
                 $scope.teamNumber = null;
-                $scope.teamFormData = null;
+                $scope.team = null;
             };
 
             /**
@@ -109,64 +109,23 @@ angular.module('employeeModule')
                     leaderPhone: $scope.team.leaderPhone,
                     leaderEmail: $scope.team.leaderEmail
                 };
-
-                if (bValidation()) {
-                    DisassemblyTeamServiceCalibrator.editDisassemblyTeam(
-                        teamForm,
-                        $rootScope.teamId).then(
-                        function (data) {
-                            if (data == 200) {
-                                $scope.closeModal();
-                                $scope.resetTeamForm();
-                                $rootScope.onTableHandling();
-                            }
-                        });
-                } else {
-                    $scope.incorrectValue = true;
-                }
+                DisassemblyTeamServiceCalibrator.editDisassemblyTeam(
+                    teamForm,
+                    $rootScope.teamId).then(
+                    function (data) {
+                        if (data == 200) {
+                            $scope.closeModal();
+                            $scope.resetTeamForm();
+                            $rootScope.onTableHandling();
+                        }
+                    });
             };
-            $log.debug($rootScope.team);
+
             /**
              * Closes edit modal window.
              */
             $scope.closeModal = function () {
                 $modalInstance.close();
             };
-
-            $scope.checkAll = function (caseForValidation) {
-                switch (caseForValidation) {
-                    case ('time'):
-                        var time = $scope.team.time;
-                        if (/^[0-1]{1}[0-9]{1}(\.)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\.)[0-9]{2}$/.test(time)) {
-                            validator('time', false);
-                        } else {
-                            validator('time', true);
-                        }
-                        break;
-                }
-
-            };
-
-            function validator(caseForValidation, isValid) {
-                switch (caseForValidation) {
-                    case ('time'):
-                        $scope.timeValidation = {
-                            isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success'
-                        };
-                        break;
-                }
-            }
-
-
-            bValidation = function () {
-                if ( $scope.timeValidation === undefined || $scope.timeValidation.isValid === false) {
-                    $scope.incorrectValue = true;
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-
         }]);
 
