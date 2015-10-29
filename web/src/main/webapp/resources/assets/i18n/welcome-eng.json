@@ -447,6 +447,12 @@
   "ROTATE_RIGHT" : "Right",
   "ROTATE_180" : "180",
   "EDIT_VALUES" : "Edit values",
-  "FILL_INFO_ABOUT_PROTOCOL" : "Fill information about protocol"
+  "FILL_INFO_ABOUT_PROTOCOL" : "Fill information about protocol",
+  "DOCUMENT_UPLOADING" : "Document uploading",
+  "CHOOSE_FILE" : "Choose file",
+  "DRAG_FILE_HERE" : "Drag file here",
+  "BROWSER_DRAGGING_WARNING" : "Your browser does not support file dragging",
+  "UPLOAD_SUCCESS" : "You successfully uploaded file ",
+  "UPLOAD_FAIL" : "Can't upload file "
 
 }

@@ -1,15 +1,15 @@
 <div class="modal-header">
-    <h4 class="modal-title">Завантаження документа</h4>
+    <h4 class="modal-title">{{ 'DOCUMENT_UPLOADING' | translate}}</h4>
 </div>
 
 <div class="modal-body">
     <div class="uploadFile">
         <button ng-hide="uploaded" class="btn btn-info" ng-model="file" ngf-select ngf-change="upload($files)"
-                accept=".bbi">Оберіть файл
+                accept=".bbi">{{ 'CHOOSE_FILE' | translate }}
         </button>
 
         <div ng-hide="uploaded" ngf-drop ngf-select ng-model="files" class="drop-box" ngf-drag-over-class="dragover"
-             ngf-allow-dir="false" accept=".bbi">Перетягніть файл сюди
+             ngf-allow-dir="false" accept=".bbi">{{ 'DRAG_FILE_HERE' | translate }}
         </div>
 
         <progressbar value="progressPercentage" max="100" min="0" class="progress-striped active" type="success">
@@ -19,11 +19,11 @@
         <div ng-show="messageSuccess" class="alert alert-success" role="alert">{{messageSuccess}}</div>
         <div ng-show="messageError" class="alert alert-danger" role="alert">{{messageError}}</div>
 
-        <div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
+        <div ngf-no-file-drop>{{ 'BROWSER_DRAGGING_WARNING' | translate }}</div>
     </div>
 </div>
 <div class="modal-footer">
     <button ng-click="cancel()" class="btn btn-info pull-right" type="button">
-        Закрити
+        {{ 'CLOSE' | translate }}
     </button>
 </div>
