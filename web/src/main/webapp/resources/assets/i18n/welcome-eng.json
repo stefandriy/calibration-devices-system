@@ -458,6 +458,8 @@
   "DRAG_FILE_HERE" : "Drag file here",
   "BROWSER_DRAGGING_WARNING" : "Your browser does not support file dragging",
   "UPLOAD_SUCCESS" : "You successfully uploaded file ",
-  "UPLOAD_FAIL" : "Can't upload file "
+  "UPLOAD_FAIL" : "Can't upload file ",
+  "PREVIOUS_PAGE" : "Previous",
+  "NEXT_PAGE" : "Next"
 
 }

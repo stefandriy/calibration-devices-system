@@ -30,9 +30,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private VerificationRepository verificationRepository;
 
     @Autowired
-    private VerificationPlanningTaskRepository planningTaskRepository;
-
-    @Autowired
     private CalibrationModuleRepository moduleRepository;
 
     @Autowired
@@ -41,8 +38,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     @Autowired
     private CalibrationDisassemblyTeamRepository teamRepository;
 
-    @Autowired
-    private AdditionalInfoRepository additionalInfoRepository;
 
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
@@ -92,15 +87,21 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         if (user == null){
             logger.error("Cannot found user!");
         }
-        List<Verification> verifications = planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK);
-        return verifications.size();
+        Set<UserRole> roles = user.getUserRoles();
+        for (UserRole role : roles) {
+            if (role.equals(UserRole.CALIBRATOR_ADMIN)) {
+                return verificationRepository.findByTaskStatusAndCalibratorId(Status.PLANNING_TASK, user.getOrganization().getId()).size();
+            }
+        }
+        return verificationRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK).size();
+
     }
 
     @Override
-    public Page<Verification> findByTaskStatus(int pageNumber, int itemsPerPage) {
+    public Page<Verification> findByTaskStatusAndCalibratorId(Long id, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-        return planningTaskRepository.findByTaskStatus(Status.PLANNING_TASK, pageRequest);
+        return verificationRepository.findByTaskStatusAndCalibratorId(Status.PLANNING_TASK, id, pageRequest);
     }
 
     @Override
@@ -108,16 +109,17 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
+            throw new NullPointerException();
         }
         Set<UserRole> roles = user.getUserRoles();
         for (UserRole role : roles) {
             if (role.equals(UserRole.CALIBRATOR_ADMIN)) {
-                return findByTaskStatus(pageNumber, itemsPerPage);
+                return findByTaskStatusAndCalibratorId(user.getOrganization().getId(), pageNumber, itemsPerPage);
             }
         }
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, pageRequest);
+        return verificationRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, pageRequest);
     }
 
 }
