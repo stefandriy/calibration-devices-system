@@ -81,7 +81,7 @@ public class OrganizationsServiceTest {
         final String password = "root";
 
         organizationsService.addOrganizationWithAdmin(OrgName, email, phone, types, counters, employeesCapacity, maxProcessTime,
-                username, mname, mname, mname, password, address, username, localities);
+                username, mname, mname, mname, address, username, localities);
         assertTrue(true);
     }
     @Test

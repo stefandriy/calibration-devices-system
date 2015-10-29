@@ -61,9 +61,10 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                         String username, String password, Address address, String adminName, Long[] localityIdList) {
+                                         String username, Address address, String adminName, Long[] localityIdList) {
 
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
+        String password = RandomStringUtils.randomAlphanumeric(firstName.length());
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
         employeeAdmin.setIsAvailable(true);
@@ -85,6 +86,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             Locality locality = localityService.findById(localityId);
             organization.addLocality(locality);
         }
+
         organizationRepository.save(organization);
         String stringOrganizationTypes = String.join(",", types);
 
