@@ -8,22 +8,21 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
-import org.junit.Before;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.apache.log4j.Logger;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -222,11 +221,6 @@ public class CalibratorPlaningTaskServiceImplTest {
      * @throws Exception
      */
     @Test
-    public void test2FindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
-        String username = "john";
-        User user = mock(User.class);
-        when(userRepository.findOne(anyString())).thenReturn(user);
-        when(user.getUsername()).thenReturn(username);
     public void test2FindVerificationsByCalibratorEmployeeAndTaskStatus() throws Exception {
         String username = "john";
         User user = mock(User.class);
