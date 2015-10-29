@@ -38,11 +38,7 @@ public class CalibrationDisassenblyTeamSpecifications {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("effectiveTo"), effectiveTo);
     }
 
-    public static Specification<DisassemblyTeam> disassemblyIsAvaliable() {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("isAvaliable"));
-    }
-
-    /**
+   /**
      * build query for disassemblyTeamType, filtering by disassemblyTeamType
      * @param disassemblyTeamType
      * @return query, for searching

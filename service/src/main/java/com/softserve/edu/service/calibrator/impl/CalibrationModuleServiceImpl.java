@@ -41,7 +41,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         try {
             modules = (List<CalibrationModule>) moduleRepository.findAll(specifications.where(CalibrationModuleSpecifications.moduleHasType(moduleType))
                     .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
-                    .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)).and(CalibrationModuleSpecifications.moduleIsAvaliable()));
+                    .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)));
         } catch (NullPointerException e){
             logger.error("Cannot found modules!", e);
         }

@@ -61,7 +61,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
         module.setWorkDate(taskDate);
-        module.setAvaliable(false);
         moduleRepository.save(module);
         User user = userRepository.findOne(userId);
         taskRepository.save(new CalibrationTask(module, null, new Date(), taskDate, user, verifications));
@@ -82,7 +81,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         DisassemblyTeam team = teamRepository.findOne(serialNumber);
         team.setEffectiveTo(taskDate);
-        team.setAvaliable(false);
         teamRepository.save(team);
         User user = userRepository.findOne(userId);
         taskRepository.save(new CalibrationTask(null, team, new Date(), taskDate, user, verifications));

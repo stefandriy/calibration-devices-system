@@ -38,7 +38,4 @@ public class CalibrationModuleSpecifications {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("organization").get("id"), calibratorId);
     }
 
-    public static Specification<CalibrationModule> moduleIsAvaliable(){
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("isAvaliable"));
-    }
 }

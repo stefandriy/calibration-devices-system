@@ -134,10 +134,10 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
         }
         List<DisassemblyTeam> teams = new ArrayList<>();
         try{
-            teams = teamRepository.findAll(specifications.where(CalibrationDisassenblyTeamSpecifications.disassemblyIsAvaliable()).
-                    and(CalibrationDisassenblyTeamSpecifications.disassemblyTeamHasCalibratorId(user.getOrganization().getId())).
-                    and(CalibrationDisassenblyTeamSpecifications.disassemblyTeamHasEffectiveTo(workDate)).
-                    and(CalibrationDisassenblyTeamSpecifications.disassemblyTeamHasType(deviceType)));
+            teams = teamRepository.findAll(specifications.where(CalibrationDisassenblyTeamSpecifications.
+                    disassemblyTeamHasCalibratorId(user.getOrganization().getId())).and(CalibrationDisassenblyTeamSpecifications.
+                    disassemblyTeamHasEffectiveTo(workDate)).and(CalibrationDisassenblyTeamSpecifications.
+                    disassemblyTeamHasType(deviceType)));
         } catch (Exception e){
             logger.error("Cannot found teams!", e);
         }
