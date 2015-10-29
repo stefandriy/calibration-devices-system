@@ -389,12 +389,18 @@ angular
 
             $scope.deleteTest = function (testId) {
                 $rootScope.testId = testId;
-                calibrationTestServiceCalibrator.deleteCalibrationTest(testId);
-                $timeout(function() {
-                    console.log('delete with timeout');
-                    $scope.tableParams.reload();
-                }, 700);
+                calibrationTestServiceCalibrator.deleteCalibrationTest(testId).then(function (data) {
+                    console.log(data);
+                    if (data == 200) {
+                        $timeout(function () {
+                            console.log('delete with timeout');
+                            $scope.tableParams.reload();
+                        }, 700);
+                    } else {
+                        console.log(data.status);
+                    }
 
+                })
             };
 
 

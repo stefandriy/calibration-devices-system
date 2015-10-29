@@ -199,25 +199,6 @@ angular
                 }
             }
 
-            /**
-             * Check passwords for equivalent
-             */
-
-            $scope.checkPasswords = function () {
-                var first = $scope.sysAdminFormData.password;
-                var second = $scope.sysAdminFormData.rePassword;
-                $log.info(first);
-                $log.info(second);
-                var isValid = false;
-                if (first != second) {
-                    isValid = true;
-                }
-                $scope.passwordValidation = {
-                    isValid: isValid,
-                    css: isValid ? 'has-error' : 'has-success'
-                }
-            };
-
 
             /*var index = arrayObjectIndexOf($scope.regions,  $scope.user.address.region, "designation");
              $scope.sysAdminFormData.region = $scope.regions[index];
@@ -349,7 +330,6 @@ angular
                     phone: $scope.sysAdminFormData.phone,
                     email: $scope.sysAdminFormData.email,
                     username: $scope.sysAdminFormData.username,
-                    password: $scope.sysAdminFormData.password,
                     userRoles: ['SYS_ADMIN'],
                     address: $scope.sysAdminFormData.address
                 };
@@ -369,9 +349,8 @@ angular
             var bValidation = function () {
                 if (( $scope.firstNameValidation === undefined) || ($scope.lastNameValidation === undefined)
                     || ($scope.middleNameValidation === undefined) || ($scope.emailValidation === undefined)
-                    || ($scope.passwordValidation === undefined) || ($scope.usernameValidation === undefined)
-                    || ($scope.sysAdminFormData.region === undefined) || ($scope.sysAdminFormData.district === undefined)
-                    || ($scope.sysAdminFormData.locality === undefined)
+                    || ($scope.usernameValidation === undefined) || ($scope.sysAdminFormData.region === undefined)
+                    || ($scope.sysAdminFormData.district === undefined) || ($scope.sysAdminFormData.locality === undefined)
                 ) {
                     $scope.incorrectValue = true;
                     return false;
@@ -424,12 +403,11 @@ angular
             $scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
             $scope.BUILDING_REGEX = /^[1-9][0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457])?$/;
             $scope.FLAT_REGEX = /^([1-9][0-9]{0,3}|0)$/;
-            $scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
 
             /* Closes the modal window
              */
             $rootScope.closeModal = function () {
-                $modalInstance.close();
+                $modalInstance.dismiss();
             };
 
             //   $log.info(sysAdminFormData);

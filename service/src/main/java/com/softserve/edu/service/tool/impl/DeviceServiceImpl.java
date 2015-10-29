@@ -65,10 +65,10 @@ public class DeviceServiceImpl implements DeviceService {
 		TypedQuery<Device> typedQuery = entityManager.createQuery(criteriaQuery);
 		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
 		typedQuery.setMaxResults(itemsPerPage);
-		List<Device> DevicesCategoryList = typedQuery.getResultList();
+		List<Device> devicesCategoryList = typedQuery.getResultList();
 
 		ListToPageTransformer<Device> result = new ListToPageTransformer<Device>();
-		result.setContent(DevicesCategoryList);
+		result.setContent(devicesCategoryList);
 		result.setTotalItems(count);
 		return result;
 	}

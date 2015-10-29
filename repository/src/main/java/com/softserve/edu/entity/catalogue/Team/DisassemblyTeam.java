@@ -47,7 +47,7 @@ public class DisassemblyTeam {
     private Set<CalibrationTask> tasks;
 
     @Column(columnDefinition = "boolean default true")
-    private boolean isAvaliable;
+    private boolean isAvailable;
 
 
     public DisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,

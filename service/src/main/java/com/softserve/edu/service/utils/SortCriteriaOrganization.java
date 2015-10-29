@@ -6,7 +6,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
-//TODO
 public enum SortCriteriaOrganization {
     ID() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
@@ -28,7 +27,7 @@ public enum SortCriteriaOrganization {
             }
         }
     },
-    NAME_ADMIN() {
+    NAME() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
 
             if(sortOrder.equalsIgnoreCase("asc")) {

@@ -17,6 +17,12 @@ public class RoleController {
     @Autowired
     private UsersService usersService;
 
+    /**
+     *Check if authenticated user has role SUPER_ADMIN
+     *
+     * @param user authenticated admin
+     * @return true if authenticated user has role SUPER_ADMIN, else false
+     */
     @RequestMapping(value = "is_super_admin/", method = RequestMethod.GET)
     public Boolean isSuperAdmin(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {

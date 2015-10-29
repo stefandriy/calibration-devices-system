@@ -5,6 +5,7 @@ import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.dto.calibrator.TestGenerallDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
+import com.softserve.edu.exceptions.NotFoundException;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
@@ -57,7 +58,7 @@ public class CalibrationTestController {
             CalibrationTestList list = testService.findAllCalibrationTests();
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (NotAvailableException exception) {
-            throw new com.softserve.edu.exceptions.NotFoundException(exception);
+            throw new NotFoundException(exception);
         }
     }
 

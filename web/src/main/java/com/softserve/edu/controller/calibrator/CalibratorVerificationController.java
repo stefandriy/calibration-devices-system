@@ -116,6 +116,10 @@ public class CalibratorVerificationController {
     public PageDTO<CalibrationTestDTO> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
                                                                      @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData) {
 
+        System.out.println(searchData);
+        System.out.println(searchData.getName());
+
+
         ListToPageTransformer<CalibrationTest> queryResult = verificationService
                 .findPageOfCalibrationTestsByVerificationId(
                         pageNumber,

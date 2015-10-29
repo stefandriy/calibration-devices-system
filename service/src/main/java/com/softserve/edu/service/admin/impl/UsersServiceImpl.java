@@ -81,28 +81,39 @@ public class UsersServiceImpl implements UsersService {
         return result;
     }
 
+    /**
+     * Add and save new sys admin with received data and send email contains created password
+     *
+     * @param username
+     * @param firstName
+     * @param lastName
+     * @param middleName
+     * @param phone
+     * @param email
+     * @param address
+     */
     @Override
     @Transactional
-    public void addSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
+    public void addSysAdmin( String  username, String firstName, String lastName, String middleName, String phone,
                              String email,  Address address) {
+        String newPassword = RandomStringUtils.randomAlphanumeric(5);
+        String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
 
-        User newUser = new AddEmployeeBuilder().username(username)
-                .password(password)
-                .firstName(firstName)
-                .lastName(lastName)
-                .middleName(middleName)
-                .phone(phone)
-                .email(email)
-                .address(address)
-                .setIsAvailable(true)
-                .build();
+        User newUser = new AddEmployeeBuilder()
+                                                .username(username)
+                                                .password(passwordEncoded)
+                                                .firstName(firstName)
+                                                .lastName(lastName)
+                                                .middleName(middleName)
+                                                .phone(phone)
+                                                .email(email)
+                                                .address(address)
+                                                .setIsAvailable(true)
+                                                .build();
 
+        newUser.addRole(UserRole.SYS_ADMIN);
 
-            newUser.addRole(UserRole.SYS_ADMIN);
-
-
-        String passwordEncoded = new BCryptPasswordEncoder().encode(newUser.getPassword());
-        newUser.setPassword(passwordEncoded);
+        mail.sendNewPasswordMail(email, firstName, newPassword);
 
         userRepository.save(newUser);
     }
@@ -112,20 +123,6 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public ListToPageTransformer<User> findAllSysAdmins() {
 
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//
-//        CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
-//                Root<User> root = criteriaQuery.from(User.class);
-//        Predicate queryPredicate = cb.conjunction();
-//        queryPredicate = cb.and(cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")), queryPredicate);
-//        criteriaQuery.select(root).distinct(true);
-//        criteriaQuery.where(queryPredicate);
-//        TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
-//        List<User> providerEmployeeList = typedQuery.getResultList();
-//
-//        ListToPageTransformer<User> result = new ListToPageTransformer<>();
-//        result.setContent(providerEmployeeList);
-//        result.setTotalItems(7L);
         Set<User> sysAdmins = userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
         ListToPageTransformer<User> result = new ListToPageTransformer<>();
         Long countItems = new Long(sysAdmins.size());
