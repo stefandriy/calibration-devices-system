@@ -47,7 +47,7 @@ angular
                 $scope.TestForm.testDate = moment(date).utcOffset(0).format("DD.MM.YYYY HH:mm");
                 $scope.TestForm.testPhoto = "data:image/png;base64," + $scope.TestForm.testPhoto;
                 $scope.TestDataFormData = data.listTestData;
-            }
+            };
 
             $scope.showEditMainPhotoModal = function (id) {
                 console.log("Entered edit main photo function");
@@ -57,19 +57,19 @@ angular
                     controller: 'EditPhotoController',
                     size: 'md',
                     resolve: {
-                        photo: function() {
-                            return document.getElementById(id).src;
-                        },
-                        photoId: function() {
+                         photoId: function() {
                             return id;
+                        },
+                         parentScope: function() {
+                            return $scope;
                         }
                     }
                 });
-            }
+            };
 
             $scope.setMainPhoto = function (data) {
                 $scope.TestForm.testPhoto = data;
-            }
+            };
 
             function getCalibrationTests() {
                 calibrationTestServiceCalibrator
