@@ -104,6 +104,14 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
 
     @Query("SELECT MIN(u.initialDate) FROM Verification u WHERE u.status NOT IN ('ACCEPTED', 'SENT', 'IN_PROGRESS') and u.calibrator = :calibrator")
     java.sql.Date getEarliestDateOfArchivalVerificationsByCalibrator(@Param("calibrator") Organization calibrator);
+
+    List<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status);
+
+    List<Verification> findByTaskStatusAndCalibratorId(Status status, Long id);
+
+    Page<Verification> findByTaskStatusAndCalibratorId(Status status, Long id, Pageable pageable);
+
+    Page<Verification> findByCalibratorEmployeeUsernameAndTaskStatus(String userName, Status status, Pageable pageable);
 }
 
 

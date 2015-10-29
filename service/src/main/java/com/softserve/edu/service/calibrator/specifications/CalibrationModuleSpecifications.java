@@ -16,7 +16,7 @@ public class CalibrationModuleSpecifications {
     }
 
     public static Specification<CalibrationModule> moduleHasWorkDate(Date workDate){
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("workDate"), workDate);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("workDate"), workDate);
     }
 
     public static Specification<CalibrationModule> moduleDeviceType(String applicationFiled){
@@ -38,7 +38,4 @@ public class CalibrationModuleSpecifications {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("organization").get("id"), calibratorId);
     }
 
-    public static Specification<CalibrationModule> moduleIsAvaliable(){
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.isTrue(root.get("isAvaliable"));
-    }
 }

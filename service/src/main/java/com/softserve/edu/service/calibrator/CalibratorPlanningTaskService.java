@@ -17,8 +17,8 @@ public interface CalibratorPlanningTaskService {
 
     int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 
-    Page<Verification> findByTaskStatus(int pageNumber,
-                                        int itemsPerPage);
+    Page<Verification> findByTaskStatusAndCalibratorId(Long Id, int pageNumber,
+                                                       int itemsPerPage);
 
     Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
                                                                                      int itemsPerPage);

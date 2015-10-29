@@ -57,10 +57,13 @@
                                         filter="{ 'address': 'text' }">{{ verification.address }}
                                     </td>
                                     <td data-title="'COUNTER_STATUS' | translate"
-                                        filter="{ 'quantity': 'text' }">{{ verification.counterStatus }}
+                                        filter="{ 'counter_status': 'text' }">{{ verification.counterStatus }}
+                                    </td>
+                                    <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
+                                        filter="{ 'deviceType': 'text' }">{{ verification.deviceType }}
                                     </td>
                                     <td data-title="'TELEPHONE' | translate"
-                                        filter="{ 'quantity': 'text' }">{{ verification.telephone }}
+                                        filter="{ 'telephone': 'text' }">{{ verification.telephone }}
                                     </td>
                                     <td data-title="'ACTIONS' | translate" style="width: 15%">
 
@@ -82,9 +85,9 @@
                                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
                                             <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                                Previous</a>
+                                                {{'PREVIOUS_PAGE'|translate}}</a>
                                             <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                               href="">Next &raquo;</a>
+                                               href="">{{'NEXT_PAGE'|translate}} &raquo;</a>
                                         </li>
                                         <li>
                                             <div class="btn-group">
@@ -125,10 +128,7 @@
                             </script>
 
 
-                            <p id="emptyError" ng-if="allIsEmpty && isClicked"
-                               class="help-block">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            </p>
+
 
                             <div class="pull-left">
                                 <button type="button" class="btn btn-primary"
