@@ -56,16 +56,6 @@ angular
 
             $rootScope.onTableHandling = function () {
                 $scope.tableParams.reload();
-                //organizationService
-                //		.getPage($scope.currentPage,
-                //				$scope.itemsPerPage,
-                //				$scope.searchData
-                //              )
-                //		.then(
-                //				function(data) {
-                //					$scope.pageContent = data.content;
-                //					$scope.totalItems = data.totalItems;
-                //				});
             };
             $rootScope.onTableHandling();
 
@@ -127,7 +117,7 @@ angular
             };
 
             /**
-             * Opens modal window for show history editing organization.
+             * Opens modal window for show history for all organization changes.
              */
             $scope.openOrganizationEditHistoryModal = function (organizationId) {
                 $rootScope.organizationId = organizationId;

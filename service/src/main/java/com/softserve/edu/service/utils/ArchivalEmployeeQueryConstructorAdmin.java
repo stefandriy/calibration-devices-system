@@ -11,7 +11,7 @@ import javax.persistence.criteria.*;
 public class ArchivalEmployeeQueryConstructorAdmin {
     static Logger logger = Logger.getLogger(ArchivalEmployeeQueryConstructorAdmin.class);
 
-    public static CriteriaQuery<User> buildSearchQuery(String userName, String role, String firstName, String lastName, String organization, String telephone,
+    public static CriteriaQuery<User> buildSearchQuery(String username, String role, String firstName, String lastName, String organization, String telephone,
                                                         String sortCriteria, String sortOrder, EntityManager em) {
 
 
@@ -19,7 +19,7 @@ public class ArchivalEmployeeQueryConstructorAdmin {
         CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
         Root<User> root = criteriaQuery.from(User.class);
 
-        Predicate predicate = ArchivalEmployeeQueryConstructorAdmin.buildPredicate(root, cb, userName,
+        Predicate predicate = ArchivalEmployeeQueryConstructorAdmin.buildPredicate(root, cb, username,
                 role, firstName, lastName, organization, telephone);
 
         logger.info("sortcriteria");
@@ -35,17 +35,22 @@ public class ArchivalEmployeeQueryConstructorAdmin {
     }
 
 
-    private static Predicate buildPredicate(Root<User> root, CriteriaBuilder cb, String userName, String role,
+    private static Predicate buildPredicate(Root<User> root, CriteriaBuilder cb, String username, String role,
                                             String firstName, String lastName, String organization, String telephone) {
         Predicate queryPredicate = cb.conjunction();
-        if (!(userName == null) && !(userName.isEmpty())) {
-            queryPredicate = cb.and(cb.like(root.get("username"), "%" + userName + "%"), queryPredicate);
+        if (!(username == null) && !(username.isEmpty())) {
+            queryPredicate = cb.and(cb.like(root.get("username"), "%" + username + "%"), queryPredicate);
         }
         if (!(role == null) && !(role.isEmpty())) {
             UserRole uRole = UserRole.valueOf(role.trim());
             queryPredicate = cb.and(cb.isMember(uRole, root.get("userRoles")), queryPredicate);
         }else {
-            queryPredicate = cb.and(cb.not(cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles"))));
+            queryPredicate = cb.and
+                                    (cb.not
+                                        (cb.or(
+                                                cb.isMember(UserRole.SUPER_ADMIN, root.get("userRoles")),
+                                                                     cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")))));
+
         }
         if (!(firstName == null) && !(firstName.isEmpty())) {
             queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
@@ -62,13 +67,13 @@ public class ArchivalEmployeeQueryConstructorAdmin {
         return queryPredicate;
     }
 
-    public static CriteriaQuery<Long> buildCountQuery(String userName, String role, String firstName,
+    public static CriteriaQuery<Long> buildCountQuery(String username, String role, String firstName,
                                                       String lastName, String organization, String telephone, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<User> root = countQuery.from(User.class);
-        Predicate predicate = ArchivalEmployeeQueryConstructorAdmin.buildPredicate(root, cb, userName, role,
+        Predicate predicate = ArchivalEmployeeQueryConstructorAdmin.buildPredicate(root, cb, username, role,
                 firstName, lastName, organization, telephone);
 
         countQuery.select(cb.countDistinct(root));

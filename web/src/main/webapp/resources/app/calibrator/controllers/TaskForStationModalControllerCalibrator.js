@@ -75,8 +75,6 @@ angular
                 $scope.counterNumberValidation = null;
                 $scope.showSendingMessage = false;
                 $scope.modulesSerialNumbers = {};
-                $scope.checkPlaceAndStatus();
-                $scope.checkPlace();
             };
 
             $scope.modulesSerialNumbers = {};
@@ -88,6 +86,7 @@ angular
                 var applicationFiled = $scope.calibrationTask.applicationFiled;
                 verificationPlanningTaskService.getModuls(place, taskDate, applicationFiled)
                     .then(function (result) {
+                        $log.debug(result);
                         $scope.modulesSerialNumbers = result.data;
                     }, function (result) {
                         $log.debug('error fetching data:', result);

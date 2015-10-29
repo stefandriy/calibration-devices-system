@@ -28,7 +28,7 @@ public class CounterType {
 
     private Integer calibrationInterval;
 
-    private String yearIntroduction;
+    private Integer yearIntroduction;
 
     private String gost;
 
@@ -45,7 +45,7 @@ public class CounterType {
     }
 
     public CounterType(String name, String symbol, String standardSize, String manufacturer,
-                       Integer calibrationInterval, String yearIntroduction, String gost, Device device) {
+                       Integer calibrationInterval, Integer yearIntroduction, String gost, Device device) {
         this.name = name;
         this.symbol = symbol;
         this.standardSize = standardSize;

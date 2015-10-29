@@ -1,12 +1,10 @@
 package com.softserve.edu.dto;
 
-/**
- * Created by vova on 02.09.15.
- */
+
 public class NewOrganizationFilterSearch {
 
     private String id;
-    private String name_admin;
+    private String name;
     private String type_admin;
     private String email;
     private String phone_number;
@@ -17,12 +15,24 @@ public class NewOrganizationFilterSearch {
 
     public NewOrganizationFilterSearch (){}
 
-    public NewOrganizationFilterSearch(String id, String name_admin, String type_admin, String email, String phone_number) {
+    public NewOrganizationFilterSearch(String id, String name, String type_admin, String email, String phone_number, String street, String region, String district, String locality) {
         this.id = id;
-        this.name_admin = name_admin;
+        this.name = name;
         this.type_admin = type_admin;
         this.email = email;
         this.phone_number = phone_number;
+        this.street = street;
+        this.region = region;
+        this.district = district;
+        this.locality = locality;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRegion() {
@@ -63,14 +73,6 @@ public class NewOrganizationFilterSearch {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName_admin() {
-        return name_admin;
-    }
-
-    public void setName_admin(String name_admin) {
-        this.name_admin = name_admin;
     }
 
     public String getType_admin() {

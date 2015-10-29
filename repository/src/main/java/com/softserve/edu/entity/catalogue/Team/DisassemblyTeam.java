@@ -46,6 +46,7 @@ public class DisassemblyTeam {
     @OneToMany(mappedBy = "team")
     private Set<CalibrationTask> tasks;
 
+
     public DisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
                            String leaderPhone, String leaderEmail) {
         this.id = id;

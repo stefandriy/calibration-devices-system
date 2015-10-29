@@ -59,6 +59,9 @@
                                     <td data-title="'COUNTER_STATUS' | translate"
                                         filter="{ 'quantity': 'text' }">{{ verification.counterStatus }}
                                     </td>
+                                    <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
+                                        filter="{ 'quantity': 'text' }">{{ verification.deviceType }}
+                                    </td>
                                     <td data-title="'TELEPHONE' | translate"
                                         filter="{ 'quantity': 'text' }">{{ verification.telephone }}
                                     </td>
@@ -125,10 +128,7 @@
                             </script>
 
 
-                            <p id="emptyError" ng-if="allIsEmpty && isClicked"
-                               class="help-block">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            </p>
+
 
                             <div class="pull-left">
                                 <button type="button" class="btn btn-primary"

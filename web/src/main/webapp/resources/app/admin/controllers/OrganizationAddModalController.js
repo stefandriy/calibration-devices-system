@@ -112,7 +112,7 @@ angular
              */
             $rootScope.closeModal = function () {
                 $scope.resetOrganizationForm();
-                $modalInstance.close();
+                $modalInstance.dismiss();
             };
 
             /**

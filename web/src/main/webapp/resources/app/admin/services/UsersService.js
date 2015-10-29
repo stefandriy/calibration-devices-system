@@ -8,8 +8,7 @@ angular
             },
             getSysAdminsPage : function (currentPage, itemsPerPage, searchObj, sortCriteria, sortOrder) {
 
-                return getData('admin/sysadmins/' + currentPage + '/' + itemsPerPage + '/'
-                    + sortCriteria +  '/' + sortOrder, searchObj);
+                return getData('admin/sysadmins/get_sys_admins');
             },
             getSysAdminByUsername: function (username) {
                 var url = '/admin/sysadmins/get_sys_admin/' + username;

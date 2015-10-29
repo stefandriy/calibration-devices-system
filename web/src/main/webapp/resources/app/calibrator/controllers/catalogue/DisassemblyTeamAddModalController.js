@@ -46,7 +46,7 @@ angular.module('employeeModule')
             $scope.dateOptions = {
                 formatYear: 'yyyy',
                 startingDay: 1,
-                showWeeks: 'false',
+                showWeeks: 'false'
 
             };
 
@@ -92,7 +92,6 @@ angular.module('employeeModule')
                     $scope.teamForm.$setUntouched();
                 }
                 $scope.teamNumber = null;
-                //$scope.teamFormData.pickerDate = null;
                 $scope.teamFormData = null;
             };
 
@@ -131,14 +130,6 @@ angular.module('employeeModule')
                             validator('loginTeamValid', false);
                         }
                         break;
-                    case ('time'):
-                        var time = $scope.teamFormData.time;
-                        if (/^[0-1]{1}[0-9]{1}(\.)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\.)[0-9]{2}$/.test(time)) {
-                            validator('time', false);
-                        } else {
-                            validator('time', true);
-                        }
-                        break;
                 }
 
             };
@@ -159,12 +150,6 @@ angular.module('employeeModule')
                             message: isValid ? undefined : 'К-сть символів не повинна бути меншою за 3\n і більшою за 16 '
                         };
                         break;
-                    case ('time'):
-                    $scope.timeValidation = {
-                        isValid: isValid,
-                        css: isValid ? 'has-error' : 'has-success'
-                    }
-                    break;
                 }
             }
 
@@ -176,7 +161,7 @@ angular.module('employeeModule')
                 } else {
                     return true;
                 }
-            }
+            };
 
             /**
              * Validates team form before saving
@@ -217,8 +202,7 @@ angular.module('employeeModule')
                                 controllerAs: 'successController',
                                 size: 'md'
                             });
-                        }
-                        if (data == 409) {
+                        } else if (data == 409) {
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();

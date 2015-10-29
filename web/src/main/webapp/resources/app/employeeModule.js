@@ -3,11 +3,10 @@
         'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
         'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize', 'ngAnimate', 'toaster'])
 
-        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide', '$httpProvider',
+        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
 
-            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide, $httpProvider) {
+            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
 
-                $httpProvider.interceptors.push('responseObserver');
 
                 cfpLoadingBarProvider.includeSpinner = false;
                 cfpLoadingBarProvider.latencyThreshold = 500;
@@ -288,7 +287,7 @@
         'calibrator/services/VerificationServiceCalibrator',
         'calibrator/services/MeasuringEquipmentServiceCalibrator',
         'calibrator/controllers/PieCalibratorEmployee',
-        'calibrator/controllers/EditMainPhotoController',
+        'calibrator/controllers/EditPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
@@ -315,8 +314,7 @@
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController',
-        'common/services/ResponseObserver'
+        'common/controllers/CommonController'
 
     ], function () {});
 })();

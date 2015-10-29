@@ -43,7 +43,7 @@ public class CounterTypeServiceImpl implements CounterTypeService{
     @Override
     @Transactional
     public void addCounterType(String name, String symbol, String standardSize, String manufacturer,
-                               Integer calibrationInterval, String yearIntroduction, String gost, Long deviceId) {
+                               Integer calibrationInterval, Integer yearIntroduction, String gost, Long deviceId) {
         CounterType counterType = new CounterType(name, symbol, standardSize,
                 manufacturer, calibrationInterval, yearIntroduction,
                 gost, deviceService.getById(deviceId));
@@ -65,7 +65,7 @@ public class CounterTypeServiceImpl implements CounterTypeService{
     @Override
     @Transactional
     public void editCounterType(Long id, String name, String symbol, String standardSize, String manufacturer,
-                                Integer calibrationInterval, String yearIntroduction, String gost, Long deviceId) {
+                                Integer calibrationInterval, Integer yearIntroduction, String gost, Long deviceId) {
         CounterType counterType = counterTypeRepository.findOne(id);
 
         counterType.setName(name);
@@ -122,7 +122,7 @@ public class CounterTypeServiceImpl implements CounterTypeService{
     public ListToPageTransformer<CounterType> getCounterTypeBySearchAndPagination(int pageNumber, int itemsPerPage,
                                                                                   String name, String symbol, String standardSize,
                                                                                   String manufacturer, Integer calibrationInterval,
-                                                                                  String yearIntroduction, String gost,
+                                                                                  Integer yearIntroduction, String gost,
                                                                                   String sortCriteria, String sortOrder) {
         CriteriaQuery<CounterType> criteriaQuery = ArchivalCounterTypeQueryConstructorAdmin
                 .buildSearchQuery(name, symbol, standardSize, manufacturer, calibrationInterval, yearIntroduction,

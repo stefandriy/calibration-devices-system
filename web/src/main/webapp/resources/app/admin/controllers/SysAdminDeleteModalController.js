@@ -17,7 +17,6 @@ angular
             $scope.submitDelete = function () {
                 userService.deleteSysAdmin($rootScope.username)
                     .then(function(data) {
-                        console.log(data);
                         if(data == 200){
                             $timeout(function() {
                                   console.log('delete with timeout');
@@ -31,6 +30,6 @@ angular
             };
 
             $rootScope.cancel = function () {
-                $modalInstance.close();
+                $modalInstance.dismiss();
             };
         }]);
