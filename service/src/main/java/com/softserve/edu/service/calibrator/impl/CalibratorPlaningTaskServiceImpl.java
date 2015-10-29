@@ -104,7 +104,6 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
         return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, pageRequest);
     }
-
 //    @Override
 //    public String createExcelFileFromVerifications(String[]verificationsId) throws IOException {
 //            List<ExcelFileDTO> fileDTOs = new ArrayList<>();
