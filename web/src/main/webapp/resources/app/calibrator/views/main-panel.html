@@ -8,14 +8,12 @@
 			<div class="col-lg-7">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<li class="fa fa-bar-chart-o fa-fw"></li> Графік надходження
-						заявок
+						<li class="fa fa-bar-chart-o fa-fw"></li>{{'MONTLY_VERIFICATIONS_CHART' | translate}}
 					</div>
 					<div ng-controller="GraphicEmployeeCalibratorMainPanel">
 
 						<div class="modal-header-capacity">
-							<h3 class="capacity-employee">Виберіть період часу для
-								пошуку інформації</h3>
+							<h3 class="capacity-employee">{{'DATE_RANGE_PROMPT' | translate}}</h3>
 						</div>
 						<form name="myForm" novalidate class="formCalendar">
 
@@ -61,7 +59,7 @@
 							<div class="cal">
 
 								<button class="btn btn-success" type="submit"
-									ng-click="showGrafic()">Відобразити</button>
+									ng-click="showGrafic()">{{'SHOW' | translate}}</button>
 
 							</div>
 						</form>
@@ -77,11 +75,11 @@
 			<div class="col-lg-5">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<li class="fa fa-align-justify fa-fw"></li> Непризначені заявки
+						<li class="fa fa-align-justify fa-fw"></li> {{'NOT_ASSIGNED_VERIFICATIONS' | translate}}
 					</div>
 					<div id="no_new_verifs_message"
 						ng-show="!checkIfNewVerificationsAvailable()">
-						<p>Непризначені заявки відсутні</p>
+						<p>{{'NOT_ASSIGNED_VERIFICATIONS_ARE_NOT_PRESENT' | translate}}</p>
 					</div>
 					<div ng-show="checkIfNewVerificationsAvailable()">
 						<table ng-table="tableParamsVerifications"
@@ -89,10 +87,10 @@
 							class="table table-bordered table-hover">
 							<thead>
 								<tr>
-									<th class="col-md-2">Дата початку</th>
-									<th>Прізвище</th>
-									<th>Вулиця</th>
-									<th>Дії</th>
+									<th class="col-md-2">{{'DATE_OF_BEGINNING' | translate}}</th>
+									<th>{{'FIRST_NAME' | translate}}</th>
+									<th>{{'STREET' | translate}}</th>
+									<th>{{'ACTIONS' | translate}}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -118,9 +116,9 @@
                                         ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                         ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
                                         <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                            Previous</a>
+                                            {{'PREVIOUS' | translate}}</a>
                                         <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                           href="">Next &raquo;</a>
+                                           href="">{{'NEXT' | translate}} &raquo;</a>
                                     </li>
                                     <li>
                                         <div class="btn-groups">
@@ -150,7 +148,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-hand-o-right fa-fw"></li>
-                        Графік завантаженості підприємства
+                        {{'ORGANIZATION_LOAD_CHART' | translate}}
                     </div>
                     <div ng-controller="PieCalibratorEmployee">
 
@@ -165,17 +163,17 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <li class="fa fa-align-justify fa-fw"></li>
-                        Працівники
+                        {{'EMPLOYEE' | translate}}
                     </div>
                     <div class="panel-body">
                         <table ng-table="tableParamsEmployee" template-pagination="employee/pager"
                                class="table table-bordered table-hover users_table">
                             <tr ng-repeat="user in $data">
 
-                                <td data-title="'Імя'">{{ user.firstName }}</td>
-                                <td data-title="'Прізвище'" sortable="'lastName'">{{ user.lastName }}</td>
+                                <td data-title="'FIRST_NAME' | translate">{{ user.firstName }}</td>
+                                <td data-title="'LAST_NAME' | translate" sortable="'lastName'">{{ user.lastName }}</td>
 
-                                <td data-title="'Кількість заявок в роботі'" align="center" style="width : 15%">
+                                <td data-title="'VERIFICATIONS_IN_PROGRESS' | translate"align="center" style="width : 15%">
                                     <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)"
                                        class="cursor-pointer"> {{
                                         user.calibratorTasks }}</a>

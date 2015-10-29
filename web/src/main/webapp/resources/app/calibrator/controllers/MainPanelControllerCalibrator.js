@@ -1,8 +1,16 @@
 angular
     .module('employeeModule')
-    .controller('MainPanelControllerCalibrator', ['$scope', '$log','VerificationServiceCalibrator','ngTableParams','$modal', 'UserServiceCalibrator', '$controller', '$filter',
-        function ($scope, $log, verificationServiceCalibrator, ngTableParams, $modal, userServiceCalibrator, $controller, $filter) {
+    .controller('MainPanelControllerCalibrator', ['$rootScope', '$scope', '$log','VerificationServiceCalibrator','ngTableParams','$modal', 'UserServiceCalibrator', '$controller', '$filter',
+        function ($rootScope, $scope, $log, verificationServiceCalibrator, ngTableParams, $modal, userServiceCalibrator, $controller, $filter) {
     		$log.debug('inside main panel contr calibr');
+    		
+    		
+    		/**
+             * Redraw charts on language change
+             */
+            $rootScope.$on('$translateChangeEnd', function(event){
+            	calibrator();
+            });
     		
     		
     		/**
@@ -124,6 +132,7 @@ angular
                         return $filter('date')(value, 'dd-MM-yyyy');
                     }
                 };
+                
                 var calibrator = function() {
                     $scope.showGrafic();
                     $scope.showGraficTwo();
