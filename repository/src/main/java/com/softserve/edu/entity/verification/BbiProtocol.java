@@ -16,15 +16,12 @@ public class BbiProtocol {
     @Setter(AccessLevel.PRIVATE)
     private String fileName;
 
-    private String filePath;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "verificationId")
     private Verification verification;
     
-    public BbiProtocol(String fileName, String filePath, Verification verification) {
+    public BbiProtocol(String fileName, Verification verification) {
         this.fileName = fileName;
-        this.filePath = filePath;
         this.verification = verification;
     }
 }
