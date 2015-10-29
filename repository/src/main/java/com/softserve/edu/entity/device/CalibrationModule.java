@@ -44,6 +44,10 @@ public class CalibrationModule {
 
     private String email;
 
+    private String calibrationType;
+
+    private String moduleNumber;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "calibratorId")
     private Organization organization;
@@ -51,12 +55,15 @@ public class CalibrationModule {
     @Temporal(TemporalType.DATE)
     private Date workDate;
 
-    @OneToMany(mappedBy = "module")
-    private Set<CalibrationTask> tasks;
+    /* @OneToMany(mappedBy = "module")
+    private Set<CalibrationTask> tasks; */
 
 
-    public CalibrationModule(Long id, Device.DeviceType deviceType, String organizationCode, String condDesignation, String serialNumber,
-                             String employeeFullName, String telephone, String moduleType, String email, Organization calibrator, Date workDate){
+    public CalibrationModule(Long id, Device.DeviceType deviceType, String organizationCode,
+                             String condDesignation, String serialNumber,
+                             String employeeFullName, String telephone,
+                             String moduleType, String email, String calibrationType,
+                             Organization calibrator, Date workDate){
         super();
         this.moduleId = id;
         this.deviceType = deviceType;
@@ -67,6 +74,7 @@ public class CalibrationModule {
         this.telephone = telephone;
         this.moduleType = moduleType;
         this.email = email;
+        this.calibrationType = calibrationType;
         this.organization = calibrator;
         this.workDate = workDate;
     }
