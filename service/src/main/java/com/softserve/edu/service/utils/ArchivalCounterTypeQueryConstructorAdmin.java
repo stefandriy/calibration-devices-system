@@ -14,7 +14,7 @@ public class ArchivalCounterTypeQueryConstructorAdmin {
 
     public static CriteriaQuery<CounterType> buildSearchQuery(String name, String symbol, String standardSize,
                                                               String manufacturer, Integer calibrationInterval,
-                                                              String yearIntroduction, String gost,
+                                                              Integer yearIntroduction, String gost,
                                                               String sortCriteria, String sortOrder, EntityManager em) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<CounterType> criteriaQuery = cb.createQuery(CounterType.class);
@@ -34,7 +34,7 @@ public class ArchivalCounterTypeQueryConstructorAdmin {
 
     public static CriteriaQuery<Long> buildCountQuery (String name, String symbol, String standardSize,
                                                        String manufacturer, Integer calibrationInterval,
-                                                       String yearIntroduction, String gost, EntityManager em) {
+                                                       Integer yearIntroduction, String gost, EntityManager em) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<CounterType> root = countQuery.from(CounterType.class);
@@ -47,7 +47,7 @@ public class ArchivalCounterTypeQueryConstructorAdmin {
         return countQuery;
     }
     private static Predicate buildPredicate(String name, String symbol, String standardSize, String manufacturer,
-                                            Integer calibrationInterval, String yearIntroduction, String gost,
+                                            Integer calibrationInterval, Integer yearIntroduction, String gost,
                                             Root<CounterType> root, CriteriaBuilder cb) {
         Predicate queryPredicate = cb.conjunction();
         if ((name != null)&&(name.length()>0)) {
@@ -71,13 +71,12 @@ public class ArchivalCounterTypeQueryConstructorAdmin {
                     queryPredicate);
         }
         if (calibrationInterval != null) {
-            queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Long>(cb, root.get("calibrationInterval")),
+            queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Integer>(cb, root.get("calibrationInterval")),
                     "%" + calibrationInterval.toString() + "%"), queryPredicate);
         }
-        if ((yearIntroduction != null)&&(yearIntroduction.length()>0)) {
-            queryPredicate = cb.and(
-                    cb.like(root.get("yearIntroduction"), "%" + yearIntroduction + "%"),
-                    queryPredicate);
+        if ((yearIntroduction != null)) {
+            queryPredicate = cb.and(cb.like(new FilteringNumbersDataLikeStringData<Integer>(cb, root.get("yearIntroduction")),
+                    "%" + yearIntroduction.toString() + "%"), queryPredicate);
         }
         if ((gost != null)&&(gost.length()>0)) {
             queryPredicate = cb.and(
