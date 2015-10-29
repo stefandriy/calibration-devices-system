@@ -134,8 +134,8 @@ angular
 
 
                 } else if (lang === 'eng') {
-                    for (var i = 0; i < $scope.defaultData.organizationTypes; i++) {
-                        switch ($scope.defaultData.organizationTypes[i]) {
+                    for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
+                        switch ($scope.defaultData.organizationTypes[i].type) {
                             case 'PROVIDER':
                                 $scope.defaultData.organizationTypes[i].label = 'Service provider';
                                 break;
@@ -193,7 +193,7 @@ angular
             }
 
             $scope.setTypeDataLanguage();
-            setTimeout(setCurrentTypeDataLanguage(), 2000);
+            setTimeout(setCurrentTypeDataLanguage(), 3000);
 
 
             console.log($scope.defaultData.organizationTypes);
@@ -375,6 +375,7 @@ angular
             if ($rootScope.organization) {
                 $scope.blockSearchFunctions = true;
                 addressService.findAllRegions().then(function (respRegions) {
+                    console.log($rootScope.organization);
                     $scope.regions = respRegions;
                     var index = arrayObjectIndexOf($scope.regions, $rootScope.organization.region, "designation");
                     $scope.selectedValues.selectedRegion = $scope.regions[index];
@@ -382,7 +383,6 @@ angular
                     addressService.findDistrictsByRegionId($scope.selectedValues.selectedRegion.id)
                         .then(function (districts) {
                             $scope.districts = districts;
-
                             var index = arrayObjectIndexOf($scope.districts, $rootScope.organization.district, "designation");
                             $scope.selectedValues.selectedDistrict = $scope.districts[index];
 
