@@ -67,26 +67,24 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Override
     @Transactional
-    public void uploadBbi(InputStream fileStream, String idVerification,
-                          Long installmentNumber, String originalFileFullName) throws IOException{
-        Optional<Verification> retrievedVerification = Optional.ofNullable(verificationRepository.findOne(idVerification));
+    public void uploadBbi(InputStream fileStream, String verificationId,
+                         String originalFileFullName) throws IOException{
+        Optional<Verification> retrievedVerification = Optional.ofNullable(verificationRepository.findOne(verificationId));
         Verification verification = retrievedVerification.get();
-        uploadBbi(fileStream, verification, installmentNumber, originalFileFullName);
+        uploadBbi(fileStream, verification, originalFileFullName);
     }
 
     @Override
     @Transactional
     public void uploadBbi(InputStream fileStream, Verification verification,
-                          Long installmentNumber, String originalFileFullName) throws IOException{
-        String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
-        BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
+                          String originalFileFullName) throws IOException{
+        fileOperations.putBbiFile(fileStream, verification.getId(), originalFileFullName);
+        BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, verification);
         Set<BbiProtocol> bbiProtocolsOfVerification = verification.getBbiProtocols();
         bbiProtocolsOfVerification.add(bbiProtocol);
         verification.setBbiProtocols(bbiProtocolsOfVerification);
         verificationRepository.save(verification);
-        System.out.println("saved verification");
         uploadBbiRepository.save(bbiProtocol);
-        System.out.println("saved bbi!!!!111");
     }
 
 

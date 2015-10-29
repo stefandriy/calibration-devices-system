@@ -50,7 +50,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     @Transactional
     public DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException {
             DeviceTestData deviceTestData = bbiFileService.parseBbiFile(inputStream, originalFileName);
-            calibratorService.uploadBbi(inputStream, verificationID, deviceTestData.getInstallmentNumber(), originalFileName);
+            calibratorService.uploadBbi(inputStream, verificationID, originalFileName);
         return deviceTestData;
     }
 

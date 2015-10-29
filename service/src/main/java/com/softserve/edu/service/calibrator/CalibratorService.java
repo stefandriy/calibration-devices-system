@@ -19,11 +19,11 @@ public interface CalibratorService {
     
     Organization findById(Long id);
 
-    void uploadBbi(InputStream fileStream, String idVerification,
-                   Long installmentNumber, String originalFileFullName) throws IOException;
+    void uploadBbi(InputStream fileStream, String verificationId,
+                   String originalFileFullName) throws IOException;
 
     void uploadBbi(InputStream fileStream, Verification verification,
-                   Long installmentNumber, String originalFileFullName) throws IOException;
+                   String originalFileFullName) throws IOException;
 
     String findBbiFileByOrganizationId(String id);
 
