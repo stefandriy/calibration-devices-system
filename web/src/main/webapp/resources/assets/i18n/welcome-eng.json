@@ -460,6 +460,8 @@
   "UPLOAD_SUCCESS" : "You successfully uploaded file ",
   "UPLOAD_FAIL" : "Can't upload file ",
   "PREVIOUS_PAGE" : "Previous",
-  "NEXT_PAGE" : "Next"
+  "NEXT_PAGE" : "Next",
+  "TASK_SAVING_ERROR" : "Error in input data!",
+  "TASK_SAVE_SUCCESS" : "Task saved successfully"
 
 }

@@ -43,18 +43,24 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     @Override
     public void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
+        CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
         Set<Verification> verifications = new HashSet<>();
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
             if (verification == null) {
                 logger.error("verification haven't found");
             } else {
-                verification.setTaskStatus(Status.TASK_PLANED);
-                verificationRepository.save(verification);
-                verifications.add(verification);
+                if (module.getDeviceType()==verification.getDevice().getDeviceType()){
+                    verification.setTaskStatus(Status.TASK_PLANED);
+                    verificationRepository.save(verification);
+                    verifications.add(verification);
+                } else {
+                    logger.error("verification and module has different device types");
+                    throw new IllegalArgumentException();
+                }
+
             }
         }
-        CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
         module.setWorkDate(taskDate);
         moduleRepository.save(module);
         User user = userRepository.findOne(userId);
@@ -64,18 +70,23 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     @Override
     public void addNewTaskForTeam(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
         Set<Verification> verifications = new HashSet<>();
+        DisassemblyTeam team = teamRepository.findOne(serialNumber);
+        team.setEffectiveTo(taskDate);
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
             if (verification == null) {
                 logger.error("verification haven't found");
             } else {
-                verification.setTaskStatus(Status.TASK_PLANED);
-                verificationRepository.save(verification);
-                verifications.add(verification);
+                if (team.getSpecialization()==verification.getDevice().getDeviceType()){
+                    verification.setTaskStatus(Status.TASK_PLANED);
+                    verificationRepository.save(verification);
+                    verifications.add(verification);
+                } else {
+                    logger.error("verification and module has different device types");
+                    throw new IllegalArgumentException();
+                }
             }
         }
-        DisassemblyTeam team = teamRepository.findOne(serialNumber);
-        team.setEffectiveTo(taskDate);
         teamRepository.save(team);
         User user = userRepository.findOne(userId);
         taskRepository.save(new CalibrationTask(null, team, new Date(), taskDate, user, verifications));
