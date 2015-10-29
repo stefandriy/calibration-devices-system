@@ -112,8 +112,7 @@ public class ProviderEmployeeServiceImplTest {
 
 		providerEmployeeService.updateEmployee(finalProviderEmployee);
 
-		Assert.assertNull(mockProviderEmployeeRepository
-				.save(finalProviderEmployee));
+		verify(mockProviderEmployeeRepository).save(finalProviderEmployee);
 	}
 
 	@Test
