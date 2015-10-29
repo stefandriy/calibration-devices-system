@@ -11,6 +11,7 @@ import java.util.List;
 
 
 public class CalibrationTestFileDataDTO {
+
     private String fileName;
 
     private String counterNumber;
@@ -20,6 +21,8 @@ public class CalibrationTestFileDataDTO {
     private Integer temperature;
 
     private Long accumulatedVolume;
+
+    private Integer counterProductionYear;
 
     private Long installmentNumber;
 
@@ -43,6 +46,7 @@ public class CalibrationTestFileDataDTO {
         this.testDate = new Date(testData.getUnixTime());
         this.temperature = testData.getTemperature();
         //this.accumulatedVolume = ; // not sure if this is exactly what needed
+        this.counterProductionYear = testData.getCounterProductionYear();
         this.installmentNumber = testData.getInstallmentNumber();
         this.latitude = testData.getLatitude();
         this.longitude = testData.getLongitude();
@@ -114,6 +118,14 @@ public class CalibrationTestFileDataDTO {
 
     public void setTemperature(Integer temperature) {
         this.temperature = temperature;
+    }
+
+    public Integer getCounterProductionYear() {
+        return counterProductionYear;
+    }
+
+    public void setCounterProductionYear(Integer counterProductionYear) {
+        this.counterProductionYear = counterProductionYear;
     }
 
     public Long getAccumulatedVolume() {

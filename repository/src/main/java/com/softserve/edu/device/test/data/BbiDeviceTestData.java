@@ -135,7 +135,7 @@ public class BbiDeviceTestData implements DeviceTestData {
 
     @Override
     public Integer getCounterProductionYear() {
-        return getIntegerValue("counterProductionValue");
+        return getIntegerValue("counterProductionYear");
     }
 
     @Override

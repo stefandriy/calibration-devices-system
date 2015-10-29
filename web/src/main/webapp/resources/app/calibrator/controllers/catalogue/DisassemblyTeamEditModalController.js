@@ -110,7 +110,7 @@ angular.module('employeeModule')
                     leaderEmail: $scope.team.leaderEmail
                 };
 
-                if (bValidation()) {
+                if (true) {
                     DisassemblyTeamServiceCalibrator.editDisassemblyTeam(
                         teamForm,
                         $rootScope.teamId).then(

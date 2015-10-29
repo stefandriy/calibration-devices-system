@@ -129,7 +129,7 @@ body {
 #page-wrapper {
     padding: 0 15px;
     background-color: #fff;
-    min-height: 800px;
+    min-height: 900px;
 }
 
 @media (min-width: 768px) {
