@@ -46,9 +46,6 @@ public class DisassemblyTeam {
     @OneToMany(mappedBy = "team")
     private Set<CalibrationTask> tasks;
 
-    @Column(columnDefinition = "boolean default true")
-    private boolean isAvailable;
-
 
     public DisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
                            String leaderPhone, String leaderEmail) {

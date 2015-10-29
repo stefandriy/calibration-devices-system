@@ -8,6 +8,7 @@ angular
             $scope.resultsCount = 0;
             $scope.verifications = [];
 
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10
@@ -20,7 +21,7 @@ angular
                                 $log.debug('result ', result);
                                 $scope.resultsCount = result.data.totalItems;
                                 $defer.resolve(result.data.content);
-                                //params.total(result.totalItems);
+                                params.total(result.data.totalItems);
                             }, function (result) {
                                 $log.debug('error fetching data:', result);
                             });

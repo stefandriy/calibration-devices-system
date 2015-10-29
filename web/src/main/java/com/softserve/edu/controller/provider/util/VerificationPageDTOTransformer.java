@@ -59,6 +59,7 @@ public class VerificationPageDTOTransformer {
                     verification.getClientData().getFullName(),
                     verification.getClientData().getClientAddress().getAddress(),
                     counterStatus,
+                    verification.getDevice().getDeviceType(),
                     verification.getClientData().getPhone()));
         }
         return taskDTOs;

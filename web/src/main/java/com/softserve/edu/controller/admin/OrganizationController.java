@@ -81,14 +81,12 @@ public class OrganizationController {
                     organizationDTO.getLastName(),
                     organizationDTO.getMiddleName(),
                     organizationDTO.getUsername(),
-                    organizationDTO.getPassword(),
                     address,
                     adminName,
                     organizationDTO.getServiceAreas()
             );
         } catch (Exception e) {
-            // TODO
-            logger.error("GOT EXCEPTION ", e);
+            logger.error("Got exeption while add organization ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
@@ -216,7 +214,7 @@ public class OrganizationController {
                     adminName,
                     organization.getServiceAreas());
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION ", e);
+            logger.error("Got exeption while editing organization ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
 

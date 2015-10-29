@@ -37,15 +37,15 @@
                         </td>
                         <td data-title="'COUNTER_KIND' | translate"
                             sortable="'deviceType'"
-                            filter="{ deviceType : 'deviceType' }">{{
-                            device.deviceType }}
+                            filter="{ deviceType : 'deviceType' }">
+                            {{device.deviceType | translate}}
                         </td>
                         <td data-title="'DEVICE_NAME' | translate " sortable="'deviceName'"
                             filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary"
+                                <button type="button" class="btn btn-warning"
                                         ng-click="openEditCategoryCounterModal(device.id)">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </button>

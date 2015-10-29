@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="form-group row row-fields">
+        <div class="form-group row row-fields" show-errors>
             <label for="symbol" class="control-label col-md-4">
                 {{'SYMBOL' | translate}}
             </label>
@@ -39,9 +39,7 @@
             <div class="col-md-8">
                 <input id="symbol" name="symbol" class="form-control"
                        type="text" ng-model="$root.countersType.symbol"
-                       ng-pattern="SYMBOL_REGEX"
-                       popover="{{'ALPHABETIC_INFO' | translate}}"
-                       popover-trigger="focus" popover-placement="top" required>
+                       ng-pattern="SYMBOL_REGEX" required>
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -52,7 +50,7 @@
 
                 <p class="help-block" ng-if="editCounterTypeForm.symbol.$error.pattern">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                    {{'INCORRECT_VALUE_SYMBOL' | translate }}
                 </p>
             </div>
         </div>
@@ -81,7 +79,7 @@
             </div>
         </div>
 
-        <div class="form-group row row-fields">
+        <div class="form-group row row-fields" show-errors>
             <label for="manufacturer" class="control-label col-md-4">
                 {{'MANUFACTURER' | translate}}
             </label>
@@ -89,9 +87,7 @@
             <div class="col-md-8">
                 <input id="manufacturer" name="manufacturer" class="form-control"
                        type="text" ng-model="$root.countersType.manufacturer"
-                       ng-pattern="MANAFUCTURER_REGEX"
-                       popover="{{'ALPHABETIC_INFO' | translate}}"
-                       popover-trigger="focus" popover-placement="top" required>
+                       ng-pattern="MANAFUCTURER_REGEX" required>
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -102,12 +98,12 @@
 
                 <p class="help-block" ng-if="editCounterTypeForm.manufacturer.$error.pattern">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                    {{'INCORRECT_VALUE_MANUFACTURER' | translate }}
                 </p>
             </div>
         </div>
 
-        <div class="form-group row row-fields">
+        <div class="form-group row row-fields" show-errors>
             <label for="calibrationInterval" class="control-label col-md-4">
                 {{'INSPECTION_INTERVAL' | translate}}
             </label>
@@ -115,10 +111,7 @@
             <div class="col-md-8">
                 <input id="calibrationInterval" name="calibrationInterval" class="form-control"
                        type="number" ng-model="$root.countersType.calibrationInterval"
-                       min="1" max="10"
-                       ng-pattern=""
-                       popover="{{'ALPHABETIC_INFO' | translate}}"
-                       popover-trigger="focus" popover-placement="top" required>
+                       min="1" max="4" required>
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -127,14 +120,14 @@
                     {{'REQUIRED' | translate}}
                 </p>
 
-                <p class="help-block" ng-if="addCounterTypeForm.calibrationInterval.$error.min || addCounterTypeForm.calibrationInterval.$error.max">
+                <p class="help-block" ng-if="editCounterTypeForm.calibrationInterval.$error.min || editCounterTypeForm.calibrationInterval.$error.max">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                    {{'INCORRECT_VALUE_INSPECTION_INTERVAL' | translate }}
                 </p>
             </div>
         </div>
 
-        <div class="form-group row row-fields">
+        <div class="form-group row row-fields" show-errors>
             <label for="yearIntroduction" class="control-label col-md-4">
                 {{'YEAR_INSPECTION_INTERVAL' | translate}}
             </label>
@@ -142,9 +135,7 @@
             <div class="col-md-8">
                 <input id="yearIntroduction" name="yearIntroduction" class="form-control"
                        type="number" ng-model="$root.countersType.yearIntroduction"
-                       ng-pattern="YEAR_REGEX"
-                       popover="{{'ALPHABETIC_INFO' | translate}}"
-                       popover-trigger="focus" popover-placement="top" required>
+                       ng-pattern="YEAR_REGEX" required>
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
@@ -155,12 +146,12 @@
 
                 <p class="help-block" ng-if="editCounterTypeForm.yearIntroduction.$error.pattern">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                    {{'INCORRECT_VALUE_YEAR_INSPECTION_INTERVAL' | translate }}
                 </p>
             </div>
         </div>
 
-        <div class="form-group row row-fields">
+        <div class="form-group row row-fields" show-errors>
             <label for="gost" class="control-label col-md-4">
                 {{'GOST' | translate}}
             </label>
@@ -168,20 +159,18 @@
             <div class="col-md-8">
                 <input id="gost" name="gost" class="form-control"
                        type="text" ng-model="$root.countersType.gost"
-                       ng-pattern="GOST_REGEX"
-                       popover="{{'ALPHABETIC_INFO' | translate}}"
-                       popover-trigger="focus" popover-placement="top" required>
+                       ng-pattern="GOST_REGEX" required>
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                <p class="help-block" ng-if="editCounterTypeForm.yearIntroduction.$error.required">
+                <p class="help-block" ng-if="editCounterTypeForm.gost.$error.required">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     {{'REQUIRED' | translate}}
                 </p>
 
-                <p class="help-block" ng-if="editCounterTypeForm.yearIntroduction.$error.pattern">
+                <p class="help-block" ng-if="editCounterTypeForm.gost.$error.pattern">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
-                    {{'INCORRECT_VALUE_LAST_NAME_ADD_EMPLOYEE' | translate }}
+                    {{'INCORRECT_VALUE_GOST' | translate }}
                 </p>
             </div>
         </div>
