@@ -41,10 +41,10 @@ angular.module('adminModule')
                 });
             },
             getServiceAreaLocalities: function (organizationId) {
-                return getData('/serviceArea/localities/' + organizationId);
+                return getData('serviceArea/localities/' + organizationId);
             },
             getServiceAreaRegion: function (districtId) {
-                return getData('/serviceArea/region/' + districtId);
+                return getData('serviceArea/region/' + districtId);
             },
             getOrganizationByOrganizationTypeAndDeviceType: function (organizationType, deviceType) {
                 return getData('getOrganization/' + organizationType + '/' + deviceType);

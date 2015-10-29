@@ -117,7 +117,7 @@ angular
             };
 
             /**
-             * Opens modal window for show history editing organization.
+             * Opens modal window for show history for all organization changes.
              */
             $scope.openOrganizationEditHistoryModal = function (organizationId) {
                 $rootScope.organizationId = organizationId;

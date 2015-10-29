@@ -86,7 +86,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
 
@@ -106,7 +106,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     @Async
@@ -126,7 +126,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
 
@@ -149,7 +149,7 @@ public class MailServiceImpl implements MailService {
 
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     /** Notifies (sends mail to) customer about assignment of an employee to the verification*/
@@ -175,7 +175,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
 
@@ -209,7 +209,7 @@ public class MailServiceImpl implements MailService {
 
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     @Async
@@ -228,7 +228,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     @Async
@@ -275,6 +275,6 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 }
