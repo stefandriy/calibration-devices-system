@@ -56,16 +56,6 @@ angular
 
             $rootScope.onTableHandling = function () {
                 $scope.tableParams.reload();
-                //organizationService
-                //		.getPage($scope.currentPage,
-                //				$scope.itemsPerPage,
-                //				$scope.searchData
-                //              )
-                //		.then(
-                //				function(data) {
-                //					$scope.pageContent = data.content;
-                //					$scope.totalItems = data.totalItems;
-                //				});
             };
             $rootScope.onTableHandling();
 

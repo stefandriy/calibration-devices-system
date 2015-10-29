@@ -149,9 +149,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void createSuperAdminIfNotExists(User user){
-        
         if (isExistsWithUsername(user.getUsername()) && findByRole("SUPER_ADMIN").isEmpty()){
-
             userRepository.save(user);
 
         }

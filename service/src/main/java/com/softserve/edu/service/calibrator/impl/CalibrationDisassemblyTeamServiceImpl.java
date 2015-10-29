@@ -3,15 +3,21 @@ package com.softserve.edu.service.calibrator.impl;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationDisassemblyTeamRepository;
+import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
+import com.softserve.edu.service.calibrator.specifications.CalibrationDisassenblyTeamSpecifications;
 import com.softserve.edu.service.exceptions.DuplicateRecordException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +27,13 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
 
     @Autowired
     private CalibrationDisassemblyTeamRepository teamRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    private Specifications<CalibrationDisassenblyTeamSpecifications> specifications;
+
+    private Logger logger = Logger.getLogger(CalibrationDisassemblyTeamServiceImpl.class);
 
     @Override
     @Transactional
@@ -54,13 +67,9 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
     @Override
     @Transactional
     public void add(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException {
-        try {
-            if (!teamRepository.exists(disassemblyTeam.getId())) {
-                teamRepository.save(disassemblyTeam);
-            } else {
-                throw new DuplicateRecordException(String.format("Team %s already exists.", disassemblyTeam.getId()));
-            }
-        } catch (Exception e) {
+        if (!teamRepository.exists(disassemblyTeam.getId())) {
+            teamRepository.save(disassemblyTeam);
+        } else {
             throw new DuplicateRecordException(String.format("Team %s already exists.", disassemblyTeam.getId()));
         }
     }
@@ -102,5 +111,32 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
     @Transactional
     public boolean isTeamExist(String teamUsername) {
         return teamRepository.exists(teamUsername);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    @SuppressWarnings("all")
+    public List<DisassemblyTeam> findAllAvaliableTeams(Date workDate, String applicationFiled, String userId) {
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            logger.error("Cannot found user!");
+        }
+        Device.DeviceType deviceType = null;
+        if (applicationFiled.equals("WATER")){
+            deviceType = Device.DeviceType.WATER;
+        } else if (applicationFiled.equals("THERMAL")){
+            deviceType = Device.DeviceType.THERMAL;
+        }
+        List<DisassemblyTeam> teams = new ArrayList<>();
+        try{
+            teams = teamRepository.findAll(specifications.where(CalibrationDisassenblyTeamSpecifications.disassemblyIsAvaliable()).
+                    and(CalibrationDisassenblyTeamSpecifications.disassemblyTeamHasCalibratorId(user.getOrganization().getId())).
+                    and(CalibrationDisassenblyTeamSpecifications.disassemblyTeamHasEffectiveTo(workDate)).
+                    and(CalibrationDisassenblyTeamSpecifications.disassemblyTeamHasType(deviceType)));
+        } catch (Exception e){
+            logger.error("Cannot found teams!", e);
+        }
+        return teams;
     }
 }

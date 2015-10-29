@@ -32,9 +32,6 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     @Autowired
     private CalibratorService calibratorService;
 
-    @Autowired
-    private VerificationRepository verificationRepository;
-
     @Override
     public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException {
         DeviceTestData deviceTestData;
@@ -75,6 +72,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         Map<String, String> bbiFileNamesToVerificationMap = getBBIfileNamesToVerificationMap(directoryWithUnpackedFiles);
         List<File> listOfBBIfiles = new ArrayList<>(FileUtils.listFiles(directoryWithUnpackedFiles, bbiExtensions, true));
         List<BBIOutcomeDTO> resultsOfBBIProcessing = processListOfBBIFiles(bbiFileNamesToVerificationMap, listOfBBIfiles);
+        FileUtils.forceDelete(directoryWithUnpackedFiles);
         return resultsOfBBIProcessing;
     }
 
@@ -88,10 +86,14 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
         List<BBIOutcomeDTO> resultsOfBBIProcessing = new ArrayList<>();
         for (File bbiFile : listOfBBIfiles) {
             String correspondingVerification = bbiFileNamesToVerificationMap.getOrDefault(bbiFile.getName(), null);
+            if(correspondingVerification == null){
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
+                continue;
+            }
             try {
                 parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
             } catch (NoSuchElementException e) {
-                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.NO_CORRESPONDING_VERIFICATION));
+                resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
                 continue;
             } catch (Exception e) {
                 resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
@@ -111,7 +113,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
      * @throws ZipException
      */
     private File unpackArchive(InputStream inputStream, String originalFileName) throws IOException, ZipException {
-        String randomDirectoryName = RandomStringUtils.random(8);
+        String randomDirectoryName = RandomStringUtils.randomAlphanumeric(8);
         File directoryForUnpacking = FileUtils.getFile(FileUtils.getTempDirectoryPath(), randomDirectoryName);
         FileUtils.forceMkdir(directoryForUnpacking);
         File zipFileDownloaded = FileUtils.getFile(FileUtils.getTempDirectoryPath(), originalFileName);
@@ -122,6 +124,7 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
         ZipFile zipFile = new ZipFile(zipFileDownloaded);
         zipFile.extractAll(directoryForUnpacking.toString());
+        FileUtils.forceDelete(zipFileDownloaded);
         return directoryForUnpacking;
     }
 

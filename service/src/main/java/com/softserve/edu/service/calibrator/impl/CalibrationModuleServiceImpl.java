@@ -14,10 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-/**
- * Created by Vasyl on 08.10.2015.
- */
-
 @Service
 @Transactional(readOnly = true)
 public class CalibrationModuleServiceImpl implements CalibrationModuleService {
@@ -47,7 +43,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
                     .and(CalibrationModuleSpecifications.moduleHasWorkDate(workDate)).and(CalibrationModuleSpecifications.moduleHasCalibratorId(user.getOrganization().getId()))
                     .and(CalibrationModuleSpecifications.moduleDeviceType(applicationFiled)).and(CalibrationModuleSpecifications.moduleIsAvaliable()));
         } catch (NullPointerException e){
-            logger.error("Cannot found modules!");
+            logger.error("Cannot found modules!", e);
         }
 
         List<String> serialNumbersList = new ArrayList<>();

@@ -751,7 +751,7 @@ angular
              */
             $scope.closeModal = function () {
                 $rootScope.onTableHandling();
-                $modalInstance.close();
+                $modalInstance.dismiss();
             };
 
             $scope.ORGANIZATION_NAME_REGEX = /^(?=.{5,50}$).*/;

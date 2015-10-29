@@ -7,8 +7,8 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
+import javax.print.DocFlavor;
 
-//TODO: What is going on here?!
 public class ArchivalOrganizationsQueryConstructorAdmin {
     static Logger logger = Logger.getLogger(ArchivalOrganizationsQueryConstructorAdmin.class);
 
@@ -44,44 +44,42 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
     private static Predicate buildPredicate( String name,
                                              String email, String phone, String type, String region, String district, String locality, String streetToSearch, Root<Organization> root, CriteriaBuilder cb) {
         Predicate queryPredicate = cb.conjunction();
-      //  queryPredicate = cb.and(cb.equal(organizationUsersJoin .get(""), employeeId), queryPredicate);
-        //Predicate<String> i  = (s)-> s.length() > 5;
-        //return p -> p.getAge() > 21 && p.getGender().equalsIgnoreCase("M");
-        // TODO replace with StringUtils.isNotEmpty()
-        if ((name != null)&&(name.length()>0)) {
+
+        if (StringUtils.isNotEmpty(name)) {
             queryPredicate = cb.and(cb.like(root.get("name"), "%" + name + "%"), queryPredicate);
         }
-        if ((email != null)&&(email.length()>0)) {
+
+        if (StringUtils.isNotEmpty(email)) {
             queryPredicate = cb.and(cb.like(root.get("email"), "%" + email + "%"),
                     queryPredicate);
         }
-        if ((phone != null)&&(phone.length()>0)) {
+        if (StringUtils.isNotEmpty(phone)) {
             queryPredicate = cb.and(
                     cb.like(root.get("phone"), "%" + phone + "%"),
                     queryPredicate);
         }
-        if ((type != null)&&(type.length()>0)) {
+        if (StringUtils.isNotEmpty(type)) {
             Join<Organization, OrganizationType> joinOrganizationType = root.join("organizationId");
             Predicate searchByOrganizationType = cb.like(joinOrganizationType.get("value"),
                     "%" + type + "%");
             queryPredicate = cb.and(searchByOrganizationType, queryPredicate);
         }
-        if ((streetToSearch != null)&&(streetToSearch.length()>0)) {
+        if (StringUtils.isNotEmpty(streetToSearch)) {
             queryPredicate = cb.and(
                     cb.like(root.get("address").get("street"), "%" + streetToSearch + "%"),
                     queryPredicate);
         }
-        if ((region != null) && (region.length() > 0)) {
+        if (StringUtils.isNotEmpty(region)) {
             queryPredicate = cb.and(
                     cb.like(root.get("address").get("region"), "%" + region + "%"),
                     queryPredicate);
         }
-        if ((district != null) && (district.length() > 0)) {
+        if (StringUtils.isNotEmpty(district)) {
             queryPredicate = cb.and(
                     cb.like(root.get("address").get("district"), "%" + district + "%"),
                     queryPredicate);
         }
-        if ((locality != null) && (locality.length() > 0)) {
+        if (StringUtils.isNotEmpty(locality)) {
             queryPredicate = cb.and(
                     cb.like(root.get("address").get("locality"), "%" + locality + "%"),
                     queryPredicate);

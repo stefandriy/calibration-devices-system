@@ -3,11 +3,10 @@
         'ui.bootstrap', 'ui.bootstrap.datepicker', 'ui.router', 'ui.bootstrap.showErrors', 'ngTable', 'pascalprecht.translate', 'ngCookies', 'localytics.directives',
         'highcharts-ng', 'ngFileUpload', 'ngRoute', 'angular-loading-bar', 'daterangepicker', 'ui.select', 'ngSanitize', 'ngAnimate', 'toaster'])
 
-        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide', '$httpProvider',
+        .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
 
-            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide, $httpProvider) {
+            function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
 
-                $httpProvider.interceptors.push('responseObserver');
 
                 cfpLoadingBarProvider.includeSpinner = false;
                 cfpLoadingBarProvider.latencyThreshold = 500;
@@ -115,10 +114,20 @@
                         templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
                         controller: 'VerificationPlanningTaskController'
                     })
-                    .state("calibrator-task-add", {
+                    .state("calibrator-task-station", {
                         url: '/calibrator/task/',
-                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
-                        controller: 'TaskSendingModalControllerCalibrator'
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskForStationModal.html',
+                        controller: 'TaskForStationModalControllerCalibrator'
+                    })
+                    .state("calibrator-task-team", {
+                        url: '/calibrator/task/',
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskForTeamModal.html',
+                        controller: 'TaskForTeamModalControllerCalibrator'
+                    })
+                    .state("calibrator-counter-status", {
+                        url: '/calibrator/task/',
+                        templateUrl: '/resources/app/calibrator/views/modals/counterStatusModal.html',
+                        controller: 'CounterStatusControllerCalibrator'
                     })
                     .state('main-panel-verificator', {
                         url: '/verificator/',
@@ -266,8 +275,10 @@
         'calibrator/controllers/UsersControllerCalibrator',
         'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
-        'calibrator/controllers/TaskSendingModalControllerCalibrator',
+        'calibrator/controllers/TaskForStationModalControllerCalibrator',
+        'calibrator/controllers/TaskForTeamModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
+        'calibrator/controllers/CounterStatusControllerCalibrator',
         'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
         'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',
@@ -276,7 +287,7 @@
         'calibrator/services/VerificationServiceCalibrator',
         'calibrator/services/MeasuringEquipmentServiceCalibrator',
         'calibrator/controllers/PieCalibratorEmployee',
-        'calibrator/controllers/EditMainPhotoController',
+        'calibrator/controllers/EditPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
@@ -303,8 +314,7 @@
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController',
-        'common/services/ResponseObserver'
+        'common/controllers/CommonController'
 
     ], function () {});
 })();

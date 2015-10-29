@@ -3,12 +3,13 @@
 </div>
 
 <div class="modal-body">
-    <div class="form-group col-md-12">
-        <img id="mainPhoto" src='{{mainPhoto}}' width="100%" height="100%">
+    <div class="form-group col-md-12" style="width: 260px; height: 260px">
+        <img id="mainPhoto" src='{{mainPhoto}}' width="100%" height="100%" ng-class="{ 'rotated90': rotateIndex == 1, 'rotated180': rotateIndex == 2,
+            'rotated270': rotateIndex == 3, 'rotated0': rotateIndex == 4}">
     </div>
 </div>
 
-<div class="modal-footer">
+<div class="modal-footer" style="clear: left">
     <button ng-click="rotateLeft()" class="btn btn-info pull-left" type="button">
         Left
     </button>
@@ -18,7 +19,7 @@
     <button ng-click="rotateRight()" class="btn btn-info pull-left" type="button">
         Right
     </button>
-    <button ng-click="cancel()" class="btn btn-info pull-right" type="button">
+    <button ng-click="saveOnExit()" class="btn btn-info pull-right" type="button">
         Закрити
     </button>
 </div>

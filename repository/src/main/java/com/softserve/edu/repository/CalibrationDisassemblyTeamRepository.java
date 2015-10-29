@@ -11,8 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CalibrationDisassemblyTeamRepository extends
-        PagingAndSortingRepository<DisassemblyTeam, String>, JpaSpecificationExecutor {
+public interface CalibrationDisassemblyTeamRepository extends PagingAndSortingRepository<DisassemblyTeam, String>, JpaSpecificationExecutor {
 
         Page<DisassemblyTeam> findAll(Pageable pageable);
 

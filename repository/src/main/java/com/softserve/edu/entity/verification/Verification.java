@@ -99,6 +99,9 @@ public class Verification {
     @Column(columnDefinition = "boolean default false")
     private boolean isAddInfoExists;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean counterStatus;
+
     @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
     private AdditionalInfo info;
 
