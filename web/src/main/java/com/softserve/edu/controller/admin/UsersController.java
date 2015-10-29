@@ -18,12 +18,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin/users/")
-public class UserController {
+public class UsersController {
 
     @Autowired
     private UsersService usersService;
 
-    Logger logger = Logger.getLogger(UserController.class);
+    Logger logger = Logger.getLogger(UsersController.class);
 
     /**
      * Check whereas {@code username} is available,
@@ -49,7 +49,6 @@ public class UserController {
      * @param sortCriteria
      * @param sortOrder
      * @param search
-     * @param user
      * @return
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
@@ -58,8 +57,7 @@ public class UserController {
             @PathVariable Integer itemsPerPage,
             @PathVariable String sortCriteria,
             @PathVariable String sortOrder,
-            UserFilterSearch search,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            UserFilterSearch search) {
 
         ListToPageTransformer<User> queryResult = usersService.findPageOfAllEmployees(
                 pageNumber, itemsPerPage, search.getUsername(), search.getRole(), search.getFirstName(), search.getLastName(), search.getOrganization(),

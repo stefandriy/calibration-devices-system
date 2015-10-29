@@ -375,7 +375,6 @@ angular
             if ($rootScope.organization) {
                 $scope.blockSearchFunctions = true;
                 addressService.findAllRegions().then(function (respRegions) {
-                    console.log($rootScope.organization);
                     $scope.regions = respRegions;
                     var index = arrayObjectIndexOf($scope.regions, $rootScope.organization.region, "designation");
                     $scope.selectedValues.selectedRegion = $scope.regions[index];
