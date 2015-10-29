@@ -20,7 +20,7 @@ public interface CounterTypeService {
      * @param deviceId
      */
     void addCounterType(String name, String symbol, String standardSize, String manufacturer,
-                        Integer calibrationInterval, String yearIntroduction, String gost, Long deviceId);
+                        Integer calibrationInterval, Integer yearIntroduction, String gost, Long deviceId);
 
     /**
      * Edit counter type with params
@@ -35,7 +35,7 @@ public interface CounterTypeService {
      * @param deviceId
      */
     void editCounterType(Long id, String name, String symbol, String standardSize, String manufacturer,
-                         Integer calibrationInterval, String yearIntroduction, String gost, Long deviceId);
+                         Integer calibrationInterval, Integer yearIntroduction, String gost, Long deviceId);
 
     /**
      * Delete counter type by his id
@@ -68,7 +68,7 @@ public interface CounterTypeService {
     ListToPageTransformer<CounterType> getCounterTypeBySearchAndPagination(int pageNumber, int itemsPerPage, String name,
                                                                            String symbol, String standardSize,
                                                                            String manufacturer, Integer calibrationInterval,
-                                                                           String yearIntroduction, String gost,
+                                                                           Integer yearIntroduction, String gost,
                                                                           String sortCriteria, String sortOrder);
 
 

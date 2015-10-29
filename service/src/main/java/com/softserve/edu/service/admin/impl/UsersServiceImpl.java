@@ -60,13 +60,13 @@ public class UsersServiceImpl implements UsersService {
     @Override
     @Transactional
     public ListToPageTransformer<User>
-    findPageOfAllEmployees(int pageNumber, int itemsPerPage,  String userName,
+    findPageOfAllEmployees(int pageNumber, int itemsPerPage,  String username,
                            String role, String firstName, String lastName, String organization,
                            String telephone,  String sortCriteria, String sortOrder){
-        CriteriaQuery<User> criteriaQuery = ArchivalEmployeeQueryConstructorAdmin.buildSearchQuery(userName, role, firstName,
+        CriteriaQuery<User> criteriaQuery = ArchivalEmployeeQueryConstructorAdmin.buildSearchQuery(username, role, firstName,
                 lastName, organization, telephone, sortCriteria, sortOrder, em);
 
-        Long count = em.createQuery(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(userName, role, firstName,
+        Long count = em.createQuery(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(username, role, firstName,
                 lastName, organization, telephone, em)).getSingleResult();
 
         TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);

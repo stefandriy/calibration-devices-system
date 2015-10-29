@@ -42,7 +42,6 @@ public class DeviceController {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
             deviceService.addDeviceCategory(
-                    deviceDTO.getNumber(),
                     deviceDTO.getDeviceType(),
                     deviceDTO.getDeviceName()
             );
@@ -67,7 +66,6 @@ public class DeviceController {
         try {
             deviceService.editDeviceCategory(
                     deviceCategoryId,
-                    deviceCategoryDTO.getNumber(),
                     deviceCategoryDTO.getDeviceType(),
                     deviceCategoryDTO.getDeviceName()
             );
@@ -105,7 +103,7 @@ public class DeviceController {
         ListToPageTransformer<Device> queryResult = deviceService.getCategoryDevicesBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
-                searchData.getNumber(),
+                searchData.getId(),
                 searchData.getDeviceType(),
                 searchData.getDeviceName(),
                 sortCriteria,

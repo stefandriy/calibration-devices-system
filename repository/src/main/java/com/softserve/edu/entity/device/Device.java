@@ -55,8 +55,7 @@ public class Device {
         this.manufacturer = manufacturer;
     }
 
-    public Device(String number, DeviceType deviceType, String deviceName) {
-        this.number = number;
+    public Device(DeviceType deviceType, String deviceName) {
         this.deviceType = deviceType;
         this.deviceName = deviceName;
     }
