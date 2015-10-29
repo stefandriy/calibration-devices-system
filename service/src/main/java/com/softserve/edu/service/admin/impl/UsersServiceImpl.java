@@ -81,6 +81,17 @@ public class UsersServiceImpl implements UsersService {
         return result;
     }
 
+    /**
+     * Add and save new sys admin with received data and send email contains created password
+     *
+     * @param username
+     * @param firstName
+     * @param lastName
+     * @param middleName
+     * @param phone
+     * @param email
+     * @param address
+     */
     @Override
     @Transactional
     public void addSysAdmin( String  username, String firstName, String lastName, String middleName, String phone,
@@ -99,7 +110,6 @@ public class UsersServiceImpl implements UsersService {
                                                 .address(address)
                                                 .setIsAvailable(true)
                                                 .build();
-
 
         newUser.addRole(UserRole.SYS_ADMIN);
 

@@ -168,8 +168,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
 
         User employeeAdmin = userRepository.findOne(username);
-        logger.info("==========employeeAdmin=============");
-        logger.info(employeeAdmin);
         employeeAdmin.setFirstName(firstName);
         employeeAdmin.setLastName(lastName);
         employeeAdmin.setMiddleName(middleName);
@@ -185,19 +183,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         userRepository.save(employeeAdmin);
 
-        logger.info("password===========");
-        logger.info(employeeAdmin.getPassword());
-        //organizationRepository.save(organization);
-
         String stringOrganizationTypes = String.join(",", types);
 
-        logger.info("password===========");
-        logger.info(employeeAdmin.getPassword());
         Date date = new Date();
 
         OrganizationEditHistory organizationEditHistory = new OrganizationEditHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
+        System.out.println(organizationEditHistory.getAddress().getDistrict());
+        System.out.println(organizationEditHistory.getAddress().getLocality());
         organizationEditHistoryRepository.save(organizationEditHistory);
         organization.addOrganizationChangeHistory(organizationEditHistory);
         organizationRepository.save(organization);
