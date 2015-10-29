@@ -47,6 +47,7 @@ public class CounterTypeController {
                     counterTypeDTO.getDeviceId()
             );
         } catch (Exception e) {
+            logger.error("Got exeption while add counter type ",e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
@@ -75,7 +76,7 @@ public class CounterTypeController {
                     counterTypeDTO.getDeviceId()
             );
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION ",e);
+            logger.error("Got exeption while editing counter type ",e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
@@ -93,7 +94,7 @@ public class CounterTypeController {
         try {
             counterTypeService.removeCounterType(counterTypeId);
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION ",e);
+            logger.error("Got exeption while remove counter type ",e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
@@ -134,7 +135,6 @@ public class CounterTypeController {
     public PageDTO<CounterTypeDTO> pageCounterTypeWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                            @PathVariable String sortCriteria, @PathVariable String sortOrder,
                                                            CounterTypeDTO searchData) {
-        logger.info("------" + searchData);
         ListToPageTransformer<CounterType> queryResult = counterTypeService.getCounterTypeBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,

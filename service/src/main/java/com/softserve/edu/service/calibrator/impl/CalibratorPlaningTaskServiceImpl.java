@@ -82,7 +82,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         DisassemblyTeam team = teamRepository.findOne(serialNumber);
         team.setEffectiveTo(taskDate);
-        team.setAvaliable(false);
+        team.setAvailable(false);
         teamRepository.save(team);
         User user = userRepository.findOne(userId);
         taskRepository.save(new CalibrationTask(null, team, new Date(), taskDate, user, verifications));
