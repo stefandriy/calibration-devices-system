@@ -9,7 +9,7 @@ angular
             $scope.clearAll = function () {
                 $scope.consumptionStatus.name = null;
                 $scope.selectedDeviceType.name = null;
-                $scope.testResult.name = null;
+                $scope.selectedTestResult.name = null;
                 $scope.tableParams.filter(
                     {
                         id : $location.search().param
@@ -40,7 +40,7 @@ angular
             $scope.selectedDeviceType = {
                 name: null
             }
-            $scope.testResult = {
+            $scope.selectedTestResult = {
                 name: null
             }
 
@@ -189,6 +189,10 @@ angular
                     filterDelay: 1500,
                     getData: function ($defer, params) {
 
+                        if (params.settings().$scope == null) {
+                            params.settings().$scope = $scope;
+                        }
+
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
 
@@ -209,10 +213,10 @@ angular
                         }
 
 
-                        if ($scope.testResult.name != null) {
-                            params.filter().protocol_status = $scope.testResult.name.id;
+                        if ($scope.selectedTestResult.name != null) {
+                            params.filter().testResult = $scope.selectedTestResult.name.id;
                         } else {
-                            params.filter().protocol_status = null;
+                            params.filter().testResult = null;
                         }
 
                         if(true) {
@@ -226,6 +230,7 @@ angular
 
                         calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
                             console.log(result);
+                            console.log(params.filter());
                             $scope.resultsCount = result.totalItems;
                             console.log(result.totalItems);
                             $defer.resolve(result.content);
@@ -234,7 +239,8 @@ angular
                             $log.debug('error fetching data:', result);
                         });
                     }
-                })
+                });
+                $scope.params.settings().$scope = $scope;
                 console.log($scope.tableParams.filter());
             });
 

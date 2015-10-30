@@ -195,7 +195,7 @@
                                 </ui-select>
                             </script>
                             <script type="text/ng-template" id="ng-table/filters/testResult.html">
-                                <ui-select ng-model="selectedProtocolStatus.name" theme="select2" on-select='doSearch()'
+                                <ui-select ng-model="selectedTestResult.name" theme="select2" on-select='doSearch()'
                                            search-enabled="false"
                                            name="filter-testResult  ">
                                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
@@ -203,8 +203,8 @@
                                         {{$select.selected.label}}
                                     </ui-select-match>
                                     <ui-select-choices
-                                            repeat="protocolStatus in testResults">
-                                        <span ng-bind-html="protocolStatus.label"></span>
+                                            repeat="testResult in testResults">
+                                        <span ng-bind-html="testResult.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
                             </script>
