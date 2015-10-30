@@ -67,9 +67,7 @@ public class CalibrationTestQueryConstructorCalibrator {
                                             Long protocolId, String testResult,
                                             Long measurementDeviceId,
                                             String measurementDeviceType) {
-
         Predicate queryPredicate = cb.conjunction();
-        
 
         if (startDateToSearch != null && endDateToSearch != null) {
             DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
@@ -87,7 +85,6 @@ public class CalibrationTestQueryConstructorCalibrator {
 
         }
 
-        System.out.println(name);
         if (StringUtils.isNotEmpty(name)) {
             queryPredicate = cb.and(cb.like(root.get("name"), "%" + name + "%"), queryPredicate);
         }

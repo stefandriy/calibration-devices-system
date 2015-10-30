@@ -67,7 +67,6 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
                                             String employeeName, Long protocolId, String protocolStatus,
                                             Long measurementDeviceId, String measurementDeviceType,
                                             User employee, Join<Verification, Organization> calibratorJoin) {
-
         Predicate queryPredicate = cb.conjunction();
         queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
 

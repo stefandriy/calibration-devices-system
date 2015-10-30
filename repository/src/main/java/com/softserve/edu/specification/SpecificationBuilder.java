@@ -1,6 +1,8 @@
 package com.softserve.edu.specification;
 
 import org.apache.log4j.Logger;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -17,17 +19,17 @@ import java.util.Map;
 /**
  * Class for generating specifications
  */
-public class SpecificationBuilder<T> {
+public abstract class SpecificationBuilder<T> {
     private static Logger logger = Logger.getLogger(SpecificationBuilder.class);
 
-    private List<SearchCriteria> criteria;
+    private List<SearchCriterion> criteria;
     private Map<String, String> searchValues;
 
-    public SpecificationBuilder(List<SearchCriteria> criteria, Map<String, String> searchValues) {
+    public SpecificationBuilder(Map<String, String> searchValues) {
+        this.criteria = initCriteria();
         if (criteria == null && searchValues == null) {
             throw new NullPointerException();
         }
-        this.criteria = criteria;
         this.searchValues = searchValues;
     }
 
@@ -77,7 +79,7 @@ public class SpecificationBuilder<T> {
         };
     }
 
-    private Predicate buildEqualPredicate(SearchCriteria sc, Root root, CriteriaBuilder cb) {
+    private Predicate buildEqualPredicate(SearchCriterion sc, Root root, CriteriaBuilder cb) {
         String key = sc.getKey();
         Path path = getCriteriaPath(sc, root);
         switch (sc.getValueType()) {
@@ -93,7 +95,7 @@ public class SpecificationBuilder<T> {
         }
     }
 
-    private Path getCriteriaPath(SearchCriteria sc, Root root) {
+    private Path getCriteriaPath(SearchCriterion sc, Root root) {
         String key = sc.getEntityField();
         if (sc.getJoinEntityField() != null) {
             return root.join(key).get(sc.getJoinEntityField());
@@ -106,8 +108,14 @@ public class SpecificationBuilder<T> {
         return searchKeys.containsKey(key) && (checkValue(searchKeys.get(key)));
     }
 
-    private static boolean checkValue(String value) {
+    protected static boolean checkValue(String value) {
         return (value != null) && (!value.isEmpty());
     }
+
+    protected abstract List<SearchCriterion> initCriteria();
+
+    public abstract Sort getSort(String sortCriteria, String sortOrder);
+
+    public abstract Pageable constructPageSpecification(int pageNumber, int itemsPerPage, String sortCriteria, String sortOrder);
 
 }

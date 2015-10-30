@@ -58,11 +58,10 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
                     cb.like(root.get("phone"), "%" + phone + "%"),
                     queryPredicate);
         }
+        System.out.println(type);
         if (StringUtils.isNotEmpty(type)) {
-            Join<Organization, OrganizationType> joinOrganizationType = root.join("organizationId");
-            Predicate searchByOrganizationType = cb.like(joinOrganizationType.get("value"),
-                    "%" + type + "%");
-            queryPredicate = cb.and(searchByOrganizationType, queryPredicate);
+            OrganizationType organizationType = OrganizationType.valueOf(type.trim());
+            queryPredicate = cb.and(cb.isMember(organizationType, root.get("organizationTypes")), queryPredicate);
         }
         if (StringUtils.isNotEmpty(region)) {
             queryPredicate = cb.and(
