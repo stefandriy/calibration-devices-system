@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 public class LocalityServiceImpl implements LocalityService {
     Logger logger = Logger.getLogger(LocalityServiceImpl.class);
 
@@ -19,21 +18,25 @@ public class LocalityServiceImpl implements LocalityService {
     private LocalityRepository localityRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Locality> getLocalitiesCorrespondingDistrict(Long districtId) {
         return localityRepository.findDistinctByDistrictId(districtId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getMailIndexForLocality(String designation, Long districtId) {
         return localityRepository.findMailIndexByDesignationAndDistrictId(designation, districtId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Locality findById(Long id) {
         return localityRepository.findOne(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Locality> findByDistrictIdAndOrganizationId(Long districtId, Long organizationId) {
         return localityRepository.findByDistrictIdAndOrganizationId(districtId, organizationId);
     }

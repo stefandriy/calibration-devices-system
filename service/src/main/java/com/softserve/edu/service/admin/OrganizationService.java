@@ -48,8 +48,6 @@ public interface OrganizationService {
 
     Set<Device.DeviceType> findDeviceTypesByOrganizationId( Long organizationId);
 
-    List<Organization> findByServiceAreaIdsAndOrganizationType(Set<Long> serviceAreaIds, OrganizationType type);
-
     List<Organization> findByOrganizationTypeAndDeviceType( OrganizationType organizationType, Device.DeviceType deviceType);
 
     Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType( Long customerId, OrganizationType organizationType, Device.DeviceType deviceType);

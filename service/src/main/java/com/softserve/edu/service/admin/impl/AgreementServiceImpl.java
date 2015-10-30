@@ -18,8 +18,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.*;
 
 @Service
@@ -29,11 +27,9 @@ public class AgreementServiceImpl implements AgreementService {
 
     @Autowired
     private OrganizationService organizationService;
+
     @Autowired
     private AgreementRepository agreementRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     @Transactional
@@ -109,24 +105,11 @@ public class AgreementServiceImpl implements AgreementService {
 
         SpecificationBuilder<Agreement> specificationBuilder = new SpecificationBuilder<>(searchCriteria, searchKeys);
         Specification<Agreement> searchSpec = specificationBuilder.buildPredicate();
-        // Specification<Agreement> searchSpec = AgreementSpecification.buildPredicate(searchKeys);
         Pageable pageSpec = AgreementSpecification.constructPageSpecification(pageNumber - 1, itemsPerPage, sortCriteria, sortOrder);
 
         Page<Agreement> agreementPage = agreementRepository.findAll(searchSpec, pageSpec);
         List<Agreement> agreements = agreementPage.getContent();
 
-
-        /*CriteriaQuery<Agreement> criteriaQuery = AgreementQueryConstructor
-                .buildSearchQuery(searchKeys, sortCriteria, sortOrder, entityManager);
-
-        Long count = entityManager.createQuery(AgreementQueryConstructor
-                .buildCountQuery(searchKeys, entityManager)).getSingleResult();
-
-        TypedQuery<Agreement> typedQuery = entityManager.createQuery(criteriaQuery);
-        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-        typedQuery.setMaxResults(itemsPerPage);
-        List<Agreement> AgreementList = typedQuery.getResultList();
-*/
         ListToPageTransformer<Agreement> result = new ListToPageTransformer<>();
         result.setContent(agreements);
         result.setTotalItems((long) agreements.size());
@@ -148,6 +131,7 @@ public class AgreementServiceImpl implements AgreementService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public java.sql.Date getEarliestDateAvailableAgreement() {
         return agreementRepository.findEarliestDateAvalibleAgreement();
     }

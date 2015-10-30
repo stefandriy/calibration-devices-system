@@ -212,7 +212,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<OrganizationEditHistory> getHistoryByOrganizationId(Long organizationId) {
         return organizationEditHistoryRepository.findByOrganizationId(organizationId);
     }
@@ -249,23 +249,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Organization> findByServiceAreaIdsAndOrganizationType(Set<Long> serviceAreaIds, OrganizationType type) {
-        List<Organization> organizations = new ArrayList<>();
-        serviceAreaIds.stream()
-                .forEach(serviceAreaId -> {
-                    List<Organization> organizationList = organizationRepository.findOrganizationByLocalityIdAndType(serviceAreaId, type);
-                    organizations.addAll(organizationList);
-                });
-        return organizations;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public List<Organization> findByOrganizationTypeAndDeviceType(OrganizationType organizationType, Device.DeviceType deviceType) {
         return organizationRepository.findByOrganizationTypeAndDeviceType(organizationType, deviceType);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType(Long customerId, OrganizationType organizationType, Device.DeviceType deviceType) {
         return organizationRepository.findByIdAndTypeAndActiveAgreementDeviceType(customerId, organizationType, deviceType);
     }
