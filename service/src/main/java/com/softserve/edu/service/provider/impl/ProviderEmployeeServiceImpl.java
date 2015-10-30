@@ -25,7 +25,7 @@ import com.softserve.edu.service.provider.buildGraphic.GraphicBuilder;
 import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.ProviderEmployeeQuary;
+import com.softserve.edu.service.utils.ProviderEmployeeQuery;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -124,10 +124,10 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, Long idOrganization, String userName,
                                                    String role, String firstName, String lastName, String organization,
                                                    String telephone, String secondTelephone, String fieldToSort) {
-        CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
+        CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuery.buildSearchQuery(userName, role, firstName,
                 lastName, organization, telephone, secondTelephone, em, idOrganization, fieldToSort);
 
-        Long count = em.createQuery(ProviderEmployeeQuary.buildCountQuery(userName, role, firstName,
+        Long count = em.createQuery(ProviderEmployeeQuery.buildCountQuery(userName, role, firstName,
                 lastName, organization, telephone, secondTelephone, idOrganization, em)).getSingleResult();
 
         TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
