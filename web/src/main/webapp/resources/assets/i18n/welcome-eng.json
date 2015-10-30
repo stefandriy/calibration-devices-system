@@ -531,7 +531,9 @@
   "IN_THE_AREA" : "In the area",
   "NOT_IN_THE_AREA" : "Not in the area",
   "SUCCESS" : "Success",
-  "FAILED" : "Failed"
+  "FAILED" : "Failed",
+  "YEAR_REGEX" : "Enter for example - 2015",
+  "MAIN_PANEL_PROVIDER" : "Main "
 
 
 
