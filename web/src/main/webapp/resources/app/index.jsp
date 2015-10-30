@@ -66,7 +66,7 @@
                         type="button" id="menubutton">
                     <i class="fa fa-bars" style="padding-right: 0"></i></button>
             </li>
-            </ul>
+        </ul>
         <div class="navbar-header">
             <a class="navbar-brand" translate="HEAD_TITLE"></a>
         </div>
@@ -94,7 +94,7 @@
             <li class="dropdown" dropdown>
                 <a class="dropdown-toggle" style="width:250px; padding: 10px 15px; text-align: right" dropdown-toggle>
                     <div>
-                        <label  translate="{{employee.firstName}} {{employee.lastName}}"></label>
+                        <label translate="{{employee.firstName}} {{employee.lastName}}"></label>
                         <i class="fa fa-user fa-fw"></i><i class="fa fa-caret-down"></i>
                     </div>
                 </a>
@@ -108,7 +108,8 @@
                         </div>
                         <div class="content" style="padding:0;">
                             <div class="ui top attached secondary segment" style="padding:10px;">
-                                <label class="userlabel" translate="{{employee.firstName}} {{employee.lastName}} {{employee.middleName}} <br/> ({{employee.username}})"></label>
+                                <label class="userlabel"
+                                       translate="{{employee.firstName}} {{employee.lastName}} {{employee.middleName}} <br/> ({{employee.username}})"></label>
                             </div>
                             <div class="ui vertical menu" style="margin-top:0">
                                 <div ui-sref="profile-info" class="link item middle center aligned">
@@ -118,7 +119,7 @@
                                     <p translate="SETTINGS"></p>
                                 </div>
                                 <div ng-click="logout()" class="link item middle center aligned">
-                                    <p translate="LOG_OUT"> </p>
+                                    <p translate="LOG_OUT"></p>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +142,7 @@
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">
-                       <li ui-sref-active="active">
+                        <li ui-sref-active="active">
                             <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> <span>Головна панель
                                 (вимірювальна лабораторія)</span></a>
                         </li>
@@ -169,21 +170,21 @@
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (вимірювальна лабораторія)</span>
+                                    class="fa fa-list-alt fa-fw"></i>
+                                <span>Нові заявки (вимірювальна лабораторія)</span>
                            		<span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
                             </a>
                         </li>
-                        <!--  <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
-                            <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i> <span>Довідник засобів вимірювальної техніки (вимірювальна
-                                лабораторія)</span>
+                        <li ui-sref-active="active" ng-controller="">
+                            <a ui-sref="" ng-click=""><i class="fa fa-file-powerpoint-o"></i> <span>Електронні протоколи повірок</span>
                             </a>
-                        </li>  Deleting this button from calibrator-->
+                        </li>
 
                         <li ui-sref-active="active">
-                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> <span>Планування завдання</span>
+                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i>
+                                <span>Планування завдання</span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
@@ -292,7 +293,7 @@
 </script>
 
 <script type="text/javascript">
-    $("#menubutton").click(function() {
+    $("#menubutton").click(function () {
         $("#sidebar-wrapper").find("a span").toggle();
     });
 </script>
