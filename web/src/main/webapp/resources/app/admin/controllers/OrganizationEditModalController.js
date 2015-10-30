@@ -94,7 +94,7 @@ angular
             var setCurrentTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
-                    for (i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
+                    for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
                         switch ($scope.defaultData.organizationTypes[i].type) {
                             case "PROVIDER":
                                 console.log($scope.defaultData.organizationTypes[i]);
@@ -111,7 +111,7 @@ angular
                         }
                     }
 
-                    for (i = 0; i < $scope.defaultData.deviceType.length; i++) {
+                    for (var i = 0; i < $scope.defaultData.deviceType.length; i++) {
                         switch ($scope.defaultData.deviceType[i].type) {
                             case "WATER":
                                 console.log($scope.defaultData.deviceType[i]);
@@ -127,7 +127,7 @@ angular
                     }
 
                 } else if (lang === 'eng') {
-                    for (i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
+                    for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
                         switch ($scope.defaultData.organizationTypes[i].type) {
                             case 'PROVIDER':
                                 $scope.defaultData.organizationTypes[i].label = 'Service provider';
@@ -161,12 +161,16 @@ angular
             /**
              * Closes modal window on browser's back/forward button click.
              */
-            $rootScope.$on('$locationChangeStart', function () {
+            $rootScope.$on('$locationChangeStart', function (close) {
                 $modalInstance.close();
+                if(close === true) {
+                    $modalInstance.close();
+                }
+                $modalInstance.dismiss();
             });
 
             $scope.defaultData.organizationTypes = [];
-            for (i = 0; i < $rootScope.organization.types.length; i++) {
+            for (var i = 0; i < $rootScope.organization.types.length; i++) {
                 $scope.defaultData.organizationTypes[i] = {
                     type: $rootScope.organization.types[i],
                     label: null
@@ -528,18 +532,9 @@ angular
             };
 
             /**
-             * Resets organization form
-             */
-            $scope.resetOrganizationForm = function () {
-                $scope.$broadcast('show-errors-reset');
-                $rootScope.organization = null;
-            };
-
-            /**
              * Change password
              */
             $scope.changePassword = function () {
-                //$scope.preventDefault();
                 $scope.password = 'generate';
                 $scope.generationMessage = true;
             };
@@ -677,17 +672,18 @@ angular
                     function (data) {
                         if (data == 200) {
                             $scope.closeModal(true);
-                            $scope.resetOrganizationForm();
+                            console.log(data);
                             $rootScope.onTableHandling();
                         }
-                        else (console.log(data));
-                    })
+
+                    });
             }
             /**
              * Closes edit modal window.
              */
-            $rootScope.closeModal = function (close) {
-                if (close === true) {
+
+            $scope.closeModal = function (close) {
+                if(close === true) {
                     $modalInstance.close();
                 }
                 $modalInstance.dismiss();

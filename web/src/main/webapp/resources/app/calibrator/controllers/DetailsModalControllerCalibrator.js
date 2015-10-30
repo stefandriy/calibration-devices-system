@@ -61,6 +61,7 @@ angular
             };
 
 
+
             /**
              *  Date picker and formatter setup
              *

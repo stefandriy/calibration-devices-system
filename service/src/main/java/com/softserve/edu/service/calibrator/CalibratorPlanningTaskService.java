@@ -1,6 +1,7 @@
 package com.softserve.edu.service.calibrator;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.verification.Verification;
 import org.springframework.data.domain.Page;
 
@@ -22,5 +23,6 @@ public interface CalibratorPlanningTaskService {
 
     Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
                                                                                      int itemsPerPage);
+    List<CounterType> findSymbolsAndSizes(String verifId);
 
 }

@@ -2,6 +2,7 @@ package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.user.User;
@@ -37,6 +38,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     @Autowired
     private CalibrationDisassemblyTeamRepository teamRepository;
+
+    @Autowired
+    private CounterTypeRepository counterTypeRepository;
 
 
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
@@ -154,4 +158,13 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return verificationRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, pageRequest);
     }
 
+    @Override
+    public List<CounterType> findSymbolsAndSizes(String verifId) {
+        Verification verification = verificationRepository.findOne(verifId);
+        if (verification == null){
+            logger.error("Cannot found verification!");
+            throw new NullPointerException();
+        }
+        return counterTypeRepository.findByDeviceId(verification.getDevice().getId());
+    }
 }

@@ -110,8 +110,11 @@ angular
              * Closes the modal window for adding new
              * organization.
              */
-            $rootScope.closeModal = function () {
+            $rootScope.closeModal = function (close) {
                 $scope.resetOrganizationForm();
+                if(close === true) {
+                    $modalInstance.close();
+                }
                 $modalInstance.dismiss();
             };
 
@@ -362,7 +365,7 @@ angular
                 organizationService.saveOrganization($scope.organizationFormData)
                     .then(function (data) {
                         if (data == 201) {
-                            $scope.closeModal();
+                            $scope.closeModal(true);
                             $scope.resetOrganizationForm();
                             $rootScope.onTableHandling();
                         }

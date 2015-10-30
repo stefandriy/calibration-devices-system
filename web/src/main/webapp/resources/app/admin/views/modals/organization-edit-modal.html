@@ -42,7 +42,7 @@
                     <label class="control-label col-md-4" for="types">{{'ORGANIZATION_TYPE_ADMIN' | translate }}</label>
 
                     <div class="col-md-8">
-                        <ui-select multiple theme="select2" class="form-control" style="width: 545px;"
+                        <ui-select multiple theme="select2" class="form-control"
                                    ng-model="defaultData.organizationTypes" name="types" id="types">
                             <ui-select-match placeholder="Оберіть типи організації">{{$item.label}}</ui-select-match>
                             <ui-select-choices
@@ -59,7 +59,7 @@
                     </label>
 
                     <div class="col-md-8">
-                        <ui-select multiple theme="select2" class="form-control" style="width: 545px;"
+                        <ui-select multiple theme="select2" class="form-control"
                                    ng-model="defaultData.deviceType" name="counters" id="counters">
                             <ui-select-match placeholder="Оберіть тип лічильників">{{$item.label}}</ui-select-match>
                             <ui-select-choices repeat="counter in counterData">
@@ -261,7 +261,7 @@
                             <label class="control-label col-md-4">{{'PASSWORD_TWO' | translate}}</label>
 
                         <div class="col-md-8">
-                            <button type="submit" class="btn btn-warning"
+                            <button type="submit" class="btn btn-warning btn-block"
                                     ng-click="changePassword()" ng-hide="generationMessage">{{'GENERATE_PASSWORD' |
                                 translate}}
                             </button>
@@ -388,11 +388,6 @@
                                            ng-model="$root.organization.flat" class="form-control" required>
                                 </div>
                                 <div ng-show="$root.organization.$submitted || organizationForm.flat.$touched">
-                                    <p class="validation-message has-error"
-                                       ng-if="organizationForm.flat.$error.required">
-                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        {{'REQUIRED' | translate}}
-                                    </p>
                                 </div>
                             </div>
 
@@ -468,14 +463,16 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="form-group col-md-10">
-
-                <button class="btn btn-success">{{'EDIT' | translate}}</button>
+        <div class="form-group row row-buttons">
+            <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2">
+                {{'EDIT' | translate}}
+            </button>
+            <div class="col-md-8 col-sm-0 col-xs-0 col-lg-8">
+                <p>
+                </p>
             </div>
-            <div class="form-group col-md-2">
-                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
-            </div>
+            <input type="button" class="btn btn-danger col-md-2 col-sm-12 col-xs-12 col-lg-2 pull-right"
+                   value="{{'CLOSE' | translate}}" ng-click="closeModal()">
         </div>
 
     </form>
