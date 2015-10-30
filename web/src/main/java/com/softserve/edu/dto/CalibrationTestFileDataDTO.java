@@ -67,14 +67,14 @@ public class CalibrationTestFileDataDTO {
             testNumberStr += ((testRepeat != 0) ? " Repeat " + testRepeat : "");
             testDataDTO.setTestNumber(testNumberStr);
             testDataDTO.setGivenConsumption(convertImpulsesPerSecToCubicMetersPerHour(
-                    testData.getTestSpecifiedConsumption(i).doubleValue(),
+                    testData.getTestSpecifiedConsumption(i),
                         testData.getImpulsePricePerLitre()));
             testDataDTO.setAcceptableError(testData.getTestAllowableError(i));
             testDataDTO.setInitialValue(testData.getTestInitialCounterValue(i));
             testDataDTO.setEndValue(testData.getTestTerminalCounterValue(i));
             testDataDTO.setVolumeInDevice(round(testDataDTO.getEndValue() - testDataDTO.getInitialValue(), 2));
             testDataDTO.setTestTime(round(testData.getTestDuration(i), 1));
-            testDataDTO.setVolumeOfStandard(testData.getTestSpecifiedImpulsesAmount(i).doubleValue());
+            testDataDTO.setVolumeOfStandard(testData.getTestSpecifiedImpulsesAmount(i) * 1.0);
             testDataDTO.setActualConsumption(convertImpulsesPerSecToCubicMetersPerHour(
                     testData.getTestCorrectedCurrentConsumption(i),
                         testData.getImpulsePricePerLitre()));
