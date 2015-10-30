@@ -15,7 +15,6 @@ angular.module('employeeModule')
              * resets the test form and closes modal
              * window.
              */
-
             $scope.editTest = function () {
 
                 var testForm = {
@@ -27,8 +26,6 @@ angular.module('employeeModule')
                     consumptionStatus: $scope.calibrationTest.consumptionStatus,
                     testResult: $scope.calibrationTest.testResult
                 }
-
-               console.log(testForm);
 
                 if (!$scope.calibrationTestFormEdit.isValid) {
                     calibrationTestServiceCalibrator.editCalibrationTest(testForm, $rootScope.testId).then(

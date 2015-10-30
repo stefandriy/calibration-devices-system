@@ -93,8 +93,8 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     }
 
     /**
-     * Reads specified amount of bytes from InputStream reader, concatenates them
-     * and converts hex string into UTF8 string.
+     * Reads specified amount of bytes from InputStream reader
+     * and converts them into UTF8 string.
      * @param amount
      *          amount of bytes to read.
      * @return
@@ -108,8 +108,8 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     }
 
     /**
-     * Reads specified amount of bytes from InputStream reader, concatenates them
-     * and converts hex string into long value.
+     * Reads specified amount of bytes from InputStream reader
+     * into a long variable.
      * @param amount
      *          amount of bytes to read.
      * @return
@@ -127,7 +127,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
 
     /**
      * Reads specified amount of bytes from InputStream reader
-     * in reverse order and converts hex string into long value.
+     * in reverse order into a long variable.
      * @param amount
      *          amount of bytes to read.
      * @return
@@ -175,7 +175,6 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         final int ALLOCATED_IMAGE_SIZE = 16380;
 
         int imageSize = (int)readLongValue(4);
-
         byte[] decodedHex = new byte[imageSize];
         reader.read(decodedHex, 0, imageSize);
         String encodedHexB64 = Base64.encodeBase64String(decodedHex);

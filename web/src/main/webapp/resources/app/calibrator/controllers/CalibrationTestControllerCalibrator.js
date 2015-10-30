@@ -224,15 +224,11 @@ angular
                         }
 
                         //params.filter().id = $location.search().param;
-                        console.log($location.search().param);
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                         params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
                         calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
-                            console.log(result);
-                            console.log(params.filter());
                             $scope.resultsCount = result.totalItems;
-                            console.log(result.totalItems);
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
                         }, function (result) {
@@ -241,7 +237,6 @@ angular
                     }
                 });
                 $scope.params.settings().$scope = $scope;
-                console.log($scope.tableParams.filter());
             });
 
             $scope.checkFilters = function () {
@@ -346,9 +341,7 @@ angular
                     .then(function (data) {
                         $log.debug("inside");
                         var testId = data.id;
-                        console.log('filename = ' + fileName);
                         var url = $location.path('/calibrator/verifications/calibration-test-add/').search({'param': verificationID});
-                        console.log(url);
                     } )
             };
 
@@ -396,10 +389,8 @@ angular
             $scope.deleteTest = function (testId) {
                 $rootScope.testId = testId;
                 calibrationTestServiceCalibrator.deleteCalibrationTest(testId).then(function (data) {
-                    console.log(data);
                     if (data == 200) {
                         $timeout(function () {
-                            console.log('delete with timeout');
                             $scope.tableParams.reload();
                         }, 700);
                     } else {

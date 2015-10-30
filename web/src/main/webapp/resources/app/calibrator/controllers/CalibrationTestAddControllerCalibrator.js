@@ -41,7 +41,6 @@ angular
 
             $scope.parseBbiFile = function(data) {
                 $scope.fileLoaded = true;
-                console.log(data);
                 $scope.TestForm = data;
                 var date = $scope.TestForm.testDate;
                 $scope.TestForm.testDate = moment(date).utcOffset(0).format("DD.MM.YYYY HH:mm");
@@ -50,7 +49,6 @@ angular
             };
 
             $scope.showEditMainPhotoModal = function (id) {
-                console.log("Entered edit main photo function");
                 var modalInstance =  $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/edit-main-photo-modal.html',
