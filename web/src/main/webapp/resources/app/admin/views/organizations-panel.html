@@ -28,7 +28,7 @@
 							{{ organization.name }}
 						</td>
 						<td data-title="'TYPE_ADMIN' | translate " sortable="'type_admin'"
-							filter="{ 'type_admin': 'text' }">{{ organization.types }}
+							filter="{ 'type_admin': 'text' }">{{ organization.types | translate}}
 						</td>
 						<td data-title="'REGION' | translate" sortable="'region'"
 							filter="{ 'region': 'text' }">{{ organization.region}}
@@ -51,7 +51,7 @@
 						</td>
 						<td data-title="'EDIT' | translate">
 							<center>
-								<button type="button" class="btn btn-primary"
+								<button type="button" class="btn btn-warning"
 										ng-click="openEditOrganizationModal(organization.id)">
 									<span class="glyphicon glyphicon-pencil"></span>
 								</button>

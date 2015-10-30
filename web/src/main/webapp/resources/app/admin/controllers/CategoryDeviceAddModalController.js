@@ -74,9 +74,12 @@ angular
              * Closes the modal window for adding new
              * organization.
              */
-            $rootScope.closeModal = function () {
+            $rootScope.closeModal = function (close) {
                 $scope.resetAddCategoryForm();
-                $modalInstance.close();
+                if(close === true) {
+                    $modalInstance.close();
+                }
+                $modalInstance.dismiss();
             };
 
             /**

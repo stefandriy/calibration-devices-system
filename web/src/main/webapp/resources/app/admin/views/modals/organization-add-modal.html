@@ -3,7 +3,7 @@
         | translate}}</h3>
 </div>
 
-<div class="modal-body">
+<div class="modal-body modal-padding">
 
     <form name="organizationForm" id="organizationForm" role="form" ng-submit="onOrganizationFormSubmit()"
           class="form-group" novalidate>
@@ -328,9 +328,10 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="control-label col-md-4">
-                        <label class="control-label">{{'PASSWORD_TWO' | translate}}*</label>
-                    </div>
+                    <label class="control-label col-md-4">
+                        {{'PASSWORD_TWO' | translate}}*
+                    </label>
+
                     <div class="col-md-8">
                         <div class="form-group" aria-readonly="true">
                             <span class="text-success">
@@ -517,11 +518,9 @@
             <div class="panel-heading">{{'ORGANIZATION_SERVICE_AREA'|translate}}</div>
             <div class="panel-body">
                 <div class="form-group row" show-errors>
-                    <div class="col-md-4">
-                        <label for="serviceAreaRegion" class="control-label">
-                            {{'REGION' | translate}}
-                        </label>
-                    </div>
+                    <label for="serviceAreaRegion" class="control-label col-md-4">
+                        {{'REGION' | translate}}
+                    </label>
 
                     <div class="col-md-8">
                         <ui-select class="form-control" type="text" theme="select2"
@@ -552,12 +551,11 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-md-4">
-                        <label class="control-label">
-                            {{'DISTRICT' | translate}}
-                            {{$scope.selectedServiceAreaLocalities}}
-                        </label>
-                    </div>
+                    <label class="control-label col-md-4">
+                        {{'DISTRICT' | translate}}
+                        {{$scope.selectedServiceAreaLocalities}}
+                    </label>
+
                     <div class="col-md-8">
                         <accordion close-others="false">
                             <div ng-repeat="district in serviceArea.districts">
@@ -568,7 +566,7 @@
                                                ng-click="selectAllLocalities(district, $index, $event)">
                                         <span class="" ng-click="selectRegionsFromDistrict(district, $index)">{{district.designation}}</span>
                                     </accordion-heading>
-                                    <label class="col-md-6"
+                                    <label class="col-md-6 acord-align"
                                            ng-repeat="locality in serviceArea.locality[$index] | unique:'designation'">
                                         <input type="checkbox" checklist-model="selectedServiceAreaLocalities"
                                                checklist-value="locality.id">
@@ -583,22 +581,22 @@
         </div>
 
 
-<div class="form-group row">
-    <div class="col-md-10">
-        <button type="submit" class="btn btn-success">
-            {{'ADD' | translate}}
-        </button>
-        <button type="reset" class="btn btn-warning" ng-click="resetOrganizationForm()">
-            {{'CLEAR_FORM' | translate }}
-        </button>
-    </div>
-    <div class="col-md-2">
-        <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
-            | translate}}
-        </button>
-    </div>
-</div>
+        <div class="form-group row">
+            <div class="col-md-10">
+                <button type="submit" class="btn btn-success">
+                    {{'ADD' | translate}}
+                </button>
+                <button type="reset" class="btn btn-warning" ng-click="resetOrganizationForm()">
+                    {{'CLEAR_FORM' | translate }}
+                </button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
+                    | translate}}
+                </button>
+            </div>
+        </div>
 
-</form>
+    </form>
 
 </div>
