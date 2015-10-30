@@ -153,7 +153,6 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "new/mainpanel/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearchOnMainPanel(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                                                                       NewVerificationsSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
         ListToPageTransformer<Verification> queryResult = verificationService.findPageOfArchiveVerificationsByCalibratorIdOnMainPanel(
                 employeeUser.getOrganizationId(),
@@ -235,11 +234,12 @@ public class CalibratorVerificationController {
     }
 
     /**
-     * Current method received bbi file and save in system
+     * Receives bbi file, saves it in the system, parses it and
+     * returns parsed data
      *
-     * @param file
-     * @param idVerification
-     * @return status witch depends on loading file
+     * @param file uploaded file
+     * @param verificationId id of verification
+     * @return Entity which contains Calibration Test Data and HTTP status
      */
     @RequestMapping(value = "new/upload", method = RequestMethod.POST)
     public ResponseEntity uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String verificationId) {
@@ -291,8 +291,6 @@ public class CalibratorVerificationController {
                                                                                        ArchiveVerificationsFilterAndSort searchData,
                                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
-//        System.out.println("CalibratorController searchData.getMeasurement_device_type() " + searchData.getMeasurement_device_type());
-        System.out.println("prot from CalibratorController  protocol status= " + searchData.getProtocol_status());
         ListToPageTransformer<Verification> queryResult = verificationService
                 .findPageOfArchiveVerificationsByCalibratorId(
                         employeeUser.getOrganizationId(),

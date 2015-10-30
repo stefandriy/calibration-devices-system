@@ -62,6 +62,11 @@ angular
                 });
                 $scope.$modalInstance.result.then(function () {
                     $scope.tableParams.reload();
+                    $scope.checkedItems = [];
+                    $scope.idsOfVerifications = [];
+                    $scope.allIsEmpty = true;
+                    console.log($scope.allIsEmpty);
+                    console.log($scope.idsOfVerifications);
                 });
             };
 
@@ -78,6 +83,11 @@ angular
                 });
                 $scope.$modalInstance.result.then(function () {
                     $scope.tableParams.reload();
+                    $scope.checkedItems = [];
+                    $scope.idsOfVerifications = [];
+                    $scope.allIsEmpty = true;
+                    console.log($scope.allIsEmpty);
+                    console.log($scope.idsOfVerifications);
                 });
             };
 

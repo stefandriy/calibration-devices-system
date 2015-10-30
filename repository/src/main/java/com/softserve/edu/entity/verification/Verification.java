@@ -106,7 +106,6 @@ public class Verification {
 
     private Integer processTimeExceeding;
 
-
     public Verification(
             Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
             Device device, Status status, ReadStatus readStatus

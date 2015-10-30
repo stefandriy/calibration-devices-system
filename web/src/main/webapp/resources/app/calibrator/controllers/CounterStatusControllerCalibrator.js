@@ -154,41 +154,6 @@ angular
             $scope.showMessage = {
                 status: false
             }
-            //$scope.editAdditionalInfo = function(){
-            //    if ($scope.addInfo.entrance==undefined && $scope.addInfo.doorCode==undefined && $scope.addInfo.floor == undefined
-            //        && $scope.addInfo.dateOfVerif==undefined && $scope.addInfo.time == undefined &&
-            //        $scope.addInfo.noWaterToDate == undefined && $scope.addInfo.notes == undefined){
-            //        $scope.showMessage.status = true;
-            //    } else {
-            //        if ($scope.addInfo.serviceability == undefined){
-            //            $scope.addInfo.serviceability = true;
-            //        }
-            //        $scope.showMessage.status = false;
-            //        var info = {
-            //            "entrance": $scope.addInfo.entrance,
-            //            "doorCode": $scope.addInfo.doorCode,
-            //            "floor": $scope.addInfo.floor,
-            //            "dateOfVerif": $scope.addInfo.dateOfVerif,
-            //            "time": $scope.addInfo.time,
-            //            "serviceability": $scope.addInfo.serviceability,
-            //            "noWaterToDate": $scope.addInfo.noWaterToDate,
-            //            "notes": $scope.addInfo.notes,
-            //            "verificationId": $scope.verificationData.id
-            //        }
-            //        //$log.debug($scope.info);
-            //        verificationService.saveAdditionalInfo(info)
-            //            .then(function (response) {
-            //                if (response.status == 200) {
-            //                    $scope.close();
-            //                } else {
-            //                    $scope.incorrectValue = true;
-            //                    console.log($scope.incorrectValue);
-            //                }
-            //            });
-            //    }
-            //
-            //}
-
 
         }]);
 

@@ -135,8 +135,7 @@
                 <ul class="nav ui vertical menu" id="sidemenu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> <span>Головна панель
-                                (постачальник послуг)</span></a>
+                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> <span translate="MAIN_PANEL_PROVIDER"></span></a>
                         </li>
                     </sec:authorize>
 
@@ -158,7 +157,7 @@
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
                             <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()">
-                                <i class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (постачальник послуг)</span>
+                                <i class="fa fa-list-alt fa-fw"></i> <span translate="NEW_VERIFICATIONS"></span>
                               <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                     ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
@@ -242,7 +241,7 @@
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
                             <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i><span
-                                    translate=VERIFICATIONS_ARCHIVE">
+                                    translate="VERIFICATIONS_ARCHIVE">
                            </span></a>
                         </li>
                     </sec:authorize>

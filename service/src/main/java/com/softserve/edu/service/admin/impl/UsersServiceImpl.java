@@ -161,8 +161,6 @@ public class UsersServiceImpl implements UsersService {
 
         if (sysAdmin.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
-            System.out.println(sysAdmin.getEmail());
-            System.out.println(newPassword);
             mail.sendNewPasswordMail(sysAdmin.getEmail(), sysAdmin.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
             sysAdmin.setPassword(passwordEncoded);

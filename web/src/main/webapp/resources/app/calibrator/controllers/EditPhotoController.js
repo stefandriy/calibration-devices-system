@@ -91,10 +91,8 @@ angular
                 } else {
                     if ($scope.photoType == 'begin') {
                         parentScope.TestDataFormData[$scope.photoIndex].initialValue = $scope.newValues.counterValue;
-                        console.log('begin value' + $scope.newValues.counterValue);
                     } else {
                         parentScope.TestDataFormData[$scope.photoIndex].endValue = $scope.newValues.counterValue;
-                        console.log('end value' + $scope.newValues.counterValue);
                     }
                 }
 

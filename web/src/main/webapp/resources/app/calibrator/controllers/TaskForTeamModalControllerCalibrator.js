@@ -116,6 +116,7 @@ angular
                         then(function (data) {
                             if (data.status == 200) {
                                 $scope.closeModal();
+                                $rootScope.verifIds = [];
                                 $modal.open({
                                     animation: true,
                                     templateUrl: '/resources/app/calibrator/views/modals/task-add-success.html',
