@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 public class CalibrationTestFileDataDTO {
 
     private String fileName;
@@ -18,17 +17,17 @@ public class CalibrationTestFileDataDTO {
 
     private Date testDate;
 
-    private Integer temperature;
+    private int temperature;
 
-    private Long accumulatedVolume;
+    private long accumulatedVolume;
 
-    private Integer counterProductionYear;
+    private int counterProductionYear;
 
-    private Long installmentNumber;
+    private long installmentNumber;
 
-    private Double latitude;
+    private double latitude;
 
-    private Double longitude;
+    private double longitude;
 
     private String consumptionStatus;
 
@@ -45,7 +44,7 @@ public class CalibrationTestFileDataDTO {
         this.counterNumber = testData.getCurrentCounterNumber();
         this.testDate = new Date(testData.getUnixTime());
         this.temperature = testData.getTemperature();
-        //this.accumulatedVolume = ; // not sure if this is exactly what needed
+        //this.accumulatedVolume = ; // don't have this value.
         this.counterProductionYear = testData.getCounterProductionYear();
         this.installmentNumber = testData.getInstallmentNumber();
         this.latitude = testData.getLatitude();
@@ -77,10 +76,10 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setTestTime(round(testData.getTestDuration(i), 1));
             testDataDTO.setVolumeOfStandard(testData.getTestSpecifiedImpulsesAmount(i).doubleValue());
             testDataDTO.setActualConsumption(convertImpulsesPerSecToCubicMetersPerHour(
-                    testData.getTestCorrectedCurrentConsumption(i).doubleValue(),
+                    testData.getTestCorrectedCurrentConsumption(i),
                         testData.getImpulsePricePerLitre()));
             testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
-                    testDataDTO.getVolumeOfStandard().doubleValue()));
+                    testDataDTO.getVolumeOfStandard()));
             testDataDTO.setBeginPhoto(testData.getBeginPhoto(i));
             testDataDTO.setEndPhoto(testData.getEndPhoto(i));
 
@@ -112,51 +111,51 @@ public class CalibrationTestFileDataDTO {
         this.testDate = testDate;
     }
 
-    public Integer getTemperature() {
+    public int getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(Integer temperature) {
+    public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 
-    public Integer getCounterProductionYear() {
+    public int getCounterProductionYear() {
         return counterProductionYear;
     }
 
-    public void setCounterProductionYear(Integer counterProductionYear) {
+    public void setCounterProductionYear(int counterProductionYear) {
         this.counterProductionYear = counterProductionYear;
     }
 
-    public Long getAccumulatedVolume() {
+    public long getAccumulatedVolume() {
         return accumulatedVolume;
     }
 
-    public void setAccumulatedVolume(Long accumulatedVolume) {
+    public void setAccumulatedVolume(long accumulatedVolume) {
         this.accumulatedVolume = accumulatedVolume;
     }
 
-    public Long getInstallmentNumber() {
+    public long getInstallmentNumber() {
         return installmentNumber;
     }
 
-    public void setInstallmentNumber(Long installmentNumber) {
+    public void setInstallmentNumber(long installmentNumber) {
         this.installmentNumber = installmentNumber;
     }
 
-    public Double getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -192,20 +191,19 @@ public class CalibrationTestFileDataDTO {
         this.listTestData = listTestData;
     }
 
-    private Double round(Double val, int scale) {
-        return new BigDecimal(val.toString()).setScale(scale, RoundingMode.HALF_UP).doubleValue();
+    private double round(double val, int scale) {
+        return new BigDecimal(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
     }
 
-    private Double convertImpulsesPerSecToCubicMetersPerHour(Double impulses, Long impLitPrice) {
+    private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, long impLitPrice) {
         return round(3.6 * impulses / impLitPrice, 3);
     }
 
-    private Double countCalculationError(Double counterVolume, Double standardVolume) {
+    private double countCalculationError(double counterVolume, double standardVolume) {
         if (standardVolume < 0.0001) {
             return 0.0;
         }
-        Double result = (counterVolume - standardVolume) / standardVolume * 100;
-        System.out.println(result);
+        double result = (counterVolume - standardVolume) / standardVolume * 100;
         return round(result, 2);
     }
 }
