@@ -5,7 +5,7 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;
-import com.softserve.edu.entity.util.ConvertUserRoleToString;
+import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.tool.MailService;
@@ -53,7 +53,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     @Transactional
     public List<String> getRoles(String username){
-        return ConvertUserRoleToString
+        return ConvertSetEnumsToListString
                 .convertToListString(userRepository.getRolesByUserName(username));
     }
 

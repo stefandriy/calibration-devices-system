@@ -7,9 +7,7 @@ import com.softserve.edu.repository.AgreementRepository;
 import com.softserve.edu.service.admin.AgreementService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.specification.AgreementSpecification;
-import com.softserve.edu.specification.SearchCriteria;
-import com.softserve.edu.specification.SpecificationBuilder;
+import com.softserve.edu.specification.AgreementSpecificationBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -93,19 +91,10 @@ public class AgreementServiceImpl implements AgreementService {
     @Transactional
     public ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage,
                                                                                     Map<String, String> searchKeys, String sortCriteria, String sortOrder) {
-        List<SearchCriteria> searchCriteria = new ArrayList<>();
 
-        searchCriteria.add(new SearchCriteria<>("number", "number", SearchCriteria.Operator.LIKE, SearchCriteria.ValueType.STRING));
-        searchCriteria.add(new SearchCriteria<>("customerName", "customer", SearchCriteria.Operator.LIKE, SearchCriteria.ValueType.STRING, "name"));
-        searchCriteria.add(new SearchCriteria<>("executorName", "customer", SearchCriteria.Operator.LIKE, SearchCriteria.ValueType.STRING, "name"));
-        searchCriteria.add(new SearchCriteria<>("deviceCount", "deviceCount", SearchCriteria.Operator.EQUAL, SearchCriteria.ValueType.INTEGER));
-        searchCriteria.add(new SearchCriteria<>("isAvailable", "isAvailable", SearchCriteria.Operator.EQUAL, SearchCriteria.ValueType.BOOLEAN));
-        searchCriteria.add(new SearchCriteria<>("startDateToSearch", "date", SearchCriteria.Operator.BETWEEN_DATE, "endDateToSearch"));
-        searchCriteria.add(new SearchCriteria<>("deviceType", "deviceType", SearchCriteria.Operator.EQUAL_BY_ENUM, Device.DeviceType.class));
-
-        SpecificationBuilder<Agreement> specificationBuilder = new SpecificationBuilder<>(searchCriteria, searchKeys);
+        AgreementSpecificationBuilder specificationBuilder = new AgreementSpecificationBuilder(searchKeys);
+        Pageable pageSpec = specificationBuilder.constructPageSpecification(pageNumber - 1, itemsPerPage, sortCriteria, sortOrder);
         Specification<Agreement> searchSpec = specificationBuilder.buildPredicate();
-        Pageable pageSpec = AgreementSpecification.constructPageSpecification(pageNumber - 1, itemsPerPage, sortCriteria, sortOrder);
 
         Page<Agreement> agreementPage = agreementRepository.findAll(searchSpec, pageSpec);
         List<Agreement> agreements = agreementPage.getContent();

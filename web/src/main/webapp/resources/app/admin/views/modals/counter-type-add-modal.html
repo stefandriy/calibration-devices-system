@@ -180,16 +180,13 @@
             <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2">
                 {{'ADD' | translate}}
             </button>
-            <button type="reset" class="btn btn-warning col-md-3 col-sm-12 col-xs-12 col-lg-3"
-                    ng-click="resetAddCounterTypeForm()">
-                {{'CLEAR_FORM' | translate }}
-            </button>
-            <div class="col-md-5 col-sm-0 col-xs-0 col-lg-5">
+            <input type="reset" class="btn btn-warning col-md-2 col-sm-12 col-xs-12 col-lg-2" value="{{'CLEAR_FORM' | translate }}" ng-click="resetAddCounterTypeForm()">
+            <div class="col-md-6 col-sm-0 col-xs-0 col-lg-6">
                 <p></p>
             </div>
-            <button class="btn btn-danger col-md-2 col-sm-12 col-xs-12 col-lg-2" ng-click="closeModal()">{{'CLOSE'
-                | translate}}
-            </button>
+
+            <input type="button" class="btn btn-danger col-md-2 col-sm-12 col-xs-12 col-lg-2 pull-right"
+                   value="{{'CLOSE' | translate}}" ng-click="closeModal()">
         </div>
     </form>
 </div>

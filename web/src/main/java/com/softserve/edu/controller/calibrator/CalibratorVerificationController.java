@@ -115,14 +115,6 @@ public class CalibratorVerificationController {
     @RequestMapping(value = "calibration-test/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<CalibrationTestDTO> pageCalibrationTestWithSearch(@PathVariable Integer pageNumber,
                                                                      @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder, CalibrationTestSearch searchData) {
-
-        System.out.println(searchData);
-        System.out.println(searchData.getName());
-        System.out.println(searchData.getLocality());
-        System.out.println(searchData.getConsumptionStatus());
-        System.out.println(searchData.getTestResult());
-
-
         ListToPageTransformer<CalibrationTest> queryResult = verificationService
                 .findPageOfCalibrationTestsByVerificationId(
                         pageNumber,

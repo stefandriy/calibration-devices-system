@@ -50,9 +50,12 @@ angular
              * Closes the modal window for adding new
              * counter type.
              */
-            $rootScope.closeModal = function () {
+            $rootScope.closeModal = function (close) {
                 $scope.resetAddCounterTypeForm();
-                $modalInstance.close();
+                if(close === true) {
+                    $modalInstance.close();
+                }
+                $modalInstance.dismiss();
             };
 
             /**
@@ -78,7 +81,7 @@ angular
                 counterTypeService.saveCounterType($scope.addCounterTypeFormData)
                     .then(function (data) {
                         if (data == 201) {
-                            $scope.closeModal();
+                            $scope.closeModal(true);
                             $scope.resetAddCounterTypeForm();
                             $rootScope.onTableHandling();
                         }

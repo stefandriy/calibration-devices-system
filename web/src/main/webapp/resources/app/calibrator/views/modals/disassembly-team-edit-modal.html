@@ -20,7 +20,7 @@
                         <input id="teamNumber" name="teamNumber" class="form-control"
                                type="text" ng-model="team.teamNumber"
                                ng-change="checkAll('teamNumber')"
-                               ng-pattern="TEAM_USERNAME_REGEX" required>
+                               ng-pattern="TEAM_USERNAME_REGEX" readonly required>
 
                         <div ng-show="teamForm.$submitted || (teamForm.teamNumber.$touched   && !teamForm.teamNumber.$pristine)
                         || (teamForm.teamNumber.$dirty)">
@@ -106,16 +106,17 @@
                         <label class="control-label">{{'SPECIALIZATION' | translate}}</label>
                     </div>
                     <div class="form-group col-md-8">
-                        <select chosen data-placeholder="{{'CHOOSE_APPLICATION_FIELD'| translate}}"
-                                class="form-control" ng-model="team.specialization"
-                                class="col-xs-5 selectContainer"
-                                id="specialization" name="specialization" allow-single-deselect="true"
-                                disable-search="true" required>
-                            <option type="text" value="THERMAL" >Гаряча вода</option>
-                            <option type="text" value="WATER">Вода</option>
-                            <option type="text" value="GASEOUS">Газ</option>
-                            <option type="text" value="ELECTRICAL">Електрика</option>
-                        </select>
+                        <ui-select style="display: block;" ng-model="team.specialization" theme="select2"
+                                   search-enabled="false" name="specialization" id="specialization" required>
+                            <ui-select-match placeholder="{{'CHOOSE_APPLICATION_FIELD' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="specialization in deviceTypeData">
+                                <span ng-bind-html="specialization.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
 
                         <div ng-show="teamForm.$submitted || teamForm.specialization.$touched">
                             <p class="validation-message" ng-show="teamForm.specialization.$error.required">
@@ -212,7 +213,7 @@
                 </button>
             </div>
             <div class="form-group col-md-2">
-                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}
+                <button type="button" class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}
                 </button>
             </div>
         </div>

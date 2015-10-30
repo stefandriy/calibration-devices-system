@@ -115,7 +115,7 @@ public class OrganizationController {
                 itemsPerPage,
                 searchData.getName(),
                 searchData.getEmail(),
-                searchData.getType_admin(),
+                searchData.getType(),
                 searchData.getPhone_number(),
                 searchData.getRegion(),
                 searchData.getDistrict(),

@@ -563,6 +563,15 @@ hr {
 .row-buttons {
     margin: 5px 2px;
 }
+.acord-align{
+    text-align: left !important;
+}
+
+.row-buttons .btn {
+    margin-right: 1px;
+    margin-left: 1px;
+
+}
 .row-fields {
     margin-top: 5px;
     margin-bottom: 10px;
@@ -570,6 +579,10 @@ hr {
     margin-right: 2px;
 }
 
+.modal-padding label {
+    text-align: right;
+    margin-top: 5px;
+}
 
 .col-centered {
     display:inline-block;

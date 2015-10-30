@@ -49,10 +49,11 @@ public class ArchivalEmployeeQueryConstructorAdmin {
                                         (cb.or(
                                                 cb.isMember(UserRole.SUPER_ADMIN, root.get("userRoles")),
                                                 cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")))));
-
         }
         if (StringUtils.isNotEmpty(firstName)) {
-            queryPredicate = cb.and(cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
+            queryPredicate = cb
+                                .and
+                                    (cb.like(root.get("firstName"), "%" + firstName + "%"), queryPredicate);
         }
         if (StringUtils.isNotEmpty(lastName)) {
             queryPredicate = cb.and(cb.like(root.get("lastName"), "%" + lastName + "%"), queryPredicate);

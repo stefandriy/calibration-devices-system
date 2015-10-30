@@ -4,12 +4,21 @@
 			<h1 class="page-header">{{ 'ORGANIZATIONS' | translate }}</h1>
 		</div>
 	</div>
-
 	<div class="row">
-		<div class="col-lg-12">
-			<button type="submit" class="btn btn-primary"
-				ng-click="openAddOrganizationModal()">{{'ADD_ORGANIZATION'
-				| translate}}</button>
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+			<button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-click="openAddOrganizationModal()">
+				<span class="glyphicon glyphicon-plus"></span>
+				{{'ADD_ORGANIZATION' | translate}}
+			</button>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			<p></p>
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+			<button ng-click="clearAll()" ng-show="isFilter()"
+					class="btn btn-danger pull-right col-xs-12 col-sm-12 col-md-10 col-lg-10">
+				{{'CLEAR_ALL' | translate }}
+			</button>
 		</div>
 	</div>
 	<p></p>
@@ -20,15 +29,12 @@
 					   class="table table-bordered table-hover users_table">
 					<tbody>
 					<tr ng-repeat="organization in $data">
-				<!--	<td data-title="'ORGANIZATION_ID' | translate" sortable="'id'">
-						{{ organization.id }}
-					</td>-->
 						<td data-title="'NAME' | translate" sortable="'name'"
 							filter="{ 'name': 'text' }" >
 							{{ organization.name }}
 						</td>
-						<td data-title="'TYPE_ADMIN' | translate " sortable="'type_admin'"
-							filter="{ 'type_admin': 'text' }">{{ organization.types }}
+						<td data-title="'TYPE_ADMIN' | translate "
+							filter="{ 'type': 'organizationType' }">{{ organization.types }}
 						</td>
 						<td data-title="'REGION' | translate" sortable="'region'"
 							filter="{ 'region': 'text' }">{{ organization.region}}
@@ -43,15 +49,12 @@
 						<td data-title="'CLIENT_STREET' | translate" sortable="'street'"
 							filter="{ 'street': 'text' }">{{ organization.street }}
 						</td>
-
-						<!--sortable="'phone_number'"
-							filter="{ 'phone_number': 'text' }"-->
 						<td data-title="'PHONE_NUMBER' | translate" sortable="'PHONE_NUMBER'"
 							filter="{ 'phone_number': 'text' }">+380{{ organization.phone }}
 						</td>
 						<td data-title="'EDIT' | translate">
 							<center>
-								<button type="button" class="btn btn-primary"
+								<button type="button" class="btn btn-success"
 										ng-click="openEditOrganizationModal(organization.id)">
 									<span class="glyphicon glyphicon-pencil"></span>
 								</button>
@@ -59,7 +62,7 @@
 						</td>
 						<td data-title="'EDIT CHANGES' | translate">
 							<center>
-								<button type="button" class="btn btn-primary"
+								<button type="button" class="btn btn-info"
 										ng-click="openOrganizationEditHistoryModal(organization.id)">
 									<span class="glyphicon glyphicon-book"></span>
 								</button>
@@ -98,6 +101,20 @@
 						</li>
 					</ul>
 				</div>
+			</script>
+			<script type="text/ng-template" id="ng-table/filters/organizationType.html">
+				<ui-select ng-model="selectedOrganizationType.name" theme="select2" on-select='doSearch()'
+						   search-enabled="false"
+						   name="filter-organizationType">
+					<ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
+									 allow-clear="true">
+						{{$select.selected.label}}
+					</ui-select-match>
+					<ui-select-choices
+							repeat="organizationType in organizationTypeData">
+						<span ng-bind-html="organizationType.label"></span>
+					</ui-select-choices>
+				</ui-select>
 			</script>
 		</div>
 	</div>

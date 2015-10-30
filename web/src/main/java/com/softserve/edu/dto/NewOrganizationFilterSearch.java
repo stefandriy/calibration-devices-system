@@ -5,7 +5,7 @@ public class NewOrganizationFilterSearch {
 
     private String id;
     private String name;
-    private String type_admin;
+    private String type;
     private String email;
     private String phone_number;
     private String street;
@@ -15,10 +15,10 @@ public class NewOrganizationFilterSearch {
 
     public NewOrganizationFilterSearch (){}
 
-    public NewOrganizationFilterSearch(String id, String name, String type_admin, String email, String phone_number, String street, String region, String district, String locality) {
+    public NewOrganizationFilterSearch(String id, String name, String type, String email, String phone_number, String street, String region, String district, String locality) {
         this.id = id;
         this.name = name;
-        this.type_admin = type_admin;
+        this.type = type;
         this.email = email;
         this.phone_number = phone_number;
         this.street = street;
@@ -75,12 +75,12 @@ public class NewOrganizationFilterSearch {
         this.id = id;
     }
 
-    public String getType_admin() {
-        return type_admin;
+    public String getType() {
+        return type;
     }
 
-    public void setType_admin(String type_admin) {
-        this.type_admin = type_admin;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getEmail() {
