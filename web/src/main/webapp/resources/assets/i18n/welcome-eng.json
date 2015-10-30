@@ -517,6 +517,20 @@
   "RECENT_DATA" : "Recent data",
   "RECENT_DATA_FOR_VERIFICATION" : "Recent data for verification №",
   "NO" : "No",
-  "YES" : "Yes"
+  "YES" : "Yes",
+  "PROVIDER_ADMIN" : "Provider admin",
+  "CALIBRATOR_ADMIN" : "Calibrator admin",
+  "STATE_VERIFICATOR_ADMIN" : "State verificator admin",
+  "PROVIDER_EMPLOYEE" : "Provider employee",
+  "CALIBRATOR_EMPLOYEE" : "Calibrator employee",
+  "STATE_VERIFICATOR_EMPLOYEE" : "State verificator employee",
+  "CALIBRATOR_ADMIN PROVIDER_ADMIN" : "Calibrator admin, Provider admin",
+  "CALIBRATOR_ADMIN STATE_VERIFICATOR_EMPLOYEE" : "Calibrator admin, State verificator employee",
+  "IN_THE_AREA" : "In the area",
+  "NOT_IN_THE_AREA" : "Not in the area",
+  "SUCCESS" : "Success",
+  "FAILED" : "Failed"
+
+
 
 }
