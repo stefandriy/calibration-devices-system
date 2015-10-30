@@ -1,7 +1,7 @@
 package com.softserve.edu.controller.client.application;
 
 
-import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
+import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.ClientMailDTO;
 import com.softserve.edu.dto.application.ClientStageVerificationDTO;
@@ -9,7 +9,6 @@ import com.softserve.edu.dto.provider.VerificationDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
@@ -83,7 +82,7 @@ public class ClientApplicationController {
                         verificationDTO.getFlat()));
         Organization provider = providerService.findById(verificationDTO.getProviderId());
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT, ReadStatus.UNREAD, null, verificationDTO.getComment());
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT, Verification.ReadStatus.UNREAD, null, verificationDTO.getComment());
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();

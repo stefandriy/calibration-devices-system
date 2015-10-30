@@ -10,7 +10,9 @@ angular
         'CounterTypeService',
         'ngTableParams',
         '$timeout',
-        function ($rootScope, $scope, $modal, $http, counterTypeService, ngTableParams, $timeout) {
+        '$filter',
+        'toaster',
+        function ($rootScope, $scope, $modal, $http, counterTypeService, ngTableParams, $timeout, $filter, toaster) {
             /**
              * init of page parametres
              */
@@ -83,7 +85,7 @@ angular
              * Opens modal window for adding new counter type.
              */
             $scope.openAddCounterTypeModal = function() {
-                var addCategoryCounter = $modal.open({
+                var addCounterTypeCounter = $modal.open({
                     animation : true,
                     controller : 'CounterTypeAddController',
                     templateUrl : '/resources/app/admin/views/modals/counter-type-add-modal.html',
@@ -94,6 +96,12 @@ angular
                             return counterTypeService.findAllDevices();
                         }
                     }
+                });
+                /**
+                 * executes when modal closing
+                 */
+                addCounterTypeCounter.result.then(function () {
+                    toaster.pop('success',$filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_COUNTER_TYPE'));
                 });
             };
 
@@ -122,6 +130,10 @@ angular
                                     }
                                 }
                             });
+
+                        counterTypeDTOModal.result.then(function () {
+                            toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_COUNTER_TYPE'));
+                        });
                     });
 
             };
@@ -133,11 +145,14 @@ angular
             $scope.deleteCounterType = function (id) {
                 $rootScope.counterTypeId = id;
                 console.log($rootScope.counterTypeId);
-                counterTypeService.deleteCounterType(id);
+                counterTypeService.deleteCounterType(id).then(function () {
+                    toaster.pop('error', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_COUNTER_TYPE'));
+                });
                 $timeout(function() {
                     console.log('delete with timeout');
                     $rootScope.onTableHandling();
                 }, 700);
             };
+
 
         }]);

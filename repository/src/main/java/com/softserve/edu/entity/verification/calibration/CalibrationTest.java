@@ -1,7 +1,5 @@
 package com.softserve.edu.entity.verification.calibration;
 
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
-import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
 
@@ -34,10 +32,10 @@ public class CalibrationTest {
     private Double longitude;
 
     @Enumerated(EnumType.STRING)
-    private ConsumptionStatus consumptionStatus;
+    private Verification.ConsumptionStatus consumptionStatus;
 
     @Enumerated(EnumType.STRING)
-    private CalibrationTestResult testResult;
+    private Verification.CalibrationTestResult testResult;
 
     private String photoPath;
 
@@ -61,7 +59,7 @@ public class CalibrationTest {
     private Set<CalibrationTestData> calibrationTestDataSet;
 
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult) {
+                           Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         this.name = name;
         this.dateTest = new Date();
         this.temperature = temperature;

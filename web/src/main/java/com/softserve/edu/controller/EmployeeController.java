@@ -1,11 +1,12 @@
 package com.softserve.edu.controller;
 
 
-import com.softserve.edu.controller.provider.util.UserDTO;
+import com.softserve.edu.dto.user.UserDTO;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.user.UserInfoDTO;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;

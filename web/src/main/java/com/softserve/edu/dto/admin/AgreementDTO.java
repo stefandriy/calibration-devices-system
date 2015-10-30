@@ -15,7 +15,7 @@ public class AgreementDTO {
     private String customerName;
     private String executorName;
     private String number;
-    private Long deviceCount;
+    private Integer deviceCount;
     private String deviceType;
     private String customerType;
     private Date date;
@@ -26,7 +26,7 @@ public class AgreementDTO {
     }
 
     public AgreementDTO(Long id, Long customerId, Long executorId, String customerName, String executorName,
-                        String number, Long deviceCount, String deviceType, String customerType, Date date) {
+                        String number, int deviceCount, String deviceType, String customerType, Date date) {
         this.setId(id);
         this.setCustomerId(customerId);
         this.setExecutorId(executorId);
@@ -42,11 +42,11 @@ public class AgreementDTO {
     }
 
     public AgreementDTO(Long id, Long customerId, Long executorId, String customerName, String executorName,
-                        String number, Long deviceCount, String deviceType, Date date) {
+                        String number, int deviceCount, String deviceType, Date date) {
         this(id, customerId, executorId, customerName, executorName, number, deviceCount, deviceType, null, date);
     }
 
-    public AgreementDTO(Long customerId, Long executorId, String number, Long deviceCount, String deviceType) {
+    public AgreementDTO(Long customerId, Long executorId, String number, int deviceCount, String deviceType) {
         this(null, customerId, executorId, null, null, number, deviceCount, deviceType, null);
     }
 

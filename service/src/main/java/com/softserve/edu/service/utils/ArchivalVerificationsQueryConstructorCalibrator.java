@@ -5,7 +5,6 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import org.apache.log4j.Logger;
 
@@ -148,7 +147,7 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
             logger.debug("ArchiveVerificationQueryConstructorCalibrator : protocolStatus = " + protocolStatus);
             Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");
             queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("testResult"),
-                    CalibrationTestResult.valueOf(protocolStatus.trim())), queryPredicate);
+                    Verification.CalibrationTestResult.valueOf(protocolStatus.trim())), queryPredicate);
         }
         
         if(employee == null) {

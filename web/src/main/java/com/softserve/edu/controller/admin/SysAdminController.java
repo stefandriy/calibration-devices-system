@@ -2,22 +2,19 @@ package com.softserve.edu.controller.admin;
 
 
 import com.softserve.edu.controller.admin.util.UserDTOTransformer;
-import com.softserve.edu.controller.provider.util.UserDTO;
+import com.softserve.edu.dto.user.UserDTO;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.SysAdminDTO;
-import com.softserve.edu.dto.admin.UserFilterSearch;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

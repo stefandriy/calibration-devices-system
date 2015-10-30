@@ -29,6 +29,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
+                            <div class="table-responsive">
                             <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                                    class="table table-bordered table-hover users_table">
 
@@ -57,13 +58,13 @@
                                         filter="{ 'address': 'text' }">{{ verification.address }}
                                     </td>
                                     <td data-title="'COUNTER_STATUS' | translate"
-                                        filter="{ 'quantity': 'text' }">{{ verification.counterStatus }}
+                                        filter="{ 'counter_status': 'text' }">{{ verification.counterStatus }}
                                     </td>
                                     <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
-                                        filter="{ 'quantity': 'text' }">{{ verification.deviceType }}
+                                        filter="{ 'deviceType': 'text' }">{{ verification.deviceType }}
                                     </td>
                                     <td data-title="'TELEPHONE' | translate"
-                                        filter="{ 'quantity': 'text' }">{{ verification.telephone }}
+                                        filter="{ 'telephone': 'text' }">{{ verification.telephone }}
                                     </td>
                                     <td data-title="'ACTIONS' | translate" style="width: 15%">
 
@@ -78,6 +79,7 @@
                                 </tbody>
 
                             </table>
+                            </div>
                             <script type="text/ng-template" id="custom/pager">
                                 <div>
                                     <ul class="pager ng-cloak">

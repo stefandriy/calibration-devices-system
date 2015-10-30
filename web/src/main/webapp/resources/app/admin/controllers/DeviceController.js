@@ -11,7 +11,9 @@ angular
         'ngTableParams',
         '$translate',
         '$timeout',
-        function ($rootScope, $scope, $modal, $http, devicesService, ngTableParams, $translate, $timeout) {
+        '$filter',
+        'toaster',
+        function ($rootScope, $scope, $modal, $http, devicesService, ngTableParams, $translate, $timeout, $filter, toaster) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -33,11 +35,11 @@ angular
                  },*/
                 {
                     id: 'WATER',
-                    label: null
+                    label: $filter('translate')('WATER')
                 },
                 {
                     id: 'THERMAL',
-                    label: null
+                    label: $filter('translate')('THERMAL')
                 }
             ];
 
@@ -45,18 +47,8 @@ angular
              * Localization of multiselect for type of organization
              */
             $scope.setTypeDataLanguage = function () {
-                var lang = $translate.use();
-                if (lang === 'ukr') {
-                    // $scope.deviceTypeData[0].label = 'Електричний';
-                    //$scope.deviceTypeData[1].label = 'Газовий';
-                    $scope.deviceTypeData[0].label = 'Холодна вода';
-                    $scope.deviceTypeData[1].label = 'Гаряча вода';
-                } else if (lang === 'eng') {
-                    //$scope.deviceTypeData[0].label = 'Electrical';
-                    // $scope.deviceTypeData[1].label = 'Gaseous';
-                    $scope.deviceTypeData[0].label = 'Cold water';
-                    $scope.deviceTypeData[1].label = 'Hot water';
-                }
+                $scope.deviceTypeData[0].label = $filter('translate')('WATER');
+                $scope.deviceTypeData[1].label = $filter('translate')('THERMAL');
             };
 
             $scope.setTypeDataLanguage();
@@ -129,6 +121,12 @@ angular
                     templateUrl : '/resources/app/admin/views/modals/device-category-add-modal.html',
                     size: 'md'
                 });
+                /**
+                 * executes when modal closing
+                 */
+                addCategoryCounter.result.then(function () {
+                    toaster.pop('success',$filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_CATEGORY'));
+                });
             };
 
             /**
@@ -150,6 +148,9 @@ angular
                                 templateUrl : '/resources/app/admin/views/modals/device-category-edit-modal.html',
                                 size: 'md'
                             });
+                        deviceDTOModal.result.then(function () {
+                            toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_CATEGORY'));
+                        });
                     });
 
             };
@@ -157,7 +158,9 @@ angular
             $scope.deleteDeviceCategory = function (id) {
                 $rootScope.deviceCategoryId = id;
                 console.log($rootScope.deviceCategoryId);
-                devicesService.deleteDeviceCategory(id);
+                devicesService.deleteDeviceCategory(id).then(function () {
+                    toaster.pop('error', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_CATEGORY'));
+                });
                 $timeout(function() {
                     console.log('delete with timeout');
                     $rootScope.onTableHandling();
