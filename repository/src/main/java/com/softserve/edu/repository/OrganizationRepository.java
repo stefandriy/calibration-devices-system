@@ -1,6 +1,5 @@
 package com.softserve.edu.repository;
 
-import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;

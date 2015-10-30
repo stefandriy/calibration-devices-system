@@ -1,12 +1,9 @@
-package com.softserve.edu.controller.provider.util;
+package com.softserve.edu.dto.user;
 
 import java.util.Set;
 
 import com.softserve.edu.entity.Address;
 
-/**
- * Created by Володя on 24.07.2015.
- */
 public class UserDTO {
 
     private String username;

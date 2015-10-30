@@ -8,7 +8,7 @@ import com.softserve.edu.dto.admin.*;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Region;
-import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;

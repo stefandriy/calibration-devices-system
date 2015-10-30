@@ -1,15 +1,14 @@
 package com.softserve.edu.controller.provider;
 
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
-import com.softserve.edu.controller.client.application.util.DeviceLightDTO;
+import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
-import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.catalogue.Region;
-import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;

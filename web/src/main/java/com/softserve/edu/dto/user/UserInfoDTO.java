@@ -1,4 +1,4 @@
-package com.softserve.edu.controller;
+package com.softserve.edu.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;

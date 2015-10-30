@@ -1,10 +1,5 @@
-package com.softserve.edu.entity.catalogue.util;
+package com.softserve.edu.dto;
 
-import com.softserve.edu.entity.catalogue.District;
-
-/**
- * Created by Назік on 10/5/2015.
- */
 public class LocalityDTO {
 
     private Long id;
