@@ -9,5 +9,4 @@ public enum UserRole {
     CALIBRATOR_ADMIN,
     PROVIDER_ADMIN,
     STATE_VERIFICATOR_ADMIN;
-
 }

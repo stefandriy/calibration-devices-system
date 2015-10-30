@@ -3,10 +3,12 @@ package com.softserve.edu.controller.calibrator;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.CalibrationTaskDTO;
+import com.softserve.edu.dto.calibrator.SymbolsAndSizesDTO;
 import com.softserve.edu.dto.calibrator.TeamDTO;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 //import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.calibrator.CalibrationModuleService;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
@@ -92,6 +94,31 @@ public class CalibratorPlanningTaskController {
             teamDTOs.add(new TeamDTO(team.getName(), team.getId()));
         }
         return teamDTOs;
+    }
+
+    /**
+     *
+     * @param verificationId
+     * @return
+     */
+    @RequestMapping(value = "findSymbolsAndSizes/{verificationId}", method = RequestMethod.GET)
+    public SymbolsAndSizesDTO findSymbolsAndSizes(@PathVariable String verificationId){
+        List<CounterType> counterTypes = new ArrayList<>();
+        List<String> sizes = new ArrayList<>();
+        List<String> symbols = new ArrayList<>();
+        SymbolsAndSizesDTO symbolsAndSizesDTO = new SymbolsAndSizesDTO();
+        try {
+            counterTypes = taskService.findSymbolsAndSizes(verificationId);
+            for (CounterType counterType : counterTypes) {
+                sizes.add(counterType.getStandardSize());
+                symbols.add(counterType.getSymbol());
+            }
+            symbolsAndSizesDTO.setSizes(sizes);
+            symbolsAndSizesDTO.setSymbols(symbols);
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+        }
+        return symbolsAndSizesDTO;
     }
 
 

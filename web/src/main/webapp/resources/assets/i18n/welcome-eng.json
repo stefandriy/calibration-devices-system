@@ -281,7 +281,11 @@
   "PASSWORD_TOO_SHORT":"Password can not be shorter than 4 symbols",
   "PASSWORDS_ISNT_EQUAL":"Passwords aren`t the equals",
   "ORGANIZATION_INVALID_STREET": "Street can't be found",
-  "INDEX":"Index",
+  "STATE_VERIFICATOR,CALIBRATOR":"Authorized calibration laboratory, Measuring laboratory",
+  "CALIBRATOR,PROVIDER":"Measuring laboratory, Service provider",
+  "STATE_VERIFICATOR":"Authorized calibration laboratory",
+  "PROVIDER":"Service provider",
+  "CALIBRATOR":"Measuring laboratory",
 
   "CLIENT":"Client",
   "FEEDBACK":"Feedback",
@@ -345,6 +349,7 @@
   "MAX_PROCESS_TIME_ERROR":"Not correctly specified number of maximum processing time",
   "STATUS_SELECT_PLACEHOLDER": "Select",
   "STATUS_SELECT_PLACEHOLDER_DEVICES": "Select kind of counter",
+  "USER_ROLE_SELECT_PLACEHOLDER": "Select user role",
   "DATERANGEPICKER_PLACEHOLDER": "Select a range",
   "AMOUNT": "Amount",
   "ORGANIZATION_ID " : "Organization id",
@@ -510,5 +515,8 @@
   "UPLOAD_FILE" : "Upload file",
   "DELETE_UPLOADED_FILE" : "Delete uploaded file",
   "RECENT_DATA" : "Recent data",
-  "RECENT_DATA_FOR_VERIFICATION" : "Recent data for verification №"
+  "RECENT_DATA_FOR_VERIFICATION" : "Recent data for verification №",
+  "NO" : "No",
+  "YES" : "Yes"
+
 }
