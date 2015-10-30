@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
     .controller('DisassemblyTeamControllerCalibrator', ['$rootScope', '$scope', '$modal',
-        'DisassemblyTeamServiceCalibrator', '$timeout',
-        function ($rootScope, $scope, $modal, disassemblyTeamServiceCalibrator, $timeout) {
+        'DisassemblyTeamServiceCalibrator', '$timeout', '$filter', 'toaster',
+        function ($rootScope, $scope, $modal, disassemblyTeamServiceCalibrator, $timeout, $filter, toaster) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -57,7 +57,11 @@ angular
              */
             $scope.deleteDisassemblyTeam = function (teamId) {
                 $rootScope.teamId = teamId;
-                disassemblyTeamServiceCalibrator.deleteDisassemblyTeam($rootScope.teamId);
+                disassemblyTeamServiceCalibrator.deleteDisassemblyTeam($rootScope.teamId)
+                    .then(function () {
+                        toaster.pop('success',$filter('translate')('INFORMATION'),
+                            $filter('translate')('SUCCESSFUL_DELETE_TEAM'));
+                });
                 $timeout(function () {
                     console.log('delete with timeout');
                     $rootScope.onTableHandling();

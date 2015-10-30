@@ -444,6 +444,13 @@
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
   "ALL_SYS_ADMINS" : "Amount of system admins :",
 
+
+  "SUCCESSFUL_EDIT_TEAM":"Team was edited successfully",
+  "SUCCESSFUL_ADD_TEAM":"Team was added successfully",
+  "SUCCESSFUL_DELETE_TEAM":"Team was deleted successfully",
+  "ERROR_ADD_TEAM":"Team with this ID was previously created. Please, try to add team with another ID",
+  "CATALOGUE_DISASSEMBLY_TEAM":"Catalogue of disassembly teams",
+
   "COUNTER_STATUS" : "Counter removed?",
   "CREATE_TASK_FOR_TEAM" : "Task for team",
   "CHOOSE" : "Choose",
