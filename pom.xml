@@ -131,6 +131,11 @@
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
+                            <configuration>
+                                <destFile>${project.build.directory}/jacoco.exec</destFile>
+                                <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+                                <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                            </configuration>
                         </execution>
                         <execution>
                             <id>post-unit-test</id>
