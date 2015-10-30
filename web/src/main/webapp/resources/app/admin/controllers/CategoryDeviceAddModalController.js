@@ -103,7 +103,7 @@ angular
                 devicesService.saveDeviceCategory($scope.addCategoryFormData)
                     .then(function (data) {
                         if (data == 201) {
-                            $scope.closeModal();
+                            $scope.closeModal(true);
                             $scope.resetAddCategoryForm();
                             $rootScope.onTableHandling();
                         }

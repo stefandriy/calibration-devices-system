@@ -27,6 +27,9 @@ angular
                 $scope.tableParams.reload();
             };
 
+            $scope.setTypeDataLanguage = function () {
+            };
+
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
@@ -79,9 +82,25 @@ angular
                  * executes when modal closing
                  */
                 addOrganizationModal.result.then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ORGANIZATION'));
+                    toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ORGANIZATION'));
                 });
             };
+
+            /**
+             * Function for ng-show. When filtering fields are not empty show button for
+             * clear this fields
+             * @returns {boolean}
+             */
+            $scope.isFilter = function () {
+                var obj = $scope.tableParams.filter();
+                for (var i in obj) {
+                    if (obj.hasOwnProperty(i) && obj[i]) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
             /**
              * Opens modal window for editing organization.
              */
@@ -110,7 +129,7 @@ angular
                          * executes when modal closing
                          */
                         organizationDTOModal.result.then(function () {
-                            $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_ORGANIZATION'));
+                            toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_ORGANIZATION'));
                         });
                     });
 
@@ -137,10 +156,5 @@ angular
                     });
 
             };
-
-            $scope.popNotification = function (title, text) {
-                toaster.pop('success', title, text);
-            };
-
 
         }]);

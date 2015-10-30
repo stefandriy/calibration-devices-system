@@ -137,7 +137,7 @@ angular
                     $rootScope.countersCategory.id).then(
                     function (data) {
                         if (data == 200) {
-                            $scope.closeModal();
+                            $scope.closeModal(true);
                             console.log(data);
                             $rootScope.onTableHandling();
                         }

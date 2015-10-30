@@ -81,7 +81,7 @@ angular
                 counterTypeService.saveCounterType($scope.addCounterTypeFormData)
                     .then(function (data) {
                         if (data == 201) {
-                            $scope.closeModal();
+                            $scope.closeModal(true);
                             $scope.resetAddCounterTypeForm();
                             $rootScope.onTableHandling();
                         }

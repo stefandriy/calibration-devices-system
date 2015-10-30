@@ -172,8 +172,12 @@ angular
             /**
              * Closes modal window on browser's back/forward button click.
              */
-            $rootScope.$on('$locationChangeStart', function () {
+            $rootScope.$on('$locationChangeStart', function (close) {
                 $modalInstance.close();
+                if(close === true) {
+                    $modalInstance.close();
+                }
+                $modalInstance.dismiss();
             });
 
             $scope.defaultData.organizationTypes = [];
@@ -565,15 +569,6 @@ angular
             };
 
             /**
-             * Resets organization form
-             */
-            $scope.resetOrganizationForm = function () {
-                $scope.$broadcast('show-errors-reset');
-                $rootScope.organization = null;
-            };
-
-
-            /**
              * Change password
              */
             $scope.changePassword = function () {
@@ -728,7 +723,6 @@ angular
                 };
                 console.log(organizationForm);
                 saveOrganization(organizationForm);
-                $scope.closeModal();
             };
 
             function saveOrganization(organizationForm) {
@@ -737,19 +731,19 @@ angular
                     $rootScope.organizationId).then(
                     function (data) {
                         if (data == 200) {
-                            $scope.closeModal();
-                            $scope.resetOrganizationForm();
+                            $scope.closeModal(true);
                             console.log(data);
                             $rootScope.onTableHandling();
                         }
-                        else (console.log(data));
-                    })
-            };
+                    });
+            }
             /**
              * Closes edit modal window.
              */
-            $scope.closeModal = function () {
-                $rootScope.onTableHandling();
+            $scope.closeModal = function (close) {
+                if(close === true) {
+                    $modalInstance.close();
+                }
                 $modalInstance.dismiss();
             };
 
