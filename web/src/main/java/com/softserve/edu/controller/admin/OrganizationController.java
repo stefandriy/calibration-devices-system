@@ -8,7 +8,7 @@ import com.softserve.edu.dto.admin.*;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Region;
-import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
@@ -16,6 +16,7 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.catalogue.RegionService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
@@ -43,6 +44,9 @@ public class OrganizationController {
 
     @Autowired
     private RegionService regionService;
+
+    @Autowired
+    private LocalityService localityService;
 
     @Autowired
     private UserService userService;
@@ -93,16 +97,14 @@ public class OrganizationController {
     }
 
     /**
-     *Fetch required data for all organization depends on  received {@param pageNumber}, {@param itemsPerPage},
+     * Fetch required data for all organization depends on  received {@param pageNumber}, {@param itemsPerPage},
      * {@param sortCriteria} {@param sortOrder} and {@param searchData} that contains fields must be filtered
-     *
      *
      * @param pageNumber
      * @param itemsPerPage
      * @param sortCriteria
      * @param sortOrder
      * @param searchData
-     *
      * @return PageDTO that contains required data about current organizations depends on received filter, sort ,pagination and items per page
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
@@ -277,7 +279,9 @@ public class OrganizationController {
 
     @RequestMapping(value = "serviceArea/localities/{organizationId}", method = RequestMethod.GET)
     public List<LocalityDTO> getServiceAreaLocaities(@PathVariable("organizationId") Long organizationId) {
-        return organizationService.findLocalitiesByOrganizationId(organizationId);
+        return localityService.findLocalitiesByOrganizationId(organizationId).stream()
+                .map(locality -> new LocalityDTO(locality.getId(), locality.getDesignation(), locality.getDistrict().getId()))
+                .collect(Collectors.toList());
     }
 
     @RequestMapping(value = "serviceArea/region/{districtId}", method = RequestMethod.GET)
@@ -287,7 +291,7 @@ public class OrganizationController {
 
     @RequestMapping(value = "getOrganization/{organizationType}/{deviceType}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getOrganizationByOrganizationTypeAndDeviceType(@PathVariable("organizationType") String organizationType,
-                                                          @PathVariable("deviceType") String deviceType) {
+                                                                                    @PathVariable("deviceType") String deviceType) {
         return organizationService.findByOrganizationTypeAndDeviceType(OrganizationType.valueOf(organizationType.toUpperCase()),
                 Device.DeviceType.valueOf(deviceType.toUpperCase())).stream()
                 .map(organization -> new ApplicationFieldDTO(organization.getId(), organization.getName()))

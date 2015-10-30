@@ -114,7 +114,7 @@
   "ADDRESS":"Address",
   "REGION_TWO":"Region",
   "DISTRICT_TWO":"District",
-  "LOCALITY_TWO":"Sity",
+  "LOCALITY_TWO":"City",
   "STREET_TWO":"Street",
   "HOUSE_TWO":"House",
   "ADD":"Add",
@@ -444,6 +444,13 @@
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
   "ALL_SYS_ADMINS" : "Amount of system admins :",
 
+
+  "SUCCESSFUL_EDIT_TEAM":"Team was edited successfully",
+  "SUCCESSFUL_ADD_TEAM":"Team was added successfully",
+  "SUCCESSFUL_DELETE_TEAM":"Team was deleted successfully",
+  "ERROR_ADD_TEAM":"Team with this ID was previously created. Please, try to add team with another ID",
+  "CATALOGUE_DISASSEMBLY_TEAM":"Catalogue of disassembly teams",
+
   "COUNTER_STATUS" : "Counter removed?",
   "CREATE_TASK_FOR_TEAM" : "Task for team",
   "CHOOSE" : "Choose",
@@ -468,9 +475,26 @@
   "BROWSER_DRAGGING_WARNING" : "Your browser does not support file dragging",
   "UPLOAD_SUCCESS" : "You successfully uploaded file ",
   "UPLOAD_FAIL" : "Can't upload file ",
+  
+  "MONTLY_VERIFICATIONS_CHART": "Chart of verifications income",
+  "DATE_RANGE_PROMPT" : "Please select date range to retrieve information",
+  "DATE_OF_BEGINNING" : "Date of beginning",
+  "NOT_ASSIGNED_VERIFICATIONS": "Not assigned verifications",
+  "ASSIGNED_VERIFICATIONS": "Assigned verifications",
+  "NOT_ASSIGNED_VERIFICATIONS_ARE_NOT_PRESENT": "Not assigned verifications are absent",
+  "ORGANIZATION_LOAD_CHART":"Organization load chart",
+  "VERIFICATIONS_IN_PROGRESS":  "Verifications in progress",
+  "COUNT_OF_VERIFICATION_CHART_TITLE": "Count of verifications received by the organization",
+  "NO_INFO_IN_PERIOD": "There no information on selected date range",
+  "COUNT_OF_VERIFICATIONS": "Count of verifications",
+  "VERIFICATIONS_RECEIVED": "verifications received",
+  "INFO_ABOUT_EMPLOYEE_VERIFICATIONS": "Information about employee verifications",
+  "CONFIRM":"Confirm",
+  "SELECT_EMPLOYEE_TO_ASSIGN": "Please select employee to assign verification",
+  
+  
   "PREVIOUS_PAGE" : "Previous",
   "NEXT_PAGE" : "Next",
   "TASK_SAVING_ERROR" : "Error in input data!",
   "TASK_SAVE_SUCCESS" : "Task saved successfully"
-
 }

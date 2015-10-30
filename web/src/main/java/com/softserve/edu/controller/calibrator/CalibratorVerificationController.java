@@ -118,6 +118,9 @@ public class CalibratorVerificationController {
 
         System.out.println(searchData);
         System.out.println(searchData.getName());
+        System.out.println(searchData.getLocality());
+        System.out.println(searchData.getConsumptionStatus());
+        System.out.println(searchData.getTestResult());
 
 
         ListToPageTransformer<CalibrationTest> queryResult = verificationService

@@ -28,4 +28,16 @@ public interface LocalityRepository extends CrudRepository<Locality, Long> {
     @Query("SELECT l FROM Locality l JOIN l.organizations organizations JOIN l.district district " +
             "WHERE district.id =:districtId AND organizations.id=:organizationId ")
     List<Locality> findByDistrictIdAndOrganizationId(@Param("districtId") Long districtId, @Param("organizationId") Long organizationId);
+
+    /**
+     * Find all localities by organization id
+     *
+     * @param organizationId
+     * @return
+     */
+    @Query("SELECT l " +
+            "FROM Organization org INNER JOIN org.localities l " +
+            "WHERE org.id=:organizationId")
+    List<Locality> findLocalitiesByOrganizationId(@Param("organizationId") Long organizationId);
+
 }

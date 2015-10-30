@@ -1,20 +1,18 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
-import com.softserve.edu.entity.enumeration.organization.OrganizationType;
-import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.OrganizationEditHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.commons.lang.RandomStringUtils;
@@ -22,14 +20,12 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -212,7 +208,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<OrganizationEditHistory> getHistoryByOrganizationId(Long organizationId) {
         return organizationEditHistoryRepository.findByOrganizationId(organizationId);
     }
@@ -243,26 +239,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<LocalityDTO> findLocalitiesByOrganizationId(Long organizationId) {
-        return organizationRepository.findLocalitiesByOrganizationId(organizationId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Set<Device.DeviceType> findDeviceTypesByOrganizationId(Long organizationId) {
         return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Organization> findByServiceAreaIdsAndOrganizationType(Set<Long> serviceAreaIds, OrganizationType type) {
-        List<Organization> organizations = new ArrayList<>();
-        serviceAreaIds.stream()
-                .forEach(serviceAreaId -> {
-                    List<Organization> organizationList = organizationRepository.findOrganizationByLocalityIdAndType(serviceAreaId, type);
-                    organizations.addAll(organizationList);
-                });
-        return organizations;
     }
 
     @Override
@@ -272,6 +250,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType(Long customerId, OrganizationType organizationType, Device.DeviceType deviceType) {
         return organizationRepository.findByIdAndTypeAndActiveAgreementDeviceType(customerId, organizationType, deviceType);
     }

@@ -1,10 +1,10 @@
 package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 ;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -88,16 +88,16 @@ public class CalibrationTestQueryConstructorCalibrator {
         }
 
         System.out.println(name);
-        if ((name != null) && (name.length() > 0)) {
+        if (StringUtils.isNotEmpty(name)) {
             queryPredicate = cb.and(cb.like(root.get("name"), "%" + name + "%"), queryPredicate);
         }
 
-        if ((idToSearch != null) && (idToSearch.length() > 0)) {
+        if (StringUtils.isNotEmpty(idToSearch)) {
             Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(cb.like( joinCalibratorTest.get("id"), "%" + idToSearch + "%"), queryPredicate);
         }
 
-        if ((fullNameToSearch != null) && (fullNameToSearch.length() > 0)) {
+        if (StringUtils.isNotEmpty(fullNameToSearch)) {
             Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             Predicate searchByClientFirstName = cb.like(joinCalibratorTest.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
             Predicate searchByClientLastName = cb.like(joinCalibratorTest.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
@@ -111,32 +111,33 @@ public class CalibrationTestQueryConstructorCalibrator {
                     "%" + settingNumber.toString() + "%"), queryPredicate);
         }
 
-        if ((consumptionStatus != null) && (consumptionStatus.length() > 0)) {
-            queryPredicate = cb.and(cb.like(root.get("consumptionStatus"), "%" + consumptionStatus + "%"), queryPredicate);
+        if ((consumptionStatus != null)) {
+            queryPredicate = cb.and(cb.equal(root.get("consumptionStatus"),
+                    Verification.ConsumptionStatus.valueOf(consumptionStatus.trim())), queryPredicate);
         }
 
-        if ((streetToSearch != null) && (streetToSearch.length() > 0)) {
+        if (StringUtils.isNotEmpty(streetToSearch)) {
             Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
                     cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"),
                     queryPredicate);
         }
 
-        if ((region != null) && (region.length() > 0)) {
+        if (StringUtils.isNotEmpty(region)) {
             Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
                     cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("region"), "%" + region + "%"),
                     queryPredicate);
         }
 
-        if ((district != null) && (district.length() > 0)) {
+        if (StringUtils.isNotEmpty(district)) {
             Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
                     cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("district"), "%" + district + "%"),
                     queryPredicate);
         }
 
-        if ((locality != null) && (locality.length() > 0)) {
+        if (StringUtils.isNotEmpty(locality)) {
             Join<CalibrationTest, Verification> joinCalibratorTest = root.join("verification");
             queryPredicate = cb.and(
                     cb.like(joinCalibratorTest.get("clientData").get("clientAddress").get("locality"), "%" + locality + "%"),
@@ -160,7 +161,7 @@ public class CalibrationTestQueryConstructorCalibrator {
         if (testResult != null) {
             logger.debug("CalibrationTestQueryConstructorCalibrator : testResult = " + testResult);
             queryPredicate = cb.and(cb.equal(root.get("testResult"),
-                    CalibrationTestResult.valueOf(testResult.trim())), queryPredicate);
+                    Verification.CalibrationTestResult.valueOf(testResult.trim())), queryPredicate);
         }
 
         return queryPredicate;

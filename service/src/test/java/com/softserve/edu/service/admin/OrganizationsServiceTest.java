@@ -3,7 +3,6 @@ package com.softserve.edu.service.admin;
 
 import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
@@ -57,11 +56,12 @@ public class OrganizationsServiceTest {
         assertTrue(!list.isEmpty());
     }
 
-    @Test
+ /*   @Test
     public void testFindLocalitiesByOrganizationId() {
-        List<LocalityDTO> list = organizationsService.findLocalitiesByOrganizationId(1L);
+
+        List<Locality> list = organizationsService.findLocalitiesByOrganizationId(1L);
         assertTrue(!list.isEmpty());
-    }
+    }*/
 
     @Test
     public void testAddOrganization() {

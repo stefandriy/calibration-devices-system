@@ -29,7 +29,7 @@ public class Agreement {
 
     private String number;
 
-    private Long deviceCount;
+    private int deviceCount;
 
     private Boolean isAvailable = false;
 
@@ -39,11 +39,11 @@ public class Agreement {
     @Enumerated(EnumType.STRING)
     private Device.DeviceType deviceType;
 
-    public Agreement(Organization customer, Organization executor, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
+    public Agreement(Organization customer, Organization executor, String number, int deviceCount, Date date, Device.DeviceType deviceType) {
         this(customer, executor, number, deviceCount, date, deviceType, true);
     }
 
-    public Agreement(Organization customer, Organization executor, String number, Long deviceCount, Date date, Device.DeviceType deviceType, Boolean isAvailable) {
+    public Agreement(Organization customer, Organization executor, String number, int deviceCount, Date date, Device.DeviceType deviceType, Boolean isAvailable) {
         this.setCustomer(customer);
         this.setExecutor(executor);
         this.setNumber(number);

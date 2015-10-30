@@ -64,11 +64,6 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
                     "%" + type + "%");
             queryPredicate = cb.and(searchByOrganizationType, queryPredicate);
         }
-        if (StringUtils.isNotEmpty(streetToSearch)) {
-            queryPredicate = cb.and(
-                    cb.like(root.get("address").get("street"), "%" + streetToSearch + "%"),
-                    queryPredicate);
-        }
         if (StringUtils.isNotEmpty(region)) {
             queryPredicate = cb.and(
                     cb.like(root.get("address").get("region"), "%" + region + "%"),
@@ -82,6 +77,11 @@ public class ArchivalOrganizationsQueryConstructorAdmin {
         if (StringUtils.isNotEmpty(locality)) {
             queryPredicate = cb.and(
                     cb.like(root.get("address").get("locality"), "%" + locality + "%"),
+                    queryPredicate);
+        }
+        if (StringUtils.isNotEmpty(streetToSearch)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("address").get("street"), "%" + streetToSearch + "%"),
                     queryPredicate);
         }
 

@@ -1,7 +1,7 @@
 package com.softserve.edu.dto;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
+import com.softserve.edu.entity.verification.Verification;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,7 +34,7 @@ public class CalibrationTestFileDataDTO {
 
     private String testPhoto;
 
-    private CalibrationTestResult testResult;
+    private Verification.CalibrationTestResult testResult;
 
     private List<CalibrationTestDataDTO> listTestData;
 
@@ -168,11 +168,11 @@ public class CalibrationTestFileDataDTO {
         this.consumptionStatus = consumptionStatus;
     }
 
-    public CalibrationTestResult getTestResult() {
+    public Verification.CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(CalibrationTestResult testResult) {
+    public void setTestResult(Verification.CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 

@@ -226,7 +226,7 @@
 
                         <li ui-sref-active="active">
                             <a ui-sref="disassembly-team-calibrator">
-                                <i class="fa fa-desktop"></i><span>Довідник демонтажних бригад</span>
+                                <i class="fa fa-desktop"></i><span>{{ 'CATALOGUE_DISASSEMBLY_TEAM' | translate }}</span>
                             </a>
                         </li>
 
@@ -277,7 +277,7 @@
     <div id="loader" class="ui large loader"></div>
 </div>
 <toaster-container
-        toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
+        toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-right'}"></toaster-container>
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>

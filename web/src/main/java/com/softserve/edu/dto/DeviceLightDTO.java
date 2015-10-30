@@ -1,4 +1,4 @@
-package com.softserve.edu.controller.client.application.util;
+package com.softserve.edu.dto;
 
 /**
  * Created by Назік on 10/2/2015.

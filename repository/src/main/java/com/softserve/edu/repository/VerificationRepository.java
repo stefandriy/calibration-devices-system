@@ -3,7 +3,6 @@ package com.softserve.edu.repository;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,9 +61,9 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     
     Long countByProviderEmployee_usernameAndStatus(String providerEmployee_username, Status status);
     Long countByCalibratorEmployee_usernameAndStatus(String providerEmployee_username, Status status);
-    Long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
-    Long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, ReadStatus readStatus);
-    Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, ReadStatus readStatus);
+    Long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, Verification.ReadStatus readStatus);
+    Long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, Verification.ReadStatus readStatus);
+    Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, Verification.ReadStatus readStatus);
 
     @Query("select u.providerEmployee from Verification u where u.id = :id")
     User getProviderEmployeeById(@Param("id") String id);

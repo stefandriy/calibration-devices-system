@@ -4,9 +4,8 @@ import java.util.Date;
 
 import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 
 
 public class CalibrationTestDTO  {
@@ -18,8 +17,8 @@ public class CalibrationTestDTO  {
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
-    private ConsumptionStatus consumptionStatus;
-    private CalibrationTestResult testResult;
+    private Verification.ConsumptionStatus consumptionStatus;
+    private Verification.CalibrationTestResult testResult;
 
     private String clientFullName;
     private String street;
@@ -37,11 +36,11 @@ public class CalibrationTestDTO  {
     private String documentTypeName;
     private String documentDate;
 
-    public CalibrationTestDTO(String s, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult, String fullName, String street, String region, String district, String locality, Long calibrationTestId, Long id, Device.DeviceType deviceType) {
+    public CalibrationTestDTO(String s, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus, Verification.CalibrationTestResult testResult, String fullName, String street, String region, String district, String locality, Long calibrationTestId, Long id, Device.DeviceType deviceType) {
     }
 
     public CalibrationTestDTO(String name, Integer temperature, Integer settingNumber, Double latitude,
-                              Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult) {
+                              Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         this.name = name;
         this.temperature = temperature;
         this.settingNumber = settingNumber;
@@ -62,7 +61,7 @@ public class CalibrationTestDTO  {
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
     }
 
-    public CalibrationTestDTO(String id, String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult, String clientFullName, String street, String region, String district, String locality, Long protocolId, Long  measurementDeviceId, String measurementDeviceType, String documentTypeName/*, String documentDate*/) {
+    public CalibrationTestDTO(String id, String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult, String clientFullName, String street, String region, String district, String locality, Long protocolId, Long  measurementDeviceId, String measurementDeviceType, String documentTypeName/*, String documentDate*/) {
         this.id = id;
         this.name = name;
         this.dateTest = dateTest;
@@ -132,19 +131,19 @@ public class CalibrationTestDTO  {
         this.longitude = longitude;
     }
 
-    public ConsumptionStatus getConsumptionStatus() {
+    public Verification.ConsumptionStatus getConsumptionStatus() {
         return consumptionStatus;
     }
 
-    public void setConsumptionStatus(ConsumptionStatus consumptionStatus) {
+    public void setConsumptionStatus(Verification.ConsumptionStatus consumptionStatus) {
         this.consumptionStatus = consumptionStatus;
     }
 
-    public CalibrationTestResult getTestResult() {
+    public Verification.CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(CalibrationTestResult testResult) {
+    public void setTestResult(Verification.CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 
@@ -253,7 +252,7 @@ public class CalibrationTestDTO  {
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
         calibrationTest.setConsumptionStatus(consumptionStatus);
-        calibrationTest.setTestResult(CalibrationTestResult.SUCCESS);
+        calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
         return calibrationTest;
     }
 }
