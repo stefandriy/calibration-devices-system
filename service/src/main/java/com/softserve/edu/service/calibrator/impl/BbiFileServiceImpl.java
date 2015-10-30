@@ -7,6 +7,7 @@ import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.parser.DeviceTestDataParser;
 import com.softserve.edu.service.parser.DeviceTestDataParserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,12 +25,16 @@ public class BbiFileServiceImpl implements BbiFileService {
     @Autowired
     private VerificationRepository verificationRepository;
 
+    @Value("${bbi.storage.local}")
+    private String bbiLocalStorage;
+
     private DeviceTestDataParserFactory testDataParserFactory = new DeviceTestDataParserFactory();
 
     @Override
     @Transactional
     public File findBbiFileByFileName(String fileName) {
-        String absolutePath = uploadBbiRepository.findFileAbsolutePathByFileName(fileName);
+        String verificationId = uploadBbiRepository.findVerificationIdByFileName(fileName);
+        String absolutePath = bbiLocalStorage + verificationId + "/" + fileName;
         File file = new File(absolutePath);
         return file;
     }

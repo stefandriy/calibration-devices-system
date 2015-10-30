@@ -327,59 +327,16 @@
                     </div>
                 </div>
 
-                <div class="form-group row" show-errors>
-                    <label class="control-label col-md-4">
-                        {{'PASSWORD_TWO' | translate}}
-                    </label>
-
-                    <div class="col-md-8">
-                        <div class="hidden">
-                            <input type="password">
-                        </div>
-                        <input type="password" ng-model="organizationFormData.password"
-                               ng-pattern="PASSWORD_REGEX" name="password" id="password" class="form-control"
-                               popover="Введіть пароль адміністратора організації"
-                               popover-trigger="focus" popover-placement="top"
-                               required>
-							<span class="form-control-feedback glyphicon
-						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
-
-                        <p class="help-block" ng-if="organizationForm.password.$error.required">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'REQUIRED' | translate}}
-                        </p>
-
-                        <p class="help-block" ng-if="organizationForm.password.$error.pattern">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'PASSWORD_TOO_SHORT' | translate }}
-                        </p>
+                <div class="form-group row">
+                    <div class="control-label col-md-4">
+                        <label class="control-label">{{'PASSWORD_TWO' | translate}}*</label>
                     </div>
-                </div>
-
-                <div class="form-group row" show-errors>
-                    <label class="control-label col-md-4">
-                        {{'REPEAT_PASSWORD' | translate}}
-                    </label>
-
                     <div class="col-md-8">
-                        <input type="password" ng-model="organizationFormData.rePassword"
-                               ng-change="checkRePassword()" name="rePassword" id="rePassword"
-                               class="form-control"
-                               popover="Повторіть введений вами попередньо пароль адміна організації"
-                               popover-trigger="focus" popover-placement="top" required>
-							<span class="form-control-feedback glyphicon
-							form-horizontal glyphicon glyphicon-ok-sign"></span>
-
-                        <p class="help-block" ng-if="organizationForm.rePassword.$error.required">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'REQUIRED' | translate}}
-                        </p>
-
-                        <p class="help-block" ng-if="!isPasswordsEqual"
-                           ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'PASSWORDS_ISNT_EQUAL' | translate }}
-                        </p>
+                        <div class="form-group" aria-readonly="true">
+                            <span class="text-success">
+                                {{'PASSWORD_AUTOGENERATE' | translate}}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>

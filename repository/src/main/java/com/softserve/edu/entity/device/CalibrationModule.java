@@ -48,9 +48,6 @@ public class CalibrationModule {
     @JoinColumn(name = "calibratorId")
     private Organization organization;
 
-    @Column(columnDefinition = "boolean default true")
-    private boolean isAvaliable;
-
     @Temporal(TemporalType.DATE)
     private Date workDate;
 

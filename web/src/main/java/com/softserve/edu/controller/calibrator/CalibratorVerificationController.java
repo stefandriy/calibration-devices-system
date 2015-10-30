@@ -250,14 +250,13 @@ public class CalibratorVerificationController {
      * @return status witch depends on loading file
      */
     @RequestMapping(value = "new/upload", method = RequestMethod.POST)
-    public ResponseEntity uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String idVerification) {
+    public ResponseEntity uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String verificationId) {
         ResponseEntity responseEntity;
         try {
-            String originalFileFullName = file.getOriginalFilename();
-            String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.'));
+            String originalFileName = file.getOriginalFilename();
+            String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                String originalFileName = file.getOriginalFilename();
-                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, idVerification, originalFileName);
+                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
             } else {
                 logger.error("Failed to load file: pattern does not match.");

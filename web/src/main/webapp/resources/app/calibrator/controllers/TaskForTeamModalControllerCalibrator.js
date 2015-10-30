@@ -122,9 +122,15 @@ angular
                                     controllerAs: 'successController',
                                     size: 'md'
                                 });
-                            } else {
+                            } else if (data.status == 409) {
                                 $scope.incorrectValue = true;
                                 console.log($scope.incorrectValue);
+                                $scope.closeModal();
+                                $modal.open({
+                                    animation: true,
+                                    templateUrl: '/resources/app/calibrator/views/modals/task-adding-error.html',
+                                    size: 'md'
+                                });
                             }
                         });
                 }

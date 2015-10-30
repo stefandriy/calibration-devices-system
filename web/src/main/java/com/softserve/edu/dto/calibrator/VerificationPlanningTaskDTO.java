@@ -1,5 +1,6 @@
 package com.softserve.edu.dto.calibrator;
 
+import com.softserve.edu.entity.device.Device;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,18 +22,21 @@ public class VerificationPlanningTaskDTO {
 
     private String counterStatus;
 
+    private Device.DeviceType deviceType;
+
     private String telephone;
 
     public VerificationPlanningTaskDTO(){}
 
     public VerificationPlanningTaskDTO(Date sentDate, String verificationID, String providerName, String fullName,
-                                       String address, String counterStatus, String telephone){
+                                       String address, String counterStatus, Device.DeviceType deviceType,String telephone){
         this.sentToCalibrator = sentDate;
         this.verficationId = verificationID;
         this.providerName = providerName;
         this.clientFullName = fullName;
         this.address = address;
         this.counterStatus = counterStatus;
+        this.deviceType = deviceType;
         this.telephone = telephone;
     }
 
