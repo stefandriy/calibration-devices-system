@@ -40,16 +40,20 @@ angular
             $scope.openEditDisassemblyTeamModal = function(teamId) {
                 $rootScope.teamId = teamId;
                 disassemblyTeamServiceCalibrator.getDisassemblyTeamWithId($rootScope.teamId)
-                    .then(function(data) {
-                        $rootScope.team = data;
+                    .then(function (data) {
+                        var teamDTOModal = $modal
+                            .open({
+                                animation: true,
+                                controller: 'DisassemblyTeamEditModalControllerCalibrator',
+                                templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-edit-modal.html',
+                                resolve: {
+                                    team : function () {
+                                        return data;
+                                    }
+                                }
+                            })
                     }
                 );
-                var teamDTOModal = $modal
-                    .open({
-                        animation : true,
-                        controller : 'DisassemblyTeamEditModalControllerCalibrator',
-                        templateUrl : '/resources/app/calibrator/views/modals/disassembly-team-edit-modal.html'
-                    })
             };
 
             /**
