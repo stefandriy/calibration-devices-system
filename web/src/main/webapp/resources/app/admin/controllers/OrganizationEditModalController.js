@@ -73,9 +73,7 @@ angular
                     label: null
                 }
             ];
-
-            $rootScope.organization.region.selected = "Львівська";
-
+            
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
