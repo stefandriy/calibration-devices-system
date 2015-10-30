@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.commons.codec.DecoderException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -24,7 +25,7 @@ public interface BBIFileServiceFacade {
      * @param originalFileName Original name of the BBI file (<i>e.g.</i> 10091500.bbi)
      * @return Data from the parsed BBI file
      * **/
-    DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException;
+    DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, DecoderException;
 
     /**
      * Parses the bbi file and saves it in the system
@@ -33,7 +34,7 @@ public interface BBIFileServiceFacade {
      * @param originalFileName Original name of the BBI file (<i>e.g.</i> 10091500.bbi)
      * @return Data from the parsed BBI file
      * **/
-    DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException;
+    DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException, DecoderException;
 
     /**
      * Parses the bbi file and saves it in the system
@@ -42,7 +43,7 @@ public interface BBIFileServiceFacade {
      * @param originalFileName Original name of the BBI file (<i>e.g.</i> 10091500.bbi)
      * @return Data from the parsed BBI file
      * **/
-    DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException;
+    DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException, DecoderException;
 
     /**
      * Parses the bbi files from the archive and saves them in the system

@@ -8,6 +8,7 @@ import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -33,22 +34,24 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     private CalibratorService calibratorService;
 
     @Override
-    public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException {
+    public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException, DecoderException {
         DeviceTestData deviceTestData;
-        try(InputStream inputStream = FileUtils.openInputStream(BBIfile)){
+        try (InputStream inputStream = FileUtils.openInputStream(BBIfile)){
             deviceTestData = parseAndSaveBBIFile(inputStream, verificationID, originalFileName);
+        } catch (DecoderException e) {
+            throw e;
         }
         return deviceTestData;
     }
 
 
-    public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException {
+    public DeviceTestData parseAndSaveBBIFile(MultipartFile BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException, DecoderException {
         DeviceTestData deviceTestData = parseAndSaveBBIFile(BBIfile.getInputStream(), verificationID, originalFileName);
         return deviceTestData;
     }
 
     @Transactional
-    public DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException {
+    public DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException, DecoderException {
             DeviceTestData deviceTestData = bbiFileService.parseBbiFile(inputStream, originalFileName);
             calibratorService.uploadBbi(inputStream, verificationID, originalFileName);
         return deviceTestData;

@@ -18,8 +18,6 @@ angular
                 $scope.clearDate(); // sets 'all time' timerange
             };
 
-
-
             $scope.clearDate = function () {
                 //daterangepicker doesn't support null dates
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
@@ -43,9 +41,6 @@ angular
             $scope.selectedTestResult = {
                 name: null
             }
-
-
-
 
             $scope.consumptionStatus = [
                 {id: 'IN_THE_AREA', label: null},

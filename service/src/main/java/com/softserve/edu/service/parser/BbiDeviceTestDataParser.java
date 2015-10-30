@@ -17,62 +17,58 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     private Map<String, Object> resultMap;
 
     @Override
-    public DeviceTestData parse(InputStream deviceTestDataStream) {
+    public DeviceTestData parse(InputStream deviceTestDataStream) throws IOException, DecoderException {
         final int EMPTY_BYTES_BETWEEN_TESTS = 180;
         resultMap = new HashMap<>();
         reader = new BufferedInputStream(deviceTestDataStream);
-        try {
-            resultMap.put("day", readLongValueReversed(1)); //0x800000
-            resultMap.put("month", readLongValueReversed(1)); //0x800001
-            resultMap.put("year", readLongValueReversed(2)); //0x800002 + 0x02
-            resultMap.put("hour", readLongValueReversed(1)); //0x800004
-            resultMap.put("minute", readLongValueReversed(1)); //0x800005
-            resultMap.put("second" ,readLongValueReversed(1)); //0x800006
-            resultMap.put("dayOfWeek", readLongValueReversed(1)); //0x800007
-            resultMap.put("unixTime", readLongValueReversed(4) * 1000); //0x800008 + 0x04
-            resultMap.put("regStart", readConsecutiveBytesReversed(4)); //0x80000c + 0x04
-            reader.skip(4); //0x800010 + 0x04
-            resultMap.put("temperature", readLongValueReversed(4)); //0x800014 + 0x04
-            resultMap.put("batteryCharge", readLongValueReversed(4)); //0x800018 + 0x04
-            resultMap.put("bbiWritten", readLongValueReversed(4)); //0x80001c + 0x04
-            resultMap.put("bbiAvailableToWrite", readLongValueReversed(4)); //0x800020 + 0x04
-            resultMap.put("fileName", readLongValueReversed(4)); //0x800024 + 0x04
-            reader.skip(12); //0x800028 + 0x0c
-            resultMap.put("integrationTime", readLongValueReversed(4)); //0x800034 + 0x04
-            resultMap.put("testCounter", readLongValueReversed(4)); //0x800038 + 0x04
-            resultMap.put("confirmationRegister", readLongValueReversed(4)); //0x80003c + 0x04
-            resultMap.put("regControl", readConsecutiveBytesReversed(4)); //0x800040 + 0x04
-            resultMap.put("installmentNumber", readLongValueReversed(4)); //0x800044 + 0x04
-            resultMap.put("currentCounterNumber", readConsecutiveBytesAsUTF8(12));
-            resultMap.put("latitude", readLongValueReversed(4) / 100000.0);  //0x800054+0x04
-            resultMap.put("longitude", readLongValueReversed(4) / 100000.0); //0x800058+0x04
-            resultMap.put("impulsePricePerLitre", readLongValueReversed(4)); //0x80005c+0x04
-            resultMap.put("initialCapacity", readLongValueReversed(8)); //0x800060+0x08
-            resultMap.put("counterType1", readConsecutiveBytesAsUTF8(16)); //0x800068+0x10
-            resultMap.put("testimony", readLongValueReversed(4)); //0x800078+0x04
-            resultMap.put("counterProductionYear", readLongValueReversed(4)); //0x80007c+0x04
-            resultMap.put("counterType2", readConsecutiveBytesAsUTF8(16)); //0x800080+0x10
-            resultMap.put("fileOpened", readLongValueReversed(4)); //0x800090+0x04
-            reader.skip(108); //0x800100 now
-            for (int i = 1; i <= 6; ++i) {
-                readTest(i);
-                if (i != 6) {
-                    reader.skip(EMPTY_BYTES_BETWEEN_TESTS);
-                }
-            }
-            resultMap.put("fullInstallmentNumber", readConsecutiveBytesAsUTF8(32)); //0x0x80064c+32
-            reader.skip(2452); //go to images
 
-            resultMap.put("testPhoto", readImageBase64());
-            for (int i = 0; i < 12; ++i) {
-                String imageKey = "test" + (i / 2 + 1) + (i % 2 == 0 ? "begin" : "end") + "Photo";
-                resultMap.put(imageKey, readImageBase64());
+        resultMap.put("day", readLongValueReversed(1)); //0x800000
+        resultMap.put("month", readLongValueReversed(1)); //0x800001
+        resultMap.put("year", readLongValueReversed(2)); //0x800002 + 0x02
+        resultMap.put("hour", readLongValueReversed(1)); //0x800004
+        resultMap.put("minute", readLongValueReversed(1)); //0x800005
+        resultMap.put("second" ,readLongValueReversed(1)); //0x800006
+        resultMap.put("dayOfWeek", readLongValueReversed(1)); //0x800007
+        resultMap.put("unixTime", readLongValueReversed(4) * 1000); //0x800008 + 0x04
+        resultMap.put("regStart", readConsecutiveBytesReversed(4)); //0x80000c + 0x04
+        reader.skip(4); //0x800010 + 0x04
+        resultMap.put("temperature", readLongValueReversed(4)); //0x800014 + 0x04
+        resultMap.put("batteryCharge", readLongValueReversed(4)); //0x800018 + 0x04
+        resultMap.put("bbiWritten", readLongValueReversed(4)); //0x80001c + 0x04
+        resultMap.put("bbiAvailableToWrite", readLongValueReversed(4)); //0x800020 + 0x04
+        resultMap.put("fileName", readLongValueReversed(4)); //0x800024 + 0x04
+        reader.skip(12); //0x800028 + 0x0c
+        resultMap.put("integrationTime", readLongValueReversed(4)); //0x800034 + 0x04
+        resultMap.put("testCounter", readLongValueReversed(4)); //0x800038 + 0x04
+        resultMap.put("confirmationRegister", readLongValueReversed(4)); //0x80003c + 0x04
+        resultMap.put("regControl", readConsecutiveBytesReversed(4)); //0x800040 + 0x04
+        resultMap.put("installmentNumber", readLongValueReversed(4)); //0x800044 + 0x04
+        resultMap.put("currentCounterNumber", readConsecutiveBytesAsUTF8(12));
+        resultMap.put("latitude", readLongValueReversed(4) / 100000.0);  //0x800054+0x04
+        resultMap.put("longitude", readLongValueReversed(4) / 100000.0); //0x800058+0x04
+        resultMap.put("impulsePricePerLitre", readLongValueReversed(4)); //0x80005c+0x04
+        resultMap.put("initialCapacity", readLongValueReversed(8)); //0x800060+0x08
+        resultMap.put("counterType1", readConsecutiveBytesAsUTF8(16)); //0x800068+0x10
+        resultMap.put("testimony", readLongValueReversed(4)); //0x800078+0x04
+        resultMap.put("counterProductionYear", readLongValueReversed(4)); //0x80007c+0x04
+        resultMap.put("counterType2", readConsecutiveBytesAsUTF8(16)); //0x800080+0x10
+        resultMap.put("fileOpened", readLongValueReversed(4)); //0x800090+0x04
+        reader.skip(108); //0x800100 now
+        for (int i = 1; i <= 6; ++i) {
+            readTest(i);
+            if (i != 6) {
+                reader.skip(EMPTY_BYTES_BETWEEN_TESTS);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }  catch (DecoderException e) {
-            e.printStackTrace();
         }
+        resultMap.put("fullInstallmentNumber", readConsecutiveBytesAsUTF8(32)); //0x0x80064c+32
+        reader.skip(2452); //go to images
+
+        resultMap.put("testPhoto", readImageBase64());
+        for (int i = 0; i < 12; ++i) {
+            String imageKey = "test" + (i / 2 + 1) + (i % 2 == 0 ? "begin" : "end") + "Photo";
+            resultMap.put(imageKey, readImageBase64());
+        }
+
         return new BbiDeviceTestData(resultMap);
     }
 
