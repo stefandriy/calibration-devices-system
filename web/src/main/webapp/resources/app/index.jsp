@@ -141,7 +141,7 @@
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">
-                        <li ui-sref-active="active">
+                       <li ui-sref-active="active">
                             <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> <span>Головна панель
                                 (вимірювальна лабораторія)</span></a>
                         </li>
@@ -175,12 +175,12 @@
                               	</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
+                        <!--  <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
                             <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
                                     class="fa fa-desktop"></i> <span>Довідник засобів вимірювальної техніки (вимірювальна
                                 лабораторія)</span>
                             </a>
-                        </li>
+                        </li>  Deleting this button from calibrator-->
 
                         <li ui-sref-active="active">
                             <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> <span>Планування завдання</span>

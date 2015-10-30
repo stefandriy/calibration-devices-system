@@ -16,7 +16,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StatisticServiceImplTest {
@@ -49,35 +49,35 @@ public class StatisticServiceImplTest {
 
     @Test
     public void testCountOrganizations()  {
-        stub(organizationRepository.count()).toReturn(expected);
+        when(organizationRepository.count()).thenReturn(expected);
         long factual = statisticServiceImpl.countOrganizations();
         assertEquals(factual, expected);
     }
 
     @Test
     public void testCountUsers(){
-        stub(userRepository.count()).toReturn(expected);
+        when(userRepository.count()).thenReturn(expected);
         long factual = statisticServiceImpl.countUsers();
         assertEquals(factual, expected);
     }
 
     @Test
     public void testCountDevices()  {
-        stub(deviceRepository.count()).toReturn(expected);
+        when(deviceRepository.count()).thenReturn(expected);
         long factual = statisticServiceImpl.countDevices();
         assertEquals(factual, expected);
     }
 
     @Test
     public void testCountVerifications()  {
-        stub(verificationRepository.count()).toReturn(expected);
+        when(verificationRepository.count()).thenReturn(expected);
         long factual = statisticServiceImpl.countVerifications();
         assertEquals(factual, expected);
     }
 
     @Test
     public void testEmployeeExist()  {
-        stub(userRepository.findOne(anyString())).toReturn(userExpected);
+        when(userRepository.findOne(anyString())).thenReturn(userExpected);
         User factual = statisticServiceImpl.employeeExist("Anton");
         assertEquals(factual, userExpected);
     }
