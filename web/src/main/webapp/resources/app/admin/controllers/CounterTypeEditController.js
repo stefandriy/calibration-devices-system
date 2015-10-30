@@ -56,8 +56,11 @@ angular
              * Closes the modal window for adding new
              * organization.
              */
-            $rootScope.closeModal = function () {
-                $modalInstance.close();
+            $rootScope.closeModal = function (close) {
+                if(close === true) {
+                    $modalInstance.close();
+                }
+                $modalInstance.dismiss();
             };
 
             /**

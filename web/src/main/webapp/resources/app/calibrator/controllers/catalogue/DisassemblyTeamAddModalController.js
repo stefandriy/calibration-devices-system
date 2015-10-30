@@ -1,7 +1,7 @@
 angular.module('employeeModule')
     .controller('DisassemblyTeamAddModalControllerCalibrator',
-    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$modal',
-        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $modal) {
+    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$modal', '$filter', 'toaster',
+        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $modal, $filter, toaster) {
 
 
             var teamData = {};
@@ -191,32 +191,14 @@ angular.module('employeeModule')
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();
-                            $modal.open({
-                                animation: true,
-                                templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-success.html',
-                                controller: function ($modalInstance) {
-                                    this.ok = function () {
-                                        $modalInstance.close();
-                                    }
-                                },
-                                controllerAs: 'successController',
-                                size: 'md'
-                            });
+                            toaster.pop('success',$filter('translate')('INFORMATION'),
+                                $filter('translate')('SUCCESSFUL_ADD_TEAM'));
                         } else if (data == 409) {
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();
-                            $modal.open({
-                                animation: true,
-                                templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-adding-denied.html',
-                                controller: function ($modalInstance) {
-                                    this.ok = function () {
-                                        $modalInstance.close();
-                                    }
-                                },
-                                controllerAs: 'deniedController',
-                                size: 'md'
-                            });
+                            toaster.pop('error',$filter('translate')('INFORMATION'),
+                                $filter('translate')('ERROR_ADD_TEAM'));
                         }
                     });
             }

@@ -1,7 +1,7 @@
 angular.module('employeeModule')
     .controller('DisassemblyTeamEditModalControllerCalibrator',
-    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$log',
-        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $log) {
+    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$log', '$filter', 'toaster',
+        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $log, $filter, toaster) {
 
             var teamForm = {};
 
@@ -117,6 +117,8 @@ angular.module('employeeModule')
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();
+                            toaster.pop('success',$filter('translate')('INFORMATION'),
+                                    $filter('translate')('SUCCESSFUL_EDIT_TEAM'));
                         }
                     });
             };
