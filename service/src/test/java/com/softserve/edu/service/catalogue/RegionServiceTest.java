@@ -20,9 +20,9 @@ public class RegionServiceTest {
     @Autowired
     private RegionService regionService;
 
-    @Test
-    public void testFindByDistrictId () {
-        Region region = regionService.findByDistrictId(1L);
-        assertEquals(true, true);
-    }
+//    @Test
+//    public void testFindByDistrictId () {
+//        Region region = regionService.findByDistrictId(1L);
+//        assertEquals(true, true);
+//    }
 }

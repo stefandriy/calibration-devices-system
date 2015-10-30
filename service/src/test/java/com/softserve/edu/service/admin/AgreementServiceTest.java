@@ -44,9 +44,10 @@ public class AgreementServiceTest {
         assertTrue(agreements.contains(newAgreement));
     }
 
-    @Test
-    public void testFindByCustomerIdAndDeviceType() {
-        Set<Agreement> agreements = agreementService.findByCustomerIdAndDeviceType(1L, Device.DeviceType.WATER);
-        assertTrue(!agreements.isEmpty());
-    }
+//    @Test
+//    public void testFindByCustomerIdAndDeviceType() {
+//        Set<Agreement> agreements = agreementService.findByCustomerIdAndDeviceType(1L, Device.DeviceType.WATER);
+//        assertTrue(!agreements.isEmpty());
+//    }
+
 }
