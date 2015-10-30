@@ -52,9 +52,9 @@ public class TypeConverter {
 
         //noinspection unchecked
         Map<String, String> map = objectMapper.convertValue(object, Map.class);
-        return  map.entrySet().stream()
+        return map.entrySet().stream()
                 .filter(entry -> entry.getValue() != null)
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .collect(Collectors.toMap(Map.Entry::getKey, newEntry -> String.valueOf(newEntry.getValue())));
     }
 
     /*public static <T> Map<String, Object> ObjectToMap(Object object) throws IntrospectionException, InvocationTargetException, IllegalAccessException {

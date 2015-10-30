@@ -1,32 +1,26 @@
 package com.softserve.edu.service.admin.impl;
 
-import com.softserve.edu.specification.AgreementSpecification;
-
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.repository.AgreementRepository;
 import com.softserve.edu.service.admin.AgreementService;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.utils.AgreementQueryConstructor;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import com.softserve.edu.specification.AgreementSpecification;
+import com.softserve.edu.specification.SearchCriteria;
+import com.softserve.edu.specification.SpecificationBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class AgreementServiceImpl implements AgreementService {
@@ -53,14 +47,14 @@ public class AgreementServiceImpl implements AgreementService {
 
     @Override
     @Transactional
-    public Agreement add(Organization customer, Organization executor, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
+    public Agreement add(Organization customer, Organization executor, String number, int deviceCount, Date date, Device.DeviceType deviceType) {
         Agreement agreement = new Agreement(customer, executor, number, deviceCount, date, deviceType);
         return agreementRepository.save(agreement);
     }
 
     @Override
     @Transactional
-    public Agreement add(Long customerId, Long executorId, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
+    public Agreement add(Long customerId, Long executorId, String number, int deviceCount, Date date, Device.DeviceType deviceType) {
         Organization customer = organizationService.getOrganizationById(customerId);
         Organization executor = organizationService.getOrganizationById(executorId);
         if (customer == null || executor == null) {
@@ -84,7 +78,7 @@ public class AgreementServiceImpl implements AgreementService {
 
     @Override
     @Transactional
-    public void update(Long agreementId, Long customerId, Long executorId, String number, Long deviceCount, Date date, Device.DeviceType deviceType) {
+    public void update(Long agreementId, Long customerId, Long executorId, String number, int deviceCount, Date date, Device.DeviceType deviceType) {
         Agreement agreement = agreementRepository.findOne(agreementId);
         Organization customer = organizationService.getOrganizationById(customerId);
         Organization executor = organizationService.getOrganizationById(executorId);
@@ -103,9 +97,20 @@ public class AgreementServiceImpl implements AgreementService {
     @Transactional
     public ListToPageTransformer<Agreement> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage,
                                                                                     Map<String, String> searchKeys, String sortCriteria, String sortOrder) {
+        List<SearchCriteria> searchCriteria = new ArrayList<>();
 
-        Specification<Agreement> searchSpec = AgreementSpecification.buildPredicate(searchKeys);
-        Pageable pageSpec = AgreementSpecification.constructPageSpecification(pageNumber -1, itemsPerPage, sortCriteria, sortOrder);
+        searchCriteria.add(new SearchCriteria<>("number", "number", SearchCriteria.Operator.LIKE, SearchCriteria.ValueType.STRING));
+        searchCriteria.add(new SearchCriteria<>("customerName", "customer", SearchCriteria.Operator.LIKE, SearchCriteria.ValueType.STRING, "name"));
+        searchCriteria.add(new SearchCriteria<>("executorName", "customer", SearchCriteria.Operator.LIKE, SearchCriteria.ValueType.STRING, "name"));
+        searchCriteria.add(new SearchCriteria<>("deviceCount", "deviceCount", SearchCriteria.Operator.EQUAL, SearchCriteria.ValueType.INTEGER));
+        searchCriteria.add(new SearchCriteria<>("isAvailable", "isAvailable", SearchCriteria.Operator.EQUAL, SearchCriteria.ValueType.BOOLEAN));
+        searchCriteria.add(new SearchCriteria<>("startDateToSearch", "date", SearchCriteria.Operator.BETWEEN_DATE, "endDateToSearch"));
+        searchCriteria.add(new SearchCriteria<>("deviceType", "deviceType", SearchCriteria.Operator.EQUAL_BY_ENUM, Device.DeviceType.class));
+
+        SpecificationBuilder<Agreement> specificationBuilder = new SpecificationBuilder<>(searchCriteria, searchKeys);
+        Specification<Agreement> searchSpec = specificationBuilder.buildPredicate();
+        // Specification<Agreement> searchSpec = AgreementSpecification.buildPredicate(searchKeys);
+        Pageable pageSpec = AgreementSpecification.constructPageSpecification(pageNumber - 1, itemsPerPage, sortCriteria, sortOrder);
 
         Page<Agreement> agreementPage = agreementRepository.findAll(searchSpec, pageSpec);
         List<Agreement> agreements = agreementPage.getContent();
