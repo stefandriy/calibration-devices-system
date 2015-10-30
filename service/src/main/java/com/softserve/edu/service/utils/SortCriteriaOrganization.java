@@ -47,15 +47,6 @@ public enum SortCriteriaOrganization {
             }
         }
     },
-    TYPE() {
-        public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
-            if (sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.get("organizationTypes"));
-            } else {
-                return cb.desc(root.get("organizationTypes"));
-            }
-        }
-    },
     PHONE_NUMBER() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
 

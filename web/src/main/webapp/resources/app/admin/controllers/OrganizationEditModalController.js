@@ -664,7 +664,6 @@ angular
                     password: $scope.password,
                     serviceAreas: $scope.selectedServiseAreaLocalities
                 };
-                console.log(organizationForm);
                 saveOrganization(organizationForm);
             };
 
@@ -684,6 +683,7 @@ angular
             /**
              * Closes edit modal window.
              */
+
             $scope.closeModal = function (close) {
                 if(close === true) {
                     $modalInstance.close();

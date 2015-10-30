@@ -107,16 +107,6 @@ public enum SortCriteriaUser {
                 return cb.desc(root.get("organization").get("name"));
             }
         }
-    },
-    ROLES() {
-        public Order getSortOrder(Root<User> root, CriteriaBuilder cb, String sortOrder){
-//            if (sortOrder.equalsIgnoreCase("asc")) {
-//                return cb.asc(root.get("userRoles"));
-//            } else {
-//                return cb.desc(root.get("userRoles"));
-//            }
-            return null;
-        }
     };
 
     public Order getSortOrder(Root<User> root, CriteriaBuilder cb, String sortOrder) {
