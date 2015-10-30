@@ -4,6 +4,8 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +16,7 @@ public interface UsersService {
     List<String> getRoles(String username);
 
     void addSysAdmin( String  username, String firstName, String lastName, String middleName, String phone,
-                             String email,  Address address);
+                             String email,  Address address) throws MessagingException, UnsupportedEncodingException;
 
     List<User> findByOrganizationId(Long organizationId, int pageNumber, int itemsPerPage);
 
@@ -25,7 +27,7 @@ public interface UsersService {
     void deleteSysAdmin(String username);
 
     void editSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                       String email,  Address address);
+                       String email,  Address address)  throws MessagingException, UnsupportedEncodingException;
 
     ListToPageTransformer<User>
     findPageOfAllEmployees(int pageNumber, int itemsPerPage, String userName,

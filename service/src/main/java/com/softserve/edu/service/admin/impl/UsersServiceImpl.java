@@ -19,10 +19,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -94,8 +96,8 @@ public class UsersServiceImpl implements UsersService {
      */
     @Override
     @Transactional
-    public void addSysAdmin( String  username, String firstName, String lastName, String middleName, String phone,
-                             String email,  Address address) {
+    public void addSysAdmin ( String  username, String firstName, String lastName, String middleName, String phone,
+                             String email,  Address address) throws MessagingException, UnsupportedEncodingException {
         String newPassword = RandomStringUtils.randomAlphanumeric(5);
         String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
 
@@ -145,7 +147,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     @Transactional
     public void editSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                              String email,  Address address) {
+                              String email,  Address address)  throws MessagingException, UnsupportedEncodingException{
         User sysAdmin = userRepository.findOne(username);
 
         sysAdmin.setAddress(address);

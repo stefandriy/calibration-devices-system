@@ -22,10 +22,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +59,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                         String username, Address address, String adminName, Long[] localityIdList) {
+                                         String username, Address address, String adminName, Long[] localityIdList) throws UnsupportedEncodingException, MessagingException {
 
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
         String password = RandomStringUtils.randomAlphanumeric(firstName.length());
@@ -132,7 +134,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void editOrganization(Long organizationId, String name,
                                  String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
                                  Integer maxProcessTime, Address address, String password, String username,
-                                 String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas) {
+                                 String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas)  throws UnsupportedEncodingException, MessagingException  {
 
         Organization organization = organizationRepository.findOne(organizationId);
 
