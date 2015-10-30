@@ -1,7 +1,7 @@
 package com.softserve.edu.service.provider.impl;
 
 import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.util.ConvertUserRoleToString;
+import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
@@ -21,7 +21,6 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilder;
 import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
@@ -118,7 +117,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional
     public List<String> getRoleByUserNam(String username) {
-        return ConvertUserRoleToString.convertToListString(providerEmployeeRepository.getRolesByUserName(username));
+        return ConvertSetEnumsToListString.convertToListString(providerEmployeeRepository.getRolesByUserName(username));
     }
 
     @Override
