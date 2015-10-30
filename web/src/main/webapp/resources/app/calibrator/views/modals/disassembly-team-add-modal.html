@@ -106,16 +106,17 @@
                         <label class="control-label">{{'SPECIALIZATION' | translate}}</label>
                     </div>
                     <div class="form-group col-md-8">
-                        <select chosen data-placeholder="{{'CHOOSE_APPLICATION_FIELD'| translate}}"
-                                class="form-control" ng-model="teamFormData.specialization"
-                                class="col-xs-5 selectContainer"
-                                id="specialization" name="specialization" allow-single-deselect="true"
-                                disable-search="true" required>
-                            <option type="text" value="THERMAL" >Thermal water</option>
-                            <option type="text" value="WATER">Water</option>
-                            <option type="text" value="GASEOUS">Gaseous</option>
-                            <option type="text" value="ELECTRICAL">Electrical</option>
-                        </select>
+                        <ui-select style="display: block;" ng-model="teamFormData.specialization" theme="select2"
+                                   search-enabled="false" name="specialization" id="specialization" required>
+                            <ui-select-match placeholder="{{'CHOOSE_APPLICATION_FIELD' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="specialization in deviceTypeData">
+                                <span ng-bind-html="specialization.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
 
                         <div ng-show="teamForm.$submitted || teamForm.specialization.$touched">
                             <p class="validation-message" ng-show="teamForm.specialization.$error.required">

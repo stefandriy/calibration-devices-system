@@ -17,12 +17,30 @@ angular.module('employeeModule')
              *  Date picker and formatter setup
              *
              */
+
+            //$scope.teamFormData.specialization = undefined;
             $scope.firstCalendar = {};
             $scope.firstCalendar.isOpen = false;
             $scope.secondCalendar = {};
             $scope.secondCalendar.isOpen = false;
             $scope.thirdCalendar = {};
             $scope.thirdCalendar.isOpen = false;
+
+
+            /**
+             * init ui-select
+             */
+            $scope.deviceTypeData = [
+                {
+                    type: 'WATER',
+                    label: $filter('translate')('WATER')
+                },
+                {
+                    type: 'THERMAL',
+                    label: $filter('translate')('THERMAL')
+                }
+            ];
+
 
             $scope.open1 = function ($event) {
                 $event.preventDefault();

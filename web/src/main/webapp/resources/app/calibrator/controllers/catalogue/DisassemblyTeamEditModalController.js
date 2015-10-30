@@ -1,10 +1,11 @@
 angular.module('employeeModule')
     .controller('DisassemblyTeamEditModalControllerCalibrator',
-    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$log', '$filter', 'toaster',
-        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $log, $filter, toaster) {
+    ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$log', '$filter', 'toaster','team',
+        function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $log, $filter, toaster, team) {
 
             var teamForm = {};
-
+            $scope.team= team;
+            console.log(team);
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -12,6 +13,20 @@ angular.module('employeeModule')
             $rootScope.$on('$locationChangeStart', function() {
                 $modalInstance.close();
             });
+
+            /**
+             * init ui-select
+             */
+            $scope.deviceTypeData = [
+                {
+                    type: 'WATER',
+                    label: $filter('translate')('WATER')
+                },
+                {
+                    type: 'THERMAL',
+                    label: $filter('translate')('THERMAL')
+                }
+            ];
 
             /**
              *  Date picker and formatter setup
@@ -99,8 +114,13 @@ angular.module('employeeModule')
              * resets the team form and closes modal
              * window.
              */
+
+            $scope.team.specialization = {
+                type: team.specialization,
+                label: $filter('translate')(team.specialization)
+            };
             $scope.editDisassemblyTeam = function () {
-                var teamForm = {
+                $scope.teamForm = {
                     teamNumber: $scope.team.teamNumber,
                     teamName: $scope.team.teamName,
                     effectiveTo: $scope.team.effectiveTo,
