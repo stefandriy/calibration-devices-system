@@ -63,20 +63,17 @@ public class CalibrationTestController {
     }
 
     /**
-     * Saves calibration-test and  it`s test-datas to DB
+     * Saves calibration-test and  it`s test-data to DB
      * @param formdata
      * @param testId
      * Takes an object which contains 2 objects with data(Buy the way second object contains 6 objects  with  data).
      */
     @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
     public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
-        System.out.println("id test " + testId);
         CalibrationTestDTO testFormData = formdata.getTestForm();
         CalibrationTest calibrationTest = testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
                 testFormData.getLatitude(), testFormData.getLongitude());
         List<CalibrationTestDataDTO> testDatas = formdata.getSmallForm();
-        System.out.println(testDatas);
-        System.out.println(testDatas.size());
         for (CalibrationTestDataDTO data : testDatas) {
             if (data == null) break;
             CalibrationTestData testData = new CalibrationTestData();
@@ -178,8 +175,7 @@ public class CalibrationTestController {
     @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
     public Long createEmptyTest(@PathVariable String verificationId) {
         CalibrationTest test = testService.createEmptyTest(verificationId);
-        Long testId = test.getId();
-        return testId;
+        return test.getId();
     }
 
 
