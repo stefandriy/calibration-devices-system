@@ -119,9 +119,9 @@ angular
             /**
              * Closes the modal window
              */
-            $rootScope.closeModal = function (dismiss) {
+            $rootScope.closeModal = function (close) {
                 $scope.resetAddAgreementForm();
-                if (dismiss === true) {
+                if (close === true) {
                     $modalInstance.close();
                 }
                 $modalInstance.dismiss();
