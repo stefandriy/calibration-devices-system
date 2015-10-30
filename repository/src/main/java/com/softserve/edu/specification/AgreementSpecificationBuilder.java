@@ -33,6 +33,11 @@ public final class AgreementSpecificationBuilder extends SpecificationBuilder<Ag
     public AgreementSpecificationBuilder(Map<String, String> searchValues) {
         super(searchValues);
     }
+
+    /**
+     * Initialize criteria for Agreement Specification
+     * @return search criteria
+     */
     @Override
     protected List<SearchCriterion> initCriteria(){
         List<SearchCriterion> searchCriteria = new ArrayList<>();
@@ -46,13 +51,6 @@ public final class AgreementSpecificationBuilder extends SpecificationBuilder<Ag
         return searchCriteria;
     }
 
-    /**
-     * Create Sort object for Specification executor bu criteria and order
-     *
-     * @param sortCriteria
-     * @param sortOrder
-     * @return
-     */
     @Override
     public Sort getSort(String sortCriteria, String sortOrder) {
         if (checkValue(sortCriteria) && checkValue(sortOrder)) {

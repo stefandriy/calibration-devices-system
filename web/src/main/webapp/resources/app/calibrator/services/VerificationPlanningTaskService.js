@@ -17,6 +17,9 @@ angular
            },
            getTeams: function (pickerDate, applicationFiled) {
                 return getAvailableTeams('task/findAllTeams/'  + pickerDate + '/' + applicationFiled);
+           },
+           getSymbolsAndStandartSizes: function (verificationId) {
+                return getData('task/findSymbolsAndSizes/' + verificationId);
            }
         };
 

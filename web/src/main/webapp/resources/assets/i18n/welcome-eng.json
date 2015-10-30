@@ -517,5 +517,8 @@
   "UPLOAD_FILE" : "Upload file",
   "DELETE_UPLOADED_FILE" : "Delete uploaded file",
   "RECENT_DATA" : "Recent data",
-  "RECENT_DATA_FOR_VERIFICATION" : "Recent data for verification №"
+  "RECENT_DATA_FOR_VERIFICATION" : "Recent data for verification №",
+  "NO" : "No",
+  "YES" : "Yes"
+
 }

@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('CounterStatusControllerCalibrator', ['$scope', '$modalInstance', '$log', //'response',
-        function ($scope, $modalInstance, $log, response) {
+    .controller('CounterStatusControllerCalibrator', ['$scope', '$rootScope', '$modalInstance', '$log', 'VerificationPlanningTaskService', //'response',
+        function ($scope, $rootScope, $modalInstance, $log, planningTaskService) {
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -14,7 +14,7 @@ angular
                 $modalInstance.close();
             };
 
-
+            $scope.verifId = $rootScope.verificationId;
             /**
              *  Date picker and formatter setup
              *
@@ -74,56 +74,52 @@ angular
                 $scope.addInfo.noWaterToDate = null;
             };
 
+            $scope.counterInfo = {};
+            $scope.counterInfo.counterStatus = false;
+            $scope.resolveCounterStatus = function(){
+                if($scope.counterInfo.counterStatus === false){
+                    $scope.counterInfo.counterStatus = true;
+                } else {
+                    $scope.counterInfo.counterStatus = false;
+                }
+                if ($scope.counterInfo.counterStatus === true) {
+                    findSymbolsAndStandartSizes();
+                }
+                if ($scope.counterInfo.counterStatus === false){
+                    $scope.counterInfo.symbol = undefined;
+                    $scope.counterInfo.standardSize = undefined;
+                }
+            }
+
+            $scope.sizes = {};
+            $scope.symbols = {};
+            function findSymbolsAndStandartSizes(){
+                planningTaskService.getSymbolsAndStandartSizes($scope.verifId)
+                    .then(function (result) {
+                        $log.debug('result ', result.data);
+                        $scope.sizes = result.data.sizes;
+                        $scope.symbols = result.data.symbols;
+                    }, function (result) {
+                        $log.debug('error fetching data:', result);
+                    });
+            }
+
             $scope.checkAll = function (caseForValidation) {
                 switch (caseForValidation) {
-                    case ('installationNumber'):
-                        var installationNumber = $scope.calibrationTask.installationNumber;
-                        if (/^[0-9]{5,20}$/.test(installationNumber)) {
-                            validator('installationNumber', false);
-                        } else {
-                            validator('installationNumber', true);
-                        }
-                        break;
-                    case ('entrance'):
-                        var entrance = $scope.addInfo.entrance;
-                        if (/^[0-9]{1,2}$/.test(entrance)) {
-                            validator('entrance', false);
-                        } else {
-                            validator('entrance', true);
-                        }
-                        break;
-                    case ('doorCode'):
-                        var doorCode = $scope.addInfo.doorCode;
-                        if (/^[0-9]{1,4}$/.test(doorCode)) {
-                            validator('doorCode', false);
-                        } else {
-                            validator('doorCode', true);
-                        }
-                        break;
-                    case ('floor'):
-                        var floor = $scope.addInfo.floor;
-                        if (floor == null) {
-
-                        } else if (/^\d{1,2}$/.test(floor)) {
-                            validator('floor', false);
-                        } else {
-                            validator('floor', true);
-                        }
-                        break;
-                    case ('counterNumber'):
-                        var counterNumber = $scope.addInfo.counterNumber;
+                  case ('counterNumber'):
+                        var counterNumber = $scope.counterInfo.counterNumber;
                         if (/^[0-9]{5,20}$/.test(counterNumber)) {
                             validator('counterNumber', false);
                         } else {
                             validator('counterNumber', true);
                         }
                         break;
-                    case ('time'):
-                        var time = $scope.addInfo.time;
-                        if (/^[0-1]{1}[0-9]{1}(\:)[0-9]{2}(\-)[0-2]{1}[0-9]{1}(\:)[0-9]{2}$/.test(time)) {
-                            validator('time', false);
+                    case ('year'):
+                        var year = $scope.counterInfo.year;
+                        if (/^([12]{1}[09]{1}[\d]{2})$/.test(year)) {
+                            validator('year', false);
                         } else {
-                            validator('time', true);
+                            validator('year', true);
                         }
                         break;
                 }
@@ -132,32 +128,14 @@ angular
 
             function validator(caseForValidation, isValid) {
                 switch (caseForValidation) {
-                    case ('entrance'):
-                        $scope.entranceValidation = {
-                            isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success'
-                        }
-                        break;
-                    case ('doorCode'):
-                        $scope.doorCodeValidation = {
-                            isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success'
-                        }
-                        break;
-                    case ('floor'):
-                        $scope.floorValidation = {
-                            isValid: isValid,
-                            css: isValid ? 'has-error' : 'has-success'
-                        }
-                        break;
                     case ('counterNumber'):
                         $scope.counterNumberValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
                         }
                         break;
-                    case ('time'):
-                        $scope.timeValidation = {
+                    case ('year'):
+                        $scope.yearValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
                         }
@@ -166,21 +144,11 @@ angular
                 }
             }
 
-            $scope.resetForm = function(){
+            $scope.resetCounterStatusForm = function(){
                 $scope.$broadcast('show-errors-reset');
-                $scope.addInfo.entrance = undefined;
-                $scope.addInfo.doorCode = undefined;
-                $scope.addInfo.floor = undefined;
-                $scope.addInfo.dateOfVerif;
-                $scope.addInfo.time = undefined;
-                $scope.addInfo.serviceability = undefined;
-                $scope.addInfo.noWaterToDate = undefined;
-                $scope.addInfo.notes  = undefined;
-                $scope.entranceValidation = {};
-                $scope.doorCodeValidation = {};
-                $scope.floorValidation = {};
+                $scope.yearValidation = {};
                 $scope.counterNumberValidation = {};
-                $scope.timeValidation = {};
+                $scope.counterInfo = {};
             }
 
             $scope.showMessage = {
