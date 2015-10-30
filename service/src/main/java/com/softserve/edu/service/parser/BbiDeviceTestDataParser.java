@@ -1,12 +1,10 @@
 package com.softserve.edu.service.parser;
 
-import javax.xml.bind.DatatypeConverter;
-
 import com.softserve.edu.device.test.data.BbiDeviceTestData;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.ArrayUtils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -79,15 +77,6 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     }
 
     /**
-     * Adds to string representation of byte leading "0" character if the byte's value has only one digit
-     * @param stringByte
-     * @return
-     */
-    private String normalizeByte(String stringByte) {
-        return stringByte.length() == 2 ? stringByte : "0" + stringByte;
-    }
-
-    /**
      * Reads specified amount of bytes from InputStream reader and
      * concatenates them in reversed order.
      * @param amount
@@ -97,28 +86,10 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      * @throws IOException
      */
     private String readConsecutiveBytesReversed(int amount) throws IOException {
-        String result = "";
-        for (int i = 0; i < amount; ++i) {
-            result = normalizeByte(Integer.toHexString(reader.read())) + result;
-        }
-        return result;
-    }
-
-    /**
-     * Reads specified amount of bytes from InputStream reader and
-     * concatenates them.
-     * @param amount
-     *          amount of bytes to read.
-     * @return
-     *          string which contains concatenated bytes.
-     * @throws IOException
-     */
-    private String readConsecutiveBytes(int amount) throws IOException {
-        String result = "";
-        for (int i = 0; i < amount; ++i) {
-            result = result + normalizeByte(Integer.toHexString(reader.read()));
-        }
-        return result;
+        byte[] byteArray = new byte[amount];
+        reader.read(byteArray, 0, amount);
+        ArrayUtils.reverse(byteArray);
+        return new String(byteArray, "UTF-8");
     }
 
     /**
@@ -131,7 +102,9 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      * @throws IOException
      */
     private String readConsecutiveBytesAsUTF8(int amount) throws IOException {
-        return new String(DatatypeConverter.parseHexBinary(readConsecutiveBytes(amount))).trim();
+        byte[] byteArray = new byte[amount];
+        reader.read(byteArray, 0, amount);
+        return new String(byteArray, "UTF-8");
     }
 
     /**
@@ -150,11 +123,10 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
             result += reader.read();
         }
         return result;
-//        return Long.parseLong(readConsecutiveBytes(bytesAmount), 16);
     }
 
     /**
-     * Reads specified amount of bytes from InputStream reader, concatenates them
+     * Reads specified amount of bytes from InputStream reader
      * in reverse order and converts hex string into long value.
      * @param amount
      *          amount of bytes to read.
@@ -168,7 +140,6 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
             result += reader.read() << 8 * i;
         }
         return result;
-//        return Long.parseLong(readConsecutiveBytesReversed(bytesAmount), 16);
     }
 
     private void readTest(int testIndex) throws IOException {
@@ -195,7 +166,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
 
     /**
      * Reads image size. Then reads next imageSize bytes and
-     * stores them in string variable.
+     * converts byteArray to String base64 variable.
      * Finally, skips all blank bytes reserved for image.
      * @return Image written in base64 string.
      * @throws IOException
@@ -203,11 +174,10 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
     private String readImageBase64() throws IOException, DecoderException {
         final int ALLOCATED_IMAGE_SIZE = 16380;
 
-        long imageSize = readLongValue(4);
-        //String imageHex = readConsecutiveBytes(imageSize);
+        int imageSize = (int)readLongValue(4);
 
-        byte[] decodedHex = new byte[ALLOCATED_IMAGE_SIZE];
-        reader.read(decodedHex, 0, (int)imageSize);
+        byte[] decodedHex = new byte[imageSize];
+        reader.read(decodedHex, 0, imageSize);
         String encodedHexB64 = Base64.encodeBase64String(decodedHex);
 
         // skips all empty bytes till the next image beginning.
