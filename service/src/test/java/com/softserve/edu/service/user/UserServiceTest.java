@@ -29,24 +29,24 @@ public class UserServiceTest {
      * @throws Exception
      */
 
-    @Test
-    public void testFindByRole() throws Exception {
-        List<User> userList =  userService.findByRole(UserRole.SYS_ADMIN.name());
-        userList.forEach((user) -> System.out.println("User " + user));
-        final String username = "admin";
-        Assert.assertEquals(userList.iterator().next().getUsername(), username);
-    }
+//    @Test
+//    public void testFindByRole() throws Exception {
+//        List<User> userList =  userService.findByRole(UserRole.SYS_ADMIN.name());
+//        userList.forEach((user) -> System.out.println("User " + user));
+//        final String username = "admin";
+//        Assert.assertEquals(userList.iterator().next().getUsername(), username);
+//    }
 
     /**
      * Get roles by user
      * @throws Exception
      */
-    @Test
-    public void testGetRoles() throws Exception {
-        final String userRole = UserRole.PROVIDER_EMPLOYEE.name();
-        Assert.assertEquals(userService.getRoles("newman").iterator().next(),
-                userRole);
-    }
+//    @Test
+//    public void testGetRoles() throws Exception {
+//        final String userRole = UserRole.PROVIDER_EMPLOYEE.name();
+//        Assert.assertEquals(userService.getRoles("newman").iterator().next(),
+//                userRole);
+//    }
 
 
 }

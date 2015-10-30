@@ -19,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <logger.version>1.6.1</logger.version>
+        <jacoco>surefireArgLine</jacoco>
     </properties>
 
     <groupId>com.softserve.edu</groupId>
@@ -106,13 +107,6 @@
                 </plugin>
 
                 <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <skipTests>false</skipTests>
-                    </configuration>
-                </plugin>
-
-                <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>2.2</version>
@@ -121,6 +115,7 @@
                         <uriEncoding>UTF-8</uriEncoding>
                     </configuration>
                 </plugin>
+
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
@@ -132,9 +127,8 @@
                                 <goal>prepare-agent</goal>
                             </goals>
                             <configuration>
-                                <destFile>${project.build.directory}/jacoco.exec</destFile>
-                                <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                                <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+                                <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+                                <propertyName>${jacoco}</propertyName>
                             </configuration>
                         </execution>
                         <execution>
@@ -143,9 +137,23 @@
                             <goals>
                                 <goal>report</goal>
                             </goals>
+                            <configuration>
+                                <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+                                <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
+
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <skipTests>false</skipTests>
+                        <argLine>${jacoco}</argLine>
+                    </configuration>
+                </plugin>
+
+
             </plugins>
         </pluginManagement>
     </build>
