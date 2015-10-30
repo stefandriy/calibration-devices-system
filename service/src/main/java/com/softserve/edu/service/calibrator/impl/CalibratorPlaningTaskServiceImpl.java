@@ -45,20 +45,30 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     public void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
         CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
         Set<Verification> verifications = new HashSet<>();
+        int i = 0;
+        boolean counterStatus = false;
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
             if (verification == null) {
                 logger.error("verification haven't found");
             } else {
-                if (module.getDeviceType()==verification.getDevice().getDeviceType()){
-                    verification.setTaskStatus(Status.TASK_PLANED);
-                    verificationRepository.save(verification);
-                    verifications.add(verification);
+                if (i==0){
+                    counterStatus = verification.isCounterStatus();
+                }
+                if (counterStatus == verification.isCounterStatus()) {
+                    if (module.getDeviceType() == verification.getDevice().getDeviceType()) {
+                        verification.setTaskStatus(Status.TASK_PLANED);
+                        verificationRepository.save(verification);
+                        verifications.add(verification);
+                        i++;
+                    } else {
+                        logger.error("verification and module has different device types");
+                        throw new IllegalArgumentException();
+                    }
                 } else {
-                    logger.error("verification and module has different device types");
+                    logger.error("verifications has different counter status");
                     throw new IllegalArgumentException();
                 }
-
             }
         }
         module.setWorkDate(taskDate);
@@ -72,17 +82,28 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         Set<Verification> verifications = new HashSet<>();
         DisassemblyTeam team = teamRepository.findOne(serialNumber);
         team.setEffectiveTo(taskDate);
+        int i = 0;
+        boolean counterStatus = false;
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
             if (verification == null) {
                 logger.error("verification haven't found");
             } else {
-                if (team.getSpecialization()==verification.getDevice().getDeviceType()){
-                    verification.setTaskStatus(Status.TASK_PLANED);
-                    verificationRepository.save(verification);
-                    verifications.add(verification);
+                if (i==0){
+                    counterStatus = verification.isCounterStatus();
+                }
+                if (counterStatus == verification.isCounterStatus()) {
+                    if (team.getSpecialization()==verification.getDevice().getDeviceType()){
+                        verification.setTaskStatus(Status.TASK_PLANED);
+                        verificationRepository.save(verification);
+                        verifications.add(verification);
+                        i++;
+                    } else {
+                        logger.error("verification and module has different device types");
+                        throw new IllegalArgumentException();
+                    }
                 } else {
-                    logger.error("verification and module has different device types");
+                    logger.error("verifications has different counter status");
                     throw new IllegalArgumentException();
                 }
             }
