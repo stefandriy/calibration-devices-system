@@ -151,8 +151,6 @@
                         <skipTests>false</skipTests>
                     </configuration>
                 </plugin>
-
-
             </plugins>
         </pluginManagement>
     </build>
