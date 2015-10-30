@@ -26,9 +26,9 @@
 						<td data-title="'NAME' | translate" sortable="'name'"
 							filter="{ 'name': 'text' }" >
 							{{ organization.name }}
-						</td>
-						<td data-title="'TYPE_ADMIN' | translate " sortable="'type_admin'"
-							filter="{ 'type_admin': 'text' }">{{ organization.types | translate}}
+						</td> 
+						<td data-title="'TYPE_ADMIN' | translate " sortable="'type'"
+							filter="{ 'type': 'organizationType' }">{{ organization.types }}
 						</td>
 						<td data-title="'REGION' | translate" sortable="'region'"
 							filter="{ 'region': 'text' }">{{ organization.region}}
@@ -98,6 +98,20 @@
 						</li>
 					</ul>
 				</div>
+			</script>
+			<script type="text/ng-template" id="ng-table/filters/organizationType.html">
+				<ui-select ng-model="selectedOrganizationType.name" theme="select2" on-select='doSearch()'
+						   search-enabled="false"
+						   name="filter-organizationType">
+					<ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
+									 allow-clear="true">
+						{{$select.selected.label}}
+					</ui-select-match>
+					<ui-select-choices
+							repeat="organizationType in organizationTypeData">
+						<span ng-bind-html="organizationType.label"></span>
+					</ui-select-choices>
+				</ui-select>
 			</script>
 		</div>
 	</div>

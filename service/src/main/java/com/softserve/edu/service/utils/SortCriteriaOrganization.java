@@ -47,12 +47,12 @@ public enum SortCriteriaOrganization {
             }
         }
     },
-    TYPE_ADMIN() {
+    TYPE() {
         public Order getSortOrder(Root<Organization> root, CriteriaBuilder cb, String sortOrder) {
             if (sortOrder.equalsIgnoreCase("asc")) {
-                return cb.asc(root.join("organizationId").get("value"));
+                return cb.asc(root.get("organizationTypes"));
             } else {
-                return cb.desc(root.join("organizationId").get("value"));
+                return cb.desc(root.get("organizationTypes"));
             }
         }
     },

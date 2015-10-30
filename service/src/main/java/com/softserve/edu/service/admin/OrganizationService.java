@@ -13,11 +13,9 @@ import java.util.Set;
 
 public interface OrganizationService {
 
-
     void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                   Integer maxProcessTime, String firstName, String lastName, String middleName,
                                   String username, Address address, String adminName, Long[] localityIdList);
-
 
     ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage, String name,
                                                                               String email, String number, String type, String region,
@@ -44,11 +42,9 @@ public interface OrganizationService {
 
     List<Organization> findByLocalityIdAndTypeAndDevice( Long localityId, OrganizationType orgType, Device.DeviceType deviceType );
 
-
     Set<Device.DeviceType> findDeviceTypesByOrganizationId( Long organizationId);
 
     List<Organization> findByOrganizationTypeAndDeviceType( OrganizationType organizationType, Device.DeviceType deviceType);
 
     Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType( Long customerId, OrganizationType organizationType, Device.DeviceType deviceType);
-
 }
