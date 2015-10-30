@@ -669,9 +669,7 @@ angular
                     password: $scope.password,
                     serviceAreas: $scope.selectedServiseAreaLocalities
                 };
-                console.log(organizationForm);
                 saveOrganization(organizationForm);
-                $scope.closeModal();
             };
 
             function saveOrganization(organizationForm) {
@@ -680,9 +678,8 @@ angular
                     $rootScope.organizationId).then(
                     function (data) {
                         if (data == 200) {
-                            $scope.closeModal();
+                            $scope.closeModal(true);
                             $scope.resetOrganizationForm();
-                            console.log(data);
                             $rootScope.onTableHandling();
                         }
                         else (console.log(data));
@@ -691,8 +688,10 @@ angular
             /**
              * Closes edit modal window.
              */
-            $scope.closeModal = function () {
-                $rootScope.onTableHandling();
+            $rootScope.closeModal = function (close) {
+                if (close === true) {
+                    $modalInstance.close();
+                }
                 $modalInstance.dismiss();
             };
 

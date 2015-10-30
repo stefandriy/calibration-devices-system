@@ -132,8 +132,6 @@ angular
                     $rootScope.organizationId).then(
                     function (data) {
                         $rootScope.organization = data;
-                        console.log($rootScope.organization);
-
                         var organizationDTOModal = $modal
                             .open({
                                 animation: true,
@@ -166,8 +164,6 @@ angular
                     organizationId).then(
                     function (data) {
                         $rootScope.organization = data.content;
-                        console.log($rootScope.organization);
-
                         var organizationDTOModal = $modal
                             .open({
                                 animation: true,

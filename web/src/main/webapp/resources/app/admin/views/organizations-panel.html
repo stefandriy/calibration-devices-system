@@ -26,8 +26,8 @@
 						<td data-title="'NAME' | translate" sortable="'name'"
 							filter="{ 'name': 'text' }" >
 							{{ organization.name }}
-						</td> 
-						<td data-title="'TYPE_ADMIN' | translate " sortable="'type'"
+						</td>
+						<td data-title="'TYPE_ADMIN' | translate "
 							filter="{ 'type': 'organizationType' }">{{ organization.types }}
 						</td>
 						<td data-title="'REGION' | translate" sortable="'region'"
@@ -51,7 +51,7 @@
 						</td>
 						<td data-title="'EDIT' | translate">
 							<center>
-								<button type="button" class="btn btn-warning"
+								<button type="button" class="btn btn-success"
 										ng-click="openEditOrganizationModal(organization.id)">
 									<span class="glyphicon glyphicon-pencil"></span>
 								</button>
@@ -59,7 +59,7 @@
 						</td>
 						<td data-title="'EDIT CHANGES' | translate">
 							<center>
-								<button type="button" class="btn btn-primary"
+								<button type="button" class="btn btn-info"
 										ng-click="openOrganizationEditHistoryModal(organization.id)">
 									<span class="glyphicon glyphicon-book"></span>
 								</button>
