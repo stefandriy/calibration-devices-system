@@ -73,7 +73,90 @@ angular
                     label: $filter('translate')('THERMAL')
                 }
             ];
+            
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.typeData[0].label = 'Постачальник послуг';
+                    $scope.typeData[1].label = 'Вимірювальна лабораторія';
+                    $scope.typeData[2].label = 'Уповноважена повірочна лабораторія';
+                    $scope.counterData[0].label = 'Холодна вода';
+                    $scope.counterData[1].label = 'Гаряча вода';
+                } else if (lang === 'eng') {
+                    $scope.typeData[0].label = 'Service provider';
+                    $scope.typeData[1].label = 'Measuring laboratory';
+                    $scope.typeData[2].label = 'Authorized calibration laboratory';
+                    $scope.counterData[0].label = 'Cold water';
+                    $scope.counterData[1].label = 'Hot water';
+                }
+            };
 
+            var setCurrentTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
+                        switch ($scope.defaultData.organizationTypes[i].type) {
+                            case "PROVIDER":
+                                console.log($scope.defaultData.organizationTypes[i]);
+                                $scope.defaultData.organizationTypes[i].label = 'Постачальник послуг';
+                                break;
+                            case "CALIBRATOR":
+                                $scope.defaultData.organizationTypes[i].label = 'Вимірювальна лабораторія';
+                                break;
+                            case "STATE_VERIFICATOR":
+                                $scope.defaultData.organizationTypes[i].label = 'Уповноважена повірочна лабораторія';
+                                break;
+                            default:
+                                console.log($scope.defaultData.organizationTypes[i].type + " not organization type");
+                        }
+                    }
+
+                    for (var i = 0; i < $scope.defaultData.deviceType.length; i++) {
+                        switch ($scope.defaultData.deviceType[i].type) {
+                            case "WATER":
+                                console.log($scope.defaultData.deviceType[i]);
+                                $scope.defaultData.deviceType[i].label = 'Холодна вода';
+                                break;
+                            case "THERMAL":
+                                console.log($scope.defaultData.deviceType[i]);
+                                $scope.defaultData.deviceType[i].label = 'Гаряча вода';
+                                break;
+                            default:
+                                console.log($scope.defaultData.deviceType[i].type + " not device type");
+                        }
+                    }
+
+                } else if (lang === 'eng') {
+                    for (var i = 0; i < $scope.defaultData.organizationTypes.length; i++) {
+                        switch ($scope.defaultData.organizationTypes[i].type) {
+                            case 'PROVIDER':
+                                $scope.defaultData.organizationTypes[i].label = 'Service provider';
+                                break;
+                            case 'CALIBRATOR':
+                                $scope.defaultData.organizationTypes[i].label = 'Measuring laboratory';
+                                break;
+                            case 'STATE_VERIFICATOR':
+                                $scope.defaultData.organizationTypes[i].label = 'Authorized calibration laboratory';
+                                break;
+                            default:
+                                console.error($scope.defaultData.organizationTypes[i] + " not organization type");
+                        }
+                    }
+
+                    for (var i = 0; i < $scope.defaultData.deviceType.length; i++) {
+                        switch ($scope.defaultData.deviceType[i].type) {
+                            case "WATER":
+                                $scope.defaultData.deviceType[i].label = 'Cold water';
+                                break;
+                            case "THERMAL":
+                                $scope.defaultData.deviceType[i].label = 'Hot water';
+                                break;
+                            default:
+                                console.log($scope.defaultData.deviceType[i].type + " not device type");
+                        }
+                    }
+                }
+            };
 
             /**
              * Closes modal window on browser's back/forward button click.

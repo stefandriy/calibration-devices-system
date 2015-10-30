@@ -188,8 +188,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         OrganizationEditHistory organizationEditHistory = new OrganizationEditHistory(date, name, email, phone, employeesCapacity,
                 maxProcessTime, stringOrganizationTypes, username, firstName, lastName, middleName, organization, address, adminName);
 
-        System.out.println(organizationEditHistory.getAddress().getDistrict());
-        System.out.println(organizationEditHistory.getAddress().getLocality());
         organizationEditHistoryRepository.save(organizationEditHistory);
         organization.addOrganizationChangeHistory(organizationEditHistory);
         organizationRepository.save(organization);

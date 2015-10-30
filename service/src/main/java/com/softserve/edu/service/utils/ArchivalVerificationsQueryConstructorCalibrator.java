@@ -25,7 +25,6 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
                                                                String sortCriteria, String sortOrder, User calibratorEmployee, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        System.out.println("ArchiveVeriQueryConstructorCalibrator protocolId=" + protocolId);
         CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
         Root<Verification> root = criteriaQuery.from(Verification.class);
 

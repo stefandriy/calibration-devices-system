@@ -31,7 +31,7 @@ angular
                     $scope.userTypeData[0].label = 'Робітник вимірювальної лабораторії';
                     $scope.userTypeData[1].label = 'Адмін вимірювальної лабораторії';
                     $scope.userTypeData[2].label = 'Робітник постачальник послуг';
-                    $scope.userTypeData[3].label = 'Адмін постачальник послу';
+                    $scope.userTypeData[3].label = 'Адмін постачальник послуг';
                     $scope.userTypeData[4].label = 'Робітник уповноваженої повірочної лабораторії';
                     $scope.userTypeData[5].label = 'Адмін уповноваженої повірочної лабораторії';
 

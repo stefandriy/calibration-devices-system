@@ -50,7 +50,6 @@ angular
                                         $scope.messageError = null;
                                         $scope.fileName = config.file.name;
                                         $scope.messageSuccess = $filter('translate')('UPLOAD_SUCCESS') + config.file.name;
-                                        console.log('uploadBbiController: ' + $scope.fileName);
                                         $scope.uploadedBBIOutcomes = data;
                                         var isSuccessful = function(obj){
                                             return obj.success ? true : false;

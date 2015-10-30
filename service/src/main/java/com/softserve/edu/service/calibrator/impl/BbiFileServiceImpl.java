@@ -6,6 +6,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.parser.DeviceTestDataParser;
 import com.softserve.edu.service.parser.DeviceTestDataParserFactory;
+import org.apache.commons.codec.DecoderException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,17 +41,7 @@ public class BbiFileServiceImpl implements BbiFileService {
     }
 
     @Override
-    public DeviceTestData findBbiFileContentByFileName(String fileName) throws IOException {
-        DeviceTestDataParser parser = testDataParserFactory.getParser(fileName);
-        File bbiFile = findBbiFileByFileName(fileName);
-        InputStream inputStream = new FileInputStream(bbiFile);
-        DeviceTestData parsedData = parser.parse(inputStream);
-        inputStream.close();
-        return parsedData;
-    }
-
-    @Override
-    public DeviceTestData parseBbiFile(InputStream fileStream, String fileName) throws IOException {
+    public DeviceTestData parseBbiFile(InputStream fileStream, String fileName) throws IOException, DecoderException {
         DeviceTestDataParser parser = testDataParserFactory.getParser(fileName);
         DeviceTestData parsedData = parser.parse(fileStream);
         return parsedData;

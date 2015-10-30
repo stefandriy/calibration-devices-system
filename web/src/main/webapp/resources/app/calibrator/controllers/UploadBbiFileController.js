@@ -45,7 +45,6 @@ angular
                                         $scope.messageError = null;
                                         $scope.fileName = config.file.name;
                                         $scope.messageSuccess = $filter('translate')('UPLOAD_SUCCESS') + config.file.name;
-                                        console.log('uploadBbiController: ' + $scope.fileName);
                                         parseBbiFile(data);
                                     } else {
                                         $scope.messageError = $filter('translate')('UPLOAD_FAIL') + config.file.name;
