@@ -2,7 +2,7 @@
 
     <div class="row header_row">
         <div class="col-md-12">
-            <h1 class="page-header">Нові повірки</h1>
+            <h1 class="page-header">{{ 'NEW_VERIFICATIONS' | translate }}</h1>
         </div>
     </div>
 
@@ -25,7 +25,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    <span> Останні дані</span>
+                    <span>{{'RECENT_DATA' | translate }}</span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
 
@@ -75,31 +75,30 @@
                                             </img>
                                             <img src="/resources/assets/button-icons/face2.png"
                                                  ng-show="!verification.calibratorEmployee"
-                                                 popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                                 popover="{{'ASSIGN_RESPONSIBLE_PERSON' | translate}}" popover-trigger="mouseenter"
                                                  ng-click="addCalibratorEmployee(verification.id)">
                                             </img>
                                             <img src="/resources/assets/button-icons/close.png"
                                                  ng-show="verification.calibratorEmployee && !isEmployee"
-                                                 popover="Скасувати відповідальну особу"
+                                                 popover="{{'CANCEL_RESPONSIBLE_PERSON' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="removeCalibratorEmployee(verification.id)">
                                             </img>
                                             <img src="/resources/assets/button-icons/test.png"
-                                                 popover="Протокол повірки" popover-trigger="mouseenter"
-                                                 popover="{{'VERIFICATION_PROTOCOLS' | translate}}"
+                                                 popover="{{'VERIFICATION_PROTOCOL' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="openTests(verification.id)">
                                             </img>
                                             <img src="/resources/assets/button-icons/upload.png"
                                                  ng-show="!verification.upload" type="button"
-                                                 popover="Завантажити файл"
+                                                 popover="{{'UPLOAD_FILE' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="uploadBbiFile(verification.id)">
                                             </img>
 
                                             <img src="/resources/assets/button-icons/close.png"
                                                  ng-show="verification.upload" type="button"
-                                                 popover="Видалити завантажений файл"
+                                                 popover="{{'DELETE_UPLOADED_FILE' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="cancelBbiFile(verification.id)">
                                             </img>

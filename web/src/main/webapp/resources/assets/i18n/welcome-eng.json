@@ -305,8 +305,8 @@
   "VERIFS_FOUND":"Matches found",
   "FIRE":"Fire",
   "RESTORE":"Restore",
-  "MAIN_PANEL_PROVIDER":"Main panel provider",
-  "MAIN_PANEL_CALIBRATOR":"Main panel calibrator",
+  "MAIN_PANEL_PROVIDER":"Main panel (provider)",
+  "MAIN_PANEL_CALIBRATOR":"Main panel (calibrator)",
   "STATUS":"Status",
   "INITIAL_DATE":"Receiving date",
   "CLIENT_STREET":"Client street",
@@ -495,10 +495,24 @@
   "INFO_ABOUT_EMPLOYEE_VERIFICATIONS": "Information about employee verifications",
   "CONFIRM":"Confirm",
   "SELECT_EMPLOYEE_TO_ASSIGN": "Please select employee to assign verification",
-  
-  
+
   "PREVIOUS_PAGE" : "Previous",
   "NEXT_PAGE" : "Next",
   "TASK_SAVING_ERROR" : "Error in input data!",
-  "TASK_SAVE_SUCCESS" : "Task saved successfully"
+  "TASK_SAVE_SUCCESS" : "Task saved successfully",
+  "NEW_VERIFICATIONS" : "New verifications",
+  "NEW_VERIFICATIONS_CALIBRATOR" : "New verifications (calibrator)",
+  "VERIFICATIONS_ARCHIVE" : "Verifications archive",
+  "CALIBRATOR_HANDBOOK" : "Handbook of measuring devices (calibrator)",
+  "TASK_PLANNING" : "Task planning",
+  "TASKS_FOR_STATIONS" : "Tasks for stations",
+  "TASKS_FOR_BRIGADES" : "Tasks for brigades",
+  "DISASSEMBLING_BRIGADES_LISTING" : "Disassembling brigades listing",
+  "ASSIGN_RESPONSIBLE_PERSON" : "Assign responsible person",
+  "CANCEL_RESPONSIBLE_PERSON" : "Cancel responsible person",
+  "VERIFICATION_PROTOCOL" : "Verification protocol",
+  "UPLOAD_FILE" : "Upload file",
+  "DELETE_UPLOADED_FILE" : "Delete uploaded file",
+  "RECENT_DATA" : "Recent data",
+  "RECENT_DATA_FOR_VERIFICATION" : "Recent data for verification №"
 }
