@@ -51,26 +51,26 @@ angular
             $scope.typeData = [
                 {
                     type: 'PROVIDER',
-                    label: null
+                    label: $filter('translate')('PROVIDER')
                 },
                 {
                     type: 'CALIBRATOR',
-                    label: null
+                    label: $filter('translate')('CALIBRATOR')
                 },
                 {
                     type: 'STATE_VERIFICATOR',
-                    label: null
+                    label: $filter('translate')('STATE_VERIFICATOR')
                 }
             ];
 
             $scope.counterData = [
                 {
                     type: 'WATER',
-                    label: null
+                    label: $filter('translate')('WATER')
                 },
                 {
                     type: 'THERMAL',
-                    label: null
+                    label: $filter('translate')('THERMAL')
                 }
             ];
             
@@ -163,7 +163,7 @@ angular
              */
             $rootScope.$on('$locationChangeStart', function (close) {
                 $modalInstance.close();
-                if(close === true) {
+                if (close === true) {
                     $modalInstance.close();
                 }
                 $modalInstance.dismiss();
@@ -173,7 +173,7 @@ angular
             for (var i = 0; i < $rootScope.organization.types.length; i++) {
                 $scope.defaultData.organizationTypes[i] = {
                     type: $rootScope.organization.types[i],
-                    label: null
+                    label: $filter('translate')($rootScope.organization.types[i])
                 }
             }
 
@@ -181,12 +181,12 @@ angular
             for (var i = 0; i < $rootScope.organization.counters.length; i++) {
                 $scope.defaultData.deviceType[i] = {
                     type: $rootScope.organization.counters[i],
-                    label: null
+                    label: $filter('translate')($rootScope.organization.counters[i])
                 }
             }
 
-            $scope.setTypeDataLanguage();
-            setTimeout(setCurrentTypeDataLanguage(), 3000);
+            //$scope.setTypeDataLanguage();
+           // setTimeout(setCurrentTypeDataLanguage(), 3000);
 
             console.log($scope.defaultData.organizationTypes);
             console.log($scope.defaultData.deviceType);
@@ -678,12 +678,13 @@ angular
 
                     });
             }
+
             /**
              * Closes edit modal window.
              */
 
             $scope.closeModal = function (close) {
-                if(close === true) {
+                if (close === true) {
                     $modalInstance.close();
                 }
                 $modalInstance.dismiss();

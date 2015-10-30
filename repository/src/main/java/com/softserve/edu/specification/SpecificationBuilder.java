@@ -79,6 +79,13 @@ public abstract class SpecificationBuilder<T> {
         };
     }
 
+    /**
+     * Builds equal predicate
+     * @param sc search criterion
+     * @param root A root in the from clause
+     * @param cb criteria builder
+     * @return predicate for specification
+     */
     private Predicate buildEqualPredicate(SearchCriterion sc, Root root, CriteriaBuilder cb) {
         String key = sc.getKey();
         Path path = getCriteriaPath(sc, root);
@@ -95,6 +102,12 @@ public abstract class SpecificationBuilder<T> {
         }
     }
 
+    /**
+     * Create criteria path for search criterion
+     * @param sc search criterion
+     * @param root A root in the from clause
+     * @return attribute path
+     */
     private Path getCriteriaPath(SearchCriterion sc, Root root) {
         String key = sc.getEntityField();
         if (sc.getJoinEntityField() != null) {
@@ -112,10 +125,29 @@ public abstract class SpecificationBuilder<T> {
         return (value != null) && (!value.isEmpty());
     }
 
+    /**
+     * Initializing search criteria
+     * @return list of sorting criteria
+     */
     protected abstract List<SearchCriterion> initCriteria();
 
+    /**
+     * Create Sort object for Specification executor by criteria and order
+     *
+     * @param sortCriteria sorting criterion
+     * @param sortOrder sorting order
+     * @return Sort object
+     */
     public abstract Sort getSort(String sortCriteria, String sortOrder);
 
+    /**
+     * Creates a new PageRequest with sort parameters applied.
+     * @param pageNumber zero-based page index.
+     * @param itemsPerPage the size of the page to be returned.
+     * @param sortCriteria sorting criterion
+     * @param sortOrder sorting order
+     * @return page request
+     */
     public abstract Pageable constructPageSpecification(int pageNumber, int itemsPerPage, String sortCriteria, String sortOrder);
 
 }

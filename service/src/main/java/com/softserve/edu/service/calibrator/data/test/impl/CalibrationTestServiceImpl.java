@@ -147,9 +147,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         Verification verification = verificationRepository.findOne(verificationId);
         CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setVerification(verification);
-        System.out.println("trying to fukken saved");
         testRepository.save(calibrationTest);
-        System.out.println("fukken saved");
         return calibrationTest;
     }
 
