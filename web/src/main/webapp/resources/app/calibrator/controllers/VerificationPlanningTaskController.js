@@ -8,7 +8,6 @@ angular
             $scope.resultsCount = 0;
             $scope.verifications = [];
 
-
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10
@@ -82,6 +81,7 @@ angular
                 });
             };
 
+            $rootScope.verificationId = null;
             $scope.openCounterInfoModal = function(id){
                 $rootScope.verificationId = id;
                 $log.debug($rootScope.verificationId);

@@ -489,5 +489,6 @@
   "PREVIOUS_PAGE" : "Previous",
   "NEXT_PAGE" : "Next",
   "TASK_SAVING_ERROR" : "Error in input data!",
-  "TASK_SAVE_SUCCESS" : "Task saved successfully"
+  "TASK_SAVE_SUCCESS" : "Task saved successfully",
+
 }
