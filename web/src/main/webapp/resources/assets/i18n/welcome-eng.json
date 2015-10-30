@@ -281,7 +281,11 @@
   "PASSWORD_TOO_SHORT":"Password can not be shorter than 4 symbols",
   "PASSWORDS_ISNT_EQUAL":"Passwords aren`t the equals",
   "ORGANIZATION_INVALID_STREET": "Street can't be found",
-  "INDEX":"Index",
+  "STATE_VERIFICATOR,CALIBRATOR":"Authorized calibration laboratory, Measuring laboratory",
+  "CALIBRATOR,PROVIDER":"Measuring laboratory, Service provider",
+  "STATE_VERIFICATOR":"Authorized calibration laboratory",
+  "PROVIDER":"Service provider",
+  "CALIBRATOR":"Measuring laboratory",
 
   "CLIENT":"Client",
   "FEEDBACK":"Feedback",
