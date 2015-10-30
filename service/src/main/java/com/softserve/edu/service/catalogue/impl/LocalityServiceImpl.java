@@ -37,4 +37,10 @@ public class LocalityServiceImpl implements LocalityService {
     public List<Locality> findByDistrictIdAndOrganizationId(Long districtId, Long organizationId) {
         return localityRepository.findByDistrictIdAndOrganizationId(districtId, organizationId);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Locality> findLocalitiesByOrganizationId(Long organizationId) {
+        return localityRepository.findLocalitiesByOrganizationId(organizationId);
+    }
 }

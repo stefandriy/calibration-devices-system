@@ -45,7 +45,6 @@ public interface OrganizationService {
 
     List<Organization> findByLocalityIdAndTypeAndDevice( Long localityId, OrganizationType orgType, Device.DeviceType deviceType );
 
-    List<LocalityDTO> findLocalitiesByOrganizationId( Long organizationId);
 
     Set<Device.DeviceType> findDeviceTypesByOrganizationId( Long organizationId);
 

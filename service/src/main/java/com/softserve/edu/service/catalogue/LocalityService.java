@@ -14,4 +14,6 @@ public interface LocalityService {
 
     List<Locality> findByDistrictIdAndOrganizationId( Long districtId, Long organizationId);
 
+    List<Locality> findLocalitiesByOrganizationId(Long organizationId);
+
 }

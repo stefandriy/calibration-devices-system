@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceTestingConfig.class})
 public class AgreementServiceTest {
-    
+
     @Autowired
     private AgreementService agreementService;
 

@@ -7,6 +7,7 @@ import com.softserve.edu.dto.application.RejectMailDTO;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
+import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.entity.catalogue.util.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
@@ -116,7 +117,9 @@ public class ProviderApplicationController {
     @RequestMapping(value = "region", method = RequestMethod.GET)
     public List<Region> getRegionCorrespondingProvider(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        LocalityDTO localityDTO = organizationService.findLocalitiesByOrganizationId(employeeUser.getOrganizationId()).get(0);
+        LocalityDTO localityDTO = localityService.findLocalitiesByOrganizationId(employeeUser.getOrganizationId()).stream()
+                .map(locality -> new LocalityDTO(locality.getId(), locality.getDesignation(), locality.getDistrict().getId()))
+                .collect(Collectors.toList()).get(0);
         List<Region> regions = new ArrayList<>();
         regions.add(regionService.findByDistrictId(localityDTO.getDistrictId()));
         return regions;
@@ -153,9 +156,9 @@ public class ProviderApplicationController {
     @RequestMapping(value = "districts/{regionId}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getDistrictsCorrespondingProvider(@PathVariable Long regionId,
                                                                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        Set<Long> localityIdList = organizationService.findLocalitiesByOrganizationId(employeeUser.getOrganizationId())
+        Set<Long> localityIdList = localityService.findLocalitiesByOrganizationId(employeeUser.getOrganizationId())
                 .stream()
-                .map(LocalityDTO::getDistrictId)
+                .map(locality -> locality.getDistrict().getId())
                 .collect(Collectors.toSet());
 
         return CatalogueDTOTransformer.toDto(districtService.getDistrictsCorrespondingRegion(regionId)

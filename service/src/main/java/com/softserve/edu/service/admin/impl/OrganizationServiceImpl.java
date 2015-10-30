@@ -243,12 +243,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<LocalityDTO> findLocalitiesByOrganizationId(Long organizationId) {
-        return organizationRepository.findLocalitiesByOrganizationId(organizationId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Set<Device.DeviceType> findDeviceTypesByOrganizationId(Long organizationId) {
         return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
     }
