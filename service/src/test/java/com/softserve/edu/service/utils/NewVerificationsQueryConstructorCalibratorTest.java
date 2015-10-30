@@ -2,75 +2,89 @@ package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Set;
+import java.util.TreeSet;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
- * Created by Roman on 25.10.2015.
- *
+ * Created by Yurko on 25.10.2015.
  */
-
 @RunWith(MockitoJUnitRunner.class)
+@PrepareForTest(NewVerificationsQueryConstructorCalibrator.class)
 public class NewVerificationsQueryConstructorCalibratorTest {
 
-    // .buildSearchQuery() arguments
-    private final Long providerId = 11L;
-    private final String startDateToSearch = null; //"2015-04-20";
-    private final String endDateToSearch = null; //"2015-05-20";
-    private final String idToSearch = null; //"idToSearch";
-    private final String fullNameToSearch = null; //"fullNameToSearch";
-    private final String streetToSearch = null; //"streetToSearch";
-    private final String region = null; //"region";
-    private final String district = null; //"district";
-    private final String locality = null; //"locality";
-    private final String status = null; //"SENT";
-    @Mock private User calibratorEmployee;
-    private final String sortCriteria = null; //"sortCriteria";
-    private final String sortOrder = null; //"sortOrder";
-    private final String employeeSearchName = null; //"employeeSearchName";
-    @Mock private EntityManager em;
-    private final String methodJoinArg = "calibrator";
+    // region fields
 
-    // .buildSearchQuery() local variables' mocks
-    @Mock private CriteriaBuilder cb;
-    @Mock private CriteriaQuery<Verification> criteriaQuery;
-    @Mock private Root<Verification> root;
-    @Mock private Join<Object, Object> calibratorJoin;
-    private final String userName = "userName";
-    @Mock private Predicate queryPredicate;
-    private final UserRole userRole = UserRole.CALIBRATOR_EMPLOYEE;
-    private Set<UserRole> roles = new HashSet<UserRole>();
-    @Mock private Join<Object, Object> joinCalibratorEmployee;
-    @Mock private Predicate searchPredicateByUsername;
-    @Mock private Predicate searchPredicateByEmptyField;
-    @Mock private Predicate searchByCalibratorEmployee;
+    // region mocks
+
+    @Mock
+    private User calibratorEmployee;
+    @Mock
+    private EntityManager em;
+    @Mock
+    private CriteriaBuilder cb;
+    @Mock
+    private CriteriaQuery<Verification> criteriaQuery;
+    @Mock
+    private CriteriaQuery<Long> countQuery;
+    @Mock
+    private Root<Verification> root;
+    @Mock
+    private Join<Object, Object> calibratorJoin;
+    @Mock
+    private Join<Object, Object> joinCalibratorEmployee;
+    @Mock
+    private Predicate searchPredicateByUsername;
+    @Mock
+    private Predicate searchPredicateByEmptyField;
+    @Mock
+    private Predicate searchByCalibratorEmployee;
+    @Mock
+    private Predicate queryPredicate;
+    @Mock
+    private Path path;
+
+    // endregion
+
+    private Long calibratorId = null;
+    private Long providerId = 11L;
+    private String startDateToSearch = null;
+    private String endDateToSearch = null;
+    private String idToSearch = null;
+    private String fullNameToSearch = null;
+    private String streetToSearch = null;
+    private String region = null;
+    private String district = null;
+    private String locality = null;
+    private String status = null;
+    private String sortCriteria = null;
+    private String sortOrder = null;
+    private String employeeSearchName = null;
+    private String methodJoinArg = "calibrator";
+    private String userName = "username";
+    private UserRole userRole = UserRole.CALIBRATOR_EMPLOYEE;
+    private Set<UserRole> roles = new TreeSet<>();
+
+    // endregion
 
     @Before
     public void setUp() throws Exception {
         roles.add(userRole);
-        // MockitoAnnotations.initMocks(this);
         when(em.getCriteriaBuilder()).thenReturn(cb);
         when(cb.createQuery(Verification.class)).thenReturn(criteriaQuery);
         when(criteriaQuery.from(Verification.class)).thenReturn(root);
@@ -88,45 +102,122 @@ public class NewVerificationsQueryConstructorCalibratorTest {
                 Status.TEST_PLACE_DETERMINED.getQueryPredicate(root, cb),
                 Status.TEST_COMPLETED.getQueryPredicate(root, cb)), queryPredicate)).thenReturn(queryPredicate);
         when(cb.and(cb.equal(calibratorJoin.get("id"), providerId), queryPredicate)).thenReturn(queryPredicate);
+
+        when(cb.createQuery(Long.class)).thenReturn(countQuery);
+        when(countQuery.from(Verification.class)).thenReturn(root);
     }
 
     @Test
-    public void testBuildSearchQueryWithSortCriteriaAndOrderSetToNull() throws Exception {
-        NewVerificationsQueryConstructorCalibrator.buildSearchQuery(providerId, startDateToSearch,
-                endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district,
-                locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em);
-        verify(em).getCriteriaBuilder();
-        verify(cb).createQuery(Verification.class);
+    public void testBuildSearchQuery() throws Exception {
+        providerId = 1L;
+        startDateToSearch = LocalDate.of(2015, 9, 5).format(DateTimeFormatter.ISO_LOCAL_DATE);
+        endDateToSearch = LocalDate.of(2015, 9, 10).format(DateTimeFormatter.ISO_LOCAL_DATE);
+
+        CriteriaQuery<Verification> actual = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(
+                providerId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch,
+                streetToSearch, region, district, locality, status,
+                calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em);
+
+        verify(em.getCriteriaBuilder().createQuery(Verification.class)).from(Verification.class);
         verify(criteriaQuery).from(Verification.class);
-        verify(root).join(methodJoinArg);
+        verify(root).join("calibrator");
         verify(criteriaQuery).select(root);
+        assertEquals(criteriaQuery, actual);
+    }
+
+    @Test
+    public void test1BuildSearchQuery() throws Exception {
+        providerId = 1L;
+        startDateToSearch = LocalDate.of(2015, 9, 5).format(DateTimeFormatter.ISO_LOCAL_DATE);
+        endDateToSearch = LocalDate.of(2015, 9, 10).format(DateTimeFormatter.ISO_LOCAL_DATE);
+        sortCriteria = "id";
+        sortOrder = "asc";
+
+        CriteriaQuery<Verification> actual = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(
+                providerId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch,
+                streetToSearch, region, district, locality, status,
+                calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em);
+
+        verify(em.getCriteriaBuilder().createQuery(Verification.class)).from(Verification.class);
+        verify(criteriaQuery).from(Verification.class);
+        verify(root).join("calibrator");
+        verify(criteriaQuery).select(root);
+        assertEquals(criteriaQuery, actual);
     }
 
     @Test
     public void testBuildCountQuery() throws Exception {
+        calibratorId = 1L;
+        startDateToSearch = LocalDate.of(2015, 9, 5).format(DateTimeFormatter.ISO_LOCAL_DATE);
+        endDateToSearch = LocalDate.of(2015, 9, 10).format(DateTimeFormatter.ISO_LOCAL_DATE);
+        idToSearch = "";
+        fullNameToSearch = "";
+        streetToSearch = "";
+        status = "SENT";
+        employeeSearchName = "";
 
+        CriteriaQuery<Long> actual = NewVerificationsQueryConstructorCalibrator.buildCountQuery(
+                calibratorId, startDateToSearch, endDateToSearch, idToSearch,
+                fullNameToSearch, streetToSearch, region, district,
+                locality, status, calibratorEmployee, employeeSearchName, em);
+
+        verify(em.getCriteriaBuilder().createQuery(Long.class), atLeastOnce()).from(Verification.class);
+        verify(cb, atLeastOnce()).createQuery(Long.class);
+        verify(countQuery).from(Verification.class);
+        verify(root).join("calibrator");
+        verify(countQuery).select(cb.count(root));
+        assertEquals(countQuery, actual);
     }
 
     @Test
-    public void testBuildPredicateWithArgumentsSetToNull() {
-        NewVerificationsQueryConstructorCalibrator.buildSearchQuery(providerId, startDateToSearch,
-                endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, region, district,
-                locality, status, calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em);
-        verify(calibratorEmployee).getUsername();
-        verify(cb).conjunction();
-        verify(calibratorEmployee).getUserRoles();
+    public void testBuildPredicate_withBuildCountQuery() throws Exception {
+        calibratorId = 1L;
+        startDateToSearch = "123abc";
+        endDateToSearch = "xyz789";
+        idToSearch = "";
+        fullNameToSearch = "";
+        streetToSearch = "";
 
-        // inside for loop of the private .buildPredicate() method
-        verify(root, times(1)).join("calibratorEmployee", JoinType.LEFT);
-        verify(cb, times(1)).equal(joinCalibratorEmployee.get("username"), userName);
-        verify(cb, times(1)).isNull(joinCalibratorEmployee.get("username"));
-        verify(cb, times(1)).or(searchPredicateByUsername, searchPredicateByEmptyField);
-        verify(cb, times(1)).and(searchByCalibratorEmployee);
+        boolean actual;
+        try {
+            NewVerificationsQueryConstructorCalibrator.buildCountQuery(
+                    calibratorId, startDateToSearch, endDateToSearch, idToSearch,
+                    fullNameToSearch, streetToSearch, region, district,
+                    locality, status, calibratorEmployee, employeeSearchName, em);
+            actual = true;
+        } catch (Exception ex) { // TODO: Exception handling should be written
+            actual = false;
+        }
+        assertEquals(false, actual);
+    }
 
-        /* verify(cb).and(cb.or(Status.IN_PROGRESS.getQueryPredicate(root, cb),
-                Status.SENT_TO_TEST_DEVICE.getQueryPredicate(root, cb),
-                Status.TEST_PLACE_DETERMINED.getQueryPredicate(root, cb),
-                Status.TEST_COMPLETED.getQueryPredicate(root, cb)), queryPredicate); */
-        // verify(cb).and(cb.equal(calibratorJoin.get("id"), providerId), queryPredicate);
+    @Test
+    public void test1BuildPredicate_withBuildCountQuery() throws Exception {
+        /*idToSearch = "u1";
+        fullNameToSearch = "john";
+        streetToSearch = "zelena";
+        region = "b13";
+        district = "d15";
+        employeeSearchName = "jack";
+
+        when(root.get("clientData")).thenReturn(path);
+        when(root.get("clientData").get("firstName")).thenReturn(path);
+        when(path.get(anyString())).thenReturn(path);
+
+        when(cb.like(joinCalibratorEmployee.get("firstName"), "%" + employeeSearchName + "%")).
+                thenReturn(queryPredicate);
+        when(cb.like(any(Expression.class), anyString())).thenReturn(queryPredicate);
+        when(cb.like(root.get("clientData").get("firstName"), "%" + fullNameToSearch + "%")).
+                thenReturn(queryPredicate);
+        when(cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%")).
+                thenReturn(queryPredicate);
+        when(cb.like(root.get("clientData").get("middleName"), "%" + fullNameToSearch + "%")).
+                thenReturn(queryPredicate);
+
+
+        NewVerificationsQueryConstructorCalibrator.buildCountQuery(
+                calibratorId, startDateToSearch, endDateToSearch, idToSearch,
+                fullNameToSearch, streetToSearch, region, district,
+                locality, status, calibratorEmployee, employeeSearchName, em);*/
     }
 }

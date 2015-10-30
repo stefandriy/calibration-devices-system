@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by My on 10/26/2015.
+ * Created by Misha on 10/26/2015.
  */
 
 @RunWith(PowerMockRunner.class)
@@ -48,7 +48,7 @@ public class ArchivalOrganizationsQueryConstructorAdminTest {
     @Mock
     private Predicate predicate;
 
-  
+
     private String name, email, phone, type, region, district, locality, streetToSearch;
 
     private String sortCriteria ;
@@ -90,7 +90,7 @@ public class ArchivalOrganizationsQueryConstructorAdminTest {
     public void buildSearchQueryNotNullCriteriaQuery() {
         CriteriaQuery<Organization> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin
                 .buildSearchQuery(name, email, phone, type, region, district, locality, streetToSearch, sortCriteria, sortOrder, entityManager);
-        assertNotNull("criteriaQuery present", criteriaQuery);
+        assertNotNull("verificationCriteriaQuery present", criteriaQuery);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class ArchivalOrganizationsQueryConstructorAdminTest {
         when(criteriaBuilde.createQuery(Long.class)).thenReturn(countQueryForBuildCountQuery);
         CriteriaQuery<Long> criteriaQuery = ArchivalOrganizationsQueryConstructorAdmin
                 .buildCountQuery(name, email, phone, type, region, district, locality, streetToSearch, entityManager);
-        assertNotNull("criteriaQuery present", criteriaQuery);
+        assertNotNull("verificationCriteriaQuery present", criteriaQuery);
     }
 
 
