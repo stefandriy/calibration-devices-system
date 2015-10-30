@@ -1,19 +1,18 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
-import com.softserve.edu.entity.enumeration.organization.OrganizationType;
-import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.OrganizationEditHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.commons.lang.RandomStringUtils;

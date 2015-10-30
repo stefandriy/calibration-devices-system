@@ -10,7 +10,6 @@ import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.ClientData;
@@ -98,7 +97,7 @@ public class ProviderApplicationController {
         Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT, ReadStatus.UNREAD, calibrator);
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT, Verification.ReadStatus.UNREAD, calibrator);
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();

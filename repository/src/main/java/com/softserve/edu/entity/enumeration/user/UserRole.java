@@ -1,11 +1,5 @@
 package com.softserve.edu.entity.enumeration.user;
 
-import com.softserve.edu.entity.user.User;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-
 public enum UserRole {
     SUPER_ADMIN,
     SYS_ADMIN,

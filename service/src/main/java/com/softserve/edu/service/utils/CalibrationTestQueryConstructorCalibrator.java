@@ -1,9 +1,7 @@
 package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 ;
-import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import org.apache.commons.lang.StringUtils;
@@ -115,7 +113,7 @@ public class CalibrationTestQueryConstructorCalibrator {
 
         if ((consumptionStatus != null)) {
             queryPredicate = cb.and(cb.equal(root.get("consumptionStatus"),
-                    ConsumptionStatus.valueOf(consumptionStatus.trim())), queryPredicate);
+                    Verification.ConsumptionStatus.valueOf(consumptionStatus.trim())), queryPredicate);
         }
 
         if (StringUtils.isNotEmpty(streetToSearch)) {
@@ -163,7 +161,7 @@ public class CalibrationTestQueryConstructorCalibrator {
         if (testResult != null) {
             logger.debug("CalibrationTestQueryConstructorCalibrator : testResult = " + testResult);
             queryPredicate = cb.and(cb.equal(root.get("testResult"),
-                    CalibrationTestResult.valueOf(testResult.trim())), queryPredicate);
+                    Verification.CalibrationTestResult.valueOf(testResult.trim())), queryPredicate);
         }
 
         return queryPredicate;
