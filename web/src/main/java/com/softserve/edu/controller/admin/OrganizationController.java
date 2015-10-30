@@ -29,6 +29,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -89,7 +91,7 @@ public class OrganizationController {
                     adminName,
                     organizationDTO.getServiceAreas()
             );
-        } catch (Exception e) {
+        } catch (UnsupportedEncodingException | MessagingException e) {
             logger.error("Got exeption while add organization ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
@@ -185,7 +187,8 @@ public class OrganizationController {
     public ResponseEntity editOrganization(
             @RequestBody OrganizationEditDTO organization,
             @PathVariable Long organizationId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user)
+            throws UnsupportedEncodingException, MessagingException {
         HttpStatus httpStatus = HttpStatus.OK;
 
         Address address = new Address(
@@ -215,7 +218,7 @@ public class OrganizationController {
                     organization.getMiddleName(),
                     adminName,
                     organization.getServiceAreas());
-        } catch (Exception e) {
+        } catch ( UnsupportedEncodingException | MessagingException  e) {
             logger.error("Got exeption while editing organization ", e);
             httpStatus = HttpStatus.CONFLICT;
         }

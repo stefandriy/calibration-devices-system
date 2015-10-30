@@ -26,7 +26,7 @@ public class ArchivalEmployeeQueryConstructorAdmin {
         if ((sortCriteria != null) && (sortOrder != null)) {
             criteriaQuery.orderBy(SortCriteriaUser.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
         } else {
-            criteriaQuery.orderBy(cb.desc(root.get("username")));
+//            criteriaQuery.orderBy(cb.desc(root.get("username")));
         }
         criteriaQuery.select(root).distinct(true);
         criteriaQuery.where(predicate);
@@ -37,18 +37,18 @@ public class ArchivalEmployeeQueryConstructorAdmin {
     private static Predicate buildPredicate(Root<User> root, CriteriaBuilder cb, String username, String role,
                                             String firstName, String lastName, String organization, String phone) {
         Predicate queryPredicate = cb.conjunction();
-        if (StringUtils.isNotEmpty(username)) {
-            queryPredicate = cb.and(cb.like(root.get("username"), "%" + username + "%"), queryPredicate);
-        }
+
         if (StringUtils.isNotEmpty(role)) {
             UserRole uRole = UserRole.valueOf(role.trim());
             queryPredicate = cb.and(cb.isMember(uRole, root.get("userRoles")), queryPredicate);
         }else {
-            queryPredicate = cb.and
-                                    (cb.not
+            queryPredicate = cb.and(cb.not
                                         (cb.or(
                                                 cb.isMember(UserRole.SUPER_ADMIN, root.get("userRoles")),
                                                 cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")))));
+        }
+        if (StringUtils.isNotEmpty(username)) {
+            queryPredicate = cb.and(cb.like(root.get("username"), "%" + username + "%"), queryPredicate);
         }
         if (StringUtils.isNotEmpty(firstName)) {
             queryPredicate = cb

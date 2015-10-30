@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -25,10 +27,6 @@ public class SysAdminController {
 
     @Autowired
     private UsersService usersService;
-
-
-    @Autowired
-    private MailService mail;
 
     Logger logger = Logger.getLogger(SysAdminController.class);
 
@@ -63,8 +61,7 @@ public class SysAdminController {
         try {
             usersService.addSysAdmin(sysAdmin.getUsername(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
                     sysAdmin.getEmail(), sysAdmin.getAddress());
-        } catch (Exception e) {
-            // TODO
+        } catch ( MessagingException | UnsupportedEncodingException e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
@@ -116,7 +113,6 @@ public class SysAdminController {
         try {
             usersService.deleteSysAdmin(username);
         } catch (Exception e) {
-            // TODO
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.NOT_FOUND;
         }
@@ -140,8 +136,7 @@ public class SysAdminController {
         try {
             usersService.editSysAdmin(username, sysAdmin.getPassword(), sysAdmin.getFirstName(), sysAdmin.getLastName(), sysAdmin.getMiddleName(), sysAdmin.getPhone(),
                     sysAdmin.getEmail(), sysAdmin.getAddress());
-        } catch (Exception e) {
-            // TODO
+        } catch (MessagingException | UnsupportedEncodingException e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
         }

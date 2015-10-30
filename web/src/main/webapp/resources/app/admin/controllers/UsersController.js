@@ -34,8 +34,6 @@ angular
                     $scope.userTypeData[3].label = 'Адмін постачальник послуг';
                     $scope.userTypeData[4].label = 'Робітник уповноваженої повірочної лабораторії';
                     $scope.userTypeData[5].label = 'Адмін уповноваженої повірочної лабораторії';
-
-
                 } else if (lang === 'eng') {
                     $scope.userTypeData[0].label = 'Employee calibrator';
                     $scope.userTypeData[1].label = 'Admin calibrator';

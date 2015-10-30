@@ -8,6 +8,8 @@ import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +17,7 @@ public interface OrganizationService {
 
     void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                   Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                  String username, Address address, String adminName, Long[] localityIdList);
+                                  String username, Address address, String adminName, Long[] localityIdList)  throws UnsupportedEncodingException, MessagingException;
 
     ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage, String name,
                                                                               String email, String number, String type, String region,
@@ -26,7 +28,7 @@ public interface OrganizationService {
 
     void editOrganization(Long organizationId, String name, String phone, String email, List<String> types, List<String> counters,
                           Integer employeesCapacity, Integer maxProcessTime, Address address, String password,
-                          String username, String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas);
+                          String username, String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas)  throws UnsupportedEncodingException, MessagingException ;
 
     Integer getOrganizationEmployeesCapacity(Long organizationId);
 

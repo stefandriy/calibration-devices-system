@@ -7,13 +7,12 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
-import java.util.Set;
 
 
 /**
  * Created by MAX on 11.07.2015.
  */
-public class ProviderEmployeeQuary {
+public class ProviderEmployeeQuery {
 
     static Logger logger = Logger.getLogger(ArchivalVerificationsQueryConstructorProvider.class);
 
@@ -27,7 +26,7 @@ public class ProviderEmployeeQuary {
         Root<User> root = criteriaQuery.from(User.class);
         Join<User, Organization> joinSearch = root.join("organization");
 
-        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinSearch, userName,
+        Predicate predicate = ProviderEmployeeQuery.buildPredicate(root, cb, joinSearch, userName,
                 role, firstName, lastName, organization, telephone, secondTelephone, idOrganization);
         if (fieldToSort.length() > 0) {
             if (fieldToSort.substring(0, 1).equals("-")) {
@@ -97,7 +96,7 @@ public class ProviderEmployeeQuary {
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<User> root = countQuery.from(User.class);
         Join<User, Organization> joinSearch = root.join("organization");
-        Predicate predicate = ProviderEmployeeQuary.buildPredicate(root, cb, joinSearch, userName, role,
+        Predicate predicate = ProviderEmployeeQuery.buildPredicate(root, cb, joinSearch, userName, role,
                 firstName, lastName, organization, telephone, secondTelephone, idOrganization);
 
         countQuery.select(cb.countDistinct(root));
