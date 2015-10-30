@@ -1,6 +1,5 @@
 package com.softserve.edu.service.admin;
 
-
 import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.device.Device;
