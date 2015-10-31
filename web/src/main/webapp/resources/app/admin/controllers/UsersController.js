@@ -1,11 +1,9 @@
 angular
     .module('adminModule')
-    .controller('UsersController', ['$scope', 'UsersService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
+    .controller('UsersController', ['$scope', 'UsersService',, '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
         'toaster','$translate',
-        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope, toaster, $translate) {
+        function ($scope, userService, $log, ngTableParams, $timeout, $filter, $rootScope, toaster, $translate) {
 
-
-            $scope.cantAddEmployee;
 
             $scope.clearAll = function () {
                 $scope.selectedUserType.name = null;
@@ -96,23 +94,6 @@ angular
                     }
                 }
                 return false;
-            };
-
-
-            $scope.cantAddNewEmployee = function() {
-                userService.getOrganizationEmployeeCapacity().success(
-                    function(data) {
-                        $scope.organizationEmployeesCapacity = data;
-                        if ($scope.totalEmployee < $scope.organizationEmployeesCapacity) {
-                            $scope.cantAddEmployee = false;
-                        } else {
-                            $scope.cantAddEmployee = true;
-                        }
-                    });
-            };
-
-            $scope.popNotification = function (title, text) {
-                toaster.pop('success', title, text);
             };
 
         }]);
