@@ -3,12 +3,10 @@ angular.module('employeeModule')
     ['$rootScope', '$scope', '$modalInstance', 'DisassemblyTeamServiceCalibrator', '$modal', '$filter', 'toaster',
         function ($rootScope, $scope, $modalInstance, DisassemblyTeamServiceCalibrator, $modal, $filter, toaster) {
 
-
-            var teamData = {};
             /**
              * Closes modal window on browser's back/forward button click.
              */
-            $rootScope.$on('$locationChangeStart', function() {
+            $rootScope.$on('$locationChangeStart', function () {
                 $modalInstance.close();
             });
 
@@ -18,7 +16,7 @@ angular.module('employeeModule')
              *
              */
 
-            //$scope.teamFormData.specialization = undefined;
+                //$scope.teamFormData.specialization = undefined;
             $scope.firstCalendar = {};
             $scope.firstCalendar.isOpen = false;
             $scope.secondCalendar = {};
@@ -72,11 +70,11 @@ angular.module('employeeModule')
             $scope.format = $scope.formats[2];
 
             // Disable weekend selection
-            $scope.disabled = function(date, mode) {
+            $scope.disabled = function (date, mode) {
                 return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
             };
 
-            $scope.toggleMin = function() {
+            $scope.toggleMin = function () {
                 $scope.minDate = $scope.minDate ? null : new Date();
             };
 
@@ -115,20 +113,6 @@ angular.module('employeeModule')
 
             $scope.resetTeamForm();
 
-
-            function retranslater() {
-                teamData = {
-                    teamNumber: $scope.teamFormData.teamNumber,
-                    teamName: $scope.teamFormData.teamName,
-                    effectiveTo: $scope.teamFormData.effectiveTo,
-                    specialization: $scope.teamFormData.specialization,
-                    leaderFullName: $scope.teamFormData.leaderFullName,
-                    leaderPhone: $scope.teamFormData.leaderPhone,
-                    leaderEmail: $scope.teamFormData.leaderEmail
-                }
-            }
-
-
             function isDisassemblyTeamAvailable(teamUsername) {
                 DisassemblyTeamServiceCalibrator.isDisassemblyTeamNameAvailable(teamUsername)
                     .then(function (data) {
@@ -159,7 +143,7 @@ angular.module('employeeModule')
                             isValid: isValid,
                             css: isValid ? 'has-success' : 'has-error',
                             message: isValid ? undefined : 'Такий логін вже існує'
-                };
+                        };
                         break;
                     case 'loginTeamValid' :
                         $scope.teamNumberValidation = {
@@ -171,9 +155,8 @@ angular.module('employeeModule')
                 }
             }
 
-
             bValidation = function () {
-                if ( $scope.teamNumberValidation === undefined || $scope.teamNumberValidation.isValid === false) {
+                if ($scope.teamNumberValidation === undefined || $scope.teamNumberValidation.isValid === false) {
                     $scope.incorrectValue = true;
                     return false;
                 } else {
@@ -187,8 +170,7 @@ angular.module('employeeModule')
             $scope.onTeamFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if (bValidation()) {
-                        retranslater();
-                        saveDisassemblyTeam();
+                    saveDisassemblyTeam();
                 } else {
                     $scope.incorrectValue = true;
                 }
@@ -201,7 +183,7 @@ angular.module('employeeModule')
              * form and updates table with teams.
              */
             function saveDisassemblyTeam() {
-
+                $scope.teamFormData.specialization = $scope.teamFormData.specialization.type;
                 DisassemblyTeamServiceCalibrator.saveDisassemblyTeam(
                     $scope.teamFormData).then(
                     function (data) {
@@ -209,13 +191,13 @@ angular.module('employeeModule')
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();
-                            toaster.pop('success',$filter('translate')('INFORMATION'),
+                            toaster.pop('success', $filter('translate')('INFORMATION'),
                                 $filter('translate')('SUCCESSFUL_ADD_TEAM'));
                         } else if (data == 409) {
                             $scope.closeModal();
                             $scope.resetTeamForm();
                             $rootScope.onTableHandling();
-                            toaster.pop('error',$filter('translate')('INFORMATION'),
+                            toaster.pop('error', $filter('translate')('INFORMATION'),
                                 $filter('translate')('ERROR_ADD_TEAM'));
                         }
                     });
@@ -229,7 +211,6 @@ angular.module('employeeModule')
             $rootScope.closeModal = function () {
                 $modalInstance.close();
             };
-
 
 
             //TODO fix regex
