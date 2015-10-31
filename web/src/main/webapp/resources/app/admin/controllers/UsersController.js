@@ -1,6 +1,6 @@
 angular
     .module('adminModule')
-    .controller('UsersController', ['$scope', 'UsersService',, '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
+    .controller('UsersController', ['$scope', 'UsersService', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
         'toaster','$translate',
         function ($scope, userService, $log, ngTableParams, $timeout, $filter, $rootScope, toaster, $translate) {
 
