@@ -416,5 +416,9 @@
   "CHOOSE_MOUNTING_CREW" : "Choose mounting crew",
   "APPLICATION_FIELD": "Application field",
   "CHOOSE_APPLICATION_FIELD" : "Choose application field",
-  "ALL_SYS_ADMINS" : "Amount of system admins :"
+  "ALL_SYS_ADMINS" : "Amount of system admins :",
+  "CALIBRATOR_NAME" : "Calibrator",
+  "PROTOCOLS" : "Digital verification protocols",
+  "PROTOCOLS_FOUND" : "Protocols found",
+  "SEND_PROTOCOLS" : "Send protocols"
 }
