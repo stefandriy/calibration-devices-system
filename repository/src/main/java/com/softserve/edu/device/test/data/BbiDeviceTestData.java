@@ -19,62 +19,62 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getLongValue(String key) {
-        return (Long)testData.get(key);
+    public long getLongValue(String key) {
+        return (long) testData.get(key);
     }
 
     @Override
-    public Integer getIntegerValue(String key) {
-        return getLongValue(key).intValue();
+    public int getIntegerValue(String key) {
+        return (int) getLongValue(key);
     }
 
     @Override
-    public Double getDoubleValue(String key) {
-        return (Double)testData.get(key);
+    public double getDoubleValue(String key) {
+        return (double) testData.get(key);
     }
 
     @Override
-    public Integer getDay() {
+    public int getDay() {
         return getIntegerValue("day");
     }
 
     @Override
-    public Integer getMonth() {
+    public int getMonth() {
         return getIntegerValue("month");
     }
 
     @Override
-    public Integer getYear() {
+    public int getYear() {
         return getIntegerValue("year");
     }
 
     @Override
-    public Integer getMinute() {
+    public int getMinute() {
         return getIntegerValue("minute");
     }
 
     @Override
-    public Integer getSecond() {
+    public int getSecond() {
         return getIntegerValue("second");
     }
 
     @Override
-    public Integer getDayOfWeek() {
+    public int getDayOfWeek() {
         return getIntegerValue("dayOfWeek");
     }
 
     @Override
-    public Long getUnixTime() {
+    public long getUnixTime() {
         return getLongValue("unixTime");
     }
 
     @Override
-    public Integer getTemperature() {
+    public int getTemperature() {
         return getIntegerValue("temperature");
     }
 
     @Override
-    public Long getBatteryCharge() {
+    public long getBatteryCharge() {
         return getLongValue("batteryCharge");
     }
 
@@ -84,17 +84,17 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Integer getIntegrationTime() {
+    public int getIntegrationTime() {
         return getIntegerValue("integrationTime");
     }
 
     @Override
-    public Integer getTestCounter() {
+    public int getTestCounter() {
         return getIntegerValue("testCounter");
     }
 
     @Override
-    public Long getInstallmentNumber() {
+    public long getInstallmentNumber() {
         return getLongValue("installmentNumber");
     }
 
@@ -104,22 +104,22 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Double getLatitude() {
+    public double getLatitude() {
         return getDoubleValue("latitude");
     }
 
     @Override
-    public Double getLongitude() {
+    public double getLongitude() {
         return getDoubleValue("longitude");
     }
 
     @Override
-    public Long getImpulsePricePerLitre() {
+    public long getImpulsePricePerLitre() {
         return getLongValue("impulsePricePerLitre");
     }
 
     @Override
-    public Long getInitialCapacity() {
+    public long getInitialCapacity() {
         return getLongValue("initialCapacity");
     }
 
@@ -129,12 +129,12 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getTestimony() {
+    public long getTestimony() {
         return getLongValue("testimony");
     }
 
     @Override
-    public Integer getCounterProductionYear() {
+    public int getCounterProductionYear() {
         return getIntegerValue("counterProductionYear");
     }
 
@@ -144,97 +144,97 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public Long getTestSpecifiedConsumption(int testIndex) {
+    public long getTestSpecifiedConsumption(int testIndex) {
         return getLongValue("test" + testIndex + "specifiedConsumption");
     }
 
     @Override
-    public Long getTestLowerConsumptionLimit(int testIndex) {
+    public long getTestLowerConsumptionLimit(int testIndex) {
         return getLongValue("test" + testIndex + "lowerConsumptionLimit");
     }
 
     @Override
-    public Long getTestUpperConsumptionLimit(int testIndex) {
+    public long getTestUpperConsumptionLimit(int testIndex) {
         return getLongValue("test" + testIndex + "upperConsumptionLimit");
     }
 
     @Override
-    public Long getTestAllowableError(int testIndex) {
+    public long getTestAllowableError(int testIndex) {
         return getLongValue("test" + testIndex + "allowableError");
     }
 
     @Override
-    public Long getTestSpecifiedImpulsesAmount(int testIndex) {
+    public long getTestSpecifiedImpulsesAmount(int testIndex) {
         return getLongValue("test" + testIndex + "specifiedImpulsesAmount");
     }
 
     @Override
-    public Double getTestCorrectedCumulativeImpulsesValue(int testIndex) {
+    public double getTestCorrectedCumulativeImpulsesValue(int testIndex) {
         return getDoubleValue("test" + testIndex + "correctedCumulativeImpulsesValue");
     }
 
     @Override
-    public Double getTestCorrectedCurrentConsumption(int testIndex) {
+    public double getTestCorrectedCurrentConsumption(int testIndex) {
         return getDoubleValue("test" + testIndex + "correctedCurrentConsumption");
     }
 
     @Override
-    public Double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex) {
+    public double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex) {
         return getDoubleValue("test" + testIndex + "cumulativeImpulsesValueWithoutCorrection");
     }
 
     @Override
-    public Double getTestCurrentConsumptionWithoutCorrection(int testIndex) {
+    public double getTestCurrentConsumptionWithoutCorrection(int testIndex) {
         return getDoubleValue("test" + testIndex + "currentConsumptionWithoutCorrection");
     }
 
     @Override
-    public Long getTestEstimatedError(int testIndex) {
+    public long getTestEstimatedError(int testIndex) {
         return getLongValue("test" + testIndex + "estimatedError");
     }
 
     @Override
-    public Double getTestInitialCounterValue(int testIndex) {
+    public double getTestInitialCounterValue(int testIndex) {
         return getDoubleValue("test" + testIndex + "initialCounterValue");
     }
 
     @Override
-    public Double getTestTerminalCounterValue(int testIndex) {
+    public double getTestTerminalCounterValue(int testIndex) {
         return getDoubleValue("test" + testIndex + "terminalCounterValue");
     }
 
     @Override
-    public Long getTestUnixBeginTime(int testIndex) {
+    public long getTestUnixBeginTime(int testIndex) {
         return getLongValue("test" + testIndex + "unixTestBeginTime");
     }
 
     @Override
-    public Long getTestUnixEndTime(int testIndex) {
+    public long getTestUnixEndTime(int testIndex) {
         return getLongValue("test" + testIndex + "unixTestEndTime");
     }
 
     @Override
-    public Double getTestDuration(int testIndex) {
+    public double getTestDuration(int testIndex) {
         return getDoubleValue("test" + testIndex + "testDuration");
     }
 
     @Override
-    public Long getTestCorrectionFactor(int testIndex) {
+    public long getTestCorrectionFactor(int testIndex) {
         return getLongValue("test" + testIndex + "correctionFactor");
     }
 
     @Override
-    public Long getTestMinConsumptionLimit(int testIndex) {
+    public long getTestMinConsumptionLimit(int testIndex) {
         return getLongValue("test" + testIndex + "minConsumptionLimit");
     }
 
     @Override
-    public Long getTestMaxConsumptionLimit(int testIndex) {
+    public long getTestMaxConsumptionLimit(int testIndex) {
         return getLongValue("test" + testIndex + "maxConsumptionLimit");
     }
 
     @Override
-    public Integer getTestNumber(int testIndex) {
+    public int getTestNumber(int testIndex) {
         return getIntegerValue("test" + testIndex + "testNumber");
     }
 
