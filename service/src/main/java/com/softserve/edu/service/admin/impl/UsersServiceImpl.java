@@ -115,7 +115,7 @@ public class UsersServiceImpl implements UsersService {
 
         newUser.addRole(UserRole.SYS_ADMIN);
 
-        mail.sendNewPasswordMail(email, firstName, newPassword);
+        mail.sendAdminNewPasswordMail(email, firstName, newPassword);
 
         userRepository.save(newUser);
     }
