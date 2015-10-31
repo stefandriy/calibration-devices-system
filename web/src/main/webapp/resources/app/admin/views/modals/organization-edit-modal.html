@@ -261,10 +261,10 @@
                             <label class="control-label col-md-4">{{'PASSWORD_TWO' | translate}}</label>
 
                         <div class="col-md-8">
-                            <button type="submit" class="btn btn-warning btn-block"
-                                    ng-click="changePassword()" ng-hide="generationMessage">{{'GENERATE_PASSWORD' |
-                                translate}}
-                            </button>
+                             <input type="button" class="btn btn-warning btn-block"
+                                    ng-click="changePassword()" ng-hide="generationMessage" value ="{{'GENERATE_PASSWORD' |
+                                translate}}"/>
+
                         </div>
                         <div class="col-md-8" ng-show="generationMessage"> {{'GENERATE_PASSWORD_OK' |
                             translate}}</button>
