@@ -20,7 +20,7 @@ angular
                                 $log.debug('result ', result);
                                 $scope.resultsCount = result.data.totalItems;
                                 $defer.resolve(result.data.content);
-                                //params.total(result.totalItems);
+                                params.total(result.data.totalItems);
                             }, function (result) {
                                 $log.debug('error fetching data:', result);
                             });
@@ -49,42 +49,61 @@ angular
             }
 
 
-            $scope.openTask = function(){
+            $scope.openTaskForStation = function(){
                 $rootScope.verifIds = [];
-                $rootScope.verifIds.push($scope.idsOfVerifications);
+                for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
+                    $rootScope.verifIds[i] = $scope.idsOfVerifications[i];
+                }
                 $rootScope.emptyStatus = $scope.allIsEmpty;
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
-                    controller: 'TaskSendingModalControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                    controller: 'TaskForStationModalControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskForStationModal.html'
+                });
+                $scope.$modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                    $scope.checkedItems = [];
+                    $scope.idsOfVerifications = [];
+                    $scope.allIsEmpty = true;
+                    console.log($scope.allIsEmpty);
+                    console.log($scope.idsOfVerifications);
                 });
             };
 
-           // $scope.dawnloadFile = {
-           //     url: null
-           // }
-           //$scope.createExcelFile = function (){
-           //    verificationPlanningTaskService.createExcelFileForVerifications($scope.idsOfVerifications)
-           //        .then(function (result) {
-           //            $log.debug('result ', result);
-           //            if (result.status == 200){
-           //                $log.debug(result.data);
-           //                $scope.dawnloadFile.url = "/"+ result.data;
-           //                $("#downloadFile").attr("href", $scope.dawnloadFile.url);
-           //                $log.debug($scope.dawnloadFile.url);
-           //                $modal.open({
-           //                    animation: true,
-           //                    templateUrl: '/resources/app/calibrator/views/modals/create-excelfile-success.html',
-           //                    controllerAs: 'successController',
-           //                    size: 'md'
-           //                });
-           //            }
-           //        }, function (result) {
-           //            $log.debug('error fetching data:', result);
-           //        });
-           //}
+            $scope.openTaskForTeam = function(){
+                $rootScope.verifIds = [];
+                for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
+                    $rootScope.verifIds[i] = $scope.idsOfVerifications[i];
+                }
+                $rootScope.emptyStatus = $scope.allIsEmpty;
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'TaskForTeamModalControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskForTeamModal.html'
+                });
+                $scope.$modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                    $scope.checkedItems = [];
+                    $scope.idsOfVerifications = [];
+                    $scope.allIsEmpty = true;
+                    console.log($scope.allIsEmpty);
+                    console.log($scope.idsOfVerifications);
+                });
+            };
 
-
+            $rootScope.verificationId = null;
+            $scope.openCounterInfoModal = function(id){
+                $rootScope.verificationId = id;
+                $log.debug($rootScope.verificationId);
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'CounterStatusControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/counterStatusModal.html'
+                });
+                $scope.$modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
+                });
+            };
 
         }]);
 

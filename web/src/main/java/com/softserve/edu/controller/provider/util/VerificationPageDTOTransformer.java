@@ -50,19 +50,18 @@ public class VerificationPageDTOTransformer {
     }
 
     public static List<VerificationPlanningTaskDTO> toDoFromPageContent(List<Verification> verifications){
-//        List<Verification> sortedList = verifications;
-//        sortedList.sort(new DistrictAndStreetComparator());
         List<VerificationPlanningTaskDTO> taskDTOs = new ArrayList<VerificationPlanningTaskDTO>();
         for (Verification verification : verifications) {
+            String counterStatus = (verification.isCounterStatus())? "Так": "Ні";
             taskDTOs.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
                     verification.getId(),
                     verification.getProvider().getName(),
                     verification.getClientData().getFullName(),
                     verification.getClientData().getClientAddress().getAddress(),
-                    verification.getClientData().getPhone()
-            ));
+                    counterStatus,
+                    verification.getDevice().getDeviceType(),
+                    verification.getClientData().getPhone()));
         }
-
         return taskDTOs;
     }
 

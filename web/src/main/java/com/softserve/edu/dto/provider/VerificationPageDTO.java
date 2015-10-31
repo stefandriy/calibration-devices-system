@@ -2,11 +2,10 @@ package com.softserve.edu.dto.provider;
 
 
 import com.softserve.edu.documents.resources.DocumentType;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.utils.ArchivalVerificationsQueryConstructorProvider;
 import org.apache.log4j.Logger;
@@ -30,7 +29,7 @@ public class VerificationPageDTO {
     private String calibratorEmployee;
     private String stateVerificatorEmployee;
     private Long countOfWork;
-    private ReadStatus readStatus;
+    private Verification.ReadStatus readStatus;
     private boolean isUpload;
     private Integer processTimeExceeding;
 
@@ -55,7 +54,7 @@ public class VerificationPageDTO {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street, String region,
-                               Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee,
+                               Status status, Verification.ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee,
                                String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
                                CalibrationTest calibrationTest,
                                Device device,
@@ -98,7 +97,6 @@ public class VerificationPageDTO {
         this.processTimeExceeding = processTimeExceeding;
         if (calibrationTest != null) {
             if (calibrationTest.getId() != null) {
-                System.out.println("PageDTO protocolId " + protocolId);
                 this.protocolId = calibrationTest.getId();
             }
             if (calibrationTest.getDateTest() != null) {
@@ -107,7 +105,7 @@ public class VerificationPageDTO {
             if (calibrationTest.getTestResult() != null) {
                 this.protocolStatus = calibrationTest.getTestResult().toString();
                 logger.debug("protocolStatus = " + protocolStatus);
-                if (protocolStatus == CalibrationTestResult.SUCCESS.toString()) {
+                if (protocolStatus == Verification.CalibrationTestResult.SUCCESS.toString()) {
                     logger.debug("documentType = " +  this.documentType);
                     this.documentType = DocumentType.VERIFICATION_CERTIFICATE;
                     this.documentTypeName = "СПП";
@@ -132,7 +130,7 @@ public class VerificationPageDTO {
     }
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street, String region,
-                               Status status, ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee,
+                               Status status, Verification.ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee,
                                String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
                                CalibrationTest calibrationTest, Long calibrationTestId,
                                Device device,
@@ -175,7 +173,6 @@ public class VerificationPageDTO {
         this.processTimeExceeding = processTimeExceeding;
         if (calibrationTest != null) {
             if (calibrationTest.getId() != null) {
-                System.out.println("PageDTO protocolId " + protocolId);
                 this.protocolId = calibrationTest.getId();
             }
             if (calibrationTest.getDateTest() != null) {
@@ -184,7 +181,7 @@ public class VerificationPageDTO {
             if (calibrationTest.getTestResult() != null) {
                 this.protocolStatus = calibrationTest.getTestResult().toString();
                 logger.debug("protocolStatus = " + protocolStatus);
-                if (protocolStatus == CalibrationTestResult.SUCCESS.toString()) {
+                if (protocolStatus == Verification.CalibrationTestResult.SUCCESS.toString()) {
                     logger.debug("documentType = " +  this.documentType);
                     this.documentType = DocumentType.VERIFICATION_CERTIFICATE;
                     this.documentTypeName = "СПП";
@@ -280,11 +277,11 @@ public class VerificationPageDTO {
         this.countOfWork = countOfWork;
     }
 
-    public ReadStatus getReadStatus() {
+    public Verification.ReadStatus getReadStatus() {
         return readStatus;
     }
 
-    public void setReadStatus(ReadStatus readStatus) {
+    public void setReadStatus(Verification.ReadStatus readStatus) {
         this.readStatus = readStatus;
     }
 

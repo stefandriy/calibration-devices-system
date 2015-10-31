@@ -11,20 +11,58 @@ angular
         'ngTableParams',
         '$filter',
         'toaster',
+        '$translate',
         function ($rootScope, $scope, $modal, organizationService,
-                  addressService, ngTableParams, $filter, toaster) {
+                  addressService, ngTableParams, $filter, toaster, $translate) {
 
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
+            $scope.organizationTypeData = [
+                {id: 'CALIBRATOR', label: null},
+                {id: 'PROVIDER', label: null},
+                {id: 'STATE_VERIFICATOR', label: null},
+                {id: 'NO_TYPE', label: null},
+            ];
+
+            $scope.selectedOrganizationType = {
+                name: null
+            };
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.organizationTypeData[0].label = 'Вимірювальна лабораторія';
+                    $scope.organizationTypeData[1].label = 'Постачальник послуг';
+                    $scope.organizationTypeData[2].label = 'Уповноважена вимірювальна лабораторія';
+                    $scope.organizationTypeData[3].label = 'Без типу';
+
+
+                } else if (lang === 'eng') {
+                    $scope.organizationTypeData[0].label = 'Calibrator';
+                    $scope.organizationTypeData[1].label = 'Provider';
+                    $scope.organizationTypeData[2].label = 'State verificator';
+                    $scope.organizationTypeData[3].label = 'No type';
+                } else {
+                    $log.debug(lang);
+                }
+            };
+
+
+            $scope.setTypeDataLanguage();
+
             $scope.clearAll = function () {
                 $scope.tableParams.filter({});
+                $scope.selectedOrganizationType.name = null;
             };
 
             $scope.doSearch = function () {
                 $scope.tableParams.reload();
+            };
+
+            $scope.setTypeDataLanguage = function () {
             };
 
             $scope.tableParams = new ngTableParams({
@@ -37,7 +75,13 @@ angular
                 total: 0,
                 filterDelay: 1500,
                 getData: function ($defer, params) {
-
+                    if ($scope.selectedOrganizationType.name != null) {
+                        params.filter().type = $scope.selectedOrganizationType.name.id;
+                    }
+                    else {
+                        params.filter().type = null;//case when the filter is cleared with a button on the select
+                    }
+                    
                     var sortCriteria = Object.keys(params.sorting())[0];
                     var sortOrder = params.sorting()[sortCriteria];
 
@@ -56,16 +100,6 @@ angular
 
             $rootScope.onTableHandling = function () {
                 $scope.tableParams.reload();
-                //organizationService
-                //		.getPage($scope.currentPage,
-                //				$scope.itemsPerPage,
-                //				$scope.searchData
-                //              )
-                //		.then(
-                //				function(data) {
-                //					$scope.pageContent = data.content;
-                //					$scope.totalItems = data.totalItems;
-                //				});
             };
             $rootScope.onTableHandling();
 
@@ -89,9 +123,25 @@ angular
                  * executes when modal closing
                  */
                 addOrganizationModal.result.then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ORGANIZATION'));
+                    toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ORGANIZATION'));
                 });
             };
+
+            /**
+             * Function for ng-show. When filtering fields are not empty show button for
+             * clear this fields
+             * @returns {boolean}
+             */
+            $scope.isFilter = function () {
+                var obj = $scope.tableParams.filter();
+                for (var i in obj) {
+                    if (obj.hasOwnProperty(i) && obj[i]) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
             /**
              * Opens modal window for editing organization.
              */
@@ -101,8 +151,6 @@ angular
                     $rootScope.organizationId).then(
                     function (data) {
                         $rootScope.organization = data;
-                        console.log($rootScope.organization);
-
                         var organizationDTOModal = $modal
                             .open({
                                 animation: true,
@@ -120,14 +168,14 @@ angular
                          * executes when modal closing
                          */
                         organizationDTOModal.result.then(function () {
-                            $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_ORGANIZATION'));
+                            toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_ORGANIZATION'));
                         });
                     });
 
             };
 
             /**
-             * Opens modal window for show history editing organization.
+             * Opens modal window for show history for all organization changes.
              */
             $scope.openOrganizationEditHistoryModal = function (organizationId) {
                 $rootScope.organizationId = organizationId;
@@ -135,8 +183,6 @@ angular
                     organizationId).then(
                     function (data) {
                         $rootScope.organization = data.content;
-                        console.log($rootScope.organization);
-
                         var organizationDTOModal = $modal
                             .open({
                                 animation: true,
@@ -147,10 +193,5 @@ angular
                     });
 
             };
-
-            $scope.popNotification = function (title, text) {
-                toaster.pop('success', title, text);
-            };
-
 
         }]);

@@ -41,9 +41,9 @@
                                         filter="{ 'username': 'text' }">{{
                                         user.username }}
                                     </td>
-                                    <td data-title="'ROLE' | translate" sortable="'roles'"
+                                    <td data-title="'ROLE' | translate"
                                          filter="{ 'role': 'userType' }">
-                                        {{ user.role }}
+                                        {{ user.role | translate}}
                                     </td>
                                     <td data-title="'FIRST_NAME'|translate" sortable="'firstname'" filter="{ 'firstName': 'text' }">{{
                                         user.firstName }}
@@ -51,10 +51,11 @@
                                     <td data-title="'LAST_NAME'|translate" sortable="'lastname'" filter="{ 'lastName': 'text' }">{{
                                         user.lastName }}
                                     </td>
-                                    <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'" filter="{ 'organization': 'text' }">{{
+                                    <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'" filter="{ 'organization': 'text' }">
+                                        {{
                                         user.organization }}
                                     </td>
-                                    <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'" filter="{ 'phone': 'text' }">{{
+                                    <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'" filter="{ 'phone': 'text' }">+380{{
                                         user.phone }}
                                     </td>
 
@@ -100,7 +101,7 @@
                         <ui-select ng-model="selectedUserType.name" theme="select2" on-select='doSearch()'
                                    search-enabled="false"
                                    name="filter-userType">
-                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                            <ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
                                              allow-clear="true">
                                 {{$select.selected.label}}
                             </ui-select-match>

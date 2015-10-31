@@ -2,9 +2,7 @@ package com.softserve.edu.dto;
 
 import java.util.Date;
 
-/**
- * Created by Vasyl on 20.10.2015.
- */
+
 public class AdditionalInfoDTO {
 
     private int entrance;
@@ -16,6 +14,10 @@ public class AdditionalInfoDTO {
     private Date noWaterToDate;
     private String notes;
     private String verificationId;
+
+    public AdditionalInfoDTO(){
+
+    }
 
     public AdditionalInfoDTO(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate, String notes, String verificationId) {
         this.entrance = entrance;

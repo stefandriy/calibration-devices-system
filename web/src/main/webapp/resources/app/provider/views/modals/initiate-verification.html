@@ -183,7 +183,7 @@
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedData.region"
                                        on-select="receiveDistricts(selectedData.region)"
-                                       name="region" id="region" >
+                                       name="region" id="region">
                                 <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
                                     {{$select.selected.designation}}
                                 </ui-select-match>
@@ -205,6 +205,7 @@
                         <div class="col-md-8 form-group" show-errors>
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedData.district"
+                                       ng-disabled="!selectedData.region"
                                        on-select="receiveLocalitiesAndProviders(selectedData.district)"
                                        name="district" id="district" required>
                                 <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
@@ -230,6 +231,7 @@
                         <div class="col-md-8 form-group" show-errors>
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedData.locality"
+                                       ng-disabled="!selectedData.district"
                                        on-select="receiveStreets(selectedData.locality,selectedData.district)"
                                        name="locality" id="locality" required>
                                 <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
@@ -255,6 +257,7 @@
                         <div class="col-md-8 form-group" show-errors>
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedData.index"
+                                       ng-disabled="!selectedData.locality"
                                        name="index" id="index" required>
                                 <ui-select-match placeholder="{{'INDEX' | translate}}" allow-clear="true">
                                     {{$select.selected}}
@@ -273,15 +276,21 @@
                         </div>
                         <div class="col-md-8 form-group" show-errors>
                             <div class="pull-left col-lg-3" id="typeStreet">
-                                <select chosen id="street" data-placeholder="Тип вулиці" width="'90%'"
-                                        class="form-control"
-                                        ng-model="selectedStreetType"
-                                        disable-search="true"
-                                        ng-options="streetsType as streetsType.designation for streetsType in streetsTypes | filter: $viewValue"></select>
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model="selectedData.selectedStreetType"
+                                           name="street" id="street" required>
+                                    <ui-select-match placeholder="{{'TYPE_OF_STREET' | translate}}" allow-clear="true">
+                                        {{$select.selected.designation}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="streetsType in streetsTypes | filter: $select.search">
+                                        <span ng-bind-html="streetsType.designation"></span>
+                                    </ui-select-choices>
+                                </ui-select>
                             </div>
                             <div class="col-md-9" id="streetBox">
                                 <input name="street" class="form-control" type="text"
                                        ng-model="selectedStreet"
+                                       ng-disabled="!selectedData.selectedStreetType"
                                        typeahead="street as street.designation for street in streets | filter: $viewValue"
                                        ng-pattern="STREET_REGEX"
                                        autocomplete="off"
@@ -346,8 +355,48 @@
             <div class="panel-heading">Основна інформація</div>
             <div class="panel-body">
                 <div class="row">
+
+                    <div class="form-group">
+                        <div class="col-md-4 form-group">
+                            <label for="device">
+                                {{'COUNTER_CATEGORY' | translate}} </label>
+                        </div>
+                        <div class="col-md-8 form-group" show-errors>
+                            <div class="pull-left col-lg-3" id="counterNumber">
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model="selectedData.selectedCount"
+                                           name="device" id="device" required>
+                                    <ui-select-match allow-clear="false">
+                                        {{$select.selected}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="option in deviceCountOptions | filter: $select.search">
+                                        <span ng-bind-html="option"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="col-md-9 pull-right" id="deviceBox">
+
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model="selectedData.selectedDevice"
+                                           on-select="receiveCalibrators(selectedData.selectedDevice)"
+                                           name="device" required>
+                                    <ui-select-match placeholder="{{'COUNTER_CATEGORY' | translate}}" allow-clear="true">
+                                        {{$select.selected.designation}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="device in devices | filter: $select.search">
+                                        <span ng-bind-html="device.designation"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <p class="help-block">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'TYPEAHEAD_ERROR' | translate}}
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="form-group" ng-show="isCalibrator>0">
-                        <label for="provider" class="col-md-2 control-label">
+                        <label for="calibrator" class="col-md-2 control-label">
                             {{'I_AM_CALIBRATOR' | translate}}
                         </label>
 
@@ -361,12 +410,17 @@
                                 {{'CALIBRATOR' | translate}} </label>
                         </div>
                         <div class="col-md-8 form-group">
-                            <select chosen id="calibrator" name="calibrator" class="form-control"
-                                    ng-model="selectedCalibrator"
-                                    allow-single-deselect="false"
-                                    ng-options="calibrator as calibrator.designation for calibrator in calibrators | filter: $viewValue"
-                                    required>
-                            </select>
+                            <ui-select class="form-control" type="text" theme="select2"
+                                       ng-model="selectedData.selectedCalibrator"
+                                       name="calibrator" id="calibrator" required>
+                                <ui-select-match placeholder="{{'CALIBRATOR' | translate}}" allow-clear="true">
+                                    {{$select.selected.designation}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="calibrator in calibrators | filter: $select.search">
+                                    <span ng-bind-html="calibrator.designation"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
                         </div>
                     </div>
                     <div class="form-group" ng-show="calibratorDefined">
@@ -381,61 +435,26 @@
                                    readonly>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-4 form-group">
-                            <label for="device">
-                                {{'COUNTER_CATEGORY' | translate}} </label>
-                        </div>
-                        <div class="col-md-8 form-group" show-errors>
-                            <div class="pull-left col-lg-3" id="counterNumber">
-                                <select chosen width="'100%'"
-                                        disable-search="true"
-                                        id="device"
-                                        name="device" type="text"
-                                        ng-model="selectedCount" class="form-control" required>
-
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-
-                                </select>
-
-                            </div>
-                            <div class="col-md-9 pull-right" id="deviceBox">
-                                <select chosen name="device" type="text" width="'100%'"
-                                        ng-model="selectedDevice" data-placeholder="Choose counter type"
-                                        ng-options="device as device.designation for device in devices | filter: $viewValue"
-                                        required> </select>
-
-                            </div>
-                            <p class="help-block">
-                                <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                {{'TYPEAHEAD_ERROR' | translate}}
-                            </p>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
         <div class="row">
 
-                <div class="form group col-md-10">
-                    <button type="submit" class="btn btn-success"
-                            ng-show="!showEditButton">
-                        {{'SEND_BTN' | translate}}
-                    </button>
-                    <button type="reset" class="btn btn-warning"
-                            ng-click="resetApplicationForm()">
-                        {{'CLEAR_FORM'|translate}}
-                    </button>
-                </div>
-                <div class="form-group col-md-2">
-                    <button class="btn btn-danger pull-right" ng-click="closeAlert()">
-                        {{'CLOSE'|translate}}
-                    </button>
-                </div>
+            <div class="form group col-md-10">
+                <button type="submit" class="btn btn-success text-uppercase"
+                        ng-show="!showEditButton">
+                    {{'SEND_BTN' | translate}}
+                </button>
+                <button type="reset" class="btn btn-warning text-uppercase"
+                        ng-click="resetApplicationForm()">
+                    {{'CLEAR_FORM'|translate}}
+                </button>
+            </div>
+            <div class="form-group col-md-2">
+                <button class="btn btn-danger pull-right text-uppercase" ng-click="closeAlert()">
+                    {{'CLOSE'|translate}}
+                </button>
+            </div>
 
         </div>
     </form>
@@ -446,13 +465,19 @@
     <button ng-click="closeAlert()" type="button" class="close btn-close-alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    <i ng-show="!applicationCode" class="fa fa-3x fa-spinner fa-spin col-md-6 col-md-offset-5"></i>
+    <i ng-show="!applicationCodes" class="fa fa-3x fa-spinner fa-spin col-md-6 col-md-offset-5"></i>
 
-    <div ng-if="isMailValid" class="text-center" ng-show="applicationCode">
-        {{'APP_SENT_ORG' | translate}} <b>{{ applicationCode }} </b> <br>
+    <div ng-if="isMailValid" class="text-center" ng-show="applicationCodes">
+        {{'APP_SENT_ORG' | translate}}
+        <div ng-repeat="code in applicationCodes">
+            <b>{{ code }} </b> <br>
+        </div>
     </div>
-    <div ng-if="!isMailValid" class="text-center" ng-show="applicationCode">
-        {{'APP_SENT_ORG' | translate}} <b>{{ applicationCode }} </b> <br>
+    <div ng-if="!isMailValid" class="text-center" ng-show="applicationCodes">
+        {{'APP_SENT_ORG' | translate}}
+        <div ng-repeat="code in applicationCodes">
+            <b>{{ code }} </b> <br>
+        </div>
         {{'APP_INVALID_MAIL' | translate}} <b>+380{{ clientForm.phoneNumber.$viewValue }} </b> <br>
     </div>
 </div>

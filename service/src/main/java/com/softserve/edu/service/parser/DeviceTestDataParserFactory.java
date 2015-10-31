@@ -10,9 +10,12 @@ public class DeviceTestDataParserFactory {
         return getParser(f.getName());
     }
 
+    /***
+     * Finds appropriate parser for file
+     * @param fileName
+     * @return
+     */
     public DeviceTestDataParser getParser(String fileName) {
-        System.out.println("factory: " + fileName);
-        System.out.println(fileName.endsWith(".bbi"));
         if (fileName.endsWith(".bbi")) {
             return new BbiDeviceTestDataParser();
         }

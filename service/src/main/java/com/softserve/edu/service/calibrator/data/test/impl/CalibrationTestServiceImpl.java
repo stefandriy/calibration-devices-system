@@ -1,12 +1,9 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
-import com.softserve.edu.entity.enumeration.verification.ConsumptionStatus;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
@@ -15,8 +12,6 @@ import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
-import com.softserve.edu.service.utils.CalibrationTestQueryConstructorCalibrator;
-import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaQuery;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -96,9 +89,9 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     @Override
     @Transactional
     public CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
-                                    Double latitude, Double longitude, ConsumptionStatus consumptionStatus, CalibrationTestResult testResult) {
+                                    Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
-        testResult = CalibrationTestResult.SUCCESS;
+        testResult = Verification.CalibrationTestResult.SUCCESS;
         calibrationTest.setName(name);
         calibrationTest.setTemperature(temperature);
         calibrationTest.setSettingNumber(settingNumber);
@@ -154,9 +147,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         Verification verification = verificationRepository.findOne(verificationId);
         CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setVerification(verification);
-        System.out.println("trying to fukken saved");
         testRepository.save(calibrationTest);
-        System.out.println("fukken saved");
         return calibrationTest;
     }
 
@@ -170,9 +161,9 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     @Transactional
     public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
                                     Double latitude, Double longitude) {
-        CalibrationTestResult testResult;
+        Verification.CalibrationTestResult testResult;
         CalibrationTest calibrationTest = testRepository.findOne(testId);
-        testResult = CalibrationTestResult.SUCCESS;
+        testResult = Verification.CalibrationTestResult.SUCCESS;
         Date initial = new Date();
         calibrationTest.setName(name);
         calibrationTest.setDateTest(initial);
@@ -180,7 +171,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
-        calibrationTest.setConsumptionStatus(ConsumptionStatus.IN_THE_AREA);
+        calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
         calibrationTest.setTestResult(testResult);
         return calibrationTest;
     }
