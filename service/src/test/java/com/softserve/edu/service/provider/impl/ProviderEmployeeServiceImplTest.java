@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ProviderEmployeeServiceImplTest extends TestCase {
      * findByUserRoleAndOrganizationId()
      * @throws Exception
      */
-
+    @Ignore
     @Test
     public void testGetAllProviderEmployee() throws Exception {
         final Long organizationId = 43L;
@@ -52,6 +53,7 @@ public class ProviderEmployeeServiceImplTest extends TestCase {
      * else if user has EMPLOYEE role, function will return only current user
      *  Testing findAllAvailableUsersByRoleAndOrganizationId from repository
      */
+    @Ignore
     @Test
     public void testGetAllProviders() {
         //If user has role PROVIDER_EMPLOYEE

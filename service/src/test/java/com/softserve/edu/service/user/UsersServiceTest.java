@@ -3,7 +3,7 @@ package com.softserve.edu.service.user;
 import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
-import jdk.nashorn.internal.ir.annotations.Ignore;
+import org.junit.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,18 +14,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 
-@Ignore
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceTestingConfig.class})
 public class UsersServiceTest {
-
     @Autowired
     UserService userService;
+
     /**
      * find whole users with
      * @throws Exception
      */
-
+    @Ignore
     @Test
     public void testFindByRole() throws Exception {
         List<User> userList =  userService.findByRole(UserRole.SYS_ADMIN.name());
@@ -38,10 +38,13 @@ public class UsersServiceTest {
      * Get roles by user
      * @throws Exception
      */
+    @Ignore
     @Test
     public void testGetRoles() throws Exception {
         final String userRole = UserRole.PROVIDER_EMPLOYEE.name();
         Assert.assertEquals(userService.getRoles("newman").iterator().next(),
                 userRole);
     }
+
+
 }

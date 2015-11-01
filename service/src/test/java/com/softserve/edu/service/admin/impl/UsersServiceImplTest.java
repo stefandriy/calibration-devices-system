@@ -4,12 +4,13 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;
-import com.softserve.edu.entity.util.ConvertUserRoleToString;
+import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
 import com.softserve.edu.repository.UserRepository;
 
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.SortCriteriaUser;
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -23,13 +24,13 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.lang.String;
 
@@ -43,7 +44,7 @@ import static org.mockito.Mockito.*;
  */
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(UsersServiceImpl.class)
+@PrepareForTest({ArchivalEmployeeQueryConstructorAdmin.class, IteratorUtils.class, RandomStringUtils.class})
 public class UsersServiceImplTest {
 
     private final Long organizationId = 1L;
@@ -56,37 +57,42 @@ public class UsersServiceImplTest {
     private UserRepository userRepository;
 
     @Mock
-    private ConvertUserRoleToString convertUserRoleToString;
+    private ConvertSetEnumsToListString convertSetEnumsToListString;
 
     @Mock
-    private EntityManager em;
+    EntityManager em;
 
     @Mock
-    private CriteriaBuilder cb;
+    CriteriaBuilder cb;
 
     @Mock
-    private CriteriaQuery<User> criteriaQuery;
+    private Path<Object> objectPath;
 
     @Mock
-    private Path<Object> path;
+    private Predicate predicate;
 
     @Mock
-    private Predicate queryPredicate;
+    private Root<User> root;
 
     @Mock
-    Root<User> root;
+    IteratorUtils iteratorUtils;
+
+    @Mock
+    MailService mail;
+
+    @Mock
+    ArchivalEmployeeQueryConstructorAdmin archivalEmployeeQueryConstructorAdmin;
 
     @InjectMocks
     private UsersServiceImpl usersServiceImpl;
 
     @Before
-    public void initializeMockito() {
+    public void setUp() {
         usersServiceImpl = new UsersServiceImpl();
         MockitoAnnotations.initMocks(this);
         expectedGetCountOfVerifications = 0L;
         expectedExistsWithUsername = false;
         user = spy(User.class);
-
     }
 
     @After
@@ -95,11 +101,11 @@ public class UsersServiceImplTest {
     }
 
     @Test
-    public void testExistsWithUsername() {
+    public void testIsExistsWithUsername() {
 
         stub(userRepository.findOne(username) == null).toReturn(expectedExistsWithUsername);
 
-        boolean actual = usersServiceImpl.existsWithUsername(username);
+        boolean actual = usersServiceImpl.isExistsWithUsername(username);
         assertEquals(actual, expectedExistsWithUsername);
     }
 
@@ -107,7 +113,7 @@ public class UsersServiceImplTest {
     public void testGetRoles() throws Exception {
         Set<UserRole> userRole = new HashSet();
         stub(userRepository.getRolesByUserName(username)).toReturn(userRole);
-        List<String> strList = ConvertUserRoleToString.convertToListString(userRole);
+        List<String> strList = ConvertSetEnumsToListString.convertToListString(userRole);
         List<String> actual = usersServiceImpl.getRoles(username);
         Assert.assertEquals(actual,strList);
 
@@ -124,18 +130,37 @@ public class UsersServiceImplTest {
         String lastName = "lastName";
         String organization = null;
         String telephone = "+38050000501";
-        String sortCriteria = "SortCriteriaUser.USERNAME";
+        String sortCriteria = "id";
         String sortOrder = "asc";
-        when(em.getCriteriaBuilder()).thenReturn(cb);
-        when(cb.createQuery(User.class)).thenReturn(criteriaQuery);
-        when(criteriaQuery.from(User.class)).thenReturn(root);
 
-        //ListToPageTransformer < User > actual = usersServiceImpl.findPageOfAllEmployees(pageNumber, itemsPerPage, userName,
-        //                role, firstName, lastName, organization, telephone, sortCriteria, sortOrder);
+        CriteriaQuery<User> userCriteriaQuery = mock(CriteriaQuery.class);
+        CriteriaQuery<Long> longCriteriaQuery = mock(CriteriaQuery.class);
+        TypedQuery<User> userTypedQuery = mock(TypedQuery.class);
+        TypedQuery<Long> longTypedQuery = mock(TypedQuery.class);
+
+        PowerMockito.mockStatic(ArchivalEmployeeQueryConstructorAdmin.class);
+
+        PowerMockito.when(ArchivalEmployeeQueryConstructorAdmin.buildSearchQuery(userName, role, firstName, lastName,
+                        organization, telephone, sortCriteria, sortOrder, em)).thenReturn(userCriteriaQuery);
+        PowerMockito.when(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(userName, role, firstName,
+                        lastName, organization, telephone, em)).thenReturn(longCriteriaQuery);
+
+        stub(em.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+        stub(em.createQuery(userCriteriaQuery)).toReturn(userTypedQuery);
+
+        List<User> userList = userTypedQuery.getResultList();
+        Long count = em.createQuery(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(userName, role, firstName,
+                        lastName, organization, telephone, em)).getSingleResult();
+
+        ListToPageTransformer < User > actual = usersServiceImpl.findPageOfAllEmployees(pageNumber, itemsPerPage,
+                userName, role, firstName, lastName, organization, telephone, sortCriteria, sortOrder);
+
+        assertEquals(userList, actual.getContent());
+        assertEquals(count, actual.getTotalItems());
     }
 
     @Test
-    public void testAddSysAdmin() {
+    public void testAddSysAdmin() throws UnsupportedEncodingException, MessagingException {
         String username = "Admin";
         String password = "pass";
         String firstName = "firstName";
@@ -145,7 +170,7 @@ public class UsersServiceImplTest {
         String email = "mail@mail.com";
         Address address = spy(Address.class);
 
-        usersServiceImpl.addSysAdmin(username, password, firstName, lastName, middleName, phone, email, address);
+        usersServiceImpl.addSysAdmin(username, firstName, lastName, middleName, phone, email, address);
         User spyUser = spy(new AddEmployeeBuilder().username(username)
                 .password(password)
                 .firstName(firstName)
@@ -172,7 +197,7 @@ public class UsersServiceImplTest {
     }
 
     @Test
-    public void testEditSysAdmin() {
+    public void testEditSysAdmin() throws UnsupportedEncodingException, MessagingException {
         String username = "Admin";
         String password = "pass";
         String firstName = "firstName";
@@ -185,6 +210,33 @@ public class UsersServiceImplTest {
         User sysAdmin = mock(User.class);
         stub(userRepository.findOne(username)).toReturn(sysAdmin);
         when(sysAdmin.getPassword()).thenReturn(password);
+        usersServiceImpl.editSysAdmin(username, password, firstName, lastName, middleName, phone, email, address);
+        verify(sysAdmin, times(1)).setAddress(address);
+        verify(sysAdmin, times(1)).setEmail(email);
+        verify(sysAdmin, times(1)).setFirstName(firstName);
+        verify(sysAdmin, times(1)).setLastName(lastName);
+        verify(sysAdmin, times(1)).setMiddleName(middleName);
+        verify(sysAdmin, times(1)).setPhone(phone);
+        verify(sysAdmin, times(1)).setPassword(password);
+    }
+
+    @Test
+    public void testEditSysAdmin_with_password_generate() throws UnsupportedEncodingException, MessagingException {
+        String username = "Admin";
+        String password = "generate";
+        String firstName = "firstName";
+        String lastName = "lastName";
+        String middleName = "middleName";
+        String phone ="+38050000501";
+        String email = "mail@mail.com";
+        Address address = mock(Address.class);
+        String newPassword = "newpass";
+
+        User sysAdmin = mock(User.class);
+        stub(userRepository.findOne(username)).toReturn(sysAdmin);
+        when(sysAdmin.getPassword()).thenReturn(password);
+        PowerMockito.mockStatic(RandomStringUtils.class);
+        PowerMockito.when(RandomStringUtils.randomAlphanumeric(5)).thenReturn(newPassword);
         usersServiceImpl.editSysAdmin(username, password, firstName, lastName, middleName, phone, email, address);
         verify(sysAdmin, times(1)).setAddress(address);
         verify(sysAdmin, times(1)).setEmail(email);
@@ -220,5 +272,20 @@ public class UsersServiceImplTest {
     public void testFindAllSysAdmins() {
         ListToPageTransformer<User> actual = usersServiceImpl.findAllSysAdmins();
         verify(userRepository, times(2)).findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
+    }
+
+    @Test
+    public void testFindByOrganizationId()
+    {
+        final int pageNumber = 1;
+        final int itemsPerPage = 10;
+        Page<User> userPage = mock(Page.class);
+        List<User> expectedFindByOrganizationId = spy(List.class);
+        PageRequest pageRequest = new PageRequest(pageNumber, itemsPerPage);
+        when(userRepository.findByOrganizationId(organizationId, pageRequest)).thenReturn(userPage);
+        PowerMockito.mockStatic(IteratorUtils.class);
+        PowerMockito.when(IteratorUtils.toList(userPage.iterator())).thenReturn(expectedFindByOrganizationId);
+        List<User> actual = usersServiceImpl.findByOrganizationId(organizationId, pageNumber, itemsPerPage);
+        assertEquals(actual, expectedFindByOrganizationId);
     }
 }
