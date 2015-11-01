@@ -17,12 +17,7 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceTestingConfig.class})
-<<<<<<< HEAD:service/src/test/java/com/softserve/edu/service/user/UserServiceTest.java
-public class UserServiceTest {
-=======
 public class UsersServiceTest {
-
->>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1:service/src/test/java/com/softserve/edu/service/user/UsersServiceTest.java
     @Autowired
     UserService userService;
 
