@@ -449,6 +449,13 @@ public class CalibratorVerificationController {
     }
 
 
+    /**
+     * Save additional info.
+     *
+     * @param infoDTO
+     * @return HttpStatus. If info saved return
+     * http status - {@literal OK}, else return - {@literal CONFLICT}
+     */
     @RequestMapping(value = "/saveInfo", method = RequestMethod.POST)
     public ResponseEntity saveAddInfo(@RequestBody AdditionalInfoDTO infoDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
@@ -463,12 +470,26 @@ public class CalibratorVerificationController {
         return new ResponseEntity<>(httpStatus);
     }
 
+    /**
+     * check if additional info exists for the
+     * the verification
+     *
+     * @param verificationId
+     * @return {@literal true} if yes, or {@literal false} if not.
+     */
     @RequestMapping(value = "/checkInfo/{verificationId}", method = RequestMethod.GET)
     public boolean checkIfAdditionalInfoExists(@PathVariable String verificationId) {
         boolean exists = calibratorService.checkIfAdditionalInfoExists(verificationId);
         return exists;
     }
 
+    /**
+     * find additional info for the verification if it
+     * exists.
+     *
+     * @param verificationId
+     * @return AdditionalInfoDTO
+     */
     @RequestMapping(value = "/findInfo/{verificationId}", method = RequestMethod.GET)
     public AdditionalInfoDTO findAdditionalInfoByVerifId(@PathVariable String verificationId) {
         AdditionalInfo info = calibratorService.findAdditionalInfoByVerifId(verificationId);

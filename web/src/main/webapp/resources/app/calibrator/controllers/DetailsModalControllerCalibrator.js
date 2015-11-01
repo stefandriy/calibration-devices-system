@@ -16,10 +16,18 @@ angular
                 $modalInstance.close();
             };
 
+
             $scope.showAddInfoTable = {
                 status: false
             }
             $scope.additionalInfo = {};
+            /**
+             * this method send request to the server
+             * and check if additional info exists, if true -
+             * opens additional info table and sends request to the server
+             * to receive the additional info and fill the table
+             *
+             */
             verificationService.checkIfAdditionalInfoExists($scope.verificationData.id)
                 .then(function (response) {
                     $log.debug(response);
@@ -46,8 +54,7 @@ angular
 
             /**
             * Toggle button (additional info) functionality
-            * */
-
+            */
             $scope.showStatus = {
                 opened: false
             };
@@ -112,15 +119,18 @@ angular
 
 
             $scope.clearDate1 = function () {
-                $log.debug($scope.addInfo.dateOfVerif);
                 $scope.addInfo.dateOfVerif = null;
             };
 
             $scope.clearDate2 = function () {
-                $log.debug($scope.addInfo.noWaterToDate);
                 $scope.addInfo.noWaterToDate = null;
             };
 
+            /**
+             * additonal info form validation
+             *
+             * @param caseForValidation
+             */
             $scope.checkAll = function (caseForValidation) {
                 switch (caseForValidation) {
                     case ('installationNumber'):
@@ -213,6 +223,9 @@ angular
                 }
             }
 
+            /**
+             * reset additional info form
+             */
             $scope.resetForm = function(){
                 $scope.$broadcast('show-errors-reset');
                 $scope.addInfo.entrance = undefined;
@@ -233,6 +246,10 @@ angular
             $scope.showMessage = {
                 status: false
             }
+
+            /**
+             * send form data to the server
+             */
             $scope.editAdditionalInfo = function(){
                 if ($scope.addInfo.entrance==undefined && $scope.addInfo.doorCode==undefined && $scope.addInfo.floor == undefined
                     && $scope.addInfo.dateOfVerif==undefined && $scope.addInfo.time == undefined &&
@@ -254,14 +271,12 @@ angular
                         "notes": $scope.addInfo.notes,
                         "verificationId": $scope.verificationData.id
                     }
-                    //$log.debug($scope.info);
                     verificationService.saveAdditionalInfo(info)
                         .then(function (response) {
                             if (response.status == 200) {
                                 $scope.close();
                             } else {
                              $scope.incorrectValue = true;
-                             console.log($scope.incorrectValue);
                             }
                         });
                 }
