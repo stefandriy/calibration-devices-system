@@ -177,7 +177,7 @@
                               	</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
+                        <li ui-sref-active="active" ng-controller="DigitalVerificationProtocolsControllerCalibrator">
                             <a ui-sref="verifications-protocols-calibrator" ng-click="onTableHandling()">
                                 <i class="fa fa-file-powerpoint-o"></i>
                                 <span>Електронні протоколи повірок</span>
