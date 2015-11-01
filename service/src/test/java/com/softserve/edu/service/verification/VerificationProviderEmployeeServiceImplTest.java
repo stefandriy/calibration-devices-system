@@ -1,11 +1,10 @@
 package com.softserve.edu.service.verification;
 
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
@@ -18,8 +17,9 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.*;
-
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -67,7 +67,7 @@ public class VerificationProviderEmployeeServiceImplTest {
         verify(verification).setStatus(Status.ACCEPTED);
         verify(mailServiceImpl).sendAcceptMail(mail, verificationID, device);
 
-        verify(verification).setReadStatus(ReadStatus.READ);
+        verify(verification).setReadStatus(Verification.ReadStatus.READ);
         verify(verification).setExpirationDate(any(Date.class));
         verify(verificationRepository).save(verification);
     }
@@ -83,7 +83,7 @@ public class VerificationProviderEmployeeServiceImplTest {
 
         verify(verification).setProviderEmployee(null);
         verify(verification).setStatus(Status.SENT);
-        verify(verification).setReadStatus(ReadStatus.READ);
+        verify(verification).setReadStatus(Verification.ReadStatus.READ);
         verify(verification).setExpirationDate(any(Date.class));
         verify(verificationRepository).save(verification);
     }
