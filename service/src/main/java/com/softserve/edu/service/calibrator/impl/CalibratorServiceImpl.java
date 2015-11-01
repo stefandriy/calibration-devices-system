@@ -1,7 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
@@ -12,7 +11,11 @@ import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.utils.EmployeeDTO;
+<<<<<<< HEAD
 import lombok.Setter;
+=======
+
+>>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalTime;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+import java.io.*;
+import java.util.*;
+>>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -58,19 +66,26 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Override
     @Transactional
-    public void uploadBbi(InputStream fileStream, String idVerification,
-                          Long installmentNumber, String originalFileFullName) throws IOException {
-        String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
-        Verification verification = verificationRepository.findOne(idVerification);
-        BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
+    public void uploadBbi(InputStream fileStream, String verificationId,
+                         String originalFileFullName) throws IOException{
+        Optional<Verification> retrievedVerification = Optional.ofNullable(verificationRepository.findOne(verificationId));
+        Verification verification = retrievedVerification.get();
+        uploadBbi(fileStream, verification, originalFileFullName);
+    }
+
+    @Override
+    @Transactional
+    public void uploadBbi(InputStream fileStream, Verification verification,
+                          String originalFileFullName) throws IOException{
+        fileOperations.putBbiFile(fileStream, verification.getId(), originalFileFullName);
+        BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, verification);
         Set<BbiProtocol> bbiProtocolsOfVerification = verification.getBbiProtocols();
         bbiProtocolsOfVerification.add(bbiProtocol);
         verification.setBbiProtocols(bbiProtocolsOfVerification);
         verificationRepository.save(verification);
-        System.out.println("saved verification");
         uploadBbiRepository.save(bbiProtocol);
-        System.out.println("saved bbi!!!!111");
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -107,7 +122,7 @@ public class CalibratorServiceImpl implements CalibratorService {
     public void assignCalibratorEmployee(String verificationId, User calibratorEmployee) {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setCalibratorEmployee(calibratorEmployee);
-        verification.setReadStatus(ReadStatus.READ);
+        verification.setReadStatus(Verification.ReadStatus.READ);
         verification.setTaskStatus(Status.PLANNING_TASK);
         verificationRepository.save(verification);
     }

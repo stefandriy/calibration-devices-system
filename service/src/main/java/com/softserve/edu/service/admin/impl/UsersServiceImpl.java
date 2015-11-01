@@ -5,9 +5,9 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;
-import com.softserve.edu.entity.util.ConvertUserRoleToString;
+import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -19,16 +19,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UsersServiceImpl implements UserService  {
+public class UsersServiceImpl implements UsersService {
 
     @Autowired
     private MailService mail;
@@ -46,27 +48,27 @@ public class UsersServiceImpl implements UserService  {
      * database, else {@literal false}
      */
     @Override
-    public boolean existsWithUsername(String username) {
+    public boolean isExistsWithUsername(String username) {
         return userRepository.findOne(username) == null;
     }
 
     @Override
     @Transactional
     public List<String> getRoles(String username){
-        return ConvertUserRoleToString
+        return ConvertSetEnumsToListString
                 .convertToListString(userRepository.getRolesByUserName(username));
     }
 
     @Override
     @Transactional
     public ListToPageTransformer<User>
-    findPageOfAllEmployees(int pageNumber, int itemsPerPage,  String userName,
+    findPageOfAllEmployees(int pageNumber, int itemsPerPage,  String username,
                            String role, String firstName, String lastName, String organization,
                            String telephone,  String sortCriteria, String sortOrder){
-        CriteriaQuery<User> criteriaQuery = ArchivalEmployeeQueryConstructorAdmin.buildSearchQuery(userName, role, firstName,
+        CriteriaQuery<User> criteriaQuery = ArchivalEmployeeQueryConstructorAdmin.buildSearchQuery(username, role, firstName,
                 lastName, organization, telephone, sortCriteria, sortOrder, em);
 
-        Long count = em.createQuery(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(userName, role, firstName,
+        Long count = em.createQuery(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(username, role, firstName,
                 lastName, organization, telephone, em)).getSingleResult();
 
         TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
@@ -81,28 +83,39 @@ public class UsersServiceImpl implements UserService  {
         return result;
     }
 
+    /**
+     * Add and save new sys admin with received data and send email contains created password
+     *
+     * @param username
+     * @param firstName
+     * @param lastName
+     * @param middleName
+     * @param phone
+     * @param email
+     * @param address
+     */
     @Override
     @Transactional
-    public void addSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                             String email,  Address address) {
+    public void addSysAdmin ( String  username, String firstName, String lastName, String middleName, String phone,
+                             String email,  Address address) throws MessagingException, UnsupportedEncodingException {
+        String newPassword = RandomStringUtils.randomAlphanumeric(5);
+        String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
 
-        User newUser = new AddEmployeeBuilder().username(username)
-                .password(password)
-                .firstName(firstName)
-                .lastName(lastName)
-                .middleName(middleName)
-                .phone(phone)
-                .email(email)
-                .address(address)
-                .setIsAvailable(true)
-                .build();
+        User newUser = new AddEmployeeBuilder()
+                                                .username(username)
+                                                .password(passwordEncoded)
+                                                .firstName(firstName)
+                                                .lastName(lastName)
+                                                .middleName(middleName)
+                                                .phone(phone)
+                                                .email(email)
+                                                .address(address)
+                                                .setIsAvailable(true)
+                                                .build();
 
+        newUser.addRole(UserRole.SYS_ADMIN);
 
-            newUser.addRole(UserRole.SYS_ADMIN);
-
-
-        String passwordEncoded = new BCryptPasswordEncoder().encode(newUser.getPassword());
-        newUser.setPassword(passwordEncoded);
+        mail.sendNewPasswordMail(email, firstName, newPassword);
 
         userRepository.save(newUser);
     }
@@ -112,20 +125,6 @@ public class UsersServiceImpl implements UserService  {
     @Transactional
     public ListToPageTransformer<User> findAllSysAdmins() {
 
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//
-//        CriteriaQuery<User> criteriaQuery = cb.createQuery(User.class);
-//                Root<User> root = criteriaQuery.from(User.class);
-//        Predicate queryPredicate = cb.conjunction();
-//        queryPredicate = cb.and(cb.isMember(UserRole.SYS_ADMIN, root.get("userRoles")), queryPredicate);
-//        criteriaQuery.select(root).distinct(true);
-//        criteriaQuery.where(queryPredicate);
-//        TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);
-//        List<User> providerEmployeeList = typedQuery.getResultList();
-//
-//        ListToPageTransformer<User> result = new ListToPageTransformer<>();
-//        result.setContent(providerEmployeeList);
-//        result.setTotalItems(7L);
         Set<User> sysAdmins = userRepository.findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
         ListToPageTransformer<User> result = new ListToPageTransformer<>();
         Long countItems = new Long(sysAdmins.size());
@@ -148,7 +147,7 @@ public class UsersServiceImpl implements UserService  {
     @Override
     @Transactional
     public void editSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
-                              String email,  Address address) {
+                              String email,  Address address)  throws MessagingException, UnsupportedEncodingException{
         User sysAdmin = userRepository.findOne(username);
 
         sysAdmin.setAddress(address);
@@ -162,8 +161,6 @@ public class UsersServiceImpl implements UserService  {
 
         if (sysAdmin.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
-            System.out.println(sysAdmin.getEmail());
-            System.out.println(newPassword);
             mail.sendNewPasswordMail(sysAdmin.getEmail(), sysAdmin.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
             sysAdmin.setPassword(passwordEncoded);

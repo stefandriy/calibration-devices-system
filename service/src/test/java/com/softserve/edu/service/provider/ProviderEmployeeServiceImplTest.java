@@ -3,6 +3,7 @@ package com.softserve.edu.service.provider;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
+<<<<<<< HEAD
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -14,6 +15,12 @@ import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.provider.impl.ProviderEmployeeServiceImpl;
 
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
+=======
+import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
+import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.tool.MailService;
+import com.softserve.edu.service.utils.EmployeeDTO;
+>>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -197,6 +204,7 @@ public class ProviderEmployeeServiceImplTest {
 	@Test
 	public void testGetRoleByUserNam() {
 
+<<<<<<< HEAD
 		List<String> mockList = Arrays.asList(UserRole.CALIBRATOR_ADMIN.toString());
 		Set<UserRole> mockSet = new HashSet<UserRole>(Arrays.asList(UserRole.CALIBRATOR_ADMIN));
 
@@ -301,6 +309,10 @@ public class ProviderEmployeeServiceImplTest {
 		providerEmployeeService.convertToDate(date);
 
 		//verify(logger).error(anyString());
+=======
+		when(mockProviderEmployeeRepository.getRolesByUserName(anyString()))
+				.thenReturn(ConvertSetEnumsToListString.convertToSetUserRole(mockList, UserRole.class));
+>>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
 
 	}
 

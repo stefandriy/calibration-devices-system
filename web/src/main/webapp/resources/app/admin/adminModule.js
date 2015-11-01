@@ -3,7 +3,7 @@ angular
     'adminModule',
     ['spring-security-csrf-token-interceptor', 'ui.bootstrap',
         'ui.router', 'ui.bootstrap.showErrors', 'ngTable',
-        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives', 'checklist-model','ngAnimate', 'toaster',
+        'pascalprecht.translate', 'ngCookies', 'ui.select', 'ngSanitize', 'localytics.directives', 'daterangepicker', 'checklist-model','ngAnimate', 'toaster',
         'angular-loading-bar'])
 
     .config(
@@ -13,9 +13,12 @@ angular
         '$urlRouterProvider',
         'showErrorsConfigProvider',
         'cfpLoadingBarProvider',
-        '$provide',
+        '$provide', '$httpProvider',
         function ($translateProvider, $stateProvider,
-                  $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
+                  $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide, $httpProvider) {
+
+            $httpProvider.interceptors.push('responseObserver');
+
             showErrorsConfigProvider.showSuccess(true);
             cfpLoadingBarProvider.includeSpinner = false;
             cfpLoadingBarProvider.latencyThreshold = 500;
@@ -90,6 +93,18 @@ angular
                     url: '/settings',
                     templateUrl: '/resources/app/admin/views/settings-panel.html'
                 })
+                .state(
+                '403',
+                {
+                    url: '/403',
+                    templateUrl: '/resources/app/admin/views/403.html'
+                })
+                .state(
+                '404',
+                {
+                    url: '/404',
+                    templateUrl: '/resources/app/admin/views/404.html'
+                });
             /*
              Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
              When translation of page will end, items of select (on the scope) will be changed too.
@@ -142,6 +157,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/SettingsController',
     'controllers/SysAdminsController',
     'controllers/SysAdminEditModalController',
+    'controllers/SysAdminDeleteModalController',
     'controllers/UsersController',
     'controllers/SysAdminAddModalController',
     'controllers/InternationalizationController',
@@ -155,6 +171,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/SettingsService',
     'services/UsersService',
     'services/RoleService',
+    'services/ResponseObserver',
     'directives/unique',
     'controllers/CommonController'
 

@@ -9,7 +9,7 @@ angular
             $scope.clearAll = function () {
                 $scope.consumptionStatus.name = null;
                 $scope.selectedDeviceType.name = null;
-                $scope.testResult.name = null;
+                $scope.selectedTestResult.name = null;
                 $scope.tableParams.filter(
                     {
                         id : $location.search().param
@@ -17,8 +17,6 @@ angular
                 );
                 $scope.clearDate(); // sets 'all time' timerange
             };
-
-
 
             $scope.clearDate = function () {
                 //daterangepicker doesn't support null dates
@@ -40,12 +38,9 @@ angular
             $scope.selectedDeviceType = {
                 name: null
             }
-            $scope.testResult = {
+            $scope.selectedTestResult = {
                 name: null
             }
-
-
-
 
             $scope.consumptionStatus = [
                 {id: 'IN_THE_AREA', label: null},
@@ -189,6 +184,10 @@ angular
                     filterDelay: 1500,
                     getData: function ($defer, params) {
 
+                        if (params.settings().$scope == null) {
+                            params.settings().$scope = $scope;
+                        }
+
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
 
@@ -209,10 +208,10 @@ angular
                         }
 
 
-                        if ($scope.testResult.name != null) {
-                            params.filter().protocol_status = $scope.testResult.name.id;
+                        if ($scope.selectedTestResult.name != null) {
+                            params.filter().testResult = $scope.selectedTestResult.name.id;
                         } else {
-                            params.filter().protocol_status = null;
+                            params.filter().testResult = null;
                         }
 
                         if(true) {
@@ -220,22 +219,19 @@ angular
                         }
 
                         //params.filter().id = $location.search().param;
-                        console.log($location.search().param);
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                         params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
                         calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
-                            console.log(result);
                             $scope.resultsCount = result.totalItems;
-                            console.log(result.totalItems);
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
                     }
-                })
-                console.log($scope.tableParams.filter());
+                });
+                $scope.params.settings().$scope = $scope;
             });
 
             $scope.checkFilters = function () {
@@ -340,9 +336,7 @@ angular
                     .then(function (data) {
                         $log.debug("inside");
                         var testId = data.id;
-                        console.log('filename = ' + fileName);
                         var url = $location.path('/calibrator/verifications/calibration-test-add/').search({'param': verificationID});
-                        console.log(url);
                     } )
             };
 
@@ -389,12 +383,16 @@ angular
 
             $scope.deleteTest = function (testId) {
                 $rootScope.testId = testId;
-                calibrationTestServiceCalibrator.deleteCalibrationTest(testId);
-                $timeout(function() {
-                    console.log('delete with timeout');
-                    $scope.tableParams.reload();
-                }, 700);
+                calibrationTestServiceCalibrator.deleteCalibrationTest(testId).then(function (data) {
+                    if (data == 200) {
+                        $timeout(function () {
+                            $scope.tableParams.reload();
+                        }, 700);
+                    } else {
+                        console.log(data.status);
+                    }
 
+                })
             };
 
 

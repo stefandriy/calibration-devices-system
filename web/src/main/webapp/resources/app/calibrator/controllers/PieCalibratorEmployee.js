@@ -3,8 +3,8 @@
  */
 angular
     .module('employeeModule')
-    .controller('PieCalibratorEmployee', ['$scope', '$log',
-        function ($scope, $log) {
+    .controller('PieCalibratorEmployee', ['$scope', '$log', '$filter',
+        function ($scope, $log, $filter) {
             $scope.displayGraficPipe = function (data) {
                     $scope.chartConfic = {
                         options: {
@@ -33,7 +33,7 @@ angular
                         },
                         series:
                             [{
-                            data: [['Не розподілених заявок',data.NO_EMPLOYEE],['Заявок на опрацюванні',data.HAS_EMPLOYEE]]
+                            data: [[$filter('translate')('NOT_ASSIGNED_VERIFICATIONS'),data.NO_EMPLOYEE],[$filter('translate')('ASSIGNED_VERIFICATIONS'),data.HAS_EMPLOYEE]]
                         }]
 
 

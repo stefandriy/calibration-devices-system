@@ -1,18 +1,16 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import org.apache.log4j.Logger;
-//import org.apache.poi.hssf.usermodel.HSSFRow;
-//import org.apache.poi.hssf.usermodel.HSSFSheet;
-//import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -22,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskService {
 
     @Autowired
@@ -32,43 +30,90 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private VerificationRepository verificationRepository;
 
     @Autowired
-    private VerificationPlanningTaskRepository planningTaskRepository;
+    private CalibrationModuleRepository moduleRepository;
 
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CalibrationDisassemblyTeamRepository teamRepository;
+
+    @Autowired
+    private CounterTypeRepository counterTypeRepository;
+
+
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
-    @Autowired
-    private CalibrationModuleRepository moduleRepository;
-
-    @Autowired
-    private OrganizationRepository organizationRepository;
-
-    @Autowired
-    private AdditionalInfoRepository additionalInfoRepository;
-
-
-
     @Override
-    public void addNewTask(Date taskDate, String serialNumber, List<String> verificationsId, Long organizationId) {
+    public void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
+        CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
         Set<Verification> verifications = new HashSet<>();
+        int i = 0;
+        boolean counterStatus = false;
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
             if (verification == null) {
                 logger.error("verification haven't found");
             } else {
-                verification.setTaskStatus(Status.TASK_PLANED);
-                verificationRepository.save(verification);
-                verifications.add(verification);
+                if (i==0){
+                    counterStatus = verification.isCounterStatus();
+                }
+                if (counterStatus == verification.isCounterStatus()) {
+                    if (module.getDeviceType() == verification.getDevice().getDeviceType()) {
+                        verification.setTaskStatus(Status.TASK_PLANED);
+                        verificationRepository.save(verification);
+                        verifications.add(verification);
+                        i++;
+                    } else {
+                        logger.error("verification and module has different device types");
+                        throw new IllegalArgumentException();
+                    }
+                } else {
+                    logger.error("verifications has different counter status");
+                    throw new IllegalArgumentException();
+                }
             }
         }
-        CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
         module.setWorkDate(taskDate);
         moduleRepository.save(module);
-        Organization organization = organizationRepository.findOne(organizationId);
-        CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, organization, verifications);
-        taskRepository.save(task);
+        User user = userRepository.findOne(userId);
+        taskRepository.save(new CalibrationTask(module, null, new Date(), taskDate, user, verifications));
+    }
+
+    @Override
+    public void addNewTaskForTeam(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
+        Set<Verification> verifications = new HashSet<>();
+        DisassemblyTeam team = teamRepository.findOne(serialNumber);
+        team.setEffectiveTo(taskDate);
+        int i = 0;
+        boolean counterStatus = false;
+        for (String verifID : verificationsId) {
+            Verification verification = verificationRepository.findOne(verifID);
+            if (verification == null) {
+                logger.error("verification haven't found");
+            } else {
+                if (i==0){
+                    counterStatus = verification.isCounterStatus();
+                }
+                if (counterStatus == verification.isCounterStatus()) {
+                    if (team.getSpecialization()==verification.getDevice().getDeviceType()){
+                        verification.setTaskStatus(Status.TASK_PLANED);
+                        verificationRepository.save(verification);
+                        verifications.add(verification);
+                        i++;
+                    } else {
+                        logger.error("verification and module has different device types");
+                        throw new IllegalArgumentException();
+                    }
+                } else {
+                    logger.error("verifications has different counter status");
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+        teamRepository.save(team);
+        User user = userRepository.findOne(userId);
+        taskRepository.save(new CalibrationTask(null, team, new Date(), taskDate, user, verifications));
     }
 
     @Override
@@ -77,15 +122,21 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         if (user == null){
             logger.error("Cannot found user!");
         }
-        List<Verification> verifications = planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK);
-        return verifications.size();
+        Set<UserRole> roles = user.getUserRoles();
+        for (UserRole role : roles) {
+            if (role.equals(UserRole.CALIBRATOR_ADMIN)) {
+                return verificationRepository.findByTaskStatusAndCalibratorId(Status.PLANNING_TASK, user.getOrganization().getId()).size();
+            }
+        }
+        return verificationRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK).size();
+
     }
 
     @Override
-    public Page<Verification> findByTaskStatus(int pageNumber, int itemsPerPage) {
+    public Page<Verification> findByTaskStatusAndCalibratorId(Long id, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-        return planningTaskRepository.findByTaskStatus(Status.PLANNING_TASK, pageRequest);
+        return verificationRepository.findByTaskStatusAndCalibratorId(Status.PLANNING_TASK, id, pageRequest);
     }
 
     @Override
@@ -93,17 +144,19 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
+            throw new NullPointerException();
         }
         Set<UserRole> roles = user.getUserRoles();
         for (UserRole role : roles) {
             if (role.equals(UserRole.CALIBRATOR_ADMIN)) {
-                return findByTaskStatus(pageNumber, itemsPerPage);
+                return findByTaskStatusAndCalibratorId(user.getOrganization().getId(), pageNumber, itemsPerPage);
             }
         }
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-        return planningTaskRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, pageRequest);
+        return verificationRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, pageRequest);
     }
+<<<<<<< HEAD
 //    @Override
 //    public String createExcelFileFromVerifications(String[]verificationsId) throws IOException {
 //            List<ExcelFileDTO> fileDTOs = new ArrayList<>();
@@ -162,4 +215,16 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 //            return filename;
 //
 //    }
+=======
+
+    @Override
+    public List<CounterType> findSymbolsAndSizes(String verifId) {
+        Verification verification = verificationRepository.findOne(verifId);
+        if (verification == null){
+            logger.error("Cannot found verification!");
+            throw new NullPointerException();
+        }
+        return counterTypeRepository.findByDeviceId(verification.getDevice().getId());
+    }
+>>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
 }

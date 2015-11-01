@@ -17,8 +17,10 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
@@ -86,7 +88,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
 
@@ -94,7 +96,7 @@ public class MailServiceImpl implements MailService {
     public void sendNewPasswordMail(String employeeEmail, String employeeName, String newPassword) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            public void prepare(MimeMessage mimeMessage) throws Exception {
+            public void prepare(MimeMessage mimeMessage) throws MessagingException, UnsupportedEncodingException {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(employeeEmail);
                 message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
@@ -106,14 +108,14 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     @Async
     public void sendOrganizationPasswordMail(String organizationMail, String organizationName, String username, String password) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
-            public void prepare(MimeMessage mimeMessage) throws Exception {
+            public void prepare(MimeMessage mimeMessage) throws UnsupportedEncodingException, MessagingException {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(organizationMail);
                 message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
@@ -126,7 +128,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
 
@@ -149,7 +151,7 @@ public class MailServiceImpl implements MailService {
 
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     /** Notifies (sends mail to) customer about assignment of an employee to the verification*/
@@ -175,7 +177,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
 
@@ -209,7 +211,7 @@ public class MailServiceImpl implements MailService {
 
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     @Async
@@ -228,7 +230,7 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     @Async
@@ -275,6 +277,6 @@ public class MailServiceImpl implements MailService {
                 message.setSubject("Important notification");
             }
         };
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 }

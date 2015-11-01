@@ -38,7 +38,7 @@ public class CalibrationDisassenblyTeamSpecifications {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("effectiveTo"), effectiveTo);
     }
 
-    /**
+   /**
      * build query for disassemblyTeamType, filtering by disassemblyTeamType
      * @param disassemblyTeamType
      * @return query, for searching
@@ -80,5 +80,6 @@ public class CalibrationDisassenblyTeamSpecifications {
         return (root, criteriaQuery, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get("organization").get("id"), calibratorId);
     }
+
 
 }

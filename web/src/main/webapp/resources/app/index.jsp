@@ -135,15 +135,20 @@
                 <ul class="nav ui vertical menu" id="sidemenu">
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> <span>Головна панель
-                                (постачальник послуг)</span></a>
+                            <a ui-sref="main-panel-provider"><i class="fa fa-home fa-fw"></i> <span translate="MAIN_PANEL_PROVIDER"></span></a>
                         </li>
                     </sec:authorize>
 
                     <sec:authorize url="/calibrator">
+<<<<<<< HEAD
                        <li ui-sref-active="active">
                             <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i> <span>Головна панель
                                 (вимірювальна лабораторія)</span></a>
+=======
+                        <li ui-sref-active="active">
+                            <a ui-sref="main-panel-calibrator"><i class="fa fa-home fa-fw"></i>
+                                <span translate="MAIN_PANEL_CALIBRATOR"> </span></a>
+>>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
                         </li>
                     </sec:authorize>
 
@@ -158,7 +163,7 @@
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerProvider">
                             <a ui-sref="new-verifications-provider" ng-click="reloadVerifications()">
-                                <i class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (постачальник послуг)</span>
+                                <i class="fa fa-list-alt fa-fw"></i> <span translate="NEW_VERIFICATIONS"></span>
                               <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                     ng-show="countOfUnreadVerifications>0" ng-cloak>
                               </span>
@@ -169,7 +174,7 @@
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
                             <a ui-sref="new-verifications-calibrator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (вимірювальна лабораторія)</span>
+                                    class="fa fa-list-alt fa-fw"></i> <span translate="NEW_VERIFICATIONS_CALIBRATOR"> </span>
                            		<span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>
@@ -177,21 +182,21 @@
                         </li>
                         <!--  <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
                             <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i> <span>Довідник засобів вимірювальної техніки (вимірювальна
-                                лабораторія)</span>
+                                    class="fa fa-desktop"></i> <span translate="CALIBRATOR_HANDBOOK"></span>
                             </a>
                         </li>  Deleting this button from calibrator-->
 
                         <li ui-sref-active="active">
-                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i> <span>Планування завдання</span>
+                            <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i>
+                                <span translate="TASK_PLANNING"></span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a><i class="fa fa-thumb-tack"></i></i> <span>Завдання для станцій</span>
+                            <a><i class="fa fa-thumb-tack"></i></i> <span translate="TASKS_FOR_STATIONS"></span>
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a><i class="fa fa-thumb-tack"></i></i> <span>Завдання для бригад</span>
+                            <a><i class="fa fa-thumb-tack"></i></i> <span translate="TASKS_FOR_BRIGADES"></span>
                             </a>
                         </li>
 
@@ -225,7 +230,7 @@
 
                         <li ui-sref-active="active">
                             <a ui-sref="disassembly-team-calibrator">
-                                <i class="fa fa-desktop"></i><span>Довідник демонтажних бригад</span>
+                                <i class="fa fa-desktop"></i><span translate="DISASSEMBLING_BRIGADES_LISTING"></span>
                             </a>
                         </li>
 
@@ -240,20 +245,19 @@
 
                     <sec:authorize url="/provider">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i><span> Архів
-                                повірок</span></a>
+                            <a ui-sref="verifications-archive-provider"><i class="fa fa-archive fa-fw"></i><span
+                                    translate="VERIFICATIONS_ARCHIVE">
+                           </span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> <span>Архів
-                                повірок</span></a>
+                            <a ui-sref="verifications-archive-calibrator"><i class="fa fa-archive fa-fw"></i> <span translate="VERIFICATIONS_ARCHIVE"></span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
-                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> <span>Архів
-                                повірок</span></a>
+                            <a ui-sref="verifications-archive-verificator"><i class="fa fa-archive fa-fw"></i> <span translate="VERIFICATIONS_ARCHIVE"></span></a>
                         </li>
                     </sec:authorize>
                     <sec:authorize url="/provider/admin/">
@@ -276,7 +280,7 @@
     <div id="loader" class="ui large loader"></div>
 </div>
 <toaster-container
-        toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
+        toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-right'}"></toaster-container>
 <script type="text/javascript" data-main="/resources/app/runApp"
         src="/resources/assets/bower_components/requirejs/require.js"></script>
 <script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>

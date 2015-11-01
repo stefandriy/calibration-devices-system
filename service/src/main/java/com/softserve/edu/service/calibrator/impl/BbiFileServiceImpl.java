@@ -6,7 +6,9 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.parser.DeviceTestDataParser;
 import com.softserve.edu.service.parser.DeviceTestDataParserFactory;
+import org.apache.commons.codec.DecoderException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,28 +26,22 @@ public class BbiFileServiceImpl implements BbiFileService {
     @Autowired
     private VerificationRepository verificationRepository;
 
+    @Value("${bbi.storage.local}")
+    private String bbiLocalStorage;
+
     private DeviceTestDataParserFactory testDataParserFactory = new DeviceTestDataParserFactory();
 
     @Override
     @Transactional
     public File findBbiFileByFileName(String fileName) {
-        String absolutePath = uploadBbiRepository.findFileAbsolutePathByFileName(fileName);
+        String verificationId = uploadBbiRepository.findVerificationIdByFileName(fileName);
+        String absolutePath = bbiLocalStorage + verificationId + "/" + fileName;
         File file = new File(absolutePath);
         return file;
     }
 
     @Override
-    public DeviceTestData findBbiFileContentByFileName(String fileName) throws IOException {
-        DeviceTestDataParser parser = testDataParserFactory.getParser(fileName);
-        File bbiFile = findBbiFileByFileName(fileName);
-        InputStream inputStream = new FileInputStream(bbiFile);
-        DeviceTestData parsedData = parser.parse(inputStream);
-        inputStream.close();
-        return parsedData;
-    }
-
-    @Override
-    public DeviceTestData parseBbiFile(InputStream fileStream, String fileName) throws IOException {
+    public DeviceTestData parseBbiFile(InputStream fileStream, String fileName) throws IOException, DecoderException {
         DeviceTestDataParser parser = testDataParserFactory.getParser(fileName);
         DeviceTestData parsedData = parser.parse(fileStream);
         return parsedData;
