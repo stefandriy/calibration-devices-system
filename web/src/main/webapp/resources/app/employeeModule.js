@@ -135,8 +135,8 @@
                     })
                     .state("new-verifications-verificator", {
                         url: '/verifications/new',
-                        templateUrl: '/resources/app/verificator/views/calibration-test-panel.html',
-                        controller: 'CalibrationTestControllerCalibrator'
+                        templateUrl: '/resources/app/verificator/views/verification-protocols.html',
+                        controller: 'NewVerificationsControllerVerificator'
                     })
                     .state("employee-show-verificator", {
                         url: '/verificator/employee-show',
@@ -301,6 +301,7 @@
         'verificator/controllers/TestRejectControllerVerificator',
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
+        'verificator/controllers/NewVerificationsControllerVerificator',
 
         'verificator/controllers/VerificatorEmployeeControllerVerificator',
 
