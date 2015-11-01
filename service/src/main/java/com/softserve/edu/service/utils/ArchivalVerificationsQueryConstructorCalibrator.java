@@ -5,7 +5,6 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import org.apache.log4j.Logger;
 
@@ -26,7 +25,6 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
                                                                String sortCriteria, String sortOrder, User calibratorEmployee, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        System.out.println("ArchiveVeriQueryConstructorCalibrator protocolId=" + protocolId);
         CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
         Root<Verification> root = criteriaQuery.from(Verification.class);
 
@@ -68,7 +66,6 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
                                             String employeeName, Long protocolId, String protocolStatus,
                                             Long measurementDeviceId, String measurementDeviceType,
                                             User employee, Join<Verification, Organization> calibratorJoin) {
-
         Predicate queryPredicate = cb.conjunction();
         queryPredicate = cb.and(cb.equal(calibratorJoin.get("id"), employeeId), queryPredicate);
 
@@ -148,7 +145,7 @@ public class ArchivalVerificationsQueryConstructorCalibrator {
             logger.debug("ArchiveVerificationQueryConstructorCalibrator : protocolStatus = " + protocolStatus);
             Join<Verification, CalibrationTest> joinCalibratorTest = root.join("calibrationTests");
             queryPredicate = cb.and(cb.equal(joinCalibratorTest.get("testResult"),
-                    CalibrationTestResult.valueOf(protocolStatus.trim())), queryPredicate);
+                    Verification.CalibrationTestResult.valueOf(protocolStatus.trim())), queryPredicate);
         }
         
         if(employee == null) {

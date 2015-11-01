@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-    boolean existsWithUsername(String username);
+    boolean isExistsWithUsername(String username);
 
     boolean changeField(String username, String newValue, String typeOfField);
 
@@ -21,4 +21,6 @@ public interface UserService {
     List<String> getRoles(String username);
 
     void updateUser(User user);
+
+    void createSuperAdminIfNotExists(User user);
 }

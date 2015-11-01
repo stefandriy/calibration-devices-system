@@ -5,7 +5,6 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
@@ -117,7 +116,7 @@ public class VerificationServiceImplTest {
 		long calibratorId = 1;
 		when(mockVerificationRepository
 						.countByCalibratorIdAndStatusAndReadStatus(calibratorId,
-								Status.IN_PROGRESS, ReadStatus.UNREAD))
+								Status.IN_PROGRESS, Verification.ReadStatus.UNREAD))
 				.thenReturn(null);
 		Assert.assertNull(verificationService.findCountOfNewVerificationsByCalibratorId(calibratorId));
 	}
@@ -127,7 +126,7 @@ public class VerificationServiceImplTest {
 		long providerId = 1;
 		when(mockVerificationRepository
 						.countByProviderIdAndStatusAndReadStatus(providerId,
-								Status.SENT, ReadStatus.UNREAD))
+								Status.SENT, Verification.ReadStatus.UNREAD))
 				.thenReturn(null);
 		Assert.assertNull(verificationService.findCountOfNewVerificationsByProviderId(providerId));
 	}
@@ -138,7 +137,7 @@ public class VerificationServiceImplTest {
 		when(
 				mockVerificationRepository
 						.countByStateVerificatorIdAndStatusAndReadStatus(providerId,
-								Status.SENT_TO_VERIFICATOR, ReadStatus.UNREAD))
+								Status.SENT_TO_VERIFICATOR, Verification.ReadStatus.UNREAD))
 				.thenReturn(null);
 		Assert.assertNull(verificationService.findCountOfNewVerificationsByStateVerificatorId(providerId));
 	}
@@ -254,7 +253,7 @@ public class VerificationServiceImplTest {
 		verify(mockLogger, times(1)).error(anyString());
 		when(mockVerificationRepository.findOne(verificationId)).thenReturn(mockVerification);
 		verificationService.updateVerificationReadStatus(verificationId, readStatus);
-		verify(mockVerification, times(1)).setReadStatus(ReadStatus.READ);
+		verify(mockVerification, times(1)).setReadStatus(Verification.ReadStatus.READ);
 		verify(mockVerificationRepository, times(1)).save(mockVerification);
 	}
 	
@@ -268,7 +267,7 @@ public class VerificationServiceImplTest {
 		when(mockVerificationRepository.findOne(verificationId)).thenReturn(mockVerification);
 		verificationService.updateVerificationStatus(verificationId, status);
 		verify(mockVerification, times(1)).setStatus(status);
-		verify(mockVerification, times(1)).setReadStatus(ReadStatus.READ);
+		verify(mockVerification, times(1)).setReadStatus(Verification.ReadStatus.READ);
 		verify(mockVerification, times(1)).setExpirationDate(any());
 		verify(mockVerificationRepository, times(1)).save(mockVerification);
 	}
@@ -298,7 +297,7 @@ public class VerificationServiceImplTest {
 		status = Status.REJECTED;
 		verificationService.sendVerificationTo(verificationId, organization, status);
 		verify(mockVerification, times(1)).setStatus(status);
-		verify(mockVerification, times(5)).setReadStatus(ReadStatus.UNREAD);
+		verify(mockVerification, times(5)).setReadStatus(Verification.ReadStatus.UNREAD);
 		verify(mockVerification, times(5)).setExpirationDate(any());
 		verify(mockVerificationRepository, times(5)).save(mockVerification);
 	}
@@ -328,7 +327,7 @@ public class VerificationServiceImplTest {
 		verify(mockVerification, times(1)).setClientData(mockClientData);
 		verify(mockVerification, times(1)).setProvider(mockProvider);
 		verify(mockVerification, times(1)).setStatus(Status.SENT);
-		verify(mockVerification, times(1)).setReadStatus(ReadStatus.UNREAD);
+		verify(mockVerification, times(1)).setReadStatus(Verification.ReadStatus.UNREAD);
 		verify(mockVerificationRepository, times(1)).save(mockVerification);
 	}
 	

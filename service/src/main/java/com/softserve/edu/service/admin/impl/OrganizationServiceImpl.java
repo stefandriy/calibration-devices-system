@@ -1,20 +1,18 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.Address;
-import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
-import com.softserve.edu.entity.enumeration.organization.OrganizationType;
-import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.OrganizationEditHistoryRepository;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.commons.lang.RandomStringUtils;
@@ -22,14 +20,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
-import java.util.ArrayList;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -61,17 +59,17 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                          Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                         String username, String password, Address address, String adminName, Long[] localityIdList) {
+                                         String username, Address address, String adminName, Long[] localityIdList) throws UnsupportedEncodingException, MessagingException {
 
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
+        String password = RandomStringUtils.randomAlphanumeric(firstName.length());
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);
         employeeAdmin.setIsAvailable(true);
 
         for (String type : types) {
             OrganizationType organizationType = OrganizationType.valueOf(type);
-            // TODO add getAdminRole method to enum
-            employeeAdmin.addRole(UserRole.valueOf(organizationType + "_ADMIN"));
+            employeeAdmin.addRole(OrganizationType.getOrganizationAdminRole(organizationType));
             organization.addOrganizationType(organizationType);
             organization.addUser(employeeAdmin);
         }
@@ -86,6 +84,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             Locality locality = localityService.findById(localityId);
             organization.addLocality(locality);
         }
+
         organizationRepository.save(organization);
         String stringOrganizationTypes = String.join(",", types);
 
@@ -118,7 +117,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         typedQuery.setMaxResults(itemsPerPage);
         List<Organization> OrganizationList = typedQuery.getResultList();
 
-        ListToPageTransformer<Organization> result = new ListToPageTransformer<Organization>();
+        ListToPageTransformer<Organization> result = new ListToPageTransformer<>();
         result.setContent(OrganizationList);
         result.setTotalItems(count);
         return result;
@@ -131,12 +130,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    // TODO is it readOnly !!!
-    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    @Transactional
     public void editOrganization(Long organizationId, String name,
                                  String phone, String email, List<String> types, List<String> counters, Integer employeesCapacity,
                                  Integer maxProcessTime, Address address, String password, String username,
-                                 String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas) {
+                                 String firstName, String lastName, String middleName, String adminName, List<Long> serviceAreas)  throws UnsupportedEncodingException, MessagingException  {
 
         Organization organization = organizationRepository.findOne(organizationId);
 
@@ -170,8 +168,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
 
         User employeeAdmin = userRepository.findOne(username);
-        logger.info("==========employeeAdmin=============");
-        logger.info(employeeAdmin);
         employeeAdmin.setFirstName(firstName);
         employeeAdmin.setLastName(lastName);
         employeeAdmin.setMiddleName(middleName);
@@ -180,8 +176,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         if (employeeAdmin.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
-            System.out.println(employeeAdmin.getEmail());
-            System.out.println(newPassword);
             mail.sendNewPasswordMail(employeeAdmin.getEmail(), employeeAdmin.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
             employeeAdmin.setPassword(passwordEncoded);
@@ -189,14 +183,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         userRepository.save(employeeAdmin);
 
-        logger.info("password===========");
-        logger.info(employeeAdmin.getPassword());
-        //organizationRepository.save(organization);
-
         String stringOrganizationTypes = String.join(",", types);
 
-        logger.info("password===========");
-        logger.info(employeeAdmin.getPassword());
         Date date = new Date();
 
         OrganizationEditHistory organizationEditHistory = new OrganizationEditHistory(date, name, email, phone, employeesCapacity,
@@ -220,7 +208,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<OrganizationEditHistory> getHistoryByOrganizationId(Long organizationId) {
         return organizationEditHistoryRepository.findByOrganizationId(organizationId);
     }
@@ -251,26 +239,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<LocalityDTO> findLocalitiesByOrganizationId(Long organizationId) {
-        return organizationRepository.findLocalitiesByOrganizationId(organizationId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
     public Set<Device.DeviceType> findDeviceTypesByOrganizationId(Long organizationId) {
         return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Organization> findByServiceAreaIdsAndOrganizationType(Set<Long> serviceAreaIds, OrganizationType type) {
-        List<Organization> organizations = new ArrayList<>();
-        serviceAreaIds.stream()
-                .forEach(serviceAreaId -> {
-                    List<Organization> organizationList = organizationRepository.findOrganizationByLocalityIdAndType(serviceAreaId, type);
-                    organizations.addAll(organizationList);
-                });
-        return organizations;
     }
 
     @Override
@@ -280,6 +250,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType(Long customerId, OrganizationType organizationType, Device.DeviceType deviceType) {
         return organizationRepository.findByIdAndTypeAndActiveAgreementDeviceType(customerId, organizationType, deviceType);
     }

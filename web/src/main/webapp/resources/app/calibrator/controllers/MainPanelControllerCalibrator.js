@@ -1,8 +1,16 @@
 angular
     .module('employeeModule')
-    .controller('MainPanelControllerCalibrator', ['$scope', '$log','VerificationServiceCalibrator','ngTableParams','$modal', 'UserServiceCalibrator', '$controller', '$filter',
-        function ($scope, $log, verificationServiceCalibrator, ngTableParams, $modal, userServiceCalibrator, $controller, $filter) {
+    .controller('MainPanelControllerCalibrator', ['$rootScope', '$scope', '$log','VerificationServiceCalibrator','ngTableParams','$modal', 'UserServiceCalibrator', '$controller', '$filter',
+        function ($rootScope, $scope, $log, verificationServiceCalibrator, ngTableParams, $modal, userServiceCalibrator, $controller, $filter) {
     		$log.debug('inside main panel contr calibr');
+    		
+    		
+    		/**
+             * Redraw charts on language change
+             */
+            $rootScope.$on('$translateChangeEnd', function(event){
+            	calibrator();
+            });
     		
     		
     		/**
@@ -62,8 +70,7 @@ angular
                     $modal.dismiss();
                 };
 
-                $scope.showGrafic = function () {         	
-                	if (dateValidate()){                	
+                $scope.showGrafic = function () {         	              	
 	                    var dataToSearch = {
 	                        fromDate: $scope.changeDateToSend($scope.dataToSearch.fromDate),
 	                        toDate: $scope.changeDateToSend($scope.dataToSearch.toDate)
@@ -72,55 +79,32 @@ angular
 	                        .success(function (data) {
 	                            return me.displayGrafic(data);
 	                        });
-                	}
                 };
                 
-                var dateValidate = function () {
-                	var dateRangeError = false;
-                	
-                	if ($scope.dataToSearch.fromDate > new Date()){
-                		dateRangeError = true;
-                		$scope.fromDateInTheFuture = true;
-                	} else {
-                		$scope.fromDateInTheFuture = false;
-                	}
-                	
-                	if ($scope.dataToSearch.toDate > new Date()){
-                		dateRangeError = true;
-                		$scope.toDateInTheFuture = true;
-                	} else {
-                		$scope.toDateInTheFuture = false;
-                	}
-                	
-                	if ($scope.dataToSearch.toDate < $scope.dataToSearch.fromDate && !$scope.fromDateInTheFuture){
-                		dateRangeError = true;
-                		$scope.toDateInvalid = true;
-                	} else {
-                		$scope.toDateInvalid = false;
-                	}
-                	
-                	return !dateRangeError;
-                	
-                };
 
                 /**
                  *  Date picker and formatter setup
                  *
                  */
+                $scope.toMaxDate = new Date();
+                
                 $scope.firstCalendar = {};
                 $scope.firstCalendar.isOpen = false;
                 $scope.secondCalendar = {};
                 $scope.secondCalendar.isOpen = false;
+                
 
                 $scope.open1 = function ($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
                     $scope.firstCalendar.isOpen = true;
+                    $scope.secondCalendar.isOpen = true;
                 };
                 $scope.open2 = function ($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
                     $scope.secondCalendar.isOpen = true;
+                    $scope.firstCalendar.isOpen = true;
                 };
 
                 $scope.dateOptions = {
@@ -133,7 +117,13 @@ angular
                 $scope.format = $scope.formats[2];
 
                 $scope.changeDateToSend = function (value) {
-
+                	if ($scope.dataToSearch.toDate != null) {
+                		$scope.fromMaxDate = $scope.dataToSearch.toDate;
+                	} else {
+                		$scope.fromMaxDate = new Date();
+                	}
+                	
+                	$scope.toMinDate = $scope.dataToSearch.fromDate;
                     if (angular.isUndefined(value)) {
                         return null;
 
@@ -142,6 +132,7 @@ angular
                         return $filter('date')(value, 'dd-MM-yyyy');
                     }
                 };
+                
                 var calibrator = function() {
                     $scope.showGrafic();
                     $scope.showGraficTwo();
@@ -190,7 +181,7 @@ angular
                     }
                 });
 
-                $scope.addCalibratorEmployee = function (verifId, providerEmployee) {
+                $scope.addCalibratorEmployee = function (verifId, calibratorEmployee) {
                     var modalInstance = $modal.open({
                         animation: true,
                         templateUrl: '/resources/app/calibrator/views/employee/assigning-calibratorEmployee.html',
@@ -214,7 +205,7 @@ angular
                         idVerification = 0;
                         var dataToSend = {
                             idVerification: verifId,
-                            employeeCalibrator: formData.calibrator
+                            employeeCalibrator: formData.provider
                         };
                         $log.info(dataToSend);
                         verificationServiceCalibrator
@@ -224,6 +215,48 @@ angular
                                 $scope.tableParamsEmployee.reload();
                                 $scope.showGraficTwo();
                             });
+                    });
+                };
+                
+                /**
+                 * Table of employee
+                 */
+                $scope.tableParamsEmployee = new ngTableParams({
+                    page: 1,
+                    count: 5,
+                    sorting: {
+                        lastName: 'asc'     // initial sorting
+                    },
+                }, {
+                    total: 0,
+                    getData: function ($defer, params) {
+                        userServiceCalibrator.getPage(params.page(), params.count(), params.filter(), params.sorting())
+                            .success(function (result) {
+                                $scope.totalEmployee = result.totalItems;
+                                $defer.resolve(result.content);
+                                params.total(result.totalItems);
+                            }, function (result) {
+                                $log.debug('error fetching data:', result);
+                            });
+                    }
+                });
+
+                $scope.showCapacity = function (username) {
+
+                    $modal.open({
+                        animation: true,
+                        templateUrl: '/resources/app/calibrator/views/employee/capacity-calibratorEmployee.html',
+                        controller: 'CapacityEmployeeControllerCalibrator',
+                        size: 'lg',
+                        resolve: {
+
+                            capacity: function () {
+                                return userServiceCalibrator.getCapacityOfWork(username)
+                                    .success(function (verifications) {
+                                        return verifications;
+                                    });
+                            }
+                        }
                     });
                 };
     }]);

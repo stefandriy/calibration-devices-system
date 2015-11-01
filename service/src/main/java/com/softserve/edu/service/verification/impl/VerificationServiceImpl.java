@@ -5,7 +5,6 @@ import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
@@ -93,7 +92,7 @@ public class VerificationServiceImpl implements VerificationService {
      */
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByCalibratorId(Long calibratorId) {
-        return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS, ReadStatus.UNREAD);
+        return verificationRepository.countByCalibratorIdAndStatusAndReadStatus(calibratorId, Status.IN_PROGRESS, Verification.ReadStatus.UNREAD);
     }
 
     /**
@@ -105,7 +104,7 @@ public class VerificationServiceImpl implements VerificationService {
      */
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByProviderId(Long providerId) {
-        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT, ReadStatus.UNREAD);
+        return verificationRepository.countByProviderIdAndStatusAndReadStatus(providerId, Status.SENT, Verification.ReadStatus.UNREAD);
     }
 
     /**
@@ -117,7 +116,7 @@ public class VerificationServiceImpl implements VerificationService {
      */
     @Transactional(readOnly = true)
     public Long findCountOfNewVerificationsByStateVerificatorId(Long stateVerificatorId) {
-        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR, ReadStatus.UNREAD);
+        return verificationRepository.countByStateVerificatorIdAndStatusAndReadStatus(stateVerificatorId, Status.SENT_TO_VERIFICATOR, Verification.ReadStatus.UNREAD);
     }
 
     @Transactional(readOnly = true)
@@ -275,7 +274,6 @@ public class VerificationServiceImpl implements VerificationService {
                                                                                             String streetToSearch, String status, String employeeName, Long protocolId, String protocolStatus, Long measurementDeviceId, String measurementDeviceType, String sortCriteria, String sortOrder, User calibratorEmployee) {
 
         CriteriaQuery<Verification> criteriaQuery = ArchivalVerificationsQueryConstructorCalibrator.buildSearchQuery(organizationId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, sortCriteria, sortOrder, calibratorEmployee, em);
-        System.out.println("VerificationService protocol status " + criteriaQuery.toString() + protocolStatus);
         Long count = em.createQuery(ArchivalVerificationsQueryConstructorCalibrator.buildCountQuery(organizationId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, employeeName, protocolId, protocolStatus, measurementDeviceId, measurementDeviceType, calibratorEmployee, em)).getSingleResult();
 
         TypedQuery<Verification> typedQuery = em.createQuery(criteriaQuery);
@@ -401,7 +399,7 @@ public class VerificationServiceImpl implements VerificationService {
             logger.error("verification haven't found");
             return;
         }
-        verification.setReadStatus(ReadStatus.READ);
+        verification.setReadStatus(Verification.ReadStatus.READ);
         verificationRepository.save(verification);
     }
 
@@ -414,7 +412,7 @@ public class VerificationServiceImpl implements VerificationService {
             return;
         }
         verification.setStatus(status);
-        verification.setReadStatus(ReadStatus.READ);
+        verification.setReadStatus(Verification.ReadStatus.READ);
         verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
@@ -435,7 +433,7 @@ public class VerificationServiceImpl implements VerificationService {
             verification.setProvider(oraganization);
         }
         verification.setStatus(status);
-        verification.setReadStatus(ReadStatus.UNREAD);
+        verification.setReadStatus(Verification.ReadStatus.UNREAD);
         verification.setExpirationDate(new Date());
         verificationRepository.save(verification);
     }
@@ -464,7 +462,7 @@ public class VerificationServiceImpl implements VerificationService {
         verificationToEdit.setClientData(clientData);
         verificationToEdit.setProvider(provider);
         verificationToEdit.setStatus(Status.SENT);
-        verificationToEdit.setReadStatus(ReadStatus.UNREAD);
+        verificationToEdit.setReadStatus(Verification.ReadStatus.UNREAD);
         verificationRepository.save(verificationToEdit);
     }
 

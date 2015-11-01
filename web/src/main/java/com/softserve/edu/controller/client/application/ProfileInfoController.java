@@ -1,8 +1,7 @@
 package com.softserve.edu.controller.client.application;
 
-import com.softserve.edu.controller.provider.util.UserDTO;
+import com.softserve.edu.dto.user.UserDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
-import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;

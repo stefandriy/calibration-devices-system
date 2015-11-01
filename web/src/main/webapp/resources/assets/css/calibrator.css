@@ -471,3 +471,18 @@ color:#003712;
 .input-group-addon {
     border-radius: 0px;
 }
+
+.archive_parsing_results{
+    height:250px;
+    overflow: scroll;
+}
+
+.close_to_header{
+    border-radius: 0 !important;
+    margin: 0 !important;
+}
+
+.header_for_results{
+    margin-left: 0;
+    margin-right: 0;
+}

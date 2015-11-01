@@ -62,7 +62,6 @@ angular
                 };
 
                 $scope.showGrafic = function () {         	
-                	if (dateValidate()){                	
 	                    var dataToSearch = {
 	                        fromDate: $scope.changeDateToSend($scope.dataToSearch.fromDate),
 	                        toDate: $scope.changeDateToSend($scope.dataToSearch.toDate)
@@ -71,55 +70,32 @@ angular
 	                        .success(function (data) {
 	                            return me.displayGrafic(data);
 	                        });
-                	}
                 };
                 
-                var dateValidate = function () {
-                	var dateRangeError = false;
-                	
-                	if ($scope.dataToSearch.fromDate > new Date()){
-                		dateRangeError = true;
-                		$scope.fromDateInTheFuture = true;
-                	} else {
-                		$scope.fromDateInTheFuture = false;
-                	}
-                	
-                	if ($scope.dataToSearch.toDate > new Date()){
-                		dateRangeError = true;
-                		$scope.toDateInTheFuture = true;
-                	} else {
-                		$scope.toDateInTheFuture = false;
-                	}
-                	
-                	if ($scope.dataToSearch.toDate < $scope.dataToSearch.fromDate && !$scope.fromDateInTheFuture){
-                		dateRangeError = true;
-                		$scope.toDateInvalid = true;
-                	} else {
-                		$scope.toDateInvalid = false;
-                	}
-                	
-                	return !dateRangeError;
-                	
-                };
 
                 /**
                  *  Date picker and formatter setup
                  *
                  */
+                $scope.toMaxDate = new Date();
+                
                 $scope.firstCalendar = {};
                 $scope.firstCalendar.isOpen = false;
                 $scope.secondCalendar = {};
                 $scope.secondCalendar.isOpen = false;
+                
 
                 $scope.open1 = function ($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
                     $scope.firstCalendar.isOpen = true;
+                    $scope.secondCalendar.isOpen = true;
                 };
                 $scope.open2 = function ($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
                     $scope.secondCalendar.isOpen = true;
+                    $scope.firstCalendar.isOpen = true;
                 };
 
                 $scope.dateOptions = {
@@ -132,7 +108,14 @@ angular
                 $scope.format = $scope.formats[2];
 
                 $scope.changeDateToSend = function (value) {
-
+                	if ($scope.dataToSearch.toDate != null) {
+                		$scope.fromMaxDate = $scope.dataToSearch.toDate;
+                	} else {
+                		$scope.fromMaxDate = new Date();
+                	}
+                	
+                	$scope.toMinDate = $scope.dataToSearch.fromDate;
+                	
                     if (angular.isUndefined(value)) {
                         return null;
 

@@ -1,0 +1,22 @@
+<div class="modal-header text-center">
+        <h3>{{'SUBMIT_DELETE_SYS_ADMIN'| translate}}
+            <span class="username">
+                    {{$root.username}}
+            </span>
+        </h3>
+</div>
+<div class="modal-body submit text-center">
+        <span>
+            <i>
+                {{'Are_YOU_SURE'| translate}}
+            </i>
+        </span>
+</div>
+<div class="modal-footer">
+    <div class="row row-centered">
+        <div class="col-centered">
+            <button class="btn btn-danger" ng-click="submitDelete()">{{'DELETE' | translate}}</button>
+            <button class="btn btn-default" ng-click="cancel()">{{'CLOSE' | translate}}</button>
+        </div>
+    </div>
+</div>

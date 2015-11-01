@@ -3,7 +3,7 @@
         | translate}}</h3>
 </div>
 
-<div class="modal-body">
+<div class="modal-body modal-padding">
     <form name="addAgreementForm" id="addAgreementForm" role="form" ng-submit="onAddAgreementFormSubmit()"
           class="form-group" novalidate>
         <div class="panel panel-primary">
@@ -180,21 +180,19 @@
             </div>
         </div>
 
+        <div class="form-group row row-buttons">
+            <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2">
+                {{'ADD' | translate}}
+            </button>
+            <input type="reset" class="btn btn-warning col-md-3 col-sm-12 col-xs-12 col-lg-3"
+                   value="{{'CLEAR_FORM' | translate }}" ng-click="resetAddAgreementForm()">
+            <div class="col-md-5 col-sm-0 col-xs-0 col-lg-5">
+                <p>
 
-        <div class="form-group row">
-            <div class="col-md-10">
-                <button type="submit" class="btn btn-success">
-                    {{'ADD' | translate}}
-                </button>
-                <button type="reset" class="btn btn-warning" ng-click="resetAddAgreementForm()">
-                    {{'CLEAR_FORM' | translate }}
-                </button>
+                </p>
             </div>
-            <div class="col-md-2">
-                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'
-                    | translate}}
-                </button>
-            </div>
+            <input type="button" class="btn btn-danger col-md-2 col-sm-12 col-xs-12 col-lg-2 pull-right"
+                   value="{{'CLOSE' | translate}}" ng-click="closeModal()">
         </div>
     </form>
 </div>

@@ -3,10 +3,9 @@ package com.softserve.edu.service.provider;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.util.ConvertUserRoleToString;
+import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
 import org.junit.Assert;
 import org.junit.Before;
@@ -181,7 +180,7 @@ public class ProviderEmployeeServiceImplTest {
 		final List<String> mockList = Collections.singletonList(mockUser);
 
 		when(mockProviderEmployeeRepository.getRolesByUserName(anyString()))
-				.thenReturn(ConvertUserRoleToString.convertToSetUserRole(mockList));
+				.thenReturn(ConvertSetEnumsToListString.convertToSetUserRole(mockList, UserRole.class));
 
 		Assert.assertEquals(mockList,
                 providerEmployeeService.getRoleByUserNam(usernam));

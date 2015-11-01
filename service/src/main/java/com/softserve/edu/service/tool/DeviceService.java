@@ -16,15 +16,15 @@ public interface DeviceService {
 
     Page<Device> getDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String search);
 
-    ListToPageTransformer<Device> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String number,
+    ListToPageTransformer<Device> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, Long id,
                                                                         String deviceType, String deviceName,
                                                                         String sortCriteria, String sortOrder);
 
     List<Device> getAllByType(String device);
 
-    void addDeviceCategory(String number, String deviceType, String deviceName);
+    void addDeviceCategory(String deviceType, String deviceName);
 
-    void editDeviceCategory(Long id, String number, String deviceType, String deviceName);
+    void editDeviceCategory(Long id, String deviceType, String deviceName);
 
     void removeDeviceCategory(Long id);
 }
