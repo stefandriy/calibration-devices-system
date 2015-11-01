@@ -45,9 +45,9 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void testExistsWithUsername() {
-        assertFalse(userService.existsWithUsername(username));
-        assertTrue(userService.existsWithUsername(anyString()));
+    public void testIsExistsWithUsername() {
+        assertFalse(userService.isExistsWithUsername(username));
+        assertTrue(userService.isExistsWithUsername(anyString()));
     }
 
     @Test

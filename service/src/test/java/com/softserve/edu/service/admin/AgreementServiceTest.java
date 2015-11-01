@@ -3,13 +3,6 @@ package com.softserve.edu.service.admin;
 import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
-<<<<<<< HEAD
-import com.softserve.edu.service.tool.DeviceService;
-import jdk.nashorn.internal.ir.annotations.*;
-import org.junit.*;
-import org.junit.Ignore;
-=======
->>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +22,9 @@ public class AgreementServiceTest {
     @Autowired
     private AgreementService agreementService;
 
-<<<<<<< HEAD
-    @Autowired
-    private DeviceService deviceService;
-
-    @Ignore
-=======
     /**
      * Saves agreement then test if all parameters are saved.
      */
->>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
     @Test
     public void testAdd() {
         String agreementNumber = "A 123";
@@ -57,14 +43,10 @@ public class AgreementServiceTest {
         assertEquals(executorId, agreementFromDB.getExecutor().getId());
 
     }
-<<<<<<< HEAD
-    @Ignore
-=======
 
     /**
      * Find agreement by customer id and device type and then check if device type and customer are correct.
      */
->>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
     @Test
     public void testFindByCustomerIdAndDeviceType() {
         Long customerId = 1L;
@@ -77,8 +59,5 @@ public class AgreementServiceTest {
         assertEquals(deviceType, firstAgreement.getDeviceType());
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
 }

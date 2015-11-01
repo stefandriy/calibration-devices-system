@@ -7,7 +7,6 @@ import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.parameter.FileSystem;
 import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.repository.CalibrationTestRepository;
@@ -94,7 +93,7 @@ public class DocumentsServiceImplTest {
     @Test
     public void testBuildFileWithoutTestResultWithSuccessResult() throws Exception {
         documentType = DocumentType.VERIFICATION_CERTIFICATE;
-        when(calibrationTest.getTestResult()).thenReturn(CalibrationTestResult.SUCCESS);
+        when(calibrationTest.getTestResult()).thenReturn(Verification.CalibrationTestResult.SUCCESS);
         PowerMockito.whenNew(FileParameters.class).withArguments(document, documentType, fileFormat)
                 .thenReturn(fileParameters);
         FileObject expected = FileFactory.buildFile(fileParameters);
@@ -105,7 +104,7 @@ public class DocumentsServiceImplTest {
     @Test
     public void testBuildFileWithoutTestResultWithFailedResult() throws Exception {
         documentType = DocumentType.UNFITNESS_CERTIFICATE;
-        when(calibrationTest.getTestResult()).thenReturn(CalibrationTestResult.FAILED);
+        when(calibrationTest.getTestResult()).thenReturn(Verification.CalibrationTestResult.FAILED);
         when(DocumentFactory.build(documentType, verification, calibrationTest))
                 .thenReturn(document);
         PowerMockito.whenNew(FileParameters.class).withArguments(document, documentType, fileFormat)
@@ -122,7 +121,7 @@ public class DocumentsServiceImplTest {
     public void testBuildFileWithoutTestResultWithIncorrectResult() throws Exception {
         thrown.expect(IllegalArgumentException.class);
         documentType = DocumentType.UNFITNESS_CERTIFICATE;
-        when(calibrationTest.getTestResult()).thenReturn(CalibrationTestResult.valueOf("not a result"));
+        when(calibrationTest.getTestResult()).thenReturn(Verification.CalibrationTestResult.valueOf("not a result"));
         when(DocumentFactory.build(documentType, verification, calibrationTest))
                 .thenReturn(document);
         PowerMockito.whenNew(FileParameters.class).withArguments(document, documentType, fileFormat)
