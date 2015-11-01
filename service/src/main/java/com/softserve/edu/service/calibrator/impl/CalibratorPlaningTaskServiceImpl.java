@@ -64,7 +64,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 verifications.add(verification);
             }
         }
-        CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
+        CalibrationModule module = moduleRepository.findBySerialNumber(serialNumber);
         module.setWorkDate(taskDate);
         moduleRepository.save(module);
         Organization organization = organizationRepository.findOne(organizationId);
