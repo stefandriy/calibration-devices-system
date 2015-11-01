@@ -44,18 +44,6 @@ public class VerificationProviderEmployeeServiceImplTest {
     @InjectMocks
     VerificationProviderEmployeeService verificationProviderEmployeeService = new VerificationProviderEmployeeServiceImpl();
 
-//    @Test(expected = NoSuchElementException.class)
-//    public void testAssignProviderEmployeeVerificationIsNull() throws Exception {
-//        String verificationID = null;
-//        User mockUser = mock(User.class);
-//
-//        org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(VerificationProviderEmployeeServiceImpl.class); //wrong
-//
-//        when(verificationRepository.findOne(null)).thenReturn(null);
-//        doThrow(new NoSuchElementException()).when(logger).error("verification haven't found");
-//        verificationProviderEmployeeService.assignProviderEmployee(verificationID, mockUser);
-//    }
-
     @Test
     public void testAssignProviderEmployeeUserIsNotNull() {
         String verificationID = " ";
