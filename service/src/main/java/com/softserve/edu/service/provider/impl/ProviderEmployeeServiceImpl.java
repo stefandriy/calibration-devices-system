@@ -1,7 +1,7 @@
 package com.softserve.edu.service.provider.impl;
 
 import com.softserve.edu.entity.organization.Organization;
-import com.softserve.edu.entity.util.ConvertUserRoleToString;
+import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
@@ -21,12 +21,11 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.repository.VerificationRepository;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.provider.buildGraphic.GraphicBuilder;
 import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.ProviderEmployeeQuary;
+import com.softserve.edu.service.utils.ProviderEmployeeQuery;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -76,8 +75,6 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     public void updateEmployee(User providerEmployee) {
         if (providerEmployee.getPassword().equals("generate")) {
             String newPassword = RandomStringUtils.randomAlphanumeric(5);
-            System.out.println(providerEmployee.getEmail());
-            System.out.println(newPassword);
             mail.sendNewPasswordMail(providerEmployee.getEmail(), providerEmployee.getFirstName(), newPassword);
             String passwordEncoded = new BCryptPasswordEncoder().encode(newPassword);
             providerEmployee.setPassword(passwordEncoded);
@@ -118,7 +115,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @Override
     @Transactional
     public List<String> getRoleByUserNam(String username) {
-        return ConvertUserRoleToString.convertToListString(providerEmployeeRepository.getRolesByUserName(username));
+        return ConvertSetEnumsToListString.convertToListString(providerEmployeeRepository.getRolesByUserName(username));
     }
 
     @Override
@@ -127,10 +124,10 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     findPageOfAllProviderEmployeeAndCriteriaSearch(int pageNumber, int itemsPerPage, Long idOrganization, String userName,
                                                    String role, String firstName, String lastName, String organization,
                                                    String telephone, String secondTelephone, String fieldToSort) {
-        CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuary.buildSearchQuery(userName, role, firstName,
+        CriteriaQuery<User> criteriaQuery = ProviderEmployeeQuery.buildSearchQuery(userName, role, firstName,
                 lastName, organization, telephone, secondTelephone, em, idOrganization, fieldToSort);
 
-        Long count = em.createQuery(ProviderEmployeeQuary.buildCountQuery(userName, role, firstName,
+        Long count = em.createQuery(ProviderEmployeeQuery.buildCountQuery(userName, role, firstName,
                 lastName, organization, telephone, secondTelephone, idOrganization, em)).getSingleResult();
 
         TypedQuery<User> typedQuery = em.createQuery(criteriaQuery);

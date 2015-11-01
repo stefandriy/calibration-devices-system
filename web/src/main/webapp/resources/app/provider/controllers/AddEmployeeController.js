@@ -313,6 +313,7 @@ angular
                     firstName: $scope.employeeFormData.firstName,
                     lastName: $scope.employeeFormData.lastName,
                     middleName: $scope.employeeFormData.middleName,
+                    isAvaliable : true,
                     phone: $scope.employeeFormData.phone,
                     secondPhone: $scope.employeeFormData.secondPhone,
                     email: $scope.employeeFormData.email,

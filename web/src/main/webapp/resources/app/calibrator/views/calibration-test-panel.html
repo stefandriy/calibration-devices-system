@@ -34,7 +34,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <span>Останні дані для повірки № {{verId}}</span>
+                    <span>{{'RECENT_DATA_FOR_VERIFICATION' | translate }} {{verId}}</span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
                 <div class="panel-body">
@@ -52,7 +52,7 @@
                                         <td data-title="'CALIBRATION_TEST_NAME' | translate"
                                             filter="{ 'name': 'text' }" sortable="'name'">{{ calibrationTest.name}}
                                         </td>
-                                        <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
+                                        <td data-title="'VERIFICATION_ID' | translate"
                                             filter="{ 'id': 'text' }">{{ calibrationTest.id }}
                                         </td>
 
@@ -99,7 +99,7 @@
                                         </td>
                                         <td data-title="'TEST_RESULT' | translate" sortable="'test_result'"
                                             filter="{ testResult : 'testResult'}">{{
-                                            calibrationTest.testResult }}
+                                            calibrationTest.testResult | translate}}
                                         </td>
                                         <td data-title="'MEASUREMENT_DEVICE_ID' | translate"
                                             sortable="'measurement_device_id'"
@@ -109,7 +109,7 @@
                                         <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
                                             sortable="'measurement_device_type'"
                                             filter="{ measurementDeviceType : 'deviceType' }">{{
-                                            calibrationTest.measurementDeviceType }}
+                                            calibrationTest.measurementDeviceType | translate}}
                                         </td>
                                         <td data-title="'DOCUMENT_TYPE' | translate">{{
                                             calibrationTest.documentTypeName }}
@@ -195,7 +195,7 @@
                                 </ui-select>
                             </script>
                             <script type="text/ng-template" id="ng-table/filters/testResult.html">
-                                <ui-select ng-model="selectedProtocolStatus.name" theme="select2" on-select='doSearch()'
+                                <ui-select ng-model="selectedTestResult.name" theme="select2" on-select='doSearch()'
                                            search-enabled="false"
                                            name="filter-testResult  ">
                                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
@@ -203,8 +203,8 @@
                                         {{$select.selected.label}}
                                     </ui-select-match>
                                     <ui-select-choices
-                                            repeat="protocolStatus in testResults">
-                                        <span ng-bind-html="protocolStatus.label"></span>
+                                            repeat="testResult in testResults">
+                                        <span ng-bind-html="testResult.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
                             </script>

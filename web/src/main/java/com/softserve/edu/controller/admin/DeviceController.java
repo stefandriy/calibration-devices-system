@@ -37,25 +37,29 @@ public class DeviceController {
         return isAvaible;
     }
 
+    /**
+     * Saves device category  in database
+     * @param deviceDTO
+     * @return a response body with http status {@literal CREATED} if everything
+     * device category successfully created or else http status {@literal CONFLICT}
+     */
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity addDeviceCategory(@RequestBody DeviceDTO deviceDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
             deviceService.addDeviceCategory(
-                    deviceDTO.getNumber(),
                     deviceDTO.getDeviceType(),
                     deviceDTO.getDeviceName()
             );
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION ", e);
+            logger.error("Got exeption while add counter type ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
     }
 
     /**
-     * Edit organization in database
-     *
+     * Edit device category in database
      * @param deviceCategoryDTO object with device category data
      * @return a response body with http status {@literal OK} if device category
      * successfully edited or else http status {@literal CONFLICT}
@@ -67,29 +71,39 @@ public class DeviceController {
         try {
             deviceService.editDeviceCategory(
                     deviceCategoryId,
-                    deviceCategoryDTO.getNumber(),
                     deviceCategoryDTO.getDeviceType(),
                     deviceCategoryDTO.getDeviceName()
             );
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION ",e);
+            logger.error("Got exeption while editing counter type ",e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
     }
 
+    /**
+     * Remove device category from database
+     * @param deviceCategoryId
+     * @returna response body with http status {@literal OK} if device category
+     * successfully removed or else http status {@literal CONFLICT}
+     */
     @RequestMapping(value = "delete/{deviceCategoryId}", method = RequestMethod.DELETE)
     public ResponseEntity removeDeviceCategory(@PathVariable Long deviceCategoryId) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
             deviceService.removeDeviceCategory(deviceCategoryId);
         } catch (Exception e) {
-            logger.error("GOT EXCEPTION ",e);
+            logger.error("Got exeption while remove counter type ",e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
     }
 
+    /**
+     * Get Device category by id
+     * @param id Long of device category
+     * @return deviceDTO
+     */
     @RequestMapping(value = "get/{id}")
     public DeviceDTO getDeviceCategory(@PathVariable("id") Long id) {
         Device deviceCategory = deviceService.getById(id);
@@ -98,6 +112,15 @@ public class DeviceController {
         return deviceDTO;
     }
 
+    /**
+     * Building page, Sorting and Filtering
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param sortCriteria
+     * @param sortOrder
+     * @param searchData
+     * @return
+     */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<DeviceDTO> pageDeviceCategoryWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
                                                            @PathVariable String sortCriteria, @PathVariable String sortOrder,
@@ -105,7 +128,7 @@ public class DeviceController {
         ListToPageTransformer<Device> queryResult = deviceService.getCategoryDevicesBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
-                searchData.getNumber(),
+                searchData.getId(),
                 searchData.getDeviceType(),
                 searchData.getDeviceName(),
                 sortCriteria,
@@ -115,7 +138,12 @@ public class DeviceController {
         return new PageDTO(queryResult.getTotalItems(), content);
     }
 
-
+    /**
+     * Building page without sortCriteria and searchData
+     * @param pageNumber
+     * @param itemsPerPage
+     * @return
+     */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<DeviceDTO> getDeviceCategoryPage(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
         return pageDeviceCategoryWithSearch(pageNumber, itemsPerPage, null, null, null);

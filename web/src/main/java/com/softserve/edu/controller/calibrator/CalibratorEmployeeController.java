@@ -1,13 +1,12 @@
 package com.softserve.edu.controller.calibrator;
 
-import com.softserve.edu.controller.provider.ProviderEmployeeController;
 import com.softserve.edu.dto.provider.VerificationProviderEmployeeDTO;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.utils.EmployeeDTO;
@@ -35,7 +34,7 @@ public class CalibratorEmployeeController {
     Logger logger = Logger.getLogger(CalibratorEmployeeController.class);
 
     @Autowired
-    private UserService userService;
+    private UsersService usersService;
 
     @Autowired
     private OrganizationService organizationsService;
@@ -61,7 +60,7 @@ public class CalibratorEmployeeController {
     public Boolean isValidUsername(@PathVariable String username) {
         boolean isAvailable = false;
         if (username != null) {
-            isAvailable = userService.existsWithUsername(username);
+            isAvailable = usersService.isExistsWithUsername(username);
         }
         return isAvailable;
     }
@@ -80,7 +79,7 @@ public class CalibratorEmployeeController {
     public List<EmployeeDTO> employeeCalibratorVerification(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         User employee = calibratorService.oneCalibratorEmployee(user.getUsername());
-        List<String> role = userService.getRoles(user.getUsername());
+        List<String> role = usersService.getRoles(user.getUsername());
         return calibratorService.getAllCalibratorEmployee(role, employee);
     }
 

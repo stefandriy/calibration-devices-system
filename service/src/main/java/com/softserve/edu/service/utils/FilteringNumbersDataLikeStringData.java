@@ -12,10 +12,6 @@ import javax.persistence.criteria.Selection;
 import java.io.Serializable;
 
 /**
- * Created by Volodya NT on 21.09.2015.
- */
-
-/**
  *
  * @param <Y> type that will be casted to String
  *           this class adds new functionality for searching data in DB.
@@ -23,7 +19,7 @@ import java.io.Serializable;
  *           Class will filter digital(Integer, Long..) data like it's String.
  */
 
-class FilteringNumbersDataLikeStringData<Y extends Number> extends BasicFunctionExpression<String> implements FunctionExpression<String>, Serializable {
+public class FilteringNumbersDataLikeStringData<Y extends Number> extends BasicFunctionExpression<String> implements FunctionExpression<String>, Serializable {
     public static final String FCT_NAME = "str";
 
     private final Selection<Y> selection;

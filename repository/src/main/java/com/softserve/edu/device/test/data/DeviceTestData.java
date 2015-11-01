@@ -5,58 +5,58 @@ package com.softserve.edu.device.test.data;
  */
 public interface DeviceTestData {
     String getStringValue(String key);
-    Long getLongValue(String key);
-    Integer getIntegerValue(String key);
-    Double getDoubleValue(String key);
+    long getLongValue(String key);
+    int getIntegerValue(String key);
+    double getDoubleValue(String key);
 
-    Integer getDay();
-    Integer getMonth();
-    Integer getYear();
-    Integer getMinute();
-    Integer getSecond();
-    Integer getDayOfWeek();
-    Long getUnixTime();
-    Integer getTemperature();
-    Long getBatteryCharge();
+    int getDay();
+    int getMonth();
+    int getYear();
+    int getMinute();
+    int getSecond();
+    int getDayOfWeek();
+    long getUnixTime();
+    int getTemperature();
+    long getBatteryCharge();
     String getFileName();
-    Integer getIntegrationTime();
-    Integer getTestCounter();
-    Long getInstallmentNumber();
+    int getIntegrationTime();
+    int getTestCounter();
+    long getInstallmentNumber();
     String getCurrentCounterNumber();
-    Double getLatitude();
-    Double getLongitude();
-    Long getImpulsePricePerLitre();
-    Long getInitialCapacity();
+    double getLatitude();
+    double getLongitude();
+    long getImpulsePricePerLitre();
+    long getInitialCapacity();
     String getCounterType1();
-    Long getTestimony();
-    Integer getCounterProductionYear();
+    long getTestimony();
+    int getCounterProductionYear();
     String getCounterType2();
 
-    Long getTestSpecifiedConsumption(int testIndex);
-    Long getTestLowerConsumptionLimit(int testIndex);
-    Long getTestUpperConsumptionLimit(int testIndex);
-    Long getTestAllowableError(int testIndex);
-    Long getTestSpecifiedImpulsesAmount(int testIndex);
-    Double getTestCorrectedCumulativeImpulsesValue(int testIndex);
-    Double getTestCorrectedCurrentConsumption(int testIndex);
-    Double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex);
-    Double getTestCurrentConsumptionWithoutCorrection(int testIndex);
-    Long getTestEstimatedError(int testIndex);
-    Double getTestInitialCounterValue(int testIndex);
-    Double getTestTerminalCounterValue(int testIndex);
-    Long getTestUnixBeginTime(int testIndex);
-    Long getTestUnixEndTime(int testIndex);
+    long getTestSpecifiedConsumption(int testIndex);
+    long getTestLowerConsumptionLimit(int testIndex);
+    long getTestUpperConsumptionLimit(int testIndex);
+    long getTestAllowableError(int testIndex);
+    long getTestSpecifiedImpulsesAmount(int testIndex);
+    double getTestCorrectedCumulativeImpulsesValue(int testIndex);
+    double getTestCorrectedCurrentConsumption(int testIndex);
+    double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex);
+    double getTestCurrentConsumptionWithoutCorrection(int testIndex);
+    long getTestEstimatedError(int testIndex);
+    double getTestInitialCounterValue(int testIndex);
+    double getTestTerminalCounterValue(int testIndex);
+    long getTestUnixBeginTime(int testIndex);
+    long getTestUnixEndTime(int testIndex);
 
     /**
      * Returns test duration in seconds
      * @param testIndex
      * @return
      */
-    Double getTestDuration(int testIndex);
-    Long getTestCorrectionFactor(int testIndex);
-    Long getTestMinConsumptionLimit(int testIndex);
-    Long getTestMaxConsumptionLimit(int testIndex);
-    Integer getTestNumber(int testIndex);
+    double getTestDuration(int testIndex);
+    long getTestCorrectionFactor(int testIndex);
+    long getTestMinConsumptionLimit(int testIndex);
+    long getTestMaxConsumptionLimit(int testIndex);
+    int getTestNumber(int testIndex);
 
     String getTestPhoto();
     String getBeginPhoto(int testIndex);

@@ -18,7 +18,7 @@ function ($http) {
            var url = '/calibrator/disassemblyTeam/available/' + Tname;
            return $http.get(url)
                .then(function(result) {
-                   return result.data;
+                    return result.data;
                });
        },
        saveDisassemblyTeam : function(formData) {
