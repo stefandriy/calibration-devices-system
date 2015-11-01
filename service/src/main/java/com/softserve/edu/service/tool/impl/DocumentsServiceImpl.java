@@ -9,7 +9,6 @@ import com.softserve.edu.documents.parameter.FileSystem;
 import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.tool.DocumentService;
@@ -113,7 +112,7 @@ public class DocumentsServiceImpl implements DocumentService {
         Set<CalibrationTest> calibrationTests = verification.getCalibrationTests();
 
         CalibrationTest calibrationTest = calibrationTests.iterator().next();
-        CalibrationTestResult testResult = calibrationTest.getTestResult();
+        Verification.CalibrationTestResult testResult = calibrationTest.getTestResult();
         DocumentType documentType;
 
         switch (testResult) {

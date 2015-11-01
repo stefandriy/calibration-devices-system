@@ -22,10 +22,7 @@ angular
                 total: 0,
                 getData: function ($defer, params) {
 
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
-
-                    userService.getSysAdminsPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                    userService.getSysAdminsPage()
                         .success(function (result) {
                             console.log(result);
                             $scope.totalEmployee=result.totalItems;
@@ -89,15 +86,31 @@ angular
                                     }
                                 }
                             });
+                        /**
+                         * executes when modal closing
+                         */
+                        sysAdminDTOModal.result.then(function () {
+                            $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_ADMIN'));
+                        });
                     });
             };
 
-            $scope.deleteSysAdmin = function (username){
-                userService.deleteSysAdmin(username);
-                $timeout(function() {
-                    console.log('delete with timeout');
-                    $rootScope.onTableHandling();
-                }, 700);
+            $scope.openSubmitSysAdminDeleteModal = function (username){
+                $rootScope.username = username;
+                //userService.deleteSysAdmin(username);
+                var sysAdminDTOModal = $modal
+                    .open({
+                        animation: true,
+                        controller: 'SysAdminDeleteModalController',
+                        templateUrl: '/resources/app/admin/views/modals/submit-sys-admin-delete-modal.html',
+                        windowClass: 'center-modal'
+                    });
+                /**
+                 * executes when modal closing
+                 */
+                sysAdminDTOModal.result.then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_ADMIN'));
+                });
             }
 
 

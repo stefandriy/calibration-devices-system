@@ -1,6 +1,6 @@
 package com.softserve.edu.dto.calibrator;
 
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
+import com.softserve.edu.entity.verification.Verification;
 
 import java.util.Date;
 
@@ -15,12 +15,12 @@ public class GlobalCalibrationTestDTO {
     private Double latitude;
     private Double longitude;
     private String consumptionStatus;
-    private CalibrationTestResult testResult;
+    private Verification.CalibrationTestResult testResult;
 
     public GlobalCalibrationTestDTO(){}
 
     public GlobalCalibrationTestDTO(String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus,
-                                    CalibrationTestResult testResult) {
+                                    Verification.CalibrationTestResult testResult) {
         this.name = name;
         this.dateTest = dateTest;
         this.temperature = temperature;
@@ -88,11 +88,11 @@ public class GlobalCalibrationTestDTO {
         this.consumptionStatus = consumptionStatus;
     }
 
-    public CalibrationTestResult getTestResult() {
+    public Verification.CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(CalibrationTestResult testResult) {
+    public void setTestResult(Verification.CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 

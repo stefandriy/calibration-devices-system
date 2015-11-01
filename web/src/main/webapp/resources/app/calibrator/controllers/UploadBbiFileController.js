@@ -4,9 +4,9 @@
 angular
     .module('employeeModule')
 
-    .controller('UploadBbiFileController', ['$scope', '$rootScope', '$route', '$log', '$modalInstance',
+    .controller('UploadBbiFileController', ['$scope', '$rootScope', '$route', '$filter', '$log', '$modalInstance',
         'calibrationTest', 'Upload', '$timeout', 'parseBbiFile',
-        function ($scope, $rootScope, $route, $log, $modalInstance, verification, Upload, $timeout, parseBbiFile) {
+        function ($scope, $rootScope, $route, $filter, $log, $modalInstance, verification, Upload, $timeout, parseBbiFile) {
 
 	    	/**
 	         * Closes modal window on browser's back/forward button click.
@@ -17,7 +17,6 @@ angular
     	
             $scope.cancel = function () {
                 $modalInstance.close("cancel");
-
             };
 
             $scope.$watch('files', function () {
@@ -35,7 +34,7 @@ angular
                     for (var i = 0; i < files.length; i++) {
                         var file = files[i];
                         Upload.upload({
-                            url: '/calibrator/verifications/new/upload?idVerification=' + verification,
+                            url: '/calibrator/verifications/new/upload?verificationId=' + verification,
                             file: file
                         }).progress(function (evt) {
                             $scope.uploaded = true;
@@ -43,25 +42,21 @@ angular
                         }).success(function (data, status, headers, config) {
                                 $timeout(function () {
                                     if (status === 200) {
-                                        console.log("Successfully uploaded!")
                                         $scope.messageError = null;
                                         $scope.fileName = config.file.name;
-                                        $scope.messageSuccess = 'Ви успішно завантажили файл ' + config.file.name;
-                                        console.log('uploadBbiController: ' + $scope.fileName);
+                                        $scope.messageSuccess = $filter('translate')('UPLOAD_SUCCESS') + config.file.name;
                                         parseBbiFile(data);
                                     } else {
-                                        $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
+                                        $scope.messageError = $filter('translate')('UPLOAD_FAIL') + config.file.name;
                                         $scope.progressPercentage = parseInt(0);
                                         $scope.uploaded = false;
                                     }
                                 });
-
                             }
                         )
                             .error(function () {
-                                $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
+                                $scope.messageError = $filter('translate')('UPLOAD_FAIL') + config.file.name;
                                 $scope.progressPercentage = parseInt(0);
-
                             })
                     }
                 }

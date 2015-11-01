@@ -60,7 +60,7 @@ public class StateVerificatorEmployeeController {
 	public Boolean isValidUsername(@PathVariable String username) {
 		boolean isAvailable = false;
 		if (username != null) {
-			isAvailable = userService.existsWithUsername(username);
+			isAvailable = userService.isExistsWithUsername(username);
 		}
 		return isAvailable;
 	}

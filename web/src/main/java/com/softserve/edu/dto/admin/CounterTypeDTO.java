@@ -13,7 +13,7 @@ public class CounterTypeDTO {
     private String standardSize;
     private String manufacturer;
     private Integer calibrationInterval;
-    private String yearIntroduction;
+    private Integer yearIntroduction;
     private String gost;
     private Long deviceId;
 
@@ -21,7 +21,7 @@ public class CounterTypeDTO {
     }
 
     public CounterTypeDTO(Long id, String name, String symbol, String standardSize, String manufacturer,
-                          Integer calibrationInterval, String yearIntroduction, String gost, Long deviceId) {
+                          Integer calibrationInterval, Integer yearIntroduction, String gost, Long deviceId) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;

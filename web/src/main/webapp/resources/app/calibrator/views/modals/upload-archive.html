@@ -1,3 +1,9 @@
+<script language='javascript'>
+    $(document).ready(function () {
+        $('.ui.accordion').accordion({exclusive: false});
+    });
+</script>
+
 <div class="modal-header">
     <h4 class="modal-title">Завантаження архіву</h4>
 </div>
@@ -14,15 +20,70 @@
              ng-model="files">Перетягніть файл сюди
         </div>
 
-        <progressbar value="progressPercentage" max="100" min="0" class="progress-striped active" type="success">
+        <progressbar value="progressPercentage" max="100" min="0" class="progress-striped" type="success">
             {{progressPercentage}}%
         </progressbar>
 
         <div ng-show="messageSuccess" class="alert alert-success" role="alert">{{messageSuccess}}</div>
         <div ng-show="messageError" class="alert alert-danger" role="alert">{{messageError}}</div>
+        <div class="ui segment" ng-show="uploadedBBIOutcomes">
+            <div class="ui three statistics">
+                <div class="tiny statistic">
+                    <div class="value">
+                        {{totalBBIs}}
+                    </div>
+                    <div class="label">
+                        Всього
+                    </div>
+                </div>
+                <div class="tiny green statistic">
+                    <div class="value">
+                        {{successfulBBIs}}
+                    </div>
+                    <div class="label">
+                        Успішно
+                    </div>
+                </div>
+                <div class="tiny red statistic">
+                    <div class="value">
+                        {{unsuccessfulBBIs}}
+                    </div>
+                    <div class="label">
+                        Невдало
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="ui top attached header header_for_results" ng-show="uploadedBBIOutcomes">Результати обробки</h3>
+        <div class="ui attached segments close_to_header" ng-show="uploadedBBIOutcomes" ng-class="{archive_parsing_results: uploadedBBIOutcomes}">
+            <div class="ui segment" style="padding: 0">
+                <div class="ui styled fluid accordion">
+                    <div ng-repeat="bbiFileOutcome in uploadedBBIOutcomes">
+                        <div class="title">
+                            <div class="header">
+                                <i class="dropdown icon"></i>
+                                [{{bbiFileOutcome.bbiFileName}}] {{bbiFileOutcome.verificationID}}
+                                <i class="fa fa-times-circle text-danger" ng-show="bbiFileOutcome.success == false"></i>
+                                <i class="fa fa-check-circle text-success" ng-show="bbiFileOutcome.success == true"></i>
+                            </div>
+                        </div>
 
-        <div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
+                        <div class="content">
+                            <p class="transition hidden" ng-if="bbiFileOutcome.success == false">
+                                {{bbiFileOutcome.reasonOfRejection}}</p>
+
+                            <p class="transition hidden" ng-if="bbiFileOutcome.success == true">Успішно оброблено!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+</div>
+
+<div ngf-no-file-drop>Ваш браузер не підтримує перетягування файлів</div>
+</div>
 </div>
 <div class="modal-footer">
     <button ng-click="cancel()" class="btn btn-info pull-right" type="button">

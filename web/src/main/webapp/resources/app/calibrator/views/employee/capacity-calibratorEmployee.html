@@ -1,19 +1,19 @@
 <div class="modal-header-capacity">
-    <h3 class="capacity-employee"> Детальна інформація про кількість заявок працівника</h3>
+    <h3 class="capacity-employee"> {{'INFO_ABOUT_EMPLOYEE_VERIFICATIONS' | translate}}</h3>
 </div>
 
 <div class="modal-body-capacity">
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th class="col-md-2">Дата початку процесу повірки</th>
-            <th>Реєстраційний номер повірки</th>
-            <th>Прізвище клієнта</th>
-            <th>Імя клієнта</th>
-            <th>Район</th>
-            <th class="col">Місто</th>
-            <th>Вулиця, на якій проживає клієнт</th>
-            <th>Номер телефону</th>
+            <th class="col-md-2">{{'DATE_OF_BEGINNING' | translate}}</th>
+            <th>{{'VERIFICATION_ID' | translate}}</th>
+            <th>{{'CLIENT_LAST_NAME' | translate}}</th>
+            <th>{{'CLIENT_FIRST_NAME' | translate}}</th>
+            <th>{{'DISTRICT' | translate}}</th>
+            <th class="col">{{'LOCALITY_TWO' | translate}}</th>
+            <th>{{'CLIENT_STREET' | translate}}</th>
+            <th>{{'PHONE_NUMBER' | translate}}</th>
        </tr>
         </thead>
 
@@ -37,5 +37,5 @@
 </div>
 
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="close()">Закрити</button>
+    <button class="btn btn-primary" ng-click="close()">{{'CLOSE' | translate}}</button>
 </div>
