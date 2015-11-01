@@ -29,21 +29,43 @@ public class CounterTypeServiceImpl implements CounterTypeService{
     @PersistenceContext
     private EntityManager entityManager;
 
-
+    /**
+     * Save counter type with params
+     * @param name
+     * @param symbol
+     * @param standardSize
+     * @param manufacturer
+     * @param calibrationInterval
+     * @param yearIntroduction
+     * @param gost
+     * @param deviceId
+     */
     @Override
     @Transactional
     public void addCounterType(String name, String symbol, String standardSize, String manufacturer,
-                               Integer calibrationInterval, String yearIntroduction, String gost, Long deviceId) {
+                               Integer calibrationInterval, Integer yearIntroduction, String gost, Long deviceId) {
         CounterType counterType = new CounterType(name, symbol, standardSize,
                 manufacturer, calibrationInterval, yearIntroduction,
                 gost, deviceService.getById(deviceId));
         counterTypeRepository.save(counterType);
     }
 
+    /**
+     * Edit counter type with params
+     * @param id
+     * @param name
+     * @param symbol
+     * @param standardSize
+     * @param manufacturer
+     * @param calibrationInterval
+     * @param yearIntroduction
+     * @param gost
+     * @param deviceId
+     */
     @Override
     @Transactional
     public void editCounterType(Long id, String name, String symbol, String standardSize, String manufacturer,
-                                Integer calibrationInterval, String yearIntroduction, String gost, Long deviceId) {
+                                Integer calibrationInterval, Integer yearIntroduction, String gost, Long deviceId) {
         CounterType counterType = counterTypeRepository.findOne(id);
 
         counterType.setName(name);
@@ -58,24 +80,49 @@ public class CounterTypeServiceImpl implements CounterTypeService{
         counterTypeRepository.save(counterType);
     }
 
+    /**
+     * Delete counter type by his id
+     * @param id
+     */
     @Override
     @Transactional
     public void removeCounterType(Long id) {
         counterTypeRepository.delete(id);
     }
 
+    /**
+     * Find counter type by id
+     * @param id
+     * @return
+     */
     @Override
     @Transactional
     public CounterType findById(Long id) {
         return counterTypeRepository.findOne(id);
     }
 
+
+    /**
+     * Service for building page by SortCriteria, SortOrder and Searching data
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param name
+     * @param symbol
+     * @param standardSize
+     * @param manufacturer
+     * @param calibrationInterval
+     * @param yearIntroduction
+     * @param gost
+     * @param sortCriteria
+     * @param sortOrder
+     * @return
+     */
     @Override
     @Transactional
     public ListToPageTransformer<CounterType> getCounterTypeBySearchAndPagination(int pageNumber, int itemsPerPage,
                                                                                   String name, String symbol, String standardSize,
                                                                                   String manufacturer, Integer calibrationInterval,
-                                                                                  String yearIntroduction, String gost,
+                                                                                  Integer yearIntroduction, String gost,
                                                                                   String sortCriteria, String sortOrder) {
         CriteriaQuery<CounterType> criteriaQuery = ArchivalCounterTypeQueryConstructorAdmin
                 .buildSearchQuery(name, symbol, standardSize, manufacturer, calibrationInterval, yearIntroduction,

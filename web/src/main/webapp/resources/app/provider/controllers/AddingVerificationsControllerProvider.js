@@ -1,6 +1,6 @@
 angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$state', '$http', '$log',
     'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
-    '$rootScope', '$location', '$window', '$modalInstance','$filter',
+    '$rootScope', '$location', '$window', '$modalInstance', '$filter',
 
     function ($scope, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
         $scope.isShownForm = true;
@@ -10,7 +10,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         /**
          * Receives all regex for input fields
          */
-        $scope.selectedCount = '0';
         $scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404'][a-z\u0430-\u044f\u0456\u0457']{1,20}\u002d[A-Z\u0410-\u042f\u0407\u0406\u0404'][a-z\u0430-\u044f\u0456\u0457']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404'][a-z\u0430-\u044f\u0456\u0457']{1,20})$/;
         $scope.MIDDLE_NAME_REGEX = /^[A-Z\u0410-\u042f\u0407\u0406\u0404'][a-z\u0430-\u044f\u0456\u0457']{1,20}$/;
         $scope.FLAT_REGEX = /^([1-9][0-9]{0,3}|0)$/;
@@ -28,11 +27,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.calibrators = [];
         $scope.streetsTypes = [];
 
-        $scope.selectedData={};
-        $scope.selectedStreetType = "";
+        $scope.selectedData = {};
+        $scope.selectedData.selectedStreetType = "";
 
         $scope.applicationCodes = [];
         $scope.codes = [];
+        $scope.selectedData.selectedCount = '1';
+        $scope.deviceCountOptions = [1, 2, 3, 4];
 
         /**
          * Closes modal window on browser's back/forward button click.
@@ -76,8 +77,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 $scope.devices = devices;
                 $log.debug('device');
                 $log.debug(devices);
-                $scope.selectedDevice = [];  //$scope.devices[0];
-                $log.debug($scope.selectedCount);
+                $scope.selectedData.selectedDevice = [];  //$scope.devices[0];
+                $log.debug($scope.selectedData.selectedCount);
             });
         /**
          * Receives all possible districts.
@@ -104,20 +105,23 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.selectedData.locality = "";
                     $scope.selectedStreet = "";
                 });
-            addressServiceProvider.findCalibratorsByDistrict(selectedDistrict.designation)
+        };
+
+        $scope.receiveCalibrators = function (deviceType) {
+            addressServiceProvider.findCalibratorsForProviderByType(deviceType.deviceType)
                 .success(function (calibrators) {
                     $scope.calibrators = calibrators;
-                    $scope.selectedCalibrator = "";
+                    $scope.selectedData.selectedCalibrator = "";
                     if ($scope.isCalibrator > 0) {
                         var index = arrayObjectIndexOf($scope.calibrators, $scope.isCalibrator, "id");
-                        $scope.selectedCalibrator = $scope.calibrators[index];
+                        $scope.selectedData.selectedCalibrator = $scope.calibrators[index];
                     }
                 });
         };
 
         addressServiceProvider.findStreetsTypes().success(function (streetsTypes) {
             $scope.streetsTypes = streetsTypes;
-            $scope.selectedStreetType = "";
+            $scope.selectedData.selectedStreetType = "";
             $log.debug("$scope.streetsTypes");
             $log.debug($scope.streetsTypes);
         });
@@ -167,18 +171,23 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 $scope.formData.locality = $scope.selectedData.locality.designation;
                 $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                 $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-                $scope.formData.calibratorId = $scope.selectedCalibrator.id;
-                $scope.formData.deviceId = $scope.selectedDevice.id;
+                $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
+                $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
 
-                verificationServiceProvider.sendInitiatedVerification($scope.formData)
-                    .success(function (applicationCode) {
-                        $scope.applicationCode = applicationCode;
-                    });
-
+                for (var i = 0; i < $scope.selectedData.selectedCount; i++) {
+                    verificationServiceProvider.sendInitiatedVerification($scope.formData)
+                        .success(function (applicationCode) {
+                            if($scope.applicationCodes === undefined)
+                            {
+                                $scope.applicationCodes = [];
+                            }
+                            $scope.applicationCodes.push(applicationCode);
+                        });
+                }
                 verificationServiceProvider.checkMailIsExist($scope.formData)
-                                       .success(function (isMailValid) {
-                                                $scope.isMailValid = isMailValid;
-                                            });
+                    .success(function (isMailValid) {
+                        $scope.isMailValid = isMailValid;
+                    });
 
                 //hide form because application status is shown
                 $scope.isShownForm = false;

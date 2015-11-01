@@ -9,26 +9,17 @@ angular
             saveAgreement: function (formData) {
                 return sendData('add', formData);
             },
-            //========
-            getDeviceCategoryById: function (id) {
-                var url = '/admin/device-category/get/' + id;
-                return $http.get(url).then(function (result) {
-                    return result.data;
-                });
+            getAgreementById: function (id) {
+                return getData("get/" + id);
             },
-            editDeviceCategory: function (formData, id) {
-                var url = '/admin/device-category/edit/' + id;
-                return $http.post(url, formData)
-                    .then(function (result) {
-                        return result.status;
-                    });
+            editAgreement: function (formData, id) {
+                return sendData('edit/' + id, formData);
             },
-            deleteDeviceCategory: function (id) {
-                var url = '/admin/device-category/delete/' + id;
-                return $http.delete(url)
-                    .then(function (result) {
-                        return result.status;
-                    });
+            disableAgreement: function (id) {
+                return getData("disable/" + id);
+            },
+            getEarliestAgreementDate: function() {
+                return getData('earliest_date');
             }
         };
 
@@ -40,8 +31,8 @@ angular
         }
 
         function getData(url) {
-            return $http.get('/admin/agreement/' + url).success(function (data) {
-                return data;
+            return $http.get('/admin/agreement/' + url).success(function (result) {
+                return result;
             }).error(function (err) {
                 return err;
             });

@@ -235,6 +235,17 @@ angular
                 });
             };
 
+                $scope.openTask = function(){
+                $rootScope.verifIds = [];
+                $rootScope.verifIds.push($scope.idsOfVerifications);
+                $rootScope.emptyStatus = $scope.allIsEmpty;
+                $scope.$modalInstance  = $modal.open({
+                    animation: true,
+                    controller: 'TaskSendingModalControllerCalibrator',
+                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                });
+            };
+
             $scope.openTests = function (verificationId) {
                 $log.debug("inside");
                 var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verificationId});

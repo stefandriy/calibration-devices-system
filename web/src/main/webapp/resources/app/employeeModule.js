@@ -6,6 +6,8 @@
         .config(['$translateProvider', '$stateProvider', '$urlRouterProvider', 'showErrorsConfigProvider','cfpLoadingBarProvider', '$provide',
 
             function ($translateProvider, $stateProvider, $urlRouterProvider, showErrorsConfigProvider,cfpLoadingBarProvider, $provide) {
+
+
                 cfpLoadingBarProvider.includeSpinner = false;
                 cfpLoadingBarProvider.latencyThreshold = 500;
                 showErrorsConfigProvider.showSuccess(true);
@@ -112,10 +114,20 @@
                         templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
                         controller: 'VerificationPlanningTaskController'
                     })
-                    .state("calibrator-task-add", {
+                    .state("calibrator-task-station", {
                         url: '/calibrator/task/',
-                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html',
-                        controller: 'TaskSendingModalControllerCalibrator'
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskForStationModal.html',
+                        controller: 'TaskForStationModalControllerCalibrator'
+                    })
+                    .state("calibrator-task-team", {
+                        url: '/calibrator/task/',
+                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskForTeamModal.html',
+                        controller: 'TaskForTeamModalControllerCalibrator'
+                    })
+                    .state("calibrator-counter-status", {
+                        url: '/calibrator/task/',
+                        templateUrl: '/resources/app/calibrator/views/modals/counterStatusModal.html',
+                        controller: 'CounterStatusControllerCalibrator'
                     })
                     .state('main-panel-verificator', {
                         url: '/verificator/',
@@ -123,8 +135,8 @@
                     })
                     .state("new-verifications-verificator", {
                         url: '/verifications/new',
-                        templateUrl: '/resources/app/verificator/views/new-verifications.html',
-                        controller: 'NewVerificationsControllerVerificator'
+                        templateUrl: '/resources/app/verificator/views/calibration-test-panel.html',
+                        controller: 'CalibrationTestControllerCalibrator'
                     })
                     .state("employee-show-verificator", {
                         url: '/verificator/employee-show',
@@ -253,9 +265,9 @@
         'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
         'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',
 
-        'calibrator/controllers/DisassemblyTeamAddModalController',
-        'calibrator/controllers/DisassemblyTeamEditModalController',
-        'calibrator/controllers/DisassemblyTeamControllerCalibrator',
+        'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
+        'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
+        'calibrator/controllers/catalogue/DisassemblyTeamControllerCalibrator',
 
         'calibrator/controllers/UploadBbiFileController',
         'calibrator/controllers/UploadArchiveController',
@@ -263,8 +275,10 @@
         'calibrator/controllers/UsersControllerCalibrator',
         'calibrator/controllers/CalibratorEmployeeControllerCalibrator',
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
-        'calibrator/controllers/TaskSendingModalControllerCalibrator',
+        'calibrator/controllers/TaskForStationModalControllerCalibrator',
+        'calibrator/controllers/TaskForTeamModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
+        'calibrator/controllers/CounterStatusControllerCalibrator',
         'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
         'calibrator/services/VerificationPlanningTaskService',
         'calibrator/services/CalibrationTestServiceCalibrator',
@@ -273,7 +287,7 @@
         'calibrator/services/VerificationServiceCalibrator',
         'calibrator/services/MeasuringEquipmentServiceCalibrator',
         'calibrator/controllers/PieCalibratorEmployee',
-
+        'calibrator/controllers/EditPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',

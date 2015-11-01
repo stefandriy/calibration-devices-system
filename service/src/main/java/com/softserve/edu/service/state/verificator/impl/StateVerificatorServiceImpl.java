@@ -2,7 +2,6 @@ package com.softserve.edu.service.state.verificator.impl;
 
 
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
@@ -84,7 +83,7 @@ public class StateVerificatorServiceImpl implements StateVerificatorService {
     public void assignVerificatorEmployee(String verificationId, User verificatorEmployee) {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setStateVerificatorEmployee(verificatorEmployee);
-        verification.setReadStatus(ReadStatus.READ);
+        verification.setReadStatus(Verification.ReadStatus.READ);
         verificationRepository.save(verification);
     }
 }

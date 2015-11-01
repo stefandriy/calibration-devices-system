@@ -1,7 +1,7 @@
 package com.softserve.edu.dto;
 
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
 
 
 public class CalibrationTestDataDTO {
@@ -19,7 +19,7 @@ public class CalibrationTestDataDTO {
     private Double calculationError;
     private String beginPhoto;
     private String endPhoto;
-    private CalibrationTestResult testResult;
+    private Verification.CalibrationTestResult testResult;
 
     public Boolean getDataAvailable() {
         return dataAvailable;
@@ -133,11 +133,11 @@ public class CalibrationTestDataDTO {
         this.endPhoto = endPhoto;
     }
 
-    public CalibrationTestResult getTestResult() {
+    public Verification.CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(CalibrationTestResult testResult) {
+    public void setTestResult(Verification.CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 
@@ -152,7 +152,7 @@ public class CalibrationTestDataDTO {
         calibrationTestData.setActualConsumption(actualConsumption);
         calibrationTestData.setConsumptionStatus(consumptionStatus);
         calibrationTestData.setCalculationError(calculationError);
-        calibrationTestData.setTestResult(CalibrationTestResult.SUCCESS);
+        calibrationTestData.setTestResult(Verification.CalibrationTestResult.SUCCESS);
         return calibrationTestData;
     }
 }

@@ -1,7 +1,8 @@
 package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,13 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class RoleController {
 
     @Autowired
-    private UserService userService;
+    private UsersService usersService;
 
-
+    /**
+     *Check if authenticated user has role SUPER_ADMIN
+     *
+     * @param user authenticated admin
+     * @return true if authenticated user has role SUPER_ADMIN, else false
+     */
     @RequestMapping(value = "is_super_admin/", method = RequestMethod.GET)
     public Boolean isSuperAdmin(
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
 
-        return userService.getRoles(user.getUsername()).contains(UserRole.SUPER_ADMIN);
+        User authorizedAdmin = usersService.findOne(user.getUsername());
+
+        return usersService.getRoles(authorizedAdmin.getUsername()).contains(UserRole.SUPER_ADMIN.name());
     }
 }

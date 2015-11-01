@@ -1,0 +1,237 @@
+<div id="taskModel" class="modal-content" xmlns="http://www.w3.org/1999/html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="myModalLabel">{{'COUNTER_INFO_TITLE' | translate}}
+        <h4 class="modal-title" ng-show="showSendingMessage"><strong style="color: red;">{{'SEND_MESSAGE' | translate}}</strong></h4>
+    </div>
+    <div class="modal-body">
+    <form name="counterStatusForm" novalidate>
+
+    <!-- counter status -->
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{ 'COUNTER_STATUS' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8">
+            <button class="btn btn-success" ng-click="resolveCounterStatus()" type="button" style="margin-left: 42%;">
+                <span ng-show="counterInfo.counterStatus">{{'YES' | translate}}</span>
+                <span ng-hide="counterInfo.counterStatus">{{'NO' | translate}}</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- SYMBOL -->
+    <div class="row" ng-show="counterInfo.counterStatus">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{'SYMBOL' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8">
+            <select chosen data-placeholder="{{'CHOOSE'| translate}}" class="form-control"
+                    ng-model="counterInfo.symbol"
+                    class="col-xs-5 selectContainer"
+                    id="year" name="year"
+                    allow-single-deselect="true"
+                    disable-search="false"
+                    ng-options="option for option in symbols | filter"
+                    ng-required="counterInfo.counterStatus">
+            </select>
+            <div ng-show="counterStatusForm.$submitted || counterStatusForm.$touched">
+                <div ng-show="counterStatusForm.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standard Size -->
+    <div class="row" ng-show="counterInfo.counterStatus">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{'STANDARD_SIZE' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8">
+            <select chosen data-placeholder="{{'CHOOSE'| translate}}" class="form-control" ng-model="counterInfo.standardSize"
+                    class="col-xs-5 selectContainer"
+                    id="standardSize" name="standardSize"
+                    allow-single-deselect="true"
+                    disable-search="false"
+                    ng-options="option for option in sizes | filter"
+                    ng-required="counterInfo.counterStatus">
+            </select>
+            <div ng-show="counterStatusForm.$submitted || counterStatusForm.$touched">
+                <div ng-show="counterStatusForm.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YEAR OF COUNTER PRODUCTION-->
+    <div class="row" ng-show="counterInfo.counterStatus">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{'YEAR_OF_COUNTER_PRODUCTION' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8" ng-class="yearValidation.css">
+            <input type="text"  ng-model="counterInfo.year"
+                   ng-change="checkAll('year')"
+                   id="year" name="year"
+                   class="form-control"
+                   ng-required="counterInfo.counterStatus">
+            <p class="validation-message" ng-show="yearValidation.isValid">{{'YEAR_REGEX' |  translate}}</p>
+            <div ng-show="counterStatusForm.$submitted || counterStatusForm.$touched">
+                <div ng-show="counterStatusForm.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATE when counter will be removed  -->
+    <div class="row" ng-show="showStatus.opened">
+        <div class="form-group col-md-4" >
+            <label class="control-label">{{'DATE_OF_REMOVE'| translate }}</label>
+        </div>
+        <div class="form-group col-md-8" ng-class="dateValidation.css" >
+            <div class="input-group right-inner-addon" style="width: 100%">
+                <span class="input-group-btn" style="height: 100%">
+                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open1($event)">
+                         <i class="glyphicon glyphicon-calendar" ></i>
+                     </button>
+                </span>
+                <input type="text" class="form-control date-picker" datepicker-popup
+                       ng-model="counterInfo.dateOfRemove"
+                       is-open="firstCalendar.isOpen"
+                       min-date="minDate" max-date="maxDate"
+                       datepicker-options="dateOptions"
+                       date-disabled="disabled(date, mode)" close-text="Close"
+                       readonly required/>
+                       <span class="input-group-btn">
+                              <button type="button" class="btn btn-default myGroupBtn"
+                                       ng-show="!isDateDefault()"
+                                       ng-click="clearDate1()">
+                                   <i class="glyphicon glyphicon-remove"></i>
+                              </button>
+                       </span>
+            </div>
+            <div ng-show="counterStatusForm.$submitted || counterStatusForm.$touched">
+                <div ng-show="counterStatusForm.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DATE when counter will be removed  -->
+    <div class="row">
+        <div class="form-group col-md-4" >
+            <label class="control-label">{{'DATE_OF_REMOVE'| translate }}</label>
+        </div>
+        <div class="form-group col-md-8" ng-class="dateValidation.css" >
+            <div class="input-group right-inner-addon" style="width: 100%">
+                <span class="input-group-btn" style="height: 100%">
+                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open1($event)">
+                         <i class="glyphicon glyphicon-calendar" ></i>
+                     </button>
+                </span>
+                <input type="text" class="form-control date-picker" datepicker-popup
+                       ng-model="counterInfo.dateOfRemove"
+                       is-open="firstCalendar.isOpen"
+                       min-date="minDate" max-date="maxDate"
+                       datepicker-options="dateOptions"
+                       date-disabled="disabled(date, mode)" close-text="Close"
+                       readonly required/>
+                       <span class="input-group-btn">
+                              <button type="button" class="btn btn-default myGroupBtn"
+                                      ng-show="!isDateDefault()"
+                                      ng-click="clearDate1()">
+                                  <i class="glyphicon glyphicon-remove"></i>
+                              </button>
+                       </span>
+            </div>
+            <div ng-show="counterStatusForm.$submitted || counterStatusForm.$touched">
+                <div ng-show="counterStatusForm.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- date of counter installation-->
+    <div class="row">
+        <div class="form-group col-md-4" >
+            <label class="control-label">{{'DATE_OF_INSTALLATION'| translate }}</label>
+        </div>
+
+        <div class="form-group col-md-8" ng-class="dateValidation.css" >
+            <div class="input-group right-inner-addon" style="width: 100%">
+                <span class="input-group-btn" style="height: 100%">
+                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open2($event)">
+                         <i class="glyphicon glyphicon-calendar" ></i>
+                     </button>
+                </span>
+
+                <input type="text" class="form-control date-picker" datepicker-popup
+                       ng-model="counterInfo.noWaterToDate"
+                       is-open="secondCalendar.isOpen"
+                       min-date="minDate" max-date="maxDate"
+                       datepicker-options="dateOptions"
+                       date-disabled="disabled(date, mode)" close-text="Close"
+                       ng-change="receiveModuleNumbers()" readonly required/>
+                         <span class="input-group-btn">
+                               <button type="button" class="btn btn-default myGroupBtn"
+                                       ng-show="!isDateDefault()"
+                                       ng-click="clearDate2()">
+                                   <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                         </span>
+            </div>
+            <div ng-show="counterStatusForm.$submitted || counterStatusForm.$touched">
+                <div ng-show="counterStatusForm.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Counter number-->
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{'COUNTER_NUMBER' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8" ng-class="counterNumberValidation.css">
+            <input type="text"
+                   ng-model="counterInfo.counterNumber"
+                   ng-change="checkAll('counterNumber')"
+                   id="counterNumber" name="counterNumber" class="form-control">
+
+            <p class="validation-message" ng-show="counterNumberValidation.isValid">{{'COUNTER_NUMBER_REGEX' |  translate}}</p>
+            <div ng-show="counterStatusForm.$submitted || counterStatusForm.$touched">
+                <div ng-show="counterStatusForm.$error.required">
+                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label class="control-label">{{'NOTES' | translate}}</label>
+        </div>
+        <div class="form-group col-md-8">
+                   <textarea type="text" rows="5" cols="45" ng-model="counterInfo.notes"
+                             id="notes" name="notes" class="form-control"></textarea>
+        </div>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="row">
+        <div class="form-group col-md-10">
+            <button class="btn btn-success" ng-click="save()">{{'SAVE' | translate}}</button>
+            <a class="btn btn-warning" ng-click="resetCounterStatusForm()">{{'RESET' | translate}}</a>
+        </div>
+        <div class="form-group col-md-2">
+            <button class="btn btn-danger pull-right" ng-click="close()">{{'CLOSE'| translate}}</button>
+        </div>
+    </div>
+    </form>
+    </div>
+</div>

@@ -8,7 +8,7 @@ import com.softserve.edu.dto.admin.*;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Region;
-import com.softserve.edu.entity.catalogue.util.LocalityDTO;
+import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
@@ -16,6 +16,7 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.admin.OrganizationService;
+import com.softserve.edu.service.catalogue.LocalityService;
 import com.softserve.edu.service.catalogue.RegionService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.user.UserService;
@@ -28,6 +29,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +46,9 @@ public class OrganizationController {
 
     @Autowired
     private RegionService regionService;
+
+    @Autowired
+    private LocalityService localityService;
 
     @Autowired
     private UserService userService;
@@ -81,51 +87,37 @@ public class OrganizationController {
                     organizationDTO.getLastName(),
                     organizationDTO.getMiddleName(),
                     organizationDTO.getUsername(),
-                    organizationDTO.getPassword(),
                     address,
                     adminName,
                     organizationDTO.getServiceAreas()
             );
-        } catch (Exception e) {
-            // TODO
-            logger.error("GOT EXCEPTION ", e);
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            logger.error("Got exeption while add organization ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
     }
 
     /**
+     * Fetch required data for all organization depends on  received {@param pageNumber}, {@param itemsPerPage},
+     * {@param sortCriteria} {@param sortOrder} and {@param searchData} that contains fields must be filtered
+     *
      * @param pageNumber
      * @param itemsPerPage
      * @param sortCriteria
      * @param sortOrder
      * @param searchData
-     * @return
+     * @return PageDTO that contains required data about current organizations depends on received filter, sort ,pagination and items per page
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(
-            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
-            NewOrganizationFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user
-    ) {
-
-
-	/*	Page<OrganizationPageItem> page = organizationService
-                .getOrganizationsBySearchAndPagination(pageNumber,
-						itemsPerPage, search/*, adress, type).map(
-						organization -> new OrganizationPageItem(organization
-								.getId(), organization.getName(), organization
-								.getEmail(), organization.getPhone(),
-								organizationService
-										.getOrganizationTypes(organization)));аа
-
-		return new PageDTO<>(page.getTotalElements(), page.getContent());*/
-
+    public PageDTO<OrganizationPageItem> pageOrganizationsWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                     @PathVariable String sortCriteria, @PathVariable String sortOrder, NewOrganizationFilterSearch searchData) {
         ListToPageTransformer<Organization> queryResult = organizationService.getOrganizationsBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
-                searchData.getName_admin(),
+                searchData.getName(),
                 searchData.getEmail(),
-                searchData.getType_admin(),
+                searchData.getType(),
                 searchData.getPhone_number(),
                 searchData.getRegion(),
                 searchData.getDistrict(),
@@ -153,9 +145,15 @@ public class OrganizationController {
     public PageDTO<OrganizationPageItem> getOrganizationsPage(
             @PathVariable Integer pageNumber,
             @PathVariable Integer itemsPerPage) {
-        return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null, null, null, null);
+        return pageOrganizationsWithSearch(pageNumber, itemsPerPage, null, null, null);
     }
 
+    /**
+     * Fetch data depends on organization with received {@param id}
+     *
+     * @param id
+     * @return OrganizationDTO
+     */
     @RequestMapping(value = "getOrganization/{id}")
     public OrganizationDTO getOrganization(@PathVariable("id") Long id) {
         Organization organization = organizationService.getOrganizationById(id);
@@ -165,12 +163,12 @@ public class OrganizationController {
                 stream()
                 .map(OrganizationType::name)
                 .forEach(types::add);
+
         List<String> counters = new ArrayList<>();
         organization.getDeviceTypes().
                 stream()
                 .map(Device.DeviceType::name)
                 .forEach(counters::add);
-
 
         OrganizationDTO organizationDTO = new OrganizationDTO(organization.getId(), organization.getName(), organization.getEmail(), organization.getPhone(), types, counters,
                 organization.getEmployeesCapacity(), organization.getMaxProcessTime(), organization.getAddress().getRegion(), organization.getAddress().getDistrict(), organization.getAddress().getLocality(),
@@ -189,7 +187,8 @@ public class OrganizationController {
     public ResponseEntity editOrganization(
             @RequestBody OrganizationEditDTO organization,
             @PathVariable Long organizationId,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user)
+            throws UnsupportedEncodingException, MessagingException {
         HttpStatus httpStatus = HttpStatus.OK;
 
         Address address = new Address(
@@ -219,8 +218,8 @@ public class OrganizationController {
                     organization.getMiddleName(),
                     adminName,
                     organization.getServiceAreas());
-        } catch (Exception e) {
-            logger.error("GOT EXCEPTION ", e);
+        } catch ( UnsupportedEncodingException | MessagingException  e) {
+            logger.error("Got exeption while editing organization ", e);
             httpStatus = HttpStatus.CONFLICT;
         }
 
@@ -234,12 +233,17 @@ public class OrganizationController {
         return new ResponseEntity(httpStatus);
     }
 
+    /**
+     * Fetch organization admin data depends on organization with id {@param id}
+     *
+     * @param id
+     * @return OrganizationAdminDTO
+     */
     @RequestMapping(value = "getOrganizationAdmin/{id}")
     public OrganizationAdminDTO getAdmin(@PathVariable("id") Long id) {
         Organization organization = organizationService.getOrganizationById(id);
         OrganizationAdminDTO organizationAdminDTO = new OrganizationAdminDTO();
         try {
-
             User user = organization
                     .getUsers()
                     .stream()
@@ -263,9 +267,14 @@ public class OrganizationController {
         return organizationAdminDTO;
     }
 
+    /**
+     * Fetch organization edit history for organization with  {@param organizationId}
+     *
+     * @param organizationId
+     * @return PageDTO<OrganizationEditHistoryPageDTO>
+     */
     @RequestMapping(value = "edit/history/{organizationId}")
     public PageDTO<OrganizationEditHistoryPageDTO> getEditHistory(@PathVariable("organizationId") Long organizationId) {
-
         List<OrganizationEditHistory> organizationEditHistoryList = organizationService.getHistoryByOrganizationId(organizationId);
 
         return new PageDTO<>(OrganizationEditPageDTOTransformer.toDtoFromList(organizationEditHistoryList));
@@ -273,7 +282,9 @@ public class OrganizationController {
 
     @RequestMapping(value = "serviceArea/localities/{organizationId}", method = RequestMethod.GET)
     public List<LocalityDTO> getServiceAreaLocaities(@PathVariable("organizationId") Long organizationId) {
-        return organizationService.findLocalitiesByOrganizationId(organizationId);
+        return localityService.findLocalitiesByOrganizationId(organizationId).stream()
+                .map(locality -> new LocalityDTO(locality.getId(), locality.getDesignation(), locality.getDistrict().getId()))
+                .collect(Collectors.toList());
     }
 
     @RequestMapping(value = "serviceArea/region/{districtId}", method = RequestMethod.GET)
@@ -283,7 +294,7 @@ public class OrganizationController {
 
     @RequestMapping(value = "getOrganization/{organizationType}/{deviceType}", method = RequestMethod.GET)
     public List<ApplicationFieldDTO> getOrganizationByOrganizationTypeAndDeviceType(@PathVariable("organizationType") String organizationType,
-                                                          @PathVariable("deviceType") String deviceType) {
+                                                                                    @PathVariable("deviceType") String deviceType) {
         return organizationService.findByOrganizationTypeAndDeviceType(OrganizationType.valueOf(organizationType.toUpperCase()),
                 Device.DeviceType.valueOf(deviceType.toUpperCase())).stream()
                 .map(organization -> new ApplicationFieldDTO(organization.getId(), organization.getName()))

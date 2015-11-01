@@ -3,6 +3,7 @@ package com.softserve.edu.service.calibrator;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.service.exceptions.DuplicateRecordException;
 import org.springframework.data.domain.Page;
 
@@ -13,15 +14,24 @@ public interface CalibratorDisassemblyTeamService {
 
     List<DisassemblyTeam> getAll();
 
-    Page<DisassemblyTeam> getDisassemblyTeamBySearchAndPagination(int pageNumber,int itemsPerPage, String search);
+    List<DisassemblyTeam> getByOrganization(Organization organization);
 
-    void addDisassemblyTeam(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException;
+    Page<DisassemblyTeam> getByOrganization(Organization organization, int pageNumber, int itemsPerPage);
 
-    DisassemblyTeam getDisassemblyTeamById(String teamId);
+    Page<DisassemblyTeam> findByOrganizationAndSearchAndPagination(int pageNumber, int itemsPerPage,
+                                                                   Organization organization, String search);
 
-    void editDisassemblyTeam(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
-                             String leaderPhone, String leaderEmail);
+    void add(DisassemblyTeam disassemblyTeam) throws DuplicateRecordException;
 
-    void deleteDisassemblyTeam(String teamId);
+    DisassemblyTeam findById(String teamId);
 
+    void edit(String id, String name, Date effectiveTo, Device.DeviceType specialization, String leaderFullName,
+              String leaderPhone, String leaderEmail);
+
+    void delete(String teamId);
+
+
+    boolean isTeamExist(String teamUsername);
+
+    List<DisassemblyTeam> findAllAvaliableTeams (Date workDate, String applicationFiled, String userId);
 }
