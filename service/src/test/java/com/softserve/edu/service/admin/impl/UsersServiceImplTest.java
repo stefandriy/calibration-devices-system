@@ -7,9 +7,11 @@ import com.softserve.edu.entity.util.AddEmployeeBuilder;
 import com.softserve.edu.entity.util.ConvertUserRoleToString;
 import com.softserve.edu.repository.UserRepository;
 
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.utils.SortCriteriaUser;
+import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -43,7 +45,7 @@ import static org.mockito.Mockito.*;
  */
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(UsersServiceImpl.class)
+@PrepareForTest({ArchivalEmployeeQueryConstructorAdmin.class, IteratorUtils.class, RandomStringUtils.class})
 public class UsersServiceImplTest {
 
     private final Long organizationId = 1L;
@@ -59,34 +61,39 @@ public class UsersServiceImplTest {
     private ConvertUserRoleToString convertUserRoleToString;
 
     @Mock
-    private EntityManager em;
+    EntityManager em;
 
     @Mock
-    private CriteriaBuilder cb;
+    CriteriaBuilder cb;
 
     @Mock
-    private CriteriaQuery<User> criteriaQuery;
+    private Path<Object> objectPath;
 
     @Mock
-    private Path<Object> path;
+    private Predicate predicate;
 
     @Mock
-    private Predicate queryPredicate;
+    private Root<User> root;
 
     @Mock
-    Root<User> root;
+    IteratorUtils iteratorUtils;
+
+    @Mock
+    MailService mail;
+
+    @Mock
+    ArchivalEmployeeQueryConstructorAdmin archivalEmployeeQueryConstructorAdmin;
 
     @InjectMocks
     private UsersServiceImpl usersServiceImpl;
 
     @Before
-    public void initializeMockito() {
+    public void setUp() {
         usersServiceImpl = new UsersServiceImpl();
         MockitoAnnotations.initMocks(this);
         expectedGetCountOfVerifications = 0L;
         expectedExistsWithUsername = false;
         user = spy(User.class);
-
     }
 
     @After
@@ -124,14 +131,33 @@ public class UsersServiceImplTest {
         String lastName = "lastName";
         String organization = null;
         String telephone = "+38050000501";
-        String sortCriteria = "SortCriteriaUser.USERNAME";
+        String sortCriteria = "id";
         String sortOrder = "asc";
-        when(em.getCriteriaBuilder()).thenReturn(cb);
-        when(cb.createQuery(User.class)).thenReturn(criteriaQuery);
-        when(criteriaQuery.from(User.class)).thenReturn(root);
 
-        //ListToPageTransformer < User > actual = usersServiceImpl.findPageOfAllEmployees(pageNumber, itemsPerPage, userName,
-        //                role, firstName, lastName, organization, telephone, sortCriteria, sortOrder);
+        CriteriaQuery<User> userCriteriaQuery = mock(CriteriaQuery.class);
+        CriteriaQuery<Long> longCriteriaQuery = mock(CriteriaQuery.class);
+        TypedQuery<User> userTypedQuery = mock(TypedQuery.class);
+        TypedQuery<Long> longTypedQuery = mock(TypedQuery.class);
+
+        PowerMockito.mockStatic(ArchivalEmployeeQueryConstructorAdmin.class);
+
+        PowerMockito.when(ArchivalEmployeeQueryConstructorAdmin.buildSearchQuery(userName, role, firstName, lastName,
+                        organization, telephone, sortCriteria, sortOrder, em)).thenReturn(userCriteriaQuery);
+        PowerMockito.when(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(userName, role, firstName,
+                        lastName, organization, telephone, em)).thenReturn(longCriteriaQuery);
+
+        stub(em.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
+        stub(em.createQuery(userCriteriaQuery)).toReturn(userTypedQuery);
+
+        List<User> userList = userTypedQuery.getResultList();
+        Long count = em.createQuery(ArchivalEmployeeQueryConstructorAdmin.buildCountQuery(userName, role, firstName,
+                        lastName, organization, telephone, em)).getSingleResult();
+
+        ListToPageTransformer < User > actual = usersServiceImpl.findPageOfAllEmployees(pageNumber, itemsPerPage,
+                userName, role, firstName, lastName, organization, telephone, sortCriteria, sortOrder);
+
+        assertEquals(userList, actual.getContent());
+        assertEquals(count, actual.getTotalItems());
     }
 
     @Test
@@ -196,6 +222,33 @@ public class UsersServiceImplTest {
     }
 
     @Test
+    public void testEditSysAdmin_with_password_generate() {
+        String username = "Admin";
+        String password = "generate";
+        String firstName = "firstName";
+        String lastName = "lastName";
+        String middleName = "middleName";
+        String phone ="+38050000501";
+        String email = "mail@mail.com";
+        Address address = mock(Address.class);
+        String newPassword = "newpass";
+
+        User sysAdmin = mock(User.class);
+        stub(userRepository.findOne(username)).toReturn(sysAdmin);
+        when(sysAdmin.getPassword()).thenReturn(password);
+        PowerMockito.mockStatic(RandomStringUtils.class);
+        PowerMockito.when(RandomStringUtils.randomAlphanumeric(5)).thenReturn(newPassword);
+        usersServiceImpl.editSysAdmin(username, password, firstName, lastName, middleName, phone, email, address);
+        verify(sysAdmin, times(1)).setAddress(address);
+        verify(sysAdmin, times(1)).setEmail(email);
+        verify(sysAdmin, times(1)).setFirstName(firstName);
+        verify(sysAdmin, times(1)).setLastName(lastName);
+        verify(sysAdmin, times(1)).setMiddleName(middleName);
+        verify(sysAdmin, times(1)).setPhone(phone);
+        verify(sysAdmin, times(1)).setPassword(password);
+    }
+
+    @Test
     public void testDeleteSysAdmin() {
         usersServiceImpl.deleteSysAdmin(username);
         verify(userRepository).delete(username);
@@ -220,5 +273,20 @@ public class UsersServiceImplTest {
     public void testFindAllSysAdmins() {
         ListToPageTransformer<User> actual = usersServiceImpl.findAllSysAdmins();
         verify(userRepository, times(2)).findByUserRoleAllIgnoreCase(UserRole.SYS_ADMIN);
+    }
+
+    @Test
+    public void testFindByOrganizationId()
+    {
+        final int pageNumber = 1;
+        final int itemsPerPage = 10;
+        Page<User> userPage = mock(Page.class);
+        List<User> expectedFindByOrganizationId = spy(List.class);
+        PageRequest pageRequest = new PageRequest(pageNumber, itemsPerPage);
+        when(userRepository.findByOrganizationId(organizationId, pageRequest)).thenReturn(userPage);
+        PowerMockito.mockStatic(IteratorUtils.class);
+        PowerMockito.when(IteratorUtils.toList(userPage.iterator())).thenReturn(expectedFindByOrganizationId);
+        List<User> actual = usersServiceImpl.findByOrganizationId(organizationId, pageNumber, itemsPerPage);
+        assertEquals(actual, expectedFindByOrganizationId);
     }
 }
