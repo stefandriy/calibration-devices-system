@@ -5,28 +5,23 @@ import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.calibrator.impl.CalibratorServiceImpl;
 import com.softserve.edu.service.utils.EmployeeDTO;
-import jdk.nashorn.internal.ir.annotations.Ignore;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.*;
-
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Misha on 10/18/2015.
@@ -83,7 +78,7 @@ public class CalibratorServiceImplTest {
         user.setOrganization(organization);
         when(userRepository.findAllAvailableUsersByRoleAndOrganizationId(UserRole.CALIBRATOR_EMPLOYEE, 11L))
                 .thenReturn(setOfUser);
-        calibratorService.setUserRepository(userRepository);
+//        calibratorService.setUserRepository(userRepository);
         List<EmployeeDTO> list = calibratorService.getAllCalibratorEmployee(listOfRole, user);
         assertNotEquals(0, list.size());
     }
@@ -96,7 +91,7 @@ public class CalibratorServiceImplTest {
         user.setOrganization(organization);
         when(userRepository.findAllAvailableUsersByRoleAndOrganizationId(UserRole.CALIBRATOR_EMPLOYEE, 11L))
                 .thenReturn(setOfUser);
-        calibratorService.setUserRepository(userRepository);
+//        calibratorService.setUserRepository(userRepository);
         List<EmployeeDTO> list = calibratorService.getAllCalibratorEmployee(listOfRole, user);
         assertNotNull(list);
     }
