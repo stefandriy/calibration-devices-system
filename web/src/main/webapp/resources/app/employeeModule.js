@@ -135,7 +135,13 @@
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
-                    });
+                    })
+                    .state("verifications-protocols-calibrator", {
+                        url: 'calibrator/protocols',
+                        templateUrl: '/resources/app/calibrator/views/show-verification-protocols.html',
+                        controller: 'MeasuringEquipmentControllerCalibrator'
+                    })
+                ;
 
 
                 /*
@@ -256,6 +262,10 @@
         'calibrator/controllers/DisassemblyTeamAddModalController',
         'calibrator/controllers/DisassemblyTeamEditModalController',
         'calibrator/controllers/DisassemblyTeamControllerCalibrator',
+        'calibrator/controllers/DisassemblyTeamControllerCalibrator',
+
+        'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator',
 
         'calibrator/controllers/UploadBbiFileController',
         'calibrator/controllers/UploadArchiveController',

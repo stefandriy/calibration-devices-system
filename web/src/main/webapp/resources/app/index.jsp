@@ -177,8 +177,10 @@
                               	</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
-                            <a ui-sref="verifications-protocols-calibrator" ng-click="onTableHandling()"><i class="fa fa-file-powerpoint-o"></i> <span>Електронні протоколи повірок</span>
+                        <li ui-sref-active="active" ng-controller="NotificationsControllerCalibrator">
+                            <a ui-sref="verifications-protocols-calibrator" ng-click="onTableHandling()">
+                                <i class="fa fa-file-powerpoint-o"></i>
+                                <span>Електронні протоколи повірок</span>
                             </a>
                         </li>
 
