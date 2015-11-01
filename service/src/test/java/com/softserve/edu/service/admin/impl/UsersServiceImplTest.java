@@ -4,13 +4,12 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;
-import com.softserve.edu.entity.util.ConvertUserRoleToString;
+import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
 import com.softserve.edu.repository.UserRepository;
 
 import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.utils.ArchivalEmployeeQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
-import com.softserve.edu.service.utils.SortCriteriaUser;
 import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.After;
@@ -25,13 +24,13 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.lang.String;
 
@@ -58,7 +57,7 @@ public class UsersServiceImplTest {
     private UserRepository userRepository;
 
     @Mock
-    private ConvertUserRoleToString convertUserRoleToString;
+    private ConvertSetEnumsToListString convertSetEnumsToListString;
 
     @Mock
     EntityManager em;
@@ -102,11 +101,11 @@ public class UsersServiceImplTest {
     }
 
     @Test
-    public void testExistsWithUsername() {
+    public void testIsExistsWithUsername() {
 
         stub(userRepository.findOne(username) == null).toReturn(expectedExistsWithUsername);
 
-        boolean actual = usersServiceImpl.existsWithUsername(username);
+        boolean actual = usersServiceImpl.isExistsWithUsername(username);
         assertEquals(actual, expectedExistsWithUsername);
     }
 
@@ -114,7 +113,7 @@ public class UsersServiceImplTest {
     public void testGetRoles() throws Exception {
         Set<UserRole> userRole = new HashSet();
         stub(userRepository.getRolesByUserName(username)).toReturn(userRole);
-        List<String> strList = ConvertUserRoleToString.convertToListString(userRole);
+        List<String> strList = ConvertSetEnumsToListString.convertToListString(userRole);
         List<String> actual = usersServiceImpl.getRoles(username);
         Assert.assertEquals(actual,strList);
 
@@ -161,7 +160,7 @@ public class UsersServiceImplTest {
     }
 
     @Test
-    public void testAddSysAdmin() {
+    public void testAddSysAdmin() throws UnsupportedEncodingException, MessagingException {
         String username = "Admin";
         String password = "pass";
         String firstName = "firstName";
@@ -171,7 +170,7 @@ public class UsersServiceImplTest {
         String email = "mail@mail.com";
         Address address = spy(Address.class);
 
-        usersServiceImpl.addSysAdmin(username, password, firstName, lastName, middleName, phone, email, address);
+        usersServiceImpl.addSysAdmin(username, firstName, lastName, middleName, phone, email, address);
         User spyUser = spy(new AddEmployeeBuilder().username(username)
                 .password(password)
                 .firstName(firstName)
@@ -198,7 +197,7 @@ public class UsersServiceImplTest {
     }
 
     @Test
-    public void testEditSysAdmin() {
+    public void testEditSysAdmin() throws UnsupportedEncodingException, MessagingException {
         String username = "Admin";
         String password = "pass";
         String firstName = "firstName";
@@ -222,7 +221,7 @@ public class UsersServiceImplTest {
     }
 
     @Test
-    public void testEditSysAdmin_with_password_generate() {
+    public void testEditSysAdmin_with_password_generate() throws UnsupportedEncodingException, MessagingException {
         String username = "Admin";
         String password = "generate";
         String firstName = "firstName";
