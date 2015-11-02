@@ -533,8 +533,10 @@
   "SUCCESS" : "Success",
   "FAILED" : "Failed",
   "YEAR_REGEX" : "Enter for example - 2015",
-  "MAIN_PANEL_PROVIDER" : "Main "
+  "MAIN_PANEL_PROVIDER" : "Main ",
 
 
 
+
+  "MEASURING_DEVICES_DIRECTORY" : "Measuring devices directory"
 }
