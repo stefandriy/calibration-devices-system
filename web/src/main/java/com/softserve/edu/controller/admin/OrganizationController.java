@@ -262,6 +262,8 @@ public class OrganizationController {
             logger.info("========================");
             logger.info("no one admin in organization");
             logger.info("========================");
+            // Attempt to fix (critical issue) (sonar: for Either log or rethrow this exception.)
+            logger.info(e);
         }
 
         return organizationAdminDTO;
