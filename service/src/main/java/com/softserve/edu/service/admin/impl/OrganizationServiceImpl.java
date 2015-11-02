@@ -57,9 +57,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
-                                         Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                         String username, Address address, String adminName, Long[] localityIdList) throws UnsupportedEncodingException, MessagingException {
+    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters,
+                                         Integer employeesCapacity, Integer maxProcessTime, String firstName, String lastName,
+                                         String middleName, String username, Address address, String adminName,
+                                         Long[] localityIdList) throws UnsupportedEncodingException, MessagingException {
 
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
         String password = RandomStringUtils.randomAlphanumeric(firstName.length());
@@ -85,7 +86,6 @@ public class OrganizationServiceImpl implements OrganizationService {
             organization.addLocality(locality);
         }
 
-        organizationRepository.save(organization);
         String stringOrganizationTypes = String.join(",", types);
 
         Date date = new Date();
