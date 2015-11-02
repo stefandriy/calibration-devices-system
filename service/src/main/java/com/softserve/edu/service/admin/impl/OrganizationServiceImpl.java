@@ -294,6 +294,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
     }
 
+    /**
+     * Find all organizations by organization types and device types
+     * @param organizationType type of organization
+     * @param deviceType type of device
+     * @return list of organization
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Organization> findByOrganizationTypeAndDeviceType(OrganizationType organizationType, Device.DeviceType deviceType) {
