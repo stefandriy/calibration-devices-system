@@ -106,6 +106,7 @@ public class CalibrationTestController {
                     testDTO.getSettingNumber(), testDTO.getLatitude(), testDTO.getLongitude(), testDTO.getConsumptionStatus(), testDTO.getTestResult());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<>(httpStatus);
@@ -161,6 +162,7 @@ public class CalibrationTestController {
             }
         } catch (Exception e) {
             logger.error("Failed to load file " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return httpStatus;
