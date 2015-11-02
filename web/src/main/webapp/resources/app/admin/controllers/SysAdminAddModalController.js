@@ -381,7 +381,7 @@ angular
                     function (data) {
                         if (data.status == 201) {
                             $rootScope.$broadcast('new-employee-added');
-                            $scope.closeModal();
+                            $modalInstance.close();
                             $rootScope.onTableHandling();
                             $scope.resetSysAdminFormData();
                         } else {
