@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 
+/**
+ * this test was written for testingDatabase.
+ */
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceTestingConfig.class})
@@ -33,27 +36,6 @@ public class CalibrationDisassemblyTeamServiceImplTest extends Assert {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-
-
-    @BeforeClass
-    public static void setUp() {
-        //setting up
-        //test data fill in database
-
-    }
-
-
-    @Before
-    public void setUpAll() {
-        //clear from add method
-
-    }
-
-
-    @Test
-    public void testGetAll() throws Exception {
-        //just a wrapper for method from repository
-    }
 
     /**
      * return all teams from organization
@@ -71,28 +53,15 @@ public class CalibrationDisassemblyTeamServiceImplTest extends Assert {
         //get not expected teams
         Set<DisassemblyTeam> notExpectedTeams = organization2.getDisassemblyTeams();
         int actualLength = notExpectedTeams.toArray().length;
-        assertEquals(1, actualLength);//in DB should be only one team in organization2
+        assertEquals(1, actualLength);//in  test DB should be only one team in organization2
 
         //get one of expected team, and Set of actual teams
         DisassemblyTeam expectTeams = teamService.findById("500");
         Set<DisassemblyTeam> actualTeams = teamService.getByOrganization(organization1).stream().collect(Collectors.toSet());
 
-
         assertTrue(actualTeams.contains(expectTeams));
         assertFalse(actualTeams.contains(notExpectedTeams.iterator().next()));
     }
-
-    @Test
-    public void testGetByOrganizationWithPageable() throws Exception {
-        //return Page<DisassemblyTeam>
-    }
-
-
-    @Test
-    public void testFindByOrganizationAndSearchAndPagination() throws Exception {
-        //return Page<DisassemblyTeam>
-    }
-
 
 
     @Test
@@ -123,20 +92,8 @@ public class CalibrationDisassemblyTeamServiceImplTest extends Assert {
         thrown.expectMessage(equalTo("Team " + getDisassemblyTeamTest().getId() + " already exists."));
         teamService.add(getDisassemblyTeamTest());
 
-        //delete from database
-//        teamService.delete(getDisassemblyTeamTest().getId());
-//        Assert.assertNull(teamService.findById(getDisassemblyTeamTest().getId()));
-
     }
 
-    @Test
-    public void testFindById() throws Exception {
-        //calling findOne
-        //before was saved team with id 500
-        DisassemblyTeam disassemblyTeam = teamService
-                .findById("500");
-        assertNotNull(disassemblyTeam);
-    }
 
     @Test
     public void testEdit() throws Exception {
@@ -167,16 +124,10 @@ public class CalibrationDisassemblyTeamServiceImplTest extends Assert {
         assertEquals(team.getLeaderEmail(), teamFromDB.getLeaderEmail());
         assertEquals(team.getOrganization(), teamFromDB.getOrganization());
 
-        //how to implement deleting from database?
-        ///
-        //
-        ////
-
     }
 
     @Test
     public void testDelete() throws Exception {
-        //take test team
         DisassemblyTeam disassemblyTeam = teamService.findById(getDisassemblyTeamTest().getId());
         assertNotNull(disassemblyTeam);
         teamService.delete(disassemblyTeam.getId());
@@ -189,15 +140,10 @@ public class CalibrationDisassemblyTeamServiceImplTest extends Assert {
         assertFalse(teamService.isTeamExist("499"));//not exist
     }
 
-    @Test
-    public void testFindAllAvaliableTeams() throws Exception {
-
-
-    }
 
     /**
      * return test team with id 502
-     * @return
+     * @return DisassemblyTeam
      */
     private DisassemblyTeam getDisassemblyTeamTest() {
         final String idTeam = "502";
@@ -210,21 +156,5 @@ public class CalibrationDisassemblyTeamServiceImplTest extends Assert {
 
         return new DisassemblyTeam(idTeam, name, date, specialization, leaderFullName,
                 leaderPhone, leaderEmail);
-    }
-
-    @Before
-    public void clearAll() {
-
-
-        //clear from add method
-
-    }
-
-    @AfterClass
-    public static void tearDown() {
-        //clearing all
-        //test data clear from database
-
-
     }
 }

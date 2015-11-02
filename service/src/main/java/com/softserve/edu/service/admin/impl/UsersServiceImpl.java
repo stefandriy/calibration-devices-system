@@ -59,6 +59,21 @@ public class UsersServiceImpl implements UsersService {
                 .convertToListString(userRepository.getRolesByUserName(username));
     }
 
+    /**
+     * Fetch all users except ones has role SYS_ADMIN  or SUPER_ADMIN depends on received data
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param username
+     * @param role
+     * @param firstName
+     * @param lastName
+     * @param organization
+     * @param telephone
+     * @param sortCriteria
+     * @param sortOrder
+     * @return ListToPageTransformer<User> contains all required users
+     */
     @Override
     @Transactional
     public ListToPageTransformer<User>
@@ -121,6 +136,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
 
+    /**
+     * Fetch all users with role SYS_ADMIN
+     *
+     * @return ListToPageTransformer<User> contains all users with role SYS_ADMIN
+     */
     @Override
     @Transactional
     public ListToPageTransformer<User> findAllSysAdmins() {
@@ -138,12 +158,31 @@ public class UsersServiceImpl implements UsersService {
         return result;
     }
 
+    /**
+     * Delete sys admin with username {@param username}
+     *
+     * @param username
+     */
     @Override
     @Transactional
     public void deleteSysAdmin(String username) {
         userRepository.delete(username);
     }
 
+    /**
+     * Edit sys admin with username {@param username}
+     *
+     * @param username
+     * @param password
+     * @param firstName
+     * @param lastName
+     * @param middleName
+     * @param phone
+     * @param email
+     * @param address
+     * @throws MessagingException
+     * @throws UnsupportedEncodingException
+     */
     @Override
     @Transactional
     public void editSysAdmin( String  username, String password, String firstName, String lastName, String middleName, String phone,
@@ -168,6 +207,7 @@ public class UsersServiceImpl implements UsersService {
 
         userRepository.save(sysAdmin);
     }
+
 
     @Override
     @SuppressWarnings("unchecked")
