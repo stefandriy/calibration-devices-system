@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('CounterStatusControllerCalibrator', ['$scope', '$rootScope', '$modalInstance', '$log', 'VerificationPlanningTaskService', //'response',
+    .controller('CounterStatusControllerCalibrator', ['$scope', '$rootScope', '$modalInstance', '$log', 'VerificationPlanningTaskService',
         function ($scope, $rootScope, $modalInstance, $log, planningTaskService) {
 
             /**
@@ -15,6 +15,7 @@ angular
             };
 
             $scope.verifId = $rootScope.verificationId;
+
             /**
              *  Date picker and formatter setup
              *
@@ -24,34 +25,62 @@ angular
             $scope.secondCalendar = {};
             $scope.secondCalendar.isOpen = false;
 
+            /**
+             * open first date picker
+             * on the modal
+             *
+             * @param $event
+             */
             $scope.open1 = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.firstCalendar.isOpen = true;
             };
 
+            /**
+             * open second date picker
+             * on the modal window
+             *
+             * @param $event
+             */
             $scope.open2 = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.secondCalendar.isOpen = true;
             };
 
-            moment.locale('uk');
+
+            /**
+             * set date pickers options
+             * @type {{formatYear: string, startingDay: number, showWeeks: string}}
+             */
             $scope.dateOptions = {
                 formatYear: 'yyyy',
                 startingDay: 1,
                 showWeeks: 'false',
-
             };
 
+            /**
+             * set format of date picker date
+             *
+             */
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
 
+            /**
+             * clear date in the date picker
+             */
             $scope.clear = function () {
                 $scope.addInfo.pickerDate = null;
             };
 
-            // Disable weekend selection
+            /**
+             * Disable weekend selection
+             *
+             * @param date
+             * @param mode
+             * @returns {boolean}
+             */
             $scope.disabled = function(date, mode) {
                 return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
             };
@@ -65,17 +94,25 @@ angular
 
 
             $scope.clearDate1 = function () {
-                $log.debug($scope.addInfo.dateOfVerif);
-                $scope.addInfo.dateOfVerif = null;
+                $scope.counterInfo.dateOfVerif = null;
             };
 
             $scope.clearDate2 = function () {
-                $log.debug($scope.addInfo.noWaterToDate);
-                $scope.addInfo.noWaterToDate = null;
+                $scope.counterInfo.noWaterToDate = null;
             };
+
 
             $scope.counterInfo = {};
             $scope.counterInfo.counterStatus = false;
+
+            /**
+             *  work with toggle button.
+             *  if status is true this method calls the
+             *  findSymbolsAndStandartSizes() method which makes
+             *  asynchronous request to the server and search
+             *  the counter sizes and symbols and open on the frontend
+             *  select fields
+             */
             $scope.resolveCounterStatus = function(){
                 if($scope.counterInfo.counterStatus === false){
                     $scope.counterInfo.counterStatus = true;
@@ -91,19 +128,27 @@ angular
                 }
             }
 
+            /**
+             *  method which makes asynchronous request to the server and search
+             * the counter sizes and symbols
+             *
+             */
             $scope.sizes = {};
             $scope.symbols = {};
             function findSymbolsAndStandartSizes(){
                 planningTaskService.getSymbolsAndStandartSizes($scope.verifId)
                     .then(function (result) {
-                        $log.debug('result ', result.data);
                         $scope.sizes = result.data.sizes;
                         $scope.symbols = result.data.symbols;
-                    }, function (result) {
-                        $log.debug('error fetching data:', result);
                     });
             }
 
+            /**
+             * validation for the counter number
+             * and year field
+             *
+             * @param caseForValidation
+             */
             $scope.checkAll = function (caseForValidation) {
                 switch (caseForValidation) {
                   case ('counterNumber'):
@@ -126,6 +171,13 @@ angular
 
             }
 
+            /**
+             * validation for the counter number
+             * and year field
+             *
+             * @param caseForValidation
+             * @param isValid
+             */
             function validator(caseForValidation, isValid) {
                 switch (caseForValidation) {
                     case ('counterNumber'):
@@ -144,6 +196,9 @@ angular
                 }
             }
 
+            /**
+             * reset counter info form
+             */
             $scope.resetCounterStatusForm = function(){
                 $scope.$broadcast('show-errors-reset');
                 $scope.yearValidation = {};

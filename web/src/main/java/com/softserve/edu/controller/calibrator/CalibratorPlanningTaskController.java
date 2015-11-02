@@ -43,6 +43,15 @@ public class CalibratorPlanningTaskController {
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
 
+    /**
+     * This method save task which
+     * was formed for the station. If data saved it returns
+     * http status OK, else it return http status conflict
+     *
+     * @param taskDTO
+     * @param employeeUser
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     private ResponseEntity saveTaskForStation (@RequestBody CalibrationTaskDTO taskDTO,
                                      @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
@@ -56,6 +65,15 @@ public class CalibratorPlanningTaskController {
         return new ResponseEntity(httpStatus);
     }
 
+    /**
+     * This method save task which
+     * was formed for the team. If data saved it returns
+     * http status OK, else it return http status conflict
+     *
+     * @param taskDTO
+     * @param employeeUser
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/team/save", method = RequestMethod.POST)
     private ResponseEntity saveTaskForTeam (@RequestBody CalibrationTaskDTO taskDTO,
                                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
@@ -69,9 +87,19 @@ public class CalibratorPlanningTaskController {
         return new ResponseEntity(httpStatus);
     }
 
+    /**
+     * This method return page of all verifications
+     * which assigned for the calibrator employee
+     * and has status - planning task
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param employeeUser
+     * @return PageDTO<VerificationPlanningTaskDTO>
+     */
     @RequestMapping(value = "findAll/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    private PageDTO<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndReadStatus (@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    private PageDTO<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndTaskStatus(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                               @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         Page<Verification> verifications = taskService.findVerificationsByCalibratorEmployeeAndTaskStatus(employeeUser.getUsername(),
                 pageNumber, itemsPerPage);
         Long count = Long.valueOf(taskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername()));
@@ -79,12 +107,34 @@ public class CalibratorPlanningTaskController {
         return new PageDTO<VerificationPlanningTaskDTO>(count, content);
     }
 
+    /**
+     * This method return list of serial numbers of all available
+     * modules filtered by applicationField,
+     * workDate and moduleType
+     *
+     * @param moduleType
+     * @param workDate
+     * @param applicationFiled
+     * @param employeeUser
+     * @return List<String>
+     */
     @RequestMapping(value = "findAllModules/{moduleType}/{workDate}/{applicationFiled}", method = RequestMethod.GET)
     public List<String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate, @PathVariable String applicationFiled,
                                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
         return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, applicationFiled, employeeUser.getUsername());
     }
 
+    /**
+     * This method return list of serial numbers and
+     * team name of all available
+     * teams filtered by application field and
+     * workDate
+     *
+     * @param workDate
+     * @param applicationFiled
+     * @param employeeUser
+     * @return List<TeamDTO>
+     */
     @RequestMapping(value = "findAllTeams/{workDate}/{applicationFiled}", method = RequestMethod.GET)
     public List<TeamDTO> findAvailableTeams(@PathVariable Date workDate, @PathVariable String applicationFiled,
                                                     @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
@@ -97,9 +147,12 @@ public class CalibratorPlanningTaskController {
     }
 
     /**
+     * This method returns SymbolsAndSizesDTO which contains
+     * list of sizes and list of symbols for the
+     * counter in verification from the counter type directory
      *
      * @param verificationId
-     * @return
+     * @return SymbolsAndSizesDTO
      */
     @RequestMapping(value = "findSymbolsAndSizes/{verificationId}", method = RequestMethod.GET)
     public SymbolsAndSizesDTO findSymbolsAndSizes(@PathVariable String verificationId){
