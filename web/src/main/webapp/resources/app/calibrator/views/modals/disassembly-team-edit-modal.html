@@ -1,10 +1,222 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<div class="modal-body">
 
-</body>
-</html>
+    <form name="teamForm" novalidate ng-submit="
+     !teamForm.teamName.$error.pattern && !teamForm.teamName.$error.required
+     && !teamForm.date.$error.required
+     && !teamForm.specialization.$error.required
+     && !teamForm.leaderFullName.$error.pattern && !teamForm.leaderFullName.$error.required
+     && !teamForm.leaderPhone.$error.pattern
+     && !teamForm.leaderEmail.$error.pattern && !teamForm.leaderEmail.$error.required && editDisassemblyTeam()
+     ">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h3>{{'FILL_IN_INFORMATION_ABOUT_TEAM' | translate }}</h3></div>
+            <div class="panel-body">
+                <div class="row">
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'TEAM_NUMBER' | translate }}</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="teamNumberValidation.css" show-errors>
+                        <input id="teamNumber" name="teamNumber" class="form-control"
+                               type="text" ng-model="team.teamNumber"
+                               ng-change="checkAll('teamNumber')"
+                               ng-pattern="TEAM_USERNAME_REGEX" readonly required>
+
+                        <div ng-show="teamForm.$submitted || (teamForm.teamNumber.$touched   && !teamForm.teamNumber.$pristine)
+                        || (teamForm.teamNumber.$dirty)">
+
+                            <p class="validation-message" ng-if="!teamNumberValidation.isValid">
+                                {{teamNumberValidation.message }}
+                            </p>
+
+                            <p class="validation-message" ng-if="teamForm.teamNumber.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="teamForm.teamNumber.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_TEAM_NUMBER' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'TEAM_NAME' |translate }}</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="teamNameValidation.css" show-errors>
+                        <input type="text" ng-model="team.teamName"
+                               id="teamName" ng-pattern="TEAM_NAME_REGEX"
+                               name="teamName" class="form-control" required>
+
+                        <div ng-show="teamForm.$submitted || (teamForm.teamName.$touched  && !teamForm.teamName.$pristine)
+                        || (teamForm.teamName.$dirty)">
+                            <p class="validation-message" ng-if="teamForm.teamName.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="teamForm.teamName.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_NAME_ADD_TEAM' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'EFFECTIVE_TO_DATE'| translate }}</label>
+                    </div>
+
+                    <div class="form-group col-md-8" ng-class="timeValidation.css">
+                        <div class="input-group right-inner-addon">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open1($event)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+                            <input type="text" class="form-control date-picker" datepicker-popup
+                                   ng-model="team.effectiveTo"
+                                   is-open="firstCalendar.isOpen"
+                                   min-date="minDate" max-date="maxDate"
+                                   datepicker-options="dateOptions"
+                                   id="date" name="date"
+                                   date-disabled="disabled(date, mode)" close-text="Close" readonly required/>
+                         <span class="input-group-btn">
+                               <button type="button" class="btn btn-default myGroupBtn"
+                                       ng-show="!isDateDefault()"
+                                       ng-click="clearDate1()">
+                                   <i class="glyphicon glyphicon-remove"></i>
+                               </button>
+                         </span>
+
+
+                        </div>
+                        <div ng-show="teamForm.$submitted || teamForm.date.$touched">
+                            <p class="validation-message" ng-show="teamForm.date.$error.required">
+                                    <span class="glyphicon glyphicon-exclamation-sign">
+                                    </span>{{'REQUIRED' | translate}}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'SPECIALIZATION' | translate}}</label>
+                    </div>
+                    <div class="form-group col-md-8">
+                        <ui-select style="display: block;" ng-model="team.specialization" theme="select2"
+                                   search-enabled="false" name="specialization" id="specialization" required>
+                            <ui-select-match placeholder="{{'CHOOSE_APPLICATION_FIELD' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="specialization in deviceTypeData">
+                                <span ng-bind-html="specialization.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <div ng-show="teamForm.$submitted || teamForm.specialization.$touched">
+                            <p class="validation-message" ng-show="teamForm.specialization.$error.required">
+
+                                    <span class="glyphicon glyphicon-exclamation-sign">
+                                    </span>{{'REQUIRED' | translate}}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'LEADER_FULL_NAME' |translate }}</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="teamLeaderFullNameValidation.css" show-errors>
+                        <input type="text" ng-model="team.leaderFullName"
+                               id="leaderFullName" ng-pattern="TEAM_LEADER_FULL_NAME_REGEX"
+                               name="leaderFullName" class="form-control" required>
+
+                        <div ng-show="teamForm.$submitted || (teamForm.leaderFullName.$touched
+                        && !teamForm.leaderFullName.$pristine)
+                        || (teamForm.leaderFullName.$dirty)">
+                            <p class="validation-message" ng-if="teamForm.leaderFullName.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="teamForm.leaderFullName.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_LEADER_FULL_NAME_ADD_TEAM' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'PHONE_NUMBER_TWO' | translate }}</label>
+                    </div>
+                    <div class="form-group col-md-8 " ng-class="teamPhoneNumberValidation.css" show-errors>
+                        <div class="input-group">
+                            <div class="input-group-addon" id="basic-addon-code">+380</div>
+                            <input
+                                    type="text" ng-model="team.leaderPhone"
+                                    ng-pattern="PHONE_REGEX" placeholder="XXXXXXXXX"
+                                    id="leaderPhone" name="leaderPhone" class="form-control">
+                        </div>
+                        <div ng-show="teamForm.$submitted || (teamForm.leaderPhone.$touched
+                        && !teamForm.leaderPhone.$pristine)
+                        || (teamForm.leaderPhone.$dirty)">
+                            <p class="validation-message" ng-if="teamForm.leaderPhone.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_PHONE_ADD_TEAM' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label">{{'EMAIL' | translate }}</label>
+                    </div>
+                    <div class="form-group col-md-8" ng-class="teamEmailValidation.css" show-errors>
+                        <input type="text" ng-model="team.leaderEmail"
+                               ng-pattern="EMAIL_REGEX"
+                               placeholder="example@gmail.com"
+                               id="leaderEmail" name="leaderEmail" class="form-control" required>
+
+                        <div ng-show="teamForm.$submitted || (teamForm.leaderEmail.$touched
+                        && !teamForm.leaderEmail.$pristine)
+                        || (teamForm.leaderEmail.$dirty)">
+                            <p class="validation-message" ng-if="teamForm.leaderEmail.$error.required">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'REQUIRED' | translate}}
+                            </p>
+
+                            <p class="validation-message" ng-if="teamForm.leaderEmail.$error.pattern">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                {{'INCORRECT_VALUE_EMAIL_ADD_TEAM' | translate }}
+                            </p>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="form-group col-md-10">
+                <button type="submit" class="btn btn-success"
+                        >{{'EDIT' | translate}}
+                </button>
+                <button type="reset" class="btn btn-warning" ng-click="resetTeamForm()">
+                    {{'CLEAR_FORM' | translate }}
+                </button>
+            </div>
+            <div class="form-group col-md-2">
+                <button type="button" class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>

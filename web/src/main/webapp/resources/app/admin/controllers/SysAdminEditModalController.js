@@ -185,7 +185,7 @@ angular
 
                 $scope.closeModal = function () {
                     $rootScope.onTableHandling();
-                    $modalInstance.close();
+                    $modalInstance.dismiss();
                 };
 
 
@@ -212,7 +212,8 @@ angular
                     };
 
                     saveSysAdmin(sysAdminForm);
-                    $scope.closeModal();
+                    $modalInstance.close();
+                    $rootScope.onTableHandling();
                 };
 
 

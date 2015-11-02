@@ -4,9 +4,9 @@
 angular
     .module('employeeModule')
 
-    .controller('UploadArchiveController', ['$scope', '$rootScope', '$route', '$log', '$modalInstance',
+    .controller('UploadArchiveController', ['$scope', '$rootScope', '$route', '$filter', '$log', '$modalInstance',
         'Upload', '$timeout',
-        function ($scope, $rootScope, $route, $log, $modalInstance, Upload, $timeout) {
+        function ($scope, $rootScope, $route, $filter, $log, $modalInstance, Upload, $timeout) {
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -49,10 +49,19 @@ angular
                                     if (status === 200) {
                                         $scope.messageError = null;
                                         $scope.fileName = config.file.name;
-                                        $scope.messageSuccess = 'Ви успішно завантажили файл ' + config.file.name;
-                                        console.log('uploadBbiController: ' + $scope.fileName);
+                                        $scope.messageSuccess = $filter('translate')('UPLOAD_SUCCESS') + config.file.name;
+                                        $scope.uploadedBBIOutcomes = data;
+                                        var isSuccessful = function(obj){
+                                            return obj.success ? true : false;
+                                        };
+                                        var isNotSuccessful = function(obj){
+                                            return !obj.success;
+                                        };
+                                        $scope.unsuccessfulBBIs = data.filter(isNotSuccessful).length;
+                                        $scope.successfulBBIs = data.filter(isSuccessful).length;
+                                        $scope.totalBBIs = $scope.uploadedBBIOutcomes.length;
                                     } else {
-                                        $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
+                                        $scope.messageError = $filter('translate')('UPLOAD_FAIL') + config.file.name;
                                         $scope.progressPercentage = parseInt(0);
                                         $scope.uploaded = false;
                                     }
@@ -61,7 +70,7 @@ angular
                             }
                             )
                             .error(function () {
-                                $scope.messageError = 'Не вдалось завантажити ' + config.file.name;
+                                $scope.messageError = $filter('translate')('UPLOAD_FAIL') + config.file.name;
                                 $scope.progressPercentage = parseInt(0);
 
                             })

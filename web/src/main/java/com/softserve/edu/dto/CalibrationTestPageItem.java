@@ -1,6 +1,6 @@
 package com.softserve.edu.dto;
 
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
+import com.softserve.edu.entity.verification.Verification;
 
 import java.util.Date;
 
@@ -16,7 +16,7 @@ public class CalibrationTestPageItem {
     private Double latitude;
     private Double longitude;
     private String consumptionStatus;
-    private CalibrationTestResult testResult;
+    private Verification.CalibrationTestResult testResult;
 
     private String fullName;
     private String region;
@@ -39,7 +39,7 @@ public class CalibrationTestPageItem {
     }
 
     public CalibrationTestPageItem(Long id, String name, Date dateTest, Integer temperature, Integer settingNumber,
-                                   Double latitude, Double longitude, String consumptionStatus, CalibrationTestResult testResult) {
+                                   Double latitude, Double longitude, String consumptionStatus, Verification.CalibrationTestResult testResult) {
         this.id = id;
         this.name = name;
         this.dateTest = dateTest;
@@ -115,11 +115,11 @@ public class CalibrationTestPageItem {
         this.consumptionStatus = consumptionStatus;
     }
 
-    public CalibrationTestResult getTestResult() {
+    public Verification.CalibrationTestResult getTestResult() {
         return testResult;
     }
 
-    public void setTestResult(CalibrationTestResult testResult) {
+    public void setTestResult(Verification.CalibrationTestResult testResult) {
         this.testResult = testResult;
     }
 }

@@ -16,10 +16,18 @@ angular
                 $modalInstance.close();
             };
 
+
             $scope.showAddInfoTable = {
                 status: false
             }
             $scope.additionalInfo = {};
+            /**
+             * this method send request to the server
+             * and check if additional info exists, if true -
+             * opens additional info table and sends request to the server
+             * to receive the additional info and fill the table
+             *
+             */
             verificationService.checkIfAdditionalInfoExists($scope.verificationData.id)
                 .then(function (response) {
                     $log.debug(response);
@@ -46,8 +54,7 @@ angular
 
             /**
             * Toggle button (additional info) functionality
-            * */
-
+            */
             $scope.showStatus = {
                 opened: false
             };
@@ -59,6 +66,7 @@ angular
                     $scope.showStatus.opened = false;
                 }
             };
+
 
 
             /**
@@ -90,7 +98,7 @@ angular
 
             };
 
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy-MM-dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
 
             $scope.clear = function () {
@@ -111,15 +119,18 @@ angular
 
 
             $scope.clearDate1 = function () {
-                $log.debug($scope.addInfo.dateOfVerif);
                 $scope.addInfo.dateOfVerif = null;
             };
 
             $scope.clearDate2 = function () {
-                $log.debug($scope.addInfo.noWaterToDate);
                 $scope.addInfo.noWaterToDate = null;
             };
 
+            /**
+             * additonal info form validation
+             *
+             * @param caseForValidation
+             */
             $scope.checkAll = function (caseForValidation) {
                 switch (caseForValidation) {
                     case ('installationNumber'):
@@ -212,6 +223,9 @@ angular
                 }
             }
 
+            /**
+             * reset additional info form
+             */
             $scope.resetForm = function(){
                 $scope.$broadcast('show-errors-reset');
                 $scope.addInfo.entrance = undefined;
@@ -232,6 +246,10 @@ angular
             $scope.showMessage = {
                 status: false
             }
+
+            /**
+             * send form data to the server
+             */
             $scope.editAdditionalInfo = function(){
                 if ($scope.addInfo.entrance==undefined && $scope.addInfo.doorCode==undefined && $scope.addInfo.floor == undefined
                     && $scope.addInfo.dateOfVerif==undefined && $scope.addInfo.time == undefined &&
@@ -242,25 +260,23 @@ angular
                         $scope.addInfo.serviceability = true;
                     }
                     $scope.showMessage.status = false;
-                    $scope.info = {
-                        entrance: $scope.addInfo.entrance,
-                        doorCode: $scope.addInfo.doorCode,
-                        floor: $scope.addInfo.floor,
-                        dateOfVerif: $scope.addInfo.dateOfVerif,
-                        time: $scope.addInfo.time,
-                        serviceability: $scope.addInfo.serviceability,
-                        noWaterToDate: $scope.addInfo.noWaterToDate,
-                        notes: $scope.addInfo.notes,
-                        verificationId: $scope.verificationData.id
+                    var info = {
+                        "entrance": $scope.addInfo.entrance,
+                        "doorCode": $scope.addInfo.doorCode,
+                        "floor": $scope.addInfo.floor,
+                        "dateOfVerif": $scope.addInfo.dateOfVerif,
+                        "time": $scope.addInfo.time,
+                        "serviceability": $scope.addInfo.serviceability,
+                        "noWaterToDate": $scope.addInfo.noWaterToDate,
+                        "notes": $scope.addInfo.notes,
+                        "verificationId": $scope.verificationData.id
                     }
-                    $log.debug($scope.info);
-                    verificationService.saveAdditionalInfo($scope.info)
+                    verificationService.saveAdditionalInfo(info)
                         .then(function (response) {
                             if (response.status == 200) {
                                 $scope.close();
                             } else {
                              $scope.incorrectValue = true;
-                             console.log($scope.incorrectValue);
                             }
                         });
                 }

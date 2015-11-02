@@ -1,8 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
-import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.enumeration.user.UserRole;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
@@ -14,23 +12,13 @@ import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.storage.FileOperations;
 import com.softserve.edu.service.utils.EmployeeDTO;
 
-import com.softserve.edu.service.utils.ExcelFileDTO;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
-import org.apache.commons.io.FileUtils;
 
 import java.time.LocalTime;
 import java.io.*;
-import java.sql.*;
 import java.util.*;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -66,19 +54,26 @@ public class CalibratorServiceImpl implements CalibratorService {
 
     @Override
     @Transactional
-    public void uploadBbi(InputStream fileStream, String idVerification,
-                          Long installmentNumber, String originalFileFullName) throws IOException {
-        String absolutePath = fileOperations.putBbiFile(fileStream, installmentNumber, originalFileFullName);
-        Verification verification = verificationRepository.findOne(idVerification);
-        BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, absolutePath, verification);
+    public void uploadBbi(InputStream fileStream, String verificationId,
+                         String originalFileFullName) throws IOException{
+        Optional<Verification> retrievedVerification = Optional.ofNullable(verificationRepository.findOne(verificationId));
+        Verification verification = retrievedVerification.get();
+        uploadBbi(fileStream, verification, originalFileFullName);
+    }
+
+    @Override
+    @Transactional
+    public void uploadBbi(InputStream fileStream, Verification verification,
+                          String originalFileFullName) throws IOException{
+        fileOperations.putBbiFile(fileStream, verification.getId(), originalFileFullName);
+        BbiProtocol bbiProtocol = new BbiProtocol(originalFileFullName, verification);
         Set<BbiProtocol> bbiProtocolsOfVerification = verification.getBbiProtocols();
         bbiProtocolsOfVerification.add(bbiProtocol);
         verification.setBbiProtocols(bbiProtocolsOfVerification);
         verificationRepository.save(verification);
-        System.out.println("saved verification");
         uploadBbiRepository.save(bbiProtocol);
-        System.out.println("saved bbi!!!!111");
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -115,13 +110,32 @@ public class CalibratorServiceImpl implements CalibratorService {
     public void assignCalibratorEmployee(String verificationId, User calibratorEmployee) {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setCalibratorEmployee(calibratorEmployee);
-        verification.setReadStatus(ReadStatus.READ);
+        verification.setReadStatus(Verification.ReadStatus.READ);
         verification.setTaskStatus(Status.PLANNING_TASK);
         verificationRepository.save(verification);
     }
 
+    /**
+     * Save additional info for the verification.
+     * Parse parameter time from string to LocalTime,
+     * if time = null, then assigns null for the values
+     * time from and time to. Time can be null because
+     * this field in not required.
+     *
+     *
+     * @param entrance
+     * @param doorCode
+     * @param floor
+     * @param dateOfVerif
+     * @param time
+     * @param serviceability
+     * @param noWaterToDate
+     * @param notes
+     * @param verificationId
+     */
     @Override
-    public void saveInfo(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate, String notes, String verificationId) {
+    public void saveInfo(int entrance, int doorCode, int floor, Date dateOfVerif, String time,
+                         boolean serviceability,Date noWaterToDate, String notes, String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setAddInfoExists(true);
         LocalTime timeFrom;
@@ -140,12 +154,25 @@ public class CalibratorServiceImpl implements CalibratorService {
         verificationRepository.save(verification);
     }
 
+    /**
+     * Check if additional info is already added
+     * for the verification
+     *
+     * @param verificationId
+     * @return {@literal true} if exists, else {@literal false}
+     */
     @Override
     public boolean checkIfAdditionalInfoExists(String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
         return verification.isAddInfoExists();
     }
 
+    /**
+     * This method return additional info
+     *
+     * @param verificationId
+     * @return AdditionalInfo
+     */
     @Override
     public AdditionalInfo findAdditionalInfoByVerifId(String verificationId) {
         return additionalInfoRepository.findAdditionalInfoByVerificationId(verificationId);

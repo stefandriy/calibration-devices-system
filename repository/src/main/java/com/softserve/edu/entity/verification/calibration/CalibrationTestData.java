@@ -1,6 +1,6 @@
 package com.softserve.edu.entity.verification.calibration;
 
-import com.softserve.edu.entity.enumeration.verification.CalibrationTestResult;
+import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,7 +36,7 @@ public class CalibrationTestData {
     private Double actualConsumption;
     private String consumptionStatus;
     private Double calculationError;
-    private CalibrationTestResult testResult;
+    private Verification.CalibrationTestResult testResult;
 
     @ManyToOne
     @JoinColumn(name = "calibrationTestId")
@@ -45,7 +45,7 @@ public class CalibrationTestData {
     public CalibrationTestData(
             Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
             Double endValue, Double volumeInDevice, Double actualConsumption, String consumptionStatus,
-            Double calculationError, CalibrationTestResult testResult, CalibrationTest calibrationTest
+            Double calculationError, Verification.CalibrationTestResult testResult, CalibrationTest calibrationTest
     ) {
         this.givenConsumption = givenConsumption;
         this.acceptableError = acceptableError;

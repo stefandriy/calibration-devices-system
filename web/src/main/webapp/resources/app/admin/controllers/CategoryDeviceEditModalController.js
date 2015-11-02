@@ -38,7 +38,7 @@ angular
             ];
 
             /**
-             * Localization of multiselect for type of organization
+             * Localization of select for counters kind
              */
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
@@ -54,9 +54,6 @@ angular
                     $scope.deviceTypeData[1].label = 'Hot water';
                 }
             };
-
-            /*
-            */
 
             var setCurrentTypeDataLanguage = function () {
                 var lang = $translate.use();
@@ -90,7 +87,6 @@ angular
             $scope.setTypeDataLanguage();
             setTimeout(setCurrentTypeDataLanguage(), 2000);
 
-
             /**
              * Closes modal window on browser's back/forward button click.
              */
@@ -100,64 +96,46 @@ angular
 
             /**
              * Closes the modal window for adding new
-             * organization.
+             * category.
              */
-            $rootScope.closeModal = function () {
-                $modalInstance.close();
+            $rootScope.closeModal = function (close) {
+                if(close === true) {
+                    $modalInstance.close();
+                }
+                $modalInstance.dismiss();
             };
 
             /**
-             * Validates organization form before saving
+             * Validates category form before saving
              */
             $scope.onEditCategoryFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.editCategoryForm.$valid) {
                     var deviceCategoryForm = {
-                        number: $rootScope.countersCategory.number,
                         deviceType: $scope.defaultData.deviceType.type,
                         deviceName: $rootScope.countersCategory.deviceName
                     };
-                    console.log(deviceCategoryForm);
                     saveDeviceCategory(deviceCategoryForm);
                 }
             };
 
             /**
-             * Saves new organization from the form in database.
-             * If everything is ok then resets the organization
-             * form and updates table with organizations.
+             * Saves new category from the form in database.
+             * If everything is ok then resets the category
+             * form and updates table with devices categories.
              */
             function saveDeviceCategory(deviceCategoryForm) {
-                console.log(deviceCategoryForm);
-                console.log($rootScope.countersCategory.id);
                 devicesService.editDeviceCategory(
                     deviceCategoryForm,
                     $rootScope.countersCategory.id).then(
                     function (data) {
                         if (data == 200) {
-                            $scope.closeModal();
-                            console.log(data);
+                            $scope.closeModal(true);
                             $rootScope.onTableHandling();
                         }
                     });
             }
 
-
-
-
-            $scope.CATEGORY_DEVICE_CODE = /^[\u0430-\u044f\u0456\u0457\u0454a-z\d]{13}$/;
-            $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
-            $scope.EMAIL_REGEX = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
-            $scope.FIRST_LAST_NAME_REGEX = /^([A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}\u002d{1}[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}|[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20})$/;
-            $scope.MIDDLE_NAME_REGEX = /^[A-Z\u0410-\u042f\u0407\u0406\u0404']{1}[a-z\u0430-\u044f\u0456\u0457\u0454']{1,20}$/;
-            $scope.USERNAME_REGEX = /^[a-z0-9_-]{3,16}$/;
-            $scope.PASSWORD_REGEX = /^(?=.{4,20}$).*/;
-            $scope.BUILDING_REGEX = /^[1-9]{1}[0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457]){0,1}$/;
-            $scope.FLAT_REGEX = /^([1-9]{1}[0-9]{0,3}|0)$/;
-
-
-
-
+            $scope.COUNTER_NAME = /^([A-ZА-ЯЇІЄ']{1}[a-zа-яіїє']{1,20}|[A-ZА-ЯЇІЄ']{1}[a-zа-яіїє']{1,20}([ ]{1}[a-zа-яіїє']{1,20})+)$/;
         }
-
     ]);

@@ -56,7 +56,7 @@ angular
             ];
 
             /**
-             * Localization of multiselect for type of organization
+             * Localization of multiselect for type of organization and device types
              */
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
@@ -84,7 +84,7 @@ angular
             });
 
             /**
-             * Resets organization form
+             * Reset organization form
              */
             $scope.resetOrganizationForm = function () {
                 $scope.$broadcast('show-errors-reset');
@@ -110,9 +110,12 @@ angular
              * Closes the modal window for adding new
              * organization.
              */
-            $rootScope.closeModal = function () {
+            $rootScope.closeModal = function (close) {
                 $scope.resetOrganizationForm();
-                $modalInstance.close();
+                if(close === true) {
+                    $modalInstance.close();
+                }
+                $modalInstance.dismiss();
             };
 
             /**
@@ -131,32 +134,10 @@ angular
             })
             }
 
-            /**
-             * Checks whereas given username is available to use
-             * for new user
-             *
-             */
-            $scope.isPasswordsEqual = true;
-            $scope.checkRePassword = function () {
-                var password = $scope.organizationFormData.password;
-                var rePassword = $scope.organizationFormData.rePassword;
-                if (password !== rePassword) {
-                    $scope.isPasswordsEqual = false;
-                    $scope.organizationForm.rePassword.$valid = false;
-                    $scope.organizationForm.rePassword.$invalid = true;
-                    $scope.organizationForm.password.$valid = false;
-                    $scope.organizationForm.password.$invalid = true;
-                } else {
-                    $scope.isPasswordsEqual = true;
-                    $scope.organizationForm.password.$valid = true;
-                    $scope.organizationForm.password.$invalid = false;
-                }
-            }
 
             /**
-             * Checks whereas given username is available to use
-             * for new user
-             *
+             * Checks validation of service area
+             * if wasn't chose any service area set form not valid
              */
             $scope.isValidAcordion = true;
             function checkValidAcardion() {
@@ -166,6 +147,12 @@ angular
                     $scope.organizationForm.serviceAreaRegion.$valid = false;
                     $scope.organizationForm.$valid = false;
                     $scope.organizationForm.$invalid = true;
+                } else {
+                    $scope.isValidAcordion = true;
+                    $scope.organizationForm.serviceAreaRegion.$invalid = false;
+                    $scope.organizationForm.serviceAreaRegion.$valid = true;
+                    $scope.organizationForm.$valid = true;
+                    $scope.organizationForm.$invalid = false;
                 }
             }
 
@@ -174,6 +161,7 @@ angular
             $scope.localities = undefined;
             $scope.streets = "";
             $scope.buildings = null;
+
 
             /**
              * Receives all possible districts.
@@ -373,11 +361,10 @@ angular
              * form and updates table with organizations.
              */
             function saveOrganization() {
-                console.log($scope.organizationFormData);
                 organizationService.saveOrganization($scope.organizationFormData)
                     .then(function (data) {
                         if (data == 201) {
-                            $scope.closeModal();
+                            $scope.closeModal(true);
                             $scope.resetOrganizationForm();
                             $rootScope.onTableHandling();
                         }

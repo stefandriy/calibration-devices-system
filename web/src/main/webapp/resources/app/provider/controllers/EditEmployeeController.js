@@ -99,7 +99,7 @@ angular
                         organizationTypeVerificator = true
                     }
                 }
-            }
+            };
 
             $scope.regions = null;
             $scope.districts = [];
@@ -115,7 +115,7 @@ angular
             $scope.changePassword = function () {
                 $scope.user.password = 'generate';
                 $scope.generationMessage = true;
-            }
+            };
 
 
             /**
@@ -145,7 +145,7 @@ angular
                 var elem = {
                     id: length,
                     designation: searchTerm
-                }
+                };
                 myArray.push(elem);
                 return (myArray.length - 1);
             }
@@ -238,7 +238,7 @@ angular
                             alert('Error');
                         }
                     });
-            };
+            }
 
             $scope.closeWindow = function () {
                 $modalInstance.close();

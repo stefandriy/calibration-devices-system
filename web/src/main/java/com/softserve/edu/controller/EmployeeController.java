@@ -1,17 +1,18 @@
 package com.softserve.edu.controller;
 
 
-import com.softserve.edu.controller.provider.util.UserDTO;
+import com.softserve.edu.dto.user.UserDTO;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.UsersPageItem;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.dto.user.UserInfoDTO;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
-import com.softserve.edu.service.admin.UserService;
+import com.softserve.edu.service.admin.UsersService;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -35,7 +36,7 @@ public class EmployeeController {
     Logger logger = Logger.getLogger(EmployeeController.class);
 
     @Autowired
-    private UserService userService;
+    private UsersService usersService;
 
     @Autowired
     private OrganizationService organizationsService;
@@ -77,7 +78,7 @@ public class EmployeeController {
     public Boolean isValidUsername(@PathVariable String username) {
         boolean isAvailable = false;
         if (username != null) {
-            isAvailable = userService.existsWithUsername(username);
+            isAvailable = usersService.isExistsWithUsername(username);
         }
         return isAvailable;
     }
@@ -101,7 +102,7 @@ public class EmployeeController {
         userFromDataBase.setAddress(temporalUser.getAddress());
         userFromDataBase.setUsername(temporalUser.getUsername());
         userFromDataBase.setIsAvaliable(temporalUser.getIsAvailable());
-        userFromDataBase.setUserRoles(new HashSet<>(userService.getRoles(username)));
+        userFromDataBase.setUserRoles(new HashSet<>(usersService.getRoles(username)));
         return userFromDataBase;
     }
 
@@ -180,7 +181,7 @@ public class EmployeeController {
     @RequestMapping(value = "capacityOfEmployee/{username}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> capacityEmployeeData(
             @PathVariable String username) {
-        List<String> role = userService.getRoles(username);
+        List<String> role = usersService.getRoles(username);
         List<Verification> list = null;
         if (role.contains(UserRole.PROVIDER_EMPLOYEE.name())) {
             list = verificationProviderEmployeeService.getVerificationListByProviderEmployee(username);
@@ -204,7 +205,7 @@ public class EmployeeController {
         for (User providerEmployee : queryResult.getContent()) {
 
             //hide information about PROVIDER_ADMIN, CALIBRATOR_ADMIN, STATE_VERIFICATOR_ADMIN
-            List<String> userRoles = userService.getRoles(providerEmployee.getUsername())
+            List<String> userRoles = usersService.getRoles(providerEmployee.getUsername())
                     .stream()
                     .distinct()
                     .collect(Collectors.toList());
@@ -255,7 +256,7 @@ public class EmployeeController {
             @PathVariable int pageNumber,
             @PathVariable int itemsPerPage
     ) {
-        return userService.findByOrganizationId(userDetails.getOrganizationId(), pageNumber, itemsPerPage)
+        return usersService.findByOrganizationId(userDetails.getOrganizationId(), pageNumber, itemsPerPage)
                 .stream()
                 .filter(user -> user
                                 .getUserRoles()
@@ -273,7 +274,7 @@ public class EmployeeController {
                                 user.getLastName(),
                                 user.getPhone(),
                                 user.getSecondPhone(),
-                                userService.countVerifications(user),
+                                usersService.countVerifications(user),
                                 user.getIsAvailable()
                         )
                 )

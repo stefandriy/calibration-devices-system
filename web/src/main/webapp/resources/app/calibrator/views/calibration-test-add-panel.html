@@ -23,12 +23,44 @@
 
         .control-label { width: 90px; }
 
-        .control-image-label { width: 200px; }
+        .control-image-label {
+            width: 200px;
+        }
 
         .input-sm { height: 25px; }
 
         .image-td {
-            height: 150px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .rotated0 { }
+
+        .rotated90 {
+            /* Firefox */
+            -moz-transform:rotate(90deg);
+            /* Safari and Chrome */
+            -webkit-transform:rotate(90deg);
+            /* Opera */
+            -o-transform:rotate(90deg);
+        }
+
+        .rotated180 {
+            /* Firefox */
+            -moz-transform:rotate(180deg);
+            /* Safari and Chrome */
+            -webkit-transform:rotate(180deg);
+            /* Opera */
+            -o-transform:rotate(180deg);
+        }
+
+        .rotated270 {
+            /* Firefox */
+            -moz-transform:rotate(270deg);
+            /* Safari and Chrome */
+            -webkit-transform:rotate(270deg);
+            /* Opera */
+            -o-transform:rotate(270deg);
         }
 
         tr > td { min-height: 30px; }
@@ -38,7 +70,7 @@
 <body>
 <div id="page-wrapper">
     <div>
-        <h2 class="text-center">Заповніть інформацію про протокол:</h2>
+        <h2 class="text-center">{{'FILL_INFO_ABOUT_PROTOCOL' | translate }}</h2>
     </div>
     <form name="CalibrationTestForm" novalidate style="padding-top: 10px">
         <div class="first-column">
@@ -126,7 +158,6 @@
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="form-group col-md-5">
                     <label class="control-label">{{'CONSUMPTION_LOL_STATUS' |
@@ -150,11 +181,11 @@
             </div>
 
             <div class="row">
-                <div class="form-group col-md-12">
-                    <img ng-show="fileLoaded" id="testMainPhoto" src="data:image/png;base64, TestForm.testPhoto" width="100%" height="100%">
+                <div class="form-group col-md-12" style="width: 260px; height: 260px">
+                    <img ng-show="fileLoaded" class="rotated0" ng-click="showEditMainPhotoModal('testMainPhoto')" id="testMainPhoto" data-ng-src="{{TestForm.testPhoto}}" width="100%" height="100%">
                 </div>
-            </div>
 
+            </div>
         </div>
 
         <div class="second-column">
@@ -285,13 +316,15 @@
                 <tbody>
                     <tr>
                         <td ng-repeat="testData in TestDataFormData" ng-show="testData.dataAvailable" class="image-td">
-                                <img ng-show="testData.dataAvailable"
+                                <img ng-show="testData.dataAvailable" id="{{ 'beginPhoto' + $index }}" class="rotated0"
+                                     ng-click="showEditMainPhotoModal( 'beginPhoto' + $index )" style="width: 200px; height: 200px;"
                                      data-ng-src="data:image/png;base64,{{testData.beginPhoto}}" width="100%" height="100%">
                         </td>
                     </tr>
                     <tr>
                         <td ng-repeat="testData in TestDataFormData" ng-show="testData.dataAvailable" class="image-td">
-                                <img ng-show="testData.dataAvailable"
+                                <img ng-show="testData.dataAvailable" id="{{ 'endPhoto' + $index }}" class="rotated0"
+                                     ng-click="showEditMainPhotoModal( 'endPhoto' + $index )" style="width: 200px; height: 200px;"
                                      data-ng-src="data:image/png;base64,{{testData.endPhoto}}" width="100%" height="100%">
                         </td>
                     </tr>
@@ -306,9 +339,9 @@
                         ng-click="saveCalibrationTest()">{{'ADD' | translate}}
                 </button>
                 <button class="btn btn-primary btn-sm" type="button" style="margin-left: 20px" ng-show="!fileLoaded"
-                        ng-click="fileName = uploadBbiFile(testId);console.log(fileName);">
+                        ng-click="fileName = uploadBbiFile(testId)">
                     <img src="/resources/assets/button-icons/upload.png"
-                         ng-click="fileName = uploadBbiFile(testId);console.log(fileName);">
+                         ng-click="fileName = uploadBbiFile(testId)">
                     </img> {{ 'UPLOAD_BBI_FILE' | translate }}
                 </button>
             </div>

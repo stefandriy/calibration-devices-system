@@ -1,11 +1,9 @@
 angular
     .module('adminModule')
-    .controller('UsersController', ['$scope', 'UsersService', '$modal', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
+    .controller('UsersController', ['$scope', 'UsersService', '$log', 'ngTableParams', '$timeout', '$filter','$rootScope',
         'toaster','$translate',
-        function ($scope, userService, $modal, $log, ngTableParams, $timeout, $filter, $rootScope, toaster, $translate) {
+        function ($scope, userService, $log, ngTableParams, $timeout, $filter, $rootScope, toaster, $translate) {
 
-
-            $scope.cantAddEmployee;
 
             $scope.clearAll = function () {
                 $scope.selectedUserType.name = null;
@@ -31,11 +29,9 @@ angular
                     $scope.userTypeData[0].label = 'Робітник вимірювальної лабораторії';
                     $scope.userTypeData[1].label = 'Адмін вимірювальної лабораторії';
                     $scope.userTypeData[2].label = 'Робітник постачальник послуг';
-                    $scope.userTypeData[3].label = 'Адмін постачальник послу';
+                    $scope.userTypeData[3].label = 'Адмін постачальник послуг';
                     $scope.userTypeData[4].label = 'Робітник уповноваженої повірочної лабораторії';
                     $scope.userTypeData[5].label = 'Адмін уповноваженої повірочної лабораторії';
-
-
                 } else if (lang === 'eng') {
                     $scope.userTypeData[0].label = 'Employee calibrator';
                     $scope.userTypeData[1].label = 'Admin calibrator';
@@ -76,6 +72,7 @@ angular
 
                     userService.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                         .success(function (result) {
+                            console.log(params.filter());
                             console.log(sortCriteria);
                             console.log(result);
                             console.log(result.totalItems);
@@ -97,23 +94,6 @@ angular
                     }
                 }
                 return false;
-            };
-
-
-            $scope.cantAddNewEmployee = function() {
-                userService.getOrganizationEmployeeCapacity().success(
-                    function(data) {
-                        $scope.organizationEmployeesCapacity = data;
-                        if ($scope.totalEmployee < $scope.organizationEmployeesCapacity) {
-                            $scope.cantAddEmployee = false;
-                        } else {
-                            $scope.cantAddEmployee = true;
-                        }
-                    });
-            };
-
-            $scope.popNotification = function (title, text) {
-                toaster.pop('success', title, text);
             };
 
         }]);

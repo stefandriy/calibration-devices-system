@@ -55,20 +55,20 @@ public class DeviceServiceImpl implements DeviceService {
 
 	@Override
 	@Transactional
-	public ListToPageTransformer<Device> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, String number, String deviceType, String deviceName, String sortCriteria, String sortOrder) {
+	public ListToPageTransformer<Device> getCategoryDevicesBySearchAndPagination(int pageNumber, int itemsPerPage, Long id, String deviceType, String deviceName, String sortCriteria, String sortOrder) {
 		CriteriaQuery<Device> criteriaQuery = ArchivalDevicesCategoryQueryConstructorAdmin
-				.buildSearchQuery(number, deviceType, deviceName, sortCriteria, sortOrder, entityManager);
+				.buildSearchQuery(id, deviceType, deviceName, sortCriteria, sortOrder, entityManager);
 
 		Long count = entityManager.createQuery(ArchivalDevicesCategoryQueryConstructorAdmin
-				.buildCountQuery(number, deviceType, deviceName, entityManager)).getSingleResult();
+				.buildCountQuery(id, deviceType, deviceName, entityManager)).getSingleResult();
 
 		TypedQuery<Device> typedQuery = entityManager.createQuery(criteriaQuery);
 		typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
 		typedQuery.setMaxResults(itemsPerPage);
-		List<Device> DevicesCategoryList = typedQuery.getResultList();
+		List<Device> devicesCategoryList = typedQuery.getResultList();
 
 		ListToPageTransformer<Device> result = new ListToPageTransformer<Device>();
-		result.setContent(DevicesCategoryList);
+		result.setContent(devicesCategoryList);
 		result.setTotalItems(count);
 		return result;
 	}
@@ -81,17 +81,16 @@ public class DeviceServiceImpl implements DeviceService {
 
 	@Override
 	@Transactional
-	public void addDeviceCategory(String number, String deviceType, String deviceName) {
-		Device deviceCategory = new Device(number, Device.DeviceType.valueOf(deviceType), deviceName);
+	public void addDeviceCategory(String deviceType, String deviceName) {
+		Device deviceCategory = new Device(Device.DeviceType.valueOf(deviceType), deviceName);
 		deviceRepository.save(deviceCategory);
 	}
 
 	@Override
 	@Transactional
-	public void editDeviceCategory(Long id, String number, String deviceType, String deviceName) {
+	public void editDeviceCategory(Long id, String deviceType, String deviceName) {
 		Device device = deviceRepository.findOne(id);
 
-		device.setNumber(number);
 		device.setDeviceType(Device.DeviceType.valueOf(deviceType));
 		device.setDeviceName(deviceName);
 

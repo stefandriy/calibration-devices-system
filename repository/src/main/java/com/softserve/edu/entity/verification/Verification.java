@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.enumeration.verification.ReadStatus;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
@@ -99,11 +98,13 @@ public class Verification {
     @Column(columnDefinition = "boolean default false")
     private boolean isAddInfoExists;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean counterStatus;
+
     @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
     private AdditionalInfo info;
 
     private Integer processTimeExceeding;
-
 
     public Verification(
             Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
@@ -135,5 +136,20 @@ public class Verification {
     public void deleteCalibrationTest (CalibrationTest calibrationTest){
         calibrationTests.remove(calibrationTest);
 
+    }
+
+    public enum ReadStatus {
+       READ,
+       UNREAD
+    }
+
+    public enum CalibrationTestResult {
+        SUCCESS,
+        FAILED
+    }
+
+    public enum ConsumptionStatus {
+         IN_THE_AREA,
+         NOT_IN_THE_AREA
     }
 }

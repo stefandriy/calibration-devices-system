@@ -22,9 +22,7 @@ angular
                 $scope.TestDataFormData = [{}, {}, {}, {}, {}, {}];
             };
 
-            var self = $scope;
             $scope.uploadBbiFile = function(testId) {
-                console.log("Entered upload bbi function");
                 var modalInstance =  $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
@@ -39,24 +37,37 @@ angular
                         }
                     }
                 });
-
-                modalInstance.result.then(function (status, fileName) {
-                    $scope.fileName = fileName;
-                    console.log(status + " " + fileName);
-                    $rootScope.onTableHandling();
-                });
-
             };
 
             $scope.parseBbiFile = function(data) {
                 $scope.fileLoaded = true;
-                console.log(data);
                 $scope.TestForm = data;
                 var date = $scope.TestForm.testDate;
                 $scope.TestForm.testDate = moment(date).utcOffset(0).format("DD.MM.YYYY HH:mm");
-                document.getElementById('testMainPhoto').setAttribute('src', 'data:image/png;base64,' + $scope.TestForm.testPhoto);
+                $scope.TestForm.testPhoto = "data:image/png;base64," + $scope.TestForm.testPhoto;
                 $scope.TestDataFormData = data.listTestData;
-            }
+            };
+
+            $scope.showEditMainPhotoModal = function (id) {
+                var modalInstance =  $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/calibrator/views/modals/edit-main-photo-modal.html',
+                    controller: 'EditPhotoController',
+                    size: 'md',
+                    resolve: {
+                         photoId: function() {
+                            return id;
+                        },
+                         parentScope: function() {
+                            return $scope;
+                        }
+                    }
+                });
+            };
+
+            $scope.setMainPhoto = function (data) {
+                $scope.TestForm.testPhoto = data;
+            };
 
             function getCalibrationTests() {
                 calibrationTestServiceCalibrator
@@ -67,7 +78,6 @@ angular
             }
 
             getCalibrationTests();
-
 
             /**
              * Saves new test from the form in database.

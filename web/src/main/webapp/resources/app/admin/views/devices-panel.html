@@ -6,16 +6,18 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-6">
-            <button type="submit" class="btn btn-primary" ng-click="openAddCategoryCounterModal()">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-click="openAddCategoryCounterModal()">
                 <span class="glyphicon glyphicon-plus"></span>
                 {{'ADD_CATEGORY_COUNTER' | translate}}
             </button>
         </div>
-
-        <div class="col-xs-6 col-md-6 col-lg-6">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <p></p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
             <button ng-click="clearAll()" ng-show="isFilter()"
-                    class="btn btn-danger pull-right">
+                    class="btn btn-danger pull-right col-xs-12 col-sm-12 col-md-10 col-lg-10">
                 {{'CLEAR_ALL' | translate }}
             </button>
         </div>
@@ -29,21 +31,21 @@
                        class="table table-bordered table-hover users_table">
                     <tbody>
                     <tr ng-repeat="device in $data">
-                        <td data-title="'COUNTER_NUMBER' | translate" sortable="'number'"
+                        <td data-title="'COUNTER_CODE' | translate" sortable="'number'"
                             filter="{ 'number': 'text' }">
                             {{ device.id }}
                         </td>
                         <td data-title="'COUNTER_KIND' | translate"
                             sortable="'deviceType'"
-                            filter="{ deviceType : 'deviceType' }">{{
-                            device.deviceType }}
+                            filter="{ deviceType : 'deviceType' }">
+                            {{device.deviceType | translate}}
                         </td>
                         <td data-title="'DEVICE_NAME' | translate " sortable="'deviceName'"
                             filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
                             <div class="btn-group">
-                                <button type="button" class="btn btn-primary"
+                                <button type="button" class="btn btn-warning"
                                         ng-click="openEditCategoryCounterModal(device.id)">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
@@ -65,9 +67,9 @@
                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
                             <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                Previous</a>
+                                {{'PREVIOUS' | translate}}</a>
                             <a ng-switch-when="next" ng-click="params.page(page.number)"
-                               href="">Next &raquo;</a>
+                               href="">{{'NEXT' | translate}} &raquo;</a>
                         </li>
                         <li>
                             <div class="btn-group">

@@ -33,7 +33,7 @@ public class OrganizationDTO {
     }
 
 
-    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region, String locality, String district, String street, String building, String flat) {
+    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region, String district, String locality, String street, String building, String flat) {
         this.id = id;
         this.email = email;
         this.name = name;
