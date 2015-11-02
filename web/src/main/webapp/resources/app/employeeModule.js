@@ -147,8 +147,12 @@
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
-                    });
-
+                    })
+                    .state("verifications-protocols-calibrator", {
+                           url: 'calibrator/protocols',
+                           templateUrl: '/resources/app/calibrator/views/show-verification-protocols.html',
+                            controller: 'DigitalVerificationProtocolsControllerCalibrator'
+                     });
 
                 /*
                  Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
@@ -314,7 +318,8 @@
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController'
-
+        'common/controllers/CommonController',
+        'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
     ], function () {});
 })();
