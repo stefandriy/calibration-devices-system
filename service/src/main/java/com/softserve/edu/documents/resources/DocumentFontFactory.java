@@ -7,6 +7,7 @@ import com.softserve.edu.documents.parameter.FileSystem;
 import com.softserve.edu.documents.utils.FileUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
@@ -19,6 +20,8 @@ import java.util.EnumMap;
  */
 public enum DocumentFontFactory {
     INSTANCE;
+
+    private final Logger logger = Logger.getLogger(DocumentFontFactory.class);
 
     /**
      * Map of font objects for reuse.
@@ -95,6 +98,7 @@ public enum DocumentFontFactory {
                         BaseFont.IDENTITY_H, false);
             } catch (DocumentException exception) {
             	exception.printStackTrace();
+                logger.info(exception); // for prevent critical issue "Either log or rethrow this exception"
             }
 
             baseFontMap.put(font, baseFontObject);
