@@ -46,7 +46,7 @@ public class CalibrationModule {
 
     private String calibrationType;
 
-    private String moduleNumber;
+    private String moduleNumber;//generates
 
     private boolean isActive = true;
 
