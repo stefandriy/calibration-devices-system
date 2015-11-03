@@ -5,6 +5,7 @@ import com.softserve.edu.dto.FieldDTO;
 import com.softserve.edu.dto.NewPasswordDTO;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.user.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/provider/settings/")
 public class SettingsProviderController {
+
+    Logger logger = Logger.getLogger(ProviderEmployeeController.class);
 
     @Autowired
     private UserService userService;
@@ -87,6 +90,7 @@ public class SettingsProviderController {
             response = new ResponseEntity<>(employeeDTO, HttpStatus.OK);
         } catch (ClassCastException e) {
             response = new ResponseEntity<>(new EmployeeDTO(), HttpStatus.CONFLICT);
+            logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
         }
         return response;
     }
