@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1 class="page-header">Нові повірки</h1>
+            <h1 class="page-header"><span translate="VERIFICATION_PROTOCOLS"></span></h1>
         </div>
     </div>
 
@@ -29,7 +29,7 @@
             <div class="panel panel-default">
            
                 <div class="panel-heading">
-                   <span> Останні дані</span>
+                   <span translate="INFORMATION"></span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
                 
@@ -152,11 +152,11 @@
 
                             		<p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        Оберіть хоча б одну повірку
+                                        <span translate="SELECT_VERIFICATION_PROTOCOL"></span>
                                     </p>
                             <div class="pull-left">
                                 <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span> Надіслати</button>
+                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span><span translate="SEND_BTN"></span></button>
                             </div>
                         
                         </div>
