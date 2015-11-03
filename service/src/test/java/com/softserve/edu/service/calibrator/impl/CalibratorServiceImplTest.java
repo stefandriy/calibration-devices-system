@@ -78,7 +78,7 @@ public class CalibratorServiceImplTest {
         user.setOrganization(organization);
         when(userRepository.findAllAvailableUsersByRoleAndOrganizationId(UserRole.CALIBRATOR_EMPLOYEE, 11L))
                 .thenReturn(setOfUser);
-//        calibratorService.setUserRepository(userRepository);
+        calibratorService.setUserRepository(userRepository);
         List<EmployeeDTO> list = calibratorService.getAllCalibratorEmployee(listOfRole, user);
         assertNotEquals(0, list.size());
     }
@@ -91,7 +91,7 @@ public class CalibratorServiceImplTest {
         user.setOrganization(organization);
         when(userRepository.findAllAvailableUsersByRoleAndOrganizationId(UserRole.CALIBRATOR_EMPLOYEE, 11L))
                 .thenReturn(setOfUser);
-//        calibratorService.setUserRepository(userRepository);
+        calibratorService.setUserRepository(userRepository);
         List<EmployeeDTO> list = calibratorService.getAllCalibratorEmployee(listOfRole, user);
         assertNotNull(list);
     }
