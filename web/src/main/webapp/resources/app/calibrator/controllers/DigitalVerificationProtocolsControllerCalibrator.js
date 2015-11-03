@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$rootScope','$scope', '$modal','DigitalVerificationProtocolsServiceCalibrator',
+    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$rootScope', '$scope', '$modal', 'DigitalVerificationProtocolsServiceCalibrator',
         function ($rootScope, $scope, $modal, digitalVerificationProtocolsServiceCalibrator) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
@@ -21,13 +21,13 @@ angular
             $rootScope.onTableHandling();
         }]);
 
-/*   $scope.sentProtocols = function() {
- var sentProtocols = $modal
- .open({
- animation : true,
- controller : 'DigitalVerificationProtocolsSendControllerCalibrator',
- templateUrl : '/resources/app/calibrator/views/modals/send-protocols.html',
- });
- };
- */
+        $scope.sentProtocols = function () {
+        var sentProtocols = $modal
+        .open({
+            animation: true,
+            controller: 'DigitalVerificationProtocolsControllerCalibrator',
+            templateUrl: '/resources/app/calibrator/views/modals/send-protocols.html',
+        });
+};
+
 
