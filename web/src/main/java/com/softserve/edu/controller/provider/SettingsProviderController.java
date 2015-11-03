@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/provider/settings/")
 public class SettingsProviderController {
 
-    Logger logger = Logger.getLogger(ProviderEmployeeController.class);
+    Logger logger = Logger.getLogger(SettingsProviderController.class);
 
     @Autowired
     private UserService userService;
