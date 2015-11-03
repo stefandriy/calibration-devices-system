@@ -115,8 +115,27 @@ public class CalibratorServiceImpl implements CalibratorService {
         verificationRepository.save(verification);
     }
 
+    /**
+     * Save additional info for the verification.
+     * Parse parameter time from string to LocalTime,
+     * if time = null, then assigns null for the values
+     * time from and time to. Time can be null because
+     * this field in not required.
+     *
+     *
+     * @param entrance
+     * @param doorCode
+     * @param floor
+     * @param dateOfVerif
+     * @param time
+     * @param serviceability
+     * @param noWaterToDate
+     * @param notes
+     * @param verificationId
+     */
     @Override
-    public void saveInfo(int entrance, int doorCode, int floor, Date dateOfVerif, String time, boolean serviceability, Date noWaterToDate, String notes, String verificationId) {
+    public void saveInfo(int entrance, int doorCode, int floor, Date dateOfVerif, String time,
+                         boolean serviceability,Date noWaterToDate, String notes, String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setAddInfoExists(true);
         LocalTime timeFrom;
@@ -135,12 +154,25 @@ public class CalibratorServiceImpl implements CalibratorService {
         verificationRepository.save(verification);
     }
 
+    /**
+     * Check if additional info is already added
+     * for the verification
+     *
+     * @param verificationId
+     * @return {@literal true} if exists, else {@literal false}
+     */
     @Override
     public boolean checkIfAdditionalInfoExists(String verificationId) {
         Verification verification = verificationRepository.findOne(verificationId);
         return verification.isAddInfoExists();
     }
 
+    /**
+     * This method return additional info
+     *
+     * @param verificationId
+     * @return AdditionalInfo
+     */
     @Override
     public AdditionalInfo findAdditionalInfoByVerifId(String verificationId) {
         return additionalInfoRepository.findAdditionalInfoByVerificationId(verificationId);
