@@ -174,11 +174,12 @@
                               	</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
-                            <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i> <span translate="CALIBRATOR_HANDBOOK"></span>
+                        <li ui-sref-active="active" ng-controller="DigitalVerificationProtocolsControllerCalibrator">
+                        <a ui-sref="verifications-protocols-calibrator" ng-click="onTableHandling()">
+                            <i class="fa fa-file-powerpoint-o"></i>
+                            <span translate="DIGITAL_PROTOCOLS"></span>
                             </a>
-                        </li>
+                         </li>
 
                         <li ui-sref-active="active">
                             <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i>

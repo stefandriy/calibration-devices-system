@@ -538,8 +538,12 @@
   "SUCCESS" : "Success",
   "FAILED" : "Failed",
   "YEAR_REGEX" : "Enter for example - 2015",
-  "MAIN_PANEL_PROVIDER" : "Main "
+  "MAIN_PANEL_PROVIDER" : "Main ",
 
-
+  "CALIBRATOR_NAME" : "Calibrator",
+  "PROTOCOLS" : "Digital verification protocols",
+  "PROTOCOLS_FOUND" : "Protocols found",
+  "SEND_PROTOCOLS" : "Send protocols",
+  "DIGITAL_PROTOCOLS" :"Digital verification protocols"
 
 }

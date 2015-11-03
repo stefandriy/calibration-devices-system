@@ -256,6 +256,7 @@ public class CalibratorVerificationController {
             }
         } catch (Exception e) {
             logger.error("Failed to load file " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
@@ -279,6 +280,7 @@ public class CalibratorVerificationController {
             }
         } catch (Exception e) {
             logger.error("Failed to load file " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
         }
         return bbiOutcomeDTOList;
     }
