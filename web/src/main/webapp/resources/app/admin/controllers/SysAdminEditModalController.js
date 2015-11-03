@@ -212,7 +212,8 @@ angular
                     };
 
                     saveSysAdmin(sysAdminForm);
-                    $scope.closeModal();
+                    $modalInstance.close();
+                    $rootScope.onTableHandling();
                 };
 
 

@@ -7,7 +7,7 @@ import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationDisassemblyTeamRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
-import com.softserve.edu.service.calibrator.specifications.CalibrationDisassenblyTeamSpecifications;
+import com.softserve.edu.specification.CalibrationDisassenblyTeamSpecifications;
 import com.softserve.edu.service.exceptions.DuplicateRecordException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +114,17 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
     }
 
 
+    /**
+     * With the use of specifications this method returns
+     * list of all avaliable teams filtered by device type,
+     * workDate, orgenizationId and device type
+     *
+     * @param workDate
+     * @param applicationFiled
+     * @param userId
+     * @return List<DisassemblyTeam>
+     * @throws NullPointerException()
+     */
     @Override
     @Transactional(readOnly = true)
     @SuppressWarnings("all")
@@ -128,14 +139,13 @@ public class CalibrationDisassemblyTeamServiceImpl implements CalibratorDisassem
         } else if (applicationFiled.equals("THERMAL")){
             deviceType = Device.DeviceType.THERMAL;
         }
-        List<DisassemblyTeam> teams = new ArrayList<>();
-        try{
-            teams = teamRepository.findAll(specifications.where(CalibrationDisassenblyTeamSpecifications.
+        List<DisassemblyTeam> teams = teamRepository.findAll(specifications.where(CalibrationDisassenblyTeamSpecifications.
                     disassemblyTeamHasCalibratorId(user.getOrganization().getId())).and(CalibrationDisassenblyTeamSpecifications.
                     disassemblyTeamHasEffectiveTo(workDate)).and(CalibrationDisassenblyTeamSpecifications.
                     disassemblyTeamHasType(deviceType)));
-        } catch (Exception e){
-            logger.error("Cannot found teams!", e);
+        if (teams == null) {
+            logger.error("Cannot found teams for the date " + workDate);
+            throw new NullPointerException();
         }
         return teams;
     }
