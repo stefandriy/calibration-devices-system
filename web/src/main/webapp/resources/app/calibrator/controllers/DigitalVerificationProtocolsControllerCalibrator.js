@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$rootScope','$scope', '$modal','DigitalVerificationProtocolsServiceCalibrator', '$timeout',
-        function ($rootScope, $scope, $modal, digitalVerificationProtocolsServiceCalibrator, $timeout) {
+    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$rootScope','$scope', '$modal','DigitalVerificationProtocolsServiceCalibrator',
+        function ($rootScope, $scope, $modal, digitalVerificationProtocolsServiceCalibrator) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -26,7 +26,7 @@ angular
  .open({
  animation : true,
  controller : 'DigitalVerificationProtocolsSendControllerCalibrator',
- templateUrl : '/resources/app/calibrator/views/modals/some-page.html',
+ templateUrl : '/resources/app/calibrator/views/modals/send-protocols.html',
  });
  };
  */
