@@ -149,6 +149,11 @@ angular.module('adminModule').run(function (paginationConfig) {
 });
 
 define(['controllers/TopNavBarController', 'controllers/MainPanelController',
+
+    'controllers/MeasuringEquipmentControllerAdmin',
+    'controllers/MeasuringEquipmentAddModalControllerAdmin',
+    'controllers/MeasuringEquipmentEditModalControllerAdmin',
+
     'controllers/OrganizationPanelController',
     'controllers/OrganizationAddModalController',
     'controllers/OrganizationEditModalController',
@@ -179,6 +184,5 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/ResponseObserver',
     'directives/unique',
     'controllers/CommonController'
-
 ], function () {
 });

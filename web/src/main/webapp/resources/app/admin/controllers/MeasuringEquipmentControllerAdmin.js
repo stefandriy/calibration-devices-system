@@ -1,5 +1,5 @@
 angular
-    .module('employeeModule')
+    .module('adminModule')
     .controller('MeasuringEquipmentControllerAdmin', ['$rootScope','$scope', '$modal','MeasuringEquipmentServiceAdmin', '$timeout',
         function ($rootScope, $scope, $modal, equipmentServiceAdmin, $timeout) {
             $scope.totalItems = 0;

@@ -1,4 +1,4 @@
-angular.module('employeeModule')
+angular.module('adminModule')
     .controller('MeasuringEquipmentAddModalControllerAdmin',
     ['$rootScope', '$scope', '$modalInstance', 'MeasuringEquipmentServiceAdmin', '$modal',
         function ($rootScope, $scope, $modalInstance, MeasuringEquipmentServiceAdmin, $modal) {
