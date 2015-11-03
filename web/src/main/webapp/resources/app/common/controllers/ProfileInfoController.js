@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('ProfileInfoController', ['$scope', '$http','UserService', '$modal', function ($scope, $http, UserService, $modal) {
+    .controller('ProfileInfoController', ['$rootScope','$scope', '$http','UserService', '$modal', function ($rootScope, $scope, $http, UserService, $modal) {
         $scope.logout = function () {
             $http({
                 method: 'POST',
@@ -18,22 +18,13 @@ angular
         
         
         $scope.openEditProfileModal = function() {
-        	/*alert('inside openEditProfileModal');*/
-        	
-        
-            	/*$scope.checkboxModel = false;
-               
+            	$rootScope.checkboxModel = false;
 
                 if ($scope.user.secondPhone != null) {
-                	alert('inside secondPhone');
-                	scope.checkboxModel = true;
-                };*/
-        	
-        	
-        	
-            
-        	
-            var addEmployeeModal = $modal
+                	$rootScope.checkboxModel = true;
+                };
+                
+                var addEmployeeModal = $modal
                 .open({
                     animation : true,
                     controller : 'EditProfileInfoController',

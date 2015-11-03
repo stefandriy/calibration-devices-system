@@ -57,9 +57,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
-    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
-                                         Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                         String username, Address address, String adminName, Long[] localityIdList) throws UnsupportedEncodingException, MessagingException {
+    public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters,
+                                         Integer employeesCapacity, Integer maxProcessTime, String firstName, String lastName,
+                                         String middleName, String username, Address address, String adminName,
+                                         Long[] localityIdList) throws UnsupportedEncodingException, MessagingException {
 
         Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
         String password = RandomStringUtils.randomAlphanumeric(firstName.length());
@@ -85,7 +86,6 @@ public class OrganizationServiceImpl implements OrganizationService {
             organization.addLocality(locality);
         }
 
-        organizationRepository.save(organization);
         String stringOrganizationTypes = String.join(",", types);
 
         Date date = new Date();
@@ -98,6 +98,23 @@ public class OrganizationServiceImpl implements OrganizationService {
         mail.sendOrganizationPasswordMail(email, name, username, password);
     }
 
+    /**
+     * Fetch all required organization depends on received data
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @param name
+     * @param email
+     * @param number
+     * @param type
+     * @param region
+     * @param district
+     * @param locality
+     * @param streetToSearch
+     * @param sortCriteria
+     * @param sortOrder
+     * @return ListToPageTransformer<Organization> contains required organizations
+     */
     @Override
     @Transactional(readOnly = true)
     public ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(
@@ -123,12 +140,40 @@ public class OrganizationServiceImpl implements OrganizationService {
         return result;
     }
 
+    /**
+     * Fetch required organization by id
+     *
+     * @param id
+     * @return organization finded by {@param id}
+     */
     @Override
     @Transactional(readOnly = true)
     public Organization getOrganizationById(Long id) {
         return organizationRepository.findOne(id);
     }
 
+    /**
+     * Edit organization data with {@param organizationId} and organization admin data
+     *
+     * @param organizationId
+     * @param name
+     * @param phone
+     * @param email
+     * @param types
+     * @param counters
+     * @param employeesCapacity
+     * @param maxProcessTime
+     * @param address
+     * @param password
+     * @param username
+     * @param firstName
+     * @param lastName
+     * @param middleName
+     * @param adminName
+     * @param serviceAreas
+     * @throws UnsupportedEncodingException
+     * @throws MessagingException
+     */
     @Override
     @Transactional
     public void editOrganization(Long organizationId, String name,
@@ -201,6 +246,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findOne(organizationId).getEmployeesCapacity();
     }
 
+    /**
+     * Send to organization email organizations edited data
+     *
+     * @param organization
+     * @param admin
+     */
     @Override
     @Transactional
     public void sendOrganizationChanges(Organization organization, User admin) {
@@ -243,6 +294,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findDeviceTypesByOrganizationId(organizationId);
     }
 
+    /**
+     * Find all organizations by organization types and device types
+     * @param organizationType type of organization
+     * @param deviceType type of device
+     * @return list of organization
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Organization> findByOrganizationTypeAndDeviceType(OrganizationType organizationType, Device.DeviceType deviceType) {
