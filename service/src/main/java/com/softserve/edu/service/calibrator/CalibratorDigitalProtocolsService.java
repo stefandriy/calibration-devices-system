@@ -10,8 +10,11 @@ import org.springframework.data.domain.Page;
  */
 public interface CalibratorDigitalProtocolsService {
 
-    ListToPageTransformer<Verification> findPageOfProtocolsByCalibratorId(
-            Long organizationId, int pageNumber, int itemsPerPage, String initialDateToSearch, String idToSearch,
-            String fullNameToSearch, String streetToSearch, String region, String district, String locality,
-            String status, String employeeName, User providerEmployee);
+    Page<Verification> findByTaskStatusAndCalibratorId(Long Id, int pageNumber,
+                                                       int itemsPerPage);
+
+    Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
+                                                                          int itemsPerPage);
+
+    int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 }
