@@ -281,6 +281,7 @@
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
         'calibrator/controllers/TaskForStationModalControllerCalibrator',
         'calibrator/controllers/TaskForTeamModalControllerCalibrator',
+        'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
         'calibrator/controllers/CounterStatusControllerCalibrator',
         'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
