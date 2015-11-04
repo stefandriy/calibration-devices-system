@@ -1,5 +1,5 @@
  angular
-    .module('employeeModule')
+    .module('adminModule')
     .factory('MeasuringEquipmentServiceAdmin', 
     function ($http) {
         return {
@@ -34,7 +34,7 @@
 				},
 
 				editEquipment : function(formData, id) {
-					var url = '/admin/mEquipment/edit/' + id;
+					var url = '/mEquipment/edit/' + id;
 					return $http.post(url, formData)
 							.then(function(result) {
 								return result.status;

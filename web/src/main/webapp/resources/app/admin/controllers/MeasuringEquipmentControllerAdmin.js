@@ -11,12 +11,12 @@ angular
              * Updates the table with MeasuringEquipments.
              */
             $rootScope.onTableHandling = function () {
-            	equipmentServiceAdmin
+            	/*equipmentServiceAdmin
 					.getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData)
             		.then(function (data) {
 						$scope.pageContent = data.content;
 						$scope.totalItems = data.totalItems;
-                });             
+                });             */
             };
             $rootScope.onTableHandling();
             

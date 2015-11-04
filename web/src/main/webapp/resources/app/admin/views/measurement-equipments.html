@@ -33,22 +33,22 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover"
-                                   id="devicesTable">
+                                   id="devicesTable" ng-table="tableParams"> <!--template-pagination="custom/pager" -->
                                 <thead>
                                 <tr>
-                                    <th>Сфера застосування</th>
-                                    <th>№ установки</th>
-                                    <th>Код ЄДРПОУ/ІПН суб’єкта установки</th>
-                                    <th>Умовне позначення</th>
-                                    <th>Заводський №</th>
-                                    <th>ПІБ контактної особи</th>
-                                    <th>Телефон</th>
-                                    <th>Чинна до</th>
-                                    <th>Тип установки</th>
-                                    <th>Електронна адреса</th>
-                                    <th>Методика повірки</th>
+                                    <th>{{'SPHERE_OF_APPLICATION' | translate}}</th>
+                                    <th>{{'INSTALLATION_NUMBER' | translate}}</th>
+                                    <th>{{'INSTALLATION_CODE' | translate}}</th>
+                                    <th>{{'SYMBOL' | translate}}</th>
+                                    <th>{{'MANUFACTURER_NUMBER' | translate}}</th>
+                                    <th>{{'CONTACT_PERSON_FULL_NAME' | translate}}</th>
+                                    <th>{{'PHONE_NUMBER' | translate}}</th>
+                                    <th>{{'VALID_UNTIL' | translate}}</th>
+                                    <th>{{'INSTALLATION_TYPE' | translate}}</th>
+                                    <th>{{'EMAIL' | translate}}</th>
+                                    <th>{{'METHODS_OF_VERIFICATION' | translate}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -76,7 +76,7 @@
                             </table>
                         </div>
                     </div>
-                    <label>{{'DISPLAY_ON' | translate}} <select ng-model="itemsPerPage"
+                    <!--<label>{{'DISPLAY_ON' | translate}} <select ng-model="itemsPerPage"
                                                                 ng-change="onTableHandling()"
                                                                 class="form-control input-sm">
                         <option value="1">1</option>
@@ -87,15 +87,15 @@
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    </label>
+                    </label>-->
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-12">
                             <pagination total-items="totalItems" ng-model="currentPage"
                                         max-size="5" boundary-links="true" rotate="false"
                                         ng-change="onTableHandling()" items-per-page="itemsPerPage"></pagination>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <!-- /.panel-body -->
             </div>

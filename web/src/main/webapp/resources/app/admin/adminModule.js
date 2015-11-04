@@ -106,7 +106,7 @@ angular
                     templateUrl: '/resources/app/admin/views/404.html'
                 })
                 .state("measuring-equipment-admin", {
-                    url: '/admin/mEquipment/',
+                    url: '/mEquipment',
                     templateUrl: '/resources/app/admin/views/measurement-equipments.html',
                     controller: 'MeasuringEquipmentControllerAdmin'
                 });
@@ -182,6 +182,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/UsersService',
     'services/RoleService',
     'services/ResponseObserver',
+    'services/MeasuringEquipmentServiceAdmin',
     'directives/unique',
     'controllers/CommonController'
 ], function () {

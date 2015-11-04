@@ -1,80 +1,178 @@
 <div class="modal-header">
-	<h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_EQUIPMENT'	| translate}}</h3>
+    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_EQUIPMENT' | translate}}</h3>
 </div>
 
 <div class="modal-body">
 
-	<form name="eqipmentForm" novalidate>
+    <form name="eqipmentForm" novalidate>
 
-			<hr />
-			<div class="row">
-				<div class="form-group col-md-4">
-					<label class="control-label">{{'NAME' | translate }}</label>
-				</div>
-				<div class="form-group col-md-8" ng-class="nameValidation.css">
-					<input type="text"
-						   ng-model="equipmentFormData.name"
-						   ng-change="checkAll('name')"
-						   id="name" name="name"  class="form-control" required>
-					<p class="validation-message" ng-show="nameValidation.isValid">{{'EQUIPMENT_NAME_LENGTH' | translate}}</p>
-				</div>
-			</div>
+        <hr/>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'SPHERE_OF_APPLICATION' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="nameValidation.css">
+                <input type="text"
+                       id="sphereOfApplication" name="sphereOfApplication" class="form-control" required>
+                <!-- ng-model="equipmentFormData.name" -->
+                <!-- ng-change="checkAll('name')" -->
+
+                <p class="validation-message" ng-show="nameValidation.isValid">{{'REQUIRED' |
+                    translate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'INSTALLATION_CODE' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="nameValidation.css">
+                <input type="text"
+                       id="installationCode" name="installationCode" class="form-control" required>
+                <!-- ng-model="equipmentFormData.name" -->
+                <!-- ng-change="checkAll('name')" -->
+
+                <p class="validation-message" ng-show="nameValidation.isValid">{{'REQUIRED' |
+                    translate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'SYMBOL' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="nameValidation.css">
+                <input type="text"
+                       id="symbol" name="symbol" class="form-control" required>
+                <!-- ng-model="equipmentFormData.name" -->
+                <!-- ng-change="checkAll('name')" -->
+
+                <p class="validation-message" ng-show="nameValidation.isValid">{{'REQUIRED' |
+                    translate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'MANUFACTURER_NUMBER' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="nameValidation.css">
+                <input type="text"
+                       id="manufacturerNumber" name="manufacturerNumber" class="form-control" required>
+                <!-- ng-model="equipmentFormData.name" -->
+                <!-- ng-change="checkAll('name')" -->
+
+                <p class="validation-message" ng-show="nameValidation.isValid">{{'REQUIRED' |
+                    translate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'CONTACT_PERSON_FULL_NAME' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="nameValidation.css">
+                <input type="text"
+                       ng-model="equipmentFormData.name"
+                       ng-change="checkAll('name')"
+                       id="name" name="name" class="form-control" required>
+
+                <p class="validation-message" ng-show="nameValidation.isValid">{{'EQUIPMENT_NAME_LENGTH' |
+                    translate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'PHONE_NUMBER' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="nameValidation.css">
+                <input type="tel"
+                       id="phoneNumber" name="phoneNumber" class="form-control" required>
+                <!-- ng-model="equipmentFormData.name" -->
+                <!-- ng-change="checkAll('name')" -->
+
+                <p class="validation-message" ng-show="nameValidation.isValid">{{'REQUIRED' |
+                    translate}}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'VALID_UNTIL' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="nameValidation.css">
+                <input type="date"
+                       id="validUntil" name="validUntil" class="form-control" required>
+                <!-- ng-model="equipmentFormData.name" -->
+                <!-- ng-change="checkAll('name')" -->
+
+                <p class="validation-message" ng-show="nameValidation.isValid">{{'REQUIRED' |
+                    translate}}</p>
+            </div>
+        </div>
 
 
-		<div class="row">
-			<div class="form-group col-md-4">
-				<label class="control-label">{{'TYPE_OF_EQUIPMENT' |  translate }}</label>
-			</div>
-			<div class="form-group col-md-8" ng-class="deviceTypeValidation.css">
-				<input type="text"
-					   ng-model="equipmentFormData.deviceType"
-					   ng-change="checkAll('deviceType')"
-					   id="deviceType" name="deviceType"  class="form-control" required>
-				<p  class="validation-message" ng-show="deviceTypeValidation.isValid">{{'EQUIPMENT_TYPE_REGEX' | translate }}</p>
-			</div>
-		</div>
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'INSTALLATION_TYPE' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="deviceTypeValidation.css">
+                <input type="text"
+                       ng-model="equipmentFormData.deviceType"
+                       ng-change="checkAll('deviceType')"
+                       id="installationType" name="installationType" class="form-control" required>
+
+                <p class="validation-message" ng-show="deviceTypeValidation.isValid">{{'EQUIPMENT_TYPE_REGEX' |
+                    translate }}</p>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="control-label">{{'EMAIL' | translate }}</label>
+                </div>
+                <div class="form-group col-md-8" ng-class="nameValidation.css">
+                    <input type="email"
+                           id="email" name="email" class="form-control" required>
+                    <!-- ng-model="equipmentFormData.name" -->
+                    <!-- ng-change="checkAll('name')" -->
+
+                    <p class="validation-message" ng-show="nameValidation.isValid">{{'REQUIRED' |
+                        translate}}</p>
+                </div>
+            </div>
+        </div>
 
 
-		<div class="row">
-			<div class="form-group col-md-4">
-				<label class="control-label">{{'MANUFACTURER' | translate }}</label>
-			</div>
-			<div class="form-group col-md-8" ng-class="manufacturerValidation.css">
-				<input type="text" ng-model="equipmentFormData.manufacturer"
-					   ng-change="checkAll('manufacturer')"
-					   id="manufacturer" name="manufacturer" class="form-control" required>
-				<p class="validation-message" ng-show="manufacturerValidation.isValid">{{'MANUFACTURER_REGEX' |  translate }}</p>
-			</div>
-		</div>
-			
-		<div class="row">
-			<div class="form-group col-md-4">
-				<label class="control-label">{{'VERIFICATION_INTERVAL' | translate }}</label>
-			</div>
-			<div class="form-group col-md-8" ng-class="verificationIntervalValidation.css">
-				<input type="text"
-					   ng-model="equipmentFormData.verificationInterval"
-					   ng-change="checkAll('verificationInterval')"
-					   id="verificationInterval" name="verificationInterval" class="form-control" required>
-				<p class="validation-message"  ng-show="verificationIntervalValidation.isValid">{{'VERIFICATION_INTERVAL_REGEX' | translate }}</p>
-			</div>
-            <h4 ng-show="incorrectValue" style="color: red" class="ng-binding">Неправильно введені дані!</h4>
-		</div>
-	
+        <div class="row">
+            <div class="form-group col-md-4">
+                <label class="control-label">{{'METHODS_OF_VERIFICATION' | translate }}</label>
+            </div>
+            <div class="form-group col-md-8" ng-class="manufacturerValidation.css">
+                <input type="text" ng-model="equipmentFormData.manufacturer"
+                       ng-change="checkAll('manufacturer')"
+                       id="methodsOfVerification" name="methodsOfVerification" class="form-control" required>
 
-	
-		<hr />
+                <!--<p class="validation-message" ng-show="manufacturerValidation.isValid">{{'MANUFACTURER_REGEX' |
+                    translate }}</p>-->
+            </div>
+        </div>
 
-		<div class="row">
-			<div class="form-group col-md-10">
-				<button type="submit" class="btn btn-success"
-					ng-click="onEquipmentFormSubmit()">{{'ADD' | translate}}</button>
-				<a class="btn btn-warning" ng-click="resetEquipmentForm()">{{'CLEAR_FORM' | translate }}</a>
-			</div>
-			<div class="form-group col-md-2">
-				<button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'	| translate}}</button>
-			</div>
-		</div>
 
-	</form>
+        <hr/>
+
+        <div class="row">
+            <div class="form-group col-md-10">
+                <button type="submit" class="btn btn-success"
+                        ng-click="onEquipmentFormSubmit()">{{'ADD' | translate}}
+                </button>
+                <a class="btn btn-warning" ng-click="resetEquipmentForm()">{{'CLEAR_FORM' | translate }}</a>
+            </div>
+            <div class="form-group col-md-2">
+                <button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE' | translate}}</button>
+            </div>
+        </div>
+
+    </form>
 </div>
