@@ -51,7 +51,22 @@ angular
                             $log.debug('error fetching data:', result);
                         });
                 }
-            });
+            },
+            $scope.sentProtocols = function () {
+                //  must be chenging status code here
+                     $modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/calibrator/views/modals/send-protocols.html',
+                    controller: function ($modalInstance) {
+                        this.ok = function () {
+                            $modalInstance.close();
+                        }
+                    },
+                    controllerAs: 'successController',
+                    size: 'md'
+                });
+            }
+            );
 
         }]);
 
