@@ -151,7 +151,6 @@ public class UserServiceImpl implements UserService {
     public void createSuperAdminIfNotExists(User user){
         if (isExistsWithUsername(user.getUsername()) && findByRole("SUPER_ADMIN").isEmpty()){
             userRepository.save(user);
-
         }
     }
 }

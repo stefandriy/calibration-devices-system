@@ -3,11 +3,14 @@ angular
     .controller('VerificationPlanningTaskController', ['$scope', '$log',
         '$modal', 'VerificationPlanningTaskService',
         '$rootScope', 'ngTableParams', '$timeout', '$filter', '$window', '$location', '$translate',
-        function ($scope, $log, $modal, verificationPlanningTaskService, $rootScope, ngTableParams, $timeout, $filter, $window, $location, $translate) {
+        function ($scope, $log, $modal, verificationPlanningTaskService, $rootScope, ngTableParams) {
 
             $scope.resultsCount = 0;
             $scope.verifications = [];
 
+            /**
+             * fills the planning task table
+             */
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10
@@ -17,12 +20,9 @@ angular
                 getData: function ($defer, params) {
                     verificationPlanningTaskService.getVerificationsByCalibratorEmployeeAndTaskStatus(params.page(), params.count())
                             .then(function (result) {
-                                $log.debug('result ', result);
                                 $scope.resultsCount = result.data.totalItems;
                                 $defer.resolve(result.data.content);
                                 params.total(result.data.totalItems);
-                            }, function (result) {
-                                $log.debug('error fetching data:', result);
                             });
                 }
 
@@ -31,6 +31,13 @@ angular
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;
+            /**
+             * adds selected verificationId to the array
+             * or delete it if it when it is not selected
+             * but it it is still in the array
+             *
+             * @param id
+             */
             $scope.resolveVerificationId = function (id){
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {
@@ -45,10 +52,13 @@ angular
                     $scope.checkedItems.splice(index, 1);
                 }
                 $scope.allIsEmpty = false;
-                console.log($scope.idsOfVerifications);
             }
 
-
+            /**
+             * opens task for station modal
+             * if task saved successfully reloads
+             * table data
+             */
             $scope.openTaskForStation = function(){
                 $rootScope.verifIds = [];
                 for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
@@ -65,11 +75,14 @@ angular
                     $scope.checkedItems = [];
                     $scope.idsOfVerifications = [];
                     $scope.allIsEmpty = true;
-                    console.log($scope.allIsEmpty);
-                    console.log($scope.idsOfVerifications);
                 });
             };
 
+            /**
+             * opens task for team modal
+             * if task saved successfully reloads
+             * table data
+             */
             $scope.openTaskForTeam = function(){
                 $rootScope.verifIds = [];
                 for (var i = 0; i < $scope.idsOfVerifications.length; i++) {
@@ -86,11 +99,14 @@ angular
                     $scope.checkedItems = [];
                     $scope.idsOfVerifications = [];
                     $scope.allIsEmpty = true;
-                    console.log($scope.allIsEmpty);
-                    console.log($scope.idsOfVerifications);
                 });
             };
 
+            /**
+             * opens counter info modal
+             * if task saved successfully reloads
+             * table data
+             */
             $rootScope.verificationId = null;
             $scope.openCounterInfoModal = function(id){
                 $rootScope.verificationId = id;

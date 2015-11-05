@@ -261,10 +261,10 @@
                             <label class="control-label col-md-4">{{'PASSWORD_TWO' | translate}}</label>
 
                         <div class="col-md-8">
-                            <button type="submit" class="btn btn-warning btn-block"
-                                    ng-click="changePassword()" ng-hide="generationMessage">{{'GENERATE_PASSWORD' |
-                                translate}}
-                            </button>
+                             <input type="button" class="btn btn-warning btn-block"
+                                    ng-click="changePassword()" ng-hide="generationMessage" value ="{{'GENERATE_PASSWORD' |
+                                translate}}"/>
+
                         </div>
                         <div class="col-md-8" ng-show="generationMessage"> {{'GENERATE_PASSWORD_OK' |
                             translate}}</button>
@@ -280,7 +280,7 @@
                         <div>
                             <div class="form-group row" show-errors>
 
-                                    <label class="control-label col-md-4">{{'REGION' | translate}}</label>
+                                    <label class="control-label col-md-4">{{'REGION' | translate}}*</label>
                                 <div class="col-md-8">
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedValues.selectedRegion"
@@ -302,7 +302,7 @@
                             </div>
                             <div class="form-group row" show-errors>
                                     <label class="control-label col-md-4">
-                                        {{'DISTRICT' | translate}}
+                                        {{'DISTRICT' | translate}}*
                                     </label>
                                 <div class="col-md-8">
                                     <ui-select class="form-control" type="text" theme="select2"
@@ -327,7 +327,7 @@
 
                             <div class="form-group row" show-errors>
                                     <label class="control-label col-md-4">
-                                        {{'LOCALITY' | translate}}
+                                        {{'LOCALITY' | translate}}*
                                     </label>
                                 <div class="col-md-8">
                                     <ui-select class="form-control" type="text" theme="select2"
@@ -351,7 +351,7 @@
                             </div>
                             <div class="form-group row" show-errors>
                                     <label class="control-label col-md-4">{{'STREET_TWO' | translate
-                                        }} </label>
+                                        }}* </label>
                                 <div class="col-md-8">
                                     <input name="street" class="form-control"
                                            type="text" id="street"
@@ -371,7 +371,7 @@
                             </div>
 
                             <div class="form-group row" show-errors>
-                                    <label class="control-label col-md-4">{{'HOUSE_TWO' | translate}}</label>
+                                    <label class="control-label col-md-4">{{'HOUSE_TWO' | translate}}*</label>
 
                                 <div class="col-md-8">
                                     <input name="building" type="text"
@@ -382,7 +382,7 @@
                             </div>
 
                             <div class="form-group row" show-errors>
-                                    <label class="control-label col-md-4">{{'FLAT' | translate}}</label>
+                                    <label class="control-label col-md-4">{{'FLAT' | translate}}*</label>
                                 <div class="col-md-8">
                                     <input name="flat" type="text"
                                            ng-model="$root.organization.flat" class="form-control" required>
@@ -405,7 +405,7 @@
 
                         <div class="form-group row" show-errors>
                                 <label for="serviceAreaRegion" class="control-label col-md-4">
-                                    {{'REGION' | translate}}
+                                    {{'REGION' | translate}}*
                                 </label>
 
                             <div class="col-md-8">
@@ -435,7 +435,7 @@
 
                         <div class="form-group row">
                                 <label for="region" class="control-label col-md-4">
-                                    {{'DISTRICT' | translate}}
+                                    {{'DISTRICT' | translate}}*
                                 </label>
                             <div class="col-md-8">
                                 <accordion close-others="false">
