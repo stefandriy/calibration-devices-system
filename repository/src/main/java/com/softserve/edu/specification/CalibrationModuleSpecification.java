@@ -29,36 +29,44 @@ public class CalibrationModuleSpecification {
     }
 
     public static Specification<CalibrationModule> moduleHasOrganization(String organizationCode) {
-        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("organizationCode"),
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.upper(root.get("organizationCode")),
                 organizationCode));
     }
 
     public static Specification<CalibrationModule> moduleHasCondDesignation(String condDesignation) {
-        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("condDesignation"), condDesignation));
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.upper(root.get("condDesignation")), condDesignation));
     }
 
     public static Specification<CalibrationModule> moduleHasSerialNumber(String serialNumber) {
-        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("serialNumber"), serialNumber));
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.upper(root.get("serialNumber")), serialNumber));
     }
 
     public static Specification<CalibrationModule> moduleHasEmployeeFullName(String employeeFullName) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("employeeFullName"), employeeFullName);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.upper(root.get("employeeFullName")), employeeFullName);
     }
 
     public static Specification<CalibrationModule> moduleHasTelephone(String phoneNumber) {
-        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("telephone"), phoneNumber));
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.upper(root.get("telephone")), phoneNumber));
     }
 
     public static Specification<CalibrationModule> moduleHasType(String moduleType) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("moduleType"), moduleType);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.upper(root.get("moduleType")), moduleType);
     }
 
     public static Specification<CalibrationModule> moduleHasEmail(String email) {
-        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("email"), email));
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.upper(root.get("email")), email));
     }
 
     public static Specification<CalibrationModule> moduleHasCalibrationType(String calibratinType) {
-        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("calibrationType"), calibratinType));
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .like(criteriaBuilder.upper(root.get("calibrationType")), calibratinType));
     }
 
     public static Specification<CalibrationModule> moduleHasCalibratorId(Long calibratorId) {
@@ -68,11 +76,13 @@ public class CalibrationModuleSpecification {
 
 
     public static Specification<CalibrationModule> moduleIsActiveOrNot(boolean moduleIsActiveOrNot) {
-        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.equal(root.get("isActive"), moduleIsActiveOrNot));
+        return ((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .equal(root.get("isActive"), moduleIsActiveOrNot));
     }
 
     public static Specification<CalibrationModule> moduleHasWorkDate(Date workDate) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.lessThan(root.get("workDate"), workDate);
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                .lessThan(root.get("workDate"), workDate);
     }
 
 

@@ -3,11 +3,14 @@ package com.softserve.edu.service.admin.impl;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.service.admin.CalibrationModuleService;
+import com.softserve.edu.service.utils.filter.internal.Comparison;
+import com.softserve.edu.service.utils.filter.internal.Condition;
 import com.softserve.edu.specification.CalibrationModuleSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import com.softserve.edu.service.utils.filter.Filter;
 
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,31 +28,9 @@ import static org.springframework.data.jpa.domain.Specifications.where;
 public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     @Autowired
     CalibrationModuleRepository calibrationModuleRepository;
+    Map<String, Specification<CalibrationModule>> specificationMap;
 
-    public CalibrationModule addCalibrationModule(CalibrationModule calibrationModule) {
-        if (calibrationModule == null) {
-            throw new NullPointerException("Adding null pointer to calibration modules");
-        } else return calibrationModuleRepository.save(calibrationModule);
-    }
-
-    ;
-
-    public CalibrationModule findModuleById(Long calibrationModuleId) {
-        return calibrationModuleRepository.findOne(calibrationModuleId);
-    }
-
-    ;
-
-    public void disableCalibrationModule(Long calibrationModuleId) {
-        CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
-        calibrationModule.setActive(false);
-        calibrationModuleRepository.save(calibrationModule);
-    }
-
-    ;
-
-    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable, boolean status) {
-        CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
+    private Specification<CalibrationModule> getSpecification(Map<String, String> searchKeys, boolean status) {
         Specification<CalibrationModule> specification = CalibrationModuleSpecification.moduleIsActiveOrNot(status);
         if (searchKeys.containsKey("deviceType")) {
             specification = where(specification).and(CalibrationModuleSpecification.moduleDeviceType(searchKeys.get("deviceType")));
@@ -81,7 +62,45 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         if (searchKeys.containsKey(("calibratorId"))) {
             specification = where(specification).and(CalibrationModuleSpecification.moduleHasCalibratorId(Long.parseLong(searchKeys.get("calibratotId"))));
         }
-        return calibrationModuleRepository.findAll(specification, pageable);
+        return specification;
+    }
+
+    private void buildMap(Map<String, String> searchKeys) {
+
+    }
+
+    public CalibrationModule addCalibrationModule(CalibrationModule calibrationModule) {
+        if (calibrationModule == null) {
+            throw new NullPointerException("Adding null pointer to calibration modules");
+        } else return calibrationModuleRepository.save(calibrationModule);
+    }
+
+
+    public CalibrationModule findModuleById(Long calibrationModuleId) {
+        return calibrationModuleRepository.findOne(calibrationModuleId);
+    }
+
+    ;
+
+    public void disableCalibrationModule(Long calibrationModuleId) {
+        CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
+        calibrationModule.setActive(false);
+        calibrationModuleRepository.save(calibrationModule);
+    }
+
+    ;
+
+    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable, boolean status) {
+        CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
+        Filter filter = new Filter();
+        for (Map.Entry<String, String> entry : searchKeys.entrySet()) {
+            filter.addCondition(new Condition.Builder()
+                    .setComparison(Comparison.like)
+                    .setField(entry.getKey())
+                    .setValue(entry.getValue())
+                    .build());
+        }
+        return calibrationModuleRepository.findAll(filter, pageable);
     }
 
     public Page<CalibrationModule> findAllModules(Pageable pageable) {
