@@ -11,6 +11,8 @@ public interface MailService {
 
     void sendNewPasswordMail(String employeeEmail, String employeeName, String newPassword);
 
+    void sendAdminNewPasswordMail(String employeeEmail, String employeeName, String newPassword);
+
     void sendOrganizationPasswordMail(String organizationMail, String organizationName, String username, String password)  throws UnsupportedEncodingException, MessagingException;
 
     void sendRejectMail(String to, String userName, String verificationId, String msg, String deviceType);

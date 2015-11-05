@@ -104,6 +104,11 @@ angular
                 {
                     url: '/404',
                     templateUrl: '/resources/app/admin/views/404.html'
+                })
+                .state("measuring-equipment-admin", {
+                    url: '/admin/mEquipment/',
+                    templateUrl: '/resources/app/admin/views/measurement-equipments.html',
+                    controller: 'MeasuringEquipmentControllerAdmin'
                 });
             /*
              Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd

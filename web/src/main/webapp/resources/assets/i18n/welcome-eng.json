@@ -105,6 +105,11 @@
   "SUCCESSFUL_EDITED_ADMIN" :"Admin have been edited",
   "SUCCESSFUL_DELETED_ADMIN" :"Admin have been deleted",
 
+  "SUCCESSFUL_ADD_EMPLOYEE":"New employee was successfully added",
+  "SUCCESSFUL_EDIT_EMPLOYEE":"Employee was successfully edited",
+  "ERROR_ADD_EMPLOYEE":"Error, you didn't add new employee!",
+  "ERROR_EDIT_EMPLOYEE":"Error, you didn't edit employee!",
+
   "ACCOUNT_INFORMATION":"Account information",
   "GENERAL_INFORMATION":"General information",
   "LOGIN_TWO":"Login",
@@ -206,6 +211,7 @@
   "CONSUMPTION_STATUS":"Consumption status",
   "UPLOAD_BBI_FILE" : "Upload BBI",
   "UPLOAD_ARCHIVE" : "Upload archive",
+  "CREATE_TASK" : "Create task",
   "FILE_NAME" : "File name",
   "DATE_TIME" : "Date",
   "TEMPERATURE" : "Temperature",
@@ -326,6 +332,7 @@
   "SELECT_TYPE_OF_ORGANIZATION": "Select type",
   "SELECT_NAME_OF_COUNTER": "Select counter name",
   "SELECT_STANDARD_SIZE": "Select standard size",
+  "SELECT_VERIFICATION_PROTOCOL": "Select verification protocol",
   "PHONE_NUMBER":"Phone number",
   "EMPLOYEE_CAPACITY":"Work in progress",
   "CHOOSE_THE_DATE_TO_SEARCH_INFORMATION":"Choose the date to search information",
@@ -542,4 +549,6 @@
   "DIGITAL_PROTOCOLS" :"Digital verification protocols",
   "PROTOCOLS_SEND_SUCCESS": "Protocols sending success"
 
+
+  "MEASURING_DEVICES_DIRECTORY" : "Measuring devices directory"
 }

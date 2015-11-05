@@ -23,7 +23,7 @@ public class ContextInitializedListener implements ApplicationListener<ContextRe
 
     /**
      * Handle an application event {@param ContextRefreshedEvent}
-     * Create new user with role SUPER_ADMIN if that user not exists
+     * Create new user with role SUPER_ADMIN if such user not exists
      *
      * @param event raised when an {@code ApplicationContext} gets initialized or refreshed.
      */

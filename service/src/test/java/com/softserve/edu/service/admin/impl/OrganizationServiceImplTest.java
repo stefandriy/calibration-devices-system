@@ -129,7 +129,7 @@ public class OrganizationServiceImplTest {
                 maxProcessTime, firstName, lastName, middleName,
                 username, address, adminName, localityIdList);
 
-        verify(organizationRepository, times(2)).save(new Organization(name, email, phone, employeesCapacity, maxProcessTime, address));
+        verify(organizationRepository).save(new Organization(name, email, phone, employeesCapacity, maxProcessTime, address));
     }
 
     @Test

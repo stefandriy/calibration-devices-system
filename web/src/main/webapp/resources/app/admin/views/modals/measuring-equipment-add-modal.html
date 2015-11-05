@@ -1,0 +1,80 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_EQUIPMENT'	| translate}}</h3>
+</div>
+
+<div class="modal-body">
+
+	<form name="eqipmentForm" novalidate>
+
+			<hr />
+			<div class="row">
+				<div class="form-group col-md-4">
+					<label class="control-label">{{'NAME' | translate }}</label>
+				</div>
+				<div class="form-group col-md-8" ng-class="nameValidation.css">
+					<input type="text"
+						   ng-model="equipmentFormData.name"
+						   ng-change="checkAll('name')"
+						   id="name" name="name"  class="form-control" required>
+					<p class="validation-message" ng-show="nameValidation.isValid">{{'EQUIPMENT_NAME_LENGTH' | translate}}</p>
+				</div>
+			</div>
+
+
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">{{'TYPE_OF_EQUIPMENT' |  translate }}</label>
+			</div>
+			<div class="form-group col-md-8" ng-class="deviceTypeValidation.css">
+				<input type="text"
+					   ng-model="equipmentFormData.deviceType"
+					   ng-change="checkAll('deviceType')"
+					   id="deviceType" name="deviceType"  class="form-control" required>
+				<p  class="validation-message" ng-show="deviceTypeValidation.isValid">{{'EQUIPMENT_TYPE_REGEX' | translate }}</p>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">{{'MANUFACTURER' | translate }}</label>
+			</div>
+			<div class="form-group col-md-8" ng-class="manufacturerValidation.css">
+				<input type="text" ng-model="equipmentFormData.manufacturer"
+					   ng-change="checkAll('manufacturer')"
+					   id="manufacturer" name="manufacturer" class="form-control" required>
+				<p class="validation-message" ng-show="manufacturerValidation.isValid">{{'MANUFACTURER_REGEX' |  translate }}</p>
+			</div>
+		</div>
+			
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label class="control-label">{{'VERIFICATION_INTERVAL' | translate }}</label>
+			</div>
+			<div class="form-group col-md-8" ng-class="verificationIntervalValidation.css">
+				<input type="text"
+					   ng-model="equipmentFormData.verificationInterval"
+					   ng-change="checkAll('verificationInterval')"
+					   id="verificationInterval" name="verificationInterval" class="form-control" required>
+				<p class="validation-message"  ng-show="verificationIntervalValidation.isValid">{{'VERIFICATION_INTERVAL_REGEX' | translate }}</p>
+			</div>
+            <h4 ng-show="incorrectValue" style="color: red" class="ng-binding">Неправильно введені дані!</h4>
+		</div>
+	
+
+	
+		<hr />
+
+		<div class="row">
+			<div class="form-group col-md-10">
+				<button type="submit" class="btn btn-success"
+					ng-click="onEquipmentFormSubmit()">{{'ADD' | translate}}</button>
+				<a class="btn btn-warning" ng-click="resetEquipmentForm()">{{'CLEAR_FORM' | translate }}</a>
+			</div>
+			<div class="form-group col-md-2">
+				<button class="btn btn-danger pull-right" ng-click="closeModal()">{{'CLOSE'	| translate}}</button>
+			</div>
+		</div>
+
+	</form>
+</div>

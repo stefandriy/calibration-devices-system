@@ -1,4 +1,4 @@
-package com.softserve.edu.service.calibrator.specifications;
+package com.softserve.edu.specification;
 
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.Device;

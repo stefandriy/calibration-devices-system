@@ -48,6 +48,8 @@ public class CalibrationModule {
 
     private String moduleNumber;
 
+    private boolean isActive = true;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "calibratorId")
     private Organization organization;

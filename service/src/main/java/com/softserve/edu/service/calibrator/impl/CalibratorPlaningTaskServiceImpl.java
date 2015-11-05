@@ -45,6 +45,18 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
+    /**
+     * This method save new task for the station. It checks if counter
+     * statuses for the verifications are the same, if not
+     * @throws IllegalArgumentException(). Also it checks if station
+     * device type is is as device type of the verification, if not
+     * method @throws IllegalArgumentException().
+     *
+     * @param taskDate
+     * @param serialNumber
+     * @param verificationsId
+     * @param userId
+     */
     @Override
     public void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
         CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
@@ -81,6 +93,18 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         taskRepository.save(new CalibrationTask(module, null, new Date(), taskDate, user, verifications));
     }
 
+    /**
+     * This method save new task for the team. It checks if counter
+     * statuses for the verifications are the same, if not
+     * @throws IllegalArgumentException(). Also it checks if station
+     * device type is is as device type of the verification, if not
+     * method @throws IllegalArgumentException().
+     *
+     * @param taskDate
+     * @param serialNumber
+     * @param verificationsId
+     * @param userId
+     */
     @Override
     public void addNewTaskForTeam(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
         Set<Verification> verifications = new HashSet<>();
@@ -117,6 +141,15 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         taskRepository.save(new CalibrationTask(null, team, new Date(), taskDate, user, verifications));
     }
 
+    /**
+     * This method find count for the verifications with status
+     * planning task which assigned for the calibrator employee.
+     * If employee has role admin it return count of all verifications with status planning
+     * task which related to the calibrator organization
+     *
+     * @param userName
+     * @return count of verifications (int)
+     */
     @Override
     public int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName) {
         User user  = userRepository.findOne(userName);
@@ -133,6 +166,17 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     }
 
+    /**
+     * This method returns page of verifications with
+     * status planning task filtered by calibrator id,
+     * when calibrator is admin
+     * and sorted by client address
+     *
+     * @param id
+     * @param pageNumber
+     * @param itemsPerPage
+     * @return Page<Verification>
+     */
     @Override
     public Page<Verification> findByTaskStatusAndCalibratorId(Long id, int pageNumber, int itemsPerPage) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
@@ -140,6 +184,19 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return verificationRepository.findByTaskStatusAndCalibratorId(Status.PLANNING_TASK, id, pageRequest);
     }
 
+
+    /**
+     *  This method returns page of verifications with
+     *  status planning task filtered by calibrator id,
+     *  and sorted by client address. If user has role
+     *  admin it calls method findByTaskStatusAndCalibratorId()
+     *
+     * @param userName
+     * @param pageNumber
+     * @param itemsPerPage
+     * @return Page<Verification>
+     * @throws NullPointerException();
+     */
     @Override
     public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber, int itemsPerPage) {
         User user  = userRepository.findOne(userName);
@@ -158,6 +215,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return verificationRepository.findByCalibratorEmployeeUsernameAndTaskStatus(user.getUsername(), Status.PLANNING_TASK, pageRequest);
     }
 
+    /**
+     * This method returns list of counter types
+     * which has the same device id with the verification device id
+     *
+     * @param verifId
+     * @return List<CounterType>
+     * @throws NullPointerException();
+     */
     @Override
     public List<CounterType> findSymbolsAndSizes(String verifId) {
         Verification verification = verificationRepository.findOne(verifId);
@@ -165,6 +230,11 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             logger.error("Cannot found verification!");
             throw new NullPointerException();
         }
-        return counterTypeRepository.findByDeviceId(verification.getDevice().getId());
+        List<CounterType> counterTypes = counterTypeRepository.findByDeviceId(verification.getDevice().getId());
+        if (counterTypes == null){
+            logger.error("Cannot found counter types for verification!");
+            throw new NullPointerException();
+        }
+        return counterTypes;
     }
 }
