@@ -547,7 +547,7 @@
   "PROTOCOLS_FOUND" : "Protocols found",
   "SEND_PROTOCOLS" : "Send protocols",
   "DIGITAL_PROTOCOLS" :"Digital verification protocols",
-  "PROTOCOLS_SEND_SUCCESS": "Protocols sending success"
+  "PROTOCOLS_SEND_SUCCESS": "Protocols sending success",
 
 
   "MEASURING_DEVICES_DIRECTORY" : "Measuring devices directory"
