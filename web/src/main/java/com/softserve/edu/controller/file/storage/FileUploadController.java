@@ -1,6 +1,7 @@
 package com.softserve.edu.controller.file.storage;
 
 import com.softserve.edu.service.verification.VerificationPhotoService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import java.util.regex.Pattern;
 @Controller
 @RequestMapping(value = "/uploadFile")
 public class FileUploadController {
+
+    private final Logger logger = Logger.getLogger(FileUploadController.class);
 
     @Autowired
     VerificationPhotoService verificationPhotoService;
@@ -40,6 +43,7 @@ public class FileUploadController {
                 return "Wrong file type";
             }
         } catch (Exception e) {
+            logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
             return "You failed to upload => " + e.getMessage();
         }
     }

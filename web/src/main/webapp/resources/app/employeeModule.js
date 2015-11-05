@@ -135,8 +135,8 @@
                     })
                     .state("new-verifications-verificator", {
                         url: '/verifications/new',
-                        templateUrl: '/resources/app/verificator/views/calibration-test-panel.html',
-                        controller: 'CalibrationTestControllerCalibrator'
+                        templateUrl: '/resources/app/verificator/views/new-verifications.html',
+                        controller: 'NewVerificationsControllerVerificator'
                     })
                     .state("employee-show-verificator", {
                         url: '/verificator/employee-show',
@@ -281,6 +281,7 @@
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
         'calibrator/controllers/TaskForStationModalControllerCalibrator',
         'calibrator/controllers/TaskForTeamModalControllerCalibrator',
+        'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
         'calibrator/controllers/CounterStatusControllerCalibrator',
         'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
@@ -305,6 +306,7 @@
         'verificator/controllers/TestRejectControllerVerificator',
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
+        'verificator/controllers/NewVerificationsControllerVerificator',
 
         'verificator/controllers/VerificatorEmployeeControllerVerificator',
 

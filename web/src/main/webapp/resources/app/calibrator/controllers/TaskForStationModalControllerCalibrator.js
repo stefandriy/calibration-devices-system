@@ -30,13 +30,22 @@ angular
             $scope.firstCalendar.isOpen = false;
 
 
+            /**
+             * open first date picker
+             * on the modal
+             *
+             * @param $event
+             */
             $scope.open1 = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.firstCalendar.isOpen = true;
             };
 
-            moment.locale('uk');
+            /**
+             * set date pickers options
+             * @type {{formatYear: string, startingDay: number, showWeeks: string}}
+             */
             $scope.dateOptions = {
                 formatYear: 'yyyy',
                 startingDay: 1,
@@ -44,10 +53,19 @@ angular
 
             };
 
+            /**
+             * set format of date picker date
+             */
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
 
-            // Disable weekend selection
+            /**
+             * Disable weekend selection
+             *
+             * @param date
+             * @param mode
+             * @returns {boolean}
+             */
             $scope.disabled = function(date, mode) {
                 return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
             };
@@ -65,6 +83,9 @@ angular
                 $scope.calibrationTask.taskDate = null;
             };
 
+            /**
+             * reset task form
+             */
             $scope.resetTaskForm = function () {
                 $scope.$broadcast('show-errors-reset');
                 $scope.calibrationTask = {};
@@ -79,6 +100,10 @@ angular
 
             $scope.modulesSerialNumbers = {};
 
+            /**
+             * make asynchronous request to the server
+             * and receive the stations info
+             */
             $scope.receiveModuleNumbers = function(){
                 console.log($scope.calibrationTask.place + " " + $scope.calibrationTask.taskDate);
                 var place = $scope.calibrationTask.place;
@@ -93,6 +118,12 @@ angular
                     });
             }
 
+            /**
+             * send the task for station data
+             * to the server to be saved in the database
+             * if response status 200 opens success modal,
+             * else open error modal
+             */
             $scope.showSendingMessage = false;
             $scope.save = function (){
                 if ($rootScope.emptyStatus == true) {

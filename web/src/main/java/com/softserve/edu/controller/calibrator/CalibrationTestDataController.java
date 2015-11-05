@@ -65,6 +65,7 @@ public class CalibrationTestDataController {
             calibrationTestServiceImpl.createTestData(testId, calibrationTestData);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<>(httpStatus);
@@ -79,6 +80,7 @@ public class CalibrationTestDataController {
     		CalibrationTestData updatedTestData = service.editTestData(testDataId, testDataDTO.saveTestData());
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
 			httpStatus = HttpStatus.CONFLICT;
 		}
     	return new ResponseEntity<>(httpStatus);

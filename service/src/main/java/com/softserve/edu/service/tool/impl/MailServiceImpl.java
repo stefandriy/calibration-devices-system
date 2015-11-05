@@ -112,6 +112,25 @@ public class MailServiceImpl implements MailService {
     }
 
     @Async
+    public void sendAdminNewPasswordMail(String employeeEmail, String employeeName, String newPassword) {
+
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws MessagingException, UnsupportedEncodingException {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(employeeEmail);
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("name", employeeName);
+                templateVariables.put("password", newPassword);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/createdAdminPassword", "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+            }
+        };
+        mailSender.send(preparator);
+    }
+
+    @Async
     public void sendOrganizationPasswordMail(String organizationMail, String organizationName, String username, String password) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
@@ -272,7 +291,7 @@ public class MailServiceImpl implements MailService {
                 templateVariables.put("middleName", admin.getMiddleName());
                 templateVariables.put("lastName", admin.getLastName());
 
-                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/organizationChanges.vm", "UTF-8", templateVariables);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/organizationChanges", "UTF-8", templateVariables);
                 message.setText(body, true);
                 message.setSubject("Important notification");
             }

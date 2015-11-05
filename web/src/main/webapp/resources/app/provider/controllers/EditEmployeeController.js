@@ -1,8 +1,9 @@
 angular
     .module('employeeModule')
-    .controller('EditEmployeeController', ['$rootScope', '$scope', '$modalInstance', '$log', '$modal', '$timeout', '$state', '$http', 'UserService',
+    .controller('EditEmployeeController', ['$rootScope', '$scope', '$modalInstance', '$log', '$modal',
+        '$timeout', '$state', '$http', 'UserService', 'toaster', '$filter',
 
-        function ($rootScope, $scope, $modalInstance, $log, $modal, $timeout, $state, $http, userService) {
+        function ($rootScope, $scope, $modalInstance, $log, $modal, $timeout, $state, $http, userService, toaster, $filter) {
             var organizationTypeProvider = false;
             var organizationTypeCalibrator = false;
             var organizationTypeVerificator = false;
@@ -99,7 +100,7 @@ angular
                         organizationTypeVerificator = true
                     }
                 }
-            }
+            };
 
             $scope.regions = null;
             $scope.districts = [];
@@ -115,7 +116,7 @@ angular
             $scope.changePassword = function () {
                 $scope.user.password = 'generate';
                 $scope.generationMessage = true;
-            }
+            };
 
 
             /**
@@ -145,7 +146,7 @@ angular
                 var elem = {
                     id: length,
                     designation: searchTerm
-                }
+                };
                 myArray.push(elem);
                 return (myArray.length - 1);
             }
@@ -223,22 +224,14 @@ angular
                         if (data.status == 201) {
                             $rootScope.$broadcast('new-employee-added');
                             $scope.closeModal();
-                            $modal.open({
-                                animation: true,
-                                templateUrl: '/resources/app/provider/views/modals/success-editing.html',
-                                controller: function ($modalInstance) {
-                                    this.ok = function () {
-                                        $modalInstance.close();
-                                    }
-                                },
-                                controllerAs: 'successController',
-                                size: 'md'
-                            });
+                            toaster.pop('success', $filter('translate')('INFORMATION'),
+                                $filter('translate')('SUCCESSFUL_EDIT_EMPLOYEE'));
                         } else {
-                            alert('Error');
+                            toaster.pop('error', $filter('translate')('INFORMATION'),
+                                $filter('translate')('ERROR_EDIT_EMPLOYEE'));
                         }
                     });
-            };
+            }
 
             $scope.closeWindow = function () {
                 $modalInstance.close();
