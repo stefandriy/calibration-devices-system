@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
-    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$rootScope','ngTableParams', '$scope', '$modal', 'DigitalVerificationProtocolsServiceCalibrator',
-        function ($rootScope,ngTableParams, $scope, $modal, digitalVerificationProtocolsServiceCalibrator) {
+    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$rootScope', 'ngTableParams', '$scope', '$modal', 'DigitalVerificationProtocolsServiceCalibrator',
+        function ($rootScope, ngTableParams, $scope, $modal, digitalVerificationProtocolsServiceCalibrator) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
@@ -51,10 +51,10 @@ angular
                             $log.debug('error fetching data:', result);
                         });
                 }
-            },
+            });
             $scope.sentProtocols = function () {
-                //  must be chenging status code here
-                     $modal.open({
+                digitalVerificationProtocolsServiceCalibrator.sendProtocols($scope.data);
+                $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/send-protocols.html',
                     controller: function ($modalInstance) {
@@ -66,8 +66,6 @@ angular
                     size: 'md'
                 });
             }
-            );
-
         }]);
 
 
