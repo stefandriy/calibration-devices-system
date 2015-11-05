@@ -24,9 +24,6 @@
                 </div>
 
                 <div class="panel-body">
-
-
-
                     <div class="row">
                         <div class="col-md-12">
                             <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
@@ -37,25 +34,24 @@
                                     <td data-title="''"><input type="checkbox" ng-click="resolveVerificationId(verification.verficationId)"/>
                                     </td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
-                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
+                                        filter="{ 'date': 'daterange' }">{{ verification.sentToCalibratorDate | date :
                                         'dd-MM-yyyy'}}
                                         <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
-                                            translate}} {{verification.processTimeExceeding}} {{'DAYS' |
+                                            translate}} {{verification.sentToCalibratorDate}} {{'DAYS' |
                                             translate}}</b>
                                         </div>
                                     </td>
                                     <td data-title="'CLIENT_FULL_NAME' | translate"
-                                        filter="{ 'client_full_name': 'text' }">{{ verification.name }}
+                                        filter="{ 'client_full_name': 'text' }">{{ verification.firstname+verification.lastname+verification.middlename }} <!-- Achtunch-->
                                     </td>
                                     <td data-title="'CLIENT_ADDRESS' | translate"
-                                        filter="{ 'address': 'text' }">{{ verification.street }}
+                                        filter="{ 'address': 'text' }">{{ verification.street }} <!-- Achtunch-->
                                     </td>
                                     <td data-title="'PROVIDER_NAME' | translate"
-                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.name }}
+                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.name }}<!-- Achtunch-->
                                     </td>
                                     <td data-title="'CALIBRATOR_NAME' | translate"
-                                        filter="{ 'calibrator': 'text' }" ng-model="filters.id">{{ verification.name }}
-                                    </td>
+                                        filter="{ 'calibrator': 'text' }" ng-model="filters.id">{{ verification.name }}<!-- Achtunch-->
 
 
 
@@ -124,7 +120,7 @@
 
                             <div class="pull-left">
                                 <button type="button" class="btn btn-primary"
-                                        ng-click="openTask()"><span class="glyphicon glyphicon-send"></span>
+                                        ng-click="sentProtocols()"><span class="glyphicon glyphicon-send"></span>
                                     {{'SEND' | translate}}
                                 </button>
                             </div>

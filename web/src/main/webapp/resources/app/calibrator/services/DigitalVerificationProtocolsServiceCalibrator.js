@@ -7,13 +7,15 @@ angular
                 var url = '/calibrator/protocols/' + pageNumber + '/' + itemsPerPage;
                 if (search != null && search != undefined && search != "")
                     url += '/' + search;
-
+            },
             getProtocols: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
                 return getData('calibrator/protocols/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
-            },
+            }
         };
 
+
         function getData(url, params) {
+            $log.info(url);
             return $http.get(url, {
                 params : params
             }).success(function (data) {
