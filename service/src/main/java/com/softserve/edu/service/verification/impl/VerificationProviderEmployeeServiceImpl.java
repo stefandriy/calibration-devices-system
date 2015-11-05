@@ -85,6 +85,16 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
     }
 
     /**
+     * Current method return list of verifications by current Calibrator user
+     * @param username
+     * @return list of Verification
+     */
+    @Transactional
+    public List<Verification> getVerificationListByStateVerificatorEmployee(String username) {
+        return verificationRepository.findByStateVerificatorEmployeeUsernameAndStatus(username, Status.IN_PROGRESS);
+    }
+
+    /**
      * This method count of work in current time
      * @param username
      * @return number of work for user
@@ -102,6 +112,16 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
     @Transactional
     public Long countByCalibratorEmployeeTasks(String username) {
         return verificationRepository.countByCalibratorEmployee_usernameAndStatus(username, Status.IN_PROGRESS);
+    }
+
+    /**
+     * This method count of work in current time
+     * @param username
+     * @return number of work for user
+     */
+    @Transactional
+    public Long countByStateVerificatorEmployeeTasks(String username) {
+        return verificationRepository.countByStateVerirficatorEmployee_usernameAndStatus(username, Status.SENT_TO_VERIFICATOR);
     }
 
     /**

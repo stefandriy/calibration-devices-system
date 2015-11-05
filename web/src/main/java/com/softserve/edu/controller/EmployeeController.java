@@ -189,6 +189,9 @@ public class EmployeeController {
         if (role.contains(UserRole.CALIBRATOR_EMPLOYEE.name())) {
             list = verificationProviderEmployeeService.getVerificationListByCalibratorEmployee(username);
         }
+        if (role.contains(UserRole.STATE_VERIFICATOR_EMPLOYEE.name())) {
+            list = verificationProviderEmployeeService.getVerificationListByStateVerificatorEmployee(username);
+        }
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
         return new PageDTO<>(content);
     }
@@ -226,6 +229,7 @@ public class EmployeeController {
                                 providerEmployee.getOrganization().getName(),
                                 verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
                                 verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
+                                verificationProviderEmployeeService.countByStateVerificatorEmployeeTasks(providerEmployee.getUsername()),
                                 providerEmployee.getIsAvailable()
                         )
                 );
