@@ -121,7 +121,7 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
      */
     @Transactional
     public Long countByStateVerificatorEmployeeTasks(String username) {
-        return verificationRepository.countByStateVerirficatorEmployee_usernameAndStatus(username, Status.SENT_TO_VERIFICATOR);
+        return verificationRepository.countByStateVerificatorEmployee_usernameAndStatus(username, Status.SENT_TO_VERIFICATOR);
     }
 
     /**
