@@ -20,7 +20,7 @@
 
                 <div class="panel-heading">
                     <span>{{'INFORMATION' | translate}}</span>
-                    <span class="pull-right">{{'PROTOCOLS_FOUND' | translate }}: {{resultsCount}}</span>
+                    <span class="pull-right">{{'PROTOCOLS_FOUND' | translate }}: {{totalItems}}</span>
                 </div>
 
                 <div class="panel-body">
@@ -40,21 +40,21 @@
                                         filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
                                         'dd-MM-yyyy'}}
                                         <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
-                                            translate}} {{verification.initialDate}} {{'DAYS' |
+                                            translate}} {{verification.processTimeExceeding}} {{'DAYS' |
                                             translate}}</b>
                                         </div>
                                     </td>
                                     <td data-title="'CLIENT_FULL_NAME' | translate"
-                                        filter="{ 'client_full_name': 'text' }">{{ verification.clientFullName }}
+                                        filter="{ 'client_full_name': 'text' }">{{ verification.name }}
                                     </td>
                                     <td data-title="'CLIENT_ADDRESS' | translate"
-                                        filter="{ 'address': 'text' }">{{ verification.address }}
+                                        filter="{ 'address': 'text' }">{{ verification.street }}
                                     </td>
                                     <td data-title="'PROVIDER_NAME' | translate"
-                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.providerName }}
+                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.name }}
                                     </td>
                                     <td data-title="'CALIBRATOR_NAME' | translate"
-                                        filter="{ 'calibrator': 'text' }" ng-model="filters.id">{{ verification.calibratorName }}
+                                        filter="{ 'calibrator': 'text' }" ng-model="filters.id">{{ verification.name }}
                                     </td>
 
 

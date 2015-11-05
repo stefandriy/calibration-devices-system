@@ -1,13 +1,18 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
+import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
+import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.calibrator.CalibratorDigitalProtocolsService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
+import com.softserve.edu.service.state.verificator.StateVerificatorEmployeeService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.service.verification.VerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,23 +37,32 @@ public class DigitalVerificationProtocolsCalibratorController {
     @Autowired
     private CalibratorDigitalProtocolsService protocolsService;
 
-//    @RequestMapping(value="{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-//    public PageDTO<VerificationPageDTO> getPageOfAllProtocolsByCalibratorId(
-//            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-//            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-//        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
-//
-//
-//
-//    }
+    @Autowired
+    StateVerificatorEmployeeService stateVerificatorEmployeeService;
 
-    @RequestMapping(value="{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    private PageDTO<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndReadStatus (@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        Page<Verification> verifications = protocolsService.findVerificationsByCalibratorEmployeeAndTaskStatus(employeeUser.getUsername(),
-                pageNumber, itemsPerPage);
-        Long count = Long.valueOf(protocolsService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername()));
-        List<VerificationPlanningTaskDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
-        return new PageDTO<VerificationPlanningTaskDTO>(count, content);
-    }
+    @Autowired
+    VerificationService verificationService;
+
+    @Autowired
+    CalibratorEmployeeService calibratorEmployeeService;
+
+    @RequestMapping(value="{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+        public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateCalibratorIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+                NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+
+            User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+            ListToPageTransformer<Verification> queryResult = protocolsService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(
+                    employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
+                    searchData.getDate(),
+                    searchData.getId(),
+                    searchData.getClient_full_name(),
+                    searchData.getStreet(),
+                    searchData.getStatus(),
+                    searchData.getEmployee_last_name(),
+                    sortCriteria,
+                    sortOrder,
+                    calibratorEmployee);
+            List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+            return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+        }
 }

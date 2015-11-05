@@ -17,4 +17,9 @@ public interface CalibratorDigitalProtocolsService {
                                                                           int itemsPerPage);
 
     int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
+
+    ListToPageTransformer<Verification> findPageOfVerificationsByCalibratorIdAndCriteriaSearch(
+            Long calibratorId, int pageNumber, int itemsPerPage, String dateToSearch, String idToSearch,
+            String fullNameToSearch, String streetToSearch, String status, String employeeName, String sortCriteria,
+            String sortOrder, User calibratorEmployee);
 }
