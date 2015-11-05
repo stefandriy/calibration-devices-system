@@ -3,7 +3,6 @@ package com.softserve.edu.service.provider;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
-<<<<<<< HEAD
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -13,38 +12,30 @@ import com.softserve.edu.service.provider.buildGraphic.GraphicBuilderMainPanel;
 import com.softserve.edu.service.provider.buildGraphic.MonthOfYear;
 import com.softserve.edu.service.provider.buildGraphic.ProviderEmployeeGraphic;
 import com.softserve.edu.service.provider.impl.ProviderEmployeeServiceImpl;
-
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
-=======
-import com.softserve.edu.entity.util.ConvertSetEnumsToListString;
-import com.softserve.edu.repository.UserRepository;
-import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.utils.EmployeeDTO;
->>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.ArgumentCaptor;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import javax.persistence.EntityManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import org.apache.log4j.Logger;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.api.mockito.PowerMockito;
-
 /**
-* @author Veronika Herasymenko
-*/
+ * @author Veronika Herasymenko
+ */
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ProviderEmployeeServiceImpl.class, Logger.class, GraphicBuilder.class, GraphicBuilderMainPanel.class})
@@ -119,8 +110,7 @@ public class ProviderEmployeeServiceImplTest {
 
 		providerEmployeeService.updateEmployee(finalProviderEmployee);
 
-		Assert.assertNull(mockProviderEmployeeRepository
-				.save(finalProviderEmployee));
+		verify(mockProviderEmployeeRepository).save(finalProviderEmployee);
 	}
 
 	@Test
@@ -133,54 +123,9 @@ public class ProviderEmployeeServiceImplTest {
 		providerEmployeeService.oneProviderEmployee(username);
 
 		Assert.assertEquals(mockUser,
-                providerEmployeeService.oneProviderEmployee(username));
-	}
-/*
-	@Test
-	public void testGetAllProvidersWhenContains() {
-
-		List<EmployeeDTO> spyProviderListEmployee =
-				spy(new ArrayList<>());
-
-		final User spyEmployee = spy(new User("1", "1",
-				new Organization("1", "1", "1")));
-
-		List<User> spyUserList = spy(new ArrayList<>());
-		spyUserList.add(spyEmployee);
-
-		final EmployeeDTO finalEmpDTO = new EmployeeDTO("1", "1", "1", "1", "1");
-
-		final List<String> spyRoleList = spy(new ArrayList<>());
-		spyRoleList.add(UserRole.PROVIDER_ADMIN.name());
-
-		when(
-				mockProviderEmployeeRepository.findAllAvailableUsersByRoleAndOrganizationId(
-						UserRole.CALIBRATOR_ADMIN, anyLong()).stream().collect(Collectors.toList())).thenReturn(
-				spyUserList);
-
-		spyProviderListEmployee.add(finalEmpDTO);
-
-		verify(spyProviderListEmployee).add(finalEmpDTO);
-
-		Assert.assertNotNull(providerEmployeeService.getAllProviders(
-                spyRoleList, spyEmployee));
+				providerEmployeeService.oneProviderEmployee(username));
 	}
 
-	@Test
-	public void testGetAllProvidersWhenNotContains() {
-
-		final User spyEmployee = spy(new User("1", "1"));
-
-		final List<String> spyRoleList = spy(new ArrayList<>());
-		spyRoleList.add(UserRole.CALIBRATOR_ADMIN.name());
-
-		EmployeeDTO userPage = mock(EmployeeDTO.class);
-		List<EmployeeDTO> providerListEmployee = mock(List.class);
-
-		Assert.assertNotNull(providerEmployeeService.getAllProviders(
-                spyRoleList, spyEmployee));
-	}
-*/
 	@Test
 	public void testFindByUsername() {
 
@@ -204,7 +149,6 @@ public class ProviderEmployeeServiceImplTest {
 	@Test
 	public void testGetRoleByUserNam() {
 
-<<<<<<< HEAD
 		List<String> mockList = Arrays.asList(UserRole.CALIBRATOR_ADMIN.toString());
 		Set<UserRole> mockSet = new HashSet<UserRole>(Arrays.asList(UserRole.CALIBRATOR_ADMIN));
 
@@ -235,12 +179,15 @@ public class ProviderEmployeeServiceImplTest {
 
 
 		when(organizationRepository.findOne(idOrganization)).thenReturn(organization);
-		when(verificationRepository.findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween(organization, fromDate, toDate))
+		when(verificationRepository
+				.findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween(organization, fromDate, toDate))
 				.thenReturn(verifications);
 		try {
 			PowerMockito.when(GraphicBuilder.listOfMonths(fromDate, toDate)).thenReturn(monthList);
-			PowerMockito.when(GraphicBuilder.builderData(verifications, monthList, listOfEmployee)).thenReturn(expectedGraphicData);
-			List<ProviderEmployeeGraphic> actualGraphicData = providerEmployeeService.buildGraphic(fromDate, toDate, idOrganization, listOfEmployee);
+			PowerMockito.when(GraphicBuilder.builderData(verifications, monthList, listOfEmployee))
+					.thenReturn(expectedGraphicData);
+			List<ProviderEmployeeGraphic> actualGraphicData
+					= providerEmployeeService.buildGraphic(fromDate, toDate, idOrganization, listOfEmployee);
 			Assert.assertEquals(expectedGraphicData, actualGraphicData);
 		} catch(ParseException e) {
 			Assert.fail("Test failed");
@@ -269,13 +216,50 @@ public class ProviderEmployeeServiceImplTest {
 
 		try {
 			PowerMockito.when(GraphicBuilder.listOfMonths(fromDate, toDate)).thenReturn(monthList);
-			PowerMockito.when(GraphicBuilderMainPanel.builderData(verifications, monthList, organization)).thenReturn(expectedGraphicData);
-			List<ProviderEmployeeGraphic> actualGraphicData = providerEmployeeService.buidGraphicMainPanel(fromDate, toDate, idOrganization);
+			PowerMockito.when(GraphicBuilderMainPanel.builderData(verifications, monthList, organization))
+					.thenReturn(expectedGraphicData);
+			List<ProviderEmployeeGraphic> actualGraphicData =
+					providerEmployeeService.buidGraphicMainPanel(fromDate, toDate, idOrganization);
 			Assert.assertEquals(expectedGraphicData, actualGraphicData);
 		} catch(ParseException e) {
 			Assert.fail("Test failed");
 		}
 	}
+
+//	@Test(expected = ParseException.class)
+//	public void testBuidGraphicMainPanelParseException() {
+//		Date fromDate = new Date();
+//		Date toDate = new Date();
+//		Long idOrganization = 1L;
+//		Organization organization = mock(Organization.class);
+//		Verification verification = mock(Verification.class);
+//		List<Verification> verifications = Collections.singletonList(verification);
+//		ProviderEmployeeGraphic providerEmployeeGraphic = mock(ProviderEmployeeGraphic.class);
+//		List<ProviderEmployeeGraphic> expectedGraphicData = Collections.singletonList(providerEmployeeGraphic);
+//
+//		PowerMockito.mockStatic(GraphicBuilder.class);
+//		PowerMockito.doThrow(new ParseException(anyString(), anyInt())).when(GraphicBuilder.class);
+//		try {
+//			GraphicBuilder.listOfMonths(fromDate, toDate);
+//		} catch(ParseException e) {
+//			Assert.fail("Test failed");
+//		}
+//
+//		PowerMockito.mockStatic(GraphicBuilderMainPanel.class);
+//		List<MonthOfYear> monthList = Collections.singletonList(PowerMockito.mock(MonthOfYear.class));
+//
+//		when(organizationRepository.findOne(idOrganization)).thenReturn(organization);
+//		when(verificationRepository.findByProviderAndInitialDateBetween(organization, fromDate, toDate))
+//				.thenReturn(verifications);
+//
+////			PowerMockito.when(GraphicBuilder.listOfMonths(fromDate, toDate)).thenReturn(monthList);
+////			PowerMockito.when(GraphicBuilderMainPanel.builderData(verifications, monthList, organization))
+////					.thenReturn(expectedGraphicData);
+//
+//		providerEmployeeService.buidGraphicMainPanel(fromDate, toDate, idOrganization);
+//			//Assert.assertEquals(expectedGraphicData, actualGraphicData);
+//
+//	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testConvertToDateIsBlank() {
@@ -306,14 +290,9 @@ public class ProviderEmployeeServiceImplTest {
 		Logger logger = PowerMockito.mock(Logger.class);
 		PowerMockito.when(Logger.getLogger(any(Class.class))).thenReturn(logger);
 
+		when(mock(ParseException.class).getMessage()).thenReturn("test passed");
+
 		providerEmployeeService.convertToDate(date);
-
-		//verify(logger).error(anyString());
-=======
-		when(mockProviderEmployeeRepository.getRolesByUserName(anyString()))
-				.thenReturn(ConvertSetEnumsToListString.convertToSetUserRole(mockList, UserRole.class));
->>>>>>> 929865c68f9f37ef5d4eddfdc191cb5c29b8b7b1
-
 	}
 
 }
