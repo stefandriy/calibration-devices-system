@@ -125,6 +125,14 @@ public class UsersPageItem {
         return countOfVerification;
     }
 
+    public Long getStateVerificatorTasks() {
+        return stateVerificatorTasks;
+    }
+
+    public void setStateVerificatorTasks(Long stateVerificatorTasks) {
+        this.stateVerificatorTasks = stateVerificatorTasks;
+    }
+
     public void setCountOfVerification(Long countOfVerification) {
         this.countOfVerification = countOfVerification;
     }

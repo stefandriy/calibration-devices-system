@@ -300,6 +300,7 @@
         'verificator/controllers/DetailsModalControllerVerificator',
         'verificator/controllers/SendingModalControllerVerificator',
         'verificator/controllers/EmployeeControllerVerificator',
+        'verificator/controllers/CapacityEmployeeControllerVerificator',
         'verificator/controllers/AddressModalControllerVerificator',
         'verificator/controllers/NotificationsControllerVerificator',
         'verificator/controllers/TestRejectControllerVerificator',

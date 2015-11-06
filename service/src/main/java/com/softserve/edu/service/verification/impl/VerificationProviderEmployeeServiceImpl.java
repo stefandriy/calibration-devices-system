@@ -91,7 +91,7 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
      */
     @Transactional
     public List<Verification> getVerificationListByStateVerificatorEmployee(String username) {
-        return verificationRepository.findByStateVerificatorEmployeeUsernameAndStatus(username, Status.IN_PROGRESS);
+        return verificationRepository.findByStateVerificatorEmployeeUsernameAndStatus(username, Status.SENT_TO_VERIFICATOR);
     }
 
     /**
