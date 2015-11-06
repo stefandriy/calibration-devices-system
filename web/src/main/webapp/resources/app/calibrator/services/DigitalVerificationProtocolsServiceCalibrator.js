@@ -3,13 +3,9 @@ angular
     .factory('DigitalVerificationProtocolsServiceCalibrator',['$http', '$log',
     function($http, $log) {
         return {
-            getPage: function (pageNumber, itemsPerPage, search) {
-                var url = '/calibrator/protocols/' + pageNumber + '/' + itemsPerPage;
-                if (search != null && search != undefined && search != "")
-                    url += '/' + search;
-            },
+
             getProtocols: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
-                return getData('calibrator/protocols/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                return getData('/calibrator/protocols/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             sendProtocols: function (protocol) {
                 return send('/protocols/send', protocol);
@@ -19,7 +15,7 @@ angular
 
         function getData(url, params) {
             $log.info(url);
-            return $http.get('/calibrator/protocols/'+url, {
+            return $http.get(url, {
                 params : params
             }).success(function (data) {
                 return data;
