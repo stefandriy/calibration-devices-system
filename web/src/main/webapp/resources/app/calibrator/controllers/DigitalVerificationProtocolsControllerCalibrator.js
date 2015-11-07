@@ -1,12 +1,14 @@
 angular
     .module('employeeModule')
-    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$rootScope', 'ngTableParams', '$scope', '$modal', 'DigitalVerificationProtocolsServiceCalibrator',
-        function ($rootScope, ngTableParams, $scope, $modal, digitalVerificationProtocolsServiceCalibrator) {
+    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$scope', '$log', '$modal',  'DigitalVerificationProtocolsServiceCalibrator',
+        '$rootScope', 'ngTableParams',
+
+        function ($scope, $log, $modal, digitalVerificationProtocolsServiceCalibrator, $rootScope, ngTableParams) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
-
+            $scope.checked = false;
 
             $scope.clearAll = function () {
                 $scope.selectedStatus.name = null;
@@ -51,9 +53,12 @@ angular
                             $log.debug('error fetching data:', result);
                         });
                 }
-            });
-            $scope.sentProtocols = function () {
-                digitalVerificationProtocolsServiceCalibrator.sendProtocols($scope.data);
+            })
+           $scope.sentProtocols = function () {
+               digitalVerificationProtocolsServiceCalibrator.send($scope.data);
+          //  if (data.status == 200) {
+          $rootScope.verifIds = [];
+
                 $modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/send-protocols.html',
@@ -64,8 +69,43 @@ angular
                     },
                     controllerAs: 'successController',
                     size: 'md'
+                        });
+            },
+            $scope.idsOfVerifications = [];
+            $scope.checkedItems = [];
+            $scope.allIsEmpty = true;
+
+            $scope.resolveVerificationId = function (id) {
+
+                var index = $scope.idsOfVerifications.indexOf(id);
+                if (index === -1) {
+                    $scope.idsOfVerifications.push(id);
+                    index = $scope.idsOfVerifications.indexOf(id);
+                }
+
+                if (!$scope.checkedItems[index]) {
+                    $scope.idsOfVerifications.splice(index, 1, id);
+                    $scope.checkedItems.splice(index, 1, true);
+                } else {
+                    $scope.idsOfVerifications.splice(index, 1);
+                    $scope.checkedItems.splice(index, 1);
+                }
+                checkForEmpty();
+            };
+            var checkForEmpty = function () {
+                $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
+            };
+            $scope.countChecked = function(){
+                var count = 0;
+                angular.forEach($data, function(value){
+                    if (value.isselected) count++;
                 });
+
+                return count;
             }
+
+
+
         }]);
 
 
