@@ -84,7 +84,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
 
     public void disableCalibrationModule(Long calibrationModuleId) {
         CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
-        calibrationModule.setActive(false);
+        calibrationModule.setIsActive(false);
         calibrationModuleRepository.save(calibrationModule);
     }
 

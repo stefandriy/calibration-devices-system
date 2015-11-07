@@ -1,72 +1,41 @@
-package com.softserve.edu.entity.device;
+package com.softserve.edu.dto.admin;
 
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
-
-import com.softserve.edu.entity.verification.calibration.CalibrationTask;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import lombok.*;
-
-
-import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
-@Entity
-@Table(name = "CALIBRATION_MODULE")
-@Getter
+/**
+ * Created by roman on 07.11.15.
+ *
+ */
+
 @Setter
-@EqualsAndHashCode
-@NoArgsConstructor
-public class CalibrationModule {
+@Getter
+public class CalibrationModuleDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleId;
-
-    @Enumerated(EnumType.STRING)
-    private Device.DeviceType deviceType;
-
+    private String deviceType;
     private String organizationCode;
-
     private String condDesignation;
-
     private String serialNumber;
-
     private String employeeFullName;
-
     private String telephone;
-
     private String moduleType;
-
     private String email;
-
     private String calibrationType;
-
-    private String moduleNumber;//generates
-
-    private Boolean isActive = true;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "calibratorId")
-    private Organization organization;
-
-    @Temporal(TemporalType.DATE)
+    private String moduleNumber;
+    private Boolean isActive;
+    private String organization;
     private Date workDate;
 
-    /* @OneToMany(mappedBy = "module")
-    private Set<CalibrationTask> tasks; */
-
-
-    public CalibrationModule(Long id, Device.DeviceType deviceType, String organizationCode,
+    public CalibrationModuleDTO(Long id, String deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
-                             Organization calibrator, Date workDate){
-        super();
+                             String calibrator, Date workDate) {
         this.moduleId = id;
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
@@ -80,5 +49,6 @@ public class CalibrationModule {
         this.organization = calibrator;
         this.workDate = workDate;
     }
+
 
 }
