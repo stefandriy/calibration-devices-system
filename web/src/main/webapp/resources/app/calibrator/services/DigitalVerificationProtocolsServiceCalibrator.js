@@ -8,7 +8,7 @@ angular
                 return getData('/calibrator/protocols/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             sendProtocols: function (protocol) {
-                return send('/protocols/send', protocol);
+                return send('protocols/send', protocol);
             }
             };
 
