@@ -4,6 +4,8 @@ import com.softserve.edu.entity.device.CalibrationModule;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,4 +23,7 @@ public interface CalibrationModuleService {
 
     Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable, boolean status);
 
+    List<String> findAllCalibrationModulsNumbers (String moduleType, Date workDate, String applicationFiled, String userName);
+
+    void updateCalibrationModule(CalibrationModule calibrationModule);
 }

@@ -12,6 +12,21 @@ import java.util.Date;
  */
 public class CalibrationModuleSpecification {
 
+    public static final String ID = "moduleId";
+    public static final String ORGANIZATION_JOIN_NAME = "organization.name";
+    public static final String ORGANIZATION_CODE = "organizationCode";
+    public static final String COND_DESIGNATION = "condDesignation";
+    public static final String SERIAL_NUMBER = "serialNumber";
+    public static final String EMPLOYEE_FULL_NAME = "employeeFullName";
+    public static final String TELEPHONE = "telephone";
+    public static final String MODULE_TYPE = "moduleType";
+    public static final String EMAIL = "email";
+    public static final String CALIBRATION_TYPE = "calibrationType";
+    public static final String MODULE_NUMBER = "moduleNumber";
+    public static final String WORK_DATE = "workDate";
+    public static final String DEVICE_TYPE = "deviceType";
+
+
     public static Specification<CalibrationModule> moduleDeviceType(String applicationFiled) {
         return new Specification<CalibrationModule>() {
             @Override
