@@ -65,7 +65,7 @@ public class CalibrationModule {
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
-                             Organization calibrator, Date workDate){
+                             Organization organization, Date workDate){
         super();
         this.moduleId = id;
         this.deviceType = deviceType;
@@ -77,7 +77,7 @@ public class CalibrationModule {
         this.moduleType = moduleType;
         this.email = email;
         this.calibrationType = calibrationType;
-        this.organization = calibrator;
+        this.organization = organization;
         this.workDate = workDate;
     }
 

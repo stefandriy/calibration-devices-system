@@ -17,8 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.springframework.data.jpa.domain.Specifications.where;
 
@@ -106,4 +105,13 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     public Page<CalibrationModule> findAllModules(Pageable pageable) {
         return calibrationModuleRepository.findAll(pageable);
     }
+
+    public void updateCalibrationModule(CalibrationModule calibrationModule) {}
+
+    public List<String> findAllCalibrationModulsNumbers (String moduleType,
+                                                         Date workDate, String applicationFiled,
+                                                         String userName) {
+        return new ArrayList<String>();
+    }
+
 }

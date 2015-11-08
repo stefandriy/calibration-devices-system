@@ -28,14 +28,17 @@ public class CalibrationModuleDTO {
     private String calibrationType;
     private String moduleNumber;
     private Boolean isActive;
-    private String organization;
+    private String organizationName;
+    private Long organizationId;
     private Date workDate;
+
+    public CalibrationModuleDTO() {}
 
     public CalibrationModuleDTO(Long id, String deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
-                             String calibrator, Date workDate) {
+                             String organizationName, Long organizationId, Date workDate) {
         this.moduleId = id;
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
@@ -46,9 +49,19 @@ public class CalibrationModuleDTO {
         this.moduleType = moduleType;
         this.email = email;
         this.calibrationType = calibrationType;
-        this.organization = calibrator;
+        this.organizationName = organizationName;
+        this.organizationId = organizationId;
         this.workDate = workDate;
     }
 
+    public CalibrationModuleDTO(Long id, Device.DeviceType deviceType, String organizationCode,
+                                String condDesignation, String serialNumber,
+                                String employeeFullName, String telephone,
+                                String moduleType, String email, String calibrationType,
+                                Organization organization, Date workDate) {
+        this(id, deviceType.name(), organizationCode, condDesignation, serialNumber, employeeFullName,
+                telephone, moduleType, email, calibrationType, organization.getName(),
+                organization.getId(), workDate);
+    }
 
 }
