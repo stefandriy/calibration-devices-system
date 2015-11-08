@@ -524,5 +524,6 @@
   "CONTACT_PERSON_FULL_NAME": "ПІБ контактної особи",
   "VALID_UNTIL": "Чинна до",
   "INSTALLATION_TYPE": "Тип установки",
-  "METHODS_OF_VERIFICATION": "Методика повірки"
+  "METHODS_OF_VERIFICATION": "Методика повірки",
+  "REMOVE": "Видалити"
 }

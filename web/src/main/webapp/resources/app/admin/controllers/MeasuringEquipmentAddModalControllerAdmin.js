@@ -36,6 +36,17 @@ angular.module('adminModule')
                 $scope.methodsOfVerificationValidation = null;
 
                 $scope.incorrectValue = false;
+
+                $scope.sphereOfApplication = undefined;
+                $scope.installationCode = "";
+                $scope.symbol = "";
+                $scope.manufacturerNumber = "";
+                $scope.contactPerson = "";
+                $scope.phoneNumber = "";
+                $scope.validUntil ="";
+                $scope.installationType = undefined;
+                $scope.email = "";
+                $scope.methodsOfVerification = "";
             };
 
             /**
@@ -79,6 +90,42 @@ angular.module('adminModule')
                     });
             }
 
+
+            /**
+             * New method added. It was did not to dublicate views.
+             */
+            $scope.editEquipment = function () {
+                var equipmentForm = {
+                    sphereOfApplication: $scope.equipment.sphereOfApplication,
+
+                    installationNumber: $scope.equipment.installationNumber,
+
+                    installationCode: $scope.equipment.installationCode,
+                    symbol: $scope.equipment.symbol,
+                    contactPerson: $scope.equipment.contactPerson,
+                    phoneNumber: $scope.equipment.phoneNumber,
+                    validUntil: $scope.equipment.validUntil,
+                    installationType: $scope.equipment.installationType,
+                    email: $scope.equipment.email,
+                    methodsOfVerification: $scope.equipment.methodsOfVerification
+
+                }
+                if (!$scope.nameValidation.isValid && !$scope.deviceTypeValidation.isValid
+                    && !$scope.manufacturerValidation.isValid && !$scope.verificationIntervalValidation.isValid) {
+                    MeasuringEquipmentServiceAdmin.editEquipment(
+                        equipmentForm,
+                        $rootScope.equipmentId).then(
+                        function (data) {
+                            if (data == 200) {
+                                $scope.closeModal();
+                                $scope.resetEquipmentForm();
+                                $rootScope.onTableHandling();
+                            }
+                        });
+                } else {
+                    $scope.incorrectValue = true;
+                }
+            }
 
             /**
              * Closes the modal window for adding new

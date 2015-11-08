@@ -1,4 +1,4 @@
-<div id="page-wrapper" ng-controller="OrganizationPanelController">
+<div id="page-wrapper" ng-controller="MeasuringEquipmentControllerAdmin">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">{{ 'MEASURING_DEVICES_DIRECTORY' | translate }}</h1>
@@ -30,13 +30,13 @@
                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                        class="table table-bordered table-hover users_table">
                     <tbody>
-                    <tr ng-repeat="organization in $data">
+                    <tr ng-repeat="measuringEquipment in $data">   <!-- TODO: organization -> installation in $data! -->
                         <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'sphereOfApplication'"
-                            filter="{ 'sphereOfApplication': 'text' }">
+                            filter="{ 'sphereOfApplication': 'organizationType' }"> <!-- e.g. organizationType -->
                             {{ measuringEquipment.sphereOfApplication }}
                         </td>
                         <td data-title="'INSTALLATION_NUMBER' | translate "
-                            filter="{ 'installationNumber': 'organizationType' }">
+                            filter="{ 'installationNumber': 'text' }">
                             {{ measuringEquipment.installationNumber }}
                         </td>
                         <td data-title="'INSTALLATION_CODE' | translate" sortable="'installationCode'"
@@ -74,7 +74,7 @@
                                 </button>
                             </center>
                         </td>
-                        <td data-title="'EDIT CHANGES' | translate">
+                        <td data-title="'REMOVE' | translate">
                             <center>
                                 <button type="button" class="btn btn-info"
                                         ng-click="openOrganizationEditHistoryModal(measuringEquipment.id)">

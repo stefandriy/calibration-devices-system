@@ -16,7 +16,7 @@ angular
             		.then(function (data) {
 						$scope.pageContent = data.content;
 						$scope.totalItems = data.totalItems;
-                });             */
+                });*/
             };
             $rootScope.onTableHandling();
             
@@ -60,6 +60,21 @@ angular
                 }, 700);
 
             };
-			
-			
+
+			$scope.setSphereOfApplicationLanguage = function () {
+				var lang = $translate.use();
+				if (lang === 'ukr') {
+					$scope.sphereOfApplication[0].label = 'Вода';
+					$scope.sphereOfApplication[1].label = 'Газ';
+					$scope.sphereOfApplication[2].label = 'Електроенергія';
+
+
+				} else if (lang === 'eng') {
+					$scope.sphereOfApplication[0].label = 'Water';
+					$scope.sphereOfApplication[1].label = 'Gas';
+					$scope.sphereOfApplication[2].label = 'Electricity';
+				} else {
+					$log.debug(lang);
+				}
+			};
     }]);

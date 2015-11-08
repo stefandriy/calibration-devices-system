@@ -515,5 +515,6 @@
   "CONTACT_PERSON_FULL_NAME": "Contact person name",
   "VALID_UNTIL": "Valid until",
   "INSTALLATION_TYPE": "Installation type",
-  "METHODS_OF_VERIFICATION": "Methods of verification"
+  "METHODS_OF_VERIFICATION": "Methods of verification",
+  "REMOVE": "Remove"
 }
