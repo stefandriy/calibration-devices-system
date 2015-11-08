@@ -1,5 +1,7 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.dto.calibrator.ProtocolDTO;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.NewVerificationsFilterSearch;
@@ -47,22 +49,36 @@ public class DigitalVerificationProtocolsCalibratorController {
     CalibratorEmployeeService calibratorEmployeeService;
 
     @RequestMapping(value="{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-        public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByStateCalibratorIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+        public PageDTO<Verification> getPageOfAllSentVerificationsByStateCalibratorIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
                 NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
             User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
-            ListToPageTransformer<Verification> queryResult = protocolsService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(
-                    employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
-                    searchData.getDate(),
-                    searchData.getId(),
-                    searchData.getClient_full_name(),
-                    searchData.getStreet(),
-                    searchData.getStatus(),
-                    searchData.getEmployee_last_name(),
-                    sortCriteria,
-                    sortOrder,
-                    calibratorEmployee);
-            List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-            return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
-        }
+//            ListToPageTransformer<Verification> queryResult = protocolsService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(
+//                    employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
+//                    searchData.getDate(),
+//                    searchData.getId(),
+//                    searchData.getClient_full_name(),
+//                    searchData.getStreet(),
+//                    searchData.getStatus(),
+//                    searchData.getEmployee_last_name(),
+//                    sortCriteria,
+//                    sortOrder,
+//                    calibratorEmployee);
+
+
+//            Page<Verification> verifications = protocolsService.findVerificationsByCalibratorEmployeeAndTaskStatus(
+//                    calibratorEmployee.getUsername() ,pageNumber,itemsPerPage);
+//
+//            List<ProtocolDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
+//            return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
+
+            Status status = Status.IN_PROGRESS;
+            List<Verification> verifications = protocolsService.findPageOfVerificationsByCalibratorIdAndStatus(calibratorEmployee,pageNumber, itemsPerPage, status );
+            //Page<Verification> verifications = protocolsService.findVerificationsByCalibratorEmployeeAndTaskStatus(calibratorEmployee.getUsername(), pageNumber, itemsPerPage, status);
+            //Long totalItems = protocolsService.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee, status);
+        Long count = Long.valueOf(verifications.size());
+
+            return new PageDTO<>(count,verifications);
+
+    }
 }
