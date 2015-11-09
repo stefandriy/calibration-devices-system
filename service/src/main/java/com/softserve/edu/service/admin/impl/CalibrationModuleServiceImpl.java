@@ -64,10 +64,6 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return specification;
     }
 
-    private void buildMap(Map<String, String> searchKeys) {
-
-    }
-
     public CalibrationModule addCalibrationModule(CalibrationModule calibrationModule) {
         if (calibrationModule == null) {
             throw new NullPointerException("Adding null pointer to calibration modules");
@@ -79,7 +75,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findOne(calibrationModuleId);
     }
 
-    ;
+
 
     public void disableCalibrationModule(Long calibrationModuleId) {
         CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
@@ -87,9 +83,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(calibrationModule);
     }
 
-    ;
 
-    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable, boolean status) {
+    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable
+            , boolean status) {
         CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
         Filter filter = new Filter();
         for (Map.Entry<String, String> entry : searchKeys.entrySet()) {
@@ -106,7 +102,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findAll(pageable);
     }
 
-    public void updateCalibrationModule(CalibrationModule calibrationModule) {}
+    public void updateCalibrationModule(CalibrationModule calibrationModule) {
+
+    }
 
     public List<String> findAllCalibrationModulsNumbers (String moduleType,
                                                          Date workDate, String applicationFiled,
