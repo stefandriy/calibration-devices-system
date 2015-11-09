@@ -174,11 +174,12 @@
                               	</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-controller="MeasuringEquipmentControllerCalibrator">
-                            <a ui-sref="measuring-equipment-calibrator" ng-click="onTableHandling()"><i
-                                    class="fa fa-desktop"></i> <span translate="CALIBRATOR_HANDBOOK"></span>
+                        <li ui-sref-active="active" ng-controller="DigitalVerificationProtocolsControllerCalibrator">
+                        <a ui-sref="verifications-protocols-calibrator" ng-click="onTableHandling()">
+                            <i class="fa fa-file-powerpoint-o"></i>
+                            <span translate="DIGITAL_PROTOCOLS"></span>
                             </a>
-                        </li>
+                         </li>
 
                         <li ui-sref-active="active">
                             <a ui-sref="planning-task-calibrator"><i class="fa fa-tasks"></i>
@@ -201,8 +202,7 @@
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active" ng-controller="NotificationsControllerVerificator">
                             <a ui-sref="new-verifications-verificator" ng-click="reloadVerifications()"><i
-                                    class="fa fa-list-alt fa-fw"></i> <span>Нові заявки (уповноважена повірочна
-                                лабораторія)</span>
+                                    class="fa fa-list-alt fa-fw"></i> <span translate="VERIFICATION_PROTOCOLS"></span>
                                 <span class="ui teal label" ng-bind="countOfUnreadVerifications"
                                       ng-show="countOfUnreadVerifications>0" ng-cloak>
                               	</span>

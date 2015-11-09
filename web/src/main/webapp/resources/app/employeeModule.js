@@ -135,8 +135,8 @@
                     })
                     .state("new-verifications-verificator", {
                         url: '/verifications/new',
-                        templateUrl: '/resources/app/verificator/views/calibration-test-panel.html',
-                        controller: 'CalibrationTestControllerCalibrator'
+                        templateUrl: '/resources/app/verificator/views/new-verifications.html',
+                        controller: 'NewVerificationsControllerVerificator'
                     })
                     .state("employee-show-verificator", {
                         url: '/verificator/employee-show',
@@ -147,8 +147,12 @@
                         url: '/verifications/archive',
                         templateUrl: '/resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
-                    });
-
+                    })
+                    .state("verifications-protocols-calibrator", {
+                           url: 'calibrator/protocols',
+                           templateUrl: '/resources/app/calibrator/views/show-verification-protocols.html',
+                            controller: 'DigitalVerificationProtocolsControllerCalibrator'
+                     });
 
                 /*
                  Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
@@ -277,6 +281,7 @@
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
         'calibrator/controllers/TaskForStationModalControllerCalibrator',
         'calibrator/controllers/TaskForTeamModalControllerCalibrator',
+        'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
         'calibrator/controllers/CounterStatusControllerCalibrator',
         'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
@@ -301,6 +306,7 @@
         'verificator/controllers/TestRejectControllerVerificator',
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
+        'verificator/controllers/NewVerificationsControllerVerificator',
 
         'verificator/controllers/VerificatorEmployeeControllerVerificator',
 
@@ -314,7 +320,8 @@
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController'
-
+        'common/controllers/CommonController',
+        'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
     ], function () {});
 })();

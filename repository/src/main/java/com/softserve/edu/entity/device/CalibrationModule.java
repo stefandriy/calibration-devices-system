@@ -24,7 +24,7 @@ import java.util.Set;
 public class CalibrationModule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long moduleId;
 
     @Enumerated(EnumType.STRING)
@@ -46,9 +46,11 @@ public class CalibrationModule {
 
     private String calibrationType;
 
-    private String moduleNumber;
+    private String moduleNumber;//generates
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    private Boolean isActive = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calibratorId")
     private Organization organization;
 
@@ -63,7 +65,7 @@ public class CalibrationModule {
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
-                             Organization calibrator, Date workDate){
+                             Organization organization, Date workDate){
         super();
         this.moduleId = id;
         this.deviceType = deviceType;
@@ -75,7 +77,7 @@ public class CalibrationModule {
         this.moduleType = moduleType;
         this.email = email;
         this.calibrationType = calibrationType;
-        this.organization = calibrator;
+        this.organization = organization;
         this.workDate = workDate;
     }
 

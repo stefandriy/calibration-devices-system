@@ -151,6 +151,7 @@ public class CalibratorDisassemblyTeamController {
                     disassemblyTeamDTO.getLeaderEmail());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
@@ -169,6 +170,7 @@ public class CalibratorDisassemblyTeamController {
             teamService.delete(disassemblyTeamId);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
