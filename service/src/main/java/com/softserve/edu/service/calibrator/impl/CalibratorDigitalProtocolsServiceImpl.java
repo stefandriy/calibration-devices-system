@@ -128,18 +128,21 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
 //                verifications.get("clientData").get("firstName"),
 //                verifications.get("clientData").get("lastName"),
 //                verifications.get("clientData").get("clientAddress").get("district"),
-//                verifications.get("providerEmployee"),
+//                verifications.get("providerEmployee").get("username"),
 //                verifications.get("status")));
-        Join<Verification, User> joinCalibratorEmployee = verifications.join("calibratorEmployee");
+//        Join<Verification, User> joinCalibratorEmployee = verifications.join("calibratorEmployee");
 
-        cq.where(cb.and(cb.equal(verifications.get("stateVerificatorEmployee"), joinCalibratorEmployee.get("username")),
-                cb.equal(verifications.get("status"), status)));
-        TypedQuery<Verification> typedQuery = em.createQuery(cq);
+//        cq.where(cb.and(cb.equal(verifications.get("stateVerificatorEmployee"), calibratorEmployee),
+//                cb.equal(verifications.get("status"), status)));
+        cq.select(verifications.get("sentToCalibratorDate"));
+        cq.where(cb.equal(verifications.get("status"), status));
+//        TypedQuery<Verification> typedQuery = em.createQuery(cq);
 //        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
 //        typedQuery.setMaxResults(itemsPerPage);
 //        List<Verification> ver = typedQuery.getResultList();
 
-        List<Verification> result = typedQuery.getResultList();
-        return result;
+//        List<Verification> result = typedQuery.getResultList();
+        return em.createQuery(cq)
+                .getResultList();
     }
 }
