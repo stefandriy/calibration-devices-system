@@ -406,10 +406,10 @@
                                        ng-required="test"
                                        name="firstSelectedDevice" required>
                                 <ui-select-match placeholder="{{'CATEGORY_OF_COUNTER' | translate}}">
-                                    {{$select.selected.designation}}
+                                    {{$select.selected.deviceType}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="device in devices | filter: $select.search">
-                                    <span ng-bind-html="device.designation"></span>
+                                    <span ng-bind-html="device.deviceType"></span>
                                 </ui-select-choices>
                             </ui-select>
 
