@@ -27,7 +27,7 @@ import java.util.*;
  */
 
 @RestController
-@RequestMapping(value = "/admin/module/")
+@RequestMapping(value = "/admin/calibration-module/")
 public class CalibrationModuleController {
 
     private static Logger logger = Logger.getLogger(CalibrationModuleController.class);

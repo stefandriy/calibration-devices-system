@@ -25,7 +25,7 @@ angular.module('adminModule')
                 $scope.equipmentFormData = null;
 
                 $scope.sphereOfApplicationValidation = null;
-                $scope.installationCodeValidation = null;
+                $scope.moduleIdValidation = null;
                 $scope.symbolValidation = null;
                 $scope.manufacturerNumberValidation = null;
                 $scope.contactPersonValidation = null;
@@ -38,7 +38,7 @@ angular.module('adminModule')
                 $scope.incorrectValue = false;
 
                 $scope.sphereOfApplication = undefined;
-                $scope.installationCode = "";
+                $scope.moduleId = "";
                 $scope.symbol = "";
                 $scope.manufacturerNumber = "";
                 $scope.contactPerson = "";
@@ -100,7 +100,7 @@ angular.module('adminModule')
 
                     installationNumber: $scope.equipment.installationNumber,
 
-                    installationCode: $scope.equipment.installationCode,
+                    moduleId: $scope.equipment.moduleId,
                     symbol: $scope.equipment.symbol,
                     contactPerson: $scope.equipment.contactPerson,
                     phoneNumber: $scope.equipment.phoneNumber,
@@ -190,12 +190,12 @@ angular.module('adminModule')
                             validator('sphereOfApplication', true);
                         }
                         break;
-                    case ('installationCode'):
-                        var installationCode = $scope.equipmentFormData.installationCode;
-                        if (installationCode == null) {
-                            validator('installationCode', false);
-                        } else if (installationCode.length >= 8 && installationCode.length <= 10) {
-                            validator('installationCode', true);
+                    case ('moduleId'):
+                        var moduleId = $scope.equipmentFormData.moduleId;
+                        if (moduleId == null) {
+                            validator('moduleId', false);
+                        } else if (moduleId.length >= 8 && moduleId.length <= 10) {
+                            validator('moduleId', true);
                         }
                         break;
                     case ('symbol'):
@@ -243,8 +243,8 @@ angular.module('adminModule')
                             css: isValid ? 'has-error' : 'has-success'
                         }
                         break;
-                    case ('installationCode'):
-                        $scope.installationCodeValidation = {
+                    case ('moduleId'):
+                        $scope.moduleIdValidation = {
                             isValid: isValid,
                             css: isValid ? 'has-error' : 'has-success'
                         }
