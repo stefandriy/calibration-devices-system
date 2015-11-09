@@ -76,8 +76,8 @@ public class DigitalVerificationProtocolsCalibratorController {
             List<Verification> verifications = protocolsService.findPageOfVerificationsByCalibratorIdAndStatus(calibratorEmployee,pageNumber, itemsPerPage, status );
             //Page<Verification> verifications = protocolsService.findVerificationsByCalibratorEmployeeAndTaskStatus(calibratorEmployee.getUsername(), pageNumber, itemsPerPage, status);
             //Long totalItems = protocolsService.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee, status);
-        Long count = Long.valueOf(verifications.size());
-
+            Long count = Long.valueOf(verifications.size());
+            verifications.add(new Verification());
             return new PageDTO<>(count,verifications);
 
     }

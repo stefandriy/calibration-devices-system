@@ -19,11 +19,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Set;
@@ -128,13 +130,16 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
 //                verifications.get("clientData").get("clientAddress").get("district"),
 //                verifications.get("providerEmployee"),
 //                verifications.get("status")));
-        cq.where(cb.and(cb.equal(verifications.get("calibratorEmployee"), calibratorEmployee.getUsername()),
+        Join<Verification, User> joinCalibratorEmployee = verifications.join("calibratorEmployee");
+
+        cq.where(cb.and(cb.equal(verifications.get("stateVerificatorEmployee"), joinCalibratorEmployee.get("username")),
                 cb.equal(verifications.get("status"), status)));
         TypedQuery<Verification> typedQuery = em.createQuery(cq);
-        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-        typedQuery.setMaxResults(itemsPerPage);
-        List<Verification> ver = typedQuery.getResultList();
-        ver.add(new Verification());
-        return ver;
+//        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+//        typedQuery.setMaxResults(itemsPerPage);
+//        List<Verification> ver = typedQuery.getResultList();
+
+        List<Verification> result = typedQuery.getResultList();
+        return result;
     }
 }
