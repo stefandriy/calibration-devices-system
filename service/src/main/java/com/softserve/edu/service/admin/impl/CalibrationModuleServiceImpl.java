@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import com.softserve.edu.service.utils.filter.Filter;
+import org.springframework.stereotype.Service;
 
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,6 +25,7 @@ import static org.springframework.data.jpa.domain.Specifications.where;
 /**
  * Created by Pavlo on 02.11.2015.
  */
+@Service
 public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     @Autowired
     CalibrationModuleRepository calibrationModuleRepository;
