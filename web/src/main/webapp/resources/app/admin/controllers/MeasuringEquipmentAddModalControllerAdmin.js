@@ -43,7 +43,7 @@ angular.module('adminModule')
                 $scope.manufacturerNumber = "";
                 $scope.contactPerson = "";
                 $scope.phoneNumber = "";
-                $scope.validUntil ="";
+                $scope.validUntil = "";
                 $scope.installationType = undefined;
                 $scope.email = "";
                 $scope.methodsOfVerification = "";
