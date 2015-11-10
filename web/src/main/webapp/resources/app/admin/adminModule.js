@@ -106,7 +106,7 @@ angular
                     templateUrl: '/resources/app/admin/views/404.html'
                 })
                 .state("measuring-equipment-admin", {
-                    url: '/admin/mEquipment/',
+                    url: '/calibration-module',
                     templateUrl: '/resources/app/admin/views/measurement-equipments.html',
                     controller: 'MeasuringEquipmentControllerAdmin'
                 });
@@ -149,6 +149,11 @@ angular.module('adminModule').run(function (paginationConfig) {
 });
 
 define(['controllers/TopNavBarController', 'controllers/MainPanelController',
+
+    'controllers/MeasuringEquipmentControllerAdmin',
+    'controllers/MeasuringEquipmentAddModalControllerAdmin',
+    'controllers/MeasuringEquipmentEditModalControllerAdmin',
+
     'controllers/OrganizationPanelController',
     'controllers/OrganizationAddModalController',
     'controllers/OrganizationEditModalController',
@@ -177,8 +182,8 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/UsersService',
     'services/RoleService',
     'services/ResponseObserver',
+    'services/MeasuringEquipmentServiceAdmin',
     'directives/unique',
     'controllers/CommonController'
-
 ], function () {
 });

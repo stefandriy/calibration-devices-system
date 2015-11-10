@@ -29,9 +29,9 @@ import static org.springframework.data.jpa.domain.Specifications.where;
 public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     @Autowired
     CalibrationModuleRepository calibrationModuleRepository;
-    Map<String, Specification<CalibrationModule>> specificationMap;
+    //Map<String, Specification<CalibrationModule>> specificationMap;
 
-    private Specification<CalibrationModule> getSpecification(Map<String, String> searchKeys, boolean status) {
+    /*private Specification<CalibrationModule> getSpecification(Map<String, String> searchKeys, boolean status) {
         Specification<CalibrationModule> specification = CalibrationModuleSpecification.moduleIsActiveOrNot(status);
         if (searchKeys.containsKey("deviceType")) {
             specification = where(specification).and(CalibrationModuleSpecification.moduleDeviceType(searchKeys.get("deviceType")));
@@ -64,11 +64,11 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
             specification = where(specification).and(CalibrationModuleSpecification.moduleHasCalibratorId(Long.parseLong(searchKeys.get("calibratotId"))));
         }
         return specification;
-    }
+    }*/
 
-    private void buildMap(Map<String, String> searchKeys) {
+    /*private void buildMap(Map<String, String> searchKeys) {
 
-    }
+    }*/
 
     public CalibrationModule addCalibrationModule(CalibrationModule calibrationModule) {
         if (calibrationModule == null) {

@@ -1,113 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-</head>
+<div id="page-wrapper" ng-controller="MeasuringEquipmentControllerAdmin">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{ 'MEASURING_DEVICES_DIRECTORY' | translate }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                    ng-click="openAddEquipmentModal()">
+                <span class="glyphicon glyphicon-plus"></span>
+                {{'ADD_INSTALLATION' | translate}}
+            </button>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <p></p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <button ng-click="clearAll()" ng-show="isFilter()"
+                    class="btn btn-danger pull-right col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                {{'CLEAR_ALL' | translate }}
+            </button>
+        </div>
+    </div>
+    <p></p>
 
-<body>
-	<div id="page-wrapper" ng-controller="MeasuringEquipmentControllerAdmin">
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">{{'MEASURING_DEVICES_DIRECTORY' | translate}}</h1>
-			</div>
-		</div>
-
-		<div class="row">
-		<div class="col-lg-12">
-			<button type="submit" class="btn btn-primary"
-				ng-click="openAddEquipmentModal()">{{'ADD_EQUIPMENT' | translate}}</button>
-		</div>
-	</div>
-	<p></p>
-
-		<!-- /.row -->
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="panel panel-default">
-					<div class="panel-heading">{{'MEASURING_DEVICES_DIRECTORY' | translate}}</div>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-sm-6">
-								<label>{{'FIND_BY_EQUIPMENT_NAME' | translate}} <input type="text"
-									ng-model="searchData" ng-change="onTableHandling()"
-									ng-model-options="{debounce: 600}"
-									class="form-control input-sm">
-								</label>
-							</div>
-
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
-								<table class="table table-striped table-bordered table-hover"
-									id="devicesTable">
-									<thead>
-										<tr>
-											<th>Сфера застосування</th>
-											<th>№ установки</th>
-											<th>Код ЄДРПОУ/ІПН суб’єкта установки</th>
-											<th>Умовне позначення</th>
-											<th>Заводський №</th>
-											<th>ПІБ контактної особи</th>
-											<th>Телефон</th>
-											<th>Чинна до</th>
-											<th>Тип установки</th>
-											<th>Електронна адреса</th>
-											<th>Методика повірки</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr ng-repeat="measuringEquipment in pageContent">
-											<td>{{ measuringEquipment.id }}</td>
-											<td>{{ measuringEquipment.name }}</td>
-											<td>{{ measuringEquipment.equipmentType }}</td>
-											<td>{{ measuringEquipment.manufacturer }}</td>
-											<td style="width: 16%">{{ measuringEquipment.verificationInterval }}</td>
-											<div class="col-sm-offset-6">
-
-											</div>
-											<td class="text-center" style="width: 10%">
-											<img src="/resources/assets/button-icons/measuring-equipments%20icons/test-edit.png"
-												 popover="Редагувати прилад" popover-trigger="mouseenter"
-												ng-click="openEditEquipmentModal(measuringEquipment.id)">
-											</img>
-											<img src="/resources/assets/button-icons/measuring-equipments%20icons/test-delete.png"
-												 popover="Видалити прилад" popover-trigger="mouseenter"
-												ng-click="deleteEquipment(measuringEquipment.id)">
-											</img>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<label>{{'DISPLAY_ON' | translate}} <select ng-model="itemsPerPage"
-																	ng-change="onTableHandling()" class="form-control input-sm">
-							<option value="1">1</option>
-							<option value="3">3</option>
-							<option value="5" selected>5</option>
-							<option value="10">10</option>
-							<option value="25">25</option>
-							<option value="50">50</option>
-							<option value="100">100</option>
-						</select>
-						</label>
-						<div class="row">
-							<div class="col-sm-12">
-								<pagination total-items="totalItems" ng-model="currentPage"
-									max-size="5" boundary-links="true" rotate="false"
-									ng-change="onTableHandling()" items-per-page="itemsPerPage"></pagination>
-							</div>
-						</div>
-					</div>
-					<!-- /.panel-body -->
-				</div>
-				<!-- /.panel -->
-			</div>
-			<!-- /.col-lg-12 -->
-		</div>
-	</div>
-	<!-- /#page-wrapper -->
-</body>
-
-</html>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
+                       class="table table-bordered table-hover users_table">
+                    <tbody>
+                    <tr ng-repeat="measuringEquipment in $data">   <!-- TODO: organization -> installation in $data! -->
+                        <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'deviceType'"
+                            filter="{ 'deviceType': 'organizationType' }"> <!-- e.g. organizationType -->
+                            {{ measuringEquipment.deviceType }}
+                        </td>
+                        <td data-title="'INSTALLATION_NUMBER' | translate "
+                            filter="{ 'moduleId': 'text' }">
+                            {{ measuringEquipment.moduleId }}
+                        </td>
+                        <td data-title="'INSTALLATION_CODE' | translate" sortable="'moduleId'"
+                            filter="{ 'organizationCode': 'text' }">{{ measuringEquipment.organizationCode }}
+                        </td>
+                        <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
+                            filter="{ 'condDesignation': 'text' }">{{ measuringEquipment.condDesignation}}
+                        </td>
+                        <td data-title="'MANUFACTURER_NUMBER' | translate" sortable="'serialNumber'"
+                            filter="{ 'serialNumber': 'text' }">{{ measuringEquipment.serialNumber}}
+                        </td>
+                        <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'employeeFullName'"
+                            filter="{ 'employeeFullName': 'text' }">{{ measuringEquipment.employeeFullName }}
+                        </td>
+                        <td data-title="'PHONE_NUMBER' | translate" sortable="'PHONE_NUMBER'"
+                            filter="{ 'telephone': 'text' }">+380{{ measuringEquipment.telephone }}
+                        </td>
+                        <td data-title="'VALID_UNTIL' | translate" sortable="'workDate'"
+                            filter="{ 'workDate': 'text' }">{{ measuringEquipment.workDate }}
+                        </td>
+                        <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
+                            filter="{ 'moduleType': 'text' }">{{ measuringEquipment.moduleType }}
+                        </td>
+                        <td data-title="'EMAIL' | translate" sortable="'email'"
+                            filter="{ 'email': 'text' }">{{ measuringEquipment.email }}
+                        </td>
+                        <td data-title="'METHODS_OF_VERIFICATION' | translate" sortable="'calibrationType'"
+                            filter="{ 'calibrationType': 'text' }">{{ measuringEquipment.calibrationType }}
+                        </td>
+                        <td data-title="'EDIT' | translate">
+                            <center>
+                                <button type="button" class="btn btn-success"
+                                        ng-click="openEditEquipmentModal(measuringEquipment.id)">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+                            </center>
+                        </td>
+                        <td data-title="'REMOVE' | translate">
+                            <center>
+                                <button type="button" class="btn btn-info"
+                                        ng-click="deleteEquipment(measuringEquipment.id)">
+                                    <span class="glyphicon glyphicon-book"></span>
+                                </button>
+                            </center>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <script type="text/ng-template" id="custom/pager">
+                <div>
+                    <ul class="pager ng-cloak">
+                        <li ng-repeat="page in pages"
+                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                {{'PREVIOUS' | translate}}</a>
+                            <a ng-switch-when="next" ng-click="params.page(page.number)"
+                               href="">{{'NEXT' | translate}} &raquo;</a>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" ng-class="{'active':params.count() == 5}"
+                                        ng-click="params.count(5)" class="btn btn-default">5
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 10}"
+                                        ng-click="params.count(10)" class="btn btn-default">10
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 25}"
+                                        ng-click="params.count(25)" class="btn btn-default">25
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 50}"
+                                        ng-click="params.count(50)" class="btn btn-default">50
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </script>
+            <script type="text/ng-template" id="ng-table/filters/organizationType.html">
+                <ui-select ng-model="selectedOrganizationType.name" theme="select2" on-select='doSearch()'
+                           search-enabled="false"
+                           name="filter-organizationType">
+                    <ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
+                                     allow-clear="true">
+                        {{$select.selected.label}}
+                    </ui-select-match>
+                    <ui-select-choices
+                            repeat="organizationType in organizationTypeData">
+                        <span ng-bind-html="organizationType.label"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </script>
+        </div>
+    </div>
+</div>
+</div>
+<!-- /#page-wrapper -->

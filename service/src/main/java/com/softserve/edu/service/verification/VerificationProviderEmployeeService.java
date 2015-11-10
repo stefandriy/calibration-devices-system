@@ -14,9 +14,13 @@ public interface VerificationProviderEmployeeService {
 
      List<Verification> getVerificationListByCalibratorEmployee(String username);
 
+    List<Verification> getVerificationListByStateVerificatorEmployee(String username);
+
      Long countByProviderEmployeeTasks(String username);
 
     Long countByCalibratorEmployeeTasks(String username);
+
+    Long countByStateVerificatorEmployeeTasks(String username);
 
      User oneProviderEmployee(String username);
 }
