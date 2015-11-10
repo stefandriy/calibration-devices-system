@@ -10,6 +10,7 @@ import com.softserve.edu.dto.user.UserInfoDTO;
 import com.softserve.edu.entity.enumeration.user.UserRole;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.util.AddEmployeeBuilder;
+import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.admin.UsersService;
@@ -25,6 +26,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -189,6 +191,9 @@ public class EmployeeController {
         if (role.contains(UserRole.CALIBRATOR_EMPLOYEE.name())) {
             list = verificationProviderEmployeeService.getVerificationListByCalibratorEmployee(username);
         }
+        if (role.contains(UserRole.STATE_VERIFICATOR_EMPLOYEE.name())) {
+            list = verificationProviderEmployeeService.getVerificationListByStateVerificatorEmployee(username);
+        }
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(list);
         return new PageDTO<>(content);
     }
@@ -226,6 +231,7 @@ public class EmployeeController {
                                 providerEmployee.getOrganization().getName(),
                                 verificationProviderEmployeeService.countByProviderEmployeeTasks(providerEmployee.getUsername()),
                                 verificationProviderEmployeeService.countByCalibratorEmployeeTasks(providerEmployee.getUsername()),
+                                verificationProviderEmployeeService.countByStateVerificatorEmployeeTasks(providerEmployee.getUsername()),
                                 providerEmployee.getIsAvailable()
                         )
                 );
