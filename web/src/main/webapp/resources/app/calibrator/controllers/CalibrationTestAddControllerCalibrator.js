@@ -8,6 +8,7 @@ angular
         function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload,  $timeout) {
 
             $scope.testId = $location.search().param;
+            $scope.hasProtocol = $location.search().loadProtocol || false;
 
             $scope.fileLoaded = false;
 
