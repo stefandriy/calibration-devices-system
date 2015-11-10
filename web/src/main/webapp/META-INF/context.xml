@@ -1,5 +1,4 @@
 <Context
-        docBase="webapps/ROOT"
         path=""
         reloadable="true"
         update="true"
