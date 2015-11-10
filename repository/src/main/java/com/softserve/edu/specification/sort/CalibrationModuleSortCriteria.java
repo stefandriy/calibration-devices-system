@@ -23,11 +23,11 @@ public enum CalibrationModuleSortCriteria implements SortCriteria {
     },
     UNDEFINED {
         public Sort getSort(String sortOrder) {
-            if(sortOrder.equalsIgnoreCase("asc")) {
+            /*if(sortOrder != null && sortOrder.equalsIgnoreCase("asc")) {
                 return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.MODULE_NUMBER);
-            } else {
+            } else {*/
                 return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.MODULE_NUMBER);
-            }
+            //}
         }
     },
     ORGANIZATION_JOIN_NAME {

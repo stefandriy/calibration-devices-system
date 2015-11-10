@@ -405,7 +405,7 @@
                                        id="firstSelectedDevice"
                                        ng-required="test"
                                        name="firstSelectedDevice" required>
-                                <ui-select-match placeholder="{{'CATEGORY_OF_COUNTER' | translate}}">
+                                <ui-select-match placeholder="{{'TYPE_OF_COUNTER' | translate}}">
                                     {{$select.selected.designation}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="device in devices | filter: $select.search">
@@ -486,7 +486,7 @@
                                            on-select="getProvidersByLocalityAndDeviceType(selectedValues.selectedLocality,selectedValues.secondSelectedDevice,'secondDeviceGroup')"
                                            id="secondSelectedDevice"
                                            name="secondSelectedDevice">
-                                    <ui-select-match placeholder="Категорія лічильника">
+                                    <ui-select-match placeholder="Тип лічильника">
                                         {{$select.selected.designation}}
                                     </ui-select-match>
                                     <ui-select-choices
