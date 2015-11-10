@@ -389,7 +389,7 @@ angular
              $scope.$watch('organizationFormData.locality', function () {
              $scope.organizationFormData.street = "";
              $scope.organizationFormData.building = "";
-             $scope.organizationFormData.flat = null;https://ssu-jira.softserveinc.com/browse/LVJAVGH-955
+             $scope.organizationFormData.flat = null;
              });
 
 
