@@ -45,7 +45,7 @@ public class FileOperationsImpl implements FileOperations{
      * @return Absolute path to saved file.
      */
     public void putBbiFile(InputStream stream, String verificationId, String fileName) throws IOException {
-        String absolutePath = System.getProperty("catalina.base") + "/bbi/" + verificationId + "/" + fileName;
+        String absolutePath = bbiLocalStorage + verificationId + "/" + fileName;
         FileUtils.copyInputStreamToFile(stream, new File(absolutePath));
     }
 

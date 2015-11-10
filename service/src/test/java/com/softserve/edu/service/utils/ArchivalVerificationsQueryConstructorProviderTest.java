@@ -2,6 +2,7 @@ package com.softserve.edu.service.utils;
 
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -42,6 +43,7 @@ public class ArchivalVerificationsQueryConstructorProviderTest {
     @InjectMocks
     ArchivalVerificationsQueryConstructorProvider archivalVerificationsQueryConstructorProvider;
 
+    @Test
     public void testBuildSearchQuery() {
 
         when(em.getCriteriaBuilder()).thenReturn(cb);
