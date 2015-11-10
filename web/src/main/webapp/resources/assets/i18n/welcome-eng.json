@@ -516,5 +516,10 @@
   "VALID_UNTIL": "Valid until",
   "INSTALLATION_TYPE": "Installation type",
   "METHODS_OF_VERIFICATION": "Methods of verification",
-  "REMOVE": "Remove"
+  "REMOVE": "Remove",
+  "DATAILS_OF_CALIBRATOR":"Details of verification",
+  "REGISTRATION_NUMBER_OF_VERIFICATION":"Registration number of verification",
+  "INFO_PROVIDER":"Info about provider",
+  "INFO_CUSTOMER":"Info about customer"
+
 }
