@@ -16,7 +16,6 @@ import java.util.Date;
 @Getter
 public class CalibrationModuleDTO {
 
-    private Long moduleId;
     private String deviceType;
     private String organizationCode;
     private String condDesignation;
@@ -34,12 +33,11 @@ public class CalibrationModuleDTO {
 
     public CalibrationModuleDTO() {}
 
-    public CalibrationModuleDTO(Long id, String deviceType, String organizationCode,
+    public CalibrationModuleDTO(String deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
                              String organizationName, Long organizationId, Date workDate) {
-        this.moduleId = id;
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
         this.condDesignation = condDesignation;
@@ -54,12 +52,12 @@ public class CalibrationModuleDTO {
         this.workDate = workDate;
     }
 
-    public CalibrationModuleDTO(Long id, Device.DeviceType deviceType, String organizationCode,
+    public CalibrationModuleDTO(Device.DeviceType deviceType, String organizationCode,
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone,
                                 String moduleType, String email, String calibrationType,
                                 Organization organization, Date workDate) {
-        this(id, deviceType.name(), organizationCode, condDesignation, serialNumber, employeeFullName,
+        this(deviceType.name(), organizationCode, condDesignation, serialNumber, employeeFullName,
                 telephone, moduleType, email, calibrationType, organization.getName(),
                 organization.getId(), workDate);
     }

@@ -47,7 +47,7 @@ public class CalibrationModuleController {
     @RequestMapping(value = "get/{id}")
     public CalibrationModuleDTO getCalibrationModule(@PathVariable("id") Long id) {
         CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
-        return new CalibrationModuleDTO(calibrationModule.getModuleId(), calibrationModule.getDeviceType(),
+        return new CalibrationModuleDTO(calibrationModule.getDeviceType(),
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
                 calibrationModule.getTelephone(), calibrationModule.getModuleType(),
@@ -65,7 +65,7 @@ public class CalibrationModuleController {
     public ResponseEntity addModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         Organization organization = organizationService.getOrganizationById(calibrationModuleDTO.getOrganizationId());
-        CalibrationModule calibrationModule = new CalibrationModule(calibrationModuleDTO.getModuleId(),
+        CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
@@ -94,10 +94,10 @@ public class CalibrationModuleController {
                                         @PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
         Organization organization = organizationService.getOrganizationById(calibrationModuleDTO.getOrganizationId());
-        CalibrationModule calibrationModule = new CalibrationModule(calibrationModuleDTO.getModuleId(),
+        CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
-                calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
+                null, calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
                 organization, calibrationModuleDTO.getWorkDate());
@@ -161,7 +161,7 @@ public class CalibrationModuleController {
         List<CalibrationModuleDTO> content = new ArrayList<CalibrationModuleDTO>();
         // converting Page of CalibrationModules to List of CalibrationModuleDTOs
         for (CalibrationModule calibrationModule: queryResult) {
-            content.add(new CalibrationModuleDTO(calibrationModule.getModuleId(),
+            content.add(new CalibrationModuleDTO(
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
