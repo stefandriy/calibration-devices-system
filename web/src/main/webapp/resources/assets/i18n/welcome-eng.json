@@ -124,7 +124,7 @@
   "HOUSE_TWO":"House",
   "ADD":"Add",
   "CLEAR_FORM":"Clear form",
-  "CLOSE":"Close", 
+  "CLOSE":"Close",
   "FIND_BY_NUMBER":"Find by number:",
   "DISPLAY_ON": "Display on:",
   "ID":"Id",
@@ -151,7 +151,7 @@
   "DELETE":"Delete",
   "FIND_BY_NAME":"Find by name:",
   "NAME_ADMIN":"Name of organization",
-  "TYPE_ADMIN":"Type", 
+  "TYPE_ADMIN":"Type",
   "NEW_PASSWORD":"New password:",
   "OLD_PASSWORD":"Old password:",
   "EDIT_PROFIL":"Edit profile",
@@ -193,7 +193,7 @@
 
   "FIND_BY_EQUIPMENT_NAME":"Find by equipment name:",
   "MEASURING_EQUIPMENTS":"Measuring equipments",
-  
+
   "NAME":"Equipment name",
   "TYPE_OF_EQUIPMENT":"Type of Equipment",
   "MANUFACTURER":"Manufacturer",
@@ -218,9 +218,9 @@
   "ACCUMULATED_VOLUME" : "Accumulated volume",
   "TEST_NUMBER" : "Test number",
   "TEST_DURATION" : "Test duration",
-			
+
 	"TEST_COMPLETED_TRASLATION":"A measure done.",
-		
+
 	"TEST_NOK_TRASLATION":"Counter tested : not suitable!",
 	"SECOND_PHONE":"Additional phone number",
 	"SECOND_PHONE_NUMBER_INFO":"If you want / do not want to enter an additional phone number, click here.",
@@ -305,7 +305,7 @@
   "GENERATE_PASSWORD":"Generate new password",
   "GENERATE_PASSWORD_OK":"New password, generated and will be send on email after approving changes",
   "NEW_PASSWORD":"New password",
-  "EDIT_CHANGES":"Save changes", 
+  "EDIT_CHANGES":"Save changes",
   "NUMBER_OF_EMPLOYEES":  "Maximum number of employees",
   "NUMBER_OF_EMPLOYEES_ERROR": "Not correctly specified number of maximum employees",
   "CREATE_BY_PATTERN":"Create by pattern",
@@ -489,7 +489,7 @@
   "BROWSER_DRAGGING_WARNING" : "Your browser does not support file dragging",
   "UPLOAD_SUCCESS" : "You successfully uploaded file ",
   "UPLOAD_FAIL" : "Can't upload file ",
-  
+
   "MONTLY_VERIFICATIONS_CHART": "Chart of verifications income",
   "DATE_RANGE_PROMPT" : "Please select date range to retrieve information",
   "DATE_OF_BEGINNING" : "Date of beginning",

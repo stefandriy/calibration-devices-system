@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
@@ -88,7 +89,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
+    public CalibrationTest editTest(Long testId, String name, Integer temperature, Long settingNumber,
                                     Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = Verification.CalibrationTestResult.SUCCESS;
@@ -159,7 +160,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
+    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Long settingNumber,
                                     Double latitude, Double longitude) {
         Verification.CalibrationTestResult testResult;
         CalibrationTest calibrationTest = testRepository.findOne(testId);
@@ -174,6 +175,29 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
         calibrationTest.setTestResult(testResult);
         return calibrationTest;
+    }
+
+    @Override
+    @Transactional
+    public void saveCalibrationTestFromParser(DeviceTestData deviceTestData) {
+        CalibrationTest calibrationTest = new CalibrationTest();
+        calibrationTest.setName(deviceTestData.getFileName());
+        calibrationTest.setTemperature(deviceTestData.getTemperature());
+        calibrationTest.setSettingNumber(deviceTestData.getInstallmentNumber());
+        calibrationTest.setLatitude(deviceTestData.getLatitude());
+        calibrationTest.setLongitude(deviceTestData.getLongitude());
+        calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
+        calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
+       /* CalibrationTest calibrationTest = new CalibrationTest(
+                deviceTestData.getFileName(), //name
+                deviceTestData.getTemperature(),//temperature
+                deviceTestData.getInstallmentNumber(), //settingNumber
+                deviceTestData.getLatitude(),//latitude
+                deviceTestData.getLongitude(), //longitude
+                Verification.ConsumptionStatus.IN_THE_AREA,
+                Verification.CalibrationTestResult.SUCCESS
+        );*/
+        testRepository.save(calibrationTest);
     }
 
 }

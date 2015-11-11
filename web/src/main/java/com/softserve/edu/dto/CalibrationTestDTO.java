@@ -14,7 +14,7 @@ public class CalibrationTestDTO  {
     private String name;
     private Date  dateTest;
     private Integer temperature;
-    private Integer settingNumber;
+    private Long settingNumber;
     private Double latitude;
     private Double longitude;
     private Verification.ConsumptionStatus consumptionStatus;
@@ -39,7 +39,7 @@ public class CalibrationTestDTO  {
     public CalibrationTestDTO(String s, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus, Verification.CalibrationTestResult testResult, String fullName, String street, String region, String district, String locality, Long calibrationTestId, Long id, Device.DeviceType deviceType) {
     }
 
-    public CalibrationTestDTO(String name, Integer temperature, Integer settingNumber, Double latitude,
+    public CalibrationTestDTO(String name, Integer temperature, Long settingNumber, Double latitude,
                               Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         this.name = name;
         this.temperature = temperature;
@@ -61,7 +61,7 @@ public class CalibrationTestDTO  {
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
     }
 
-    public CalibrationTestDTO(String id, String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult, String clientFullName, String street, String region, String district, String locality, Long protocolId, Long  measurementDeviceId, String measurementDeviceType, String documentTypeName/*, String documentDate*/) {
+    public CalibrationTestDTO(String id, String name, Date dateTest, Integer temperature,  Long settingNumber, Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult, String clientFullName, String street, String region, String district, String locality, Long protocolId, Long  measurementDeviceId, String measurementDeviceType, String documentTypeName/*, String documentDate*/) {
         this.id = id;
         this.name = name;
         this.dateTest = dateTest;
@@ -107,11 +107,11 @@ public class CalibrationTestDTO  {
         this.temperature = temperature;
     }
 
-    public Integer getSettingNumber() {
+    public Long getSettingNumber() {
         return settingNumber;
     }
 
-    public void setSettingNumber(Integer settingNumber) {
+    public void setSettingNumber(Long settingNumber) {
         this.settingNumber = settingNumber;
     }
 
@@ -253,6 +253,7 @@ public class CalibrationTestDTO  {
         calibrationTest.setLongitude(longitude);
         calibrationTest.setConsumptionStatus(consumptionStatus);
         calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
+
         return calibrationTest;
     }
 }

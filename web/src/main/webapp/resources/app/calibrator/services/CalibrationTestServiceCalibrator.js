@@ -12,13 +12,15 @@ angular
             getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder, id) {
                 return getDataWithParams('/calibrator/verifications/calibration-test/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
-            saveCalibrationTest: function (formData, testId) {
-                return $http.post("/calibrator/calibrationTests/add/" + testId, formData)
+            saveCalibrationTest: function (formData) {
+                return $http.post("/calibrator/calibrationTests/add/" , formData)
                     .then(function (result) {
                         return result.status;
                     });
             },
-            saveCalibrationTestData: function  (formdata, testId) {
+
+
+          saveCalibrationTestData: function  (formdata, testId) {
               return $http.post("/calibrator/calibrationTestData/addTestData/" + testId, formdata)
                   .then(function(result) {
                     return result.status;

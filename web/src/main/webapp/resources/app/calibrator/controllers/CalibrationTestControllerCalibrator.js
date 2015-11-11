@@ -194,7 +194,7 @@ angular
                         params.filter().id = null;
 
                         if ($scope.consumptionStatus.name != null) {
-                            params.filter().consumptionStatus = $scope.consumptionStatus.name.id;
+                            params.filter().consumptionStatus = $scope.consumptionStatus.name.data.id;
                         }
                         else {
                             params.filter().consumptionStatus = null; //case when the filter is cleared with a button on the select
@@ -231,7 +231,7 @@ angular
                         });
                     }
                 });
-                $scope.params.settings().$scope = $scope;
+                $scope: $scope;
             });
 
             $scope.checkFilters = function () {
@@ -316,6 +316,15 @@ angular
                 //        });
                 //}
 
+            $rootScope.onTableHandling = function () {
+                calibrationTestServiceCalibrator
+                    .getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData)
+                    .then(function (data) {
+                        $scope.pageContent = data.content;
+                        $scope.totalItems = data.totalItems;
+                    })
+            };
+            $rootScope.onTableHandling();
 
             //$rootScope.onTableHandling = function () {
             //    calibrationTestServiceCalibrator.getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData, $scope.verId)
@@ -347,13 +356,13 @@ angular
                         $scope.calibrationTests = data.calibrationTests;
                     })
             }
-
+            $scope.TestDataFormData = [{}, {}, {}, {}, {}, {}];
           //  getCalibrationTests();
-
+            $scope.FormData={testForm:$scope.TestForm, smallForm: $scope.TestDataFormData};
             $scope.saveCalibrationTest = function () {
 
                 calibrationTestServiceCalibrator
-                    .saveCalibrationTest($scope.FormData)
+                    .saveCalibrationTest($scope.FormData, $rootScope.testId)
                     .then(function (data) {
 
                         $log.debug("saved!");

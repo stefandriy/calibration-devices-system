@@ -27,7 +27,7 @@ public class CalibrationTest {
     private Date dateTest;
 
     private Integer temperature;
-    private Integer settingNumber;
+    private Long settingNumber;
     private Double latitude;
     private Double longitude;
 
@@ -58,7 +58,7 @@ public class CalibrationTest {
     @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL)
     private Set<CalibrationTestData> calibrationTestDataSet;
 
-    public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
+    public CalibrationTest(String name, Integer temperature, Long settingNumber, Double latitude,
                            Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         this.name = name;
         this.dateTest = new Date();

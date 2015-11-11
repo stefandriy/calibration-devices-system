@@ -21,4 +21,5 @@ public class DeviceTestDataParserFactory {
         }
         throw new IllegalArgumentException("DeviceTestDataParser for specified file's format was not found.");
     }
+
 }

@@ -1,6 +1,7 @@
 package com.softserve.edu.service.calibrator.data.test;
 
 
+import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -24,7 +25,7 @@ public interface CalibrationTestService {
 
      void createNewTest(CalibrationTest calibrationTest, Date date, String verificationId);
 
-     CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
+     CalibrationTest editTest(Long testId, String name, Integer temperature, Long settingNumber,
                                     Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult);
 
      void deleteTest(Long testId);
@@ -39,6 +40,9 @@ public interface CalibrationTestService {
 
      void createNewCalibrationTestData(CalibrationTestData calibrationTestData);
 
-     CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
+     CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Long settingNumber,
                                                     Double latitude, Double longitude);
+
+     void saveCalibrationTestFromParser(DeviceTestData deviceTestData);
 }
+
