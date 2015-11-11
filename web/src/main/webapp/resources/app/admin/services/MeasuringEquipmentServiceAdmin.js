@@ -1,53 +1,67 @@
-angular
-    .module('adminModule')
-    .factory('MeasuringEquipmentServiceAdmin',
-    function ($http) {
-        return {
-            getPage: function (pageNumber, itemsPerPage, search) {
-                var url = '/admin/calibration-module/' + pageNumber + '/' + itemsPerPage;
-                if (search != null && search != undefined && search != "")
-                    url += '/' + search;
+angular.module('adminModule')
+    .factory('MeasuringEquipmentServiceAdmin', ['$http', '$log', function ($http, $log) {
 
-                return $http.get(url)
-                    .then(function (result) {
-                        return result.data;
-                    });
+        return {
+            getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
+                return getDataWithParams(currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
-            isEquipmentNameAvailable: function (Ename) {
-                var url = '/admin/calibration-module/available/' + Ename;
-                return $http.get(url)
-                    .then(function (result) {
-                        return result.data;
-                    });
-            },
-            saveEquipment: function (formData) {
+            saveEquipmentr: function (formData) {
                 return $http.post("/admin/calibration-module/add", formData)
                     .then(function (result) {
                         return result.status;
+
                     });
-            },
-            getEquipmentWithId: function (id) {
-                var url = '/admin/calibration-module/getEquipment/' + id;
-                return $http.get(url).then(function (result) {
-                    return result.data;
-                });
             },
 
             editEquipment: function (formData, id) {
-                var url = '/calibration-module/edit/' + id;
+                var url = '/admin/calibration-module/edit/' + id;
                 return $http.post(url, formData)
                     .then(function (result) {
                         return result.status;
                     });
             },
 
-            deleteEquipment: function (mEquipmentId) {
-                var url = '/admin/calibration-module/delete/' + mEquipmentId;
-                return $http.post(url)
-                    .then(function (result) {
-                        return result.status;
-                    });
+            getOrganizationAdmin: function (id) {
+                var url = '/admin/calibration-module/getCalibrationModuleAdmin/' + id;
+                return $http.get(url).then(function (result) {
+                    return result.data;
+                });
+            },
+
+            getHistoryOrganizationWithId: function (id) {
+                var url = '/admin/calibration-module/edit/history/' + id;
+                return $http.get(url).then(function (result) {
+                    return result.data;
+                });
+            },
+            getServiceAreaLocalities: function (organizationId) {
+                return getData('serviceArea/localities/' + organizationId);
+            },
+            getServiceAreaRegion: function (districtId) {
+                return getData('serviceArea/region/' + districtId);
+            },
+            getOrganizationByOrganizationTypeAndDeviceType: function (organizationType, deviceType) {
+                return getData('getOrganization/' + organizationType + '/' + deviceType);
             }
 
+        };
+        function getDataWithParams(url, params) {
+            return $http.get('/admin/calibration-module/' + url, {
+                params: params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
         }
-    });
+
+        function getData(url) {
+            return $http.get('/admin/calibration-module/' + url)
+                .success(function (data) {
+                    return data;
+                }).error(function (err) {
+                    return err;
+                });
+        }
+
+    }]);
