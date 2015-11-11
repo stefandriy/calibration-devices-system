@@ -83,6 +83,6 @@ public class Filter implements Specification {
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        return criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), condition.value.toString().toUpperCase());
+        return criteriaBuilder.like(criteriaBuilder.lower(root.get(condition.field)), condition.value.toString().toLowerCase());
     }
 }
