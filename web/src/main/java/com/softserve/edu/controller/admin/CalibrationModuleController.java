@@ -146,14 +146,9 @@ public class CalibrationModuleController {
         Map<String, String> searchDataMap = new HashMap<String, String>();
         if (searchData != null) {
             searchDataMap = TypeConverter.ObjectToMap(searchData);
-<<<<<<< HEAD
-        }
-        searchDataMap.put("isActive", "true");
-=======
         } else {
             searchDataMap.put("isActive", "true");
         }
->>>>>>> roman
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort = sortCriteria != null && sortOrder != null ?
                 CalibrationModuleSortCriteria.valueOf(sortCriteria).getSort(sortOrder) :
