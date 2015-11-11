@@ -9,6 +9,7 @@ angular
                         return result.data;
                     });
             },
+
             getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder, id) {
                 return getDataWithParams('/calibrator/verifications/calibration-test/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
@@ -38,7 +39,13 @@ angular
                         return result.data;
                     });
             },
-
+            getTestProtocol: function (verificationId) {
+                var url = '/calibrator/calibrationTests/createEmptyTest/' + verificationId;
+                return $http.get(url)
+                    .then(function (result) {
+                        return result.data;
+                    });
+            },
             editCalibrationTest: function (formData, testId) {
                 var url = '/calibrator/calibrationTests/edit/' + testId;
                 return $http.post(url, formData)

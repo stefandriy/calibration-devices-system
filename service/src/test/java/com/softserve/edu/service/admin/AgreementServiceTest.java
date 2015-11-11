@@ -3,6 +3,7 @@ package com.softserve.edu.service.admin;
 import com.softserve.edu.config.ServiceTestingConfig;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Agreement;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceTestingConfig.class})
 public class AgreementServiceTest {

@@ -59,7 +59,7 @@ public class UserDTOTransformer {
                             employee.getPhone(),
                             employee.getSecondPhone(),
                             employee.getOrganization().getName(),
-                            null, null,
+                            null, null, null,
                             employee.getIsAvailable())
             );
         }
