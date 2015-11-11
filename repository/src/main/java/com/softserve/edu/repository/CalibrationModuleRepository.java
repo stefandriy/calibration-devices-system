@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * Created by Vasyl on 08.10.2015.
  */
+@Repository
 public interface CalibrationModuleRepository
         extends PagingAndSortingRepository<CalibrationModule, Long>, JpaSpecificationExecutor {
 

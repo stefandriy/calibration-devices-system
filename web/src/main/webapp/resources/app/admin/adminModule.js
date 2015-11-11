@@ -106,7 +106,7 @@ angular
                     templateUrl: '/resources/app/admin/views/404.html'
                 })
                 .state("measuring-equipment-admin", {
-                    url: '/mEquipment',
+                    url: '/calibration-module',
                     templateUrl: '/resources/app/admin/views/measurement-equipments.html',
                     controller: 'MeasuringEquipmentControllerAdmin'
                 });
