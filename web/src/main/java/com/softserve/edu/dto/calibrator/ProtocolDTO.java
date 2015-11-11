@@ -1,5 +1,6 @@
 package com.softserve.edu.dto.calibrator;
 
+import com.softserve.edu.entity.enumeration.verification.Status;
 import lombok.Setter;
 import lombok.Getter;
 
@@ -12,13 +13,15 @@ import java.util.Date;
 @Setter
 public class ProtocolDTO {
 
-    private Date sentToCalibratorDate;
+    private String sentToCalibratorDate;
 
     private String fullName;
 
-    private String adress;
+    private String address;
 
-    private String name;
+    private String nameProvider;
+
+    private String nameCalibrator;
 
     private String status;
 
@@ -26,11 +29,13 @@ public class ProtocolDTO {
 
     }
 
-    public ProtocolDTO(Date sentToCalibratorDate, String firstName, String lastName, String adress, String name, String status ) {
-        this. sentToCalibratorDate = sentToCalibratorDate;
-        this.fullName = "" + firstName + " " + lastName;
-        this.adress = adress;
-        this.name = name;
+    public ProtocolDTO(String sentToCalibratorDate, String firstName, String lastName, String middleName, String address,
+                       String nameProvider, String nameCalibrator, String status ) {
+        this.sentToCalibratorDate = sentToCalibratorDate;
+        this.fullName = "" + firstName + " " + lastName + middleName;
+        this.address = address;
+        this.nameProvider = nameProvider;
+        this.nameCalibrator = nameCalibrator;
         this.status = status;
     }
 

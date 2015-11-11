@@ -1,5 +1,6 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.controller.calibrator.util.ProtocolDTOTransformer;
 import com.softserve.edu.dto.calibrator.ProtocolDTO;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.utils.ListToPageTransformer;
@@ -49,7 +50,7 @@ public class DigitalVerificationProtocolsCalibratorController {
     CalibratorEmployeeService calibratorEmployeeService;
 
     @RequestMapping(value="{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-        public PageDTO<Verification> getPageOfAllSentVerificationsByStateCalibratorIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
+        public PageDTO<ProtocolDTO> getPageOfAllSentVerificationsByStateCalibratorIdAndSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria, @PathVariable String sortOrder,
                 NewVerificationsFilterSearch searchData, @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
             User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
@@ -72,14 +73,15 @@ public class DigitalVerificationProtocolsCalibratorController {
 //            List<ProtocolDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
 //            return new PageDTO<VerificationPageDTO>(queryResult.getTotalItems(), content);
 
-            Status status = Status.IN_PROGRESS;
+            Status status = Status.TEST_COMPLETED;
             List<Verification> verifications = protocolsService.findPageOfVerificationsByCalibratorIdAndStatus(calibratorEmployee,pageNumber, itemsPerPage, status );
             //Page<Verification> verifications = protocolsService.findVerificationsByCalibratorEmployeeAndTaskStatus(calibratorEmployee.getUsername(), pageNumber, itemsPerPage, status);
             //Long totalItems = protocolsService.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee, status);
-        verifications.add(new Verification());
-        Long count = Long.valueOf(verifications.size());
+//        verifications.add(new Verification());
+            List<ProtocolDTO> content = ProtocolDTOTransformer.toDtofromList(verifications);
+            Long count = Long.valueOf(content.size());
 
-            return new PageDTO<>(count,verifications);
+            return new PageDTO<>(count,content);
 
     }
 }

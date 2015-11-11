@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title></title>-->
+<!--</head>-->
+<!--<body>-->
 <div id="page-wrapper">
 
     <div class="row">
@@ -45,21 +45,20 @@
                                         </div>
                                     </td>
                                     <td data-title="'CLIENT_FULL_NAME' | translate"
-                                        filter="{ 'client_full_name': 'text' }">{{ verification.fullname }}
+                                        filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
                                         <!-- Achtunch-->
                                     </td>
                                     <td data-title="'CLIENT_ADDRESS' | translate"
                                         filter="{ 'address': 'text' }">{{ verification.address }} <!-- Achtung-->
                                     </td>
                                     <td data-title="'PROVIDER_NAME' | translate"
-                                        filter="{ 'provider': 'text' }">{{ verification.name }}<!-- Achtung-->
+                                        filter="{ 'provider': 'text' }">{{ verification.nameProvider }}<!-- Achtung-->
                                     </td>
                                     <td data-title="'CALIBRATOR_NAME' | translate"
-                                        filter="{ 'calibrator': 'text' }">{{ verification.name }}<!-- Achtung-->
-
-
+                                        filter="{ 'calibrator': 'text' }">{{ verification.nameCalibrator }}<!-- Achtung-->
+                                    </td>
                                     <td data-title="'STATUS' | translate"
-                                        filter="{ 'taskStatus': 'text' }">{{ verification.status }}
+                                        filter="{ 'taskStatus': 'text' }">{{ verification.status | translate }}
                                     </td>
 
                                 </tr>
@@ -113,11 +112,7 @@
                                                   </button>
                                         </span>
                                 </div>
-
                             </script>
-
-
-
                       <div class="pull-left">
                                 <button ng-model="button"  type="button" class="btn btn-primary"
                                         ng-click="sentProtocols()"><span class="glyphicon glyphicon-send"></span>
@@ -125,9 +120,6 @@
                                 </button>
 
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -135,5 +127,5 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

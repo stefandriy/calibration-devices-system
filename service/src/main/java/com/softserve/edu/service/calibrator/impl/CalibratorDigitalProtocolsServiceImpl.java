@@ -131,11 +131,11 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
 //                verifications.get("providerEmployee").get("username"),
 //                verifications.get("status")));
 //        Join<Verification, User> joinCalibratorEmployee = verifications.join("calibratorEmployee");
-
-//        cq.where(cb.and(cb.equal(verifications.get("stateVerificatorEmployee"), calibratorEmployee),
-//                cb.equal(verifications.get("status"), status)));
-        cq.select(verifications.get("sentToCalibratorDate"));
-        cq.where(cb.equal(verifications.get("status"), status));
+        cq.select(verifications);
+        cq.where(cb.and(cb.equal(verifications.get("calibratorEmployee"), calibratorEmployee),
+                cb.equal(verifications.get("status"), status)));
+//        cq.select(verifications.get("sentToCalibratorDate"));
+//        cq.where(cb.equal(verifications.get("status"), status));
 //        TypedQuery<Verification> typedQuery = em.createQuery(cq);
 //        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
 //        typedQuery.setMaxResults(itemsPerPage);
