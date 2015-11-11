@@ -449,6 +449,14 @@
                         ng-click="resetApplicationForm()">
                     {{'CLEAR_FORM'|translate}}
                 </button>
+                <button type="button" class="btn btn-success text-uppercase"
+                        ng-click="save()">
+                    {{'SAVE'|translate}}
+                </button>
+                <button type="button" class="btn btn-primary text-uppercase"
+                        ng-click="createNew()">
+                    {{'CREATE_BY_PATTERN'| translate}}
+                </button>
             </div>
             <div class="form-group col-md-2">
                 <button class="btn btn-danger pull-right text-uppercase" ng-click="closeAlert()">
