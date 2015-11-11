@@ -102,7 +102,7 @@ public class CalibrationModuleController {
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
                 organization, calibrationModuleDTO.getWorkDate());
         try {
-            calibrationModuleService.updateCalibrationModule(calibrationModule);
+            calibrationModuleService.updateCalibrationModule(calibrationModuleId, calibrationModule);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION WHEN UPDATE CALIBRATION MODULE", e);
             httpStatus = HttpStatus.CONFLICT;

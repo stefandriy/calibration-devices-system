@@ -108,7 +108,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findAll(pageable);
     }
 
-    public void updateCalibrationModule(CalibrationModule calibrationModule) {}
+    public void updateCalibrationModule(Long moduleId, CalibrationModule calibrationModule) {}
 
     public List<String> findAllCalibrationModulsNumbers (String moduleType,
                                                          Date workDate, String applicationFiled,

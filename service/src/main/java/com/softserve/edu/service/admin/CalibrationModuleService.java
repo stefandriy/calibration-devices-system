@@ -25,5 +25,5 @@ public interface CalibrationModuleService {
 
     List<String> findAllCalibrationModulsNumbers (String moduleType, Date workDate, String applicationFiled, String userName);
 
-    void updateCalibrationModule(CalibrationModule calibrationModule);
+    void updateCalibrationModule(Long moduleId, CalibrationModule calibrationModule);
 }
