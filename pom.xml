@@ -94,6 +94,7 @@
 
     <build>
         <finalName>calibration-devices-system</finalName>
+        <pluginManagement>
             <plugins>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -126,7 +127,7 @@
                             </goals>
                             <configuration>
                                 <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
-                                <propertyName>surefireArgLine</propertyName>
+                                <propertyName>${jacoco}</propertyName>
                             </configuration>
                         </execution>
                         <execution>
@@ -147,9 +148,9 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <configuration>
                         <skipTests>false</skipTests>
-                        <argLine>${surefireArgLine}</argLine>
                     </configuration>
                 </plugin>
             </plugins>
+        </pluginManagement>
     </build>
 </project>
