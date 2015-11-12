@@ -23,7 +23,7 @@ public enum CalibrationModuleSortCriteria implements SortCriteria {
     },
     UNDEFINED {
         public Sort getSort(String sortOrder) {
-            return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.MODULE_NUMBER);
+            return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.COND_DESIGNATION);
         }
     },
     ORGANIZATION_JOIN_NAME {
