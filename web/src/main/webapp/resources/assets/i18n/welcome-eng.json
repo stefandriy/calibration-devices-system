@@ -528,8 +528,8 @@
   "DATAILS_OF_CALIBRATOR":"Details of verification",
   "REGISTRATION_NUMBER_OF_VERIFICATION":"Registration number of verification",
   "INFO_PROVIDER":"Info about provider",
-  "INFO_CUSTOMER":"Info about customer"
+  "INFO_CUSTOMER":"Info about customer",
   "DIGITAL_PROTOCOLS" :"Digital verification protocols",
-  "PROTOCOLS_SEND_SUCCESS": "Protocols sending success",
+  "PROTOCOLS_SEND_SUCCESS": "Protocols sending success"
 
 }
