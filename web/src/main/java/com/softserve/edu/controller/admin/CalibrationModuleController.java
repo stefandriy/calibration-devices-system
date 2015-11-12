@@ -147,12 +147,11 @@ public class CalibrationModuleController {
         Map<String, String> searchDataMap = new HashMap<String, String>();
         if (searchData != null) {
             searchDataMap = TypeConverter.ObjectToMap(searchData);
-        } else {
-            searchDataMap.put("isActive", "true");
         }
+        searchDataMap.put("isActive", "true");
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort = sortCriteria != null && sortOrder != null ?
-                CalibrationModuleSortCriteria.valueOf(sortCriteria).getSort(sortOrder) :
+                CalibrationModuleSortCriteria.valueOf(sortCriteria.toUpperCase()).getSort(sortOrder) :
                 CalibrationModuleSortCriteria.UNDEFINED.getSort(sortOrder);
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration modules

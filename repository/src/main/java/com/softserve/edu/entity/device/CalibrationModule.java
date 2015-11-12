@@ -46,9 +46,11 @@ public class CalibrationModule {
 
     private String calibrationType;
 
-    private String moduleNumber;//generates
+    @Transient
+    private String moduleNumber; // = moduleId != null ? generateSerialNumber() : null ; // generates
 
-    private Boolean isActive = true;
+    @Column(nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calibratorId")
@@ -56,12 +58,6 @@ public class CalibrationModule {
 
     @Temporal(TemporalType.DATE)
     private Date workDate;
-
-    {
-        if (moduleId != null && moduleNumber == null) {
-            generateSerialNumber();
-        }
-    }
 
     /* @OneToMany(mappedBy = "module")
     private Set<CalibrationTask> tasks; */
@@ -99,7 +95,7 @@ public class CalibrationModule {
         this.workDate = calibrationModule.getWorkDate();
     }
 
-    private void generateSerialNumber() {
+    private String generateSerialNumber() {
         StringBuilder sb = new StringBuilder();
         switch (deviceType) {
             case WATER: sb.append("1"); break;
@@ -109,6 +105,7 @@ public class CalibrationModule {
             default: break;
         }
         sb.append(String.format("%03d", String.valueOf(moduleId)));
+        return sb.toString();
     }
 
 }

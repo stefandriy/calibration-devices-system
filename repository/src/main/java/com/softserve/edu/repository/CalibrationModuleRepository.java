@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Vasyl on 08.10.2015.
  */
 @Repository
-public interface CalibrationModuleRepository
+ public interface CalibrationModuleRepository
         extends PagingAndSortingRepository<CalibrationModule, Long>, JpaSpecificationExecutor {
 
     CalibrationModule findBySerialNumber(String serialNumber);
@@ -35,8 +35,6 @@ public interface CalibrationModuleRepository
     Page<CalibrationModule> findByEmail(String email, Pageable pageable);
 
     Page<CalibrationModule> findByCalibrationTypeIgnoreCase(String calibrationType, Pageable pageable);
-
-    CalibrationModule findByModuleNumber(String moduleNumber);
 
     Page<CalibrationModule> findByIsActive(boolean isActive, Pageable pageable);
 
