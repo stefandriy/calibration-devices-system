@@ -335,10 +335,15 @@
 
         <div style="padding-top: 30px">
             <div class="form-group col-md-10">
-                <button type="submit" class="btn btn-success btn-md"
+                <button ng-if="hasProtocol" type="submit" class="btn btn-success btn-md" ng-click="saveCalibrationTest()"
+                        >{{'EDIT_CHANGES' | translate}}
+                </button>
+                <div>
+                </div>
+                <button ng-if="!hasProtocol" type="submit" class="btn btn-success btn-md"
                         ng-click="saveCalibrationTest()">{{'ADD' | translate}}
                 </button>
-                <button class="btn btn-primary btn-sm" type="button" style="margin-left: 20px" ng-show="!fileLoaded"
+                <button ng-if="!hasProtocol" class="btn btn-primary btn-sm" type="button" style="margin-left: 20px"ng-show="!fileLoaded"
                         ng-click="fileName = uploadBbiFile(testId)">
                     <img src="/resources/assets/button-icons/upload.png"
                          ng-click="fileName = uploadBbiFile(testId)">

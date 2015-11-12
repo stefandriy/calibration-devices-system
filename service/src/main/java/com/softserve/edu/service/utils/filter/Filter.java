@@ -41,6 +41,12 @@ public class Filter implements Specification {
         this.conditions.add(condition);
     }
 
+    public void addConditionList(List<Condition> conditions) {
+        for (Condition condition : conditions) {
+            this.conditions.add(condition);
+        }
+    }
+
     @Override
     public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = buildPredicates(root, criteriaQuery, criteriaBuilder);

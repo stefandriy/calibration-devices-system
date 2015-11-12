@@ -1,8 +1,8 @@
 angular
     .module('employeeModule')
-    .controller('NewVerificationsControllerVerificator', ['$scope', '$log', '$modal', 'VerificationServiceVerificator',
+    .controller('NewVerificationsControllerVerificator', ['$scope', '$log', '$modal', '$location', 'CalibrationTestServiceCalibrator', 'VerificationServiceVerificator',
         '$rootScope', 'ngTableParams', '$filter', '$timeout', '$translate',
-        function ($scope, $log, $modal, verificationServiceVerificator, $rootScope, ngTableParams, $filter, $timeout,
+        function ($scope, $log, $modal, $location, calibrationTestServiceCalibrator,  verificationServiceVerificator, $rootScope, ngTableParams, $filter, $timeout,
                   $translate) {
 
             $scope.resultsCount = 0;
@@ -16,7 +16,17 @@ angular
                 });
 
             };
-
+            $scope.openAddTest = function (verificationID) {
+                calibrationTestServiceCalibrator
+                    .getTestProtocol(verificationID)
+                    .then(function (data) {
+                        $log.debug("inside");
+                        $location.path('/calibrator/verifications/calibration-test-add/').search({
+                            'param': verificationID,
+                            'loadProtocol': 1
+                        });
+                    } );
+            };
             $scope.isStateVerificatorEmployee();
 
 
