@@ -6,20 +6,20 @@ angular
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
-       
+
             /**
              * Updates the table with MeasuringEquipments.
              */
             $rootScope.onTableHandling = function () {
-            	/*equipmentServiceAdmin
+				equipmentServiceAdmin
 					.getPage($scope.currentPage, $scope.itemsPerPage, $scope.searchData)
             		.then(function (data) {
 						$scope.pageContent = data.content;
 						$scope.totalItems = data.totalItems;
-                });*/
+                });
             };
             $rootScope.onTableHandling();
-            
+
     		/**
 			 * Opens modal window for adding new equipment.
 			 */
@@ -50,7 +50,7 @@ angular
 							templateUrl : '/resources/app/admin/views/modals/measuring-equipment-edit-modal.html',
 						});
 			};
-			
+
 			$scope.deleteEquipment = function (equipmentId) {
 				$rootScope.equipmentId = equipmentId;
 				equipmentServiceAdmin.deleteEquipment(equipmentId);
