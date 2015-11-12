@@ -75,11 +75,11 @@ public class Filter implements Specification {
             case isnull:
                 break;
             case like:
-                return buildEqualsPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
+                return buildLikePredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case in:
                 break;
             default:
-                return buildLikePredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
+                return buildEqualsPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
         }
         throw new RuntimeException();
     }
@@ -89,6 +89,6 @@ public class Filter implements Specification {
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        return criteriaBuilder.like(criteriaBuilder.lower(root.get(condition.field)), condition.value.toString().toLowerCase());
+        return criteriaBuilder.like(root.get(condition.field), "%" + condition.value + "%");
     }
 }
