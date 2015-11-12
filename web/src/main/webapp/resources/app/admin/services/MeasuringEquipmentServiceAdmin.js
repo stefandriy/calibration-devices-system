@@ -3,15 +3,15 @@ angular
     .factory('MeasuringEquipmentServiceAdmin', function ($http) {
         return {
             getPage: function (pageNumber, itemsPerPage, search, sortCriteria, sortOrder) {
-                //return getDataWithParams(pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
-                var result = pageNumber + '/' + itemsPerPage;
+                return getDataWithParams(pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                /*var result = pageNumber + '/' + itemsPerPage;
                 if (sortCriteria != null && sortCriteria != undefined) {
                     result += '/' + sortCriteria;
                 }
                 if (sortOrder != null && sortOrder != undefined) {
                     result += '/' + sortOrder;
                 }
-                return getDataWithParams(result, search);
+                return getDataWithParams(result, search);*/
             },
 
             saveCalibrationModule: function (formData) {
