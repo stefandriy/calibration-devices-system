@@ -123,7 +123,10 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findAll(pageable);
     }
 
-    public void updateCalibrationModule(CalibrationModule calibrationModule) {}
+    public void updateCalibrationModule(CalibrationModule calibrationModule) {
+
+
+    }
 
     public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,
                                                          String userName) {
