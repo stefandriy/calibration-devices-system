@@ -61,13 +61,11 @@ public class CalibrationModule {
     private Set<CalibrationTask> tasks; */
 
 
-    public CalibrationModule(Long id, Device.DeviceType deviceType, String organizationCode,
+    public CalibrationModule(Device.DeviceType deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
-                             Organization organization, Date workDate){
-        super();
-        this.moduleId = id;
+                             Organization organization, Date workDate) {
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
         this.condDesignation = condDesignation;
@@ -79,6 +77,19 @@ public class CalibrationModule {
         this.calibrationType = calibrationType;
         this.organization = organization;
         this.workDate = workDate;
+    }
+
+    public void updateFields(CalibrationModule calibrationModule) {
+        this.deviceType = calibrationModule.getDeviceType();
+        this.organizationCode = calibrationModule.getOrganizationCode();
+        this.condDesignation = calibrationModule.getCondDesignation();
+        this.employeeFullName = calibrationModule.getEmployeeFullName();
+        this.telephone = calibrationModule.getTelephone();
+        this.moduleType = calibrationModule.getModuleType();
+        this.email = calibrationModule.getEmail();
+        this.calibrationType = calibrationModule.getCalibrationType();
+        this.organization = calibrationModule.getOrganization();
+        this.workDate = calibrationModule.getWorkDate();
     }
 
 }
