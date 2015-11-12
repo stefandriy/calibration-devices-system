@@ -41,6 +41,12 @@ public class Filter implements Specification {
         this.conditions.add(condition);
     }
 
+    public void addConditionList(List<Condition> conditions) {
+        for (Condition condition : conditions) {
+            this.conditions.add(condition);
+        }
+    }
+
     @Override
     public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = buildPredicates(root, criteriaQuery, criteriaBuilder);
@@ -83,6 +89,6 @@ public class Filter implements Specification {
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        return criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), condition.value.toString().toUpperCase());
+        return criteriaBuilder.like(criteriaBuilder.lower(root.get(condition.field)), condition.value.toString().toLowerCase());
     }
 }
