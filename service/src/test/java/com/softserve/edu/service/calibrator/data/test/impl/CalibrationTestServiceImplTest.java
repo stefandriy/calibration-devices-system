@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -77,7 +78,8 @@ public class CalibrationTestServiceImplTest {
 
     @Mock
     InputStream file;
-
+    @Mock
+    DeviceTestData deviceTestData;
     @Mock
     private Page<CalibrationTest> page;
 
@@ -123,7 +125,11 @@ public class CalibrationTestServiceImplTest {
     @Test
     public void testCreateNewTest() {
         when(verificationRepository.findOne(verificationId)).thenReturn(verification);
-      //  calibrationTestService.createNewTest(calibrationTest, date, verificationId);
+        try {
+            calibrationTestService.createNewTest(deviceTestData, verificationId);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         verify(verificationRepository).findOne(verificationId);
         verify(calibrationTest).setVerification(verification);
         verify(calibrationTest).setDateTest(date);
