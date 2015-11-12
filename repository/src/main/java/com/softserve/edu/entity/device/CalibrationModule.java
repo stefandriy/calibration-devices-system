@@ -46,9 +46,11 @@ public class CalibrationModule {
 
     private String calibrationType;
 
-    private String moduleNumber;//generates
+    @Transient
+    private String moduleNumber; // = moduleId != null ? generateSerialNumber() : null ; // generates
 
-    private Boolean isActive = true;
+    @Column(nullable = false, columnDefinition = "bit(1) default 1")
+    private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calibratorId")
@@ -83,6 +85,7 @@ public class CalibrationModule {
         this.deviceType = calibrationModule.getDeviceType();
         this.organizationCode = calibrationModule.getOrganizationCode();
         this.condDesignation = calibrationModule.getCondDesignation();
+        this.serialNumber = calibrationModule.getSerialNumber();
         this.employeeFullName = calibrationModule.getEmployeeFullName();
         this.telephone = calibrationModule.getTelephone();
         this.moduleType = calibrationModule.getModuleType();
@@ -90,6 +93,19 @@ public class CalibrationModule {
         this.calibrationType = calibrationModule.getCalibrationType();
         this.organization = calibrationModule.getOrganization();
         this.workDate = calibrationModule.getWorkDate();
+    }
+
+    private String generateSerialNumber() {
+        StringBuilder sb = new StringBuilder();
+        switch (deviceType) {
+            case WATER: sb.append("1"); break;
+            case GASEOUS: sb.append("2"); break;
+            case ELECTRICAL: sb.append("3"); break;
+            case THERMAL: sb.append("4"); break;
+            default: break;
+        }
+        sb.append(String.format("%03d", String.valueOf(moduleId)));
+        return sb.toString();
     }
 
 }

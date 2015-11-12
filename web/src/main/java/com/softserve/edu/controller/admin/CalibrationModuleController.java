@@ -50,7 +50,8 @@ public class CalibrationModuleController {
         return new CalibrationModuleDTO(calibrationModule.getDeviceType(),
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
-                calibrationModule.getTelephone(), calibrationModule.getModuleType(),
+                calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
+                calibrationModule.getModuleType(),
                 calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
                 calibrationModule.getOrganization(), calibrationModule.getWorkDate());
     }
@@ -97,7 +98,7 @@ public class CalibrationModuleController {
         CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
-                null, calibrationModuleDTO.getEmployeeFullName(),
+                calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
                 organization, calibrationModuleDTO.getWorkDate());
@@ -146,12 +147,11 @@ public class CalibrationModuleController {
         Map<String, String> searchDataMap = new HashMap<String, String>();
         if (searchData != null) {
             searchDataMap = TypeConverter.ObjectToMap(searchData);
-        } else {
-            searchDataMap.put("isActive", "true");
         }
+        searchDataMap.put("isActive", "true");
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort = sortCriteria != null && sortOrder != null ?
-                CalibrationModuleSortCriteria.valueOf(sortCriteria).getSort(sortOrder) :
+                CalibrationModuleSortCriteria.valueOf(sortCriteria.toUpperCase()).getSort(sortOrder) :
                 CalibrationModuleSortCriteria.UNDEFINED.getSort(sortOrder);
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration modules
@@ -165,9 +165,9 @@ public class CalibrationModuleController {
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
-                    calibrationModule.getModuleType(), calibrationModule.getEmail(),
-                    calibrationModule.getCalibrationType(), calibrationModule.getOrganization(),
-                    calibrationModule.getWorkDate()));
+                    calibrationModule.getModuleNumber(), calibrationModule.getModuleType(),
+                    calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
+                    calibrationModule.getOrganization(), calibrationModule.getWorkDate()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }

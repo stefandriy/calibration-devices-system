@@ -1,50 +1,51 @@
-angular.module('adminModule')
-    .factory('MeasuringEquipmentServiceAdmin', ['$http', '$log', function ($http, $log) {
-
+angular
+    .module('adminModule')
+    .factory('MeasuringEquipmentServiceAdmin', function ($http) {
         return {
-            getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
-                return getDataWithParams(currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
-            },
-            saveEquipmentr: function (formData) {
-                return $http.post("/admin/calibration-module/add", formData)
-                    .then(function (result) {
-                        return result.status;
-
-                    });
-            },
-
-            editEquipment: function (formData, id) {
-                var url = '/admin/calibration-module/edit/' + id;
-                return $http.post(url, formData)
-                    .then(function (result) {
-                        return result.status;
-                    });
+            getPage: function (pageNumber, itemsPerPage, search, sortCriteria, sortOrder) {
+                //return getDataWithParams(pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                var result = pageNumber + '/' + itemsPerPage;
+                if (sortCriteria != null && sortCriteria != undefined) {
+                    result += '/' + sortCriteria;
+                }
+                if (sortOrder != null && sortOrder != undefined) {
+                    result += '/' + sortOrder;
+                }
+                return getDataWithParams(result, search);
             },
 
-            getOrganizationAdmin: function (id) {
-                var url = '/admin/calibration-module/getCalibrationModuleAdmin/' + id;
-                return $http.get(url).then(function (result) {
-                    return result.data;
-                });
+            saveCalibrationModule: function (formData) {
+                return sendData('add', formData);
+            }/*,
+            getAgreementById: function (id) {
+                return getData("get/" + id);
             },
-
-            getHistoryOrganizationWithId: function (id) {
-                var url = '/admin/calibration-module/edit/history/' + id;
-                return $http.get(url).then(function (result) {
-                    return result.data;
-                });
+            editAgreement: function (formData, id) {
+                return sendData('edit/' + id, formData);
             },
-            getServiceAreaLocalities: function (organizationId) {
-                return getData('serviceArea/localities/' + organizationId);
+            disableAgreement: function (id) {
+                return getData("disable/" + id);
             },
-            getServiceAreaRegion: function (districtId) {
-                return getData('serviceArea/region/' + districtId);
-            },
-            getOrganizationByOrganizationTypeAndDeviceType: function (organizationType, deviceType) {
-                return getData('getOrganization/' + organizationType + '/' + deviceType);
-            }
-
+            getEarliestAgreementDate: function() {
+                return getData('earliest_date');
+            }*/
         };
+
+        function sendData(url, data) {
+            return $http.post('/admin/calibration-module/' + url, data)
+                .then(function (result) {
+                    return result.status;
+                });
+        }
+
+        function getData(url) {
+            return $http.get('/admin/calibration-module/' + url).success(function (result) {
+                return result;
+            }).error(function (err) {
+                return err;
+            });
+        }
+
         function getDataWithParams(url, params) {
             return $http.get('/admin/calibration-module/' + url, {
                 params: params
@@ -54,14 +55,4 @@ angular.module('adminModule')
                 return err;
             });
         }
-
-        function getData(url) {
-            return $http.get('/admin/calibration-module/' + url)
-                .success(function (data) {
-                    return data;
-                }).error(function (err) {
-                    return err;
-                });
-        }
-
-    }]);
+    });

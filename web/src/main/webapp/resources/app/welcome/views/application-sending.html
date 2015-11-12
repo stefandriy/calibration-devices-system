@@ -399,17 +399,17 @@
                         </div>
                         <div class="col-md-3" id="deviceBox">
                             <ui-select class="form-control" type="text" theme="select2"
-                                       ng-model="selectedValues.firstSelectedDevice"
+                                       ng-model="selectedValues.firstSelectedDeviceType"
                                        search-enabled="false"
-                                       on-select="getProvidersByLocalityAndDeviceType(selectedValues.selectedLocality,selectedValues.firstSelectedDevice,'firstDeviceGroup')"
-                                       id="firstSelectedDevice"
+                                       on-select="getProvidersByLocalityAndDeviceType(selectedValues.selectedLocality,selectedValues.firstSelectedDeviceType,'firstDeviceGroup')"
+                                       id="firstSelectedDeviceDeviceType"
                                        ng-required="test"
-                                       name="firstSelectedDevice" required>
+                                       name="firstSelectedDeviceType" required>
                                 <ui-select-match placeholder="{{'TYPE_OF_COUNTER' | translate}}">
-                                    {{$select.selected.designation}}
+                                    {{$select.selected | translate}}
                                 </ui-select-match>
-                                <ui-select-choices repeat="device in devices | filter: $select.search">
-                                    <span ng-bind-html="device.designation"></span>
+                                <ui-select-choices repeat="deviceType in deviceTypes | filter: $select.search">
+                                    <span ng-bind-html="deviceType | translate"></span>
                                 </ui-select-choices>
                             </ui-select>
 
@@ -481,17 +481,17 @@
                             </div>
                             <div class="col-md-3" id="deviceBox">
                                 <ui-select class="form-control" type="text" theme="select2"
-                                           ng-model="selectedValues.secondSelectedDevice"
+                                           ng-model="selectedValues.secondSelectedDeviceType"
                                            search-enabled="false"
-                                           on-select="getProvidersByLocalityAndDeviceType(selectedValues.selectedLocality,selectedValues.secondSelectedDevice,'secondDeviceGroup')"
-                                           id="secondSelectedDevice"
-                                           name="secondSelectedDevice">
+                                           on-select="getProvidersByLocalityAndDeviceType(selectedValues.selectedLocality,selectedValues.secondSelectedDeviceType,'secondDeviceGroup')"
+                                           id="secondSelectedDeviceType"
+                                           name="secondSelectedDeviceType">
                                     <ui-select-match placeholder="Тип лічильника">
-                                        {{$select.selected.designation}}
+                                        {{$select.selected | translate}}
                                     </ui-select-match>
                                     <ui-select-choices
-                                            repeat="device in devices | filter: $select.search | hideSelected:selectedValues.firstSelectedDevice">
-                                        <span ng-bind-html="device.designation"></span>
+                                            repeat="deviceType in deviceTypes | filter: $select.search | hideSelected:selectedValues.firstSelectedDeviceType">
+                                        <span ng-bind-html="deviceType | translate"></span>
                                     </ui-select-choices>
                                 </ui-select>
 

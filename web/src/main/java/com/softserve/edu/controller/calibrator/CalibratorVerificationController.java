@@ -23,6 +23,7 @@ import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
@@ -68,6 +69,8 @@ public class CalibratorVerificationController {
 
     @Autowired
     CalibrationTestService testService;
+    @Autowired
+    CalibrationTestDataService testDataService;
 
     @Autowired
     StateVerificatorService verificatorService;
@@ -250,6 +253,12 @@ public class CalibratorVerificationController {
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
                 DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
+                 // зберігає дані в таблицю calibration_test
+            // вернути ід протоколу
+
+                testService.createNewTest(deviceTestData, verificationId);
+
+
             } else {
                 logger.error("Failed to load file: pattern does not match.");
                 responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);

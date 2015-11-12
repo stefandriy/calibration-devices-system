@@ -15,6 +15,7 @@ import com.softserve.edu.service.provider.impl.ProviderEmployeeServiceImpl;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -77,6 +78,7 @@ public class ProviderEmployeeServiceImplTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void testUpdateEmployeeWhenEquals() {
 
