@@ -30,7 +30,7 @@
                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                        class="table table-bordered table-hover users_table">
                     <tbody>
-                    <tr ng-repeat="measuringEquipment in $data">   <!-- TODO: organization -> installation in $data! -->
+                    <tr ng-repeat="measuringEquipment in $data">   <!-- TODO: calibrationModule in $data! -->
                         <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'deviceType'"
                             filter="{ 'deviceType': 'organizationType' }"> <!-- e.g. organizationType -->
                             {{ measuringEquipment.deviceType }}
