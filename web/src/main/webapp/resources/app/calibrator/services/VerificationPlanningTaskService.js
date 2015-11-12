@@ -4,8 +4,8 @@ angular
 
         return {
            saveTask: function (task) {
-              return save('task/save', task);
-           },
+                return save('/task/save', task);
+            },
            saveTaskForTeam: function (task) {
                 return save('task/team/save', task);
            },
