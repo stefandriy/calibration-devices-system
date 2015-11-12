@@ -405,6 +405,8 @@
   "SUCCESSFUL_DELETED_COUNTER_TYPE": "Counter type was successful deleted",
   "WATER": "Cold water",
   "THERMAL": "Hot water",
+  "ELECTRICAL" : "Electricity",
+  "GASEOUS" : "Gas",
   "FILL_IN_INFORMATION_ABOUT_AGREEMENT": "Fill in information about agreement",
   "NO_DATA": "No data available",
   "ENTRANCE": "Entrance",
@@ -523,5 +525,10 @@
   "VALID_UNTIL": "Valid until",
   "INSTALLATION_TYPE": "Installation type",
   "METHODS_OF_VERIFICATION": "Methods of verification",
-  "REMOVE": "Remove"
+  "REMOVE": "Remove",
+  "DATAILS_OF_CALIBRATOR":"Details of verification",
+  "REGISTRATION_NUMBER_OF_VERIFICATION":"Registration number of verification",
+  "INFO_PROVIDER":"Info about provider",
+  "INFO_CUSTOMER":"Info about customer"
+
 }

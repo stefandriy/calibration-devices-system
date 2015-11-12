@@ -57,6 +57,12 @@ public class CalibrationModule {
     @Temporal(TemporalType.DATE)
     private Date workDate;
 
+    {
+        if (moduleId != null && moduleNumber == null) {
+            generateSerialNumber();
+        }
+    }
+
     /* @OneToMany(mappedBy = "module")
     private Set<CalibrationTask> tasks; */
 
@@ -90,6 +96,18 @@ public class CalibrationModule {
         this.calibrationType = calibrationModule.getCalibrationType();
         this.organization = calibrationModule.getOrganization();
         this.workDate = calibrationModule.getWorkDate();
+    }
+
+    private void generateSerialNumber() {
+        StringBuilder sb = new StringBuilder();
+        switch (deviceType) {
+            case WATER: sb.append("1"); break;
+            case GASEOUS: sb.append("2"); break;
+            case ELECTRICAL: sb.append("3"); break;
+            case THERMAL: sb.append("4"); break;
+            default: break;
+        }
+        sb.append(String.format("%03d", String.valueOf(moduleId)));
     }
 
 }

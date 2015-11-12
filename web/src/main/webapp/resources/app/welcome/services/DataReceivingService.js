@@ -8,6 +8,9 @@ angular.module('welcomeModule').factory('DataReceivingService',
             findAllDevices: function () {
                 return getData('devices');
             },
+            findAllDeviceTypes: function () {
+                return getData('deviceTypes');
+            },
             findAllDevicesByType: function () {
                 return getData('devices/{typeDevice}');
             },
