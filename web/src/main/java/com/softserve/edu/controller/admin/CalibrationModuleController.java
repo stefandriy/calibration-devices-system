@@ -50,7 +50,8 @@ public class CalibrationModuleController {
         return new CalibrationModuleDTO(calibrationModule.getDeviceType(),
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
-                calibrationModule.getTelephone(), calibrationModule.getModuleType(),
+                calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
+                calibrationModule.getModuleType(),
                 calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
                 calibrationModule.getOrganization(), calibrationModule.getWorkDate());
     }
@@ -97,7 +98,7 @@ public class CalibrationModuleController {
         CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
-                null, calibrationModuleDTO.getEmployeeFullName(),
+                calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
                 organization, calibrationModuleDTO.getWorkDate());
@@ -165,9 +166,9 @@ public class CalibrationModuleController {
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
-                    calibrationModule.getModuleType(), calibrationModule.getEmail(),
-                    calibrationModule.getCalibrationType(), calibrationModule.getOrganization(),
-                    calibrationModule.getWorkDate()));
+                    calibrationModule.getModuleNumber(), calibrationModule.getModuleType(),
+                    calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
+                    calibrationModule.getOrganization(), calibrationModule.getWorkDate()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }

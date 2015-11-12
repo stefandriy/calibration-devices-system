@@ -89,6 +89,7 @@ public class CalibrationModule {
         this.deviceType = calibrationModule.getDeviceType();
         this.organizationCode = calibrationModule.getOrganizationCode();
         this.condDesignation = calibrationModule.getCondDesignation();
+        this.serialNumber = calibrationModule.getSerialNumber();
         this.employeeFullName = calibrationModule.getEmployeeFullName();
         this.telephone = calibrationModule.getTelephone();
         this.moduleType = calibrationModule.getModuleType();
