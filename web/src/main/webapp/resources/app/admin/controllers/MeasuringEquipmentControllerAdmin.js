@@ -5,113 +5,61 @@ angular
     [
         '$rootScope',
         '$scope',
-        '$log',
         '$modal',
+        '$http',
+        '$filter',
         'MeasuringEquipmentServiceAdmin',
         'ngTableParams',
-        '$filter',
         '$translate',
-        function ($rootScope, $scope, $log, $modal, measuringEquipmentServiceAdmin,
-                  ngTableParams, $filter, $translate) {
-
+        '$timeout',
+        'toaster',
+        function ($rootScope, $scope, $modal, $http, $filter, measuringEquipmentServiceAdmin,
+                  ngTableParams, $translate, $timeout, toaster) {
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
-            /*$scope.organizationTypeData = [
-                {id: 'CALIBRATOR', label: null},
-                {id: 'PROVIDER', label: null},
-                {id: 'STATE_VERIFICATOR', label: null},
-                {id: 'NO_TYPE', label: null},
-            ];*/
-
-            /*$scope.selectedOrganizationType = {
+            //for measurement device type
+            $scope.selectedDeviceType = {
                 name: null
-            };*/
+            };
 
-            /*$scope.setTypeDataLanguage();*/
+            $scope.deviceTypeData = [
+                {
+                    id: 'WATER',
+                    label: $filter('translate')('WATER')
+                },
+                {
+                    id: 'THERMAL',
+                    label: $filter('translate')('THERMAL')
+                }
+            ];
 
-            /*$scope.clearAll = function () {
+            /**
+             * Localization of multiselect for type of organization
+             */
+            $scope.setTypeDataLanguage = function () {
+                $scope.deviceTypeData[0].label = $filter('translate')('WATER');
+                $scope.deviceTypeData[1].label = $filter('translate')('THERMAL');
+            };
+
+            $scope.clearAll = function () {
+                $scope.selectedDeviceType.name = null;
                 $scope.tableParams.filter({});
-                $scope.selectedOrganizationType.name = null;
-            };*/
-
-            $scope.doSearch = function () {
-                $scope.tableParams.reload();
             };
-
-            /*$scope.setTypeDataLanguage = function () {
-            };*/
-
-            $scope.tableParams = new ngTableParams({
-                page: 1,
-                count: 5,
-                sorting: {
-                    id: 'desc'
-                }
-            }, {
-                total: 0,
-                filterDelay: 1500,
-                getData: function ($defer, params) {
-                    /*if ($scope.selectedOrganizationType.name != null) {
-                        params.filter().type = $scope.selectedOrganizationType.name.id;
-                    }
-                    else {
-                        params.filter().type = null;//case when the filter is cleared with a button on the select
-                    }*/
-
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
-
-
-                    measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
-                        .success(function (result) {
-                            $scope.totalItems = result.totalItems; /*$scope.resultsCount = result.totalItems;*/
-                            $defer.resolve(result.content);
-                            params.total(result.totalItems);
-                        }, function (result) {
-                            $log.debug('error fetching data:', result);
-                        });
-                }
-            });
-
-
+            /**
+             * Updates the table.
+             */
             $rootScope.onTableHandling = function () {
+                //if ($scope.tableParams == null) return false; //table not yet initialized
                 $scope.tableParams.reload();
             };
-            $rootScope.onTableHandling();
 
-            /**
-             * Opens modal window for adding new organization.
-             */
-            /*$scope.openAddOrganizationModal = function () {
-                var addOrganizationModal = $modal.open({
-                    animation: true,
-                    controller: 'OrganizationAddModalController',
-                    templateUrl: '/resources/app/admin/views/modals/organization-add-modal.html',
-                    size: 'lg',
-                    resolve: {
-                        regions: function () {
-                            return addressService.findAllRegions();
-                        }
-                    }
-                });*/
+            // $rootScope.onTableHandling();
 
-                /**
-                 * executes when modal closing
-                 */
-                /*addOrganizationModal.result.then(function () {
-                    toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_CREATED_ORGANIZATION'));
-                });
-            };*/
-
-            /**
-             * Function for ng-show. When filtering fields are not empty show button for
-             * clear this fields
-             * @returns {boolean}
-             */
             $scope.isFilter = function () {
+                if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
                     if (obj.hasOwnProperty(i) && obj[i]) {
@@ -121,56 +69,118 @@ angular
                 return false;
             };
 
-            /**
-             * Opens modal window for editing organization.
-             */
-            /*$scope.openEditOrganizationModal = function (organizationId) {
-                $rootScope.organizationId = organizationId;
-                organizationService.getOrganizationWithId(
-                    $rootScope.organizationId).then(
-                    function (data) {
-                        $rootScope.organization = data;
-                        var organizationDTOModal = $modal
-                            .open({
-                                animation: true,
-                                controller: 'OrganizationEditModalController',
-                                templateUrl: '/resources/app/admin/views/modals/organization-edit-modal.html',
-                                size: 'lg',
-                                resolve: {
-                                    regions: function () {
-                                        return addressService.findAllRegions();
-                                    }
-                                }
+            $scope.tableParams = new ngTableParams({
+                    page: 1,
+                    count: 10/*,
+                     sorting: {
+                     id: 'desc'
+                     }*/
+                },
+                {
+                    total: 0,
+                    filterDelay: 10000,
+                    getData: function ($defer, params) {
+
+                        var sortCriteria = Object.keys(params.sorting())[0];
+                        var sortOrder = params.sorting()[sortCriteria];
+
+                        if ($scope.selectedDeviceType.name != null) {
+                            params.filter().deviceType = $scope.selectedDeviceType.name.id;
+                        }
+                        else {
+                            params.filter().deviceType = null; //case when the filter is cleared with a button on the select
+                        }
+
+                        /*params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                         params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");*/
+
+                        measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                            .success(function (result) {
+                                $scope.resultsCount = result.totalItems;
+                                $defer.resolve(result.content);
+                                params.total(result.totalItems);
+                            }, function (result) {
+                                $log.debug('error fetching data:', result);
                             });
-
-                        /!**
-                         * executes when modal closing
-                         *!/
-                        organizationDTOModal.result.then(function () {
-                            toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_ORGANIZATION'));
-                        });
-                    });
-
-            };*/
+                    }
+                });
+            //$rootScope.onTableHandling();
 
             /**
-             * Opens modal window for show history for all organization changes.
+             * Opens modal window for adding new agreement.
              */
-            /*$scope.openOrganizationEditHistoryModal = function (organizationId) {
-                $rootScope.organizationId = organizationId;
-                organizationService.getHistoryOrganizationWithId(
-                    organizationId).then(
-                    function (data) {
-                        $rootScope.organization = data.content;
-                        var organizationDTOModal = $modal
-                            .open({
-                                animation: true,
-                                controller: 'OrganizationEditHistoryModalController',
-                                templateUrl: '/resources/app/admin/views/modals/organization-edit-history-modal.html',
-                                size: 'lg'
-                            });
-                    });
+            /*$scope.openAddAgreementModal = function () {
+             var addAgreementModal = $modal.open({
+             animation: true,
+             controller: 'AgreementAddController',
+             templateUrl: '/resources/app/admin/views/modals/agreement-add-modal.html',
+             size: 'md',
+             resolve: {
+             agreement: function () {
+             return undefined;
+             }
+             }
+             });
 
-            };*/
+             /!**
+             * executes when modal closing
+             *!/
+             addAgreementModal.result.then(function () {
+             $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_AGREEMENT'));
+             });
+             };*/
+            /**
+             * Opens modal window for editing agreement
+             */
+            /*$scope.openEditAgreementModal = function (agreementId) {
+             measuringEquipmentServiceAdmin.getAgreementById(agreementId).then(
+             function (agreement) {
+             var deviceDTOModal = $modal
+             .open({
+             animation: true,
+             controller: 'AgreementAddController',
+             templateUrl: '/resources/app/admin/views/modals/agreement-add-modal.html',
+             size: 'md',
+             resolve: {
+             agreement: function () {
+             return agreement.data;
+             }
+             }
+             });
+
+             /!**
+             * executes when modal closing
+             *!/
+             deviceDTOModal.result.then(function () {
+             $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_AGREEMENT'));
+             });
+             });
+
+             };
+
+             $scope.disableAgreement = function (id) {
+             measuringEquipmentServiceAdmin.disableAgreement(id).then(function () {
+             $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DISABLED_AGREEMENT'));
+             });
+
+             $timeout(function () {
+             console.log('delete with timeout');
+             $rootScope.onTableHandling();
+             }, 700);
+             };*/
+
+            $scope.popNotification = function (title, text) {
+                toaster.pop('success', title, text);
+            };
+
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false'
+            };
+
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            $scope.format = $scope.formats[2];
+
 
         }]);
