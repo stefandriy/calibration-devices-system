@@ -17,7 +17,6 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.tool.impl.MailExistValidation;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.catalogue.DistrictService;
@@ -121,11 +120,6 @@ public class ProviderApplicationController {
         List<Region> regions = new ArrayList<>();
         regions.add(regionService.findByDistrictId(localityDTO.getDistrictId()));
         return regions;
-    }
-
-    @RequestMapping(value = "mailExist", method = RequestMethod.POST)
-    public boolean checkMailExist(@RequestBody OrganizationStageVerificationDTO verificationDTO) {
-        return MailExistValidation.isAddressValid(verificationDTO.getEmail());
     }
 
     /**
