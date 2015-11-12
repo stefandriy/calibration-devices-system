@@ -55,7 +55,7 @@ angular
                 }
             })
            $scope.sentProtocols = function () {
-               digitalVerificationProtocolsServiceCalibrator.send($scope.data);
+              // digitalVerificationProtocolsServiceCalibrator.send($scope.data);
           //  if (data.status == 200) {
           $rootScope.verifIds = [];
 
