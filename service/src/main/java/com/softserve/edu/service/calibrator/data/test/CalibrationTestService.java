@@ -23,7 +23,7 @@ public interface CalibrationTestService {
      Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search);
 
 
-     void createNewTest(DeviceTestData deviceTestData,  String verificationId);
+     long createNewTest(DeviceTestData deviceTestData,  String verificationId)throws IOException;
 
      CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
                                     Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult);

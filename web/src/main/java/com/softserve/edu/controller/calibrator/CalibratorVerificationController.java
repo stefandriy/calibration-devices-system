@@ -254,7 +254,7 @@ public class CalibratorVerificationController {
                 DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
                  // зберігає дані в таблицю calibration_test
-
+            // вернути ід протоколу
 
                 testService.createNewTest(deviceTestData, verificationId);
 
