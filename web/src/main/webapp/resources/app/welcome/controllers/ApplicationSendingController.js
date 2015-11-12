@@ -194,10 +194,10 @@ angular
             /**
              * Receives all providers in selected locality by device type
              */
-            $scope.getProvidersByLocalityAndDeviceType = function (selectedLocality, selectedDevice, deviceGroup) {
-                if (selectedLocality !== undefined && selectedDevice !== undefined) {
+            $scope.getProvidersByLocalityAndDeviceType = function (selectedLocality, selectedDeviceType, deviceGroup) {
+                if (selectedLocality !== undefined && selectedDeviceType !== undefined) {
                     if (deviceGroup === 'firstDeviceGroup') {
-                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDevice.deviceType)
+                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDeviceType)
                             .success(function (providers) {
                                 if (providers.length > 0) {
                                     $scope.firstDeviceProviders = providers;
@@ -209,7 +209,7 @@ angular
                             }
                         );
                     } else {
-                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDevice.deviceType)
+                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDeviceType)
                             .success(function (providers) {
                                 if (providers.length > 0) {
                                     $scope.secondDeviceProviders = providers;
@@ -288,6 +288,17 @@ angular
                     $scope.devices = devices;
                     $scope.selectedValues.firstSelectedDevice = undefined;
                     $scope.selectedValues.secondSelectedDevice = undefined;
+                }
+            );
+
+            /**
+             * Receives all possible device Types.
+             */
+            dataReceivingService.findAllDeviceTypes()
+                .success(function (deviceTypes) {
+                        $scope.deviceTypes = deviceTypes;
+                        $scope.selectedValues.firstSelectedDeviceType = undefined;
+                        $scope.selectedValues.secondSelectedDeviceType = undefined;
                 }
             );
 

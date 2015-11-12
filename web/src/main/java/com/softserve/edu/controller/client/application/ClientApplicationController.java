@@ -26,10 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(value = "/application/")
@@ -186,6 +186,24 @@ public class ClientApplicationController {
         return deviceService.getAllByType(deviceType).stream()
                 .map(device -> new ApplicationFieldDTO(device.getId(), device.getDeviceName()))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Return all possible types of devices
+     *
+     * @return list of device types
+     */
+    @RequestMapping(value = "deviceTypes", method = RequestMethod.GET)
+    public List<String> getDeviceTypes() {
+        List<String> list = Arrays.stream(Device.DeviceType.values())
+                .map(Device.DeviceType::toString)
+                .collect(Collectors.toList());
+
+        return list;
+
+//        return Stream.of(Device.DeviceType.values())
+//                .map(Device.DeviceType::name)
+//                .collect(Collectors.toList());
     }
 
     /**

@@ -123,7 +123,7 @@ public class CalibrationTestServiceImplTest {
     @Test
     public void testCreateNewTest() {
         when(verificationRepository.findOne(verificationId)).thenReturn(verification);
-        calibrationTestService.createNewTest(calibrationTest, date, verificationId);
+      //  calibrationTestService.createNewTest(calibrationTest, date, verificationId);
         verify(verificationRepository).findOne(verificationId);
         verify(calibrationTest).setVerification(verification);
         verify(calibrationTest).setDateTest(date);

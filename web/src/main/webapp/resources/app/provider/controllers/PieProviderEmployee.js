@@ -33,7 +33,7 @@ angular
                         },
                         series:
                             [{
-                            data: [['Розподілено заявок',data.SENT],['Заявок на опрацюванні',data.ACCEPTED]]
+                            data: [['Розподілено заявок',data.ACCEPTED],['Заявок на опрацюванні',data.SENT]]
                         }]
 
 
