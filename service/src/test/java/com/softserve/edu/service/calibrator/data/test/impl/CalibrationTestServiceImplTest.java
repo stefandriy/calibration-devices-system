@@ -131,9 +131,6 @@ public class CalibrationTestServiceImplTest {
             System.out.println(e);
         }
         verify(verificationRepository).findOne(verificationId);
-        verify(calibrationTest).setVerification(verification);
-        verify(calibrationTest).setDateTest(date);
-        verify(testRepository).save(calibrationTest);
     }
 
     @Test
