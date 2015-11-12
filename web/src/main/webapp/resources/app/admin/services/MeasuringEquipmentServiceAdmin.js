@@ -1,11 +1,20 @@
-angular.module('adminModule')
+angular
+    .module('adminModule')
     .factory('MeasuringEquipmentServiceAdmin', ['$http', '$log', function ($http, $log) {
 
         return {
             getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
-                return getDataWithParams(currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                //return getDataWithParams(currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                var result = currentPage + '/' + itemsPerPage;
+                if (sortCriteria != null) {
+                    result += '/' + sortCriteria;
+                }
+                if (sortOrder != null) {
+                    result += '/' + sortOrder;
+                }
+                return getDataWithParams(result, search);
             },
-            saveEquipmentr: function (formData) {
+            saveEquipment: function (formData) {
                 return $http.post("/admin/calibration-module/add", formData)
                     .then(function (result) {
                         return result.status;

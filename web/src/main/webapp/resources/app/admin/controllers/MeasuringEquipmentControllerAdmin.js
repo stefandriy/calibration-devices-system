@@ -28,9 +28,9 @@ angular
 
             /*$scope.selectedOrganizationType = {
              name: null
-             };*/
+             };
 
-            /*$scope.setTypeDataLanguage();*/
+             $scope.setTypeDataLanguage();
 
             /*$scope.clearAll = function () {
              $scope.tableParams.filter({});
@@ -41,15 +41,15 @@ angular
                 $scope.tableParams.reload();
             };
 
-            /*$scope.setTypeDataLanguage = function () {
-             };*/
+            $scope.setTypeDataLanguage = function () {
+            };
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
-                count: 5,
-                sorting: {
-                    organizationId: 'desc'
-                }
+                count: 5/*,
+                 sorting: {
+                 organizationId: 'desc'
+                 }*/
             }, {
                 total: 0,
                 filterDelay: 1500,
@@ -72,7 +72,8 @@ angular
 
                     measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                         .success(function (result) {
-                            $scope.totalItems = result.totalItems; /*$scope.resultsCount = result.totalItems;*/
+                            $scope.totalItems = result.totalItems;
+                            /*$scope.resultsCount = result.totalItems;*/
                             $defer.resolve(result.content);
                             params.total(result.totalItems);
                         }, function (result) {
