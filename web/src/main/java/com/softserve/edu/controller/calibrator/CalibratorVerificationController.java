@@ -256,7 +256,6 @@ public class CalibratorVerificationController {
 
 //                long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
 //                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
-
 //                responseEntity = new ResponseEntity(CalibratorTestTransformer.toDTO(calibrationTest), HttpStatus.OK);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
             } else {
