@@ -47,12 +47,14 @@ public class CalibrationModuleController {
     @RequestMapping(value = "get/{id}")
     public CalibrationModuleDTO getCalibrationModule(@PathVariable("id") Long id) {
         CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
-        return new CalibrationModuleDTO(calibrationModule.getModuleId(), calibrationModule.getDeviceType(),
+        return new CalibrationModuleDTO(calibrationModule.getModuleId(),
+                calibrationModule.getDeviceType(),
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
-                calibrationModule.getTelephone(), calibrationModule.getModuleType(),
+                calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
+                calibrationModule.getModuleType(),
                 calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                calibrationModule.getOrganization(), calibrationModule.getWorkDate());
+                calibrationModule.getWorkDate());
     }
 
     /**
@@ -64,14 +66,13 @@ public class CalibrationModuleController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity addModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
-        Organization organization = organizationService.getOrganizationById(calibrationModuleDTO.getOrganizationId());
-        CalibrationModule calibrationModule = new CalibrationModule(calibrationModuleDTO.getModuleId(),
+        CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
-                organization, calibrationModuleDTO.getWorkDate());
+                calibrationModuleDTO.getWorkDate());
         try {
             calibrationModuleService.addCalibrationModule(calibrationModule);
         } catch (Exception e) {
@@ -93,16 +94,15 @@ public class CalibrationModuleController {
     public ResponseEntity editModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO,
                                         @PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
-        Organization organization = organizationService.getOrganizationById(calibrationModuleDTO.getOrganizationId());
-        CalibrationModule calibrationModule = new CalibrationModule(calibrationModuleDTO.getModuleId(),
+        CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
-                organization, calibrationModuleDTO.getWorkDate());
+                calibrationModuleDTO.getWorkDate());
         try {
-            calibrationModuleService.updateCalibrationModule(calibrationModule);
+            calibrationModuleService.updateCalibrationModule(calibrationModuleId, calibrationModule);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION WHEN UPDATE CALIBRATION MODULE", e);
             httpStatus = HttpStatus.CONFLICT;
@@ -143,10 +143,15 @@ public class CalibrationModuleController {
                  @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
                  @PathVariable String sortOrder, CalibrationModuleDTO searchData) {
         // converting object to map and filtering the map to have only not-null fields
-        Map<String, String> searchDataMap = TypeConverter.ObjectToMap(searchData);
+        Map<String, String> searchDataMap = new HashMap<String, String>();
+        if (searchData != null) {
+            searchDataMap = TypeConverter.ObjectToMap(searchData);
+        }
+        searchDataMap.put("isActive", "true");
+
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort = sortCriteria != null && sortOrder != null ?
-                CalibrationModuleSortCriteria.valueOf(sortCriteria).getSort(sortOrder) :
+                CalibrationModuleSortCriteria.valueOf(sortCriteria.toUpperCase()).getSort(sortOrder) :
                 CalibrationModuleSortCriteria.UNDEFINED.getSort(sortOrder);
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration modules
@@ -160,8 +165,8 @@ public class CalibrationModuleController {
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
-                    calibrationModule.getModuleType(), calibrationModule.getEmail(),
-                    calibrationModule.getCalibrationType(), calibrationModule.getOrganization(),
+                    calibrationModule.getModuleNumber(), calibrationModule.getModuleType(),
+                    calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
                     calibrationModule.getWorkDate()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
