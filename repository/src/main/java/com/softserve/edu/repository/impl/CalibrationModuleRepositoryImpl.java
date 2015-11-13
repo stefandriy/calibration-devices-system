@@ -4,16 +4,14 @@ import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.CalibrationModuleRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by roman on 13.11.15.
  *
  */
 
+@Repository
 public class CalibrationModuleRepositoryImpl implements CalibrationModuleRepositoryCustom {
 
     @Autowired

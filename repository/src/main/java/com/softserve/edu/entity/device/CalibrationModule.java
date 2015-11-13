@@ -1,19 +1,13 @@
 package com.softserve.edu.entity.device;
 
-import com.softserve.edu.entity.organization.Organization;
-
-import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import lombok.*;
-
-
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "CALIBRATION_MODULE")
@@ -46,7 +40,7 @@ public class CalibrationModule {
 
     private String calibrationType;
 
-    private String moduleNumber; // = moduleId != null ? generateSerialNumber() : null ; // generates
+    private String moduleNumber; // generates
 
     @Column(nullable = false, columnDefinition = "bit(1) default 1")
     private Boolean isActive = true;

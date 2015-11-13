@@ -515,7 +515,7 @@
   "YEAR_REGEX": "Enter for example - 2015",
   "MAIN_PANEL_PROVIDER": "Main ",
   "MEASURING_DEVICES_DIRECTORY": "Calibration module",
-  "ADD_INSTALLATION": "Add installation",
+  "ADD_INSTALLATION": "Add calibration module",
   "SPHERE_OF_APPLICATION": "Sphere of aplication",
   "INSTALLATION_CODE": "Installation code",
   "INSTALLATION_NUMBER": "Installation number",
