@@ -41,8 +41,6 @@ import java.util.List;
 
     Page<CalibrationModule> findByIsActive(boolean isActive, Pageable pageable);
 
-    Page<CalibrationModule> findByOrganization(Organization organization, Pageable pageable);
-
     Page<CalibrationModule> findByWorkDate(Date workDate, Pageable pageable);
 
     Page<CalibrationModule> findByDeviceType(Device.DeviceType deviceType, Pageable pageable);
