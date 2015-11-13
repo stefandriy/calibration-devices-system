@@ -75,8 +75,6 @@ angular
             },
             saveVerification: function(data) {
                 return sendData('save', data);
-            }
-
             },
             saveAdditionalInfo: function(data) {
                 $log.debug("from service " +  data)
