@@ -54,7 +54,7 @@ public class CalibrationModuleController {
                 calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
                 calibrationModule.getModuleType(),
                 calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                calibrationModule.getOrganization(), calibrationModule.getWorkDate());
+                calibrationModule.getWorkDate());
     }
 
     /**
@@ -66,14 +66,13 @@ public class CalibrationModuleController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity addModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
-        Organization organization = organizationService.getOrganizationById(calibrationModuleDTO.getOrganizationId());
         CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
-                organization, calibrationModuleDTO.getWorkDate());
+                calibrationModuleDTO.getWorkDate());
         try {
             calibrationModuleService.addCalibrationModule(calibrationModule);
         } catch (Exception e) {
@@ -95,14 +94,13 @@ public class CalibrationModuleController {
     public ResponseEntity editModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO,
                                         @PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
-        Organization organization = organizationService.getOrganizationById(calibrationModuleDTO.getOrganizationId());
         CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
-                organization, calibrationModuleDTO.getWorkDate());
+                calibrationModuleDTO.getWorkDate());
         try {
             calibrationModuleService.updateCalibrationModule(calibrationModuleId, calibrationModule);
         } catch (Exception e) {
@@ -169,7 +167,7 @@ public class CalibrationModuleController {
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
                     calibrationModule.getModuleNumber(), calibrationModule.getModuleType(),
                     calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                    calibrationModule.getOrganization(), calibrationModule.getWorkDate()));
+                    calibrationModule.getWorkDate()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }
