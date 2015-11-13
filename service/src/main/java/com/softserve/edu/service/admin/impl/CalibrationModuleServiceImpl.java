@@ -80,7 +80,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     public CalibrationModule addCalibrationModule(CalibrationModule calibrationModule) {
         if (calibrationModule == null) {
             throw new NullPointerException("Adding null pointer to calibration modules");
-        } else return calibrationModuleRepository.save(calibrationModule);
+        } else return calibrationModuleRepository.saveWithGenerating(calibrationModule);
     }
 
 

@@ -14,11 +14,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Vasyl on 08.10.2015.
+ * Created by roman on 08.10.2015.
+ *
  */
+
 @Repository
  public interface CalibrationModuleRepository
-        extends PagingAndSortingRepository<CalibrationModule, Long>, JpaSpecificationExecutor {
+        extends PagingAndSortingRepository<CalibrationModule, Long>, JpaSpecificationExecutor,
+            CalibrationModuleRepositoryCustom {
 
     CalibrationModule findBySerialNumber(String serialNumber);
 

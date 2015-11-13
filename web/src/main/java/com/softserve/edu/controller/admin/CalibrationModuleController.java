@@ -47,7 +47,8 @@ public class CalibrationModuleController {
     @RequestMapping(value = "get/{id}")
     public CalibrationModuleDTO getCalibrationModule(@PathVariable("id") Long id) {
         CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
-        return new CalibrationModuleDTO(calibrationModule.getDeviceType(),
+        return new CalibrationModuleDTO(calibrationModule.getModuleId(),
+                calibrationModule.getDeviceType(),
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
                 calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
@@ -149,6 +150,7 @@ public class CalibrationModuleController {
             searchDataMap = TypeConverter.ObjectToMap(searchData);
         }
         searchDataMap.put("isActive", "true");
+
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort = sortCriteria != null && sortOrder != null ?
                 CalibrationModuleSortCriteria.valueOf(sortCriteria.toUpperCase()).getSort(sortOrder) :
@@ -161,7 +163,7 @@ public class CalibrationModuleController {
         List<CalibrationModuleDTO> content = new ArrayList<CalibrationModuleDTO>();
         // converting Page of CalibrationModules to List of CalibrationModuleDTOs
         for (CalibrationModule calibrationModule: queryResult) {
-            content.add(new CalibrationModuleDTO(
+            content.add(new CalibrationModuleDTO(calibrationModule.getModuleId(),
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),

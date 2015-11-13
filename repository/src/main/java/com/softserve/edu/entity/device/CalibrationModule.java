@@ -46,11 +46,10 @@ public class CalibrationModule {
 
     private String calibrationType;
 
-    @Transient
     private String moduleNumber; // = moduleId != null ? generateSerialNumber() : null ; // generates
 
     @Column(nullable = false, columnDefinition = "bit(1) default 1")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calibratorId")
@@ -95,7 +94,7 @@ public class CalibrationModule {
         this.workDate = calibrationModule.getWorkDate();
     }
 
-    private String generateSerialNumber() {
+    public void generateModuleNumber() {
         StringBuilder sb = new StringBuilder();
         switch (deviceType) {
             case WATER: sb.append("1"); break;
@@ -104,8 +103,8 @@ public class CalibrationModule {
             case THERMAL: sb.append("4"); break;
             default: break;
         }
-        sb.append(String.format("%03d", String.valueOf(moduleId)));
-        return sb.toString();
+        sb.append(String.format("%03d", moduleId));
+        moduleNumber = sb.toString();
     }
 
 }
