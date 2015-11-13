@@ -1,8 +1,8 @@
-angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$state', '$http', '$log',
+angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$modal', '$state', '$http', '$log',
     'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
     '$rootScope', '$location', '$window', '$modalInstance', 'DataReceivingServiceProvider', '$filter',
 
-    function ($scope, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance, dataReceivingService) {
+    function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance, dataReceivingService) {
         $scope.isShownForm = true;
         $scope.isCalibrator = -1;
         $scope.calibratorDefined = false;
@@ -194,6 +194,38 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             }
         };
 
+        $scope.save = function() {
+            if($scope.clientForm.$valid) {
+                $scope.formData.region = $scope.selectedData.region.designation;
+                $scope.formData.district = $scope.selectedData.district.designation;
+                $scope.formData.locality = $scope.selectedData.locality.designation;
+                $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
+                $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
+                $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
+                $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
+
+                verificationServiceProvider.saveVerification($scope.formData)
+                    .success(function() {
+
+                    });
+
+                /*$modal.open({
+                    animation: true,
+                    templateUrl: '/resources/app/calibrator/views/modals/send-protocols.html',
+                    controller: function ($modalInstance) {
+                        this.ok = function () {
+                            $modalInstance.close();
+                        }
+                    },
+                    controllerAs: 'successController',
+                    size: 'md'
+                });*/
+
+                //hide form because application status is shown
+                $scope.isShownForm = false;
+            }
+        };
+
         $scope.closeAlert = function () {
             $modalInstance.close();
         };
@@ -210,12 +242,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
             $scope.formData = null;
 
-            $scope.selectedValues.firstSelectedDevice = undefined;
-            $scope.selectedValues.secondSelectedDevice = undefined;
-
-            $scope.selectedValues.firstDeviceCount = undefined;
-            $scope.selectedValues.secondDeviceCount = undefined;
-
             $scope.selectedValues.selectedRegion = undefined;
             $scope.selectedValues.selectedDistrict = undefined;
             $scope.selectedValues.selectedLocality = undefined;
@@ -224,10 +250,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.selectedValues.selectedBuilding = "";
             $scope.selectedValues.selectedIndex = undefined;
             $scope.defaultValue.privateHouse = false;
-            $scope.firstDeviceProviders = [];
-            $scope.secondDeviceProviders = [];
-            $scope.selectedValues.firstSelectedProvider = undefined;
-            $scope.selectedValues.secondSelectedProvider = undefined;
+
 
             $log.debug("$scope.resetApplicationForm");
         };
