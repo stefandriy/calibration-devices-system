@@ -9,7 +9,10 @@ angular
             },
             sendProtocols: function (protocol) {
                 return send('/calibrator/protocols/send', protocol);
-            }
+            },
+            getVerificators: function (url) {
+                return getData('/calibrator/protocols/verificators');
+            },
             };
 
 
