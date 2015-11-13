@@ -41,6 +41,12 @@ public class Filter implements Specification {
         this.conditions.add(condition);
     }
 
+    public void addConditionList(List<Condition> conditions) {
+        for (Condition condition : conditions) {
+            this.conditions.add(condition);
+        }
+    }
+
     @Override
     public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = buildPredicates(root, criteriaQuery, criteriaBuilder);
@@ -69,11 +75,11 @@ public class Filter implements Specification {
             case isnull:
                 break;
             case like:
-                return buildEqualsPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
+                return buildLikePredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case in:
                 break;
             default:
-                return buildLikePredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
+                return buildEqualsPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
         }
         throw new RuntimeException();
     }
@@ -83,6 +89,6 @@ public class Filter implements Specification {
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        return criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), condition.value.toString().toUpperCase());
+        return criteriaBuilder.like(root.get(condition.field), "%" + condition.value + "%");
     }
 }
