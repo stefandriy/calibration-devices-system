@@ -245,6 +245,7 @@
         'provider/services/AddressServiceProvider',
         'provider/services/SettingsServiceProvider',
         'provider/services/UserService',
+        'provider/services/DataReceivingServiceProvider',
         'provider/controllers/CapacityEmployeeControllerProvider',
         'provider/controllers/GraficEmployeeProvider',
         'provider/controllers/GraphicEmployeeProviderMainPanel',
@@ -323,6 +324,6 @@
         'common/services/EmployeeService',
         'common/controllers/CommonController',
         'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
-        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator',
     ], function () {});
 })();

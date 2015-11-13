@@ -419,12 +419,12 @@ angular
 
             $scope.initiateVerification = function () {
 
+                $rootScope.verifIDforTempl = $scope.idsOfVerifications[0];
                 var modalInstance = $modal.open({
                     animation: true,
                     templateUrl: 'resources/app/provider/views/modals/initiate-verification.html',
                     controller: 'AddingVerificationsControllerProvider',
                     size: 'lg'
-
                 });
             };
 
