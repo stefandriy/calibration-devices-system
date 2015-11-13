@@ -1,8 +1,8 @@
 angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$state', '$http', '$log',
     'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
-    '$rootScope', '$location', '$window', '$modalInstance', '$filter',
+    '$rootScope', '$location', '$window', '$modalInstance', 'DataReceivingServiceProvider', '$filter',
 
-    function ($scope, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
+    function ($scope, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance, dataReceivingService) {
         $scope.isShownForm = true;
         $scope.isCalibrator = -1;
         $scope.calibratorDefined = false;
@@ -197,5 +197,116 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.closeAlert = function () {
             $modalInstance.close();
         };
+
+        /**
+         * Resets form
+         */
+        $scope.resetApplicationForm = function () {
+
+            $scope.$broadcast('show-errors-reset');
+
+            $scope.clientForm.$setPristine();
+            $scope.clientForm.$setUntouched();
+
+            $scope.formData = null;
+
+            $scope.selectedValues.firstSelectedDevice = undefined;
+            $scope.selectedValues.secondSelectedDevice = undefined;
+
+            $scope.selectedValues.firstDeviceCount = undefined;
+            $scope.selectedValues.secondDeviceCount = undefined;
+
+            $scope.selectedValues.selectedRegion = undefined;
+            $scope.selectedValues.selectedDistrict = undefined;
+            $scope.selectedValues.selectedLocality = undefined;
+            $scope.selectedValues.selectedStreetType = undefined;
+            $scope.selectedValues.selectedStreet = "";
+            $scope.selectedValues.selectedBuilding = "";
+            $scope.selectedValues.selectedIndex = undefined;
+            $scope.defaultValue.privateHouse = false;
+            $scope.firstDeviceProviders = [];
+            $scope.secondDeviceProviders = [];
+            $scope.selectedValues.firstSelectedProvider = undefined;
+            $scope.selectedValues.secondSelectedProvider = undefined;
+
+            $log.debug("$scope.resetApplicationForm");
+        };
+
+        /**
+         * Fill application sending page from verification when there is verification ID in $stateParams
+         * @param ID - Id of verification to fill from
+         */
+        /*$rootScope.verifIDforTempl = "54720638-4dac-46c2-a95b-12130ce791af";*/
+        $scope.createNew = function () {
+            if ($rootScope.verifIDforTempl) {
+                dataReceivingService.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
+
+                    $scope.verification = verification;
+                    $scope.formData = {};
+                    $scope.formData.lastName = $scope.verification.data.lastName;
+                    $scope.formData.firstName = $scope.verification.data.firstName;
+                    $scope.formData.middleName = $scope.verification.data.middleName;
+                    $scope.formData.email = $scope.verification.data.email;
+                    $scope.formData.phone = $scope.verification.data.phone;
+                    $scope.formData.flat = $scope.verification.data.flat;
+                    $scope.formData.comment = $scope.verification.data.comment;
+                    $scope.defaultValue = {};
+                    $scope.defaultValue.privateHouse = $scope.verification.data.flat == 0;
+
+
+                    $scope.formData.region = $scope.verification.data.region;
+                    $scope.formData.district = $scope.verification.data.district;
+                    $scope.formData.locality = $scope.verification.data.locality;
+                    $scope.formData.street = $scope.verification.data.street;
+                    $scope.formData.building = $scope.verification.data.building;
+
+
+
+     //               $scope.blockSearchFunctions = true;
+                 /*   dataReceivingService.findAllRegions().then(function (respRegions) {
+                        $scope.regions = respRegions.data;
+                        var index = arrayObjectIndexOf($scope.regions, $scope.verification.data.region, "designation");
+                        $scope.selectedValues.selectedRegion = $scope.regions[index];
+
+                        dataReceivingService.findDistrictsByRegionId($scope.selectedValues.selectedRegion.id)
+                            .then(function (districts) {
+                                $scope.districts = districts.data;
+                                var index = arrayObjectIndexOf($scope.districts, $scope.verification.data.district, "designation");
+                                $scope.selectedValues.selectedDistrict = $scope.districts[index];
+
+                                dataReceivingService.findLocalitiesByDistrictId($scope.selectedValues.selectedDistrict.id)
+                                    .then(function (localities) {
+                                        $scope.localities = localities.data;
+                                        var index = arrayObjectIndexOf($scope.localities, $scope.verification.data.locality, "designation");
+                                        $scope.selectedValues.selectedLocality = $scope.localities[index];
+
+                                        dataReceivingService.findStreetsByLocalityId($scope.selectedValues.selectedLocality.id)
+                                            .then(function (streets) {
+                                                $scope.streets = streets.data;
+                                                var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
+                                                $scope.selectedValues.selectedStreet = $scope.streets[index];
+
+                                                dataReceivingService.findBuildingsByStreetId($scope.selectedValues.selectedStreet.id)
+                                                    .then(function (buildings) {
+                                                        $scope.buildings = buildings.data;
+                                                        var index = arrayObjectIndexOf($scope.buildings, $scope.verification.data.building, "designation");
+                                                        $scope.selectedValues.selectedBuilding = $scope.buildings[index].designation;
+
+                                                        dataReceivingService.findMailIndexByLocality($scope.selectedValues.selectedLocality.designation, $scope.selectedValues.selectedDistrict.id)
+                                                            .success(function (indexes) {
+                                                                $scope.indexes = indexes;
+                                                                $scope.selectedValues.selectedIndex = $scope.indexes[0];
+                                                                $scope.blockSearchFunctions = false;
+                                                            });
+
+                                                    });
+                                            });
+                                    });
+                            });
+                    });*///
+                });
+
+            }
+        }
     }
 ]);

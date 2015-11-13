@@ -46,7 +46,7 @@ angular
         }
         
         function getProviderData(url) {
-            return $http.get('provider/applications/' + url)
+            return $http.get('/provider/applications/' + url)
                 .success(function (data) {
                     return data;
                 })
