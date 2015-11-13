@@ -254,7 +254,7 @@ public class CalibratorVerificationController {
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
                 DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
 
-//                long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
+                long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
 //                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
 //                responseEntity = new ResponseEntity(CalibratorTestTransformer.toDTO(calibrationTest), HttpStatus.OK);
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
