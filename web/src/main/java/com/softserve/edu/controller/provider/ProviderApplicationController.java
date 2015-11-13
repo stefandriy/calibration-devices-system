@@ -114,7 +114,7 @@ public class ProviderApplicationController {
      * @param employeeUser
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
-    public void saveInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO,
+    public String saveInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO,
                                          @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         ClientData clientData = new ClientData(
                 verificationDTO.getFirstName(),
@@ -138,6 +138,8 @@ public class ProviderApplicationController {
                 Verification.ReadStatus.UNREAD); //TODO: change status!!!
 
         verificationService.saveVerification(verification);
+
+        return verification.getId();
     }
 
     /**

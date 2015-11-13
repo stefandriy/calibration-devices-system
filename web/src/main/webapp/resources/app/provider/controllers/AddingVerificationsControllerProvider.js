@@ -4,6 +4,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
     function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance, dataReceivingService) {
         $scope.isShownForm = true;
+        $scope.isShownCode = false;
         $scope.isCalibrator = -1;
         $scope.calibratorDefined = false;
 
@@ -171,7 +172,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 $scope.formData.locality = $scope.selectedData.locality.designation;
                 $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                 $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-                $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
+               // $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
                 $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
 
                 for (var i = 0; i < $scope.selectedData.selectedCount; i++) {
@@ -195,20 +196,24 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         };
 
         $scope.save = function() {
-            if($scope.clientForm.$valid) {
+           // if($scope.clientForm.$valid) {
                 $scope.formData.region = $scope.selectedData.region.designation;
                 $scope.formData.district = $scope.selectedData.district.designation;
                 $scope.formData.locality = $scope.selectedData.locality.designation;
                 $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                 $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-                $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
                 $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
 
                 verificationServiceProvider.saveVerification($scope.formData)
-                    .success(function() {
-
+                    .success(function (applicationCode) {
+                        if ($scope.applicationCodes === undefined) {
+                            $scope.applicationCodes = [];
+                        }
+                        $scope.applicationCodes.push(applicationCode);
                     });
 
+            $scope.isShownForm = false;
+            $scope.isShownCode = true;
                 /*$modal.open({
                     animation: true,
                     templateUrl: '/resources/app/calibrator/views/modals/send-protocols.html',
@@ -222,8 +227,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 });*/
 
                 //hide form because application status is shown
-                $scope.isShownForm = false;
-            }
+            //}
         };
 
         $scope.closeAlert = function () {
@@ -276,57 +280,57 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.defaultValue = {};
                     $scope.defaultValue.privateHouse = $scope.verification.data.flat == 0;
 
-
-                    $scope.formData.region = $scope.verification.data.region;
-                    $scope.formData.district = $scope.verification.data.district;
-                    $scope.formData.locality = $scope.verification.data.locality;
-                    $scope.formData.street = $scope.verification.data.street;
-                    $scope.formData.building = $scope.verification.data.building;
+                    //$scope.selectedData = {};
+                    //$scope.selectedData.region.designation = $scope.verification.data.region;
+                    //$scope.selectedData.district.designation = $scope.verification.data.district;
+                    //$scope.selectedData.locality.designation = $scope.verification.data.locality;
+                    $scope.selectedStreet = $scope.verification.data.street;
+                    $scope.selectedBuilding = $scope.verification.data.building;
 
 
 
      //               $scope.blockSearchFunctions = true;
-                 /*   dataReceivingService.findAllRegions().then(function (respRegions) {
+                    dataReceivingService.findAllRegions().then(function (respRegions) {
                         $scope.regions = respRegions.data;
                         var index = arrayObjectIndexOf($scope.regions, $scope.verification.data.region, "designation");
-                        $scope.selectedValues.selectedRegion = $scope.regions[index];
+                        $scope.selectedData.region = $scope.regions[index];
 
-                        dataReceivingService.findDistrictsByRegionId($scope.selectedValues.selectedRegion.id)
+                        dataReceivingService.findDistrictsByRegionId($scope.selectedData.region.id)
                             .then(function (districts) {
                                 $scope.districts = districts.data;
                                 var index = arrayObjectIndexOf($scope.districts, $scope.verification.data.district, "designation");
-                                $scope.selectedValues.selectedDistrict = $scope.districts[index];
+                                $scope.selectedData.district = $scope.districts[index];
 
-                                dataReceivingService.findLocalitiesByDistrictId($scope.selectedValues.selectedDistrict.id)
+                                dataReceivingService.findLocalitiesByDistrictId($scope.selectedData.district.id)
                                     .then(function (localities) {
                                         $scope.localities = localities.data;
                                         var index = arrayObjectIndexOf($scope.localities, $scope.verification.data.locality, "designation");
-                                        $scope.selectedValues.selectedLocality = $scope.localities[index];
+                                        $scope.selectedData.locality = $scope.localities[index];
 
-                                        dataReceivingService.findStreetsByLocalityId($scope.selectedValues.selectedLocality.id)
+                                       /* dataReceivingService.findStreetsByLocalityId($scope.selectedData.locality.id)
                                             .then(function (streets) {
                                                 $scope.streets = streets.data;
                                                 var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
-                                                $scope.selectedValues.selectedStreet = $scope.streets[index];
+                                                $scope.selectedStreet = $scope.streets[index];
 
-                                                dataReceivingService.findBuildingsByStreetId($scope.selectedValues.selectedStreet.id)
+                                                dataReceivingService.findBuildingsByStreetId($scope.selectedStreet)
                                                     .then(function (buildings) {
                                                         $scope.buildings = buildings.data;
                                                         var index = arrayObjectIndexOf($scope.buildings, $scope.verification.data.building, "designation");
-                                                        $scope.selectedValues.selectedBuilding = $scope.buildings[index].designation;
+                                                        $scope.selectedBuilding = $scope.buildings[index].designation; */
 
-                                                        dataReceivingService.findMailIndexByLocality($scope.selectedValues.selectedLocality.designation, $scope.selectedValues.selectedDistrict.id)
+                                                        dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
                                                             .success(function (indexes) {
                                                                 $scope.indexes = indexes;
-                                                                $scope.selectedValues.selectedIndex = $scope.indexes[0];
+                                                                $scope.selectedData.index = $scope.indexes[0];
                                                                 $scope.blockSearchFunctions = false;
                                                             });
 
-                                                    });
-                                            });
+                                                    /*});
+                                            });*/
                                     });
                             });
-                    });*///
+                    });///
                 });
 
             }
