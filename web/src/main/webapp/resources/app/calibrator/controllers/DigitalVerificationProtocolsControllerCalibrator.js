@@ -111,7 +111,7 @@ angular
 
 
                         digitalVerificationProtocolsServiceCalibrator
-                            .sendProtocolsToVerificator(dataToSend)
+                            .sendProtocols(dataToSend)
                             .success(function () {
                                 $log.debug('success sending');
                                 $scope.tableParams.reload();
@@ -134,4 +134,4 @@ angular
             };
 
 
-        }])
+        }]);
