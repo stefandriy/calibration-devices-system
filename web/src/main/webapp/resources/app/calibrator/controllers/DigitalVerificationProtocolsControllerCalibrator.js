@@ -115,7 +115,7 @@ angular
                             .success(function () {
                                 $log.debug('success sending');
                                 $scope.tableParams.reload();
-                                $rootScope.$broadcast('verification-sent-to-calibrator');
+                                $rootScope.$broadcast('verification-sent-to-verificator');
                             });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
