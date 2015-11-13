@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$scope', '$log', '$modal',  'DigitalVerificationProtocolsServiceCalibrator',
+    .controller('DigitalVerificationProtocolsControllerCalibrator', ['$scope', '$log', '$modal', 'DigitalVerificationProtocolsServiceCalibrator',
         '$rootScope', 'ngTableParams',
 
         function ($scope, $log, $modal, digitalVerificationProtocolsServiceCalibrator, $rootScope, ngTableParams) {
@@ -54,29 +54,17 @@ angular
                         });
                 }
             })
-           $scope.sentProtocols = function () {
-              // digitalVerificationProtocolsServiceCalibrator.send($scope.data);
-          //  if (data.status == 200) {
-          $rootScope.verifIds = [];
-
-                $modal.open({
-                    animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/send-protocols.html',
-                    controller: function ($modalInstance) {
-                        this.ok = function () {
-                            $modalInstance.close();
-                        }
-                    },
-                    controllerAs: 'successController',
-                    size: 'md'
-                        });
-            },
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;
+            $scope.idsOfCalibrators = null;
+
+
+            /**
+             * push verification id to array
+             */
 
             $scope.resolveVerificationId = function (id) {
-
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {
                     $scope.idsOfVerifications.push(id);
@@ -92,22 +80,58 @@ angular
                 }
                 checkForEmpty();
             };
+            $scope.openSendingModal = function () {
+                if (!$scope.allIsEmpty) {
+                    var modalInstance = $modal.open({
+                        animation: true,
+                        templateUrl: '/resources/app/calibrator/views/modals/protocols-sending.html',
+                        controller: 'SendingModalControllerCalibrator',
+                        size: 'md',
+                        resolve: {
+                            response: function () {
+                                return digitalVerificationProtocolsServiceCalibrator.getVerificators()
+                                    .success(function (data) {
+
+                                        return data;
+                                    }
+                                );
+                            }
+                        }
+                    });
+
+                    /**
+                     * executes when modal closing
+                     */
+                    modalInstance.result.then(function (formData) {
+
+                        var dataToSend = {
+                            idsOfVerifications: $scope.idsOfVerifications,
+                            organizationId: formData.verificator.id
+                        };
+
+
+                        digitalVerificationProtocolsServiceCalibrator
+                            .sendProtocolsToVerificator(dataToSend)
+                            .success(function () {
+                                $log.debug('success sending');
+                                $scope.tableParams.reload();
+                                $rootScope.$broadcast('verification-sent-to-calibrator');
+                            });
+                        $scope.idsOfVerifications = [];
+                        $scope.checkedItems = [];
+
+                    });
+                } else {
+                    $scope.isClicked = true;
+                }
+            };
+
+            /**
+             * check if idsOfVerifications array is empty
+             */
             var checkForEmpty = function () {
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
-            $scope.countChecked = function(){
-                var count = 0;
-                angular.forEach($data, function(value){
-                    if (value.isselected) count++;
-                });
-
-                return count;
-            }
 
 
-
-        }]);
-
-
-
-
+        }])
