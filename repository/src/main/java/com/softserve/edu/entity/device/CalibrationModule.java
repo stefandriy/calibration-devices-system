@@ -46,13 +46,14 @@ public class CalibrationModule {
 
     private String calibrationType;
 
-    private String moduleNumber;//generates
+    private String moduleNumber; // = moduleId != null ? generateSerialNumber() : null ; // generates
 
+    @Column(nullable = false, columnDefinition = "bit(1) default 1")
     private Boolean isActive = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calibratorId")
-    private Organization organization;
+    private Organization organization; */
 
     @Temporal(TemporalType.DATE)
     private Date workDate;
@@ -61,13 +62,11 @@ public class CalibrationModule {
     private Set<CalibrationTask> tasks; */
 
 
-    public CalibrationModule(Long id, Device.DeviceType deviceType, String organizationCode,
+    public CalibrationModule(Device.DeviceType deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
-                             Organization organization, Date workDate){
-        super();
-        this.moduleId = id;
+                             Date workDate) {
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
         this.condDesignation = condDesignation;
@@ -77,8 +76,33 @@ public class CalibrationModule {
         this.moduleType = moduleType;
         this.email = email;
         this.calibrationType = calibrationType;
-        this.organization = organization;
         this.workDate = workDate;
+    }
+
+    public void updateFields(CalibrationModule calibrationModule) {
+        this.deviceType = calibrationModule.getDeviceType();
+        this.organizationCode = calibrationModule.getOrganizationCode();
+        this.condDesignation = calibrationModule.getCondDesignation();
+        this.serialNumber = calibrationModule.getSerialNumber();
+        this.employeeFullName = calibrationModule.getEmployeeFullName();
+        this.telephone = calibrationModule.getTelephone();
+        this.moduleType = calibrationModule.getModuleType();
+        this.email = calibrationModule.getEmail();
+        this.calibrationType = calibrationModule.getCalibrationType();
+        this.workDate = calibrationModule.getWorkDate();
+    }
+
+    public void generateModuleNumber() {
+        StringBuilder sb = new StringBuilder();
+        switch (deviceType) {
+            case WATER: sb.append("1"); break;
+            case GASEOUS: sb.append("2"); break;
+            case ELECTRICAL: sb.append("3"); break;
+            case THERMAL: sb.append("4"); break;
+            default: break;
+        }
+        sb.append(String.format("%03d", moduleId));
+        moduleNumber = sb.toString();
     }
 
 }

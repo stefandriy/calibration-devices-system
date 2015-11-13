@@ -1,53 +1,58 @@
 angular
     .module('adminModule')
-    .factory('MeasuringEquipmentServiceAdmin',
-    function ($http) {
+    .factory('MeasuringEquipmentServiceAdmin', function ($http) {
         return {
-            getPage: function (pageNumber, itemsPerPage, search) {
-                var url = '/admin/calibration-module/' + pageNumber + '/' + itemsPerPage;
-                if (search != null && search != undefined && search != "")
-                    url += '/' + search;
+            getPage: function (pageNumber, itemsPerPage, search, sortCriteria, sortOrder) {
+                return getDataWithParams(pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                /*var result = pageNumber + '/' + itemsPerPage;
+                if (sortCriteria != null && sortCriteria != undefined) {
+                    result += '/' + sortCriteria;
+                }
+                if (sortOrder != null && sortOrder != undefined) {
+                    result += '/' + sortOrder;
+                }
+                return getDataWithParams(result, search);*/
+            },
 
-                return $http.get(url)
-                    .then(function (result) {
-                        return result.data;
-                    });
+            saveCalibrationModule: function (formData) {
+                return sendData('add', formData);
+            }/*,
+            getAgreementById: function (id) {
+                return getData("get/" + id);
             },
-            isEquipmentNameAvailable: function (Ename) {
-                var url = '/admin/calibration-module/available/' + Ename;
-                return $http.get(url)
-                    .then(function (result) {
-                        return result.data;
-                    });
+            editAgreement: function (formData, id) {
+                return sendData('edit/' + id, formData);
             },
-            saveEquipment: function (formData) {
-                return $http.post("/admin/calibration-module/add", formData)
-                    .then(function (result) {
-                        return result.status;
-                    });
+            disableAgreement: function (id) {
+                return getData("disable/" + id);
             },
-            getEquipmentWithId: function (id) {
-                var url = '/admin/calibration-module/getEquipment/' + id;
-                return $http.get(url).then(function (result) {
-                    return result.data;
+            getEarliestAgreementDate: function() {
+                return getData('earliest_date');
+            }*/
+        };
+
+        function sendData(url, data) {
+            return $http.post('/admin/calibration-module/' + url, data)
+                .then(function (result) {
+                    return result.status;
                 });
-            },
+        }
 
-            editEquipment: function (formData, id) {
-                var url = '/calibration-module/edit/' + id;
-                return $http.post(url, formData)
-                    .then(function (result) {
-                        return result.status;
-                    });
-            },
+        function getData(url) {
+            return $http.get('/admin/calibration-module/' + url).success(function (result) {
+                return result;
+            }).error(function (err) {
+                return err;
+            });
+        }
 
-            deleteEquipment: function (mEquipmentId) {
-                var url = '/admin/calibration-module/delete/' + mEquipmentId;
-                return $http.post(url)
-                    .then(function (result) {
-                        return result.status;
-                    });
-            }
-
+        function getDataWithParams(url, params) {
+            return $http.get('/admin/calibration-module/' + url, {
+                params: params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
         }
     });

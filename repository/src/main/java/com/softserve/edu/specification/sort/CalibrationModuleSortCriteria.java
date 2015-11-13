@@ -15,126 +15,122 @@ public enum CalibrationModuleSortCriteria implements SortCriteria {
     ID {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.ID);
+                return new Sort(Sort.Direction.ASC, "moduleId");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.ID);
+                return new Sort(Sort.Direction.DESC, "moduleId");
             }
         }
     },
     UNDEFINED {
         public Sort getSort(String sortOrder) {
-            /*if(sortOrder != null && sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.MODULE_NUMBER);
-            } else {*/
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.MODULE_NUMBER);
-            //}
+            return new Sort(Sort.Direction.ASC, "condDesignation");
         }
     },
     ORGANIZATION_JOIN_NAME {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.ORGANIZATION_JOIN_NAME);
+                return new Sort(Sort.Direction.ASC, "organization.name");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.ORGANIZATION_JOIN_NAME);
+                return new Sort(Sort.Direction.DESC, "organization.name");
             }
         }
     },
     DEVICE_TYPE {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.DEVICE_TYPE);
+                return new Sort(Sort.Direction.ASC, "deviceType");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.DEVICE_TYPE);
+                return new Sort(Sort.Direction.DESC, "deviceType");
             }
         }
     },
     ORGANIZATION_CODE {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.ORGANIZATION_CODE);
+                return new Sort(Sort.Direction.ASC, "organizationCode");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.ORGANIZATION_CODE);
+                return new Sort(Sort.Direction.DESC, "organizationCode");
             }
         }
     },
     COND_DESIGNATION {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.COND_DESIGNATION);
+                return new Sort(Sort.Direction.ASC, "condDesignation");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.COND_DESIGNATION);
+                return new Sort(Sort.Direction.DESC, "condDesignation");
             }
         }
     },
     SERIAL_NUMBER {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.SERIAL_NUMBER);
+                return new Sort(Sort.Direction.ASC, "serialNumber");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.SERIAL_NUMBER);
+                return new Sort(Sort.Direction.DESC, "serialNumber");
             }
         }
     },
     EMPLOYEE_FULL_NAME {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.EMPLOYEE_FULL_NAME);
+                return new Sort(Sort.Direction.ASC, "employeeFullName");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.EMPLOYEE_FULL_NAME);
+                return new Sort(Sort.Direction.DESC, "employeeFullName");
             }
         }
     },
-    TELEPHONE {
+    PHONE_NUMBER {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.TELEPHONE);
+                return new Sort(Sort.Direction.ASC, "telephone");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.TELEPHONE);
+                return new Sort(Sort.Direction.DESC, "telephone");
             }
         }
     },
     MODULE_TYPE {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.MODULE_TYPE);
+                return new Sort(Sort.Direction.ASC, "moduleType");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.MODULE_TYPE);
+                return new Sort(Sort.Direction.DESC, "moduleType");
             }
         }
     },
     EMAIL {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.EMAIL);
+                return new Sort(Sort.Direction.ASC, "email");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.EMAIL);
+                return new Sort(Sort.Direction.DESC, "email");
             }
         }
     },
     CALIBRATION_TYPE {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.CALIBRATION_TYPE);
+                return new Sort(Sort.Direction.ASC, "calibrationType");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.CALIBRATION_TYPE);
+                return new Sort(Sort.Direction.DESC, "calibrationType");
             }
         }
     },
     MODULE_NUMBER {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.MODULE_NUMBER);
+                return new Sort(Sort.Direction.ASC, "moduleNumber");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.MODULE_NUMBER);
+                return new Sort(Sort.Direction.DESC, "moduleNumber");
             }
         }
     },
     WORK_DATE {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, CalibrationModuleSpecification.WORK_DATE);
+                return new Sort(Sort.Direction.ASC, "workDate");
             } else {
-                return new Sort(Sort.Direction.DESC, CalibrationModuleSpecification.WORK_DATE);
+                return new Sort(Sort.Direction.DESC, "workDate");
             }
         }
     }
