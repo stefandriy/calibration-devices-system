@@ -98,7 +98,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
 
     ;
 
-    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable, boolean status) {
+    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable) {
         CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
         Filter filter = new Filter();
         for (Map.Entry<String, String> entry : searchKeys.entrySet()) {
