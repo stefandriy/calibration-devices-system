@@ -50,7 +50,7 @@ public class CalibrationTestFileDataDTO {
 
 
     }
-    /*public CalibrationTestFileDataDTO(DeviceTestData testData) {
+    public CalibrationTestFileDataDTO(DeviceTestData testData) {
         this.fileName = testData.getFileName();
         this.counterNumber = testData.getCurrentCounterNumber();
         this.testDate = new Date(testData.getUnixTime());
@@ -96,7 +96,7 @@ public class CalibrationTestFileDataDTO {
 
             this.listTestData.add(testDataDTO);
         }
-    }*/
+    }
 
     public String getFileName() {
         return fileName;
