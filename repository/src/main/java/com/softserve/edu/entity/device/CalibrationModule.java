@@ -51,9 +51,9 @@ public class CalibrationModule {
     @Column(nullable = false, columnDefinition = "bit(1) default 1")
     private Boolean isActive = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calibratorId")
-    private Organization organization;
+    private Organization organization; */
 
     @Temporal(TemporalType.DATE)
     private Date workDate;
@@ -66,7 +66,7 @@ public class CalibrationModule {
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
-                             Organization organization, Date workDate) {
+                             Date workDate) {
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
         this.condDesignation = condDesignation;
@@ -76,7 +76,6 @@ public class CalibrationModule {
         this.moduleType = moduleType;
         this.email = email;
         this.calibrationType = calibrationType;
-        this.organization = organization;
         this.workDate = workDate;
     }
 
@@ -90,7 +89,6 @@ public class CalibrationModule {
         this.moduleType = calibrationModule.getModuleType();
         this.email = calibrationModule.getEmail();
         this.calibrationType = calibrationModule.getCalibrationType();
-        this.organization = calibrationModule.getOrganization();
         this.workDate = calibrationModule.getWorkDate();
     }
 
