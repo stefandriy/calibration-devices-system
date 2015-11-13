@@ -124,7 +124,7 @@ angular
             $scope.openDetails = function (verifId, verifDate, verifReadStatus) {
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/verificator/views/modals/new-verification-details.html',
+                    templateUrl: 'resources/app/verificator/views/modals/new-verification-details.html',
                     controller: 'DetailsModalControllerVerificator',
                     size: 'lg',
                     resolve: {
@@ -148,7 +148,7 @@ angular
                 $modal.open({
 
                     animation: true,
-                    templateUrl: '/resources/app/verificator/views/modals/testReview.html',
+                    templateUrl: 'resources/app/verificator/views/modals/testReview.html',
                     controller: 'CalibrationTestReviewControllerVerificator',
                     size: 'lg',
                     resolve: {
@@ -194,7 +194,7 @@ angular
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/verificator/views/modals/test-rejecting.html',
+                        templateUrl: 'resources/app/verificator/views/modals/test-rejecting.html',
                         controller: 'TestRejectControllerVerificator',
                         size: 'md',
                         resolve: {
@@ -238,7 +238,7 @@ angular
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/verificator/views/modals/verification-sending.html',
+                        templateUrl: 'resources/app/verificator/views/modals/verification-sending.html',
                         controller: 'SendingModalControllerVerificator',
                         size: 'md',
                         resolve: {
@@ -281,7 +281,7 @@ angular
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/verificator/views/modals/verification-sending.html',
+                        templateUrl: 'resources/app/verificator/views/modals/verification-sending.html',
                         controller: 'SendingModalControllerVerificator',
                         size: 'md',
                         resolve: {
@@ -342,7 +342,7 @@ angular
             $scope.addVerificatorEmployee = function (verificationId) {
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/verificator/views/employee/assigning-verificatorEmployee.html',
+                    templateUrl: 'resources/app/verificator/views/employee/assigning-verificatorEmployee.html',
                     controller: 'VerificatorEmployeeControllerVerificator',
                     size: 'md',
                     windowClass: 'xx-dialog',
@@ -405,7 +405,7 @@ angular
 
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
+                    templateUrl: 'resources/app/provider/views/modals/initiate-verification.html',
                     controller: 'AddingVerificationsControllerProvider',
                     size: 'lg',
 

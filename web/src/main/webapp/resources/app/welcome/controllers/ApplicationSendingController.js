@@ -413,7 +413,7 @@ angular
             $scope.feedbackModalNoProvider = function () {
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/welcome/views/modals/feedBackWindow.html',
+                    templateUrl: 'resources/app/welcome/views/modals/feedBackWindow.html',
                     controller: 'FeedbackController',
                     size: 'md'
                 });

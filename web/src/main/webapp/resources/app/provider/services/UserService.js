@@ -12,7 +12,7 @@ angular
                 return getData('employee/admin/users/verificator');  // Url only for Admins (by SecurityConfig), return roles
             },
             getLoggedInUserRoles: function () {
-                return getData('/loginuser/roles');					// Url for all, return roles
+                return getData('loginuser/roles');					// Url for all, return roles
             },
             getPage: function (currentPage, itemsPerPage, searchObj, filterObj) {
                 var field;
@@ -53,7 +53,7 @@ angular
         };
 
         function getLoginUser() {
-            return $http.get('/loginuser')
+            return $http.get('loginuser')
                 .then(function (result) {
                     return result.data;
                 });

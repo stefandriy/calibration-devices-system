@@ -26,7 +26,7 @@ angular
             $scope.uploadBbiFile = function(testId) {
                 var modalInstance =  $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/upload-bbiFile.html',
                     controller: 'UploadBbiFileController',
                     size: 'lg',
                     resolve: {
@@ -52,7 +52,7 @@ angular
             $scope.showEditMainPhotoModal = function (id) {
                 var modalInstance =  $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/edit-main-photo-modal.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/edit-main-photo-modal.html',
                     controller: 'EditPhotoController',
                     size: 'md',
                     resolve: {
@@ -97,7 +97,7 @@ angular
                             });
                             $modal.open({
                                 animation: true,
-                                templateUrl: '/resources/app/calibrator/views/modals/calibration-test-adding-success.html',
+                                templateUrl: 'resources/app/calibrator/views/modals/calibration-test-adding-success.html',
                                 controller: function ($modalInstance) {
                                     this.ok = function () {
                                         $scope.resetTestForm();

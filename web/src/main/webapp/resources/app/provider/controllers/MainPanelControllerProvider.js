@@ -174,7 +174,7 @@ angular
                 $scope.addProviderEmployee = function (verifId, providerEmployee) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
+                        templateUrl: 'resources/app/provider/views/modals/adding-providerEmployee.html',
                         controller: 'ProviderEmployeeControllerProvider',
                         size: 'md',
                         windowClass: 'xx-dialog',
@@ -235,7 +235,7 @@ angular
 
                     $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/provider/views/employee/capacity-providerEmployee.html',
+                        templateUrl: 'resources/app/provider/views/employee/capacity-providerEmployee.html',
                         controller: 'CapacityEmployeeControllerProvider',
                         size: 'lg',
                         resolve: {

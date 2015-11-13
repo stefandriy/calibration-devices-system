@@ -84,7 +84,7 @@ angular
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/calibrator/views/modals/protocols-sending.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/protocols-sending.html',
                         controller: 'SendingModalControllerCalibrator',
                         size: 'md',
                         resolve: {
