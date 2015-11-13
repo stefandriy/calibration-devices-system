@@ -27,7 +27,7 @@ angular
             });
         };
         function send (url, protocol) {
-            return $http.post(url, protocol)
+            return $http.put(url, protocol)
                 .success(function (data) {
                     return data;
                 }).error(function (err) {

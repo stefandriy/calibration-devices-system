@@ -57,6 +57,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional
+    public Set<Organization> findAll() {return organizationRepository.findAll();}
+
+    @Override
+    @Transactional
     public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters,
                                          Integer employeesCapacity, Integer maxProcessTime, String firstName, String lastName,
                                          String middleName, String username, Address address, String adminName,

@@ -16,6 +16,7 @@ public class ProtocolDTOTransformer {
 
         for(Verification verification : verifications) {
             resultList.add(new ProtocolDTO(
+                    verification.getId(),
                     verification.getSentToCalibratorDate().toString(),
                     verification.getClientData().getFirstName(),
                     verification.getClientData().getLastName(),
