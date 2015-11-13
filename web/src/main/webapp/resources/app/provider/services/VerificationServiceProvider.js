@@ -77,6 +77,17 @@ angular
                 return sendData('save', data);
             }
 
+            },
+            saveAdditionalInfo: function(data) {
+                $log.debug("from service " +  data)
+                return saveInfo('calibrator/verifications/saveInfo', data);
+            },
+            checkIfAdditionalInfoExists: function(verifId) {
+                return checkInfo('calibrator/verifications/checkInfo/' +  verifId);
+            },
+            findAdditionalInfoByVerifId: function(verifId) {
+                return findInfo('calibrator/verifications/findInfo/'+ verifId);
+            },
         };
 
         function getData(url) {
@@ -135,6 +146,37 @@ angular
             return $http.get('application/' + url)
                 .success(function (data) {
                     return data;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+
+        function saveInfo(url, data) {
+            //console.log("from service" + data);
+            return $http.post(url, data)
+                .success(function (response) {
+                    console.log(response);
+                    return response;
+                })
+                .error(function (err) {
+                    console.log(err);
+                    return err;
+                });
+        }
+        function checkInfo(url) {
+            return $http.get(url)
+                .success(function (response) {
+                    return response;
+                })
+                .error(function (err) {
+                    return err;
+                });
+        }
+        function findInfo(url) {
+            return $http.get(url)
+                .success(function (response) {
+                    return response;
                 })
                 .error(function (err) {
                     return err;

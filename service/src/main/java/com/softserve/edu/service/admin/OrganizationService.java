@@ -15,6 +15,8 @@ import java.util.Set;
 
 public interface OrganizationService {
 
+    Set<Organization> findAll();
+
     void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                   Integer maxProcessTime, String firstName, String lastName, String middleName,
                                   String username, Address address, String adminName, Long[] localityIdList)  throws UnsupportedEncodingException, MessagingException;

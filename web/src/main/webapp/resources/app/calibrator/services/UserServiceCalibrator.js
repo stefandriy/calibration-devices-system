@@ -41,7 +41,7 @@ angular
             return $http.get(url, {
                 params: params
             }).success(function (data) {
-                return data;
+                    return data;
             }).error(function (err) {
                 return err;
             });

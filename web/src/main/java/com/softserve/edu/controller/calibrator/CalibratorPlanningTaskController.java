@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/task/")
+@RequestMapping(value = "/task")
 public class CalibratorPlanningTaskController {
 
     @Autowired

@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+
 <div id="page-wrapper">
 
     <div class="row">
@@ -16,51 +10,49 @@
     <div class="row">
         <div class="col-md-12">
             <br/>
+
             <div class="panel panel-default">
 
                 <div class="panel-heading">
                     <span>{{'INFORMATION' | translate}}</span>
-                    <span class="pull-right">{{'PROTOCOLS_FOUND' | translate }}: {{resultsCount}}</span>
+                    <span class="pull-right">{{'PROTOCOLS_FOUND' | translate }}: {{totalItems}}</span>
                 </div>
 
                 <div class="panel-body">
-
-
-
                     <div class="row">
                         <div class="col-md-12">
-                            <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
-                                   class="table table-bordered table-hover users_table">
+                            <table show-filter="false" ng-table="tableParams" template-pagination="custom/pager"
+                                   class="table table-bordered table-hover users_table" >
 
-                                <tbody>
-                                <tr ng-repeat="verification in $data" >
-                                    <td data-title="''"><input type="checkbox" ng-click="resolveVerificationId(verification.verficationId)"/>
+                                <tbody >
+                                <tr ng-repeat="verification in $data"  >
+                                    <td data-title="''"><input type="checkbox"  ng-model="checked"
+                                                               ng-click="resolveVerificationId(verification.verficationId)"
+                                            />
                                     </td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
-                                        filter="{ 'date': 'daterange' }">{{ verification.initialDate | date :
+                                        filter="{ 'date': 'daterange' }">{{ verification.sentToCalibratorDate | date :
                                         'dd-MM-yyyy'}}
                                         <div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' |
-                                            translate}} {{verification.initialDate}} {{'DAYS' |
+                                            translate}} {{verification.sentToCalibratorDate}} {{'DAYS' |
                                             translate}}</b>
                                         </div>
                                     </td>
                                     <td data-title="'CLIENT_FULL_NAME' | translate"
-                                        filter="{ 'client_full_name': 'text' }">{{ verification.clientFullName }}
+                                        filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
+                                        <!-- Achtunch-->
                                     </td>
                                     <td data-title="'CLIENT_ADDRESS' | translate"
                                         filter="{ 'address': 'text' }">{{ verification.address }}
                                     </td>
                                     <td data-title="'PROVIDER_NAME' | translate"
-                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.providerName }}
+                                        filter="{ 'provider': 'text' }">{{ verification.nameProvider }}
                                     </td>
                                     <td data-title="'CALIBRATOR_NAME' | translate"
-                                        filter="{ 'calibrator': 'text' }" ng-model="filters.id">{{ verification.calibratorName }}
+                                        filter="{ 'calibrator': 'text' }">{{ verification.nameCalibrator }}
                                     </td>
-
-
-
                                     <td data-title="'STATUS' | translate"
-                                        filter="{ 'taskStatus': 'text' }">{{ verification.status }}
+                                        filter="{ 'taskStatus': 'text' }">{{ verification.status | translate }}
                                     </td>
 
                                 </tr>
@@ -115,21 +107,17 @@
                                         </span>
                                 </div>
                             </script>
-
-
-                            <p id="emptyError" ng-if="allIsEmpty && isClicked"
-                               class="help-block">
+                            <p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                Оберіть хоча б один протокол
                             </p>
-
                             <div class="pull-left">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="openTask()"><span class="glyphicon glyphicon-send"></span>
+                                <button ng-model="button"  type="button" class="btn btn-primary"
+                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
                                     {{'SEND' | translate}}
                                 </button>
+
                             </div>
-
-
                         </div>
                     </div>
                 </div>
@@ -137,5 +125,3 @@
         </div>
     </div>
 </div>
-</body>
-</html>
