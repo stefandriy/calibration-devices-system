@@ -210,14 +210,14 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
             String beginPhoto = deviceTestData.getBeginPhoto(testDataId);
             byte[] bytesOfImages = Base64.decodeBase64(beginPhoto);
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-            String imageNameBegin = "beginPhoto" + calibrationTest.getId() + testDataId + "jpg";
+            String imageNameBegin = "beginPhoto" + calibrationTest.getId() + testDataId + ".jpg";
             ImageIO.write(bufferedImage, "jpg", new File(localStorage + imageNameBegin));
             CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(calibrationTest, imageNameBegin + ".jpg");
 
             String endPhoto = deviceTestData.getEndPhoto(testDataId);
             bytesOfImages = Base64.decodeBase64(endPhoto);
             bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-            String imageNameEnd = "endPhoto" + calibrationTest.getId() + testDataId + "jpg";
+            String imageNameEnd = "endPhoto" + calibrationTest.getId() + testDataId + ".jpg";
             ImageIO.write(bufferedImage, "jpg", new File(localStorage + imageNameEnd));
             CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(calibrationTest, imageNameEnd + ".jpg");
 
