@@ -60,4 +60,20 @@ public class CalibrationTestData {
         this.testResult = testResult;
         this.calibrationTest = calibrationTest;
     }
+    public CalibrationTestData(
+            Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
+            Double endValue, Double volumeInDevice, Double actualConsumption,
+            Double calculationError, CalibrationTest calibrationTest
+    ) {
+        this.givenConsumption = givenConsumption;
+        this.acceptableError = acceptableError;
+        this.volumeOfStandard = volumeOfStandard;
+        this.initialValue = initialValue;
+        this.endValue = endValue;
+        this.volumeInDevice = volumeInDevice;
+        this.testTime = new Date();
+        this.actualConsumption = actualConsumption;
+        this.calculationError = calculationError;
+        this.calibrationTest = calibrationTest;
+    }
 }

@@ -59,7 +59,7 @@ public class CalibrationTest {
     private Set<CalibrationTestData> calibrationTestDataSet;
 
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
+                             Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         this.name = name;
         this.dateTest = new Date();
         this.temperature = temperature;
@@ -69,7 +69,16 @@ public class CalibrationTest {
         this.consumptionStatus = consumptionStatus;
         this.testResult = testResult;
     }
-
+    public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
+                           Double longitude) {
+        this.name = name;
+        this.dateTest = new Date();
+        this.temperature = temperature;
+        this.settingNumber = settingNumber;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        ;
+    }
     public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {
         this.verification = verification;
     }
