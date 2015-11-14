@@ -8,10 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Виконавець послуг</title>
-    <link href="/resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
-	<link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/resources/assets/css/provider.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
+	<link href="resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="resources/assets/css/provider.css" rel="stylesheet">
 </head>
 
 <body>
@@ -83,6 +83,6 @@
 
 </div>
 
-<script type="text/javascript" data-main="/resources/app/provider/runApp"
-        src="/resources/assets/bower_components/requirejs/require.js"></script>
+<script type="text/javascript" data-main="resources/app/provider/runApp"
+        src="resources/assets/bower_components/requirejs/require.js"></script>
 </body>

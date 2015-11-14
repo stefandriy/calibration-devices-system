@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Повірник</title>
-    <link href="/resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/resources/assets/css/calibrator.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="resources/assets/css/calibrator.css" rel="stylesheet">
 </head>
 
 <body>
@@ -62,7 +62,7 @@
                       	</a>
                     </li>
 					
-					<sec:authorize url="/calibrator/admin/">
+					<sec:authorize url="calibrator/admin/">
                     <li ui-sref-active="active">
                         <a ui-sref="employees"><i class="fa fa-user-plus"></i>Додати працівника</a>
                     </li>
@@ -77,6 +77,6 @@
 
 </div>
 
-<script type="text/javascript" data-main="/resources/app/calibrator/runApp"
-        src="/resources/assets/bower_components/requirejs/require.js"></script>
+<script type="text/javascript" data-main="resources/app/calibrator/runApp"
+        src="resources/assets/bower_components/requirejs/require.js"></script>
 </body>

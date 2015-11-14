@@ -110,7 +110,7 @@ angular
                 var addOrganizationModal = $modal.open({
                     animation: true,
                     controller: 'OrganizationAddModalController',
-                    templateUrl: '/resources/app/admin/views/modals/organization-add-modal.html',
+                    templateUrl: 'resources/app/admin/views/modals/organization-add-modal.html',
                     size: 'lg',
                     resolve: {
                         regions: function () {
@@ -155,7 +155,7 @@ angular
                             .open({
                                 animation: true,
                                 controller: 'OrganizationEditModalController',
-                                templateUrl: '/resources/app/admin/views/modals/organization-edit-modal.html',
+                                templateUrl: 'resources/app/admin/views/modals/organization-edit-modal.html',
                                 size: 'lg',
                                 resolve: {
                                     regions: function () {
@@ -187,7 +187,7 @@ angular
                             .open({
                                 animation: true,
                                 controller: 'OrganizationEditHistoryModalController',
-                                templateUrl: '/resources/app/admin/views/modals/organization-edit-history-modal.html',
+                                templateUrl: 'resources/app/admin/views/modals/organization-edit-history-modal.html',
                                 size: 'lg'
                             });
                     });

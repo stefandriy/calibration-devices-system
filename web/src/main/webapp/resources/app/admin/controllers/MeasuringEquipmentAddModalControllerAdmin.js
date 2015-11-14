@@ -59,7 +59,7 @@ angular.module('adminModule')
                     saveEquipment();
                     $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/admin/views/modals/measuring-equipment-adding-success.html',
+                        templateUrl: 'resources/app/admin/views/modals/measuring-equipment-adding-success.html',
                         controller: function ($modalInstance) {
                             this.ok = function () {
                                 $modalInstance.close();

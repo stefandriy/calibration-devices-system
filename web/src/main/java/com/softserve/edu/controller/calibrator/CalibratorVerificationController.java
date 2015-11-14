@@ -1,7 +1,6 @@
 package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransformer;
-import com.softserve.edu.controller.calibrator.util.CalibratorTestTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.*;
@@ -241,7 +240,7 @@ public class CalibratorVerificationController {
      * Receives bbi file, saves it in the system, parses it and
      * returns parsed data
      *
-     * @param file           uploaded file
+     * @param file uploaded file
      * @param verificationId id of verification
      * @return Entity which contains Calibration Test Data and HTTP status
      */
@@ -253,13 +252,13 @@ public class CalibratorVerificationController {
             String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
                 DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
-
-                long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
-
-//                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
-//                responseEntity = new ResponseEntity(CalibratorTestTransformer.toDTO(calibrationTest), HttpStatus.OK);
-
                 responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
+                // зберігає дані в таблицю calibration_test
+                // вернути ід протоколу
+
+                testService.createNewTest(deviceTestData, verificationId);
+
+
             } else {
                 logger.error("Failed to load file: pattern does not match.");
                 responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -275,13 +274,11 @@ public class CalibratorVerificationController {
     /**
      * Receives archive with BBI files and DB file, calls appropriate services
      * and returns the outcomes of parsing back to the client.
-     *
      * @param file Archive with BBIs and DBF
      * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
      */
     @RequestMapping(value = "new/upload-archive", method = RequestMethod.POST)
-    public
-    @ResponseBody
+    public @ResponseBody
     List<BBIOutcomeDTO> uploadFileArchive(@RequestBody MultipartFile file) {
         List<BBIOutcomeDTO> bbiOutcomeDTOList = null;
         try {
