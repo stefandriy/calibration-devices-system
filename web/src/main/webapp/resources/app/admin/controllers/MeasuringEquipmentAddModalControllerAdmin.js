@@ -19,23 +19,17 @@ angular
             $scope.init = function () {
 
                 $scope.addCalibrationModuleFormData = {};
-                $scope.data = {};
-                /*$scope.data.customerType = "";
-                 $scope.data.customers = [];
-                 $scope.data.selectedCustomer = {};
-                 $scope.data.executorType = "";
-                 $scope.data.executors = [];
-                 $scope.data.selectedExecutors = {};*/
+                //$scope.data = {};
 
-                $scope.data.organizationCode = '';
-                $scope.data.condDesignation = '';
-                $scope.data.serialNumber = '';
-                $scope.data.employeeFullName = '';
-                $scope.data.telephone = '';
-                $scope.data.workDate = '';
-                $scope.data.moduleType = '';
-                $scope.data.email = '';
-                $scope.data.calibrationType = '';
+                $scope.addCalibrationModuleFormData.organizationCode = '';
+                $scope.addCalibrationModuleFormData.condDesignation = '';
+                $scope.addCalibrationModuleFormData.serialNumber = '';
+                $scope.addCalibrationModuleFormData.employeeFullName = '';
+                $scope.addCalibrationModuleFormData.telephone = '';
+                $scope.addCalibrationModuleFormData.workDate = '';
+                $scope.addCalibrationModuleFormData.moduleType = '';
+                $scope.addCalibrationModuleFormData.email = '';
+                $scope.addCalibrationModuleFormData.calibrationType = '';
 
                 $scope.deviceTypeData = [
                     {
@@ -48,18 +42,6 @@ angular
                     }
                 ];
 
-                $scope.organizationTypeData = [
-                    {
-                        type: 'PROVIDER',
-                        label: $filter('translate')('PROVIDER')
-                    },
-                    {
-                        type: 'CALIBRATOR',
-                        label: $filter('translate')('CALIBRATOR')
-                    }
-                ];
-
-                /* addCalibrationModuleFormData -> addCalibrationModuleFormData */
                 if (calibrationModule !== undefined) {
                     $scope.addCalibrationModuleFormData.deviceType = {
                         type: calibrationModule.deviceType,
@@ -106,7 +88,7 @@ angular
                 $scope.addCalibrationModuleForm.$setPristine();
                 $scope.addCalibrationModuleForm.$setUntouched();
                 $scope.addCalibrationModuleFormData = {};
-                $scope.data = {};
+                //$scope.data = {};
             };
 
             /**
@@ -127,15 +109,15 @@ angular
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addCalibrationModuleForm.$valid) {
                     $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.type;
-                    $scope.addCalibrationModuleFormData.organizationCode = $scope.data.organizationCode;
-                    $scope.addCalibrationModuleFormData.condDesignation = $scope.data.condDesignation;
-                    $scope.addCalibrationModuleFormData.serialNumber = $scope.data.serialNumber;
-                    $scope.addCalibrationModuleFormData.employeeFullName = $scope.data.employeeFullName;
-                    $scope.addCalibrationModuleFormData.telephone = $scope.data.telephone;
-                    $scope.addCalibrationModuleFormData.workDate = $scope.data.workDate;
-                    $scope.addCalibrationModuleFormData.moduleType = $scope.data.moduleType;
-                    $scope.addCalibrationModuleFormData.email = $scope.data.email;
-                    $scope.addCalibrationModuleFormData.calibrationType = $scope.data.calibrationType;
+                    /*$scope.addCalibrationModuleFormData.organizationCode = $scope.addCalibrationModuleFormData.organizationCode;
+                    $scope.addCalibrationModuleFormData.condDesignation = $scope.addCalibrationModuleFormData.condDesignation;
+                    $scope.addCalibrationModuleFormData.serialNumber = $scope.addCalibrationModuleFormData.serialNumber;
+                    $scope.addCalibrationModuleFormData.employeeFullName = $scope.addCalibrationModuleFormData.employeeFullName;
+                    $scope.addCalibrationModuleFormData.telephone = $scope.addCalibrationModuleFormData.telephone;
+                    $scope.addCalibrationModuleFormData.workDate = $scope.addCalibrationModuleFormData.workDate;
+                    $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType;
+                    $scope.addCalibrationModuleFormData.email = $scope.addCalibrationModuleFormData.email;
+                    $scope.addCalibrationModuleFormData.calibrationType = $scope.addCalibrationModuleFormData.calibrationType;*/
                     saveCalibrationModule();
                 }
             };
@@ -155,7 +137,7 @@ angular
                             }
                         });
                 } else {
-                    measuringEquipmentServiceAdmin.editAgreement($scope.addCalibrationModuleFormData, calibrationModule.id)
+                    measuringEquipmentServiceAdmin.editCalibrationModule($scope.addCalibrationModuleFormData, calibrationModule.id)
                         .then(function (result) {
                             if (result == 200) {
                                 $scope.closeModal(true);

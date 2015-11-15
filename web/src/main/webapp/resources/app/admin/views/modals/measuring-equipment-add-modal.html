@@ -11,7 +11,7 @@
             </div>
             <div class="panel-body">
                 <!-- todo DEVICE TYPE-->
-                <div class="form-group row">
+                <div class="form-group row" show-errors>
                     <label for="deviceType" class="control-label col-md-4">
                         {{'INSTALLATION_TYPE' | translate}}
                     </label>
@@ -149,7 +149,7 @@
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon-code">+380</span>
                             <input id="telephone" name="telephone" type="text"
-                                   class="form-control col-md-8 " ng-model="addCalibrationModuleFormData.phone"
+                                   class="form-control col-md-8 " ng-model="addCalibrationModuleFormData.telephone"
                                    placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX"
                                    popover="Введіть номер телефону"
                                    popover-trigger="focus" popover-placement="top"
@@ -171,26 +171,26 @@
                 </div>
 
                 <div class="form-group row" show-errors>
-                    <label class="control-label col-md-4" for="validUntil">
+                    <label class="control-label col-md-4" for="workDate">
                         {{'VALID_UNTIL' | translate }}
                     </label>
 
                     <div class="col-md-8">
-                        <input type="date" ng-model="equipmentFormData.validUntil" id="validUntil"
-                               name="validUntil"
+                        <input type="date" ng-model="addCalibrationModuleForm.workDate" id="workDate"
+                               name="workDate"
                                class="form-control" required>
 						 	<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="equipmentForm.symbol.$error.required">
+                        <p class="help-block" ng-if="addCalibrationModuleForm.workDate.$error.required">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'REQUIRED' | translate}}
                         </p>
 
-                        <p class="help-block" ng-if="equipmentForm.name.$error.pattern">
+                        <!-- <p class="help-block" ng-if="addCalibrationModuleForm.workDate.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'ORGANIZATION_NAME_LENGTH' | translate }}
-                        </p>
+                        </p> -->
                     </div>
                 </div>
 
@@ -202,7 +202,7 @@
                     <div class="col-md-8">
                         <input type="text" ng-model="addCalibrationModuleFormData.moduleType" id="moduleType"
                                name="moduleType"
-                               class="form-control" popover="Введіть ПІБ контактної особи"
+                               class="form-control" popover="Введіть тип установки"
                                popover-trigger="focus" popover-placement="top"
                                required>
 						 	<span class="form-control-feedback glyphicon
@@ -254,7 +254,7 @@
                     <div class="col-md-8">
                         <input type="text" ng-model="addCalibrationModuleFormData.calibrationType" id="calibrationType"
                                name="calibrationType"
-                               class="form-control" popover="Введіть ПІБ контактної особи"
+                               class="form-control" popover="Введіть методику повірки"
                                popover-trigger="focus" popover-placement="top"
                                required>
 						 	<span class="form-control-feedback glyphicon
