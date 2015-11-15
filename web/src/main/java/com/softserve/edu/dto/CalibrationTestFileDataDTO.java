@@ -109,17 +109,17 @@ public class CalibrationTestFileDataDTO {
     public CalibrationTestFileDataDTO(CalibrationTest calibrationTest) {
         CalibrationTestServiceImpl calibrationTestService = new CalibrationTestServiceImpl();
         this.fileName = calibrationTest.getName();
-//        this.counterNumber = testData.getCurrentCounterNumber();//?
+//        this.counterNumber = testData.getCurrentCounterNumber();?
         this.testDate = calibrationTest.getDateTest();
         this.temperature = calibrationTest.getTemperature();
-//        this.accumulatedVolume = ; // don't have this value.
-//       this.counterProductionYear = testData.getCounterProductionYear(); //чого незберігає в бд ?
+//       this.accumulatedVolume = ; // don't have this value.
+//       this.counterProductionYear = testData.getCounterProductionYear();?
         this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
         this.testPhoto = calibrationTestService.getPhotoAsString(calibrationTest.getPhotoPath());
-        this.consumptionStatus = calibrationTest.getConsumptionStatus().toString();//null
-        this.testResult = calibrationTest.getTestResult();//null
+        this.consumptionStatus = calibrationTest.getConsumptionStatus().toString();
+        this.testResult = calibrationTest.getTestResult();
         this.listTestData = new ArrayList();
         int testNumber = 1;
         List<CalibrationTestIMG> calibrationTestIMGList;
