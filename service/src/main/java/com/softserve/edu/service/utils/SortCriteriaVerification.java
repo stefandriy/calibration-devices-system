@@ -110,9 +110,9 @@ public enum SortCriteriaVerification {
 	    	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 	    	
 	    		if(sortOrder.equalsIgnoreCase("asc")) {
-	    			return (cb.asc(root.join("providerEmployee").get("lastName")));
+	    			return (cb.asc(root.get("providerEmployee")));
 	    		} else {
-	    			return (cb.desc(root.join("providerEmployee").get("lastName")));
+	    			return (cb.desc(root.get("providerEmployee")));
 	    		}
 	        }
 	    },
@@ -120,9 +120,9 @@ public enum SortCriteriaVerification {
 		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 
 			if(sortOrder.equalsIgnoreCase("asc")) {
-				return (cb.asc(root.join("stateVerificatorEmployee").get("lastName")));
+				return (cb.asc(root.get("stateVerificatorEmployee")));
 			} else {
-				return (cb.desc(root.join("stateVerificatorEmployee").get("lastName")));
+				return (cb.desc(root.get("stateVerificatorEmployee")));
 			}
 		}
 	},
@@ -130,9 +130,9 @@ public enum SortCriteriaVerification {
 		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 
 			if(sortOrder.equalsIgnoreCase("asc")) {
-				return (cb.asc(root.join("calibratorEmployee").get("lastName")));
+				return (cb.asc(root.get("calibratorEmployee")));
 			} else {
-				return (cb.desc(root.join("calibratorEmployee").get("lastName")));
+				return (cb.desc(root.get("calibratorEmployee")));
 			}
 		}
 	},
