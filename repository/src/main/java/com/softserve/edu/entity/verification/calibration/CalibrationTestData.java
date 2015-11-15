@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -41,6 +42,9 @@ public class CalibrationTestData {
     @ManyToOne
     @JoinColumn(name = "calibrationTestId")
     private CalibrationTest calibrationTest;
+
+    @OneToMany(mappedBy = "calibrationTestData")
+    private List<CalibrationTestIMG> testIMGs;
 
     public CalibrationTestData(
             Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,

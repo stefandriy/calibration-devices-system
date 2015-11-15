@@ -20,8 +20,8 @@ public class CalibrationTestIMG {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "calibrationTestId")
-    private CalibrationTest calibrationTest;
+    @JoinColumn(name = "calibrationTestDataId")
+    private CalibrationTestData calibrationTestData;
 
     private String imgName;
 
@@ -29,7 +29,7 @@ public class CalibrationTestIMG {
     private Date initialDate;
 
     public CalibrationTestIMG(CalibrationTest calibrationTest, String imgName) {
-        this.calibrationTest = calibrationTest;
+//        this.calibrationTest = calibrationTest;
         this.imgName = imgName;
         this.initialDate = new Date();
     }

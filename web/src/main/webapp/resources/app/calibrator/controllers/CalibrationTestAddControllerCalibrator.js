@@ -78,7 +78,21 @@ angular
                     })
             }
 
-            getCalibrationTests();
+            function getProtocolTest(verificationID) {
+                calibrationTestServiceCalibrator
+                    .getTestProtocol(verificationID)
+                    .then(function (data){
+                        $scope.parseBbiFile(data);
+                        $log.debug("inside");
+                    } );
+            }
+
+            if ( $scope.hasProtocol){
+                getProtocolTest($scope.testId);
+            }else{
+                getCalibrationTests();
+
+            }
 
             /**
              * Saves new test from the form in database.

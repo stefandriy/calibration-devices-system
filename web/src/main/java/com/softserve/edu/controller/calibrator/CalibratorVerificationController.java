@@ -70,6 +70,7 @@ public class CalibratorVerificationController {
 
     @Autowired
     CalibrationTestService testService;
+
     @Autowired
     CalibrationTestDataService testDataService;
 
@@ -253,7 +254,6 @@ public class CalibratorVerificationController {
             String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
                 DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
-
                 long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
 
 //                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);

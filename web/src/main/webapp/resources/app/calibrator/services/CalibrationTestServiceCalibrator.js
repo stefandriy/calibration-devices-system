@@ -40,7 +40,7 @@ angular
                     });
             },
             getTestProtocol: function (verificationId) {
-                var url = '/calibrator/calibrationTests/createEmptyTest/' + verificationId;
+                var url = '/calibrator/calibrationTests/getProtocol/' + verificationId;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;

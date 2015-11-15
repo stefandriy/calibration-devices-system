@@ -2,12 +2,16 @@ package com.softserve.edu.dto;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTest;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
+import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
+import com.softserve.edu.service.calibrator.data.test.impl.CalibrationTestServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class CalibrationTestFileDataDTO {
 
@@ -37,9 +41,12 @@ public class CalibrationTestFileDataDTO {
 
     private List<CalibrationTestDataDTO> listTestData;
 
-    public CalibrationTestFileDataDTO() {}
+
+    public CalibrationTestFileDataDTO() {
+    }
+
     public CalibrationTestFileDataDTO(String fileName, Date data, int temperature, long installmentNumber,
-                                      double latitude, double longitude, String testPhoto ){
+                                      double latitude, double longitude, String testPhoto) {
         this.fileName = fileName;
         this.testDate = data;
         this.temperature = temperature;
@@ -50,6 +57,7 @@ public class CalibrationTestFileDataDTO {
 
 
     }
+
     public CalibrationTestFileDataDTO(DeviceTestData testData) {
         this.fileName = testData.getFileName();
         this.counterNumber = testData.getCurrentCounterNumber();
@@ -64,7 +72,7 @@ public class CalibrationTestFileDataDTO {
 
         this.listTestData = new ArrayList<>();
 
-        for (int i = 1; i <= 6; ++i ) {
+        for (int i = 1; i <= 6; ++i) {
             CalibrationTestDataDTO testDataDTO = new CalibrationTestDataDTO();
             int testNumber = testData.getTestNumber(i);
             if (testNumber == 0) {
@@ -79,7 +87,7 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setTestNumber(testNumberStr);
             testDataDTO.setGivenConsumption(convertImpulsesPerSecToCubicMetersPerHour(
                     testData.getTestSpecifiedConsumption(i),
-                        testData.getImpulsePricePerLitre()));
+                    testData.getImpulsePricePerLitre()));
             testDataDTO.setAcceptableError(testData.getTestAllowableError(i));
             testDataDTO.setInitialValue(testData.getTestInitialCounterValue(i));
             testDataDTO.setEndValue(testData.getTestTerminalCounterValue(i));
@@ -88,7 +96,7 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setVolumeOfStandard(testData.getTestSpecifiedImpulsesAmount(i) * 1.0);
             testDataDTO.setActualConsumption(convertImpulsesPerSecToCubicMetersPerHour(
                     testData.getTestCorrectedCurrentConsumption(i),
-                        testData.getImpulsePricePerLitre()));
+                    testData.getImpulsePricePerLitre()));
             testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
                     testDataDTO.getVolumeOfStandard()));
             testDataDTO.setBeginPhoto(testData.getBeginPhoto(i));
@@ -97,6 +105,52 @@ public class CalibrationTestFileDataDTO {
             this.listTestData.add(testDataDTO);
         }
     }
+
+    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest) {
+        CalibrationTestServiceImpl calibrationTestService = new CalibrationTestServiceImpl();
+        this.fileName = calibrationTest.getName();
+//        this.counterNumber = testData.getCurrentCounterNumber();//?
+        this.testDate = calibrationTest.getDateTest();
+        this.temperature = calibrationTest.getTemperature();
+//        this.accumulatedVolume = ; // don't have this value.
+//       this.counterProductionYear = testData.getCounterProductionYear(); //чого незберігає в бд ?
+        this.installmentNumber = calibrationTest.getSettingNumber();
+        this.latitude = calibrationTest.getLatitude();
+        this.longitude = calibrationTest.getLongitude();
+        this.testPhoto = calibrationTestService.getPhotoAsString(calibrationTest.getPhotoPath());
+        this.consumptionStatus = calibrationTest.getConsumptionStatus().toString();//null
+        this.testResult = calibrationTest.getTestResult();//null
+        this.listTestData = new ArrayList();
+        int testNumber = 1;
+        List<CalibrationTestIMG> calibrationTestIMGList;
+        CalibrationTestIMG calibrationTestIMG;
+        for (CalibrationTestData calibrationTestData : calibrationTest.getCalibrationTestDataList()) {
+            CalibrationTestDataDTO testDataDTO = new CalibrationTestDataDTO();
+            testDataDTO.setDataAvailable(true);
+            testDataDTO.setTestNumber("Test" + testNumber);
+            testDataDTO.setGivenConsumption(calibrationTestData.getGivenConsumption());
+            testDataDTO.setAcceptableError(calibrationTestData.getAcceptableError());
+            testDataDTO.setInitialValue(calibrationTestData.getInitialValue());
+            testDataDTO.setEndValue(calibrationTestData.getEndValue());
+            testDataDTO.setVolumeInDevice(round(calibrationTestData.getEndValue() - calibrationTestData.getInitialValue(), 2));
+//            testDataDTO.setTestTime(round(testData.getTestDuration(i), 1))?
+            testDataDTO.setVolumeOfStandard(calibrationTestData.getVolumeOfStandard());
+            testDataDTO.setActualConsumption(calibrationTestData.getActualConsumption());
+            testDataDTO.setCalculationError(calibrationTestData.getCalculationError());
+            calibrationTestIMGList = calibrationTestData.getTestIMGs();
+            for (int orderPhoto = 0; orderPhoto < calibrationTestIMGList.size(); orderPhoto++) {
+                calibrationTestIMG = calibrationTestIMGList.get(orderPhoto);
+                if (orderPhoto == 0) {
+                    testDataDTO.setBeginPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName()));
+                } else {
+                    testDataDTO.setEndPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName()));
+                }
+            }
+            listTestData.add(testDataDTO);
+            testNumber++;
+        }
+    }
+
 
     public String getFileName() {
         return fileName;

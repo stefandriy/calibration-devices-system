@@ -1,5 +1,9 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.service.calibrator.BbiFileService;
+import com.softserve.edu.service.parser.BbiDeviceTestDataParser;
+import com.softserve.edu.service.parser.DeviceTestDataParser;
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
@@ -15,6 +19,7 @@ import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -26,6 +31,8 @@ import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -52,6 +59,8 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Autowired
     private VerificationRepository verificationRepository;
+
+    private Logger logger = Logger.getLogger(CalibrationTestServiceImpl.class);
 
     @Transactional
     public CalibrationTest findTestById(Long testId) {
@@ -128,7 +137,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
         CalibrationTest calibrationTest = testRepository.findOne(idCalibrationTest);
         CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
-        testIMGRepository.save(calibrationTestIMG);
+//        testIMGRepository.save(calibrationTestIMG);
     }
 
     @Override
@@ -176,8 +185,12 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 deviceTestData.getLatitude(),
                 deviceTestData.getLongitude()
                 );
+
+        calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
+        calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
         calibrationTest.setVerification(verification);
         testRepository.save(calibrationTest);
+
 
         String photo = deviceTestData.getTestPhoto();
         byte[] bytesOfImage = Base64.decodeBase64(photo);
@@ -185,6 +198,8 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         String testPhoto = "photo" + calibrationTest.getId()+"ver"+verificationId+  ".jpg";
         ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
         calibrationTest.setPhotoPath(testPhoto);
+        calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
+        calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
 
 
         Set<CalibrationTestData> calibrationTestDataSet = new HashSet<>();
@@ -232,12 +247,39 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
             testIMGRepository.save(calibrationTestIMGEnd);
 
         }
-        calibrationTest.setCalibrationTestDataSet(calibrationTestDataSet);
+//        calibrationTest.setCalibrationTestDataSet(calibrationTestDataSet);
         testRepository.save(calibrationTest);
         return calibrationTest.getId();
-
-
     }
+
+    public String getPhotoAsString(String photoPath) {
+        String photo = null;
+        InputStream reader = null;
+        BufferedImage image = null;
+        BufferedInputStream bufferedInputStream = null;
+        DeviceTestDataParser deviceTestDataParser = new BbiDeviceTestDataParser();
+        try {
+            reader = new FileInputStream("C:/Users/Public/SERVER/Apache/htdocs/img" + "/" + photoPath + ".jpg");
+            bufferedInputStream = new BufferedInputStream(reader);
+            image = ImageIO.read(bufferedInputStream);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "jpg", baos);
+            byte[] bytesOfImages = Base64.encodeBase64(baos.toByteArray());
+            photo = new String(bytesOfImages);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        } finally {
+            try {
+                bufferedInputStream.close();
+                reader.close();
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        return photo;
+    }
+
+
 
     private double round(double val, int scale) {
         return new BigDecimal(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
