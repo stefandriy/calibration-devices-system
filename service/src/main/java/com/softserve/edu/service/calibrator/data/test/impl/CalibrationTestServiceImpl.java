@@ -65,120 +65,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     private Logger logger = Logger.getLogger(CalibrationTestServiceImpl.class);
 
-    @Transactional
-    public CalibrationTest findTestById(Long testId) {
-        return testRepository.findOne(testId);
-    }
-
-    @Transactional
-    public CalibrationTest findByVerificationId(String verifId) {
-        return testRepository.findByVerificationId(verifId);
-    }
-
-    @Transactional
-    public CalibrationTestList findAllCalibrationTests() {
-        List<CalibrationTest> list = (ArrayList<CalibrationTest>) testRepository.findAll();
-        return new CalibrationTestList(list);
-    }
-
-    @Override
-    @Transactional
-    public Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search) {
-        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
-        return search.equalsIgnoreCase("null") ? testRepository.findAll(pageRequest) : testRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
-    }
-
-    @Override
-    @Transactional
-    public CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
-                                    Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
-        CalibrationTest calibrationTest = testRepository.findOne(testId);
-        testResult = Verification.CalibrationTestResult.SUCCESS;
-        calibrationTest.setName(name);
-        calibrationTest.setTemperature(temperature);
-        calibrationTest.setSettingNumber(settingNumber);
-        calibrationTest.setLatitude(latitude);
-        calibrationTest.setLongitude(longitude);
-        calibrationTest.setConsumptionStatus(consumptionStatus);
-        calibrationTest.setTestResult(testResult);
-        return calibrationTest;
-    }
-
-    @Override
-    @Transactional
-    public void deleteTest(Long testId) {
-        testRepository.delete(testId);
-    }
-
-    @Override
-    @Transactional
-    public void createTestData(Long testId, CalibrationTestData testData) {
-        CalibrationTest calibrationTest = testRepository.findOne(testId);
-        testData.setCalibrationTest(calibrationTest);
-        dataRepository.save(testData);
-    }
-
-    @Override
-    @Transactional
-    public CalibrationTestDataList findAllTestDataAsociatedWithTest(Long calibrationTestId) {
-        CalibrationTest calibrationTest = testRepository.findOne(calibrationTestId);
-        if (calibrationTest == null) {
-            throw new NotAvailableException("Тесту з таким ID не існує!");
-        } else {
-            return new CalibrationTestDataList(calibrationTestId
-                    , dataRepository.findByCalibrationTestId(calibrationTestId));
-        }
-    }
-
-    @Override
-    @Transactional
-    public void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
-        String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
-        byte[] bytesOfImages = IOUtils.toByteArray(file);
-        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-        ImageIO.write(bufferedImage, fileType, new File(localStorage, originalFileFullName));
-
-        CalibrationTest calibrationTest = testRepository.findOne(idCalibrationTest);
-//        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
-//        testIMGRepository.save(calibrationTestIMG);
-    }
-
-   /* @Override
-    @Transactional
-    public CalibrationTest createEmptyTest(String verificationId) {
-        Verification verification = verificationRepository.findOne(verificationId);
-        CalibrationTest calibrationTest = new CalibrationTest();
-        calibrationTest.setVerification(verification);
-        testRepository.save(calibrationTest);
-        return calibrationTest;
-    }*/
-
-    @Override
-    @Transactional
-    public void createNewCalibrationTestData(CalibrationTestData calibrationTestData) {
-        dataRepository.save(calibrationTestData);
-    }
-
-    @Override
-    @Transactional
-    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
-                                                    Double latitude, Double longitude) {
-        Verification.CalibrationTestResult testResult;
-        CalibrationTest calibrationTest = testRepository.findOne(testId);
-        testResult = Verification.CalibrationTestResult.SUCCESS;
-        Date initial = new Date();
-        calibrationTest.setName(name);
-        calibrationTest.setDateTest(initial);
-        calibrationTest.setTemperature(temperature);
-        calibrationTest.setSettingNumber(settingNumber);
-        calibrationTest.setLatitude(latitude);
-        calibrationTest.setLongitude(longitude);
-        calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
-        calibrationTest.setTestResult(testResult);
-        return calibrationTest;
-    }
-
-
     public long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException {
         Verification verification = verificationRepository.findOne(verificationId);
         Verification.CalibrationTestResult testResult = Verification.CalibrationTestResult.SUCCESS;
@@ -245,6 +131,70 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     }
 
 
+    @Transactional
+    public CalibrationTest findTestById(Long testId) {
+        return testRepository.findOne(testId);
+    }
+
+    @Transactional
+    public CalibrationTest findByVerificationId(String verifId) {
+        return testRepository.findByVerificationId(verifId);
+    }
+
+    @Transactional
+    public CalibrationTestList findAllCalibrationTests() {
+        List<CalibrationTest> list = (ArrayList<CalibrationTest>) testRepository.findAll();
+        return new CalibrationTestList(list);
+    }
+
+    @Override
+    @Transactional
+    public Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search) {
+        PageRequest pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
+        return search.equalsIgnoreCase("null") ? testRepository.findAll(pageRequest) : testRepository.findByNameLikeIgnoreCase("%" + search + "%", pageRequest);
+    }
+
+    @Override
+    @Transactional
+    public CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
+                                    Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
+        CalibrationTest calibrationTest = testRepository.findOne(testId);
+        testResult = Verification.CalibrationTestResult.SUCCESS;
+        calibrationTest.setName(name);
+        calibrationTest.setTemperature(temperature);
+        calibrationTest.setSettingNumber(settingNumber);
+        calibrationTest.setLatitude(latitude);
+        calibrationTest.setLongitude(longitude);
+        calibrationTest.setConsumptionStatus(consumptionStatus);
+        calibrationTest.setTestResult(testResult);
+        return calibrationTest;
+    }
+
+    @Override
+    @Transactional
+    public void deleteTest(Long testId) {
+        testRepository.delete(testId);
+    }
+
+    @Override
+    @Transactional
+    public void createTestData(Long testId, CalibrationTestData testData) {
+        CalibrationTest calibrationTest = testRepository.findOne(testId);
+        testData.setCalibrationTest(calibrationTest);
+        dataRepository.save(testData);
+    }
+
+    @Override
+    @Transactional
+    public CalibrationTestDataList findAllTestDataAsociatedWithTest(Long calibrationTestId) {
+        CalibrationTest calibrationTest = testRepository.findOne(calibrationTestId);
+        if (calibrationTest == null) {
+            throw new NotAvailableException("Тесту з таким ID не існує!");
+        } else {
+            return new CalibrationTestDataList(calibrationTestId
+                    , dataRepository.findByCalibrationTestId(calibrationTestId));
+        }
+    }
     public String getPhotoAsString(String photoPath) {
         String photo = null;
         InputStream reader = null;
@@ -270,5 +220,53 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         }
         return photo;
     }
+    @Override
+    @Transactional
+    public void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
+        String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
+        byte[] bytesOfImages = IOUtils.toByteArray(file);
+        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
+        ImageIO.write(bufferedImage, fileType, new File(localStorage, originalFileFullName));
+
+        CalibrationTest calibrationTest = testRepository.findOne(idCalibrationTest);
+//        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
+//        testIMGRepository.save(calibrationTestIMG);
+    }
+
+   /* @Override
+    @Transactional
+    public CalibrationTest createEmptyTest(String verificationId) {
+        Verification verification = verificationRepository.findOne(verificationId);
+        CalibrationTest calibrationTest = new CalibrationTest();
+        calibrationTest.setVerification(verification);
+        testRepository.save(calibrationTest);
+        return calibrationTest;
+    }*/
+
+    @Override
+    @Transactional
+    public void createNewCalibrationTestData(CalibrationTestData calibrationTestData) {
+        dataRepository.save(calibrationTestData);
+    }
+
+    @Override
+    @Transactional
+    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
+                                                    Double latitude, Double longitude) {
+        Verification.CalibrationTestResult testResult;
+        CalibrationTest calibrationTest = testRepository.findOne(testId);
+        testResult = Verification.CalibrationTestResult.SUCCESS;
+        Date initial = new Date();
+        calibrationTest.setName(name);
+        calibrationTest.setDateTest(initial);
+        calibrationTest.setTemperature(temperature);
+        calibrationTest.setSettingNumber(settingNumber);
+        calibrationTest.setLatitude(latitude);
+        calibrationTest.setLongitude(longitude);
+        calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
+        calibrationTest.setTestResult(testResult);
+        return calibrationTest;
+    }
+
 
 }
