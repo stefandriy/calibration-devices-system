@@ -3,9 +3,9 @@
  */
 angular
     .module('employeeModule')
-    .controller('CalibrationTestAddControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
+    .controller('CalibrationTestAddControllerCalibrator', ['$rootScope', '$translate', '$scope', '$modal', '$http', '$log',
         'CalibrationTestServiceCalibrator', '$location', 'Upload', '$timeout',
-        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload,  $timeout) {
+        function ($rootScope, $translate, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload,  $timeout) {
 
             $scope.testId = $location.search().param;
             $scope.hasProtocol = $location.search().loadProtocol || false;
@@ -87,6 +87,33 @@ angular
                     } );
             }
 
+            $scope.selectedStatus = {
+                name: null
+            }
+            $scope.statusData = [
+                {id: 'REJECTED', label: null},
+                {id: 'SENT_TO_VERIFICATOR', label: null},
+                {id: 'TEST_OK', label: null},
+                {id: 'TEST_NOK', label: null}
+            ];
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.statusData[0].label = 'Відхилена';
+                    $scope.statusData[1].label = 'Предявлено повірнику';
+                    $scope.statusData[2].label = 'Перевірено придатний';
+                    $scope.statusData[3].label = 'Перевірено непридатний';
+                } else if (lang === 'eng') {
+                    $scope.statusData[0].label = 'Rejected';
+                    $scope.statusData[1].label = 'Sent to verificator';
+                    $scope.statusData[2].label = 'Tested OK';
+                    $scope.statusData[3].label = 'Tested NOK';
+                }
+            };
+
+            $scope.setTypeDataLanguage();
+
             if ( $scope.hasProtocol){
                 getProtocolTest($scope.testId);
             }else{
@@ -99,11 +126,11 @@ angular
              * If everything is ok then resets the test
              * form and updates table with tests.
              */
-            $scope.saveCalibrationTest = function () {
+            $scope.updateCalibrationTest = function () {
                 $scope.generalForms={testForm:$scope.TestForm, smallForm: $scope.TestDataFormData};
                 $log.debug($scope.generalForms);
                         calibrationTestServiceCalibrator
-                            .saveCalibrationTest($scope.generalForms, $scope.testId)
+                            .updateCalibrationTest($scope.generalForms, $scope.testId)
                             .then(function (data) {
                                 if (data == 201) {
                                     $rootScope.onTableHandling();

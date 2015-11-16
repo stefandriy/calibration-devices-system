@@ -136,7 +136,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         ImageIO.write(bufferedImage, fileType, new File(localStorage, originalFileFullName));
 
         CalibrationTest calibrationTest = testRepository.findOne(idCalibrationTest);
-        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
+//        CalibrationTestIMG calibrationTestIMG = new CalibrationTestIMG(calibrationTest, originalFileFullName);
 //        testIMGRepository.save(calibrationTestIMG);
     }
 
@@ -202,8 +202,8 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
 
 
-        Set<CalibrationTestData> calibrationTestDataSet = new HashSet<>();
-        Set<CalibrationTestIMG> calibrationTestIMGSet = new HashSet<>();
+        List<CalibrationTestData> calibrationTestDataList = new ArrayList<>();
+        List<CalibrationTestIMG> calibrationTestIMGList = new ArrayList<>();
         CalibrationTestData сalibrationTestData;
         deviceTestData.getTestCounter();
         testRepository.save(calibrationTest);
@@ -224,30 +224,30 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                     actualConsumption,
                     countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId) * 1.0), //calculationError
                     calibrationTest);
-            calibrationTestDataSet.add(сalibrationTestData);
-            dataRepository.save(сalibrationTestData);
-
+//            calibrationTestDataList.add(сalibrationTestData);
             String beginPhoto = deviceTestData.getBeginPhoto(testDataId);
             byte[] bytesOfImages = Base64.decodeBase64(beginPhoto);
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
             String imageNameBegin = "beginPhoto" + calibrationTest.getId() + testDataId + ".jpg";
             ImageIO.write(bufferedImage, "jpg", new File(localStorage +"//"+ imageNameBegin));
-            CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(calibrationTest, imageNameBegin + ".jpg");
+            CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(сalibrationTestData, imageNameBegin + ".jpg");
 
             String endPhoto = deviceTestData.getEndPhoto(testDataId);
             bytesOfImages = Base64.decodeBase64(endPhoto);
             bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
             String imageNameEnd = "endPhoto" + calibrationTest.getId() + testDataId + ".jpg";
-            ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//"+ imageNameEnd));
-            CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(calibrationTest, imageNameEnd + ".jpg");
+            ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameEnd));
+            CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(сalibrationTestData, imageNameEnd + ".jpg");
 
-            calibrationTestIMGSet.add(calibrationTestIMGBegin);
-            calibrationTestIMGSet.add(calibrationTestIMGEnd);
+            calibrationTestIMGList.add(calibrationTestIMGBegin);
+            calibrationTestIMGList.add(calibrationTestIMGEnd);
             testIMGRepository.save(calibrationTestIMGBegin);
             testIMGRepository.save(calibrationTestIMGEnd);
-
+            сalibrationTestData.setTestIMGs(calibrationTestIMGList);
+            dataRepository.save(сalibrationTestData);
+            calibrationTestDataList.add(сalibrationTestData);
         }
-//        calibrationTest.setCalibrationTestDataSet(calibrationTestDataSet);
+        calibrationTest.setCalibrationTestDataList(calibrationTestDataList);
         testRepository.save(calibrationTest);
         return calibrationTest.getId();
     }
@@ -257,7 +257,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         InputStream reader = null;
         BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
-        DeviceTestDataParser deviceTestDataParser = new BbiDeviceTestDataParser();
         try {
             reader = new FileInputStream("C:/Users/Public/SERVER/Apache/htdocs/img" + "/" + photoPath + ".jpg");
             bufferedInputStream = new BufferedInputStream(reader);

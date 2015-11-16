@@ -197,7 +197,6 @@ public class CalibrationTestController {
 
     @RequestMapping(value = "getProtocol/{verificationId}", method = RequestMethod.GET)
     public ResponseEntity getProtocol(@PathVariable String verificationId) throws FileNotFoundException, IOException, DecoderException {
-        System.out.println("hello");
         CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
         ResponseEntity responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest), HttpStatus.OK);
         return responseEntity;
