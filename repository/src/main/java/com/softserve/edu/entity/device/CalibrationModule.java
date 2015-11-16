@@ -45,16 +45,11 @@ public class CalibrationModule {
     @Column(nullable = false, columnDefinition = "bit(1) default 1")
     private Boolean isActive = true;
 
-    /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "calibratorId")
-    private Organization organization; */
-
     @Temporal(TemporalType.DATE)
     private Date workDate;
 
     /* @OneToMany(mappedBy = "module")
     private Set<CalibrationTask> tasks; */
-
 
     public CalibrationModule(Device.DeviceType deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
@@ -84,19 +79,6 @@ public class CalibrationModule {
         this.email = calibrationModule.getEmail();
         this.calibrationType = calibrationModule.getCalibrationType();
         this.workDate = calibrationModule.getWorkDate();
-    }
-
-    public void generateModuleNumber() {
-        StringBuilder sb = new StringBuilder();
-        switch (deviceType) {
-            case WATER: sb.append("1"); break;
-            case GASEOUS: sb.append("2"); break;
-            case ELECTRICAL: sb.append("3"); break;
-            case THERMAL: sb.append("4"); break;
-            default: break;
-        }
-        sb.append(String.format("%03d", moduleId));
-        moduleNumber = sb.toString();
     }
 
 }
