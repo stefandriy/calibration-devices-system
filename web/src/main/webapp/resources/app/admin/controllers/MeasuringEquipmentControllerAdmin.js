@@ -143,7 +143,7 @@ angular
                                 size: 'md',
                                 resolve: {
                                     calibrationModule: function () {
-                                        return calibrationModule; // calibrationModule.data
+                                        return calibrationModule.data;
                                     }
                                 }
                             });

@@ -7,7 +7,6 @@ import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.TypeConverter;
-import com.softserve.edu.specification.sort.CalibrationModuleSortCriteria;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -148,9 +147,13 @@ public class CalibrationModuleController {
         }
         searchDataMap.put("isActive", "true");
         // creating Sort object for using as a parameter for Pageable creation
-        Sort sort = sortCriteria != null && sortOrder != null ?
-                CalibrationModuleSortCriteria.valueOf(sortCriteria.toUpperCase()).getSort(sortOrder) :
-                CalibrationModuleSortCriteria.UNDEFINED.getSort(sortOrder);
+        Sort sort;
+        if ((sortCriteria.equals("undefined") && sortOrder.equals("undefined")) ||
+                sortCriteria == null && sortOrder == null) {
+            sort = new Sort(Sort.Direction.ASC, "moduleId");
+        } else {
+            sort = new Sort(Sort.Direction.valueOf(sortOrder.toUpperCase()), sortCriteria);
+        }
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration modules
         Page<CalibrationModule> queryResult = calibrationModuleService
