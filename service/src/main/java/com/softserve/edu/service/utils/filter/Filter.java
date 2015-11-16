@@ -3,7 +3,6 @@ package com.softserve.edu.service.utils.filter;
 import com.softserve.edu.service.utils.filter.internal.Condition;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -62,6 +61,7 @@ public class Filter implements Specification {
         return predicates;
     }
 
+
     public Predicate buildPredicate(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         switch (condition.comparison) {
             case eq:
@@ -71,6 +71,7 @@ public class Filter implements Specification {
             case lt:
                 break;
             case ne:
+
                 break;
             case isnull:
                 break;
@@ -91,4 +92,5 @@ public class Filter implements Specification {
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         return criteriaBuilder.like(root.get(condition.field), "%" + condition.value + "%");
     }
+
 }
