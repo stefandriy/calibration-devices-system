@@ -77,7 +77,7 @@ public class CalibrationTest {
         this.settingNumber = settingNumber;
         this.latitude = latitude;
         this.longitude = longitude;
-        ;
+
     }
     public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {
         this.verification = verification;

@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
@@ -47,5 +48,10 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         updatedCalibrationTestData.setTestResult(testData.getTestResult());
         updatedCalibrationTestData = dataRepository.save(updatedCalibrationTestData);
         return updatedCalibrationTestData;
+    }
+
+    @Override
+    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData) {
+        return null;
     }
 }
