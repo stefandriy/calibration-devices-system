@@ -18,9 +18,9 @@
                     </label>
 
                     <div class="col-md-8">
-                        <ui-select style="display: block;" ng-model="addCalibrationModuleFormData.deviceType"
-                                   theme="select2"
-                                   search-enabled="false" name="deviceType" id="deviceType" required>
+                        <ui-select name="deviceType" id="deviceType" style="display: block;"
+                                   ng-model="addCalibrationModuleFormData.deviceType" theme="select2"
+                                   search-enabled="false" required>
                             <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
                                              allow-clear="true">
                                 {{$select.selected.label}}
@@ -212,7 +212,7 @@
                             </button>
                         </span>
 
-                            <input type="text" class="form-control date-picker" datepicker-popup
+                            <input type="text" class="form-control date-picker" datepicker-popup id="workDate"
                                    ng-model="addCalibrationModuleForm.workDate"
                                    is-open="secondCalendar.isOpen"
                                    min-date="minDate" max-date="maxDate"
