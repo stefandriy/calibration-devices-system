@@ -1,5 +1,6 @@
 package com.softserve.edu.entity.device;
 
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 
 @Entity
@@ -48,8 +50,8 @@ public class CalibrationModule {
     @Temporal(TemporalType.DATE)
     private Date workDate;
 
-    /* @OneToMany(mappedBy = "module")
-    private Set<CalibrationTask> tasks; */
+    @OneToMany(mappedBy = "module")
+    private Set<CalibrationTask> tasks;
 
     public CalibrationModule(Device.DeviceType deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
