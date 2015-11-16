@@ -18,6 +18,8 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
 
     Page<Organization> findAll(Pageable pageable);
 
+    Set<Organization> findAll(); //TODO: delete
+
     /**
      * Find organization types by organization id
      *

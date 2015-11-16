@@ -38,7 +38,18 @@ public class CalibrationTestFileDataDTO {
     private List<CalibrationTestDataDTO> listTestData;
 
     public CalibrationTestFileDataDTO() {}
+    public CalibrationTestFileDataDTO(String fileName, Date data, int temperature, long installmentNumber,
+                                      double latitude, double longitude, String testPhoto ){
+        this.fileName = fileName;
+        this.testDate = data;
+        this.temperature = temperature;
+        this.installmentNumber = installmentNumber;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.testPhoto = testPhoto;
 
+
+    }
     public CalibrationTestFileDataDTO(DeviceTestData testData) {
         this.fileName = testData.getFileName();
         this.counterNumber = testData.getCurrentCounterNumber();

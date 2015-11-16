@@ -107,67 +107,67 @@ angular
             //$rootScope.onTableHandling();
 
             /**
-             * Opens modal window for adding new agreement.
+             * Opens modal window for adding new equipment.
              */
-            /*$scope.openAddAgreementModal = function () {
-             var addAgreementModal = $modal.open({
-             animation: true,
-             controller: 'AgreementAddController',
-             templateUrl: '/resources/app/admin/views/modals/agreement-add-modal.html',
-             size: 'md',
-             resolve: {
-             agreement: function () {
-             return undefined;
-             }
-             }
-             });
+            $scope.openAddCalibrationModuleModal = function () {
+                var addCalibrationModuleModal = $modal.open({
+                    animation: true,
+                    controller: 'MeasuringEquipmentAddModalControllerAdmin',
+                    templateUrl: '/resources/app/admin/views/modals/measuring-equipment-add-modal.html',
+                    size: 'md',
+                    resolve: {
+                        calibrationModule: function () {
+                            return undefined;
+                        }
+                    }
+                });
+                /**
+                 * executes when modal closing
+                 */
+                addCalibrationModuleModal.result.then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_AGREEMENT'));
+                });
+            };
 
-             /!**
-             * executes when modal closing
-             *!/
-             addAgreementModal.result.then(function () {
-             $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_AGREEMENT'));
-             });
-             };*/
             /**
              * Opens modal window for editing agreement
              */
-            /*$scope.openEditAgreementModal = function (agreementId) {
-             measuringEquipmentServiceAdmin.getAgreementById(agreementId).then(
-             function (agreement) {
-             var deviceDTOModal = $modal
-             .open({
-             animation: true,
-             controller: 'AgreementAddController',
-             templateUrl: '/resources/app/admin/views/modals/agreement-add-modal.html',
-             size: 'md',
-             resolve: {
-             agreement: function () {
-             return agreement.data;
-             }
-             }
-             });
+            $scope.openEditCalibrationModuleModal = function (moduleId) {
+                measuringEquipmentServiceAdmin.getCalibrationModuleById(moduleId).then(
+                    function (calibraitonModule) { /* agreement -> calibrationModule */
+                        var deviceDTOModal = $modal
+                            .open({
+                                animation: true,
+                                controller: 'MeasuringEquipmentAddModalControllerAdmin',
+                                templateUrl: '/resources/app/admin/views/modals/measuring-equipment-add-modal.html',
+                                size: 'md',
+                                resolve: {
+                                    calibraitonModule: function () {
+                                        return calibraitonModule.data;
+                                    }
+                                }
+                            });
 
-             /!**
-             * executes when modal closing
-             *!/
-             deviceDTOModal.result.then(function () {
-             $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_AGREEMENT'));
-             });
-             });
+                        /**
+                         * executes when modal closing
+                         */
+                        deviceDTOModal.result.then(function () {
+                            $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_AGREEMENT'));
+                        });
+                    });
 
-             };
+            };
 
-             $scope.disableAgreement = function (id) {
-             measuringEquipmentServiceAdmin.disableAgreement(id).then(function () {
-             $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DISABLED_AGREEMENT'));
-             });
+            $scope.disableAgreement = function (id) {
+                measuringEquipmentServiceAdmin.disableAgreement(id).then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DISABLED_AGREEMENT'));
+                });
 
-             $timeout(function () {
-             console.log('delete with timeout');
-             $rootScope.onTableHandling();
-             }, 700);
-             };*/
+                $timeout(function () {
+                    console.log('delete with timeout');
+                    $rootScope.onTableHandling();
+                }, 700);
+            };
 
             $scope.popNotification = function (title, text) {
                 toaster.pop('success', title, text);

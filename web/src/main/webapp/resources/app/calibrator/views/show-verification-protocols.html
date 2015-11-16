@@ -1,10 +1,4 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title></title>-->
-<!--</head>-->
-<!--<body>-->
+
 <div id="page-wrapper">
 
     <div class="row">
@@ -33,8 +27,8 @@
                                 <tbody >
                                 <tr ng-repeat="verification in $data"  >
                                     <td data-title="''"><input type="checkbox"  ng-model="checked"
-                                                               ng-click="resolveVerificationId(verification.verficationId)"
-                                                                />
+                                                               ng-click="resolveVerificationId(verification.verificationId)"
+                                            />
                                     </td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
                                         filter="{ 'date': 'daterange' }">{{ verification.sentToCalibratorDate | date :
@@ -46,16 +40,15 @@
                                     </td>
                                     <td data-title="'CLIENT_FULL_NAME' | translate"
                                         filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
-                                        <!-- Achtunch-->
                                     </td>
                                     <td data-title="'CLIENT_ADDRESS' | translate"
-                                        filter="{ 'address': 'text' }">{{ verification.address }} <!-- Achtung-->
+                                        filter="{ 'address': 'text' }">{{ verification.address }}
                                     </td>
                                     <td data-title="'PROVIDER_NAME' | translate"
-                                        filter="{ 'provider': 'text' }">{{ verification.nameProvider }}<!-- Achtung-->
+                                        filter="{ 'provider': 'text' }">{{ verification.nameProvider }}
                                     </td>
                                     <td data-title="'CALIBRATOR_NAME' | translate"
-                                        filter="{ 'calibrator': 'text' }">{{ verification.nameCalibrator }}<!-- Achtung-->
+                                        filter="{ 'calibrator': 'text' }">{{ verification.nameCalibrator }}
                                     </td>
                                     <td data-title="'STATUS' | translate"
                                         filter="{ 'taskStatus': 'text' }">{{ verification.status | translate }}
@@ -113,9 +106,13 @@
                                         </span>
                                 </div>
                             </script>
-                      <div class="pull-left">
+                            <p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
+                                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                Оберіть хоча б один протокол
+                            </p>
+                            <div class="pull-left">
                                 <button ng-model="button"  type="button" class="btn btn-primary"
-                                        ng-click="sentProtocols()"><span class="glyphicon glyphicon-send"></span>
+                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span>
                                     {{'SEND' | translate}}
                                 </button>
 
@@ -127,5 +124,3 @@
         </div>
     </div>
 </div>
-<!--</body>-->
-<!--</html>-->

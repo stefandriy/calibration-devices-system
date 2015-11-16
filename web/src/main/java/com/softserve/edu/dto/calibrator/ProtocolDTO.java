@@ -13,6 +13,8 @@ import java.util.Date;
 @Setter
 public class ProtocolDTO {
 
+    private String verificationId;
+
     private String sentToCalibratorDate;
 
     private String fullName;
@@ -29,8 +31,9 @@ public class ProtocolDTO {
 
     }
 
-    public ProtocolDTO(String sentToCalibratorDate, String firstName, String lastName, String middleName, String address,
+    public ProtocolDTO(String verificationId, String sentToCalibratorDate, String firstName, String lastName, String middleName, String address,
                        String nameProvider, String nameCalibrator, String status ) {
+        this.verificationId = verificationId;
         this.sentToCalibratorDate = sentToCalibratorDate;
         this.fullName = "" + firstName + " " + lastName + middleName;
         this.address = address;

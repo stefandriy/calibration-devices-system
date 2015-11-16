@@ -26,15 +26,6 @@ public enum CalibrationModuleSortCriteria implements SortCriteria {
             return new Sort(Sort.Direction.ASC, "condDesignation");
         }
     },
-    ORGANIZATION_JOIN_NAME {
-        public Sort getSort(String sortOrder) {
-            if(sortOrder.equalsIgnoreCase("asc")) {
-                return new Sort(Sort.Direction.ASC, "organization.name");
-            } else {
-                return new Sort(Sort.Direction.DESC, "organization.name");
-            }
-        }
-    },
     DEVICE_TYPE {
         public Sort getSort(String sortOrder) {
             if(sortOrder.equalsIgnoreCase("asc")) {

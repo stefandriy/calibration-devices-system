@@ -4,7 +4,6 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.CalibrationModuleDTO;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.utils.TypeConverter;
@@ -47,13 +46,14 @@ public class CalibrationModuleController {
     @RequestMapping(value = "get/{id}")
     public CalibrationModuleDTO getCalibrationModule(@PathVariable("id") Long id) {
         CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
-        return new CalibrationModuleDTO(calibrationModule.getDeviceType(),
+        return new CalibrationModuleDTO(calibrationModule.getModuleId(),
+                calibrationModule.getDeviceType(),
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
                 calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
                 calibrationModule.getModuleType(),
                 calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                calibrationModule.getOrganization(), calibrationModule.getWorkDate());
+                calibrationModule.getWorkDate());
     }
 
     /**
@@ -65,14 +65,13 @@ public class CalibrationModuleController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public ResponseEntity addModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
-        Organization organization = organizationService.getOrganizationById(calibrationModuleDTO.getOrganizationId());
         CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
-                organization, calibrationModuleDTO.getWorkDate());
+                calibrationModuleDTO.getWorkDate());
         try {
             calibrationModuleService.addCalibrationModule(calibrationModule);
         } catch (Exception e) {
@@ -94,14 +93,13 @@ public class CalibrationModuleController {
     public ResponseEntity editModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO,
                                         @PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
-        Organization organization = organizationService.getOrganizationById(calibrationModuleDTO.getOrganizationId());
         CalibrationModule calibrationModule = new CalibrationModule(
                 Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
-                organization, calibrationModuleDTO.getWorkDate());
+                calibrationModuleDTO.getWorkDate());
         try {
             calibrationModuleService.updateCalibrationModule(calibrationModuleId, calibrationModule);
         } catch (Exception e) {
@@ -156,18 +154,17 @@ public class CalibrationModuleController {
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration modules
         Page<CalibrationModule> queryResult = calibrationModuleService
-                .getFilteredPageOfCalibrationModule(searchDataMap, pageable,
-                        Boolean.parseBoolean(searchDataMap.get("isActive")));
+                .getFilteredPageOfCalibrationModule(searchDataMap, pageable);
         List<CalibrationModuleDTO> content = new ArrayList<CalibrationModuleDTO>();
         // converting Page of CalibrationModules to List of CalibrationModuleDTOs
         for (CalibrationModule calibrationModule: queryResult) {
-            content.add(new CalibrationModuleDTO(
+            content.add(new CalibrationModuleDTO(calibrationModule.getModuleId(),
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
                     calibrationModule.getModuleNumber(), calibrationModule.getModuleType(),
                     calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                    calibrationModule.getOrganization(), calibrationModule.getWorkDate()));
+                    calibrationModule.getWorkDate()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }

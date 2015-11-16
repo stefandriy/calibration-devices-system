@@ -16,13 +16,13 @@ angular
 
             saveCalibrationModule: function (formData) {
                 return sendData('add', formData);
-            }/*,
-            getAgreementById: function (id) {
+            },
+            getCalibrationModuleById: function (id) {
                 return getData("get/" + id);
             },
-            editAgreement: function (formData, id) {
+            editCalibrationModule: function (formData, id) {
                 return sendData('edit/' + id, formData);
-            },
+            }/*,
             disableAgreement: function (id) {
                 return getData("disable/" + id);
             },

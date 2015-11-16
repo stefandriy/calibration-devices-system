@@ -1,19 +1,13 @@
 package com.softserve.edu.entity.device;
 
-import com.softserve.edu.entity.organization.Organization;
-
-import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import lombok.*;
-
-
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "CALIBRATION_MODULE")
@@ -46,15 +40,14 @@ public class CalibrationModule {
 
     private String calibrationType;
 
-    @Transient
-    private String moduleNumber; // = moduleId != null ? generateSerialNumber() : null ; // generates
+    private String moduleNumber; // generates
 
     @Column(nullable = false, columnDefinition = "bit(1) default 1")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /* @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calibratorId")
-    private Organization organization;
+    private Organization organization; */
 
     @Temporal(TemporalType.DATE)
     private Date workDate;
@@ -67,7 +60,7 @@ public class CalibrationModule {
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
                              String moduleType, String email, String calibrationType,
-                             Organization organization, Date workDate) {
+                             Date workDate) {
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
         this.condDesignation = condDesignation;
@@ -77,7 +70,6 @@ public class CalibrationModule {
         this.moduleType = moduleType;
         this.email = email;
         this.calibrationType = calibrationType;
-        this.organization = organization;
         this.workDate = workDate;
     }
 
@@ -91,11 +83,10 @@ public class CalibrationModule {
         this.moduleType = calibrationModule.getModuleType();
         this.email = calibrationModule.getEmail();
         this.calibrationType = calibrationModule.getCalibrationType();
-        this.organization = calibrationModule.getOrganization();
         this.workDate = calibrationModule.getWorkDate();
     }
 
-    private String generateSerialNumber() {
+    public void generateModuleNumber() {
         StringBuilder sb = new StringBuilder();
         switch (deviceType) {
             case WATER: sb.append("1"); break;
@@ -104,8 +95,8 @@ public class CalibrationModule {
             case THERMAL: sb.append("4"); break;
             default: break;
         }
-        sb.append(String.format("%03d", String.valueOf(moduleId)));
-        return sb.toString();
+        sb.append(String.format("%03d", moduleId));
+        moduleNumber = sb.toString();
     }
 
 }
