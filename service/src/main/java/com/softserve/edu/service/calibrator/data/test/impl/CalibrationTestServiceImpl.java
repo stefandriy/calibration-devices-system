@@ -234,7 +234,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
                 }
 
-
               /* if (сalibrationTestData.getConsumptionStatus() == Verification.ConsumptionStatus.NOT_IN_THE_AREA) {
                   calibrationTest.setConsumptionStatusconsumptionStatus (Verification.ConsumptionStatus.NOT_IN_THE_AREA);
                }*/
@@ -252,7 +251,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileInputStream("C:/Users/Public/SERVER/Apache/htdocs/img" + "/" + photoPath );
+            reader = new FileInputStream("C:/Users/Public/SERVER/Apache/htdocs/img" + "/" + photoPath);
             bufferedInputStream = new BufferedInputStream(reader);
             image = ImageIO.read(bufferedInputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -272,20 +271,4 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         return photo;
     }
 
-
-    private double round(double val, int scale) {
-        return new BigDecimal(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
-    }
-
-    private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, long impLitPrice) {
-        return round(3.6 * impulses / impLitPrice, 3);
-    }
-
-    private double countCalculationError(double counterVolume, double standardVolume) {
-        if (standardVolume < 0.0001) {
-            return 0.0;
-        }
-        double result = (counterVolume - standardVolume) / standardVolume * 100;
-        return round(result, 2);
-    }
 }
