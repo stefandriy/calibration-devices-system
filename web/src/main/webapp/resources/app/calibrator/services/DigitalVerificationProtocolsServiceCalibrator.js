@@ -8,8 +8,11 @@ angular
                 return getData('/calibrator/protocols/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             sendProtocols: function (protocol) {
-                return send('protocols/send', protocol);
-            }
+                return send('/calibrator/protocols/send', protocol);
+            },
+            getVerificators: function (url) {
+                return getData('/calibrator/protocols/verificators');
+            },
             };
 
 
@@ -24,7 +27,7 @@ angular
             });
         };
         function send (url, protocol) {
-            return $http.post(url, protocol)
+            return $http.put(url, protocol)
                 .success(function (data) {
                     return data;
                 }).error(function (err) {
