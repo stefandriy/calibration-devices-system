@@ -279,7 +279,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileInputStream("C:/Users/Public/SERVER/Apache/htdocs/img" + "/" + photoPath + ".jpg");
+            reader = new FileInputStream(photoPath);
             bufferedInputStream = new BufferedInputStream(reader);
             image = ImageIO.read(bufferedInputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

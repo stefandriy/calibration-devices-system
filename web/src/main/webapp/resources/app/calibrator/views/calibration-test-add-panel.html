@@ -74,18 +74,6 @@
     </div>
     <form name="CalibrationTestForm" novalidate style="padding-top: 10px">
 
-            <ui-select ng-model="selectedStatus.name" theme="select2"
-                       search-enabled="false"
-                       name="filter-status">
-                <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                 allow-clear="true">
-                    {{$select.selected.label}}
-                </ui-select-match>
-                <ui-select-choices  repeat="status in statusData">
-                    <span ng-bind-html="status.label"></span>
-                </ui-select-choices>
-            </ui-select>
-
         <div class="first-column">
             <div class="row">
                 <label class="control-label" style="min-height: 30px"></label>
@@ -348,12 +336,12 @@
 
         <div style="padding-top: 30px">
             <div class="form-group col-md-10">
-                <button ng-if="hasProtocol" type="submit" class="btn btn-success btn-md" ng-click="updateCalibrationTest()"
+                <button ng-if="hasProtocol || fileLoaded" type="submit" class="btn btn-success btn-md" ng-click="updateCalibrationTest()"
                         >{{'EDIT_CHANGES' | translate}}
                 </button>
                 <div>
                 </div>
-                <button ng-if="!hasProtocol" type="submit" class="btn btn-success btn-md"
+                <button ng-if="!hasProtocol" type="submit" class="btn btn-success btn-md" ng-show="!fileLoaded"
                         ng-click="saveCalibrationTest()">{{'ADD' | translate}}
                 </button>
                 <button ng-if="!hasProtocol" class="btn btn-primary btn-sm" type="button" style="margin-left: 20px"ng-show="!fileLoaded"
@@ -362,6 +350,17 @@
                          ng-click="fileName = uploadBbiFile(testId)">
                     </img> {{ 'UPLOAD_BBI_FILE' | translate }}
                 </button>
+                <ui-select ng-if="hasProtocol" ng-model="selectedStatus.name" theme="select2"
+                           search-enabled="false"
+                           name="filter-status">
+                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                     allow-clear="true">
+                        {{$select.selected.label}}
+                    </ui-select-match>
+                    <ui-select-choices  repeat="status in statusData">
+                        <span ng-bind-html="status.label"></span>
+                    </ui-select-choices>
+                </ui-select>
             </div>
         </div>
     </form>
