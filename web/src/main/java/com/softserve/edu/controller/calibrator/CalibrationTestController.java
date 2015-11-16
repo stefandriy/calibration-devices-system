@@ -82,7 +82,7 @@ public class CalibrationTestController {
      * @param formdata
      * @param testId   Takes an object which contains 2 objects with data(Buy the way second object contains 6 objects  with  data).
      */
-    @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
+   /* @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
     public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
         CalibrationTestDTO testFormData = formdata.getTestForm();
         CalibrationTest calibrationTest = testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
@@ -102,7 +102,7 @@ public class CalibrationTestController {
             testData.setCalibrationTest(calibrationTest);
             testService.createNewCalibrationTestData(testData);
         }
-    }
+    }*/
 
     /**
      * Edit calibration-test in database
