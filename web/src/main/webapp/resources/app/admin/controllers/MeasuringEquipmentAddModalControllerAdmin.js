@@ -31,6 +31,24 @@ angular
                 $scope.addCalibrationModuleFormData.email = '';
                 $scope.addCalibrationModuleFormData.calibrationType = '';
 
+                $scope.secondCalendar = {};
+                $scope.secondCalendar.isOpen = false;
+                $scope.open2 = function ($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    $scope.secondCalendar.isOpen = true;
+                };
+
+                $scope.minDate = $scope.minDate ? null : new Date();
+                $scope.maxDate = new Date(2100, 5, 22);
+
+                moment.locale('uk');
+                $scope.dateOptions = {
+                    formatYear: 'yyyy',
+                    startingDay: 1,
+                    showWeeks: 'false',
+                };
+
                 $scope.deviceTypeData = [
                     {
                         type: 'WATER',
@@ -107,6 +125,19 @@ angular
              */
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
+                if (calibrationModule != undefined && calibrationModule !== null) {
+                    $scope.addCalibrationModuleFormData.deviceType = calibrationModule.deviceType;
+                    $scope.addCalibrationModuleFormData.organizationCode = calibrationModule.organizationCode;
+                    $scope.addCalibrationModuleFormData.condDesignation = calibrationModule.condDesignation;
+                    $scope.addCalibrationModuleFormData.serialNumber = calibrationModule.serialNumber;
+                    $scope.addCalibrationModuleFormData.employeeFullName = calibrationModule.employeeFullName;
+                    $scope.addCalibrationModuleFormData.telephone = calibrationModule.telephone;
+                    $scope.addCalibrationModuleFormData.workDate = calibrationModule.workDate;
+                    $scope.addCalibrationModuleFormData.moduleType = calibrationModule.moduleType;
+                    $scope.addCalibrationModuleFormData.email = calibrationModule.email;
+                    $scope.addCalibrationModuleFormData.calibrationType = calibrationModule.calibrationType;
+                }
+
                 if ($scope.addCalibrationModuleForm.$valid) {
                     $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.type;
                     /*$scope.addCalibrationModuleFormData.organizationCode = $scope.addCalibrationModuleFormData.organizationCode;
@@ -118,6 +149,7 @@ angular
                     $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType;
                     $scope.addCalibrationModuleFormData.email = $scope.addCalibrationModuleFormData.email;
                     $scope.addCalibrationModuleFormData.calibrationType = $scope.addCalibrationModuleFormData.calibrationType;*/
+
                     saveCalibrationModule();
                 }
             };
@@ -147,6 +179,10 @@ angular
                         });
                 }
             }
+
+            $scope.clearDate2 = function () {
+                $scope.addCalibrationModuleFormData.workDate = null;
+            };
 
 
             $scope.CATEGORY_DEVICE_CODE = /^[\u0430-\u044f\u0456\u0457\u0454a-z\d]{13}$/;

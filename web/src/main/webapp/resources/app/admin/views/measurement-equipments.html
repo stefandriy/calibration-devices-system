@@ -31,7 +31,7 @@
                     <tbody>
                     <tr ng-repeat="measuringEquipment in $data">   <!-- TODO: calibrationModule in $data! -->
                         <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'deviceType'"
-                            filter="{ 'deviceType': 'organizationType' }"> <!-- e.g. organizationType -->
+                            filter="{ 'deviceType': 'text' }"> <!-- e.g. organizationType -->
                             {{ measuringEquipment.deviceType }}
                         </td>
                         <!-- <td data-title="'INSTALLATION_NUMBER' | translate "
@@ -50,7 +50,7 @@
                         <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'employeeFullName'"
                             filter="{ 'employeeFullName': 'text' }">{{ measuringEquipment.employeeFullName }}
                         </td>
-                        <td data-title="'PHONE_NUMBER' | translate" sortable="'PHONE_NUMBER'"
+                        <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
                             filter="{ 'telephone': 'text' }">+380{{ measuringEquipment.telephone }}
                         </td>
                         <td data-title="'VALID_UNTIL' | translate" sortable="'workDate'"
