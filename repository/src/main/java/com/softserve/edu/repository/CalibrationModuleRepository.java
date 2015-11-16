@@ -22,24 +22,4 @@ import java.util.Date;
 
     CalibrationModule findBySerialNumber(String serialNumber);
 
-    Page<CalibrationModule> findByOrganizationCode(String organizationCode, Pageable pageable);
-
-    Page<CalibrationModule> findByCondDesignationIgnoreCase(String condDesignation, Pageable pageable);
-
-    Page<CalibrationModule> findByEmployeeFullNameIgnoreCase(String employeeFullName, Pageable pageable);
-
-    Page<CalibrationModule> findByTelephone(String telephone, Pageable pageable);
-
-    Page<CalibrationModule> findByModuleTypeIgnoreCase(String moduleType, Pageable pageable);
-
-    Page<CalibrationModule> findByEmail(String email, Pageable pageable);
-
-    Page<CalibrationModule> findByCalibrationTypeIgnoreCase(String calibrationType, Pageable pageable);
-
-    Page<CalibrationModule> findByIsActive(boolean isActive, Pageable pageable);
-
-    Page<CalibrationModule> findByWorkDate(Date workDate, Pageable pageable);
-
-    Page<CalibrationModule> findByDeviceType(Device.DeviceType deviceType, Pageable pageable);
-
 }

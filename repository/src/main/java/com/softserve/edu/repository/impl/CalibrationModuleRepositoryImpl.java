@@ -19,8 +19,21 @@ public class CalibrationModuleRepositoryImpl implements CalibrationModuleReposit
 
     public CalibrationModule saveWithGenerating(CalibrationModule calibrationModule) {
         calibrationModuleRepository.save(calibrationModule);
-        calibrationModule.generateModuleNumber();
+        generateModuleNumber(calibrationModule);
         return calibrationModuleRepository.save(calibrationModule);
+    }
+
+    private void generateModuleNumber(CalibrationModule cm) {
+        StringBuilder sb = new StringBuilder();
+        switch (cm.getDeviceType()) {
+            case WATER: sb.append("1"); break;
+            case GASEOUS: sb.append("2"); break;
+            case ELECTRICAL: sb.append("3"); break;
+            case THERMAL: sb.append("4"); break;
+            default: break;
+        }
+        sb.append(String.format("%03d", cm.getModuleId()));
+        cm.setModuleNumber(sb.toString());
     }
 
 }

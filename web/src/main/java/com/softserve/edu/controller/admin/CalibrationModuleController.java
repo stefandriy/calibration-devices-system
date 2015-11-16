@@ -150,7 +150,7 @@ public class CalibrationModuleController {
         Sort sort;
         if ((sortCriteria.equals("undefined") && sortOrder.equals("undefined")) ||
                 sortCriteria == null && sortOrder == null) {
-            sort = new Sort(Sort.Direction.ASC, "moduleId");
+            sort = new Sort(Sort.Direction.DESC, "moduleId");
         } else {
             sort = new Sort(Sort.Direction.valueOf(sortOrder.toUpperCase()), sortCriteria);
         }
