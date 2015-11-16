@@ -73,6 +73,9 @@ angular
             getIfEmployeeProvider: function(url) {
                 return getData('verifications/provider/role');
             },
+            saveVerification: function(data) {
+                return sendData('save', data);
+            },
             saveAdditionalInfo: function(data) {
                 $log.debug("from service " +  data)
                 return saveInfo('calibrator/verifications/saveInfo', data);

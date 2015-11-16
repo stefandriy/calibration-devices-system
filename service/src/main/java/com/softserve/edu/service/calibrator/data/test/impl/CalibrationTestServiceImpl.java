@@ -174,11 +174,18 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 deviceTestData.getTemperature(),
                 (int) deviceTestData.getInstallmentNumber(), //settingNumber
                 deviceTestData.getLatitude(),
-                deviceTestData.getLongitude(),
-                Verification.ConsumptionStatus.IN_THE_AREA,
-                Verification.CalibrationTestResult.SUCCESS
-        );
+                deviceTestData.getLongitude()
+                );
         calibrationTest.setVerification(verification);
+        testRepository.save(calibrationTest);
+
+        String photo = deviceTestData.getTestPhoto();
+        byte[] bytesOfImage = Base64.decodeBase64(photo);
+        BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
+        String testPhoto = "photo" + calibrationTest.getId()+"ver"+verificationId+  ".jpg";
+        ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
+        calibrationTest.setPhotoPath(testPhoto);
+
 
         Set<CalibrationTestData> calibrationTestDataSet = new HashSet<>();
         Set<CalibrationTestIMG> calibrationTestIMGSet = new HashSet<>();
@@ -200,9 +207,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                     deviceTestData.getTestTerminalCounterValue(testDataId), //endValue
                     volumeInDevice,
                     actualConsumption,
-                    "IN_THE_AREA",                  //  consumptionStatus
                     countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId) * 1.0), //calculationError
-                    Verification.CalibrationTestResult.SUCCESS, // звідки береться testResult
                     calibrationTest);
             calibrationTestDataSet.add(сalibrationTestData);
             dataRepository.save(сalibrationTestData);
@@ -211,14 +216,14 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
             byte[] bytesOfImages = Base64.decodeBase64(beginPhoto);
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
             String imageNameBegin = "beginPhoto" + calibrationTest.getId() + testDataId + ".jpg";
-            ImageIO.write(bufferedImage, "jpg", new File(localStorage + imageNameBegin));
+            ImageIO.write(bufferedImage, "jpg", new File(localStorage +"//"+ imageNameBegin));
             CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(calibrationTest, imageNameBegin + ".jpg");
 
             String endPhoto = deviceTestData.getEndPhoto(testDataId);
             bytesOfImages = Base64.decodeBase64(endPhoto);
             bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
             String imageNameEnd = "endPhoto" + calibrationTest.getId() + testDataId + ".jpg";
-            ImageIO.write(bufferedImage, "jpg", new File(localStorage + imageNameEnd));
+            ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//"+ imageNameEnd));
             CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(calibrationTest, imageNameEnd + ".jpg");
 
             calibrationTestIMGSet.add(calibrationTestIMGBegin);

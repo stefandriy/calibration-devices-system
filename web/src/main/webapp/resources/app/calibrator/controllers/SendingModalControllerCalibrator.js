@@ -12,7 +12,8 @@ angular
 
             if (response.data != null) {
                 $scope.verificators = response.data;
-                $scope.selectedVerificator = $scope.verificators[0];
+                $scope.formData = {};
+                $scope.formData.verificator = $scope.verificators[0];
             }
 
             $scope.cancel = function () {
@@ -22,7 +23,7 @@ angular
                 $scope.$broadcast('show-errors-check-validity');
 
                 if ($scope.verificatorSelectionForm.$valid) {
-                    $modalInstance.close(verificator);
+                    $modalInstance.close($scope.formData);
                 }
             }
         }]);

@@ -236,7 +236,8 @@ public class ProviderVerificationController {
     public Set<OrganizationDTO> updateVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         //todo agreement
         Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
-        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.CALIBRATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(),
+                OrganizationType.CALIBRATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
                 .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
                 .collect(Collectors.toSet());
     }
