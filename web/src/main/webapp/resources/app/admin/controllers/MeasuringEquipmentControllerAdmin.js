@@ -71,10 +71,10 @@ angular
 
             $scope.tableParams = new ngTableParams({
                     page: 1,
-                    count: 5/*,
+                    count: 5,
                      sorting: {
-                         condDesignation: 'asc'
-                     }*/
+                         moduleId: 'desc'
+                     }
                 },
                 {
                     total: 0,

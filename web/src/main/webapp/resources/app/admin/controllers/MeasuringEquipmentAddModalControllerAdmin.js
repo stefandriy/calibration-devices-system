@@ -123,31 +123,8 @@ angular
              */
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if (calibrationModule != undefined && calibrationModule !== null) {
-                    $scope.addCalibrationModuleFormData.deviceType = calibrationModule.deviceType;
-                    $scope.addCalibrationModuleFormData.organizationCode = calibrationModule.organizationCode;
-                    $scope.addCalibrationModuleFormData.condDesignation = calibrationModule.condDesignation;
-                    $scope.addCalibrationModuleFormData.serialNumber = calibrationModule.serialNumber;
-                    $scope.addCalibrationModuleFormData.employeeFullName = calibrationModule.employeeFullName;
-                    $scope.addCalibrationModuleFormData.telephone = calibrationModule.telephone;
-                    $scope.addCalibrationModuleFormData.workDate = calibrationModule.workDate;
-                    $scope.addCalibrationModuleFormData.moduleType = calibrationModule.moduleType;
-                    $scope.addCalibrationModuleFormData.email = calibrationModule.email;
-                    $scope.addCalibrationModuleFormData.calibrationType = calibrationModule.calibrationType;
-                }
-
                 if ($scope.addCalibrationModuleForm.$valid) {
                     $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.type;
-                    /*$scope.addCalibrationModuleFormData.organizationCode = $scope.addCalibrationModuleFormData.organizationCode;
-                    $scope.addCalibrationModuleFormData.condDesignation = $scope.addCalibrationModuleFormData.condDesignation;
-                    $scope.addCalibrationModuleFormData.serialNumber = $scope.addCalibrationModuleFormData.serialNumber;
-                    $scope.addCalibrationModuleFormData.employeeFullName = $scope.addCalibrationModuleFormData.employeeFullName;
-                    $scope.addCalibrationModuleFormData.telephone = $scope.addCalibrationModuleFormData.telephone;
-                    $scope.addCalibrationModuleFormData.workDate = $scope.addCalibrationModuleFormData.workDate;
-                    $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType;
-                    $scope.addCalibrationModuleFormData.email = $scope.addCalibrationModuleFormData.email;
-                    $scope.addCalibrationModuleFormData.calibrationType = $scope.addCalibrationModuleFormData.calibrationType;*/
-
                     saveCalibrationModule();
                 }
             };
@@ -179,7 +156,7 @@ angular
             }
 
             $scope.clearDate2 = function () {
-                $scope.addCalibrationModuleFormData.workDate = null;
+                calibrationModule.workDate = null;
             };
 
 
