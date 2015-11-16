@@ -4,9 +4,9 @@ angular
         $scope.logout = function () {
             $http({
                 method: 'POST',
-                url: '/logout'
+                url: 'logout'
             }).then(function () {
-                window.location.replace("/");
+                window.location.replace(".");
             });
         };
     }]);
