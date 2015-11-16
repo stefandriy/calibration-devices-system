@@ -268,9 +268,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         //calibrationTest.setConsumptionStatus(consumptionStatus);
         calibrationTest.setTestResult(testResult);
         testRepository.save(calibrationTest);
-        System.out.println();
-        System.out.println();
-        System.out.println();
         return calibrationTest.getId();
     }
 
