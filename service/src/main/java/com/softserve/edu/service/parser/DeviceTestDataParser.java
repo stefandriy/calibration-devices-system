@@ -10,4 +10,5 @@ import org.apache.commons.codec.DecoderException;
  */
 public interface DeviceTestDataParser {
     DeviceTestData parse(InputStream deviceTestData) throws IOException, DecoderException;
+
 }

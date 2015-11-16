@@ -2,7 +2,8 @@ package com.softserve.edu.service.calibrator.data.test;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
-import com.softserve.edu.service.tool.DeviceService;
+
+import java.io.IOException;
 
 public interface CalibrationTestDataService {
 
@@ -11,6 +12,5 @@ public interface CalibrationTestDataService {
     CalibrationTestData deleteTestData(Long id);
 
     CalibrationTestData editTestData(Long testDataId, CalibrationTestData testData);
-    CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData);
+    CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData, int testDataId) throws IOException;
 }
-

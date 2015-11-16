@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -34,38 +35,22 @@ public class CalibrationTestData {
 
     private Date testTime;
     private Double actualConsumption;
-    private Verification.ConsumptionStatus consumptionStatus;
     private Double calculationError;
+    private Verification.ConsumptionStatus consumptionStatus;
     private Verification.CalibrationTestResult testResult;
 
     @ManyToOne
     @JoinColumn(name = "calibrationTestId")
     private CalibrationTest calibrationTest;
 
-    /*public CalibrationTestData(
-            Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
-            Double endValue, Double volumeInDevice, Double actualConsumption, Verification.ConsumptionStatus consumptionStatus,
-            Double calculationError, Verification.CalibrationTestResult testResult, CalibrationTest calibrationTest
-    ) {
-        this.givenConsumption = givenConsumption;
-        this.acceptableError = acceptableError;
-        this.volumeOfStandard = volumeOfStandard;
-        this.initialValue = initialValue;
-        this.endValue = endValue;
-        this.volumeInDevice = volumeInDevice;
-        this.testTime = new Date();
-        this.actualConsumption = actualConsumption;
-        this.consumptionStatus = consumptionStatus;
-        this.calculationError = calculationError;
-        this.testResult = testResult;
-        this.calibrationTest = calibrationTest;
-    }*/
+    @OneToMany(mappedBy = "calibrationTestData")
+    private List<CalibrationTestIMG> testIMGs;
 
     public CalibrationTestData(
             Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
             Double endValue, Double volumeInDevice, Double actualConsumption,
-            Double calculationError, CalibrationTest calibrationTest)
-    {
+            Double calculationError, CalibrationTest calibrationTest
+    ) {
         this.givenConsumption = givenConsumption;
         this.acceptableError = acceptableError;
         this.volumeOfStandard = volumeOfStandard;
@@ -80,13 +65,12 @@ public class CalibrationTestData {
         } else {
             this.testResult = Verification.CalibrationTestResult.FAILED;
         }
-       /* if((this.getGivenConsumption() + (this.getGivenConsumption()*this.getEndValue()/100)<= this.getActualConsumption())
+        if((this.getGivenConsumption() + (this.getGivenConsumption()*this.getEndValue()/100)<= this.getActualConsumption())
         & (this.getActualConsumption()<= (this.getGivenConsumption() - (this.getGivenConsumption()*this.getInitialValue())/100))){
         this.consumptionStatus=Verification.ConsumptionStatus.IN_THE_AREA;
         }else{
         this.consumptionStatus=Verification.ConsumptionStatus.NOT_IN_THE_AREA;
-        }*/
-
+        }
         this.calibrationTest = calibrationTest;
     }
 }

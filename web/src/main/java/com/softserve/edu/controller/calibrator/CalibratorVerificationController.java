@@ -70,6 +70,7 @@ public class CalibratorVerificationController {
 
     @Autowired
     CalibrationTestService testService;
+
     @Autowired
     CalibrationTestDataService testDataService;
 
@@ -253,13 +254,15 @@ public class CalibratorVerificationController {
             String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
                 DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
-
                 long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
 
-//                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
+                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
 //                responseEntity = new ResponseEntity(CalibratorTestTransformer.toDTO(calibrationTest), HttpStatus.OK);
+//                CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
+         //       CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
+             responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest), HttpStatus.OK);
 
-                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
+       //         responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
             } else {
                 logger.error("Failed to load file: pattern does not match.");
                 responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
