@@ -111,7 +111,7 @@ public class CalibrationModuleServiceImplTest {
                 .build());
         when(calibrationModuleRepository.findAll(filter, pageable)).thenReturn(calibrationModulePage);
         Page<CalibrationModule> expected = calibrationModulePage;
-        Page<CalibrationModule> actual = calibrationModuleService.getFilteredPageOfCalibrationModule(searchKeys, pageable, true);
+        Page<CalibrationModule> actual = calibrationModuleService.getFilteredPageOfCalibrationModule(searchKeys, pageable);
         assertEquals(expected, actual);
     }
 
