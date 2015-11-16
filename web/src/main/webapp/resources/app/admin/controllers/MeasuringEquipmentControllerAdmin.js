@@ -134,7 +134,7 @@ angular
              */
             $scope.openEditCalibrationModuleModal = function (moduleId) {
                 measuringEquipmentServiceAdmin.getCalibrationModuleById(moduleId).then(
-                    function (calibraitonModule) { /* agreement -> calibrationModule */
+                    function (calibrationModule) { /* agreement -> calibrationModule */
                         var deviceDTOModal = $modal
                             .open({
                                 animation: true,
@@ -142,8 +142,8 @@ angular
                                 templateUrl: '/resources/app/admin/views/modals/measuring-equipment-add-modal.html',
                                 size: 'md',
                                 resolve: {
-                                    calibraitonModule: function () {
-                                        return calibraitonModule.data;
+                                    calibrationModule: function () {
+                                        return calibrationModule; // calibrationModule.data
                                     }
                                 }
                             });
