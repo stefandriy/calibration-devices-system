@@ -19,7 +19,6 @@ angular
             $scope.init = function () {
 
                 $scope.addCalibrationModuleFormData = {};
-                //$scope.data = {};
 
                 $scope.addCalibrationModuleFormData.organizationCode = '';
                 $scope.addCalibrationModuleFormData.condDesignation = '';
@@ -39,7 +38,7 @@ angular
                     $scope.secondCalendar.isOpen = true;
                 };
 
-                $scope.minDate = $scope.minDate ? null : new Date();
+                $scope.minDate = null; //$scope.minDate ? null : new Date();
                 $scope.maxDate = new Date(2100, 5, 22);
 
                 moment.locale('uk');
@@ -106,7 +105,6 @@ angular
                 $scope.addCalibrationModuleForm.$setPristine();
                 $scope.addCalibrationModuleForm.$setUntouched();
                 $scope.addCalibrationModuleFormData = {};
-                //$scope.data = {};
             };
 
             /**
