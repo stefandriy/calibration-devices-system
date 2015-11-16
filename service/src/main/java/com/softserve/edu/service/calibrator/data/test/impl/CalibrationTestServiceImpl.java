@@ -186,10 +186,10 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         String absolutePath = localStorage +"//"+ testPhoto;
         ImageIO.write(buffered, "jpg", new File(absolutePath));
         calibrationTest.setPhotoPath(absolutePath);
-
         CalibrationTestData сalibrationTestData;
-        deviceTestData.getTestCounter();
+       // deviceTestData.getTestCounter();
         testRepository.save(calibrationTest);
+
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
             if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
                 break;
