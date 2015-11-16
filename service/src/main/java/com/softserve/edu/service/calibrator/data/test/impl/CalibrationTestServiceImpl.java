@@ -182,7 +182,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     public long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException {
         Verification verification = verificationRepository.findOne(verificationId);
         Verification.CalibrationTestResult testResult = Verification.CalibrationTestResult.SUCCESS;
-        //  Verification.ConsumptionStatus consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
+        Verification.ConsumptionStatus consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
         CalibrationTest calibrationTest = new CalibrationTest(
                 deviceTestData.getFileName(),
                 deviceTestData.getTemperature(),
@@ -191,73 +191,59 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 deviceTestData.getLongitude()
         );
 
-        calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
-        calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
+        calibrationTest.setConsumptionStatus(consumptionStatus);
+        calibrationTest.setTestResult(testResult);
         calibrationTest.setVerification(verification);
-//        testRepository.save(calibrationTest);
-
+        // deviceTestData.getTestCounter();
+        testRepository.save(calibrationTest);
 
         String photo = deviceTestData.getTestPhoto();
         byte[] bytesOfImage = Base64.decodeBase64(photo);
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
         String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + ".jpg";
-        String absolutePath = localStorage + "//" + testPhoto;
-        ImageIO.write(buffered, "jpg", new File(absolutePath));
-        calibrationTest.setPhotoPath(absolutePath);
+        ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
+        calibrationTest.setPhotoPath(testPhoto);
 
         testRepository.save(calibrationTest);
 
-         List<CalibrationTestData> calibrationTestDataList = new ArrayList<>();
-         List<CalibrationTestIMG> calibrationTestIMGList = new ArrayList<>();
-         CalibrationTestData сalibrationTestData;
-        // calibrationTest = deviceTestData.getTestCounter();
-//        testRepository.save(calibrationTest);
+        CalibrationTestData сalibrationTestData;
 
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
             if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
                 break;
             } else {
-                сalibrationTestData =  testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
+                сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
                 dataRepository.save(сalibrationTestData);
+
                 String beginPhoto = deviceTestData.getBeginPhoto(testDataId);
                 byte[] bytesOfImages = Base64.decodeBase64(beginPhoto);
                 BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-                String imageNameBegin = "beginPhoto" + calibrationTest.getId() + testDataId + ".jpg";
+                String imageNameBegin = "beginPhoto" + testDataId + calibrationTest.getId() + verificationId + ".jpg";
                 ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameBegin));
-                CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(сalibrationTestData, imageNameBegin + ".jpg");
+                CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(сalibrationTestData, imageNameBegin);
 
                 String endPhoto = deviceTestData.getEndPhoto(testDataId);
                 bytesOfImages = Base64.decodeBase64(endPhoto);
                 bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
                 String imageNameEnd = "endPhoto" + testDataId + calibrationTest.getId() + verificationId + ".jpg";
                 ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameEnd));
-                CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(сalibrationTestData, imageNameEnd + ".jpg");
-
-
+                CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(сalibrationTestData, imageNameEnd);
                 testIMGRepository.save(calibrationTestIMGBegin);
                 testIMGRepository.save(calibrationTestIMGEnd);
-
                 if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
-                    testResult = Verification.CalibrationTestResult.FAILED;
+                    calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
                 }
+
+
               /* if (сalibrationTestData.getConsumptionStatus() == Verification.ConsumptionStatus.NOT_IN_THE_AREA) {
-                   consumptionStatus = Verification.ConsumptionStatus.NOT_IN_THE_AREA;
+                  calibrationTest.setConsumptionStatusconsumptionStatus (Verification.ConsumptionStatus.NOT_IN_THE_AREA);
                }*/
+                testRepository.save(calibrationTest);
 
-                calibrationTestIMGList.add(calibrationTestIMGBegin);
-                calibrationTestIMGList.add(calibrationTestIMGEnd);
-                сalibrationTestData.setTestIMGs(calibrationTestIMGList);
-
-                calibrationTestDataList.add(сalibrationTestData);
             }
         }
-        calibrationTest.setCalibrationTestDataList(calibrationTestDataList);
-        //calibrationTest.setConsumptionStatus(consumptionStatus);
-        calibrationTest.setTestResult(testResult);
-        testRepository.save(calibrationTest);
         return calibrationTest.getId();
     }
-
 
 
     public String getPhotoAsString(String photoPath) {
@@ -285,7 +271,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         }
         return photo;
     }
-
 
 
     private double round(double val, int scale) {
