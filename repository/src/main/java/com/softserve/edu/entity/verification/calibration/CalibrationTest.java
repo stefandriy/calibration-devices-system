@@ -54,7 +54,7 @@ public class CalibrationTest {
     private Verification verification;
 
     @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @OrderColumn(name = "testPosition")
+//    @OrderColumn(name = "testPosition")
     private List<CalibrationTestData> calibrationTestDataList;
 
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,

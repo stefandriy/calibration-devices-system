@@ -178,33 +178,38 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     public long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException {
         Verification verification = verificationRepository.findOne(verificationId);
+        Verification.CalibrationTestResult testResult = Verification.CalibrationTestResult.SUCCESS;
+        //  Verification.ConsumptionStatus consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
         CalibrationTest calibrationTest = new CalibrationTest(
                 deviceTestData.getFileName(),
                 deviceTestData.getTemperature(),
                 (int) deviceTestData.getInstallmentNumber(), //settingNumber
                 deviceTestData.getLatitude(),
                 deviceTestData.getLongitude()
-                );
+        );
 
         calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
         calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
         calibrationTest.setVerification(verification);
-
 //        testRepository.save(calibrationTest);
+
+
         String photo = deviceTestData.getTestPhoto();
         byte[] bytesOfImage = Base64.decodeBase64(photo);
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
-        String testPhoto = "photo" + calibrationTest.getId()+"ver"+verificationId+  ".jpg";
-        ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
-        calibrationTest.setPhotoPath(testPhoto);
-        calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
-        calibrationTest.setTestResult(Verification.CalibrationTestResult.SUCCESS);
-        List<CalibrationTestData> calibrationTestDataList = new ArrayList<>();
-        List<CalibrationTestIMG> calibrationTestIMGList = new ArrayList<>();
-        CalibrationTestData сalibrationTestData ;
-        deviceTestData.getTestCounter();
+        String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + ".jpg";
+        String absolutePath = localStorage + "//" + testPhoto;
+        ImageIO.write(buffered, "jpg", new File(absolutePath));
+        calibrationTest.setPhotoPath(absolutePath);
 
         testRepository.save(calibrationTest);
+
+         List<CalibrationTestData> calibrationTestDataList = new ArrayList<>();
+         List<CalibrationTestIMG> calibrationTestIMGList = new ArrayList<>();
+         CalibrationTestData сalibrationTestData;
+        // calibrationTest = deviceTestData.getTestCounter();
+//        testRepository.save(calibrationTest);
+
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
             if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
                 break;
@@ -213,6 +218,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 Double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
                         deviceTestData.getTestCorrectedCurrentConsumption(testDataId),
                         deviceTestData.getImpulsePricePerLitre());
+
                 сalibrationTestData = new CalibrationTestData(
                         convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestSpecifiedConsumption(testDataId),
                                 deviceTestData.getImpulsePricePerLitre()), //givenConsumption
@@ -236,25 +242,39 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 String endPhoto = deviceTestData.getEndPhoto(testDataId);
                 bytesOfImages = Base64.decodeBase64(endPhoto);
                 bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-                String imageNameEnd = "endPhoto" + calibrationTest.getId() + testDataId + ".jpg";
+                String imageNameEnd = "endPhoto" + testDataId + calibrationTest.getId() + verificationId + ".jpg";
                 ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameEnd));
                 CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(сalibrationTestData, imageNameEnd + ".jpg");
-
-                calibrationTestIMGList.add(calibrationTestIMGBegin);
-                calibrationTestIMGList.add(calibrationTestIMGEnd);
 
 
                 testIMGRepository.save(calibrationTestIMGBegin);
                 testIMGRepository.save(calibrationTestIMGEnd);
+
+                if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
+                    testResult = Verification.CalibrationTestResult.FAILED;
+                }
+              /* if (сalibrationTestData.getConsumptionStatus() == Verification.ConsumptionStatus.NOT_IN_THE_AREA) {
+                   consumptionStatus = Verification.ConsumptionStatus.NOT_IN_THE_AREA;
+               }*/
+
+                calibrationTestIMGList.add(calibrationTestIMGBegin);
+                calibrationTestIMGList.add(calibrationTestIMGEnd);
                 сalibrationTestData.setTestIMGs(calibrationTestIMGList);
 
                 calibrationTestDataList.add(сalibrationTestData);
             }
         }
         calibrationTest.setCalibrationTestDataList(calibrationTestDataList);
-
+        //calibrationTest.setConsumptionStatus(consumptionStatus);
+        calibrationTest.setTestResult(testResult);
+        testRepository.save(calibrationTest);
+        System.out.println();
+        System.out.println();
+        System.out.println();
         return calibrationTest.getId();
     }
+
+
 
     public String getPhotoAsString(String photoPath) {
         String photo = null;
