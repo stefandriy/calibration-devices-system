@@ -189,11 +189,11 @@ public class CalibrationTestController {
      * @param verificationId
      * @return testId
      */
-    @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
+   /* @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
     public Long createEmptyTest(@PathVariable String verificationId) {
         CalibrationTest test = testService.createEmptyTest(verificationId);
         return test.getId();
-    }
+    }*/
 
     @RequestMapping(value = "getProtocol/{verificationId}", method = RequestMethod.GET)
     public ResponseEntity getProtocol(@PathVariable String verificationId) throws FileNotFoundException, IOException, DecoderException {

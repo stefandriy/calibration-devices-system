@@ -192,12 +192,12 @@ public class CalibrationTestServiceImplTest {
         */
     }
 
-    @Test
+    /*@Test
     public void testCreateEmptyTest() throws Exception {
         calibrationTestService.createEmptyTest(verificationId);
 
         verify(testRepository).save(any(CalibrationTest.class));
-    }
+    }*/
 
     @Test
     public void testCreateNewCalibrationTestData() throws Exception {
