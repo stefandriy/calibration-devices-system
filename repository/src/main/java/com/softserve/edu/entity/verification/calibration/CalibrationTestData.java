@@ -35,8 +35,8 @@ public class CalibrationTestData {
 
     private Date testTime;
     private Double actualConsumption;
-    private String consumptionStatus;
     private Double calculationError;
+    private Verification.ConsumptionStatus consumptionStatus;
     private Verification.CalibrationTestResult testResult;
 
     @ManyToOne
@@ -46,24 +46,6 @@ public class CalibrationTestData {
     @OneToMany(mappedBy = "calibrationTestData")
     private List<CalibrationTestIMG> testIMGs;
 
-    public CalibrationTestData(
-            Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
-            Double endValue, Double volumeInDevice, Double actualConsumption, String consumptionStatus,
-            Double calculationError, Verification.CalibrationTestResult testResult, CalibrationTest calibrationTest
-    ) {
-        this.givenConsumption = givenConsumption;
-        this.acceptableError = acceptableError;
-        this.volumeOfStandard = volumeOfStandard;
-        this.initialValue = initialValue;
-        this.endValue = endValue;
-        this.volumeInDevice = volumeInDevice;
-        this.testTime = new Date();
-        this.actualConsumption = actualConsumption;
-        this.consumptionStatus = consumptionStatus;
-        this.calculationError = calculationError;
-        this.testResult = testResult;
-        this.calibrationTest = calibrationTest;
-    }
     public CalibrationTestData(
             Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
             Double endValue, Double volumeInDevice, Double actualConsumption,
@@ -78,6 +60,17 @@ public class CalibrationTestData {
         this.testTime = new Date();
         this.actualConsumption = actualConsumption;
         this.calculationError = calculationError;
+        if (this.getActualConsumption() <= this.getAcceptableError()) {
+            this.testResult = Verification.CalibrationTestResult.SUCCESS;
+        } else {
+            this.testResult = Verification.CalibrationTestResult.FAILED;
+        }
+        if((this.getGivenConsumption() + (this.getGivenConsumption()*this.getEndValue()/100)<= this.getActualConsumption())
+        & (this.getActualConsumption()<= (this.getGivenConsumption() - (this.getGivenConsumption()*this.getInitialValue())/100))){
+        this.consumptionStatus=Verification.ConsumptionStatus.IN_THE_AREA;
+        }else{
+        this.consumptionStatus=Verification.ConsumptionStatus.NOT_IN_THE_AREA;
+        }
         this.calibrationTest = calibrationTest;
     }
 }

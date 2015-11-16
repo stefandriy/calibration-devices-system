@@ -82,7 +82,7 @@ public class CalibrationTestController {
      * @param formdata
      * @param testId   Takes an object which contains 2 objects with data(Buy the way second object contains 6 objects  with  data).
      */
-    @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
+   /* @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
     public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
         CalibrationTestDTO testFormData = formdata.getTestForm();
         CalibrationTest calibrationTest = testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
@@ -102,7 +102,7 @@ public class CalibrationTestController {
             testData.setCalibrationTest(calibrationTest);
             testService.createNewCalibrationTestData(testData);
         }
-    }
+    }*/
 
     /**
      * Edit calibration-test in database
@@ -189,11 +189,11 @@ public class CalibrationTestController {
      * @param verificationId
      * @return testId
      */
-    @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
+   /* @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
     public Long createEmptyTest(@PathVariable String verificationId) {
         CalibrationTest test = testService.createEmptyTest(verificationId);
         return test.getId();
-    }
+    }*/
 
     @RequestMapping(value = "getProtocol/{verificationId}", method = RequestMethod.GET)
     public ResponseEntity getProtocol(@PathVariable String verificationId) throws FileNotFoundException, IOException, DecoderException {
