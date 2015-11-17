@@ -296,6 +296,7 @@
   "RESTORE": "Restore",
   "MAIN_PANEL_PROVIDER": "Main panel (provider)",
   "MAIN_PANEL_CALIBRATOR": "Main panel (calibrator)",
+  "MAIN_PANEL_STATE_VERIFICATOR" : "Main panel (verificator)",
   "STATUS": "Status",
   "INITIAL_DATE": "Receiving date",
   "CLIENT_STREET": "Client street",
