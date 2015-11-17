@@ -11,12 +11,10 @@
 			<div class="">
          		<div class="row">
                     <div class="col-md-6">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="initiateVerification()">
-                                   <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
-                                   </button>
-                            </div>
-                    
+                        <button type="button" class="btn btn-primary"
+                                ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"> </span><span translate="SEND_BTN"></span></button>
+                    </div>
+
                     <div class="clearfix col-md-offset-10">
                                 <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
                                   {{'CLEAR_ALL' | translate }}
@@ -24,7 +22,7 @@
                     </div>
                 </div>
            </div>
-                   
+
                     <br/>
             <div class="panel panel-default">
            
@@ -151,10 +149,6 @@
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         <span translate="SELECT_VERIFICATION_PROTOCOL"></span>
                                     </p>
-                            <div class="pull-left">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span><span translate="SEND_BTN"></span></button>
-                            </div>
                         
                         </div>
                     </div>
