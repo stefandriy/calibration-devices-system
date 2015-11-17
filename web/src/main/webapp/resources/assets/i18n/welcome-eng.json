@@ -296,6 +296,7 @@
   "RESTORE": "Restore",
   "MAIN_PANEL_PROVIDER": "Main panel (provider)",
   "MAIN_PANEL_CALIBRATOR": "Main panel (calibrator)",
+  "MAIN_PANEL_STATE_VERIFICATOR" : "Main panel (verificator)",
   "STATUS": "Status",
   "INITIAL_DATE": "Receiving date",
   "CLIENT_STREET": "Client street",
@@ -530,6 +531,8 @@
   "INFO_PROVIDER":"Info about provider",
   "INFO_CUSTOMER":"Info about customer",
   "DIGITAL_PROTOCOLS" :"Digital verification protocols",
-  "PROTOCOLS_SEND_SUCCESS": "Protocols sending success"
-
+  "PROTOCOLS_SEND_SUCCESS": "Protocols sending success",
+  "NO_CORRESPONDING_VERIFICATION" : "No corresponding_verification",
+  "BBI_IS_NOT_VALID" : "bbi is not valid",
+  "INVALID_VERIFICATION_CODE" : "Invalid verification code"
 }
