@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,11 +53,9 @@ public class CalibrationTest {
     @JoinColumn(name = "verificationId")
     private Verification verification;
 
-    @OneToMany(mappedBy = "calibrationTest")
-    private Set<CalibrationTestIMG> testIMGs;
-
-    @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL)
-    private Set<CalibrationTestData> calibrationTestDataSet;
+    @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+//    @OrderColumn(name = "testPosition")
+    private List<CalibrationTestData> calibrationTestDataList;
 
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
                              Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
@@ -70,14 +69,14 @@ public class CalibrationTest {
         this.testResult = testResult;
     }
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude) {
+                           Double longitude, Long unixTime) {
         this.name = name;
-        this.dateTest = new Date();
+        this.dateTest = new Date(unixTime);
         this.temperature = temperature;
         this.settingNumber = settingNumber;
         this.latitude = latitude;
         this.longitude = longitude;
-        ;
+
     }
     public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {
         this.verification = verification;

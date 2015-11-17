@@ -11,12 +11,10 @@
 			<div class="">
          		<div class="row">
                     <div class="col-md-6">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="initiateVerification()">
-                                   <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
-                                   </button>
-                            </div>
-                    
+                        <button type="button" class="btn btn-primary"
+                                ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"> </span><span translate="SEND_BTN"></span></button>
+                    </div>
+
                     <div class="clearfix col-md-offset-10">
                                 <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
                                   {{'CLEAR_ALL' | translate }}
@@ -24,7 +22,7 @@
                     </div>
                 </div>
            </div>
-                   
+
                     <br/>
             <div class="panel panel-default">
            
@@ -46,14 +44,15 @@
                                     <td data-title="'INITIAL_DATE' | translate" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}
                                     	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
                                     </td>
-                                    <td data-title="'VERIFICATION_ID' | translate"  sortable="'id'" filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}</td>
-                                    <td data-title="'CLIENT_LAST_NAME' | translate" sortable="'client_last_name'" filter="{ 'client_last_name': 'text' }">{{ verification.surname }}</td>
 
-                                    <td data-title="'CLIENT_FIRST_NAME' | translate" sortable="'client_first_name'" filter="{ 'client_first_name': 'text' }">{{ verification.name }}</td>
+                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'" filter="{'id': 'text' }" ng-model="filters.id">{{verification.id}}</td>
 
-                                    <td data-title="'CLIENT_STREET' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
+                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'" filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}</td>
+
+                                    <td data-title="'CLIENT_ADDRESS' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
+                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'provider_name'" filter="{ 'provider_name': 'text' }">{{ verification.providerEmployee }}</td>
+                                    <td data-title="'CALIBRATOR_NAME' | translate"  sortable="'calibrator_name'" filter="{ 'calibrator_name': 'text' }">{{ verification.calibratorEmployee }}</td>
                                     <td data-title="'STATUS' | translate"  sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status | translate }}</td>
-                                    <td data-title="'EMPLOYEE_LAST_NAME' | translate"  sortable="'verificator_employee_last_name'" filter="{ 'employee_last_name': 'text' }">{{ verification.stateVerificatorEmployee }}</td>
                                     <td data-title="'ACTIONS' | translate" style="width: 13%">
                                      
                                        <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
@@ -150,10 +149,6 @@
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
                                         <span translate="SELECT_VERIFICATION_PROTOCOL"></span>
                                     </p>
-                            <div class="pull-left">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span><span translate="SEND_BTN"></span></button>
-                            </div>
                         
                         </div>
                     </div>
