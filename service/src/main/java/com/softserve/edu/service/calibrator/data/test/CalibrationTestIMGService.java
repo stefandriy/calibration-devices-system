@@ -8,6 +8,5 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
 import java.io.IOException;
 
 public interface CalibrationTestIMGService {
-    CalibrationTestIMG createBeginPhotoCalibrationTestIMGs(int testDataId, DeviceTestData deviceTestData, CalibrationTestData calibrationTestData) throws IOException;
-    CalibrationTestIMG createEndPhotoCalibrationTestIMGs(int testDataId, DeviceTestData deviceTestData,  CalibrationTestData calibrationTestData) throws IOException;
+     void createTestDataIMGCalibrationTestIMGs(int testDataId, DeviceTestData deviceTestData, CalibrationTestData calibrationTestData) throws IOException;
 }

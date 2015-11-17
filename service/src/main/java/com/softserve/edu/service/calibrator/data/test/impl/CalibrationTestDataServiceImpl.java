@@ -36,15 +36,16 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     private CalibrationTestRepository testRepository;
     @Autowired
     private CalibrationTestIMGService testDataIMGService;
+
     @Override
     @Transactional
-    public CalibrationTestData findTestData(Long id){
+    public CalibrationTestData findTestData(Long id) {
         return dataRepository.findOne(id);
     }
 
     @Override
     @Transactional
-    public CalibrationTestData deleteTestData(Long id){
+    public CalibrationTestData deleteTestData(Long id) {
         CalibrationTestData deletedTestData = dataRepository.findOne(id);
         dataRepository.delete(id);
         return deletedTestData;
@@ -52,7 +53,7 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
 
     @Override
     @Transactional
-    public CalibrationTestData editTestData(Long testDataId, CalibrationTestData testData){
+    public CalibrationTestData editTestData(Long testDataId, CalibrationTestData testData) {
         CalibrationTestData updatedCalibrationTestData = dataRepository.findOne(testDataId);
         updatedCalibrationTestData.setGivenConsumption(testData.getGivenConsumption());
         updatedCalibrationTestData.setAcceptableError(testData.getAcceptableError());
@@ -68,8 +69,9 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         updatedCalibrationTestData = dataRepository.save(updatedCalibrationTestData);
         return updatedCalibrationTestData;
     }
+
     @Override
-    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData, int testDataId) throws IOException{
+    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData, int testDataId) throws IOException {
 
         Double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId) - deviceTestData.getTestInitialCounterValue(testDataId), 2);
         Double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
@@ -88,8 +90,7 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
                 countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId) * 1.0), //calculationError
                 calibrationTest);
         dataRepository.save(сalibrationTestData);
-        testDataIMGService.createBeginPhotoCalibrationTestIMGs(testDataId,deviceTestData,сalibrationTestData);
-        testDataIMGService.createEndPhotoCalibrationTestIMGs(testDataId,deviceTestData,сalibrationTestData);
+        testDataIMGService.createTestDataIMGCalibrationTestIMGs(testDataId, deviceTestData, сalibrationTestData);
         return сalibrationTestData;
     }
 

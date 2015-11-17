@@ -31,7 +31,7 @@ public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService 
     private CalibrationTestIMGRepository testIMGRepository;
 
     @Override
-    public CalibrationTestIMG createBeginPhotoCalibrationTestIMGs(int testDataId, DeviceTestData deviceTestData,  CalibrationTestData calibrationTestData) throws IOException {
+    public void createTestDataIMGCalibrationTestIMGs(int testDataId, DeviceTestData deviceTestData,  CalibrationTestData calibrationTestData) throws IOException {
 
         String beginPhoto = deviceTestData.getBeginPhoto(testDataId);
         byte[] bytesOfImages = Base64.decodeBase64(beginPhoto);
@@ -40,18 +40,13 @@ public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService 
         ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameBegin));
         CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(calibrationTestData, imageNameBegin);
         testIMGRepository.save(calibrationTestIMGBegin);
-        return calibrationTestIMGBegin;
-    }
-    public CalibrationTestIMG createEndPhotoCalibrationTestIMGs(int testDataId, DeviceTestData deviceTestData,  CalibrationTestData calibrationTestData) throws IOException {
 
         String endPhoto = deviceTestData.getEndPhoto(testDataId);
-        byte[] bytesOfImages = Base64.decodeBase64(endPhoto);
-        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
+        bytesOfImages = Base64.decodeBase64(endPhoto);
+        bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
         String imageNameEnd = "endPhoto" + testDataId + calibrationTestData.getCalibrationTest().getId() + calibrationTestData.getCalibrationTest().getVerification().getId() + ".jpg";
         ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameEnd));
         CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(calibrationTestData, imageNameEnd);
         testIMGRepository.save(calibrationTestIMGEnd);
-
-        return calibrationTestIMGEnd;
     }
 }
