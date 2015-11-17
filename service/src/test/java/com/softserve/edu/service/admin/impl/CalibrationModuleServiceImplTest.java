@@ -76,10 +76,10 @@ public class CalibrationModuleServiceImplTest {
     @Ignore
     @Test
     public void testAddCalibrationModule() {
+        when(calibrationModuleRepository.saveWithGenerating(calibrationModule)).thenReturn(calibrationModule);
         CalibrationModule expected = calibrationModule;
         CalibrationModule actual = calibrationModuleService.addCalibrationModule(calibrationModule);
         assertEquals(expected, actual);
-
     }
 
     @Test
@@ -144,7 +144,6 @@ public class CalibrationModuleServiceImplTest {
         modules.add(calibrationModule);
         when(user.getOrganization()).thenReturn(organization);
         when(user.getOrganization().getId()).thenReturn(organizationId);
-        List<String> serialNumbersList = new ArrayList<>();
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.like).setField("moduleType").setValue(moduleType).build());
         conditions.add(new Condition.Builder()
