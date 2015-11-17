@@ -23,7 +23,7 @@ public interface CalibrationTestService {
      Page<CalibrationTest> getCalibrationTestsBySearchAndPagination(int pageNumber, int itemsPerPage, String search);
 
 
-     long createNewTest(DeviceTestData deviceTestData,  String verificationId)throws IOException;
+     long createNewTest(DeviceTestData deviceTestData,  String verificationId) throws IOException;
 
      CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
                                     Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult);
@@ -36,7 +36,7 @@ public interface CalibrationTestService {
 
      void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException;
 
-     CalibrationTest createEmptyTest(String verificationId);
+     //CalibrationTest createEmptyTest(String verificationId);
 
      void createNewCalibrationTestData(CalibrationTestData calibrationTestData);
 

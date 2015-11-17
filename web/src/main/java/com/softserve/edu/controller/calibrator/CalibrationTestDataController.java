@@ -54,7 +54,7 @@ public class CalibrationTestDataController {
      *         calibration-test successfully created or else http
      *         status {@literal CONFLICT}
      */
-    @RequestMapping(value = "addTestData/{testId}", method = RequestMethod.POST)
+   /* @RequestMapping(value = "addTestData/{testId}", method = RequestMethod.POST)
     public ResponseEntity createCalibrationTestData(@RequestBody CalibrationTestDataDTO testDataDTO, @PathVariable Long testId) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
@@ -70,7 +70,7 @@ public class CalibrationTestDataController {
         }
         return new ResponseEntity<>(httpStatus);
     }
-
+*/
 
 
     @RequestMapping(value = "edit/{testDataId}", method = RequestMethod.POST)

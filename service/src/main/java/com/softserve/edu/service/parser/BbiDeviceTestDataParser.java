@@ -138,6 +138,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         return result;
     }
 
+
     private void readTest(int testIndex) throws IOException {
         resultMap.put("test" + testIndex + "specifiedConsumption", readLongValueReversed(4)); //0x800100+0x04
         resultMap.put("test" + testIndex + "lowerConsumptionLimit", readLongValueReversed(4)); //0x800104+0x04
@@ -167,7 +168,9 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
      * @return Image written in base64 string.
      * @throws IOException
      */
-    private String readImageBase64() throws IOException, DecoderException {
+
+
+    public String readImageBase64() throws IOException, DecoderException {
         final int ALLOCATED_IMAGE_SIZE = 16380;
 
         int imageSize = (int)readLongValue(4);
