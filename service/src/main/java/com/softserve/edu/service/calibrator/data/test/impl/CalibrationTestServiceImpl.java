@@ -57,9 +57,10 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         CalibrationTest calibrationTest = new CalibrationTest(
                 deviceTestData.getFileName(),
                 deviceTestData.getTemperature(),
-                (int) deviceTestData.getInstallmentNumber(), //settingNumber
+                (int) deviceTestData.getInstallmentNumber(),
                 deviceTestData.getLatitude(),
-                deviceTestData.getLongitude()
+                deviceTestData.getLongitude(),
+                deviceTestData.getUnixTime()
         );
 
         calibrationTest.setConsumptionStatus(consumptionStatus);
@@ -88,9 +89,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
                 }
 
-              /* if (сalibrationTestData.getConsumptionStatus() == Verification.ConsumptionStatus.NOT_IN_THE_AREA) {
-                  calibrationTest.setConsumptionStatusconsumptionStatus (Verification.ConsumptionStatus.NOT_IN_THE_AREA);
-               }*/
                 testRepository.save(calibrationTest);
             }
         }
