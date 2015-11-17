@@ -108,7 +108,7 @@ public enum SortCriteriaVerification {
 	    },
 	PROVIDER_EMPLOYEE_LAST_NAME() {
 	    	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
-	    	
+
 	    		if(sortOrder.equalsIgnoreCase("asc")) {
 	    			return (cb.asc(root.get("providerEmployee")));
 	    		} else {
