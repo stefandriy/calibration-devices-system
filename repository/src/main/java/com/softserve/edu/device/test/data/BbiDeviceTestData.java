@@ -94,8 +94,8 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public long getInstallmentNumber() {
-        return getLongValue("installmentNumber");
+    public int getInstallmentNumber() {
+        return (int) getLongValue("installmentNumber");
     }
 
     @Override

@@ -57,7 +57,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         CalibrationTest calibrationTest = new CalibrationTest(
                 deviceTestData.getFileName(),
                 deviceTestData.getTemperature(),
-                (int) deviceTestData.getInstallmentNumber(),
+                deviceTestData.getInstallmentNumber(),
                 deviceTestData.getLatitude(),
                 deviceTestData.getLongitude(),
                 deviceTestData.getUnixTime()
