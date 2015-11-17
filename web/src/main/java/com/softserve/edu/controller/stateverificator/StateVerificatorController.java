@@ -171,7 +171,7 @@ public class StateVerificatorController {
      * @param verificationUpdateDTO
      */
     @RequestMapping(value = "new/reject", method = RequestMethod.PUT)
-    public void rejectVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
+    public void rejectVerification(@RequestBody NewVerificationUpdateDTO verificationUpdateDTO) {
         for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
             Long idCalibrator = verificationUpdateDTO.getOrganizationId();
             Organization calibrator = calibratorService.findById(idCalibrator);
