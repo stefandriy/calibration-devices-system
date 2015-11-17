@@ -533,5 +533,6 @@
   "PROTOCOLS_SEND_SUCCESS": "Protocols sending success",
   "STATUS_SELECT_SPHERE_OF_APPLICATION": "Select sphere of application",
   "STATUS_SELECT_MODULE_TYPE": "Select module type",
-  "SUCCESSFUL_ADDED_CALIBRATION_MODULE" : "Installation module was successfully added"
+  "SUCCESSFUL_ADDED_CALIBRATION_MODULE" : "Installation module was successfully added",
+  "SUCCESSFUL_EDITED_CALIBRATION_MODULE" : "Installation module was successfully edited"
 }

@@ -69,8 +69,6 @@ angular
                 $scope.tableParams.reload();
             };
 
-            // $rootScope.onTableHandling();
-
             $scope.isFilter = function () {
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
@@ -111,9 +109,6 @@ angular
                             params.filter().moduleType = null; //case when the filter is cleared with a button on the select
                         }
 
-                        /*params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                         params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");*/
-
                         measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
                                 $scope.resultsCount = result.totalItems;
@@ -153,7 +148,7 @@ angular
              */
             $scope.openEditCalibrationModuleModal = function (moduleId) {
                 measuringEquipmentServiceAdmin.getCalibrationModuleById(moduleId).then(
-                    function (calibrationModule) { /* agreement -> calibrationModule */
+                    function (calibrationModule) {
                         var deviceDTOModal = $modal
                             .open({
                                 animation: true,
@@ -171,15 +166,17 @@ angular
                          * executes when modal closing
                          */
                         deviceDTOModal.result.then(function () {
-                            $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_AGREEMENT'));
+                            $scope.popNotification($filter('translate')('INFORMATION'),
+                                $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
                         });
                     });
 
             };
 
-            $scope.disableAgreement = function (id) {
-                measuringEquipmentServiceAdmin.disableAgreement(id).then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DISABLED_AGREEMENT'));
+            $scope.disableCalibrationModule = function (id) {
+                measuringEquipmentServiceAdmin.disableCalibrationModule(id).then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'),
+                        $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
                 });
 
                 $timeout(function () {

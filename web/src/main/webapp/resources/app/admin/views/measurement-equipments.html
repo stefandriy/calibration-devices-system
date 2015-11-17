@@ -6,7 +6,8 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-click="openAddCalibrationModuleModal()">
+            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                    ng-click="openAddCalibrationModuleModal()">
                 <span class="glyphicon glyphicon-plus"></span>
                 {{'ADD_INSTALLATION' | translate}}
             </button>
@@ -29,7 +30,7 @@
                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                        class="table table-bordered table-hover users_table">
                     <tbody>
-                    <tr ng-repeat="calibrationModule in $data">   <!-- TODO: calibrationModule in $data! -->
+                    <tr ng-repeat="calibrationModule in $data">
                         <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'deviceType'"
                             filter="{ 'deviceType': 'text' }">
                             {{ calibrationModule.deviceType | translate }}
