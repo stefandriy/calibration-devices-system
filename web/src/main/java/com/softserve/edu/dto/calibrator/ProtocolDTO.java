@@ -1,10 +1,8 @@
 package com.softserve.edu.dto.calibrator;
 
-import com.softserve.edu.entity.enumeration.verification.Status;
+
 import lombok.Setter;
 import lombok.Getter;
-
-import java.util.Date;
 
 /**
  * @author Veronika
@@ -35,7 +33,7 @@ public class ProtocolDTO {
                        String nameProvider, String nameCalibrator, String status ) {
         this.verificationId = verificationId;
         this.sentToCalibratorDate = sentToCalibratorDate;
-        this.fullName = "" + firstName + " " + lastName + middleName;
+        this.fullName = "" + firstName + " " + lastName + " " + middleName;
         this.address = address;
         this.nameProvider = nameProvider;
         this.nameCalibrator = nameCalibrator;
