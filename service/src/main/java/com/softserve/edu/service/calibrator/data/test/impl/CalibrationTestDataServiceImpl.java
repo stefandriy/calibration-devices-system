@@ -8,6 +8,7 @@ import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestIMGService;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +35,7 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     @Autowired
     private CalibrationTestRepository testRepository;
     @Autowired
-    private CalibrationTestIMGRepository testIMGRepository;
-
+    private CalibrationTestIMGService testDataIMGService;
     @Override
     @Transactional
     public CalibrationTestData findTestData(Long id){
@@ -87,8 +87,9 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
                 actualConsumption,
                 countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId) * 1.0), //calculationError
                 calibrationTest);
-
-
+        dataRepository.save(сalibrationTestData);
+        testDataIMGService.createBeginPhotoCalibrationTestIMGs(testDataId,deviceTestData,сalibrationTestData);
+        testDataIMGService.createEndPhotoCalibrationTestIMGs(testDataId,deviceTestData,сalibrationTestData);
         return сalibrationTestData;
     }
 

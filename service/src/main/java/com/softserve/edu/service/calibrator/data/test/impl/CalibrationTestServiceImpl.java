@@ -1,18 +1,12 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
-import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
-import com.softserve.edu.service.parser.BbiDeviceTestDataParser;
-import com.softserve.edu.service.parser.DeviceTestDataParser;
-import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
-import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
-import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
@@ -32,11 +26,7 @@ import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
 import java.io.*;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 
@@ -53,13 +43,8 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     private CalibrationTestRepository testRepository;
     @Autowired
     private CalibrationTestDataService testDataService;
-
-    @Autowired
-    private CalibrationTestIMGRepository testIMGRepository;
-
     @Autowired
     private CalibrationTestDataRepository dataRepository;
-
     @Autowired
     private VerificationRepository verificationRepository;
 
@@ -99,23 +84,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 break;
             } else {
                 сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
-                dataRepository.save(сalibrationTestData);
-
-                String beginPhoto = deviceTestData.getBeginPhoto(testDataId);
-                byte[] bytesOfImages = Base64.decodeBase64(beginPhoto);
-                BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-                String imageNameBegin = "beginPhoto" + testDataId + calibrationTest.getId() + verificationId + ".jpg";
-                ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameBegin));
-                CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(сalibrationTestData, imageNameBegin);
-
-                String endPhoto = deviceTestData.getEndPhoto(testDataId);
-                bytesOfImages = Base64.decodeBase64(endPhoto);
-                bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-                String imageNameEnd = "endPhoto" + testDataId + calibrationTest.getId() + verificationId + ".jpg";
-                ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameEnd));
-                CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(сalibrationTestData, imageNameEnd);
-                testIMGRepository.save(calibrationTestIMGBegin);
-                testIMGRepository.save(calibrationTestIMGEnd);
                 if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
                 }
@@ -124,7 +92,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                   calibrationTest.setConsumptionStatusconsumptionStatus (Verification.ConsumptionStatus.NOT_IN_THE_AREA);
                }*/
                 testRepository.save(calibrationTest);
-
             }
         }
         return calibrationTest.getId();
@@ -195,6 +162,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                     , dataRepository.findByCalibrationTestId(calibrationTestId));
         }
     }
+
     public String getPhotoAsString(String photoPath) {
         String photo = null;
         InputStream reader = null;
@@ -220,6 +188,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         }
         return photo;
     }
+
     @Override
     @Transactional
     public void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
