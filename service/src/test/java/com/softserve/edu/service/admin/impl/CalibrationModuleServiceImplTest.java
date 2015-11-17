@@ -73,7 +73,6 @@ public class CalibrationModuleServiceImplTest {
         calibrationModuleService.addCalibrationModule(null);
     }
 
-    @Ignore
     @Test
     public void testAddCalibrationModule() {
         when(calibrationModuleRepository.saveWithGenerating(calibrationModule)).thenReturn(calibrationModule);
