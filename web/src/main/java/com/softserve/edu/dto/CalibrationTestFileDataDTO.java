@@ -1,6 +1,7 @@
 package com.softserve.edu.dto;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -40,6 +41,8 @@ public class CalibrationTestFileDataDTO {
     private Verification.CalibrationTestResult testResult;
 
     private List<CalibrationTestDataDTO> listTestData;
+
+    private String status;
 
 
     public CalibrationTestFileDataDTO() {
@@ -124,6 +127,7 @@ public class CalibrationTestFileDataDTO {
         int testNumber = 1;
         List<CalibrationTestIMG> calibrationTestIMGList;
         CalibrationTestIMG calibrationTestIMG;
+        this.status = calibrationTest.getVerification().getStatus().toString();
         for (CalibrationTestData calibrationTestData : calibrationTest.getCalibrationTestDataList()) {
             CalibrationTestDataDTO testDataDTO = new CalibrationTestDataDTO();
             testDataDTO.setDataAvailable(true);
@@ -151,6 +155,13 @@ public class CalibrationTestFileDataDTO {
         }
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getFileName() {
         return fileName;
