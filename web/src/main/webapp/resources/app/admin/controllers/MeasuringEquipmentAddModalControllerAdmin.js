@@ -123,7 +123,7 @@ angular
              */
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if ($scope.addCalibrationModuleFormData.$valid) {
+                if ($scope.addCalibrationModuleForm.$valid) {
                     $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.type;
                     saveCalibrationModule();
                 }
