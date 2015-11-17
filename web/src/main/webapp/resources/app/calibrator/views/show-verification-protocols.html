@@ -27,7 +27,7 @@
                                 <tbody >
                                 <tr ng-repeat="verification in $data"  >
                                     <td data-title="''"><input type="checkbox"  ng-model="checked"
-                                                               ng-click="resolveVerificationId(verification.verficationId)"
+                                                               ng-click="resolveVerificationId(verification.verificationId)"
                                             />
                                     </td>
                                     <td data-title="'INITIAL_DATE' | translate" class="datecolumn" sortable="'date'"
@@ -40,7 +40,6 @@
                                     </td>
                                     <td data-title="'CLIENT_FULL_NAME' | translate"
                                         filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
-                                        <!-- Achtunch-->
                                     </td>
                                     <td data-title="'CLIENT_ADDRESS' | translate"
                                         filter="{ 'address': 'text' }">{{ verification.address }}
