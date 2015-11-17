@@ -66,7 +66,6 @@ angular
              * Updates the table.
              */
             $rootScope.onTableHandling = function () {
-                //if ($scope.tableParams == null) return false; //table not yet initialized
                 $scope.tableParams.reload();
             };
 
@@ -145,7 +144,7 @@ angular
                  * executes when modal closing
                  */
                 addCalibrationModuleModal.result.then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_AGREEMENT'));
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_CALIBRATION_MODULE'));
                 });
             };
 

@@ -533,5 +533,6 @@
   "METHODS_OF_VERIFICATION": "Методика повірки",
   "REMOVE": "Видалити",
   "STATUS_SELECT_SPHERE_OF_APPLICATION": "Оберіть сферу застосування",
-  "STATUS_SELECT_MODULE_TYPE": "Оберіть тип установки"
+  "STATUS_SELECT_MODULE_TYPE": "Оберіть тип установки",
+  "SUCCESSFUL_ADDED_CALIBRATION_MODULE" : "Установку успішно додано"
 }
