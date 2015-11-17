@@ -531,5 +531,9 @@
   "VALID_UNTIL": "Чинна до",
   "INSTALLATION_TYPE": "Тип установки",
   "METHODS_OF_VERIFICATION": "Методика повірки",
-  "REMOVE": "Видалити"
+  "REMOVE": "Видалити",
+  "NO_CORRESPONDING_VERIFICATION" : "Не знайдено відповідної повірки",
+  "BBI_IS_NOT_VALID" : "Невірний файл bbi",
+  "INVALID_VERIFICATION_CODE" : "Невірний код повірки"
+
 }
