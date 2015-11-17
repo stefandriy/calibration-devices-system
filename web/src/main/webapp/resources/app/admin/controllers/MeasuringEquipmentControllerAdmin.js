@@ -20,8 +20,11 @@ angular
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
-            //for measurement device type
             $scope.selectedDeviceType = {
+                name: null
+            };
+
+            $scope.selectedModuleType = {
                 name: null
             };
 
@@ -36,16 +39,27 @@ angular
                 }
             ];
 
-            /**
-             * Localization of multiselect for type of organization
-             */
+            $scope.moduleTypeData = [
+                {
+                    type: 'INSTALLATION_FIX',
+                    label: $filter('translate')('INSTALLATION_FIX')
+                },
+                {
+                    type: 'INSTALLATION_PORT',
+                    label: $filter('translate')('INSTALLATION_PORT')
+                }
+            ];
+
             $scope.setTypeDataLanguage = function () {
                 $scope.deviceTypeData[0].label = $filter('translate')('WATER');
                 $scope.deviceTypeData[1].label = $filter('translate')('THERMAL');
+                $scope.moduleTypeData[0].label = $filter('translate')('INSTALLATION_FIX');
+                $scope.moduleTypeData[1].label = $filter('translate')('INSTALLATION_PORT');
             };
 
             $scope.clearAll = function () {
                 $scope.selectedDeviceType.name = null;
+                $scope.selectedModuleType.name = null;
                 $scope.tableParams.filter({});
             };
             /**
@@ -91,6 +105,13 @@ angular
                             params.filter().deviceType = null; //case when the filter is cleared with a button on the select
                         }
 
+                        if ($scope.selectedModuleType.name != null) {
+                            params.filter().moduleType = $scope.selectedModuleType.name.id;
+                        }
+                        else {
+                            params.filter().moduleType = null; //case when the filter is cleared with a button on the select
+                        }
+
                         /*params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                          params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");*/
 
@@ -104,10 +125,9 @@ angular
                             });
                     }
                 });
-            //$rootScope.onTableHandling();
 
             /**
-             * Opens modal window for adding new equipment.
+             * Opens modal window for adding new calibration module.
              */
             $scope.openAddCalibrationModuleModal = function () {
                 var addCalibrationModuleModal = $modal.open({
@@ -130,7 +150,7 @@ angular
             };
 
             /**
-             * Opens modal window for editing agreement
+             * Opens modal window for editing calibration module
              */
             $scope.openEditCalibrationModuleModal = function (moduleId) {
                 measuringEquipmentServiceAdmin.getCalibrationModuleById(moduleId).then(

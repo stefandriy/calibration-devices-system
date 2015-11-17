@@ -59,10 +59,26 @@ angular
                     }
                 ];
 
+                $scope.moduleTypeData = [
+                    {
+                        type: 'INSTALLATION_FIX',
+                        label: $filter('translate')('INSTALLATION_FIX')
+                    },
+                    {
+                        type: 'INSTALLATION_PORT',
+                        label: $filter('translate')('INSTALLATION_PORT')
+                    }
+                ];
+
                 if (calibrationModule !== undefined) {
                     $scope.addCalibrationModuleFormData.deviceType = {
                         type: calibrationModule.deviceType,
                         label: $filter('translate')(calibrationModule.deviceType)
+                    };
+
+                    $scope.addCalibrationModuleFormData.moduleType = {
+                        type: calibrationModule.moduleType,
+                        label: $filter('translate')(calibrationModule.moduleType)
                     };
 
                     $scope.addCalibrationModuleFormData.organizationCode = calibrationModule.organizationCode;
@@ -71,7 +87,7 @@ angular
                     $scope.addCalibrationModuleFormData.employeeFullName = calibrationModule.employeeFullName;
                     $scope.addCalibrationModuleFormData.telephone = calibrationModule.telephone;
                     $scope.addCalibrationModuleFormData.workDate = calibrationModule.workDate;
-                    $scope.addCalibrationModuleFormData.moduleType = calibrationModule.moduleType;
+                    //$scope.addCalibrationModuleFormData.moduleType = calibrationModule.moduleType;
                     $scope.addCalibrationModuleFormData.email = calibrationModule.email;
                     $scope.addCalibrationModuleFormData.calibrationType = calibrationModule.calibrationType;
                 } else {
@@ -82,7 +98,8 @@ angular
                     $scope.addCalibrationModuleFormData.employeeFullName = '';
                     $scope.addCalibrationModuleFormData.telephone = '';
                     $scope.addCalibrationModuleFormData.workDate = '';
-                    $scope.addCalibrationModuleFormData.moduleType = '';
+                    //$scope.addCalibrationModuleFormData.moduleType = '';
+                    $scope.addCalibrationModuleFormData.moduleType = undefined;
                     $scope.addCalibrationModuleFormData.email = '';
                     $scope.addCalibrationModuleFormData.calibrationType = '';
                 }
@@ -119,18 +136,19 @@ angular
             };
 
             /**
-             * Validates organization form before saving
+             * Validates calibration module form before saving
              */
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addCalibrationModuleForm.$valid) {
                     $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.type;
+                    $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.type;
                     saveCalibrationModule();
                 }
             };
 
             /**
-             * Saves calibrationModule
+             * Saves calibration module
              */
             function saveCalibrationModule() {
                 console.log($scope.addCalibrationModuleFormData);
@@ -171,8 +189,6 @@ angular
             $scope.FLAT_REGEX = /^([1-9]{1}[0-9]{0,3}|0)$/;
 
             if (calibrationModule !== undefined) {
-
-
             }
         }
     ]);

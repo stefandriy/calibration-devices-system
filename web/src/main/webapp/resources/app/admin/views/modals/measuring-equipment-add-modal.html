@@ -13,14 +13,14 @@
             <div class="panel-body" for="deviceType">
                 <div class="form-group row">
                     <label class="control-label col-md-4">
-                        {{'INSTALLATION_TYPE' | translate}}
+                        {{'SPHERE_OF_APPLICATION' | translate}}
                     </label>
 
                     <div class="col-md-8">
                         <ui-select style="display: block;" ng-model="addCalibrationModuleFormData.deviceType"
                                    name="deviceType" id="deviceType" theme="select2"
                                    search-enabled="false" required>
-                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
+                            <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
                                              allow-clear="true">
                                 {{$select.selected.label}}
                             </ui-select-match>
@@ -173,31 +173,6 @@
                     </div>
                 </div>
 
-                <!--<div class="form-group row" show-errors>
-                    <label class="control-label col-md-4" for="workDate">
-                        {{'VALID_UNTIL' | translate }}
-                    </label>
-
-                    <div class="col-md-8">
-                        <input type="date" ng-model="addCalibrationModuleFormData.workDate" id="workDate"
-                               name="workDate"
-                               class="form-control" required>
-						 	<span class="form-control-feedback glyphicon
-						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
-
-                        <p class="help-block" ng-if="addCalibrationModuleFormData.workDate.$error.required">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'REQUIRED' | translate}}
-                        </p>
-
-                        &lt;!&ndash; <p class="help-block" ng-if="addCalibrationModuleFormData.workDate.$error.pattern">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'ORGANIZATION_NAME_LENGTH' | translate }}
-                        </p> &ndash;&gt;
-                    </div>
-                </div>-->
-
-
                 <div class="form-group row" show-errors> <!-- ng-class="dateValidation.css" -->
                     <label class="control-label col-md-4" for="workDate">
                         {{'VALID_UNTIL' | translate }}
@@ -238,7 +213,7 @@
                 </div>
 
 
-                <div class="form-group row" show-errors>
+                <!--<div class="form-group row" show-errors>
                     <label class="control-label col-md-4" for="moduleType">
                         {{'INSTALLATION_TYPE' | translate }}
                     </label>
@@ -260,6 +235,32 @@
                         <p class="help-block" ng-if="addCalibrationModuleFormData.moduleType.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'ORGANIZATION_NAME_LENGTH' | translate }}
+                        </p>
+                    </div>
+                </div>-->
+
+                <div class="form-group row">
+                    <label class="control-label col-md-4">
+                        {{'INSTALLATION_TYPE' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select style="display: block;" ng-model="addCalibrationModuleFormData.moduleType"
+                                   name="moduleType" id="moduleType" theme="select2"
+                                   search-enabled="false" required>
+                            <ui-select-match placeholder="{{'STATUS_SELECT_MODULE_TYPE' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="moduleType in moduleTypeData">
+                                <span ng-bind-html="moduleType.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.moduleType.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
                         </p>
                     </div>
                 </div>
