@@ -69,9 +69,9 @@ public class CalibrationTest {
         this.testResult = testResult;
     }
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude) {
+                           Double longitude, Long unixTime) {
         this.name = name;
-        this.dateTest = new Date();
+        this.dateTest = new Date(unixTime);
         this.temperature = temperature;
         this.settingNumber = settingNumber;
         this.latitude = latitude;
