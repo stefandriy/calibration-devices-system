@@ -6,7 +6,6 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorDigitalProtocolsService;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +30,6 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
     @PersistenceContext
     private EntityManager em;
 
-    private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
-
     public Long countByCalibratorEmployee_usernameAndStatus (User calibratorEmployee, Status status) {
         return verificationRepository.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee.getUsername(), status);
     }
@@ -54,14 +51,12 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
         CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
         Root<Verification> verifications = cq.from(Verification.class);
 
-        cq.select(verifications);
         cq.where(cb.and(cb.equal(verifications.get("calibratorEmployee"), calibratorEmployee),
                 cb.equal(verifications.get("status"), status)));
 
         TypedQuery<Verification> typedQuery = em.createQuery(cq);
-        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
-        typedQuery.setMaxResults(itemsPerPage);
 
-        return typedQuery.getResultList();
+
+        return typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage).setMaxResults(itemsPerPage).getResultList();
     }
 }
