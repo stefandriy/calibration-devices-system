@@ -75,13 +75,15 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
              /*todo write a coment about this */
             if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
-                break;
+               continue;
             } else {
                 сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
                 if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
+                    testRepository.save(calibrationTest);
                 }
-                testRepository.save(calibrationTest);
+
+
             }
         }
         return calibrationTest.getId();
