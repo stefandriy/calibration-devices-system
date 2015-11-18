@@ -112,7 +112,7 @@ public class CalibrationTestFileDataDTO {
     public CalibrationTestFileDataDTO(CalibrationTest calibrationTest) {
         CalibrationTestServiceImpl calibrationTestService = new CalibrationTestServiceImpl();
         this.fileName = calibrationTest.getName();
-//        this.counterNumber = testData.getCurrentCounterNumber();//?
+        this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();
         this.temperature = calibrationTest.getTemperature();
 //       this.accumulatedVolume = ; // don't have this value.

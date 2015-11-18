@@ -26,7 +26,7 @@ public class CalibrationTest {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
-
+    private Integer counterNumber;
     private Integer temperature;
     private Integer settingNumber;
     private Double latitude;
