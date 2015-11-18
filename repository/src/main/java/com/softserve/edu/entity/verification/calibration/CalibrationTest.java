@@ -32,6 +32,7 @@ public class CalibrationTest {
     private Double latitude;
     private Double longitude;
 
+
     @Enumerated(EnumType.STRING)
     private Verification.ConsumptionStatus consumptionStatus;
 

@@ -55,32 +55,25 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         Verification.CalibrationTestResult testResult = Verification.CalibrationTestResult.SUCCESS;
         Verification.ConsumptionStatus consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
         CalibrationTest calibrationTest = new CalibrationTest(
-                deviceTestData.getFileName(),
-                deviceTestData.getTemperature(),
-                deviceTestData.getInstallmentNumber(),
-                deviceTestData.getLatitude(),
-                deviceTestData.getLongitude(),
+                deviceTestData.getFileName(), deviceTestData.getTemperature(),
+                deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(),  deviceTestData.getLongitude(),
                 deviceTestData.getUnixTime()
         );
-
         calibrationTest.setConsumptionStatus(consumptionStatus);
         calibrationTest.setTestResult(testResult);
         calibrationTest.setVerification(verification);
         // deviceTestData.getTestCounter();
         testRepository.save(calibrationTest);
-
         String photo = deviceTestData.getTestPhoto();
         byte[] bytesOfImage = Base64.decodeBase64(photo);
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
         String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + ".jpg";
         ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
         calibrationTest.setPhotoPath(testPhoto);
-
         testRepository.save(calibrationTest);
-
         CalibrationTestData сalibrationTestData;
-
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
+             /*todo write a coment about this */
             if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
                 break;
             } else {
@@ -88,7 +81,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
                 }
-
                 testRepository.save(calibrationTest);
             }
         }
