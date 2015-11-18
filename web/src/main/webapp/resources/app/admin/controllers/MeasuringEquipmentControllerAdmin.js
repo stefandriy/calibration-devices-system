@@ -20,6 +20,80 @@ angular
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
+            /**
+             * Date
+             */
+            $scope.clearDate = function () {
+                //daterangepicker doesn't support null dates
+                $scope.myDatePicker.pickerDate = $scope.defaultDate;
+                //setting corresponding filters with 'all time' range
+                $scope.tableParams.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                $scope.tableParams.filter().endDateToSearch= $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+            };
+
+            $scope.myDatePicker = {};
+            $scope.myDatePicker.pickerDate = null;
+            $scope.defaultDate = null;
+
+            $scope.initDatePicker = function (date) {
+                /**
+                 *  Date picker and formatter setup
+                 *
+                 */
+                /*TODO: i18n*/
+                $scope.myDatePicker.pickerDate = {
+                    startDate: (date ? moment(date, "YYYY-MM-DD") : moment()),
+                    //earliest day of  all the verifications available in table
+                    //we should reformat it here, because backend currently gives date in format "YYYY-MM-DD"
+                    endDate: moment() // current day
+                };
+
+                if ($scope.defaultDate == null) {
+                    //copy of original daterange
+                    $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
+                }
+                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                $scope.opts = {
+                    format: 'DD-MM-YYYY',
+                    showDropdowns: true,
+                    locale: {
+                        firstDay: 1,
+                        fromLabel: 'Від',
+                        toLabel: 'До',
+                        applyLabel: "Прийняти",
+                        cancelLabel: "Зачинити",
+                        customRangeLabel: "Обрати самостійно"
+                    },
+                    ranges: {
+                        'Сьогодні': [moment(), moment()],
+                        'Вчора': [moment().subtract(1, 'day'), moment().subtract(1, 'day')],
+                        'Цього тижня': [moment().startOf('week'), moment().endOf('week')],
+                        'Цього місяця': [moment().startOf('month'), moment().endOf('month')],
+                        'Попереднього місяця': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                        'За увесь час': [$scope.defaultDate.startDate, $scope.defaultDate.endDate]
+                    },
+                    eventHandlers: {}
+                };
+            };
+            // $scope.initDatePicker();
+
+            $scope.showPicker = function ($event) {
+                angular.element("#datepickerfield").trigger("click");
+            };
+
+            $scope.isDateDefault = function () {
+                var pickerDate = $scope.myDatePicker.pickerDate;
+
+                if (pickerDate == null || $scope.defaultDate == null) { //moment when page is just loaded
+                    return true;
+                }
+                if (pickerDate.startDate.isSame($scope.defaultDate.startDate, 'day') //compare by day
+                    && pickerDate.endDate.isSame($scope.defaultDate.endDate, 'day')) {
+                    return true;
+                }
+                return false;
+            };
+
             $scope.selectedDeviceType = {
                 name: null
             };
