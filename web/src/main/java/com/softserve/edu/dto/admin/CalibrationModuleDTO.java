@@ -1,5 +1,6 @@
 package com.softserve.edu.dto.admin;
 
+import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.Device;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,10 +53,10 @@ public class CalibrationModuleDTO {
     public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,
-                                String moduleType, String email, String calibrationType,
+                                CalibrationModule.ModuleType moduleType, String email, String calibrationType,
                                 Date workDate) {
         this(moduleId, deviceType.name(), organizationCode, condDesignation, serialNumber, employeeFullName,
-                telephone, moduleNumber, moduleType, email, calibrationType, workDate);
+                telephone, moduleNumber, moduleType.toString(), email, calibrationType, workDate);
     }
 
 }
