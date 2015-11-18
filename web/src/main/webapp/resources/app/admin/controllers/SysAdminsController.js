@@ -56,7 +56,7 @@ angular
                     .open({
                         animation : true,
                         controller : 'SysAdminAddModalController',
-                        templateUrl : '/resources/app/admin/views/modals/sys-admin-add-modal.html',
+                        templateUrl : 'resources/app/admin/views/modals/sys-admin-add-modal.html',
                     });
 
                 /**
@@ -78,7 +78,7 @@ angular
                             .open({
                                 animation: true,
                                 controller: 'SysAdminEditModalController',
-                                templateUrl: '/resources/app/admin/views/modals/sys-admin-edit-modal.html',
+                                templateUrl: 'resources/app/admin/views/modals/sys-admin-edit-modal.html',
                                 size: 'lg',
                                 resolve: {
                                     regions: function () {
@@ -102,7 +102,7 @@ angular
                     .open({
                         animation: true,
                         controller: 'SysAdminDeleteModalController',
-                        templateUrl: '/resources/app/admin/views/modals/submit-sys-admin-delete-modal.html',
+                        templateUrl: 'resources/app/admin/views/modals/submit-sys-admin-delete-modal.html',
                         windowClass: 'center-modal'
                     });
                 /**

@@ -216,7 +216,7 @@ angular
             $scope.openDetails = function (verifId, verifDate, verifReadStatus) {
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/new-verification-details.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/new-verification-details.html',
                     controller: 'DetailsModalControllerCalibrator',
                     size: 'lg',
                     resolve: {
@@ -242,7 +242,7 @@ angular
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
                     controller: 'TaskSendingModalControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskModal.html'
+                    templateUrl: 'resources/app/calibrator/views/modals/eddTaskModal.html'
                 });
             };
 
@@ -279,7 +279,7 @@ angular
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/calibrator/views/modals/verification-sending.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/verification-sending.html',
                         controller: 'SendingModalControllerCalibrator',
                         size: 'md',
                         resolve: {
@@ -328,7 +328,7 @@ angular
 
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/upload-bbiFile.html',
                     controller: 'UploadBbiFileController',
                     size: 'lg',
                     resolve: {
@@ -347,7 +347,7 @@ angular
                 var idVerification = verification;
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/cancel-bbiFile.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/cancel-bbiFile.html',
                     controller: 'CancelBbiProtocolCalibrator',
                     size: 'md',
                     resolve: {
@@ -393,7 +393,7 @@ angular
 
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
+                    templateUrl: 'resources/app/provider/views/modals/initiate-verification.html',
                     controller: 'AddingVerificationsControllerProvider',
                     size: 'lg',
 
@@ -414,7 +414,7 @@ angular
             $scope.addCalibratorEmployee = function (verifId) {
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/employee/assigning-calibratorEmployee.html',
+                    templateUrl: 'resources/app/calibrator/views/employee/assigning-calibratorEmployee.html',
                     controller: 'CalibratorEmployeeControllerCalibrator',
                     size: 'md',
                     windowClass: 'xx-dialog',
@@ -450,7 +450,7 @@ angular
                 console.log("Entered upload archive function");
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/upload-archive.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/upload-archive.html',
                     controller: 'UploadArchiveController',
                     size: 'lg'
                 });

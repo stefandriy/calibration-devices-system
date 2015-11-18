@@ -184,7 +184,7 @@ angular
                 $scope.addCalibratorEmployee = function (verifId, calibratorEmployee) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/calibrator/views/employee/assigning-calibratorEmployee.html',
+                        templateUrl: 'resources/app/calibrator/views/employee/assigning-calibratorEmployee.html',
                         controller: 'CalibratorEmployeeControllerCalibrator',
                         size: 'md',
                         windowClass: 'xx-dialog',
@@ -245,7 +245,7 @@ angular
 
                     $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/calibrator/views/employee/capacity-calibratorEmployee.html',
+                        templateUrl: 'resources/app/calibrator/views/employee/capacity-calibratorEmployee.html',
                         controller: 'CapacityEmployeeControllerCalibrator',
                         size: 'lg',
                         resolve: {

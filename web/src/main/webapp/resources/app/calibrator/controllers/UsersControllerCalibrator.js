@@ -90,7 +90,7 @@ angular
 
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/employee/capacity-calibratorEmployee.html',
+                    templateUrl: 'resources/app/calibrator/views/employee/capacity-calibratorEmployee.html',
                     controller: 'CapacityEmployeeControllerCalibrator',
                     size: 'lg',
                     resolve: {
@@ -139,7 +139,7 @@ angular
                         animation : true,
                         controller : 'AddEmployeeController',
                         size: 'lg',
-                        templateUrl : '/resources/app/provider/views/employee/employee-add-modal.html',
+                        templateUrl : 'resources/app/provider/views/employee/employee-add-modal.html',
                     });
             };
 
@@ -163,7 +163,7 @@ angular
                         animation : true,
                         size: 'lg',
                         controller : 'EditEmployeeController',
-                        templateUrl : '/resources/app/provider/views/employee/employee-edit-modal.html',
+                        templateUrl : 'resources/app/provider/views/employee/employee-edit-modal.html',
 
                     });
             };

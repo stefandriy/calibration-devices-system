@@ -194,7 +194,7 @@ angular
                 var addAgreementModal = $modal.open({
                     animation: true,
                     controller: 'AgreementAddController',
-                    templateUrl: '/resources/app/admin/views/modals/agreement-add-modal.html',
+                    templateUrl: 'resources/app/admin/views/modals/agreement-add-modal.html',
                     size: 'md',
                     resolve: {
                         agreement: function () {
@@ -220,7 +220,7 @@ angular
                             .open({
                                 animation: true,
                                 controller: 'AgreementAddController',
-                                templateUrl: '/resources/app/admin/views/modals/agreement-add-modal.html',
+                                templateUrl: 'resources/app/admin/views/modals/agreement-add-modal.html',
                                 size: 'md',
                                 resolve: {
                                     agreement: function () {

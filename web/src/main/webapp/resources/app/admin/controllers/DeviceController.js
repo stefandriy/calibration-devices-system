@@ -118,7 +118,7 @@ angular
                 var addCategoryCounter = $modal.open({
                     animation : true,
                     controller : 'CategoryDeviceAddModalController',
-                    templateUrl : '/resources/app/admin/views/modals/device-category-add-modal.html',
+                    templateUrl : 'resources/app/admin/views/modals/device-category-add-modal.html',
                     size: 'md'
                 });
                 /**
@@ -145,7 +145,7 @@ angular
                             .open({
                                 animation : true,
                                 controller : 'CategoryDeviceEditModalController',
-                                templateUrl : '/resources/app/admin/views/modals/device-category-edit-modal.html',
+                                templateUrl : 'resources/app/admin/views/modals/device-category-edit-modal.html',
                                 size: 'md'
                             });
                         deviceDTOModal.result.then(function () {
