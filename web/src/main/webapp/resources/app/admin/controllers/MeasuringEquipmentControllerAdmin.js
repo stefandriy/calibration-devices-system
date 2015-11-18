@@ -30,11 +30,11 @@ angular
 
             $scope.deviceTypeData = [
                 {
-                    id: 'WATER',
+                    type: 'WATER',
                     label: $filter('translate')('WATER')
                 },
                 {
-                    id: 'THERMAL',
+                    type: 'THERMAL',
                     label: $filter('translate')('THERMAL')
                 }
             ];
@@ -96,14 +96,14 @@ angular
                         var sortOrder = params.sorting()[sortCriteria];
 
                         if ($scope.selectedDeviceType.name != null) {
-                            params.filter().deviceType = $scope.selectedDeviceType.name.id;
+                            params.filter().deviceType = $scope.selectedDeviceType.name.type;
                         }
                         else {
                             params.filter().deviceType = null; //case when the filter is cleared with a button on the select
                         }
 
                         if ($scope.selectedModuleType.name != null) {
-                            params.filter().moduleType = $scope.selectedModuleType.name.id;
+                            params.filter().moduleType = $scope.selectedModuleType.name.type;
                         }
                         else {
                             params.filter().moduleType = null; //case when the filter is cleared with a button on the select
