@@ -2,6 +2,7 @@ package com.softserve.edu.entity.verification.calibration;
 
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
+import org.hibernate.type.IntegerType;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,7 +28,7 @@ public class CalibrationTest {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
     private String counterNumber;
-    private Integer temperature;
+    private Integer capacity;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
@@ -58,26 +59,20 @@ public class CalibrationTest {
 //    @OrderColumn(name = "testPosition")
     private List<CalibrationTestData> calibrationTestDataList;
 
-    public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                             Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
-        this.name = name;
-        this.dateTest = new Date();
-        this.temperature = temperature;
-        this.settingNumber = settingNumber;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.consumptionStatus = consumptionStatus;
-        this.testResult = testResult;
-    }
-    public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude, Long unixTime, String counterNumber) {
+
+    public CalibrationTest(String name,  Integer settingNumber, Double latitude,
+                           Double longitude, Long unixTime, String counterNumber,Verification.ConsumptionStatus consumptionStatus,
+                           Verification.CalibrationTestResult testResult, Verification verification, Integer capacity) {
         this.name = name;
         this.dateTest = new Date(unixTime);
-        this.temperature = temperature;
+        this.capacity = capacity;
         this.settingNumber = settingNumber;
         this.latitude = latitude;
         this.longitude = longitude;
         this.counterNumber=counterNumber;
+        this.consumptionStatus = consumptionStatus;
+        this.testResult = testResult;
+        this.verification = verification;
 
     }
     public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {
