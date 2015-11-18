@@ -17,15 +17,10 @@ angular
 
             };
             $scope.openAddTest = function (verificationID) {
-                calibrationTestServiceCalibrator
-                    .getTestProtocol(verificationID)
-                    .then(function (data) {
-                        $log.debug("inside");
                         $location.path('/calibrator/verifications/calibration-test-add/').search({
                             'param': verificationID,
                             'loadProtocol': 1
                         });
-                    } );
             };
             $scope.isStateVerificatorEmployee();
 

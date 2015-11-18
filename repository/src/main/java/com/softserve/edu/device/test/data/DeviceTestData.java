@@ -21,7 +21,7 @@ public interface DeviceTestData {
     String getFileName();
     int getIntegrationTime();
     int getTestCounter();
-    long getInstallmentNumber();
+    int getInstallmentNumber();
     String getCurrentCounterNumber();
     double getLatitude();
     double getLongitude();

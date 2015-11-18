@@ -148,8 +148,8 @@
 
                     <sec:authorize url="/verificator">
                         <li ui-sref-active="active">
-                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i> <span>Головна панель
-                                (уповноважена повірочна лабораторія)</span></a>
+                            <a ui-sref="main-panel-verificator"><i class="fa fa-home fa-fw"></i>
+                                <span translate="MAIN_PANEL_STATE_VERIFICATOR"></span></a>
                         </li>
                     </sec:authorize>
 

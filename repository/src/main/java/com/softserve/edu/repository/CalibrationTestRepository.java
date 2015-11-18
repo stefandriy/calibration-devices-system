@@ -18,7 +18,7 @@ public interface CalibrationTestRepository extends CrudRepository<CalibrationTes
     String findTestNameByVerificationId(@Param("verificationId") String verificationId);
 
     @Query("select c from CalibrationTest c where c.verification.id=:verificationId")
-    String findTestByVerificationId(@Param("verificationId") String verificationId);
+    CalibrationTest findTestByVerificationId(@Param("verificationId") String verificationId);
 
     List<CalibrationTest> findByName(String name);
 

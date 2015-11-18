@@ -56,9 +56,9 @@ public class Organization {
     @JsonBackReference
     private Set<User> users = new HashSet<>();
 
-    /* @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    /*@OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference
-    private Set<CalibrationModule> modules = new HashSet<>(); */
+    private Set<CalibrationModule> modules = new HashSet<>();*/
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonBackReference

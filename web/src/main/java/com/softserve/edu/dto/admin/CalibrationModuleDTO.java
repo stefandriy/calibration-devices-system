@@ -1,7 +1,6 @@
 package com.softserve.edu.dto.admin;
 
 import com.softserve.edu.entity.device.Device;
-import com.softserve.edu.entity.organization.Organization;
 import lombok.Getter;
 import lombok.Setter;
 

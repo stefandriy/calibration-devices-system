@@ -1,15 +1,20 @@
 package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
+import com.softserve.edu.dto.CalibrationTestFileDataDTO;
 import com.softserve.edu.dto.calibrator.TestGenerallDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.exceptions.NotFoundException;
+import com.softserve.edu.repository.CalibrationTestRepository;
+import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
+import org.apache.commons.codec.DecoderException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +22,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -25,12 +34,17 @@ import java.util.regex.Pattern;
 public class CalibrationTestController {
 
     @Autowired
+    private CalibrationTestRepository testRepository;
+
+    @Autowired
     private CalibrationTestService testService;
 
     private final Logger logger = Logger.getLogger(CalibrationTestController.class);
 
     private static final String contentExtPattern = "^.*\\.(jpg|JPG|gif|GIF|png|PNG|tif|TIF|)$";
 
+    @Autowired
+    private BBIFileServiceFacade bbiFileServiceFacade;
 
     /**
      * Returns calibration-test by ID
@@ -64,11 +78,11 @@ public class CalibrationTestController {
 
     /**
      * Saves calibration-test and  it`s test-data to DB
+     *
      * @param formdata
-     * @param testId
-     * Takes an object which contains 2 objects with data(Buy the way second object contains 6 objects  with  data).
+     * @param testId   Takes an object which contains 2 objects with data(Buy the way second object contains 6 objects  with  data).
      */
-    @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
+   /* @RequestMapping(value = "add/{testId}", method = RequestMethod.POST)
     public void createCalibrationTest(@RequestBody TestGenerallDTO formdata, @PathVariable Long testId) {
         CalibrationTestDTO testFormData = formdata.getTestForm();
         CalibrationTest calibrationTest = testService.createNewCalibrationTest(testId, testFormData.getName(), testFormData.getTemperature(), testFormData.getSettingNumber(),
@@ -88,7 +102,7 @@ public class CalibrationTestController {
             testData.setCalibrationTest(calibrationTest);
             testService.createNewCalibrationTestData(testData);
         }
-    }
+    }*/
 
     /**
      * Edit calibration-test in database
@@ -171,13 +185,21 @@ public class CalibrationTestController {
 
     /**
      * creates an empty test instead ID generating for test-datas
+     *
      * @param verificationId
      * @return testId
      */
-    @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
+   /* @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
     public Long createEmptyTest(@PathVariable String verificationId) {
         CalibrationTest test = testService.createEmptyTest(verificationId);
         return test.getId();
+    }*/
+
+    @RequestMapping(value = "getProtocol/{verificationId}", method = RequestMethod.GET)
+    public ResponseEntity getProtocol(@PathVariable String verificationId) throws FileNotFoundException, IOException, DecoderException {
+        CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
+        ResponseEntity responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest), HttpStatus.OK);
+        return responseEntity;
     }
 
 
