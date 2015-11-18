@@ -56,27 +56,15 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
         Filter filter = new Filter();
         for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
-            if (entry.getKey() == "isActive") {
+            if (entry.getValue() instanceof String) {
                 filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.eq)
+                        .setComparison(Comparison.like)
                         .setField(entry.getKey())
                         .setValue(entry.getValue())
                         .build());
-            } else if (entry.getKey() == "deviceType") {
-                filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.eq)
-                        .setField(entry.getKey())
-                        .setValue(Device.DeviceType.valueOf(entry.getValue().toString()))
-                        .build());
-            } else if (entry.getKey() == "moduleType") {
-                filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.eq)
-                        .setField(entry.getKey())
-                        .setValue(CalibrationModule.ModuleType.valueOf(entry.getValue().toString()))
-                        .build());
             } else {
                 filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.like)
+                        .setComparison(Comparison.eq)
                         .setField(entry.getKey())
                         .setValue(entry.getValue())
                         .build());
