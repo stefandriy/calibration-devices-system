@@ -142,11 +142,11 @@ public class CalibrationModuleController {
                  @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
                  @PathVariable String sortOrder, CalibrationModuleDTO searchData) {
         // converting object to map and filtering the map to have only not-null fields
-        Map<String, String> searchDataMap = new HashMap<String, String>();
+        Map<String, Object> searchDataMap = new HashMap<String, Object>();
         if (searchData != null) {
-            searchDataMap = TypeConverter.ObjectToMap(searchData);
+            searchDataMap = TypeConverter.ObjectToMapWithObjectValues(searchData);
         }
-        searchDataMap.put("isActive", "true");
+        searchDataMap.put("isActive", true);
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort;
         if ((sortCriteria.equals("undefined") && sortOrder.equals("undefined")) ||

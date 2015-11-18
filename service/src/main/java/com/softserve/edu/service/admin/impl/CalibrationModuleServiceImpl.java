@@ -51,15 +51,15 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     }
 
 
-    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable) {
+    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable) {
         CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
         Filter filter = new Filter();
-        for (Map.Entry<String, String> entry : searchKeys.entrySet()) {
+        for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
             if (entry.getKey().equals("isActive")) {
                 filter.addCondition(new Condition.Builder()
                         .setComparison(Comparison.eq)
                         .setField(entry.getKey())
-                        .setValue(Boolean.parseBoolean(entry.getValue()))
+                        .setValue(entry.getValue())
                         .build());
             } else {
                 filter.addCondition(new Condition.Builder()
