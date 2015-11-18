@@ -33,28 +33,6 @@ public class CalibrationModuleController {
     @Autowired
     private CalibrationModuleService calibrationModuleService;
 
-    @Autowired
-    private OrganizationService organizationService;
-
-    /**
-     * Get calibration module by id
-     *
-     * @param id id of calibration module to find
-     * @return calibrationModuleDTO
-     */
-    @RequestMapping(value = "get/{id}")
-    public CalibrationModuleDTO getCalibrationModule(@PathVariable("id") Long id) {
-        CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
-        return new CalibrationModuleDTO(calibrationModule.getModuleId(),
-                calibrationModule.getDeviceType(),
-                calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
-                calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
-                calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
-                calibrationModule.getModuleType(),
-                calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                calibrationModule.getWorkDate());
-    }
-
     /**
      * Add new calibration module
      *
