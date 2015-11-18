@@ -16,7 +16,7 @@ public class CalibratorTestPageDTOTransformer {
                     calibrationTest.getVerification().getId(),
                     calibrationTest.getName(),
                     calibrationTest.getDateTest(),
-                    calibrationTest.getTemperature(),
+                    calibrationTest.getCapacity(),
                     calibrationTest.getSettingNumber(),
                     calibrationTest.getLatitude(),
                     calibrationTest.getLongitude(),
