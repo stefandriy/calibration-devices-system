@@ -24,14 +24,14 @@ angular
         };
 
         function sendData(url, data) {
-            return $http.post('/admin/agreement/' + url, data)
+            return $http.post('admin/agreement/' + url, data)
                 .then(function (result) {
                     return result.status;
                 });
         }
 
         function getData(url) {
-            return $http.get('/admin/agreement/' + url).success(function (result) {
+            return $http.get('admin/agreement/' + url).success(function (result) {
                 return result;
             }).error(function (err) {
                 return err;
@@ -39,7 +39,7 @@ angular
         }
 
         function getDataWithParams(url, params) {
-            return $http.get('/admin/agreement/' + url, {
+            return $http.get('admin/agreement/' + url, {
                 params: params
             }).success(function (data) {
                 return data;

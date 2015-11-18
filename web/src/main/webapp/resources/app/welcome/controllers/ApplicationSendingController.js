@@ -302,6 +302,16 @@ angular
                 }
             );
 
+            $scope.selectDevice = function() {
+
+                angular.forEach($scope.devices, function(value){
+                    if(value.deviceType === $scope.selectedValues.firstSelectedDeviceType){
+                        $scope.selectedValues.firstSelectedDevice = value;
+                    }
+                });
+
+            };
+
             /**
              *  Error verification of device block
              */
@@ -312,38 +322,37 @@ angular
                 if ($scope.selectedValues.firstDeviceCount !== undefined) {
                     $scope.clientForm.firstDeviceCount.$invalid = false;
                 }
-                if ($scope.selectedValues.firstSelectedDevice === undefined) {
-                    $scope.clientForm.firstSelectedDevice.$invalid = true;
-                    $scope.clientForm.firstDeviceCount.$invalid = true;
-                }
-                if ($scope.selectedValues.firstSelectedProvider === undefined) {
-                    $scope.clientForm.firstDeviceCount.$invalid = true;
-                }
+                //if ($scope.selectedValues.firstSelectedDevice === undefined) {
+                //    $scope.clientForm.firstSelectedDevice.$invalid = true;
+                //    $scope.clientForm.firstDeviceCount.$invalid = true;
+                //}
+                //if ($scope.selectedValues.firstSelectedProvider === undefined) {
+                //    $scope.clientForm.firstDeviceCount.$invalid = true;
+                //}
                 /**
                  * Check second device selection group
                  */
                 if (($scope.selectedValues.secondDeviceCount !== undefined)) {
                     $scope.clientForm.secondDeviceCount.$invalid = false;
                 }
-                if ($scope.selectedValues.secondSelectedDevice === undefined) {
-                    $scope.clientForm.secondSelectedDevice.$invalid = true;
-                    $scope.clientForm.secondDeviceCount.$invalid = true;
-                }
-                if ($scope.selectedValues.secondSelectedProvider === undefined) {
-                    $scope.clientForm.secondDeviceCount.$invalid = true;
-                }
+                //if ($scope.selectedValues.secondSelectedDevice === undefined) {
+                //    $scope.clientForm.secondSelectedDevice.$invalid = true;
+                //    $scope.clientForm.secondDeviceCount.$invalid = true;
+                //}
+                //if ($scope.selectedValues.secondSelectedProvider === undefined) {
+                //    $scope.clientForm.secondDeviceCount.$invalid = true;
+                //}
                 /**
                  * Check street selection group
                  */
                 if (($scope.selectedValues.selectedStreetType !== undefined)) {
                     $scope.clientForm.streetType.$invalid = false;
                 }
-                if ($scope.selectedValues.selectedStreet === undefined) {
-                    $scope.clientForm.street.$invalid = true;
-                    $scope.clientForm.streetType.$invalid = true;
-                }
+                //if ($scope.selectedValues.selectedStreet === undefined) {
+                //    $scope.clientForm.street.$invalid = true;
+                //    $scope.clientForm.streetType.$invalid = true;
+                //}
             };
-
 
             $scope.changeFlat = function () {
                 $scope.$watch('formData', function (formData) {
@@ -360,6 +369,7 @@ angular
             $scope.sendApplicationData = function () {
                 $scope.codes = [];
 
+                $scope.selectDevice();
                 $scope.deviceErrorCheck();
 
                 $scope.$broadcast('show-errors-check-validity');
@@ -413,7 +423,7 @@ angular
             $scope.feedbackModalNoProvider = function () {
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/welcome/views/modals/feedBackWindow.html',
+                    templateUrl: 'resources/app/welcome/views/modals/feedBackWindow.html',
                     controller: 'FeedbackController',
                     size: 'md'
                 });

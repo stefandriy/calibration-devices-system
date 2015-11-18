@@ -20,7 +20,7 @@ angular
                 var addressModal = $modal.open({
                     animation: true,
                     controller: 'AddressModalController',
-                    templateUrl: '/resources/app/calibrator/views/modals/address.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/address.html',
                     size: 'lg',
                     resolve: {
                         address: function () {
@@ -98,7 +98,7 @@ angular
 
                             $modal.open({
                                 animation: true,
-                                templateUrl: '/resources/app/calibrator/views/modals/employee-adding-success.html',
+                                templateUrl: 'resources/app/calibrator/views/modals/employee-adding-success.html',
                                 controller: function ($modalInstance) {
                                     this.ok = function () {
                                         $modalInstance.close();

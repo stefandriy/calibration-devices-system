@@ -26,7 +26,7 @@
 								 * i18n configuration.
 								 */
 								$translateProvider.useStaticFilesLoader({
-									prefix : '/resources/assets/i18n/welcome-',
+									prefix : 'resources/assets/i18n/welcome-',
 									suffix : '.json'
 								});
 								$translateProvider.useLocalStorage();
@@ -43,7 +43,7 @@
 												'start',
 												{
 													url : '/start',
-													templateUrl : '/resources/app/welcome/views/start.html',
+													templateUrl : 'resources/app/welcome/views/start.html',
 													controller: 'WelcomePageController'
 
 												})
@@ -51,27 +51,27 @@
 												'about',
 												{
 													url : '/about',
-													templateUrl : '/resources/app/welcome/views/about.html'
+													templateUrl : 'resources/app/welcome/views/about.html'
 												})
 										.state(
 												'login',
 												{
 													url : '/login',
-													templateUrl : '/resources/app/welcome/views/login.html',
+													templateUrl : 'resources/app/welcome/views/login.html',
 													controller : 'LoginController'
 												})
 										.state(
 												'application-sending',
 												{
 													url : '/application-sending/{verificationId}',
-													templateUrl : '/resources/app/welcome/views/application-sending.html',
+													templateUrl : 'resources/app/welcome/views/application-sending.html',
 													controller : 'ApplicationSendingController'
 												})
 										.state(
 												'application-status',
 												{
 													url : '/application-status/{clientCode}',
-													templateUrl : '/resources/app/welcome/views/application-status.html',
+													templateUrl : 'resources/app/welcome/views/application-status.html',
 													controller : 'ApplicationStatusController'
 												})
 								/*

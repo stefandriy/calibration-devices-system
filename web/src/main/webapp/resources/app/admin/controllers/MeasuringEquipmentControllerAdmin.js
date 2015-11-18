@@ -235,7 +235,7 @@ angular
                             .open({
                                 animation: true,
                                 controller: 'MeasuringEquipmentAddModalControllerAdmin',
-                                templateUrl: '/resources/app/admin/views/modals/measuring-equipment-add-modal.html',
+                                templateUrl: 'resources/app/admin/views/modals/measuring-equipment-add-modal.html',
                                 size: 'md',
                                 resolve: {
                                     calibrationModule: function () {

@@ -47,7 +47,7 @@ angular
 
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/verificator/views/employee/capacity-verificatorEmployee.html',
+                    templateUrl: 'resources/app/verificator/views/employee/capacity-verificatorEmployee.html',
                     controller: 'CapacityEmployeeControllerVerificator',
                     size: 'lg',
                     resolve: {
@@ -99,7 +99,7 @@ angular
                         animation : true,
                         size: 'lg',
                         controller : 'AddEmployeeController',
-                        templateUrl : '/resources/app/provider/views/employee/employee-add-modal.html',
+                        templateUrl : 'resources/app/provider/views/employee/employee-add-modal.html',
                     });
             };
 
@@ -130,7 +130,7 @@ angular
                         animation : true,
                         size: 'lg',
                         controller : 'EditEmployeeController',
-                        templateUrl : '/resources/app/provider/views/employee/employee-edit-modal.html',
+                        templateUrl : 'resources/app/provider/views/employee/employee-edit-modal.html',
 
                     });
             };
