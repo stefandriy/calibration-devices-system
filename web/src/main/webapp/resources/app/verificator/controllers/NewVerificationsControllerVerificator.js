@@ -201,7 +201,6 @@ angular
 
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
-                            idsOfCalibrators: $scope.idsOfCalibrators
                         };
 
                         verificationServiceVerificator
