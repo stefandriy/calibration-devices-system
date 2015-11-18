@@ -68,7 +68,7 @@ angular
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
                     controller: 'TaskForStationModalControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskForStationModal.html'
+                    templateUrl: 'resources/app/calibrator/views/modals/eddTaskForStationModal.html'
                 });
                 $scope.$modalInstance.result.then(function () {
                     $scope.tableParams.reload();
@@ -92,7 +92,7 @@ angular
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
                     controller: 'TaskForTeamModalControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/eddTaskForTeamModal.html'
+                    templateUrl: 'resources/app/calibrator/views/modals/eddTaskForTeamModal.html'
                 });
                 $scope.$modalInstance.result.then(function () {
                     $scope.tableParams.reload();
@@ -114,7 +114,7 @@ angular
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
                     controller: 'CounterStatusControllerCalibrator',
-                    templateUrl: '/resources/app/calibrator/views/modals/counterStatusModal.html'
+                    templateUrl: 'resources/app/calibrator/views/modals/counterStatusModal.html'
                 });
                 $scope.$modalInstance.result.then(function () {
                     $scope.tableParams.reload();

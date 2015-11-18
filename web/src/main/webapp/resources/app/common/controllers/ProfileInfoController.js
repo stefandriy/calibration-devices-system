@@ -4,9 +4,9 @@ angular
         $scope.logout = function () {
             $http({
                 method: 'POST',
-                url: '/logout'
+                url: 'logout'
             }).then(function () {
-                window.location.replace("/");
+                window.location.replace(".");
             });
         };
 
@@ -29,7 +29,7 @@ angular
                     animation : true,
                     controller : 'EditProfileInfoController',
                     size: 'lg',
-                    templateUrl : '/resources/app/common/views/modals/profile-info-edit-modal.html',
+                    templateUrl : 'resources/app/common/views/modals/profile-info-edit-modal.html',
                     resolve: { 
                     	user: function (){
                     		return $scope.user;

@@ -7,6 +7,7 @@ import com.softserve.edu.documents.parameter.FileSystem;
 import com.softserve.edu.documents.utils.FileUtils;
 import org.apache.commons.vfs2.FileName;
 import org.apache.commons.vfs2.FileObject;
+import org.apache.log4j.Logger;
 import org.springframework.util.Assert;
 
 import java.io.IOException;

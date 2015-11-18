@@ -1,0 +1,311 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{'ADD_INSTALLATION' | translate}}</h3>
+</div>
+
+<div class="modal-body modal-padding">
+    <form name="addCalibrationModuleForm" id="addCalibrationModuleForm" role="form"
+          ng-submit="onAddCalibrationModuleFormSubmit()"
+          class="form-group" novalidate>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{'GENERAL_INFORMATION' | translate}}
+            </div>
+            <div class="panel-body" for="deviceType">
+                <div class="form-group row">
+                    <label class="control-label col-md-4">
+                        {{'SPHERE_OF_APPLICATION' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select style="display: block;" ng-model="addCalibrationModuleFormData.deviceType"
+                                   name="deviceType" id="deviceType" theme="select2"
+                                   search-enabled="false" required>
+                            <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="deviceType in deviceTypeData">
+                                <span ng-bind-html="deviceType.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.deviceType.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="organizationCode">
+                        {{'INSTALLATION_CODE' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input type="text" ng-model="addCalibrationModuleFormData.organizationCode"
+                               id="organizationCode"
+                               name="organizationCode"
+                               class="form-control" popover="Введіть код суб'єкта установки"
+                               popover-trigger="focus" popover-placement="top"
+                               required>
+						 	<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.organizationCode.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.organizationCode.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'ORGANIZATION_NAME_LENGTH' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="condDesignation">
+                        {{'SYMBOL' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input type="text" ng-model="addCalibrationModuleFormData.condDesignation" id="condDesignation"
+                               name="condDesignation"
+                               class="form-control" popover="Введіть код"
+                               popover-trigger="focus" popover-placement="top"
+                               required>
+						 	<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.condDesignation.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.condDesignation.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'ORGANIZATION_NAME_LENGTH' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="serialNumber">
+                        {{'MANUFACTURER_NUMBER' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input type="text" ng-model="addCalibrationModuleFormData.serialNumber" id="serialNumber"
+                               name="serialNumber"
+                               class="form-control" popover="Введіть серійний номер"
+                               popover-trigger="focus" popover-placement="top"
+                               required>
+						 	<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.serialNumber.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.serialNumber.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'ORGANIZATION_NAME_LENGTH' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="employeeFullName">
+                        {{'CONTACT_PERSON_FULL_NAME' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input type="text" ng-model="addCalibrationModuleFormData.employeeFullName"
+                               id="employeeFullName"
+                               name="employeeFullName"
+                               class="form-control" popover="Введіть ПІБ контактної особи"
+                               popover-trigger="focus" popover-placement="top"
+                               required>
+						 	<span class="form-control-feedback glyphicon
+						 	    form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.employeeFullName.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.employeeFullName.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'ORGANIZATION_NAME_LENGTH' | translate }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="telephone">
+                        {{'PHONE_NUMBER' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon-code">+380</span>
+                            <input id="telephone" name="telephone" type="text"
+                                   class="form-control col-md-8 " ng-model="addCalibrationModuleFormData.telephone"
+                                   placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX"
+                                   popover="Введіть номер телефону"
+                                   popover-trigger="focus" popover-placement="top"
+                                   required>
+                        </div>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.telephone.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.telephone.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'PHONE_NUMBER_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="workDate">
+                        {{'VALID_UNTIL' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <div class="input-group right-inner-addon" style="width: 100%">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                                <i class="glyphicon glyphicon-calendar"></i>
+                            </button>
+                        </span>
+
+                            <input type="text" class="form-control date-picker" datepicker-popup id="workDate"
+                                   ng-model="addCalibrationModuleFormData.workDate"
+                                   is-open="calendar.isOpen"
+                                   min-date="minDate" max-date="maxDate"
+                                   datepicker-options="dateOptions"
+                                   date-disabled="disabled(date, mode)" close-text="Close"
+                                   ng-change="receiveModuleNumbers()" readonly required/>
+                                           <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default myGroupBtn"
+                                                        ng-show="!isDateDefault()"
+                                                        ng-click="clearDate()">
+                                                    <i class="glyphicon glyphicon-remove"></i>
+                                                </button>
+                                           </span>
+                        </div>
+                        <div ng-show="formTask.$submitted || formTask.date.$touched">
+                            <div ng-show="formTask.date.$error.required">
+                                <p class="help-block" ng-if="addCalibrationModuleFormData.workDate.$error.required">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    {{'REQUIRED' | translate}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="control-label col-md-4">
+                        {{'INSTALLATION_TYPE' | translate}}
+                    </label>
+
+                    <div class="col-md-8">
+                        <ui-select style="display: block;" ng-model="addCalibrationModuleFormData.moduleType"
+                                   name="moduleType" id="moduleType" theme="select2"
+                                   search-enabled="false" required>
+                            <ui-select-match placeholder="{{'STATUS_SELECT_MODULE_TYPE' | translate}}"
+                                             allow-clear="true">
+                                {{$select.selected.label}}
+                            </ui-select-match>
+                            <ui-select-choices
+                                    repeat="moduleType in moduleTypeData">
+                                <span ng-bind-html="moduleType.label"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.moduleType.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'TYPEAHEAD_ERROR' | translate}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="email">
+                        {{'EMAIL' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input id="email" name="email" type="email" class="form-control"
+                               ng-model="addCalibrationModuleFormData.email" ng-pattern="EMAIL_REGEX"
+                               popover="Введіть email адресу організації"
+                               popover-trigger="focus" popover-placement="top"
+                               placeholder="example@gmail.com" required>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.email.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.email.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'EMAIL_ERROR' | translate}}<i>example@mail.com</i>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="calibrationType">
+                        {{'METHODS_OF_VERIFICATION' | translate }}
+                    </label>
+
+                    <div class="col-md-8">
+                        <input type="text" ng-model="addCalibrationModuleFormData.calibrationType" id="calibrationType"
+                               name="calibrationType"
+                               class="form-control" popover="Введіть методику повірки"
+                               popover-trigger="focus" popover-placement="top"
+                               required>
+						 	<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.calibrationType.$error.required">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'REQUIRED' | translate}}
+                        </p>
+
+                        <p class="help-block" ng-if="addCalibrationModuleFormData.calibrationType.$error.pattern">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                            {{'ORGANIZATION_NAME_LENGTH' | translate }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row row-buttons">
+            <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2"
+                    ng-click="onAddCalibrationModuleFormSubmit()">
+                {{'ADD' | translate}}
+            </button>
+            <input type="reset" class="btn btn-warning col-md-3 col-sm-12 col-xs-12 col-lg-3"
+                   value="{{'CLEAR_FORM' | translate }}" ng-click="resetCalibrationModuleForm()">
+
+            <div class="col-md-5 col-sm-0 col-xs-0 col-lg-5">
+                <p>
+                </p>
+            </div>
+            <input type="button" class="btn btn-danger col-md-2 col-sm-12 col-xs-12 col-lg-2 pull-right"
+                   value="{{'CLOSE' | translate}}" ng-click="closeModal()">
+        </div>
+    </form>
+</div>

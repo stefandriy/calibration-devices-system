@@ -10,7 +10,7 @@ import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.service.calibrator.CalibrationModuleService;
+import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/task/")
+@RequestMapping(value = "/task")
 public class CalibratorPlanningTaskController {
 
     @Autowired

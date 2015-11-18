@@ -17,7 +17,6 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.tool.impl.MailExistValidation;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.calibrator.CalibratorService;
 import com.softserve.edu.service.catalogue.DistrictService;
@@ -33,7 +32,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/provider/applications/")
+@RequestMapping(value = "provider/applications/")
 /**
  * Used in provider UI for creating new applications
  * and sending rejection messages/notifications
@@ -97,11 +96,47 @@ public class ProviderApplicationController {
         Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
-        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT, Verification.ReadStatus.UNREAD, calibrator);
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
+                Verification.ReadStatus.UNREAD, calibrator);
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();
-        mail.sendMail(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(), verification.getDevice().getDeviceType().toString());
+        mail.sendMail(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(),
+                verification.getDevice().getDeviceType().toString());
+
+        return verification.getId();
+    }
+
+    /**
+     *
+     * @param verificationDTO
+     * @param employeeUser
+     */
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    public String saveInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO,
+                                         @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        ClientData clientData = new ClientData(
+                verificationDTO.getFirstName(),
+                verificationDTO.getLastName(),
+                verificationDTO.getMiddleName(),
+                verificationDTO.getEmail(),
+                verificationDTO.getPhone(),
+                verificationDTO.getSecondPhone(),
+                new Address(
+                        verificationDTO.getRegion(),
+                        verificationDTO.getDistrict(),
+                        verificationDTO.getLocality(),
+                        verificationDTO.getStreet(),
+                        verificationDTO.getBuilding(),
+                        verificationDTO.getFlat()
+                )
+        );
+        Organization provider = providerService.findById(employeeUser.getOrganizationId());
+        Device device = deviceService.getById(verificationDTO.getDeviceId());
+        Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
+                Verification.ReadStatus.UNREAD); //TODO: change status!!!
+
+        verificationService.saveVerification(verification);
 
         return verification.getId();
     }
@@ -121,11 +156,6 @@ public class ProviderApplicationController {
         List<Region> regions = new ArrayList<>();
         regions.add(regionService.findByDistrictId(localityDTO.getDistrictId()));
         return regions;
-    }
-
-    @RequestMapping(value = "mailExist", method = RequestMethod.POST)
-    public boolean checkMailExist(@RequestBody OrganizationStageVerificationDTO verificationDTO) {
-        return MailExistValidation.isAddressValid(verificationDTO.getEmail());
     }
 
     /**

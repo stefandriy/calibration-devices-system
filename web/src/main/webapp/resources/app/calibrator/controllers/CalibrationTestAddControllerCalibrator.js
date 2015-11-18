@@ -3,11 +3,12 @@
  */
 angular
     .module('employeeModule')
-    .controller('CalibrationTestAddControllerCalibrator', ['$rootScope', '$scope', '$modal', '$http', '$log',
+    .controller('CalibrationTestAddControllerCalibrator', ['$rootScope', '$translate', '$scope', '$modal', '$http', '$log',
         'CalibrationTestServiceCalibrator', '$location', 'Upload', '$timeout',
-        function ($rootScope, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload,  $timeout) {
+        function ($rootScope, $translate, $scope, $modal, $http, $log, calibrationTestServiceCalibrator, $location, Upload,  $timeout) {
 
             $scope.testId = $location.search().param;
+            $scope.hasProtocol = $location.search().loadProtocol || false;
 
             $scope.fileLoaded = false;
 
@@ -25,7 +26,7 @@ angular
             $scope.uploadBbiFile = function(testId) {
                 var modalInstance =  $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/upload-bbiFile.html',
                     controller: 'UploadBbiFileController',
                     size: 'lg',
                     resolve: {
@@ -51,7 +52,7 @@ angular
             $scope.showEditMainPhotoModal = function (id) {
                 var modalInstance =  $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/edit-main-photo-modal.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/edit-main-photo-modal.html',
                     controller: 'EditPhotoController',
                     size: 'md',
                     resolve: {
@@ -77,18 +78,59 @@ angular
                     })
             }
 
-            getCalibrationTests();
+            function getProtocolTest(verificationID) {
+                calibrationTestServiceCalibrator
+                    .getTestProtocol(verificationID)
+                    .then(function (data){
+                        $scope.parseBbiFile(data);
+                        $log.debug("inside");
+                    } );
+            }
+
+            $scope.selectedStatus = {
+                name: null
+            }
+            $scope.statusData = [
+                {id: 'REJECTED', label: null},
+                {id: 'SENT_TO_VERIFICATOR', label: null},
+                {id: 'TEST_OK', label: null},
+                {id: 'TEST_NOK', label: null}
+            ];
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.statusData[0].label = 'Відхилена';
+                    $scope.statusData[1].label = 'Предявлено повірнику';
+                    $scope.statusData[2].label = 'Перевірено придатний';
+                    $scope.statusData[3].label = 'Перевірено непридатний';
+                } else if (lang === 'eng') {
+                    $scope.statusData[0].label = 'Rejected';
+                    $scope.statusData[1].label = 'Sent to verificator';
+                    $scope.statusData[2].label = 'Tested OK';
+                    $scope.statusData[3].label = 'Tested NOK';
+                }
+            };
+
+            $scope.setTypeDataLanguage();
+
+            if ( $scope.hasProtocol){
+                getProtocolTest($scope.testId);
+            }else{
+                getCalibrationTests();
+
+            }
 
             /**
              * Saves new test from the form in database.
              * If everything is ok then resets the test
              * form and updates table with tests.
              */
-            $scope.saveCalibrationTest = function () {
+            $scope.updateCalibrationTest = function () {
                 $scope.generalForms={testForm:$scope.TestForm, smallForm: $scope.TestDataFormData};
                 $log.debug($scope.generalForms);
                         calibrationTestServiceCalibrator
-                            .saveCalibrationTest($scope.generalForms, $scope.testId)
+                            .updateCalibrationTest($scope.generalForms, $scope.testId)
                             .then(function (data) {
                                 if (data == 201) {
                                     $rootScope.onTableHandling();
@@ -96,7 +138,7 @@ angular
                             });
                             $modal.open({
                                 animation: true,
-                                templateUrl: '/resources/app/calibrator/views/modals/calibration-test-adding-success.html',
+                                templateUrl: 'resources/app/calibrator/views/modals/calibration-test-adding-success.html',
                                 controller: function ($modalInstance) {
                                     this.ok = function () {
                                         $scope.resetTestForm();

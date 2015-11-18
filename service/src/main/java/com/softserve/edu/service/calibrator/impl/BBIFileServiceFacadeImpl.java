@@ -5,6 +5,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -33,11 +34,15 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     @Autowired
     private CalibratorService calibratorService;
 
+    @Autowired
+    private CalibrationTestService calibrationTestService;
+
     @Override
     public DeviceTestData parseAndSaveBBIFile(File BBIfile, String verificationID, String originalFileName) throws IOException, NoSuchElementException, DecoderException {
         DeviceTestData deviceTestData;
         try (InputStream inputStream = FileUtils.openInputStream(BBIfile)){
             deviceTestData = parseAndSaveBBIFile(inputStream, verificationID, originalFileName);
+            calibrationTestService.createNewTest(deviceTestData, verificationID);
         } catch (DecoderException e) {
             throw e;
         }

@@ -54,7 +54,7 @@ public class CalibrationTestDataController {
      *         calibration-test successfully created or else http
      *         status {@literal CONFLICT}
      */
-    @RequestMapping(value = "addTestData/{testId}", method = RequestMethod.POST)
+   /* @RequestMapping(value = "addTestData/{testId}", method = RequestMethod.POST)
     public ResponseEntity createCalibrationTestData(@RequestBody CalibrationTestDataDTO testDataDTO, @PathVariable Long testId) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         try {
@@ -65,11 +65,12 @@ public class CalibrationTestDataController {
             calibrationTestServiceImpl.createTestData(testId, calibrationTestData);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity<>(httpStatus);
     }
-
+*/
 
 
     @RequestMapping(value = "edit/{testDataId}", method = RequestMethod.POST)
@@ -79,6 +80,7 @@ public class CalibrationTestDataController {
     		CalibrationTestData updatedTestData = service.editTestData(testDataId, testDataDTO.saveTestData());
 		} catch (Exception e) {
 			logger.error("GOT EXCEPTION " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
 			httpStatus = HttpStatus.CONFLICT;
 		}
     	return new ResponseEntity<>(httpStatus);

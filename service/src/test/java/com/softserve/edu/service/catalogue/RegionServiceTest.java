@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,10 +20,12 @@ public class RegionServiceTest {
 
     @Autowired
     private RegionService regionService;
-
+    @Ignore
     @Test
     public void testFindByDistrictId () {
         Region region = regionService.findByDistrictId(1L);
         assertEquals(true, true);
     }
+
+
 }

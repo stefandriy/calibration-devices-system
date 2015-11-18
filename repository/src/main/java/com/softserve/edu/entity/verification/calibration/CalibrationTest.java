@@ -2,9 +2,11 @@ package com.softserve.edu.entity.verification.calibration;
 
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
+import org.hibernate.type.IntegerType;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -25,8 +27,8 @@ public class CalibrationTest {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
-
-    private Integer temperature;
+    private String counterNumber;
+    private Integer capacity;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
@@ -52,25 +54,21 @@ public class CalibrationTest {
     @JoinColumn(name = "verificationId")
     private Verification verification;
 
-    @OneToMany(mappedBy = "calibrationTest")
-    private Set<CalibrationTestIMG> testIMGs;
+    @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CalibrationTestData> calibrationTestDataList;
 
-    @OneToMany(mappedBy = "calibrationTest", cascade = CascadeType.ALL)
-    private Set<CalibrationTestData> calibrationTestDataSet;
-
-    public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
+    public CalibrationTest(String name, Integer settingNumber, Double latitude,
+                           Double longitude, Long unixTime, String counterNumber,
+                           Verification verification, Integer capacity) {
         this.name = name;
-        this.dateTest = new Date();
-        this.temperature = temperature;
+        this.dateTest = new Date(unixTime);
+        this.capacity = capacity;
         this.settingNumber = settingNumber;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.consumptionStatus = consumptionStatus;
-        this.testResult = testResult;
-    }
-
-    public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {
+        this.counterNumber = counterNumber;
+        this.consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
+        this.testResult = Verification.CalibrationTestResult.SUCCESS;
         this.verification = verification;
     }
 }

@@ -94,8 +94,8 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public long getInstallmentNumber() {
-        return getLongValue("installmentNumber");
+    public int getInstallmentNumber() {
+        return (int) getLongValue("installmentNumber");
     }
 
     @Override
@@ -119,8 +119,8 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public long getInitialCapacity() {
-        return getLongValue("initialCapacity");
+    public int getInitialCapacity() {
+        return (int)getLongValue("initialCapacity");
     }
 
     @Override
@@ -164,8 +164,8 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public long getTestSpecifiedImpulsesAmount(int testIndex) {
-        return getLongValue("test" + testIndex + "specifiedImpulsesAmount");
+    public double getTestSpecifiedImpulsesAmount(int testIndex) {
+        return  getLongValue("test" + testIndex + "specifiedImpulsesAmount")*1.0;
     }
 
     @Override

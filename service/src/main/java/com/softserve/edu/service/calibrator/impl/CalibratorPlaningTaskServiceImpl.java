@@ -59,7 +59,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      */
     @Override
     public void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
-        CalibrationModule module = moduleRepository.findCalibrationModuleBySerialNumber(serialNumber);
+        CalibrationModule module = moduleRepository.findBySerialNumber(serialNumber);
         Set<Verification> verifications = new HashSet<>();
         int i = 0;
         boolean counterStatus = false;
