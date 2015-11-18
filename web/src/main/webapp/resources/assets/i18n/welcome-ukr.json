@@ -539,5 +539,7 @@
   "SUCCESSFUL_EDITED_CALIBRATION_MODULE" : "Установку успішно відредаговано",
   "NO_CORRESPONDING_VERIFICATION" : "Не знайдено відповідної повірки",
   "BBI_IS_NOT_VALID" : "Невірний файл bbi",
-  "INVALID_VERIFICATION_CODE" : "Невірний код повірки"
+  "INVALID_VERIFICATION_CODE" : "Невірний код повірки",
+  "PLEASE_DESCRIBE_REASON_OF_PROTOCOL_REJECTION": "Будь-ласка, вкажіть причину повернення протоколу",
+  "REASON_OF_PROTOCOL_REJECTION": "Будь-ласка, вкажіть детальну причину, по якій цей протокол має бути повернутий"
 }
