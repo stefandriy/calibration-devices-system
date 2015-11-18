@@ -65,10 +65,11 @@ public class CalibrationModuleController {
     public ResponseEntity addModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         CalibrationModule calibrationModule = new CalibrationModule(
-                Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
+                calibrationModuleDTO.getDeviceType(),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
-                calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
+                calibrationModuleDTO.getTelephone(),
+                calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
                 calibrationModuleDTO.getWorkDate());
         try {
@@ -93,7 +94,7 @@ public class CalibrationModuleController {
                                         @PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
         CalibrationModule calibrationModule = new CalibrationModule(
-                Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
+                calibrationModuleDTO.getDeviceType(),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
