@@ -31,17 +31,18 @@ public class CalibrationTestData {
     private Double endValue;
     private Double volumeInDevice;
     private Double duration;
-    private Integer  testPosition;
-    @Temporal(TemporalType.TIMESTAMP)
+    private Integer testPosition;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date testTime;
+
     private Double actualConsumption;
     private Double calculationError;
+
     @Enumerated(EnumType.STRING)
     private Verification.ConsumptionStatus consumptionStatus;
     @Enumerated(EnumType.STRING)
     private Verification.CalibrationTestResult testResult;
-
 
     @ManyToOne
     @JoinColumn(name = "calibrationTestId")
@@ -50,11 +51,10 @@ public class CalibrationTestData {
     @OneToMany(mappedBy = "calibrationTestData")
     private List<CalibrationTestIMG> testIMGs;
 
-    public CalibrationTestData(
-            Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
-            Double endValue, Double volumeInDevice, Double actualConsumption,
-            Double calculationError, CalibrationTest calibrationTest, Double duration, Long lowerConsumptionLimit,
-            Long upperConsumptionLimit, Integer testPosition) {
+    public CalibrationTestData(Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
+                               Double endValue, Double volumeInDevice, Double actualConsumption, Double calculationError,
+                               CalibrationTest calibrationTest, Double duration, Long lowerConsumptionLimit,
+                               Long upperConsumptionLimit, Integer testPosition) {
         this.givenConsumption = givenConsumption;
         this.acceptableError = acceptableError;
         this.volumeOfStandard = volumeOfStandard;
@@ -69,11 +69,11 @@ public class CalibrationTestData {
         } else {
             this.testResult = Verification.CalibrationTestResult.FAILED;
         }
-        if((this.getGivenConsumption() + (this.getGivenConsumption()*upperConsumptionLimit/100)<= this.getActualConsumption())
-        & (this.getActualConsumption()<= (this.getGivenConsumption() - (this.getGivenConsumption()*lowerConsumptionLimit)/100))){
-        this.consumptionStatus=Verification.ConsumptionStatus.IN_THE_AREA;
-        }else{
-        this.consumptionStatus=Verification.ConsumptionStatus.NOT_IN_THE_AREA;
+        if ((this.getGivenConsumption() + (this.getGivenConsumption() * upperConsumptionLimit / 100) <= this.getActualConsumption())
+                & (this.getActualConsumption() <= (this.getGivenConsumption() - (this.getGivenConsumption() * lowerConsumptionLimit) / 100))) {
+            this.consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
+        } else {
+            this.consumptionStatus = Verification.ConsumptionStatus.NOT_IN_THE_AREA;
         }
         this.calibrationTest = calibrationTest;
         this.duration = duration;

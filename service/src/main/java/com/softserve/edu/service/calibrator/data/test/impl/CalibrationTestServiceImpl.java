@@ -53,10 +53,10 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     public long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException {
         Verification verification = verificationRepository.findOne(verificationId);
-        CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(),  deviceTestData.getLongitude(),
-                deviceTestData.getUnixTime(),deviceTestData.getCurrentCounterNumber(),Verification.ConsumptionStatus.IN_THE_AREA,
-                Verification.CalibrationTestResult.SUCCESS, verification, deviceTestData.getInitialCapacity());
-       testRepository.save(calibrationTest);
+        CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(),
+                deviceTestData.getLatitude(), deviceTestData.getLongitude(), deviceTestData.getUnixTime(),
+                deviceTestData.getCurrentCounterNumber(), verification, deviceTestData.getInitialCapacity());
+        testRepository.save(calibrationTest);
         String photo = deviceTestData.getTestPhoto();
         byte[] bytesOfImage = Base64.decodeBase64(photo);
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
@@ -68,7 +68,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
              /*if there is no photo there is now test data */
             if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
-               continue;
+                continue;
             } else {
                 сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
                 if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
@@ -79,7 +79,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                     calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.NOT_IN_THE_AREA);
                     testRepository.save(calibrationTest);
                 }
-
             }
         }
         verification.setStatus(Status.TEST_COMPLETED);
