@@ -109,8 +109,7 @@ public class CalibrationTestFileDataDTO {
         }
     }
 
-    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest) {
-        CalibrationTestServiceImpl calibrationTestService = new CalibrationTestServiceImpl();
+    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest,CalibrationTestService calibrationTestService) {
         this.fileName = calibrationTest.getName();
         this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();

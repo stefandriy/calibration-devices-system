@@ -160,13 +160,14 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         }
     }
 
+    @Override
     public String getPhotoAsString(String photoPath) {
         String photo = null;
         InputStream reader = null;
         BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileInputStream("/Metrology/img/" + photoPath);
+            reader = new FileInputStream(localStorage+"/" + photoPath);
             bufferedInputStream = new BufferedInputStream(reader);
             image = ImageIO.read(bufferedInputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
