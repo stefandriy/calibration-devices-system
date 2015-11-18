@@ -51,13 +51,4 @@ public class CalibrationModuleDTO {
         this.workDate = workDate;
     }
 
-    /*public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
-                                String condDesignation, String serialNumber,
-                                String employeeFullName, String telephone, String moduleNumber,
-                                CalibrationModule.ModuleType moduleType, String email, String calibrationType,
-                                Date workDate) {
-        this(moduleId, deviceType.name(), organizationCode, condDesignation, serialNumber, employeeFullName,
-                telephone, moduleNumber, moduleType.toString(), email, calibrationType, workDate);
-    }*/
-
 }
