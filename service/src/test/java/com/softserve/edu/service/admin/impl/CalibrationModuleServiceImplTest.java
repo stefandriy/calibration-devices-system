@@ -10,6 +10,7 @@ import com.softserve.edu.service.utils.filter.internal.Comparison;
 import com.softserve.edu.service.utils.filter.internal.Condition;
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -100,7 +101,7 @@ public class CalibrationModuleServiceImplTest {
     @Test
     public void testGetFilteredPageOfCalibrationModule() throws Exception {
         PowerMockito.whenNew(Filter.class).withNoArguments().thenReturn(filter);
-        Map<String, String> searchKeys = new HashMap<>();
+        Map<String, Object> searchKeys = new HashMap<>();
         searchKeys.put("isActive", "true");
         searchKeys.put("employeeFullName", "fullName");
         filter.addCondition(new Condition.Builder()

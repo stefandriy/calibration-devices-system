@@ -33,28 +33,6 @@ public class CalibrationModuleController {
     @Autowired
     private CalibrationModuleService calibrationModuleService;
 
-    @Autowired
-    private OrganizationService organizationService;
-
-    /**
-     * Get calibration module by id
-     *
-     * @param id id of calibration module to find
-     * @return calibrationModuleDTO
-     */
-    @RequestMapping(value = "get/{id}")
-    public CalibrationModuleDTO getCalibrationModule(@PathVariable("id") Long id) {
-        CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
-        return new CalibrationModuleDTO(calibrationModule.getModuleId(),
-                calibrationModule.getDeviceType(),
-                calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
-                calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
-                calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
-                calibrationModule.getModuleType(),
-                calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                calibrationModule.getWorkDate());
-    }
-
     /**
      * Add new calibration module
      *
@@ -65,10 +43,11 @@ public class CalibrationModuleController {
     public ResponseEntity addModule(@RequestBody CalibrationModuleDTO calibrationModuleDTO) {
         HttpStatus httpStatus = HttpStatus.CREATED;
         CalibrationModule calibrationModule = new CalibrationModule(
-                Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
+                calibrationModuleDTO.getDeviceType(),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
-                calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
+                calibrationModuleDTO.getTelephone(),
+                calibrationModuleDTO.getModuleType(),
                 calibrationModuleDTO.getEmail(), calibrationModuleDTO.getCalibrationType(),
                 calibrationModuleDTO.getWorkDate());
         try {
@@ -93,7 +72,7 @@ public class CalibrationModuleController {
                                         @PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
         CalibrationModule calibrationModule = new CalibrationModule(
-                Device.DeviceType.valueOf(calibrationModuleDTO.getDeviceType()),
+                calibrationModuleDTO.getDeviceType(),
                 calibrationModuleDTO.getOrganizationCode(), calibrationModuleDTO.getCondDesignation(),
                 calibrationModuleDTO.getSerialNumber(), calibrationModuleDTO.getEmployeeFullName(),
                 calibrationModuleDTO.getTelephone(), calibrationModuleDTO.getModuleType(),
@@ -141,11 +120,11 @@ public class CalibrationModuleController {
                  @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
                  @PathVariable String sortOrder, CalibrationModuleDTO searchData) {
         // converting object to map and filtering the map to have only not-null fields
-        Map<String, String> searchDataMap = new HashMap<String, String>();
+        Map<String, Object> searchDataMap = new HashMap<String, Object>();
         if (searchData != null) {
-            searchDataMap = TypeConverter.ObjectToMap(searchData);
+            searchDataMap = TypeConverter.ObjectToMapWithObjectValues(searchData);
         }
-        searchDataMap.put("isActive", "true");
+        searchDataMap.put("isActive", true);
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort;
         if ((sortCriteria.equals("undefined") && sortOrder.equals("undefined")) ||

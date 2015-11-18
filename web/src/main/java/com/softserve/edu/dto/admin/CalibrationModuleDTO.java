@@ -1,5 +1,6 @@
 package com.softserve.edu.dto.admin;
 
+import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.Device;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,13 +17,13 @@ import java.util.Date;
 public class CalibrationModuleDTO {
 
     private Long moduleId;
-    private String deviceType;
+    private Device.DeviceType deviceType;
     private String organizationCode;
     private String condDesignation;
     private String serialNumber;
     private String employeeFullName;
     private String telephone;
-    private String moduleType;
+    private CalibrationModule.ModuleType moduleType;
     private String email;
     private String calibrationType;
     private String moduleNumber;
@@ -31,10 +32,11 @@ public class CalibrationModuleDTO {
 
     public CalibrationModuleDTO() {}
 
-    public CalibrationModuleDTO(Long moduleId, String deviceType, String organizationCode,
+    public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone, String moduleNumber,
-                             String moduleType, String email, String calibrationType, Date workDate) {
+                             CalibrationModule.ModuleType moduleType, String email,
+                             String calibrationType, Date workDate) {
         this.moduleId = moduleId;
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
@@ -49,13 +51,13 @@ public class CalibrationModuleDTO {
         this.workDate = workDate;
     }
 
-    public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
+    /*public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,
-                                String moduleType, String email, String calibrationType,
+                                CalibrationModule.ModuleType moduleType, String email, String calibrationType,
                                 Date workDate) {
         this(moduleId, deviceType.name(), organizationCode, condDesignation, serialNumber, employeeFullName,
-                telephone, moduleNumber, moduleType, email, calibrationType, workDate);
-    }
+                telephone, moduleNumber, moduleType.toString(), email, calibrationType, workDate);
+    }*/
 
 }

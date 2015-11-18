@@ -53,4 +53,12 @@ public class TypeConverter {
                 .collect(Collectors.toMap(Map.Entry::getKey, newEntry -> String.valueOf(newEntry.getValue())));
     }
 
+    public static Map<String, Object> ObjectToMapWithObjectValues(Object object) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> map = objectMapper.convertValue(object, Map.class);
+        return map.entrySet().stream()
+                .filter(entry -> entry.getValue() != null)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
 }
