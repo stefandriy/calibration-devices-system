@@ -89,7 +89,7 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
                 countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId) * 1.0), //calculationError
                 calibrationTest, deviceTestData.getTestDuration(testDataId),
                 deviceTestData.getTestLowerConsumptionLimit(testDataId),
-                deviceTestData.getTestUpperConsumptionLimit(testDataId));
+                deviceTestData.getTestUpperConsumptionLimit(testDataId), testDataId);
 
         dataRepository.save(сalibrationTestData);
         testDataIMGService.createTestDataIMGCalibrationTestIMGs(testDataId, deviceTestData, сalibrationTestData);

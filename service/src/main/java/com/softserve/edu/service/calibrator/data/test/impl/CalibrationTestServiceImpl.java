@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import org.apache.commons.codec.binary.Base64;
 import com.softserve.edu.device.test.data.DeviceTestData;
@@ -57,12 +58,11 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         CalibrationTest calibrationTest = new CalibrationTest(
                 deviceTestData.getFileName(), deviceTestData.getTemperature(),
                 deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(),  deviceTestData.getLongitude(),
-                deviceTestData.getUnixTime()
+                deviceTestData.getUnixTime(),deviceTestData.getCurrentCounterNumber()
         );
         calibrationTest.setConsumptionStatus(consumptionStatus);
         calibrationTest.setTestResult(testResult);
         calibrationTest.setVerification(verification);
-        // deviceTestData.getTestCounter();
         testRepository.save(calibrationTest);
         String photo = deviceTestData.getTestPhoto();
         byte[] bytesOfImage = Base64.decodeBase64(photo);
@@ -73,7 +73,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         testRepository.save(calibrationTest);
         CalibrationTestData сalibrationTestData;
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
-             /*todo write a coment about this */
+             /*if there is no photo there is now test */
             if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
                continue;
             } else {
@@ -82,10 +82,15 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
                     testRepository.save(calibrationTest);
                 }
-
+                if (сalibrationTestData.getConsumptionStatus() == Verification.ConsumptionStatus.NOT_IN_THE_AREA) {
+                    calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.NOT_IN_THE_AREA);
+                    testRepository.save(calibrationTest);
+                }
 
             }
         }
+        verification.setStatus(Status.TEST_COMPLETED);
+        verificationRepository.save(verification);
         return calibrationTest.getId();
     }
 

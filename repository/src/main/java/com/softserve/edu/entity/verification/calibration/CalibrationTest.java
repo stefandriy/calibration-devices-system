@@ -26,7 +26,7 @@ public class CalibrationTest {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
-    private Integer counterNumber;
+    private String counterNumber;
     private Integer temperature;
     private Integer settingNumber;
     private Double latitude;
@@ -70,13 +70,14 @@ public class CalibrationTest {
         this.testResult = testResult;
     }
     public CalibrationTest(String name, Integer temperature, Integer settingNumber, Double latitude,
-                           Double longitude, Long unixTime) {
+                           Double longitude, Long unixTime, String counterNumber) {
         this.name = name;
         this.dateTest = new Date(unixTime);
         this.temperature = temperature;
         this.settingNumber = settingNumber;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.counterNumber=counterNumber;
 
     }
     public CalibrationTest(CalibrationTest calibrationTest, Verification verification) {
