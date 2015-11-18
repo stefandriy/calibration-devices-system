@@ -106,7 +106,7 @@ public class CalibratorVerificationController {
 
                 CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
 
-                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest), HttpStatus.OK);
+                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest,testService), HttpStatus.OK);
 
             } else {
                 logger.error("Failed to load file: pattern does not match.");

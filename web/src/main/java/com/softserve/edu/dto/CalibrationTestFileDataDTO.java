@@ -7,8 +7,8 @@ import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
-import com.softserve.edu.service.calibrator.data.test.impl.CalibrationTestServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.softserve.edu.entity.verification.Verification.ConsumptionStatus;
+
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -34,7 +34,7 @@ public class CalibrationTestFileDataDTO {
 
     private double longitude;
 
-    private String consumptionStatus;
+    private ConsumptionStatus consumptionStatus;
 
     private String testPhoto;
 
@@ -109,8 +109,7 @@ public class CalibrationTestFileDataDTO {
         }
     }
 
-    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest) {
-        CalibrationTestServiceImpl calibrationTestService = new CalibrationTestServiceImpl();
+    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest,CalibrationTestService calibrationTestService) {
         this.fileName = calibrationTest.getName();
         this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();
@@ -121,7 +120,7 @@ public class CalibrationTestFileDataDTO {
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
         this.testPhoto = calibrationTestService.getPhotoAsString(calibrationTest.getPhotoPath());
-        this.consumptionStatus = calibrationTest.getConsumptionStatus().toString();
+        this.consumptionStatus = calibrationTest.getConsumptionStatus();
         this.testResult = calibrationTest.getTestResult();
         this.listTestData = new ArrayList();
         int testNumber = 1;
@@ -136,7 +135,7 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setAcceptableError(calibrationTestData.getAcceptableError());
             testDataDTO.setInitialValue(calibrationTestData.getInitialValue());
             testDataDTO.setEndValue(calibrationTestData.getEndValue());
-            testDataDTO.setVolumeInDevice(round(calibrationTestData.getEndValue() - calibrationTestData.getInitialValue(), 2));
+            testDataDTO.setVolumeInDevice(calibrationTestData.getVolumeInDevice());
 //            testDataDTO.setTestTime(round(testData.getTestDuration(i), 1))?
             testDataDTO.setVolumeOfStandard(calibrationTestData.getVolumeOfStandard());
             testDataDTO.setActualConsumption(calibrationTestData.getActualConsumption());
@@ -235,11 +234,11 @@ public class CalibrationTestFileDataDTO {
         this.longitude = longitude;
     }
 
-    public String getConsumptionStatus() {
+    public ConsumptionStatus getConsumptionStatus() {
         return consumptionStatus;
     }
 
-    public void setConsumptionStatus(String consumptionStatus) {
+    public void setConsumptionStatus(ConsumptionStatus consumptionStatus) {
         this.consumptionStatus = consumptionStatus;
     }
 
