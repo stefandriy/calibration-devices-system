@@ -1,7 +1,6 @@
 package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.calibrator.util.CalibratorTestPageDTOTransformer;
-import com.softserve.edu.controller.calibrator.util.CalibratorTestTransformer;
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.dto.*;
@@ -32,7 +31,6 @@ import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +38,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -109,7 +106,7 @@ public class CalibratorVerificationController {
 
                 CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
 
-                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest), HttpStatus.OK);
+                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest,testService), HttpStatus.OK);
 
             } else {
                 logger.error("Failed to load file: pattern does not match.");

@@ -55,7 +55,7 @@ public class CalibrationTestController {
     @RequestMapping(value = "getTest/{testId}", method = RequestMethod.GET)
     public CalibrationTestDTO getCalibrationTest(@PathVariable Long testId) {
         CalibrationTest foundTest = testService.findTestById(testId);
-        CalibrationTestDTO testDTO = new CalibrationTestDTO(foundTest.getName(), foundTest.getTemperature(), foundTest.getSettingNumber(),
+        CalibrationTestDTO testDTO = new CalibrationTestDTO(foundTest.getName(), foundTest.getCapacity(), foundTest.getSettingNumber(),
                 foundTest.getLatitude(), foundTest.getLongitude(), foundTest.getConsumptionStatus(), foundTest.getTestResult());
         return testDTO;
     }
@@ -198,7 +198,7 @@ public class CalibrationTestController {
     @RequestMapping(value = "getProtocol/{verificationId}", method = RequestMethod.GET)
     public ResponseEntity getProtocol(@PathVariable String verificationId) throws FileNotFoundException, IOException, DecoderException {
         CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-        ResponseEntity responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest), HttpStatus.OK);
+        ResponseEntity responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest,testService), HttpStatus.OK);
         return responseEntity;
     }
 
