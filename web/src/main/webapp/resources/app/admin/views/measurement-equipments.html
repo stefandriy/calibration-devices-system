@@ -31,8 +31,9 @@
                        class="table table-bordered table-hover users_table">
                     <tbody>
                     <tr ng-repeat="calibrationModule in $data">
-                        <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'deviceType'"
-                            filter="{ 'deviceType': 'text' }">
+                        <td data-title="'SPHERE_OF_APPLICATION' | translate"
+                            sortable="'deviceType'"
+                            filter="{ deviceType : 'deviceType' }">
                             {{ calibrationModule.deviceType | translate }}
                         </td>
                         <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
@@ -48,7 +49,7 @@
                             filter="{ 'workDate': 'text' }">{{ calibrationModule.workDate }}
                         </td>
                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
-                            filter="{ 'moduleType': 'text' }">{{ calibrationModule.moduleType | translate }}
+                            filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType | translate }}
                         </td>
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
@@ -96,17 +97,33 @@
                     </ul>
                 </div>
             </script>
-            <script type="text/ng-template" id="ng-table/filters/organizationType.html">
-                <ui-select ng-model="selectedOrganizationType.name" theme="select2" on-select='doSearch()'
+            <script type="text/ng-template" id="ng-table/filters/deviceType.html">
+                <ui-select ng-model="selectedDeviceType.name" theme="select2"
+                           on-select='onTableHandling()'
                            search-enabled="false"
-                           name="filter-organizationType">
-                    <ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
+                           name="filter-deviceType">
+                    <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
                                      allow-clear="true">
                         {{$select.selected.label}}
                     </ui-select-match>
                     <ui-select-choices
-                            repeat="organizationType in organizationTypeData">
-                        <span ng-bind-html="organizationType.label"></span>
+                            repeat="deviceType in deviceTypeData">
+                        <span ng-bind-html="deviceType.label"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </script>
+            <script type="text/ng-template" id="ng-table/filters/moduleType.html">
+                <ui-select ng-model="selectedModuleType.name" theme="select2"
+                           on-select='onTableHandling()'
+                           search-enabled="false"
+                           name="filter-moduleType">
+                    <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
+                                     allow-clear="true">
+                        {{$select.selected.label}}
+                    </ui-select-match>
+                    <ui-select-choices
+                            repeat="moduleType in moduleTypeData">
+                        <span ng-bind-html="moduleType.label"></span>
                     </ui-select-choices>
                 </ui-select>
             </script>
