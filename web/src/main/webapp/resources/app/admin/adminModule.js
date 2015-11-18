@@ -27,7 +27,7 @@ angular
              * i18n configuration.
              */
             $translateProvider.useStaticFilesLoader({
-                prefix: '/resources/assets/i18n/welcome-',
+                prefix: 'resources/assets/i18n/welcome-',
                 suffix: '.json'
             });
             $translateProvider.useLocalStorage();
@@ -43,71 +43,71 @@ angular
                 'main',
                 {
                     url: '/',
-                    templateUrl: '/resources/app/admin/views/main-panel.html'
+                    templateUrl: 'resources/app/admin/views/main-panel.html'
                 })
                 .state(
                 'organizations',
                 {
                     url: '/organizations',
-                    templateUrl: '/resources/app/admin/views/organizations-panel.html'
+                    templateUrl: 'resources/app/admin/views/organizations-panel.html'
                 })
                 .state(
                 'agreements',
                 {
                     url: '/agreements',
-                    templateUrl: '/resources/app/admin/views/agreement-panel.html'
+                    templateUrl: 'resources/app/admin/views/agreement-panel.html'
                 })
                 .state(
                 'users',
                 {
                     url: '/users',
-                    templateUrl: '/resources/app/admin/views/users-panel.html'
+                    templateUrl: 'resources/app/admin/views/users-panel.html'
                 })
                 .state(
                 'sys-admins',
                 {
                     url: '/sys-admins',
-                    templateUrl: '/resources/app/admin/views/sys-admins-panel.html'
+                    templateUrl: 'resources/app/admin/views/sys-admins-panel.html'
                 })
                 .state(
                 'address',
                 {
                     url: '/address',
-                    templateUrl: '/resources/app/admin/views/address-panel.html'
+                    templateUrl: 'resources/app/admin/views/address-panel.html'
                 })
                 .state(
                 'device-category',
                 {
                     url: '/device-category',
-                    templateUrl: '/resources/app/admin/views/devices-panel.html'
+                    templateUrl: 'resources/app/admin/views/devices-panel.html'
                 })
                 .state(
                 'counters-type',
                 {
                     url: '/counters-type',
-                    templateUrl: '/resources/app/admin/views/counters-type-panel.html'
+                    templateUrl: 'resources/app/admin/views/counters-type-panel.html'
                 })
                 .state(
                 'settings',
                 {
                     url: '/settings',
-                    templateUrl: '/resources/app/admin/views/settings-panel.html'
+                    templateUrl: 'resources/app/admin/views/settings-panel.html'
                 })
                 .state(
                 '403',
                 {
                     url: '/403',
-                    templateUrl: '/resources/app/admin/views/403.html'
+                    templateUrl: 'resources/app/admin/views/403.html'
                 })
                 .state(
                 '404',
                 {
                     url: '/404',
-                    templateUrl: '/resources/app/admin/views/404.html'
+                    templateUrl: 'resources/app/admin/views/404.html'
                 })
                 .state("measuring-equipment-admin", {
                     url: '/calibration-module',
-                    templateUrl: '/resources/app/admin/views/measurement-equipments.html',
+                    templateUrl: 'resources/app/admin/views/measurement-equipments.html',
                     controller: 'MeasuringEquipmentControllerAdmin'
                 });
             /*

@@ -30,6 +30,7 @@ public class CalibrationTestData {
     private Double initialValue;
     private Double endValue;
     private Double volumeInDevice;
+    private Double duration;
 
     @Temporal(TemporalType.TIMESTAMP)
 
@@ -49,8 +50,7 @@ public class CalibrationTestData {
     public CalibrationTestData(
             Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
             Double endValue, Double volumeInDevice, Double actualConsumption,
-            Double calculationError, CalibrationTest calibrationTest
-    ) {
+            Double calculationError, CalibrationTest calibrationTest, Double duration) {
         this.givenConsumption = givenConsumption;
         this.acceptableError = acceptableError;
         this.volumeOfStandard = volumeOfStandard;
@@ -72,5 +72,6 @@ public class CalibrationTestData {
         this.consumptionStatus=Verification.ConsumptionStatus.NOT_IN_THE_AREA;
         }
         this.calibrationTest = calibrationTest;
+        this.duration = duration;
     }
 }

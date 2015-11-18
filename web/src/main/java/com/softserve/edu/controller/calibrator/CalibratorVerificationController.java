@@ -275,13 +275,11 @@ public class CalibratorVerificationController {
     /**
      * Receives archive with BBI files and DB file, calls appropriate services
      * and returns the outcomes of parsing back to the client.
-     *
      * @param file Archive with BBIs and DBF
      * @return List of DTOs containing BBI filename, verification id, outcome of parsing (true/false)
      */
     @RequestMapping(value = "new/upload-archive", method = RequestMethod.POST)
-    public
-    @ResponseBody
+    public @ResponseBody
     List<BBIOutcomeDTO> uploadFileArchive(@RequestBody MultipartFile file) {
         List<BBIOutcomeDTO> bbiOutcomeDTOList = null;
         try {

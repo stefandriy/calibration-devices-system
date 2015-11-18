@@ -88,7 +88,7 @@ angular
                 var addCounterTypeCounter = $modal.open({
                     animation : true,
                     controller : 'CounterTypeAddController',
-                    templateUrl : '/resources/app/admin/views/modals/counter-type-add-modal.html',
+                    templateUrl : 'resources/app/admin/views/modals/counter-type-add-modal.html',
                     size: 'lg',
                     resolve: {
                         devices: function () {
@@ -121,7 +121,7 @@ angular
                             .open({
                                 animation : true,
                                 controller : 'CounterTypeEditController',
-                                templateUrl : '/resources/app/admin/views/modals/counter-type-edit-modal.html',
+                                templateUrl : 'resources/app/admin/views/modals/counter-type-edit-modal.html',
                                 size: 'lg',
                                 resolve: {
                                     devices: function () {
