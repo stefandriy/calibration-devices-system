@@ -28,7 +28,7 @@ angular
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
                 //setting corresponding filters with 'all time' range
                 $scope.tableParams.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                $scope.tableParams.filter().endDateToSearch= $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                $scope.tableParams.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
             };
 
             $scope.myDatePicker = {};
@@ -157,9 +157,9 @@ angular
             $scope.tableParams = new ngTableParams({
                     page: 1,
                     count: 5,
-                     sorting: {
-                         moduleId: 'desc'
-                     }
+                    sorting: {
+                        moduleId: 'desc'
+                    }
                 },
                 {
                     total: 0,
@@ -182,6 +182,14 @@ angular
                         else {
                             params.filter().moduleType = null; //case when the filter is cleared with a button on the select
                         }
+
+                        /*if ($scope.myDatePicker.pickerDate.startDate != undefined
+                            && $scope.myDatePicker.pickerDate.startDate != null
+                            && $scope.myDatePicker.pickerDate.endDate != undefined
+                            && $scope.myDatePicker.pickerDate.endDate != null) {
+                            params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                            params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                        }*/
 
                         measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
