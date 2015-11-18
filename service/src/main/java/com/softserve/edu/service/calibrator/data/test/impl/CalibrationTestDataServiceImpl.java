@@ -54,7 +54,6 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         updatedCalibrationTestData.setInitialValue(testData.getInitialValue());
         updatedCalibrationTestData.setEndValue(testData.getEndValue());
         updatedCalibrationTestData.setVolumeInDevice(testData.getVolumeInDevice());
-        updatedCalibrationTestData.setTestTime(testData.getTestTime());
         updatedCalibrationTestData.setActualConsumption(testData.getActualConsumption());
         updatedCalibrationTestData.setConsumptionStatus(testData.getConsumptionStatus());
         updatedCalibrationTestData.setCalculationError(testData.getCalculationError());

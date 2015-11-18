@@ -32,10 +32,6 @@ public class CalibrationTestData {
     private Double volumeInDevice;
     private Double duration;
     private Integer testPosition;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date testTime;
-
     private Double actualConsumption;
     private Double calculationError;
 
@@ -61,7 +57,6 @@ public class CalibrationTestData {
         this.initialValue = initialValue;
         this.endValue = endValue;
         this.volumeInDevice = volumeInDevice;
-        this.testTime = new Date();
         this.actualConsumption = actualConsumption;
         this.calculationError = calculationError;
         if (this.getActualConsumption() <= this.getAcceptableError()) {

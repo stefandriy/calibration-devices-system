@@ -62,7 +62,6 @@ public class CalibrationTestDataServiceImplTest {
         verify(updatedCalibrationTestData).setInitialValue(calibrationTestData.getInitialValue());
         verify(updatedCalibrationTestData).setEndValue(calibrationTestData.getEndValue());
         verify(updatedCalibrationTestData).setVolumeInDevice(calibrationTestData.getVolumeInDevice());
-        verify(updatedCalibrationTestData).setTestTime(calibrationTestData.getTestTime());
         verify(updatedCalibrationTestData).setActualConsumption(calibrationTestData.getActualConsumption());
         verify(updatedCalibrationTestData).setConsumptionStatus(calibrationTestData.getConsumptionStatus());
         verify(updatedCalibrationTestData).setCalculationError(calibrationTestData.getCalculationError());
