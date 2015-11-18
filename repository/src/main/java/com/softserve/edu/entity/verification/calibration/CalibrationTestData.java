@@ -50,7 +50,8 @@ public class CalibrationTestData {
     public CalibrationTestData(
             Double givenConsumption, Long acceptableError, Double volumeOfStandard, Double initialValue,
             Double endValue, Double volumeInDevice, Double actualConsumption,
-            Double calculationError, CalibrationTest calibrationTest, Double duration) {
+            Double calculationError, CalibrationTest calibrationTest, Double duration, Long lowerConsumptionLimit,
+            Long upperConsumptionLimit) {
         this.givenConsumption = givenConsumption;
         this.acceptableError = acceptableError;
         this.volumeOfStandard = volumeOfStandard;
@@ -65,8 +66,8 @@ public class CalibrationTestData {
         } else {
             this.testResult = Verification.CalibrationTestResult.FAILED;
         }
-        if((this.getGivenConsumption() + (this.getGivenConsumption()*this.getEndValue()/100)<= this.getActualConsumption())
-        & (this.getActualConsumption()<= (this.getGivenConsumption() - (this.getGivenConsumption()*this.getInitialValue())/100))){
+        if((this.getGivenConsumption() + (this.getGivenConsumption()*upperConsumptionLimit/100)<= this.getActualConsumption())
+        & (this.getActualConsumption()<= (this.getGivenConsumption() - (this.getGivenConsumption()*lowerConsumptionLimit)/100))){
         this.consumptionStatus=Verification.ConsumptionStatus.IN_THE_AREA;
         }else{
         this.consumptionStatus=Verification.ConsumptionStatus.NOT_IN_THE_AREA;
