@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -55,15 +56,27 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
         Filter filter = new Filter();
         for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
-            if (entry.getValue() instanceof String) {
+            if (entry.getKey() == "isActive") {
                 filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.like)
+                        .setComparison(Comparison.eq)
                         .setField(entry.getKey())
                         .setValue(entry.getValue())
                         .build());
-            } else {
+            } else if (entry.getKey() == "deviceType") {
                 filter.addCondition(new Condition.Builder()
                         .setComparison(Comparison.eq)
+                        .setField(entry.getKey())
+                        .setValue(Device.DeviceType.valueOf(entry.getValue().toString()))
+                        .build());
+            } else if (entry.getKey() == "moduleType") {
+                filter.addCondition(new Condition.Builder()
+                        .setComparison(Comparison.eq)
+                        .setField(entry.getKey())
+                        .setValue(CalibrationModule.ModuleType.valueOf(entry.getValue().toString()))
+                        .build());
+            } else {
+                filter.addCondition(new Condition.Builder()
+                        .setComparison(Comparison.like)
                         .setField(entry.getKey())
                         .setValue(entry.getValue())
                         .build());
