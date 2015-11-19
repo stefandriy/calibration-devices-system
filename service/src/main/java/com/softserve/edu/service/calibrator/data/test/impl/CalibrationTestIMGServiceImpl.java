@@ -37,17 +37,16 @@ public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService 
 
         BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(
                 deviceTestData.getBeginPhoto(testDataId))));
-        String photoBegin = "beginPhoto" + testDataId + calibrationTestData.getCalibrationTest().getId()
-                + calibrationTestData.getCalibrationTest().getVerification().getId() + "." + imageType;
-        ImageIO.write(bufferedImage, imageType, new File(localStorage + photoBegin));
+        String photoBegin = "beginPhoto" + deviceTestData.getTestNumber(testDataId) + "." + imageType;
+        String absolutePath = localStorage + calibrationTestData.getCalibrationTest().getVerification().getId() + "//";
+        ImageIO.write(bufferedImage, imageType, new File(absolutePath + photoBegin));
         CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(calibrationTestData, photoBegin);
         testIMGRepository.save(calibrationTestIMGBegin);
 
         bufferedImage = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(
                 deviceTestData.getEndPhoto(testDataId))));
-        String photoEnd = "endPhoto" + testDataId + calibrationTestData.getCalibrationTest().getId()
-                + calibrationTestData.getCalibrationTest().getVerification().getId() + "." + imageType;
-        ImageIO.write(bufferedImage, imageType, new File(localStorage + photoEnd));
+        String photoEnd = "endPhoto" +deviceTestData.getTestNumber(testDataId) + "." + imageType;
+        ImageIO.write(bufferedImage, imageType, new File(absolutePath + photoEnd));
         CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(calibrationTestData, photoEnd);
         testIMGRepository.save(calibrationTestIMGEnd);
     }

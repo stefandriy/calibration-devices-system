@@ -60,9 +60,13 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         testRepository.save(calibrationTest);
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(
                 Base64.decodeBase64(deviceTestData.getTestPhoto())));
-        String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + "."
-                + CalibrationTestIMGServiceImpl.imageType;
-        ImageIO.write(buffered, CalibrationTestIMGServiceImpl.imageType, new File(localStorage + testPhoto));
+        String testPhoto = "mainPhoto" +  "." + CalibrationTestIMGServiceImpl.imageType;
+        String folderPath = localStorage + verificationId ;
+        String absolutePath = localStorage + verificationId + "//" + testPhoto;
+        File file = new File(folderPath);
+        file.mkdir();
+
+        ImageIO.write(buffered, CalibrationTestIMGServiceImpl.imageType, new File(absolutePath));
         calibrationTest.setPhotoPath(testPhoto);
         testRepository.save(calibrationTest);
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
