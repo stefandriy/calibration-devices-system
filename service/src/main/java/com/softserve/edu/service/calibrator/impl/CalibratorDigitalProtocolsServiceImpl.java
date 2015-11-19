@@ -55,8 +55,9 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
                 cb.equal(verifications.get("status"), status)));
 
         TypedQuery<Verification> typedQuery = em.createQuery(cq);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
 
-
-        return typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage).setMaxResults(itemsPerPage).getResultList();
+        return typedQuery.getResultList();
     }
 }
