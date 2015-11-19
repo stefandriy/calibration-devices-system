@@ -32,6 +32,23 @@ public class CalibrationModuleController {
     private CalibrationModuleService calibrationModuleService;
 
     /**
+     * Get agreement by id
+     *
+     * @param id id of agreement to find
+     * @return agreementDTO
+     */
+    @RequestMapping(value = "get/{id}")
+    public CalibrationModuleDTO getCalibrationModule(@PathVariable("id") Long id) {
+        CalibrationModule calibrationModule = calibrationModuleService.findModuleById(id);
+        return new CalibrationModuleDTO(calibrationModule.getModuleId(), calibrationModule.getDeviceType(),
+                calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
+                calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
+                calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
+                calibrationModule.getModuleType(), calibrationModule.getEmail(),
+                calibrationModule.getCalibrationType(), calibrationModule.getWorkDate());
+    }
+
+    /**
      * Add new calibration module
      *
      * @param calibrationModuleDTO calibration module to add
