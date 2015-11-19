@@ -154,7 +154,7 @@ angular
                 return false;
             };
 
-            measuringEquipmentServiceAdmin.getEarliestAgreementDate().success(function(date) {
+            measuringEquipmentServiceAdmin.getEarliestCalibrationModuleDate().success(function(date) {
                 $scope.initDatePicker(date);
                 $scope.tableParams = new ngTableParams({
                         page: 1,
@@ -184,6 +184,9 @@ angular
                             else {
                                 params.filter().moduleType = null; //case when the filter is cleared with a button on the select
                             }
+
+                            params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                            params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
                             measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                                 .success(function (result) {
