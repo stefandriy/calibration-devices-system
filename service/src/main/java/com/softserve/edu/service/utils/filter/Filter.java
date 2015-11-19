@@ -39,6 +39,38 @@ public class Filter implements Specification {
         conditions = new ArrayList<>();
     }
 
+    public Filter(Map<String, Object> searchKeys) {
+        conditions = new ArrayList<>();
+        for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
+            if (entry.getValue() instanceof String) {
+                this.addCondition(new Condition.Builder()
+                        .setComparison(Comparison.like)
+                        .setField(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build());
+            } else if (entry.getValue() instanceof Map) {
+//                this.addCondition(new Condition.Builder()
+//                        .setComparison(Comparison.ge)
+//                        .setType(Type.date)
+//                        .setField(entry.getKey())
+//                        .setValue(((Map) entry.getValue()).get("startDate"))
+//                        .build());
+//                this.addCondition(new Condition.Builder()
+//                        .setComparison(Comparison.le)
+//                        .setType(Type.date)
+//                        .setField(entry.getKey())
+//                        .setValue(((Map) entry.getValue()).get("endDay"))
+//                        .build());
+                this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (Map) entry.getValue()));
+            } else {
+                this.addCondition(new Condition.Builder()
+                        .setComparison(Comparison.eq)
+                        .setField(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build());
+            }
+        }
+    }
     public void addCondition(Condition condition) {
         this.conditions.add(condition);
     }
@@ -95,7 +127,20 @@ public class Filter implements Specification {
         return predicates;
     }
 
-
+    private static List<Condition> buildBetweenDatesPredicate(String name, Map<String, Date> dateMap) {
+        List<Condition> conditions = new ArrayList<>();
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.ge)
+                .setField(name)
+                .setValue(dateMap.values().stream().min(Date::compareTo))
+                .build());
+        conditions.add(new Condition.Builder()
+                .setComparison(Comparison.le)
+                .setField(name)
+                .setValue(dateMap.values().stream().max(Date::compareTo))
+                .build());
+        return conditions;
+    }
     public Predicate buildPredicate(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         switch (condition.comparison) {
             case eq:
