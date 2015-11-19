@@ -51,14 +51,14 @@ public class CalibrationTestData {
                                Double endValue, Double volumeInDevice, Double actualConsumption, Double calculationError,
                                CalibrationTest calibrationTest, Double duration, Long lowerConsumptionLimit,
                                Long upperConsumptionLimit, Integer testPosition) {
-        this.givenConsumption = givenConsumption;
-        this.acceptableError = acceptableError;
-        this.volumeOfStandard = volumeOfStandard;
-        this.initialValue = initialValue;
-        this.endValue = endValue;
-        this.volumeInDevice = volumeInDevice;
-        this.actualConsumption = actualConsumption;
-        this.calculationError = calculationError;
+        this.givenConsumption = givenConsumption; // correct заданий розхід
+        this.acceptableError = acceptableError; // correct допустима похиба
+        this.volumeOfStandard = volumeOfStandard; // correct Об'єм еталону
+        this.initialValue = initialValue; //  correct Початкове значення,
+        this.endValue = endValue;       // correct Кінцеве значення
+        this.volumeInDevice = volumeInDevice; // correct Об'єм за лічильником
+        this.actualConsumption = actualConsumption; // almost correct  фактичний розхід
+        this.calculationError = calculationError; //correct Розрахункова похибка
         if (this.getActualConsumption() <= this.getAcceptableError()) {
             this.testResult = Verification.CalibrationTestResult.SUCCESS;
         } else {
@@ -71,7 +71,7 @@ public class CalibrationTestData {
             this.consumptionStatus = Verification.ConsumptionStatus.NOT_IN_THE_AREA;
         }
         this.calibrationTest = calibrationTest;
-        this.duration = duration;
+        this.duration = duration; // correct
         this.testPosition = testPosition;
     }
 }

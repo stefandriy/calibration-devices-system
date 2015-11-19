@@ -189,8 +189,8 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public long getTestEstimatedError(int testIndex) {
-        return getLongValue("test" + testIndex + "estimatedError");
+    public double getTestEstimatedError(int testIndex) {
+        return getLongValue("test" + testIndex + "estimatedError")/100.0;
     }
 
     @Override

@@ -100,7 +100,7 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setActualConsumption(convertImpulsesPerSecToCubicMetersPerHour(
                     testData.getTestCorrectedCurrentConsumption(i),
                     testData.getImpulsePricePerLitre()));
-            testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
+           testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
                     testDataDTO.getVolumeOfStandard()));
             testDataDTO.setBeginPhoto(testData.getBeginPhoto(i));
             testDataDTO.setEndPhoto(testData.getEndPhoto(i));
