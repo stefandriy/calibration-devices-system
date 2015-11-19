@@ -201,6 +201,8 @@ angular
 
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
+                            organizationId: 1,
+                            message: formData.message
                         };
 
                         verificationServiceVerificator
@@ -210,6 +212,7 @@ angular
                                 $scope.tableParams.reload();
                                 $rootScope.$broadcast('verification-sent-to-calibrator');
                             });
+
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
 
@@ -248,7 +251,7 @@ angular
                         status: 'REJECTED'
                     };
                     verificationServiceVerificator.rejectVerification(dataToSend).success(function () {
-                        verificationServiceVerificator.sendMail(messageToSend)
+                        verificationServiceProvider.sendMail(messageToSend)
                             .success(function (responseVal) {
                                 $scope.tableParams.reload();
                             });
