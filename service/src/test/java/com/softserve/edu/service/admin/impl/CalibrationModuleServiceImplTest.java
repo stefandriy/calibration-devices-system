@@ -8,7 +8,9 @@ import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.utils.filter.Filter;
 import com.softserve.edu.service.utils.filter.internal.Comparison;
 import com.softserve.edu.service.utils.filter.internal.Condition;
+import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -53,6 +55,9 @@ public class CalibrationModuleServiceImplTest {
     List<CalibrationModule> calibrationModulesList;
     @Mock
     Organization organization;
+    @Mock
+    Logger logger;
+
     private Long id;
 
     @InjectMocks
@@ -74,10 +79,10 @@ public class CalibrationModuleServiceImplTest {
 
     @Test
     public void testAddCalibrationModule() {
+        when(calibrationModuleRepository.saveWithGenerating(calibrationModule)).thenReturn(calibrationModule);
         CalibrationModule expected = calibrationModule;
         CalibrationModule actual = calibrationModuleService.addCalibrationModule(calibrationModule);
         assertEquals(expected, actual);
-
     }
 
     @Test
@@ -96,7 +101,7 @@ public class CalibrationModuleServiceImplTest {
     @Test
     public void testGetFilteredPageOfCalibrationModule() throws Exception {
         PowerMockito.whenNew(Filter.class).withNoArguments().thenReturn(filter);
-        Map<String, String> searchKeys = new HashMap<>();
+        Map<String, Object> searchKeys = new HashMap<>();
         searchKeys.put("isActive", "true");
         searchKeys.put("employeeFullName", "fullName");
         filter.addCondition(new Condition.Builder()
@@ -142,7 +147,6 @@ public class CalibrationModuleServiceImplTest {
         modules.add(calibrationModule);
         when(user.getOrganization()).thenReturn(organization);
         when(user.getOrganization().getId()).thenReturn(organizationId);
-        List<String> serialNumbersList = new ArrayList<>();
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.like).setField("moduleType").setValue(moduleType).build());
         conditions.add(new Condition.Builder()
@@ -162,5 +166,35 @@ public class CalibrationModuleServiceImplTest {
         expected.add(serialNumber);
         List<String> actual = calibrationModuleService.findAllCalibrationModulsNumbers(moduleType, workDate, applicationField, username);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testfindAllCalibrationModulesNumbersCatchUserNullException() {
+        thrown.expect(NullPointerException.class);
+        String moduleType = "moduletype";
+        Date workDate = new Date();
+        String applicationField = "applicationField";
+        String username = "username";
+        String serialNumber = "serialNumber";
+        when(userRepository.findOne(username)).thenReturn(null);
+        calibrationModuleService.findAllCalibrationModulsNumbers(moduleType, workDate, applicationField, username);
+        verify(logger).error("Cannot found user!");
+    }
+
+    @Test
+    public void testFindAllCalibrationModulesNumbersCatchNoModulesException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        String moduleType = "moduletype";
+        Date workDate = new Date();
+        String applicationField = "applicationField";
+        String username = "username";
+        Long organizationId = 100L;
+        when(user.getOrganization()).thenReturn(organization);
+        when(user.getOrganization().getId()).thenReturn(organizationId);
+        when(userRepository.findOne(username)).thenReturn(user);
+        PowerMockito.whenNew(Filter.class).withNoArguments().thenReturn(filter);
+        when(calibrationModuleRepository.findAll(filter)).thenReturn(null);
+        calibrationModuleService.findAllCalibrationModulsNumbers(moduleType, workDate, applicationField, username);
+        verify(logger).error("Cannot found modules for the choosen workDate " + workDate);
     }
 }

@@ -20,43 +20,54 @@ angular
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
-            //for measurement device type
             $scope.selectedDeviceType = {
+                name: null
+            };
+
+            $scope.selectedModuleType = {
                 name: null
             };
 
             $scope.deviceTypeData = [
                 {
-                    id: 'WATER',
+                    type: 'WATER',
                     label: $filter('translate')('WATER')
                 },
                 {
-                    id: 'THERMAL',
+                    type: 'THERMAL',
                     label: $filter('translate')('THERMAL')
                 }
             ];
 
-            /**
-             * Localization of multiselect for type of organization
-             */
+            $scope.moduleTypeData = [
+                {
+                    type: 'INSTALLATION_FIX',
+                    label: $filter('translate')('INSTALLATION_FIX')
+                },
+                {
+                    type: 'INSTALLATION_PORT',
+                    label: $filter('translate')('INSTALLATION_PORT')
+                }
+            ];
+
             $scope.setTypeDataLanguage = function () {
                 $scope.deviceTypeData[0].label = $filter('translate')('WATER');
                 $scope.deviceTypeData[1].label = $filter('translate')('THERMAL');
+                $scope.moduleTypeData[0].label = $filter('translate')('INSTALLATION_FIX');
+                $scope.moduleTypeData[1].label = $filter('translate')('INSTALLATION_PORT');
             };
 
             $scope.clearAll = function () {
                 $scope.selectedDeviceType.name = null;
+                $scope.selectedModuleType.name = null;
                 $scope.tableParams.filter({});
             };
             /**
              * Updates the table.
              */
             $rootScope.onTableHandling = function () {
-                //if ($scope.tableParams == null) return false; //table not yet initialized
                 $scope.tableParams.reload();
             };
-
-            // $rootScope.onTableHandling();
 
             $scope.isFilter = function () {
                 if ($scope.tableParams == null) return false; //table not yet initialized
@@ -71,10 +82,10 @@ angular
 
             $scope.tableParams = new ngTableParams({
                     page: 1,
-                    count: 5/*,
+                    count: 5,
                      sorting: {
-                         condDesignation: 'asc'
-                     }*/
+                         moduleId: 'desc'
+                     }
                 },
                 {
                     total: 0,
@@ -85,14 +96,18 @@ angular
                         var sortOrder = params.sorting()[sortCriteria];
 
                         if ($scope.selectedDeviceType.name != null) {
-                            params.filter().deviceType = $scope.selectedDeviceType.name.id;
+                            params.filter().deviceType = $scope.selectedDeviceType.name.type;
                         }
                         else {
                             params.filter().deviceType = null; //case when the filter is cleared with a button on the select
                         }
 
-                        /*params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                         params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");*/
+                        if ($scope.selectedModuleType.name != null) {
+                            params.filter().moduleType = $scope.selectedModuleType.name.type;
+                        }
+                        else {
+                            params.filter().moduleType = null; //case when the filter is cleared with a button on the select
+                        }
 
                         measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
@@ -104,10 +119,9 @@ angular
                             });
                     }
                 });
-            //$rootScope.onTableHandling();
 
             /**
-             * Opens modal window for adding new equipment.
+             * Opens modal window for adding new calibration module.
              */
             $scope.openAddCalibrationModuleModal = function () {
                 var addCalibrationModuleModal = $modal.open({
@@ -125,16 +139,16 @@ angular
                  * executes when modal closing
                  */
                 addCalibrationModuleModal.result.then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_AGREEMENT'));
+                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_CALIBRATION_MODULE'));
                 });
             };
 
             /**
-             * Opens modal window for editing agreement
+             * Opens modal window for editing calibration module
              */
             $scope.openEditCalibrationModuleModal = function (moduleId) {
                 measuringEquipmentServiceAdmin.getCalibrationModuleById(moduleId).then(
-                    function (calibrationModule) { /* agreement -> calibrationModule */
+                    function (calibrationModule) {
                         var deviceDTOModal = $modal
                             .open({
                                 animation: true,
@@ -152,15 +166,17 @@ angular
                          * executes when modal closing
                          */
                         deviceDTOModal.result.then(function () {
-                            $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_AGREEMENT'));
+                            $scope.popNotification($filter('translate')('INFORMATION'),
+                                $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
                         });
                     });
 
             };
 
-            $scope.disableAgreement = function (id) {
-                measuringEquipmentServiceAdmin.disableAgreement(id).then(function () {
-                    $scope.popNotification($filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DISABLED_AGREEMENT'));
+            $scope.disableCalibrationModule = function (id) {
+                measuringEquipmentServiceAdmin.disableCalibrationModule(id).then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'),
+                        $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
                 });
 
                 $timeout(function () {

@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,19 +53,19 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     }
 
 
-    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable) {
+    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable) {
         CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
         Filter filter = new Filter();
-        for (Map.Entry<String, String> entry : searchKeys.entrySet()) {
-            if (entry.getKey().equals("isActive")) {
+        for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
+            if (entry.getValue() instanceof String) {
                 filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.eq)
+                        .setComparison(Comparison.like)
                         .setField(entry.getKey())
-                        .setValue(Boolean.parseBoolean(entry.getValue()))
+                        .setValue(entry.getValue())
                         .build());
             } else {
                 filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.like)
+                        .setComparison(Comparison.eq)
                         .setField(entry.getKey())
                         .setValue(entry.getValue())
                         .build());
@@ -114,6 +116,12 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         }
         return serialNumbersList;
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Date getEarliestDate() {
+        return calibrationModuleRepository.findEarliestDateAvailableCalibrationModule();
     }
 
 }

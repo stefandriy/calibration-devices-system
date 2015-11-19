@@ -70,6 +70,7 @@ public class CalibratorVerificationController {
 
     @Autowired
     CalibrationTestService testService;
+
     @Autowired
     CalibrationTestDataService testDataService;
 
@@ -87,6 +88,40 @@ public class CalibratorVerificationController {
 
     @Autowired
     BBIFileServiceFacade bbiFileServiceFacade;
+
+    /**
+     * Receives bbi file, saves it in the system, parses it and
+     * returns parsed data
+     *
+     * @param file           uploaded file
+     * @param verificationId id of verification
+     * @return Entity which contains Calibration Test Data and HTTP status
+     */
+    @RequestMapping(value = "new/upload", method = RequestMethod.POST)
+    public ResponseEntity uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String verificationId) {
+        ResponseEntity responseEntity;
+        try {
+            String originalFileName = file.getOriginalFilename();
+            String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
+            if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
+                long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
+
+                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
+
+                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest), HttpStatus.OK);
+
+            } else {
+                logger.error("Failed to load file: pattern does not match.");
+                responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            logger.error("Failed to load file " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
+            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
@@ -235,41 +270,6 @@ public class CalibratorVerificationController {
         } else {
             return null;
         }
-    }
-
-    /**
-     * Receives bbi file, saves it in the system, parses it and
-     * returns parsed data
-     *
-     * @param file           uploaded file
-     * @param verificationId id of verification
-     * @return Entity which contains Calibration Test Data and HTTP status
-     */
-    @RequestMapping(value = "new/upload", method = RequestMethod.POST)
-    public ResponseEntity uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String verificationId) {
-        ResponseEntity responseEntity;
-        try {
-            String originalFileName = file.getOriginalFilename();
-            String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
-            if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
-
-                long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
-
-//                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
-//                responseEntity = new ResponseEntity(CalibratorTestTransformer.toDTO(calibrationTest), HttpStatus.OK);
-
-                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
-            } else {
-                logger.error("Failed to load file: pattern does not match.");
-                responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            logger.error("Failed to load file " + e.getMessage());
-            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
-            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
     }
 
     /**

@@ -172,7 +172,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 $scope.formData.locality = $scope.selectedData.locality.designation;
                 $scope.formData.street = $scope.selectedStreet.designation || $scope.selectedStreet;
                 $scope.formData.building = $scope.selectedBuilding.designation || $scope.selectedBuilding;
-               // $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
+                $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
                 $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
 
                 for (var i = 0; i < $scope.selectedData.selectedCount; i++) {
@@ -195,6 +195,9 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             }
         };
 
+        /**
+         * create and save in database the verification from filled fields in form when user clicks "Save"
+         */
         $scope.save = function() {
            // if($scope.clientForm.$valid) {
                 $scope.formData.region = $scope.selectedData.region.designation;
@@ -214,19 +217,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
             $scope.isShownForm = false;
             $scope.isShownCode = true;
-                /*$modal.open({
-                    animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/send-protocols.html',
-                    controller: function ($modalInstance) {
-                        this.ok = function () {
-                            $modalInstance.close();
-                        }
-                    },
-                    controllerAs: 'successController',
-                    size: 'md'
-                });*/
 
-                //hide form because application status is shown
             //}
         };
 
@@ -246,24 +237,21 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
             $scope.formData = null;
 
-            $scope.selectedValues.selectedRegion = undefined;
-            $scope.selectedValues.selectedDistrict = undefined;
-            $scope.selectedValues.selectedLocality = undefined;
-            $scope.selectedValues.selectedStreetType = undefined;
-            $scope.selectedValues.selectedStreet = "";
-            $scope.selectedValues.selectedBuilding = "";
-            $scope.selectedValues.selectedIndex = undefined;
-            $scope.defaultValue.privateHouse = false;
-
+            $scope.selectedData.region = undefined;
+            $scope.selectedData.district = undefined;
+            $scope.selectedData.locality = undefined;
+            $scope.selectedData.selectedStreetType = undefined;
+            $scope.selectedStreet = "";
+            $scope.selectedBuilding = "";
+            $scope.selectedData.index = undefined;
 
             $log.debug("$scope.resetApplicationForm");
         };
 
         /**
-         * Fill application sending page from verification when there is verification ID in $stateParams
+         * Fill application sending page from verification when some verification is checked and user clicks "Create by pattern"
          * @param ID - Id of verification to fill from
          */
-        /*$rootScope.verifIDforTempl = "54720638-4dac-46c2-a95b-12130ce791af";*/
         $scope.createNew = function () {
             if ($rootScope.verifIDforTempl) {
                 dataReceivingService.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
@@ -277,13 +265,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.formData.phone = $scope.verification.data.phone;
                     $scope.formData.flat = $scope.verification.data.flat;
                     $scope.formData.comment = $scope.verification.data.comment;
-                    $scope.defaultValue = {};
-                    $scope.defaultValue.privateHouse = $scope.verification.data.flat == 0;
 
-                    //$scope.selectedData = {};
-                    //$scope.selectedData.region.designation = $scope.verification.data.region;
-                    //$scope.selectedData.district.designation = $scope.verification.data.district;
-                    //$scope.selectedData.locality.designation = $scope.verification.data.locality;
                     $scope.selectedStreet = $scope.verification.data.street;
                     $scope.selectedBuilding = $scope.verification.data.building;
 

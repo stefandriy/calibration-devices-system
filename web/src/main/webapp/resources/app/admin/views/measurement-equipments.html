@@ -6,7 +6,8 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-click="openAddCalibrationModuleModal()">
+            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                    ng-click="openAddCalibrationModuleModal()">
                 <span class="glyphicon glyphicon-plus"></span>
                 {{'ADD_INSTALLATION' | translate}}
             </button>
@@ -29,51 +30,35 @@
                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                        class="table table-bordered table-hover users_table">
                     <tbody>
-                    <tr ng-repeat="measuringEquipment in $data">   <!-- TODO: calibrationModule in $data! -->
-                        <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'deviceType'"
-                            filter="{ 'deviceType': 'text' }"> <!-- e.g. organizationType -->
-                            {{ measuringEquipment.deviceType }}
+                    <tr ng-repeat="calibrationModule in $data">
+                        <td data-title="'SPHERE_OF_APPLICATION' | translate"
+                            sortable="'deviceType'"
+                            filter="{ deviceType : 'deviceType' }">
+                            {{ calibrationModule.deviceType | translate }}
                         </td>
-                        <!-- <td data-title="'INSTALLATION_NUMBER' | translate "
-                            filter="{ 'moduleId': 'text' }">
-                            {{ measuringEquipment.moduleId }}
-                        </td>
-                        <td data-title="'INSTALLATION_CODE' | translate" sortable="'moduleId'"
-                            filter="{ 'organizationCode': 'text' }">{{ measuringEquipment.organizationCode }}
-                        </td> -->
                         <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
-                            filter="{ 'condDesignation': 'text' }">{{ measuringEquipment.condDesignation}}
+                            filter="{ 'condDesignation': 'text' }">{{ calibrationModule.condDesignation}}
                         </td>
-                        <!-- <td data-title="'MANUFACTURER_NUMBER' | translate" sortable="'serialNumber'"
-                            filter="{ 'serialNumber': 'text' }">{{ measuringEquipment.serialNumber}}
-                        </td> -->
                         <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'employeeFullName'"
-                            filter="{ 'employeeFullName': 'text' }">{{ measuringEquipment.employeeFullName }}
+                            filter="{ 'employeeFullName': 'text' }">{{ calibrationModule.employeeFullName }}
                         </td>
                         <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
-                            filter="{ 'telephone': 'text' }">+380{{ measuringEquipment.telephone }}
+                            filter="{ 'telephone': 'text' }">+380{{ calibrationModule.telephone }}
                         </td>
                         <td data-title="'VALID_UNTIL' | translate" sortable="'workDate'"
-                            filter="{ 'workDate': 'text' }">{{ measuringEquipment.workDate }}
+                            filter="{ 'workDate': 'text' }">{{ calibrationModule.workDate }}
                         </td>
                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
-                            filter="{ 'moduleType': 'text' }">{{ measuringEquipment.moduleType }}
+                            filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType | translate }}
                         </td>
-                        <!-- <td data-title="'EMAIL' | translate" sortable="'email'"
-                            filter="{ 'email': 'text' }">{{ measuringEquipment.email }}
-                        </td>
-                        <td data-title="'METHODS_OF_VERIFICATION' | translate" sortable="'calibrationType'"
-                            filter="{ 'calibrationType': 'text' }">{{ measuringEquipment.calibrationType }}
-                        </td> -->
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
                             <div class="btn-group-vertical">
                                 <button type="button" class="btn btn-warning"
-                                        ng-click="openEditCalibrationModuleModal(measuringEquipment.moduleId)">
+                                        ng-click="openEditCalibrationModuleModal(calibrationModule.moduleId)">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </button>
                                 <button type="button" class="btn btn-danger" >
-                                        <!-- ng-click="disableAgreement(agreement.id)" -->
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
                             </div>
@@ -112,17 +97,33 @@
                     </ul>
                 </div>
             </script>
-            <script type="text/ng-template" id="ng-table/filters/organizationType.html">
-                <ui-select ng-model="selectedOrganizationType.name" theme="select2" on-select='doSearch()'
+            <script type="text/ng-template" id="ng-table/filters/deviceType.html">
+                <ui-select ng-model="selectedDeviceType.name" theme="select2"
+                           on-select='onTableHandling()'
                            search-enabled="false"
-                           name="filter-organizationType">
-                    <ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
+                           name="filter-deviceType">
+                    <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
                                      allow-clear="true">
                         {{$select.selected.label}}
                     </ui-select-match>
                     <ui-select-choices
-                            repeat="organizationType in organizationTypeData">
-                        <span ng-bind-html="organizationType.label"></span>
+                            repeat="deviceType in deviceTypeData">
+                        <span ng-bind-html="deviceType.label"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </script>
+            <script type="text/ng-template" id="ng-table/filters/moduleType.html">
+                <ui-select ng-model="selectedModuleType.name" theme="select2"
+                           on-select='onTableHandling()'
+                           search-enabled="false"
+                           name="filter-moduleType">
+                    <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
+                                     allow-clear="true">
+                        {{$select.selected.label}}
+                    </ui-select-match>
+                    <ui-select-choices
+                            repeat="moduleType in moduleTypeData">
+                        <span ng-bind-html="moduleType.label"></span>
                     </ui-select-choices>
                 </ui-select>
             </script>

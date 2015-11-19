@@ -296,6 +296,7 @@
   "RESTORE": "Restore",
   "MAIN_PANEL_PROVIDER": "Main panel (provider)",
   "MAIN_PANEL_CALIBRATOR": "Main panel (calibrator)",
+  "MAIN_PANEL_STATE_VERIFICATOR" : "Main panel (verificator)",
   "STATUS": "Status",
   "INITIAL_DATE": "Receiving date",
   "CLIENT_STREET": "Client street",
@@ -354,8 +355,8 @@
   "CALIBRATION_PLACE": "Calibration place",
   "CHOOSE_CALIBRATION_PLACE": "Choose calibration place",
   "TASK_TITLE": "Task for selected verifications",
-  "INSTALLATION_PORT": "portable installation",
-  "INSTALLATION_FIX": "fixed installation",
+  "INSTALLATION_PORT": "Portable installation",
+  "INSTALLATION_FIX": "Fixed installation",
   "COUNTER": "Counter:",
   "CHOOSE_COUNTER_STATUS": "Choose",
   "INSTALLATION_NUMBER": "Installation number",
@@ -530,6 +531,12 @@
   "INFO_PROVIDER":"Info about provider",
   "INFO_CUSTOMER":"Info about customer",
   "DIGITAL_PROTOCOLS" :"Digital verification protocols",
-  "PROTOCOLS_SEND_SUCCESS": "Protocols sending success"
-
+  "PROTOCOLS_SEND_SUCCESS": "Protocols sending success",
+  "STATUS_SELECT_SPHERE_OF_APPLICATION": "Select sphere of application",
+  "STATUS_SELECT_MODULE_TYPE": "Select module type",
+  "SUCCESSFUL_ADDED_CALIBRATION_MODULE" : "Installation module was successfully added",
+  "SUCCESSFUL_EDITED_CALIBRATION_MODULE" : "Installation module was successfully edited",
+  "NO_CORRESPONDING_VERIFICATION" : "No corresponding_verification",
+  "BBI_IS_NOT_VALID" : "bbi is not valid",
+  "INVALID_VERIFICATION_CODE" : "Invalid verification code"
 }
