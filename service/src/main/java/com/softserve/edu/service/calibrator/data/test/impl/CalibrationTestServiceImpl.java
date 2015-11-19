@@ -164,12 +164,14 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
             photo = new String(bytesOfImages);
         } catch (IOException e) {
             logger.error(e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
         } finally {
             try {
                 bufferedInputStream.close();
                 reader.close();
             } catch (IOException e) {
                 logger.error(e.getMessage());
+                logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             }
         }
         return photo;

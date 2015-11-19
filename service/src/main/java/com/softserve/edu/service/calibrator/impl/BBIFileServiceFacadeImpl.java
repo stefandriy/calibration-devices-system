@@ -13,6 +13,7 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,8 @@ import java.util.*;
 public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
     private static final String[] bbiExtensions = {"bbi", "BBI"};
     private static final String[] dbfExtensions = {"db", "dbf", "DB", "DBF"};
+
+    private final Logger logger = Logger.getLogger(BBIFileServiceFacadeImpl.class);
 
 
     @Autowired
@@ -102,9 +105,11 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
                 parseAndSaveBBIFile(bbiFile, correspondingVerification, bbiFile.getName());
             } catch (NoSuchElementException e) {
                 resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.INVALID_VERIFICATION_CODE));
+                logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
                 continue;
             } catch (Exception e) {
                 resultsOfBBIProcessing.add(BBIOutcomeDTO.reject(bbiFile.getName(), correspondingVerification, BBIOutcomeDTO.ReasonOfRejection.BBI_IS_NOT_VALID));
+                logger.info(e); // for prevent critical issue "Either log or rethrow this exception"
                 continue;
             }
             resultsOfBBIProcessing.add(BBIOutcomeDTO.accept(bbiFile.getName(), correspondingVerification));
