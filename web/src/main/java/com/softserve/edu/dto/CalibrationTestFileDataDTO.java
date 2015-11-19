@@ -22,7 +22,7 @@ public class CalibrationTestFileDataDTO {
 
     private Date testDate;
 
-    private int temperature;
+    private long temperature;
 
     private long accumulatedVolume;
 
@@ -100,7 +100,7 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setActualConsumption(convertImpulsesPerSecToCubicMetersPerHour(
                     testData.getTestCorrectedCurrentConsumption(i),
                     testData.getImpulsePricePerLitre()));
-            testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
+           testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
                     testDataDTO.getVolumeOfStandard()));
             testDataDTO.setBeginPhoto(testData.getBeginPhoto(i));
             testDataDTO.setEndPhoto(testData.getEndPhoto(i));
@@ -186,7 +186,7 @@ public class CalibrationTestFileDataDTO {
         this.testDate = testDate;
     }
 
-    public int getTemperature() {
+    public long getTemperature() {
         return temperature;
     }
 

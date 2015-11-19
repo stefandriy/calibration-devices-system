@@ -70,13 +70,12 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
                 deviceTestData.getImpulsePricePerLitre());
         double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestSpecifiedConsumption(testDataId),
                 deviceTestData.getImpulsePricePerLitre());
-        double  calculationError=countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId));
         CalibrationTest calibrationTest = testRepository.findById(testId);
         CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption, deviceTestData.getTestAllowableError(testDataId),
                 deviceTestData.getTestSpecifiedImpulsesAmount(testDataId), deviceTestData.getTestInitialCounterValue(testDataId),
-                deviceTestData.getTestTerminalCounterValue(testDataId), volumeInDevice, actualConsumption,calculationError,
+                deviceTestData.getTestTerminalCounterValue(testDataId), volumeInDevice, actualConsumption,deviceTestData.getTestEstimatedError(testDataId),
                 calibrationTest, deviceTestData.getTestDuration(testDataId), deviceTestData.getTestLowerConsumptionLimit(testDataId),
-                deviceTestData.getTestUpperConsumptionLimit(testDataId), testDataId);
+                deviceTestData.getTestUpperConsumptionLimit(testDataId), deviceTestData.getTestNumber(testDataId));
         dataRepository.save(сalibrationTestData);
         testDataIMGService.createTestDataIMGCalibrationTestIMGs(testDataId, deviceTestData, сalibrationTestData);
         return сalibrationTestData;

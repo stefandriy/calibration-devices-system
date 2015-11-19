@@ -401,6 +401,7 @@
   "SUCCESSFUL_ADDED_CATEGORY": "Device category was successful added",
   "SUCCESSFUL_EDITED_CATEGORY": "Device category was successful edited",
   "SUCCESSFUL_DELETED_CATEGORY": "Device category was successful deleted",
+  "ERROR_DELETED_CATEGORY": "Device category can not delete",
   "SUCCESSFUL_ADDED_COUNTER_TYPE": "Counter type was successful added",
   "SUCCESSFUL_EDITED_COUNTER_TYPE": "Counter type was successful edited",
   "SUCCESSFUL_DELETED_COUNTER_TYPE": "Counter type was successful deleted",
