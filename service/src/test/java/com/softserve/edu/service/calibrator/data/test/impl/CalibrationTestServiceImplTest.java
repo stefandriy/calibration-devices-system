@@ -12,6 +12,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -60,6 +63,8 @@ public class CalibrationTestServiceImplTest {
 
     @Mock
     private Verification verification;
+    @Mock
+    private BufferedImage buffered;
 
     @Mock
     private CalibrationTestData data;
@@ -120,17 +125,6 @@ public class CalibrationTestServiceImplTest {
 
         verify(testRepository).findAll(any(PageRequest.class));
         verify(testRepository).findByNameLikeIgnoreCase("%" + "search" + "%", pageRequest);
-    }
-
-    @Test
-    public void testCreateNewTest() {
-        when(verificationRepository.findOne(verificationId)).thenReturn(verification);
-        try {
-            calibrationTestService.createNewTest(deviceTestData, verificationId);
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        verify(verificationRepository).findOne(verificationId);
     }
 
     @Test
@@ -195,6 +189,18 @@ public class CalibrationTestServiceImplTest {
 
         verify(testRepository).save(any(CalibrationTest.class));
     }*/
+    @Test
+    public void testCreateNewTest() throws Exception {
+        when(verificationRepository.findOne(verificationId)).thenReturn(verification);
+        calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(),
+                deviceTestData.getLatitude(), deviceTestData.getLongitude(), deviceTestData.getUnixTime(),
+                deviceTestData.getCurrentCounterNumber(), verification, deviceTestData.getInitialCapacity());
+        when(testRepository.save(calibrationTest)).thenReturn(calibrationTest);
+
+        // when(ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(deviceTestData.getTestPhoto())))).thenReturn(buffered);
+        // stub(calibrationTestService.createNewTest(deviceTestData, verificationId)).toReturn(testId);
+
+    }
 
     @Test
     public void testCreateNewCalibrationTestData() throws Exception {
