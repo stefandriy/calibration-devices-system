@@ -14,6 +14,9 @@ angular
             },
             editCalibrationModule: function (formData, id) {
                 return sendData('edit/' + id, formData);
+            },
+            getEarliestCalibrationModuleDate: function() {
+                return getData('earliest_date');
             }
         };
 

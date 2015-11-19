@@ -28,7 +28,7 @@ angular
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
                 //setting corresponding filters with 'all time' range
                 $scope.tableParams.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                $scope.tableParams.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                $scope.tableParams.filter().endDateToSearch= $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
             };
 
             $scope.myDatePicker = {};
@@ -154,53 +154,50 @@ angular
                 return false;
             };
 
-            $scope.tableParams = new ngTableParams({
-                    page: 1,
-                    count: 5,
-                    sorting: {
-                        moduleId: 'desc'
-                    }
-                },
-                {
-                    total: 0,
-                    filterDelay: 10000,
-                    getData: function ($defer, params) {
-
-                        var sortCriteria = Object.keys(params.sorting())[0];
-                        var sortOrder = params.sorting()[sortCriteria];
-
-                        if ($scope.selectedDeviceType.name != null) {
-                            params.filter().deviceType = $scope.selectedDeviceType.name.type;
+            measuringEquipmentServiceAdmin.getEarliestCalibrationModuleDate().success(function(date) {
+                $scope.initDatePicker(date);
+                $scope.tableParams = new ngTableParams({
+                        page: 1,
+                        count: 5,
+                        sorting: {
+                            moduleId: 'desc'
                         }
-                        else {
-                            params.filter().deviceType = null; //case when the filter is cleared with a button on the select
-                        }
+                    },
+                    {
+                        total: 0,
+                        filterDelay: 10000,
+                        getData: function ($defer, params) {
 
-                        if ($scope.selectedModuleType.name != null) {
-                            params.filter().moduleType = $scope.selectedModuleType.name.type;
-                        }
-                        else {
-                            params.filter().moduleType = null; //case when the filter is cleared with a button on the select
-                        }
+                            var sortCriteria = Object.keys(params.sorting())[0];
+                            var sortOrder = params.sorting()[sortCriteria];
 
-                        /*if ($scope.myDatePicker.pickerDate.startDate != undefined
-                            && $scope.myDatePicker.pickerDate.startDate != null
-                            && $scope.myDatePicker.pickerDate.endDate != undefined
-                            && $scope.myDatePicker.pickerDate.endDate != null) {
+                            if ($scope.selectedDeviceType.name != null) {
+                                params.filter().deviceType = $scope.selectedDeviceType.name.type;
+                            }
+                            else {
+                                params.filter().deviceType = null; //case when the filter is cleared with a button on the select
+                            }
+
+                            if ($scope.selectedModuleType.name != null) {
+                                params.filter().moduleType = $scope.selectedModuleType.name.type;
+                            }
+                            else {
+                                params.filter().moduleType = null; //case when the filter is cleared with a button on the select
+                            }
                             params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                             params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-                        }*/
 
-                        measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
-                            .success(function (result) {
-                                $scope.resultsCount = result.totalItems;
-                                $defer.resolve(result.content);
-                                params.total(result.totalItems);
-                            }, function (result) {
-                                $log.debug('error fetching data:', result);
-                            });
-                    }
-                });
+                            measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                                .success(function (result) {
+                                    $scope.resultsCount = result.totalItems;
+                                    $defer.resolve(result.content);
+                                    params.total(result.totalItems);
+                                }, function (result) {
+                                    $log.debug('error fetching data:', result);
+                                });
+                        }
+                    });
+            });
 
             /**
              * Opens modal window for adding new calibration module.
@@ -279,6 +276,4 @@ angular
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
-
-
         }]);

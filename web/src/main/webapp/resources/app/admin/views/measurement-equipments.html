@@ -45,8 +45,8 @@
                         <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
                             filter="{ 'telephone': 'text' }">+380{{ calibrationModule.telephone }}
                         </td>
-                        <td data-title="'VALID_UNTIL' | translate" sortable="'workDate'"
-                            filter="{ 'workDate': 'daterange' }">{{ calibrationModule.workDate }}
+                        <td data-title="'VALID_UNTIL' | translate" class="datecolumn" sortable="'workDate'"
+                            filter="{ 'workDate': 'daterange' }">{{ calibrationModule.workDate | date : 'dd-MM-yyyy'}}
                         </td>
                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
                             filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType | translate }}
@@ -97,6 +97,7 @@
                     </ul>
                 </div>
             </script>
+
             <script type="text/ng-template" id="ng-table/filters/deviceType.html">
                 <ui-select ng-model="selectedDeviceType.name" theme="select2"
                            on-select='onTableHandling()'
@@ -112,6 +113,7 @@
                     </ui-select-choices>
                 </ui-select>
             </script>
+
             <script type="text/ng-template" id="ng-table/filters/moduleType.html">
                 <ui-select ng-model="selectedModuleType.name" theme="select2"
                            on-select='onTableHandling()'
@@ -127,6 +129,7 @@
                     </ui-select-choices>
                 </ui-select>
             </script>
+
             <script type="text/ng-template" id="ng-table/filters/daterange.html">
                 <div class="input-group right-inner-addon" style="width: 100%">
                     <i id="calendar_icon" class="glyphicon glyphicon-calendar"
