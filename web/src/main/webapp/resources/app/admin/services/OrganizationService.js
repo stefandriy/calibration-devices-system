@@ -13,14 +13,14 @@ angular.module('adminModule')
                     });
             },
             getOrganizationWithId: function (id) {
-                var url = '/admin/organization/getOrganization/' + id;
+                var url = 'admin/organization/getOrganization/' + id;
                 return $http.get(url).then(function (result) {
                     return result.data;
                 });
             },
 
             editOrganization: function (formData, id) {
-                var url = '/admin/organization/edit/' + id;
+                var url = 'admin/organization/edit/' + id;
                 return $http.post(url, formData)
                     .then(function (result) {
                         return result.status;
@@ -28,14 +28,14 @@ angular.module('adminModule')
             },
 
             getOrganizationAdmin: function (id) {
-                var url = '/admin/organization/getOrganizationAdmin/' + id;
+                var url = 'admin/organization/getOrganizationAdmin/' + id;
                 return $http.get(url).then(function (result) {
                     return result.data;
                 });
             },
 
             getHistoryOrganizationWithId: function (id) {
-                var url = '/admin/organization/edit/history/' + id;
+                var url = 'admin/organization/edit/history/' + id;
                 return $http.get(url).then(function (result) {
                     return result.data;
                 });
@@ -52,7 +52,7 @@ angular.module('adminModule')
 
         };
         function getDataWithParams(url, params) {
-            return $http.get('/admin/organization/' + url, {
+            return $http.get('admin/organization/' + url, {
                 params: params
             }).success(function (data) {
                 return data;
@@ -62,7 +62,7 @@ angular.module('adminModule')
         }
 
         function getData(url) {
-            return $http.get('/admin/organization/' + url)
+            return $http.get('admin/organization/' + url)
                 .success(function (data) {
                     return data;
                 }).error(function (err) {

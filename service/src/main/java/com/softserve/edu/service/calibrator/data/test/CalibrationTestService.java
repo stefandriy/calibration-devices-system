@@ -42,5 +42,6 @@ public interface CalibrationTestService {
 
      CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
                                                     Double latitude, Double longitude);
+     String getPhotoAsString(String photoPath);
 
 }

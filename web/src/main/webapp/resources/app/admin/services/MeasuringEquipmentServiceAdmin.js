@@ -15,7 +15,7 @@ angular
             editCalibrationModule: function (formData, id) {
                 return sendData('edit/' + id, formData);
             },
-            getEarliestAgreementDate: function() {
+            getEarliestCalibrationModuleDate: function() {
                 return getData('earliest_date');
             }
         };

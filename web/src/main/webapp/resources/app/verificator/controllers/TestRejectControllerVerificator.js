@@ -3,8 +3,8 @@
  */
 angular
     .module('employeeModule')
-    .controller('TestRejectControllerVerificator', ['$scope', '$log', '$modalInstance', 'response','$rootScope',
-        function ($scope, $log, $modalInstance, response, $rootScope) {
+    .controller('TestRejectControllerVerificator', ['$scope', '$log', '$modalInstance', '$rootScope',
+        function ($scope, $log, $modalInstance, $rootScope) {
 
 	    	/**
 	         * Closes modal window on browser's back/forward button click.
@@ -13,7 +13,6 @@ angular
 			    $modalInstance.close();
 			});
     	
-            $scope.calibrators = response.data;
             $scope.formData={};
 
             $scope.cancel = function () {
@@ -21,9 +20,7 @@ angular
             };
             $scope.submit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-
-
-                if ($scope.calibratorSelectionForm.$valid){
+                if ($scope.mailSendingForm.$valid){
                     $modalInstance.close($scope.formData);
 
                 }

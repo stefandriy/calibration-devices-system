@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import org.apache.commons.codec.binary.Base64;
 import com.softserve.edu.device.test.data.DeviceTestData;
@@ -52,46 +53,36 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     public long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException {
         Verification verification = verificationRepository.findOne(verificationId);
-        Verification.CalibrationTestResult testResult = Verification.CalibrationTestResult.SUCCESS;
-        Verification.ConsumptionStatus consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
-        CalibrationTest calibrationTest = new CalibrationTest(
-                deviceTestData.getFileName(),
-                deviceTestData.getTemperature(),
-                deviceTestData.getInstallmentNumber(),
-                deviceTestData.getLatitude(),
-                deviceTestData.getLongitude(),
-                deviceTestData.getUnixTime()
-        );
-
-        calibrationTest.setConsumptionStatus(consumptionStatus);
-        calibrationTest.setTestResult(testResult);
-        calibrationTest.setVerification(verification);
-        // deviceTestData.getTestCounter();
+        CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(),
+                deviceTestData.getLatitude(), deviceTestData.getLongitude(), deviceTestData.getUnixTime(),
+                deviceTestData.getCurrentCounterNumber(), verification, deviceTestData.getInitialCapacity());
         testRepository.save(calibrationTest);
-
         String photo = deviceTestData.getTestPhoto();
         byte[] bytesOfImage = Base64.decodeBase64(photo);
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
         String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + ".jpg";
         ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
         calibrationTest.setPhotoPath(testPhoto);
-
         testRepository.save(calibrationTest);
-
         CalibrationTestData сalibrationTestData;
-
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
+             /*if there is no photo there is now test data */
             if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
-                break;
+                continue;
             } else {
                 сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
                 if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
+                    testRepository.save(calibrationTest);
                 }
-
-                testRepository.save(calibrationTest);
+                if (сalibrationTestData.getConsumptionStatus() == Verification.ConsumptionStatus.NOT_IN_THE_AREA) {
+                    calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.NOT_IN_THE_AREA);
+                    testRepository.save(calibrationTest);
+                }
             }
         }
+        verification.setStatus(Status.TEST_COMPLETED);
+        verificationRepository.save(verification);
         return calibrationTest.getId();
     }
 
@@ -121,12 +112,12 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public CalibrationTest editTest(Long testId, String name, Integer temperature, Integer settingNumber,
+    public CalibrationTest editTest(Long testId, String name, Integer capacity, Integer settingNumber,
                                     Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = Verification.CalibrationTestResult.SUCCESS;
         calibrationTest.setName(name);
-        calibrationTest.setTemperature(temperature);
+        calibrationTest.setCapacity(capacity);
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);
@@ -161,13 +152,14 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         }
     }
 
+    @Override
     public String getPhotoAsString(String photoPath) {
         String photo = null;
         InputStream reader = null;
         BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileInputStream("/Metrology/img/" + photoPath);
+            reader = new FileInputStream(localStorage+"/" + photoPath);
             bufferedInputStream = new BufferedInputStream(reader);
             image = ImageIO.read(bufferedInputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -218,7 +210,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer temperature, Integer settingNumber,
+    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer capacity, Integer settingNumber,
                                                     Double latitude, Double longitude) {
         Verification.CalibrationTestResult testResult;
         CalibrationTest calibrationTest = testRepository.findOne(testId);
@@ -226,7 +218,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         Date initial = new Date();
         calibrationTest.setName(name);
         calibrationTest.setDateTest(initial);
-        calibrationTest.setTemperature(temperature);
+        calibrationTest.setCapacity(capacity);
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);

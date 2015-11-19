@@ -3,22 +3,15 @@ package com.softserve.edu.service.calibrator.data.test.impl;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
-import com.softserve.edu.entity.verification.calibration.CalibrationTestIMG;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
-import com.softserve.edu.repository.CalibrationTestIMGRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestIMGService;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -61,7 +54,6 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         updatedCalibrationTestData.setInitialValue(testData.getInitialValue());
         updatedCalibrationTestData.setEndValue(testData.getEndValue());
         updatedCalibrationTestData.setVolumeInDevice(testData.getVolumeInDevice());
-        updatedCalibrationTestData.setTestTime(testData.getTestTime());
         updatedCalibrationTestData.setActualConsumption(testData.getActualConsumption());
         updatedCalibrationTestData.setConsumptionStatus(testData.getConsumptionStatus());
         updatedCalibrationTestData.setCalculationError(testData.getCalculationError());
@@ -73,22 +65,18 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     @Override
     public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData, int testDataId) throws IOException {
 
-        Double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId) - deviceTestData.getTestInitialCounterValue(testDataId), 2);
-        Double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
-                deviceTestData.getTestCorrectedCurrentConsumption(testDataId),
+        double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId) - deviceTestData.getTestInitialCounterValue(testDataId), 2);
+        double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestCorrectedCurrentConsumption(testDataId),
                 deviceTestData.getImpulsePricePerLitre());
+        double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestSpecifiedConsumption(testDataId),
+                deviceTestData.getImpulsePricePerLitre());
+        double  calculationError=countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId));
         CalibrationTest calibrationTest = testRepository.findById(testId);
-        CalibrationTestData сalibrationTestData = new CalibrationTestData(
-                convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestSpecifiedConsumption(testDataId),
-                        deviceTestData.getImpulsePricePerLitre()), //givenConsumption
-                deviceTestData.getTestAllowableError(testDataId), //acceptableError
-                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId) * 1.0, //volumeOfStandard
-                deviceTestData.getTestInitialCounterValue(testDataId), //initialValue
-                deviceTestData.getTestTerminalCounterValue(testDataId), //endValue
-                volumeInDevice,
-                actualConsumption,
-                countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId) * 1.0), //calculationError
-                calibrationTest);
+        CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption, deviceTestData.getTestAllowableError(testDataId),
+                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId), deviceTestData.getTestInitialCounterValue(testDataId),
+                deviceTestData.getTestTerminalCounterValue(testDataId), volumeInDevice, actualConsumption,calculationError,
+                calibrationTest, deviceTestData.getTestDuration(testDataId), deviceTestData.getTestLowerConsumptionLimit(testDataId),
+                deviceTestData.getTestUpperConsumptionLimit(testDataId), testDataId);
         dataRepository.save(сalibrationTestData);
         testDataIMGService.createTestDataIMGCalibrationTestIMGs(testDataId, deviceTestData, сalibrationTestData);
         return сalibrationTestData;

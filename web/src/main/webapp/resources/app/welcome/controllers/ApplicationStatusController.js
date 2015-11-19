@@ -115,7 +115,7 @@ angular
 					        	   $log.debug(ID);
 					        	        var modalInstance = $modal.open({
 					        	            animation: true,
-					        	            templateUrl: '/resources/app/welcome/views/modals/feedback-window.html',
+					        	            templateUrl: 'resources/app/welcome/views/modals/feedback-window.html',
 					        	            controller: 'FeedbackController',
 					        	            size: 'md'
 

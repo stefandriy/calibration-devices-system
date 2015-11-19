@@ -16,7 +16,7 @@ import java.util.Date;
 public class CalibrationTestIMG {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

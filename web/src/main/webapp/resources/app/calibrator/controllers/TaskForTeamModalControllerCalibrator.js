@@ -149,7 +149,7 @@ angular
                                 $rootScope.verifIds = [];
                                 $modal.open({
                                     animation: true,
-                                    templateUrl: '/resources/app/calibrator/views/modals/task-add-success.html',
+                                    templateUrl: 'resources/app/calibrator/views/modals/task-add-success.html',
                                     controllerAs: 'successController',
                                     size: 'md'
                                 });
@@ -159,7 +159,7 @@ angular
                                 $scope.closeModal();
                                 $modal.open({
                                     animation: true,
-                                    templateUrl: '/resources/app/calibrator/views/modals/task-adding-error.html',
+                                    templateUrl: 'resources/app/calibrator/views/modals/task-adding-error.html',
                                     size: 'md'
                                 });
                             }

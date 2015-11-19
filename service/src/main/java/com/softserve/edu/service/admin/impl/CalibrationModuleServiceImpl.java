@@ -1,7 +1,6 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
-import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -9,7 +8,6 @@ import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.utils.filter.Filter;
 import com.softserve.edu.service.utils.filter.internal.Comparison;
 import com.softserve.edu.service.utils.filter.internal.Condition;
-import com.softserve.edu.specification.CalibrationModuleSpecification;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,24 +52,10 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
 
 
     public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable) {
-        CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
-        Filter filter = new Filter();
-        for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
-            if (entry.getValue() instanceof String) {
-                filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.like)
-                        .setField(entry.getKey())
-                        .setValue(entry.getValue())
-                        .build());
-            } else {
-                filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.eq)
-                        .setField(entry.getKey())
-                        .setValue(entry.getValue())
-                        .build());
-            }
-        }
-        return calibrationModuleRepository.findAll(filter, pageable);
+
+        // Filter filter = new Filter(searchKeys);
+//        filter=filter.createFilterFromSearchKeys(searchKeys);
+        return calibrationModuleRepository.findAll(new Filter(searchKeys), pageable);
     }
 
     public Page<CalibrationModule> findAllModules(Pageable pageable) {

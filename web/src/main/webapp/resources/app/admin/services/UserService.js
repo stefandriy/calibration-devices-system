@@ -3,7 +3,7 @@ angular
     .factory('UserService', function ($http) {
         return {
             isUsernameAvailable: function (username) {
-                var url = '/admin/users/available/' + username;
+                var url = 'admin/users/available/' + username;
                 return $http.get(url)
                     .then(function(result) {
                         return result.data;
@@ -11,7 +11,7 @@ angular
             },
             saveUser: function (userData) {
 
-                return $http.post('/admin/sysadmins/add', userData)
+                return $http.post('admin/sysadmins/add', userData)
                     .success(function (response, status) {
                         console.log("Done status: " + status);
                         return response;
