@@ -222,44 +222,6 @@ angular
                 }
             };
 
-            /**
-             * Modal window used to explain the reason of verification rejection
-             */
-            $scope.openMailModal = function (ID) {
-                $log.debug('ID');
-                $log.debug(ID);
-                var modalInstance = $modal.open({
-                    animation: true,
-                    templateUrl: '/resources/app/verificator/views/modals/mailComment.html',
-                    controller: 'MailSendingModalControllerProvider',
-                    size: 'md',
-
-                });
-
-                /**
-                 * executes when modal closing
-                 */
-                modalInstance.result.then(function (formData) {
-
-                    var messageToSend = {
-                        verifID: ID,
-                        msg: formData.message
-                    };
-
-                    var dataToSend = {
-                        verificationId: ID,
-                        status: 'REJECTED'
-                    };
-                    verificationServiceVerificator.rejectVerification(dataToSend).success(function () {
-                        verificationServiceProvider.sendMail(messageToSend)
-                            .success(function (responseVal) {
-                                $scope.tableParams.reload();
-                            });
-                    });
-                });
-            };
-
-
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
