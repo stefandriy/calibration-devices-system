@@ -205,16 +205,15 @@ public class CalibrationModuleController {
      */
     private Map<String, Object> constructSearchDataMap(CalibrationModuleDTO searchData) {
         Map<String, Object> searchDataMap;
-        Map<String, Date> dateRange;
+        List<Date> dateRange;
         searchDataMap = TypeConverter.ObjectToMapWithObjectValues(searchData);
         // if DTO with filtering parameters contains parameters for filtering by date range, fetch startDate and
-        // endDate from DTO and convert them to map with two fields ("startDate" and "endDate" correspondingly).
+        // endDate from DTO and convert them to list with two elements (startDate and endDate correspondingly).
         // Then put the latter into the map with search keys under the key "workDate" (filter class requires that
         // the name of the key in searchDataMap corresponds to the name of the entity fields in the database
         if (searchDataMap.containsKey("startDate") || searchDataMap.containsKey("endDate")) {
-            dateRange = new HashMap<String, Date>();
-            dateRange.put("startDate", (Date) searchDataMap.get("startDate"));
-            dateRange.put("endDate", (Date) searchDataMap.get("endDate"));
+            dateRange = new ArrayList<Date>();
+            Collections.addAll(dateRange, (Date) searchDataMap.get("startDate"), (Date) searchDataMap.get("endDate"));
             searchDataMap.put("workDate", dateRange);
         }
         searchDataMap.put("isActive", true);
