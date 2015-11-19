@@ -147,7 +147,7 @@ public class CalibrationTestServiceImplTest {
         Verification.ConsumptionStatus status = Verification.ConsumptionStatus.IN_THE_AREA;
         ArgumentCaptor<String> nameArg = ArgumentCaptor.forClass(String.class);
         when(testRepository.findOne(testId)).thenReturn(calibrationTest);
-        CalibrationTest calibrationTest = calibrationTestService.editTest(testId, name, 1, 1, 1d, 1d, status,
+        CalibrationTest calibrationTest = calibrationTestService.editTest(testId, name, 1L, 1, 1d, 1d, status,
                 Verification.CalibrationTestResult.SUCCESS);
         verify(calibrationTest).setName(nameArg.capture());
         assertEquals(name, nameArg.getValue());
@@ -211,7 +211,7 @@ public class CalibrationTestServiceImplTest {
     @Test
     public void testCreateNewCalibrationTest() throws Exception {
         String name = "name";
-        Integer temperature = 20;
+        Long temperature = 20L;
         Integer settingNumber = 10;
         Double latitude = 24d;
         Double longitude = 48d;

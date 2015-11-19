@@ -22,7 +22,7 @@ public class CalibrationTestFileDataDTO {
 
     private Date testDate;
 
-    private int temperature;
+    private long temperature;
 
     private long accumulatedVolume;
 
@@ -186,7 +186,7 @@ public class CalibrationTestFileDataDTO {
         this.testDate = testDate;
     }
 
-    public int getTemperature() {
+    public long getTemperature() {
         return temperature;
     }
 

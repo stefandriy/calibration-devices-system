@@ -28,7 +28,7 @@ public class CalibrationTest {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
     private String counterNumber;
-    private Integer capacity;
+    private Long capacity;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
@@ -59,7 +59,7 @@ public class CalibrationTest {
 
     public CalibrationTest(String name, Integer settingNumber, Double latitude,
                            Double longitude, Long unixTime, String counterNumber,
-                           Verification verification, Integer capacity) {
+                           Verification verification, Long capacity) {
         this.name = name;
         this.dateTest = new Date(unixTime);
         this.capacity = capacity;
