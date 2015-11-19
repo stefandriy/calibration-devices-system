@@ -21,7 +21,7 @@ import java.util.List;
 public class CalibrationTestData {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Double givenConsumption;

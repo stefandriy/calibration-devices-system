@@ -57,20 +57,16 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                 deviceTestData.getLatitude(), deviceTestData.getLongitude(), deviceTestData.getUnixTime(),
                 deviceTestData.getCurrentCounterNumber(), verification, deviceTestData.getInitialCapacity());
         testRepository.save(calibrationTest);
-        String photo = deviceTestData.getTestPhoto();
-        byte[] bytesOfImage = Base64.decodeBase64(photo);
-        BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
+        BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(deviceTestData.getTestPhoto())));
         String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + ".jpg";
-        ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
+        ImageIO.write(buffered, "jpg", new File(localStorage + testPhoto));
         calibrationTest.setPhotoPath(testPhoto);
         testRepository.save(calibrationTest);
-        CalibrationTestData сalibrationTestData;
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
-             /*if there is no photo there is now test data */
-            if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
-                continue;
+            if (deviceTestData.getBeginPhoto(testDataId).equals("")) { // if there is no photo there is now test data
+                break;
             } else {
-                сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
+                CalibrationTestData сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
                 if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
                     testRepository.save(calibrationTest);
@@ -159,7 +155,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileInputStream(localStorage+"/" + photoPath);
+            reader = new FileInputStream(localStorage + "/" + photoPath);
             bufferedInputStream = new BufferedInputStream(reader);
             image = ImageIO.read(bufferedInputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
