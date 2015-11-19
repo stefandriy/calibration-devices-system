@@ -1,6 +1,8 @@
 package com.softserve.edu.service.utils.filter;
 
+import com.softserve.edu.service.utils.filter.internal.Comparison;
 import com.softserve.edu.service.utils.filter.internal.Condition;
+import com.softserve.edu.service.utils.filter.internal.Type;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -8,8 +10,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
+import java.util.Map;
 
 /**
  * [{
@@ -46,6 +49,37 @@ public class Filter implements Specification {
         }
     }
 
+    public Filter createFilterFromSearchKeys(Map<String, Object> searchKeys) {
+        Filter filter = new Filter();
+        for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
+            if (entry.getValue() instanceof String) {
+                filter.addCondition(new Condition.Builder()
+                        .setComparison(Comparison.like)
+                        .setField(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build());
+            } else if (entry.getValue() instanceof Map) {
+                filter.addCondition(new Condition.Builder()
+                        .setComparison(Comparison.ge)
+                        .setField(entry.getKey())
+                        .setValue(((Map) entry.getValue()).get("startDate"))
+                        .build());
+                filter.addCondition(new Condition.Builder()
+                        .setComparison(Comparison.le)
+                        .setField(entry.getKey())
+                        .setValue(((Map) entry.getValue()).get("endDay"))
+                        .build());
+            } else {
+                filter.addCondition(new Condition.Builder()
+                        .setComparison(Comparison.eq)
+                        .setField(entry.getKey())
+                        .setValue(entry.getValue())
+                        .build());
+            }
+        }
+        return filter;
+    }
+
     @Override
     public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         List<Predicate> predicates = buildPredicates(root, criteriaQuery, criteriaBuilder);
@@ -67,11 +101,14 @@ public class Filter implements Specification {
             case eq:
                 return buildEqualsPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case gt:
-                break;
+                return buildGreaterThanPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
+            case ge:
+                return buildGreaterEqualPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case lt:
-                break;
+                return buildLessThanPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
+            case le:
+                return buildLessEqualPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case ne:
-
                 break;
             case isnull:
                 break;
@@ -93,4 +130,27 @@ public class Filter implements Specification {
         return criteriaBuilder.like(root.get(condition.field), "%" + condition.value + "%");
     }
 
+    private Predicate buildGreaterThanPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        if (condition.type.equals(Type.date)) {
+            return criteriaBuilder.greaterThan(root.<Date>get(condition.field), (Date) condition.value);
+        } else throw new RuntimeException();
+    }
+
+    private Predicate buildLessThanPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        if (condition.type.equals(Type.date)) {
+            return criteriaBuilder.lessThan(root.<Date>get(condition.field), (Date) condition.value);
+        } else throw new RuntimeException();
+    }
+
+    private Predicate buildGreaterEqualPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        if (condition.type.equals(Type.date)) {
+            return criteriaBuilder.greaterThanOrEqualTo(root.<Date>get(condition.field), (Date) condition.value);
+        } else throw new RuntimeException();
+    }
+
+    private Predicate buildLessEqualPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        if (condition.type.equals(Type.date)) {
+            return criteriaBuilder.lessThanOrEqualTo(root.<Date>get(condition.field), (Date) condition.value);
+        } else throw new RuntimeException();
+    }
 }
