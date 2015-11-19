@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by roman on 07.11.15.
@@ -29,14 +31,17 @@ public class CalibrationModuleDTO {
     private String moduleNumber;
     private Boolean isActive;
     private Date workDate;
+    private Date startDate = null;
+    private Date endDate = null;
 
-    public CalibrationModuleDTO() {}
+    public CalibrationModuleDTO() {
+    }
 
     public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
-                             String condDesignation, String serialNumber,
-                             String employeeFullName, String telephone, String moduleNumber,
-                             CalibrationModule.ModuleType moduleType, String email,
-                             String calibrationType, Date workDate) {
+                                String condDesignation, String serialNumber,
+                                String employeeFullName, String telephone, String moduleNumber,
+                                CalibrationModule.ModuleType moduleType, String email,
+                                String calibrationType, Date workDate) {
         this.moduleId = moduleId;
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
@@ -51,13 +56,15 @@ public class CalibrationModuleDTO {
         this.workDate = workDate;
     }
 
-    /*public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
+    public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,
-                                CalibrationModule.ModuleType moduleType, String email, String calibrationType,
-                                Date workDate) {
-        this(moduleId, deviceType.name(), organizationCode, condDesignation, serialNumber, employeeFullName,
-                telephone, moduleNumber, moduleType.toString(), email, calibrationType, workDate);
-    }*/
+                                CalibrationModule.ModuleType moduleType, String email,
+                                String calibrationType, Date workDate, Date startDate, Date endDate) {
+        this(moduleId, deviceType, organizationCode, condDesignation, serialNumber, employeeFullName,
+                telephone, moduleNumber, moduleType, email, calibrationType, workDate);
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
 }
