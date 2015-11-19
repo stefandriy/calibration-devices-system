@@ -212,6 +212,53 @@
         <hr/>
         <div class="panel panel-primary">
             <div class="panel-heading">
+                {{'ADDITIONAL_INFORMATION' | translate }}
+            </div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="codeEDRPOU">
+                        {{'INSTALLATION_CODE' | translate }}
+                    </label>
+                    <div class="col-md-8">
+                        <input id="codeEDRPOU" name="codeEDRPOU" class="form-control"
+                                type="text" ng-model="organizationFormData.codeEDRPOU">
+                        <span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="subordination">
+                        {{'SUBORDINATION' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <input id="subordination" name="subordination" class="form-control"
+                                type="text" ng-model="organizationFormData.subordination" >
+                        <span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="certificateNumber">
+                        {{'CERTIFICATE_NUMBER' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <input id="certificateNumber" name="certificateNumber" class="form-control"
+                                type="text" ng-model="organizationFormData.certificateNumber">
+                        <span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="certificateDate">
+                        {{'CERTIFICATE_DATE' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <input id="certificateDate" name="certificateDate" class="form-control">
+                        <span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+
 
             </div>
 
@@ -353,6 +400,59 @@
 
         <hr/>
 
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{'REGISTERED_ADDRESS' | translate }}
+            </div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="regionReg">
+                        {{'REGION' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="districtReg">
+                        {{'DISTRICT' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="localityReg">
+                        {{'LOCALITY' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="streetReg">
+                        {{'STREET_TWO' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="houseReg">
+                        {{'HOUSE_TWO' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="flatReg">
+                        {{'FLAT' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <hr/>
 
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -521,6 +621,7 @@
 
             </div>
         </div>
+
 
         <div class="panel panel-primary">
             <div class="panel-heading">{{'ORGANIZATION_SERVICE_AREA'|translate}}</div>
