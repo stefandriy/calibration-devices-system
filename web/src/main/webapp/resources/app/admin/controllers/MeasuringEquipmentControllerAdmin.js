@@ -249,7 +249,6 @@ angular
                                 $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
                         });
                     });
-
             };
 
             $scope.disableCalibrationModule = function (id) {

@@ -177,5 +177,4 @@ public class CalibrationModuleController {
                                                                @PathVariable Integer itemsPerPage) {
         return getSortedAndFilteredPageOfCalibrationModules(pageNumber, itemsPerPage, null, null, null);
     }
-
 }
