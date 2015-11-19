@@ -4,6 +4,7 @@ import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.CalibrationModuleDTO;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.service.admin.CalibrationModuleService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.TypeConverter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -176,6 +181,25 @@ public class CalibrationModuleController {
     public PageDTO<CalibrationModuleDTO> getPageOfCalibrationModules(@PathVariable Integer pageNumber,
                                                                @PathVariable Integer itemsPerPage) {
         return getSortedAndFilteredPageOfCalibrationModules(pageNumber, itemsPerPage, null, null, null);
+    }
+
+    @RequestMapping(value = "earliest_date", method = RequestMethod.GET)
+    public String getEarliestDate(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        if (user != null) {
+            Date gottenDate = calibrationModuleService.getEarliestDate();
+            Date date = null;
+            if (gottenDate != null) {
+                date = new Date(gottenDate.getTime());
+            } else {
+                return null;
+            }
+            DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+            String isoLocalDateString = localDate.format(dbDateTimeFormatter);
+            return isoLocalDateString;
+        } else {
+            return null;
+        }
     }
 
 }
