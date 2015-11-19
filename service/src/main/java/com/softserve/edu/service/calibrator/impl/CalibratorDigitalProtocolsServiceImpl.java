@@ -22,7 +22,7 @@ import java.util.List;
  * @author Veronika 11.11.2015
  */
 @Service
-public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalProtocolsService{
+public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalProtocolsService {
 
     @Autowired
     private VerificationRepository verificationRepository;
@@ -30,13 +30,14 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
     @PersistenceContext
     private EntityManager em;
 
-    public Long countByCalibratorEmployee_usernameAndStatus (User calibratorEmployee, Status status) {
+    public Long countByCalibratorEmployee_usernameAndStatus(User calibratorEmployee, Status status) {
         return verificationRepository.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee.getUsername(), status);
     }
 
     /**
      * Find and return from database Verifications by user and status
      * is used for table with protocols
+     *
      * @param calibratorEmployee - user
      * @param pageNumber
      * @param itemsPerPage
@@ -55,8 +56,9 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
                 cb.equal(verifications.get("status"), status)));
 
         TypedQuery<Verification> typedQuery = em.createQuery(cq);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
 
-
-        return typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage).setMaxResults(itemsPerPage).getResultList();
+        return typedQuery.getResultList();
     }
 }
