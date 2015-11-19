@@ -16,20 +16,20 @@ import java.util.Date;
 public class CalibrationTestIMG {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "calibrationTestId")
-    private CalibrationTest calibrationTest;
+    @JoinColumn(name = "calibrationTestDataId")
+    private CalibrationTestData calibrationTestData;
 
     private String imgName;
 
     @Temporal(TemporalType.DATE)
     private Date initialDate;
 
-    public CalibrationTestIMG(CalibrationTest calibrationTest, String imgName) {
-        this.calibrationTest = calibrationTest;
+    public CalibrationTestIMG(CalibrationTestData calibrationTestData, String imgName) {
+        this.calibrationTestData = calibrationTestData;
         this.imgName = imgName;
         this.initialDate = new Date();
     }

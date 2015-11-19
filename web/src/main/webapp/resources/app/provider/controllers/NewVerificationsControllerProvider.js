@@ -219,7 +219,7 @@ angular
 
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/new-verification-details.html',
+                    templateUrl: 'resources/app/provider/views/modals/new-verification-details.html',
                     controller: 'DetailsModalControllerProvider',
                     size: 'lg',
                     resolve: {
@@ -259,7 +259,7 @@ angular
             $scope.addProviderEmployee = function (verifId, providerEmployee) {
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/adding-providerEmployee.html',
+                    templateUrl: 'resources/app/provider/views/modals/adding-providerEmployee.html',
                     controller: 'ProviderEmployeeControllerProvider',
                     size: 'md',
                     windowClass: 'xx-dialog',
@@ -325,7 +325,7 @@ angular
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
-                        templateUrl: '/resources/app/provider/views/modals/verification-sending.html',
+                        templateUrl: 'resources/app/provider/views/modals/verification-sending.html',
                         controller: 'SendingModalControllerProvider',
                         size: 'md',
                         resolve: {
@@ -383,7 +383,7 @@ angular
                 $log.debug(ID);
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/mailComment.html',
+                    templateUrl: 'resources/app/provider/views/modals/mailComment.html',
                     controller: 'MailSendingModalControllerProvider',
                     size: 'md',
 
@@ -419,12 +419,12 @@ angular
 
             $scope.initiateVerification = function () {
 
+                $rootScope.verifIDforTempl = $scope.idsOfVerifications[0];
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/initiate-verification.html',
+                    templateUrl: 'resources/app/provider/views/modals/initiate-verification.html',
                     controller: 'AddingVerificationsControllerProvider',
                     size: 'lg'
-
                 });
             };
 

@@ -11,14 +11,14 @@ angular
                 return getData('admin/sysadmins/get_sys_admins');
             },
             getSysAdminByUsername: function (username) {
-                var url = '/admin/sysadmins/get_sys_admin/' + username;
+                var url = 'admin/sysadmins/get_sys_admin/' + username;
                 return $http.get(url).then(function (result) {
                     return result;
                 });
             },
 
             editSysAdmin: function (formData, username) {
-                var url = '/admin/sysadmins/edit/' + username;
+                var url = 'admin/sysadmins/edit/' + username;
                 return $http.post(url, formData)
                     .then(function (result) {
                         return result.status;
@@ -26,7 +26,7 @@ angular
             },
 
             deleteSysAdmin: function (username) {
-                var url = '/admin/sysadmins/delete/' + username;
+                var url = 'admin/sysadmins/delete/' + username;
                 return $http.delete(url)
                     .then(function (result) {
                         return result.status;

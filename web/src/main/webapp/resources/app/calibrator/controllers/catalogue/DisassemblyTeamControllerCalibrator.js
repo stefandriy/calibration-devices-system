@@ -30,7 +30,7 @@ angular
                     .open({
                         animation : true,
                         controller : 'DisassemblyTeamAddModalControllerCalibrator',
-                        templateUrl : '/resources/app/calibrator/views/modals/disassembly-team-add-modal.html'
+                        templateUrl : 'resources/app/calibrator/views/modals/disassembly-team-add-modal.html'
                     })
             };
 
@@ -45,7 +45,7 @@ angular
                             .open({
                                 animation: true,
                                 controller: 'DisassemblyTeamEditModalControllerCalibrator',
-                                templateUrl: '/resources/app/calibrator/views/modals/disassembly-team-edit-modal.html',
+                                templateUrl: 'resources/app/calibrator/views/modals/disassembly-team-edit-modal.html',
                                 resolve: {
                                     team : function () {
                                         return data;

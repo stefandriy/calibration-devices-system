@@ -194,10 +194,10 @@ angular
             /**
              * Receives all providers in selected locality by device type
              */
-            $scope.getProvidersByLocalityAndDeviceType = function (selectedLocality, selectedDevice, deviceGroup) {
-                if (selectedLocality !== undefined && selectedDevice !== undefined) {
+            $scope.getProvidersByLocalityAndDeviceType = function (selectedLocality, selectedDeviceType, deviceGroup) {
+                if (selectedLocality !== undefined && selectedDeviceType !== undefined) {
                     if (deviceGroup === 'firstDeviceGroup') {
-                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDevice.deviceType)
+                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDeviceType)
                             .success(function (providers) {
                                 if (providers.length > 0) {
                                     $scope.firstDeviceProviders = providers;
@@ -209,7 +209,7 @@ angular
                             }
                         );
                     } else {
-                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDevice.deviceType)
+                        dataReceivingService.findProvidersByLocalityAndDeviceType(selectedLocality.id, selectedDeviceType)
                             .success(function (providers) {
                                 if (providers.length > 0) {
                                     $scope.secondDeviceProviders = providers;
@@ -292,6 +292,27 @@ angular
             );
 
             /**
+             * Receives all possible device Types.
+             */
+            dataReceivingService.findAllDeviceTypes()
+                .success(function (deviceTypes) {
+                        $scope.deviceTypes = deviceTypes;
+                        $scope.selectedValues.firstSelectedDeviceType = undefined;
+                        $scope.selectedValues.secondSelectedDeviceType = undefined;
+                }
+            );
+
+            $scope.selectDevice = function() {
+
+                angular.forEach($scope.devices, function(value){
+                    if(value.deviceType === $scope.selectedValues.firstSelectedDeviceType){
+                        $scope.selectedValues.firstSelectedDevice = value;
+                    }
+                });
+
+            };
+
+            /**
              *  Error verification of device block
              */
             $scope.deviceErrorCheck = function () {
@@ -301,38 +322,37 @@ angular
                 if ($scope.selectedValues.firstDeviceCount !== undefined) {
                     $scope.clientForm.firstDeviceCount.$invalid = false;
                 }
-                if ($scope.selectedValues.firstSelectedDevice === undefined) {
-                    $scope.clientForm.firstSelectedDevice.$invalid = true;
-                    $scope.clientForm.firstDeviceCount.$invalid = true;
-                }
-                if ($scope.selectedValues.firstSelectedProvider === undefined) {
-                    $scope.clientForm.firstDeviceCount.$invalid = true;
-                }
+                //if ($scope.selectedValues.firstSelectedDevice === undefined) {
+                //    $scope.clientForm.firstSelectedDevice.$invalid = true;
+                //    $scope.clientForm.firstDeviceCount.$invalid = true;
+                //}
+                //if ($scope.selectedValues.firstSelectedProvider === undefined) {
+                //    $scope.clientForm.firstDeviceCount.$invalid = true;
+                //}
                 /**
                  * Check second device selection group
                  */
                 if (($scope.selectedValues.secondDeviceCount !== undefined)) {
                     $scope.clientForm.secondDeviceCount.$invalid = false;
                 }
-                if ($scope.selectedValues.secondSelectedDevice === undefined) {
-                    $scope.clientForm.secondSelectedDevice.$invalid = true;
-                    $scope.clientForm.secondDeviceCount.$invalid = true;
-                }
-                if ($scope.selectedValues.secondSelectedProvider === undefined) {
-                    $scope.clientForm.secondDeviceCount.$invalid = true;
-                }
+                //if ($scope.selectedValues.secondSelectedDevice === undefined) {
+                //    $scope.clientForm.secondSelectedDevice.$invalid = true;
+                //    $scope.clientForm.secondDeviceCount.$invalid = true;
+                //}
+                //if ($scope.selectedValues.secondSelectedProvider === undefined) {
+                //    $scope.clientForm.secondDeviceCount.$invalid = true;
+                //}
                 /**
                  * Check street selection group
                  */
                 if (($scope.selectedValues.selectedStreetType !== undefined)) {
                     $scope.clientForm.streetType.$invalid = false;
                 }
-                if ($scope.selectedValues.selectedStreet === undefined) {
-                    $scope.clientForm.street.$invalid = true;
-                    $scope.clientForm.streetType.$invalid = true;
-                }
+                //if ($scope.selectedValues.selectedStreet === undefined) {
+                //    $scope.clientForm.street.$invalid = true;
+                //    $scope.clientForm.streetType.$invalid = true;
+                //}
             };
-
 
             $scope.changeFlat = function () {
                 $scope.$watch('formData', function (formData) {
@@ -349,6 +369,7 @@ angular
             $scope.sendApplicationData = function () {
                 $scope.codes = [];
 
+                $scope.selectDevice();
                 $scope.deviceErrorCheck();
 
                 $scope.$broadcast('show-errors-check-validity');
@@ -402,7 +423,7 @@ angular
             $scope.feedbackModalNoProvider = function () {
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/welcome/views/modals/feedBackWindow.html',
+                    templateUrl: 'resources/app/welcome/views/modals/feedBackWindow.html',
                     controller: 'FeedbackController',
                     size: 'md'
                 });

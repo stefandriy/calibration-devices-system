@@ -1,0 +1,117 @@
+<div id="page-wrapper" ng-controller="MeasuringEquipmentControllerAdmin">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">{{ 'MEASURING_DEVICES_DIRECTORY' | translate }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                    ng-click="openAddCalibrationModuleModal()">
+                <span class="glyphicon glyphicon-plus"></span>
+                {{'ADD_INSTALLATION' | translate}}
+            </button>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+            <p></p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <button ng-click="clearAll()" ng-show="isFilter()"
+                    class="btn btn-danger pull-right col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                {{'CLEAR_ALL' | translate }}
+            </button>
+        </div>
+    </div>
+    <p></p>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
+                       class="table table-bordered table-hover users_table">
+                    <tbody>
+                    <tr ng-repeat="calibrationModule in $data">
+                        <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'deviceType'"
+                            filter="{ 'deviceType': 'text' }">
+                            {{ calibrationModule.deviceType | translate }}
+                        </td>
+                        <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
+                            filter="{ 'condDesignation': 'text' }">{{ calibrationModule.condDesignation}}
+                        </td>
+                        <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'employeeFullName'"
+                            filter="{ 'employeeFullName': 'text' }">{{ calibrationModule.employeeFullName }}
+                        </td>
+                        <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
+                            filter="{ 'telephone': 'text' }">+380{{ calibrationModule.telephone }}
+                        </td>
+                        <td data-title="'VALID_UNTIL' | translate" sortable="'workDate'"
+                            filter="{ 'workDate': 'text' }">{{ calibrationModule.workDate }}
+                        </td>
+                        <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
+                            filter="{ 'moduleType': 'text' }">{{ calibrationModule.moduleType | translate }}
+                        </td>
+                        <td data-title="'ACTIONS' | translate" class="text-center">
+
+                            <div class="btn-group-vertical">
+                                <button type="button" class="btn btn-warning"
+                                        ng-click="openEditCalibrationModuleModal(calibrationModule.moduleId)">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </button>
+                                <button type="button" class="btn btn-danger" >
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <script type="text/ng-template" id="custom/pager">
+                <div>
+                    <ul class="pager ng-cloak">
+                        <li ng-repeat="page in pages"
+                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                {{'PREVIOUS' | translate}}</a>
+                            <a ng-switch-when="next" ng-click="params.page(page.number)"
+                               href="">{{'NEXT' | translate}} &raquo;</a>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <button type="button" ng-class="{'active':params.count() == 5}"
+                                        ng-click="params.count(5)" class="btn btn-default">5
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 10}"
+                                        ng-click="params.count(10)" class="btn btn-default">10
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 25}"
+                                        ng-click="params.count(25)" class="btn btn-default">25
+                                </button>
+                                <button type="button" ng-class="{'active':params.count() == 50}"
+                                        ng-click="params.count(50)" class="btn btn-default">50
+                                </button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </script>
+            <script type="text/ng-template" id="ng-table/filters/organizationType.html">
+                <ui-select ng-model="selectedOrganizationType.name" theme="select2" on-select='doSearch()'
+                           search-enabled="false"
+                           name="filter-organizationType">
+                    <ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
+                                     allow-clear="true">
+                        {{$select.selected.label}}
+                    </ui-select-match>
+                    <ui-select-choices
+                            repeat="organizationType in organizationTypeData">
+                        <span ng-bind-html="organizationType.label"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </script>
+        </div>
+    </div>
+</div>
+</div>
+<!-- /#page-wrapper -->

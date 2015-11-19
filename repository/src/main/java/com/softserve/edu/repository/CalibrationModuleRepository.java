@@ -1,11 +1,25 @@
 package com.softserve.edu.repository;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CalibrationModuleRepository extends PagingAndSortingRepository<CalibrationModule, Long>, JpaSpecificationExecutor {
+import java.util.Date;
 
-    CalibrationModule findCalibrationModuleBySerialNumber(String serialNumber);
+/**
+ * Created by roman on 08.10.2015.
+ *
+ */
+
+@Repository
+ public interface CalibrationModuleRepository
+        extends PagingAndSortingRepository<CalibrationModule, Long>, JpaSpecificationExecutor,
+            CalibrationModuleRepositoryCustom {
+
+    CalibrationModule findBySerialNumber(String serialNumber);
 
 }

@@ -2,53 +2,51 @@ package com.softserve.edu.service.state.verificator;
 
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.UserRepository;
+import com.softserve.edu.service.state.verificator.impl.StateVerificatorEmployeeServiceImpl;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.junit.runner.RunWith;
+import org.mockito.*;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by vova on 26.08.15.
+ * @author Veronika Herasymenko
  */
+@RunWith(MockitoJUnitRunner.class)
 public class StateVerificatorEmployeeServiceImplTest {
-    final static String username = "username";
-    final static String password = "password";
-
-    @InjectMocks
-    private StateVerificatorEmployeeService verificatorEmployeeService;
 
     @Mock
     private UserRepository stateVerificatorEmployeeRepository;
 
-    @Mock
-    private User user;
+    @Spy
+    private User stateVerificatorEmployee = new User("username", "password");
 
-    @Mock
-    private User stateVerificatorEmployee;
-
-    @Before
-    public void init() {
-        MockitoAnnotations.initMocks(this);
-    }
+    @InjectMocks
+    private StateVerificatorEmployeeService verificatorEmployeeService = new StateVerificatorEmployeeServiceImpl();
 
     @Test
     public void testAddEmployee() throws Exception {
-        when(stateVerificatorEmployee.getPassword()).thenReturn(password);
-        String passwordEncoded = new BCryptPasswordEncoder().encode(stateVerificatorEmployee.getPassword());
+
         verificatorEmployeeService.addEmployee(stateVerificatorEmployee);
-     //   verify(stateVerificatorEmployee).setPassword(passwordEncoded));
+
+        ArgumentCaptor<String> passwordEncodedArg = ArgumentCaptor
+                .forClass(String.class);
+
+        verify(stateVerificatorEmployee).setPassword(passwordEncodedArg.capture());
         verify(stateVerificatorEmployeeRepository).save(stateVerificatorEmployee);
+
+        Assert.assertEquals(stateVerificatorEmployee.getPassword(),
+                passwordEncodedArg.getValue());
     }
 
     @Test
     public void testOneProviderEmployee() throws Exception {
-        when(stateVerificatorEmployeeRepository.findOne(username)).thenReturn(user);
-        Assert.assertEquals(user, verificatorEmployeeService.oneProviderEmployee(username));
+        final String username = "User";
+        when(stateVerificatorEmployeeRepository.findOne(username)).thenReturn(stateVerificatorEmployee);
+        User actual = verificatorEmployeeService.oneProviderEmployee(username);
+        Assert.assertEquals(stateVerificatorEmployee, actual);
     }
 }

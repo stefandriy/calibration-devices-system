@@ -20,6 +20,7 @@ public class UsersPageItem {
     private String organization;
     private Long countOfVerification;
     private Long calibratorTasks;
+    private Long stateVerificatorTasks;
 
     public UsersPageItem() {
     }
@@ -124,6 +125,14 @@ public class UsersPageItem {
         return countOfVerification;
     }
 
+    public Long getStateVerificatorTasks() {
+        return stateVerificatorTasks;
+    }
+
+    public void setStateVerificatorTasks(Long stateVerificatorTasks) {
+        this.stateVerificatorTasks = stateVerificatorTasks;
+    }
+
     public void setCountOfVerification(Long countOfVerification) {
         this.countOfVerification = countOfVerification;
     }
@@ -148,7 +157,7 @@ public class UsersPageItem {
 
     public UsersPageItem(String username, List<String> roles, String firstName, String lastName,
                          String middleName, String phone, String secondPhone, String organization,
-                         Long countOfVerification, Long calibratorTasks, Boolean isAvaliable) {
+                         Long countOfVerification, Long calibratorTasks, Long stateVerificatorTasks, Boolean isAvaliable) {
 
         this.username = username;
 
@@ -166,6 +175,7 @@ public class UsersPageItem {
         this.organization = organization;
         this.countOfVerification = countOfVerification;
         this.calibratorTasks = calibratorTasks;
+        this.stateVerificatorTasks = stateVerificatorTasks;
         this.isAvaliable = isAvaliable;
     }
 

@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h1 class="page-header">Нові повірки</h1>
+            <h1 class="page-header"><span translate="VERIFICATION_PROTOCOLS"></span></h1>
         </div>
     </div>
 
@@ -11,12 +11,10 @@
 			<div class="">
          		<div class="row">
                     <div class="col-md-6">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="initiateVerification()">
-                                   <span class="glyphicon glyphicon-plus"></span>{{'CREATE_NEW' | translate }}
-                                   </button>
-                            </div>
-                    
+                        <button type="button" class="btn btn-primary"
+                                ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"> </span><span translate="SEND_BTN"></span></button>
+                    </div>
+
                     <div class="clearfix col-md-offset-10">
                                 <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
                                   {{'CLEAR_ALL' | translate }}
@@ -24,12 +22,12 @@
                     </div>
                 </div>
            </div>
-                   
+
                     <br/>
             <div class="panel panel-default">
            
                 <div class="panel-heading">
-                   <span> Останні дані</span>
+                   <span translate="INFORMATION"></span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
                 
@@ -46,40 +44,37 @@
                                     <td data-title="'INITIAL_DATE' | translate" class="col-md-2"  sortable="'date'" filter="{ 'date': 'date' }">{{ verification.initialDate }}
                                     	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
                                     </td>
-                                    <td data-title="'VERIFICATION_ID' | translate"  sortable="'id'" filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}</td>
-                                    <td data-title="'CLIENT_LAST_NAME' | translate" sortable="'client_last_name'" filter="{ 'client_last_name': 'text' }">{{ verification.surname }}</td>
 
-                                    <td data-title="'CLIENT_FIRST_NAME' | translate" sortable="'client_first_name'" filter="{ 'client_first_name': 'text' }">{{ verification.name }}</td>
+                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'" filter="{'id': 'text' }" ng-model="filters.id">{{verification.id}}</td>
 
-                                    <td data-title="'CLIENT_STREET' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
+                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'" filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}</td>
+
+                                    <td data-title="'CLIENT_ADDRESS' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
+                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'provider_name'" filter="{ 'provider_name': 'text' }">{{ verification.providerEmployee }}</td>
+                                    <td data-title="'CALIBRATOR_NAME' | translate"  sortable="'calibrator_name'" filter="{ 'calibrator_name': 'text' }">{{ verification.calibratorEmployee }}</td>
                                     <td data-title="'STATUS' | translate"  sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status | translate }}</td>
-                                    <td data-title="'EMPLOYEE_LAST_NAME' | translate"  sortable="'employee_last_name'" filter="{ 'employee_last_name': 'text' }">{{ verification.stateVerificatorEmployee }}</td>
                                     <td data-title="'ACTIONS' | translate" style="width: 13%">
                                      
                                        <div style="width: auto; margin-top: auto; text-align: center; position: absolute">
-                                         	 <img src="/resources/assets/button-icons/details.png" popover="Детальніше"
-                                             popover-trigger="mouseenter"
-                                             ng-click="openDetails(verification.id, verification.initialDate, verification.readStatus)">
-                                        </img>
-                                       <img src="/resources/assets/button-icons/face2.png"
-                                            ng-show="!verification.stateVerificatorEmployee"
-                                            popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
-                                            ng-click="addVerificatorEmployee(verification.id)">
-                                       </img>
-                                       <img src="/resources/assets/button-icons/close.png"
-                                            ng-show="verification.stateVerificatorEmployee && !isEmployee"
-                                            popover="Скасувати відповідальну особу"
-                                            popover-trigger="mouseenter"
-                                            ng-click="removeVerificatorEmployee(verification.id)">
-                                       </img>
-                                        <img src="/resources/assets/button-icons/testReview.png"
-                                             popover="Переглянути тест" popover-trigger="mouseenter"
-                                             ng-click="testReview(verification.id)">
-                                        </img>
-                                        <img src="/resources/assets/button-icons/reject.png"
-                                        popover="Відхилити тест" popover-trigger="mouseenter"
-                                        ng-click="openRejectTest()">
-                                        </img>
+                                           <img src="resources/assets/button-icons/calibration-test%20icons/edit.png"
+                                                popover="Редагувати протокол" popover-trigger="mouseenter"
+                                                ng-click="openAddTest(verification.id)">
+                                           </img>
+                                           <img src="resources/assets/button-icons/face2.png"
+                                                ng-show="!verification.stateVerificatorEmployee"
+                                                popover="Вибрати відповідальну особу" popover-trigger="mouseenter"
+                                                ng-click="addVerificatorEmployee(verification.id)">
+                                           </img>
+                                           <img src="resources/assets/button-icons/close.png"
+                                                ng-show="verification.stateVerificatorEmployee && !isEmployee"
+                                                popover="Скасувати відповідальну особу"
+                                                popover-trigger="mouseenter"
+                                                ng-click="removeVerificatorEmployee(verification.id)">
+                                           </img>
+                                           <img src="resources/assets/button-icons/reject.png"
+                                                popover="Відхилити тест" popover-trigger="mouseenter"
+                                                ng-click="openRejectTest()">
+                                           </img>
                                         <a popover="Download doc in 'docx' format" popover-trigger="mouseenter"
                                            href="{{'/doc/info/' + verification.id + '/docx'}}">
                                             <i class="fa fa-file-word-o"></i>
@@ -152,12 +147,8 @@
 
                             		<p id="emptyError" ng-if="allIsEmpty && isClicked" class="help-block">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        Оберіть хоча б одну повірку
+                                        <span translate="SELECT_VERIFICATION_PROTOCOL"></span>
                                     </p>
-                            <div class="pull-left">
-                                <button type="button" class="btn btn-primary"
-                                        ng-click="openSendingModal()"><span class="glyphicon glyphicon-send"></span> Надіслати</button>
-                            </div>
                         
                         </div>
                     </div>

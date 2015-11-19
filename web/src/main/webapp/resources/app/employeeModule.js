@@ -16,7 +16,7 @@
                  *  i18n configuration.
                  */
                 $translateProvider.useStaticFilesLoader({
-                    prefix: '/resources/assets/i18n/welcome-',
+                    prefix: 'resources/assets/i18n/welcome-',
                     suffix: '.json'
                 });
                 $translateProvider.useLocalStorage();
@@ -31,72 +31,72 @@
                 $stateProvider
                     .state('main-panel-provider', {
                         url: '/provider/',
-                        templateUrl: '/resources/app/provider/views/main-panel.html',
+                        templateUrl: 'resources/app/provider/views/main-panel.html',
                         controller: 'MainPanelControllerProvider'
                     })
                     .state("new-verifications-provider", {
                         url: '/provider/verifications/new',
-                        templateUrl: '/resources/app/provider/views/new-verifications.html',
+                        templateUrl: 'resources/app/provider/views/new-verifications.html',
                         controller: 'NewVerificationsControllerProvider'
                     })
                     .state("employee-show-provider", {
                         url: '/provider/employee-show',
-                        templateUrl: '/resources/app/provider/views/employee/show-employee.html',
+                        templateUrl: 'resources/app/provider/views/employee/show-employee.html',
                         controller: 'UsersController'
                     })
                     .state("verifications-archive-provider", {
                         url: '/provider/verifications/archive',
-                        templateUrl: '/resources/app/provider/views/archival-verifications.html',
+                        templateUrl: 'resources/app/provider/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerProvider'
                     })
                     .state("settings-provider", {
                         url: '/provider/verificator/settings',
-                        templateUrl: '/resources/app/provider/views/settings-panel.html'
+                        templateUrl: 'resources/app/provider/views/settings-panel.html'
 
                     })
                     .state("statistic-show-providerEmployee", {
                         url: '/provider/statistic/employee',
-                        templateUrl: '/resources/app/provider/views/employee/calendar-providerEmployee.html',
+                        templateUrl: 'resources/app/provider/views/employee/calendar-providerEmployee.html',
                         controller: 'CalendarEmployeeProvider'
                     })
                     .state('main-panel-calibrator', {
                         url: '/calibrator/',
-                        templateUrl: '/resources/app/calibrator/views/main-panel.html',
+                        templateUrl: 'resources/app/calibrator/views/main-panel.html',
                         controller: 'MainPanelControllerCalibrator'
                     })
                     .state("profile-info", {
                     url: '/profile-info',
-                    templateUrl: '/resources/app/common/views/profile-info.html',
+                    templateUrl: 'resources/app/common/views/profile-info.html',
                     controller: 'ProfileInfoController'
                     })
                     .state("new-verifications-calibrator", {
                         url: '/calibrator/verifications/new',
-                        templateUrl: '/resources/app/calibrator/views/new-verifications.html',
+                        templateUrl: 'resources/app/calibrator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerCalibrator'
                     })
                     //.state("calibration-test-calibrator", {
                     //    url: '/calibrator/verifications/calibration-test',
-                    //    templateUrl: '/resources/app/calibrator/views/calibration-test-add-modal.html',
+                    //    templateUrl: 'resources/app/calibrator/views/calibration-test-add-modal.html',
                     //    controller: 'CalibrationTestAddModalControllerCalibrator'
                     //})
                     .state("calibration-test", {
                         url: '/calibrator/verifications/calibration-test/',
-                        templateUrl: '/resources/app/calibrator/views/calibration-test-panel.html',
+                        templateUrl: 'resources/app/calibrator/views/calibration-test-panel.html',
                         controller: 'CalibrationTestControllerCalibrator'
                     })
                     .state("calibration-test-add", {
                         url: '/calibrator/verifications/calibration-test-add/',
-                        templateUrl: '/resources/app/calibrator/views/calibration-test-add-panel.html',
+                        templateUrl: 'resources/app/calibrator/views/calibration-test-add-panel.html',
                         controller: 'CalibrationTestAddControllerCalibrator'
                     })
                     .state("verifications-archive-calibrator", {
                         url: '/calibrator/verifications/archive',
-                        templateUrl: '/resources/app/calibrator/views/archival-verifications.html',
+                        templateUrl: 'resources/app/calibrator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerCalibrator'
                     })
                     .state("measuring-equipment-calibrator", {
                         url: '/calibrator/mEquipment/',
-                        templateUrl: '/resources/app/calibrator/views/measurement-equipments.html',
+                        templateUrl: 'resources/app/calibrator/views/measurement-equipments.html',
                         controller: 'MeasuringEquipmentControllerCalibrator'
                     })
                     .state("disassembly-team-calibrator", {
@@ -106,49 +106,53 @@
                     })
                     .state("employee-show-calibrator", {
                         url: '/calibrator/employee-show',
-                        templateUrl: '/resources/app/calibrator/views/employee/show-employee.html',
+                        templateUrl: 'resources/app/calibrator/views/employee/show-employee.html',
                         controller: 'UsersControllerCalibrator'
                     })
                     .state("planning-task-calibrator", {
                         url: '/calibrator/verifications/task',
-                        templateUrl: '/resources/app/calibrator/views/task-for-verifications.html',
+                        templateUrl: 'resources/app/calibrator/views/task-for-verifications.html',
                         controller: 'VerificationPlanningTaskController'
                     })
                     .state("calibrator-task-station", {
                         url: '/calibrator/task/',
-                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskForStationModal.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/eddTaskForStationModal.html',
                         controller: 'TaskForStationModalControllerCalibrator'
                     })
                     .state("calibrator-task-team", {
                         url: '/calibrator/task/',
-                        templateUrl: '/resources/app/calibrator/views/modals/eddTaskForTeamModal.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/eddTaskForTeamModal.html',
                         controller: 'TaskForTeamModalControllerCalibrator'
                     })
                     .state("calibrator-counter-status", {
                         url: '/calibrator/task/',
-                        templateUrl: '/resources/app/calibrator/views/modals/counterStatusModal.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/counterStatusModal.html',
                         controller: 'CounterStatusControllerCalibrator'
                     })
                     .state('main-panel-verificator', {
                         url: '/verificator/',
-                        templateUrl: '/resources/app/verificator/views/main-panel.html'
+                        templateUrl: 'resources/app/verificator/views/main-panel.html'
                     })
                     .state("new-verifications-verificator", {
                         url: '/verifications/new',
-                        templateUrl: '/resources/app/verificator/views/new-verifications.html',
+                        templateUrl: 'resources/app/verificator/views/new-verifications.html',
                         controller: 'NewVerificationsControllerVerificator'
                     })
                     .state("employee-show-verificator", {
                         url: '/verificator/employee-show',
-                        templateUrl: '/resources/app/verificator/views/employee/show-employee.html',
+                        templateUrl: 'resources/app/verificator/views/employee/show-employee.html',
                         controller: 'UsersControllerVerificator'
                     })
                     .state("verifications-archive-verificator", {
                         url: '/verifications/archive',
-                        templateUrl: '/resources/app/verificator/views/archival-verifications.html',
+                        templateUrl: 'resources/app/verificator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerVerificator'
-                    });
-
+                    })
+                    .state("verifications-protocols-calibrator", {
+                           url: 'calibrator/protocols',
+                           templateUrl: 'resources/app/calibrator/views/show-verification-protocols.html',
+                            controller: 'DigitalVerificationProtocolsControllerCalibrator'
+                     });
 
                 /*
                  Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
@@ -241,6 +245,7 @@
         'provider/services/AddressServiceProvider',
         'provider/services/SettingsServiceProvider',
         'provider/services/UserService',
+        'provider/services/DataReceivingServiceProvider',
         'provider/controllers/CapacityEmployeeControllerProvider',
         'provider/controllers/GraficEmployeeProvider',
         'provider/controllers/GraphicEmployeeProviderMainPanel',
@@ -277,6 +282,7 @@
         'calibrator/controllers/CapacityEmployeeControllerCalibrator',
         'calibrator/controllers/TaskForStationModalControllerCalibrator',
         'calibrator/controllers/TaskForTeamModalControllerCalibrator',
+        'calibrator/controllers/TaskSendingModalControllerCalibrator',
         'calibrator/controllers/VerificationPlanningTaskController',
         'calibrator/controllers/CounterStatusControllerCalibrator',
         'calibrator/controllers/GraphicEmployeeCalibratorMainPanel',
@@ -296,11 +302,13 @@
         'verificator/controllers/DetailsModalControllerVerificator',
         'verificator/controllers/SendingModalControllerVerificator',
         'verificator/controllers/EmployeeControllerVerificator',
+        'verificator/controllers/CapacityEmployeeControllerVerificator',
         'verificator/controllers/AddressModalControllerVerificator',
         'verificator/controllers/NotificationsControllerVerificator',
         'verificator/controllers/TestRejectControllerVerificator',
         'verificator/controllers/CalibrationTestReviewControllerVerificator',
         'verificator/controllers/ArchivalVerificationsControllerVerificator',
+        'verificator/controllers/NewVerificationsControllerVerificator',
 
         'verificator/controllers/VerificatorEmployeeControllerVerificator',
 
@@ -314,7 +322,8 @@
         'common/controllers/EditProfileInfoController',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController'
-
+        'common/controllers/CommonController',
+        'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator',
     ], function () {});
 })();

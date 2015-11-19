@@ -21,12 +21,12 @@ public interface DeviceTestData {
     String getFileName();
     int getIntegrationTime();
     int getTestCounter();
-    long getInstallmentNumber();
+    int getInstallmentNumber();
     String getCurrentCounterNumber();
     double getLatitude();
     double getLongitude();
     long getImpulsePricePerLitre();
-    long getInitialCapacity();
+    int getInitialCapacity();
     String getCounterType1();
     long getTestimony();
     int getCounterProductionYear();
@@ -36,7 +36,7 @@ public interface DeviceTestData {
     long getTestLowerConsumptionLimit(int testIndex);
     long getTestUpperConsumptionLimit(int testIndex);
     long getTestAllowableError(int testIndex);
-    long getTestSpecifiedImpulsesAmount(int testIndex);
+    double getTestSpecifiedImpulsesAmount(int testIndex);
     double getTestCorrectedCumulativeImpulsesValue(int testIndex);
     double getTestCorrectedCurrentConsumption(int testIndex);
     double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex);

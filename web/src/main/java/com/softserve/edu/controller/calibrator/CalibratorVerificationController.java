@@ -23,6 +23,7 @@ import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.BbiFileService;
 import com.softserve.edu.service.calibrator.CalibratorEmployeeService;
 import com.softserve.edu.service.calibrator.CalibratorService;
+import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
 import com.softserve.edu.service.provider.ProviderService;
 import com.softserve.edu.service.state.verificator.StateVerificatorService;
@@ -30,7 +31,6 @@ import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +38,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -70,6 +69,9 @@ public class CalibratorVerificationController {
     CalibrationTestService testService;
 
     @Autowired
+    CalibrationTestDataService testDataService;
+
+    @Autowired
     StateVerificatorService verificatorService;
 
     @Autowired
@@ -83,6 +85,40 @@ public class CalibratorVerificationController {
 
     @Autowired
     BBIFileServiceFacade bbiFileServiceFacade;
+
+    /**
+     * Receives bbi file, saves it in the system, parses it and
+     * returns parsed data
+     *
+     * @param file           uploaded file
+     * @param verificationId id of verification
+     * @return Entity which contains Calibration Test Data and HTTP status
+     */
+    @RequestMapping(value = "new/upload", method = RequestMethod.POST)
+    public ResponseEntity uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String verificationId) {
+        ResponseEntity responseEntity;
+        try {
+            String originalFileName = file.getOriginalFilename();
+            String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
+            if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
+                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
+                long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
+
+                CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
+
+                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest,testService), HttpStatus.OK);
+
+            } else {
+                logger.error("Failed to load file: pattern does not match.");
+                responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            logger.error("Failed to load file " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
+            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
 
     @RequestMapping(value = "new/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<VerificationPageDTO> getPageOfAllSentVerificationsByProviderIdAndSearch(
@@ -234,34 +270,6 @@ public class CalibratorVerificationController {
     }
 
     /**
-     * Receives bbi file, saves it in the system, parses it and
-     * returns parsed data
-     *
-     * @param file uploaded file
-     * @param verificationId id of verification
-     * @return Entity which contains Calibration Test Data and HTTP status
-     */
-    @RequestMapping(value = "new/upload", method = RequestMethod.POST)
-    public ResponseEntity uploadFileBbi(@RequestBody MultipartFile file, @RequestParam String verificationId) {
-        ResponseEntity responseEntity;
-        try {
-            String originalFileName = file.getOriginalFilename();
-            String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
-            if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
-                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(deviceTestData), HttpStatus.OK);
-            } else {
-                logger.error("Failed to load file: pattern does not match.");
-                responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            logger.error("Failed to load file " + e.getMessage());
-            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-        return responseEntity;
-    }
-
-    /**
      * Receives archive with BBI files and DB file, calls appropriate services
      * and returns the outcomes of parsing back to the client.
      * @param file Archive with BBIs and DBF
@@ -279,6 +287,7 @@ public class CalibratorVerificationController {
             }
         } catch (Exception e) {
             logger.error("Failed to load file " + e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
         }
         return bbiOutcomeDTOList;
     }

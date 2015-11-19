@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public interface CalibratorService {
-    
+
     Organization findById(Long id);
 
     void uploadBbi(InputStream fileStream, String verificationId,

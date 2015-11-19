@@ -106,16 +106,36 @@ public enum SortCriteriaVerification {
 	    		}
 	        }
 	    },
-	EMPLOYEE_LAST_NAME() {
+	PROVIDER_EMPLOYEE_LAST_NAME() {
 	    	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
-	    	
+
 	    		if(sortOrder.equalsIgnoreCase("asc")) {
-	    			return (cb.asc(root.join("providerEmployee").get("lastName")));
+	    			return (cb.asc(root.get("providerEmployee")));
 	    		} else {
-	    			return (cb.desc(root.join("providerEmployee").get("lastName")));
+	    			return (cb.desc(root.get("providerEmployee")));
 	    		}
 	        }
 	    },
+	VERIFICATOR_EMPLOYEE_LAST_NAME() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("stateVerificatorEmployee")));
+			} else {
+				return (cb.desc(root.get("stateVerificatorEmployee")));
+			}
+		}
+	},
+	CALIBRATOR_EMPLOYEE_LAST_NAME() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+
+			if(sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("calibratorEmployee")));
+			} else {
+				return (cb.desc(root.get("calibratorEmployee")));
+			}
+		}
+	},
 	MEASUREMENT_DEVICE_ID() {
 		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 

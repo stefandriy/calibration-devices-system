@@ -3,7 +3,7 @@ angular
     .factory('AddressService', function ($http) {
 
         function findAll(type) {
-            return $http.get('/application/' + type)
+            return $http.get('application/' + type)
                 .then(function (result) {
                     return result.data;
                 });

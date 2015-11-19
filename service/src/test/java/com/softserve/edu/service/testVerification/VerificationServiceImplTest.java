@@ -260,7 +260,7 @@ public class VerificationServiceImplTest {
 	@Test
 	public void testUpdateVerificationStatus() {
 		String verificationId = "id";
-		Status status = mock(Status.class);
+		Status status = Status.ACCEPTED;
 		when(mockVerificationRepository.findOne(verificationId)).thenReturn(null);
 		verificationService.updateVerificationStatus(verificationId, status);
 		verify(mockLogger, times(1)).error(anyString());
@@ -276,7 +276,7 @@ public class VerificationServiceImplTest {
 	public void testSendVerificationTo() {
 		String verificationId = "id";
 		Organization organization = mock(Organization.class);
-		Status status = mock(Status.class);
+		Status status = Status.ACCEPTED;
 		when(mockVerificationRepository.findOne(verificationId)).thenReturn(null);
 		verificationService.sendVerificationTo(verificationId, organization, status);
 		verify(mockLogger, times(1)).error(anyString());

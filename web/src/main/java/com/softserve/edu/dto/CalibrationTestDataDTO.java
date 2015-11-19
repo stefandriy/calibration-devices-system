@@ -15,7 +15,7 @@ public class CalibrationTestDataDTO {
     private Double volumeInDevice;
     private Double testTime;
     private Double actualConsumption;
-    private String consumptionStatus;
+    private Verification.ConsumptionStatus consumptionStatus;
     private Double calculationError;
     private String beginPhoto;
     private String endPhoto;
@@ -101,11 +101,11 @@ public class CalibrationTestDataDTO {
         this.actualConsumption = actualConsumption;
     }
 
-    public String getConsumptionStatus() {
+    public Verification.ConsumptionStatus getConsumptionStatus() {
         return consumptionStatus;
     }
 
-    public void setConsumptionStatus(String consumptionStatus) {
+    public void setConsumptionStatus(Verification.ConsumptionStatus consumptionStatus) {
         this.consumptionStatus = consumptionStatus;
     }
 

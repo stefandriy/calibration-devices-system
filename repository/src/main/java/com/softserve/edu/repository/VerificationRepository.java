@@ -9,10 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-
+@Repository
 public interface VerificationRepository extends PagingAndSortingRepository<Verification, String> {
     Page<Verification> findByProviderId(Long providerId, Pageable pageable);
     Page<Verification> findByCalibratorId(Long calibratorId, Pageable pageable);
@@ -61,6 +62,7 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     
     Long countByProviderEmployee_usernameAndStatus(String providerEmployee_username, Status status);
     Long countByCalibratorEmployee_usernameAndStatus(String providerEmployee_username, Status status);
+    Long countByStateVerificatorEmployee_usernameAndStatus(String providerEmployee_username, Status status);
     Long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, Verification.ReadStatus readStatus);
     Long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, Verification.ReadStatus readStatus);
     Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, Verification.ReadStatus readStatus);
@@ -71,6 +73,8 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     List<Verification> findByProviderEmployeeUsernameAndStatus(String providerEmployee,Status status);
 
     List<Verification> findByCalibratorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
+
+    List<Verification> findByStateVerificatorEmployeeUsernameAndStatus(String calibratorEmployee,Status status);
 
     List<Verification> findByProviderEmployeeIsNotNullAndProviderAndSentToCalibratorDateBetween(Organization organization,Date dateFrom,Date DateTo);
     
