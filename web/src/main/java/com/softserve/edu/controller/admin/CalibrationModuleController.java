@@ -145,6 +145,7 @@ public class CalibrationModuleController {
             searchDataMap = TypeConverter.ObjectToMapWithObjectValues(searchData);
         }
         searchDataMap.put("isActive", true);
+
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort;
         if ((sortCriteria.equals("undefined") && sortOrder.equals("undefined")) ||
