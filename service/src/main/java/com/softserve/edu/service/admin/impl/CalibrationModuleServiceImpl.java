@@ -85,7 +85,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     }
 
 
-    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,
+    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String deviceType,
                                                         String userName) {
         Filter filter = new Filter();
         List<Condition> conditions = new ArrayList<>();
@@ -100,7 +100,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("workDate").setValue(workDate).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setField("deviceType").setValue(applicationFiled).build());
+                .setComparison(Comparison.eq).setField("deviceType").setValue(deviceType).build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("organizationCode").setValue(user.getOrganization().getId())
                 .build());
