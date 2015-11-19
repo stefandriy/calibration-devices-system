@@ -60,7 +60,7 @@ angular
 
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/employee/capacity-providerEmployee.html',
+                    templateUrl: 'resources/app/provider/views/employee/capacity-providerEmployee.html',
                     controller: 'CapacityEmployeeControllerProvider',
                     size: 'lg',
                     resolve: {
@@ -108,7 +108,7 @@ angular
                         animation: true,
                         controller: 'AddEmployeeController',
                         size: 'lg',
-                        templateUrl: '/resources/app/provider/views/employee/employee-add-modal.html',
+                        templateUrl: 'resources/app/provider/views/employee/employee-add-modal.html',
                     });
             };
 
@@ -132,7 +132,7 @@ angular
                         animation: true,
                         controller: 'EditEmployeeController',
                         size: 'lg',
-                        templateUrl: '/resources/app/provider/views/employee/employee-edit-modal.html'
+                        templateUrl: 'resources/app/provider/views/employee/employee-edit-modal.html'
 
                     });
             };

@@ -3,13 +3,13 @@
 </div>
 
 <div class="modal-body">
-    <ng-include src="'/resources/app/calibrator/views/main-details-table.html'"></ng-include>
+    <ng-include src="'resources/app/calibrator/views/main-details-table.html'"></ng-include>
     <button type="button" class="btn btn-default" ng-click="openAdditionalInformation()" style="margin-bottom: 15px; " ng-hide="showAddInfoTable.status">
         <i class="fa fa-info fa-lg"></i>
         {{'INFO_BUTTON' | translate}}
     </button>
-    <ng-include src="'/resources/app/calibrator/views/modals/additional-info-modal.html'" ng-show="showStatus.opened"></ng-include>
-    <ng-include src="'/resources/app/calibrator/views/modals/additional-info-table.html'" ng-show="showAddInfoTable.status"></ng-include>
+    <ng-include src="'resources/app/calibrator/views/modals/additional-info-modal.html'" ng-show="showStatus.opened"></ng-include>
+    <ng-include src="'resources/app/calibrator/views/modals/additional-info-table.html'" ng-show="showAddInfoTable.status"></ng-include>
 </div>
 
 <div class="modal-footer">

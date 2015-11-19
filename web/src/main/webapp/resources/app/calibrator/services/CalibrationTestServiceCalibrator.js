@@ -3,7 +3,7 @@ angular
     .factory('CalibrationTestServiceCalibrator', function ($http) {
         return {
             getCalibrationTests: function (testId) {
-                var url = '/calibrator/calibrationTestData/' + testId;
+                var url = 'calibrator/calibrationTestData/' + testId;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;
@@ -11,51 +11,51 @@ angular
             },
 
             getPage: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder, id) {
-                return getDataWithParams('/calibrator/verifications/calibration-test/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                return getDataWithParams('calibrator/verifications/calibration-test/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             saveCalibrationTest: function (formData, testId) {
-                return $http.post("/calibrator/calibrationTests/add/" + testId, formData)
+                return $http.post("calibrator/calibrationTests/add/" + testId, formData)
                     .then(function (result) {
                         return result.status;
                     });
             },
 
             updateCalibrationTest: function (formData, testId) {
-                return $http.post("/calibrator/calibrationTests/add/" + testId, formData)
+                return $http.post("calibrator/calibrationTests/add/" + testId, formData)
                     .then(function (result) {
                         console.log("###############: "+result.status );
                         return result.status;
                     });
             },
             saveCalibrationTestData: function  (formdata, testId) {
-              return $http.post("/calibrator/calibrationTestData/addTestData/" + testId, formdata)
+              return $http.post("calibrator/calibrationTestData/addTestData/" + testId, formdata)
                   .then(function(result) {
                     return result.status;
                 });
             },
             deleteCalibrationTest: function (calibrationTestId) {
-                var url = '/calibrator/calibrationTests/delete/' + calibrationTestId;
+                var url = 'calibrator/calibrationTests/delete/' + calibrationTestId;
                 return $http.post(url)
                     .then(function (result) {
                         return result.status;
                     });
             },
-            getEmptyTest : function (verificationId) {
-                var url = '/calibrator/calibrationTests/createEmptyTest/' + verificationId;
+            getEmptyTest: function (verificationId) {
+                var url = 'calibrator/calibrationTests/createEmptyTest/' + verificationId;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;
                     });
             },
             getTestProtocol: function (verificationId) {
-                var url = '/calibrator/calibrationTests/getProtocol/' + verificationId;
+                var url = 'calibrator/calibrationTests/createEmptyTest/' + verificationId;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;
                     });
             },
             editCalibrationTest: function (formData, testId) {
-                var url = '/calibrator/calibrationTests/edit/' + testId;
+                var url = 'calibrator/calibrationTests/edit/' + testId;
                 return $http.post(url, formData)
                     .then(function (result) {
                         return result.status;
@@ -63,7 +63,7 @@ angular
             },
 
             getCalibrationTestWithId: function (testId) {
-                var url = '/calibrator/calibrationTests/getTest/' + testId;
+                var url = 'calibrator/calibrationTests/getTest/' + testId;
                 return $http.get(url).then(function (result) {
                     return result.data;
                 });
@@ -73,7 +73,7 @@ angular
                 var dotIndex = fileName.lastIndexOf('.');
                 var extension = fileName.substring(dotIndex + 1);
                 fileName = fileName.substring(0, dotIndex);
-                var url = '/calibrator/calibrationTestData/parseBbi/' + fileName + '/' + extension;
+                var url = 'calibrator/calibrationTestData/parseBbi/' + fileName + '/' + extension;
                 return $http.get(url).then(function (result) {
                     return result;
                 })

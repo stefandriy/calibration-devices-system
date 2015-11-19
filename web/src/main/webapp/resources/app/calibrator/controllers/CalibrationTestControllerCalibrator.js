@@ -265,7 +265,7 @@ angular
 
                 $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/provider/views/modals/archival-verification-details.html',
+                    templateUrl: 'resources/app/provider/views/modals/archival-verification-details.html',
                     controller: 'ArchivalDetailsModalController',
                     size: 'lg',
                     resolve: {
@@ -336,7 +336,7 @@ angular
                     .then(function (data) {
                         $log.debug("inside");
                         var testId = data.id;
-                        var url = $location.path('/calibrator/verifications/calibration-test-add/').search({'param': verificationID});
+                        var url = $location.path('calibrator/verifications/calibration-test-add/').search({'param': verificationID});
                     } )
             };
 
@@ -377,7 +377,7 @@ angular
                     .open({
                         animation: true,
                         controller: 'CalibrationTestEditModalController',
-                        templateUrl: '/resources/app/calibrator/views/modals/calibration-test-edit-modal.html'
+                        templateUrl: 'resources/app/calibrator/views/modals/calibration-test-edit-modal.html'
                     });
             };
 
@@ -400,7 +400,7 @@ angular
             //    console.log("Entered upload bbi function");
             //    var modalInstance =  $modal.open({
             //        animation: true,
-            //        templateUrl: '/resources/app/calibrator/views/modals/upload-bbiFile.html',
+            //        templateUrl: 'resources/app/calibrator/views/modals/upload-bbiFile.html',
             //        controller: 'UploadBbiFileController',
             //        size: 'lg'
             //    });
@@ -417,7 +417,7 @@ angular
 
                 var modalInstance =  $modal.open({
                     animation: true,
-                    templateUrl: '/resources/app/calibrator/views/modals/upload-photo.html',
+                    templateUrl: 'resources/app/calibrator/views/modals/upload-photo.html',
                     controller: 'UploadPhotoController',
                     size: 'lg',
                     resolve: {
@@ -436,7 +436,7 @@ angular
                     .open({
                         animation: true,
                         controller: 'CalibrationTestDataAddModalControllerCalibrator',
-                        templateUrl: '/resources/app/calibrator/views/modals/calibration-testData-add-modal.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/calibration-testData-add-modal.html',
                         resolve: {
                             calibrationTest: function () {
                                 return testId;

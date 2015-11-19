@@ -12,7 +12,7 @@ angular
 
             var request = {
                 method: 'POST',
-                url: '/authenticate',
+                url: 'authenticate',
                 data: loginData,
                 headers: {
                     'Content-Type': "application/x-www-form-urlencoded",
@@ -42,9 +42,9 @@ angular
                 function redirectByRole(role) {
             	var path = undefined;
                 if (role == "SYS_ADMIN" || role == "SUPER_ADMIN")
-                    path = '/admin';
+                    path = 'admin';
                 else if (role == 'CALIBRATOR_EMPLOYEE' || role == 'CALIBRATOR_ADMIN' || role == 'PROVIDER_EMPLOYEE' || role == 'PROVIDER_ADMIN' || role == 'STATE_VERIFICATOR_EMPLOYEE' || role == 'STATE_VERIFICATOR_ADMIN')
-                    path = '/employee';
+                    path = 'employee';
                   return path;
             }
        };

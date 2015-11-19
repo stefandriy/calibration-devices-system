@@ -14,18 +14,21 @@ angular
             },
             editCalibrationModule: function (formData, id) {
                 return sendData('edit/' + id, formData);
+            },
+            getEarliestCalibrationModuleDate: function() {
+                return getData('earliest_date');
             }
         };
 
         function sendData(url, data) {
-            return $http.post('/admin/calibration-module/' + url, data)
+            return $http.post('admin/calibration-module/' + url, data)
                 .then(function (result) {
                     return result.status;
                 });
         }
 
         function getData(url) {
-            return $http.get('/admin/calibration-module/' + url).success(function (result) {
+            return $http.get('admin/calibration-module/' + url).success(function (result) {
                 return result;
             }).error(function (err) {
                 return err;
@@ -33,7 +36,7 @@ angular
         }
 
         function getDataWithParams(url, params) {
-            return $http.get('/admin/calibration-module/' + url, {
+            return $http.get('admin/calibration-module/' + url, {
                 params: params
             }).success(function (data) {
                 return data;

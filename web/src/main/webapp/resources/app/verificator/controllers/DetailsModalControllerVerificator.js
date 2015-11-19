@@ -10,4 +10,9 @@ angular
             $scope.close = function () {
                 $modalInstance.close();
             };
+
+            $scope.rejectVerification = function () {
+                $rootScope.$broadcast("verification_rejected", { verifID: $rootScope.verificationID });
+                $modalInstance.close();
+            };
         }]);

@@ -45,8 +45,8 @@
                         <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
                             filter="{ 'telephone': 'text' }">+380{{ calibrationModule.telephone }}
                         </td>
-                        <td data-title="'VALID_UNTIL' | translate" sortable="'workDate'"
-                            filter="{ 'workDate': 'text' }">{{ calibrationModule.workDate }}
+                        <td data-title="'VALID_UNTIL' | translate" class="datecolumn" sortable="'workDate'"
+                            filter="{ 'workDate': 'daterange' }">{{ calibrationModule.workDate | date : 'dd-MM-yyyy' }}
                         </td>
                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
                             filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType | translate }}
@@ -126,6 +126,22 @@
                         <span ng-bind-html="moduleType.label"></span>
                     </ui-select-choices>
                 </ui-select>
+            </script>
+            <script type="text/ng-template" id="ng-table/filters/daterange.html">
+                <div class="input-group right-inner-addon" style="width: 100%">
+                    <i id="calendar_icon" class="glyphicon glyphicon-calendar"
+                       ng-click="showPicker($event)"></i>
+                    <input date-range-picker="opts" class="form-control date-picker" type="text"
+                           ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
+                           id="datepickerfield" readonly/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default myGroupBtn"
+                                ng-show="!isDateDefault()"
+                                ng-click="clearDate()">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    </span>
+                </div>
             </script>
         </div>
     </div>
