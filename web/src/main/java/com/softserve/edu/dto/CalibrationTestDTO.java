@@ -54,7 +54,7 @@ public class CalibrationTestDTO  {
         super();
         this.name = calibrationTest.getName();
         this.dateTest = calibrationTest.getDateTest();
-        this.temperature = calibrationTest.getTemperature();
+        this.temperature = calibrationTest.getCapacity();
         this.settingNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
@@ -247,7 +247,7 @@ public class CalibrationTestDTO  {
         CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setName(name);
         calibrationTest.setDateTest(new Date());
-        calibrationTest.setTemperature(temperature);
+        calibrationTest.setCapacity(temperature);
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);

@@ -39,7 +39,7 @@ angular
                     for (var i = 0; i < files.length; i++) {
                         var file = files[i];
                         Upload.upload({
-                            url: '/calibrator/verifications/new/upload-archive',
+                            url: 'calibrator/verifications/new/upload-archive',
                             file: file
                         }).progress(function (evt) {
                             $scope.uploaded = true;

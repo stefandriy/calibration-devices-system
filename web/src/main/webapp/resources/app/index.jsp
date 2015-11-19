@@ -8,34 +8,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Language" content="uk,en,ru">
     <title>Виконавець послуг</title>
-    <link href="/resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/angular-loading-bar/build/loading-bar.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/chosen/chosen.min.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/ng-table/ng-table.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/angular-loading-bar/build/loading-bar.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/chosen/chosen.min.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
 
-    <link href="/resources/assets/bower_components/ui-select/dist/select.min.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/select2/select2.css" rel="stylesheet">
-    <link href="/resources/assets/bower_components/select2-bootstrap-css/select2-bootstrap.min.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/ui-select/dist/select.min.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/select2/select2.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/select2-bootstrap-css/select2-bootstrap.min.css" rel="stylesheet">
 
-    <link href="/resources/assets/bower_components/angularjs-toaster/toaster.min.css" rel="stylesheet">
+    <link href="resources/assets/bower_components/angularjs-toaster/toaster.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="/resources/assets/bower_components/semantic/dist/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/assets/bower_components/semantic/dist/semantic.min.css">
 
-    <link href="/resources/assets/css/application-form-organization.css" rel="stylesheet">
-    <link href="/resources/assets/css/provider.css" rel="stylesheet">
-    <link href="/resources/assets/css/calibrator.css" rel="stylesheet">
-    <%--<link href="/resources/assets/css/sb-admin-2.css" rel="stylesheet">--%>
-    <%--<link href="/resources/assets/css/timeline.css" rel="stylesheet">--%>
+    <link href="resources/assets/css/application-form-organization.css" rel="stylesheet">
+    <link href="resources/assets/css/provider.css" rel="stylesheet">
+    <link href="resources/assets/css/calibrator.css" rel="stylesheet">
+    <%--<link href="resources/assets/css/sb-admin-2.css" rel="stylesheet">--%>
+    <%--<link href="resources/assets/css/timeline.css" rel="stylesheet">--%>
 
 
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <link href="/resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"
+    <link href="resources/assets/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css"
           rel="stylesheet">
     <link rel="stylesheet"
-          href="/resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
-    <%--<link rel="stylesheet" href="/resources/assets/css/loader.css">--%>
+          href="resources/assets/winmarkltd-BootstrapFormHelpers-0d89ab4/dist/css/bootstrap-formhelpers.min.css">
+    <%--<link rel="stylesheet" href="resources/assets/css/loader.css">--%>
 
     <style>
         [ng\:cloak]
@@ -102,7 +102,7 @@
                 <ul class="dropdown-menu dropdown-user">
                     <div class="ui card" style="width:250px">
                         <div class="ui image center aligned">
-                            <img src="/resources/assets/AdminLTE-master/img/User_icon.png"
+                            <img src="resources/assets/AdminLTE-master/img/User_icon.png"
                                  style="width: 250px;"
                                  alt="User Image"/>
                         </div>
@@ -276,10 +276,10 @@
 </div>
 <toaster-container
         toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-right'}"></toaster-container>
-<script type="text/javascript" data-main="/resources/app/runApp"
-        src="/resources/assets/bower_components/requirejs/require.js"></script>
-<script src="/resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
-<script src="/resources/assets/bower_components/chosen/chosen.jquery.min.js"
+<script type="text/javascript" data-main="resources/app/runApp"
+        src="resources/assets/bower_components/requirejs/require.js"></script>
+<script src="resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
+<script src="resources/assets/bower_components/chosen/chosen.jquery.min.js"
         type="text/javascript"></script>
 <script type="text/javascript">
     $(".chzn-select").chosen();
@@ -295,7 +295,7 @@
     });
 </script>
 
-<script src="/resources/assets/js/loader-employee.js"></script>
+<script src="resources/assets/js/loader-employee.js"></script>
 
 
 </body>

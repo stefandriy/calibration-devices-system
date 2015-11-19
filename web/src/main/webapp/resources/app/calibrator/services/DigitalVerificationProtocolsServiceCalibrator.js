@@ -5,7 +5,7 @@ angular
         return {
 
             getProtocols: function (currentPage, itemsPerPage, search, sortCriteria, sortOrder) {
-                return getData('/calibrator/protocols/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                return getData('calibrator/protocols/' + currentPage + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             sendProtocols: function (protocol) {
                 return send('/calibrator/protocols/send', protocol);
