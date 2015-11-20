@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.softserve.edu.common.Constants;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -21,7 +22,6 @@ import java.io.IOException;
  */
 @Service
 public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService {
-
 
     @Value("${photo.storage.local}")
     private String localStorage;
@@ -36,7 +36,8 @@ public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService 
                 deviceTestData.getBeginPhoto(testDataId))));
         String folder = deviceTestData.getTestNumber(testDataId) + "." + Constants.IMAGE_TYPE;
         String photoBegin = "beginPhoto" + folder;
-        String absolutePath = localStorage + calibrationTestData.getCalibrationTest().getVerification().getId() + "//"; // take care about path separators
+        String absolutePath = localStorage + File.separator +
+                calibrationTestData.getCalibrationTest().getVerification().getId() + File.separator;
         ImageIO.write(bufferedImage, Constants.IMAGE_TYPE, new File(absolutePath + photoBegin));
         CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(calibrationTestData, photoBegin);
         testIMGRepository.save(calibrationTestIMGBegin);
