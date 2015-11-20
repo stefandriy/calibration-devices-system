@@ -140,11 +140,7 @@ public class CalibrationModuleController {
                  @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
                  @PathVariable String sortOrder, CalibrationModuleDTO searchData) {
         // converting object to map and filtering the map to have only not-null fields
-        Map<String, Object> searchDataMap = new HashMap<String, Object>();
-        if (searchData != null) {
-            searchDataMap = TypeConverter.ObjectToMapWithObjectValues(searchData);
-        }
-        searchDataMap.put("isActive", true);
+        Map<String, Object> searchDataMap = constructSearchDataMap(searchData);
 
         // creating Sort object for using as a parameter for Pageable creation
         Sort sort;
@@ -202,4 +198,27 @@ public class CalibrationModuleController {
             return null;
         }
     }
+
+    /*
+     * method for constructing a map with filtering keys from the DTO, received from the view
+     * (each key in a map must be the name of the fields, and the value is the desired value)
+     */
+    private Map<String, Object> constructSearchDataMap(CalibrationModuleDTO searchData) {
+        Map<String, Object> searchDataMap;
+        List<Date> dateRange;
+        searchDataMap = TypeConverter.ObjectToMapWithObjectValues(searchData);
+        // if DTO with filtering parameters contains parameters for filtering by date range, fetch startDate and
+        // endDate from DTO and convert them to list with two elements (startDate and endDate correspondingly).
+        // Then put the latter into the map with search keys under the key "workDate" (filter class requires that
+        // the name of the key in searchDataMap corresponds to the name of the entity fields in the database
+        if (searchDataMap.containsKey("startDateToSearch") || searchDataMap.containsKey("endDateToSearch")) {
+            dateRange = new ArrayList<Date>();
+            Collections.addAll(dateRange, (Date) searchDataMap.get("startDateToSearch"),
+                    (Date) searchDataMap.get("endDateToSearch"));
+            searchDataMap.put("workDate", dateRange);
+        }
+        searchDataMap.put("isActive", true);
+        return searchDataMap;
+    }
+
 }
