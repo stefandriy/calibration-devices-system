@@ -1,7 +1,9 @@
 package com.softserve.edu.service.calibrator.data.test.impl;
 
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
+import com.softserve.edu.repository.VerificationRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,6 +35,8 @@ public class CalibrationTestDataServiceImplTest {
 
     @Mock
     private CalibrationTestData returnCalibrationTestData;
+    @Mock
+    private VerificationRepository verificationRepository;
 
     @Before
     public void init() {
@@ -62,12 +66,10 @@ public class CalibrationTestDataServiceImplTest {
         verify(updatedCalibrationTestData).setInitialValue(calibrationTestData.getInitialValue());
         verify(updatedCalibrationTestData).setEndValue(calibrationTestData.getEndValue());
         verify(updatedCalibrationTestData).setVolumeInDevice(calibrationTestData.getVolumeInDevice());
-        verify(updatedCalibrationTestData).setTestTime(calibrationTestData.getTestTime());
         verify(updatedCalibrationTestData).setActualConsumption(calibrationTestData.getActualConsumption());
         verify(updatedCalibrationTestData).setConsumptionStatus(calibrationTestData.getConsumptionStatus());
         verify(updatedCalibrationTestData).setCalculationError(calibrationTestData.getCalculationError());
         verify(updatedCalibrationTestData).setTestResult(calibrationTestData.getTestResult());
         when(dataRepository.save(updatedCalibrationTestData)).thenReturn(returnCalibrationTestData);
     }
-
 }

@@ -25,28 +25,30 @@ import java.io.IOException;
 @Service
 public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService {
 
+    static final String imageType = "jpg";
     @Value("${photo.storage.local}")
     private String localStorage;
     @Autowired
     private CalibrationTestIMGRepository testIMGRepository;
 
     @Override
-    public void createTestDataIMGCalibrationTestIMGs(int testDataId, DeviceTestData deviceTestData,  CalibrationTestData calibrationTestData) throws IOException {
+    public void createTestDataIMGCalibrationTestIMGs(int testDataId, DeviceTestData deviceTestData,
+                                                     CalibrationTestData calibrationTestData) throws IOException {
 
-        String beginPhoto = deviceTestData.getBeginPhoto(testDataId);
-        byte[] bytesOfImages = Base64.decodeBase64(beginPhoto);
-        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-        String imageNameBegin = "beginPhoto" + testDataId + calibrationTestData.getCalibrationTest().getId() + calibrationTestData.getCalibrationTest().getVerification().getId() + ".jpg";
-        ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameBegin));
-        CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(calibrationTestData, imageNameBegin);
+        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(
+                deviceTestData.getBeginPhoto(testDataId))));
+        String photoBegin = "beginPhoto" + testDataId + calibrationTestData.getCalibrationTest().getId()
+                + calibrationTestData.getCalibrationTest().getVerification().getId() + "." + imageType;
+        ImageIO.write(bufferedImage, imageType, new File(localStorage + photoBegin));
+        CalibrationTestIMG calibrationTestIMGBegin = new CalibrationTestIMG(calibrationTestData, photoBegin);
         testIMGRepository.save(calibrationTestIMGBegin);
 
-        String endPhoto = deviceTestData.getEndPhoto(testDataId);
-        bytesOfImages = Base64.decodeBase64(endPhoto);
-        bufferedImage = ImageIO.read(new ByteArrayInputStream(bytesOfImages));
-        String imageNameEnd = "endPhoto" + testDataId + calibrationTestData.getCalibrationTest().getId() + calibrationTestData.getCalibrationTest().getVerification().getId() + ".jpg";
-        ImageIO.write(bufferedImage, "jpg", new File(localStorage + "//" + imageNameEnd));
-        CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(calibrationTestData, imageNameEnd);
+        bufferedImage = ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(
+                deviceTestData.getEndPhoto(testDataId))));
+        String photoEnd = "endPhoto" + testDataId + calibrationTestData.getCalibrationTest().getId()
+                + calibrationTestData.getCalibrationTest().getVerification().getId() + "." + imageType;
+        ImageIO.write(bufferedImage, imageType, new File(localStorage + photoEnd));
+        CalibrationTestIMG calibrationTestIMGEnd = new CalibrationTestIMG(calibrationTestData, photoEnd);
         testIMGRepository.save(calibrationTestIMGEnd);
     }
 }

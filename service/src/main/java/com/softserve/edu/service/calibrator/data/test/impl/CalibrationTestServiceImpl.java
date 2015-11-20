@@ -53,24 +53,22 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     public long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException {
         Verification verification = verificationRepository.findOne(verificationId);
-        CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(),  deviceTestData.getLongitude(),
-                deviceTestData.getUnixTime(),deviceTestData.getCurrentCounterNumber(),Verification.ConsumptionStatus.IN_THE_AREA,
-                Verification.CalibrationTestResult.SUCCESS, verification, deviceTestData.getInitialCapacity());
-       testRepository.save(calibrationTest);
-        String photo = deviceTestData.getTestPhoto();
-        byte[] bytesOfImage = Base64.decodeBase64(photo);
-        BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
-        String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + ".jpg";
-        ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
+        CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(),
+                deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(), deviceTestData.getLongitude(),
+                deviceTestData.getUnixTime(), deviceTestData.getCurrentCounterNumber(), verification,
+                deviceTestData.getInitialCapacity());
+        testRepository.save(calibrationTest);
+        BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(
+                Base64.decodeBase64(deviceTestData.getTestPhoto())));
+        String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + "."
+                + CalibrationTestIMGServiceImpl.imageType;
+        ImageIO.write(buffered, CalibrationTestIMGServiceImpl.imageType, new File(localStorage + testPhoto));
         calibrationTest.setPhotoPath(testPhoto);
         testRepository.save(calibrationTest);
-        CalibrationTestData сalibrationTestData;
         for (int testDataId = 1; testDataId <= 6; testDataId++) {
-             /*if there is no photo there is now test data */
-            if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
-               continue;
-            } else {
-                сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
+            if (!deviceTestData.getBeginPhoto(testDataId).equals("")) { // if there is no photo there is now test data
+                CalibrationTestData сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(),
+                        deviceTestData, testDataId);
                 if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
                     testRepository.save(calibrationTest);
@@ -79,7 +77,6 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
                     calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.NOT_IN_THE_AREA);
                     testRepository.save(calibrationTest);
                 }
-
             }
         }
         verification.setStatus(Status.TEST_COMPLETED);
@@ -113,7 +110,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public CalibrationTest editTest(Long testId, String name, Integer capacity, Integer settingNumber,
+    public CalibrationTest editTest(Long testId, String name, Long capacity, Integer settingNumber,
                                     Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = Verification.CalibrationTestResult.SUCCESS;
@@ -160,11 +157,11 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileInputStream(localStorage+"/" + photoPath);
+            reader = new FileInputStream(localStorage + "/" + photoPath);
             bufferedInputStream = new BufferedInputStream(reader);
             image = ImageIO.read(bufferedInputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(image, "jpg", baos);
+            ImageIO.write(image, CalibrationTestIMGServiceImpl.imageType, baos);
             byte[] bytesOfImages = Base64.encodeBase64(baos.toByteArray());
             photo = new String(bytesOfImages);
         } catch (IOException e) {
@@ -211,7 +208,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer capacity, Integer settingNumber,
+    public CalibrationTest createNewCalibrationTest(Long testId, String name, Long capacity, Integer settingNumber,
                                                     Double latitude, Double longitude) {
         Verification.CalibrationTestResult testResult;
         CalibrationTest calibrationTest = testRepository.findOne(testId);

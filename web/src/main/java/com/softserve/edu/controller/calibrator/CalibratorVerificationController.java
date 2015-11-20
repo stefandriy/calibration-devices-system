@@ -31,7 +31,6 @@ import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.BBIOutcomeDTO;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import com.softserve.edu.service.verification.VerificationService;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +38,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -265,7 +263,7 @@ public class CalibratorVerificationController {
                     verification.getInitialDate(), verification.getExpirationDate(), verification.getStatus(),
                     verification.getCalibrator(), verification.getCalibratorEmployee(), verification.getDevice(),
                     verification.getProvider(), verification.getProviderEmployee(), verification.getStateVerificator(),
-                    verification.getStateVerificatorEmployee());
+                    verification.getStateVerificatorEmployee(), verification.getRejectedMessage());
         } else {
             return null;
         }

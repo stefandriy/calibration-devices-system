@@ -1,4 +1,5 @@
 <Context
-        path="/calibration"
+        path="/"
         reloadable="true"
 />
+
