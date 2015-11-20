@@ -216,6 +216,8 @@ public class CalibrationModuleController {
             Collections.addAll(dateRange, new Date((Long) searchDataMap.get("startDateToSearch")),
                     new Date((Long) searchDataMap.get("endDateToSearch")));
             searchDataMap.put("workDate", dateRange);
+            searchDataMap.remove("startDateToSearch");
+            searchDataMap.remove("endDateToSearch");
         }
         searchDataMap.put("isActive", true);
         return searchDataMap;
