@@ -57,10 +57,13 @@ public class VerificationPageDTOTransformer {
                     verification.getId(),
                     verification.getProvider().getName(),
                     verification.getClientData().getFullName(),
-                    verification.getClientData().getClientAddress().getAddress(),
-                    counterStatus,
-                    verification.getDevice().getDeviceType(),
-                    verification.getClientData().getPhone()));
+                    verification.getClientData().getClientAddress().getDistrict(),
+                    verification.getClientData().getClientAddress().getStreet(),
+                    verification.getClientData().getClientAddress().getBuilding(),
+                    verification.getClientData().getClientAddress().getFlat(),
+                    verification.getClientData().getPhone(),
+                    verification.getClientData().getSecondPhone()
+            ));
         }
         return taskDTOs;
     }

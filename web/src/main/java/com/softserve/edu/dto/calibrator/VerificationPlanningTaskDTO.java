@@ -18,26 +18,54 @@ public class VerificationPlanningTaskDTO {
 
     private String clientFullName;
 
-    private String address;
+    private String district;
 
-    private String counterStatus;
+    private String street;
 
-    private Device.DeviceType deviceType;
+    private String building;
+
+    private String flat;
 
     private String telephone;
+
+    private String secondphone;
+
+    private String building_flat;
+
+    private String phone;
 
     public VerificationPlanningTaskDTO(){}
 
     public VerificationPlanningTaskDTO(Date sentDate, String verificationID, String providerName, String fullName,
-                                       String address, String counterStatus, Device.DeviceType deviceType,String telephone){
+                                       String district, String street, String building, String flat, String telephone,
+                                       String secondphone){
         this.sentToCalibrator = sentDate;
         this.verficationId = verificationID;
         this.providerName = providerName;
         this.clientFullName = fullName;
-        this.address = address;
-        this.counterStatus = counterStatus;
-        this.deviceType = deviceType;
+        this.district = district;
+        this.street = street;
+        this.building = building;
+        this.flat = flat;
         this.telephone = telephone;
+        this.secondphone = secondphone;
+        if ((flat != null) && !flat.isEmpty())
+        {
+            this.building_flat = building+"  /  "+flat;
+        }
+        else
+        {
+            this.building_flat = building;
+        }
+        if ((secondphone != null) && !secondphone.isEmpty())
+        {
+            this.phone = telephone+", "+secondphone;
+        }
+        else
+        {
+            this.phone = telephone;
+        }
+
     }
 
 }

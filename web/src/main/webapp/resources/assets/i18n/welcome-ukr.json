@@ -542,5 +542,6 @@
   "BBI_IS_NOT_VALID" : "Невірний файл bbi",
   "INVALID_VERIFICATION_CODE" : "Невірний код повірки",
   "PLEASE_DESCRIBE_REASON_OF_PROTOCOL_REJECTION": "Будь-ласка, вкажіть причину повернення протоколу",
-  "REASON_OF_PROTOCOL_REJECTION": "Будь-ласка, вкажіть детальну причину, по якій цей протокол має бути повернутий"
+  "REASON_OF_PROTOCOL_REJECTION": "Будь-ласка, вкажіть детальну причину, по якій цей протокол має бути повернутий",
+  "BUILDING,FLAT": "Будинок / Квартира"
 }
