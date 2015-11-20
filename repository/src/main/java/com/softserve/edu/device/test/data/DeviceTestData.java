@@ -26,7 +26,7 @@ public interface DeviceTestData {
     double getLatitude();
     double getLongitude();
     long getImpulsePricePerLitre();
-    long getInitialCapacity();
+    String getInitialCapacity();
     String getCounterType1();
     long getTestimony();
     int getCounterProductionYear();
