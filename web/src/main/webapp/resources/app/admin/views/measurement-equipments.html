@@ -117,7 +117,7 @@
                            on-select='onTableHandling()'
                            search-enabled="false"
                            name="filter-moduleType">
-                    <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
+                    <ui-select-match placeholder="{{'STATUS_SELECT_MODULE_TYPE' | translate}}"
                                      allow-clear="true">
                         {{$select.selected.label}}
                     </ui-select-match>
@@ -128,7 +128,7 @@
                 </ui-select>
             </script>
             <script type="text/ng-template" id="ng-table/filters/daterange.html">
-                <div class="input-group right-inner-addon" style="width: 100%">
+                <div class="input-group right-inner-addon">
                     <i id="calendar_icon" class="glyphicon glyphicon-calendar"
                        ng-click="showPicker($event)"></i>
                     <input date-range-picker="opts" class="form-control date-picker" type="text"
