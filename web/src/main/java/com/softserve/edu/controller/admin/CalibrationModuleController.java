@@ -213,8 +213,8 @@ public class CalibrationModuleController {
         // the name of the key in searchDataMap corresponds to the name of the entity fields in the database
         if (searchDataMap.containsKey("startDateToSearch") || searchDataMap.containsKey("endDateToSearch")) {
             dateRange = new ArrayList<Date>();
-            Collections.addAll(dateRange, (Date) searchDataMap.get("startDateToSearch"),
-                    (Date) searchDataMap.get("endDateToSearch"));
+            Collections.addAll(dateRange, new Date((Long) searchDataMap.get("startDateToSearch")),
+                    new Date((Long) searchDataMap.get("endDateToSearch")));
             searchDataMap.put("workDate", dateRange);
         }
         searchDataMap.put("isActive", true);

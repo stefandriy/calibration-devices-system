@@ -31,8 +31,8 @@ public class CalibrationModuleDTO {
     private String moduleNumber;
     private Boolean isActive;
     private Date workDate;
-    private Date startDateToSearch = null;
-    private Date endDateToSearch = null;
+    private Long startDateToSearch = null;
+    private Long endDateToSearch = null;
 
     public CalibrationModuleDTO() {
     }
@@ -60,7 +60,7 @@ public class CalibrationModuleDTO {
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,
                                 CalibrationModule.ModuleType moduleType, String email,
-                                String calibrationType, Date workDate, Date startDate, Date endDate) {
+                                String calibrationType, Date workDate, Long startDate, Long endDate) {
         this(moduleId, deviceType, organizationCode, condDesignation, serialNumber, employeeFullName,
                 telephone, moduleNumber, moduleType, email, calibrationType, workDate);
         this.startDateToSearch = startDate;
