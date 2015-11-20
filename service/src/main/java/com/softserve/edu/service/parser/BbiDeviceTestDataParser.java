@@ -47,7 +47,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         resultMap.put("latitude", readLongValueReversed(4) / 100000.0);  //0x800054+0x04
         resultMap.put("longitude", readLongValueReversed(4) / 100000.0); //0x800058+0x04
         resultMap.put("impulsePricePerLitre", readLongValueReversed(4)); //0x80005c+0x04
-        resultMap.put("initialCapacity", readLongValueReversed(8)); //0x800060+0x08
+        resultMap.put("initialCapacity", readConsecutiveBytesAsUTF8(8)); //0x800060+0x08
         resultMap.put("counterType1", readConsecutiveBytesAsUTF8(16)); //0x800068+0x10
         resultMap.put("testimony", readLongValueReversed(4)); //0x800078+0x04
         resultMap.put("counterProductionYear", readLongValueReversed(4)); //0x80007c+0x04

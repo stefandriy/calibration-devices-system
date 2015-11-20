@@ -25,7 +25,7 @@ public interface CalibrationTestService {
 
      long createNewTest(DeviceTestData deviceTestData,  String verificationId) throws IOException;
 
-     CalibrationTest editTest(Long testId, String name, Long capacity, Integer settingNumber,
+     CalibrationTest editTest(Long testId, String name, String capacity, Integer settingNumber,
                                     Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult);
 
      void deleteTest(Long testId);
@@ -40,8 +40,8 @@ public interface CalibrationTestService {
 
      void createNewCalibrationTestData(CalibrationTestData calibrationTestData);
 
-     CalibrationTest createNewCalibrationTest(Long testId, String name, Long capacity, Integer settingNumber,
+     CalibrationTest createNewCalibrationTest(Long testId, String name, String capacity, Integer settingNumber,
                                                     Double latitude, Double longitude);
-     String getPhotoAsString(String photoPath);
+     String getPhotoAsString(String photoPath,CalibrationTest calibrationTest);
 
 }
