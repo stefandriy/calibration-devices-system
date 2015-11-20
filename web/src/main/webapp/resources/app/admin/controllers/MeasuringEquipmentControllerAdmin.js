@@ -28,7 +28,9 @@ angular
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
                 //setting corresponding filters with 'all time' range
                 $scope.tableParams.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                $scope.tableParams.filter().endDateToSearch= $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                $scope.tableParams.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                //$scope.tableParams.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate;
+                //$scope.tableParams.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate;
             };
 
             $scope.myDatePicker = {};
@@ -185,8 +187,10 @@ angular
                                 params.filter().moduleType = null; //case when the filter is cleared with a button on the select
                             }
 
-                            params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                            params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                            //params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                            //params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                            params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
+                            params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");
 
                             measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                                 .success(function (result) {
