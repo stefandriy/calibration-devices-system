@@ -28,7 +28,7 @@ import java.util.Map;
  */
 public class Filter implements Specification {
 
-    List<Condition> conditions;
+    private List<Condition> conditions;
 
     public Filter(String json) {
 //        ObjectMapper mapper = new ObjectMapper();
@@ -48,7 +48,7 @@ public class Filter implements Specification {
                         .setField(entry.getKey())
                         .setValue(entry.getValue())
                         .build());
-            } else if (entry.getValue() instanceof Map) {
+            } else if (entry.getValue() instanceof List) {
 //                this.addCondition(new Condition.Builder()
 //                        .setComparison(Comparison.ge)
 //                        .setType(Type.date)
@@ -61,7 +61,7 @@ public class Filter implements Specification {
 //                        .setField(entry.getKey())
 //                        .setValue(((Map) entry.getValue()).get("endDay"))
 //                        .build());
-                this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (Map) entry.getValue()));
+                this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
             } else {
                 this.addCondition(new Condition.Builder()
                         .setComparison(Comparison.eq)
@@ -76,9 +76,7 @@ public class Filter implements Specification {
     }
 
     public void addConditionList(List<Condition> conditions) {
-        for (Condition condition : conditions) {
-            this.conditions.add(condition);
-        }
+        this.conditions.addAll(conditions);
     }
 
     public Filter createFilterFromSearchKeys(Map<String, Object> searchKeys) {
@@ -127,17 +125,17 @@ public class Filter implements Specification {
         return predicates;
     }
 
-    private static List<Condition> buildBetweenDatesPredicate(String name, Map<String, Date> dateMap) {
+    private static List<Condition> buildBetweenDatesPredicate(String name, List<Date> dateList) {
         List<Condition> conditions = new ArrayList<>();
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.ge)
                 .setField(name)
-                .setValue(dateMap.values().stream().min(Date::compareTo))
+                .setValue(dateList.stream().min(Date::compareTo))
                 .build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.le)
                 .setField(name)
-                .setValue(dateMap.values().stream().max(Date::compareTo))
+                .setValue(dateList.stream().max(Date::compareTo))
                 .build());
         return conditions;
     }
@@ -154,9 +152,9 @@ public class Filter implements Specification {
             case le:
                 return buildLessEqualPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case ne:
-                break;
+                return buildNotEqualPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case isnull:
-                break;
+                return buildIsNullPredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case like:
                 return buildLikePredicateToCriteria(condition, root, criteriaQuery, criteriaBuilder);
             case in:
@@ -197,5 +195,13 @@ public class Filter implements Specification {
         if (condition.type.equals(Type.date)) {
             return criteriaBuilder.lessThanOrEqualTo(root.<Date>get(condition.field), (Date) condition.value);
         } else throw new RuntimeException();
+    }
+
+    private Predicate buildNotEqualPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        return criteriaBuilder.notEqual(root.get(condition.field), condition.value);
+    }
+
+    private Predicate buildIsNullPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        return criteriaBuilder.isNull(root.get(condition.field));
     }
 }
