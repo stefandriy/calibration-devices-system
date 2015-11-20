@@ -63,19 +63,30 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     }
 
     @Override
-    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData, int testDataId) throws IOException {
+    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData,
+                                                 int testDataId) throws IOException {
 
-        double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId) - deviceTestData.getTestInitialCounterValue(testDataId), 2);
-        double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestCorrectedCurrentConsumption(testDataId),
+        double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId)
+                - deviceTestData.getTestInitialCounterValue(testDataId), 2);
+        double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
+                deviceTestData.getTestCorrectedCurrentConsumption(testDataId),
                 deviceTestData.getImpulsePricePerLitre());
-        double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestSpecifiedConsumption(testDataId),
+        double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(
+                deviceTestData.getTestSpecifiedConsumption(testDataId),
                 deviceTestData.getImpulsePricePerLitre());
+
         CalibrationTest calibrationTest = testRepository.findById(testId);
-        CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption, deviceTestData.getTestAllowableError(testDataId),
-                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId), deviceTestData.getTestInitialCounterValue(testDataId),
-                deviceTestData.getTestTerminalCounterValue(testDataId), volumeInDevice, actualConsumption,deviceTestData.getTestEstimatedError(testDataId),
-                calibrationTest, deviceTestData.getTestDuration(testDataId), deviceTestData.getTestLowerConsumptionLimit(testDataId),
-                deviceTestData.getTestUpperConsumptionLimit(testDataId), deviceTestData.getTestNumber(testDataId));
+        CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption,
+                deviceTestData.getTestAllowableError(testDataId),
+                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
+                deviceTestData.getTestInitialCounterValue(testDataId),
+                deviceTestData.getTestTerminalCounterValue(testDataId), volumeInDevice,
+                actualConsumption,deviceTestData.getTestEstimatedError(testDataId),
+                calibrationTest, deviceTestData.getTestDuration(testDataId),
+                deviceTestData.getTestLowerConsumptionLimit(testDataId),
+                deviceTestData.getTestUpperConsumptionLimit(testDataId),
+                deviceTestData.getTestNumber(testDataId));
+
         dataRepository.save(сalibrationTestData);
         testDataIMGService.createTestDataIMGCalibrationTestIMGs(testDataId, deviceTestData, сalibrationTestData);
         return сalibrationTestData;
