@@ -155,20 +155,20 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     }
 
     @Override
-    public String getPhotoAsString(String photoPath) {
+    public String getPhotoAsString(String photoPath,CalibrationTest calibrationTest) {
         String photo = null;
         InputStream reader = null;
-        BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileInputStream(localStorage + "/" + photoPath);
+            reader = new FileInputStream(localStorage + calibrationTest.getVerification().getId()+"/" + photoPath);
             bufferedInputStream = new BufferedInputStream(reader);
-            image = ImageIO.read(bufferedInputStream);
+            BufferedImage image = ImageIO.read(bufferedInputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(image, CalibrationTestIMGServiceImpl.IMAGE_TYPE, baos);
             byte[] bytesOfImages = Base64.encodeBase64(baos.toByteArray());
             photo = new String(bytesOfImages);
         } catch (IOException e) {
+            logger.error(e);
             logger.error(e.getMessage());
         } finally {
             try {
