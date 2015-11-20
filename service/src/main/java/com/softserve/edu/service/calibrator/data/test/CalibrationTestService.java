@@ -43,6 +43,6 @@ public interface CalibrationTestService {
 
      CalibrationTest createNewCalibrationTest(Long testId, String name, Long capacity, Integer settingNumber,
                                                     Double latitude, Double longitude);
-     String getPhotoAsString(String photoPath);
+     String getPhotoAsString(String photoPath,CalibrationTest calibrationTest);
 
 }
