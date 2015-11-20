@@ -119,7 +119,7 @@ public class CalibrationTestFileDataDTO {
         this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
-        this.testPhoto = calibrationTestService.getPhotoAsString(calibrationTest.getPhotoPath());
+        this.testPhoto = calibrationTestService.getPhotoAsString(calibrationTest.getPhotoPath(),calibrationTest);
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
         this.testResult = calibrationTest.getTestResult();
         this.listTestData = new ArrayList();
@@ -144,9 +144,9 @@ public class CalibrationTestFileDataDTO {
             for (int orderPhoto = 0; orderPhoto < calibrationTestIMGList.size(); orderPhoto++) {
                 calibrationTestIMG = calibrationTestIMGList.get(orderPhoto);
                 if (orderPhoto == 0) {
-                    testDataDTO.setBeginPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName()));
+                    testDataDTO.setBeginPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
                 } else {
-                    testDataDTO.setEndPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName()));
+                    testDataDTO.setEndPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
                 }
             }
             listTestData.add(testDataDTO);
