@@ -45,4 +45,6 @@ public interface CalibrationTestService {
                                                     Double latitude, Double longitude);
      String getPhotoAsString(String photoPath,CalibrationTest calibrationTest);
 
+     void updateTest(String counterNumber,List<CalibrationTestData>listTestData,CalibrationTest calibrationTest);
+
 }

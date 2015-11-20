@@ -225,7 +225,8 @@ public class CalibrationTestController {
         System.out.println(calibrationTestFileDataDTO);
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
-//            testService.updateProtocol(calibrationTestFileDataDTO);
+            CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
+//            testService.updateTest(calibrationTestFileDataDTO.getCounterNumber(),calibrationTestFileDataDTO.getListTestData(),calibrationTest);
 //            System.out.println(calibrationTestFileDataDTO);
         }catch (Exception e){
             logger.error(e);
