@@ -35,14 +35,14 @@ angular
             $scope.myDatePicker.pickerDate = null;
             $scope.defaultDate = null;
 
-            $scope.initDatePicker = function (date) {
+            $scope.initDatePicker = function (workDate) {
                 /**
                  *  Date picker and formatter setup
                  *
                  */
                 /*TODO: i18n*/
                 $scope.myDatePicker.pickerDate = {
-                    startDate: (date ? moment(date, "YYYY-MM-DD") : moment()),
+                    startDate: (workDate ? moment(workDate, "YYYY-MM-DD") : moment()),
                     //earliest day of  all the verifications available in table
                     //we should reformat it here, because backend currently gives date in format "YYYY-MM-DD"
                     endDate: moment() // current day
@@ -154,8 +154,8 @@ angular
                 return false;
             };
 
-            measuringEquipmentServiceAdmin.getEarliestCalibrationModuleDate().success(function(date) {
-                $scope.initDatePicker(date);
+            measuringEquipmentServiceAdmin.getEarliestCalibrationModuleDate().success(function(workDate) {
+                $scope.initDatePicker(workDate);
                 $scope.tableParams = new ngTableParams({
                         page: 1,
                         count: 5,
@@ -275,8 +275,6 @@ angular
                 showWeeks: 'false'
             };
 
-            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-            $scope.format = $scope.formats[2];
-
-
+            $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate', ];
+            $scope.format = $scope.formats[3];
         }]);
