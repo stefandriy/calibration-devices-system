@@ -60,10 +60,14 @@ public class CalibrationTestData {
         this.volumeInDevice = volumeInDevice; // correct Об'єм за лічильником
         this.actualConsumption = actualConsumption; // almost correct  фактичний розхід
         this.calculationError = calculationError; //correct Розрахункова похибка
-        if (this.getActualConsumption() <= this.getAcceptableError()) {
-            this.testResult = Verification.CalibrationTestResult.SUCCESS;
-        } else {
-            this.testResult = Verification.CalibrationTestResult.FAILED;
+        if (this.getEndValue()==0 ||this.getInitialValue() > this.getEndValue() ){
+            this.testResult = Verification.CalibrationTestResult.RAW;
+        }else {
+            if (this.getActualConsumption() <= this.getAcceptableError()) {
+                this.testResult = Verification.CalibrationTestResult.SUCCESS;
+            } else {
+                this.testResult = Verification.CalibrationTestResult.FAILED;
+            }
         }
         if ((this.getGivenConsumption() - (this.getGivenConsumption() * lowerConsumptionLimit / 100)
                 <= this.getActualConsumption()) & (this.getActualConsumption() <= (this.getGivenConsumption()

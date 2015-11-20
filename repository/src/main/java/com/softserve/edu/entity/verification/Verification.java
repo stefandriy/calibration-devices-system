@@ -145,7 +145,8 @@ public class Verification {
 
     public enum CalibrationTestResult {
         SUCCESS,
-        FAILED
+        FAILED,
+        RAW
     }
 
     public enum ConsumptionStatus {
