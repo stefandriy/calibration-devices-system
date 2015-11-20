@@ -267,7 +267,7 @@ public class CalibrationTestFileDataDTO {
     }
 
     private double round(double val, int scale) {
-        return new BigDecimal(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
+        return BigDecimal.valueOf(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
     }
 
     private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, long impLitPrice) {
