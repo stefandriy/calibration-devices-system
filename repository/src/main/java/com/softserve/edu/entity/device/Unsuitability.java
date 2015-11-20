@@ -12,7 +12,7 @@ import java.util.Set;
  * Created by Sonka on 20.11.2015.
  */
 @Entity
-@Table(name = "REASONS_UNSUITABILITY _COUNTER")
+@Table(name = "REASONS_UNSUITABILITY")
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -24,7 +24,11 @@ public class Unsuitability {
 
     private String name;
 
-    @OneToMany(mappedBy = "unsuitability")
+    @ManyToMany(mappedBy = "unsuitability")
+    @JoinTable(name = "REASONS__COUNTER", joinColumns = {
+            @JoinColumn(name = "STOCK_ID", nullable = false, updatable = false) },
+            inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID",
+                    nullable = false, updatable = false) })
     private Set<CounterType> counterTypeSet;
 
     public Unsuitability(String name){
