@@ -32,9 +32,13 @@ public class CounterType {
 
     private String gost;
 
+
     @ManyToOne
     @JoinColumn(name = "deviceId")
     private Device device;
+    @ManyToOne
+    @JoinColumn(name = "UnsuitabilityId")
+    private Unsuitability unsuitability;
 
     public String getName() {
         return name;
