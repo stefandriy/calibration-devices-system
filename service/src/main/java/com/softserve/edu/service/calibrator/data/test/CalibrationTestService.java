@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public interface CalibrationTestService {
 

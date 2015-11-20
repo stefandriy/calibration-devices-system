@@ -175,7 +175,7 @@ public class CalibrationTestController {
                 httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            logger.error("Failed to load file " + e.getMessage());
+            logger.error("Failed to get protocol " + e.getMessage());
             logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             httpStatus = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -187,7 +187,6 @@ public class CalibrationTestController {
      * creates an empty test instead ID generating for test-datas
      *
      * @param verificationId
-     * @return testId
      */
    /* @RequestMapping(value = "createEmptyTest/{verificationId}", method = RequestMethod.GET)
     public Long createEmptyTest(@PathVariable String verificationId) {
@@ -195,10 +194,43 @@ public class CalibrationTestController {
         return test.getId();
     }*/
 
+    /**
+     * get protocol
+     *
+     * @param verificationId
+     */
     @RequestMapping(value = "getProtocol/{verificationId}", method = RequestMethod.GET)
-    public ResponseEntity getProtocol(@PathVariable String verificationId) throws FileNotFoundException, IOException, DecoderException {
-        CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-        ResponseEntity responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest,testService), HttpStatus.OK);
+    public ResponseEntity getProtocol(@PathVariable String verificationId) {
+        ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
+        try {
+            CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
+            responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest, testService), HttpStatus.OK);
+        }catch (Exception e){
+            logger.error("Failed to get protocol"+e.getMessage());
+            logger.error(e);
+            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        return responseEntity;
+    }
+
+
+    /**
+     * Update protocol
+     *
+     * @param calibrationTestFileDataDTO
+     * @return status
+     */
+    @RequestMapping(value = "updateProtocol/{verificationId}", method = RequestMethod.POST)
+    public ResponseEntity getUpdateProtocol(@RequestBody CalibrationTestFileDataDTO calibrationTestFileDataDTO,@PathVariable String verificationId){
+        System.out.println(calibrationTestFileDataDTO);
+        ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
+        try {
+//            testService.updateProtocol(calibrationTestFileDataDTO);
+//            System.out.println(calibrationTestFileDataDTO);
+        }catch (Exception e){
+            logger.error(e);
+            responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
         return responseEntity;
     }
 

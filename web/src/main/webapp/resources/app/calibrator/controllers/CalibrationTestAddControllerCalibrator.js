@@ -101,14 +101,12 @@ angular
                 var lang = $translate.use();
                 if (lang === 'ukr') {
                     $scope.statusData[0].label = 'Відхилена';
-                    $scope.statusData[1].label = 'Предявлено повірнику';
-                    $scope.statusData[2].label = 'Перевірено придатний';
-                    $scope.statusData[3].label = 'Перевірено непридатний';
+                    $scope.statusData[1].label = 'Перевірено придатний';
+                    $scope.statusData[2].label = 'Перевірено непридатний';
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'Rejected';
-                    $scope.statusData[1].label = 'Sent to verificator';
-                    $scope.statusData[2].label = 'Tested OK';
-                    $scope.statusData[3].label = 'Tested NOK';
+                    $scope.statusData[1].label = 'Tested OK';
+                    $scope.statusData[2].label = 'Tested NOK';
                 }
             };
 
@@ -121,16 +119,31 @@ angular
 
             }
 
+            function retranslater() {
+                protocol = {
+                    fileName:$scope.TestForm.fileName,
+                    counterNumber:$scope.TestForm.counterNumber,
+                    temperature:$scope.TestForm.temperature,
+                    installmentNumber:$scope.TestForm.installmentNumber,
+                    latitude:$scope.TestForm.latitude,
+                    longitude:$scope.TestForm.longitude,
+                    consumptionStatus:$scope.TestForm.consumptionStatus,
+                    testResult:$scope.TestForm.testResult,
+                    listTestData:$scope.TestForm.listTestData,
+                }
+            }
+
             /**
-             * Saves new test from the form in database.
-             * If everything is ok then resets the test
-             * form and updates table with tests.
+             * update test from the form in database.
              */
+                /*$scope.generalForms={testForm:$scope.TestForm, smallForm: $scope.TestDataFormData};
+                  $log.debug($scope.generalForms);
+                .updateCalibrationTest($scope.TestForm, $scope.testId)*/
+
             $scope.updateCalibrationTest = function () {
-                $scope.generalForms={testForm:$scope.TestForm, smallForm: $scope.TestDataFormData};
-                $log.debug($scope.generalForms);
+                        retranslater();
                         calibrationTestServiceCalibrator
-                            .updateCalibrationTest($scope.generalForms, $scope.testId)
+                            .updateCalibrationTest(protocol,$scope.testId)
                             .then(function (data) {
                                 if (data == 201) {
                                     $rootScope.onTableHandling();
