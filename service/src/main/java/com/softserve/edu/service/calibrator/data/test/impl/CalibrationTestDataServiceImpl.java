@@ -99,13 +99,4 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, double impLitPrice) {
         return round(3.6 * impulses / impLitPrice, 3);
     }
-
-    private double countCalculationError(double counterVolume, double standardVolume) {
-        if (standardVolume < 0.0001) {
-            return 0.0;
-        }
-        double result = (counterVolume - standardVolume) / standardVolume * 100;
-        return round(result, 2);
-    }
-
 }
