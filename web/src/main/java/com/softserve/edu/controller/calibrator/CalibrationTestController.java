@@ -228,6 +228,11 @@ public class CalibrationTestController {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
 //            testService.updateTest(calibrationTestFileDataDTO.getCounterNumber(),calibrationTestFileDataDTO.getListTestData(),calibrationTest);
 //            System.out.println(calibrationTestFileDataDTO);
+            calibrationTest.setCounterNumber(calibrationTestFileDataDTO.getCounterNumber());
+//            calibrationTest.setSettingNumber(calibrationTestFileDataDTO.getInstallmentNumber());
+            testRepository.save(calibrationTest);
+
+
         }catch (Exception e){
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);

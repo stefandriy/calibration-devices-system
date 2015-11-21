@@ -44,6 +44,8 @@ public class CalibrationTestFileDataDTO {
 
     private String status;
 
+    private Integer testPosition;
+
 
     public CalibrationTestFileDataDTO() {
     }
@@ -136,7 +138,6 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setInitialValue(calibrationTestData.getInitialValue());
             testDataDTO.setEndValue(calibrationTestData.getEndValue());
             testDataDTO.setVolumeInDevice(calibrationTestData.getVolumeInDevice());
-//            testDataDTO.setTestTime(round(testData.getTestDuration(i), 1))?
             testDataDTO.setVolumeOfStandard(calibrationTestData.getVolumeOfStandard());
             testDataDTO.setActualConsumption(calibrationTestData.getActualConsumption());
             testDataDTO.setCalculationError(calibrationTestData.getCalculationError());
@@ -149,10 +150,16 @@ public class CalibrationTestFileDataDTO {
                     testDataDTO.setEndPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
                 }
             }
+            testDataDTO.setTestPosition(calibrationTestData.getTestPosition());
+            testDataDTO.setTestTime(calibrationTestData.getDuration());
+
+
             listTestData.add(testDataDTO);
             testNumber++;
         }
     }
+
+
 
     public String getStatus() {
         return status;
@@ -280,5 +287,13 @@ public class CalibrationTestFileDataDTO {
         }
         double result = (counterVolume - standardVolume) / standardVolume * 100;
         return round(result, 2);
+    }
+
+    public Integer getTestPosition() {
+        return testPosition;
+    }
+
+    public void setTestPosition(Integer testPosition) {
+        this.testPosition = testPosition;
     }
 }
