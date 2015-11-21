@@ -22,7 +22,7 @@ public class CalibrationTestFileDataDTO {
 
     private Date testDate;
 
-    private long temperature;
+    private String capacity;
 
     private long accumulatedVolume;
 
@@ -48,11 +48,11 @@ public class CalibrationTestFileDataDTO {
     public CalibrationTestFileDataDTO() {
     }
 
-    public CalibrationTestFileDataDTO(String fileName, Date data, int temperature, long installmentNumber,
+    public CalibrationTestFileDataDTO(String fileName, Date data, String capacity, long installmentNumber,
                                       double latitude, double longitude, String testPhoto) {
         this.fileName = fileName;
         this.testDate = data;
-        this.temperature = temperature;
+        this.capacity = capacity;
         this.installmentNumber = installmentNumber;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -65,7 +65,7 @@ public class CalibrationTestFileDataDTO {
         this.fileName = testData.getFileName();
         this.counterNumber = testData.getCurrentCounterNumber();
         this.testDate = new Date(testData.getUnixTime());
-        this.temperature = testData.getTemperature();
+        this.capacity = testData.getInitialCapacity();
         //this.accumulatedVolume = ; // don't have this value.
         this.counterProductionYear = testData.getCounterProductionYear();
         this.installmentNumber = testData.getInstallmentNumber();
@@ -113,7 +113,7 @@ public class CalibrationTestFileDataDTO {
         this.fileName = calibrationTest.getName();
         this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();
-        this.temperature = calibrationTest.getCapacity();
+        this.capacity = calibrationTest.getCapacity();
 //       this.accumulatedVolume = ; // don't have this value.
 //       this.counterProductionYear = testData.getCounterProductionYear(); //?
         this.installmentNumber = calibrationTest.getSettingNumber();
@@ -186,12 +186,12 @@ public class CalibrationTestFileDataDTO {
         this.testDate = testDate;
     }
 
-    public long getTemperature() {
-        return temperature;
+    public String getCapacity() {
+        return capacity;
     }
 
     public void setTemperature(int temperature) {
-        this.temperature = temperature;
+        this.capacity = capacity;
     }
 
     public int getCounterProductionYear() {
@@ -267,7 +267,7 @@ public class CalibrationTestFileDataDTO {
     }
 
     private double round(double val, int scale) {
-        return new BigDecimal(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
+        return BigDecimal.valueOf(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
     }
 
     private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, long impLitPrice) {

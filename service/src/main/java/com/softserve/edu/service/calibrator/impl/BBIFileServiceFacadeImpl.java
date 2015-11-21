@@ -12,6 +12,7 @@ import net.lingala.zip4j.exception.ZipException;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.input.CloseShieldInputStream;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,11 @@ public class BBIFileServiceFacadeImpl implements BBIFileServiceFacade {
 
     @Transactional
     public DeviceTestData parseAndSaveBBIFile(InputStream inputStream, String verificationID, String originalFileName) throws IOException, DecoderException {
-            DeviceTestData deviceTestData = bbiFileService.parseBbiFile(inputStream, originalFileName);
-            calibratorService.uploadBbi(inputStream, verificationID, originalFileName);
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+        bufferedInputStream.mark(inputStream.available());
+        DeviceTestData deviceTestData = bbiFileService.parseBbiFile(bufferedInputStream, originalFileName);
+        bufferedInputStream.reset();
+        calibratorService.uploadBbi(bufferedInputStream, verificationID, originalFileName);
         return deviceTestData;
     }
 
