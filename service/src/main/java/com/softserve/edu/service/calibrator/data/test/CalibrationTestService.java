@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Set;
 
 public interface CalibrationTestService {
 
@@ -46,5 +47,7 @@ public interface CalibrationTestService {
      String getPhotoAsString(String photoPath,CalibrationTest calibrationTest);
 
      void updateTest(String counterNumber,List<CalibrationTestData>listTestData,CalibrationTest calibrationTest);
+
+     Set<CalibrationTestData> getLatestTests(List<CalibrationTestData> rawListOfCalibrationTestData);
 
 }

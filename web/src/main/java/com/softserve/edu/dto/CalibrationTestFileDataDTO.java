@@ -129,7 +129,7 @@ public class CalibrationTestFileDataDTO {
         List<CalibrationTestIMG> calibrationTestIMGList;
         CalibrationTestIMG calibrationTestIMG;
         this.status = calibrationTest.getVerification().getStatus().toString();
-        for (CalibrationTestData calibrationTestData : calibrationTest.getCalibrationTestDataList()) {
+        for (CalibrationTestData calibrationTestData : calibrationTestService.getLatestTests(calibrationTest.getCalibrationTestDataList())) {
             CalibrationTestDataDTO testDataDTO = new CalibrationTestDataDTO();
             testDataDTO.setDataAvailable(true);
             testDataDTO.setTestNumber("Test" + testNumber);
@@ -152,8 +152,8 @@ public class CalibrationTestFileDataDTO {
             }
             testDataDTO.setTestPosition(calibrationTestData.getTestPosition());
             testDataDTO.setTestTime(calibrationTestData.getDuration());
-
-
+            testDataDTO.setTestResult(calibrationTestData.getTestResult());
+            testDataDTO.setConsumptionStatus(calibrationTestData.getConsumptionStatus());
             listTestData.add(testDataDTO);
             testNumber++;
         }

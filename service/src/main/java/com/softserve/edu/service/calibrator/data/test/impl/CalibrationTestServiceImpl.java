@@ -183,6 +183,24 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     }
 
     @Override
+    public Set<CalibrationTestData> getLatestTests(List<CalibrationTestData> rawListOfCalibrationTestData) {
+        Set<CalibrationTestData> setOfCalibrationTestData = new LinkedHashSet<>();
+        Integer position;
+        for (CalibrationTestData calibrationTestData : rawListOfCalibrationTestData ){
+            position = calibrationTestData.getTestPosition();
+            position++;
+            for (CalibrationTestData calibrationTestDataSearch : rawListOfCalibrationTestData) {
+                if (calibrationTestDataSearch.getTestPosition() == position) {
+                    calibrationTestData = calibrationTestDataSearch;
+                    position++;
+                }
+            }
+            setOfCalibrationTestData.add(calibrationTestData);
+        }
+        return setOfCalibrationTestData;
+    }
+
+    @Override
     @Transactional
     public void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
         String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
