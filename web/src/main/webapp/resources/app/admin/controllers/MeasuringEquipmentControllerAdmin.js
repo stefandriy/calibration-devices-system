@@ -257,6 +257,17 @@ angular
 
             };
 
+            $scope.openDisableCalibrationModuleModal = function (moduleId) {
+                var disableModal = $modal
+                    .open({
+                        animation: true,
+                        controller: 'MeasuringEquipmentDisableModalControllerAdmin',
+                        templateUrl: '/resources/app/admin/views/modals/measuring-equipment-disable-modal.html',
+                        size: 'md',
+                        windowClass: 'center-modal'
+                    })
+            };
+
             $scope.disableCalibrationModule = function (id) {
                 measuringEquipmentServiceAdmin.disableCalibrationModule(id).then(function () {
                     $scope.popNotification($filter('translate')('INFORMATION'),
