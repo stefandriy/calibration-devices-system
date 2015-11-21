@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -32,13 +33,12 @@ public class CounterType {
 
     private String gost;
 
-
     @ManyToOne
     @JoinColumn(name = "deviceId")
     private Device device;
-    @ManyToOne
-    @JoinColumn(name = "UnsuitabilityId")
-    private Unsuitability unsuitability;
+
+    @ManyToMany(mappedBy = "counterTypeSet")
+    private Set<UnsuitabilityReason> unsuitabilitySet;
 
     public String getName() {
         return name;

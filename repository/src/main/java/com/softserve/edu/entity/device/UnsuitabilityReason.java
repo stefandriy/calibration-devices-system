@@ -17,21 +17,20 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class Unsuitability {
+public class UnsuitabilityReason {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @ManyToMany(mappedBy = "unsuitability")
-    @JoinTable(name = "REASONS__COUNTER", joinColumns = {
-            @JoinColumn(name = "STOCK_ID", nullable = false, updatable = false) },
-            inverseJoinColumns = { @JoinColumn(name = "CATEGORY_ID",
-                    nullable = false, updatable = false) })
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "UNSUITABILITY__COUNTERS", joinColumns = {
+            @JoinColumn(name = "unsuitabilityId")},
+            inverseJoinColumns = {@JoinColumn(name = "counterId")})
     private Set<CounterType> counterTypeSet;
 
-    public Unsuitability(String name){
+    public UnsuitabilityReason(String name) {
         this.name = name;
     }
 }
