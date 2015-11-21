@@ -17,6 +17,9 @@ angular
             },
             getEarliestCalibrationModuleDate: function() {
                 return getData('earliest_date');
+            },
+            disableCalibrationModule: function(id) {
+                return getData("disable/" + id);
             }
         };
 
