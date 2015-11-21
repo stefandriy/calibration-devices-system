@@ -69,8 +69,8 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId)
                 - deviceTestData.getTestInitialCounterValue(testDataId), 2);
         double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
-                deviceTestData.getTestCorrectedCurrentConsumption(testDataId),
-                deviceTestData.getImpulsePricePerLitre());
+               deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
+                deviceTestData.getTestDuration(testDataId));
         double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(
                 deviceTestData.getTestSpecifiedConsumption(testDataId),
                 deviceTestData.getImpulsePricePerLitre());
@@ -96,7 +96,7 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         return BigDecimal.valueOf(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
     }
 
-    private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, long impLitPrice) {
+    private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, double impLitPrice) {
         return round(3.6 * impulses / impLitPrice, 3);
     }
 
@@ -107,4 +107,5 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         double result = (counterVolume - standardVolume) / standardVolume * 100;
         return round(result, 2);
     }
+
 }

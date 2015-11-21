@@ -144,7 +144,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         resultMap.put("test" + testIndex + "lowerConsumptionLimit", readLongValueReversed(4)); //0x800104+0x04
         resultMap.put("test" + testIndex + "upperConsumptionLimit", readLongValueReversed(4)); //0x800108+0x04
         resultMap.put("test" + testIndex + "allowableError", readLongValueReversed(4) / 10); //0x80010с+0x04
-        resultMap.put("test" + testIndex + "specifiedImpulsesAmount", readLongValueReversed(4) / 10000); //0x800110+0x04
+        resultMap.put("test" + testIndex + "specifiedImpulsesAmount", readLongValueReversed(4) / 10000.0); //0x800110+0x04
         resultMap.put("test" + testIndex + "correctedCumulativeImpulsesValue", readLongValueReversed(4) / 1000.0); //0x800114+0x04
         resultMap.put("test" + testIndex + "correctedCurrentConsumption", readLongValueReversed(4) / 1000.0); //0x800118+0x04
         resultMap.put("test" + testIndex + "cumulativeImpulsesValueWithoutCorrection", readLongValueReversed(4) / 1000.0); //0x80011с+0x04
