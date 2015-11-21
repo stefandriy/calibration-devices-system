@@ -116,7 +116,7 @@ public class CalibrationTestController {
     public ResponseEntity editCalibrationTest(@PathVariable Long calibrationTestId, @RequestBody CalibrationTestDTO testDTO) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            testService.editTest(calibrationTestId, testDTO.getName(), testDTO.getTemperature(),
+            testService.editTest(calibrationTestId, testDTO.getName(), testDTO.getCapacity(),
                     testDTO.getSettingNumber(), testDTO.getLatitude(), testDTO.getLongitude(), testDTO.getConsumptionStatus(), testDTO.getTestResult());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION " + e.getMessage());

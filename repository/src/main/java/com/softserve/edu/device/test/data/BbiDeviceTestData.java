@@ -119,8 +119,8 @@ public class BbiDeviceTestData implements DeviceTestData {
     }
 
     @Override
-    public long getInitialCapacity() {
-        return getLongValue("initialCapacity");
+    public String getInitialCapacity() {
+        return getStringValue("initialCapacity");
     }
 
     @Override
