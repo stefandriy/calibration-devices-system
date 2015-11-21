@@ -24,7 +24,7 @@ public class CalibrationTestFileDataDTO {
 
     private String capacity;
 
-    private long accumulatedVolume;
+    private String accumulatedVolume;
 
     private int counterProductionYear;
 
@@ -115,8 +115,8 @@ public class CalibrationTestFileDataDTO {
         this.fileName = calibrationTest.getName();
         this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();
-        this.capacity = calibrationTest.getCapacity();
-//       this.accumulatedVolume = ; // don't have this value.
+//        this.capacity = calibrationTest.getCapacity();
+       this.accumulatedVolume = calibrationTest.getCapacity();
 //       this.counterProductionYear = testData.getCounterProductionYear(); //?
         this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
@@ -209,11 +209,11 @@ public class CalibrationTestFileDataDTO {
         this.counterProductionYear = counterProductionYear;
     }
 
-    public long getAccumulatedVolume() {
+    public String getAccumulatedVolume() {
         return accumulatedVolume;
     }
 
-    public void setAccumulatedVolume(long accumulatedVolume) {
+    public void setAccumulatedVolume(String accumulatedVolume) {
         this.accumulatedVolume = accumulatedVolume;
     }
 

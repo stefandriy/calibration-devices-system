@@ -8,6 +8,7 @@ import com.softserve.edu.dto.calibrator.TestGenerallDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.exceptions.NotFoundException;
+import com.softserve.edu.repository.CalibrationTestDataRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.service.calibrator.BBIFileServiceFacade;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestService;
@@ -26,7 +27,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @RestController
@@ -35,6 +38,9 @@ public class CalibrationTestController {
 
     @Autowired
     private CalibrationTestRepository testRepository;
+
+    @Autowired
+    private CalibrationTestDataRepository testDataRepository;
 
     @Autowired
     private CalibrationTestService testService;
@@ -222,17 +228,20 @@ public class CalibrationTestController {
      */
     @RequestMapping(value = "updateProtocol/{verificationId}", method = RequestMethod.POST)
     public ResponseEntity getUpdateProtocol(@RequestBody CalibrationTestFileDataDTO calibrationTestFileDataDTO,@PathVariable String verificationId){
-        System.out.println(calibrationTestFileDataDTO);
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-//            testService.updateTest(calibrationTestFileDataDTO.getCounterNumber(),calibrationTestFileDataDTO.getListTestData(),calibrationTest);
-//            System.out.println(calibrationTestFileDataDTO);
             calibrationTest.setCounterNumber(calibrationTestFileDataDTO.getCounterNumber());
-//            calibrationTest.setSettingNumber(calibrationTestFileDataDTO.getInstallmentNumber());
+            Set<CalibrationTestData> setOfTestDate = testService.getLatestTests(calibrationTest.getCalibrationTestDataList());
+            List<CalibrationTestData> listOfTestDate = new ArrayList<>(setOfTestDate);
+            for(int x=0;x<listOfTestDate.size();x++){
+                CalibrationTestData calibrationTestData = listOfTestDate.get(x);
+                CalibrationTestDataDTO calibrationTestDataDTO=calibrationTestFileDataDTO.getListTestData().get(0);
+                calibrationTestData.setInitialValue(calibrationTestDataDTO.getInitialValue());
+                calibrationTestData.setEndValue(calibrationTestDataDTO.getEndValue());
+                testDataRepository.save(calibrationTestData);
+            }
             testRepository.save(calibrationTest);
-
-
         }catch (Exception e){
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
