@@ -165,7 +165,7 @@ public class BbiDeviceTestData implements DeviceTestData {
 
     @Override
     public double getTestSpecifiedImpulsesAmount(int testIndex) {
-        return  getLongValue("test" + testIndex + "specifiedImpulsesAmount")*1.0;
+        return  getDoubleValue("test" + testIndex + "specifiedImpulsesAmount");
     }
 
     @Override
