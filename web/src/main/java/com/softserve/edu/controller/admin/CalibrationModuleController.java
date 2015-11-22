@@ -226,7 +226,6 @@ public class CalibrationModuleController {
             searchDataMap.remove("startDateToSearch");
             searchDataMap.remove("endDateToSearch");
         }
-        searchDataMap.put("isActive", true);
         return searchDataMap;
     }
 

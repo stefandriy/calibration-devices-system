@@ -19,6 +19,7 @@ angular
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
+            $scope.showModules = 'Active';
 
             /**
              * Date
@@ -149,7 +150,9 @@ angular
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
-                    if (obj.hasOwnProperty(i) && obj[i]) {
+                    if (i == 'isActive' || (i == "startDateToSearch" || i == "endDateToSearch")) {
+                        continue;
+                    } else if (obj.hasOwnProperty(i) && obj[i]) {
                         return true;
                     }
                 }
@@ -172,6 +175,14 @@ angular
 
                             var sortCriteria = Object.keys(params.sorting())[0];
                             var sortOrder = params.sorting()[sortCriteria];
+
+                            if ($scope.showModules == 'Active') {
+                                params.filter().isActive = true;
+                            } else if ($scope.showModules == "Disabled") {
+                                params.filter().isActive = false;
+                            } else {
+                                params.filter().isActive = null;
+                            }
 
                             if ($scope.selectedDeviceType.name != null) {
                                 params.filter().deviceType = $scope.selectedDeviceType.name.type;
