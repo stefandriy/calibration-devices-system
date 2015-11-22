@@ -29,8 +29,6 @@ angular
                 //setting corresponding filters with 'all time' range
                 $scope.tableParams.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                 $scope.tableParams.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-                //$scope.tableParams.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate;
-                //$scope.tableParams.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate;
             };
 
             $scope.myDatePicker = {};
@@ -84,6 +82,7 @@ angular
             };
 
             $scope.isDateDefault = function () {
+                //console.log("isDateDefault");
                 var pickerDate = $scope.myDatePicker.pickerDate;
 
                 if (pickerDate == null || $scope.defaultDate == null) { //moment when page is just loaded
@@ -105,30 +104,23 @@ angular
             };
 
             $scope.deviceTypeData = [
-                {
-                    type: 'WATER',
-                    label: $filter('translate')('WATER')
-                },
-                {
-                    type: 'THERMAL',
-                    label: $filter('translate')('THERMAL')
-                }
+                {id: 'WATER', label: $filter('translate')('WATER')},
+                {id: 'THERMAL', label: $filter('translate')('THERMAL')},
+                {id: 'ELECTRICAL', label: $filter('translate')('ELECTRICAL')},
+                {id: 'GASEOUS', label: $filter('translate')('GASEOUS')}
             ];
 
             $scope.moduleTypeData = [
-                {
-                    type: 'INSTALLATION_FIX',
-                    label: $filter('translate')('INSTALLATION_FIX')
-                },
-                {
-                    type: 'INSTALLATION_PORT',
-                    label: $filter('translate')('INSTALLATION_PORT')
-                }
+                {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
+                {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
             ];
 
             $scope.setTypeDataLanguage = function () {
                 $scope.deviceTypeData[0].label = $filter('translate')('WATER');
                 $scope.deviceTypeData[1].label = $filter('translate')('THERMAL');
+                $scope.deviceTypeData[2].label = $filter('translate')('ELECTRICAL');
+                $scope.deviceTypeData[3].label = $filter('translate')('GASEOUS');
+
                 $scope.moduleTypeData[0].label = $filter('translate')('INSTALLATION_FIX');
                 $scope.moduleTypeData[1].label = $filter('translate')('INSTALLATION_PORT');
             };
@@ -146,6 +138,7 @@ angular
             };
 
             $scope.isFilter = function () {
+                //console.log("isFilter");
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
@@ -169,19 +162,18 @@ angular
                         total: 0,
                         filterDelay: 10000,
                         getData: function ($defer, params) {
-
                             var sortCriteria = Object.keys(params.sorting())[0];
                             var sortOrder = params.sorting()[sortCriteria];
 
                             if ($scope.selectedDeviceType.name != null) {
-                                params.filter().deviceType = $scope.selectedDeviceType.name.type;
+                                params.filter().deviceType = $scope.selectedDeviceType.name.id;
                             }
                             else {
                                 params.filter().deviceType = null; //case when the filter is cleared with a button on the select
                             }
 
                             if ($scope.selectedModuleType.name != null) {
-                                params.filter().moduleType = $scope.selectedModuleType.name.type;
+                                params.filter().moduleType = $scope.selectedModuleType.name.id;
                             }
                             else {
                                 params.filter().moduleType = null; //case when the filter is cleared with a button on the select
@@ -265,7 +257,7 @@ angular
 
                 $timeout(function () {
                     console.log('delete with timeout');
-                    $rootScope.onTableHandling();
+                    //$rootScope.onTableHandling();
                 }, 700);
             };
 
