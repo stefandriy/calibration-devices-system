@@ -257,6 +257,34 @@ angular
 
             };
 
+            $scope.openDisableCalibrationModuleModal = function (moduleId) {
+                var disableModal = $modal
+                    .open({
+                        animation: true,
+                        controller: 'MeasuringEquipmentDisableModalControllerAdmin',
+                        templateUrl: '/resources/app/admin/views/modals/measuring-equipment-disable-modal.html',
+                        size: 'md',
+                        windowClass: 'center-modal',
+                        resolve: {
+                            'moduleId': function() {
+                                return moduleId;
+                            }
+                        }
+                    });
+
+                /**
+                 * executes when modal closing
+                 */
+                disableModal.result.then(function () {
+                    $scope.popNotification($filter('translate')('INFORMATION'),
+                        $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
+                    $timeout(function () {
+                        console.log('delete with timeout');
+                        $rootScope.onTableHandling();
+                    }, 700);
+                });
+            };
+
             $scope.disableCalibrationModule = function (id) {
                 measuringEquipmentServiceAdmin.disableCalibrationModule(id).then(function () {
                     $scope.popNotification($filter('translate')('INFORMATION'),
