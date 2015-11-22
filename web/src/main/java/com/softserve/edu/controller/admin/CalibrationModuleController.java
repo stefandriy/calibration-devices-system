@@ -3,6 +3,7 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.CalibrationModuleDTO;
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.TypeConverter;
@@ -117,7 +118,13 @@ public class CalibrationModuleController {
     public ResponseEntity disableModule(@PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            calibrationModuleService.disableCalibrationModule(calibrationModuleId);
+            CalibrationModule calibrationModule = calibrationModuleService.findModuleById(calibrationModuleId);
+            Set<CalibrationTask> tasks = calibrationModule.getTasks();
+            if (tasks == null || tasks.isEmpty()) {
+                calibrationModuleService.deleteCalibrationModule(calibrationModuleId);
+            } else {
+                calibrationModuleService.disableCalibrationModule(calibrationModuleId);
+            }
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
@@ -165,6 +172,7 @@ public class CalibrationModuleController {
                     calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
                     calibrationModule.getWorkDate()));
         }
+        PageDTO<CalibrationModuleDTO> pageContent = new PageDTO<>(queryResult.getTotalElements(), content);
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }
 

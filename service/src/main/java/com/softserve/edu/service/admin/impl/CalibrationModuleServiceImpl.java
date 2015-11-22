@@ -42,7 +42,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findOne(calibrationModuleId);
     }
 
-
+    public void deleteCalibrationModule(Long moduleId) {
+        calibrationModuleRepository.delete(moduleId);
+    }
 
     public void disableCalibrationModule(Long calibrationModuleId) {
         CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
