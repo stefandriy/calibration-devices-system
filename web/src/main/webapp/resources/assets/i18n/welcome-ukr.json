@@ -542,5 +542,6 @@
   "BBI_IS_NOT_VALID" : "Невірний файл bbi",
   "INVALID_VERIFICATION_CODE" : "Невірний код повірки",
   "PLEASE_DESCRIBE_REASON_OF_PROTOCOL_REJECTION": "Будь-ласка, вкажіть причину повернення протоколу",
-  "REASON_OF_PROTOCOL_REJECTION": "Будь-ласка, вкажіть детальну причину, по якій цей протокол має бути повернутий"
+  "REASON_OF_PROTOCOL_REJECTION": "Будь-ласка, вкажіть детальну причину, по якій цей протокол має бути повернутий",
+  "TYPE WATER":"\u0422\u0438\u043f \u0432\u043e\u0434\u043e\u043f\u043e\u0441\u0442\u0430\u0447\u0430\u043d\u043d\u044f"
 }

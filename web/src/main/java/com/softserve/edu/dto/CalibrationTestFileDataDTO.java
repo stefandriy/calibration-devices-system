@@ -115,9 +115,9 @@ public class CalibrationTestFileDataDTO {
         this.fileName = calibrationTest.getName();
         this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();
-//        this.capacity = calibrationTest.getCapacity();
+//      this.capacity = calibrationTest.getCapacity();
        this.accumulatedVolume = calibrationTest.getCapacity();
-//       this.counterProductionYear = testData.getCounterProductionYear(); //?
+//      this.counterProductionYear = testData.getCounterProductionYear();
         this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
@@ -151,7 +151,7 @@ public class CalibrationTestFileDataDTO {
                 }
             }
             testDataDTO.setTestPosition(calibrationTestData.getTestPosition());
-            testDataDTO.setTestTime(calibrationTestData.getDuration());
+            testDataDTO.setTestTime(round(calibrationTestData.getDuration(),1));
             testDataDTO.setTestResult(calibrationTestData.getTestResult());
             testDataDTO.setConsumptionStatus(calibrationTestData.getConsumptionStatus());
             listTestData.add(testDataDTO);

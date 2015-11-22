@@ -2,6 +2,8 @@ package com.softserve.edu.service.calibrator.data.test.impl;
 
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
+import com.softserve.edu.service.tool.MailService;
+import com.sun.xml.internal.ws.api.message.Packet;
 import org.apache.commons.codec.binary.Base64;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
@@ -46,6 +48,8 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     private CalibrationTestDataRepository dataRepository;
     @Autowired
     private VerificationRepository verificationRepository;
+    @Autowired
+    MailService mailService;
 
     private Logger logger = Logger.getLogger(CalibrationTestServiceImpl.class);
 
@@ -250,11 +254,21 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public void updateTest(String counterNumber,List listTestData,CalibrationTest calibrationTest){
-
-
-
-
+    public void updateTest(String verificationId,String status){
+        Verification verification = verificationRepository.findOne(verificationId);
+        String statusToSend;
+        Status statusVerification = Status.valueOf(status.toUpperCase());
+        if(statusVerification.equals(Status.TEST_OK)){
+            statusToSend = "придатний";
+        }else {
+            statusToSend = "непридатний";
+        }
+        verification.setStatus(statusVerification);
+        String emailCustomer = verification.getClientData().getEmail();
+        String emailProvider = verification.getProviderEmployee().getEmail();
+        mailService.sendPassedTestMail(emailCustomer,verificationId,statusToSend);
+        mailService.sendPassedTestMail(emailProvider,verificationId,statusToSend);
+        verificationRepository.save(verification);
     }
 
 

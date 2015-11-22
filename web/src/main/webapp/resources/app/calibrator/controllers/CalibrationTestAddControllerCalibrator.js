@@ -40,9 +40,43 @@ angular
                 });
             };
 
+            function convectorStatus(data) {
+                if(data.consumptionStatus=== "IN_THE_AREA"){
+                    data.consumptionStatus = "В зоні";
+                }else if(data.consumptionStatus=== "NOT_IN_THE_AREA"){
+                    data.consumptionStatus = "Не в зоні";
+                }
+            }
+
+            function convectorTestResult(data) {
+                if(data.testResult=='SUCCESS'){
+                    data.testResult="Успішний";
+                }else if(data.testResult=='FAILED'){
+                    data.testResult="Невдалий";
+                }else{
+                    data.testResult="Необроблений";
+                }
+            }
+
             $scope.parseBbiFile = function(data) {
                 $scope.fileLoaded = true;
+                convectorStatus(data);
+                convectorTestResult(data);
+                console.log(data.listTestData.length)
+                for(var i = 0 ;i<data.listTestData.length;i++){
+                    var dataTest = data.listTestData[i];
+                    convectorStatus(dataTest);
+                    convectorTestResult(dataTest);
+                }
                 $scope.TestForm = data;
+                for (var i = 0; i < $scope.statusData.length; i++) {
+                    if ($scope.statusData[i].id === data.status) {
+                        $scope.selectedStatus = {
+                            label: $scope.statusData[i].label,
+                            id: $scope.statusData[i].id
+                        };
+                    }
+                }
                 var date = $scope.TestForm.testDate;
                 $scope.TestForm.testDate = moment(date).utcOffset(0).format("DD.MM.YYYY HH:mm");
                 $scope.TestForm.testPhoto = "data:image/png;base64," + $scope.TestForm.testPhoto;
@@ -88,26 +122,48 @@ angular
             }
 
             $scope.selectedStatus = {
-                name: null
+                label: null
             }
             $scope.statusData = [
-                {id: 'REJECTED', label: null},
-                {id: 'SENT_TO_VERIFICATOR', label: null},
                 {id: 'TEST_OK', label: null},
                 {id: 'TEST_NOK', label: null}
             ];
 
+            $scope.setStatus = function (status) {
+                $scope.selectedStatus = {
+                    label: status.label,
+                    id: status.id
+                };
+            };
+
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
-                    $scope.statusData[0].label = 'Відхилена';
-                    $scope.statusData[1].label = 'Перевірено придатний';
-                    $scope.statusData[2].label = 'Перевірено непридатний';
+                    $scope.statusData[0].label = 'придатний';
+                    $scope.statusData[1].label = 'непридатний';
+                    $scope.statusWaterType[0].label = 'гаряче';
+                    $scope.statusWaterType[1].label = 'холодне';
                 } else if (lang === 'eng') {
-                    $scope.statusData[0].label = 'Rejected';
-                    $scope.statusData[1].label = 'Tested OK';
-                    $scope.statusData[2].label = 'Tested NOK';
+                    $scope.statusData[0].label = 'Tested OK';
+                    $scope.statusData[1].label = 'Tested NOK';
+                    $scope.statusWaterType[0].label = 'hot';
+                    $scope.statusWaterType[1].label = 'cold';
                 }
+            };
+
+            $scope.selectedWaterType = {
+                label: null
+            }
+            $scope.statusWaterType = [
+                {id: 'hot', label: null},
+                {id: 'cold', label: null}
+            ];
+
+            $scope.setWaterType = function (status) {
+                $scope.selectedWaterType = {
+                    label: status.label,
+                    id: status.id
+                };
             };
 
             $scope.setTypeDataLanguage();
@@ -127,9 +183,9 @@ angular
                     installmentNumber:$scope.TestForm.installmentNumber,
                     latitude:$scope.TestForm.latitude,
                     longitude:$scope.TestForm.longitude,
-                    consumptionStatus:$scope.TestForm.consumptionStatus,
                     testResult:$scope.TestForm.testResult,
                     listTestData:$scope.TestForm.listTestData,
+                    status:$scope.selectedStatus.id
                 }
             }
 
@@ -140,27 +196,34 @@ angular
                   $log.debug($scope.generalForms);
                 .updateCalibrationTest($scope.TestForm, $scope.testId)*/
 
+            $scope.closeForm = function(){
+                window.history.back();
+            }
+
             $scope.updateCalibrationTest = function () {
                         retranslater();
                         calibrationTestServiceCalibrator
                             .updateCalibrationTest(protocol,$scope.testId)
-                            .then(function (data) {
-                                if (data == 201) {
+                            .then(function (status) {
+                                if (status == 201) {
                                     $rootScope.onTableHandling();
                                 }
+                                if(status==200){
+                                    $modal.open({
+                                        animation: true,
+                                        templateUrl: 'resources/app/calibrator/views/modals/calibration-test-edited-success.html',
+                                        controller: function ($modalInstance) {
+                                            this.ok = function () {
+                                                $modalInstance.close();
+                                                window.history.back();
+                                            }
+                                        },
+                                        controllerAs: 'successController',
+                                        size: 'md'
+                                    });
+
+                                }
                             });
-                            $modal.open({
-                                animation: true,
-                                templateUrl: 'resources/app/calibrator/views/modals/calibration-test-adding-success.html',
-                                controller: function ($modalInstance) {
-                                    this.ok = function () {
-                                        $scope.resetTestForm();
-                                        $modalInstance.close();
-                                    }
-                                },
-                                controllerAs: 'successController',
-                                size: 'md'
-                });
             }
 
         }]);

@@ -5,6 +5,7 @@ import com.softserve.edu.dto.CalibrationTestDTO;
 import com.softserve.edu.dto.CalibrationTestDataDTO;
 import com.softserve.edu.dto.CalibrationTestFileDataDTO;
 import com.softserve.edu.dto.calibrator.TestGenerallDTO;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.exceptions.NotFoundException;
@@ -227,7 +228,7 @@ public class CalibrationTestController {
      * @return status
      */
     @RequestMapping(value = "updateProtocol/{verificationId}", method = RequestMethod.POST)
-    public ResponseEntity getUpdateProtocol(@RequestBody CalibrationTestFileDataDTO calibrationTestFileDataDTO,@PathVariable String verificationId){
+    public ResponseEntity getUpdaTest(@RequestBody CalibrationTestFileDataDTO calibrationTestFileDataDTO,@PathVariable String verificationId){
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
@@ -242,6 +243,7 @@ public class CalibrationTestController {
                 testDataRepository.save(calibrationTestData);
             }
             testRepository.save(calibrationTest);
+            testService.updateTest(verificationId,calibrationTestFileDataDTO.getStatus());
         }catch (Exception e){
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
