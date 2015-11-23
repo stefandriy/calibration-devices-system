@@ -24,11 +24,9 @@ public class UnsuitabilityReason {
 
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "UNSUITABILITY__COUNTERS", joinColumns = {
-            @JoinColumn(name = "unsuitabilityId")},
-            inverseJoinColumns = {@JoinColumn(name = "counterId")})
-    private Set<CounterType> counterTypeSet;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "counterTypeId")
+    private CounterType counterType;
 
     public UnsuitabilityReason(String name) {
         this.name = name;
