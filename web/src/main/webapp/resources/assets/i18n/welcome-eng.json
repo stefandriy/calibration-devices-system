@@ -542,5 +542,8 @@
   "INVALID_VERIFICATION_CODE" : "Invalid verification code",
   "PLEASE_DESCRIBE_REASON_OF_PROTOCOL_REJECTION": "Please explain why verification is being rejected",
   "REASON_OF_PROTOCOL_REJECTION": "Please provide the detailed reason why this protocol needs to be rejected",
-  "UNSUITABILITY_DIRECTORY" : "Reasons of Unsuitability"
+  "UNSUITABILITY_DIRECTORY" : "Reasons of unsuitability",
+  "ADD_UNSUITABILITY_DIRECTORY" : "Add reasons of unsuitability",
+  "COUNTER_TYPE" : "Counter type",
+  "UNSUITABILITY_REASON" : "Reason of unsuitability"
 }
