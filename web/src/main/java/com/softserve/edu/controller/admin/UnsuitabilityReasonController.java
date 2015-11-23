@@ -2,8 +2,10 @@ package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.CounterTypeDTO;
+import com.softserve.edu.dto.admin.DeviceDTO;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.admin.UnsuitabilityReasonDTO;
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.UnsuitabilityReason;
 import com.softserve.edu.service.admin.CounterTypeService;
 import com.softserve.edu.service.admin.UnsuitabilityReasonService;
@@ -27,13 +29,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/admin/unsuitability-reasons/")
 public class UnsuitabilityReasonController {
-       private final Logger logger = Logger.getLogger(DeviceController.class);
-       @Autowired
-       private UnsuitabilityReasonService unsuitabilityReasonService;
+    private final Logger logger = Logger.getLogger(DeviceController.class);
+    @Autowired
+    private UnsuitabilityReasonService unsuitabilityReasonService;
     @Autowired
     private CounterTypeService counterTypeService;
+
     /**
      * Saves unsuitability reason  in database
+     *
      * @param unsuitabilityReasonDTO object with unsuitability reason data
      * @return a response body with http status {@literal CREATED} if everything
      * device category successfully created or else http status {@literal CONFLICT}
@@ -52,8 +56,10 @@ public class UnsuitabilityReasonController {
         }
         return new ResponseEntity(httpStatus);
     }
+
     /**
      * Delete counter type
+     *
      * @param reasonId Long id of unsuitability reason
      * @return a response body with http status {@literal OK} if unsuitability reason
      * successfully deleted or else http status {@literal CONFLICT}
@@ -64,15 +70,16 @@ public class UnsuitabilityReasonController {
         try {
             unsuitabilityReasonService.removeUnsuitabilityReason(reasonId);
         } catch (Exception e) {
-            logger.error("Got exeption while remove unsuitability reason",e);
+            logger.error("Got exeption while remove unsuitability reason", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
     }
+
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<UnsuitabilityReasonDTO> pageUnsuitabilityReasonsWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                           @PathVariable String sortCriteria, @PathVariable String sortOrder,
-                                                           UnsuitabilityReasonDTO searchData) {
+                                                                              @PathVariable String sortCriteria, @PathVariable String sortOrder,
+                                                                              UnsuitabilityReasonDTO searchData) {
         ListToPageTransformer<UnsuitabilityReason> queryResult = unsuitabilityReasonService.getUnsuitabilityReasonBySearchAndPagination(
                 pageNumber,
                 itemsPerPage,
@@ -85,8 +92,10 @@ public class UnsuitabilityReasonController {
         List<UnsuitabilityReasonDTO> content = toUnsuitabilityReasonDTOFromList(queryResult.getContent());
         return new PageDTO(queryResult.getTotalItems(), content);
     }
+
     /**
      * Build page without sorting, ordering and searching data
+     *
      * @param pageNumber
      * @param itemsPerPage
      * @return
@@ -95,18 +104,31 @@ public class UnsuitabilityReasonController {
     public PageDTO<UnsuitabilityReasonDTO> getUnsuitabilityReasonsPage(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
         return pageUnsuitabilityReasonsWithSearch(pageNumber, itemsPerPage, null, null, null);
     }
+
     /**
-     * Get verificators that has agreement with this calibrator
+     * Get counter Types for modal window
+     *
      * @param user
      * @return
      */
-    @RequestMapping(value = "counterTypes", method = RequestMethod.GET)
-    public Set<CounterTypeDTO> getCounterTypes(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+ /*   @RequestMapping(value = "counterTypes", method = RequestMethod.GET)
+    public Set<CounterTypeDTO> getCounterTypes(@PathVariable  SecurityUserDetailsService.CustomUserDetails user) {
         return counterTypeService.findAll().stream().map(counterType ->
                 new CounterTypeDTO(counterType.getId(), counterType.getName())).collect(Collectors.toSet());
+    }*/
+    /**
+     * Get CounterType  by id
+     * @param id Long of counter type
+     * @return counterTypeDTO
+     */
+    @RequestMapping(value = "get/{id}")
+    public CounterTypeDTO getCounterType(@PathVariable("id") Long id) {
+        CounterType counterType = counterTypeService.findById(id);
+        CounterTypeDTO counterTypeDTO = new CounterTypeDTO(counterType.getId(), counterType.getName());
+        return counterTypeDTO;
     }
 
-    public static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list){
+    public static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
         List<UnsuitabilityReasonDTO> resultList = new ArrayList<>();
         for (UnsuitabilityReason unsuitabilityReason : list) {
             resultList.add(new UnsuitabilityReasonDTO(
@@ -114,7 +136,7 @@ public class UnsuitabilityReasonController {
                     unsuitabilityReason.getName(),
                     unsuitabilityReason.getCounterType().getId(),
                     unsuitabilityReason.getCounterType().getName()
-                 ));
+            ));
         }
         return resultList;
     }
