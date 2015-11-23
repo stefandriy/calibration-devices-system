@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+
 
 /**
  * Created by Sonka on 20.11.2015.
@@ -28,7 +28,8 @@ public class UnsuitabilityReason {
     @JoinColumn(name = "counterTypeId")
     private CounterType counterType;
 
-    public UnsuitabilityReason(String name) {
+    public UnsuitabilityReason(String name, CounterType counterType) {
         this.name = name;
+        this.counterType = counterType;
     }
 }

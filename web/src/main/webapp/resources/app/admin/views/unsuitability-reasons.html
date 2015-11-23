@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-click="openAddCategoryCounterModal()">
+            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-click="openAddUnsuitabilityReasonModal()">
                 <span class="glyphicon glyphicon-plus"></span>
                 {{'ADD' | translate}}
             </button>
@@ -24,87 +24,87 @@
     </div>
     <p></p>
     <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="table-responsive">
-                <table show-filter="false" ng-table="tableParams" template-pagination="custom/pager"
-                       class="table table-bordered table-hover users_table">
-                    <tbody>
-                    <tr ng-repeat="device in $data">
+    <!--  <div class="row">
+          <div class="col-lg-12">
+              <div class="table-responsive">
+                  <table show-filter="false" ng-table="tableParams" template-pagination="custom/pager"
+                         class="table table-bordered table-hover users_table">
+                      <tbody>
+                      <tr ng-repeat="counter in $data">
 
-                        <td data-title="'DEVICE_NAME' | translate " sortable="'deviceName'"
-                            filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
+                          <td data-title="'COUNTER_NAME' | translate " sortable="'counterName'"
+                              filter="{ 'counterName': 'text' }">{{ counter.counterName}}
 
-                        </td>
-                        <td data-title="'UNSUITABILITY_REASON' | translate"
-                            sortable="'deviceType'"
-                            filter="{ deviceType : 'deviceType' }">
-                            {{device.deviceType | translate}}
-                        </td>
-                        <td data-title="'ACTIONS' | translate" class="text-center">
+                          </td>
+                          <td data-title="'UNSUITABILITY_REASON' | translate"
+                              sortable="'deviceType'"
+                              filter="{ deviceType : 'deviceType' }">
+                              {{counter.reasonName | translate}}
+                          </td>
+                          <td data-title="'ACTIONS' | translate" class="text-center">
 
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-warning"
-                                        ng-click="openEditCategoryCounterModal(device.id)">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </button>
-                                <button type="button" class="btn btn-danger"
-                                        ng-click="deleteDeviceCategory(device.id)">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.panel -->
-            <script type="text/ng-template" id="custom/pager">
-                <div>
-                    <ul class="pager ng-cloak">
-                        <li ng-repeat="page in pages"
-                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                {{'PREVIOUS' | translate}}</a>
-                            <a ng-switch-when="next" ng-click="params.page(page.number)"
-                               href="">{{'NEXT' | translate}} &raquo;</a>
-                        </li>
-                        <li>
-                            <div class="btn-group">
-                                <button type="button" ng-class="{'active':params.count() == 5}"
-                                        ng-click="params.count(5)" class="btn btn-default">5
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 10}"
-                                        ng-click="params.count(10)" class="btn btn-default">10
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 25}"
-                                        ng-click="params.count(25)" class="btn btn-default">25
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 50}"
-                                        ng-click="params.count(50)" class="btn btn-default">50
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </script>
-            <script type="text/ng-template" id="ng-table/filters/deviceType.html">
-                <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
-                           search-enabled="false"
-                           name="filter-deviceType">
-                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
-                                     allow-clear="true">
-                        {{$select.selected.label}}
-                    </ui-select-match>
-                    <ui-select-choices
-                            repeat="deviceType in deviceTypeData">
-                        <span ng-bind-html="deviceType.label"></span>
-                    </ui-select-choices>
-                </ui-select>
-            </script>
-        </div>
-        <!-- /.col-lg-12 -->
+                              <div class="btn-group">
+                                  <button type="button" class="btn btn-warning"
+                                          ng-click="openEditCategoryCounterModal(device.id)">
+                                      <span class="glyphicon glyphicon-pencil"></span>
+                                  </button>
+                                  <button type="button" class="btn btn-danger"
+                                          ng-click="deleteDeviceCategory(device.id)">
+                                      <span class="glyphicon glyphicon-remove"></span>
+                                  </button>
+                              </div>
+                          </td>
+                      </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <!-- /.panel -->
+    <!--  <script type="text/ng-template" id="custom/pager">
+          <div>
+              <ul class="pager ng-cloak">
+                  <li ng-repeat="page in pages"
+                      ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                      ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                      <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                          {{'PREVIOUS' | translate}}</a>
+                      <a ng-switch-when="next" ng-click="params.page(page.number)"
+                         href="">{{'NEXT' | translate}} &raquo;</a>
+                  </li>
+                  <li>
+                      <div class="btn-group">
+                          <button type="button" ng-class="{'active':params.count() == 5}"
+                                  ng-click="params.count(5)" class="btn btn-default">5
+                          </button>
+                          <button type="button" ng-class="{'active':params.count() == 10}"
+                                  ng-click="params.count(10)" class="btn btn-default">10
+                          </button>
+                          <button type="button" ng-class="{'active':params.count() == 25}"
+                                  ng-click="params.count(25)" class="btn btn-default">25
+                          </button>
+                          <button type="button" ng-class="{'active':params.count() == 50}"
+                                  ng-click="params.count(50)" class="btn btn-default">50
+                          </button>
+                      </div>
+                  </li>
+              </ul>
+          </div>
+      </script>
+      <script type="text/ng-template" id="ng-table/filters/deviceType.html">
+          <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
+                     search-enabled="false"
+                     name="filter-deviceType">
+              <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
+                               allow-clear="true">
+                  {{$select.selected.label}}
+              </ui-select-match>
+              <ui-select-choices
+                      repeat="deviceType in deviceTypeData">
+                  <span ng-bind-html="deviceType.label"></span>
+              </ui-select-choices>
+          </ui-select>
+      </script> -->
+     </div>
+     <!-- /.col-lg-12 -->
     </div>
 </div>
 <!-- /#page-wrapper -->

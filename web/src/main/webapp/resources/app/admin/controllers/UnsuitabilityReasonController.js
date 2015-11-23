@@ -10,53 +10,31 @@ angular
         '$scope',
         '$modal',
         '$http',
-        'DevicesService',
+        'UnsuitabilityReasonService',
         'ngTableParams',
-        '$translate',
         '$timeout',
         '$filter',
         'toaster',
-        function ($rootScope, $scope, $modal, $http, UnsuitabilityReasonService, ngTableParams, $translate, $timeout, $filter, toaster) {
+        function ($rootScope, $scope, $modal, $http, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
+            /**
+             * init of page parametres
+             */
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
-            //for devices kinds
-            $scope.selectedDeviceType = {
-                name: null
-            }
-
-            $scope.deviceTypeData = [
-                               {
-                    id: 'WATER',
-                    label: $filter('translate')('WATER')
-                },
-                {
-                    id: 'THERMAL',
-                    label: $filter('translate')('THERMAL')
-                }
-            ];
-
             /**
-             * Localization of multiselect for type of devices category
+             * Clear filtering fields
              */
-            $scope.setTypeDataLanguage = function () {
-                $scope.deviceTypeData[0].label = $filter('translate')('WATER');
-                $scope.deviceTypeData[1].label = $filter('translate')('THERMAL');
-            };
-
-            $scope.setTypeDataLanguage();
-
             $scope.clearAll = function () {
-                $scope.selectedDeviceType.name = null;
                 $scope.tableParams.filter({});
             };
 
-            $scope.doSearch = function () {
-                $scope.tableParams.reload();
-            };
-
+            /**
+             * Sorting and filtering of table
+             * @type {ngTableParams|*}
+             */
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
@@ -71,14 +49,7 @@ angular
                     var sortCriteria = Object.keys(params.sorting())[0];
                     var sortOrder = params.sorting()[sortCriteria];
 
-                    if ($scope.selectedDeviceType.name != null) {
-                        params.filter().deviceType = $scope.selectedDeviceType.name.id;
-                    }
-                    else {
-                        params.filter().deviceType = null; //case when the filter is cleared with a button on the select
-                    }
-
-                    UnsuitabilityReasonService.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                    unsuitabilityReasonService.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                         .success(function (result) {
                             $scope.resultsCount = result.totalItems;
                             $defer.resolve(result.content);
@@ -89,14 +60,21 @@ angular
                 }
             });
             /**
-             * Updates the table with device.
+             * Updates the table with counter type params.
              */
             $rootScope.onTableHandling = function () {
                 $scope.tableParams.reload();
             };
-
+            /**
+             * initializing table params
+             */
             $rootScope.onTableHandling();
 
+            /**
+             * Function for ng-show. When filtering fields are not empty show button for
+             * clear this fields
+             * @returns {boolean}
+             */
             $scope.isFilter = function () {
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
@@ -107,61 +85,40 @@ angular
                 return false;
             };
             /**
-             * Opens modal window for adding new category of counters.
+             * Opens modal window for adding new counter type.
              */
-            $scope.openAddCategoryCounterModal = function() {
-                var addCategoryCounter = $modal.open({
+            $scope.openAddUnsuitabilityReasonModal = function() {
+                var addUnsuitabilityReasonCounter = $modal.open({
                     animation : true,
-                    controller : 'CategoryDeviceAddModalController',
-                    templateUrl : 'resources/app/admin/views/modals/device-category-add-modal.html',
-                    size: 'md'
+                    controller : 'UnsuitabilityReasonAddModalController',
+                    templateUrl : 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
+                    size: 'md',
+                    resolve: {
+                        devices: function () {
+                            console.log(unsuitabilityReasonService.findAllCounters());
+                            return unsuitabilityReasonService.findAllCounters();
+                        }
+                    }
                 });
                 /**
                  * executes when modal closing
                  */
-                addCategoryCounter.result.then(function () {
-                    toaster.pop('success',$filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_CATEGORY'));
+                addUnsuitabilityReasonCounter.result.then(function () {
+                    toaster.pop('success',$filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_NEW_REASON'));
                 });
             };
-
             /**
-             * Opens modal window for editing category of counter.
-             */
-            $scope.openEditCategoryCounterModal = function(
-                deviceId) {
-                $rootScope.categoryId = deviceId;
-                UnsuitabilityReasonService.getDeviceCategoryById(
-                    $rootScope.categoryId).then(
-                    function(data) {
-                        $rootScope.countersCategory = data;
-                        console.log($rootScope.countersCategory);
-
-                        var deviceDTOModal = $modal
-                            .open({
-                                animation : true,
-                                controller : 'CategoryDeviceEditModalController',
-                                templateUrl : 'resources/app/admin/views/modals/device-category-edit-modal.html',
-                                size: 'md'
-                            });
-                        deviceDTOModal.result.then(function () {
-                            toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_CATEGORY'));
-                        });
-                    });
-
-            };
-
-            /**
-             * Remove devices category by id
+             * Remove unsuitability reason by id
              * @param id
              */
-            $scope.deleteDeviceCategory = function (id) {
-                $rootScope.deviceCategoryId = id;
-                console.log($rootScope.deviceCategoryId);
-                devicesService.deleteDeviceCategory(id).then(function (status) {
+         $scope.deleteUnsuitabilityReason = function (id) {
+                $rootScope.unsuitabilityReasonId = id;
+                console.log($rootScope.unsuitabilityReasonId);
+                unsuitabilityReasonService.deleteUnsuitabilityReason(id).then(function (status) {
                     if (status == 409){
-                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('ERROR_DELETED_CATEGORY'));
+                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('ERROR_DELETED_REASON'));
                     } else {
-                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_CATEGORY'));
+                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_REASON'));
                     }
                 });
                 $timeout(function() {
@@ -170,4 +127,4 @@ angular
                 }, 700);
             };
 
-        }]);
+}]);
