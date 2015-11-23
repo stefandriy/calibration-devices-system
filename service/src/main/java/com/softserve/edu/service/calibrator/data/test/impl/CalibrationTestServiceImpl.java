@@ -58,7 +58,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(),
                 deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(), deviceTestData.getLongitude(),
                 deviceTestData.getUnixTime(), deviceTestData.getCurrentCounterNumber(), verification,
-                deviceTestData.getInitialCapacity());
+                deviceTestData.getInitialCapacity(), deviceTestData.getTemperature());
 
         BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(
                 Base64.decodeBase64(deviceTestData.getTestPhoto())));
@@ -171,13 +171,16 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
             byte[] bytesOfImages = Base64.encodeBase64(baos.toByteArray());
             photo = new String(bytesOfImages);
         } catch (IOException e) {
-            logger.error(e);
             logger.error(e.getMessage());
             logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
         } finally {
             try {
-                bufferedInputStream.close();
-                reader.close();
+                if (bufferedInputStream != null) {
+                    bufferedInputStream.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
             } catch (IOException e) {
                 logger.error(e.getMessage());
                 logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
