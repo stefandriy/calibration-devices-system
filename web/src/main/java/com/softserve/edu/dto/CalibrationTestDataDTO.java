@@ -20,6 +20,8 @@ public class CalibrationTestDataDTO {
     private String beginPhoto;
     private String endPhoto;
     private Verification.CalibrationTestResult testResult;
+    private Integer testPosition;
+
 
     public Boolean getDataAvailable() {
         return dataAvailable;
@@ -154,5 +156,13 @@ public class CalibrationTestDataDTO {
         //calibrationTestData.setCalculationError(calculationError);
         calibrationTestData.setTestResult(Verification.CalibrationTestResult.SUCCESS);
         return calibrationTestData;
+    }
+
+    public Integer getTestPosition() {
+        return testPosition;
+    }
+
+    public void setTestPosition(Integer testPosition) {
+        this.testPosition = testPosition;
     }
 }

@@ -545,5 +545,6 @@
   "UNSUITABILITY_DIRECTORY" : "Reasons of unsuitability",
   "ADD_UNSUITABILITY_DIRECTORY" : "Add reasons of unsuitability",
   "COUNTER_TYPE" : "Counter type",
-  "UNSUITABILITY_REASON" : "Reason of unsuitability"
+  "UNSUITABILITY_REASON" : "Reason of unsuitability",
+  "TYPE WATER":"Type water"
 }
