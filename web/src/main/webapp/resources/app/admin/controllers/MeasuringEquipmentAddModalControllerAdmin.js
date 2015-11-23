@@ -129,9 +129,9 @@ angular
              */
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if ($scope.addCalibrationModuleForm.$valid) { // TODO: CYCLE ?
-                    $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.id;
-                    $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.id;
+                if ($scope.addCalibrationModuleForm.$valid) {
+                    //$scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.id;
+                    //$scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.id;
                     saveCalibrationModule();
                 }
             };

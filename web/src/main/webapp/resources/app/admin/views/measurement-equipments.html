@@ -37,16 +37,16 @@
                             {{ calibrationModule.deviceType | translate }}
                         </td>
                         <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
-                            filter="{ 'condDesignation': 'text' }">{{ calibrationModule.condDesignation}}
+                            filter="{ condDesignation: 'text' }">{{ calibrationModule.condDesignation}}
                         </td>
                         <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'employeeFullName'"
-                            filter="{ 'employeeFullName': 'text' }">{{ calibrationModule.employeeFullName }}
+                            filter="{ employeeFullName: 'text' }">{{ calibrationModule.employeeFullName }}
                         </td>
                         <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
-                            filter="{ 'telephone': 'text' }">+380{{ calibrationModule.telephone }}
+                            filter="{ telephone: 'text' }">+380{{ calibrationModule.telephone }}
                         </td>
                         <td data-title="'VALID_UNTIL' | translate" class="datecolumn" sortable="'workDate'"
-                            filter="{ 'workDate': 'daterange' }">{{ calibrationModule.workDate | date : 'dd-MM-yyyy' }}
+                            filter="{ workDate: 'daterange' }">{{ calibrationModule.workDate | date : 'dd-MM-yyyy' }}
                         </td>
                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
                             filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType | translate }}
