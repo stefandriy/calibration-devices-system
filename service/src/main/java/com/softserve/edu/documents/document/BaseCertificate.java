@@ -97,7 +97,8 @@ public abstract class BaseCertificate implements Document {
     @Placeholder(name = "VERIFICATION_CERTIFICATE_NUMBER")
     public String getVerificationCertificateNumber() {
         String verificationID = String.valueOf(getVerification().getId());
-        return new BigInteger(verificationID.replaceAll("-", ""), 16).toString().substring(0, 8);
+        //TODO: how to generate CertificatID?
+        return new BigInteger(verificationID.replaceAll("-", "").substring(0, 8), 16).toString();
     }
 
     /**
