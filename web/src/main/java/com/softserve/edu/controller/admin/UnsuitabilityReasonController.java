@@ -104,19 +104,20 @@ public class UnsuitabilityReasonController {
     public PageDTO<UnsuitabilityReasonDTO> getUnsuitabilityReasonsPage(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
         return pageUnsuitabilityReasonsWithSearch(pageNumber, itemsPerPage, null, null, null);
     }
-
     /**
-     * Get counter Types for modal window
+     * return all counter types
      *
-     * @param user
-     * @return
+     * @return list of counter types into CounterTypeDTO
      */
- /*   @RequestMapping(value = "counterTypes", method = RequestMethod.GET)
-    public Set<CounterTypeDTO> getCounterTypes(@PathVariable  SecurityUserDetailsService.CustomUserDetails user) {
-        return counterTypeService.findAll().stream().map(counterType ->
-                new CounterTypeDTO(counterType.getId(), counterType.getName())).collect(Collectors.toSet());
-    }*/
-    /**
+    @RequestMapping(value = "counters", method = RequestMethod.GET)
+    public List<CounterTypeDTO> getAllCounterType() {
+        return counterTypeService.findAll().stream()
+                .map(counterType -> new CounterTypeDTO(counterType.getId(), counterType.getName()))
+                .collect(Collectors.toList());
+    }
+
+
+   /**
      * Get CounterType  by id
      * @param id Long of counter type
      * @return counterTypeDTO

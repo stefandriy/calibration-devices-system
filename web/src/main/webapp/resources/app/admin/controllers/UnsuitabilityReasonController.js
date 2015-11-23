@@ -17,7 +17,7 @@ angular
         'toaster',
         function ($rootScope, $scope, $modal, $http, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
             /**
-             * init of page parametres
+             * init of page params
              */
             $scope.totalItems = 0;
             $scope.currentPage = 1;
@@ -30,7 +30,9 @@ angular
             $scope.clearAll = function () {
                 $scope.tableParams.filter({});
             };
-
+            $scope.doSearch = function () {
+                $scope.tableParams.reload();
+            }
             /**
              * Sorting and filtering of table
              * @type {ngTableParams|*}
@@ -88,25 +90,37 @@ angular
              * Opens modal window for adding new counter type.
              */
             $scope.openAddUnsuitabilityReasonModal = function() {
-                var addUnsuitabilityReasonCounter = $modal.open({
-                    animation : true,
-                    controller : 'UnsuitabilityReasonAddModalController',
-                    templateUrl : 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
+                    controller: 'UnsuitabilityReasonAddModalController',
                     size: 'md',
                     resolve: {
-                        devices: function () {
-                            console.log(unsuitabilityReasonService.findAllCounters());
-                            return unsuitabilityReasonService.findAllCounters();
+                        counters: function () {
+                            console.log(unsuitabilityReasonService.getCounterTypes());
+                            return unsuitabilityReasonService.getCounterTypes();
                         }
                     }
                 });
                 /**
                  * executes when modal closing
                  */
-                addUnsuitabilityReasonCounter.result.then(function () {
+                modalInstance.result.then(function () {
+                    var dataToAdd = {
+                        reasonName: $scope.reasonName,
+                        counterId: formData.counters.id
+                    };
+                    unsuitabilityReasonService.saveUnsuitabilityReason(dataToAdd)
+                        .success(function () {
+                            $log.debug('success sending');
+                            $scope.tableParams.reload();
+                            $rootScope.$broadcast('verification-sent-to-verificator');
+
                     toaster.pop('success',$filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_NEW_REASON'));
+                        });
                 });
             };
+
             /**
              * Remove unsuitability reason by id
              * @param id
