@@ -36,17 +36,17 @@ angular
             $scope.myDatePicker.pickerDate = null;
             $scope.defaultDate = null;
 
-            $scope.initDatePicker = function (workDate) {
+            $scope.initDatePicker = function () {
                 /**
                  *  Date picker and formatter setup
                  *
                  */
                 /*TODO: i18n*/
                 $scope.myDatePicker.pickerDate = {
-                    startDate: (workDate ? moment(workDate, "YYYY-MM-DD") : moment()),
+                    startDate: moment().day(-300),
                     //earliest day of  all the verifications available in table
                     //we should reformat it here, because backend currently gives date in format "YYYY-MM-DD"
-                    endDate: moment() // current day
+                    endDate: moment().day(300) // current day
                 };
 
                 if ($scope.defaultDate == null) {
@@ -152,60 +152,58 @@ angular
                 return false;
             };
 
-            measuringEquipmentServiceAdmin.getEarliestCalibrationModuleDate().success(function(workDate) {
-                $scope.initDatePicker(workDate);
-                $scope.tableParams = new ngTableParams({
-                        page: 1,
-                        count: 5,
-                        sorting: {
-                            moduleId: 'desc'
+            $scope.tableParams = new ngTableParams({
+                    page: 1,
+                    count: 5,
+                    sorting: {
+                        moduleId: 'desc'
+                    }
+                },
+                {
+                    total: 0,
+                    filterDelay: 10000,
+                    getData: function ($defer, params) {
+                        $scope.initDatePicker();
+                        var sortCriteria = Object.keys(params.sorting())[0];
+                        var sortOrder = params.sorting()[sortCriteria];
+
+                        if ($scope.showModules == 'Active') {
+                            params.filter().isActive = true;
+                        } else if ($scope.showModules == 'Disabled') {
+                            params.filter().isActive = false;
+                        } else {
+                            params.filter().isActive = null;
                         }
-                    },
-                    {
-                        total: 0,
-                        filterDelay: 10000,
-                        getData: function ($defer, params) {
-                            var sortCriteria = Object.keys(params.sorting())[0];
-                            var sortOrder = params.sorting()[sortCriteria];
 
-                            if ($scope.showModules == 'Active') {
-                                params.filter().isActive = true;
-                            } else if ($scope.showModules == 'Disabled') {
-                                params.filter().isActive = false;
-                            } else {
-                                params.filter().isActive = null;
-                            }
-
-                            if ($scope.selectedDeviceType.name != null) {
-                                params.filter().deviceType = $scope.selectedDeviceType.name.id;
-                            }
-                            else {
-                                params.filter().deviceType = null; //case when the filter is cleared with a button on the select
-                            }
-
-                            if ($scope.selectedModuleType.name != null) {
-                                params.filter().moduleType = $scope.selectedModuleType.name.id;
-                            }
-                            else {
-                                params.filter().moduleType = null; //case when the filter is cleared with a button on the select
-                            }
-
-                            //params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                            //params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-                            params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
-                            params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");
-
-                            measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
-                                .success(function (result) {
-                                    $scope.resultsCount = result.totalItems;
-                                    $defer.resolve(result.content);
-                                    params.total(result.totalItems);
-                                }, function (result) {
-                                    $log.debug('error fetching data:', result);
-                                });
+                        if ($scope.selectedDeviceType.name != null) {
+                            params.filter().deviceType = $scope.selectedDeviceType.name.id;
                         }
-                    });
-            });
+                        else {
+                            params.filter().deviceType = null; //case when the filter is cleared with a button on the select
+                        }
+
+                        if ($scope.selectedModuleType.name != null) {
+                            params.filter().moduleType = $scope.selectedModuleType.name.id;
+                        }
+                        else {
+                            params.filter().moduleType = null; //case when the filter is cleared with a button on the select
+                        }
+
+                        //params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                        //params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                        params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
+                        params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");
+
+                        measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                            .success(function (result) {
+                                $scope.resultsCount = result.totalItems;
+                                $defer.resolve(result.content);
+                                params.total(result.totalItems);
+                            }, function (result) {
+                                $log.debug('error fetching data:', result);
+                            });
+                    }
+                });
 
             /**
              * Opens modal window for adding new calibration module.
