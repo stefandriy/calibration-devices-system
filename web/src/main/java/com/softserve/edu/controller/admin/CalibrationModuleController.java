@@ -50,7 +50,7 @@ public class CalibrationModuleController {
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
                 calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
-                calibrationModule.getModuleType(), calibrationModule.getEmail(),
+                calibrationModule.getIsActive(), calibrationModule.getModuleType(), calibrationModule.getEmail(),
                 calibrationModule.getCalibrationType(), calibrationModule.getWorkDate());
     }
 
@@ -159,8 +159,9 @@ public class CalibrationModuleController {
         }
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration modules
-        Page<CalibrationModule> queryResult = calibrationModuleService
-                .getFilteredPageOfCalibrationModule(searchDataMap, pageable);
+        Page<CalibrationModule> queryResult = searchDataMap.isEmpty() ?
+                calibrationModuleService.findAllModules(pageable) :
+                calibrationModuleService.getFilteredPageOfCalibrationModule(searchDataMap, pageable);
         List<CalibrationModuleDTO> content = new ArrayList<CalibrationModuleDTO>();
         // converting Page of CalibrationModules to List of CalibrationModuleDTOs
         for (CalibrationModule calibrationModule: queryResult) {
@@ -168,9 +169,9 @@ public class CalibrationModuleController {
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
-                    calibrationModule.getModuleNumber(), calibrationModule.getModuleType(),
-                    calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                    calibrationModule.getWorkDate()));
+                    calibrationModule.getModuleNumber(), calibrationModule.getIsActive(),
+                    calibrationModule.getModuleType(), calibrationModule.getEmail(),
+                    calibrationModule.getCalibrationType(), calibrationModule.getWorkDate()));
         }
         PageDTO<CalibrationModuleDTO> pageContent = new PageDTO<>(queryResult.getTotalElements(), content);
         return new PageDTO<>(queryResult.getTotalElements(), content);

@@ -29,24 +29,24 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div class="col-lg-4">
                             <form class="form-inline">
                                 <div class="form-group">
-                                    <label>Show:</label>
+                                    <label>{{'SHOW' | translate}}: </label>
                                     <div class="btn-group">
                                         <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'Active'"
-                                               ng-change="onTableHandling()">Active</label>
+                                               ng-change="onTableHandling()">{{'ACTIVE' | translate}}</label>
                                         <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'Disabled'"
-                                               ng-change="onTableHandling()">Disabled</label>
+                                               ng-change="onTableHandling()">{{'DISABLED' | translate}}</label>
                                         <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'All'"
-                                               ng-change="onTableHandling()">All</label>
+                                               ng-change="onTableHandling()">{{'ALL' | translate}}</label>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-4">
-                            <span class="pull-right"> <span translate="ON_BALANCE"></span>{{totalEmployee}}
-                                <span translate="AVAILABLE_USERS"></span>
+                        <div class="col-lg-8">
+                            <span class="pull-right"><span
+                                    translate="OVERALL_NUMBER_OF_CALIBRATION_MODULES"></span>: {{resultsCount}}
                             </span>
                         </div>
                     </div>
@@ -86,7 +86,13 @@
                                                         ng-click="openEditCalibrationModuleModal(calibrationModule.moduleId)">
                                                     <span class="glyphicon glyphicon-pencil"></span>
                                                 </button>
+                                                <button type="button" class="btn btn-primary"
+                                                        ng-show="!calibrationModule.isActive"
+                                                        ng-click="">
+                                                    <span class="glyphicon glyphicon-off"></span>
+                                                </button>
                                                 <button type="button" class="btn btn-danger"
+                                                        ng-show="calibrationModule.isActive"
                                                         ng-click="openDisableCalibrationModuleModal(calibrationModule.moduleId)">
                                                     <span class="glyphicon glyphicon-remove"></span>
                                                 </button>

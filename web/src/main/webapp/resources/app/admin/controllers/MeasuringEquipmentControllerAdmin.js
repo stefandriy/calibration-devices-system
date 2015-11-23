@@ -40,8 +40,8 @@ angular
                 /**
                  *  Date picker and formatter setup
                  *
-                 */
-                /*TODO: i18n*/
+                 *
+                 *TODO: i18n*/
                 $scope.myDatePicker.pickerDate = {
                     startDate: moment().day(-300),
                     //earliest day of  all the verifications available in table
@@ -143,7 +143,7 @@ angular
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
-                    if (i == 'isActive' || (i == "startDateToSearch" || i == "endDateToSearch")) {
+                    if (i == 'isActive'/* || (i == "startDateToSearch" || i == "endDateToSearch")*/) {
                         continue;
                     } else if (obj.hasOwnProperty(i) && obj[i]) {
                         return true;
@@ -189,10 +189,8 @@ angular
                             params.filter().moduleType = null; //case when the filter is cleared with a button on the select
                         }
 
-                        //params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                        //params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-                        params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
-                        params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");
+                        /*params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
+                        params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");*/
 
                         measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
