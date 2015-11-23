@@ -1,6 +1,7 @@
 package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.admin.CounterTypeDTO;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.admin.UnsuitabilityReasonDTO;
 import com.softserve.edu.entity.device.UnsuitabilityReason;
@@ -100,9 +101,9 @@ public class UnsuitabilityReasonController {
      * @return
      */
     @RequestMapping(value = "counterTypes", method = RequestMethod.GET)
-    public Set<OrganizationDTO> getVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-        return counterTypeService.findAll().stream().map(organization ->
-                new OrganizationDTO(organization.getId(), organization.getName())).collect(Collectors.toSet());
+    public Set<CounterTypeDTO> getCounterTypes(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        return counterTypeService.findAll().stream().map(counterType ->
+                new CounterTypeDTO(counterType.getId(), counterType.getName())).collect(Collectors.toSet());
     }
 
     public static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list){
