@@ -485,7 +485,7 @@
                                            search-enabled="false"
                                            on-select="getProvidersByLocalityAndDeviceType(selectedValues.selectedLocality,selectedValues.secondSelectedDeviceType,'secondDeviceGroup')"
                                            id="secondSelectedDeviceType"
-                                           name="secondSelectedDeviceType">
+                                           name="secondSelectedDeviceType" required>
                                     <ui-select-match placeholder="Тип лічильника">
                                         {{$select.selected | translate}}
                                     </ui-select-match>
@@ -506,7 +506,7 @@
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedValues.secondSelectedProvider"
                                            search-enable="false"
-                                           name="secondDeviceProvider">
+                                           name="secondDeviceProvider" required>
                                     <ui-select-match placeholder="Провайдер">
                                         {{ $select.selected.designation}}
                                     </ui-select-match>

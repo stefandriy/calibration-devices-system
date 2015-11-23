@@ -73,6 +73,13 @@ public class OrganizationController {
                 organizationDTO.getStreet(),
                 organizationDTO.getBuilding(),
                 organizationDTO.getFlat());
+        Address addressRegistered = new Address(
+                organizationDTO.getRegionRegistered(),
+                organizationDTO.getDistrictRegistered(),
+                organizationDTO.getLocalityRegistered(),
+                organizationDTO.getStreetRegistered(),
+                organizationDTO.getBuildingRegistered(),
+                organizationDTO.getFlatRegistered());
         try {
             String adminName = user.getUsername();
             organizationService.addOrganizationWithAdmin(

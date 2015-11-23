@@ -545,5 +545,8 @@
   "BBI_IS_NOT_VALID" : "bbi is not valid",
   "INVALID_VERIFICATION_CODE" : "Invalid verification code",
   "PLEASE_DESCRIBE_REASON_OF_PROTOCOL_REJECTION": "Please explain why verification is being rejected",
-  "REASON_OF_PROTOCOL_REJECTION": "Please provide the detailed reason why this protocol needs to be rejected"
+  "REASON_OF_PROTOCOL_REJECTION": "Please provide the detailed reason why this protocol needs to be rejected",
+  "ENTER_STREET": "Please enter the street of the organization",
+  "ENTER_BUILDING": "Please enter the organization building number",
+  "ENTER_FLAT": "Please enter the flat number of the organization"
 }

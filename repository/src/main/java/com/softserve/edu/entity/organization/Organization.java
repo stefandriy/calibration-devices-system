@@ -37,6 +37,20 @@ public class Organization {
     @Embedded
     private Address address;
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "region", column = @Column(name = "regionRegistered")),
+            @AttributeOverride(name = "district", column = @Column(name = "districtRegistered")),
+            @AttributeOverride(name = "locality", column = @Column(name = "localityRegistered")),
+            @AttributeOverride(name = "street", column = @Column(name = "streetRegistered")),
+            @AttributeOverride(name = "building", column = @Column(name = "buildingRegistered")),
+            @AttributeOverride(name = "flat", column = @Column(name = "flatRegistered"))
+    })
+    private Address addressRegistered;
+
+    @Embedded
+    private AdditionInfoOrganization additionInfoOrganization;
+
     /**
      * Identification number of the certificate that allows this UserCalibrator
      * to perform verifications.

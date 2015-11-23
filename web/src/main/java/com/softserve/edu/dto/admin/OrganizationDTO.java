@@ -26,6 +26,14 @@ public class OrganizationDTO {
     private String building;
     private String flat;
 
+
+    private String regionRegistered;
+    private String localityRegistered;
+    private String districtRegistered;
+    private String streetRegistered;
+    private String buildingRegistered;
+    private String flatRegistered;
+
     //todo change to list
     private Long[] serviceAreas;
 
@@ -215,6 +223,29 @@ public class OrganizationDTO {
         this.maxProcessTime = maxProcessTime;
     }
 
+    public String getRegionRegistered() { return regionRegistered; }
+
+    public void setRegionRegistered(String regionRegistered) { this.regionRegistered = regionRegistered; }
+
+    public String getLocalityRegistered() { return localityRegistered; }
+
+    public void setLocalityRegistered(String localityRegistered) { this.localityRegistered = localityRegistered; }
+
+    public String getDistrictRegistered() { return districtRegistered; }
+
+    public void setDistrictRegistered(String districtRegistered) { this.districtRegistered = districtRegistered; }
+
+    public String getStreetRegistered() { return streetRegistered; }
+
+    public void setStreetRegistered(String streetRegistered) { this.streetRegistered = streetRegistered; }
+
+    public String getBuildingRegistered() { return buildingRegistered; }
+
+    public void setBuildingRegistered(String buildingRegistered) { this.buildingRegistered = buildingRegistered; }
+
+    public String getFlatRegistered() { return flatRegistered; }
+
+    public void setFlatRegistered(String flatRegistered) { this.flatRegistered = flatRegistered; }
 
     /**
      * Constructor with localityIdList
