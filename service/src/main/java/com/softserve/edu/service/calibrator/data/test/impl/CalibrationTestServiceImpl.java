@@ -2,6 +2,8 @@ package com.softserve.edu.service.calibrator.data.test.impl;
 
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
+import com.softserve.edu.service.tool.MailService;
+import com.sun.xml.internal.ws.api.message.Packet;
 import org.apache.commons.codec.binary.Base64;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
@@ -46,6 +48,8 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     private CalibrationTestDataRepository dataRepository;
     @Autowired
     private VerificationRepository verificationRepository;
+    @Autowired
+    MailService mailService;
 
     private Logger logger = Logger.getLogger(CalibrationTestServiceImpl.class);
 
@@ -186,6 +190,24 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     }
 
     @Override
+    public Set<CalibrationTestData> getLatestTests(List<CalibrationTestData> rawListOfCalibrationTestData) {
+        Set<CalibrationTestData> setOfCalibrationTestData = new LinkedHashSet<>();
+        Integer position;
+        for (CalibrationTestData calibrationTestData : rawListOfCalibrationTestData ){
+            position = calibrationTestData.getTestPosition();
+            position++;
+            for (CalibrationTestData calibrationTestDataSearch : rawListOfCalibrationTestData) {
+                if (calibrationTestDataSearch.getTestPosition() == position) {
+                    calibrationTestData = calibrationTestDataSearch;
+                    position++;
+                }
+            }
+            setOfCalibrationTestData.add(calibrationTestData);
+        }
+        return setOfCalibrationTestData;
+    }
+
+    @Override
     @Transactional
     public void uploadPhotos(InputStream file, Long idCalibrationTest, String originalFileFullName) throws IOException {
         String fileType = originalFileFullName.substring(originalFileFullName.lastIndexOf('.') + 1);
@@ -231,6 +253,27 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
         calibrationTest.setTestResult(testResult);
         return calibrationTest;
+    }
+
+    @Override
+    @Transactional
+    public void updateTest(String verificationId,String status){
+        Verification verification = verificationRepository.findOne(verificationId);
+        String statusToSend;
+        Status statusVerification = Status.valueOf(status.toUpperCase());
+        if(!verification.getStatus().equals(statusVerification)) {
+            if(statusVerification.equals(Status.TEST_OK)){
+                statusToSend = "придатний";
+            }else {
+                statusToSend = "непридатний";
+            }
+            verification.setStatus(statusVerification);
+            String emailCustomer = verification.getClientData().getEmail();
+            String emailProvider = verification.getProviderEmployee().getEmail();
+            mailService.sendPassedTestMail(emailCustomer, verificationId, statusToSend);
+            mailService.sendPassedTestMail(emailProvider, verificationId, statusToSend);
+            verificationRepository.save(verification);
+        }
     }
 
 
