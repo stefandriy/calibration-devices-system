@@ -172,6 +172,7 @@ public class CalibrationModuleController {
                     calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
                     calibrationModule.getWorkDate()));
         }
+        PageDTO<CalibrationModuleDTO> pageContent = new PageDTO<>(queryResult.getTotalElements(), content);
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }
 
