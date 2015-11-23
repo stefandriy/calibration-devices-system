@@ -178,7 +178,7 @@ angular
 
                             if ($scope.showModules == 'Active') {
                                 params.filter().isActive = true;
-                            } else if ($scope.showModules == "Disabled") {
+                            } else if ($scope.showModules == 'Disabled') {
                                 params.filter().isActive = false;
                             } else {
                                 params.filter().isActive = null;
