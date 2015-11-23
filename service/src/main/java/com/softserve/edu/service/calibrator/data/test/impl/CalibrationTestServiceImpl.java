@@ -3,7 +3,6 @@ package com.softserve.edu.service.calibrator.data.test.impl;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import com.softserve.edu.service.tool.MailService;
-import com.sun.xml.internal.ws.api.message.Packet;
 import org.apache.commons.codec.binary.Base64;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
@@ -24,10 +23,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.imageio.ImageIO;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
