@@ -40,34 +40,60 @@ angular
                 });
             };
 
-            function convectorStatus(data) {
-                if(data.consumptionStatus=== "IN_THE_AREA"){
-                    data.consumptionStatus = "В зоні";
-                }else if(data.consumptionStatus=== "NOT_IN_THE_AREA"){
-                    data.consumptionStatus = "Не в зоні";
-                }
+            function convectorStatus(consumptionStatus,flag) {
+               if(flag) {
+                   if (consumptionStatus === "IN_THE_AREA") {
+                       consumptionStatus = "В зоні";
+                   } else if (consumptionStatus === "NOT_IN_THE_AREA") {
+                       consumptionStatus = "Не в зоні";
+                   }
+               } else{
+                   if (consumptionStatus === "В зоні") {
+                       consumptionStatus = "IN_THE_AREA";
+                   } else if (consumptionStatus === "Не в зоні") {
+                       consumptionStatus = "NOT_IN_THE_AREA";
+                   }
+               }
+                return consumptionStatus;
             }
 
-            function convectorTestResult(data) {
-                if(data.testResult=='SUCCESS'){
-                    data.testResult="Успішний";
-                }else if(data.testResult=='FAILED'){
-                    data.testResult="Невдалий";
-                }else{
-                    data.testResult="Необроблений";
+            function convectorTestResult(testResult, flag) {
+                if (flag) {
+                    if (testResult === "SUCCESS") {
+                        testResult = "Успішний";
+                    } else if (testResult === "FAILED") {
+                        testResult = "Невдалий";
+                    } else if(testResult === "RAW") {
+                        testResult = "Необроблений";
+                    }
+                }else {
+                    if (testResult=== "Успішний") {
+                        testResult = "SUCCESS";
+                    } else if (testResult === "Невдалий") {
+                        testResult = "FAILED";
+                    } else if(testResult === "Необроблений") {
+                        testResult= "RAW";
+                    }
                 }
+                return testResult;
             }
 
-            $scope.parseBbiFile = function(data) {
+            function convectorForListData (listTestData,flag){
+                 var list = new Array();
+                 for (var i = 0; i < listTestData.length; i++) {
+                     var dataTest = listTestData[i];
+                     dataTest.consumptionStatus = convectorStatus(dataTest.consumptionStatus, flag);
+                     dataTest.testResult = convectorTestResult(dataTest.testResult, flag);
+                     list[i]=dataTest;
+                 }
+                 return list;
+            }
+
+            $scope.parseBbiFile = function (data) {
                 $scope.fileLoaded = true;
-                convectorStatus(data);
-                convectorTestResult(data);
-                console.log(data.listTestData.length)
-                for(var i = 0 ;i<data.listTestData.length;i++){
-                    var dataTest = data.listTestData[i];
-                    convectorStatus(dataTest);
-                    convectorTestResult(dataTest);
-                }
+                data.consumptionStatus = convectorStatus(data.consumptionStatus, true);
+                data.testResult = convectorTestResult(data.testResult, true);
+                data.listTestData = convectorForListData(data.listTestData,true)
                 $scope.TestForm = data;
                 for (var i = 0; i < $scope.statusData.length; i++) {
                     if ($scope.statusData[i].id === data.status) {
@@ -141,30 +167,12 @@ angular
                 if (lang === 'ukr') {
                     $scope.statusData[0].label = 'придатний';
                     $scope.statusData[1].label = 'непридатний';
-                    $scope.statusWaterType[0].label = 'гаряче';
-                    $scope.statusWaterType[1].label = 'холодне';
                 } else if (lang === 'eng') {
                     $scope.statusData[0].label = 'Tested OK';
                     $scope.statusData[1].label = 'Tested NOK';
-                    $scope.statusWaterType[0].label = 'hot';
-                    $scope.statusWaterType[1].label = 'cold';
                 }
             };
 
-            $scope.selectedWaterType = {
-                label: null
-            }
-            $scope.statusWaterType = [
-                {id: 'hot', label: null},
-                {id: 'cold', label: null}
-            ];
-
-            $scope.setWaterType = function (status) {
-                $scope.selectedWaterType = {
-                    label: status.label,
-                    id: status.id
-                };
-            };
 
             $scope.setTypeDataLanguage();
 
@@ -174,8 +182,8 @@ angular
                 getCalibrationTests();
 
             }
-
             function retranslater() {
+                //convectorTestResult($scope.TestForm,false);
                 protocol = {
                     fileName:$scope.TestForm.fileName,
                     counterNumber:$scope.TestForm.counterNumber,
@@ -183,10 +191,16 @@ angular
                     installmentNumber:$scope.TestForm.installmentNumber,
                     latitude:$scope.TestForm.latitude,
                     longitude:$scope.TestForm.longitude,
-                    testResult:$scope.TestForm.testResult,
-                    listTestData:$scope.TestForm.listTestData,
-                    status:$scope.selectedStatus.id
-                }
+                    testResult:convectorTestResult($scope.TestForm.testResult,false),
+                    status:$scope.selectedStatus.id,
+                    listTestData:convectorForListData($scope.TestForm.listTestData,false)
+                    }
+            };
+
+
+
+            $scope.closeForm = function(){
+                window.history.back();
             }
 
             /**
@@ -195,10 +209,6 @@ angular
                 /*$scope.generalForms={testForm:$scope.TestForm, smallForm: $scope.TestDataFormData};
                   $log.debug($scope.generalForms);
                 .updateCalibrationTest($scope.TestForm, $scope.testId)*/
-
-            $scope.closeForm = function(){
-                window.history.back();
-            }
 
             $scope.updateCalibrationTest = function () {
                         retranslater();
