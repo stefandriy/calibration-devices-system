@@ -595,71 +595,72 @@
             </div>
             <div class="panel-body">
                 <div class="form-group row">
-                    <label class="control-label col-md-4" for="regionReg">
+                    <label class="control-label col-md-4" for="regionRegistered">
                         {{'REGION' | translate}}
                     </label>
                     <div class="col-md-8">
                         <ui-select class="form-control" type="text" theme="select2"
-                                   ng-model="organizationFormData.regionReg"
-                                   on-select="receiveDistrictsRegistered(organizationFormData.regionReg)"
-                                   name="regionReg" id="regionReg">
+                                   ng-model="organizationFormData.regionRegistered"
+                                   on-select="receiveDistrictsRegistered(organizationFormData.regionRegistered)"
+                                   name="regionRegistered" id="regionRegistered">
                             <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
-                            <ui-select-choices repeat="regionReg in regionsReg | filter: $select.search">
-                                <span ng-bind-html="regionReg.designation"></span>
+                            <ui-select-choices repeat="regionRegistered in regionsReg | filter: $select.search">
+                                <span ng-bind-html="regionRegistered.designation"></span>
                             </ui-select-choices>
                         </ui-select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="control-label col-md-4" for="districtReg">
+                    <label class="control-label col-md-4" for="districtRegistered">
                         {{'DISTRICT' | translate}}
                     </label>
                     <div class="col-md-8">
                         <ui-select class="form-control" type="text" theme="select2"
-                                   ng-model="organizationFormData.districtReg"
-                                   on-select="receiveLocalitiesRegistered(organizationFormData.districtReg)"
-                                   name="districtReg" id="districtReg"
-                                   ng-disabled="!organizationFormData.regionReg">
+                                   ng-model="organizationFormData.districtRegistered"
+                                   on-select="receiveLocalitiesRegistered(organizationFormData.districtRegistered)"
+                                   name="districtRegistered" id="districtRegistered"
+                                   ng-disabled="!organizationFormData.regionRegistered">
                             <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
-                            <ui-select-choices repeat="districtReg in districtsReg | filter: $select.search">
-                                <span ng-bind-html="districtReg.designation"></span>
+                            <ui-select-choices repeat="districtRegistered in districtsReg | filter: $select.search">
+                                <span ng-bind-html="districtRegistered.designation"></span>
                             </ui-select-choices>
                         </ui-select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="control-label col-md-4" for="localityReg">
+                    <label class="control-label col-md-4" for="localityRegistered">
                         {{'LOCALITY' | translate}}
                     </label>
                     <div class="col-md-8">
                         <ui-select class="form-control" type="text" theme="select2"
-                                   ng-model="organizationFormData.localityReg"
-                                   on-select="receiveStreetsRegistered(organizationFormData.localityReg, organizationFormData.districtReg)"
-                                   name="localityReg" id="localityReg"
-                                   ng-disabled="!organizationFormData.districtReg">
+                                   ng-model="organizationFormData.localityRegistered"
+                                   on-select="receiveStreetsRegistered(organizationFormData.localityRegistered,
+                                                                        organizationFormData.districtRegistered)"
+                                   name="localityRegistered" id="localityRegistered"
+                                   ng-disabled="!organizationFormData.districtRegistered">
                             <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
                                 {{$select.selected.designation}}
                             </ui-select-match>
-                            <ui-select-choices repeat="localityReg in localitiesReg | filter: $select.search | unique:'designation'">
-                                <span ng-bind-html="localityReg.designation"></span>
+                            <ui-select-choices repeat="localityRegistered in localitiesReg | filter: $select.search | unique:'designation'">
+                                <span ng-bind-html="localityRegistered.designation"></span>
                             </ui-select-choices>
                         </ui-select>
                     </div>
                 </div>
                 <div class="form-group row" show-errors>
-                    <label class="control-label col-md-4" for="streetReg">
+                    <label class="control-label col-md-4" for="streetRegistered">
                         {{'STREET_TWO' | translate}}
                     </label>
                     <div class="col-md-8">
-                        <input name="streetReg" class="form-control"
-                               type="text" id="streetReg"
-                               ng-model="organizationFormData.streetReg"
-                               ng-disabled="!organizationFormData.localityReg"
-                               typeahead="streetReg as streetReg.designation for streetReg in streetsReg | filter: $viewValue | limitTo: 4"
+                        <input name="streetRegistered" class="form-control"
+                               type="text" id="streetRegistered"
+                               ng-model="organizationFormData.streetRegistered"
+                               ng-disabled="!organizationFormData.localityRegistered"
+                               typeahead="streetRegistered as streetRegistered.designation for streetRegistered in streetsReg | filter: $viewValue | limitTo: 4"
                                typeahead-editable="false"
                                popover="{{'ENTER_STREET' | translate}}"
                                popover-trigger="focus" popover-placement="top">
@@ -668,14 +669,14 @@
                     </div>
                 </div>
                 <div class="form-group row" show-errors>
-                    <label class="control-label col-md-4" for="buildingReg">
+                    <label class="control-label col-md-4" for="buildingRegistered">
                         {{'HOUSE_TWO' | translate}}
                     </label>
                     <div class="col-md-8">
-                        <input name="buildingReg" id="buildingReg" type="text"
-                               ng-model="organizationFormData.buildingReg"
-                               ng-disabled="!organizationFormData.streetReg"
-                               typeahead="buildingReg as buildingReg.designation for buildingReg in buildingsReg | filter: $viewValue"
+                        <input name="buildingRegistered" id="buildingRegistered" type="text"
+                               ng-model="organizationFormData.buildingRegistered"
+                               ng-disabled="!organizationFormData.streetRegistered"
+                               typeahead="buildingRegistered as buildingRegistered.designation for buildingRegistered in buildingsReg | filter: $viewValue"
                                class="form-control" popover="{{'ENTER_BUILDING' | translate}}"
                                popover-trigger="focus" popover-placement="top">
                         <span class="form-control-feedback glyphicon
@@ -683,13 +684,13 @@
                     </div>
                 </div>
                 <div class="form-group row" show-errors>
-                    <label class="control-label col-md-4" for="flatReg">
+                    <label class="control-label col-md-4" for="flatRegistered">
                         {{'FLAT' | translate}}
                     </label>
                     <div class="col-md-8">
-                        <input name="flatReg" id="flatReg" type="text"
-                               ng-model="organizationFormData.flatReg" class="form-control"
-                               ng-disabled="!organizationFormData.buildingReg"
+                        <input name="flatRegistered" id="flatRegistered" type="text"
+                               ng-model="organizationFormData.flatRegistered" class="form-control"
+                               ng-disabled="!organizationFormData.buildingRegistered"
                                popover="{{'ENTER_FLAT' | translate}}"
                                popover-trigger="focus" popover-placement="top">
                         <span class="form-control-feedback glyphicon

@@ -117,6 +117,16 @@ public class Organization {
         this.address = address;
     }
 
+    public Organization(String name, String email, String phone, Integer employeesCapacity, Integer maxProcessTime,
+                        Address address, Address addressRegistered, AdditionInfoOrganization additionInfoOrganization) {
+        this(name, email, phone);
+        this.employeesCapacity = employeesCapacity;
+        this.maxProcessTime = maxProcessTime;
+        this.address = address;
+        this.addressRegistered = addressRegistered;
+        this.additionInfoOrganization = additionInfoOrganization;
+    }
+
     public void addUser(User user) {
         user.setOrganization(this);
         users.add(user);

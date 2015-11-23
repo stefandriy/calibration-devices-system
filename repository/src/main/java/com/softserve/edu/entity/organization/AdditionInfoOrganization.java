@@ -14,16 +14,16 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class AdditionInfoOrganization {
 
-    private String edrpou;
+    private String codeEDRPOU;
     private String subordination;
     private String certificateNumrAuthoriz;
     private Date certificateDate;
 
-    public AdditionInfoOrganization(String edrpou, String subordination, String certificateNumrAuthoriz, Date certificateDate) {
-        this.edrpou = edrpou;
+    public AdditionInfoOrganization(String codeEDRPOU, String subordination, String certificateNumrAuthoriz, Long certificateDate) {
+        this.codeEDRPOU = codeEDRPOU;
         this.subordination = subordination;
         this.certificateNumrAuthoriz = certificateNumrAuthoriz;
-        this.certificateDate = certificateDate;
+        this.certificateDate = new Date(certificateDate);//Date.valueOf(certificateDate);//new Date(Long.parseLong(certificateDate));
     }
 
 }

@@ -128,12 +128,12 @@ angular
                 $scope.organizationFormData.certificateNumrAuthoriz = undefined;
                 $scope.organizationFormData.certificateDate = undefined;
 
-                $scope.organizationFormData.regionReg = undefined;
-                $scope.organizationFormData.districtReg = undefined;
-                $scope.organizationFormData.localityReg = undefined;
-                $scope.organizationFormData.streetReg = undefined;
-                $scope.organizationFormData.buildingReg = undefined;
-                $scope.organizationFormData.flatReg = undefined;
+                $scope.organizationFormData.regionRegistered = undefined;
+                $scope.organizationFormData.districtRegistered = undefined;
+                $scope.organizationFormData.localityRegistered = undefined;
+                $scope.organizationFormData.streetRegistered = undefined;
+                $scope.organizationFormData.buildingRegistered = undefined;
+                $scope.organizationFormData.flatRegistered = undefined;
 
                 $scope.selectedServiceAreaLocalities = [];
                 $scope.serviceArea.locality = [[]];
@@ -269,9 +269,9 @@ angular
                     addressService.findDistrictsByRegionId(selectedRegionReg.id)
                         .then(function (districtsReg) {
                             $scope.districtsReg = districtsReg;
-                            $scope.organizationFormData.districtReg = undefined;
-                            $scope.organizationFormData.localityReg = undefined;
-                            $scope.organizationFormData.streetReg = undefined;
+                            $scope.organizationFormData.districtRegistered = undefined;
+                            $scope.organizationFormData.localityRegistered = undefined;
+                            $scope.organizationFormData.streetRegistered = undefined;
                             //$scope.organizationForm.region.$valid = true;
                             //$scope.organizationForm.region.$invalid = false;
                         });
@@ -288,8 +288,8 @@ angular
                     addressService.findLocalitiesByDistrictId(selectedDistrictReg.id)
                         .then(function (localitiesReg) {
                             $scope.localitiesReg = localitiesReg;
-                            $scope.organizationFormData.localityReg = undefined;
-                            $scope.organizationFormData.streetReg = undefined;
+                            $scope.organizationFormData.localityRegistered = undefined;
+                            $scope.organizationFormData.streetRegistered = undefined;
 
                         });
                 }
@@ -305,9 +305,9 @@ angular
                     addressService.findStreetsByLocalityId(selectedLocalityReg.id)
                         .then(function (streetsReg) {
                             $scope.streetsReg = streetsReg;
-                            $scope.organizationFormData.streetReg = undefined;
-                            $scope.organizationFormData.buildingReg = undefined;
-                            $scope.organizationFormData.flatReg = undefined;
+                            $scope.organizationFormData.streetRegistered = undefined;
+                            $scope.organizationFormData.buildingRegistered = undefined;
+                            $scope.organizationFormData.flatRegistered = undefined;
                         }
                     );
                 }
@@ -415,14 +415,24 @@ angular
                 $scope.organizationFormData.district = $scope.organizationFormData.district.designation;
                 $scope.organizationFormData.locality = $scope.organizationFormData.locality.designation;
                 $scope.organizationFormData.street = $scope.organizationFormData.street.designation;
-                $scope.organizationFormData.building = $scope.organizationFormData.building;
-                $scope.organizationFormData.flat = $scope.organizationFormData.flat;
                 $scope.organizationFormData.serviceAreas = $scope.selectedServiceAreaLocalities;
 
-                //$scope.organizationFormData.regionReg = $scope.organizationFormData.regionReg.designation;
-                //$scope.organizationFormData.districtReg = $scope.organizationFormData.districtReg.designation;
-                //$scope.organizationFormData.localityReg = $scope.organizationFormData.localityReg.designation;
-                //$scope.organizationFormData.streetReg = $scope.organizationFormData.streetReg.designation;
+                if($scope.organizationFormData.regionRegistered !== undefined) {
+                    $scope.organizationFormData.regionRegistered = $scope.organizationFormData.regionRegistered.designation;
+                }
+                if($scope.organizationFormData.districtRegistered !== undefined) {
+                    $scope.organizationFormData.districtRegistered = $scope.organizationFormData.districtRegistered.designation;
+                }
+                if($scope.organizationFormData.localityRegistered !== undefined) {
+                    $scope.organizationFormData.localityRegistered = $scope.organizationFormData.localityRegistered.designation;
+                }
+                if($scope.organizationFormData.streetRegistered !== undefined) {
+                    $scope.organizationFormData.streetRegistered = $scope.organizationFormData.streetRegistered.designation;
+                }
+            }
+
+            function dateToLong() {
+                $scope.organizationFormData.certificateDate = (new Date($scope.organizationFormData.certificateDate)).getTime();
             }
 
             function objectTypesToStringTypes() {
@@ -452,6 +462,7 @@ angular
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.organizationForm.$valid) {
                     addressFormToOrganizationForm();
+                    dateToLong();
                     objectTypesToStringTypes();
                     saveOrganization();
                 }
