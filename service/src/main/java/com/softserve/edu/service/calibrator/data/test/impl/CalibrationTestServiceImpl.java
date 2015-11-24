@@ -68,7 +68,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
         testRepository.save(calibrationTest);
 
-        for (int testDataId = 1; testDataId <= Constants.TEST_COUNT; testDataId++) { // BBI can not contain  more than 6 tests
+        for (int testDataId = 1; testDataId <= Constants.TEST_COUNT; testDataId++) {
             if (!deviceTestData.getBeginPhoto(testDataId).equals("")) { // if there is no photo there is now test data
                 CalibrationTestData сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(),
                         deviceTestData, testDataId);
