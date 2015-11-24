@@ -523,6 +523,7 @@
   "ADD_INSTALLATION": "Add calibration module",
   "SPHERE_OF_APPLICATION": "Sphere of aplication",
   "INSTALLATION_CODE": "Installation code",
+  "INSTALL_CODE": "Installation code",
   "INSTALLATION_NUMBER": "Installation number",
   "CERTIFICATE_NUMBER": "Certificate number",
   "CERTIFICATE_DATE": "Valid date of authorization certificate",

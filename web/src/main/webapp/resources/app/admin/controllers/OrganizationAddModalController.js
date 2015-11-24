@@ -272,8 +272,6 @@ angular
                             $scope.organizationFormData.districtRegistered = undefined;
                             $scope.organizationFormData.localityRegistered = undefined;
                             $scope.organizationFormData.streetRegistered = undefined;
-                            //$scope.organizationForm.region.$valid = true;
-                            //$scope.organizationForm.region.$invalid = false;
                         });
                 }
             };
@@ -415,6 +413,8 @@ angular
                 $scope.organizationFormData.district = $scope.organizationFormData.district.designation;
                 $scope.organizationFormData.locality = $scope.organizationFormData.locality.designation;
                 $scope.organizationFormData.street = $scope.organizationFormData.street.designation;
+                $scope.organizationFormData.building = $scope.organizationFormData.building;
+                $scope.organizationFormData.flat = $scope.organizationFormData.flat;
                 $scope.organizationFormData.serviceAreas = $scope.selectedServiceAreaLocalities;
 
                 if($scope.organizationFormData.regionRegistered !== undefined) {
