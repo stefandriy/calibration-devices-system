@@ -20,6 +20,9 @@ angular
             },
             disableCalibrationModule: function(id) {
                 return getData("disable/" + id);
+            },
+            enableCalibrationModule: function(id) {
+                return getData("enable/" + id);
             }
         };
 
