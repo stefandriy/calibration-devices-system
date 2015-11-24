@@ -330,6 +330,8 @@ angular
                     $scope.clientForm.secondDeviceCount.$invalid = false;
                 }
 
+
+
                 /**
                  * Check street selection group
                  */

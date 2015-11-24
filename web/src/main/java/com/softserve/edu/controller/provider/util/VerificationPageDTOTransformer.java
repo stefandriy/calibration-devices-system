@@ -6,6 +6,7 @@ import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.Verification;
 
+import java.time.LocalTime;
 import java.util.*;
 
 public class VerificationPageDTOTransformer {
@@ -54,16 +55,42 @@ public class VerificationPageDTOTransformer {
 
     public static List<VerificationPlanningTaskDTO> toDoFromPageContent(List<Verification> verifications){
         List<VerificationPlanningTaskDTO> taskDTOs = new ArrayList<VerificationPlanningTaskDTO>();
+        Date dateOfVerif;
+        LocalTime timeFrom;
+        LocalTime timeTo;
+        boolean serviceability;
+        Date noWaterToDate;
         for (Verification verification : verifications) {
             String counterStatus = (verification.isCounterStatus())? "Так": "Ні";
+            if (verification.isAddInfoExists())
+            {
+                dateOfVerif = verification.getInfo().getDateOfVerif();
+                timeFrom = verification.getInfo().getTimeFrom();
+                timeTo = verification.getInfo().getTimeTo();
+                serviceability = verification.getInfo().isServiceability();
+                noWaterToDate = verification.getInfo().getNoWaterToDate();
+            }
+            else
+            {
+                dateOfVerif = null;
+                timeFrom = null;
+                timeTo = null;
+                serviceability = true;
+                noWaterToDate = null;
+            }
             taskDTOs.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
                     verification.getId(),
                     verification.getProvider().getName(),
                     verification.getClientData().getFullName(),
-                    verification.getClientData().getClientAddress().getAddress(),
-                    counterStatus,
-                    verification.getDevice().getDeviceType(),
-                    verification.getClientData().getPhone()));
+                    verification.getClientData().getClientAddress().getDistrict(),
+                    verification.getClientData().getClientAddress().getStreet(),
+                    verification.getClientData().getClientAddress().getBuilding(),
+                    verification.getClientData().getClientAddress().getFlat(),
+                    verification.getClientData().getPhone(),
+                    verification.getClientData().getSecondPhone(),
+                    dateOfVerif, timeFrom, timeTo, serviceability, noWaterToDate,
+                    verification.isSealPresence()
+            ));
         }
         return taskDTOs;
     }
