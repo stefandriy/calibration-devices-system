@@ -1,12 +1,25 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.device.UnsuitabilityReason;
+import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.CounterTypeRepository;
 import com.softserve.edu.repository.UnsuitabilityReasonRepository;
 import com.softserve.edu.service.admin.UnsuitabilityReasonService;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Sonka on 23.11.2015.
@@ -17,18 +30,56 @@ public class UnsuitabilityReasonServiceImpl implements UnsuitabilityReasonServic
     private UnsuitabilityReasonRepository unsuitabilityReasonRepository;
     @Autowired
     private CounterTypeRepository counterTypeRepository;
+    @PersistenceContext
+    private EntityManager em;
+
     @Override
     public void addUnsuitabilityReason(String name, Long counterId) {
+
         unsuitabilityReasonRepository.save(new UnsuitabilityReason(name, counterTypeRepository.findOne(counterId)));
     }
 
     @Override
     public void removeUnsuitabilityReason(Long id) {
-
+        
+        unsuitabilityReasonRepository.delete(id);
     }
 
     @Override
-    public ListToPageTransformer<UnsuitabilityReason> getUnsuitabilityReasonBySearchAndPagination(int pageNumber, int itemsPerPage, Long id, String counterTypeName, String name, String sortCriteria, String sortOrder) {
-        return null;
+    public List<UnsuitabilityReason> findAllUnsuitabilityReasons() {
+
+        return unsuitabilityReasonRepository.findAll();
     }
+
+
+
+
+
+
+
+
+
+
+
+    /*@Override
+    public ListToPageTransformer<UnsuitabilityReason> getUnsuitabilityReasonBySearchAndPagination(int pageNumber, int itemsPerPage, Long id, String counterTypeName, String name, String sortCriteria, String sortOrder) {
+        return new UnsuitabilityReason("Причина1", counterTypeRepository.findOne(1l));
+    }*/
+   /* @Transactional(readOnly = true)
+    public List<Verification> findPageOfVerificationsByCalibratorIdAndStatus(
+            User calibratorEmployee, int pageNumber, int itemsPerPage, Status status) {
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
+        Root<Verification> verifications = cq.from(Verification.class);
+
+        cq.where(cb.and(cb.equal(verifications.get("calibratorEmployee"), calibratorEmployee),
+                cb.equal(verifications.get("status"), status)));
+
+        TypedQuery<Verification> typedQuery = em.createQuery(cq);
+        typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
+        typedQuery.setMaxResults(itemsPerPage);
+
+        return typedQuery.getResultList();
+    }*/
 }

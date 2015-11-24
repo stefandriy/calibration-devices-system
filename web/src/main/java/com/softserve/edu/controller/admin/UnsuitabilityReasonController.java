@@ -2,32 +2,26 @@ package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.CounterTypeDTO;
-import com.softserve.edu.dto.admin.DeviceDTO;
-import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.admin.UnsuitabilityReasonDTO;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.UnsuitabilityReason;
 import com.softserve.edu.service.admin.CounterTypeService;
 import com.softserve.edu.service.admin.UnsuitabilityReasonService;
-import com.softserve.edu.service.user.SecurityUserDetailsService;
-import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * Created by Sonka on 23.11.2015.
  */
 @RestController
-@RequestMapping(value = "/admin/unsuitability-reasons/")
+@RequestMapping(value = "/admin/unsuitability-reasons/", produces = "application/json")
 public class UnsuitabilityReasonController {
     private final Logger logger = Logger.getLogger(DeviceController.class);
     @Autowired
@@ -77,33 +71,20 @@ public class UnsuitabilityReasonController {
     }
 
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-    public PageDTO<UnsuitabilityReasonDTO> pageUnsuitabilityReasonsWithSearch(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-                                                                              @PathVariable String sortCriteria, @PathVariable String sortOrder,
+    public PageDTO<UnsuitabilityReasonDTO> pageUnsuitabilityReasonsWithSearch(@PathVariable Integer pageNumber,
+                                                                              @PathVariable Integer itemsPerPage,
+                                                                              @PathVariable String sortCriteria,
+                                                                              @PathVariable String sortOrder,
                                                                               UnsuitabilityReasonDTO searchData) {
-        ListToPageTransformer<UnsuitabilityReason> queryResult = unsuitabilityReasonService.getUnsuitabilityReasonBySearchAndPagination(
-                pageNumber,
-                itemsPerPage,
-                searchData.getId(),
-                searchData.getCounterTypeName(),
-                searchData.getName(),
-                sortCriteria,
-                sortOrder
-        );
-        List<UnsuitabilityReasonDTO> content = toUnsuitabilityReasonDTOFromList(queryResult.getContent());
-        return new PageDTO(queryResult.getTotalItems(), content);
+
+        List<UnsuitabilityReason> reasons = unsuitabilityReasonService.findAllUnsuitabilityReasons();
+        Long count = (long) reasons.size();
+        List<UnsuitabilityReasonDTO> content = toUnsuitabilityReasonDTOFromList(reasons);
+        content.add(new UnsuitabilityReasonDTO(1l, "Причина1", 1l, "Тип1"));
+        return new PageDTO<>(count, content);
     }
 
-    /**
-     * Build page without sorting, ordering and searching data
-     *
-     * @param pageNumber
-     * @param itemsPerPage
-     * @return
-     */
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<UnsuitabilityReasonDTO> getUnsuitabilityReasonsPage(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage) {
-        return pageUnsuitabilityReasonsWithSearch(pageNumber, itemsPerPage, null, null, null);
-    }
+
     /**
      * return all counter types
      *
@@ -117,8 +98,9 @@ public class UnsuitabilityReasonController {
     }
 
 
-   /**
+    /**
      * Get CounterType  by id
+     *
      * @param id Long of counter type
      * @return counterTypeDTO
      */
@@ -142,3 +124,33 @@ public class UnsuitabilityReasonController {
         return resultList;
     }
 }
+
+
+/**
+ * Build page without sorting, ordering and searching data
+ *
+ * @param pageNumber
+ * @param itemsPerPage
+ * @return
+ */
+   /* @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<UnsuitabilityReasonDTO> getUnsuitabilityReasonsPage(@PathVariable Integer pageNumber,
+                                                                       @PathVariable Integer itemsPerPage) {
+        return pageUnsuitabilityReasonsWithSearch(pageNumber, itemsPerPage, null, null, null);
+    }
+
+
+
+        /*ListToPageTransformer<UnsuitabilityReason> queryResult =
+                unsuitabilityReasonService.getUnsuitabilityReasonBySearchAndPagination(
+                        pageNumber,
+                        itemsPerPage,
+                        searchData.getId(),
+                        searchData.getCounterTypeName(),
+                        searchData.getName(),
+                        sortCriteria,
+                        sortOrder
+                );
+        */
+       /* Long count = protocolsService.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee, status);
+        List<ProtocolDTO> content = ProtocolDTOTransformer.toDtofromList(verifications); */

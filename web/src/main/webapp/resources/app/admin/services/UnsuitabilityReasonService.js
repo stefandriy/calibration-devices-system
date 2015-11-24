@@ -14,6 +14,13 @@ angular
                         return result.status;
                     });
             },
+            deleteUnsuitabilityReason: function (id) {
+                var url = 'admin/unsuitability-reasons/delete/' + id;
+                return $http.delete(url)
+                    .then(function (result) {
+                        return result.status;
+                    })
+            },
             getCounterTypes: function () {
                 return getData('admin/unsuitability-reasons/counters');
             }
@@ -38,24 +45,3 @@ angular
         }
     });
 
-
-/* getUnsuitabilityReasonById: function (id) {
- var url = 'admin/unsuitability-reasons/get/' + id;
- return $http.get(url).then(function (result) {
- return result.data;
- });
- }
- /* editUnsuitabilityReason: function (formData, id) {
- var url = 'admin/unsuitability-reasons/edit/' + id;
- return $http.post(url, formData)
- .then(function (result) {
- return result.status;
- });
- }, */
-/* deleteUnsuitabilityReason: function (id) {
- var url = 'admin/unsuitability-reasons/delete/' + id;
- return $http.delete(url)
- .then(function (result) {
- return result.status;
- });
- },*/

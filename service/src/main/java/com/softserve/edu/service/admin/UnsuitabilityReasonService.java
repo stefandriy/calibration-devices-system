@@ -11,9 +11,15 @@ import java.util.List;
 public interface UnsuitabilityReasonService {
     void addUnsuitabilityReason(String name, Long counterId);
     void removeUnsuitabilityReason(Long id);
+    List<UnsuitabilityReason> findAllUnsuitabilityReasons();
 
-    ListToPageTransformer<UnsuitabilityReason> getUnsuitabilityReasonBySearchAndPagination(int pageNumber, int itemsPerPage, Long id,
-                                                                          String counterTypeName, String name,
-                                                                          String sortCriteria, String sortOrder);
+
 
 }
+
+
+
+
+/* ListToPageTransformer<UnsuitabilityReason> getUnsuitabilityReasonBySearchAndPagination(int pageNumber, int itemsPerPage, Long id,
+                                                                          String counterTypeName, String name,
+                                                                          String sortCriteria, String sortOrder);*/
