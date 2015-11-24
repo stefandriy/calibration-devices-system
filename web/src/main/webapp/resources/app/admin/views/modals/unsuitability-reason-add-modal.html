@@ -8,19 +8,19 @@
           class="form-group" novalidate>
         <div class="form-group row row-fields" show-errors>
             <label for="counterType" class="control-label col-md-4">
-                {{'COUNTER_TYPE' | translate}}
+                {{'COUNTER_NAME' | translate}}
             </label>
 
             <div class="col-md-8">
                 <ui-select class="form-control" type="text" ng-model="addReasonFormData.counterType" theme="select2"
                            search-enabled="false" name="counterType" id="counterType" required>
-                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
+                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_COUNTERS' | translate}}"
                                      allow-clear="true">
                         {{$select.selected.label}}
                     </ui-select-match>
                     <ui-select-choices
-                            repeat="deviceType in deviceTypeData">
-                        <span ng-bind-html="deviceType.label"></span>
+                            repeat="counterType in counterTypeData">
+                        <span ng-bind-html="counterType.label"></span>
                     </ui-select-choices>
                 </ui-select>
 
@@ -33,7 +33,7 @@
 
         <div class="form-group row row-fields" show-errors>
             <label class="control-label col-md-4" for="deviceName">
-                {{'DEVICE_NAME' |translate }}
+                {{'REASON_NAME' |translate }}
             </label>
 
             <div class="col-md-8">
