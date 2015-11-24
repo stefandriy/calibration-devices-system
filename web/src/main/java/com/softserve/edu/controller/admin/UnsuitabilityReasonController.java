@@ -5,6 +5,7 @@ import com.softserve.edu.dto.admin.CounterTypeDTO;
 import com.softserve.edu.dto.admin.UnsuitabilityReasonDTO;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.UnsuitabilityReason;
+import com.softserve.edu.repository.CounterTypeRepository;
 import com.softserve.edu.service.admin.CounterTypeService;
 import com.softserve.edu.service.admin.UnsuitabilityReasonService;
 import org.apache.log4j.Logger;
@@ -81,6 +82,7 @@ public class UnsuitabilityReasonController {
         Long count = (long) reasons.size();
         List<UnsuitabilityReasonDTO> content = toUnsuitabilityReasonDTOFromList(reasons);
         content.add(new UnsuitabilityReasonDTO(1l, "Причина1", 1l, "Тип1"));
+
         return new PageDTO<>(count, content);
     }
 

@@ -1,5 +1,6 @@
 package com.softserve.edu.service.admin.impl;
 
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.UnsuitabilityReason;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.user.User;
@@ -35,13 +36,13 @@ public class UnsuitabilityReasonServiceImpl implements UnsuitabilityReasonServic
 
     @Override
     public void addUnsuitabilityReason(String name, Long counterId) {
-
-        unsuitabilityReasonRepository.save(new UnsuitabilityReason(name, counterTypeRepository.findOne(counterId)));
+        CounterType counterType = counterTypeRepository.findOne(counterId);
+        unsuitabilityReasonRepository.save(new UnsuitabilityReason(name, counterType));
     }
 
     @Override
     public void removeUnsuitabilityReason(Long id) {
-        
+
         unsuitabilityReasonRepository.delete(id);
     }
 
