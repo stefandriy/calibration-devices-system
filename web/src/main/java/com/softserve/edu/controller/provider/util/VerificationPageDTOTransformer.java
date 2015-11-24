@@ -22,7 +22,7 @@ public class VerificationPageDTOTransformer {
             } else {
                 calibrationTest = null;
             }
-            resultList.add(new VerificationPageDTO(
+            VerificationPageDTO verificationPageDTO = new VerificationPageDTO(
                             verification.getId(),
                             verification.getInitialDate(),
                             verification.getClientData().getLastName(),
@@ -44,11 +44,10 @@ public class VerificationPageDTOTransformer {
                             verification.getDevice(),
                             null,
                             null,
-                            verification.getClientData().getClientAddress().getAddress(),
-                            verification.getProvider().getName(),
-                            verification.getCalibrator().getName()
-                            )
-            );
+                            verification.getClientData().getClientAddress().getAddress());
+            if(verification.getProvider()!=null){verificationPageDTO.setNameProvider(verification.getProvider().getName());}
+            if(verification.getCalibrator()!=null){verificationPageDTO.setNameCalibrator(verification.getCalibrator().getName());}
+            resultList.add(verificationPageDTO);
         }
         return resultList;
     }

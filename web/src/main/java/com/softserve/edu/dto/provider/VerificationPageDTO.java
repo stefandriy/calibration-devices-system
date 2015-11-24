@@ -217,7 +217,7 @@ public class VerificationPageDTO {
                                String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
                                CalibrationTest calibrationTest,
                                Device device,
-                               String documentType, String documentDate,String address,String nameProvider,String nameCalibrator) {
+                               String documentType, String documentDate,String address) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -228,8 +228,6 @@ public class VerificationPageDTO {
         this.status = status;
         this.readStatus = readStatus;
         this.address=address;
-        this.nameCalibrator=nameCalibrator;
-        this.nameProvider=nameProvider;
         if (providerEmployee != null) {
             if (providerEmployee.getMiddleName() != null) {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
