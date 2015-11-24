@@ -102,7 +102,6 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
             }
         }
         return serialNumbersList;
-
     }
 
     @Override
