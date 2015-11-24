@@ -106,7 +106,6 @@
   "SUCCESSFUL_EDIT_EMPLOYEE":"Employee was successfully edited",
   "ERROR_ADD_EMPLOYEE":"Error, you didn't add new employee!",
   "ERROR_EDIT_EMPLOYEE":"Error, you didn't edit employee!",
-
   "ACCOUNT_INFORMATION": "Account information",
   "GENERAL_INFORMATION": "General information",
   "SUBORDINATION": "Department subordination",
@@ -550,11 +549,14 @@
   "REASON_OF_PROTOCOL_REJECTION": "Please provide the detailed reason why this protocol needs to be rejected",
   "ENTER_STREET": "Please enter the street of the organization",
   "ENTER_BUILDING": "Please enter the organization building number",
-  "ENTER_FLAT": "Please enter the flat number of the organization"
+  "ENTER_FLAT": "Please enter the flat number of the organization",
   "UNSUITABILITY_DIRECTORY" : "Reasons of unsuitability",
   "ADD_UNSUITABILITY_DIRECTORY" : "Add reasons of unsuitability",
   "COUNTER_TYPE" : "Counter type",
   "UNSUITABILITY_REASON" : "Reason of unsuitability",
   "TYPE WATER":"Type water",
-  "BUILDING,FLAT": "Building / Flat"
+  "BUILDING,FLAT": "Building / Flat",
+  "DESIRED_VERIFICATION_BY_DATE": "Desired verification by date",
+  "DESIRED_VERIFICATION_BY_TIME": "Desired verification by time",
+  "PRESENCE_OF_SEAL": "Presence of seal"
 }
