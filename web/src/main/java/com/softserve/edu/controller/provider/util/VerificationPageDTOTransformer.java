@@ -85,7 +85,8 @@ public class VerificationPageDTOTransformer {
                     verification.getClientData().getClientAddress().getFlat(),
                     verification.getClientData().getPhone(),
                     verification.getClientData().getSecondPhone(),
-                    dateOfVerif, timeFrom, timeTo, serviceability, noWaterToDate
+                    dateOfVerif, timeFrom, timeTo, serviceability, noWaterToDate,
+                    verification.isSealPresence()
             ));
         }
         return taskDTOs;

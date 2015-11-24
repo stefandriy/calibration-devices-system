@@ -29,13 +29,14 @@ public class VerificationPlanningTaskDTO {
     private LocalTime timeTo;
     private String serviceability;
     private Date noWaterToDate;
+    private String sealPresence;
 
     public VerificationPlanningTaskDTO(){}
 
     public VerificationPlanningTaskDTO(Date sentDate, String verificationID, String providerName, String fullName,
                                        String district, String street, String building, String flat, String telephone,
                                        String secondphone, Date dateOfVerif, LocalTime timeFrom, LocalTime timeTo,
-                                       boolean serviceability, Date noWaterToDate){
+                                       boolean serviceability, Date noWaterToDate, boolean sealPresence){
         this.sentToCalibrator = sentDate;
         this.verficationId = verificationID;
         this.providerName = providerName;
@@ -53,6 +54,11 @@ public class VerificationPlanningTaskDTO {
             this.serviceability = "Так";
         else
             this.serviceability = "Ні";
+
+        if (sealPresence)
+            this.sealPresence = "Так";
+        else
+            this.sealPresence = "Ні";
 
         if ((timeFrom != null) || (timeTo != null))
         {
