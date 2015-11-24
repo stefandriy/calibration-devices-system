@@ -21,6 +21,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         final int EMPTY_BYTES_BETWEEN_TESTS = 180;
         resultMap = new HashMap<>();
         reader = new BufferedInputStream(deviceTestDataStream);
+        long count;
 
         resultMap.put("day", readLongValueReversed(1)); //0x800000
         resultMap.put("month", readLongValueReversed(1)); //0x800001
@@ -31,13 +32,13 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         resultMap.put("dayOfWeek", readLongValueReversed(1)); //0x800007
         resultMap.put("unixTime", readLongValueReversed(4) * 1000); //0x800008 + 0x04
         resultMap.put("regStart", readConsecutiveBytesReversed(4)); //0x80000c + 0x04
-        reader.skip(4); //0x800010 + 0x04
+        count = reader.skip(4); //0x800010 + 0x04
         resultMap.put("temperature", readLongValueReversed(4)); //0x800014 + 0x04
         resultMap.put("batteryCharge", readLongValueReversed(4)); //0x800018 + 0x04
         resultMap.put("bbiWritten", readLongValueReversed(4)); //0x80001c + 0x04
         resultMap.put("bbiAvailableToWrite", readLongValueReversed(4)); //0x800020 + 0x04
         resultMap.put("fileName", readLongValueReversed(4)); //0x800024 + 0x04
-        reader.skip(12); //0x800028 + 0x0c
+        count = reader.skip(12); //0x800028 + 0x0c
         resultMap.put("integrationTime", readLongValueReversed(4)); //0x800034 + 0x04
         resultMap.put("testCounter", readLongValueReversed(4)); //0x800038 + 0x04
         resultMap.put("confirmationRegister", readLongValueReversed(4)); //0x80003c + 0x04
@@ -53,15 +54,15 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         resultMap.put("counterProductionYear", readLongValueReversed(4)); //0x80007c+0x04
         resultMap.put("counterType2", readConsecutiveBytesAsUTF8(16)); //0x800080+0x10
         resultMap.put("fileOpened", readLongValueReversed(4)); //0x800090+0x04
-        reader.skip(108); //0x800100 now
+        count = reader.skip(108); //0x800100 now
         for (int i = 1; i <= 6; ++i) {
             readTest(i);
             if (i != 6) {
-                reader.skip(EMPTY_BYTES_BETWEEN_TESTS);
+                count = reader.skip(EMPTY_BYTES_BETWEEN_TESTS);
             }
         }
         resultMap.put("fullInstallmentNumber", readConsecutiveBytesAsUTF8(32)); //0x0x80064c+32
-        reader.skip(2452); //go to images
+        count = reader.skip(2452); //go to images
 
         resultMap.put("testPhoto", readImageBase64());
         for (int i = 0; i < 12; ++i) {
@@ -179,7 +180,7 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         String encodedHexB64 = Base64.encodeBase64String(decodedHex);
 
         // skips all empty bytes till the next image beginning.
-        reader.skip(ALLOCATED_IMAGE_SIZE - imageSize);
+        long count = reader.skip(ALLOCATED_IMAGE_SIZE - imageSize);
         return encodedHexB64;
     }
 }
