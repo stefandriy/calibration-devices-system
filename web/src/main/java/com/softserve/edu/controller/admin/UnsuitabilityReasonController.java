@@ -5,7 +5,6 @@ import com.softserve.edu.dto.admin.CounterTypeDTO;
 import com.softserve.edu.dto.admin.UnsuitabilityReasonDTO;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.UnsuitabilityReason;
-import com.softserve.edu.repository.CounterTypeRepository;
 import com.softserve.edu.service.admin.CounterTypeService;
 import com.softserve.edu.service.admin.UnsuitabilityReasonService;
 import org.apache.log4j.Logger;

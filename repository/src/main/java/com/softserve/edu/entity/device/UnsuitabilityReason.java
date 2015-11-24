@@ -24,7 +24,7 @@ public class UnsuitabilityReason {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "counterTypeId")
     private CounterType counterType;
 

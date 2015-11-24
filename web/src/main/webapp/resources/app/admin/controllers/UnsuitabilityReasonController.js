@@ -95,12 +95,12 @@ angular
                     templateUrl: 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
                     controller: 'UnsuitabilityReasonAddModalController',
                     size: 'md',
-                    resolve: {
-                        counters: function () {
+                    /*resolve: {
+                    /*    counters: function () {
                             console.log(unsuitabilityReasonService.getCounterTypes());
                             return unsuitabilityReasonService.getCounterTypes();
                         }
-                    }
+                    }*/
                 });
                 /**
                  * executes when modal closing
