@@ -43,7 +43,11 @@ public class VerificationPageDTOTransformer {
                             calibrationTest,
                             verification.getDevice(),
                             null,
-                            null)
+                            null,
+                            verification.getClientData().getClientAddress().getAddress(),
+                            verification.getProvider().getName(),
+                            verification.getCalibrator().getName()
+                            )
             );
         }
         return resultList;

@@ -404,6 +404,7 @@
   "SUCCESSFUL_ADDED_CATEGORY": "Device category was successful added",
   "SUCCESSFUL_EDITED_CATEGORY": "Device category was successful edited",
   "SUCCESSFUL_DELETED_CATEGORY": "Device category was successful deleted",
+  "ERROR_DELETED_CATEGORY": "Device category can not delete",
   "SUCCESSFUL_ADDED_COUNTER_TYPE": "Counter type was successful added",
   "SUCCESSFUL_EDITED_COUNTER_TYPE": "Counter type was successful edited",
   "SUCCESSFUL_DELETED_COUNTER_TYPE": "Counter type was successful deleted",
@@ -549,4 +550,9 @@
   "ENTER_STREET": "Please enter the street of the organization",
   "ENTER_BUILDING": "Please enter the organization building number",
   "ENTER_FLAT": "Please enter the flat number of the organization"
+  "UNSUITABILITY_DIRECTORY" : "Reasons of unsuitability",
+  "ADD_UNSUITABILITY_DIRECTORY" : "Add reasons of unsuitability",
+  "COUNTER_TYPE" : "Counter type",
+  "UNSUITABILITY_REASON" : "Reason of unsuitability",
+  "TYPE WATER":"Type water"
 }
