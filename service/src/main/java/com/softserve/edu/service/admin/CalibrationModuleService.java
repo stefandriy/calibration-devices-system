@@ -21,6 +21,8 @@ public interface CalibrationModuleService {
 
     void disableCalibrationModule(Long calibrationModuleId);
 
+    void enableCalibrationModule(Long calibrationModuleId);
+
     Page<CalibrationModule> findAllModules(Pageable pageable);
 
     Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable);

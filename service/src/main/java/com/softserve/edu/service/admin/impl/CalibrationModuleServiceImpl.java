@@ -53,6 +53,11 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(calibrationModule);
     }
 
+    public void enableCalibrationModule(Long calibrationModuleId) {
+        CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
+        calibrationModule.setIsActive(true);
+        calibrationModuleRepository.save(calibrationModule);
+    }
 
     public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable) {
 

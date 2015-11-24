@@ -253,9 +253,11 @@ angular
                                 $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
                         });
                     });
-
             };
 
+            /**
+             * Opens modal window for disabling/removing calibration module
+             */
             $scope.openDisableCalibrationModuleModal = function (moduleId) {
                 var disableModal = $modal
                     .open({
@@ -276,7 +278,7 @@ angular
                  */
                 disableModal.result.then(function () {
                     $scope.popNotification($filter('translate')('INFORMATION'),
-                        $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
+                        $filter('translate')('SUCCESSFULLY_DISABLED_CALIBRATION_MODULE'));
                     $timeout(function () {
                         console.log('delete with timeout');
                         $rootScope.onTableHandling();
@@ -284,10 +286,24 @@ angular
                 });
             };
 
+            /**
+             * Enables calibration module
+             */
+            $scope.enableCalibrationModule = function (moduleId) {
+                measuringEquipmentServiceAdmin.enableCalibrationModule(moduleId).then(function() {
+                    $scope.popNotification($filter('translate')('INFORMATION'),
+                        $filter('translate')('SUCCESSFULLY_ENABLED_CALIBRATION_MODULE'));
+                });
+                $timeout(function() {
+                    console.log('enable with timeout');
+                    $rootScope.onTableHandling();
+                }, 700);
+            };
+
             $scope.disableCalibrationModule = function (id) {
                 measuringEquipmentServiceAdmin.disableCalibrationModule(id).then(function () {
                     $scope.popNotification($filter('translate')('INFORMATION'),
-                        $filter('translate')('SUCCESSFUL_EDITED_CALIBRATION_MODULE'));
+                        $filter('translate')('SUCCESSFUL_DISABLED_CALIBRATION_MODULE'));
                 });
 
                 $timeout(function () {

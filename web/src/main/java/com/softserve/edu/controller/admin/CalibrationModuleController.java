@@ -133,6 +133,24 @@ public class CalibrationModuleController {
     }
 
     /**
+     * Enable calibration module
+     *
+     * @param calibrationModuleId id of calibration module to enable
+     * @return http status
+     */
+    @RequestMapping(value = "enable/{calibrationModuleId}", method = RequestMethod.GET)
+    public ResponseEntity enableModule(@PathVariable Long calibrationModuleId) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            calibrationModuleService.enableCalibrationModule(calibrationModuleId);
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
+    /**
      * Return page of calibration module according to filters and sort order
      *
      * @param pageNumber   number of page to return
