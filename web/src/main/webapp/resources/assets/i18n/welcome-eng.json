@@ -559,18 +559,23 @@
   "REASON_OF_PROTOCOL_REJECTION": "Please provide the detailed reason why this protocol needs to be rejected",
   "ENTER_STREET": "Please enter the street of the organization",
   "ENTER_BUILDING": "Please enter the organization building number",
-  "ENTER_FLAT": "Please enter the flat number of the organization"
+  "ENTER_FLAT": "Please enter the flat number of the organization",
   "UNSUITABILITY_DIRECTORY" : "Reasons of unsuitability",
   "ADD_UNSUITABILITY_DIRECTORY" : "Add reasons of unsuitability",
   "COUNTER_TYPE" : "Counter type",
   "UNSUITABILITY_REASON" : "Reason of unsuitability",
   "TYPE WATER":"Type water",
-  "BUILDING,FLAT": "Building / Flat",  
+  "BUILDING,FLAT": "Building, Flat",
   "DISMANTLED_COUNTER": "Dismantled counter",
   "DATE_OF_DISMANTLED":"Dismantled  date of counter:",
   "DATE_OF_MOUNTED":"Dismantled  date of counter:",
   "NUMBER_OF_COUNTER":"Number of counter",
   "SYMBOL_OF_COUNTER": "Symbol of counter",
-  "STANDART_SIZE_OF_COUNTER":"standard size of counter",
-  "YEAR OF COUNTER":"Year of counter"
+  "STANDART_SIZE_OF_COUNTER":"Standard size of counter",
+  "YEAR OF COUNTER":"Year of counter",
+  "DESIRED_VERIFICATION_BY_DATE": "Desired verification by date",
+  "DESIRED_VERIFICATION_BY_TIME": "Desired verification by time",
+  "PRESENCE_OF_SEAL": "Presence of seal",
+  "true": "True",
+  "false": "False"
 }
