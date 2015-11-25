@@ -24,7 +24,7 @@ public class CalibrationTestFileDataDTO {
 
     private String capacity;
 
-    private long accumulatedVolume;
+    private String accumulatedVolume;
 
     private int counterProductionYear;
 
@@ -43,6 +43,8 @@ public class CalibrationTestFileDataDTO {
     private List<CalibrationTestDataDTO> listTestData;
 
     private String status;
+
+    private Integer testPosition;
 
 
     public CalibrationTestFileDataDTO() {
@@ -113,9 +115,9 @@ public class CalibrationTestFileDataDTO {
         this.fileName = calibrationTest.getName();
         this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();
-        this.capacity = calibrationTest.getCapacity();
-//       this.accumulatedVolume = ; // don't have this value.
-//       this.counterProductionYear = testData.getCounterProductionYear(); //?
+//      this.capacity = calibrationTest.getCapacity();
+       this.accumulatedVolume = calibrationTest.getCapacity();
+//      this.counterProductionYear = testData.getCounterProductionYear();
         this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
@@ -127,7 +129,7 @@ public class CalibrationTestFileDataDTO {
         List<CalibrationTestIMG> calibrationTestIMGList;
         CalibrationTestIMG calibrationTestIMG;
         this.status = calibrationTest.getVerification().getStatus().toString();
-        for (CalibrationTestData calibrationTestData : calibrationTest.getCalibrationTestDataList()) {
+        for (CalibrationTestData calibrationTestData : calibrationTestService.getLatestTests(calibrationTest.getCalibrationTestDataList())) {
             CalibrationTestDataDTO testDataDTO = new CalibrationTestDataDTO();
             testDataDTO.setDataAvailable(true);
             testDataDTO.setTestNumber("Test" + testNumber);
@@ -136,7 +138,6 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setInitialValue(calibrationTestData.getInitialValue());
             testDataDTO.setEndValue(calibrationTestData.getEndValue());
             testDataDTO.setVolumeInDevice(calibrationTestData.getVolumeInDevice());
-//            testDataDTO.setTestTime(round(testData.getTestDuration(i), 1))?
             testDataDTO.setVolumeOfStandard(calibrationTestData.getVolumeOfStandard());
             testDataDTO.setActualConsumption(calibrationTestData.getActualConsumption());
             testDataDTO.setCalculationError(calibrationTestData.getCalculationError());
@@ -149,10 +150,16 @@ public class CalibrationTestFileDataDTO {
                     testDataDTO.setEndPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
                 }
             }
+            testDataDTO.setTestPosition(calibrationTestData.getTestPosition());
+            testDataDTO.setTestTime(round(calibrationTestData.getDuration(),1));
+            testDataDTO.setTestResult(calibrationTestData.getTestResult());
+            testDataDTO.setConsumptionStatus(calibrationTestData.getConsumptionStatus());
             listTestData.add(testDataDTO);
             testNumber++;
         }
     }
+
+
 
     public String getStatus() {
         return status;
@@ -202,11 +209,11 @@ public class CalibrationTestFileDataDTO {
         this.counterProductionYear = counterProductionYear;
     }
 
-    public long getAccumulatedVolume() {
+    public String getAccumulatedVolume() {
         return accumulatedVolume;
     }
 
-    public void setAccumulatedVolume(long accumulatedVolume) {
+    public void setAccumulatedVolume(String accumulatedVolume) {
         this.accumulatedVolume = accumulatedVolume;
     }
 
@@ -280,5 +287,13 @@ public class CalibrationTestFileDataDTO {
         }
         double result = (counterVolume - standardVolume) / standardVolume * 100;
         return round(result, 2);
+    }
+
+    public Integer getTestPosition() {
+        return testPosition;
+    }
+
+    public void setTestPosition(Integer testPosition) {
+        this.testPosition = testPosition;
     }
 }
