@@ -36,17 +36,17 @@ angular
             $scope.myDatePicker.pickerDate = null;
             $scope.defaultDate = null;
 
-            $scope.initDatePicker = function () {
+            $scope.initDatePicker = function (workDate) {
                 /**
                  *  Date picker and formatter setup
                  *
                  *
                  *TODO: i18n*/
                 $scope.myDatePicker.pickerDate = {
-                    startDate: moment().day(-300),
+                    startDate: moment().day(-600),
                     //earliest day of  all the verifications available in table
                     //we should reformat it here, because backend currently gives date in format "YYYY-MM-DD"
-                    endDate: moment().day(300) // current day
+                    endDate: moment().day(600) // current day
                 };
 
                 if ($scope.defaultDate == null) {
@@ -76,7 +76,7 @@ angular
                     eventHandlers: {}
                 };
             };
-            // $scope.initDatePicker();
+            $scope.initDatePicker();
 
             $scope.showPicker = function ($event) {
                 angular.element("#datepickerfield").trigger("click");
@@ -163,7 +163,7 @@ angular
                     total: 0,
                     filterDelay: 10000,
                     getData: function ($defer, params) {
-                        $scope.initDatePicker();
+                        //$scope.initDatePicker();
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
 
@@ -189,8 +189,8 @@ angular
                             params.filter().moduleType = null; //case when the filter is cleared with a button on the select
                         }
 
-                        /*params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
-                        params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");*/
+                        params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
+                        params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");
 
                         measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
