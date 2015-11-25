@@ -8,6 +8,7 @@ angular
     [
         '$rootScope',
         '$scope',
+        '$log',
         '$modal',
         '$http',
         'UnsuitabilityReasonService',
@@ -15,7 +16,7 @@ angular
         '$timeout',
         '$filter',
         'toaster',
-        function ($rootScope, $scope, $modal, $http, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
+        function ($rootScope, $scope,$log, $modal, $http, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
             /**
              * init of page params
              */
@@ -98,10 +99,9 @@ angular
                             $log.debug('success sending');
                             $scope.tableParams.reload();
                             $rootScope.$broadcast('verification-sent-to-verificator');
-
                             toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_NEW_REASON'));
                         });
-                    $rootScope.onTableHandling();
+
                 });
             };
 
