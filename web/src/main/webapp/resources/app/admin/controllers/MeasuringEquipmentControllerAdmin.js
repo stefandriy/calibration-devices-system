@@ -144,7 +144,7 @@ angular
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
-                    if (i == 'isActive'/* || (i == "startDateToSearch" || i == "endDateToSearch")*/) {
+                    if (i == 'isActive' || (i == "startDateToSearch" || i == "endDateToSearch")) {
                         continue;
                     } else if (obj.hasOwnProperty(i) && obj[i]) {
                         return true;
