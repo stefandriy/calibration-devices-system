@@ -56,7 +56,7 @@ angular
                 }
             });
             /**
-             * Updates the table with counter type params.
+             * Updates the table with unsuitability reasons params.
              */
             $rootScope.onTableHandling = function () {
                 $scope.tableParams.reload();
@@ -68,7 +68,7 @@ angular
 
 
             /**
-             * Opens modal window for adding new counter type.
+             * Opens modal window for adding new unsuitability reason.
              */
             $scope.openAddUnsuitabilityReasonModal = function () {
                 var modalInstance = $modal.open({
@@ -101,6 +101,7 @@ angular
 
                             toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_NEW_REASON'));
                         });
+                    $rootScope.onTableHandling();
                 });
             };
 
