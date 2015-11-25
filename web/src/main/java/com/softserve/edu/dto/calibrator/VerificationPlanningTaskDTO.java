@@ -27,9 +27,9 @@ public class VerificationPlanningTaskDTO {
     private Date dateOfVerif;
     private LocalTime timeFrom;
     private LocalTime timeTo;
-    private String serviceability;
+    private boolean serviceability;
     private Date noWaterToDate;
-    private String sealPresence;
+    private boolean sealPresence;
 
     public VerificationPlanningTaskDTO(){}
 
@@ -49,16 +49,8 @@ public class VerificationPlanningTaskDTO {
         this.secondphone = secondphone;
         this.dateOfVerif = dateOfVerif;
         this.noWaterToDate = noWaterToDate;
-
-        if (serviceability)
-            this.serviceability = "Так";
-        else
-            this.serviceability = "Ні";
-
-        if (sealPresence)
-            this.sealPresence = "Так";
-        else
-            this.sealPresence = "Ні";
+        this.serviceability = serviceability;
+        this.sealPresence = sealPresence;
 
         if ((timeFrom != null) || (timeTo != null))
         {
@@ -71,7 +63,7 @@ public class VerificationPlanningTaskDTO {
 
         if ((flat != null) && !flat.isEmpty())
         {
-            this.building_flat = building+"  /  "+flat;
+            this.building_flat = "№ " + building + "  ,  № " + flat;
         }
         else
         {
