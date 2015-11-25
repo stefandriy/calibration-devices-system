@@ -90,19 +90,11 @@ public class UnsuitabilityReasonController {
      *
      * @return list of device into DevicesDTO
      */
-    @RequestMapping(value = "all-devices", method = RequestMethod.GET)
+    @RequestMapping(value = "devices", method = RequestMethod.GET)
     public List<DevicesDTO> getAllDevices() {
-        List<DevicesDTO> list = deviceService.getAll().stream()
+      return deviceService.getAll().stream()
                 .map(device -> new DevicesDTO(device.getId(), device.getDeviceName()))
                 .collect(Collectors.toList());
-        list.add(new DevicesDTO(65235L, "device name"));
-        for (int i = 1; i < list.size(); i++) {
-            System.out.println(list.get(i));
-        }
-        return list;
-       /* return deviceService.getAll().stream()
-                .map(device -> new DevicesDTO(device.getId(), device.getDeviceName()))
-                .collect(Collectors.toList());*/
     }
 
     /**

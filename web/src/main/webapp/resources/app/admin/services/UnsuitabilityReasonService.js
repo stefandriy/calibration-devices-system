@@ -13,7 +13,7 @@ angular
 
             },
             getDevices: function () {
-                return getData('admin/unsuitability-reasons/all-devices');
+                return getData('admin/unsuitability-reasons/devices');
             },
             deleteUnsuitabilityReason: function (id) {
                 var url = 'admin/unsuitability-reasons/delete/' + id;
@@ -45,7 +45,7 @@ angular
         }
 
         function getData(url) {
-            return $http.get('' + url).success(function (data) {
+            return $http.get(url).success(function (data) {
                 return data;
             }).error(function (err) {
                 return err;

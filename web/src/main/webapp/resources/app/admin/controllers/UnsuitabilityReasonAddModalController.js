@@ -17,7 +17,7 @@ angular
             $scope.addReasonFormData = [];
             $scope.addReasonFormData.deviceName = undefined;
             $scope.addReasonFormData.name = '';
-            $scope.deviceName = devices.data;
+            $scope.deviceNameData = devices.data;
             $scope.name = '';
 
 
