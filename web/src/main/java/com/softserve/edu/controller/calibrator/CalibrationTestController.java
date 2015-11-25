@@ -237,7 +237,7 @@ public class CalibrationTestController {
             List<CalibrationTestData> listOfTestDate = new ArrayList<>(setOfTestDate);
             for(int x=0;x<listOfTestDate.size();x++){
                 CalibrationTestData calibrationTestData = listOfTestDate.get(x);
-                CalibrationTestDataDTO calibrationTestDataDTO=calibrationTestFileDataDTO.getListTestData().get(0);
+                CalibrationTestDataDTO calibrationTestDataDTO=calibrationTestFileDataDTO.getListTestData().get(x);
                 calibrationTestData.setInitialValue(calibrationTestDataDTO.getInitialValue());
                 calibrationTestData.setEndValue(calibrationTestDataDTO.getEndValue());
                 testDataRepository.save(calibrationTestData);

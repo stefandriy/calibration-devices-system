@@ -9,6 +9,7 @@ angular
 
             $scope.testId = $location.search().param;
             $scope.hasProtocol = $location.search().loadProtocol || false;
+            $scope.isVerification = $location.search().ver || false;
 
             $scope.fileLoaded = false;
 
@@ -180,8 +181,8 @@ angular
                 getProtocolTest($scope.testId);
             }else{
                 getCalibrationTests();
-
             }
+
             function retranslater() {
                 //convectorTestResult($scope.TestForm,false);
                 protocol = {

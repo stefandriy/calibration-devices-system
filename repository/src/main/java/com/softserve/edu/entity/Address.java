@@ -31,4 +31,18 @@ public class Address {
         return (district + ", " +  street + ", " + building + ", " + flat);
     }
 
+    public String getStreet(){
+        return street;
+    }
+
+    public String getBuilding(){
+        return building;
+    }
+
+    public String getFlat(){
+        return flat;
+    }
+
+
+
 }

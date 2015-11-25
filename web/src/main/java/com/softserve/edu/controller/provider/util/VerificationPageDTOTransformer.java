@@ -3,6 +3,7 @@ package com.softserve.edu.controller.provider.util;
 import com.softserve.edu.controller.calibrator.util.DistrictAndStreetComparator;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.Verification;
 
@@ -23,7 +24,7 @@ public class VerificationPageDTOTransformer {
             } else {
                 calibrationTest = null;
             }
-            resultList.add(new VerificationPageDTO(
+            VerificationPageDTO verificationPageDTO = new VerificationPageDTO(
                             verification.getId(),
                             verification.getInitialDate(),
                             verification.getClientData().getLastName(),
@@ -46,10 +47,19 @@ public class VerificationPageDTOTransformer {
                             null,
                             null,
                             verification.getClientData().getClientAddress().getAddress(),
-                            verification.getProvider().getName(),
-                            verification.getCalibrator().getName()
-                            )
+                            verification.getClientData().getClientAddress().getBuilding(),
+                            verification.getClientData().getClientAddress().getFlat()
             );
+            if(verification.getProvider()!=null){verificationPageDTO.setNameProvider(verification.getProvider().getName());}
+            if(verification.getCalibrator()!=null){verificationPageDTO.setNameCalibrator(verification.getCalibrator().getName());}
+            Set<CounterType> set =(verification.getDevice().getCounterTypeSet());
+            if(set!=null) {
+                List<CounterType> listCounterType = new ArrayList<>(set);
+                verificationPageDTO.setSymbol(listCounterType.get(0).getSymbol());
+                verificationPageDTO.setStandardSize(listCounterType.get(0).getStandardSize());
+                verificationPageDTO.setYearIntroduction(listCounterType.get(0).getYearIntroduction());
+            }
+            resultList.add(verificationPageDTO);
         }
         return resultList;
     }
