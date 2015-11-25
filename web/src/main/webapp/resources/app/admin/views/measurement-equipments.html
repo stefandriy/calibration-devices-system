@@ -64,6 +64,9 @@
                                             filter="{ deviceType : 'deviceType' }">
                                             {{ calibrationModule.deviceType | translate }}
                                         </td>
+                                        <td data-title="'VALID_UNTIL' | translate" class="datecolumn" sortable="'workDate'"
+                                            filter="{ workDate: 'daterange' }">{{ calibrationModule.workDate | date : 'dd-MM-yyyy' }}
+                                        </td>
                                         <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
                             filter="{ condDesignation: 'text' }">{{ calibrationModule.condDesignation}}
                                         </td>
@@ -72,9 +75,6 @@
                                         </td>
                                         <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
                             filter="{ telephone: 'text' }">+380{{ calibrationModule.telephone }}
-                                        </td>
-                                        <td data-title="'VALID_UNTIL' | translate" class="datecolumn" sortable="'workDate'"
-                            filter="{ workDate: 'daterange' }">{{ calibrationModule.workDate | date : 'dd-MM-yyyy' }}
                                         </td>
                                         <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
                                             filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType | translate }}
