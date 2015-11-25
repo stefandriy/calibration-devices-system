@@ -27,9 +27,6 @@ angular
             /**
              * Clear filtering fields
              */
-            $scope.clearAll = function () {
-                $scope.tableParams.filter({});
-            };
             $scope.doSearch = function () {
                 $scope.tableParams.reload();
             }
@@ -48,10 +45,7 @@ angular
                 filterDelay: 10000,
                 getData: function ($defer, params) {
 
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
-
-                    unsuitabilityReasonService.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                         unsuitabilityReasonService.getPage(params.page(), params.count())
                         .success(function (result) {
                             $scope.resultsCount = result.totalItems;
                             $defer.resolve(result.content);
@@ -72,20 +66,7 @@ angular
              */
             $rootScope.onTableHandling();
 
-            /**
-             * Function for ng-show. When filtering fields are not empty show button for
-             * clear this fields
-             * @returns {boolean}
-             */
-            $scope.isFilter = function () {
-                var obj = $scope.tableParams.filter();
-                for (var i in obj) {
-                    if (obj.hasOwnProperty(i) && obj[i]) {
-                        return true;
-                    }
-                }
-                return false;
-            };
+
             /**
              * Opens modal window for adding new counter type.
              */

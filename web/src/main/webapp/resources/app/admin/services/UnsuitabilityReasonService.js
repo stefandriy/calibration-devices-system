@@ -5,17 +5,17 @@ angular
     .module('adminModule')
     .factory('UnsuitabilityReasonService', function ($http) {
         return {
-            getPage: function (pageNumber, itemsPerPage, search, sortCriteria, sortOrder) {
-                return getDataWithParams('admin/unsuitability-reasons/' + pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+            getPage: function (pageNumber, itemsPerPage) {
+                return getDataWithParams('admin/unsuitability-reasons/' + pageNumber + '/' + itemsPerPage);
             },
             saveUnsuitabilityReason: function (formData) {
                 return send('admin/unsuitability-reasons/add', formData);
 
             },
             getDevices: function () {
-                return getData('admin/unsuitability-reasons/devices');
+                return getData('admin/unsuitability-reasons/all-devices');
             },
-            deleteUnsuitabilityReason: function(id){
+            deleteUnsuitabilityReason: function (id) {
                 var url = 'admin/unsuitability-reasons/delete/' + id;
                 return $http.delete(url)
                     .then(function (result) {
@@ -33,7 +33,8 @@ angular
                 return err;
             });
         }
-        function send (url, data) {
+
+        function send(url, data) {
             return $http.post(url, data)
                 .success(function (data) {
                     return data;
@@ -42,6 +43,7 @@ angular
                     return err;
                 });
         }
+
         function getData(url) {
             return $http.get('' + url).success(function (data) {
                 return data;

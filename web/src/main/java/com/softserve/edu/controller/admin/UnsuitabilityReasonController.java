@@ -68,13 +68,16 @@ public class UnsuitabilityReasonController {
         }
         return new ResponseEntity(httpStatus);
     }
-
-    @RequestMapping(value = "{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+    /**
+     * Build page
+     *
+     * @param pageNumber
+     * @param itemsPerPage
+     * @return
+     */
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<UnsuitabilityReasonDTO> pageUnsuitabilityReasonsWithSearch(@PathVariable Integer pageNumber,
-                                                                              @PathVariable Integer itemsPerPage,
-                                                                              @PathVariable String sortCriteria,
-                                                                              @PathVariable String sortOrder,
-                                                                              UnsuitabilityReasonDTO searchData) {
+                                                                              @PathVariable Integer itemsPerPage) {
 
         List<UnsuitabilityReason> reasons = unsuitabilityReasonService.findAllUnsuitabilityReasons();
         Long count = (long) reasons.size();
@@ -82,38 +85,32 @@ public class UnsuitabilityReasonController {
         return new PageDTO<>(count, content);
     }
 
-
     /**
      * return all counter types
      *
-     * @return list of counter types into CounterTypeDTO
+     * @return list of device into DevicesDTO
      */
-    @RequestMapping(value = "devices", method = RequestMethod.GET)
+    @RequestMapping(value = "all-devices", method = RequestMethod.GET)
     public List<DevicesDTO> getAllDevices() {
-        List<DevicesDTO> list =  deviceService.getAll().stream()
+        List<DevicesDTO> list = deviceService.getAll().stream()
                 .map(device -> new DevicesDTO(device.getId(), device.getDeviceName()))
                 .collect(Collectors.toList());
-        list.add(new DevicesDTO(65235L, "devicename"));
+        list.add(new DevicesDTO(65235L, "device name"));
+        for (int i = 1; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
         return list;
        /* return deviceService.getAll().stream()
                 .map(device -> new DevicesDTO(device.getId(), device.getDeviceName()))
                 .collect(Collectors.toList());*/
     }
 
-
     /**
-     * Get CounterType  by id
+     * return all devices
      *
-     * @param id Long of counter type
-     * @return counterTypeDTO
+     * @return ist of devices wrapped into DeviceLightDTO
      */
-    /*@RequestMapping(value = "get/{id}")
-    public CounterTypeDTO getCounterType(@PathVariable("id") Long id) {
-        CounterType counterType = counterTypeService.findById(id);
-        CounterTypeDTO counterTypeDTO = new CounterTypeDTO(counterType.getId(), counterType.getName());
-        return counterTypeDTO;
-    }
-*/
+
     public static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
         List<UnsuitabilityReasonDTO> resultList = new ArrayList<>();
         for (UnsuitabilityReason unsuitabilityReason : list) {
@@ -127,33 +124,3 @@ public class UnsuitabilityReasonController {
         return resultList;
     }
 }
-
-
-/**
- * Build page without sorting, ordering and searching data
- *
- * @param pageNumber
- * @param itemsPerPage
- * @return
- */
-   /* @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<UnsuitabilityReasonDTO> getUnsuitabilityReasonsPage(@PathVariable Integer pageNumber,
-                                                                       @PathVariable Integer itemsPerPage) {
-        return pageUnsuitabilityReasonsWithSearch(pageNumber, itemsPerPage, null, null, null);
-    }
-
-
-
-        /*ListToPageTransformer<UnsuitabilityReason> queryResult =
-                unsuitabilityReasonService.getUnsuitabilityReasonBySearchAndPagination(
-                        pageNumber,
-                        itemsPerPage,
-                        searchData.getId(),
-                        searchData.getCounterTypeName(),
-                        searchData.getName(),
-                        sortCriteria,
-                        sortOrder
-                );
-        */
-       /* Long count = protocolsService.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee, status);
-        List<ProtocolDTO> content = ProtocolDTOTransformer.toDtofromList(verifications); */
