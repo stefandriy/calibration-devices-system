@@ -106,6 +106,7 @@
   "SUCCESSFUL_EDIT_EMPLOYEE":"Employee was successfully edited",
   "ERROR_ADD_EMPLOYEE":"Error, you didn't add new employee!",
   "ERROR_EDIT_EMPLOYEE":"Error, you didn't edit employee!",
+
   "ACCOUNT_INFORMATION": "Account information",
   "GENERAL_INFORMATION": "General information",
   "SUBORDINATION": "Department subordination",
@@ -561,7 +562,7 @@
   "DATE_OF_MOUNTED":"Dismantled  date of counter:",
   "NUMBER_OF_COUNTER":"Number of counter",
   "SYMBOL_OF_COUNTER": "Symbol of counter",
-  "STANDART_SIZE_OF_COUNTER":"standard size of counter",
+  "STANDART_SIZE_OF_COUNTER":"Standard size of counter",
   "YEAR OF COUNTER":"Year of counter",
   "DESIRED_VERIFICATION_BY_DATE": "Desired verification by date",
   "DESIRED_VERIFICATION_BY_TIME": "Desired verification by time",
