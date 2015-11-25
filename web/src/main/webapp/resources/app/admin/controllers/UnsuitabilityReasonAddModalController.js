@@ -16,8 +16,9 @@ angular
 
             $scope.addReasonFormData = [];
             $scope.addReasonFormData.deviceName = undefined;
-            $scope.addReasonFormData.deviceName = '';
+            $scope.addReasonFormData.name = '';
             $scope.deviceName = devices.data;
+            $scope.name = '';
 
 
             /**
@@ -37,7 +38,7 @@ angular
                 $scope.addReasonForm.$setUntouched();
                 $scope.addReasonFormData = {};
                 $scope.addReasonFormData.deviceName = {};
-                $scope.addReasonFormData.name = "";
+                $scope.addReasonFormData.name = '';
             };
 
             /**

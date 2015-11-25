@@ -90,7 +90,7 @@ angular
                  */
                 modalInstance.result.then(function (formData) {
                     var dataToAdd = {
-                        reasonName: formData.name,
+                        name: formData.name,
                         counterId: formData.deviceName.id
                     };
                     unsuitabilityReasonService.saveUnsuitabilityReason(dataToAdd)
