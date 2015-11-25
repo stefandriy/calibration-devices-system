@@ -555,10 +555,8 @@
   "COUNTER_TYPE" : "Counter type",
   "UNSUITABILITY_REASON" : "Reason of unsuitability",
   "TYPE WATER":"Type water",
-  "BUILDING,FLAT": "Building / Flat",
+  "BUILDING,FLAT": "Building, Flat",
   "DESIRED_VERIFICATION_BY_DATE": "Desired verification by date",
-  "DESIRED_VERIFICATION_BY_TIME": "Desired verification by time",
-  "PRESENCE_OF_SEAL": "Presence of seal"
   "DISMANTLED_COUNTER": "Dismantled counter",
   "DATE_OF_DISMANTLED":"Dismantled  date of counter:",
   "DATE_OF_MOUNTED":"Dismantled  date of counter:",
@@ -566,5 +564,8 @@
   "SYMBOL_OF_COUNTER": "Symbol of counter",
   "STANDART_SIZE_OF_COUNTER":"standard size of counter",
   "YEAR OF COUNTER":"Year of counter",
-  "BUILDING,FLAT": "Building / Flat"
+  "DESIRED_VERIFICATION_BY_TIME": "Desired verification by time",
+  "PRESENCE_OF_SEAL": "Presence of seal",
+  "true": "True",
+  "false": "False"
 }
