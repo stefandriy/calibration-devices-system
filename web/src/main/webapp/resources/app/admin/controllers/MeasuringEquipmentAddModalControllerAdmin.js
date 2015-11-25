@@ -70,7 +70,7 @@ angular
                         id: calibrationModule.moduleType,
                         label: $filter('translate')(calibrationModule.moduleType)
                     };
-
+                    $scope.addCalibrationModuleFormData.moduleId = calibrationModule.moduleId;
                     $scope.addCalibrationModuleFormData.organizationCode = calibrationModule.organizationCode;
                     $scope.addCalibrationModuleFormData.condDesignation = calibrationModule.condDesignation;
                     $scope.addCalibrationModuleFormData.serialNumber = calibrationModule.serialNumber;
@@ -129,7 +129,7 @@ angular
              */
             $scope.onAddCalibrationModuleFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
-                if ($scope.addCalibrationModuleForm.$valid) { // TODO: CYCLE ?
+                if ($scope.addCalibrationModuleForm.$valid) {
                     $scope.addCalibrationModuleFormData.deviceType = $scope.addCalibrationModuleFormData.deviceType.id;
                     $scope.addCalibrationModuleFormData.moduleType = $scope.addCalibrationModuleFormData.moduleType.id;
                     saveCalibrationModule();
@@ -151,7 +151,7 @@ angular
                             }
                         });
                 } else {
-                    measuringEquipmentServiceAdmin.editCalibrationModule($scope.addCalibrationModuleFormData, calibrationModule.id)
+                    measuringEquipmentServiceAdmin.editCalibrationModule($scope.addCalibrationModuleFormData, calibrationModule.moduleId)
                         .then(function (result) {
                             if (result == 200) {
                                 $scope.closeModal(true);

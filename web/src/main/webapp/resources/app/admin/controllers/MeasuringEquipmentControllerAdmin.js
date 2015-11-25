@@ -36,7 +36,7 @@ angular
             $scope.myDatePicker.pickerDate = null;
             $scope.defaultDate = null;
 
-            $scope.initDatePicker = function () {
+            $scope.initDatePicker = function (workDate) {
                 /**
                  *  Date picker and formatter setup
                  *

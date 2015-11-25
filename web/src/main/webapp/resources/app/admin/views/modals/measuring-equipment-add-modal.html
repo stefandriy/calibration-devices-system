@@ -151,7 +151,8 @@
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon-code">+380</span>
-                            <input id="telephone" name="telephone" type="text"
+                            <input id="telephone" type="text"
+                                   name="telephone"
                                    class="form-control col-md-8 " ng-model="addCalibrationModuleFormData.telephone"
                                    placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX"
                                    popover="Введіть номер телефону"
@@ -186,7 +187,9 @@
                             </button>
                         </span>
 
-                            <input type="text" class="form-control date-picker" datepicker-popup id="workDate"
+                            <input type="text" class="form-control date-picker" datepicker-popup
+                                   id="workDate"
+                                   name="workDate"
                                    ng-model="addCalibrationModuleFormData.workDate"
                                    is-open="calendar.isOpen"
                                    min-date="minDate" max-date="maxDate"
