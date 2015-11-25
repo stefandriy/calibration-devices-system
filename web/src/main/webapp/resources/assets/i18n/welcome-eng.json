@@ -550,13 +550,13 @@
   "REASON_OF_PROTOCOL_REJECTION": "Please provide the detailed reason why this protocol needs to be rejected",
   "ENTER_STREET": "Please enter the street of the organization",
   "ENTER_BUILDING": "Please enter the organization building number",
-  "ENTER_FLAT": "Please enter the flat number of the organization"
+  "ENTER_FLAT": "Please enter the flat number of the organization",
   "UNSUITABILITY_DIRECTORY" : "Reasons of unsuitability",
   "ADD_UNSUITABILITY_DIRECTORY" : "Add reasons of unsuitability",
   "COUNTER_TYPE" : "Counter type",
   "UNSUITABILITY_REASON" : "Reason of unsuitability",
   "TYPE WATER":"Type water",
-  "BUILDING,FLAT": "Building / Flat"
+  "BUILDING,FLAT": "Building / Flat",
   "TYPE WATER":"Type water",
   "FILL_IN_INFORMATION_ABOUT_UNSUITABILITY_REASON" : "Fill data about reason of counter unsuitability",
   "STATUS_SELECT_PLACEHOLDER_COUNTERS" : "Select counter type",
