@@ -1,26 +1,17 @@
 package com.softserve.edu.service.admin.impl;
 
-import com.softserve.edu.entity.device.CounterType;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.device.UnsuitabilityReason;
-import com.softserve.edu.entity.enumeration.verification.Status;
-import com.softserve.edu.entity.user.User;
-import com.softserve.edu.entity.verification.Verification;
-import com.softserve.edu.repository.CounterTypeRepository;
+import com.softserve.edu.repository.DeviceRepository;
 import com.softserve.edu.repository.UnsuitabilityReasonRepository;
 import com.softserve.edu.service.admin.UnsuitabilityReasonService;
-import com.softserve.edu.service.utils.ListToPageTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  * Created by Sonka on 23.11.2015.
@@ -30,14 +21,12 @@ public class UnsuitabilityReasonServiceImpl implements UnsuitabilityReasonServic
     @Autowired
     private UnsuitabilityReasonRepository unsuitabilityReasonRepository;
     @Autowired
-    private CounterTypeRepository counterTypeRepository;
-    @PersistenceContext
-    private EntityManager em;
+    private DeviceRepository deviceRepository;
 
     @Override
     public void addUnsuitabilityReason(String name, Long counterId) {
-        CounterType counterType = counterTypeRepository.findOne(counterId);
-        unsuitabilityReasonRepository.save(new UnsuitabilityReason(name, counterType));
+        Device device = deviceRepository.findOne(counterId);
+        unsuitabilityReasonRepository.save(new UnsuitabilityReason(name, device));
     }
 
     @Override

@@ -12,8 +12,15 @@ angular
                 return send('admin/unsuitability-reasons/add', formData);
 
             },
-            getCounterTypes: function () {
-                return getData('admin/unsuitability-reasons/counters');
+            getDevices: function () {
+                return getData('admin/unsuitability-reasons/devices');
+            },
+            deleteUnsuitabilityReason: function(id){
+                var url = 'admin/unsuitability-reasons/delete/' + id;
+                return $http.delete(url)
+                    .then(function (result) {
+                        return result.status;
+                    });
             }
         };
 

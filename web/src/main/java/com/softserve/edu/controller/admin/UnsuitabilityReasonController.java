@@ -1,12 +1,11 @@
 package com.softserve.edu.controller.admin;
 
 import com.softserve.edu.dto.PageDTO;
-import com.softserve.edu.dto.admin.CounterTypeDTO;
+import com.softserve.edu.dto.admin.DevicesDTO;
 import com.softserve.edu.dto.admin.UnsuitabilityReasonDTO;
-import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.UnsuitabilityReason;
-import com.softserve.edu.service.admin.CounterTypeService;
 import com.softserve.edu.service.admin.UnsuitabilityReasonService;
+import com.softserve.edu.service.tool.DeviceService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +26,7 @@ public class UnsuitabilityReasonController {
     @Autowired
     private UnsuitabilityReasonService unsuitabilityReasonService;
     @Autowired
-    private CounterTypeService counterTypeService;
+    private DeviceService deviceService;
 
     /**
      * Saves unsuitability reason  in database
@@ -42,7 +41,7 @@ public class UnsuitabilityReasonController {
         try {
             unsuitabilityReasonService.addUnsuitabilityReason(
                     unsuitabilityReasonDTO.getName(),
-                    unsuitabilityReasonDTO.getCounterId()
+                    unsuitabilityReasonDTO.getDeviceId()
             );
         } catch (Exception e) {
             logger.error("Got exeption while add unsuitability reason", e);
@@ -80,8 +79,6 @@ public class UnsuitabilityReasonController {
         List<UnsuitabilityReason> reasons = unsuitabilityReasonService.findAllUnsuitabilityReasons();
         Long count = (long) reasons.size();
         List<UnsuitabilityReasonDTO> content = toUnsuitabilityReasonDTOFromList(reasons);
-        content.add(new UnsuitabilityReasonDTO(1l, "Причина1", 1l, "Тип1"));
-
         return new PageDTO<>(count, content);
     }
 
@@ -91,11 +88,16 @@ public class UnsuitabilityReasonController {
      *
      * @return list of counter types into CounterTypeDTO
      */
-    @RequestMapping(value = "counters", method = RequestMethod.GET)
-    public List<CounterTypeDTO> getAllCounterType() {
-        return counterTypeService.findAll().stream()
-                .map(counterType -> new CounterTypeDTO(counterType.getId(), counterType.getName()))
+    @RequestMapping(value = "devices", method = RequestMethod.GET)
+    public List<DevicesDTO> getAllDevices() {
+        List<DevicesDTO> list =  deviceService.getAll().stream()
+                .map(device -> new DevicesDTO(device.getId(), device.getDeviceName()))
                 .collect(Collectors.toList());
+        list.add(new DevicesDTO(65235L, "devicename"));
+        return list;
+       /* return deviceService.getAll().stream()
+                .map(device -> new DevicesDTO(device.getId(), device.getDeviceName()))
+                .collect(Collectors.toList());*/
     }
 
 
@@ -105,21 +107,21 @@ public class UnsuitabilityReasonController {
      * @param id Long of counter type
      * @return counterTypeDTO
      */
-    @RequestMapping(value = "get/{id}")
+    /*@RequestMapping(value = "get/{id}")
     public CounterTypeDTO getCounterType(@PathVariable("id") Long id) {
         CounterType counterType = counterTypeService.findById(id);
         CounterTypeDTO counterTypeDTO = new CounterTypeDTO(counterType.getId(), counterType.getName());
         return counterTypeDTO;
     }
-
+*/
     public static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
         List<UnsuitabilityReasonDTO> resultList = new ArrayList<>();
         for (UnsuitabilityReason unsuitabilityReason : list) {
             resultList.add(new UnsuitabilityReasonDTO(
                     unsuitabilityReason.getId(),
                     unsuitabilityReason.getName(),
-                    unsuitabilityReason.getCounterType().getId(),
-                    unsuitabilityReason.getCounterType().getName()
+                    unsuitabilityReason.getDevice().getId(),
+                    unsuitabilityReason.getDevice().getDeviceName()
             ));
         }
         return resultList;

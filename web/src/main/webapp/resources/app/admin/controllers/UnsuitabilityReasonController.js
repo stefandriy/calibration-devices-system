@@ -89,16 +89,16 @@ angular
             /**
              * Opens modal window for adding new counter type.
              */
-            $scope.openAddUnsuitabilityReasonModal = function() {
+            $scope.openAddUnsuitabilityReasonModal = function () {
                 var modalInstance = $modal.open({
                     animation: true,
                     templateUrl: 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
                     controller: 'UnsuitabilityReasonAddModalController',
                     size: 'md',
                     resolve: {
-                        counters: function () {
-                            console.log(unsuitabilityReasonService.getCounterTypes());
-                            return unsuitabilityReasonService.getCounterTypes().success(function (data) {
+                        devices: function () {
+                            console.log(unsuitabilityReasonService.getDevices());
+                            return unsuitabilityReasonService.getDevices().success(function (data) {
                                 return data;
                             })
                         }
@@ -110,7 +110,7 @@ angular
                 modalInstance.result.then(function (formData) {
                     var dataToAdd = {
                         reasonName: formData.name,
-                        counterId: formData.counterType.id
+                        counterId: formData.deviceName.id
                     };
                     unsuitabilityReasonService.saveUnsuitabilityReason(dataToAdd)
                         .success(function () {
@@ -118,7 +118,7 @@ angular
                             $scope.tableParams.reload();
                             $rootScope.$broadcast('verification-sent-to-verificator');
 
-                    toaster.pop('success',$filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_NEW_REASON'));
+                            toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_NEW_REASON'));
                         });
                 });
             };
@@ -127,20 +127,20 @@ angular
              * Remove unsuitability reason by id
              * @param id
              */
-         $scope.deleteUnsuitabilityReason = function (id) {
+            $scope.deleteUnsuitabilityReason = function (id) {
                 $rootScope.unsuitabilityReasonId = id;
                 console.log($rootScope.unsuitabilityReasonId);
                 unsuitabilityReasonService.deleteUnsuitabilityReason(id).then(function (status) {
-                    if (status == 409){
+                    if (status == 409) {
                         toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('ERROR_DELETED_REASON'));
                     } else {
                         toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_REASON'));
                     }
                 });
-                $timeout(function() {
+                $timeout(function () {
                     console.log('delete with timeout');
                     $rootScope.onTableHandling();
                 }, 700);
             };
 
-}]);
+        }]);

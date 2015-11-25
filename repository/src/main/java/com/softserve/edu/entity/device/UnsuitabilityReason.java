@@ -25,11 +25,11 @@ public class UnsuitabilityReason {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "counterTypeId")
-    private CounterType counterType;
+    @JoinColumn(name = "deviceId")
+    private Device device;
 
-    public UnsuitabilityReason(String name, CounterType counterType) {
+    public UnsuitabilityReason(String name, Device device) {
         this.name = name;
-        this.counterType = counterType;
+        this.device = device;
     }
 }

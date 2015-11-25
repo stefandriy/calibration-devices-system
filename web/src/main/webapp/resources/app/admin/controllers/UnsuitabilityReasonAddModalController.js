@@ -10,14 +10,14 @@ angular
         '$scope',
         '$translate',
         '$modalInstance',
-        'counters',
+        'devices',
         function ($rootScope, $scope, $translate, $modalInstance,
-                  counters) {
+                  devices) {
 
             $scope.addReasonFormData = [];
-            $scope.addReasonFormData.counterType = undefined;
-            $scope.addReasonFormData.counterName = '';
-            $scope.counterTypeData = counters.data;
+            $scope.addReasonFormData.deviceName = undefined;
+            $scope.addReasonFormData.deviceName = '';
+            $scope.deviceName = devices.data;
 
 
             /**
@@ -36,7 +36,7 @@ angular
                 $scope.addReasonForm.$setPristine();
                 $scope.addReasonForm.$setUntouched();
                 $scope.addReasonFormData = {};
-                $scope.addReasonFormData.counterType = {};
+                $scope.addReasonFormData.deviceName = {};
                 $scope.addReasonFormData.name = "";
             };
 

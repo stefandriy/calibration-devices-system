@@ -11,7 +11,7 @@
         <div class="modal-body form-group has-feedback">
 
             <ui-select class="form-control" ng-model="formData.verificator" type="text" theme="select2" search-enabled="false"
-                        required>
+                       name="verificator" id="verificator" required>
                 <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_VERIFICATOR' | translate}}" allow-clear="true">
                     {{$select.selected.name}}
                 </ui-select-match>

@@ -10,16 +10,16 @@ import lombok.Setter;
 @Setter
 public class UnsuitabilityReasonDTO {
     private Long id;
-    private String counterTypeName;
+    private String deviceName;
     private String name;
-    private Long counterId;
+    private Long deviceId;
 
     public UnsuitabilityReasonDTO() {}
 
-    public UnsuitabilityReasonDTO(Long id, String name, Long counterId,String counterTypeName) {
+    public UnsuitabilityReasonDTO(Long id, String name, Long deviceId,String deviceName) {
         this.id = id;
         this.name = name;
-        this.counterId = counterId;
-        this.counterTypeName = counterTypeName;
+        this.deviceId = deviceId;
+        this.deviceName = deviceName;
     }
 }

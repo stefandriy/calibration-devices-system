@@ -7,24 +7,24 @@
     <form name="addReasonForm" id="addReasonForm" role="form" ng-submit="addReasonFormSubmit()"
           class="form-group" novalidate>
         <div class="form-group row row-fields" show-errors>
-            <label for="counterType" class="control-label col-md-4">
+            <label for="device" class="control-label col-md-4">
                 {{'COUNTER_NAME' | translate}}
             </label>
 
             <div class="col-md-8">
-                <ui-select class="form-control" type="text" ng-model="addReasonFormData.counterType" theme="select2"
-                           search-enabled="false" name="counterType" id="counterType" required>
+                <ui-select class="form-control" type="text" ng-model="addReasonFormData.deviceName" theme="select2"
+                           search-enabled="false" name="deviceName" id="deviceName" required>
                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_COUNTERS' | translate}}"
                                      allow-clear="true">
                         {{$select.selected.name}}
                     </ui-select-match>
                     <ui-select-choices
-                            repeat="counterType in counterTypeData">
-                        <span ng-bind-html="counterType.name"></span>
+                            repeat="deviceName in deviceNameData">
+                        <span ng-bind-html="deviceName.name"></span>
                     </ui-select-choices>
                 </ui-select>
 
-                <p class="help-block" ng-if="addReasonForm.counterType.$error.required">
+                <p class="help-block" ng-if="addReasonForm.deviceName.$error.required">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     {{'TYPEAHEAD_ERROR' | translate}}
                 </p>

@@ -31,12 +31,10 @@
                            class="table table-bordered table-hover users_table">
                         <tbody>
                         <tr ng-repeat="reason in $data">
-                            <td data-title="'COUNTER_NAME' | translate " sortable="'counterName'"
-                                filter="{ 'counterTypeName': 'text' }">{{ reason.counterTypeName}}
+                            <td data-title="'COUNTER_NAME' | translate " sortable="'deviceName'"
+                                filter="{ 'counterTypeName': 'text' }">{{ reason.deviceName}}
                             </td>
-                            <td data-title="'UNSUITABILITY_REASON' | translate"
-                                sortable='name'
-                                filter="{ name : 'text' }">
+                            <td data-title="'UNSUITABILITY_REASON' | translate">
                                 {{reason.name | translate}}
                             </td>
                             <td data-title="'ACTIONS' | translate" class="text-center">
