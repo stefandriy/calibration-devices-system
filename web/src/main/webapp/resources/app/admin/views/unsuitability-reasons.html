@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="table-responsive">
-                    <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
+                    <table show-filter="false" ng-table="tableParams" template-pagination="custom/pager"
                            class="table table-bordered table-hover users_table">
                         <tbody>
                         <tr ng-repeat="reason in $data">
@@ -35,7 +35,7 @@
                                 filter="{ 'counterTypeName': 'text' }">{{ reason.counterTypeName}}
                             </td>
                             <td data-title="'UNSUITABILITY_REASON' | translate"
-                                sortable="'name'"
+                                sortable='name'
                                 filter="{ name : 'text' }">
                                 {{reason.name | translate}}
                             </td>

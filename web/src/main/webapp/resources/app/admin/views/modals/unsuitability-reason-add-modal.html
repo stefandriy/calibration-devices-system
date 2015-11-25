@@ -4,7 +4,7 @@
 </div>
 
 <div class="modal-body modal-padding">
-    <form name="addReasonForm" id="addReasonForm" role="form" ng-submit="onaddReasonFormSubmit()"
+    <form name="addReasonForm" id="addReasonForm" role="form" ng-submit="addReasonFormSubmit()"
           class="form-group" novalidate>
         <div class="form-group row row-fields" show-errors>
             <label for="counterType" class="control-label col-md-4">
@@ -16,15 +16,15 @@
                            search-enabled="false" name="counterType" id="counterType" required>
                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_COUNTERS' | translate}}"
                                      allow-clear="true">
-                        {{$select.selected.label}}
+                        {{$select.selected.name}}
                     </ui-select-match>
                     <ui-select-choices
                             repeat="counterType in counterTypeData">
-                        <span ng-bind-html="counterType.label"></span>
+                        <span ng-bind-html="counterType.name"></span>
                     </ui-select-choices>
                 </ui-select>
 
-                <p class="help-block" ng-if="addReasonForm.deviceType.$error.required">
+                <p class="help-block" ng-if="addReasonForm.counterType.$error.required">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     {{'TYPEAHEAD_ERROR' | translate}}
                 </p>
@@ -32,23 +32,23 @@
         </div>
 
         <div class="form-group row row-fields" show-errors>
-            <label class="control-label col-md-4" for="deviceName">
+            <label class="control-label col-md-4" for="name">
                 {{'REASON_NAME' |translate }}
             </label>
 
             <div class="col-md-8">
-                <input id="deviceName" name="deviceName" class="form-control"
-                       type="text" ng-model="addReasonFormData.deviceName"
+                <input id="name" name="name" class="form-control"
+                       type="text" ng-model="addReasonFormData.name"
                        ng-pattern="COUNTER_NAME" required>
 							<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                <p class="help-block" ng-if="addReasonForm.deviceName.$error.required">
+                <p class="help-block" ng-if="addReasonForm.name.$error.required">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     {{'REQUIRED' | translate}}
                 </p>
 
-                <p class="help-block" ng-if="addReasonForm.deviceName.$error.pattern">
+                <p class="help-block" ng-if="addReasonForm.name.$error.pattern">
                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                     {{'INCORRECT_VALUE_CATEGORY_NAME' | translate }}
                 </p>

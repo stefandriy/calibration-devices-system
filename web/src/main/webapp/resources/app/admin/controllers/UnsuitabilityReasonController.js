@@ -95,20 +95,22 @@ angular
                     templateUrl: 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
                     controller: 'UnsuitabilityReasonAddModalController',
                     size: 'md',
-                    /*resolve: {
-                    /*    counters: function () {
+                    resolve: {
+                        counters: function () {
                             console.log(unsuitabilityReasonService.getCounterTypes());
-                            return unsuitabilityReasonService.getCounterTypes();
+                            return unsuitabilityReasonService.getCounterTypes().success(function (data) {
+                                return data;
+                            })
                         }
-                    }*/
+                    }
                 });
                 /**
                  * executes when modal closing
                  */
-                modalInstance.result.then(function () {
+                modalInstance.result.then(function (formData) {
                     var dataToAdd = {
-                        reasonName: $scope.reasonName,
-                        counterId: formData.counters.id
+                        reasonName: formData.name,
+                        counterId: formData.counterType.id
                     };
                     unsuitabilityReasonService.saveUnsuitabilityReason(dataToAdd)
                         .success(function () {

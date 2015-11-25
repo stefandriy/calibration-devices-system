@@ -546,5 +546,12 @@
   "ADD_UNSUITABILITY_DIRECTORY" : "Add reasons of unsuitability",
   "COUNTER_TYPE" : "Counter type",
   "UNSUITABILITY_REASON" : "Reason of unsuitability",
-  "TYPE WATER":"Type water"
+  "TYPE WATER":"Type water",
+  "FILL_IN_INFORMATION_ABOUT_UNSUITABILITY_REASON" : "Fill data about reason of counter unsuitability",
+  "STATUS_SELECT_PLACEHOLDER_COUNTERS" : "Select counter type",
+  "REASON_NAME" : "Reason of unsuitability",
+  "SUCCESSFUL_ADDED_NEW_REASON" : "Successful add new reason of unsuitability",
+  "SUCCESSFUL_DELETED_REASON" : "Successful delete reason",
+  "STATUS_SELECT_PLACEHOLDER_VERIFICATOR" : "Select a verificator"
+
 }

@@ -9,10 +9,8 @@ angular
                 return getDataWithParams('admin/unsuitability-reasons/' + pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
             },
             saveUnsuitabilityReason: function (formData) {
-                return $http.post("admin/unsuitability-reasons/add", formData)
-                    .then(function (result) {
-                        return result.status;
-                    });
+                return send('admin/unsuitability-reasons/add', formData);
+
             },
             getCounterTypes: function () {
                 return getData('admin/unsuitability-reasons/counters');
@@ -28,7 +26,15 @@ angular
                 return err;
             });
         }
-
+        function send (url, data) {
+            return $http.post(url, data)
+                .success(function (data) {
+                    return data;
+                }).error(function (err) {
+                    console.log(err);
+                    return err;
+                });
+        }
         function getData(url) {
             return $http.get('' + url).success(function (data) {
                 return data;

@@ -13,7 +13,7 @@ angular
             if (response.data != null) {
                 $scope.verificators = response.data;
                 $scope.formData = {};
-                $scope.formData.verificator = $scope.verificators[0];
+                $scope.formData.verificator = {};
             }
 
             $scope.cancel = function () {
