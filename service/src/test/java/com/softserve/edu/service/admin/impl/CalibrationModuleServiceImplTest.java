@@ -101,7 +101,6 @@ public class CalibrationModuleServiceImplTest {
 
     @Test
     public void testGetFilteredPageOfCalibrationModule() throws Exception {
-        urn(filter);
         PowerMockito.whenNew(Filter.FilterBuilder.class).withNoArguments().thenReturn(filterBuilder);
         Map<String, Object> searchKeys = new HashMap<>();
         searchKeys.put("isActive", "true");
