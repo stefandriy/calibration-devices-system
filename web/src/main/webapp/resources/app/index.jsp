@@ -281,7 +281,8 @@
 <script src="resources/assets/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
 <script src="resources/assets/bower_components/chosen/chosen.jquery.min.js"
         type="text/javascript"></script>
-<script type="text/javascript">
+<script type="text/javascript"/>
+<script type="text/ng-template" id="ng-table/headers/checkbox.html">
     $(".chzn-select").chosen();
     $(".chzn-select-deselect").chosen({
         allow_single_deselect: true

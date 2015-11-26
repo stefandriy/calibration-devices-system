@@ -45,27 +45,11 @@ angular
         }
 
         function getData(url) {
-            return $http.get(url).success(function (data) {
-                return data;
-            }).error(function (err) {
-                return err;
-            });
+            return $http.get(url)
+                .success(function (data) {
+                    return data;
+                }).error(function (err) {
+                    return err;
+                });
         }
     });
-
-
-/* getUnsuitabilityReasonById: function (id) {
- var url = 'admin/unsuitability-reasons/get/' + id;
- return $http.get(url).then(function (result) {
- return result.data;
- });
- }
- /* editUnsuitabilityReason: function (formData, id) {
- var url = 'admin/unsuitability-reasons/edit/' + id;
- return $http.post(url, formData)
- .then(function (result) {
- return result.status;
- });
- }, */
-/*
- },*/

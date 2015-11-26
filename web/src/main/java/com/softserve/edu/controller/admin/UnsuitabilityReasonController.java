@@ -87,7 +87,7 @@ public class UnsuitabilityReasonController {
     }
 
     /**
-     * return all counter types
+     * return all devices
      *
      * @return list of device into DevicesDTO
      */
@@ -98,13 +98,8 @@ public class UnsuitabilityReasonController {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * return all devices
-     *
-     * @return ist of devices wrapped into DeviceLightDTO
-     */
 
-    public static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
+    private static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
         List<UnsuitabilityReasonDTO> resultList = new ArrayList<>();
         for (UnsuitabilityReason unsuitabilityReason : list) {
             resultList.add(new UnsuitabilityReasonDTO(

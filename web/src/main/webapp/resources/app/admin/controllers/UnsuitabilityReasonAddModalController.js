@@ -18,7 +18,6 @@ angular
             $scope.addReasonFormData.deviceName = undefined;
             $scope.addReasonFormData.name = '';
             $scope.deviceNameData = devices.data;
-            $scope.name = '';
 
 
             /**
@@ -47,7 +46,7 @@ angular
              */
             $rootScope.closeModal = function (close) {
                 $scope.resetAddCategoryForm();
-                if(close === true) {
+                if (close === true) {
                     $modalInstance.close();
                 }
                 $modalInstance.dismiss();
@@ -56,13 +55,12 @@ angular
             /**
              * Validates category form before saving
              */
-              $scope.addReasonFormSubmit = function () {
+            $scope.addReasonFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addReasonForm.$valid) {
-                         $modalInstance.close($scope.addReasonFormData);
+                    $modalInstance.close($scope.addReasonFormData);
                 }
             };
-
 
 
         }

@@ -45,8 +45,10 @@
                                     <tbody>
                                     <tr ng-repeat="verification in $data"
                                         ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                        <!--<td data-title="''" popover="Спочатку оберіть працівника" popover-trigger="{{ filterCells(verification.providerEmployee) }}">-->
-                                        <td data-title="''">
+                                         <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+                                            <input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
+                                        </script>
+                                        <td header="'ng-table/headers/checkbox.html'">
                                             <div>
                                                 <input type="checkbox"
                                                        ng-click="resolveVerificationId(verification.id)"
@@ -124,6 +126,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
+
                             </div>
                             <script type="text/ng-template" id="custom/pager">
                                 <div>
