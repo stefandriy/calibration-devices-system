@@ -35,6 +35,10 @@ public class Filter implements Specification {
 //        this.conditions = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, Condition.class));
     }
 
+    public Filter(List<Condition> conditions) {
+        this.conditions = conditions;
+    }
+
     public Filter() {
         conditions = new ArrayList<>();
     }
@@ -49,19 +53,13 @@ public class Filter implements Specification {
                         .setValue(entry.getValue())
                         .build());
             } else if (entry.getValue() instanceof List) {
-//                this.addCondition(new Condition.Builder()
-//                        .setComparison(Comparison.ge)
-//                        .setType(Type.date)
-//                        .setField(entry.getKey())
-//                        .setValue(((Map) entry.getValue()).get("startDate"))
-//                        .build());
-//                this.addCondition(new Condition.Builder()
-//                        .setComparison(Comparison.le)
-//                        .setType(Type.date)
-//                        .setField(entry.getKey())
-//                        .setValue(((Map) entry.getValue()).get("endDay"))
-//                        .build());
                 this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
+            } else if (entry.getValue() instanceof Enum) {
+                new Condition.Builder()
+                        .setComparison(Comparison.eq)
+                        .setField(entry.getKey())
+                        .setValue(entry.getValue().toString())
+                        .build();
             } else {
                 this.addCondition(new Condition.Builder()
                         .setComparison(Comparison.eq)
@@ -71,6 +69,7 @@ public class Filter implements Specification {
             }
         }
     }
+
     public void addCondition(Condition condition) {
         this.conditions.add(condition);
     }
@@ -141,6 +140,7 @@ public class Filter implements Specification {
                 .build());
         return conditions;
     }
+
     public Predicate buildPredicate(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         switch (condition.comparison) {
             case eq:
@@ -205,5 +205,38 @@ public class Filter implements Specification {
 
     private Predicate buildIsNullPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
         return criteriaBuilder.isNull(root.get(condition.field));
+    }
+
+    public static class FilterBuilder {
+        private List<Condition> conditions;
+
+        public FilterBuilder() {
+            conditions = new ArrayList<>();
+        }
+
+        public FilterBuilder setSearchMap(Map<String, Object> searchKeys) {
+            for (Map.Entry<String, Object> entry : searchKeys.entrySet()) {
+                if (entry.getValue() instanceof String) {
+                    this.conditions.add(new Condition.Builder()
+                            .setComparison(Comparison.like)
+                            .setField(entry.getKey())
+                            .setValue(entry.getValue())
+                            .build());
+                } else if (entry.getValue() instanceof List) {
+                    this.conditions.addAll(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
+                } else {
+                    this.conditions.add(new Condition.Builder()
+                            .setComparison(Comparison.eq)
+                            .setField(entry.getKey())
+                            .setValue(entry.getValue())
+                            .build());
+                }
+            }
+            return this;
+        }
+
+        public Filter build() {
+            return new Filter(conditions);
+        }
     }
 }

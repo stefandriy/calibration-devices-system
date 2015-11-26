@@ -60,10 +60,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     }
 
     public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable) {
-
-        // Filter filter = new Filter(searchKeys);
-//        filter=filter.createFilterFromSearchKeys(searchKeys);
-        return calibrationModuleRepository.findAll(new Filter(searchKeys), pageable);
+        return calibrationModuleRepository.findAll(new Filter.FilterBuilder().setSearchMap(searchKeys).build(), pageable);
     }
 
     public Page<CalibrationModule> findAllModules(Pageable pageable) {
