@@ -18,8 +18,6 @@ angular
             $scope.addReasonFormData.deviceName = undefined;
             $scope.addReasonFormData.name = '';
             $scope.deviceNameData = devices.data;
-            $scope.name = '';
-
 
             /**
              * Closes modal window on browser's back/forward button click.

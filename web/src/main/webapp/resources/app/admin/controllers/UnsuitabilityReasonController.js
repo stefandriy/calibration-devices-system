@@ -1,6 +1,3 @@
-/**
- * Created by Sonka on 23.11.2015.
- */
 angular
     .module('adminModule')
     .controller(
@@ -16,7 +13,7 @@ angular
         '$timeout',
         '$filter',
         'toaster',
-        function ($rootScope, $scope,$log, $modal, $http, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
+        function ($rootScope, $scope, $log, $modal, $http, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
             /**
              * init of page params
              */
@@ -26,13 +23,7 @@ angular
             $scope.pageContent = [];
 
             /**
-             * Clear filtering fields
-             */
-            $scope.doSearch = function () {
-                $scope.tableParams.reload();
-            }
-            /**
-             * Sorting and filtering of table
+             *  table
              * @type {ngTableParams|*}
              */
             $scope.tableParams = new ngTableParams({
@@ -46,7 +37,7 @@ angular
                 filterDelay: 10000,
                 getData: function ($defer, params) {
 
-                         unsuitabilityReasonService.getPage(params.page(), params.count())
+                    unsuitabilityReasonService.getPage(params.page(), params.count())
                         .success(function (result) {
                             $scope.resultsCount = result.totalItems;
                             $defer.resolve(result.content);

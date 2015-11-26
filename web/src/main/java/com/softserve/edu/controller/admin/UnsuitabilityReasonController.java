@@ -51,7 +51,7 @@ public class UnsuitabilityReasonController {
     }
 
     /**
-     * Delete counter type
+     * Delete unsuitability reason
      *
      * @param reasonId Long id of unsuitability reason
      * @return a response body with http status {@literal OK} if unsuitability reason
@@ -74,7 +74,7 @@ public class UnsuitabilityReasonController {
      *
      * @param pageNumber
      * @param itemsPerPage
-     * @return
+     * @return PageDTO
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<UnsuitabilityReasonDTO> pageUnsuitabilityReasonsWithSearch(@PathVariable Integer pageNumber,
@@ -87,7 +87,7 @@ public class UnsuitabilityReasonController {
     }
 
     /**
-     * return all counter types
+     * return all device
      *
      * @return list of device into DevicesDTO
      */
@@ -98,13 +98,7 @@ public class UnsuitabilityReasonController {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * return all devices
-     *
-     * @return ist of devices wrapped into DeviceLightDTO
-     */
-
-    public static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
+    private static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
         List<UnsuitabilityReasonDTO> resultList = new ArrayList<>();
         for (UnsuitabilityReason unsuitabilityReason : list) {
             resultList.add(new UnsuitabilityReasonDTO(
