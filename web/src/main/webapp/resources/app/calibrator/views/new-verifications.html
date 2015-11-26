@@ -50,20 +50,33 @@
                                             translate}}</b>
                                         </div>
                                     </td>
-                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'"
-                                        filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.id }}
-                                    </td>
+
                                     <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
                                         filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}
+                                    </td>
+                                    <td data-title="'DISTRICT' | translate" sortable="'district'"
+                                        filter="{ 'district': 'text' }">{{ verification.district }}
                                     </td>
                                     <td data-title="'CLIENT_STREET' | translate" sortable="'street'"
                                         filter="{ 'street': 'text' }">{{ verification.street }}
                                     </td>
+                                    <td data-title="'BUILDING,FLAT' | translate" sortable="'building'"
+                                        filter="{ 'building': 'text' }">{{ verification.building }},{{ verification.flat }}
+                                    </td>
+                                    <td data-title="'SYMBOL' | translate" sortable="'symbol'"
+                                        filter="{ 'symbol': 'text' }">{{ verification.symbol }}
+                                    </td>
+                                    <td data-title="'STANDART_SIZE_OF_COUNTER' | translate" sortable="'standardSize'"
+                                        filter="{ 'standardSize': 'text' }">{{ verification.standardSize }}
+                                    </td>
+                                    <td data-title="'YEAR_OF_COUNTER_PRODUCTION' | translate" sortable="'yearIntroduction'"
+                                        filter="{ 'yearIntroduction': 'text' }">{{ verification.yearIntroduction }}
+                                    </td>
                                     <td data-title="'STATUS' | translate" sortable="'status'"
                                         filter="{ 'status': 'status' }">{{ verification.status | translate }}
                                     </td>
-                                    <td data-title="'EMPLOYEE_SINGLE' | translate" sortable="'calibrator_employee_last_name'"
-                                        filter="{ 'employee_last_name': 'text' }">{{ verification.calibratorEmployee }}
+                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'nameProvider'"
+                                        filter="{ 'nameProvider': 'text' }">{{ verification.nameProvider }}
                                     </td>
                                     <td data-title="'ACTIONS' | translate" style="width: 15%">
 
@@ -85,9 +98,16 @@
                                                  ng-click="removeCalibratorEmployee(verification.id)">
                                             </img>
                                             <img src="resources/assets/button-icons/test.png"
+                                                 ng-show="verification.status=='IN_PROGRESS'"
                                                  popover="{{'VERIFICATION_PROTOCOL' | translate}}"
                                                  popover-trigger="mouseenter"
                                                  ng-click="openTests(verification.id)">
+                                            </img>
+                                            <img src="resources/assets/button-icons/calibration-test%20icons/edit.png"
+                                                 ng-show="verification.status=='TEST_COMPLETED'"
+                                                 popover="Редагувати протокол"
+                                                 popover-trigger="mouseenter"
+                                                 ng-click="openAddTest(verification.id)">
                                             </img>
                                             <img src="resources/assets/button-icons/upload.png"
                                                  ng-show="!verification.upload" type="button"

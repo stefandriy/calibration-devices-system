@@ -3,6 +3,7 @@ package com.softserve.edu.controller.admin;
 import com.softserve.edu.dto.PageDTO;
 import com.softserve.edu.dto.admin.CalibrationModuleDTO;
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import com.softserve.edu.service.utils.TypeConverter;
@@ -49,7 +50,7 @@ public class CalibrationModuleController {
                 calibrationModule.getOrganizationCode(), calibrationModule.getCondDesignation(),
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
                 calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
-                calibrationModule.getModuleType(), calibrationModule.getEmail(),
+                calibrationModule.getIsActive(), calibrationModule.getModuleType(), calibrationModule.getEmail(),
                 calibrationModule.getCalibrationType(), calibrationModule.getWorkDate());
     }
 
@@ -117,7 +118,31 @@ public class CalibrationModuleController {
     public ResponseEntity disableModule(@PathVariable Long calibrationModuleId) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            calibrationModuleService.disableCalibrationModule(calibrationModuleId);
+            CalibrationModule calibrationModule = calibrationModuleService.findModuleById(calibrationModuleId);
+            Set<CalibrationTask> tasks = calibrationModule.getTasks();
+            if (tasks == null || tasks.isEmpty()) {
+                calibrationModuleService.deleteCalibrationModule(calibrationModuleId);
+            } else {
+                calibrationModuleService.disableCalibrationModule(calibrationModuleId);
+            }
+        } catch (Exception e) {
+            logger.error("GOT EXCEPTION ", e);
+            httpStatus = HttpStatus.CONFLICT;
+        }
+        return new ResponseEntity(httpStatus);
+    }
+
+    /**
+     * Enable calibration module
+     *
+     * @param calibrationModuleId id of calibration module to enable
+     * @return http status
+     */
+    @RequestMapping(value = "enable/{calibrationModuleId}", method = RequestMethod.GET)
+    public ResponseEntity enableModule(@PathVariable Long calibrationModuleId) {
+        HttpStatus httpStatus = HttpStatus.OK;
+        try {
+            calibrationModuleService.enableCalibrationModule(calibrationModuleId);
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
@@ -152,8 +177,9 @@ public class CalibrationModuleController {
         }
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration modules
-        Page<CalibrationModule> queryResult = calibrationModuleService
-                .getFilteredPageOfCalibrationModule(searchDataMap, pageable);
+        Page<CalibrationModule> queryResult = searchDataMap.isEmpty() ?
+                calibrationModuleService.findAllModules(pageable) :
+                calibrationModuleService.getFilteredPageOfCalibrationModule(searchDataMap, pageable);
         List<CalibrationModuleDTO> content = new ArrayList<CalibrationModuleDTO>();
         // converting Page of CalibrationModules to List of CalibrationModuleDTOs
         for (CalibrationModule calibrationModule: queryResult) {
@@ -161,10 +187,11 @@ public class CalibrationModuleController {
                     calibrationModule.getDeviceType(), calibrationModule.getOrganizationCode(),
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
-                    calibrationModule.getModuleNumber(), calibrationModule.getModuleType(),
-                    calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
-                    calibrationModule.getWorkDate()));
+                    calibrationModule.getModuleNumber(), calibrationModule.getIsActive(),
+                    calibrationModule.getModuleType(), calibrationModule.getEmail(),
+                    calibrationModule.getCalibrationType(), calibrationModule.getWorkDate()));
         }
+        PageDTO<CalibrationModuleDTO> pageContent = new PageDTO<>(queryResult.getTotalElements(), content);
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }
 
@@ -211,12 +238,14 @@ public class CalibrationModuleController {
         // endDate from DTO and convert them to list with two elements (startDate and endDate correspondingly).
         // Then put the latter into the map with search keys under the key "workDate" (filter class requires that
         // the name of the key in searchDataMap corresponds to the name of the entity fields in the database
-        if (searchDataMap.containsKey("startDate") || searchDataMap.containsKey("endDate")) {
+        if (searchDataMap.containsKey("startDateToSearch") || searchDataMap.containsKey("endDateToSearch")) {
             dateRange = new ArrayList<Date>();
-            Collections.addAll(dateRange, (Date) searchDataMap.get("startDate"), (Date) searchDataMap.get("endDate"));
+            Collections.addAll(dateRange, new Date((Long) searchDataMap.get("startDateToSearch")),
+                    new Date((Long) searchDataMap.get("endDateToSearch")));
             searchDataMap.put("workDate", dateRange);
+            searchDataMap.remove("startDateToSearch");
+            searchDataMap.remove("endDateToSearch");
         }
-        searchDataMap.put("isActive", true);
         return searchDataMap;
     }
 

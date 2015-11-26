@@ -121,14 +121,16 @@ public class Filter implements Specification {
     private static List<Condition> buildBetweenDatesPredicate(String name, List<Date> dateList) {
         List<Condition> conditions = new ArrayList<>();
         conditions.add(new Condition.Builder()
+                .setType(Type.date)
                 .setComparison(Comparison.ge)
                 .setField(name)
-                .setValue(dateList.stream().min(Date::compareTo))
+                .setValue(dateList.stream().min(Date::compareTo).get())
                 .build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.le)
+                .setType(Type.date)
                 .setField(name)
-                .setValue(dateList.stream().max(Date::compareTo))
+                .setValue(dateList.stream().max(Date::compareTo).get())
                 .build());
         return conditions;
     }

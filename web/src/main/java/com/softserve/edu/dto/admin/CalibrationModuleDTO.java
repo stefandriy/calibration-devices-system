@@ -31,8 +31,8 @@ public class CalibrationModuleDTO {
     private String moduleNumber;
     private Boolean isActive;
     private Date workDate;
-    private Date startDate = null;
-    private Date endDate = null;
+    private Long startDateToSearch = null;
+    private Long endDateToSearch = null;
 
     public CalibrationModuleDTO() {
     }
@@ -40,7 +40,7 @@ public class CalibrationModuleDTO {
     public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,
-                                CalibrationModule.ModuleType moduleType, String email,
+                                Boolean isActive, CalibrationModule.ModuleType moduleType, String email,
                                 String calibrationType, Date workDate) {
         this.moduleId = moduleId;
         this.deviceType = deviceType;
@@ -50,6 +50,7 @@ public class CalibrationModuleDTO {
         this.employeeFullName = employeeFullName;
         this.telephone = telephone;
         this.moduleNumber = moduleNumber;
+        this.isActive = isActive;
         this.moduleType = moduleType;
         this.email = email;
         this.calibrationType = calibrationType;
@@ -59,12 +60,12 @@ public class CalibrationModuleDTO {
     public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,
-                                CalibrationModule.ModuleType moduleType, String email,
-                                String calibrationType, Date workDate, Date startDate, Date endDate) {
+                                Boolean isActive, CalibrationModule.ModuleType moduleType, String email,
+                                String calibrationType, Date workDate, Long startDate, Long endDate) {
         this(moduleId, deviceType, organizationCode, condDesignation, serialNumber, employeeFullName,
-                telephone, moduleNumber, moduleType, email, calibrationType, workDate);
-        this.startDate = startDate;
-        this.endDate = endDate;
+                telephone, moduleNumber, isActive, moduleType, email, calibrationType, workDate);
+        this.startDateToSearch = startDate;
+        this.endDateToSearch = endDate;
     }
 
 }

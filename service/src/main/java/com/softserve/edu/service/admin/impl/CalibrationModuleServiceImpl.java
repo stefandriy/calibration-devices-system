@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -42,7 +43,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findOne(calibrationModuleId);
     }
 
-
+    public void deleteCalibrationModule(Long moduleId) {
+        calibrationModuleRepository.delete(moduleId);
+    }
 
     public void disableCalibrationModule(Long calibrationModuleId) {
         CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
@@ -50,6 +53,11 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(calibrationModule);
     }
 
+    public void enableCalibrationModule(Long calibrationModuleId) {
+        CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
+        calibrationModule.setIsActive(true);
+        calibrationModuleRepository.save(calibrationModule);
+    }
 
     public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable) {
         return calibrationModuleRepository.findAll(new Filter.FilterBuilder().setSearchMap(searchKeys).build(), pageable);
@@ -77,11 +85,11 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
             throw new NullPointerException();
         }
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.like).setField("moduleType").setValue(moduleType).build());
+                .setComparison(Comparison.eq).setField("moduleType").setValue(CalibrationModule.ModuleType.valueOf(moduleType)).build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("workDate").setValue(workDate).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setField("deviceType").setValue(deviceType).build());
+                .setComparison(Comparison.eq).setField("deviceType").setValue(Device.DeviceType.valueOf(deviceType)).build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("organizationCode").setValue(user.getOrganization().getId())
                 .build());
@@ -96,7 +104,6 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
             }
         }
         return serialNumbersList;
-
     }
 
     @Override

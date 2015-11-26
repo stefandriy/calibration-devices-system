@@ -17,7 +17,11 @@ public interface CalibrationModuleService {
 
     CalibrationModule findModuleById(Long calibrationModuleId);
 
+    void deleteCalibrationModule(Long moduleId);
+
     void disableCalibrationModule(Long calibrationModuleId);
+
+    void enableCalibrationModule(Long calibrationModuleId);
 
     Page<CalibrationModule> findAllModules(Pageable pageable);
 
