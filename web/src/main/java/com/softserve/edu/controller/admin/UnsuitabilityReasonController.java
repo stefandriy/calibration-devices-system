@@ -68,6 +68,7 @@ public class UnsuitabilityReasonController {
         }
         return new ResponseEntity(httpStatus);
     }
+
     /**
      * Build page
      *
@@ -92,7 +93,7 @@ public class UnsuitabilityReasonController {
      */
     @RequestMapping(value = "devices", method = RequestMethod.GET)
     public List<DevicesDTO> getAllDevices() {
-      return deviceService.getAll().stream()
+        return deviceService.getAll().stream()
                 .map(device -> new DevicesDTO(device.getId(), device.getDeviceName()))
                 .collect(Collectors.toList());
     }
