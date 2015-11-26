@@ -192,6 +192,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'directives/unique',
     'controllers/CommonController',
     'controllers/UnsuitabilityReasonController',
-    'services/UnsuitabilityReasonService'
+    'services/UnsuitabilityReasonService',
+    'controllers/UnsuitabilityReasonAddModalController'
 ], function () {
 });

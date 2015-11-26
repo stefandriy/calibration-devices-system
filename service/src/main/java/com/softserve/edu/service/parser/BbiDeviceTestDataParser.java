@@ -1,5 +1,6 @@
 package com.softserve.edu.service.parser;
 
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.device.test.data.BbiDeviceTestData;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import org.apache.commons.codec.DecoderException;
@@ -55,9 +56,9 @@ public class BbiDeviceTestDataParser implements DeviceTestDataParser {
         resultMap.put("counterType2", readConsecutiveBytesAsUTF8(16)); //0x800080+0x10
         resultMap.put("fileOpened", readLongValueReversed(4)); //0x800090+0x04
         count = reader.skip(108); //0x800100 now
-        for (int i = 1; i <= 6; ++i) {
+        for (int i = 1; i <= Constants.TEST_COUNT; ++i) {
             readTest(i);
-            if (i != 6) {
+            if (i != Constants.TEST_COUNT) {
                 count = reader.skip(EMPTY_BYTES_BETWEEN_TESTS);
             }
         }

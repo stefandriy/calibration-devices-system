@@ -324,6 +324,6 @@
         'common/services/EmployeeService',
         'common/controllers/CommonController',
         'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
-        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator',
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
     ], function () {});
 })();

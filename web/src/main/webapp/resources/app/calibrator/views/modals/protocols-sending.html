@@ -10,9 +10,9 @@
 
         <div class="modal-body form-group has-feedback">
 
-            <ui-select ng-model="formData.verificator" theme="select2" search-enabled="false"
-                       name="filter-status">
-                <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" allow-clear="true">
+            <ui-select class="form-control" ng-model="formData.verificator" type="text" theme="select2" search-enabled="false"
+                       name="verificator" id="verificator" required>
+                <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_VERIFICATOR' | translate}}" allow-clear="true">
                     {{$select.selected.name}}
                 </ui-select-match>
                 <ui-select-choices

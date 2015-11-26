@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{'FILL_IN_INFORMATION_ABOUT_UNSUITABILITY_REASON'
+        | translate}}</h3>
+</div>
+
+<div class="modal-body modal-padding">
+    <form name="addReasonForm" id="addReasonForm" role="form" ng-submit="addReasonFormSubmit()"
+          class="form-group" novalidate>
+        <div class="form-group row row-fields" show-errors>
+            <label for="deviceName" class="control-label col-md-4">
+                {{'COUNTER_NAME' | translate}}
+            </label>
+
+            <div class="col-md-8">
+                <ui-select class="form-control" type="text" ng-model="addReasonFormData.deviceName" theme="select2"
+                           search-enabled="false" name="deviceName" id="deviceName" required>
+                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_COUNTERS' | translate}}"
+                                     allow-clear="true">
+                        {{$select.selected.name}}
+                    </ui-select-match>
+                    <ui-select-choices
+                            repeat="deviceName in deviceNameData">
+                        <span ng-bind-html="deviceName.name"></span>
+                    </ui-select-choices>
+                </ui-select>
+
+                <p class="help-block" ng-if="addReasonForm.deviceName.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    {{'TYPEAHEAD_ERROR' | translate}}
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group row row-fields" show-errors>
+            <label class="control-label col-md-4" for="name">
+                {{'REASON_NAME' |translate }}
+            </label>
+
+            <div class="col-md-8">
+                <input id="name" name="name" class="form-control"
+                       type="text" ng-model="addReasonFormData.name"
+                       ng-pattern="COUNTER_NAME" required>
+							<span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+
+                <p class="help-block" ng-if="addReasonForm.name.$error.required">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    {{'REQUIRED' | translate}}
+                </p>
+
+                <p class="help-block" ng-if="addReasonForm.name.$error.pattern">
+                    <span class="glyphicon glyphicon-exclamation-sign"></span>
+                    {{'INCORRECT_VALUE_CATEGORY_NAME' | translate }}
+                </p>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <div class="form-group row row-buttons">
+            <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2">
+                {{'ADD' | translate}}
+            </button>
+            <input type="reset" class="btn btn-warning col-md-3 col-sm-12 col-xs-12 col-lg-3"
+                   value="{{'CLEAR_FORM' | translate }}" ng-click="resetaddReasonForm()">
+            <div class="col-md-5 col-sm-0 col-xs-0 col-lg-5">
+                <p>
+
+                </p>
+            </div>
+            <input type="button" class="btn btn-danger col-md-2 col-sm-12 col-xs-12 col-lg-2 pull-right"
+                   value="{{'CLOSE' | translate}}" ng-click="closeModal()">
+        </div>
+    </form>
+</div>
