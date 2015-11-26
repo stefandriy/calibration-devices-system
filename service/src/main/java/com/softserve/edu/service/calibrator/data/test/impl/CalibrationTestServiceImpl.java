@@ -68,7 +68,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
         testRepository.save(calibrationTest);
 
-        for (int testDataId = 1; testDataId <= 6; testDataId++) { // BBI can not contain  more than 6 tests
+        for (int testDataId = 1; testDataId <= Constants.TEST_COUNT; testDataId++) {
             if (!deviceTestData.getBeginPhoto(testDataId).equals("")) { // if there is no photo there is now test data
                 CalibrationTestData сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(),
                         deviceTestData, testDataId);
@@ -254,21 +254,23 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     @Override
     @Transactional
     public void updateTest(String verificationId,String status){
-        Verification verification = verificationRepository.findOne(verificationId);
-        String statusToSend;
-        Status statusVerification = Status.valueOf(status.toUpperCase());
-        if(!verification.getStatus().equals(statusVerification)) {
-            if(statusVerification.equals(Status.TEST_OK)){
-                statusToSend = "придатний";
-            }else {
-                statusToSend = "непридатний";
+        if(status!=null) {
+            Verification verification = verificationRepository.findOne(verificationId);
+            String statusToSend;
+            Status statusVerification = Status.valueOf(status.toUpperCase());
+            if (!verification.getStatus().equals(statusVerification)) {
+                if (statusVerification.equals(Status.TEST_OK)) {
+                    statusToSend = "придатний";
+                } else {
+                    statusToSend = "непридатний";
+                }
+                verification.setStatus(statusVerification);
+                String emailCustomer = verification.getClientData().getEmail();
+                String emailProvider = verification.getProviderEmployee().getEmail();
+                mailService.sendPassedTestMail(emailCustomer, verificationId, statusToSend);
+                mailService.sendPassedTestMail(emailProvider, verificationId, statusToSend);
+                verificationRepository.save(verification);
             }
-            verification.setStatus(statusVerification);
-            String emailCustomer = verification.getClientData().getEmail();
-            String emailProvider = verification.getProviderEmployee().getEmail();
-            mailService.sendPassedTestMail(emailCustomer, verificationId, statusToSend);
-            mailService.sendPassedTestMail(emailProvider, verificationId, statusToSend);
-            verificationRepository.save(verification);
         }
     }
 

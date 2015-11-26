@@ -19,7 +19,8 @@ angular
             $scope.openAddTest = function (verificationID) {
                         $location.path('/calibrator/verifications/calibration-test-add/').search({
                             'param': verificationID,
-                            'loadProtocol': 1
+                            'loadProtocol': 1,
+                            'ver':1
                         });
             };
             $scope.isStateVerificatorEmployee();

@@ -1,13 +1,14 @@
+<!-- /#page-wrapper -->
 <div id="page-wrapper" ng-controller="UnsuitabilityReasonController">
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">{{'UNSUITABILITY_DIRECTORY' | translate}}</h1>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-click="openAddCategoryCounterModal()">
+            <button type="submit" class="btn btn-primary col-xs-12 col-sm-12 col-md-6 col-lg-6"
+                    ng-click="openAddUnsuitabilityReasonModal()">
                 <span class="glyphicon glyphicon-plus"></span>
                 {{'ADD' | translate}}
             </button>
@@ -15,12 +16,7 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <p></p>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-            <button ng-click="clearAll()" ng-show="isFilter()"
-                    class="btn btn-danger pull-right col-xs-12 col-sm-12 col-md-10 col-lg-10">
-                {{'CLEAR_ALL' | translate }}
-            </button>
-        </div>
+
     </div>
     <p></p>
     <!-- /.row -->
@@ -30,26 +26,21 @@
                 <table show-filter="false" ng-table="tableParams" template-pagination="custom/pager"
                        class="table table-bordered table-hover users_table">
                     <tbody>
-                    <tr ng-repeat="device in $data">
-
-                        <td data-title="'DEVICE_NAME' | translate " sortable="'deviceName'"
-                            filter="{ 'deviceName': 'text' }">{{ device.deviceName}}
-
+                    <tr ng-repeat="reason in $data">
+                        <td data-title="'COUNTER_NAME' | translate ">{{ reason.deviceName}}
                         </td>
-                        <td data-title="'UNSUITABILITY_REASON' | translate"
-                            sortable="'deviceType'"
-                            filter="{ deviceType : 'deviceType' }">
-                            {{device.deviceType | translate}}
+                        <td data-title="'UNSUITABILITY_REASON' | translate">
+                            {{reason.name | translate}}
                         </td>
                         <td data-title="'ACTIONS' | translate" class="text-center">
 
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-warning"
-                                        ng-click="openEditCategoryCounterModal(device.id)">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </button>
+                            <div class="btn-group-vertical">
+                                <!--    <button type="button" class="btn btn-warning"
+                                             ng-click="openEditCounterTypeModal(counterType.id)">
+                                         <span class="glyphicon glyphicon-pencil"></span>
+                                     </button> -->
                                 <button type="button" class="btn btn-danger"
-                                        ng-click="deleteDeviceCategory(device.id)">
+                                        ng-click="deleteUnsuitabilityReason(reason.id)">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
                             </div>
@@ -89,22 +80,9 @@
                     </ul>
                 </div>
             </script>
-            <script type="text/ng-template" id="ng-table/filters/deviceType.html">
-                <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
-                           search-enabled="false"
-                           name="filter-deviceType">
-                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER_DEVICES' | translate}}"
-                                     allow-clear="true">
-                        {{$select.selected.label}}
-                    </ui-select-match>
-                    <ui-select-choices
-                            repeat="deviceType in deviceTypeData">
-                        <span ng-bind-html="deviceType.label"></span>
-                    </ui-select-choices>
-                </ui-select>
-            </script>
         </div>
         <!-- /.col-lg-12 -->
     </div>
 </div>
 <!-- /#page-wrapper -->
+

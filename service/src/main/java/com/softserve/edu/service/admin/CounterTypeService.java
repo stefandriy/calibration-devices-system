@@ -5,9 +5,10 @@ import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CounterTypeService {
-
+    Set<CounterType> findAll();
     /**
      * Save counter type with params
      * @param name

@@ -4,6 +4,8 @@ import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +36,8 @@ public class CalibrationTestData {
     private Integer testPosition;
     private Double actualConsumption;
     private Double calculationError;
+    private Long lowerConsumptionLimit;
+    private Long upperConsumptionLimit;
 
     @Enumerated(EnumType.STRING)
     private Verification.ConsumptionStatus consumptionStatus;
@@ -48,7 +52,7 @@ public class CalibrationTestData {
     private List<CalibrationTestIMG> testIMGs;
 
     public CalibrationTestData(Double givenConsumption, Long acceptableError, Double volumeOfStandard,
-                               Double initialValue, Double endValue, Double volumeInDevice,
+                               Double initialValue, Double endValue,
                                Double actualConsumption, Double calculationError,
                                CalibrationTest calibrationTest, Double duration, Long lowerConsumptionLimit,
                                Long upperConsumptionLimit, Integer testPosition) {
@@ -57,21 +61,23 @@ public class CalibrationTestData {
         this.volumeOfStandard = volumeOfStandard;
         this.initialValue = initialValue;
         this.endValue = endValue;
-        this.volumeInDevice = volumeInDevice;
+        this.volumeInDevice = round(this.getEndValue() - this.getInitialValue(), 2);
         this.actualConsumption = actualConsumption;
         this.calculationError = calculationError;
-        if (this.getEndValue()==0 ||this.getInitialValue() > this.getEndValue() ){
+        this.lowerConsumptionLimit = lowerConsumptionLimit;
+        this.upperConsumptionLimit = upperConsumptionLimit;
+        if (this.getEndValue() == 0 || this.getInitialValue() > this.getEndValue()) {
             this.testResult = Verification.CalibrationTestResult.RAW;
-        }else {
+        } else {
             if (this.getActualConsumption() <= this.getAcceptableError()) {
                 this.testResult = Verification.CalibrationTestResult.SUCCESS;
             } else {
                 this.testResult = Verification.CalibrationTestResult.FAILED;
             }
         }
-        if ((this.getGivenConsumption() - (this.getGivenConsumption() * lowerConsumptionLimit / 100)
+        if ((this.getGivenConsumption() - (this.getGivenConsumption() * this.getLowerConsumptionLimit() / 100)
                 <= this.getActualConsumption()) & (this.getActualConsumption() <= (this.getGivenConsumption()
-                + (this.getGivenConsumption() * upperConsumptionLimit) / 100))) {
+                + (this.getGivenConsumption() * this.getUpperConsumptionLimit()) / 100))) {
             this.consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
         } else {
             this.consumptionStatus = Verification.ConsumptionStatus.NOT_IN_THE_AREA;
@@ -79,5 +85,9 @@ public class CalibrationTestData {
         this.calibrationTest = calibrationTest;
         this.duration = duration;
         this.testPosition = testPosition;
+    }
+
+    private double round(double val, int scale) {
+        return BigDecimal.valueOf(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
     }
 }

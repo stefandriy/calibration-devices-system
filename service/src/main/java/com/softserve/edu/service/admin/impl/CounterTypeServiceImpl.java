@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class CounterTypeServiceImpl implements CounterTypeService{
@@ -28,6 +29,12 @@ public class CounterTypeServiceImpl implements CounterTypeService{
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Override
+    @Transactional
+    public Set<CounterType> findAll() {
+        return counterTypeRepository.findAll();
+    }
 
     /**
      * Save counter type with params

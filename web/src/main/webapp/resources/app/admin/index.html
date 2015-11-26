@@ -117,8 +117,8 @@
                     <li ui-sref-active="active"><a ui-sref="counters-type"><i
                             class="fa fa-server fa-fw"></i> <span translate="TYPES_OF_COUNTERS"></span></a>
                     </li>
-                    <li ui-sref-active="active"><a ui-sref="unsuitability-reasons"><i
-                            class="fa fa-desktop"></i> <span translate="UNSUITABILITY_DIRECTORY"><!--Довідник причин непридатності--></span>
+                    <li ng-show = "$root.isSuperAdmin" ui-sref-active="active"><a ui-sref="unsuitability-reasons"><i
+                            class="fa fa-desktop"></i> <span translate="UNSUITABILITY_DIRECTORY"><!--Довідник причин непридатності --></span>
                     </a>
                     </li>
                     <li ui-sref-active="active"><a ui-sref="users"><i
