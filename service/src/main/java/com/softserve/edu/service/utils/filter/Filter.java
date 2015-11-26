@@ -54,6 +54,12 @@ public class Filter implements Specification {
                         .build());
             } else if (entry.getValue() instanceof List) {
                 this.addConditionList(buildBetweenDatesPredicate(entry.getKey(), (List) entry.getValue()));
+            } else if (entry.getValue() instanceof Enum) {
+                new Condition.Builder()
+                        .setComparison(Comparison.eq)
+                        .setField(entry.getKey())
+                        .setValue(entry.getValue().toString())
+                        .build();
             } else {
                 this.addCondition(new Condition.Builder()
                         .setComparison(Comparison.eq)
