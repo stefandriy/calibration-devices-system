@@ -71,6 +71,10 @@
                                                popover-trigger="mouseenter"
                                                ng-click="openDetails(verification.id, verification.initialDate)">
                                             </i>
+                                        <img src="resources/assets/button-icons/test.png" ng-show="verification.status == 'SENT_TO_VERIFICATOR' || verification.status == 'TEST_COMPLETED'"
+                                             popover="Інформація про протокол" popover-trigger="mouseenter"
+                                             ng-click="openProtocol(verification.id)">
+                                        </img>
                                             <a ng-show="verification.status === 'TEST_OK'"
                                                popover="Завантажити тестові дані у форматі 'docx'"
                                                popover-trigger="mouseenter"

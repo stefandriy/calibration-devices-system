@@ -66,22 +66,21 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData,
                                                  int testDataId) throws IOException {
 
-        double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId)
-                - deviceTestData.getTestInitialCounterValue(testDataId), 2);
         double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
-               deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
+                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
                 deviceTestData.getTestDuration(testDataId));
         double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(
                 deviceTestData.getTestSpecifiedConsumption(testDataId),
                 deviceTestData.getImpulsePricePerLitre());
-
+        System.out.print(deviceTestData.getTestInitialCounterValue(testDataId));
+        System.out.print(deviceTestData.getTestTerminalCounterValue(testDataId));
         CalibrationTest calibrationTest = testRepository.findById(testId);
         CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption,
                 deviceTestData.getTestAllowableError(testDataId),
                 deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
                 deviceTestData.getTestInitialCounterValue(testDataId),
-                deviceTestData.getTestTerminalCounterValue(testDataId), volumeInDevice,
-                actualConsumption,deviceTestData.getTestEstimatedError(testDataId),
+                deviceTestData.getTestTerminalCounterValue(testDataId),
+                actualConsumption, deviceTestData.getTestEstimatedError(testDataId),
                 calibrationTest, deviceTestData.getTestDuration(testDataId),
                 deviceTestData.getTestLowerConsumptionLimit(testDataId),
                 deviceTestData.getTestUpperConsumptionLimit(testDataId),

@@ -13,7 +13,9 @@ public class MailConstant {
     static final String CONFIG_PORT = MAIL_CONFIG + "." + "port";
     static final String CONFIG_PROTOCOL = MAIL_CONFIG + "." + "protocol";
     static final String CREDENTIAL_USERNAME = "mail.credentials.username";
-    static final String CREDENTIAL_PASSWORD = "mail.credentials.password";
+    private static final char HIDDEN_CREDENTIAL_PASSWORD[] = {'m','a','i','l','.','c','r','e','d','e','n','t','i','a','l','s','.','p','a','s','s','w','o','r','d'};
+    static final String CREDENTIAL_PASSWORD = new String(HIDDEN_CREDENTIAL_PASSWORD);
+    //static final String CREDENTIAL_PASSWORD = "mail.credentials.password";
     //static final String DEFAULT_ENCODING = "UTF-8";
     //static final String DEFAULT_ENCODING = "UTF-8";
     //static final String DEFAULT_ENCODING = "UTF-8";
