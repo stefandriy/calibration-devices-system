@@ -4,13 +4,26 @@ angular
         return {
             getPage: function (pageNumber, itemsPerPage) {
                 return getDataWithParams('admin/unsuitability-reasons/' + pageNumber + '/' + itemsPerPage);
+
             },
             saveUnsuitabilityReason: function (formData) {
-                return send('admin/unsuitability-reasons/add', formData);
+                var url = 'admin/unsuitability-reasons/add';
+                return $http.post(url, formData)
+                    .success(function (formData) {
+                        return formData;
+                    }).error(function (err) {
+                        return err;
+                    });
 
             },
             getDevices: function () {
-                return getData('admin/unsuitability-reasons/devices');
+                var url = 'admin/unsuitability-reasons/devices';
+                return $http.get(url)
+                    .success(function (data) {
+                        return data;
+                    }).error(function (err) {
+                        return err;
+                    });
             },
             deleteUnsuitabilityReason: function (id) {
                 var url = 'admin/unsuitability-reasons/delete/' + id;
@@ -31,22 +44,4 @@ angular
             });
         }
 
-        function send(url, data) {
-            return $http.post(url, data)
-                .success(function (data) {
-                    return data;
-                }).error(function (err) {
-                    console.log(err);
-                    return err;
-                });
-        }
-
-        function getData(url) {
-            return $http.get(url)
-                .success(function (data) {
-                    return data;
-                }).error(function (err) {
-                    return err;
-                });
-        }
     });

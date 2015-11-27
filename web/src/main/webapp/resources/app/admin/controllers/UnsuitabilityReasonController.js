@@ -7,13 +7,12 @@ angular
         '$scope',
         '$log',
         '$modal',
-        '$http',
         'UnsuitabilityReasonService',
         'ngTableParams',
         '$timeout',
         '$filter',
         'toaster',
-        function ($rootScope, $scope, $log, $modal, $http, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
+        function ($rootScope, $scope, $log, $modal,  unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
             /**
              * init of page params
              */
@@ -70,7 +69,6 @@ angular
                     size: 'md',
                     resolve: {
                         devices: function () {
-                            console.log(unsuitabilityReasonService.getDevices());
                             return unsuitabilityReasonService.getDevices().success(function (data) {
                                 return data;
                             })
@@ -89,7 +87,7 @@ angular
                         .success(function () {
                             $log.debug('success sending');
                             $scope.tableParams.reload();
-                            $rootScope.$broadcast('verification-sent-to-verificator');
+                            $rootScope.$broadcast('save-new-reason');
                             toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_NEW_REASON'));
                         });
 
@@ -102,7 +100,6 @@ angular
              */
             $scope.deleteUnsuitabilityReason = function (id) {
                 $rootScope.unsuitabilityReasonId = id;
-                console.log($rootScope.unsuitabilityReasonId);
                 unsuitabilityReasonService.deleteUnsuitabilityReason(id).then(function (status) {
                     if (status == 409) {
                         toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('ERROR_DELETED_REASON'));
@@ -111,7 +108,6 @@ angular
                     }
                 });
                 $timeout(function () {
-                    console.log('delete with timeout');
                     $rootScope.onTableHandling();
                 }, 700);
             };
