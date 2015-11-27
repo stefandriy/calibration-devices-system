@@ -44,9 +44,9 @@ public class CalibratorPlanningTaskController {
 
 
     /**
-     * This method save task which
-     * was formed for the station. If data saved it returns
-     * http status OK, else it return http status conflict
+     * This method saves task which
+     * was formed for the station. If data was saved it returns
+     * http status OK, else it returns http status conflict
      *
      * @param taskDTO
      * @param employeeUser

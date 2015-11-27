@@ -23,7 +23,6 @@ import java.util.*;
 @Transactional
 public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskService {
 
-
     @Autowired
     private CalibrationPlanningTaskRepository taskRepository;
 
