@@ -584,5 +584,7 @@
   "DESIRED_VERIFICATION_BY_TIME": "Бажаний час повірки",
   "PRESENCE_OF_SEAL": "Наявність пломби",
   "true": "Так",
-  "false": "Ні"
+  "false": "Ні",
+  "INSTALLMENT NUMBER": "Номер установки",
+  "PROTOCOL_INFORMATION": "Інформація про протокол"
 }

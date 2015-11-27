@@ -585,6 +585,8 @@
   "REASON_NAME" : "Reason of unsuitability",
   "SUCCESSFUL_ADDED_NEW_REASON" : "Successful add new reason of unsuitability",
   "SUCCESSFUL_DELETED_REASON" : "Successful delete reason",
-  "STATUS_SELECT_PLACEHOLDER_VERIFICATOR" : "Select a verificator"
+  "STATUS_SELECT_PLACEHOLDER_VERIFICATOR" : "Select a verificator",
+  "INSTALLMENT NUMBER": "Installment Number",
+  "PROTOCOL_INFORMATION": "Protocol Information"
 
 }
