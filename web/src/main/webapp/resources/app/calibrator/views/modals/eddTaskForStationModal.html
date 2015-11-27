@@ -7,26 +7,6 @@
     <div class="modal-body">
         <form name="formTask" novalidate>
             <p class="validation-message" ng-show="incorrectValue">{{'ERROR_VALIDATION' |  translate}}</p>
-            <!-- CALIBRATION PLACE -->
-            <div class="row">
-                <div class="form-group col-md-4">
-                    <label class="control-label">{{'CALIBRATION_PLACE' | translate}}</label>
-                </div>
-                <div class="form-group col-md-8">
-                    <select chosen data-placeholder="{{'CHOOSE_CALIBRATION_PLACE'| translate}}" class="form-control" ng-model="calibrationTask.place"
-                            class="col-xs-5 selectContainer"
-                            id="place" name="place" allow-single-deselect="true"
-                            disable-search="true" required>
-                        <option type="text" value="INSTALLATION_PORT">Мобільна станція</option>
-                        <option type="text" value="INSTALLATION_FIX">Стаціонарна станція</option>
-                    </select>
-                    <div ng-show="formTask.$submitted || formTask.place.$touched">
-                        <div ng-show="formTask.place.$error.required">
-                            <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Field of application (WATER or TERMAL) -->
             <div class="row">
