@@ -68,7 +68,7 @@ angular
                 $scope.$modalInstance  = $modal.open({
                     animation: true,
                     controller: 'TaskForStationModalControllerCalibrator',
-                    templateUrl: 'resources/app/calibrator/views/modals/eddTaskForStationModal.html'
+                    templateUrl: 'resources/app/calibrator/views/modals/addTaskForStationModal.html'
                 });
                 $scope.$modalInstance.result.then(function () {
                     $scope.tableParams.reload();
