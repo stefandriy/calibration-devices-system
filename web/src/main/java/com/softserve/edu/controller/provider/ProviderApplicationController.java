@@ -1,14 +1,17 @@
 package com.softserve.edu.controller.provider;
 
+import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.application.ApplicationFieldDTO;
 import com.softserve.edu.dto.application.RejectMailDTO;
+import com.softserve.edu.dto.admin.CounterTypeDTO;
 import com.softserve.edu.dto.provider.OrganizationStageVerificationDTO;
 import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.dto.LocalityDTO;
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
@@ -139,6 +142,20 @@ public class ProviderApplicationController {
         verificationService.saveVerification(verification);
 
         return verification.getId();
+    }
+
+    /**
+     * get all counter symbols from table counter_type
+     */
+    @RequestMapping(value = "symbols", method = RequestMethod.GET)
+    public List<CounterTypeDTO> findAllSymbols(){
+
+        return CounterTypeDTOTransformer.toDtofromList(providerService.findAllSymbols());
+    }
+
+    @RequestMapping(value = "standardSizes/", method = RequestMethod.GET)
+    public List<CounterTypeDTO> findStandardSizesBySymbol(@PathVariable String symbol) {
+        return CounterTypeDTOTransformer.toDtofromList(providerService.findStandardSizesBySymbol(symbol));
     }
 
     /**

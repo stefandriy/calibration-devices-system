@@ -1,5 +1,6 @@
 package com.softserve.edu.service.provider;
 
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.organization.Organization;
 
 import java.util.List;
@@ -10,4 +11,8 @@ public interface ProviderService {
      Set<String> getTypesById(Long id);
 
      Organization findById(Long id);
+
+     List<CounterType> findAllSymbols();
+
+     List<CounterType> findStandardSizesBySymbol(String symbol);
 }
