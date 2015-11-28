@@ -94,11 +94,6 @@
                         templateUrl: 'resources/app/calibrator/views/archival-verifications.html',
                         controller: 'ArchivalVerificationsControllerCalibrator'
                     })
-                    .state("measuring-equipment-calibrator", {
-                        url: '/calibrator/mEquipment/',
-                        templateUrl: 'resources/app/calibrator/views/measurement-equipments.html',
-                        controller: 'MeasuringEquipmentControllerCalibrator'
-                    })
                     .state("disassembly-team-calibrator", {
                         url: 'calibrator/disassemblyTeam/',
                         templateUrl: 'resources/app/calibrator/views/disassembly-team.html',
@@ -265,9 +260,6 @@
         'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
         'calibrator/controllers/NotificationsControllerCalibrator',
         'calibrator/controllers/CalibrationTestAddControllerCalibrator',
-        'calibrator/controllers/MeasuringEquipmentControllerCalibrator',
-        'calibrator/controllers/MeasuringEquipmentAddModalControllerCalibrator',
-        'calibrator/controllers/MeasuringEquipmentEditModalControllerCalibrator',
 
         'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
@@ -290,7 +282,6 @@
         'calibrator/services/AddressServiceCalibrator',
         'calibrator/services/UserServiceCalibrator',
         'calibrator/services/VerificationServiceCalibrator',
-        'calibrator/services/MeasuringEquipmentServiceCalibrator',
         'calibrator/controllers/PieCalibratorEmployee',
         'calibrator/controllers/EditPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
