@@ -1,6 +1,7 @@
 package com.softserve.edu.entity.verification;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
@@ -40,6 +41,7 @@ public class Verification {
     @Enumerated(EnumType.STRING)
     private Status taskStatus;
 
+    @Deprecated
     @ManyToOne
     @JoinColumn(name = "deviceId")
     @JsonManagedReference
@@ -106,6 +108,12 @@ public class Verification {
 
     @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
     private AdditionalInfo info;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean dismantled;
+
+    @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
+    private Counter counter;
 
     private Integer processTimeExceeding;
 
