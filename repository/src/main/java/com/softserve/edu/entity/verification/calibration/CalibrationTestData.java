@@ -70,7 +70,7 @@ public class CalibrationTestData {
         if (this.getEndValue() == 0 || this.getInitialValue() > this.getEndValue()) {
             this.testResult = Verification.CalibrationTestResult.RAW;
         } else {
-            if (this.getActualConsumption() <= this.getAcceptableError()) {
+            if (this.getCalculationError() <= Math.abs(this.getAcceptableError())) {
                 this.testResult = Verification.CalibrationTestResult.SUCCESS;
             } else {
                 this.testResult = Verification.CalibrationTestResult.FAILED;
