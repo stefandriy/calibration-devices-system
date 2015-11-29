@@ -9,8 +9,8 @@ angular
            saveTaskForTeam: function (task) {
                 return save('task/team/save', task);
            },
-           getVerificationsByCalibratorEmployeeAndTaskStatus: function (pageNumber, itemsPerPage) {
-                return getData('task/findAll/' + pageNumber + '/' + itemsPerPage);
+           getVerificationsByCalibratorEmployeeAndTaskStatus: function (pageNumber, itemsPerPage, search, sortCriteria, sortOrder) {
+                return getData('task/findAll/' + pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
            },
            getModuls: function (place, pickerDate, applicationFiled) {
                 return getAvailableModules('task/findAllModules/' + place + '/' + pickerDate + '/' + applicationFiled);
@@ -20,7 +20,10 @@ angular
            },
            getSymbolsAndStandartSizes: function (verificationId) {
                 return getData('task/findSymbolsAndSizes/' + verificationId);
-           }
+           },
+            getEarliestPlanningTaskDate: function() {
+                return getData('task/earliest_date');
+            }
         };
 
         function save (url, task) {

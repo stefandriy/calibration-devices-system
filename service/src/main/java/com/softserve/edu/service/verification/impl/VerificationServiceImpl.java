@@ -575,4 +575,9 @@ public class VerificationServiceImpl implements VerificationService {
     public java.sql.Date getArchivalVerificationEarliestDateByCalibrator(Organization organization) {
         return verificationRepository.getEarliestDateOfArchivalVerificationsByCalibrator(organization);
     }
+
+    @Transactional(readOnly = true)
+    public java.sql.Date getEarliestPlanningTaskDate(Organization organization) {
+        return verificationRepository.getEarliestPlanningTaskDate(organization);
+    }
 }

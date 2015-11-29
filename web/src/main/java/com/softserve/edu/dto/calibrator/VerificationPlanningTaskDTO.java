@@ -63,7 +63,7 @@ public class VerificationPlanningTaskDTO {
 
         if ((flat != null) && !flat.isEmpty())
         {
-            this.building_flat = "№ " + building + "  ,  № " + flat;
+            this.building_flat = "№ " + building + "  ,№ " + flat;
         }
         else
         {

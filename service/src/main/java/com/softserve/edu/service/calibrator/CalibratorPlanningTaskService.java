@@ -19,10 +19,10 @@ public interface CalibratorPlanningTaskService {
     int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName);
 
     Page<Verification> findByTaskStatusAndCalibratorId(Long Id, int pageNumber,
-                                                       int itemsPerPage);
+                                                       int itemsPerPage, String sortCriteria, String sortOrder);
 
     Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
-                                                                                     int itemsPerPage);
+                                                            int itemsPerPage, String sortCriteria, String sortOrder);
     List<CounterType> findSymbolsAndSizes(String verifId);
 
 }
