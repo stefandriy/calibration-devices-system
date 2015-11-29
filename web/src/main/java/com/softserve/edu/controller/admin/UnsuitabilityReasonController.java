@@ -16,11 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by Sonka on 23.11.2015.
- */
 @RestController
-@RequestMapping(value = "/admin/unsuitability-reasons/", produces = "application/json")
+@RequestMapping(value = "/admin/unsuitability-reasons/")
 public class UnsuitabilityReasonController {
     private final Logger logger = Logger.getLogger(DeviceController.class);
     @Autowired
@@ -44,14 +41,14 @@ public class UnsuitabilityReasonController {
                     unsuitabilityReasonDTO.getDeviceId()
             );
         } catch (Exception e) {
-            logger.error("Got exeption while add unsuitability reason", e);
+            logger.error("Got exception while add unsuitability reason", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
     }
 
     /**
-     * Delete counter type
+     * Delete unsuitability reason
      *
      * @param reasonId Long id of unsuitability reason
      * @return a response body with http status {@literal OK} if unsuitability reason
@@ -63,7 +60,7 @@ public class UnsuitabilityReasonController {
         try {
             unsuitabilityReasonService.removeUnsuitabilityReason(reasonId);
         } catch (Exception e) {
-            logger.error("Got exeption while remove unsuitability reason", e);
+            logger.error("Got exception while remove unsuitability reason", e);
             httpStatus = HttpStatus.CONFLICT;
         }
         return new ResponseEntity(httpStatus);
@@ -74,20 +71,20 @@ public class UnsuitabilityReasonController {
      *
      * @param pageNumber
      * @param itemsPerPage
-     * @return
+     * @return PageDTO
      */
     @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
     public PageDTO<UnsuitabilityReasonDTO> pageUnsuitabilityReasonsWithSearch(@PathVariable Integer pageNumber,
                                                                               @PathVariable Integer itemsPerPage) {
 
-        List<UnsuitabilityReason> reasons = unsuitabilityReasonService.findAllUnsuitabilityReasons();
-        Long count = (long) reasons.size();
+        List<UnsuitabilityReason> reasons = unsuitabilityReasonService.findUnsuitabilityReasonsPagination(pageNumber,itemsPerPage);
+        Long count =(long) reasons.size();
         List<UnsuitabilityReasonDTO> content = toUnsuitabilityReasonDTOFromList(reasons);
         return new PageDTO<>(count, content);
     }
 
     /**
-     * return all counter types
+     * return all device
      *
      * @return list of device into DevicesDTO
      */
@@ -98,13 +95,7 @@ public class UnsuitabilityReasonController {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * return all devices
-     *
-     * @return ist of devices wrapped into DeviceLightDTO
-     */
-
-    public static List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
+    private List<UnsuitabilityReasonDTO> toUnsuitabilityReasonDTOFromList(List<UnsuitabilityReason> list) {
         List<UnsuitabilityReasonDTO> resultList = new ArrayList<>();
         for (UnsuitabilityReason unsuitabilityReason : list) {
             resultList.add(new UnsuitabilityReasonDTO(

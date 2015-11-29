@@ -10,18 +10,20 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
-
-/**
- * Created by Sonka on 23.11.2015.
- */
 @Service
 public class UnsuitabilityReasonServiceImpl implements UnsuitabilityReasonService {
     @Autowired
     private UnsuitabilityReasonRepository unsuitabilityReasonRepository;
     @Autowired
     private DeviceRepository deviceRepository;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public void addUnsuitabilityReason(String name, Long counterId) {
@@ -36,40 +38,25 @@ public class UnsuitabilityReasonServiceImpl implements UnsuitabilityReasonServic
     }
 
     @Override
-    public List<UnsuitabilityReason> findAllUnsuitabilityReasons() {
-
-        return unsuitabilityReasonRepository.findAll();
-    }
-
-
-
-
-
-
-
-
-
-
-
-    /*@Override
-    public ListToPageTransformer<UnsuitabilityReason> getUnsuitabilityReasonBySearchAndPagination(int pageNumber, int itemsPerPage, Long id, String counterTypeName, String name, String sortCriteria, String sortOrder) {
-        return new UnsuitabilityReason("Причина1", counterTypeRepository.findOne(1l));
-    }*/
-   /* @Transactional(readOnly = true)
-    public List<Verification> findPageOfVerificationsByCalibratorIdAndStatus(
-            User calibratorEmployee, int pageNumber, int itemsPerPage, Status status) {
+    public List<UnsuitabilityReason> findUnsuitabilityReasonsPagination(int pageNumber, int itemsPerPage) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
-        Root<Verification> verifications = cq.from(Verification.class);
-
-        cq.where(cb.and(cb.equal(verifications.get("calibratorEmployee"), calibratorEmployee),
-                cb.equal(verifications.get("status"), status)));
-
-        TypedQuery<Verification> typedQuery = em.createQuery(cq);
+        CriteriaQuery<UnsuitabilityReason> cq = cb.createQuery(UnsuitabilityReason.class);
+        Root<UnsuitabilityReason> reasons = cq.from(UnsuitabilityReason.class);
+        TypedQuery<UnsuitabilityReason> typedQuery = em.createQuery(cq);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);
         typedQuery.setMaxResults(itemsPerPage);
 
         return typedQuery.getResultList();
-    }*/
+    }
 }
+
+
+
+
+
+
+
+
+
+
