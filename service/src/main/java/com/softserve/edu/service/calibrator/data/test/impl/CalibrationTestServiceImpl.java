@@ -265,5 +265,11 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         }
     }
 
+    @Override
+    @Transactional
+    public String getTypeWater(String verificationId){
+          return  verificationRepository.findOne(verificationId).getDevice().getDeviceName();
+    }
+
 
 }
