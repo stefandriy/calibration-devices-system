@@ -50,4 +50,6 @@ public interface CalibrationTestService {
 
      Set<CalibrationTestData> getLatestTests(List<CalibrationTestData> rawListOfCalibrationTestData);
 
+     String getTypeWater(String verificationId);
+
 }

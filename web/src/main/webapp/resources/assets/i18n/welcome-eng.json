@@ -592,5 +592,7 @@
   "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF" : "Download Unfitness certificate in 'docx'",
   "EDIT_DOCUMENT" : "Edit document",
   "PRINT_DOCUMENT" : "Print document",  
-  "RAW":"Raw"
+  "RAW":"Raw",
+  "Device_Water":"Cold water",
+  "Device_Termal":"Hot water"
 }

@@ -46,6 +46,8 @@ public class CalibrationTestFileDataDTO {
 
     private Integer testPosition;
 
+    private String typeWater;
+
 
     public CalibrationTestFileDataDTO() {
     }
@@ -294,5 +296,13 @@ public class CalibrationTestFileDataDTO {
 
     public void setTestPosition(Integer testPosition) {
         this.testPosition = testPosition;
+    }
+
+    public String getTypeWater() {
+        return typeWater;
+    }
+
+    public void setTypeWater(String typeWater) {
+        this.typeWater = typeWater;
     }
 }
