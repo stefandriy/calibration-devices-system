@@ -1,7 +1,6 @@
 package com.softserve.edu.dto;
 
 import com.softserve.edu.device.test.data.DeviceTestData;
-import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
@@ -113,7 +112,7 @@ public class CalibrationTestFileDataDTO {
         }
     }
 
-    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest,CalibrationTestService calibrationTestService) {
+    public CalibrationTestFileDataDTO(CalibrationTest calibrationTest,CalibrationTestService testService,String verificationId) {
         this.fileName = calibrationTest.getName();
         this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();
@@ -122,15 +121,16 @@ public class CalibrationTestFileDataDTO {
         this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
-        this.testPhoto = calibrationTestService.getPhotoAsString(calibrationTest.getPhotoPath(),calibrationTest);
+        this.testPhoto = testService.getPhotoAsString(calibrationTest.getPhotoPath(),calibrationTest);
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
         this.testResult = calibrationTest.getTestResult();
         this.listTestData = new ArrayList();
+        this.typeWater = testService.getTypeWater(verificationId);
         int testNumber = 1;
         List<CalibrationTestIMG> calibrationTestIMGList;
         CalibrationTestIMG calibrationTestIMG;
         this.status = calibrationTest.getVerification().getStatus().toString();
-        for (CalibrationTestData calibrationTestData : calibrationTestService.getLatestTests(calibrationTest.getCalibrationTestDataList())) {
+        for (CalibrationTestData calibrationTestData : testService.getLatestTests(calibrationTest.getCalibrationTestDataList())) {
             CalibrationTestDataDTO testDataDTO = new CalibrationTestDataDTO();
             testDataDTO.setDataAvailable(true);
             testDataDTO.setTestNumber("Test" + testNumber);
@@ -146,9 +146,9 @@ public class CalibrationTestFileDataDTO {
             for (int orderPhoto = 0; orderPhoto < calibrationTestIMGList.size(); orderPhoto++) {
                 calibrationTestIMG = calibrationTestIMGList.get(orderPhoto);
                 if (orderPhoto == 0) {
-                    testDataDTO.setBeginPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
+                    testDataDTO.setBeginPhoto(testService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
                 } else {
-                    testDataDTO.setEndPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
+                    testDataDTO.setEndPhoto(testService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
                 }
             }
             testDataDTO.setTestPosition(calibrationTestData.getTestPosition());

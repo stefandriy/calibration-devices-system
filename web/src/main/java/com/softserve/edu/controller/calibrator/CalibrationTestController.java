@@ -211,9 +211,7 @@ public class CalibrationTestController {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-            CalibrationTestFileDataDTO calibrationTestFileDataDTO = new CalibrationTestFileDataDTO(calibrationTest, testService);
-            calibrationTestFileDataDTO.setTypeWater(testService.getTypeWater(verificationId));
-            responseEntity = new ResponseEntity((calibrationTestFileDataDTO), HttpStatus.OK);
+            responseEntity = new ResponseEntity((new CalibrationTestFileDataDTO(calibrationTest, testService, verificationId)), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Failed to get protocol" + e.getMessage());
             logger.error(e);
@@ -231,7 +229,6 @@ public class CalibrationTestController {
      */
     @RequestMapping(value = "updateProtocol/{verificationId}", method = RequestMethod.POST)
     public ResponseEntity updateProtocol(@RequestBody CalibrationTestFileDataDTO calibrationTestFileDataDTO, @PathVariable String verificationId) {
-
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
