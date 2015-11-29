@@ -593,5 +593,8 @@
   "DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF" : "Download Verification certificate in 'pdf'",
   "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF" : "Download Unfitness certificate in 'docx'",
   "EDIT_DOCUMENT" : "Edit document",
-  "PRINT_DOCUMENT" : "Print document"
+  "PRINT_DOCUMENT" : "Print document",
+  "NO_VERIFICATIONS_CHECKED" : "Choose verifications for task creation",
+  "TASK_FOR_STATION_CREATED" : "Task for calibration module was successfully created",
+  "NO_MODULES_AVAILABLE" : "No modules available"
 }

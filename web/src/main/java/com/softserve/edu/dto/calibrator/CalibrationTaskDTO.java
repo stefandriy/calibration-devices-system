@@ -15,14 +15,11 @@ public class CalibrationTaskDTO {
 
     private List<String> verificationsId;
 
-    public CalibrationTaskDTO() {
-    }
+    public CalibrationTaskDTO() {}
 
     public CalibrationTaskDTO(String moduleNumber, Date taskDate, List<String> verificationsId) {
         this.moduleNumber = moduleNumber;
         this.taskDate = taskDate;
         this.verificationsId = verificationsId;
     }
-
-
 }

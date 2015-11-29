@@ -10,10 +10,14 @@ angular
         'VerificationPlanningTaskService',
         '$log',
         '$filter',
-        function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log, $filter) {
+        'verificationIDs',
+        'moduleType',
+        function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log, $filter,
+                verificationIDs, moduleType) {
 
             $scope.calibrationTask = {};
-            $scope.incorrectValue = false;
+            $scope.moduleNumbers = [];
+            $scope.noModulesAvailable = false;
 
             /**
              * Device types (application field) for the select dropdown
@@ -35,10 +39,24 @@ angular
             /**
              * Closes edit modal window.
              */
-            $scope.closeModal = function () {
-                console.log("close modal window");
+            $scope.closeModal = function (close) {
+                $scope.resetTaskForm();
+                if (close === true) {
+                    $modalInstance.close();
+                } else {
+                    $modalInstance.dismiss();
+                }
+            };
+
+            /**
+             * resets task form
+             */
+            $scope.resetTaskForm = function () {
+                $scope.$broadcast('show-errors-reset');
+                $scope.noModulesAvailable = false;
                 $scope.formTask.$submitted = false;
-                $modalInstance.close();
+                $scope.calibrationTask = {};
+                $scope.moduleNumbers = [];
             };
 
             /**
@@ -47,6 +65,16 @@ angular
              */
             $scope.firstCalendar = {};
             $scope.firstCalendar.isOpen = false;
+
+            /**
+             * sets date pickers options
+             * @type {{formatYear: string, startingDay: number, showWeeks: string}}
+             */
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false'
+            };
 
             /**
              * opens date picker
@@ -58,16 +86,6 @@ angular
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.firstCalendar.isOpen = true;
-            };
-
-            /**
-             * sets date pickers options
-             * @type {{formatYear: string, startingDay: number, showWeeks: string}}
-             */
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false'
             };
 
             /**
@@ -96,27 +114,10 @@ angular
 
             $scope.clearDate = function () {
                 $log.debug($scope.calibrationTask.taskDate);
+                $scope.noModulesAvailable = false;
                 $scope.calibrationTask.taskDate = null;
                 $scope.moduleNumbers = [];
             };
-
-            /**
-             * resets task form
-             */
-            $scope.resetTaskForm = function () {
-                $scope.$broadcast('show-errors-reset');
-                $scope.formTask.$submitted = false;
-                $scope.calibrationTask = {};
-                $scope.incorrectValue = false;
-                $scope.calibrationTask.pickerDate = null;
-                $scope.installationNumberValidation = null;
-                $scope.floorValidation = null;
-                $scope.counterNumberValidation = null;
-                $scope.showSendingMessage = false;
-                $scope.moduleNumbers = [];
-            };
-
-            $scope.moduleNumbers = [];
 
             /**
              * makes asynchronous request to the server
@@ -124,18 +125,18 @@ angular
              */
             $scope.receiveModuleNumbers = function() {
                 if ($scope.calibrationTask.taskDate && $scope.calibrationTask.applicationField) {
-                    console.log($scope.calibrationTask.taskDate);
-                    var place = 'INSTALLATION_PORT';
                     var taskDate = $scope.calibrationTask.taskDate;
-                    var applicationField = $scope.calibrationTask.applicationField;
-                    verificationPlanningTaskService.getModules(place, taskDate, applicationField)
+                    var deviceType = $scope.calibrationTask.applicationField;
+                    verificationPlanningTaskService.getModules(moduleType, taskDate, deviceType)
                         .then(function (result) {
                             $log.debug(result);
                             $scope.moduleNumbers = result.data;
+                            $scope.noModulesAvailable = $scope.moduleNumbers.length === 0;
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
                 } else {
+                    $scope.noModulesAvailable = false;
                     $scope.moduleNumbers = [];
                 }
             };
@@ -146,39 +147,18 @@ angular
              * if response status 200 opens success modal,
              * else opens error modal
              */
-            $scope.showSendingMessage = false;
             $scope.save = function () {
-                if ($rootScope.emptyStatus == true) {
-                    $scope.showSendingMessage = true;
-                } else {
+                if ($scope.formTask.$valid) {
                     var calibrationTask = {
                         "taskDate": $scope.calibrationTask.taskDate,
                         "moduleNumber": $scope.calibrationTask.installationNumber,
-                        "verificationsId": $rootScope.verifIds
+                        "verificationsId": verificationIDs
                     };
-                    console.log(calibrationTask);
-                    verificationPlanningTaskService.saveTask(calibrationTask).
-                        then(function (data) {
-                            if (data.status == 200) {
-                                $scope.closeModal();
-                                $rootScope.verifIds = [];
-                                $modal.open({
-                                    animation: true,
-                                    templateUrl: 'resources/app/calibrator/views/modals/task-add-success.html',
-                                    controllerAs: 'successController',
-                                    size: 'md'
-                               });
-                            } else if (data.status == 409) {
-                                $scope.incorrectValue = true;
-                                console.log($scope.incorrectValue);
-                                $scope.closeModal();
-                                $modal.open({
-                                    animation: true,
-                                    templateUrl: 'resources/app/calibrator/views/modals/task-adding-error.html',
-                                    size: 'md'
-                                });
-                            }
-                        });
+                    verificationPlanningTaskService.saveTask(calibrationTask).then(function (data) {
+                        if (data.status == 200) {
+                            $scope.closeModal(true);
+                        }
+                    });
                 }
             }
         }]);

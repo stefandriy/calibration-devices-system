@@ -1,8 +1,9 @@
 <div id="taskModel" class="modal-content" xmlns="http://www.w3.org/1999/html">
     <div class="modal-header">
         <h3 class="modal-title" id="myModalLabel">{{'TASK_TITLE' | translate}}</h3>
-        <h4 class="modal-title" ng-show="showSendingMessage">
-            <strong style="color: red;">{{'SEND_MESSAGE' | translate}}</strong></h4>
+        <h4 class="modal-title" ng-show="noModulesAvailable">
+            <strong style="color: red;">{{ 'NO_MODULES_AVAILABLE' | translate }}</strong>
+        </h4>
     </div>
     <div class="modal-body">
         <form name="formTask" ng-submit="save()" novalidate>
@@ -78,9 +79,6 @@
                             class="error-message">
                         {{'REQUIRED' | translate}}
                     </span>
-                    <p class="validation-message" ng-show="installationNumberValidation.isValid">
-                        {{'INSTALLATION_NUMBER_REGEX' | translate}}
-                    </p>
                 </div>
             </div>
 
