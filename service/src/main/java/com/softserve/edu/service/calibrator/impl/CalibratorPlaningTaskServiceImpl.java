@@ -10,6 +10,7 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
+import com.softserve.edu.service.utils.export.XlsTableExporter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -305,5 +306,13 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             throw new NullPointerException();
         }
         return counterTypes;
+    }
+
+    private void sendTaskToEmail(CalibrationTask calibrationTask) {
+        Set<Verification> verifications = calibrationTask.getVerifications();
+
+        // TODO: Convert to map
+
+        XlsTableExporter xls = new XlsTableExporter();
     }
 }
