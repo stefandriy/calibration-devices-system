@@ -568,5 +568,6 @@
   "DESIRED_VERIFICATION_BY_TIME": "Desired verification by time",
   "PRESENCE_OF_SEAL": "Presence of seal",
   "true": "True",
-  "false": "False"
+  "false": "False",
+  "RAW":"Raw"
 }

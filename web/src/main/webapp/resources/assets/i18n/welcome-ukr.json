@@ -568,5 +568,6 @@
   "DESIRED_VERIFICATION_BY_TIME": "Бажаний час повірки",
   "PRESENCE_OF_SEAL": "Наявність пломби",
   "true": "Так",
-  "false": "Ні"
+  "false": "Ні",
+  "RAW":"\u041d\u0435 \u043e\u0431\u043e\u0440\u043e\u0431\u043b\u0435\u043d\u0438\u0439"
 }

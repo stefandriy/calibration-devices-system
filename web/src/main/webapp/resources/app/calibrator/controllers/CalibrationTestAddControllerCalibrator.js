@@ -41,60 +41,9 @@ angular
                 });
             };
 
-            function convectorStatus(consumptionStatus,flag) {
-               if(flag) {
-                   if (consumptionStatus === "IN_THE_AREA") {
-                       consumptionStatus = "В зоні";
-                   } else if (consumptionStatus === "NOT_IN_THE_AREA") {
-                       consumptionStatus = "Не в зоні";
-                   }
-               } else{
-                   if (consumptionStatus === "В зоні") {
-                       consumptionStatus = "IN_THE_AREA";
-                   } else if (consumptionStatus === "Не в зоні") {
-                       consumptionStatus = "NOT_IN_THE_AREA";
-                   }
-               }
-                return consumptionStatus;
-            }
-
-            function convectorTestResult(testResult, flag) {
-                if (flag) {
-                    if (testResult === "SUCCESS") {
-                        testResult = "Успішний";
-                    } else if (testResult === "FAILED") {
-                        testResult = "Невдалий";
-                    } else if(testResult === "RAW") {
-                        testResult = "Необроблений";
-                    }
-                }else {
-                    if (testResult=== "Успішний") {
-                        testResult = "SUCCESS";
-                    } else if (testResult === "Невдалий") {
-                        testResult = "FAILED";
-                    } else if(testResult === "Необроблений") {
-                        testResult= "RAW";
-                    }
-                }
-                return testResult;
-            }
-
-            function convectorForListData (listTestData,flag){
-                 var list = new Array();
-                 for (var i = 0; i < listTestData.length; i++) {
-                     var dataTest = listTestData[i];
-                     dataTest.consumptionStatus = convectorStatus(dataTest.consumptionStatus, flag);
-                     dataTest.testResult = convectorTestResult(dataTest.testResult, flag);
-                     list[i]=dataTest;
-                 }
-                 return list;
-            }
 
             $scope.parseBbiFile = function (data) {
                 $scope.fileLoaded = true;
-                data.consumptionStatus = convectorStatus(data.consumptionStatus, true);
-                data.testResult = convectorTestResult(data.testResult, true);
-                data.listTestData = convectorForListData(data.listTestData,true)
                 $scope.TestForm = data;
                 for (var i = 0; i < $scope.statusData.length; i++) {
                     if ($scope.statusData[i].id === data.status) {
@@ -113,6 +62,7 @@ angular
             $scope.showEditMainPhotoModal = function (id) {
                 var modalInstance =  $modal.open({
                     animation: true,
+                    windowClass: 'preview-protocol-image',
                     templateUrl: 'resources/app/calibrator/views/modals/edit-main-photo-modal.html',
                     controller: 'EditPhotoController',
                     size: 'md',
@@ -184,19 +134,30 @@ angular
             }
 
             function retranslater() {
-                //convectorTestResult($scope.TestForm,false);
                 protocol = {
-                    fileName:$scope.TestForm.fileName,
-                    counterNumber:$scope.TestForm.counterNumber,
-                    temperature:$scope.TestForm.temperature,
-                    installmentNumber:$scope.TestForm.installmentNumber,
-                    latitude:$scope.TestForm.latitude,
-                    longitude:$scope.TestForm.longitude,
-                    testResult:convectorTestResult($scope.TestForm.testResult,false),
-                    status:$scope.selectedStatus.id,
-                    listTestData:convectorForListData($scope.TestForm.listTestData,false)
-                    }
+                    fileName: $scope.TestForm.fileName,
+                    accumulatedVolume: $scope.TestForm.accumulatedVolume,
+                    counterNumber: $scope.TestForm.counterNumber,
+                    temperature: $scope.TestForm.temperature,
+                    installmentNumber: $scope.TestForm.installmentNumber,
+                    latitude: $scope.TestForm.latitude,
+                    longitude: $scope.TestForm.longitude,
+                    testResult: $scope.TestForm.testResult,
+                    status: $scope.getStatus($scope.selectedStatus),
+                    listTestData: $scope.TestForm.listTestData
+                }
             };
+
+            $scope.getStatus = function (statusNow){
+                var statusSend;
+                if(statusNow.id == undefined){
+                    statusSend = $scope.TestForm.status;
+                }else{
+                    statusSend = $scope.selectedStatus.id;
+                }
+                return statusSend;
+            };
+
 
 
 
