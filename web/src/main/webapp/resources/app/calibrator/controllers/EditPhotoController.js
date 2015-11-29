@@ -2,8 +2,8 @@ angular
     .module('employeeModule')
 
     .controller('EditPhotoController', ['$scope', '$rootScope', '$route', '$log', '$modalInstance',
-         '$timeout', 'photoId', 'parentScope',
-        function ($scope, $rootScope, $route, $log, $modalInstance, $timeout, photoId, parentScope) {
+         '$timeout', 'photoId', 'parentScope' , '$translate',
+        function ($scope, $rootScope, $route, $log, $modalInstance, $timeout, photoId, parentScope ,$translate) {
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -25,6 +25,40 @@ angular
             $scope.newValues.counterValue = null;
             $scope.photoType = null;
             $scope.photoIndex = null;
+
+            $scope.isChanged = false;
+
+            $scope.changed= function (){
+                $scope.isChanged = true;
+            };
+
+            $scope.updateValues = function (index) {
+                var test = parentScope.TestDataFormData[index];
+                if (test.endValue == 0 || test.initialValue > test.endValue) {
+                    test.testResult = 'RAW';
+                    parentScope.TestForm.testResult = 'RAW';
+                    test.calculationError = '';
+                } else if (test.initialValue == test.endValue) {
+                    test.testResult = 'FAILED';
+                    parentScope.TestForm.testResult = 'FAILED';
+                    test.calculationError = '';
+                } else if (test.acceptableError >= Math.abs($scope.calcError(test.initialValue, test.endValue, test.volumeOfStandard))) {
+                    test.testResult = 'SUCCESS';
+                    parentScope.TestForm.testResult = 'SUCCESS';
+                    test.calculationError = $scope.calcError(test.initialValue, test.endValue, test.volumeOfStandard);
+                } else {
+                    test.testResult = 'FAILED';
+                    parentScope.TestForm.testResult = 'FAILED';
+                    test.calculationError = '';
+                }
+                parentScope.TestDataFormData[index] = test;
+
+            };
+
+            $scope.calcError = function (initialValue, endValue, volumeOfStandard) {
+                return parseFloat(((endValue - initialValue - volumeOfStandard) / (volumeOfStandard ) * 100).toFixed(1));
+            };
+
 
             if (photoId == "testMainPhoto") {
                 $scope.newValues.counterNumber = parentScope.TestForm.counterNumber;
@@ -86,14 +120,17 @@ angular
             $scope.saveOnExit = function () {
                 if (photoId == "testMainPhoto") {
                     parentScope.TestForm.counterNumber = $scope.newValues.counterNumber;
-                    parentScope.TestForm.accumulatedVolume = $scope.newValues.accumulatedVolume
+                    parentScope.TestForm.accumulatedVolume = $scope.newValues.accumulatedVolume;
                     parentScope.TestForm.counterProductionYear = $scope.newValues.counterYear;
                 } else {
                     if ($scope.photoType == 'begin') {
                         parentScope.TestDataFormData[$scope.photoIndex].initialValue = $scope.newValues.counterValue;
+                        $scope.updateValues($scope.photoIndex);
                     } else {
                         parentScope.TestDataFormData[$scope.photoIndex].endValue = $scope.newValues.counterValue;
+                        $scope.updateValues($scope.photoIndex);
                     }
+                    $scope.isChanged = false;
                 }
 
                 switch ($scope.rotateIndex) {

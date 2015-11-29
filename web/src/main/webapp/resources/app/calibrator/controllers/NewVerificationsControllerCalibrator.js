@@ -252,7 +252,6 @@ angular
             }
 
             $scope.openAddTest = function (verificationID) {
-                console.log("!!!!!!!!!!"+verificationID)
                 $location.path('/calibrator/verifications/calibration-test-add/').search({
                     'param': verificationID,
                     'loadProtocol': 1

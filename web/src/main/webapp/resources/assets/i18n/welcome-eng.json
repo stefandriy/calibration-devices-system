@@ -578,18 +578,19 @@
   "PRESENCE_OF_SEAL": "Presence of seal",
   "true": "True",
   "false": "False",
-  "BUILDING,FLAT": "Building / Flat",
-  "TYPE WATER":"Type water",
   "FILL_IN_INFORMATION_ABOUT_UNSUITABILITY_REASON" : "Fill data about reason of counter unsuitability",
   "STATUS_SELECT_PLACEHOLDER_COUNTERS" : "Select counter type",
   "REASON_NAME" : "Reason of unsuitability",
   "SUCCESSFUL_ADDED_NEW_REASON" : "Successful add new reason of unsuitability",
   "SUCCESSFUL_DELETED_REASON" : "Successful delete reason",
-  "STATUS_SELECT_PLACEHOLDER_VERIFICATOR" : "Select a verificator"
+  "STATUS_SELECT_PLACEHOLDER_VERIFICATOR" : "Select a verificator",
+  "INSTALLMENT NUMBER": "Installment Number",
+  "PROTOCOL_INFORMATION": "Protocol Information",
   "DOWNLOAD_VERIFICATION_CERTIFICATE_IN_DOCX" : "Download Verification certificate in 'docx'",
   "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX" : "Download Unfitness certificate in 'docx'",
   "DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF" : "Download Verification certificate in 'pdf'",
   "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF" : "Download Unfitness certificate in 'docx'",
   "EDIT_DOCUMENT" : "Edit document",
-  "PRINT_DOCUMENT" : "Print document"
+  "PRINT_DOCUMENT" : "Print document",  
+  "RAW":"Raw"
 }

@@ -1,6 +1,3 @@
-/**
- * Created by Sonka on 23.11.2015.
- */
 angular
     .module('adminModule')
     .controller(
@@ -8,18 +5,14 @@ angular
     [
         '$rootScope',
         '$scope',
-        '$translate',
         '$modalInstance',
         'devices',
-        function ($rootScope, $scope, $translate, $modalInstance,
-                  devices) {
+        function ($rootScope, $scope, $modalInstance, devices) {
 
             $scope.addReasonFormData = [];
             $scope.addReasonFormData.deviceName = undefined;
             $scope.addReasonFormData.name = '';
             $scope.deviceNameData = devices.data;
-            $scope.name = '';
-
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -47,7 +40,7 @@ angular
              */
             $rootScope.closeModal = function (close) {
                 $scope.resetAddCategoryForm();
-                if(close === true) {
+                if (close === true) {
                     $modalInstance.close();
                 }
                 $modalInstance.dismiss();
@@ -56,14 +49,11 @@ angular
             /**
              * Validates category form before saving
              */
-              $scope.addReasonFormSubmit = function () {
+            $scope.addReasonFormSubmit = function () {
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.addReasonForm.$valid) {
-                         $modalInstance.close($scope.addReasonFormData);
+                    $modalInstance.close($scope.addReasonFormData);
                 }
             };
-
-
-
         }
     ]);

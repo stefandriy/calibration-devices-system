@@ -8,9 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 
-/**
- * Created by Sonka on 20.11.2015.
- */
+
 @Entity
 @Table(name = "REASONS_UNSUITABILITY")
 @Getter

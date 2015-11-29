@@ -6,13 +6,12 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
 import java.util.List;
 
 
 /**
  * Calibration Test Data entity.
- * Contains information about measurement device calibration test data.
+ * Contains information about measurement device calibration test data.Contains information about measurement device calibration test data.
  */
 @Entity
 @Table(name = "CALIBRATION_TEST_DATA")
@@ -61,7 +60,8 @@ public class CalibrationTestData {
         this.volumeOfStandard = volumeOfStandard;
         this.initialValue = initialValue;
         this.endValue = endValue;
-        this.volumeInDevice = round(this.getEndValue() - this.getInitialValue(), 2);
+        this.volumeInDevice = BigDecimal.valueOf(this.getEndValue() - this.getInitialValue()).
+                setScale(2, RoundingMode.HALF_UP).doubleValue();
         this.actualConsumption = actualConsumption;
         this.calculationError = calculationError;
         this.lowerConsumptionLimit = lowerConsumptionLimit;
@@ -69,7 +69,7 @@ public class CalibrationTestData {
         if (this.getEndValue() == 0 || this.getInitialValue() > this.getEndValue()) {
             this.testResult = Verification.CalibrationTestResult.RAW;
         } else {
-            if (this.getActualConsumption() <= this.getAcceptableError()) {
+            if (this.getCalculationError() <= Math.abs(this.getAcceptableError())) {
                 this.testResult = Verification.CalibrationTestResult.SUCCESS;
             } else {
                 this.testResult = Verification.CalibrationTestResult.FAILED;
@@ -85,9 +85,5 @@ public class CalibrationTestData {
         this.calibrationTest = calibrationTest;
         this.duration = duration;
         this.testPosition = testPosition;
-    }
-
-    private double round(double val, int scale) {
-        return BigDecimal.valueOf(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
     }
 }

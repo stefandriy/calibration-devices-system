@@ -71,7 +71,7 @@
                                                popover-trigger="mouseenter"
                                                ng-click="openDetails(verification.id, verification.initialDate)">
                                             </i>
-                                        <img src="resources/assets/button-icons/test.png" ng-show="verification.status == 'SENT_TO_VERIFICATOR' || verification.status == 'TEST_COMPLETED'"
+                                        <img src="resources/assets/button-icons/test.png" ng-show="verification.status == 'SENT_TO_VERIFICATOR' || verification.status == 'TEST_COMPLETED' || verification.status == 'TEST_OK'"
                                              popover="Інформація про протокол" popover-trigger="mouseenter"
                                              ng-click="openProtocol(verification.id)">
                                         </img>
