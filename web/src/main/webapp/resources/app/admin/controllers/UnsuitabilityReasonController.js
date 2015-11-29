@@ -12,7 +12,7 @@ angular
         '$timeout',
         '$filter',
         'toaster',
-        function ($rootScope, $scope, $log, $modal,  unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
+        function ($rootScope, $scope, $log, $modal, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
             /**
              * init of page params
              */
@@ -21,10 +21,6 @@ angular
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
 
-            /**
-             *  table
-             * @type {ngTableParams|*}
-             */
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
@@ -33,7 +29,6 @@ angular
                 }
             }, {
                 total: 0,
-                filterDelay: 10000,
                 getData: function ($defer, params) {
 
                     unsuitabilityReasonService.getPage(params.page(), params.count())

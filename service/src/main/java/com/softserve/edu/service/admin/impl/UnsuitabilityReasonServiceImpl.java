@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
@@ -40,8 +39,7 @@ public class UnsuitabilityReasonServiceImpl implements UnsuitabilityReasonServic
     @Override
     public List<UnsuitabilityReason> findUnsuitabilityReasonsPagination(int pageNumber, int itemsPerPage) {
 
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<UnsuitabilityReason> cq = cb.createQuery(UnsuitabilityReason.class);
+        CriteriaQuery<UnsuitabilityReason> cq = em.getCriteriaBuilder().createQuery(UnsuitabilityReason.class);
         Root<UnsuitabilityReason> reasons = cq.from(UnsuitabilityReason.class);
         TypedQuery<UnsuitabilityReason> typedQuery = em.createQuery(cq);
         typedQuery.setFirstResult((pageNumber - 1) * itemsPerPage);

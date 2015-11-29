@@ -6,13 +6,12 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Date;
 import java.util.List;
 
 
 /**
  * Calibration Test Data entity.
- * Contains information about measurement device calibration test data.
+ * Contains information about measurement device calibration test data.Contains information about measurement device calibration test data.
  */
 @Entity
 @Table(name = "CALIBRATION_TEST_DATA")

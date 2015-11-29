@@ -3,8 +3,13 @@ angular
     .factory('UnsuitabilityReasonService', function ($http) {
         return {
             getPage: function (pageNumber, itemsPerPage) {
-                return getDataWithParams('admin/unsuitability-reasons/' + pageNumber + '/' + itemsPerPage);
-
+                var url = 'admin/unsuitability-reasons/' + pageNumber + '/' + itemsPerPage;
+                return $http.get(url)
+                    .success(function (data) {
+                        return data;
+                    }).error(function (err) {
+                        return err;
+                    });
             },
             saveUnsuitabilityReason: function (formData) {
                 var url = 'admin/unsuitability-reasons/add';
@@ -14,7 +19,6 @@ angular
                     }).error(function (err) {
                         return err;
                     });
-
             },
             getDevices: function () {
                 var url = 'admin/unsuitability-reasons/devices';
@@ -33,15 +37,5 @@ angular
                     });
             }
         };
-
-        function getDataWithParams(url, params) {
-            return $http.get(url, {
-                params: params
-            }).success(function (data) {
-                return data;
-            }).error(function (err) {
-                return err;
-            });
-        }
 
     });
