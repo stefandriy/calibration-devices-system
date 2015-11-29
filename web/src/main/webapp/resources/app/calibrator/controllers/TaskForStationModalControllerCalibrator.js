@@ -1,10 +1,29 @@
 angular
     .module('employeeModule')
-    .controller('TaskForStationModalControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'VerificationPlanningTaskService', '$log',
-        function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log) {
+    .controller(
+    'TaskForStationModalControllerCalibrator',
+    [
+        '$rootScope',
+        '$scope',
+        '$modal',
+        '$modalInstance',
+        'VerificationPlanningTaskService',
+        '$log',
+        '$filter',
+        function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log, $filter) {
 
             $scope.calibrationTask = {};
             $scope.incorrectValue = false;
+
+            /**
+             * Device types (application field) for the select dropdown
+             */
+            $scope.deviceTypeData = [
+                {id: 'WATER', label: $filter('translate')('WATER')},
+                {id: 'THERMAL', label: $filter('translate')('THERMAL')},
+                {id: 'ELECTRICAL', label: $filter('translate')('ELECTRICAL')},
+                {id: 'GASEOUS', label: $filter('translate')('GASEOUS')}
+            ];
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -18,6 +37,7 @@ angular
              */
             $scope.closeModal = function () {
                 console.log("close modal window");
+                $scope.formTask.$submitted = false;
                 $modalInstance.close();
             };
 
@@ -77,6 +97,7 @@ angular
             $scope.clearDate = function () {
                 $log.debug($scope.calibrationTask.taskDate);
                 $scope.calibrationTask.taskDate = null;
+                $scope.moduleNumbers = [];
             };
 
             /**
@@ -84,6 +105,7 @@ angular
              */
             $scope.resetTaskForm = function () {
                 $scope.$broadcast('show-errors-reset');
+                $scope.formTask.$submitted = false;
                 $scope.calibrationTask = {};
                 $scope.incorrectValue = false;
                 $scope.calibrationTask.pickerDate = null;
@@ -91,27 +113,31 @@ angular
                 $scope.floorValidation = null;
                 $scope.counterNumberValidation = null;
                 $scope.showSendingMessage = false;
-                $scope.modulesSerialNumbers = {};
+                $scope.moduleNumbers = [];
             };
 
-            $scope.modulesSerialNumbers = {};
+            $scope.moduleNumbers = [];
 
             /**
              * makes asynchronous request to the server
              * and receives the calibration modules info
              */
-            $scope.receiveModuleNumbers = function(){
-                console.log($scope.calibrationTask.place + " " + $scope.calibrationTask.taskDate);
-                var place = $scope.calibrationTask.place;
-                var taskDate = $scope.calibrationTask.taskDate;
-                var applicationField = $scope.calibrationTask.applicationField;
-                verificationPlanningTaskService.getModuls(place, taskDate, applicationField)
-                    .then(function (result) {
-                        $log.debug(result);
-                        $scope.modulesSerialNumbers = result.data;
-                    }, function (result) {
-                        $log.debug('error fetching data:', result);
-                    });
+            $scope.receiveModuleNumbers = function() {
+                if ($scope.calibrationTask.taskDate && $scope.calibrationTask.applicationField) {
+                    console.log($scope.calibrationTask.taskDate);
+                    var place = 'INSTALLATION_PORT';
+                    var taskDate = $scope.calibrationTask.taskDate;
+                    var applicationField = $scope.calibrationTask.applicationField;
+                    verificationPlanningTaskService.getModules(place, taskDate, applicationField)
+                        .then(function (result) {
+                            $log.debug(result);
+                            $scope.moduleNumbers = result.data;
+                        }, function (result) {
+                            $log.debug('error fetching data:', result);
+                        });
+                } else {
+                    $scope.moduleNumbers = [];
+                }
             };
 
             /**
@@ -121,13 +147,13 @@ angular
              * else opens error modal
              */
             $scope.showSendingMessage = false;
-            $scope.save = function (){
+            $scope.save = function () {
                 if ($rootScope.emptyStatus == true) {
                     $scope.showSendingMessage = true;
                 } else {
                     var calibrationTask = {
                         "taskDate": $scope.calibrationTask.taskDate,
-                        "serialNumber": $scope.calibrationTask.installationNumber,
+                        "moduleNumber": $scope.calibrationTask.installationNumber,
                         "verificationsId": $rootScope.verifIds
                     };
                     console.log(calibrationTask);

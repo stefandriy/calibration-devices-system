@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class CalibrationTaskDTO {
 
-    private String serialNumber;
+    private String moduleNumber;
 
     private Date taskDate;
 
@@ -18,8 +18,8 @@ public class CalibrationTaskDTO {
     public CalibrationTaskDTO() {
     }
 
-    public CalibrationTaskDTO(String serialNumber, Date taskDate, List<String> verificationsId) {
-        this.serialNumber = serialNumber;
+    public CalibrationTaskDTO(String moduleNumber, Date taskDate, List<String> verificationsId) {
+        this.moduleNumber = moduleNumber;
         this.taskDate = taskDate;
         this.verificationsId = verificationsId;
     }

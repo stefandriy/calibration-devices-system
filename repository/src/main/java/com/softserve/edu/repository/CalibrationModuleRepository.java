@@ -23,6 +23,8 @@ import java.util.Date;
 
     CalibrationModule findBySerialNumber(String serialNumber);
 
+    CalibrationModule findByModuleNumber(String moduleNumber);
+
     @Query("SELECT MIN(C.workDate) FROM CalibrationModule C")
     Date findEarliestDateAvailableCalibrationModule();
 

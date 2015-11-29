@@ -276,7 +276,7 @@ angular
                 var place = $scope.calibrationTask.place;
                 var taskDate = $scope.calibrationTask.taskDate;
                 var applicationFiled = $scope.calibrationTask.applicationFiled;
-                verificationPlanningTaskService.getModuls(place, taskDate, applicationFiled)
+                verificationPlanningTaskService.getModules(place, taskDate, applicationFiled)
                     .then(function (result) {
                         $log.debug('result ', result);
                         $scope.modulesSerialNumbers = result.data;
