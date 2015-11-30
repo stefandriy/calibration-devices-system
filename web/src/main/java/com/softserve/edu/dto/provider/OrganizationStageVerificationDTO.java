@@ -1,10 +1,15 @@
 package com.softserve.edu.dto.provider;
 
 import com.softserve.edu.entity.Address;
+import com.softserve.edu.entity.device.Counter;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.ClientData;
 
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -26,16 +31,20 @@ public class OrganizationStageVerificationDTO {
 	private String flat;
 	private Long providerId;
 	private Long calibratorId;
+	private String calibratorName;
 	private Long deviceId;
 	private String verificationId;
 
 	private Boolean dismantled;
+
 	private Long dateOfDismantled;
 	private Long dateOfMounted;
 	private String numberCounter;
+	private String releaseYear;
+
 	private String symbol;
 	private String standardSize;
-	private String releaseYear;
+
 
 	private String entrance;
 	private String doorCode;
@@ -46,10 +55,15 @@ public class OrganizationStageVerificationDTO {
 	private Long noWaterToDate;
 	private String notes;
 
+	private Long initialDate;
+	private Long expirationDate;
+
+
 	public OrganizationStageVerificationDTO() {
 	}
 
-	public OrganizationStageVerificationDTO(ClientData clientData, Address address, Long providerId, Long calibratorId, Long deviceId, String verificationId) {
+	public OrganizationStageVerificationDTO(ClientData clientData, Address address, Long providerId, Long calibratorId,
+											Long deviceId, String verificationId) {
 		this.firstName = clientData.getFirstName();
 		this.lastName = clientData.getLastName();
 		this.middleName = clientData.getMiddleName();
@@ -66,6 +80,47 @@ public class OrganizationStageVerificationDTO {
 		this.calibratorId = calibratorId;
 		this.deviceId = deviceId;
 		this.verificationId = verificationId;
+	}
+
+	public OrganizationStageVerificationDTO(ClientData clientData, Address address, String verificationId, Date initialDate,
+											Date expirationDate, Organization calibrator, String comment, AdditionalInfo info,
+											Boolean dismantled, Counter counter) {
+		this.firstName = clientData.getFirstName();
+		this.lastName = clientData.getLastName();
+		this.middleName = clientData.getMiddleName();
+		this.email = clientData.getEmail();
+		this.phone = clientData.getPhone();
+		this.secondPhone = clientData.getSecondPhone();
+		this.region = address.getRegion();
+		this.locality = address.getLocality();
+		this.district = address.getDistrict();
+		this.street = address.getStreet();
+		this.building = address.getBuilding();
+		this.flat = address.getFlat();
+
+		this.verificationId = verificationId;
+		this.initialDate = initialDate.getTime();
+		this.expirationDate = expirationDate.getTime();
+		this.calibratorName = (calibrator != null) ? calibrator.getName() : null;
+		this.comment = comment;
+
+		this.entrance = (info != null) ? "" + info.getEntrance() : null;
+		this.doorCode = (info != null) ? "" + info.getDoorCode() : null;
+		this.floor = (info != null) ? "" + info.getFloor() : null;
+		this.dateOfVerif = (info != null) ? info.getDateOfVerif().getTime() : null;
+		this.serviceability = (info != null) ? info.getServiceability() : null;
+		this.noWaterToDate = (info != null) ? info.getNoWaterToDate().getTime() : null;
+		this.notes = (info != null) ? info.getNotes() : null;
+
+		this.dismantled = dismantled;
+
+		this.dateOfDismantled = (counter != null) ? counter.getDateOfDismantled().getTime() : null;
+		this.dateOfMounted = (counter != null) ? counter.getDateOfMounted().getTime() : null;
+		this.numberCounter = (counter != null) ? counter.getNumberCounter() : null;
+		this.releaseYear = (counter != null) ? counter.getReleaseYear() : null;
+
+		this.symbol = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getSymbol() : null;
+		this.standardSize = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getStandardSize() : null;
 	}
 
 	public String getFirstName() {

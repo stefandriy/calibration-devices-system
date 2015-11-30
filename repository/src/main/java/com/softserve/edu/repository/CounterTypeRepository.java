@@ -17,4 +17,6 @@ public interface CounterTypeRepository extends CrudRepository<CounterType, Long>
 
     List<CounterType> findBySymbol(String symbol);
 
+    CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize);
+
 }

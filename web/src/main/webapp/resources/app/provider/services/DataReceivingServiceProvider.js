@@ -48,9 +48,6 @@ angular.module('employeeModule').factory('DataReceivingServiceProvider',
             },
             getVerificationStatusById: function (code) {
                 return getData('check/' + code);
-            },
-            getVerificationById: function (code) {
-                return getData('verification/' + code);
             }
         };
 

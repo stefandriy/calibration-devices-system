@@ -325,7 +325,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          */
         $scope.createNew = function () {
             if ($rootScope.verifIDforTempl) {
-                dataReceivingService.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
+                verificationServiceProvider.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
 
                     $scope.verification = verification;
                     $scope.formData = {};
@@ -336,6 +336,21 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.formData.phone = $scope.verification.data.phone;
                     $scope.formData.flat = $scope.verification.data.flat;
                     $scope.formData.comment = $scope.verification.data.comment;
+
+                    $scope.selectedData.dismantled = $scope.verification.data.dismantled;
+                    $scope.selectedData.dateOfDismantled = $scope.verification.data.dateOfDismantled;
+                    $scope.selectedData.dateOfMounted = $scope.verification.data.dateOfMounted;
+                    $scope.selectedData.numberCounter = $scope.verification.data.numberCounter;
+                    $scope.selectedData.releaseYear = $scope.verification.data.releaseYear;
+
+                    $scope.addInfo.entrance = $scope.verification.data.entrance;
+                    $scope.addInfo.doorCode = $scope.verification.data.doorCode;
+                    $scope.addInfo.floor = $scope.verification.data.floor;
+                    $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
+
+                    $scope.addInfo.serviceability = $scope.verification.data.serviceability;
+                    $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
+                    $scope.addInfo.notes = $scope.verification.data.notes;
 
                     $scope.selectedStreet = $scope.verification.data.street;
                     $scope.selectedBuilding = $scope.verification.data.building;
@@ -357,15 +372,29 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                                         var index = arrayObjectIndexOf($scope.localities, $scope.verification.data.locality, "designation");
                                         $scope.selectedData.locality = $scope.localities[index];
 
-                                                        dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
-                                                            .success(function (indexes) {
-                                                                $scope.indexes = indexes;
-                                                                $scope.selectedData.index = $scope.indexes[0];
-                                                                $scope.blockSearchFunctions = false;
-                                                            });
+                                        dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
+                                            .success(function (indexes) {
+                                                $scope.indexes = indexes;
+                                                $scope.selectedData.index = $scope.indexes[0];
+                                                $scope.blockSearchFunctions = false;
+                                            });
                                     });
                             });
                     });
+
+                    addressServiceProvider.findAllSymbols().then(function(respSymbols) {
+                        $scope.symbols = respSymbols.data;
+                        var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol, "symbol");
+                        $scope.selectedData.counterSymbol = $scope.symbols[index];
+
+                        addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol.symbol)
+                            .then(function(standardSizes) {
+                                $scope.standardSizes = standardSizes.data;
+                                var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize, "standardSize");
+                                $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
+                            });
+                    });
+
                 });
 
             }

@@ -69,4 +69,12 @@ public class AdditionalInfo {
         this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
         this.notes = notes;
     }
+
+    public Boolean getServiceability() {
+        return new Boolean(this.serviceability);
+    }
+
+    public boolean isServiceability() {
+        return serviceability;
+    }
 }

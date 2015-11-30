@@ -40,7 +40,6 @@ public class Counter {
     private CounterType counterType;
 
     @OneToOne
-    @JoinColumn(name = "verificationId")
     private Verification verification;
 
     public Counter(String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter,
@@ -53,10 +52,11 @@ public class Counter {
         this.verification = verification;
     }
 
-    public Counter(String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter) {
+    public Counter(String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter, CounterType counterType) {
         this.releaseYear = releaseYear;
         this.dateOfDismantled = (dateOfDismantled != null) ? new Date(dateOfDismantled) : null;
         this.dateOfMounted = (dateOfMounted != null) ? new Date(dateOfMounted) : null;
         this.numberCounter = numberCounter;
+        this.counterType = counterType;
     }
 }

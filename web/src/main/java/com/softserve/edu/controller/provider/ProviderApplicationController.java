@@ -96,13 +96,31 @@ public class ProviderApplicationController {
                         verificationDTO.getFlat()
                 )
         );
+        CounterType counterType = providerService.findOneBySymbolAndStandardSize(verificationDTO.getSymbol(),
+                verificationDTO.getStandardSize());
+        Counter counter = new Counter(
+                verificationDTO.getReleaseYear(),
+                verificationDTO.getDateOfDismantled(),
+                verificationDTO.getDateOfMounted(),
+                verificationDTO.getNumberCounter(),
+                counterType
+        );
+        AdditionalInfo info = new AdditionalInfo(
+                verificationDTO.getEntrance(),
+                verificationDTO.getDoorCode(),
+                verificationDTO.getFloor(),
+                verificationDTO.getDateOfVerif(),
+                verificationDTO.getServiceability(),
+                verificationDTO.getNoWaterToDate(),
+                verificationDTO.getNotes()
+        );
 
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
         Organization calibrator = calibratorService.findById(verificationDTO.getCalibratorId());
 
         Device device = deviceService.getById(verificationDTO.getDeviceId());
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
-                Verification.ReadStatus.UNREAD, calibrator);
+                Verification.ReadStatus.UNREAD, calibrator, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment());
 
         verificationService.saveVerification(verification);
         String name = clientData.getFirstName() + " " + clientData.getLastName();
@@ -136,11 +154,14 @@ public class ProviderApplicationController {
                         verificationDTO.getFlat()
                 )
         );
+        CounterType counterType = providerService.findOneBySymbolAndStandardSize(verificationDTO.getSymbol(),
+                verificationDTO.getStandardSize());
         Counter counter = new Counter(
                 verificationDTO.getReleaseYear(),
                 verificationDTO.getDateOfDismantled(),
                 verificationDTO.getDateOfMounted(),
-                verificationDTO.getNumberCounter()
+                verificationDTO.getNumberCounter(),
+                counterType
         );
         AdditionalInfo info = new AdditionalInfo(
                 verificationDTO.getEntrance(),
@@ -151,6 +172,7 @@ public class ProviderApplicationController {
                 verificationDTO.getNoWaterToDate(),
                 verificationDTO.getNotes()
         );
+
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
         Device device = deviceService.getById(verificationDTO.getDeviceId());
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
@@ -162,6 +184,31 @@ public class ProviderApplicationController {
     }
 
     /**
+     * Get verification by verificationId fot Creating form by pattern
+     */
+    @RequestMapping(value = "verification/{verificationId}", method = RequestMethod.GET)
+    public OrganizationStageVerificationDTO getVerificationCode(@PathVariable String verificationId) {
+        Verification verification = verificationService.findById(verificationId);
+        if (verification != null) {
+            //logger.trace(verification.getRejectedMessage());
+            return new OrganizationStageVerificationDTO(
+                    verification.getClientData(),
+                    verification.getClientData().getClientAddress(),
+                    verification.getId(),
+                    verification.getInitialDate(),
+                    verification.getExpirationDate(),
+                    verification.getCalibrator(),
+                    verification.getComment(),
+                    verification.getInfo(),
+                    verification.getDismantled(),
+                    verification.getCounter()
+            );
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * get all counter symbols from table counter_type
      */
     @RequestMapping(value = "symbols", method = RequestMethod.GET)
@@ -170,9 +217,11 @@ public class ProviderApplicationController {
         return CounterTypeDTOTransformer.toDtofromList(providerService.findAllSymbols());
     }
 
-    @RequestMapping(value = "standardSizes/", method = RequestMethod.GET)
+    @RequestMapping(value = "standardSizes/{symbol}", method = RequestMethod.GET)
     public List<CounterTypeDTO> findStandardSizesBySymbol(@PathVariable String symbol) {
-        return CounterTypeDTOTransformer.toDtofromList(providerService.findStandardSizesBySymbol(symbol));
+        return CounterTypeDTOTransformer
+                .toDtofromList(providerService
+                        .findStandardSizesBySymbol(symbol));
     }
 
     /**

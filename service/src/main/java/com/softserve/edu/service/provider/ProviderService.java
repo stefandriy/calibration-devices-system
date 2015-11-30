@@ -15,4 +15,6 @@ public interface ProviderService {
      List<CounterType> findAllSymbols();
 
      List<CounterType> findStandardSizesBySymbol(String symbol);
+
+     CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize);
 }

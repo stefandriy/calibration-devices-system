@@ -111,7 +111,7 @@ public class Verification {
     private AdditionalInfo info;
 
     @Column(columnDefinition = "boolean default false")
-    private boolean dismantled;
+    private Boolean dismantled;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "counterId")
@@ -139,9 +139,22 @@ public class Verification {
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
-                        Device device, Status status, ReadStatus readStatus, Organization calibrator
+                        Device device, Status status, ReadStatus readStatus, Organization calibrator, AdditionalInfo info,
+                        Boolean dismantled, Counter counter, String comment
     ) {
-        this(initialDate, expirationDate, clientData, provider, device, status, readStatus, calibrator, null);
+        this.id = UUID.randomUUID().toString();
+        this.initialDate = initialDate;
+        this.expirationDate = expirationDate;
+        this.clientData = clientData;
+        this.provider = provider;
+        this.device = device;
+        this.status = status;
+        this.readStatus = readStatus;
+        this.calibrator = calibrator;
+        this.info = info;
+        this.dismantled = dismantled;
+        this.counter = counter;
+        this.comment = this.comment + comment;
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,
