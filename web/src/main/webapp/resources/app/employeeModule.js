@@ -245,7 +245,6 @@
         'provider/services/AddressServiceProvider',
         'provider/services/SettingsServiceProvider',
         'provider/services/UserService',
-        'provider/services/DataReceivingServiceProvider',
         'provider/controllers/CapacityEmployeeControllerProvider',
         'provider/controllers/GraficEmployeeProvider',
         'provider/controllers/GraphicEmployeeProviderMainPanel',
