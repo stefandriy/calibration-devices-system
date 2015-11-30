@@ -18,6 +18,7 @@ angular
             $scope.calibrationTask = {};
             $scope.moduleNumbers = [];
             $scope.noModulesAvailable = false;
+            $scope.calibrationTask.moduleType = moduleType;
 
             /**
              * Device types (application field) for the select dropdown
@@ -127,6 +128,7 @@ angular
                 if ($scope.calibrationTask.taskDate && $scope.calibrationTask.applicationField) {
                     var taskDate = $scope.calibrationTask.taskDate;
                     var deviceType = $scope.calibrationTask.applicationField;
+                    var moduleType = $scope.calibrationTask.moduleType;
                     verificationPlanningTaskService.getModules(moduleType, taskDate, deviceType)
                         .then(function (result) {
                             $log.debug(result);

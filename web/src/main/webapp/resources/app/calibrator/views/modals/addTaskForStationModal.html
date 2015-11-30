@@ -1,6 +1,9 @@
 <div id="taskModel" class="modal-content" xmlns="http://www.w3.org/1999/html">
     <div class="modal-header">
-        <h3 class="modal-title" id="myModalLabel">{{'TASK_TITLE' | translate}}</h3>
+        <h3 ng-show="calibrationTask.moduleType == 'INSTALLATION_PORT'"
+            class="modal-title" id="myModalLabel">{{'TASK_TITLE_FOR_INSTALLATION_PORT' | translate}}</h3>
+        <h3 ng-show="calibrationTask.moduleType == 'INSTALLATION_FIX'"
+            class="modal-title" id="myModalLabel2">{{ 'TASK_TITLE_FOR_INSTALLATION_FIX' | translate }}</h3>
         <h4 class="modal-title" ng-show="noModulesAvailable">
             <strong style="color: red;">{{ 'NO_MODULES_AVAILABLE' | translate }}</strong>
         </h4>
