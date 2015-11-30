@@ -54,8 +54,8 @@ public class Counter {
 
     public Counter(String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter, CounterType counterType) {
         this.releaseYear = releaseYear;
-        this.dateOfDismantled = (dateOfDismantled != null) ? new Date(dateOfDismantled) : null;
-        this.dateOfMounted = (dateOfMounted != null) ? new Date(dateOfMounted) : null;
+        this.dateOfDismantled = (dateOfDismantled != 0) ? new Date(dateOfDismantled) : null;
+        this.dateOfMounted = (dateOfMounted != 0) ? new Date(dateOfMounted) : null;
         this.numberCounter = numberCounter;
         this.counterType = counterType;
     }

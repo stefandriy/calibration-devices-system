@@ -234,6 +234,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          * create and save in database the verification from filled fields in form when user clicks "Save"
          */
         $scope.save = function() {
+            $scope.$broadcast('show-errors-check-validity');
             if($scope.clientForm.$valid) {
                 $scope.fillFormData();
 
@@ -284,7 +285,11 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.floor = $scope.addInfo.floor;
             $scope.formData.dateOfVerif = (new Date($scope.addInfo.dateOfVerif)).getTime();
             $scope.formData.time = $scope.addInfo.time;
-            $scope.formData.serviceability = $scope.addInfo.serviceability;
+            if($scope.addInfo.serviceability) {
+                $scope.formData.serviceability = $scope.addInfo.serviceability;
+            } else {
+                $scope.formData.serviceability = false;
+            }
             $scope.formData.noWaterToDate = (new Date($scope.addInfo.noWaterToDate)).getTime();
             $scope.formData.notes = $scope.addInfo.notes;
         };

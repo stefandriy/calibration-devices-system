@@ -50,6 +50,7 @@ public class OrganizationStageVerificationDTO {
 	private String doorCode;
 	private String floor;
 	private Long dateOfVerif;
+	private String time;
 
 	private Boolean serviceability;
 	private Long noWaterToDate;
@@ -111,6 +112,7 @@ public class OrganizationStageVerificationDTO {
 		this.serviceability = (info != null) ? info.getServiceability() : null;
 		this.noWaterToDate = (info != null) ? info.getNoWaterToDate().getTime() : null;
 		this.notes = (info != null) ? info.getNotes() : null;
+		this.time = (info != null) ? info.getTimeFrom() + "-" + info.getTimeTo() : null;
 
 		this.dismantled = dismantled;
 
