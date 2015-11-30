@@ -2,6 +2,7 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.VerificationPlanningTaskFilterSearch;
 import com.softserve.edu.dto.calibrator.CalibrationTaskDTO;
 import com.softserve.edu.dto.calibrator.SymbolsAndSizesDTO;
 import com.softserve.edu.dto.calibrator.TeamDTO;
@@ -11,11 +12,14 @@ import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.CalibrationModuleService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,8 +28,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping(value = "/task")
@@ -39,6 +48,12 @@ public class CalibratorPlanningTaskController {
 
     @Autowired
     private CalibratorDisassemblyTeamService teamService;
+
+    @Autowired
+    OrganizationService organizationService;
+
+    @Autowired
+    VerificationService verificationService;
 
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
@@ -98,17 +113,34 @@ public class CalibratorPlanningTaskController {
      * @param employeeUser
      * @return PageDTO<VerificationPlanningTaskDTO>
      */
-    @RequestMapping(value = "findAll/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
-    public PageDTO<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndTaskStatus(
-            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
-            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        Page<Verification> verifications = taskService
-                .findVerificationsByCalibratorEmployeeAndTaskStatus(employeeUser.getUsername(),
-                        pageNumber, itemsPerPage);
-        Long count = (long) taskService
-                .findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername());
+
+    @RequestMapping(value = "findAll/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+    private PageDTO<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndTaskStatus(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                               @PathVariable String sortCriteria, @PathVariable String sortOrder,
+                                                                                               VerificationPlanningTaskFilterSearch searchData,
+                                                                                               @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        Page<Verification> verifications = taskService.findVerificationsByCalibratorEmployeeAndTaskStatus(employeeUser.getUsername(),
+                pageNumber, itemsPerPage, sortCriteria, sortOrder);
+        Long count = Long.valueOf(taskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername()));
+>>>>>>> test_development
         List<VerificationPlanningTaskDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
         return new PageDTO<VerificationPlanningTaskDTO>(count, content);
+
+/*        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
+                searchData.getDate(),
+                searchData.getEndDate(),
+                searchData.getId(),
+                searchData.getClient_full_name(),
+                searchData.getStreet(),
+                searchData.getRegion(),
+                searchData.getDistrict(),
+                searchData.getLocality(),
+                searchData.getStatus(),
+                searchData.getEmployee_last_name(),
+                sortCriteria, sortOrder, calibratorEmployee);
+        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
+        return new PageDTO<>(queryResult.getTotalItems(), content);*/
     }
 
     /**
@@ -181,5 +213,23 @@ public class CalibratorPlanningTaskController {
         return symbolsAndSizesDTO;
     }
 
-
+    @RequestMapping(value = "earliest_date", method = RequestMethod.GET)
+    public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        if (user != null) {
+            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            Date gottenDate = verificationService.getEarliestPlanningTaskDate(organization);
+            Date date = null;
+            if (gottenDate != null) {
+                date = new Date(gottenDate.getTime());
+            } else {
+                return null;
+            }
+            DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+            String isoLocalDateString = localDate.format(dbDateTimeFormatter);
+            return isoLocalDateString;
+        } else {
+            return null;
+        }
+    }
 }

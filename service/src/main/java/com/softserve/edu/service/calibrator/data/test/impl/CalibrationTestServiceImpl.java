@@ -189,7 +189,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     public Set<CalibrationTestData> getLatestTests(List<CalibrationTestData> rawListOfCalibrationTestData) {
         Set<CalibrationTestData> setOfCalibrationTestData = new LinkedHashSet<>();
         Integer position;
-        for (CalibrationTestData calibrationTestData : rawListOfCalibrationTestData ){
+        for (CalibrationTestData calibrationTestData : rawListOfCalibrationTestData) {
             position = calibrationTestData.getTestPosition();
             position++;
             for (CalibrationTestData calibrationTestDataSearch : rawListOfCalibrationTestData) {
@@ -253,25 +253,22 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public void updateTest(String verificationId,String status){
-        if(status!=null) {
-            Verification verification = verificationRepository.findOne(verificationId);
-            String statusToSend;
-            Status statusVerification = Status.valueOf(status.toUpperCase());
-            if (!verification.getStatus().equals(statusVerification)) {
-                if (statusVerification.equals(Status.TEST_OK)) {
-                    statusToSend = "придатний";
-                } else {
-                    statusToSend = "непридатний";
-                }
-                verification.setStatus(statusVerification);
-                String emailCustomer = verification.getClientData().getEmail();
-                String emailProvider = verification.getProviderEmployee().getEmail();
-                mailService.sendPassedTestMail(emailCustomer, verificationId, statusToSend);
-                mailService.sendPassedTestMail(emailProvider, verificationId, statusToSend);
-                verificationRepository.save(verification);
-            }
+    public void updateTest(String verificationId, String status){
+        Verification verification = verificationRepository.findOne(verificationId);
+        Status statusRecived = Status.valueOf(status.toUpperCase());
+        if(statusRecived.equals(Status.TEST_OK)||statusRecived.equals(Status.TEST_NOK)) {
+            String statusToSend = statusRecived.equals(Status.TEST_OK) ? "придатний" : "не придатний"; // todo: change
+            verification.setStatus(statusRecived);
+            mailService.sendPassedTestMail(verification.getClientData().getEmail(), verificationId, statusToSend);
+            mailService.sendPassedTestMail(verification.getProviderEmployee().getEmail(), verificationId, statusToSend);
+            verificationRepository.save(verification);
         }
+    }
+
+    @Override
+    @Transactional
+    public String getTypeWater(String verificationId){
+          return  verificationRepository.findOne(verificationId).getDevice().getDeviceName();
     }
 
 

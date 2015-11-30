@@ -5,7 +5,7 @@
             <h1 class="page-header"><span translate="VERIFICATION_PROTOCOLS"></span></h1>
         </div>
     </div>
-
+    <div id="demo"></div>
     <div class="row">
         <div class="col-md-12">
 			<div class="">
@@ -75,49 +75,47 @@
                                                 ng-click="openRejectTest()">
                                            </img>
 
-                                           <div class="ui simple icon dropdown" ng-show="(verification.status == 'TEST_OK') || (verification.status == 'TEST_NOK')">
+                                           <div class="ui simple icon dropdown" ng-controller="DocumentController" ng-show="(verification.status == 'TEST_OK') || (verification.status == 'TEST_NOK')">
                                                <a class="fa fa-floppy-o fa-lg"></a>
                                                <div class="left menu" style="right:0;left:auto;">
-                                                   <div class="item" ng-if="verification.status == 'TEST_OK'">
-                                                       <a target="_blank" href="{{'/doc/VERIFICATION_CERTIFICATE/' + verification.id + '/docx'}}" class="ng-binding">
+                                                   <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'docx')">
+                                                       <a class="ng-binding">
                                                            <i class="fa fa-file-word-o"></i>
                                                            {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_DOCX' | translate}}
                                                        </a>
                                                    </div>
-                                                   <div class="item" ng-if="verification.status == 'TEST_NOK'">
-                                                       <a target="_blank" href="{{'/doc/UNFITNESS_CERTIFICATE/' + verification.id + '/docx'}}" class="ng-binding">
+                                                   <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'docx')">
+                                                       <a class="ng-binding">
                                                            <i class="fa fa-file-word-o"></i>
                                                            {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX' | translate}}
                                                        </a>
                                                    </div>
-                                                   <div class="item" ng-if="verification.status == 'TEST_OK'">
-                                                       <a target="_blank" href="{{'/doc/VERIFICATION_CERTIFICATE/' + verification.id + '/pdf'}}" class="ng-binding">
+                                                   <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'pdf')">
+                                                       <a class="ng-binding">
                                                            <i class="fa fa-file-pdf-o"></i>
                                                            {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF' | translate}}
                                                        </a>
                                                    </div>
-                                                   <div class="item" ng-if="verification.status == 'TEST_NOK'">
-                                                       <a target="_blank" href="{{'/doc/UNFITNESS_CERTIFICATE/' + verification.id + '/pdf'}}" class="ng-binding">
+                                                   <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'pdf')">
+                                                       <a class="ng-binding">
                                                            <i class="fa fa-file-pdf-o"></i>
                                                            {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF' | translate}}
                                                        </a>
                                                    </div>
-                                                   <div class="item">
-                                                       <a target="_blank" href="#" class="ng-binding">
+                                                   <div class="item"  ng-click="editDocument(verification)">
+                                                       <a class="ng-binding">
                                                            <i class="fa fa-edit"></i>
                                                            {{'EDIT_DOCUMENT' | translate}}
                                                        </a>
                                                    </div>
-                                                   <div class="item">
-                                                       <a target="_blank" href="#" class="ng-binding">
+                                                   <div class="item" ng-click="printDocument(verification)">
+                                                       <a class="ng-binding">
                                                            <i class="fa fa-print"></i>
                                                            {{'PRINT_DOCUMENT' | translate}}
                                                        </a>
                                                    </div>
                                                </div>
                                            </div>
-
-
                                        </div>
                                     </td>
                                 </tr>

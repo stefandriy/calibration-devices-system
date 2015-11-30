@@ -27,7 +27,6 @@
             width: 200px;
         }
 
-        .input-sm { height: 25px; }
 
         .image-td {
             width: 200px;
@@ -93,7 +92,7 @@
                     <label class="control-label">{{'COUNTER_NUMBER' | translate }}</label>
                 </div>
                 <div class="form-group col-md-7" show-errors>
-                    <input type="text" ng-model="TestForm.counterNumber"
+                    <input type="text" ng-model="TestForm.counterNumber" ng-disabled="fileLoaded"
                            name="counterNumber" class="form-control input-sm" required>
                 </div>
             </div>
@@ -113,7 +112,7 @@
                     <label class="control-label">{{'TYPE WATER' | translate}}</label>
                 </div>
                 <div class="form-group col-md-7">
-                    <input type="text" ng-model="TestForm.typewater"
+                    <input type="text" ng-model="TestForm.typeWater | translate" ng-disabled="fileLoaded"
                            name="typewater" class="form-control input-sm" required>
                 </div>
             </div>
@@ -123,7 +122,7 @@
                     <label class="control-label">{{'ACCUMULATED_VOLUME' | translate}}</label>
                 </div>
                 <div class="form-group col-md-7">
-                    <input type="text" ng-model="TestForm.accumulatedVolume"
+                    <input type="text" ng-model="TestForm.accumulatedVolume" ng-disabled="fileLoaded"
                            name="accumulatedVolume" class="form-control input-sm" required>
                 </div>
             </div>
@@ -165,7 +164,7 @@
                         translate }}</label>
                 </div>
                 <div class="form-group col-md-7">
-                    <input type="text" ng-model="TestForm.consumptionStatus" ng-disabled="fileLoaded"
+                    <input type="text" ng-model="TestForm.consumptionStatus | translate" ng-disabled="fileLoaded"
                            name="consumptionStatus" class="form-control input-sm" required>
                 </div>
             </div>
@@ -176,7 +175,7 @@
                         translate }}</label>
                 </div>
                 <div class="form-group col-md-7">
-                    <input type="text" ng-model="TestForm.testResult" ng-disabled="fileLoaded"
+                    <input type="text" ng-model="TestForm.testResult | translate" ng-disabled="fileLoaded"
                            name="testResult" class="form-control input-sm" required>
                 </div>
             </div>
@@ -266,11 +265,11 @@
                                    class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="testData.initialValue"
+                            <input type="number" ng-model="testData.initialValue" ng-disabled="fileLoaded"
                                    class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="number" ng-model="testData.endValue"
+                            <input type="number" ng-model="testData.endValue" ng-disabled="fileLoaded"
                                    class="form-control input-sm" required>
                         </td>
                         <td>
@@ -286,7 +285,7 @@
                                    class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="text" ng-model="testData.consumptionStatus" ng-disabled="fileLoaded"
+                            <input type="text" ng-model="testData.consumptionStatus | translate" ng-disabled="fileLoaded"
                                    class="form-control input-sm" required>
                         </td>
                         <td>
@@ -295,7 +294,7 @@
                         </td>
                         <td>
 
-                            <input type="text"  ng-model="testData.testResult" ng-disabled="fileLoaded"
+                            <input type="text"  ng-model="testData.testResult | translate" ng-disabled="fileLoaded"
                                    class="form-control input-sm" required>
                         </td>
                     </tr>
@@ -351,7 +350,7 @@
                 <ui-select ng-if="hasProtocol && isVerification"  ng-model="selectedStatus" style="width:140px" theme="select2"
                            search-enabled="false"
                            on-select="setStatus($item)"
-                           name="name" id="name">
+                           >
                     <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" >
                         {{$select.selected.label}}
                     </ui-select-match>

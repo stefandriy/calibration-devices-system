@@ -147,6 +147,9 @@ public class DocumentsController {
                 response.setContentType("application/vnd.openxmlformats-" +
                         "officedocument.wordprocessingml.document");
                 break;
+            case HTML:
+                response.setContentType("text/html");
+                break;
             default:
                 throw new IllegalArgumentException(fileFormat.name() +
                         " is not supported");

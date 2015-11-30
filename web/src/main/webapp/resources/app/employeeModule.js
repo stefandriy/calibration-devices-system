@@ -320,9 +320,11 @@
         'provider/filters/unique',
         'common/controllers/ProfileInfoController',
         'common/controllers/EditProfileInfoController',
+        'common/controllers/CommonController',
+        'common/controllers/DocumentController',
+        'common/services/DocumentService',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController',
         'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
         'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
     ], function () {});

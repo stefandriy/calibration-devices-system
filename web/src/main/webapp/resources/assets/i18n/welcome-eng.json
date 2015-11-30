@@ -579,8 +579,6 @@
   "PRESENCE_OF_SEAL": "Presence of seal",
   "true": "True",
   "false": "False",
-  "BUILDING,FLAT": "Building / Flat",
-  "TYPE WATER":"Type water",
   "FILL_IN_INFORMATION_ABOUT_UNSUITABILITY_REASON" : "Fill data about reason of counter unsuitability",
   "STATUS_SELECT_PLACEHOLDER_COUNTERS" : "Select counter type",
   "REASON_NAME" : "Reason of unsuitability",
@@ -594,8 +592,11 @@
   "DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF" : "Download Verification certificate in 'pdf'",
   "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF" : "Download Unfitness certificate in 'docx'",
   "EDIT_DOCUMENT" : "Edit document",
-  "PRINT_DOCUMENT" : "Print document",
   "NO_VERIFICATIONS_CHECKED" : "Choose verifications for task creation",
   "TASK_FOR_STATION_CREATED" : "Task for calibration module was successfully created",
-  "NO_MODULES_AVAILABLE" : "No modules available"
+  "NO_MODULES_AVAILABLE" : "No modules available",
+  "PRINT_DOCUMENT" : "Print document",  
+  "RAW":"Raw",
+  "Device_Water":"Cold water",
+  "Device_Termal":"Hot water"
 }
