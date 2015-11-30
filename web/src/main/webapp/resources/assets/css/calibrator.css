@@ -474,7 +474,7 @@ input[type="radio"], input[type="checkbox"] {
 color:#003712;
 }
 .modal .modal-body {
-    max-height: 1620px;
+    /*max-height: 1620px;*/
 }
 
 .input-group-addon {

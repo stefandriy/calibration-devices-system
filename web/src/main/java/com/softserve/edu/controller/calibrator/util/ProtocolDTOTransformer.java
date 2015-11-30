@@ -6,9 +6,6 @@ import com.softserve.edu.entity.verification.Verification;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Veronichka on 11.11.2015.
- */
 public class ProtocolDTOTransformer {
 
     public static List<ProtocolDTO> toDtofromList(List<Verification> verifications) {

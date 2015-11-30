@@ -105,7 +105,6 @@
   "SUCCESSFUL_EDIT_EMPLOYEE":"Employee was successfully edited",
   "ERROR_ADD_EMPLOYEE":"Error, you didn't add new employee!",
   "ERROR_EDIT_EMPLOYEE":"Error, you didn't edit employee!",
-
   "ACCOUNT_INFORMATION": "Account information",
   "GENERAL_INFORMATION": "General information",
   "SUBORDINATION": "Department subordination",

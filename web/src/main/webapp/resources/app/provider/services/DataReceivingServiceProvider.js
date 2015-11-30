@@ -2,6 +2,7 @@ angular.module('employeeModule').factory('DataReceivingServiceProvider',
     ['$http', '$log', function ($http, $log) {
 
         return {
+
             findAllRegions: function () {
                 return getData('regions');
             },
@@ -47,9 +48,6 @@ angular.module('employeeModule').factory('DataReceivingServiceProvider',
             },
             getVerificationStatusById: function (code) {
                 return getData('check/' + code);
-            },
-            getVerificationById: function (code) {
-                return getData('verification/' + code);
             }
         };
 

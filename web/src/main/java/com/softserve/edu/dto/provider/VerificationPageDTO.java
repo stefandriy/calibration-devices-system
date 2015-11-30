@@ -222,7 +222,7 @@ public class VerificationPageDTO {
                                String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
                                CalibrationTest calibrationTest,
                                Device device,
-                               String documentType, String documentDate,String address,String flat,String building) {
+                               String documentType, String documentDate,String address) {
 
         this.id = id;
         this.initialDate = initialDate;
