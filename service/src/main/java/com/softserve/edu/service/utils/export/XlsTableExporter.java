@@ -47,9 +47,7 @@ public class XlsTableExporter implements TableExporter {
 
     // endregion
 
-    @Override
-    public void export(Map<String, List<String>> data, String destination) throws Exception {
-        File output = new File(destination);
+    public void export(Map<String, List<String>> data, File output) throws Exception {
         WritableWorkbook myDoc = Workbook.createWorkbook(output);
         WritableSheet sheet = myDoc.createSheet(sheetName, 0);
         Object[] header = data.keySet().toArray();
@@ -101,7 +99,7 @@ public class XlsTableExporter implements TableExporter {
      */
     private List<Integer> getCellLengths(Map<String, List<String>> data) {
         Object[] header = data.keySet().toArray();
-        List<Integer> lengths = new ArrayList<Integer>();
+        List<Integer> lengths = new ArrayList<>();
 
         for (int i = 0; i < data.size(); ++i) {
             int max = header[i].toString().length();

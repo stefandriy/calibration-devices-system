@@ -5,6 +5,7 @@ import com.hexiong.jdbf.JDBField;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,7 @@ public class DbfTableExporter implements TableExporter {
 
     // endregion
 
-    @Override
-    public void export(Map<String, List<String>> data, String destination) throws Exception {
+    public void export(Map<String, List<String>> data, File output) throws Exception {
         JDBField[] fields = new JDBField[data.size()];
         List<Integer> lengths = getCellLengths(data);
         Object[] header = data.keySet().toArray();
@@ -44,7 +44,7 @@ public class DbfTableExporter implements TableExporter {
 
         // endregion
 
-        DBFWriter dbfWriter = new DBFWriter(destination, fields);
+        DBFWriter dbfWriter = new DBFWriter(output.getAbsolutePath(), fields);
         int recordsLength = data.get(header[0]).size();
 
         // region Fill table
@@ -70,7 +70,7 @@ public class DbfTableExporter implements TableExporter {
      */
     private List<Integer> getCellLengths(Map<String, List<String>> data) {
         Object[] header = data.keySet().toArray();
-        List<Integer> lengths = new ArrayList<Integer>();
+        List<Integer> lengths = new ArrayList<>();
 
         for (int i = 0; i < data.size(); ++i) {
             int max = header[i].toString().length();
