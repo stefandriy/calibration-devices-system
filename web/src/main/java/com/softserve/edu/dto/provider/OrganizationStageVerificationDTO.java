@@ -83,8 +83,8 @@ public class OrganizationStageVerificationDTO {
 		this.verificationId = verificationId;
 	}
 
-	public OrganizationStageVerificationDTO(ClientData clientData, Address address, String verificationId, Date initialDate,
-											Date expirationDate, Organization calibrator, String comment, AdditionalInfo info,
+	public OrganizationStageVerificationDTO(ClientData clientData, Address address, String verificationId,
+											Organization calibrator, String comment, AdditionalInfo info,
 											Boolean dismantled, Counter counter) {
 		this.firstName = clientData.getFirstName();
 		this.lastName = clientData.getLastName();
@@ -100,8 +100,6 @@ public class OrganizationStageVerificationDTO {
 		this.flat = address.getFlat();
 
 		this.verificationId = verificationId;
-		this.initialDate = initialDate.getTime();
-		this.expirationDate = expirationDate.getTime();
 		this.calibratorName = (calibrator != null) ? calibrator.getName() : null;
 		this.comment = comment;
 

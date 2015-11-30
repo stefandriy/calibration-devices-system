@@ -197,8 +197,6 @@ public class ProviderApplicationController {
                     verification.getClientData(),
                     verification.getClientData().getClientAddress(),
                     verification.getId(),
-                    verification.getInitialDate(),
-                    verification.getExpirationDate(),
                     verification.getCalibrator(),
                     verification.getComment(),
                     verification.getInfo(),
