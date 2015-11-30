@@ -124,22 +124,6 @@ public class CalibratorPlanningTaskController {
         Long count = Long.valueOf(taskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername()));
         List<VerificationPlanningTaskDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
         return new PageDTO<VerificationPlanningTaskDTO>(count, content);
-
-/*        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
-        ListToPageTransformer<Verification> queryResult = verificationService.findPageOfVerificationsByCalibratorIdAndCriteriaSearch(employeeUser.getOrganizationId(), pageNumber, itemsPerPage,
-                searchData.getDate(),
-                searchData.getEndDate(),
-                searchData.getId(),
-                searchData.getClient_full_name(),
-                searchData.getStreet(),
-                searchData.getRegion(),
-                searchData.getDistrict(),
-                searchData.getLocality(),
-                searchData.getStatus(),
-                searchData.getEmployee_last_name(),
-                sortCriteria, sortOrder, calibratorEmployee);
-        List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
-        return new PageDTO<>(queryResult.getTotalItems(), content);*/
     }
 
     /**
