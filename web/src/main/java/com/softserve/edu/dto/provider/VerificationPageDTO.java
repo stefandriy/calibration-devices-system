@@ -49,6 +49,11 @@ public class VerificationPageDTO {
     private String address;
     private String nameProvider;
     private String nameCalibrator;
+    private String building;
+    private String flat;
+    private String symbol;
+    private String standardSize;
+    private Integer yearIntroduction;
 
     public VerificationPageDTO() {
     }
@@ -217,7 +222,7 @@ public class VerificationPageDTO {
                                String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
                                CalibrationTest calibrationTest,
                                Device device,
-                               String documentType, String documentDate,String address) {
+                               String documentType, String documentDate,String address,String flat,String building) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -228,6 +233,8 @@ public class VerificationPageDTO {
         this.status = status;
         this.readStatus = readStatus;
         this.address=address;
+        this.setFlat(flat);
+        this.setBuilding(building);
         if (providerEmployee != null) {
             if (providerEmployee.getMiddleName() != null) {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
@@ -546,6 +553,46 @@ public class VerificationPageDTO {
     }
 
 
+    public String getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
+    }
+
+    public String getFlat() {
+        return flat;
+    }
+
+    public void setFlat(String flat) {
+        this.flat = flat;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getStandardSize() {
+        return standardSize;
+    }
+
+    public void setStandardSize(String standardSize) {
+        this.standardSize = standardSize;
+    }
+
+
+    public Integer getYearIntroduction() {
+        return yearIntroduction;
+    }
+
+    public void setYearIntroduction(Integer yearIntroduction) {
+        this.yearIntroduction = yearIntroduction;
+    }
 }
 
 

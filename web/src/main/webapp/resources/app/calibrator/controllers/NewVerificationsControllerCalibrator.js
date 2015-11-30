@@ -251,6 +251,13 @@ angular
                 var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verificationId});
             }
 
+            $scope.openAddTest = function (verificationID) {
+                $location.path('/calibrator/verifications/calibration-test-add/').search({
+                    'param': verificationID,
+                    'loadProtocol': 1
+                });
+            };
+
             $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;

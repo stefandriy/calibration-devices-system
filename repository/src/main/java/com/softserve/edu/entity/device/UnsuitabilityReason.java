@@ -6,11 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 
-/**
- * Created by Sonka on 20.11.2015.
- */
+
+
 @Entity
 @Table(name = "REASONS_UNSUITABILITY")
 @Getter
@@ -24,11 +22,12 @@ public class UnsuitabilityReason {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "counterTypeId")
-    private CounterType counterType;
+    @ManyToOne
+    @JoinColumn(name = "deviceId")
+    private Device device;
 
-    public UnsuitabilityReason(String name) {
+    public UnsuitabilityReason(String name, Device device) {
         this.name = name;
+        this.device = device;
     }
 }

@@ -7,5 +7,6 @@ public enum Type {
     bool,
     uuid,
     list,
+    enumerated,
     raw
 }

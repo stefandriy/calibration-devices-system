@@ -158,6 +158,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/MeasuringEquipmentControllerAdmin',
     'controllers/MeasuringEquipmentAddModalControllerAdmin',
     'controllers/MeasuringEquipmentEditModalControllerAdmin',
+    'controllers/MeasuringEquipmentDisableModalControllerAdmin',
 
     'controllers/OrganizationPanelController',
     'controllers/OrganizationAddModalController',
@@ -191,6 +192,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'directives/unique',
     'controllers/CommonController',
     'controllers/UnsuitabilityReasonController',
-    'services/UnsuitabilityReasonService'
+    'services/UnsuitabilityReasonService',
+    'controllers/UnsuitabilityReasonAddModalController'
 ], function () {
 });

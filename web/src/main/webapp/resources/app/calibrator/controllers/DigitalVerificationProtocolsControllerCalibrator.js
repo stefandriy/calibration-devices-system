@@ -10,22 +10,6 @@ angular
             $scope.pageContent = [];
             $scope.checked = false;
 
-            $scope.clearAll = function () {
-                $scope.selectedStatus.name = null;
-                $scope.tableParams.filter({});
-            }
-
-            $scope.doSearch = function () {
-                $scope.tableParams.reload();
-            }
-
-            $scope.selectedStatus = {
-                name: null
-            }
-            $scope.statusData = [
-                {id: 'TEST_COMPLETED', label: null},
-            ];
-
             $scope.tableParams = new ngTableParams({
                 page: 1,
                 count: 10,
@@ -34,17 +18,9 @@ angular
                 }
             }, {
                 total: 0,
-                filterDelay: 1500,
                 getData: function ($defer, params) {
 
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
-
-                    if ($scope.selectedStatus.name != null) {
-                        params.filter().status = $scope.selectedStatus.name.id;
-                    }
-
-                    digitalVerificationProtocolsServiceCalibrator.getProtocols(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                    digitalVerificationProtocolsServiceCalibrator.getProtocols(params.page(), params.count())
                         .success(function (result) {
                             $scope.totalItems = result.totalItems;
                             $defer.resolve(result.content);
@@ -109,9 +85,7 @@ angular
                             organizationId: formData.verificator.id
                         };
 
-
-                        digitalVerificationProtocolsServiceCalibrator
-                            .sendProtocols(dataToSend)
+                        digitalVerificationProtocolsServiceCalibrator.sendProtocols(dataToSend)
                             .success(function () {
                                 $log.debug('success sending');
                                 $scope.tableParams.reload();
@@ -119,7 +93,6 @@ angular
                             });
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
-
                     });
                 } else {
                     $scope.isClicked = true;
@@ -132,6 +105,4 @@ angular
             var checkForEmpty = function () {
                 $scope.allIsEmpty = $scope.idsOfVerifications.length === 0;
             };
-
-
         }]);

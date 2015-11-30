@@ -1,6 +1,3 @@
-/**
- * Created by Sonka on 23.11.2015.
- */
 angular
     .module('adminModule')
     .controller(
@@ -8,54 +5,21 @@ angular
     [
         '$rootScope',
         '$scope',
+        '$log',
         '$modal',
-        '$http',
-        'DevicesService',
+        'UnsuitabilityReasonService',
         'ngTableParams',
-        '$translate',
         '$timeout',
         '$filter',
         'toaster',
-        function ($rootScope, $scope, $modal, $http, UnsuitabilityReasonService, ngTableParams, $translate, $timeout, $filter, toaster) {
+        function ($rootScope, $scope, $log, $modal, unsuitabilityReasonService, ngTableParams, $timeout, $filter, toaster) {
+            /**
+             * init of page params
+             */
             $scope.totalItems = 0;
             $scope.currentPage = 1;
             $scope.itemsPerPage = 5;
             $scope.pageContent = [];
-
-            //for devices kinds
-            $scope.selectedDeviceType = {
-                name: null
-            }
-
-            $scope.deviceTypeData = [
-                               {
-                    id: 'WATER',
-                    label: $filter('translate')('WATER')
-                },
-                {
-                    id: 'THERMAL',
-                    label: $filter('translate')('THERMAL')
-                }
-            ];
-
-            /**
-             * Localization of multiselect for type of devices category
-             */
-            $scope.setTypeDataLanguage = function () {
-                $scope.deviceTypeData[0].label = $filter('translate')('WATER');
-                $scope.deviceTypeData[1].label = $filter('translate')('THERMAL');
-            };
-
-            $scope.setTypeDataLanguage();
-
-            $scope.clearAll = function () {
-                $scope.selectedDeviceType.name = null;
-                $scope.tableParams.filter({});
-            };
-
-            $scope.doSearch = function () {
-                $scope.tableParams.reload();
-            };
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -65,20 +29,9 @@ angular
                 }
             }, {
                 total: 0,
-                filterDelay: 10000,
                 getData: function ($defer, params) {
 
-                    var sortCriteria = Object.keys(params.sorting())[0];
-                    var sortOrder = params.sorting()[sortCriteria];
-
-                    if ($scope.selectedDeviceType.name != null) {
-                        params.filter().deviceType = $scope.selectedDeviceType.name.id;
-                    }
-                    else {
-                        params.filter().deviceType = null; //case when the filter is cleared with a button on the select
-                    }
-
-                    UnsuitabilityReasonService.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                    unsuitabilityReasonService.getPage(params.page(), params.count())
                         .success(function (result) {
                             $scope.resultsCount = result.totalItems;
                             $defer.resolve(result.content);
@@ -89,83 +42,67 @@ angular
                 }
             });
             /**
-             * Updates the table with device.
+             * Updates the table with unsuitability reasons params.
              */
             $rootScope.onTableHandling = function () {
                 $scope.tableParams.reload();
             };
-
+            /**
+             * initializing table params
+             */
             $rootScope.onTableHandling();
 
-            $scope.isFilter = function () {
-                var obj = $scope.tableParams.filter();
-                for (var i in obj) {
-                    if (obj.hasOwnProperty(i) && obj[i]) {
-                        return true;
-                    }
-                }
-                return false;
-            };
+
             /**
-             * Opens modal window for adding new category of counters.
+             * Opens modal window for adding new unsuitability reason.
              */
-            $scope.openAddCategoryCounterModal = function() {
-                var addCategoryCounter = $modal.open({
-                    animation : true,
-                    controller : 'CategoryDeviceAddModalController',
-                    templateUrl : 'resources/app/admin/views/modals/device-category-add-modal.html',
-                    size: 'md'
+            $scope.openAddUnsuitabilityReasonModal = function () {
+                var modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
+                    controller: 'UnsuitabilityReasonAddModalController',
+                    size: 'md',
+                    resolve: {
+                        devices: function () {
+                            return unsuitabilityReasonService.getDevices().success(function (data) {
+                                return data;
+                            })
+                        }
+                    }
                 });
                 /**
                  * executes when modal closing
                  */
-                addCategoryCounter.result.then(function () {
-                    toaster.pop('success',$filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_CATEGORY'));
+                modalInstance.result.then(function (formData) {
+                    var dataToAdd = {
+                        name: formData.name,
+                        deviceId: formData.deviceName.id
+                    };
+                    unsuitabilityReasonService.saveUnsuitabilityReason(dataToAdd)
+                        .success(function () {
+                            $log.debug('success sending');
+                            $scope.tableParams.reload();
+                            $rootScope.$broadcast('save-new-reason');
+                            toaster.pop('success', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_ADDED_NEW_REASON'));
+                        });
+
                 });
             };
 
             /**
-             * Opens modal window for editing category of counter.
-             */
-            $scope.openEditCategoryCounterModal = function(
-                deviceId) {
-                $rootScope.categoryId = deviceId;
-                UnsuitabilityReasonService.getDeviceCategoryById(
-                    $rootScope.categoryId).then(
-                    function(data) {
-                        $rootScope.countersCategory = data;
-                        console.log($rootScope.countersCategory);
-
-                        var deviceDTOModal = $modal
-                            .open({
-                                animation : true,
-                                controller : 'CategoryDeviceEditModalController',
-                                templateUrl : 'resources/app/admin/views/modals/device-category-edit-modal.html',
-                                size: 'md'
-                            });
-                        deviceDTOModal.result.then(function () {
-                            toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_EDITED_CATEGORY'));
-                        });
-                    });
-
-            };
-
-            /**
-             * Remove devices category by id
+             * Remove unsuitability reason by id
              * @param id
              */
-            $scope.deleteDeviceCategory = function (id) {
-                $rootScope.deviceCategoryId = id;
-                console.log($rootScope.deviceCategoryId);
-                devicesService.deleteDeviceCategory(id).then(function (status) {
-                    if (status == 409){
-                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('ERROR_DELETED_CATEGORY'));
+            $scope.deleteUnsuitabilityReason = function (id) {
+                $rootScope.unsuitabilityReasonId = id;
+                unsuitabilityReasonService.deleteUnsuitabilityReason(id).then(function (status) {
+                    if (status == 409) {
+                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('ERROR_DELETED_REASON'));
                     } else {
-                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_CATEGORY'));
+                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_REASON'));
                     }
                 });
-                $timeout(function() {
-                    console.log('delete with timeout');
+                $timeout(function () {
                     $rootScope.onTableHandling();
                 }, 700);
             };

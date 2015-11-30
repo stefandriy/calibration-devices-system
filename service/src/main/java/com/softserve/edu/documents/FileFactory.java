@@ -35,6 +35,9 @@ public class FileFactory {
             case PDF:
                 operations = OperationChain.PDF_CHAIN.getOperations();
                 break;
+            case HTML:
+                operations = OperationChain.HTML_CHAIN.getOperations();
+                break;
             default:
                 throw new IllegalArgumentException(fileFormat.name() +
                         " is not supported");

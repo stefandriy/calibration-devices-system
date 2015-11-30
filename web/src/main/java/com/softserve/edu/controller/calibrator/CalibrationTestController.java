@@ -211,9 +211,9 @@ public class CalibrationTestController {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
-            responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest, testService), HttpStatus.OK);
-        }catch (Exception e){
-            logger.error("Failed to get protocol"+e.getMessage());
+            responseEntity = new ResponseEntity((new CalibrationTestFileDataDTO(calibrationTest, testService, verificationId)), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Failed to get protocol" + e.getMessage());
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -228,23 +228,28 @@ public class CalibrationTestController {
      * @return status
      */
     @RequestMapping(value = "updateProtocol/{verificationId}", method = RequestMethod.POST)
-    public ResponseEntity getUpdateTest(@RequestBody CalibrationTestFileDataDTO calibrationTestFileDataDTO,@PathVariable String verificationId){
+    public ResponseEntity updateProtocol(@RequestBody CalibrationTestFileDataDTO calibrationTestFileDataDTO, @PathVariable String verificationId) {
         ResponseEntity<String> responseEntity = new ResponseEntity(HttpStatus.OK);
         try {
             CalibrationTest calibrationTest = testService.findByVerificationId(verificationId);
             calibrationTest.setCounterNumber(calibrationTestFileDataDTO.getCounterNumber());
+            calibrationTest.setTestResult(calibrationTestFileDataDTO.getTestResult());
+            calibrationTest.setCapacity(calibrationTestFileDataDTO.getAccumulatedVolume());
             Set<CalibrationTestData> setOfTestDate = testService.getLatestTests(calibrationTest.getCalibrationTestDataList());
             List<CalibrationTestData> listOfTestDate = new ArrayList<>(setOfTestDate);
-            for(int x=0;x<listOfTestDate.size();x++){
-                CalibrationTestData calibrationTestData = listOfTestDate.get(x);
-                CalibrationTestDataDTO calibrationTestDataDTO=calibrationTestFileDataDTO.getListTestData().get(0);
+            CalibrationTestData calibrationTestData;
+            for (int x = 0; x < listOfTestDate.size(); x++) {
+                calibrationTestData = listOfTestDate.get(x);
+                CalibrationTestDataDTO calibrationTestDataDTO = calibrationTestFileDataDTO.getListTestData().get(x);
                 calibrationTestData.setInitialValue(calibrationTestDataDTO.getInitialValue());
                 calibrationTestData.setEndValue(calibrationTestDataDTO.getEndValue());
+                calibrationTestData.setCalculationError(calibrationTestDataDTO.getCalculationError());
+                calibrationTestData.setTestResult(calibrationTestDataDTO.getTestResult());
                 testDataRepository.save(calibrationTestData);
             }
             testRepository.save(calibrationTest);
-            testService.updateTest(verificationId,calibrationTestFileDataDTO.getStatus());
-        }catch (Exception e){
+            testService.updateTest(verificationId, calibrationTestFileDataDTO.getStatus());
+        } catch (Exception e) {
             logger.error(e);
             responseEntity = new ResponseEntity(HttpStatus.BAD_REQUEST);
         }

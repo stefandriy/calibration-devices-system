@@ -1,0 +1,74 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{'PROTOCOL_INFORMATION' | translate}}</h3>
+</div>
+
+<div class="modal-body">
+
+    <table class="table table-striped table-bordered">
+
+        <thead>
+        <tr>
+            <th colspan="2" class="text-center text-info">{{'PROTOCOL_INFORMATION' | translate}}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr>
+            <th>{{'FILE_NAME' | translate}}</th>
+            <th>{{calibrationTestData.fileName}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'COUNTER_NUMBER' | translate}}</th>
+            <th>{{calibrationTestData.counterNumber}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'DATE_TIME' | translate}}</th>
+            <th>{{calibrationTestData.testDate}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'TYPE WATER' | translate}}</th>
+            <th>{{calibrationTestData.capacity}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'ACCUMULATED_VOLUME' | translate}}</th>
+            <th>{{calibrationTestData.accumulatedVolume}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'INSTALLMENT NUMBER' | translate}}</th>
+            <th>{{calibrationTestData.installmentNumber}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'LONGITUDE' | translate}}</th>
+            <th>{{calibrationTestData.longitude}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'LATITUDE' | translate}}</th>
+            <th>{{calibrationTestData.latitude}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'CONSUMPTION_STATUS' | translate}}</th>
+            <th>{{calibrationTestData.consumptionStatus | translate}}</th>
+        </tr>
+
+        <tr>
+            <th>{{'TEST_RESULT' | translate}}</th>
+            <th>{{calibrationTestData.testResult | translate}}</th>
+        </tr>
+		
+        </tbody>
+
+    </table>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="close()">Закрити</button>
+</div>

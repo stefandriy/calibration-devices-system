@@ -19,7 +19,8 @@ angular
             $scope.openAddTest = function (verificationID) {
                         $location.path('/calibrator/verifications/calibration-test-add/').search({
                             'param': verificationID,
-                            'loadProtocol': 1
+                            'loadProtocol': 1,
+                            'ver':1
                         });
             };
             $scope.isStateVerificatorEmployee();
@@ -224,27 +225,11 @@ angular
 
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
-                    var modalInstance = $modal.open({
-                        animation: true,
-                        templateUrl: 'resources/app/verificator/views/modals/verification-sending.html',
-                        controller: 'SendingModalControllerVerificator',
-                        size: 'md',
-                        resolve: {
-                            response: function () {
-                                return verificationServiceVerificator.getProviders()
-                                    .success(function (providers) {
-                                        return providers;
-                                    });
-                            }
-                        }
-                    });
 
-                    //executes when modal closing
-                    modalInstance.result.then(function (formData) {
+                    {
 
                         var dataToSend = {
                             idsOfVerifications: $scope.idsOfVerifications,
-                            organizationId: formData.provider.id
                         };
 
                         $log.info(dataToSend);
@@ -257,7 +242,7 @@ angular
 
                         $scope.idsOfVerifications = [];
                         $scope.checkedItems = [];
-                    });
+                    };
                 } else {
                     $scope.isClicked = true;
                 }

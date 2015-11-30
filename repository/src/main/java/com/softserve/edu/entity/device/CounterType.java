@@ -37,9 +37,6 @@ public class CounterType {
     @JoinColumn(name = "deviceId")
     private Device device;
 
-    @OneToMany(mappedBy = "counterType", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<UnsuitabilityReason> unsuitabilitySet;
-
     public String getName() {
         return name;
     }
