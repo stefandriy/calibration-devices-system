@@ -35,18 +35,23 @@ To get an admin page login with the following credentials:
 
     username: admin
     password: password
+
+To get an super admin page login with the following credentials:
+
+        username: super
+        password: super
 	
 To get an provider page login with the following credentials:
 	
 	username: provider-lv
 	password: pass
 
-To get an provider page login with the following credentials:
+To get an calibrator page login with the following credentials:
 	
 	username: calibrator-lv
 	password: pass	
 	
-To get an provider page login with the following credentials:
+To get an verificator page login with the following credentials:
 	
 	username: verificator-lv
 	password: pass
