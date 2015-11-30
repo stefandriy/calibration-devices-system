@@ -178,9 +178,88 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @return Page<Verification>
      */
     @Override
-    public Page<Verification> findByTaskStatusAndCalibratorId(Long id, int pageNumber, int itemsPerPage) {
+    public Page<Verification> findByTaskStatusAndCalibratorId(Long id, int pageNumber, int itemsPerPage,
+                                                              String sortCriteria, String sortOrder) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
+        if (sortCriteria.equals("date"))
+        {
+            if (sortOrder.equals("asc"))
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "sentToCalibratorDate"));
+            }
+            else
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "sentToCalibratorDate"));
+            }
+        } else
+        if (sortCriteria.equals("client_last_name"))
+        {
+            if (sortOrder.equals("asc"))
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "clientData.lastName", "clientData.firstName"));
+            }
+            else
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "clientData.lastName", "clientData.firstName"));
+            }
+        } else
+        if (sortCriteria.equals("providerName"))
+        {
+            if (sortOrder.equals("asc"))
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "provider.name"));
+            }
+            else
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "provider.name"));
+            }
+        } else
+        if (sortCriteria.equals("dateOfVerif") || sortCriteria.equals("timeOfVerif"))
+        {
+            if (sortOrder.equals("asc"))
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "info.dateOfVerif", "info.timeFrom"));
+            }
+            else
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "info.dateOfVerif", "info.timeFrom"));
+            }
+        } else
+        if (sortCriteria.equals("noWaterToDate"))
+        {
+            if (sortOrder.equals("asc"))
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "info.noWaterToDate"));
+            }
+            else
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "info.noWaterToDate"));
+            }
+        } else
+        if (sortCriteria.equals("district") || sortCriteria.equals("street") || sortCriteria.equals("building_flat"))
+        {
+            if (sortOrder.equals("asc"))
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
+            }
+            else
+            {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
+            }
+        }
         return verificationRepository.findByTaskStatusAndCalibratorId(Status.PLANNING_TASK, id, pageRequest);
     }
 
@@ -198,7 +277,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @throws NullPointerException();
      */
     @Override
-    public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber, int itemsPerPage) {
+    public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
+                                                                                 int itemsPerPage, String sortCriteria,
+                                                                                 String sortOrder) {
         User user  = userRepository.findOne(userName);
         if (user == null){
             logger.error("Cannot found user!");
@@ -207,7 +288,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         Set<UserRole> roles = user.getUserRoles();
         for (UserRole role : roles) {
             if (role.equals(UserRole.CALIBRATOR_ADMIN)) {
-                return findByTaskStatusAndCalibratorId(user.getOrganization().getId(), pageNumber, itemsPerPage);
+                return findByTaskStatusAndCalibratorId(user.getOrganization().getId(), pageNumber, itemsPerPage
+                        ,sortCriteria, sortOrder);
             }
         }
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,

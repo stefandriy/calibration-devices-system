@@ -148,7 +148,6 @@ public class StateVerificatorController {
     public void sendVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
         for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
             Verification verification = verificationService.findById(verificationId);
-            Long idProvider = verificationUpdateDTO.getOrganizationId();
             Organization provider = providerService.findById(verification.getProvider().getId());
             verificationService.sendVerificationTo(verificationId, provider, Status.TEST_OK);
         }
