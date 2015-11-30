@@ -56,7 +56,8 @@ angular
                 $scope.$broadcast('show-errors-reset');
                 $scope.noModulesAvailable = false;
                 $scope.formTask.$submitted = false;
-                $scope.calibrationTask = {};
+                $scope.calibrationTask.taskDate = null;
+                $scope.calibrationTask.applicationField = null;
                 $scope.moduleNumbers = [];
             };
 

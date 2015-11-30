@@ -2,8 +2,10 @@ package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.organization.AdditionInfoOrganization;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
 import com.softserve.edu.service.utils.filter.Filter;
@@ -60,6 +62,10 @@ public class CalibrationModuleServiceImplTest {
     @Mock
     Filter.FilterBuilder filterBuilder;
     private Long id;
+    @Mock
+    AdditionInfoOrganization additionalInfo;
+    @Mock
+    CalibrationTask calibrationTask;
 
     @InjectMocks
     CalibrationModuleServiceImpl calibrationModuleService;
@@ -131,12 +137,16 @@ public class CalibrationModuleServiceImplTest {
     public void testFindAllCalibrationModuleNumbers() throws Exception {
         CalibrationModule.ModuleType moduleType = CalibrationModule.ModuleType.INSTALLATION_FIX;
         Date workDate = new Date();
+        Date dateOfTask = new Date(1322688571000L);
         Device.DeviceType deviceType = Device.DeviceType.THERMAL;
         String username = "username";
-        String serialNumber = "serialNumber";
+        String moduleNumber = "moduleNumber";
+        String codeEDRPOU = "code";
         Long organizationId = 100L;
         List<Condition> conditions = new ArrayList<>();
         List<CalibrationModule> modules = new ArrayList<>();
+        Set<CalibrationTask> tasks = new HashSet<>();
+        tasks.add(calibrationTask);
         modules.add(calibrationModule);
         when(user.getOrganization()).thenReturn(organization);
         when(user.getOrganization().getId()).thenReturn(organizationId);
@@ -154,9 +164,14 @@ public class CalibrationModuleServiceImplTest {
         when(userRepository.findOne(username)).thenReturn(user);
         PowerMockito.whenNew(Filter.class).withNoArguments().thenReturn(filter);
         when(calibrationModuleRepository.findAll(filter)).thenReturn(modules);
-        when(calibrationModule.getSerialNumber()).thenReturn(serialNumber);
+        when(calibrationModule.getModuleNumber()).thenReturn(moduleNumber);
+        when(user.getOrganization()).thenReturn(organization);
+        when(organization.getAdditionInfoOrganization()).thenReturn(additionalInfo);
+        when(additionalInfo.getCodeEDRPOU()).thenReturn(codeEDRPOU);
+        when(calibrationModule.getTasks()).thenReturn(tasks);
+        when(calibrationTask.getDateOfTask()).thenReturn(dateOfTask);
         List<String> expected = new ArrayList<String>();
-        expected.add(serialNumber);
+        expected.add(moduleNumber);
         List<String> actual = calibrationModuleService.findAllCalibrationModuleNumbers(moduleType, workDate, deviceType, username);
         assertEquals(expected, actual);
     }
