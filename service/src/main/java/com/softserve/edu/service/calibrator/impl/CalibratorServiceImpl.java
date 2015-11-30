@@ -112,7 +112,11 @@ public class CalibratorServiceImpl implements CalibratorService {
         Verification verification = verificationRepository.findOne(verificationId);
         verification.setCalibratorEmployee(calibratorEmployee);
         verification.setReadStatus(Verification.ReadStatus.READ);
-        verification.setTaskStatus(Status.PLANNING_TASK);
+        if (!verification.isCounterStatus() && (calibratorEmployee!=null)) {
+            verification.setTaskStatus(Status.PLANNING_TASK);
+        } else {
+            verification.setTaskStatus(null);
+        }
         verificationRepository.save(verification);
     }
 
