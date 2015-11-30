@@ -106,22 +106,36 @@ public class Verification {
     @Column(columnDefinition = "boolean default true")
     private boolean sealPresence;
 
-    @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL) //mappedBy = "verification",
+    @JoinColumn(name = "infoId")
     private AdditionalInfo info;
 
     @Column(columnDefinition = "boolean default false")
     private boolean dismantled;
 
-    @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "counterId")
     private Counter counter;
 
     private Integer processTimeExceeding;
 
     public Verification(
             Date initialDate, Date expirationDate, ClientData clientData, Organization provider,
-            Device device, Status status, ReadStatus readStatus
+            Device device, Status status, ReadStatus readStatus, AdditionalInfo info, boolean dismantled, Counter counter,
+            String comment
     ) {
-        this(initialDate, expirationDate, clientData, provider, device, status, readStatus, null);
+        this.id = UUID.randomUUID().toString();
+        this.initialDate = initialDate;
+        this.expirationDate = expirationDate;
+        this.clientData = clientData;
+        this.provider = provider;
+        this.device = device;
+        this.status = status;
+        this.readStatus = readStatus;
+        this.info = info;
+        this.dismantled = dismantled;
+        this.counter = counter;
+        this.comment = this.comment + comment;
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider,

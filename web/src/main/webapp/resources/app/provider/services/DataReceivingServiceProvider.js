@@ -2,6 +2,7 @@ angular.module('employeeModule').factory('DataReceivingServiceProvider',
     ['$http', '$log', function ($http, $log) {
 
         return {
+
             findAllRegions: function () {
                 return getData('regions');
             },

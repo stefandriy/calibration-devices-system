@@ -45,7 +45,7 @@ public class AdditionalInfo {
     @OneToOne
     private Verification verification;
 
-    public AdditionalInfo(int entrance, int  doorCode,int floor, Date dateOfVerif, LocalTime timeFrom,
+    public AdditionalInfo(int entrance, int  doorCode, int floor, Date dateOfVerif, LocalTime timeFrom,
                           LocalTime timeTo, boolean serviceability, Date noWaterToDate, String notes, Verification verification){
         this.entrance = entrance;
         this.doorCode = doorCode;
@@ -59,4 +59,14 @@ public class AdditionalInfo {
         this.verification = verification;
     }
 
+    public AdditionalInfo(String entrance,String doorCode, String floor, Long dateOfVerif, boolean serviceability,
+                        Long noWaterToDate, String notes) {
+        this.entrance = (entrance != null) ? Integer.parseInt(entrance) : 0;
+        this.doorCode = (doorCode != null) ? Integer.parseInt(doorCode): 0;
+        this.floor = (floor != null) ? Integer.parseInt(floor) : 0;
+        this.dateOfVerif = (dateOfVerif != null) ? new Date(dateOfVerif) : null;
+        this.serviceability = serviceability;
+        this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
+        this.notes = notes;
+    }
 }

@@ -3,6 +3,11 @@ package com.softserve.edu.dto.provider;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.verification.ClientData;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class OrganizationStageVerificationDTO {
 	private String firstName;
 	private String lastName;
@@ -10,6 +15,8 @@ public class OrganizationStageVerificationDTO {
 	private String email;
 	private String phone;
 	private String secondPhone;
+
+	private String comment;
 
 	private String region;
 	private String locality;
@@ -21,6 +28,23 @@ public class OrganizationStageVerificationDTO {
 	private Long calibratorId;
 	private Long deviceId;
 	private String verificationId;
+
+	private Boolean dismantled;
+	private Long dateOfDismantled;
+	private Long dateOfMounted;
+	private String numberCounter;
+	private String symbol;
+	private String standardSize;
+	private String releaseYear;
+
+	private String entrance;
+	private String doorCode;
+	private String floor;
+	private Long dateOfVerif;
+
+	private Boolean serviceability;
+	private Long noWaterToDate;
+	private String notes;
 
 	public OrganizationStageVerificationDTO() {
 	}

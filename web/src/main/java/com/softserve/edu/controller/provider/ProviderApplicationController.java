@@ -11,12 +11,14 @@ import com.softserve.edu.entity.*;
 import com.softserve.edu.entity.catalogue.District;
 import com.softserve.edu.entity.catalogue.Region;
 import com.softserve.edu.dto.LocalityDTO;
+import com.softserve.edu.entity.device.Counter;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.tool.DeviceService;
 import com.softserve.edu.service.tool.MailService;
@@ -134,10 +136,25 @@ public class ProviderApplicationController {
                         verificationDTO.getFlat()
                 )
         );
+        Counter counter = new Counter(
+                verificationDTO.getReleaseYear(),
+                verificationDTO.getDateOfDismantled(),
+                verificationDTO.getDateOfMounted(),
+                verificationDTO.getNumberCounter()
+        );
+        AdditionalInfo info = new AdditionalInfo(
+                verificationDTO.getEntrance(),
+                verificationDTO.getDoorCode(),
+                verificationDTO.getFloor(),
+                verificationDTO.getDateOfVerif(),
+                verificationDTO.getServiceability(),
+                verificationDTO.getNoWaterToDate(),
+                verificationDTO.getNotes()
+        );
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
         Device device = deviceService.getById(verificationDTO.getDeviceId());
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
-                Verification.ReadStatus.UNREAD); //TODO: change status!!!
+                Verification.ReadStatus.UNREAD, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment()); //TODO: change status!!!
 
         verificationService.saveVerification(verification);
 

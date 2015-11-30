@@ -36,7 +36,13 @@ angular
 			},
 			findStreetsTypes : function() {
 				return getData('streetsTypes/');
-			}
+			},
+            findAllSymbols : function() {
+                return getProviderData('symbols');
+            },
+            findStandardSizesBySymbol : function(symbol) {
+                return getProviderData('standardSizes/' + symbol);
+            }
         };
 
         function getData(url) {
@@ -50,7 +56,7 @@ angular
         }
         
         function getProviderData(url) {
-            return $http.get('/provider/applications/' + url)
+            return $http.get('provider/applications/' + url)
                 .success(function (data) {
                     return data;
                 })

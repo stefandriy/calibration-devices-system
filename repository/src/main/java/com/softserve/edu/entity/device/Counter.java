@@ -43,14 +43,20 @@ public class Counter {
     @JoinColumn(name = "verificationId")
     private Verification verification;
 
-    public Counter(Long counterId, String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter,
+    public Counter(String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter,
                    CounterType counterType, Verification verification) {
-        this.id = counterId;
         this.releaseYear = releaseYear;
         this.dateOfDismantled = (dateOfDismantled != null) ? new Date(dateOfDismantled) : null;
         this.dateOfMounted = (dateOfMounted != null) ? new Date(dateOfMounted) : null;
         this.numberCounter = numberCounter;
         this.counterType = counterType;
         this.verification = verification;
+    }
+
+    public Counter(String releaseYear, Long dateOfDismantled, Long dateOfMounted, String numberCounter) {
+        this.releaseYear = releaseYear;
+        this.dateOfDismantled = (dateOfDismantled != null) ? new Date(dateOfDismantled) : null;
+        this.dateOfMounted = (dateOfMounted != null) ? new Date(dateOfMounted) : null;
+        this.numberCounter = numberCounter;
     }
 }

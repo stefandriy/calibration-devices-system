@@ -411,7 +411,7 @@
                         <div class="col-md-8 form-group">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedData.selectedCalibrator"
-                                       name="calibrator" id="calibrator" required>
+                                       name="calibrator" id="calibrator">
                                 <ui-select-match placeholder="{{'CALIBRATOR' | translate}}" allow-clear="true">
                                     {{$select.selected.designation}}
                                 </ui-select-match>
@@ -488,8 +488,8 @@
                         </div>
 
                         <div class="col-md-8">
-                            <div class="input-group right-inner-addon" > <!--style="width: 100%"-->
-                                <span class="input-group-btn" > <!--style="height: 100%"-->
+                            <div class="input-group right-inner-addon" >
+                                <span class="input-group-btn" >
                                     <button type="button" class="btn btn-default myGroupBtn" ng-click="open4($event)">
                                         <i class="glyphicon glyphicon-calendar"></i>
                                     </button>
@@ -536,22 +536,21 @@
                             <input type="text"
                                    ng-model="selectedData.numberCounter"
                                    id="numberCounter" name="numberCounter" class="form-control">
-                            <!--ng-change="checkAll('numberCounter')"-->
                             <br>
                         </div>
                     </div>
 
                     <!--SYMBOL OF COUNTER-->
-                    <div class="form-group">
+                    <div class="form-group" show-errors>
                         <div class="col-md-4">
                             <label for="symbol">{{' SYMBOL_OF_COUNTER ' | translate}} </label>
                         </div>
-                        <div class="col-md-8" show-errors>
+                        <div class="col-md-8">
                            <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.counterSymbol"
                                            on-select="recieveStandardSizesBySymbol(selectedData.counterSymbol)"
-                                           name="symbol" id="symbol" required>
+                                           name="symbol" id="symbol">
                                     <ui-select-match allow-clear="false">
                                         {{$select.selected.symbol}}
                                     </ui-select-match>
@@ -565,16 +564,16 @@
                     </div>
 
                     <!--STANDART_SIZE_OF_COUNTER standard sizeSYMBOL OF COUNTER-->
-                    <div class="form-group">
+                    <div class="form-group" show-errors>
                         <div class="col-md-4">
                             <label for="standardSize">{{' STANDART_SIZE_OF_COUNTER ' | translate}} </label>
                         </div>
-                        <div class="col-md-8" show-errors>
+                        <div class="col-md-8">
                            <!-- <div class="pull-left col-lg-3" id="sizeCounter"> -->
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.counterStandardSize"
                                            ng-disabled="!selectedData.counterSymbol"
-                                           name="standardSize" id="standardSize" required>
+                                           name="standardSize" id="standardSize">
                                     <ui-select-match allow-clear="false">
                                         {{$select.selected.standardSize}}
                                     </ui-select-match>
@@ -595,8 +594,7 @@
                         <div class="col-md-8">
                             <input type="text"
                                    ng-model="selectedData.releaseYear"
-                                   id="releaseYear" name="releaseYear" class="form-control" required>
-                            <!--ng-change="checkAll('yearOfCounter')"-->
+                                   id="releaseYear" name="releaseYear" class="form-control">
                             <br>
                         </div>
                     </div>
@@ -622,7 +620,8 @@
                                        ng-change="checkAll('entrance')"
                                        id="entrance" name="entrance" class="form-control">
 
-                                <p class="validation-message" ng-show="entranceValidation.isValid">{{'FLOOR_REGEX' |  translate}}</p>
+                                <p class="validation-message" ng-show="entranceValidation.isValid">
+                                    {{'FLOOR_REGEX' |  translate}}</p>
                             </div>
 
                         <!-- DOOR CODE-->
@@ -635,7 +634,8 @@
                                        ng-change="checkAll('doorCode')"
                                        id="doorCode" name="doorCode" class="form-control">
 
-                                <p class="validation-message" ng-show="doorCodeValidation.isValid">{{'DOOR_CODE_REGEX' |  translate}}</p>
+                                <p class="validation-message" ng-show="doorCodeValidation.isValid">
+                                    {{'DOOR_CODE_REGEX' |  translate}}</p>
                             </div>
 
                         <!-- FLOOR -->
@@ -648,7 +648,8 @@
                                        ng-change="checkAll('floor')"
                                        id="floor" name="floor" class="form-control">
 
-                                <p class="validation-message" ng-show="floorValidation.isValid">{{'FLOOR_REGEX' |  translate}}</p>
+                                <p class="validation-message" ng-show="floorValidation.isValid">
+                                    {{'FLOOR_REGEX' |  translate}}</p>
                             </div>
 
                         <!-- DATE OF verification/disassembly -->
@@ -658,8 +659,8 @@
                             </div>
 
                             <div class="form-group col-md-8" ng-class="dateValidation.css" >
-                                <div class="input-group right-inner-addon" style="width: 100%">
-                                    <span class="input-group-btn" style="height: 100%">
+                                <div class="input-group right-inner-addon">
+                                    <span class="input-group-btn">
                                          <button type="button" class="btn btn-default myGroupBtn" ng-click="open1($event)">
                                              <i class="glyphicon glyphicon-calendar"></i>
                                          </button>
@@ -671,7 +672,7 @@
                                            min-date="minDate" max-date="maxDate"
                                            datepicker-options="dateOptions"
                                            date-disabled="disabled(date, mode)" close-text="Close"
-                                           ng-change="receiveModuleNumbers()" readonly required/>
+                                           ng-change="receiveModuleNumbers()" readonly/>
                                               <span class="input-group-btn">
                                                    <button type="button" class="btn btn-default myGroupBtn"
                                                           ng-show="!isDateDefault()"
@@ -679,11 +680,6 @@
                                                    <i class="glyphicon glyphicon-remove"></i>
                                                    </button>
                                               </span>
-                                </div>
-                                <div ng-show="formTask.$submitted || formTask.date.$touched">
-                                    <div ng-show="formTask.date.$error.required">
-                                        <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
-                                    </div>
                                 </div>
                                 <br>
                             </div>
@@ -717,8 +713,8 @@
                             </div>
 
                             <div class="form-group col-md-8" ng-class="dateValidation.css" >
-                                <div class="input-group right-inner-addon" style="width: 100%">
-                                    <span class="input-group-btn" style="height: 100%">
+                                <div class="input-group right-inner-addon">
+                                    <span class="input-group-btn">
                                          <button type="button" class="btn btn-default myGroupBtn" ng-click="open2($event)">
                                               <i class="glyphicon glyphicon-calendar" ></i>
                                          </button>
@@ -730,7 +726,7 @@
                                            min-date="minDate" max-date="maxDate"
                                            datepicker-options="dateOptions"
                                            date-disabled="disabled(date, mode)" close-text="Close"
-                                           ng-change="receiveModuleNumbers()" readonly required/>
+                                           ng-change="receiveModuleNumbers()" readonly/>
                                            <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default myGroupBtn"
                                                        ng-show="!isDateDefault()"
@@ -738,11 +734,6 @@
                                                 <i class="glyphicon glyphicon-remove"></i>
                                                 </button>
                                            </span>
-                                </div>
-                                <div ng-show="formTask.$submitted || formTask.date.$touched">
-                                    <div ng-show="formTask.date.$error.required">
-                                        <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
-                                    </div>
                                 </div>
                             </div>
 
