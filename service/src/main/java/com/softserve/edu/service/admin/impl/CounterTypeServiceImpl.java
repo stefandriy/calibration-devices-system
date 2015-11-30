@@ -30,12 +30,6 @@ public class CounterTypeServiceImpl implements CounterTypeService{
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Override
-    @Transactional
-    public Set<CounterType> findAll() {
-        return counterTypeRepository.findAll();
-    }
-
     /**
      * Save counter type with params
      * @param name

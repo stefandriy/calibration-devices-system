@@ -14,7 +14,6 @@ import java.util.Set;
 public interface CounterTypeRepository extends CrudRepository<CounterType, Long> {
 
     List<CounterType> findByDeviceId(Long deviceId);
-    Set<CounterType> findAll();
 
     List<CounterType> findAll();
 

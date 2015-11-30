@@ -218,11 +218,13 @@ public class VerificationPageDTO {
 
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street, String region,
-                               Status status, Verification.ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee,
-                               String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
+                               Status status, Verification.ReadStatus readStatus, User providerEmployee,
+                               User calibratorEmployee, User stateVerificatorEmployee,
+                               String name, String fullName, String district, String locality, String phone,
+                               boolean isUpload, Integer processTimeExceeding,
                                CalibrationTest calibrationTest,
                                Device device,
-                               String documentType, String documentDate,String address) {
+                               String documentType, String documentDate,String address, String flat, String building) {
 
         this.id = id;
         this.initialDate = initialDate;
