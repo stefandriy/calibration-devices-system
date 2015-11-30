@@ -168,7 +168,12 @@ public class Filter implements Specification {
     }
 
     private Predicate buildEqualsPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        return criteriaBuilder.equal(root.get(condition.field), condition.value);
+        if(condition.type==(Type.enumerated)){
+            return criteriaBuilder.equal(root.get(condition.field).as(String.class), condition.value.toString());
+        }else if(condition.type==Type.bool){
+            return criteriaBuilder.equal(root.get(condition.field),Boolean.parseBoolean(condition.value.toString()));
+        }
+        else  return criteriaBuilder.equal(root.get(condition.field), condition.value);
     }
 
     private Predicate buildLikePredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -234,7 +239,6 @@ public class Filter implements Specification {
             }
             return this;
         }
-
         public Filter build() {
             return new Filter(conditions);
         }
