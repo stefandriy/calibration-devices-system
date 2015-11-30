@@ -583,5 +583,6 @@
   "PRINT_DOCUMENT" : "Print document",  
   "RAW":"Raw",
   "Device_Water":"Cold water",
-  "Device_Termal":"Hot water"
+  "Device_Termal":"Hot water",
+  "SELECT_VERIFICATION_PROTOCOL": "Please select verification protocol"
 }
