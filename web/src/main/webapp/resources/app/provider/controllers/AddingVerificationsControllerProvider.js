@@ -1,8 +1,8 @@
 angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$modal', '$state', '$http', '$log',
     'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
-    '$rootScope', '$location', '$window', '$modalInstance', 'DataReceivingServiceProvider', '$filter',
+    '$rootScope', '$location', '$window', '$modalInstance', '$filter',
 
-    function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance, dataReceivingService) {
+    function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
         $scope.isShownForm = true;
         $scope.isShownCode = false;
         $scope.isCalibrator = -1;
@@ -360,24 +360,31 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.selectedStreet = $scope.verification.data.street;
                     $scope.selectedBuilding = $scope.verification.data.building;
 
-                    dataReceivingService.findAllRegions().then(function (respRegions) {
+                    addressServiceProvider.findAllRegions().then(function (respRegions) {
                         $scope.regions = respRegions.data;
                         var index = arrayObjectIndexOf($scope.regions, $scope.verification.data.region, "designation");
                         $scope.selectedData.region = $scope.regions[index];
 
-                        dataReceivingService.findDistrictsByRegionId($scope.selectedData.region.id)
+                        addressServiceProvider.findDistrictsByRegionId($scope.selectedData.region.id)
                             .then(function (districts) {
                                 $scope.districts = districts.data;
                                 var index = arrayObjectIndexOf($scope.districts, $scope.verification.data.district, "designation");
                                 $scope.selectedData.district = $scope.districts[index];
 
-                                dataReceivingService.findLocalitiesByDistrictId($scope.selectedData.district.id)
+                                addressServiceProvider.findLocalitiesByDistrictId($scope.selectedData.district.id)
                                     .then(function (localities) {
                                         $scope.localities = localities.data;
                                         var index = arrayObjectIndexOf($scope.localities, $scope.verification.data.locality, "designation");
                                         $scope.selectedData.locality = $scope.localities[index];
 
-                                        dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
+                                        addressServiceProvider.findStreetsByLocalityId($scope.selectedData.locality.id)
+                                            .then(function(streets) {
+                                                $scope.streets = streets.data;
+                                                var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
+                                                $scope.selectedData.street = $scope.streets[index];
+                                            });
+
+                                        addressServiceProvider.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
                                             .success(function (indexes) {
                                                 $scope.indexes = indexes;
                                                 $scope.selectedData.index = $scope.indexes[0];

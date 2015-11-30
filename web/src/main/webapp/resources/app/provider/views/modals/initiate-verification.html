@@ -171,7 +171,7 @@
             </div>
         </div>
         <div class="panel panel-primary">
-            <div class="panel-heading">Місцезнаходження</div>
+            <div class="panel-heading">{{'LOCATION' | translate}}</div>
             <div class="panel-body">
                 <div class="row">
                     <div class="form-group">
@@ -184,7 +184,7 @@
                                        ng-model="selectedData.region"
                                        on-select="receiveDistricts(selectedData.region)"
                                        name="region" id="region">
-                                <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
+                                <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
                                     {{$select.selected.designation}}
                                 </ui-select-match>
                                 <ui-select-choices repeat="region in regions | filter: $select.search">
@@ -291,7 +291,7 @@
                                 <input name="street" class="form-control" type="text"
                                        ng-model="selectedStreet"
                                        ng-disabled="!selectedData.selectedStreetType"
-                                       typeahead="street as street.designation for street in streets | filter: $viewValue"
+                                       typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
                                        ng-pattern="STREET_REGEX"
                                        autocomplete="off"
                                        typeahead-editable="false"
@@ -352,7 +352,7 @@
         </div>
 
         <div class="panel panel-primary">
-            <div class="panel-heading">Основна інформація</div>
+            <div class="panel-heading">{{'COUNTER_' | translate}}</div>
             <div class="panel-body">
                 <div class="row">
 
@@ -604,7 +604,7 @@
         </div>
 
         <div class="panel panel-primary">
-            <div class="panel-heading">Додаткова інформація</div>
+            <div class="panel-heading">{{'INFO_BUTTON' | translate}}</div>
             <div class="panel-body">
                 <div class="row">
 
