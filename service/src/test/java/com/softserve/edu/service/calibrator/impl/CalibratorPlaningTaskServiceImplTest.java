@@ -1,12 +1,34 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
+import com.softserve.edu.service.utils.ZipArchiver;
+import com.softserve.edu.service.utils.export.DbfTableExporter;
+import com.softserve.edu.service.utils.export.XlsTableExporter;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Yurij Dvornyk on 20.10.2015.
@@ -14,6 +36,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 @RunWith(MockitoJUnitRunner.class)
 @PrepareForTest(CalibratorPlaningTaskServiceImpl.class)
 public class CalibratorPlaningTaskServiceImplTest {
+    @InjectMocks
+    CalibratorPlaningTaskServiceImpl calibratorPlaningTaskService;
+
     @Mock
     private CalibrationPlanningTaskRepository taskRepository;
 
@@ -158,4 +183,21 @@ public class CalibratorPlaningTaskServiceImplTest {
         }
         return counterTypes;*/
     }
+
+    /*@Test
+    public void testSendTaskToStation() {
+        long nextWeek = System.currentTimeMillis() + (86400 * 7 * 1000);
+        CalibrationModule module = new CalibrationModule(Device.DeviceType.WATER, "1529817", "conddesign", "sernum", "Robert Nesta Marley",
+                "123456789", CalibrationModule.ModuleType.INSTALLATION_FIX, "2klen94@gmail.com", "ctype", new Date(nextWeek));
+        CalibrationTask calibrationTask = new CalibrationTask(
+                module, null, new Date(), new Date(), new User("user1", "pass"), new TreeSet<>());
+
+        try {
+            calibratorPlaningTaskService.sendTaskToStation(calibrationTask);
+            assertTrue(true);
+        } catch (Exception e) {
+            assertTrue(false);
+            e.printStackTrace();
+        }
+    }*/
 }

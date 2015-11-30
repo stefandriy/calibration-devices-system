@@ -22,7 +22,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -177,80 +184,51 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                                                               String sortCriteria, String sortOrder) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-        if (sortCriteria.equals("date"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        if (sortCriteria.equals("date")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "sentToCalibratorDate"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "sentToCalibratorDate"));
             }
-        } else
-        if (sortCriteria.equals("client_last_name"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("client_last_name")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "clientData.lastName", "clientData.firstName"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "clientData.lastName", "clientData.firstName"));
             }
-        } else
-        if (sortCriteria.equals("providerName"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("providerName")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "provider.name"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "provider.name"));
             }
-        } else
-        if (sortCriteria.equals("dateOfVerif") || sortCriteria.equals("timeOfVerif"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("dateOfVerif") || sortCriteria.equals("timeOfVerif")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "info.dateOfVerif", "info.timeFrom"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "info.dateOfVerif", "info.timeFrom"));
             }
-        } else
-        if (sortCriteria.equals("noWaterToDate"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("noWaterToDate")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "info.noWaterToDate"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "info.noWaterToDate"));
             }
-        } else
-        if (sortCriteria.equals("district") || sortCriteria.equals("street") || sortCriteria.equals("building_flat"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("district") || sortCriteria.equals("street") || sortCriteria.equals("building_flat")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
             }
@@ -284,7 +262,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         for (UserRole role : roles) {
             if (role.equals(UserRole.CALIBRATOR_ADMIN)) {
                 return findByTaskStatusAndCalibratorId(user.getOrganization().getId(), pageNumber, itemsPerPage
-                        ,sortCriteria, sortOrder);
+                        , sortCriteria, sortOrder);
             }
         }
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
@@ -322,49 +300,68 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         Map<String, List<String>> dataForXls = getDataForXls(verifications);
         XlsTableExporter xlsTableExporter = new XlsTableExporter();
-        File xlsFile = new File("task.xls");
-        boolean xlsSuccess;
-        try {
-            xlsTableExporter.export(dataForXls, xlsFile);
-            xlsSuccess = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            xlsSuccess = false;
-        }
 
-        Map<String, List<String>> dataForDbf = getDataForDbf(verifications);
-        DbfTableExporter dbfTableExporter = new DbfTableExporter();
-        File dbfFile = new File("task.dbf");
-        boolean dbfSuccess;
-        try {
-            dbfTableExporter.export(dataForDbf, dbfFile);
-            dbfSuccess = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            dbfSuccess = false;
-        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        File zipFile = null;
-        boolean zipSuccess = false;
-        if (xlsSuccess && dbfSuccess) {
+        String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
+                calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
+
+        File tempFolder = new File("temp");
+        tempFolder.setWritable(true);
+        tempFolder.setExecutable(true);
+        tempFolder.setReadable(true);
+        tempFolder.mkdirs();
+
+        File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".xls");
+        File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".dbf");
+        File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".zip");
+
+        try {
+            boolean xlsSuccess;
             try {
-                ZipArchiver zip = new ZipArchiver();
-                List<File> sources = new ArrayList<>();
-                sources.add(xlsFile);
-                sources.add(dbfFile);
-                zipFile = new File("archive.zip");
-                zip.createZip(zipFile, sources);
-                zipSuccess = true;
-                xlsFile.delete();
-                dbfFile.delete();
+                xlsTableExporter.export(dataForXls, xlsFile);
+                xlsSuccess = true;
             } catch (Exception e) {
-                zipSuccess = false;
+                e.printStackTrace();
+                xlsSuccess = false;
             }
-        }
 
-        if (xlsSuccess && dbfSuccess && zipSuccess && zipFile != null) {
-            MailServiceImpl mailService = new MailServiceImpl();
-            mailService.sendMailWithAttachment("", "Task", "", zipFile); // TODO: Station email
+            Map<String, List<String>> dataForDbf = getDataForDbf(verifications);
+            DbfTableExporter dbfTableExporter = new DbfTableExporter();
+
+            boolean dbfSuccess;
+            try {
+                dbfTableExporter.export(dataForDbf, dbfFile);
+                dbfSuccess = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                dbfSuccess = false;
+            }
+
+            boolean zipSuccess = false;
+            if (xlsSuccess && dbfSuccess) {
+                try {
+                    ZipArchiver zip = new ZipArchiver();
+                    List<File> sources = new ArrayList<>();
+                    sources.add(xlsFile);
+                    sources.add(dbfFile);
+
+                    zip.createZip(zipFile, sources);
+                    zipSuccess = true;
+                } catch (Exception e) {
+                    zipSuccess = false;
+                }
+            }
+
+            if (xlsSuccess && dbfSuccess && zipSuccess && zipFile != null) {
+                MailServiceImpl mailService = new MailServiceImpl();
+                mailService.sendMailWithAttachment(calibrationTask.getModule().getEmail(), "Завдання", "", zipFile);
+                // TODO: Fix problems with sending mail
+            }
+        } finally {
+            xlsFile.delete();
+            dbfFile.delete();
+            zipFile.delete();
         }
     }
 
@@ -505,19 +502,19 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         // region Fill map
 
-        data.put("Ідентифікатор заявки", id);
-        data.put("Прізвище абонента", surname);
-        data.put("Ім'я абонента", name);
-        data.put("По-батькові абонента", middle);
+        data.put("ID заявки", id);
+        data.put("Прізвище", surname);
+        data.put("Ім'я", name);
+        data.put("По-батьков", middle);
         data.put("Місто", city);
         data.put("Район", district);
         data.put("Сектор", sector);
         data.put("Вулиця", street);
-        data.put("Номер будинку", building);
-        data.put("Номер квартири", flat);
+        data.put("Будинок", building);
+        data.put("Квартира", flat);
         data.put("Телефон", telephone);
-        data.put("Бажана дата/час перевірки", datetime);
-        data.put("номер лічильника", counterNumber);
+        data.put("Дата/час", datetime);
+        data.put("Лічильник", counterNumber);
         data.put("Примітка", comment);
         data.put("Замовник", customer);
 
