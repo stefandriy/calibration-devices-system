@@ -1,11 +1,11 @@
 package com.softserve.edu.service.utils.export;
 
-import com.hexiong.jdbf.DBFWriter;
-import com.hexiong.jdbf.JDBField;
+import com.linuxense.javadbf.DBFField;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,34 +32,36 @@ public class DbfTableExporter implements TableExporter {
     // endregion
 
     public void export(Map<String, List<String>> data, File output) throws Exception {
-        JDBField[] fields = new JDBField[data.size()];
+        DBFField[] fields = new DBFField[data.size()];
+        Object[] fieldNames = data.keySet().toArray();
         List<Integer> lengths = getCellLengths(data);
-        Object[] header = data.keySet().toArray();
-
-        // region Create columns
-
-        for (int i = 0; i < header.length; ++i) {
-            fields[i] = new JDBField(header[i].toString(), 'C', lengths.get(i) + extraLength, 0);
+        for (int i = 0; i < data.size(); ++i) {
+            fields[i] = new DBFField();
+            fields[i].setName(String.valueOf(fieldNames[i]));
+            fields[i].setDataType(DBFField.FIELD_TYPE_C);
+            fields[i].setFieldLength(lengths.get(i) + extraLength);
         }
 
-        // endregion
+        com.linuxense.javadbf.DBFWriter writer = new com.linuxense.javadbf.DBFWriter();
+        writer.setFields(fields);
 
-        DBFWriter dbfWriter = new DBFWriter(output.getAbsolutePath(), fields);
-        int recordsLength = data.get(header[0]).size();
-
-        // region Fill table
-
-        for (int i = 0; i < recordsLength; ++i) {
-            Object[] row = new Object[data.size()];
-            for (int j = 0; j < data.size(); ++j) {
-                row[j] = data.get(header[j]).get(i);
+        ArrayList<List<String>> values = new ArrayList<List<String>>();
+        Object[] valArray = data.values().toArray();
+        for (int i = 0; i < data.values().size(); ++i) {
+            values.add((List<String>)valArray[i]);
+        }
+        // (ArrayList<List<String>>)data.values();
+        for (int i = 0; i < values.get(0).size(); ++i) {
+            Object[] row = new Object[values.size()];
+            for (int j = 0; j < values.size(); ++j) {
+                row[j] = values.get(j).get(i);
             }
-            dbfWriter.addRecord(row);
+            writer.addRecord(row);
         }
 
-        // endregion
-
-        dbfWriter.close();
+        FileOutputStream fos = new FileOutputStream(output);
+        writer.write(fos);
+        fos.close();
     }
 
     /**
