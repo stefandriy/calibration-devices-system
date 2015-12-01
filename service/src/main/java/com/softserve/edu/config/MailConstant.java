@@ -14,6 +14,7 @@ public class MailConstant {
     static final String CONFIG_PROTOCOL = MAIL_CONFIG + "." + "protocol";
     static final String CREDENTIAL_USERNAME = "mail.credentials.username";
     static final String CREDENTIAL_PASSWORD = "mail.credentials.password";
+
     //static final String DEFAULT_ENCODING = "UTF-8";
     //static final String DEFAULT_ENCODING = "UTF-8";
     //static final String DEFAULT_ENCODING = "UTF-8";

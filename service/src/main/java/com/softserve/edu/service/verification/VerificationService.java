@@ -114,6 +114,7 @@ public interface VerificationService {
     java.sql.Date getNewVerificationEarliestDateByCalibrator(Organization organization);
 
     java.sql.Date getArchivalVerificationEarliestDateByCalibrator(Organization organization);
-    
-    
+
+    java.sql.Date getEarliestPlanningTaskDate(Organization organization);
+
 }

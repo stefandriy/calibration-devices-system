@@ -417,16 +417,16 @@ angular
                 $scope.organizationFormData.flat = $scope.organizationFormData.flat;
                 $scope.organizationFormData.serviceAreas = $scope.selectedServiceAreaLocalities;
 
-                if($scope.organizationFormData.regionRegistered !== undefined) {
+                if($scope.organizationFormData.regionRegistered) {
                     $scope.organizationFormData.regionRegistered = $scope.organizationFormData.regionRegistered.designation;
                 }
-                if($scope.organizationFormData.districtRegistered !== undefined) {
+                if($scope.organizationFormData.districtRegistered) {
                     $scope.organizationFormData.districtRegistered = $scope.organizationFormData.districtRegistered.designation;
                 }
-                if($scope.organizationFormData.localityRegistered !== undefined) {
+                if($scope.organizationFormData.localityRegistered) {
                     $scope.organizationFormData.localityRegistered = $scope.organizationFormData.localityRegistered.designation;
                 }
-                if($scope.organizationFormData.streetRegistered !== undefined) {
+                if($scope.organizationFormData.streetRegistered) {
                     $scope.organizationFormData.streetRegistered = $scope.organizationFormData.streetRegistered.designation;
                 }
             }

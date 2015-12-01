@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * @author Veronika 5.11.2015
  */
 @RestController
-@RequestMapping(value="/calibrator/protocols/", produces = "application/json")
+@RequestMapping(value = "/calibrator/protocols/", produces = "application/json")
 public class DigitalVerificationProtocolsCalibratorController {
 
     @Autowired
@@ -49,39 +49,37 @@ public class DigitalVerificationProtocolsCalibratorController {
     /**
      * This method calls service whiche returns the list of verifications. The controller transform them with the help of
      * ProtocolDTOTransformer to list of protocolsDTO. It's done to sent to the client only the necessary data.
+     *
      * @param pageNumber
      * @param itemsPerPage
-     * @param sortCriteria
-     * @param sortOrder
-     * @param searchData
      * @param employeeUser
      * @return list of ProtocolDTO - data for table with protocols
      */
-    @RequestMapping(value="{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
-        public PageDTO<ProtocolDTO> getPageOfAllSentVerificationsByStateCalibratorIdAndSearch(
-            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
-            @PathVariable String sortOrder, NewVerificationsFilterSearch searchData,
+    @RequestMapping(value = "{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+    public PageDTO<ProtocolDTO> getPageOfAllSentVerificationsByStateCalibratorIdAndSearch(
+            @PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
 
-            User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
+        User calibratorEmployee = calibratorEmployeeService.oneCalibratorEmployee(employeeUser.getUsername());
 
-            Status status = Status.TEST_COMPLETED;
-            List<Verification> verifications = protocolsService.findPageOfVerificationsByCalibratorIdAndStatus(
-                    calibratorEmployee,pageNumber, itemsPerPage, status );
-            Long count = protocolsService.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee, status);
-            List<ProtocolDTO> content = ProtocolDTOTransformer.toDtofromList(verifications);
+        Status status = Status.TEST_COMPLETED;
+        List<Verification> verifications = protocolsService.findPageOfVerificationsByCalibratorIdAndStatus(
+                calibratorEmployee, pageNumber, itemsPerPage, status);
+        Long count = protocolsService.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee, status);
+        List<ProtocolDTO> content = ProtocolDTOTransformer.toDtofromList(verifications);
 
-            return new PageDTO<>(count,content);
+        return new PageDTO<>(count, content);
 
     }
 
     /**
      * Change status for verification when it is sent to verificator
+     *
      * @param verificationUpdateDTO
      */
-    @RequestMapping(value="send", method = RequestMethod.PUT)
+    @RequestMapping(value = "send", method = RequestMethod.PUT)
     public void updateVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
-        for(String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
+        for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
             Long idVerificator = verificationUpdateDTO.getOrganizationId();
             Organization verificator = stateVerificatorService.findById(idVerificator);
             verificationService.sendVerificationTo(verificationId, verificator, Status.SENT_TO_VERIFICATOR);
@@ -90,19 +88,20 @@ public class DigitalVerificationProtocolsCalibratorController {
 
     /**
      * Get verificators that has agreement with this calibrator
+     *
      * @param user
      * @return
      */
-   @RequestMapping(value = "verificators", method = RequestMethod.GET)
-   public Set<OrganizationDTO> getVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
-       //todo agreement
+    @RequestMapping(value = "verificators", method = RequestMethod.GET)
+    public Set<OrganizationDTO> getVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        //todo agreement
 //       Organization userOrganization = organizationService.getOrganizationById(user.getOrganizationId());
 //       return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(),
 //               OrganizationType.STATE_VERIFICATOR, userOrganization.getDeviceTypes().iterator().next()).stream()
 //               .map(organization -> new OrganizationDTO(organization.getId(), organization.getName()))
 //               .collect(Collectors.toSet());
 
-       return organizationService.findAll().stream().map(organization ->
-               new OrganizationDTO(organization.getId(), organization.getName())).collect(Collectors.toSet());
-   }
+        return organizationService.findAll().stream().map(organization ->
+                new OrganizationDTO(organization.getId(), organization.getName())).collect(Collectors.toSet());
+    }
 }

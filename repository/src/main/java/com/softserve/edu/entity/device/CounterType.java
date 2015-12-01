@@ -6,6 +6,9 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * CounterType Entity represents more global essence then Counter Entity.
+ */
 @Entity
 @Getter
 @Setter
@@ -36,9 +39,6 @@ public class CounterType {
     @ManyToOne
     @JoinColumn(name = "deviceId")
     private Device device;
-
-    @OneToMany(mappedBy = "counterType", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<UnsuitabilityReason> unsuitabilitySet;
 
     public String getName() {
         return name;

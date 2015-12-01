@@ -2,12 +2,11 @@ package com.softserve.edu.entity.verification.calibration;
 
 import com.softserve.edu.entity.verification.Verification;
 import lombok.*;
-import org.hibernate.type.IntegerType;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
 
 /**
  * Calibration Test entity.

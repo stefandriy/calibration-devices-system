@@ -2,18 +2,24 @@ package com.softserve.edu.controller.calibrator;
 
 import com.softserve.edu.controller.provider.util.VerificationPageDTOTransformer;
 import com.softserve.edu.dto.PageDTO;
+import com.softserve.edu.dto.VerificationPlanningTaskFilterSearch;
 import com.softserve.edu.dto.calibrator.CalibrationTaskDTO;
 import com.softserve.edu.dto.calibrator.SymbolsAndSizesDTO;
 import com.softserve.edu.dto.calibrator.TeamDTO;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 //import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
+import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.CounterType;
+import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.service.admin.CalibrationModuleService;
+import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
+import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,10 +28,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping(value = "/task")
@@ -40,24 +49,31 @@ public class CalibratorPlanningTaskController {
     @Autowired
     private CalibratorDisassemblyTeamService teamService;
 
+    @Autowired
+    OrganizationService organizationService;
+
+    @Autowired
+    VerificationService verificationService;
+
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
 
     /**
-     * This method save task which
-     * was formed for the station. If data saved it returns
-     * http status OK, else it return http status conflict
+     * This method saves task which
+     * was formed for the station. If data was saved it returns
+     * http status OK, else it returns http status conflict
      *
      * @param taskDTO
      * @param employeeUser
      * @return ResponseEntity
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    private ResponseEntity saveTaskForStation (@RequestBody CalibrationTaskDTO taskDTO,
-                                     @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+    public ResponseEntity saveTaskForStation (@RequestBody CalibrationTaskDTO taskDTO,
+                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            taskService.addNewTaskForStation(taskDTO.getTaskDate(), taskDTO.getSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
+            taskService.addNewTaskForStation(taskDTO.getTaskDate(), taskDTO.getModuleNumber(),
+                    taskDTO.getVerificationsId(), employeeUser.getUsername());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
@@ -75,11 +91,11 @@ public class CalibratorPlanningTaskController {
      * @return ResponseEntity
      */
     @RequestMapping(value = "/team/save", method = RequestMethod.POST)
-    private ResponseEntity saveTaskForTeam (@RequestBody CalibrationTaskDTO taskDTO,
+    public ResponseEntity saveTaskForTeam (@RequestBody CalibrationTaskDTO taskDTO,
                                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            taskService.addNewTaskForTeam(taskDTO.getTaskDate(), taskDTO.getSerialNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
+            taskService.addNewTaskForTeam(taskDTO.getTaskDate(), taskDTO.getModuleNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
@@ -97,31 +113,37 @@ public class CalibratorPlanningTaskController {
      * @param employeeUser
      * @return PageDTO<VerificationPlanningTaskDTO>
      */
-    @RequestMapping(value = "findAll/{pageNumber}/{itemsPerPage}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "findAll/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     private PageDTO<VerificationPlanningTaskDTO> findAllVerificationsByCalibratorAndTaskStatus(@PathVariable Integer pageNumber, @PathVariable Integer itemsPerPage,
+                                                                                               @PathVariable String sortCriteria, @PathVariable String sortOrder,
+                                                                                               VerificationPlanningTaskFilterSearch searchData,
                                                                                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         Page<Verification> verifications = taskService.findVerificationsByCalibratorEmployeeAndTaskStatus(employeeUser.getUsername(),
-                pageNumber, itemsPerPage);
+                pageNumber, itemsPerPage, sortCriteria, sortOrder);
         Long count = Long.valueOf(taskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername()));
         List<VerificationPlanningTaskDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
         return new PageDTO<VerificationPlanningTaskDTO>(count, content);
     }
 
     /**
-     * This method return list of serial numbers of all available
+     * This method returns list of module numbers of all available
      * modules filtered by applicationField,
      * workDate and moduleType
      *
      * @param moduleType
      * @param workDate
-     * @param applicationFiled
+     * @param applicationField
      * @param employeeUser
      * @return List<String>
      */
-    @RequestMapping(value = "findAllModules/{moduleType}/{workDate}/{applicationFiled}", method = RequestMethod.GET)
-    public List<String> findAvailableModules(@PathVariable String moduleType,@PathVariable Date workDate, @PathVariable String applicationFiled,
-                                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser){
-        return moduleService.findAllCalibrationModulsNumbers(moduleType, workDate, applicationFiled, employeeUser.getUsername());
+
+    @RequestMapping(value = "findAllModules/{moduleType}/{workDate}/{applicationField}", method = RequestMethod.GET)
+    public List<String> findAvailableModules(@PathVariable CalibrationModule.ModuleType moduleType,
+                             @PathVariable Date workDate, @PathVariable Device.DeviceType applicationField,
+                             @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        return moduleService.findAllCalibrationModuleNumbers(moduleType, workDate,
+                applicationField, employeeUser.getUsername());
     }
 
     /**
@@ -174,5 +196,23 @@ public class CalibratorPlanningTaskController {
         return symbolsAndSizesDTO;
     }
 
-
+    @RequestMapping(value = "earliest_date", method = RequestMethod.GET)
+    public String getArchivalVerificationEarliestDateByProviderId(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+        if (user != null) {
+            Organization organization = organizationService.getOrganizationById(user.getOrganizationId());
+            Date gottenDate = verificationService.getEarliestPlanningTaskDate(organization);
+            Date date = null;
+            if (gottenDate != null) {
+                date = new Date(gottenDate.getTime());
+            } else {
+                return null;
+            }
+            DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            LocalDateTime localDate = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+            String isoLocalDateString = localDate.format(dbDateTimeFormatter);
+            return isoLocalDateString;
+        } else {
+            return null;
+        }
+    }
 }

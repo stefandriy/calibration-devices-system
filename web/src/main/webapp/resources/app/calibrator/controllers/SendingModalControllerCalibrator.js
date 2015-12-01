@@ -6,15 +6,13 @@ angular
             /**
              * Closes modal window on browser's back/forward button click.
              */
+            $scope.formData = [];
+            $scope.formData.verificator = undefined;
+            $scope.verificators = response.data;
+
             $rootScope.$on('$locationChangeStart', function () {
                 $modalInstance.close();
             });
-
-            if (response.data != null) {
-                $scope.verificators = response.data;
-                $scope.formData = {};
-                $scope.formData.verificator = $scope.verificators[0];
-            }
 
             $scope.cancel = function () {
                 $modalInstance.dismiss();

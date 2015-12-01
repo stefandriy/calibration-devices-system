@@ -23,11 +23,7 @@ public class AdditionInfoOrganization {
         this.codeEDRPOU = codeEDRPOU;
         this.subordination = subordination;
         this.certificateNumrAuthoriz = certificateNumrAuthoriz;
-        if(certificateDate != null) {
-            this.certificateDate = new Date(certificateDate);
-        } else {
-            this.certificateDate = null;
-        }
+        this.certificateDate = (certificateDate != null) ? new Date(certificateDate) : null;
     }
 
 }

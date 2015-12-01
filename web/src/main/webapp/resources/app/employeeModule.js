@@ -116,7 +116,7 @@
                     })
                     .state("calibrator-task-station", {
                         url: '/calibrator/task/',
-                        templateUrl: 'resources/app/calibrator/views/modals/eddTaskForStationModal.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/addTaskForStationModal.html',
                         controller: 'TaskForStationModalControllerCalibrator'
                     })
                     .state("calibrator-task-team", {
@@ -245,7 +245,6 @@
         'provider/services/AddressServiceProvider',
         'provider/services/SettingsServiceProvider',
         'provider/services/UserService',
-        'provider/services/DataReceivingServiceProvider',
         'provider/controllers/CapacityEmployeeControllerProvider',
         'provider/controllers/GraficEmployeeProvider',
         'provider/controllers/GraphicEmployeeProviderMainPanel',
@@ -320,10 +319,12 @@
         'provider/filters/unique',
         'common/controllers/ProfileInfoController',
         'common/controllers/EditProfileInfoController',
+        'common/controllers/CommonController',
+        'common/controllers/DocumentController',
+        'common/services/DocumentService',
         'common/services/ProfileService',
         'common/services/EmployeeService',
-        'common/controllers/CommonController',
         'calibrator/controllers/DigitalVerificationProtocolsControllerCalibrator',
-        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator',
+        'calibrator/services/DigitalVerificationProtocolsServiceCalibrator'
     ], function () {});
 })();

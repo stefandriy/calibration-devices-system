@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.stubbing.OngoingStubbing;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -69,7 +70,7 @@ public class CalibratorDigitalProtocolsServiceImplTest {
         Long expected = 1L;
         Status status = Status.TEST_COMPLETED;
         String username = "user";
-        when(verificationRepository.countByCalibratorEmployee_usernameAndStatus(username, status))
+        OngoingStubbing<Long> longOngoingStubbing = when(verificationRepository.countByCalibratorEmployee_usernameAndStatus(username, status))
                 .thenReturn(expected);
         when(user.getUsername()).thenReturn(username);
 

@@ -5,9 +5,9 @@ import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.service.utils.ListToPageTransformer;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CounterTypeService {
-
     /**
      * Save counter type with params
      * @param name
