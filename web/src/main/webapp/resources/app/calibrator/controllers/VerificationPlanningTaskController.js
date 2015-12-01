@@ -28,6 +28,10 @@ angular
                 $scope.tableParams.reload();
             }
 
+            $scope.selectedStatus = {
+                name: null
+            }
+
             $scope.myDatePicker = {};
             $scope.myDatePicker.pickerDate = null;
             $scope.defaultDate = null;
@@ -157,14 +161,21 @@ angular
                     var sortCriteria = Object.keys(params.sorting())[0];
                     var sortOrder = params.sorting()[sortCriteria];
 
-                    params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
-                    params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");
+                    if ($scope.selectedStatus.name != null) {
+                        params.filter().status = $scope.selectedStatus.name.id;
+                    }
+                    else{
+                        params.filter().status = null; //case when the filter is cleared with a button on the select
+                    }
+
+                    params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                    params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
                     verificationPlanningTaskService.getVerificationsByCalibratorEmployeeAndTaskStatus(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
-                            .then(function (result) {
-                                $scope.resultsCount = result.data.totalItems;
-                                $defer.resolve(result.data.content);
-                                params.total(result.data.totalItems);
+                            .success(function (result) {
+                            $scope.resultsCount = result.totalItems;
+                            $defer.resolve(result.content);
+                            params.total(result.totalItems);
                             });
                 }
 

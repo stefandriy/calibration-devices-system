@@ -169,6 +169,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @param id
      * @param pageNumber
      * @param itemsPerPage
+     * @param sortCriteria
+     * @param sortOrder
      * @return Page<Verification>
      */
     @Override
@@ -238,6 +240,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @param userName
      * @param pageNumber
      * @param itemsPerPage
+     * @param sortCriteria
+     * @param sortOrder
      * @return Page<Verification>
      * @throws NullPointerException();
      */
