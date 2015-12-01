@@ -9,8 +9,8 @@ angular
              * this function return true if is StateVerificatorEmployee
              */
             $scope.isVerificatorEmployee = function () {
-                verificationServiceProvider.getIfEmployeeProvider().success(function(data){
-                    $scope.isEmployee =  data;
+                verificationServiceProvider.getIfEmployeeProvider().success(function (data) {
+                    $scope.isEmployee = data;
                 });
 
             };
@@ -177,7 +177,7 @@ angular
                             if ($scope.selectedStatus.name != null) {
                                 params.filter().status = $scope.selectedStatus.name.id;
                             }
-                            else{
+                            else {
                                 params.filter().status = null; //case when the filter is cleared with a button on the select
                             }
 
@@ -190,7 +190,7 @@ angular
                                     $scope.resultsCount = result.totalItems;
                                     $defer.resolve(result.content);
                                     params.total(result.totalItems);
-                                        $scope.allVerifications =result.content;
+                                    $scope.allVerifications = result.content;
                                 }, function (result) {
                                     $log.debug('error fetching data:', result);
                                 });
@@ -253,8 +253,8 @@ angular
             };
 
             /*function that determines if the tooltip is shown on disable checkbox*/
-            $scope.filterCells = function(employee){
-                return employee ? 'none' :  'mouseenter';
+            $scope.filterCells = function (employee) {
+                return employee ? 'none' : 'mouseenter';
             };
 
             $scope.addProviderEmployee = function (verifId, providerEmployee) {
@@ -292,32 +292,36 @@ angular
                 });
             };
 
-         $scope.idsOfVerifications = [];
+            $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;
             $scope.idsOfCalibrators = null;
 
 
-            $scope.checkboxes = { 'checked': false, items: {} };
+            $scope.checkboxes = {'checked': false, items: {}};
 
             // watch for check all checkbox
-            $scope.$watch('checkboxes.checked', function(value) {
-                angular.forEach($scope.allVerifications, function(verification) {
+            $scope.$watch('checkboxes.checked', function (value) {
+                angular.forEach($scope.allVerifications, function (verification) {
                     if (angular.isDefined(verification.id)) {
                         $scope.checkboxes.items[verification.id] = value;
+                        if (verification.providerEmployee) {
+                            $scope.resolveVerificationId(verification.id);
+
+                        }
                     }
                 });
             });
 
             // watch for data checkboxes
-            $scope.$watch('checkboxes.items', function(values) {
+            $scope.$watch('checkboxes.items', function (values) {
                 if (!$scope.allVerifications) {
                     return;
                 }
                 var checked = 0, unchecked = 0,
                     total = $scope.allVerifications.length;
-                angular.forEach($scope.allVerifications, function(verification) {
-                    checked   +=  ($scope.checkboxes.items[verification.id]) || 0;
+                angular.forEach($scope.allVerifications, function (verification) {
+                    checked += ($scope.checkboxes.items[verification.id]) || 0;
                     unchecked += (!$scope.checkboxes.items[verification.id]) || 0;
                 });
                 if ((unchecked == 0) || (checked == 0)) {
@@ -326,15 +330,13 @@ angular
                 // grayed checkbox
                 angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
             }, true);
-            $scope.resolveVerifications = function (id) {
 
-            }
 
             /**
              * push verification id to array
              */
 
-          $scope.resolveVerificationId = function (id) {
+            $scope.resolveVerificationId = function (id) {
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {
                     $scope.idsOfVerifications.push(id);
