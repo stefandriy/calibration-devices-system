@@ -72,7 +72,7 @@ angular
                  */
 
 
-                /*TODO: i18n*/
+
                 $scope.myDatePicker.pickerDate = {
                     startDate: (date ? moment(date, "YYYY-MM-DD") : moment()),
                     //earliest day of  all the verifications available in table
@@ -188,7 +188,7 @@ angular
                                 .success(function (result) {
 
                                     $scope.resultsCount = result.totalItems;
-                                    $defer.resolve(result.content);
+                                    $defer.resolve(data = result.content);
                                     params.total(result.totalItems);
                                 }, function (result) {
                                     $log.debug('error fetching data:', result);
@@ -291,17 +291,34 @@ angular
                 });
             };
 
-            $scope.idsOfVerifications = [];
+         $scope.idsOfVerifications = [];
             $scope.checkedItems = [];
             $scope.allIsEmpty = true;
             $scope.idsOfCalibrators = null;
+
+         $scope.selectedAll = false;
+
+            $scope.checkAll = function () {
+                if ($scope.selectedAll) {
+                    $scope.selectedAll = true;
+
+                } else {
+                    $scope.selectedAll = false;
+                }
+                angular.forEach($scope.data, function (verification) {
+                    verification.selected = $scope.selectedAll;
+                    $scope.idsOfVerifications.push(id);
+                });
+            };
+
+
 
 
             /**
              * push verification id to array
              */
-            //todo
-            $scope.resolveVerificationId = function (id) {
+
+          $scope.resolveVerificationId = function (id) {
                 var index = $scope.idsOfVerifications.indexOf(id);
                 if (index === -1) {
                     $scope.idsOfVerifications.push(id);

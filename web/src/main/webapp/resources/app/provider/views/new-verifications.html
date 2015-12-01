@@ -22,7 +22,18 @@
             </button>
         </div>
     </div>
-
+    <div>
+        <ul ng-controller="checkboxController">
+            <li>Check All
+                <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" />
+            </li>
+            <li ng-repeat="verification in $data">
+                <label>{{verification.Name}}
+                    <input type="checkbox" ng-model="verification.Selected" />
+                </label>
+            </li>
+        </ul>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <br/>
@@ -45,11 +56,14 @@
                                     <tbody>
                                     <tr ng-repeat="verification in $data"
                                         ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
-                                        <!--<td data-title="''" popover="Спочатку оберіть працівника" popover-trigger="{{ filterCells(verification.providerEmployee) }}">-->
-                                        <td data-title="''">
+                                        <script type="text/ng-template" id="ng-table/headers/checkbox.html">
+                                            <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" />
+                                        </script>
+                                        <td header="'ng-table/headers/checkbox.html'">
                                             <div>
                                                 <input type="checkbox"
-                                                       ng-click="resolveVerificationId(verification.id)"
+                                                       ng-model="verification.selected"
+                                                       ng-click="resolveVerificationId"
                                                        ng-disabled="!verification.providerEmployee"/>
                                             </div>
                                         </td>
