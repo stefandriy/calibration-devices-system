@@ -116,7 +116,7 @@
                     })
                     .state("calibrator-task-station", {
                         url: '/calibrator/task/',
-                        templateUrl: 'resources/app/calibrator/views/modals/eddTaskForStationModal.html',
+                        templateUrl: 'resources/app/calibrator/views/modals/addTaskForStationModal.html',
                         controller: 'TaskForStationModalControllerCalibrator'
                     })
                     .state("calibrator-task-team", {
@@ -245,7 +245,6 @@
         'provider/services/AddressServiceProvider',
         'provider/services/SettingsServiceProvider',
         'provider/services/UserService',
-        'provider/services/DataReceivingServiceProvider',
         'provider/controllers/CapacityEmployeeControllerProvider',
         'provider/controllers/GraficEmployeeProvider',
         'provider/controllers/GraphicEmployeeProviderMainPanel',

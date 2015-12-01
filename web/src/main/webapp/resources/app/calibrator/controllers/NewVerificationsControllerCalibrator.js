@@ -2,8 +2,9 @@ angular
     .module('employeeModule')
     .controller('NewVerificationsControllerCalibrator', ['$scope', '$log',
         '$modal', 'VerificationServiceCalibrator',
-        '$rootScope', 'ngTableParams', '$timeout', '$filter', '$window', '$location', '$translate',
-        function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams, $timeout, $filter, $window, $location, $translate) {
+        '$rootScope', 'ngTableParams', '$timeout', '$filter', '$window', '$location', '$translate', 'toaster',
+        function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams,
+                  $timeout, $filter, $window, $location, $translate, toaster) {
 
             $scope.resultsCount = 0;
 
@@ -150,7 +151,7 @@ angular
                     total: 0,
                     filterDelay: 1500,
                     getData: function ($defer, params) {
-
+                        $scope.idsOfVerifications = [];
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
 
@@ -235,15 +236,30 @@ angular
                 });
             };
 
-                $scope.openTask = function(){
-                $rootScope.verifIds = [];
-                $rootScope.verifIds.push($scope.idsOfVerifications);
-                $rootScope.emptyStatus = $scope.allIsEmpty;
-                $scope.$modalInstance  = $modal.open({
-                    animation: true,
-                    controller: 'TaskSendingModalControllerCalibrator',
-                    templateUrl: 'resources/app/calibrator/views/modals/eddTaskModal.html'
-                });
+            $scope.openTask = function() {
+                if ($scope.idsOfVerifications.length === 0) {
+                    toaster.pop('error', $filter('translate')('INFORMATION'),
+                        $filter('translate')('NO_VERIFICATIONS_CHECKED'));
+                } else {
+                    $scope.$modalInstance = $modal.open({
+                        animation: true,
+                        controller: 'TaskForStationModalControllerCalibrator',
+                        templateUrl: 'resources/app/calibrator/views/modals/addTaskForStationModal.html',
+                        resolve: {
+                            verificationIDs: function () {
+                                return $scope.idsOfVerifications;
+                            },
+                            moduleType: function() {
+                                return 'INSTALLATION_FIX';
+                            }
+                        }
+                    });
+                    $scope.$modalInstance.result.then(function () {
+                        $scope.tableParams.reload();
+                        toaster.pop('success', $filter('translate')('INFORMATION'),
+                            $filter('translate')('TASK_FOR_STATION_CREATED'));
+                    });
+                }
             };
 
             $scope.openTests = function (verificationId) {
@@ -259,23 +275,14 @@ angular
             };
 
             $scope.idsOfVerifications = [];
-            $scope.checkedItems = [];
             $scope.allIsEmpty = true;
 
             $scope.resolveVerificationId = function (id) {
-
                 var index = $scope.idsOfVerifications.indexOf(id);
-                if (index === -1) {
-                    $scope.idsOfVerifications.push(id);
-                    index = $scope.idsOfVerifications.indexOf(id);
-                }
-
-                if (!$scope.checkedItems[index]) {
-                    $scope.idsOfVerifications.splice(index, 1, id);
-                    $scope.checkedItems.splice(index, 1, true);
-                } else {
+                if (index > -1) {
                     $scope.idsOfVerifications.splice(index, 1);
-                    $scope.checkedItems.splice(index, 1);
+                } else {
+                    $scope.idsOfVerifications.push(id);
                 }
                 checkForEmpty();
             };
@@ -319,7 +326,6 @@ angular
                                 $rootScope.$broadcast('verification-sent-to-verificator');
                             });
                         $scope.idsOfVerifications = [];
-                        $scope.checkedItems = [];
                     });
                 } else {
                     $scope.isClicked = true;

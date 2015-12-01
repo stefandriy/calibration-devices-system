@@ -30,6 +30,10 @@ public class Filter implements Specification {
 
     private List<Condition> conditions;
 
+    public List<Condition> getConditions() {
+        return conditions;
+    }
+
     public Filter(String json) {
 //        ObjectMapper mapper = new ObjectMapper();
 //        this.conditions = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, Condition.class));

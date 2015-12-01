@@ -21,16 +21,7 @@
     <p></p>
     <div class="row">
         <div class="col-md-12">
-            <div class="">
-                <div class="row">
-                    <div class="clearfix col-md-offset-10">
-                        <button type="button" class="btn btn-danger" ng-click="clearAll()" ng-show="checkFilters()">
-                            {{'CLEAR_ALL' | translate }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <br/>
+
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -41,174 +32,108 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
-                                <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
-                                       class="table table-bordered table-hover users_table" id="info_table">
-                                    <tbody>
-                                    <tr ng-repeat="calibrationTest in $data">
-                                        <td data-title="'DATE_TEST' | translate" class="datecolumn" sortable="'date'"
-                                            filter="{ 'date': 'daterange' }">{{ calibrationTest.dateTest | date :
-                                            'dd-MM-yyyy'}}
-                                        </td>
-                                        <td data-title="'CALIBRATION_TEST_NAME' | translate"
-                                            filter="{ 'name': 'text' }" sortable="'name'">{{ calibrationTest.name}}
-                                        </td>
-                                        <td data-title="'VERIFICATION_ID' | translate"
-                                            filter="{ 'id': 'text' }">{{ calibrationTest.id }}
-                                        </td>
+                                <!--<table ng-table="tableParams" class="table table-bordered table-hover users_table" show-filter="false">-->
+                                    <!--<tbody>-->
+                                    <!--<tr ng-repeat="user in $data">-->
+                                        <!--<td title="'Name'"  sortable="'name'">-->
+                                            <!--{{user.name}}</td>-->
+                                        <!--<td title="'Age'"  sortable="'age'">-->
+                                            <!--{{user.age}}</td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                <!--</table>-->
 
-                                        <td data-title="'ACTIONS' | translate" class="control_buttons"
-                                            style="width: 30%">
-
-
-                                            <img src="resources/assets/button-icons/calibration-test%20icons/edit.png"
-                                                 popover="Редагувати протокол" popover-trigger="mouseenter"
-                                                 ng-click="editCalibrationTest(calibrationTest.id)">
-                                            </img>
-                                            <img src="resources/assets/button-icons/calibration-test%20icons/delete.png"
-                                                 popover="Видалити тест" popover-trigger="mouseenter"
-                                                 ng-click="deleteTest(calibrationTest.protocolId)">
-                                            </img>
-                                            </img>
-                                            <a href="http://localhost/img/" target="_blank" style="align-self: auto" popover="Переглянути фото"
-                                               popover-trigger="mouseenter"> <i class="fa fa-file-image-o"></i> </a>
-
-                                        </td>
-                                        <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'"
-                                            filter="{ 'clientFullName': 'text' }">{{ calibrationTest.clientFullName }}
-                                        </td>
-                                        <td data-title="'REGION' | translate" sortable="'region'"
-                                            filter="{ 'region': 'text' }">{{ calibrationTest.region}}
-                                        </td>
-                                        <td data-title="'DISTRICT' | translate" sortable="'district'"
-                                            filter="{ 'district': 'text' }">{{ calibrationTest.district}}
-                                        </td>
-                                        <td data-title="'LOCALITY' | translate" sortable="'locality'"
-                                            filter="{ 'locality': 'text' }">{{ calibrationTest.locality}}
-                                        </td>
-                                        <td data-title="'CLIENT_STREET' | translate" sortable="'street'"
-                                            filter="{ 'street': 'text' }">{{ calibrationTest.street }}
-                                        </td>
-                                        <td data-title="'SETTING_NUMBER' | translate" sortable="'setting_number'"
-                                            filter="{ 'settingNumber': 'text' }">{{ calibrationTest.settingNumber }}
-                                        </td>
-                                        <td data-title="'CONSUMPTION_STATUS' | translate" sortable="'consumption_status'"
-                                            filter="{ 'consumptionStatus': 'consumptionStatus' }">{{ calibrationTest.consumptionStatus | translate }}
-                                        </td>
-                                        <td data-title="'PROTOCOL_ID' | translate " sortable="'protocol_id'"
-                                            filter="{ protocolId : 'text' }">{{calibrationTest.protocolId}}
-                                        </td>
-                                        <td data-title="'TEST_RESULT' | translate" sortable="'test_result'"
-                                            filter="{ testResult : 'testResult'}">{{
-                                            calibrationTest.testResult | translate}}
-                                        </td>
-                                        <td data-title="'MEASUREMENT_DEVICE_ID' | translate"
-                                            sortable="'measurement_device_id'"
-                                            filter="{ measurementDeviceId : 'text' }">
-                                            {{calibrationTest.measurementDeviceId}}
-                                        </td>
-                                        <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
-                                            sortable="'measurement_device_type'"
-                                            filter="{ measurementDeviceType : 'deviceType' }">{{
-                                            calibrationTest.measurementDeviceType | translate}}
-                                        </td>
-                                        <td data-title="'DOCUMENT_TYPE' | translate">{{
-                                            calibrationTest.documentTypeName }}
-                                        </td>
-                                        <!-- TODO: add date of creation document-->
-                                    </tr>
-                                    </tbody>
-                                </table>
                             </div>
-                            <script type="text/ng-template" id="custom/pager">
-                                <div>
-                                    <ul class="pager ng-cloak">
-                                        <li ng-repeat="page in pages"
-                                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-                                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-                                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                                Previous</a>
-                                            <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                               href="">Next &raquo;</a>
-                                        </li>
-                                        <li>
-                                            <div class="btn-group">
-                                                <button type="button" ng-class="{'active':params.count() == 5}"
-                                                        ng-click="params.count(5)" class="btn btn-default">5
-                                                </button>
-                                                <button type="button" ng-class="{'active':params.count() == 10}"
-                                                        ng-click="params.count(10)" class="btn btn-default">10
-                                                </button>
-                                                <button type="button" ng-class="{'active':params.count() == 25}"
-                                                        ng-click="params.count(25)" class="btn btn-default">25
-                                                </button>
-                                                <button type="button" ng-class="{'active':params.count() == 50}"
-                                                        ng-click="params.count(50)" class="btn btn-default">50
-                                                </button>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </script>
-                            <script type="text/ng-template" id="ng-table/filters/daterange.html">
-                                <div class="input-group right-inner-addon" style="width: 100%">
-                                    <i id="calendar_icon" class="glyphicon glyphicon-calendar"
-                                       ng-click="showPicker($event)"></i>
-                                    <input date-range-picker="opts" class="form-control date-picker" type="text"
-                                           ng-model="myDatePicker.pickerDate" ng-change="doSearch()" options="opts"
-                                           id="datepickerfield" readonly/>
+                            <!--<script type="text/ng-template" id="custom/pager">-->
+                                <!--<div>-->
+                                    <!--<ul class="pager ng-cloak">-->
+                                        <!--<li ng-repeat="page in pages"-->
+                                            <!--ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"-->
+                                            <!--ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">-->
+                                            <!--<a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;-->
+                                                <!--Previous</a>-->
+                                            <!--<a ng-switch-when="next" ng-click="params.page(page.number)"-->
+                                               <!--href="">Next &raquo;</a>-->
+                                        <!--</li>-->
+                                        <!--<li>-->
+                                            <!--<div class="btn-group">-->
+                                                <!--<button type="button" ng-class="{'active':params.count() == 5}"-->
+                                                        <!--ng-click="params.count(5)" class="btn btn-default">5-->
+                                                <!--</button>-->
+                                                <!--<button type="button" ng-class="{'active':params.count() == 10}"-->
+                                                        <!--ng-click="params.count(10)" class="btn btn-default">10-->
+                                                <!--</button>-->
+                                                <!--<button type="button" ng-class="{'active':params.count() == 25}"-->
+                                                        <!--ng-click="params.count(25)" class="btn btn-default">25-->
+                                                <!--</button>-->
+                                                <!--<button type="button" ng-class="{'active':params.count() == 50}"-->
+                                                        <!--ng-click="params.count(50)" class="btn btn-default">50-->
+                                                <!--</button>-->
+                                            <!--</div>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</script>-->
+                            <!--<script type="text/ng-template" id="ng-table/filters/daterange.html">-->
+                                <!--<div class="input-group right-inner-addon" style="width: 100%">-->
+                                    <!--<i id="calendar_icon" class="glyphicon glyphicon-calendar"-->
+                                       <!--ng-click="showPicker($event)"></i>-->
+                                    <!--<input date-range-picker="opts" class="form-control date-picker" type="text"-->
+                                           <!--ng-model="myDatePicker.pickerDate" ng-change="doSearch()" options="opts"-->
+                                           <!--id="datepickerfield" readonly/>-->
 
-                                        <span class="input-group-btn">
-                                                  <button type="button" class="btn btn-default myGroupBtn"
-                                                          ng-show="!isDateDefault()"
-                                                          ng-click="clearDate()">
-                                                      <i class="glyphicon glyphicon-remove"></i>
-                                                  </button>
-                                        </span>
-                                </div>
-                            </script>
-                            <script type="text/ng-template" id="ng-table/filters/consumptionStatus.html">
-                                <ui-select ng-model="consumptionStatus.name" theme="select2" on-select='doSearch()'
-                                           search-enabled="false"
-                                           name="filter-consumptionStatus">
-                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                                     allow-clear="true">
-                                        {{$select.selected.label}}
-                                    </ui-select-match>
-                                    <ui-select-choices
-                                            repeat="status in consumptionStatus">
-                                        <span ng-bind-html="status.label"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </script>
-                            <script type="text/ng-template" id="ng-table/filters/deviceType.html">
-                                <ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'
-                                           search-enabled="false"
-                                           name="filter-deviceType">
-                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                                     allow-clear="true">
-                                        {{$select.selected.label}}
-                                    </ui-select-match>
-                                    <ui-select-choices
-                                            repeat="deviceType in deviceTypeData">
-                                        <span ng-bind-html="deviceType.label"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </script>
-                            <script type="text/ng-template" id="ng-table/filters/testResult.html">
-                                <ui-select ng-model="selectedTestResult.name" theme="select2" on-select='doSearch()'
-                                           search-enabled="false"
-                                           name="filter-testResult  ">
-                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                                     allow-clear="true">
-                                        {{$select.selected.label}}
-                                    </ui-select-match>
-                                    <ui-select-choices
-                                            repeat="testResult in testResults">
-                                        <span ng-bind-html="testResult.label"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </script>
-                        </div>
+                                        <!--<span class="input-group-btn">-->
+                                                  <!--<button type="button" class="btn btn-default myGroupBtn"-->
+                                                          <!--ng-show="!isDateDefault()"-->
+                                                          <!--ng-click="clearDate()">-->
+                                                      <!--<i class="glyphicon glyphicon-remove"></i>-->
+                                                  <!--</button>-->
+                                        <!--</span>-->
+                                <!--</div>-->
+                            <!--</script>-->
+                            <!--<script type="text/ng-template" id="ng-table/filters/consumptionStatus.html">-->
+                                <!--<ui-select ng-model="consumptionStatus.name" theme="select2" on-select='doSearch()'-->
+                                           <!--search-enabled="false"-->
+                                           <!--name="filter-consumptionStatus">-->
+                                    <!--<ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"-->
+                                                     <!--allow-clear="true">-->
+                                        <!--{{$select.selected.label}}-->
+                                    <!--</ui-select-match>-->
+                                    <!--<ui-select-choices-->
+                                            <!--repeat="status in consumptionStatus">-->
+                                        <!--<span ng-bind-html="status.label"></span>-->
+                                    <!--</ui-select-choices>-->
+                                <!--</ui-select>-->
+                            <!--</script>-->
+                            <!--<script type="text/ng-template" id="ng-table/filters/deviceType.html">-->
+                                <!--<ui-select ng-model="selectedDeviceType.name" theme="select2" on-select='doSearch()'-->
+                                           <!--search-enabled="false"-->
+                                           <!--name="filter-deviceType">-->
+                                    <!--<ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"-->
+                                                     <!--allow-clear="true">-->
+                                        <!--{{$select.selected.label}}-->
+                                    <!--</ui-select-match>-->
+                                    <!--<ui-select-choices-->
+                                            <!--repeat="deviceType in deviceTypeData">-->
+                                        <!--<span ng-bind-html="deviceType.label"></span>-->
+                                    <!--</ui-select-choices>-->
+                                <!--</ui-select>-->
+                            <!--</script>-->
+                            <!--<script type="text/ng-template" id="ng-table/filters/testResult.html">-->
+                                <!--<ui-select ng-model="selectedTestResult.name" theme="select2" on-select='doSearch()'-->
+                                           <!--search-enabled="false"-->
+                                           <!--name="filter-testResult  ">-->
+                                    <!--<ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"-->
+                                                     <!--allow-clear="true">-->
+                                        <!--{{$select.selected.label}}-->
+                                    <!--</ui-select-match>-->
+                                    <!--<ui-select-choices-->
+                                            <!--repeat="testResult in testResults">-->
+                                        <!--<span ng-bind-html="testResult.label"></span>-->
+                                    <!--</ui-select-choices>-->
+                                <!--</ui-select>-->
+                            <!--</script>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>

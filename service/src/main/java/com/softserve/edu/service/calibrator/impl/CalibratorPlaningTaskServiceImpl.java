@@ -23,7 +23,6 @@ import java.util.*;
 @Transactional
 public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskService {
 
-
     @Autowired
     private CalibrationPlanningTaskRepository taskRepository;
 
@@ -46,49 +45,37 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
     /**
-     * This method save new task for the station. It checks if counter
+     * This method saves new task for the station. It checks if counter
      * statuses for the verifications are the same, if not
-     * @throws IllegalArgumentException(). Also it checks if station
-     * device type is is as device type of the verification, if not
+     * @throws IllegalArgumentException(). Also it checks if calibration module
+     * device type is the same as device type of the verification, if not
      * method @throws IllegalArgumentException().
      *
      * @param taskDate
-     * @param serialNumber
+     * @param moduleNumber
      * @param verificationsId
      * @param userId
      */
     @Override
-    public void addNewTaskForStation(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
-        CalibrationModule module = moduleRepository.findBySerialNumber(serialNumber);
+    public void addNewTaskForStation(Date taskDate, String moduleNumber, List<String> verificationsId, String userId) {
+        CalibrationModule module = moduleRepository.findByModuleNumber(moduleNumber);
         Set<Verification> verifications = new HashSet<>();
-        int i = 0;
-        boolean counterStatus = false;
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
             if (verification == null) {
-                logger.error("verification haven't found");
+                logger.error("verification wasn't found");
+                throw new IllegalArgumentException();
             } else {
-                if (i==0){
-                    counterStatus = verification.isCounterStatus();
-                }
-                if (counterStatus == verification.isCounterStatus()) {
-                    if (module.getDeviceType() == verification.getDevice().getDeviceType()) {
-                        verification.setTaskStatus(Status.TASK_PLANED);
-                        verificationRepository.save(verification);
-                        verifications.add(verification);
-                        i++;
-                    } else {
-                        logger.error("verification and module has different device types");
-                        throw new IllegalArgumentException();
-                    }
-                } else {
-                    logger.error("verifications has different counter status");
-                    throw new IllegalArgumentException();
-                }
+                // if (module.getDeviceType() == verification.getDevice().getDeviceType()) {
+                verification.setTaskStatus(Status.TEST_PLACE_DETERMINED);
+                verificationRepository.save(verification);
+                verifications.add(verification);
             }
+                /*else {
+                    logger.error("verification and module have different device types");
+                    throw new IllegalArgumentException();
+                }*/
         }
-        module.setWorkDate(taskDate);
-        moduleRepository.save(module);
         User user = userRepository.findOne(userId);
         taskRepository.save(new CalibrationTask(module, null, new Date(), taskDate, user, verifications));
     }
@@ -281,7 +268,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                                                                                  int itemsPerPage, String sortCriteria,
                                                                                  String sortOrder) {
         User user  = userRepository.findOne(userName);
-        if (user == null){
+        if (user == null) {
             logger.error("Cannot found user!");
             throw new NullPointerException();
         }

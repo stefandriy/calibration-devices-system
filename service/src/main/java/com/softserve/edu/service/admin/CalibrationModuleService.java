@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -27,7 +28,9 @@ public interface CalibrationModuleService {
 
     Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable);
 
-    List<String> findAllCalibrationModulsNumbers (String moduleType, Date workDate, String applicationFiled, String userName);
+    List<String> findAllCalibrationModuleNumbers (CalibrationModule.ModuleType moduleType,
+                                                  Date workDate, Device.DeviceType applicationField,
+                                                  String userName);
 
     void updateCalibrationModule(Long moduleId, CalibrationModule calibrationModule);
 

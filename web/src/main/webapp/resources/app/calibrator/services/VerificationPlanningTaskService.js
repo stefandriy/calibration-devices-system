@@ -12,8 +12,8 @@ angular
            getVerificationsByCalibratorEmployeeAndTaskStatus: function (pageNumber, itemsPerPage, search, sortCriteria, sortOrder) {
                 return getData('task/findAll/' + pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
            },
-           getModuls: function (place, pickerDate, applicationFiled) {
-                return getAvailableModules('task/findAllModules/' + place + '/' + pickerDate + '/' + applicationFiled);
+           getModules: function (place, pickerDate, applicationFiled) {
+                return getData('task/findAllModules/' + place + '/' + pickerDate + '/' + applicationFiled);
            },
            getTeams: function (pickerDate, applicationFiled) {
                 return getAvailableTeams('task/findAllTeams/'  + pickerDate + '/' + applicationFiled);
@@ -42,15 +42,6 @@ angular
                 return data;
             }).error(function (err) {
                 return err;
-            });
-        }
-
-        function getAvailableModules (url) {
-            return $http.get(url)
-               .success(function (data) {
-                    return data;
-            }).error(function (err) {
-                    return err;
             });
         }
 

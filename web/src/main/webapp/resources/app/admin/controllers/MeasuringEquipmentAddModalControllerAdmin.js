@@ -161,7 +161,7 @@ angular
                             }
                         });
                 }
-            };
+            }
 
             $scope.clearDate = function () {
                 calibrationModule.workDate = null;

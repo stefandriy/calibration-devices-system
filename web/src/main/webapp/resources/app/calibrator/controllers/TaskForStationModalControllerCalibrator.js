@@ -1,10 +1,34 @@
 angular
     .module('employeeModule')
-    .controller('TaskForStationModalControllerCalibrator', ['$rootScope', '$scope', '$modal', '$modalInstance', 'VerificationPlanningTaskService', '$log',
-        function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log) {
+    .controller(
+    'TaskForStationModalControllerCalibrator',
+    [
+        '$rootScope',
+        '$scope',
+        '$modal',
+        '$modalInstance',
+        'VerificationPlanningTaskService',
+        '$log',
+        '$filter',
+        'verificationIDs',
+        'moduleType',
+        function ($rootScope, $scope, $modal, $modalInstance, verificationPlanningTaskService, $log, $filter,
+                verificationIDs, moduleType) {
 
             $scope.calibrationTask = {};
-            $scope.incorrectValue = false;
+            $scope.moduleNumbers = [];
+            $scope.noModulesAvailable = false;
+            $scope.calibrationTask.moduleType = moduleType;
+
+            /**
+             * Device types (application field) for the select dropdown
+             */
+            $scope.deviceTypeData = [
+                {id: 'WATER', label: $filter('translate')('WATER')},
+                {id: 'THERMAL', label: $filter('translate')('THERMAL')},
+                {id: 'ELECTRICAL', label: $filter('translate')('ELECTRICAL')},
+                {id: 'GASEOUS', label: $filter('translate')('GASEOUS')}
+            ];
 
             /**
              * Closes modal window on browser's back/forward button click.
@@ -16,11 +40,26 @@ angular
             /**
              * Closes edit modal window.
              */
-            $scope.closeModal = function () {
-                console.log("close modal window");
-                $modalInstance.close();
+            $scope.closeModal = function (close) {
+                $scope.resetTaskForm();
+                if (close === true) {
+                    $modalInstance.close();
+                } else {
+                    $modalInstance.dismiss();
+                }
             };
 
+            /**
+             * resets task form
+             */
+            $scope.resetTaskForm = function () {
+                $scope.$broadcast('show-errors-reset');
+                $scope.noModulesAvailable = false;
+                $scope.formTask.$submitted = false;
+                $scope.calibrationTask.taskDate = null;
+                $scope.calibrationTask.applicationField = null;
+                $scope.moduleNumbers = [];
+            };
 
             /**
              *  Date picker and formatter setup
@@ -29,38 +68,36 @@ angular
             $scope.firstCalendar = {};
             $scope.firstCalendar.isOpen = false;
 
+            /**
+             * sets date pickers options
+             * @type {{formatYear: string, startingDay: number, showWeeks: string}}
+             */
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false'
+            };
 
             /**
-             * open first date picker
+             * opens date picker
              * on the modal
              *
              * @param $event
              */
-            $scope.open1 = function ($event) {
+            $scope.open = function ($event) {
                 $event.preventDefault();
                 $event.stopPropagation();
                 $scope.firstCalendar.isOpen = true;
             };
 
             /**
-             * set date pickers options
-             * @type {{formatYear: string, startingDay: number, showWeeks: string}}
-             */
-            $scope.dateOptions = {
-                formatYear: 'yyyy',
-                startingDay: 1,
-                showWeeks: 'false',
-
-            };
-
-            /**
-             * set format of date picker date
+             * sets format of date picker date
              */
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
 
             /**
-             * Disable weekend selection
+             * Disables weekend selection
              *
              * @param date
              * @param mode
@@ -77,88 +114,54 @@ angular
             $scope.toggleMin();
             $scope.maxDate = new Date(2100, 5, 22);
 
-
-            $scope.clearDate1 = function () {
+            $scope.clearDate = function () {
                 $log.debug($scope.calibrationTask.taskDate);
+                $scope.noModulesAvailable = false;
                 $scope.calibrationTask.taskDate = null;
+                $scope.moduleNumbers = [];
             };
 
             /**
-             * reset task form
+             * makes asynchronous request to the server
+             * and receives the calibration modules info
              */
-            $scope.resetTaskForm = function () {
-                $scope.$broadcast('show-errors-reset');
-                $scope.calibrationTask = {};
-                $scope.incorrectValue = false;
-                $scope.calibrationTask.pickerDate = null;
-                $scope.installationNumberValidation = null;
-                $scope.floorValidation = null;
-                $scope.counterNumberValidation = null;
-                $scope.showSendingMessage = false;
-                $scope.modulesSerialNumbers = {};
+            $scope.receiveModuleNumbers = function() {
+                if ($scope.calibrationTask.taskDate && $scope.calibrationTask.applicationField) {
+                    var taskDate = $scope.calibrationTask.taskDate;
+                    var deviceType = $scope.calibrationTask.applicationField;
+                    var moduleType = $scope.calibrationTask.moduleType;
+                    verificationPlanningTaskService.getModules(moduleType, taskDate, deviceType)
+                        .then(function (result) {
+                            $log.debug(result);
+                            $scope.moduleNumbers = result.data;
+                            $scope.noModulesAvailable = $scope.moduleNumbers.length === 0;
+                        }, function (result) {
+                            $log.debug('error fetching data:', result);
+                        });
+                } else {
+                    $scope.noModulesAvailable = false;
+                    $scope.moduleNumbers = [];
+                }
             };
 
-            $scope.modulesSerialNumbers = {};
-
             /**
-             * make asynchronous request to the server
-             * and receive the stations info
-             */
-            $scope.receiveModuleNumbers = function(){
-                console.log($scope.calibrationTask.place + " " + $scope.calibrationTask.taskDate);
-                var place = $scope.calibrationTask.place;
-                var taskDate = $scope.calibrationTask.taskDate;
-                var applicationFiled = $scope.calibrationTask.applicationFiled;
-                verificationPlanningTaskService.getModuls(place, taskDate, applicationFiled)
-                    .then(function (result) {
-                        $log.debug(result);
-                        $scope.modulesSerialNumbers = result.data;
-                    }, function (result) {
-                        $log.debug('error fetching data:', result);
-                    });
-            }
-
-            /**
-             * send the task for station data
+             * sends the task for calibration module data
              * to the server to be saved in the database
              * if response status 200 opens success modal,
-             * else open error modal
+             * else opens error modal
              */
-            $scope.showSendingMessage = false;
-            $scope.save = function (){
-                if ($rootScope.emptyStatus == true) {
-                    $scope.showSendingMessage = true;
-                } else {
+            $scope.save = function () {
+                if ($scope.formTask.$valid) {
                     var calibrationTask = {
                         "taskDate": $scope.calibrationTask.taskDate,
-                        "serialNumber": $scope.calibrationTask.installationNumber,
-                        "verificationsId": $rootScope.verifIds
+                        "moduleNumber": $scope.calibrationTask.installationNumber,
+                        "verificationsId": verificationIDs
                     };
-                    console.log(calibrationTask);
-                    verificationPlanningTaskService.saveTask(calibrationTask).
-                        then(function (data) {
-                            if (data.status == 200) {
-                                $scope.closeModal();
-                                $rootScope.verifIds = [];
-                                $modal.open({
-                                    animation: true,
-                                    templateUrl: 'resources/app/calibrator/views/modals/task-add-success.html',
-                                    controllerAs: 'successController',
-                                    size: 'md'
-                               });
-                            } else if (data.status == 409) {
-                                $scope.incorrectValue = true;
-                                console.log($scope.incorrectValue);
-                                $scope.closeModal();
-                                $modal.open({
-                                    animation: true,
-                                    templateUrl: 'resources/app/calibrator/views/modals/task-adding-error.html',
-                                    size: 'md'
-                                });
-                            }
-                        });
+                    verificationPlanningTaskService.saveTask(calibrationTask).then(function (data) {
+                        if (data.status == 200) {
+                            $scope.closeModal(true);
+                        }
+                    });
                 }
-
             }
-
         }]);

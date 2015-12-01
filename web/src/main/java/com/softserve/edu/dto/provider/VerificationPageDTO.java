@@ -54,6 +54,7 @@ public class VerificationPageDTO {
     private String symbol;
     private String standardSize;
     private Integer yearIntroduction;
+    private Boolean dismantled;
 
     public VerificationPageDTO() {
     }
@@ -218,11 +219,13 @@ public class VerificationPageDTO {
 
 
     public VerificationPageDTO(String id, Date initialDate, String surname, String street, String region,
-                               Status status, Verification.ReadStatus readStatus, User providerEmployee, User calibratorEmployee, User stateVerificatorEmployee,
-                               String name, String fullName, String district, String locality, String phone, boolean isUpload, Integer processTimeExceeding,
+                               Status status, Verification.ReadStatus readStatus, User providerEmployee,
+                               User calibratorEmployee, User stateVerificatorEmployee,
+                               String name, String fullName, String district, String locality, String phone,
+                               boolean isUpload, Integer processTimeExceeding,
                                CalibrationTest calibrationTest,
                                Device device,
-                               String documentType, String documentDate,String address,String flat,String building) {
+                               String documentType, String documentDate,String address, String flat, String building) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -592,6 +595,14 @@ public class VerificationPageDTO {
 
     public void setYearIntroduction(Integer yearIntroduction) {
         this.yearIntroduction = yearIntroduction;
+    }
+
+    public Boolean getDismantled() {
+        return dismantled;
+    }
+
+    public void setDismantled(Boolean dismantled) {
+        this.dismantled = dismantled;
     }
 }
 

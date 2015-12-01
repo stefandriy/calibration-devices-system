@@ -9,6 +9,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
+/**
+ * Device Entity represents mose global essence then Counter Entity for Device Category or something like this.
+ */
 @Entity
 @Getter
 @Setter
