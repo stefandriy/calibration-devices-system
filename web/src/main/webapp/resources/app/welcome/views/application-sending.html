@@ -470,7 +470,7 @@
                                            ng-model="selectedValues.secondDeviceCount"
                                            search-enabled="false"
                                            name="secondDeviceCount"
-                                           id="counterNumber" required>
+                                           id="counterNumber">
                                     <ui-select-match placeholder="Кількість">
                                         {{$select.selected}}
                                     </ui-select-match>
@@ -485,7 +485,7 @@
                                            search-enabled="false"
                                            on-select="getProvidersByLocalityAndDeviceType(selectedValues.selectedLocality,selectedValues.secondSelectedDeviceType,'secondDeviceGroup')"
                                            id="secondSelectedDeviceType"
-                                           name="secondSelectedDeviceType" required>
+                                           name="secondSelectedDeviceType">
                                     <ui-select-match placeholder="Тип лічильника">
                                         {{$select.selected | translate}}
                                     </ui-select-match>
@@ -506,7 +506,7 @@
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedValues.secondSelectedProvider"
                                            search-enable="false"
-                                           name="secondDeviceProvider" required>
+                                           name="secondDeviceProvider">
                                     <ui-select-match placeholder="Провайдер">
                                         {{ $select.selected.designation}}
                                     </ui-select-match>
