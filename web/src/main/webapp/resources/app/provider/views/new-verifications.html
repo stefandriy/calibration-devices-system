@@ -48,8 +48,9 @@
                                         ng-class="{'unreadClass': verification.readStatus=='UNREAD'}">
                                         <script type="text/ng-template" id="ng-table/headers/checkbox.html">
                                             <input type="checkbox" ng-model="checkboxes.checked" id="select_all"
-                                                    name="filter-checkbox" value=""/>     </script>
-                                        <td header="'ng-table/headers/checkbox.html'">
+                                                   name="filter-checkbox" value=""
+                                                  />     </script>
+                                        <td header="'ng-table/headers/checkbox.html'"  ng-show="checkProviderEmployee()">
                                             <div>
                                                 <input type="checkbox" ng-model="checkboxes.items[verification.id]"
                                                        ng-click="resolveVerificationId(verification.id)"
@@ -85,7 +86,8 @@
                                             filter="{ 'street': 'text' }">{{ verification.street }}
                                         </td>
                                         <td data-title="'STATUS' | translate" sortable="'status'"
-                                            filter="{ 'status': 'status' }" width="200">{{ verification.status | translate }}
+                                            filter="{ 'status': 'status' }" width="200">{{ verification.status |
+                                            translate }}
                                         </td>
                                         <td data-title="'EMPLOYEE_SINGLE' | translate"
                                             sortable="'provider_employee_last_name'"
@@ -178,9 +180,11 @@
                                 </div>
                             </script>
                             <script type="text/ng-template" id="ng-table/filters/status.html">
-                                <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()' search-enabled="false"
+                                <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
+                                           search-enabled="false"
                                            name="filter-status">   
-                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" allow-clear="true">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                     allow-clear="true">
                                         {{$select.selected.label}}
                                     </ui-select-match>
                                     <ui-select-choices

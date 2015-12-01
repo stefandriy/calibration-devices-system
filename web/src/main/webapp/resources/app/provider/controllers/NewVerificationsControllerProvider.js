@@ -297,7 +297,19 @@ angular
             $scope.allIsEmpty = true;
             $scope.idsOfCalibrators = null;
 
+            $scope.checkProviderEmployee = function (){
+                console.log("i hate angular");
+                var resalt = false;
+                angular.forEach($scope.allVerifications, function (verification) {
 
+                    if (verification.providerEmployee) {
+
+                        resalt = true;
+                    }
+                });
+                console.log(resalt);
+                return resalt;
+            }
             $scope.checkboxes = {'checked': false, items: {}};
 
             // watch for check all checkbox
@@ -306,6 +318,7 @@ angular
                     if (angular.isDefined(verification.id)) {
                         $scope.checkboxes.items[verification.id] = value;
                         if (verification.providerEmployee) {
+
                             $scope.resolveVerificationId(verification.id);
 
                         }
