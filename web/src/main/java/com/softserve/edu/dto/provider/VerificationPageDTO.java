@@ -54,6 +54,7 @@ public class VerificationPageDTO {
     private String symbol;
     private String standardSize;
     private Integer yearIntroduction;
+    private Boolean dismantled;
 
     public VerificationPageDTO() {
     }
@@ -594,6 +595,14 @@ public class VerificationPageDTO {
 
     public void setYearIntroduction(Integer yearIntroduction) {
         this.yearIntroduction = yearIntroduction;
+    }
+
+    public Boolean getDismantled() {
+        return dismantled;
+    }
+
+    public void setDismantled(Boolean dismantled) {
+        this.dismantled = dismantled;
     }
 }
 
