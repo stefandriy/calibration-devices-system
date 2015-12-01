@@ -23,9 +23,9 @@ angular
 
             $scope.selectedValues = {};
             $scope.selectedValues.selectedStreetType = undefined;
-            $scope.selectedValues.secondDeviceCount = undefined;
+            $scope.selectedValues.secondDeviceCount = null;
             $scope.selectedValues.firstSelectedProvider = undefined;
-            $scope.selectedValues.secondSelectedProvider = undefined;
+            $scope.selectedValues.secondSelectedProvider = null;
 
             $scope.firstAplicationCodes = [];
             $scope.secondAplicationCodes = [];
@@ -326,9 +326,9 @@ angular
                 /**
                  * Check second device selection group
                  */
-                if (($scope.selectedValues.secondDeviceCount !== undefined)) {
-                    $scope.clientForm.secondDeviceCount.$invalid = false;
-                }
+                //if (($scope.selectedValues.secondDeviceCount !== undefined)) {
+                //    $scope.clientForm.secondDeviceCount.$invalid = false;
+                //}
 
 
 
