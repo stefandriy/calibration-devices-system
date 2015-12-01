@@ -103,24 +103,24 @@ public class OrganizationStageVerificationDTO {
 		this.calibratorName = (calibrator != null) ? calibrator.getName() : null;
 		this.comment = comment;
 
-		this.entrance = "" + info.getEntrance();
-		this.doorCode = "" + info.getDoorCode();
-		this.floor = "" + info.getFloor();
-		this.dateOfVerif = (info.getDateOfVerif() != null) ? info.getDateOfVerif().getTime() : null;
-		this.serviceability = info.getServiceability();
-		this.noWaterToDate = (info.getNoWaterToDate() != null) ? info.getNoWaterToDate().getTime() : null;
-		this.notes = info.getNotes();
-		this.time = info.getTimeFrom() + "-" + info.getTimeTo();
+		this.entrance = (info != null) ? "" + info.getEntrance() : null;
+		this.doorCode = (info != null) ? "" + info.getDoorCode() : null;
+		this.floor = (info != null) ? "" + info.getFloor() : null;
+		this.dateOfVerif = (info != null && info.getDateOfVerif() != null) ? info.getDateOfVerif().getTime() : null;
+		this.serviceability = (info != null) ? info.getServiceability() : null;
+		this.noWaterToDate = (info != null && info.getNoWaterToDate() != null) ? info.getNoWaterToDate().getTime() : null;
+		this.notes = (info != null) ? info.getNotes() : null;
+		this.time = (info != null) ? info.getTimeFrom() + "-" + info.getTimeTo() : null;
 
 		this.dismantled = dismantled;
 
-		this.dateOfDismantled = (counter.getDateOfDismantled() != null) ? counter.getDateOfDismantled().getTime() : null;
-		this.dateOfMounted = (counter.getDateOfMounted() != null) ? counter.getDateOfMounted().getTime() : null;
-		this.numberCounter = counter.getNumberCounter();
-		this.releaseYear = counter.getReleaseYear();
+		this.dateOfDismantled = ( counter != null && counter.getDateOfDismantled() != null) ? counter.getDateOfDismantled().getTime() : null;
+		this.dateOfMounted = (counter != null && counter.getDateOfMounted() != null) ? counter.getDateOfMounted().getTime() : null;
+		this.numberCounter = (counter != null) ? counter.getNumberCounter() : null;
+		this.releaseYear = (counter != null) ? counter.getReleaseYear() : null;
 
-		this.symbol = (counter.getCounterType() != null) ? counter.getCounterType().getSymbol() : null;
-		this.standardSize = (counter.getCounterType() != null) ? counter.getCounterType().getStandardSize() : null;
+		this.symbol = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getSymbol() : null;
+		this.standardSize = (counter != null && counter.getCounterType() != null) ? counter.getCounterType().getStandardSize() : null;
 	}
 
 	public String getFirstName() {
