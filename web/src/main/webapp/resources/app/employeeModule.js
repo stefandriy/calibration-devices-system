@@ -252,7 +252,6 @@
         'provider/controllers/CalendarEmployeeProvider',
         'provider/controllers/ArchivalDetailsModalController',
         'provider/controllers/EditEmployeeController',
-        'provider/controllers/checkboxController',
 
         'calibrator/controllers/TopNavBarControllerCalibrator',
         'calibrator/controllers/MainPanelControllerCalibrator',

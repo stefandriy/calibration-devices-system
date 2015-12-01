@@ -188,8 +188,9 @@ angular
                                 .success(function (result) {
 
                                     $scope.resultsCount = result.totalItems;
-                                    $defer.resolve(data = result.content);
+                                    $defer.resolve(result.content);
                                     params.total(result.totalItems);
+                                        $scope.allVerifications =result.content;
                                 }, function (result) {
                                     $log.debug('error fetching data:', result);
                                 });
@@ -296,23 +297,38 @@ angular
             $scope.allIsEmpty = true;
             $scope.idsOfCalibrators = null;
 
-         $scope.selectedAll = false;
 
-            $scope.checkAll = function () {
-                if ($scope.selectedAll) {
-                    $scope.selectedAll = true;
+            $scope.checkboxes = { 'checked': false, items: {} };
 
-                } else {
-                    $scope.selectedAll = false;
-                }
-                angular.forEach($scope.data, function (verification) {
-                    verification.selected = $scope.selectedAll;
-                    $scope.idsOfVerifications.push(id);
+            // watch for check all checkbox
+            $scope.$watch('checkboxes.checked', function(value) {
+                angular.forEach($scope.allVerifications, function(verification) {
+                    if (angular.isDefined(verification.id)) {
+                        $scope.checkboxes.items[verification.id] = value;
+                    }
                 });
-            };
+            });
 
+            // watch for data checkboxes
+            $scope.$watch('checkboxes.items', function(values) {
+                if (!$scope.allVerifications) {
+                    return;
+                }
+                var checked = 0, unchecked = 0,
+                    total = $scope.allVerifications.length;
+                angular.forEach($scope.allVerifications, function(verification) {
+                    checked   +=  ($scope.checkboxes.items[verification.id]) || 0;
+                    unchecked += (!$scope.checkboxes.items[verification.id]) || 0;
+                });
+                if ((unchecked == 0) || (checked == 0)) {
+                    $scope.checkboxes.checked = (checked == total);
+                }
+                // grayed checkbox
+                angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+            }, true);
+            $scope.resolveVerifications = function (id) {
 
-
+            }
 
             /**
              * push verification id to array
@@ -347,7 +363,7 @@ angular
                         size: 'md',
                         resolve: {
                             response: function () {
-                                return verificationServiceProvider.getCalibrators()
+                                return verificationServiceProvider.getVerificators()
                                     .success(function (calibrators) {
 
                                         return calibrators;

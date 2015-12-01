@@ -88,6 +88,15 @@ angular
             },
             getVerificationById: function (code) {
                 return getData('applications/verification/' + code);
+            },
+            getVerificators: function (url) {
+                var url = '/calibrator/protocols/verificators';
+                return $http.get(url)
+                    .success(function (data) {
+                        return data;
+                    }).error(function (err) {
+                        return err;
+                    });
             }
         };
 
