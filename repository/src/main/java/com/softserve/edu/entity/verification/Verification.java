@@ -154,7 +154,7 @@ public class Verification {
         this.info = info;
         this.dismantled = dismantled;
         this.counter = counter;
-        this.comment = this.comment + comment;
+        this.comment = (comment != null) ? this.comment + comment : this.comment + "";
     }
 
     public Verification(Date initialDate, Date expirationDate, ClientData clientData, Organization provider, Device device, Status status,
