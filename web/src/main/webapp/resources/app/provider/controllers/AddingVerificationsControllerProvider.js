@@ -39,10 +39,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.selectedData.selectedCount = '1';
         $scope.deviceCountOptions = [1, 2, 3, 4];
 
-        $scope.addInfo = [];
+        $scope.addInfo = {};
         $scope.addInfo.serviceability = false;
 
-        $scope.formData = [];
+        $scope.formData = {};
         $scope.formData.comment = "";
 
         /**
@@ -236,6 +236,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.save = function() {
             $scope.$broadcast('show-errors-check-validity');
             if($scope.clientForm.$valid) {
+
                 $scope.fillFormData();
 
                 verificationServiceProvider.saveVerification($scope.formData)
@@ -246,8 +247,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                         $scope.applicationCodes.push(applicationCode);
                     });
 
-            $scope.isShownForm = false;
-            $scope.isShownCode = true;
+                    $scope.isShownForm = false;
+                    $scope.isShownCode = true;
 
             }
         };
@@ -268,8 +269,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
             // COUNTER
             $scope.formData.dismantled = $scope.selectedData.dismantled;
-            $scope.formData.dateOfDismantled = (new Date($scope.selectedData.dateOfDismantled)).getTime();
-            $scope.formData.dateOfMounted = (new Date($scope.selectedData.dateOfMounted)).getTime();
+            $scope.formData.dateOfDismantled = ((new Date($scope.selectedData.dateOfDismantled)).getTime() !== 0) ?
+                (new Date($scope.selectedData.dateOfDismantled)).getTime() : null;
+            $scope.formData.dateOfMounted = ((new Date($scope.selectedData.dateOfMounted)).getTime() !== 0) ?
+                (new Date($scope.selectedData.dateOfMounted)).getTime() : null;
             $scope.formData.numberCounter = $scope.selectedData.numberCounter;
             if($scope.selectedData.counterSymbol) {
                 $scope.formData.symbol = $scope.selectedData.counterSymbol.symbol;
@@ -283,14 +286,16 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.entrance = $scope.addInfo.entrance;
             $scope.formData.doorCode = $scope.addInfo.doorCode;
             $scope.formData.floor = $scope.addInfo.floor;
-            $scope.formData.dateOfVerif = (new Date($scope.addInfo.dateOfVerif)).getTime();
+            $scope.formData.dateOfVerif = ((new Date($scope.addInfo.dateOfVerif)).getTime() !== 0) ?
+            (new Date($scope.addInfo.dateOfVerif)).getTime() : null;
             $scope.formData.time = $scope.addInfo.time;
             if($scope.addInfo.serviceability) {
                 $scope.formData.serviceability = $scope.addInfo.serviceability;
             } else {
                 $scope.formData.serviceability = false;
             }
-            $scope.formData.noWaterToDate = (new Date($scope.addInfo.noWaterToDate)).getTime();
+            $scope.formData.noWaterToDate = ((new Date($scope.addInfo.noWaterToDate)).getTime() !== 0) ?
+                (new Date($scope.addInfo.noWaterToDate)).getTime() : null;
             $scope.formData.notes = $scope.addInfo.notes;
         };
 
@@ -351,10 +356,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.entrance = $scope.verification.data.entrance;
                     $scope.addInfo.doorCode = $scope.verification.data.doorCode;
                     $scope.addInfo.floor = $scope.verification.data.floor;
-                    $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
+                    $scope.addInfo.dateOfVerif = ($scope.verification.data.dateOfVerif !== 0) ? $scope.verification.data.dateOfVerif : null;
 
                     $scope.addInfo.serviceability = $scope.verification.data.serviceability;
-                    $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
+                    $scope.addInfo.noWaterToDate = ($scope.verification.data.noWaterToDate !== 0) ? $scope.verification.data.noWaterToDate : null;
                     $scope.addInfo.notes = $scope.verification.data.notes;
 
                     $scope.selectedStreet = $scope.verification.data.street;
