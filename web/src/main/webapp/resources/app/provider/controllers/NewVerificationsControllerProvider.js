@@ -9,8 +9,8 @@ angular
              * this function return true if is StateVerificatorEmployee
              */
             $scope.isVerificatorEmployee = function () {
-                verificationServiceProvider.getIfEmployeeProvider().success(function(data){
-                    $scope.isEmployee =  data;
+                verificationServiceProvider.getIfEmployeeProvider().success(function (data) {
+                    $scope.isEmployee = data;
                 });
 
             };
@@ -177,7 +177,7 @@ angular
                             if ($scope.selectedStatus.name != null) {
                                 params.filter().status = $scope.selectedStatus.name.id;
                             }
-                            else{
+                            else {
                                 params.filter().status = null; //case when the filter is cleared with a button on the select
                             }
 
@@ -253,8 +253,8 @@ angular
             };
 
             /*function that determines if the tooltip is shown on disable checkbox*/
-            $scope.filterCells = function(employee){
-                return employee ? 'none' :  'mouseenter';
+            $scope.filterCells = function (employee) {
+                return employee ? 'none' : 'mouseenter';
             };
 
             $scope.addProviderEmployee = function (verifId, providerEmployee) {
@@ -297,13 +297,10 @@ angular
             $scope.allIsEmpty = true;
             $scope.idsOfCalibrators = null;
 
-            $scope.checkProviderEmployee = function (){
-                console.log("i hate angular");
+            $scope.checkProviderEmployee = function () {
                 var resalt = false;
                 angular.forEach($scope.allVerifications, function (verification) {
-
                     if (verification.providerEmployee) {
-
                         resalt = true;
                     }
                 });
