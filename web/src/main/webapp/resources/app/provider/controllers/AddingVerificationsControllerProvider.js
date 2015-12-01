@@ -356,10 +356,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.entrance = $scope.verification.data.entrance;
                     $scope.addInfo.doorCode = $scope.verification.data.doorCode;
                     $scope.addInfo.floor = $scope.verification.data.floor;
-                    $scope.addInfo.dateOfVerif = ($scope.verification.data.dateOfVerif !== 0) ? $scope.verification.data.dateOfVerif : null;
+                    $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
 
                     $scope.addInfo.serviceability = $scope.verification.data.serviceability;
-                    $scope.addInfo.noWaterToDate = ($scope.verification.data.noWaterToDate !== 0) ? $scope.verification.data.noWaterToDate : null;
+                    $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;
 
                     $scope.selectedStreet = $scope.verification.data.street;
