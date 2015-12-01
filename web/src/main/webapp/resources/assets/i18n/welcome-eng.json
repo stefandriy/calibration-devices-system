@@ -586,5 +586,8 @@
   "RAW":"Raw",
   "Device_Water":"Cold water",
   "Device_Termal":"Hot water",
-  "SELECT_VERIFICATION_PROTOCOL": "Please select verification protocol"
+  "SELECT_VERIFICATION_PROTOCOL": "Please select verification protocol",
+  "PROTOCOL_REJECTING_SUCCESS": "Verification protocol(s) rejected",
+  "PROTOCOL_SENDING_SUCCESS": "Verification protocol(s) sent",
+  "OK": "Ok"
 }
