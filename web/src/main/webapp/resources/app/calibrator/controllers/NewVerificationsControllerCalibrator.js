@@ -7,6 +7,24 @@ angular
 
             $scope.resultsCount = 0;
 
+            $scope.searchParameters = [
+                {
+                    name: 'NEW_VERIFICATIONS',
+                    key:'aaaa',
+                    type: 'Date'
+                },
+                {
+                    name: 'UPLOAD_ARCHIVE',
+                    key: 'b',
+                    type: 'String'
+                },
+                {
+                    name: 'VERIFS_FOUND',
+                    key:'valuesTest',
+                    type:'Enumeration',
+                    value:['aa','bbb','ccc']
+                }];
+            $scope.globalSearchParams=[];
 
             /**
              * this function return true if is StateVerificatorEmployee

@@ -168,7 +168,7 @@ public class Filter implements Specification {
     }
 
     private Predicate buildEqualsPredicateToCriteria(Condition condition, Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        if(condition.type==(Type.enumerated)){
+        if(condition.type==Type.enumerated){
             return criteriaBuilder.equal(root.get(condition.field).as(String.class), condition.value.toString());
         }else if(condition.type==Type.bool){
             return criteriaBuilder.equal(root.get(condition.field),Boolean.parseBoolean(condition.value.toString()));
