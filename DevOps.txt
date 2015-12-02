@@ -1,0 +1,59 @@
+------------- PROJECT -------------
+Uncomment proper data for target OS(Windows or Unix) in the file:
+/service/src/main/resources/properties/mail.properties
+
+Uncomment proper data for target DB(MySQL or MariaDB) in the file:
+/repository/src/main/resources/database.properties
+
+
+
+------------- TOMCAT --------------
+May arise problems with requests encoding.
+This can be fixed by adding to /tomcat/conf/server.xml URIEncoding parameter:
+
+    <Connector port="8080" maxHttpHeaderSize="8192"
+    maxThreads="150" minSpareThreads="25" maxSpareThreads="100"
+    enableLookups="false" redirectPort="8443" acceptCount="100"
+    connectionTimeout="20000" disableUploadTimeout="true"
+    compression="on"
+    compressionMinSize="128"
+    noCompressionUserAgents="godzilla, traviata"
+    compressableMimeType="text/html,text/xml,text/plain,text/css,
+    text/javascript,application/x-javascript,application/javascript"
+    URIEncoder="UTF-8"
+    <!-- -------Add this-------- -->
+    URIEncoding="UTF-8"
+    />
+
+
+
+------------- MYSQL ---------------
+CREATE DATABASE measurement_devices DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;
+USE measurement_devices;
+set character_set_client=utf8;
+set character_set_connection=utf8;
+set character_set_database=utf8;
+set character_set_filesystem=binary;
+set character_set_results=utf8;
+set character_set_server=utf8;
+set character_set_system=utf8;
+set collation_connection=utf8_general_ci;
+set collation_database=utf8_general_ci;
+set collation_server=utf8_general_ci;
+
+-- AFTER LAUNCHING THE APPLICATION AND CREATING THE TABLES --
+USE measurement_devices;
+source database_script.sql;
+
+
+
+------------- JENKINS -------------
+Jenkins steps:
+1. Pre steps:
+   - change file mail.properties to proper which already exists on server in /mail.properties
+   - execute installation of frontend dependencies: bower install --allow-root
+   - drop and create database
+2. Build.
+3. Post-build steps:
+   - deploy target *.war file to remote tomcat server java.training.local:8080
+   - after successful deploy run database_script.sql to populate database
