@@ -136,6 +136,12 @@ public class CalibratorVerificationController {
                 searchData.getLocality(),
                 searchData.getStatus(),
                 searchData.getEmployee_last_name(),
+                searchData.getStandardSize(),
+                searchData.getSymbol(),
+                searchData.getNameProvider(),
+                searchData.getRealiseYear(),
+                searchData.getDismantled(),
+                searchData.getBuilding(),
                 sortCriteria, sortOrder, calibratorEmployee);
         List<VerificationPageDTO> content = VerificationPageDTOTransformer.toDtoFromList(queryResult.getContent());
         return new PageDTO<>(queryResult.getTotalItems(), content);

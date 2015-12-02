@@ -75,10 +75,16 @@ public class NewVerificationsQueryConstructorCalibratorTest {
     private String sortCriteria = null;
     private String sortOrder = null;
     private String employeeSearchName = null;
+    private String standardSize = null;
+    private String symbol = null;
+    private String nameProvider = null;
+    private String  realiseYear = null;
     private String methodJoinArg = "calibrator";
     private String userName = "username";
     private UserRole userRole = UserRole.CALIBRATOR_EMPLOYEE;
     private Set<UserRole> roles = new TreeSet<>();
+    private String dismantled = null;
+    private String building =null;
 
     // endregion
 
@@ -116,7 +122,7 @@ public class NewVerificationsQueryConstructorCalibratorTest {
         CriteriaQuery<Verification> actual = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(
                 providerId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch,
                 streetToSearch, region, district, locality, status,
-                calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em);
+                calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled,  building, sortCriteria, sortOrder, employeeSearchName, em);
 
         verify(em.getCriteriaBuilder().createQuery(Verification.class)).from(Verification.class);
         verify(criteriaQuery).from(Verification.class);
@@ -136,7 +142,7 @@ public class NewVerificationsQueryConstructorCalibratorTest {
         CriteriaQuery<Verification> actual = NewVerificationsQueryConstructorCalibrator.buildSearchQuery(
                 providerId, startDateToSearch, endDateToSearch, idToSearch, fullNameToSearch,
                 streetToSearch, region, district, locality, status,
-                calibratorEmployee, sortCriteria, sortOrder, employeeSearchName, em);
+                calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled,  building, sortCriteria, sortOrder, employeeSearchName, em);
 
         verify(em.getCriteriaBuilder().createQuery(Verification.class)).from(Verification.class);
         verify(criteriaQuery).from(Verification.class);
@@ -159,7 +165,7 @@ public class NewVerificationsQueryConstructorCalibratorTest {
         CriteriaQuery<Long> actual = NewVerificationsQueryConstructorCalibrator.buildCountQuery(
                 calibratorId, startDateToSearch, endDateToSearch, idToSearch,
                 fullNameToSearch, streetToSearch, region, district,
-                locality, status, calibratorEmployee, employeeSearchName, em);
+                locality, status, calibratorEmployee, standardSize, symbol, nameProvider, realiseYear, dismantled, building, employeeSearchName, em);
 
         verify(em.getCriteriaBuilder().createQuery(Long.class), atLeastOnce()).from(Verification.class);
         verify(cb, atLeastOnce()).createQuery(Long.class);
@@ -183,7 +189,7 @@ public class NewVerificationsQueryConstructorCalibratorTest {
             NewVerificationsQueryConstructorCalibrator.buildCountQuery(
                     calibratorId, startDateToSearch, endDateToSearch, idToSearch,
                     fullNameToSearch, streetToSearch, region, district,
-                    locality, status, calibratorEmployee, employeeSearchName, em);
+                    locality, status, calibratorEmployee, symbol, nameProvider, realiseYear, dismantled, building, standardSize, employeeSearchName, em);
             actual = true;
         } catch (Exception ex) { // TODO: Exception handling should be written
             actual = false;

@@ -69,6 +69,28 @@ angular
 
             $scope.setTypeDataLanguage();
 
+            $scope.statusDismantled = [
+                {id: 'True', label: null},
+                {id: 'False', label: null}
+            ];
+
+            $scope.selectedDismantled  = {
+                name: $scope.statusDismantled[0]
+            };
+
+            $scope.setTypeDataL = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.statusDismantled[0].label = 'Так';
+                    $scope.statusDismantled[1].label = 'Ні';
+                } else if (lang === 'eng') {
+                    $scope.statusDismantled[0].label = 'True';
+                    $scope.statusDismantled[1].label = 'False';
+                }
+            };
+
+            $scope.setTypeDataL();
+
 
             $scope.myDatePicker = {};
             $scope.myDatePicker.pickerDate = null;
@@ -158,10 +180,15 @@ angular
                         if ($scope.selectedStatus.name != null) {
                             params.filter().status = $scope.selectedStatus.name.id;
                         }
-                        else{
+                        else {
                             params.filter().status = null; //case when the filter is cleared with a button on the select
                         }
-
+                        if ($scope.selectedDismantled.name != null) {
+                            params.filter().dismantled = $scope.selectedDismantled.name.id;
+                        }
+                        else {
+                            params.filter().dismantled = null;
+                        }
                         params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                         params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
 
