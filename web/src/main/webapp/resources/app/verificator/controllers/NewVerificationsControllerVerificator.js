@@ -208,10 +208,26 @@ angular
 
                         verificationServiceVerificator
                             .rejectTestToCalibrator(dataToSend)
-                            .success(function () {
+                            .then(function (status) {
                                 $log.debug('success sending');
                                 $scope.tableParams.reload();
                                 $rootScope.$broadcast('verification-sent-to-calibrator');
+                                if (status.status == 201) {
+                                    $rootScope.onTableHandling();
+                                }
+                                if(status.status==200){
+                                    $modal.open({
+                                        animation: true,
+                                        templateUrl: 'resources/app/verificator/views/modals/rejecting-success.html',
+                                        controller: function ($modalInstance) {
+                                            this.ok = function () {
+                                                $modalInstance.close();
+                                            }
+                                        },
+                                        controllerAs: 'successController',
+                                        size: 'md'
+                                    });
+                                }
                             });
 
                         $scope.idsOfVerifications = [];
@@ -225,17 +241,31 @@ angular
 
             $scope.openSendingModal = function () {
                 if (!$scope.allIsEmpty) {
-
                     {
-
                         var dataToSend = {
-                            idsOfVerifications: $scope.idsOfVerifications,
+                            idsOfVerifications: $scope.idsOfVerifications
                         };
 
                         $log.info(dataToSend);
                         verificationServiceVerificator
                             .sendVerificationsToProvider(dataToSend)
-                            .success(function () {
+                            .then(function (status) {
+                                if (status.status == 201) {
+                                    $rootScope.onTableHandling();
+                                }
+                                if(status.status==200){
+                                    $modal.open({
+                                        animation: true,
+                                        templateUrl: 'resources/app/verificator/views/modals/sending-success.html',
+                                        controller: function ($modalInstance) {
+                                            this.ok = function () {
+                                                $modalInstance.close();
+                                            }
+                                        },
+                                        controllerAs: 'successController',
+                                        size: 'md'
+                                    });
+                                }
                                 $scope.tableParams.reload();
                                 $rootScope.$broadcast('verification-sent-to-provider');
                             });

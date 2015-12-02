@@ -10,13 +10,18 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
+import com.softserve.edu.service.tool.impl.MailServiceImpl;
+import com.softserve.edu.service.utils.ZipArchiver;
+import com.softserve.edu.service.utils.export.DbfTableExporter;
+import com.softserve.edu.service.utils.export.XlsTableExporter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -47,14 +52,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     /**
      * This method saves new task for the station. It checks if counter
      * statuses for the verifications are the same, if not
-     * @throws IllegalArgumentException(). Also it checks if calibration module
-     * device type is the same as device type of the verification, if not
-     * method @throws IllegalArgumentException().
      *
      * @param taskDate
      * @param moduleNumber
      * @param verificationsId
      * @param userId
+     * @throws IllegalArgumentException(). Also it checks if calibration module
+     *                                     device type is the same as device type of the verification, if not
+     *                                     method @throws IllegalArgumentException().
      */
     @Override
     public void addNewTaskForStation(Date taskDate, String moduleNumber, List<String> verificationsId, String userId) {
@@ -77,20 +82,22 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 }*/
         }
         User user = userRepository.findOne(userId);
-        taskRepository.save(new CalibrationTask(module, null, new Date(), taskDate, user, verifications));
+        CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, user, verifications);
+        taskRepository.save(task);
+        sendTaskToStation(task);
     }
 
     /**
      * This method save new task for the team. It checks if counter
      * statuses for the verifications are the same, if not
-     * @throws IllegalArgumentException(). Also it checks if station
-     * device type is is as device type of the verification, if not
-     * method @throws IllegalArgumentException().
      *
      * @param taskDate
      * @param serialNumber
      * @param verificationsId
      * @param userId
+     * @throws IllegalArgumentException(). Also it checks if station
+     *                                     device type is is as device type of the verification, if not
+     *                                     method @throws IllegalArgumentException().
      */
     @Override
     public void addNewTaskForTeam(Date taskDate, String serialNumber, List<String> verificationsId, String userId) {
@@ -104,11 +111,11 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             if (verification == null) {
                 logger.error("verification haven't found");
             } else {
-                if (i==0){
+                if (i == 0) {
                     counterStatus = verification.isCounterStatus();
                 }
                 if (counterStatus == verification.isCounterStatus()) {
-                    if (team.getSpecialization()==verification.getDevice().getDeviceType()){
+                    if (team.getSpecialization() == verification.getDevice().getDeviceType()) {
                         verification.setTaskStatus(Status.TASK_PLANED);
                         verificationRepository.save(verification);
                         verifications.add(verification);
@@ -139,8 +146,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      */
     @Override
     public int findVerificationsByCalibratorEmployeeAndTaskStatusCount(String userName) {
-        User user  = userRepository.findOne(userName);
-        if (user == null){
+        User user = userRepository.findOne(userName);
+        if (user == null) {
             logger.error("Cannot found user!");
         }
         Set<UserRole> roles = user.getUserRoles();
@@ -162,6 +169,8 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @param id
      * @param pageNumber
      * @param itemsPerPage
+     * @param sortCriteria
+     * @param sortOrder
      * @return Page<Verification>
      */
     @Override
@@ -169,80 +178,51 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                                                               String sortCriteria, String sortOrder) {
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                 "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-        if (sortCriteria.equals("date"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        if (sortCriteria.equals("date")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "sentToCalibratorDate"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "sentToCalibratorDate"));
             }
-        } else
-        if (sortCriteria.equals("client_last_name"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("client_last_name")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "clientData.lastName", "clientData.firstName"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "clientData.lastName", "clientData.firstName"));
             }
-        } else
-        if (sortCriteria.equals("providerName"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("providerName")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "provider.name"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "provider.name"));
             }
-        } else
-        if (sortCriteria.equals("dateOfVerif") || sortCriteria.equals("timeOfVerif"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("dateOfVerif") || sortCriteria.equals("timeOfVerif")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "info.dateOfVerif", "info.timeFrom"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "info.dateOfVerif", "info.timeFrom"));
             }
-        } else
-        if (sortCriteria.equals("noWaterToDate"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("noWaterToDate")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "info.noWaterToDate"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "info.noWaterToDate"));
             }
-        } else
-        if (sortCriteria.equals("district") || sortCriteria.equals("street") || sortCriteria.equals("building_flat"))
-        {
-            if (sortOrder.equals("asc"))
-            {
+        } else if (sortCriteria.equals("district") || sortCriteria.equals("street") || sortCriteria.equals("building_flat")) {
+            if (sortOrder.equals("asc")) {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
                         "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
-            }
-            else
-            {
+            } else {
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
             }
@@ -252,14 +232,16 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
 
     /**
-     *  This method returns page of verifications with
-     *  status planning task filtered by calibrator id,
-     *  and sorted by client address. If user has role
-     *  admin it calls method findByTaskStatusAndCalibratorId()
+     * This method returns page of verifications with
+     * status planning task filtered by calibrator id,
+     * and sorted by client address. If user has role
+     * admin it calls method findByTaskStatusAndCalibratorId()
      *
      * @param userName
      * @param pageNumber
      * @param itemsPerPage
+     * @param sortCriteria
+     * @param sortOrder
      * @return Page<Verification>
      * @throws NullPointerException();
      */
@@ -267,7 +249,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     public Page<Verification> findVerificationsByCalibratorEmployeeAndTaskStatus(String userName, int pageNumber,
                                                                                  int itemsPerPage, String sortCriteria,
                                                                                  String sortOrder) {
-        User user  = userRepository.findOne(userName);
+        User user = userRepository.findOne(userName);
         if (user == null) {
             logger.error("Cannot found user!");
             throw new NullPointerException();
@@ -276,7 +258,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         for (UserRole role : roles) {
             if (role.equals(UserRole.CALIBRATOR_ADMIN)) {
                 return findByTaskStatusAndCalibratorId(user.getOrganization().getId(), pageNumber, itemsPerPage
-                        ,sortCriteria, sortOrder);
+                        , sortCriteria, sortOrder);
             }
         }
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
@@ -295,15 +277,245 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     @Override
     public List<CounterType> findSymbolsAndSizes(String verifId) {
         Verification verification = verificationRepository.findOne(verifId);
-        if (verification == null){
+        if (verification == null) {
             logger.error("Cannot found verification!");
             throw new NullPointerException();
         }
         List<CounterType> counterTypes = counterTypeRepository.findByDeviceId(verification.getDevice().getId());
-        if (counterTypes == null){
+        if (counterTypes == null) {
             logger.error("Cannot found counter types for verification!");
             throw new NullPointerException();
         }
         return counterTypes;
+    }
+
+    private void sendTaskToStation(CalibrationTask calibrationTask) {
+        Verification[] verifications = calibrationTask
+                .getVerifications()
+                .toArray(new Verification[calibrationTask.getVerifications().size()]);
+
+        Map<String, List<String>> dataForXls = getDataForXls(verifications);
+        XlsTableExporter xlsTableExporter = new XlsTableExporter();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
+                calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
+
+        File tempFolder = new File("temp");
+        tempFolder.setWritable(true);
+        tempFolder.setExecutable(true);
+        tempFolder.setReadable(true);
+        tempFolder.mkdirs();
+
+        File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".xls");
+        File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".dbf");
+        File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".zip");
+
+        try {
+            boolean xlsSuccess;
+            try {
+                xlsTableExporter.export(dataForXls, xlsFile);
+                xlsSuccess = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                xlsSuccess = false;
+            }
+
+            Map<String, List<String>> dataForDbf = getDataForDbf(verifications);
+            DbfTableExporter dbfTableExporter = new DbfTableExporter();
+
+            boolean dbfSuccess;
+            try {
+                dbfTableExporter.export(dataForDbf, dbfFile);
+                dbfSuccess = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                dbfSuccess = false;
+            }
+
+            boolean zipSuccess = false;
+            if (xlsSuccess && dbfSuccess) {
+                try {
+                    ZipArchiver zip = new ZipArchiver();
+                    List<File> sources = new ArrayList<>();
+                    sources.add(xlsFile);
+                    sources.add(dbfFile);
+
+                    zip.createZip(zipFile, sources);
+                    zipSuccess = true;
+                } catch (Exception e) {
+                    zipSuccess = false;
+                }
+            }
+
+            if (xlsSuccess && dbfSuccess && zipSuccess && zipFile != null) {
+                MailServiceImpl mailService = new MailServiceImpl();
+                mailService.sendMailWithAttachment(calibrationTask.getModule().getEmail(), "Завдання", "", zipFile);
+                // TODO: Fix problems with sending mail
+            }
+        } finally {
+            xlsFile.delete();
+            dbfFile.delete();
+            zipFile.delete();
+        }
+    }
+
+    private Map<String, List<String>> getDataForXls(Verification[] verifications) {
+        Map<String, List<String>> data = new LinkedHashMap<>();
+
+        // region Define lists
+
+        // Дата завдання
+        List<String> taskDate = new ArrayList<>();
+        // Провайдер
+        List<String> provider = new ArrayList<>();
+        // Район
+        List<String> district = new ArrayList<>();
+        // Адреса
+        List<String> address = new ArrayList<>();
+        // Будинок
+        List<String> building = new ArrayList<>();
+        // Квартира
+        List<String> flat = new ArrayList<>();
+        // Під'їзд
+        List<String> entrance = new ArrayList<>();
+        // Поверх
+        List<String> floor = new ArrayList<>();
+        // К-ть лічильників
+        List<String> countersNumber = new ArrayList<>();
+        // ПІБ
+        List<String> fullName = new ArrayList<>();
+        // Телефон
+        List<String> telephone = new ArrayList<>();
+        // Бажаний час
+        List<String> time = new ArrayList<>();
+        // Примітка
+        List<String> comment = new ArrayList<>();
+
+        // endregion
+
+        // region Fill lists
+
+        for (Verification verification : verifications) {
+            taskDate.add(verification.getExpirationDate().toString());
+            provider.add(verification.getProvider().getName());
+            district.add(verification.getClientData().getClientAddress().getDistrict());
+            address.add(verification.getClientData().getClientAddress().getAddress());
+            building.add(verification.getClientData().getClientAddress().getBuilding());
+            flat.add(verification.getClientData().getClientAddress().getFlat());
+            entrance.add(String.valueOf(verification.getInfo().getEntrance()));
+            floor.add(String.valueOf(verification.getInfo().getFloor()));
+            countersNumber.add(String.valueOf(0));
+            fullName.add(verification.getClientData().getFullName());
+            telephone.add(verification.getClientData().getPhone());
+            time.add(verification.getProcessTimeExceeding().toString());
+            comment.add(verification.getComment());
+        }
+
+        // endregion
+
+        // region Fill map
+
+        data.put("Дата завдання", taskDate);
+        data.put("Провайдер", provider);
+        data.put("Район", district);
+        data.put("Адреса", address);
+        data.put("Будинок", building);
+        data.put("Квартира", flat);
+        data.put("Під'їзд", entrance);
+        data.put("Поверх", floor);
+        data.put("К-ть лічильників", countersNumber);
+        data.put("ПІБ", fullName);
+        data.put("Телефон", telephone);
+        data.put("Бажаний час", time);
+        data.put("Примітка", comment);
+
+        // endregion
+
+        return data;
+    }
+
+    private Map<String, List<String>> getDataForDbf(Verification[] verifications) {
+        Map<String, List<String>> data = new LinkedHashMap<>();
+
+        // region Define lists
+
+        // Ідентифікатор заявки
+        List<String> id = new ArrayList<>();
+        // Прізвище абонента
+        List<String> surname = new ArrayList<>();
+        // Ім'я абонента
+        List<String> name = new ArrayList<>();
+        // По-батькові абонента
+        List<String> middle = new ArrayList<>();
+        // Місто
+        List<String> city = new ArrayList<>();
+        // Район
+        List<String> district = new ArrayList<>();
+        // Сектор
+        List<String> sector = new ArrayList<>();
+        // Вулиця
+        List<String> street = new ArrayList<>();
+        // Номер будинку
+        List<String> building = new ArrayList<>();
+        // Номер квартири
+        List<String> flat = new ArrayList<>();
+        // Телефон
+        List<String> telephone = new ArrayList<>();
+        // Бажана дата та час перевірки
+        List<String> datetime = new ArrayList<>();
+        // Номер лічильника
+        List<String> counterNumber = new ArrayList<>();
+        // Коментар
+        List<String> comment = new ArrayList<>();
+        // Замовник
+        List<String> customer = new ArrayList<>();
+
+        // endregion
+
+        // region Fill lists
+
+        for (Verification verification : verifications) {
+            id.add(verification.getId());
+            surname.add(verification.getClientData().getLastName());
+            name.add(verification.getClientData().getFirstName());
+            middle.add(verification.getClientData().getMiddleName());
+            city.add(verification.getClientData().getClientAddress().getLocality());
+            district.add(verification.getClientData().getClientAddress().getDistrict());
+            sector.add(verification.getClientData().getClientAddress().getRegion());
+            street.add(verification.getClientData().getClientAddress().getStreet());
+            building.add(verification.getClientData().getClientAddress().getBuilding());
+            flat.add(verification.getClientData().getClientAddress().getFlat());
+            telephone.add(verification.getClientData().getPhone());
+            datetime.add(verification.getExpirationDate().toString());
+            counterNumber.add(verification.getDevice().getNumber());
+            comment.add(verification.getComment());
+            customer.add(verification.getCalibratorEmployee().getUsername());
+        }
+
+        // endregion
+
+        // region Fill map
+
+        data.put("ID заявки", id);
+        data.put("Прізвище", surname);
+        data.put("Ім'я", name);
+        data.put("По-батьков", middle);
+        data.put("Місто", city);
+        data.put("Район", district);
+        data.put("Сектор", sector);
+        data.put("Вулиця", street);
+        data.put("Будинок", building);
+        data.put("Квартира", flat);
+        data.put("Телефон", telephone);
+        data.put("Дата/час", datetime);
+        data.put("Лічильник", counterNumber);
+        data.put("Примітка", comment);
+        data.put("Замовник", customer);
+
+        // endregion
+
+        return data;
     }
 }

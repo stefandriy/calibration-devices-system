@@ -53,7 +53,7 @@ public class VerificationPageDTO {
     private String flat;
     private String symbol;
     private String standardSize;
-    private Integer yearIntroduction;
+    private Integer realiseYear;
     private Boolean dismantled;
 
     public VerificationPageDTO() {
@@ -225,7 +225,7 @@ public class VerificationPageDTO {
                                boolean isUpload, Integer processTimeExceeding,
                                CalibrationTest calibrationTest,
                                Device device,
-                               String documentType, String documentDate,String address, String flat, String building) {
+                               String documentType, String documentDate,String address, String building,String flat) {
 
         this.id = id;
         this.initialDate = initialDate;
@@ -236,8 +236,8 @@ public class VerificationPageDTO {
         this.status = status;
         this.readStatus = readStatus;
         this.address=address;
-        this.setFlat(flat);
-        this.setBuilding(building);
+        this.building =building;
+        this.flat =flat;
         if (providerEmployee != null) {
             if (providerEmployee.getMiddleName() != null) {
                 this.providerEmployee = providerEmployee.getLastName() + " " + providerEmployee.getFirstName() + " " + providerEmployee.getMiddleName();
@@ -589,12 +589,12 @@ public class VerificationPageDTO {
     }
 
 
-    public Integer getYearIntroduction() {
-        return yearIntroduction;
+    public Integer getRealiseYear() {
+        return realiseYear;
     }
 
-    public void setYearIntroduction(Integer yearIntroduction) {
-        this.yearIntroduction = yearIntroduction;
+    public void setRealiseYear(Integer realiseYear) {
+        this.realiseYear = realiseYear;
     }
 
     public Boolean getDismantled() {

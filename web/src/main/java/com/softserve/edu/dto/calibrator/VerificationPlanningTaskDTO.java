@@ -52,30 +52,21 @@ public class VerificationPlanningTaskDTO {
         this.serviceability = serviceability;
         this.sealPresence = sealPresence;
 
-        if ((timeFrom != null) || (timeTo != null))
-        {
+        if ((timeFrom != null) || (timeTo != null)) {
             this.time = timeFrom.toString() + " - " + timeTo.toString();
-        }
-        else
-        {
+        } else {
             this.time = null;
         }
 
-        if ((flat != null) && !flat.isEmpty())
-        {
+        if ((flat != null) && !flat.isEmpty()) {
             this.building_flat = building + ", " + flat;
-        }
-        else
-        {
+        } else {
             this.building_flat = building;
         }
 
-        if ((secondphone != null) && !secondphone.isEmpty())
-        {
+        if ((secondphone != null) && !secondphone.isEmpty()) {
             this.phone = telephone+", "+secondphone;
-        }
-        else
-        {
+        } else {
             this.phone = telephone;
         }
 

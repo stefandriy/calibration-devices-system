@@ -53,16 +53,16 @@ public class VerificationPageDTOTransformer {
             if(verification.getProvider()!=null){verificationPageDTO.setNameProvider(verification.getProvider().getName());}
             if(verification.getCalibrator()!=null){verificationPageDTO.setNameCalibrator(verification.getCalibrator().getName());}
             Set<CounterType> set =(verification.getDevice().getCounterTypeSet());
-            if(verification.getCounter()!=null){
+            if(verification.getCounter()!=null && verification.getCounter().getCounterType() != null){
                 verificationPageDTO.setSymbol(verification.getCounter().getCounterType().getSymbol());
                 verificationPageDTO.setStandardSize(verification.getCounter().getCounterType().getStandardSize());
-                verificationPageDTO.setYearIntroduction(verification.getCounter().getCounterType().getYearIntroduction());
+                verificationPageDTO.setRealiseYear(Integer.valueOf(verification.getCounter().getReleaseYear()));
                 verificationPageDTO.setDismantled(verification.getDismantled());
             }else if(set!=null) {
                 List<CounterType> listCounterType = new ArrayList<>(set);
                 verificationPageDTO.setSymbol(listCounterType.get(0).getSymbol());
                 verificationPageDTO.setStandardSize(listCounterType.get(0).getStandardSize());
-                verificationPageDTO.setYearIntroduction(listCounterType.get(0).getYearIntroduction());
+                verificationPageDTO.setRealiseYear(listCounterType.get(0).getYearIntroduction());
                 verificationPageDTO.setDismantled(verification.getDismantled());
             }
             resultList.add(verificationPageDTO);

@@ -10,7 +10,7 @@ angular
                 return save('task/team/save', task);
            },
            getVerificationsByCalibratorEmployeeAndTaskStatus: function (pageNumber, itemsPerPage, search, sortCriteria, sortOrder) {
-                return getData('task/findAll/' + pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+                return getDataWithParams('task/findAll/' + pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
            },
            getModules: function (place, pickerDate, applicationFiled) {
                 return getData('task/findAllModules/' + place + '/' + pickerDate + '/' + applicationFiled);
@@ -39,6 +39,16 @@ angular
         function getData (url) {
             return $http.get(url)
             .success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
+        }
+
+        function getDataWithParams(url, params) {
+            return $http.get(url, {
+                params: params
+            }).success(function (data) {
                 return data;
             }).error(function (err) {
                 return err;
