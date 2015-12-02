@@ -14,6 +14,7 @@ import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.admin.OrganizationService;
 import com.softserve.edu.service.calibrator.CalibratorDisassemblyTeamService;
@@ -23,6 +24,9 @@ import com.softserve.edu.service.verification.VerificationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -57,6 +61,32 @@ public class CalibratorPlanningTaskController {
 
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
+    /**
+     * Return page of calibration module according to filters and sort order
+     *
+     * @param pageNumber   number of page to return
+     * @param itemsPerPage count of items on page
+     * @param sortCriteria sorting criteria
+     * @param sortOrder    order of sorting
+     * @return sorted and filtered page of calibration tasks
+     */
+    @RequestMapping(value = "/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
+    public PageDTO<CalibrationTaskDTO> getSortedAndFilteredPageOfCalibrationTasks(@PathVariable Integer pageNumber,
+                                        @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
+                                        @PathVariable String sortOrder) {
+        Sort sort = new Sort(Sort.Direction.valueOf(sortOrder.toUpperCase()), sortCriteria);
+        Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
+        // fetching data from database, receiving a sorted and filtered page of calibration tasks
+        Page<CalibrationTask> queryResult = taskService.findAllCalibrationTasks(pageable);
+        List<CalibrationTaskDTO> content = new ArrayList<CalibrationTaskDTO>();
+        // converting Page of CalibrationTasks to List of CalibrationTaskDTOs
+        for (CalibrationTask task : queryResult) {
+            content.add(new CalibrationTaskDTO(task.getModule().getModuleNumber(), task.getDateOfTask(),
+                    task.getModule().getModuleType(), task.getModule().getEmployeeFullName(),
+                    task.getModule().getTelephone()));
+        }
+        return new PageDTO<>(queryResult.getTotalElements(), content);
+    }
 
     /**
      * This method saves task which
@@ -72,7 +102,7 @@ public class CalibratorPlanningTaskController {
                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            taskService.addNewTaskForStation(taskDTO.getTaskDate(), taskDTO.getModuleNumber(),
+            taskService.addNewTaskForStation(taskDTO.getDateOfTask(), taskDTO.getModuleNumber(),
                     taskDTO.getVerificationsId(), employeeUser.getUsername());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
@@ -95,7 +125,7 @@ public class CalibratorPlanningTaskController {
                                                @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         HttpStatus httpStatus = HttpStatus.OK;
         try {
-            taskService.addNewTaskForTeam(taskDTO.getTaskDate(), taskDTO.getModuleNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
+            taskService.addNewTaskForTeam(taskDTO.getDateOfTask(), taskDTO.getModuleNumber(), taskDTO.getVerificationsId(), employeeUser.getUsername());
         } catch (Exception e) {
             logger.error("GOT EXCEPTION ", e);
             httpStatus = HttpStatus.CONFLICT;
