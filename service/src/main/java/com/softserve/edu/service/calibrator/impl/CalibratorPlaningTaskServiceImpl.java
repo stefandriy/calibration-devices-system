@@ -56,6 +56,17 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
     /**
+     * This method fetches all calibration tasks and returns
+     * a sorted page of them
+     *
+     * @param pageable parameters for pagination and sorting
+     * @return paginated and sorted page of calibration tasks
+     */
+    public Page<CalibrationTask> findAllCalibrationTasks(Pageable pageable) {
+        return taskRepository.findAll(pageable);
+    }
+
+    /**
      * This method saves new task for the station. It checks if counter
      * statuses for the verifications are the same, if not
      *

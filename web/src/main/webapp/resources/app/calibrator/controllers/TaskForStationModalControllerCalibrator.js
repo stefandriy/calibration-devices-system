@@ -34,7 +34,7 @@ angular
              * Closes modal window on browser's back/forward button click.
              */
             $rootScope.$on('$locationChangeStart', function() {
-                $modalInstance.close();
+                $scope.closeModal();
             });
 
             /**
@@ -56,7 +56,7 @@ angular
                 $scope.$broadcast('show-errors-reset');
                 $scope.noModulesAvailable = false;
                 $scope.formTask.$submitted = false;
-                $scope.calibrationTask.taskDate = null;
+                $scope.calibrationTask.dateOfTask = null;
                 $scope.calibrationTask.applicationField = null;
                 $scope.moduleNumbers = [];
             };
@@ -115,9 +115,9 @@ angular
             $scope.maxDate = new Date(2100, 5, 22);
 
             $scope.clearDate = function () {
-                $log.debug($scope.calibrationTask.taskDate);
+                $log.debug($scope.calibrationTask.dateOfTask);
                 $scope.noModulesAvailable = false;
-                $scope.calibrationTask.taskDate = null;
+                $scope.calibrationTask.dateOfTask = null;
                 $scope.moduleNumbers = [];
             };
 
@@ -126,11 +126,11 @@ angular
              * and receives the calibration modules info
              */
             $scope.receiveModuleNumbers = function() {
-                if ($scope.calibrationTask.taskDate && $scope.calibrationTask.applicationField) {
-                    var taskDate = $scope.calibrationTask.taskDate;
+                if ($scope.calibrationTask.dateOfTask && $scope.calibrationTask.applicationField) {
+                    var dateOfTask = $scope.calibrationTask.dateOfTask;
                     var deviceType = $scope.calibrationTask.applicationField;
                     var moduleType = $scope.calibrationTask.moduleType;
-                    verificationPlanningTaskService.getModules(moduleType, taskDate, deviceType)
+                    verificationPlanningTaskService.getModules(moduleType, dateOfTask, deviceType)
                         .then(function (result) {
                             $log.debug(result);
                             $scope.moduleNumbers = result.data;
@@ -153,7 +153,7 @@ angular
             $scope.save = function () {
                 if ($scope.formTask.$valid) {
                     var calibrationTask = {
-                        "taskDate": $scope.calibrationTask.taskDate,
+                        "dateOfTask": $scope.calibrationTask.dateOfTask,
                         "moduleNumber": $scope.calibrationTask.installationNumber,
                         "verificationsId": verificationIDs
                     };

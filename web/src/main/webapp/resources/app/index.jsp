@@ -187,7 +187,8 @@
                             </a>
                         </li>
                         <li ui-sref-active="active">
-                            <a><i class="fa fa-thumb-tack"></i></i> <span translate="TASKS_FOR_STATIONS"></span>
+                            <a ui-sref="task-for-calibration-module"><i class="fa fa-thumb-tack"></i>
+                                <span translate="TASKS_FOR_STATIONS"></span>
                             </a>
                         </li>
                         <li ui-sref-active="active">

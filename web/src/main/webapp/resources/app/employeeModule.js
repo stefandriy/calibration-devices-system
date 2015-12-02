@@ -109,6 +109,11 @@
                         templateUrl: 'resources/app/calibrator/views/task-for-verifications.html',
                         controller: 'VerificationPlanningTaskController'
                     })
+                    .state("task-for-calibration-module", {
+                        url: '/calibrator/task-for-calibration-module',
+                        templateUrl: 'resources/app/calibrator/views/task-for-calibration-module.html',
+                        controller: 'TaskForStationController'
+                    })
                     .state("calibrator-task-station", {
                         url: '/calibrator/task/',
                         templateUrl: 'resources/app/calibrator/views/modals/addTaskForStationModal.html',
@@ -265,6 +270,7 @@
         'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
         'calibrator/controllers/NotificationsControllerCalibrator',
         'calibrator/controllers/CalibrationTestAddControllerCalibrator',
+        'calibrator/controllers/TaskForStationController',
 
         'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
@@ -290,6 +296,7 @@
         'calibrator/controllers/PieCalibratorEmployee',
         'calibrator/controllers/EditPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
+        'calibrator/services/CalibrationTaskServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',
