@@ -31,17 +31,19 @@
                                             {{ moduleTask.dateOfTask }}
                                         </td>
                                         <td data-title="'Module type'" sortable="'module.moduleType'"
-                                                filter="{moduleType: 'select'}">
+                                                filter="{ moduleType : 'moduleType' }">
                                             {{ moduleTask.moduleType }}
                                         </td>
-                                        <td data-title="'Module number'" sortable="'module.moduleNumber'">
+                                        <td data-title="'Module number'" sortable="'module.moduleNumber'"
+                                                filter="{ moduleNumber : 'custom-text' }">
                                             {{ moduleTask.moduleNumber }}
                                         </td>
                                         <td data-title="'Contact person name'" sortable="'module.employeeFullName'"
-                                                filter="{employeeFullName: 'text'}">
+                                                filter="{ employeeFullName: 'text' }">
                                             {{ moduleTask.employeeFullName }}
                                         </td>
-                                        <td data-title="'Phone number'" sortable="'module.telephone'">
+                                        <td data-title="'Phone number'" sortable="'module.telephone'"
+                                                filter="{ phoneNumber: 'text' }">
                                             +380{{ moduleTask.telephone }}
                                         </td>
                                         <td data-title="'ACTIONS' | translate" class="text-center">
@@ -80,6 +82,25 @@
                                     </ul>
                                 </div>
                             </script>
+                            <script type="text/ng-template" id="ng-table/filters/moduleType.html">
+                                <ui-select ng-model="filterMap[name].value" theme="select2"
+                                           on-select='onTableHandling()'
+                                           search-enabled="false"
+                                           name="filter-moduleType">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_MODULE_TYPE' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="moduleType.id as moduleType in moduleTypes">
+                                        <span ng-bind-html="moduleType.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </script>
+                            <script type="text/ng-template" id="ng-table/filters/custom-text.html">
+                                <input type="text" ng-model="filterMap[name].value"
+                                       class="input-filter form-control" ng-change="onTableHandling()"/>
+                            </script>
                             <!--<script type="text/ng-template" id="ng-table/filters/deviceType.html">
                                 <ui-select ng-model="selectedDeviceType.name" theme="select2"
                                            on-select='onTableHandling()'
@@ -92,21 +113,6 @@
                                     <ui-select-choices
                                             repeat="deviceType in deviceTypeData">
                                         <span ng-bind-html="deviceType.label"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </script>
-                            <script type="text/ng-template" id="ng-table/filters/moduleType.html">
-                                <ui-select ng-model="selectedModuleType.name" theme="select2"
-                                           on-select='onTableHandling()'
-                                           search-enabled="false"
-                                           name="filter-moduleType">
-                                    <ui-select-match placeholder="{{'STATUS_SELECT_MODULE_TYPE' | translate}}"
-                                                     allow-clear="true">
-                                        {{$select.selected.label}}
-                                    </ui-select-match>
-                                    <ui-select-choices
-                                            repeat="moduleType in moduleTypeData">
-                                        <span ng-bind-html="moduleType.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
                             </script>

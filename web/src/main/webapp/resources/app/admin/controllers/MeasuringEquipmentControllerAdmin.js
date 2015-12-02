@@ -83,6 +83,7 @@ angular
                 angular.element("#datepickerfield").trigger("click");
             };
 
+
             $scope.isDateDefault = function () {
                 //console.log("isDateDefault");
                 var pickerDate = $scope.myDatePicker.pickerDate;

@@ -102,14 +102,26 @@ angular
                 return false;
             };*/
 
-            $scope.deviceTypeData = [
-                {id: 'WATER', label: $filter('translate')('WATER')},
-                {id: 'THERMAL', label: $filter('translate')('THERMAL')},
-                {id: 'ELECTRICAL', label: $filter('translate')('ELECTRICAL')},
-                {id: 'GASEOUS', label: $filter('translate')('GASEOUS')}
-            ];
+            $scope.filterMap = {
+                moduleType: {
+                    type: "enumerated",
+                    comparison: "eq"
+                },
+                moduleNumber: {
+                    type: "string",
+                    comparison: "like"
+                },
+                employeeFullName: {
+                    type: "string",
+                    comparison: "like"
+                },
+                phoneNumber: {
+                    type: "string",
+                    comparison: "like"
+                }
+            };
 
-            $scope.moduleTypeData = [
+            $scope.moduleTypes = [
                 {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
                 {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
             ];
@@ -126,8 +138,7 @@ angular
             };
 
             $scope.isFilter = function () {
-                //console.log("isFilter");
-                if ($scope.tableParams == null) return false; //table not yet initialized
+                if ($scope.tableParams == null) return false; // table not yet initialized
                 var obj = $scope.tableParams.filter();
                 for (var i in obj) {
                     if (i == 'isActive' || (i == "startDateToSearch" || i == "endDateToSearch")) {
@@ -152,8 +163,13 @@ angular
                     getData: function ($defer, params) {
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
-
-                        CalibrationTaskServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
+                        var filterParams = {};
+                        for (var param in $scope.filterMap) {
+                            if ($scope.filterMap[param].value) {
+                                filterParams[param] = $scope.filterMap[param];
+                            }
+                        }
+                        CalibrationTaskServiceCalibrator.getPage(params.page(), params.count(), filterParams, sortCriteria, sortOrder)
                             .success(function (result) {
                                 $scope.resultsCount = result.totalItems;
                                 $defer.resolve(result.content);

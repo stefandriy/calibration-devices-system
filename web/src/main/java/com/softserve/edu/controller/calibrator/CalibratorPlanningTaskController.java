@@ -72,8 +72,8 @@ public class CalibratorPlanningTaskController {
      */
     @RequestMapping(value = "/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<CalibrationTaskDTO> getSortedAndFilteredPageOfCalibrationTasks(@PathVariable Integer pageNumber,
-                                        @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
-                                        @PathVariable String sortOrder) {
+                        @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
+                        @PathVariable String sortOrder) {
         Sort sort = new Sort(Sort.Direction.valueOf(sortOrder.toUpperCase()), sortCriteria);
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration tasks
