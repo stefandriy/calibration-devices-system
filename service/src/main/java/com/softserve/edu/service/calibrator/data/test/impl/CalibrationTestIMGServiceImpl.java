@@ -17,9 +17,6 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by Sonka on 17.11.2015.
- */
 @Service
 public class CalibrationTestIMGServiceImpl implements CalibrationTestIMGService {
 

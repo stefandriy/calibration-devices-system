@@ -72,8 +72,7 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
         double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(
                 deviceTestData.getTestSpecifiedConsumption(testDataId),
                 deviceTestData.getImpulsePricePerLitre());
-        System.out.print(deviceTestData.getTestInitialCounterValue(testDataId));
-        System.out.print(deviceTestData.getTestTerminalCounterValue(testDataId));
+
         CalibrationTest calibrationTest = testRepository.findById(testId);
         CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption,
                 deviceTestData.getTestAllowableError(testDataId),
