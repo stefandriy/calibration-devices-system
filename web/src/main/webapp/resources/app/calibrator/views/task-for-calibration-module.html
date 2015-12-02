@@ -35,7 +35,7 @@
                                             {{ moduleTask.moduleType }}
                                         </td>
                                         <td data-title="'Module number'" sortable="'module.moduleNumber'"
-                                                filter="{ moduleNumber : 'custom-text' }">
+                                                filter="{ moduleNumber : 'text' }">
                                             {{ moduleTask.moduleNumber }}
                                         </td>
                                         <td data-title="'Contact person name'" sortable="'module.employeeFullName'"
@@ -83,7 +83,7 @@
                                 </div>
                             </script>
                             <script type="text/ng-template" id="ng-table/filters/moduleType.html">
-                                <ui-select ng-model="filterMap[name].value" theme="select2"
+                                <ui-select ng-model="params.filter()[name]" theme="select2"
                                            on-select='onTableHandling()'
                                            search-enabled="false"
                                            name="filter-moduleType">
@@ -97,26 +97,11 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </script>
-                            <script type="text/ng-template" id="ng-table/filters/custom-text.html">
+                            <!--<script type="text/ng-template" id="ng-table/filters/custom-text.html">
                                 <input type="text" ng-model="filterMap[name].value"
                                        class="input-filter form-control" ng-change="onTableHandling()"/>
-                            </script>
-                            <!--<script type="text/ng-template" id="ng-table/filters/deviceType.html">
-                                <ui-select ng-model="selectedDeviceType.name" theme="select2"
-                                           on-select='onTableHandling()'
-                                           search-enabled="false"
-                                           name="filter-deviceType">
-                                    <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
-                                                     allow-clear="true">
-                                        {{$select.selected.label}}
-                                    </ui-select-match>
-                                    <ui-select-choices
-                                            repeat="deviceType in deviceTypeData">
-                                        <span ng-bind-html="deviceType.label"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </script>
-                            <script type="text/ng-template" id="ng-table/filters/daterange.html">
+                            </script>-->
+                            <!--<script type="text/ng-template" id="ng-table/filters/daterange.html">
                                 <div class="input-group right-inner-addon">
                                     <i id="calendar_icon" class="glyphicon glyphicon-calendar"
                                        ng-click="showPicker($event)"></i>

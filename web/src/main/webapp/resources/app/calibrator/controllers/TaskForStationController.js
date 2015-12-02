@@ -102,25 +102,6 @@ angular
                 return false;
             };*/
 
-            $scope.filterMap = {
-                moduleType: {
-                    type: "enumerated",
-                    comparison: "eq"
-                },
-                moduleNumber: {
-                    type: "string",
-                    comparison: "like"
-                },
-                employeeFullName: {
-                    type: "string",
-                    comparison: "like"
-                },
-                phoneNumber: {
-                    type: "string",
-                    comparison: "like"
-                }
-            };
-
             $scope.moduleTypes = [
                 {id: 'INSTALLATION_FIX', label: $filter('translate')('INSTALLATION_FIX')},
                 {id: 'INSTALLATION_PORT', label: $filter('translate')('INSTALLATION_PORT')}
@@ -163,13 +144,7 @@ angular
                     getData: function ($defer, params) {
                         var sortCriteria = Object.keys(params.sorting())[0];
                         var sortOrder = params.sorting()[sortCriteria];
-                        var filterParams = {};
-                        for (var param in $scope.filterMap) {
-                            if ($scope.filterMap[param].value) {
-                                filterParams[param] = $scope.filterMap[param];
-                            }
-                        }
-                        CalibrationTaskServiceCalibrator.getPage(params.page(), params.count(), filterParams, sortCriteria, sortOrder)
+                        CalibrationTaskServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
                                 $scope.resultsCount = result.totalItems;
                                 $defer.resolve(result.content);
