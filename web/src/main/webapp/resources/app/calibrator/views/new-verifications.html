@@ -64,7 +64,7 @@
                                         filter="{ 'building': 'text' }">{{ verification.building }},{{ verification.flat }}
                                     </td>
                                     <td data-title="'DISMANTLED_COUNTER' | translate" sortable="'dismantled'"
-                                        filter="{ 'dismantled': 'text' }">{{ verification.dismantled | translate }}
+                                        filter="{ 'dismantled': 'dismantled' }">{{ verification.dismantled | translate }}
                                     </td>
                                     <td data-title="'SYMBOL' | translate" sortable="'symbol'"
                                         filter="{ 'symbol': 'text' }">{{ verification.symbol }}
@@ -72,8 +72,8 @@
                                     <td data-title="'STANDART_SIZE_OF_COUNTER' | translate" sortable="'standardSize'"
                                         filter="{ 'standardSize': 'text' }">{{ verification.standardSize }}
                                     </td>
-                                    <td data-title="'YEAR_OF_COUNTER_PRODUCTION' | translate" sortable="'yearIntroduction'"
-                                        filter="{ 'yearIntroduction': 'text' }">{{ verification.yearIntroduction }}
+                                    <td data-title="'YEAR_OF_COUNTER_PRODUCTION' | translate" sortable="'realiseYear'"
+                                        filter="{ 'realiseYear': 'text' }">{{ verification.realiseYear }}
                                     </td>
                                     <td data-title="'STATUS' | translate" sortable="'status'"
                                         filter="{ 'status': 'status' }">{{ verification.status | translate }}
@@ -191,8 +191,8 @@
                                         </span>
                                 </div>
                             </script>
-
                             <script type="text/ng-template" id="ng-table/filters/status.html">
+
                                 <ui-select ng-model="selectedStatus.name" theme="select2" on-select='doSearch()'
                                            search-enabled="false"
                                            name="filter-status">
@@ -204,7 +204,22 @@
                                         <span ng-bind-html="status.label"></span>
                                     </ui-select-choices>
                                 </ui-select>
+
                             </script>
+                            <script type="text/ng-template" id="ng-table/filters/dismantled.html">
+                                <ui-select ng-model="selectedDismantled.name" theme="select2" on-select='doSearch()'
+                                           search-enabled="false"
+                                           name="filter-dismantled">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices  repeat="status in statusDismantled">
+                                        <span ng-bind-html="status.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </script>
+
                             <p id="emptyError" ng-if="allIsEmpty && isClicked"
                                class="help-block">
                                 <span class="glyphicon glyphicon-exclamation-sign"></span>
