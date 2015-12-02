@@ -202,6 +202,7 @@ public class MailServiceImpl implements MailService {
     /**
      * Notifies (sends mail to) customer about changed status of  the verification
      */
+    @Async
     public void sendPassedTestMail(String to, String verificationId, String status) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {

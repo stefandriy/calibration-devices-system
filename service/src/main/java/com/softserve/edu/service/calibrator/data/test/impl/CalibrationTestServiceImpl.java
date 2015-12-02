@@ -257,7 +257,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         Verification verification = verificationRepository.findOne(verificationId);
         Status statusRecived = Status.valueOf(status.toUpperCase());
         if(statusRecived.equals(Status.TEST_OK)||statusRecived.equals(Status.TEST_NOK)) {
-            String statusToSend = statusRecived.equals(Status.TEST_OK) ? "придатний" : "не придатний"; // todo: change
+            String statusToSend = statusRecived.equals(Status.TEST_OK) ? Constants.TEST_OK : Constants.TEST_NOK;
             verification.setStatus(statusRecived);
             mailService.sendPassedTestMail(verification.getClientData().getEmail(), verificationId, statusToSend);
             mailService.sendPassedTestMail(verification.getProviderEmployee().getEmail(), verificationId, statusToSend);
