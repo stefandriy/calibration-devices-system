@@ -55,6 +55,20 @@ angular
                 },
             ];
 
+            /**
+             * controls the number of simultaneously open windows. Is changing by checkbox on modal form
+             * (for Accordion)
+             * @type {boolean}
+             */
+            $scope.oneAtATime = true;
+
+            /**
+             * to open first block "General Information" when the modal form is loaded
+             * (for Accordion)
+             * @type {boolean}
+             */
+            $scope.generalInformation = true;
+
             $scope.organizationFormData = {};
 
             $scope.calendar = {};
