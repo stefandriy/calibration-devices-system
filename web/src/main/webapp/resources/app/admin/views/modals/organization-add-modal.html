@@ -350,7 +350,6 @@
                     <div class="col-md-8">
                         <input type="text" ng-model="organizationFormData.middleName"
                                ng-pattern="MIDDLE_NAME_REGEX"
-                               ng-change="checkFirstName('middleName')"
                                id="middleName" name="middleName" class="form-control"
                                popover="{{'MIDDLE_NAME_INFO' | translate}}"
                                popover-trigger="focus" popover-placement="top" required>
@@ -396,7 +395,8 @@
 
                         <p class="help-block" ng-if="organizationForm.username.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'LOGIN_HAS_INVALID_LENGTH' | translate }}
+                            {{'LOGIN_HAS_INVALID_LENGTH' | translate }}.
+                             Дозволені малі літери латинського алфавіту, цифри і дефіс.</p>
                         </p>
                     </div>
                 </div>
@@ -435,7 +435,7 @@
                                    ng-model="organizationFormData.region"
                                    on-select="receiveDistricts(organizationFormData.region)"
                                    name="region" id="region" required>
-                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="region in regions | filter: $select.search">
@@ -461,7 +461,7 @@
                                    ng-disabled="!organizationFormData.region"
                                    on-select="receiveLocalities(organizationFormData.district)"
                                    name="district" id="district" required>
-                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="district in districts | filter: $select.search">
@@ -488,7 +488,7 @@
                                    ng-disabled="!organizationFormData.district"
                                    on-select="receiveStreets(organizationFormData.locality, organizationFormData.district)"
                                    name="locality" id="locality" required>
-                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices
@@ -603,7 +603,7 @@
                                    ng-model="organizationFormData.regionRegistered"
                                    on-select="receiveDistrictsRegistered(organizationFormData.regionRegistered)"
                                    name="regionRegistered" id="regionRegistered">
-                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="regionRegistered in regionsReg | filter: $select.search">
@@ -622,7 +622,7 @@
                                    on-select="receiveLocalitiesRegistered(organizationFormData.districtRegistered)"
                                    name="districtRegistered" id="districtRegistered"
                                    ng-disabled="!organizationFormData.regionRegistered">
-                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="districtRegistered in districtsReg | filter: $select.search">
@@ -642,7 +642,7 @@
                                                                         organizationFormData.districtRegistered)"
                                    name="localityRegistered" id="localityRegistered"
                                    ng-disabled="!organizationFormData.districtRegistered">
-                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="localityRegistered in localitiesReg | filter: $select.search | unique:'designation'">
@@ -716,7 +716,7 @@
                                    ng-model="serviceArea.region"
                                    on-select="receiveDistrictsForServiceArea(serviceArea.region)"
                                    name="serviceAreaRegion" id="serviceAreaRegion" required>
-                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}">
                                 {{$select.selected.designation}}
                             </ui-select-match>
                             <ui-select-choices repeat="region in regions | filter: $select.search">

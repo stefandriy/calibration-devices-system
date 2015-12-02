@@ -166,8 +166,10 @@ angular
                 userService.isUsernameAvailable(username).then(
                     function (data) {
                         $scope.isUsernameAvailable = data;
-                        $scope.organizationForm.username.$valid = data;
-                        $scope.organizationForm.username.$invalid = !data;
+                        if(data === false) {
+                            $scope.organizationForm.username.$valid = data;
+                            $scope.organizationForm.username.$invalid = !data;
+                        }
             })
             }
 
@@ -188,8 +190,8 @@ angular
                     $scope.isValidAcordion = true;
                     $scope.organizationForm.serviceAreaRegion.$invalid = false;
                     $scope.organizationForm.serviceAreaRegion.$valid = true;
-                    $scope.organizationForm.$valid = true;
-                    $scope.organizationForm.$invalid = false;
+                    //$scope.organizationForm.$valid = true;
+                    //$scope.organizationForm.$invalid = false;
                 }
             }
 
@@ -431,7 +433,7 @@ angular
                 }
             }
 
-            function dateToLong() {
+            function certificateDateToLong() {
                 $scope.organizationFormData.certificateDate = (new Date($scope.organizationFormData.certificateDate)).getTime();
             }
 
@@ -460,9 +462,9 @@ angular
                 }
                 checkValidAcardion();
                 $scope.$broadcast('show-errors-check-validity');
-                if ($scope.organizationForm.$valid) {
+                if ($scope.organizationForm.$valid && $scope.isUsernameAvailable) {
                     addressFormToOrganizationForm();
-                    dateToLong();
+                    certificateDateToLong();
                     objectTypesToStringTypes();
                     saveOrganization();
                 }
@@ -478,32 +480,32 @@ angular
                     .then(function (data) {
                         if (data == 201) {
                             $scope.closeModal(true);
-                            $scope.resetOrganizationForm();
+                     //       $scope.resetOrganizationForm();
                             $rootScope.onTableHandling();
                         }
                     });
             }
 
-             $scope.$watch('organizationFormData.region', function () {
-             $scope.organizationFormData.district = undefined;
-             $scope.organizationFormData.locality = undefined;
-             $scope.organizationFormData.street = "";
-             $scope.organizationFormData.building = "";
-             $scope.organizationFormData.flat = null;
-             });
-
-             $scope.$watch('organizationFormData.district', function () {
-             $scope.organizationFormData.locality = undefined;
-             $scope.organizationFormData.street = "";
-             $scope.organizationFormData.building = "";
-             $scope.organizationFormData.flat = null;
-             });
-
-             $scope.$watch('organizationFormData.locality', function () {
-             $scope.organizationFormData.street = "";
-             $scope.organizationFormData.building = "";
-             $scope.organizationFormData.flat = null;
-             });
+             //$scope.$watch('organizationFormData.region', function () {
+             //$scope.organizationFormData.district = undefined;
+             //$scope.organizationFormData.locality = undefined;
+             //$scope.organizationFormData.street = "";
+             //$scope.organizationFormData.building = "";
+             //$scope.organizationFormData.flat = null;
+             //});
+             //
+             //$scope.$watch('organizationFormData.district', function () {
+             //$scope.organizationFormData.locality = undefined;
+             //$scope.organizationFormData.street = "";
+             //$scope.organizationFormData.building = "";
+             //$scope.organizationFormData.flat = null;
+             //});
+             //
+             //$scope.$watch('organizationFormData.locality', function () {
+             //$scope.organizationFormData.street = "";
+             //$scope.organizationFormData.building = "";
+             //$scope.organizationFormData.flat = null;
+             //});
 
 
 
