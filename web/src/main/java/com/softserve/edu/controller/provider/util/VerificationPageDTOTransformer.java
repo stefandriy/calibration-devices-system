@@ -56,7 +56,7 @@ public class VerificationPageDTOTransformer {
             if(verification.getCounter()!=null && verification.getCounter().getCounterType() != null){
                 verificationPageDTO.setSymbol(verification.getCounter().getCounterType().getSymbol());
                 verificationPageDTO.setStandardSize(verification.getCounter().getCounterType().getStandardSize());
-                verificationPageDTO.setRealiseYear(Integer.valueOf(verification.getCounter().getReleaseYear()));
+                if(verification.getCounter().getReleaseYear()!= null){verificationPageDTO.setRealiseYear(Integer.valueOf(verification.getCounter().getReleaseYear()));}
                 verificationPageDTO.setDismantled(verification.getDismantled());
             }else if(set!=null) {
                 List<CounterType> listCounterType = new ArrayList<>(set);
