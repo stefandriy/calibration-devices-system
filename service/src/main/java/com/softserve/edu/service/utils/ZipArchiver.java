@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.zip.Deflater;
@@ -16,9 +17,8 @@ import java.util.zip.ZipOutputStream;
 public class ZipArchiver {
     static Logger logger = Logger.getLogger(ZipArchiver.class);
 
-    public static void createZip(File output, List<File> sources) throws Exception {
-        logger.debug("Packaging to " + output.getName());
-        ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(output));
+    public static void createZip(OutputStream output, List<File> sources) throws Exception {
+        ZipOutputStream zipOut = new ZipOutputStream(output);
         zipOut.setLevel(Deflater.DEFAULT_COMPRESSION);
 
         for (File source : sources) {

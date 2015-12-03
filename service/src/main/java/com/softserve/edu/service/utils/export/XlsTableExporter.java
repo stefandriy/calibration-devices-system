@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class XlsTableExporter implements TableExporter {
 
     // endregion
 
-    public void export(Map<String, List<String>> data, File output) throws Exception {
+    public OutputStream export(Map<String, List<String>> data, OutputStream output) throws Exception {
         WritableWorkbook myDoc = Workbook.createWorkbook(output);
         WritableSheet sheet = myDoc.createSheet(sheetName, 0);
         Object[] header = data.keySet().toArray();
@@ -80,7 +81,7 @@ public class XlsTableExporter implements TableExporter {
             List<String> row = data.get(header[i]);
             for (int j = 0; j < row.size(); ++j) {
                 Label item = new Label(i, j + 1, row.get(j), itemFormat);
-                sheet.setColumnView(j, lengths.get(j) + extraLength);
+                sheet.setColumnView(j, lengths.get(i) + extraLength);
                 sheet.addCell(item);
             }
         }
@@ -89,6 +90,7 @@ public class XlsTableExporter implements TableExporter {
 
         myDoc.write();
         myDoc.close();
+        return output;
     }
 
     /**
@@ -99,7 +101,7 @@ public class XlsTableExporter implements TableExporter {
      */
     private List<Integer> getCellLengths(Map<String, List<String>> data) {
         Object[] header = data.keySet().toArray();
-        List<Integer> lengths = new ArrayList<>();
+        List<Integer> lengths = new ArrayList<Integer>();
 
         for (int i = 0; i < data.size(); ++i) {
             int max = header[i].toString().length();

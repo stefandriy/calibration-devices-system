@@ -21,7 +21,9 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -297,7 +299,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return counterTypes;
     }
 
-    public void sendTaskToStation(CalibrationTask calibrationTask) {
+    public void sendTaskToStation(CalibrationTask calibrationTask) throws Exception {
         Verification[] verifications = calibrationTask
                 .getVerifications()
                 .toArray(new Verification[calibrationTask.getVerifications().size()]);
@@ -320,10 +322,22 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".dbf");
         File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".zip");
 
+        BufferedOutputStream xlsStream = null;
+        BufferedOutputStream dbfStream = null;
+        BufferedOutputStream zipStream = null;
+        try {
+            xlsStream = new BufferedOutputStream(new FileOutputStream(xlsFile.getName()));
+            dbfStream = new BufferedOutputStream(new FileOutputStream(dbfFile.getName()));
+            zipStream = new BufferedOutputStream(new FileOutputStream(zipFile.getName()));
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+
         try {
             boolean xlsSuccess;
             try {
-                xlsTableExporter.export(dataForXls, xlsFile);
+                xlsTableExporter.export(dataForXls, xlsStream);
                 xlsSuccess = true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -335,7 +349,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
             boolean dbfSuccess;
             try {
-                dbfTableExporter.export(dataForDbf, dbfFile);
+                dbfTableExporter.export(dataForDbf, dbfStream);
                 dbfSuccess = true;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -349,8 +363,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                     List<File> sources = new ArrayList<>();
                     sources.add(xlsFile);
                     sources.add(dbfFile);
-
-                    zip.createZip(zipFile, sources);
+                    zip.createZip(zipStream, sources);
                     zipSuccess = true;
                 } catch (Exception e) {
                     zipSuccess = false;

@@ -1,11 +1,13 @@
 package com.softserve.edu.service.utils.export;
 
 import com.linuxense.javadbf.DBFField;
+import com.linuxense.javadbf.DBFWriter;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +33,7 @@ public class DbfTableExporter implements TableExporter {
 
     // endregion
 
-    public void export(Map<String, List<String>> data, File output) throws Exception {
+    public OutputStream export(Map<String, List<String>> data, OutputStream output) throws Exception {
         DBFField[] fields = new DBFField[data.size()];
         Object[] fieldNames = data.keySet().toArray();
         List<Integer> lengths = getCellLengths(data);
@@ -42,7 +44,7 @@ public class DbfTableExporter implements TableExporter {
             fields[i].setFieldLength(lengths.get(i) + extraLength);
         }
 
-        com.linuxense.javadbf.DBFWriter writer = new com.linuxense.javadbf.DBFWriter();
+        DBFWriter writer = new DBFWriter();
         writer.setFields(fields);
 
         ArrayList<List<String>> values = new ArrayList<List<String>>();
@@ -58,9 +60,9 @@ public class DbfTableExporter implements TableExporter {
             writer.addRecord(row);
         }
 
-        FileOutputStream fos = new FileOutputStream(output);
-        writer.write(fos);
-        fos.close();
+        writer.write(output);
+        output.close();
+        return output;
     }
 
     /**
@@ -71,7 +73,7 @@ public class DbfTableExporter implements TableExporter {
      */
     private List<Integer> getCellLengths(Map<String, List<String>> data) {
         Object[] header = data.keySet().toArray();
-        List<Integer> lengths = new ArrayList<>();
+        List<Integer> lengths = new ArrayList<Integer>();
 
         for (int i = 0; i < data.size(); ++i) {
             int max = header[i].toString().length();
