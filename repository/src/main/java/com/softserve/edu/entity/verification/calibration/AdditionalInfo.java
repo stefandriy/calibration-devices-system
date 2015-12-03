@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -61,9 +62,10 @@ public class AdditionalInfo {
 
     public AdditionalInfo(String entrance,String doorCode, String floor, Long dateOfVerif, boolean serviceability,
                         Long noWaterToDate, String notes, String time) {
-        this.entrance = (entrance != null) ? Integer.parseInt(entrance) : 0;
-        this.doorCode = (doorCode != null) ? Integer.parseInt(doorCode): 0;
-        this.floor = (floor != null) ? Integer.parseInt(floor) : 0;
+
+        this.entrance = (entrance != null && entrance.equals("")) ? Integer.parseInt(entrance) : 0;
+        this.doorCode = (doorCode != null && doorCode.equals("")) ? Integer.parseInt(doorCode): 0;
+        this.floor = (floor != null && floor.equals("")) ? Integer.parseInt(floor) : 0;
         this.dateOfVerif = (dateOfVerif != null) ? new Date(dateOfVerif) : null;
         this.serviceability = serviceability;
         this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
