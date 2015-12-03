@@ -19,6 +19,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyEditorSupport;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -50,9 +51,9 @@ public class DocumentsController {
      * @throws IOException           if file can't be generated because of a
      *                               file system error
      * @throws IllegalStateException if one of parameters is incorrect
+     * @throws Exception
      */
-    @RequestMapping(value = "{documentType}/{fileFormat}",
-            method = RequestMethod.GET)
+    @RequestMapping(value = "{fileFormat}/{documentType}", method = RequestMethod.GET)
     public void getDocument(HttpServletResponse response,
                             @PathVariable DocumentType documentType,
                             @PathVariable FileFormat fileFormat,
@@ -61,10 +62,8 @@ public class DocumentsController {
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         Long providerId = providerEmployee.getOrganization().getId();
         Map<String, List<String>> data = documentService.getDataForProviderEmployeesReport(providerId);
-
-
-        File file = documentService.buildFile(data);
-      //  sendFile(response, fileFormat, file);
+        FileObject file = documentService.buildFile(data, documentType, fileFormat);
+       sendFile(response, fileFormat, file);
     }
 
 
@@ -137,7 +136,7 @@ public class DocumentsController {
                             @PathVariable String verificationCode,
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
-        FileObject file = documentService.buildFile(verificationCode,
+            FileObject file = documentService.buildFile(verificationCode,
                 documentType, fileFormat);
         sendFile(response, fileFormat, file);
     }

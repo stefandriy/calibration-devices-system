@@ -11,6 +11,7 @@ import com.softserve.edu.service.utils.export.XlsTableExporter;
 import org.apache.commons.vfs2.FileObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -95,25 +96,13 @@ public class FileFactory {
         return file;
     }
 
-    /* todo
-     public static File buildFile(Map<String, List<String>> data, FileParameters fileParameters)throws Exception{
 
-        FileObject file = FileUtils.createFile(fileParameters.getFileSystem(),
-               fileParameters.getFileName());
-        File file = new File("");
-        XlsTableExporter xlsTableExporter  = new XlsTableExporter();
-        xlsTableExporter.export(data, file);
+     public static FileObject buildFile(Map<String, List<String>> data, FileParameters fileParameters)throws Exception{
+
+        FileObject file = FileUtils.createFile(fileParameters.getFileSystem(), fileParameters.getFileName());
+         XlsTableExporter xlsTableExporter  = new XlsTableExporter();
+        xlsTableExporter.export(data, file.getContent().getOutputStream());
         return file;
     }
-     */
 
-
-    public static File buildFile(Map<String, List<String>> data)throws Exception{
-
-
-        File file = new File("");
-        XlsTableExporter xlsTableExporter  = new XlsTableExporter();
-        xlsTableExporter.export(data, file);
-        return file;
-    }
 }

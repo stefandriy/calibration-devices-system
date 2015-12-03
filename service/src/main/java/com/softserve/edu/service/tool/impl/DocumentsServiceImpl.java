@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.*;
 
 /**
@@ -177,10 +178,14 @@ public class DocumentsServiceImpl implements DocumentService {
     }
 
     @Override
-    public File buildFile( Map<String, List<String>> data) throws Exception{
-       // FileFactory.buildFile(getDataForProviderEmployeesReport(providerId));
+    public FileObject buildFile(Map<String, List<String>> data, DocumentType documentType,
+                                FileFormat fileFormat) throws Exception {
+        FileParameters fileParameters = new FileParameters(documentType, fileFormat);
+        fileParameters.setFileSystem(FileSystem.RAM);
+        fileParameters.setFileName(documentType.toString());
 
-        return FileFactory.buildFile(data);
+        return FileFactory.buildFile(data, fileParameters);
+
     }
 
     public Map<String, List<String>> getDataForProviderEmployeesReport(Long providerId) {
