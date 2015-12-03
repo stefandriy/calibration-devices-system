@@ -6,10 +6,14 @@ import com.softserve.edu.documents.chain.OperationChain;
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.parameter.FileParameters;
 import com.softserve.edu.documents.utils.FileUtils;
+import com.softserve.edu.service.utils.export.TableExporter;
+import com.softserve.edu.service.utils.export.XlsTableExporter;
 import org.apache.commons.vfs2.FileObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Factory for creating files.
@@ -74,7 +78,7 @@ public class FileFactory {
      * @return the resulting file
      */
     private static FileObject runOperations(List<Operation> operations,
-                                            FileParameters fileParameters) {
+                                              FileParameters fileParameters) {
         FileObject file = FileUtils.createFile(fileParameters.getFileSystem(),
                 fileParameters.getFileName());
 
@@ -88,6 +92,28 @@ public class FileFactory {
             }
         }
 
+        return file;
+    }
+
+    /* todo
+     public static File buildFile(Map<String, List<String>> data, FileParameters fileParameters)throws Exception{
+
+        FileObject file = FileUtils.createFile(fileParameters.getFileSystem(),
+               fileParameters.getFileName());
+        File file = new File("");
+        XlsTableExporter xlsTableExporter  = new XlsTableExporter();
+        xlsTableExporter.export(data, file);
+        return file;
+    }
+     */
+
+
+    public static File buildFile(Map<String, List<String>> data)throws Exception{
+
+
+        File file = new File("");
+        XlsTableExporter xlsTableExporter  = new XlsTableExporter();
+        xlsTableExporter.export(data, file);
         return file;
     }
 }

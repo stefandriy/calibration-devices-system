@@ -101,7 +101,7 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
      */
     @Transactional
     public Long countByProviderEmployeeTasks(String username) {
-        return verificationRepository.countByProviderEmployee_usernameAndStatus(username, Status.ACCEPTED);
+        return verificationRepository.countByProviderEmployeeUsernameAndStatus(username, Status.ACCEPTED);
     }
 
     /**
@@ -111,7 +111,7 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
      */
     @Transactional
     public Long countByCalibratorEmployeeTasks(String username) {
-        return verificationRepository.countByCalibratorEmployee_usernameAndStatus(username, Status.IN_PROGRESS);
+        return verificationRepository.countByCalibratorEmployeeUsernameAndStatus(username, Status.IN_PROGRESS);
     }
 
     /**
@@ -121,7 +121,7 @@ public class VerificationProviderEmployeeServiceImpl implements VerificationProv
      */
     @Transactional
     public Long countByStateVerificatorEmployeeTasks(String username) {
-        return verificationRepository.countByStateVerificatorEmployee_usernameAndStatus(username, Status.SENT_TO_VERIFICATOR);
+        return verificationRepository.countByStateVerificatorEmployeeUsernameAndStatus(username, Status.SENT_TO_VERIFICATOR);
     }
 
     /**

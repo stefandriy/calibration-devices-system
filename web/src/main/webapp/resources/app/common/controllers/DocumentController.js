@@ -5,12 +5,16 @@ angular
             var url = "doc/" + documentType + "/" + verificationId + "/" + fileFormat;
             location.href = url;
         }
+        $scope.downloadDocument = function (documentType, fileFormat) {
+            var url = "doc/" + documentType + "/" + fileFormat;
+            location.href = url;
+        }
 
         $scope.printDocument = function (verification) {
             var documentType = verification.status == 'TEST_OK' ? 'VERIFICATION_CERTIFICATE' : 'UNFITNESS_CERTIFICATE';
             var url = "doc/" + documentType + "/" + verification.id + "/html";
             var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
+            xhttp.onreadystatechange = function () {
                 if (xhttp.readyState == 4 && xhttp.status == 200) {
                     var toPrint = xhttp.responseText;
                     var origin = document.body.innerHTML;

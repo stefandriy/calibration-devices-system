@@ -311,15 +311,16 @@ angular
             // watch for check all checkbox
             $scope.$watch('checkboxes.checked', function (value) {
                 angular.forEach($scope.allVerifications, function (verification) {
+                    if (angular.isDefined(verification.id)) {
                     $scope.checkboxes.items[verification.id] = value;
                     if (verification.providerEmployee) {
                         $scope.resolveVerificationId(verification.id);
-                    }
+                    }}
                 });
             });
 
             // watch for data checkboxes
-            $scope.$watch('checkboxes.items', function (values) {
+            $scope.$watch('checkboxes.items', function () {
                 if (!$scope.allVerifications) {
                     return;
                 }
