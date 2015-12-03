@@ -15,7 +15,8 @@ import java.util.Map;
 
 public interface CalibratorPlanningTaskService {
 
-    Page<CalibrationTask> getFilteredPageOfCalibrationTasks(Map<String, String> filterParams, Pageable pageable);
+    Page<CalibrationTask> getFilteredPageOfCalibrationTasks(Map<String, String> filterParams,
+                                                            Pageable pageable, String username);
 
     Page<CalibrationTask> findAllCalibrationTasks(Pageable pageable);
 

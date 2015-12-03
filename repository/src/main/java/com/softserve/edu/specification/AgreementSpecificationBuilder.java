@@ -39,7 +39,7 @@ public final class AgreementSpecificationBuilder extends SpecificationBuilder<Ag
      * @return search criteria
      */
     @Override
-    protected List<SearchCriterion> initCriteria(){
+    protected List<SearchCriterion> initCriteria() {
         List<SearchCriterion> searchCriteria = new ArrayList<>();
         searchCriteria.add(new SearchCriterion<>(NUMBER, "number", SearchCriterion.Operator.LIKE, SearchCriterion.ValueType.STRING));
         searchCriteria.add(new SearchCriterion<>(CUSTOMER_NAME, "customer", SearchCriterion.Operator.LIKE, SearchCriterion.ValueType.STRING, "name"));

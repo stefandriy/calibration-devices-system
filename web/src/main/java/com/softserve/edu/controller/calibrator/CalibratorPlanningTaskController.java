@@ -73,16 +73,15 @@ public class CalibratorPlanningTaskController {
     @RequestMapping(value = "/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
     public PageDTO<CalibrationTaskDTO> getSortedAndFilteredPageOfCalibrationTasks(@PathVariable Integer pageNumber,
                         @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
-                        @PathVariable String sortOrder, @RequestParam Map<String, String> filterParams) {
+                        @PathVariable String sortOrder, @RequestParam Map<String, String> filterParams,
+                        @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+        // adding current user to the filtering map for
+        // further filtering by owning organization
         Sort sort = new Sort(Sort.Direction.valueOf(sortOrder.toUpperCase()), sortCriteria);
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration tasks
-        Page<CalibrationTask> queryResult;
-        if (filterParams == null || filterParams.isEmpty()) {
-            queryResult = taskService.findAllCalibrationTasks(pageable);
-        } else {
-            queryResult = taskService.getFilteredPageOfCalibrationTasks(filterParams, pageable);
-        }
+        Page<CalibrationTask> queryResult = taskService
+                .getFilteredPageOfCalibrationTasks(filterParams, pageable, employeeUser.getUsername());
         List<CalibrationTaskDTO> content = new ArrayList<CalibrationTaskDTO>();
         // converting Page of CalibrationTasks to List of CalibrationTaskDTOs
         for (CalibrationTask task : queryResult) {

@@ -65,7 +65,10 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
      * @param pageable parameters for pagination and sorting
      * @return filtered and sorted page of calibration tasks
      */
-    public Page<CalibrationTask> getFilteredPageOfCalibrationTasks(Map<String, String> filterParams, Pageable pageable) {
+    public Page<CalibrationTask> getFilteredPageOfCalibrationTasks(Map<String, String> filterParams,
+                                                                   Pageable pageable, String username) {
+        User user = userRepository.findOne(username);
+        filterParams.put("organizationCode", user.getOrganization().getAdditionInfoOrganization().getCodeEDRPOU());
         CalibrationTaskSpecificationBuilder specificationBuilder = new CalibrationTaskSpecificationBuilder(filterParams);
         Specification<CalibrationTask> searchSpec = specificationBuilder.buildPredicate();
         return taskRepository.findAll(searchSpec, pageable);

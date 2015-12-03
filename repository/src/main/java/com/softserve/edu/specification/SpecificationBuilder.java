@@ -67,6 +67,13 @@ public abstract class SpecificationBuilder<T> {
                         case EQUAL_BY_ENUM:
                             predicates.add(cb.equal(path, sc.getEnum(searchValues.get(key).trim())));
                             break;
+                        case NOT_NULL:
+                            if (Boolean.parseBoolean(searchValues.get(key))) {
+                                predicates.add(cb.isNotNull(path));
+                            } else {
+                                predicates.add(cb.isNull(path));
+                            }
+                            break;
                         case BETWEEN_DATE:
                             if (checkKey(searchValues, sc.getAdditionKey())) {
                                 DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;

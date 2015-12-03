@@ -50,6 +50,15 @@ public class SearchCriterion<T extends Enum<T>> {
      * @param key         key to filter
      * @param entityField name of corresponding entity field
      * @param operation   type of operation
+     */
+    public SearchCriterion(String key, String entityField, Operator operation) {
+        this(key, entityField, operation, null, null, null, null);
+    }
+
+    /**
+     * @param key         key to filter
+     * @param entityField name of corresponding entity field
+     * @param operation   type of operation
      * @param valueType   type of key value
      */
     public SearchCriterion(String key, String entityField, Operator operation, ValueType valueType) {
@@ -91,7 +100,7 @@ public class SearchCriterion<T extends Enum<T>> {
      *
      */
     public enum Operator {
-        EQUAL, EQUAL_BY_ENUM, BETWEEN_DATE, LIKE
+        EQUAL, EQUAL_BY_ENUM, BETWEEN_DATE, LIKE, NOT_NULL
     }
 
     public enum ValueType {

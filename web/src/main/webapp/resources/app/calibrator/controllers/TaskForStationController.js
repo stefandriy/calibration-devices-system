@@ -136,6 +136,9 @@ angular
                     count: 5,
                     sorting: {
                         dateOfTask: 'asc'
+                    },
+                    filter: {
+                        isForStation: true
                     }
                 },
                 {

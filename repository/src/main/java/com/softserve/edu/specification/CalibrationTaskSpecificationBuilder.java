@@ -14,6 +14,13 @@ public final class CalibrationTaskSpecificationBuilder extends SpecificationBuil
 
     static Logger logger = Logger.getLogger(AgreementSpecificationBuilder.class);
 
+    private static final String PHONE_NUMBER = "phoneNumber";
+    private static final String EMPLOYEE_NAME = "employeeFullName";
+    private static final String MODULE_NUMBER = "moduleNumber";
+    private static final String MODULE_TYPE = "moduleType";
+    private static final String ORGANIZATION = "organizationCode";
+    private static final String IS_FOR_STATION = "isForStation";
+
     public CalibrationTaskSpecificationBuilder(Map<String, String> searchValues) {
         super(searchValues);
     }
@@ -25,14 +32,17 @@ public final class CalibrationTaskSpecificationBuilder extends SpecificationBuil
     @Override
     protected List<SearchCriterion> initCriteria() {
         List<SearchCriterion> searchCriteria = new ArrayList<>();
-        searchCriteria.add(new SearchCriterion<>("phoneNumber", "module", SearchCriterion.Operator.LIKE,
+        searchCriteria.add(new SearchCriterion<>(PHONE_NUMBER, "module", SearchCriterion.Operator.LIKE,
                 SearchCriterion.ValueType.STRING, "telephone"));
-        searchCriteria.add(new SearchCriterion<>("employeeFullName", "module", SearchCriterion.Operator.LIKE,
+        searchCriteria.add(new SearchCriterion<>(EMPLOYEE_NAME, "module", SearchCriterion.Operator.LIKE,
                 SearchCriterion.ValueType.STRING, "employeeFullName"));
-        searchCriteria.add(new SearchCriterion<>("moduleNumber", "module", SearchCriterion.Operator.LIKE,
+        searchCriteria.add(new SearchCriterion<>(MODULE_NUMBER, "module", SearchCriterion.Operator.LIKE,
                 SearchCriterion.ValueType.STRING, "moduleNumber"));
-        searchCriteria.add(new SearchCriterion<>("moduleType", "module", SearchCriterion.Operator.EQUAL_BY_ENUM,
+        searchCriteria.add(new SearchCriterion<>(MODULE_TYPE, "module", SearchCriterion.Operator.EQUAL_BY_ENUM,
                 CalibrationModule.ModuleType.class, null, null, "moduleType"));
+        searchCriteria.add(new SearchCriterion<>(ORGANIZATION, "module", SearchCriterion.Operator.EQUAL,
+                SearchCriterion.ValueType.STRING, "organizationCode"));
+        searchCriteria.add(new SearchCriterion<>(IS_FOR_STATION, "module", SearchCriterion.Operator.NOT_NULL));
         return searchCriteria;
     }
 
