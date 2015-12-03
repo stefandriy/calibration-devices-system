@@ -5,6 +5,9 @@ angular
         return {
             getPage: function (pageNumber, itemsPerPage, search, sortCriteria, sortOrder) {
                 return getDataWithParams(pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder, search);
+            },
+            getVerificationsByTask: function (pageNumber, itemsPerPage, sortCriteria, sortOrder, taskID) {
+                return getData('verifications/' + pageNumber + '/' + itemsPerPage + '/' + sortCriteria + '/' + sortOrder + '/' + taskID);
             }
         };
 

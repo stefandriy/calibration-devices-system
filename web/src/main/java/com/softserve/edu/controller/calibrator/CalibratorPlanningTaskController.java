@@ -8,11 +8,14 @@ import com.softserve.edu.dto.calibrator.SymbolsAndSizesDTO;
 import com.softserve.edu.dto.calibrator.TeamDTO;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 //import com.softserve.edu.entity.verification.Verification;
+import com.softserve.edu.dto.provider.VerificationDTO;
+import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.organization.Organization;
+import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.service.admin.CalibrationModuleService;
@@ -62,12 +65,14 @@ public class CalibratorPlanningTaskController {
     private Logger logger = Logger.getLogger(CalibratorPlanningTaskController.class);
 
     /**
-     * Return page of calibration module according to filters and sort order
+     * Returns page of calibration tasks according to filters and sort order
      *
      * @param pageNumber   number of page to return
      * @param itemsPerPage count of items on page
      * @param sortCriteria sorting criteria
      * @param sortOrder    order of sorting
+     * @param filterParams parameters for filtering
+     * @param employeeUser current user
      * @return sorted and filtered page of calibration tasks
      */
     @RequestMapping(value = "/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}", method = RequestMethod.GET)
@@ -75,8 +80,6 @@ public class CalibratorPlanningTaskController {
                         @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
                         @PathVariable String sortOrder, @RequestParam Map<String, String> filterParams,
                         @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
-        // adding current user to the filtering map for
-        // further filtering by owning organization
         Sort sort = new Sort(Sort.Direction.valueOf(sortOrder.toUpperCase()), sortCriteria);
         Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
         // fetching data from database, receiving a sorted and filtered page of calibration tasks
@@ -85,9 +88,40 @@ public class CalibratorPlanningTaskController {
         List<CalibrationTaskDTO> content = new ArrayList<CalibrationTaskDTO>();
         // converting Page of CalibrationTasks to List of CalibrationTaskDTOs
         for (CalibrationTask task : queryResult) {
-            content.add(new CalibrationTaskDTO(task.getModule().getModuleNumber(), task.getDateOfTask(),
+            content.add(new CalibrationTaskDTO(task.getId(), task.getModule().getModuleNumber(), task.getDateOfTask(),
                     task.getModule().getModuleType(), task.getModule().getEmployeeFullName(),
                     task.getModule().getTelephone()));
+        }
+        return new PageDTO<>(queryResult.getTotalElements(), content);
+    }
+
+    /**
+     * Returns page of verifications of the current calibration task
+     *
+     * @param pageNumber   number of page to return
+     * @param itemsPerPage count of items on page
+     * @param sortCriteria sorting criteria
+     * @param sortOrder    order of sorting
+     * @return sorted and filtered page of verifications
+     */
+    @RequestMapping(value = "/verifications/{pageNumber}/{itemsPerPage}/{sortCriteria}/{sortOrder}/{taskID}",
+                                                                        method = RequestMethod.GET)
+    public PageDTO<VerificationPlanningTaskDTO> getVerificationsOfCurrentTask(@PathVariable Integer pageNumber,
+                              @PathVariable Integer itemsPerPage, @PathVariable String sortCriteria,
+                              @PathVariable String sortOrder, @PathVariable Long taskID) {
+        Sort sort = new Sort(Sort.Direction.valueOf(sortOrder.toUpperCase()), sortCriteria);
+        Pageable pageable = new PageRequest(pageNumber - 1, itemsPerPage, sort);
+        // fetching data from database, receiving a sorted page of task verifications
+        Page<Verification> queryResult = verificationService.getVerificationsByTaskID(taskID, pageable);
+        List<VerificationPlanningTaskDTO> content = new ArrayList<VerificationPlanningTaskDTO>();
+        // converting Page of Verifications to List of VerificationDTOs
+        for (Verification verification : queryResult) {
+            ClientData clientData = verification.getClientData();
+            Address address = clientData.getClientAddress();
+            content.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
+                    verification.getProvider().getName(), address.getDistrict(), address.getStreet(),
+                    address.getBuilding(), address.getFlat(), clientData.getFullName(),
+                    clientData.getPhone(), verification.getInfo()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }

@@ -9,6 +9,7 @@ import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.utils.*;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -116,5 +117,7 @@ public interface VerificationService {
     java.sql.Date getArchivalVerificationEarliestDateByCalibrator(Organization organization);
 
     java.sql.Date getEarliestPlanningTaskDate(Organization organization);
+
+    Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable);
 
 }

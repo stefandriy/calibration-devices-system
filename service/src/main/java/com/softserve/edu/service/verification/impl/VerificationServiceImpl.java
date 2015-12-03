@@ -1,11 +1,15 @@
 package com.softserve.edu.service.verification.impl;
 
+import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
 import com.softserve.edu.entity.verification.ClientData;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.enumeration.verification.Status;
+import com.softserve.edu.repository.CalibrationModuleRepository;
+import com.softserve.edu.repository.CalibrationPlanningTaskRepository;
 import com.softserve.edu.repository.CalibrationTestRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
@@ -31,6 +35,9 @@ import java.util.List;
 public class VerificationServiceImpl implements VerificationService {
 
     private Logger logger = Logger.getLogger(VerificationServiceImpl.class);
+
+    @Autowired
+    private CalibrationPlanningTaskRepository taskRepository;
 
     @Autowired
     private VerificationRepository verificationRepository;
@@ -580,4 +587,15 @@ public class VerificationServiceImpl implements VerificationService {
     public java.sql.Date getEarliestPlanningTaskDate(Organization organization) {
         return verificationRepository.getEarliestPlanningTaskDate(organization);
     }
+
+    @Transactional
+    public Page<Verification> getVerificationsByTaskID(Long taskID, Pageable pageable) {
+        CalibrationTask task = taskRepository.findOne(taskID);
+        if (task == null) {
+            logger.error("task wasn't found");
+            throw new IllegalArgumentException();
+        }
+        return verificationRepository.findByTask(task, pageable);
+    }
+
 }

@@ -100,30 +100,32 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     @Override
     public void addNewTaskForStation(Date taskDate, String moduleNumber, List<String> verificationsId, String userId) {
         CalibrationModule module = moduleRepository.findByModuleNumber(moduleNumber);
-        Set<Verification> verifications = new HashSet<>();
+        if (module == null) {
+            logger.error("module wasn't found");
+            throw new IllegalArgumentException();
+        }
+        User user = userRepository.findOne(userId);
+        if (user == null) {
+            logger.error("user wasn't found");
+            throw new IllegalArgumentException();
+        }
+        CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, user);
+        try {
+            sendTaskToStation(task);
+            taskRepository.save(task);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
             if (verification == null) {
                 logger.error("verification wasn't found");
                 throw new IllegalArgumentException();
             } else {
-                // if (module.getDeviceType() == verification.getDevice().getDeviceType()) {
                 verification.setTaskStatus(Status.TEST_PLACE_DETERMINED);
+                verification.setTask(task);
                 verificationRepository.save(verification);
-                verifications.add(verification);
             }
-                /*else {
-                    logger.error("verification and module have different device types");
-                    throw new IllegalArgumentException();
-                }*/
-        }
-        User user = userRepository.findOne(userId);
-        CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, user, verifications);
-        try {
-            sendTaskToStation(task);
-            taskRepository.save(task);
-        } catch (Exception ex) {
-            logger.error(ex.getMessage());
         }
     }
 

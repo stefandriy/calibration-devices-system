@@ -131,6 +131,21 @@ angular
                 return false;
             };
 
+            $scope.openVerificationListModal = function(calibrationTaskID) {
+                var verificationsModal = $modal
+                    .open({
+                        animation: true,
+                        controller: 'VerificationListModalController',
+                        templateUrl: '/resources/app/calibrator/views/modals/verification-list-modal.html',
+                        size: 'lg',
+                        resolve: {
+                            taskID: function () {
+                                return calibrationTaskID;
+                            }
+                        }
+                    });
+            };
+
             $scope.tableParams = new ngTableParams({
                     page: 1,
                     count: 5,

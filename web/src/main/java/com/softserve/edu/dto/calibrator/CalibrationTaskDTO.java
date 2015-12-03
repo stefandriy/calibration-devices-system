@@ -10,6 +10,8 @@ import java.util.List;
 @Setter
 public class CalibrationTaskDTO {
 
+    private Long taskID;
+
     private String moduleNumber;
 
     private Date dateOfTask;
@@ -30,8 +32,9 @@ public class CalibrationTaskDTO {
         this.verificationsId = verificationsId;
     }
 
-    public CalibrationTaskDTO(String moduleNumber, Date dateOfTask, CalibrationModule.ModuleType moduleType,
-                              String employeeFullName, String telephone) {
+    public CalibrationTaskDTO(Long taskID, String moduleNumber, Date dateOfTask,
+                              CalibrationModule.ModuleType moduleType, String employeeFullName, String telephone) {
+        this.taskID = taskID;
         this.moduleNumber = moduleNumber;
         this.dateOfTask = dateOfTask;
         this.moduleType = moduleType;

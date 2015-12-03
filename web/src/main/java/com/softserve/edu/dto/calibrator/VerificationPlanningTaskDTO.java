@@ -1,6 +1,7 @@
 package com.softserve.edu.dto.calibrator;
 
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.verification.calibration.AdditionalInfo;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,9 @@ public class VerificationPlanningTaskDTO {
     private String building_flat;
     private String phone;
     private String time;
+    private int entrance;
+    private int floor;
+    private String notes;
     private Date dateOfVerif;
     private LocalTime timeFrom;
     private LocalTime timeTo;
@@ -32,6 +36,29 @@ public class VerificationPlanningTaskDTO {
     private boolean sealPresence;
 
     public VerificationPlanningTaskDTO(){}
+
+    public VerificationPlanningTaskDTO(Date sentDate, String providerName, String district, String street,
+                                       String building, String flat, String clientFullName, String telephone,
+                                       AdditionalInfo additionalInfo) {
+        this.sentToCalibrator = sentDate;
+        this.providerName = providerName;
+        this.district = district;
+        this.street = street;
+        this.building = building;
+        this.flat = flat;
+        this.clientFullName = clientFullName;
+        this.telephone = telephone;
+        if (additionalInfo != null) {
+            this.entrance = additionalInfo.getEntrance();
+            this.floor = additionalInfo.getFloor();
+            if ((additionalInfo.getTimeFrom() != null) && (additionalInfo.getTimeTo() != null)) {
+                this.time = additionalInfo.getTimeFrom().toString() + " - " + additionalInfo.getTimeTo().toString();
+            } else {
+                this.time = null;
+            }
+            this.notes = additionalInfo.getNotes();
+        }
+    }
 
     public VerificationPlanningTaskDTO(Date sentDate, String verificationID, String providerName, String fullName,
                                        String district, String street, String building, String flat, String telephone,

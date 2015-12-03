@@ -44,7 +44,7 @@ public class CalibrationTask {
     @JoinColumn(name = "username")
     private User user;
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     private Set<Verification> verifications;
 
     public CalibrationTask(CalibrationModule module, DisassemblyTeam team, Date createTaskDate, Date dateOfTask, User user, Set<Verification> verifications) {
@@ -55,4 +55,13 @@ public class CalibrationTask {
         this.user = user;
         this.verifications = verifications;
     }
+
+    public CalibrationTask(CalibrationModule module, DisassemblyTeam team, Date createTaskDate, Date dateOfTask, User user) {
+        this.module = module;
+        this.team = team;
+        this.createTaskDate = createTaskDate;
+        this.dateOfTask = dateOfTask;
+        this.user = user;
+    }
+
 }
