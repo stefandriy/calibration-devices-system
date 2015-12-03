@@ -15,9 +15,11 @@ import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.ZipArchiver;
 import com.softserve.edu.service.utils.export.DbfTableExporter;
 import com.softserve.edu.service.utils.export.XlsTableExporter;
+import com.softserve.edu.specification.CalibrationTaskSpecificationBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,11 +58,25 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
 
     /**
+     * This method returns filtered and sorted
+     * page of calibration tasks
+     *
+     * @param filterParams filtering parameters
+     * @param pageable parameters for pagination and sorting
+     * @return filtered and sorted page of calibration tasks
+     */
+    public Page<CalibrationTask> getFilteredPageOfCalibrationTasks(Map<String, String> filterParams, Pageable pageable) {
+        CalibrationTaskSpecificationBuilder specificationBuilder = new CalibrationTaskSpecificationBuilder(filterParams);
+        Specification<CalibrationTask> searchSpec = specificationBuilder.buildPredicate();
+        return taskRepository.findAll(searchSpec, pageable);
+    }
+
+    /**
      * This method fetches all calibration tasks and returns
      * a sorted page of them
      *
      * @param pageable parameters for pagination and sorting
-     * @return paginated and sorted page of calibration tasks
+     * @return sorted page of calibration tasks
      */
     public Page<CalibrationTask> findAllCalibrationTasks(Pageable pageable) {
         return taskRepository.findAll(pageable);

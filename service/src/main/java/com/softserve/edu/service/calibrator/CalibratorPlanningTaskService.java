@@ -10,9 +10,12 @@ import org.springframework.data.domain.Pageable;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public interface CalibratorPlanningTaskService {
+
+    Page<CalibrationTask> getFilteredPageOfCalibrationTasks(Map<String, String> filterParams, Pageable pageable);
 
     Page<CalibrationTask> findAllCalibrationTasks(Pageable pageable);
 
