@@ -29,8 +29,8 @@ angular
                 $scope.$broadcast('show-errors-reset');
                 $scope.addReasonForm.$setPristine();
                 $scope.addReasonForm.$setUntouched();
-                $scope.addReasonFormData = {};
-                $scope.addReasonFormData.deviceName = {};
+                $scope.addReasonFormData = [];
+                $scope.addReasonFormData.deviceName = undefined;
                 $scope.addReasonFormData.name = '';
             };
 
