@@ -595,6 +595,10 @@
   "PROTOCOL_REJECTING_SUCCESS": "Verification protocol(s) rejected",
   "PROTOCOL_SENDING_SUCCESS": "Verification protocol(s) sent",
   "OK": "Ok",
+  "TEST1":"result of test 1",
+  "TEST2":"result of test 2",
+  "TEST3":"result of test 3",
+  "HANDHELD_ELECTRONIC_PROTOCOL":"handheld electronic protocol"
   "REPORTS" : "Reports",
   "PROVIDER_EMPLOYEES_REPORTS" : "Employees reports",
   "CALIBRATORS_REPORTS" : "Calibrators reports",
