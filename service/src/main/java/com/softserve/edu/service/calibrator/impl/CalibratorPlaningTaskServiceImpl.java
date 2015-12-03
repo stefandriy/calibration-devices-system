@@ -10,6 +10,7 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import com.softserve.edu.repository.*;
 import com.softserve.edu.service.calibrator.CalibratorPlanningTaskService;
+import com.softserve.edu.service.tool.MailService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.ZipArchiver;
 import com.softserve.edu.service.utils.export.DbfTableExporter;
@@ -45,6 +46,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
     @Autowired
     private CounterTypeRepository counterTypeRepository;
+
+    @Autowired
+    private MailService mailService;
 
 
     private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
@@ -83,8 +87,12 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         User user = userRepository.findOne(userId);
         CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, user, verifications);
-        taskRepository.save(task);
-        sendTaskToStation(task);
+        try {
+            sendTaskToStation(task);
+            taskRepository.save(task);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
     }
 
     /**
@@ -289,12 +297,12 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return counterTypes;
     }
 
-    private void sendTaskToStation(CalibrationTask calibrationTask) {
+    public void sendTaskToStation(CalibrationTask calibrationTask) {
         Verification[] verifications = calibrationTask
                 .getVerifications()
                 .toArray(new Verification[calibrationTask.getVerifications().size()]);
 
-        Map<String, List<String>> dataForXls = getDataForXls(verifications);
+        Map<String, List<String>> dataForXls = getDataForXls(calibrationTask, verifications);
         XlsTableExporter xlsTableExporter = new XlsTableExporter();
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -322,7 +330,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 xlsSuccess = false;
             }
 
-            Map<String, List<String>> dataForDbf = getDataForDbf(verifications);
+            Map<String, List<String>> dataForDbf = getDataForDbf(calibrationTask, verifications);
             DbfTableExporter dbfTableExporter = new DbfTableExporter();
 
             boolean dbfSuccess;
@@ -350,9 +358,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             }
 
             if (xlsSuccess && dbfSuccess && zipSuccess && zipFile != null) {
-                MailServiceImpl mailService = new MailServiceImpl();
-                mailService.sendMailWithAttachment(calibrationTask.getModule().getEmail(), "Завдання", "", zipFile);
-                // TODO: Fix problems with sending mail
+                String email = calibrationTask.getModule().getEmail();
+                mailService.sendMailWithAttachment(email, "Завдання", " ", zipFile);
+                // TODO: Can't test sending mails on local machine!
             }
         } finally {
             xlsFile.delete();
@@ -361,7 +369,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
     }
 
-    private Map<String, List<String>> getDataForXls(Verification[] verifications) {
+    private Map<String, List<String>> getDataForXls(CalibrationTask calibrationTask, Verification[] verifications) {
         Map<String, List<String>> data = new LinkedHashMap<>();
 
         // region Define lists
@@ -398,19 +406,84 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         // region Fill lists
 
         for (Verification verification : verifications) {
-            taskDate.add(verification.getExpirationDate().toString());
-            provider.add(verification.getProvider().getName());
-            district.add(verification.getClientData().getClientAddress().getDistrict());
-            address.add(verification.getClientData().getClientAddress().getAddress());
-            building.add(verification.getClientData().getClientAddress().getBuilding());
-            flat.add(verification.getClientData().getClientAddress().getFlat());
-            entrance.add(String.valueOf(verification.getInfo().getEntrance()));
-            floor.add(String.valueOf(verification.getInfo().getFloor()));
-            countersNumber.add(String.valueOf(0));
-            fullName.add(verification.getClientData().getFullName());
-            telephone.add(verification.getClientData().getPhone());
-            time.add(verification.getProcessTimeExceeding().toString());
-            comment.add(verification.getComment());
+            SimpleDateFormat simpleTaskDate = new SimpleDateFormat("dd.MM.yyyy");
+            try {
+                taskDate.add(simpleTaskDate.format(calibrationTask.getDateOfTask()));
+            } catch (Exception ex) {
+                taskDate.add(" ");
+            }
+
+            try {
+                provider.add(verification.getProvider().getName());
+            } catch (Exception ex) {
+                provider.add(" ");
+            }
+
+            try {
+                district.add(verification.getClientData().getClientAddress().getDistrict());
+            } catch (Exception ex) {
+                district.add(" ");
+            }
+
+            try {
+                address.add(verification.getClientData().getClientAddress().getAddress());
+            } catch (Exception ex) {
+                address.add(" ");
+            }
+
+            try {
+                building.add(verification.getClientData().getClientAddress().getBuilding());
+            } catch (Exception ex) {
+                building.add(" ");
+            }
+
+            try {
+                flat.add(verification.getClientData().getClientAddress().getFlat().toString());
+            } catch (Exception ex) {
+                flat.add(" ");
+            }
+
+            try {
+                entrance.add(String.valueOf(verification.getInfo().getEntrance()));
+            } catch (Exception ex) {
+                entrance.add(" ");
+            }
+
+            try {
+                floor.add(String.valueOf(verification.getInfo().getFloor()));
+            } catch (Exception ex) {
+                floor.add(" ");
+            }
+
+            try {
+                countersNumber.add(String.valueOf(1));
+            } catch (Exception ex) {
+                countersNumber.add(" ");
+            }
+
+            try {
+                fullName.add(verification.getClientData().getFullName());
+            } catch (Exception ex) {
+                fullName.add(" ");
+            }
+
+            try {
+                telephone.add(verification.getClientData().getPhone());
+            } catch (Exception ex) {
+                telephone.add(" ");
+            }
+
+            try {
+                time.add(verification.getProcessTimeExceeding().toString());
+            } catch (Exception ex) {
+                time.add(" ");
+            }
+
+            try {
+                comment.add(verification.getComment().toString());
+            } catch (Exception ex) {
+                comment.add(" ");
+            }
         }
 
         // endregion
@@ -436,7 +509,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         return data;
     }
 
-    private Map<String, List<String>> getDataForDbf(Verification[] verifications) {
+    private Map<String, List<String>> getDataForDbf(CalibrationTask calibrationTask, Verification[] verifications) {
         Map<String, List<String>> data = new LinkedHashMap<>();
 
         // region Define lists
@@ -477,21 +550,96 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         // region Fill lists
 
         for (Verification verification : verifications) {
-            id.add(verification.getId());
-            surname.add(verification.getClientData().getLastName());
-            name.add(verification.getClientData().getFirstName());
-            middle.add(verification.getClientData().getMiddleName());
-            city.add(verification.getClientData().getClientAddress().getLocality());
-            district.add(verification.getClientData().getClientAddress().getDistrict());
-            sector.add(verification.getClientData().getClientAddress().getRegion());
-            street.add(verification.getClientData().getClientAddress().getStreet());
-            building.add(verification.getClientData().getClientAddress().getBuilding());
-            flat.add(verification.getClientData().getClientAddress().getFlat());
-            telephone.add(verification.getClientData().getPhone());
-            datetime.add(verification.getExpirationDate().toString());
-            counterNumber.add(verification.getDevice().getNumber());
-            comment.add(verification.getComment());
-            customer.add(verification.getCalibratorEmployee().getUsername());
+            try {
+                id.add(verification.getId());
+            } catch (Exception ex) {
+                id.add(" ");
+            }
+
+            try {
+                surname.add(verification.getClientData().getLastName());
+            } catch (Exception ex) {
+                surname.add(" ");
+            }
+
+            try {
+                name.add(verification.getClientData().getFirstName());
+            } catch (Exception ex) {
+                name.add(" ");
+            }
+
+            try {
+                middle.add(verification.getClientData().getMiddleName());
+            } catch (Exception ex) {
+                middle.add(" ");
+            }
+
+            try {
+                city.add(verification.getClientData().getClientAddress().getLocality());
+            } catch (Exception ex) {
+                city.add(" ");
+            }
+
+            try {
+                district.add(verification.getClientData().getClientAddress().getDistrict());
+            } catch (Exception ex) {
+                district.add(" ");
+            }
+
+            try {
+                sector.add(verification.getClientData().getClientAddress().getRegion());
+            } catch (Exception ex) {
+                sector.add(" ");
+            }
+
+            try {
+                street.add(verification.getClientData().getClientAddress().getStreet());
+            } catch (Exception ex) {
+                street.add(" ");
+            }
+
+            try {
+                building.add(verification.getClientData().getClientAddress().getBuilding());
+            } catch (Exception ex) {
+                building.add(" ");
+            }
+
+            try {
+                flat.add(verification.getClientData().getClientAddress().getFlat());
+            } catch (Exception ex) {
+                flat.add(" ");
+            }
+
+            try {
+                telephone.add(verification.getClientData().getPhone());
+            } catch (Exception ex) {
+                telephone.add(" ");
+            }
+
+            try {
+                SimpleDateFormat simpleTaskDate = new SimpleDateFormat("dd.MM.yyyy");
+                datetime.add(simpleTaskDate.format(calibrationTask.getDateOfTask()));
+            } catch (Exception ex) {
+                datetime.add(" ");
+            }
+
+            try {
+                counterNumber.add(verification.getDevice().getNumber());
+            } catch (Exception ex) {
+                counterNumber.add(" ");
+            }
+
+            try {
+                comment.add(verification.getComment().toString());
+            } catch (Exception ex) {
+                comment.add(" ");
+            }
+
+            try {
+                customer.add(verification.getCalibratorEmployee().getUsername());
+            } catch (Exception ex) {
+                customer.add(" ");
+            }
         }
 
         // endregion

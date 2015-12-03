@@ -184,8 +184,9 @@ public class CalibratorPlaningTaskServiceImplTest {
         return counterTypes;*/
     }
 
-    /*@Test
+    @Test
     public void testSendTaskToStation() {
+        CalibratorPlaningTaskServiceImpl cbpts = new CalibratorPlaningTaskServiceImpl();
         long nextWeek = System.currentTimeMillis() + (86400 * 7 * 1000);
         CalibrationModule module = new CalibrationModule(Device.DeviceType.WATER, "1529817", "conddesign", "sernum", "Robert Nesta Marley",
                 "123456789", CalibrationModule.ModuleType.INSTALLATION_FIX, "2klen94@gmail.com", "ctype", new Date(nextWeek));
@@ -193,11 +194,12 @@ public class CalibratorPlaningTaskServiceImplTest {
                 module, null, new Date(), new Date(), new User("user1", "pass"), new TreeSet<>());
 
         try {
-            calibratorPlaningTaskService.sendTaskToStation(calibrationTask);
+            cbpts.sendTaskToStation(calibrationTask);
+            //calibratorPlaningTaskService.sendTaskToStation(calibrationTask);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
             e.printStackTrace();
         }
-    }*/
+    }
 }

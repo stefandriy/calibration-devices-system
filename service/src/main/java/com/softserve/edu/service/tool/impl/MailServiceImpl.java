@@ -331,14 +331,14 @@ public class MailServiceImpl implements MailService {
     }
 
     @Async
-    public void sendMailWithAttachment(String to, String subject, String message, File attachment) {
+    public void sendMailWithAttachment(String to, String subject, String mailMessage, File attachment) {
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+                MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
                 mimeMessageHelper.setTo(to);
                 mimeMessageHelper.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
                 mimeMessageHelper.setSubject(subject);
-                mimeMessageHelper.setText(message);
+                mimeMessageHelper.setText(mailMessage);
                 mimeMessageHelper.addAttachment(attachment.getName(), attachment);
                 String domain = null;
                 try {

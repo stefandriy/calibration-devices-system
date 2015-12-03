@@ -50,7 +50,6 @@ public class DbfTableExporter implements TableExporter {
         for (int i = 0; i < data.values().size(); ++i) {
             values.add((List<String>)valArray[i]);
         }
-        // (ArrayList<List<String>>)data.values();
         for (int i = 0; i < values.get(0).size(); ++i) {
             Object[] row = new Object[values.size()];
             for (int j = 0; j < values.size(); ++j) {
