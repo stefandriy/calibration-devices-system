@@ -31,7 +31,7 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
     private EntityManager em;
 
     public Long countByCalibratorEmployee_usernameAndStatus(User calibratorEmployee, Status status) {
-        return verificationRepository.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee.getUsername(), status);
+        return verificationRepository.countByCalibratorEmployeeUsernameAndStatus(calibratorEmployee.getUsername(), status);
     }
 
     /**
