@@ -3,9 +3,6 @@ package com.softserve.edu.dto.admin;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * Created by Sonka on 23.11.2015.
- */
 @Getter
 @Setter
 public class UnsuitabilityReasonDTO {

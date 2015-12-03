@@ -26,6 +26,7 @@ public class UnsuitabilityReasonServiceImpl implements UnsuitabilityReasonServic
 
     @Override
     public void addUnsuitabilityReason(String name, Long counterId) {
+
         Device device = deviceRepository.findOne(counterId);
         unsuitabilityReasonRepository.save(new UnsuitabilityReason(name, device));
     }

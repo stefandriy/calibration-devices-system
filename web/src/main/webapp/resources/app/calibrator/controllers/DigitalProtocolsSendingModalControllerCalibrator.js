@@ -1,6 +1,6 @@
 angular
     .module('employeeModule')
-    .controller('SendingModalControllerCalibrator', ['$scope', '$log', '$modalInstance', 'response', '$rootScope',
+    .controller('DigitalProtocolsSendingModalControllerCalibrator', ['$scope', '$log', '$modalInstance', 'response', '$rootScope',
         function ($scope, $log, $modalInstance, response, $rootScope) {
 
             /**

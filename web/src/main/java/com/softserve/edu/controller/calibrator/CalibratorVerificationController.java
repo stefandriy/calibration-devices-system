@@ -101,12 +101,14 @@ public class CalibratorVerificationController {
             String originalFileName = file.getOriginalFilename();
             String fileType = originalFileName.substring(originalFileName.lastIndexOf('.'));
             if (Pattern.compile(contentExtensionPattern, Pattern.CASE_INSENSITIVE).matcher(fileType).matches()) {
-                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(file, verificationId, originalFileName);
+                DeviceTestData deviceTestData = bbiFileServiceFacade.parseAndSaveBBIFile(
+                        file, verificationId, originalFileName);
                 long calibrationTestId = testService.createNewTest(deviceTestData, verificationId);
 
                 CalibrationTest calibrationTest = testService.findTestById(calibrationTestId);
 
-                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(calibrationTest,testService,verificationId), HttpStatus.OK);
+                responseEntity = new ResponseEntity(new CalibrationTestFileDataDTO(
+                        calibrationTest,testService,verificationId), HttpStatus.OK);
 
             } else {
                 logger.error("Failed to load file: pattern does not match.");
