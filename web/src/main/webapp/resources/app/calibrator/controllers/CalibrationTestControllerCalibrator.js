@@ -6,7 +6,20 @@ angular
 
             $scope.resultsCount = 0;
 
+            $scope.IdsOfVerifications = calibrationTestServiceCalibrator.dataOfVerifications().getIdsOfVerifications();
 
+
+            $scope.clearAll = function () {
+                $scope.consumptionStatus.name = null;
+                $scope.selectedDeviceType.name = null;
+                $scope.selectedTestResult.name = null;
+                $scope.tableParams.filter(
+                    {
+                        id : $location.search().param
+                    }
+                );
+                $scope.clearDate(); // sets 'all time' timerange
+            };
 
             $scope.clearDate = function () {
                 //daterangepicker doesn't support null dates
@@ -139,7 +152,6 @@ angular
                 };
             };
 
-
             $scope.showPicker = function ($event) {
                 angular.element("#datepickerfield").trigger("click");
             };
@@ -158,93 +170,99 @@ angular
             };
 
 
-            var dataT = [{name: "Moroni", age: 50} /*,*/];
-
-            $scope.tableParams = new ngTableParams({
-                page: 1,
-                count: 10
-            }, {
-                counts: [],
-                getData: function ($defer, params) {
-                    $defer.resolve(dataT);
-                }
-            });
             verificationServiceCalibrator.getArchivalVerificationEarliestDate().success(function (date) {
-                //first we will try to receive date period
-                // to populate ng-table filter
-                // I did this to reduce reloading and flickering of the table
-                $scope.initDatePicker(date);
-
-                //$scope.tableParams = new ngTableParams(
-                //{
-                //
-                //    page: 1,
-                //    count: 10,
-                //    sorting: {
-                //        date: 'desc'
-                //    }
-                //}, {
-                //    total: 0,
-                //        filterDelay: 1500,
-                //        counts: [],
-                //    getData: function ($defer, params) {
-                //        $defer.resolve(data);
-                //
-                //        //if (params.settings().$scope == null) {
-                        //    params.settings().$scope = $scope;
-                        //}
-                        //
-                        //var sortCriteria = Object.keys(params.sorting())[0];
-                        //var sortOrder = params.sorting()[sortCriteria];
-                        //
-                        //params.filter().id = null;
-                        //
-                        //if ($scope.consumptionStatus.name != null) {
-                        //    params.filter().consumptionStatus = $scope.consumptionStatus.name.id;
-                        //}
-                        //else {
-                        //    params.filter().consumptionStatus = null; //case when the filter is cleared with a button on the select
-                        //}
-                        //
-                        //if ($scope.selectedDeviceType.name != null) {
-                        //    params.filter().measurementDeviceType = $scope.selectedDeviceType.name.id;
-                        //}
-                        //else {
-                        //    params.filter().measurementDeviceType = null; //case when the filter is cleared with a button on the select
-                        //}
-                        //
-                        //
-                        //if ($scope.selectedTestResult.name != null) {
-                        //    params.filter().testResult = $scope.selectedTestResult.name.id;
-                        //} else {
-                        //    params.filter().testResult = null;
-                        //}
-                        //
-                        //if(true) {
-                        //    params.filter().id = $location.search().param;
-                        //}
-                        //
-                        ////params.filter().id = $location.search().param;
-                        //params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                        //params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-                        //
-                        //calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
-                        //    $scope.resultsCount = result.totalItems;
-                        //    $defer.resolve(result.content);
-                        //    params.total(result.totalItems);
-                        //}, function (result) {
-                        //    $log.debug('error fetching data:', result);
+                    //first we will try to receive date period
+                    // to populate ng-table filter
+                    // I did this to reduce reloading and flickering of the table
+                    $scope.initDatePicker(date);
+                    $scope.tableParams = new ngTableParams(
+                        {
+                            page: 1,
+                            count: 10,
+                            sorting: {
+                                date: 'desc'
+                            }
+                        }, {
+                            counts: [],
+                            total: 0,
+                            filterDelay: 1500,
+                            getData: function ($defer, params) {
+                        //        $defer.resolve(dataT);
+                        //    }
                         //});
-                    //}
-                //});
+
+                        if (params.settings().$scope == null) {
+                            params.settings().$scope = $scope;
+                        }
+
+                        var sortCriteria = Object.keys(params.sorting())[0];
+                        var sortOrder = params.sorting()[sortCriteria];
+
+                        params.filter().id = null;
+
+                        if ($scope.consumptionStatus.name != null) {
+                            params.filter().consumptionStatus = $scope.consumptionStatus.name.id;
+                        }
+                        else {
+                            params.filter().consumptionStatus = null; //case when the filter is cleared with a button on the select
+                        }
+
+                        if ($scope.selectedDeviceType.name != null) {
+                            params.filter().measurementDeviceType = $scope.selectedDeviceType.name.id;
+                        }
+                        else {
+                            params.filter().measurementDeviceType = null; //case when the filter is cleared with a button on the select
+                        }
+
+
+                        if ($scope.selectedTestResult.name != null) {
+                            params.filter().testResult = $scope.selectedTestResult.name.id;
+                        } else {
+                            params.filter().testResult = null;
+                        }
+
+                        if(true) {
+                            params.filter().id = $location.search().param;
+                        }
+
+                        //params.filter().id = $location.search().param;
+                        params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+                        params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+
+                        calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
+                            $scope.resultsCount = result.totalItems;
+                            $defer.resolve(result.content);
+                            params.total(result.totalItems);
+                        }, function (result) {
+                            $log.debug('error fetching data:', result);
+                        });
+                    }
+                });
                 $scope.params.settings().$scope = $scope;
             });
+
 
 
             $scope.checkDateFilters = function () {
                 if ($scope.tableParams == null) return false; //table not yet initialized
                 var obj = $scope.tableParams.filter();
-                if ($scope.isDateDefault())
+                for (var i in obj) {
+                    if (obj.hasOwnProperty(i) && obj[i]) {
+                        if (i == 'date' || i == 'endDate')
+                            continue; //check for these filters is in another function
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+                $scope.checkDateFilters = function () {
+                    if ($scope.tableParams == null) return false; //table not yet initialized
+                    var obj = $scope.tableParams.filter();
+
+
+
+                    if ($scope.isDateDefault())
                     return false;
                 else if (!moment(obj.date).isSame($scope.defaultDate.startDate)
                     || !moment(obj.endDate).isSame($scope.defaultDate.endDate)) {
@@ -297,17 +315,17 @@ angular
 
             $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             $scope.format = $scope.formats[2];
-                //    calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder, $scope.verId)
-                //        .success(function (result) {
-                //            $scope.resultsCount = result.totalItems;
-                //            console.log(result);
-                //            console.log(result.content);
-                //            console.log($scope.resultsCount);
-                //            $defer.resolve(result.content);
-                //            params.total(result.totalItems);
-                //        }, function (result) {
-                //            $log.debug('error fetching data:', result);
-                //        });
+                    //calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder, $scope.verId)
+                    //    .success(function (result) {
+                    //        $scope.resultsCount = result.totalItems;
+                    //        console.log(result);
+                    //        console.log(result.content);
+                    //        console.log($scope.resultsCount);
+                    //        $defer.resolve(result.content);
+                    //        params.total(result.totalItems);
+                    //    }, function (result) {
+                    //        $log.debug('error fetching data:', result);
+                    //    });
                 //}
 
 
@@ -317,7 +335,7 @@ angular
             //            $scope.pageContent = data.content;
             //            $scope.totalItems = data.totalItems;
             //        });
-            //};
+            //}
             //$rootScope.onTableHandling();
 
 
@@ -325,6 +343,7 @@ angular
 
             
             $scope.openAddTest = function (verificationID, fileName) {
+                $scope.getMy();
                 calibrationTestServiceCalibrator
                     .getEmptyTest(verificationID)
                     .then(function (data) {
@@ -357,37 +376,37 @@ angular
 
 
 
-            ///**
-            // * Opens modal window for editing equipment.
-            // */
-            //$scope.editCalibrationTest = function (testId) {
-            //    $rootScope.testId = testId;
-            //    calibrationTestServiceCalibrator.getCalibrationTestWithId(
-            //        $rootScope.testId).then(
-            //        function (data) {
-            //            $rootScope.calibrationTest = data;
-            //        });
-            //    var testDTOModal = $modal
-            //        .open({
-            //            animation: true,
-            //            controller: 'CalibrationTestEditModalController',
-            //            templateUrl: 'resources/app/calibrator/views/modals/calibration-test-edit-modal.html'
-            //        });
-            //};
+            /**
+             * Opens modal window for editing equipment.
+             */
+            $scope.editCalibrationTest = function (testId) {
+                $rootScope.testId = testId;
+                calibrationTestServiceCalibrator.getCalibrationTestWithId(
+                    $rootScope.testId).then(
+                    function (data) {
+                        $rootScope.calibrationTest = data;
+                    });
+                var testDTOModal = $modal
+                    .open({
+                        animation: true,
+                        controller: 'CalibrationTestEditModalController',
+                        templateUrl: 'resources/app/calibrator/views/modals/calibration-test-edit-modal.html'
+                    });
+            };
 
-            //$scope.deleteTest = function (testId) {
-            //    $rootScope.testId = testId;
-            //    calibrationTestServiceCalibrator.deleteCalibrationTest(testId).then(function (data) {
-            //        if (data == 200) {
-            //            $timeout(function () {
-            //                $scope.tableParams.reload();
-            //            }, 700);
-            //        } else {
-            //            console.log(data.status);
-            //        }
-            //
-            //    })
-            //};
+            $scope.deleteTest = function (testId) {
+                $rootScope.testId = testId;
+                calibrationTestServiceCalibrator.deleteCalibrationTest(testId).then(function (data) {
+                    if (data == 200) {
+                        $timeout(function () {
+                            $scope.tableParams.reload();
+                        }, 700);
+                    } else {
+                        console.log(data.status);
+                    }
+
+                })
+            };
 
 
             //$scope.uploadBbiFile = function () {

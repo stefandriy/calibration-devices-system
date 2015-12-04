@@ -23,7 +23,6 @@
     <div class="row">
         <div class="col-md-12">
 
-
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span>{{'RECENT_DATA_FOR_VERIFICATION' | translate }} {{verId}}</span>
@@ -31,15 +30,102 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
+
+                        <div class="form-group" show-errors>
+                            <div class="col-md-4">
+                                <label for="symbol">{{'SYMBOL' | translate}} </label>
+                            </div>
+                            <div class="col-md-8">
+                                <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model=""
+                                           on-select=""
+                                           name="symbol" id="symbol">
+                                    <ui-select-match allow-clear="false">
+                                        {{$select.selected.symbol}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="moduleSymbol in symbols | filter: $select.search">
+                                        <span ng-bind-html="moduleSymbol.symbol"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <br>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" show-errors>
+                            <div class="col-md-4">
+                                <label for="type">{{'INSTALLATION_TYPE' | translate}} </label>
+                            </div>
+                            <div class="col-md-8">
+                                <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model=""
+                                           on-select=""
+                                           name="type" id="type">
+                                    <ui-select-match allow-clear="false">
+                                        {{$select.selected.symbol}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="installationType in type | filter: $select.search">
+                                        <span ng-bind-html="installationType.name"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <br>
+                            </div>
+                        </div>
+
+                        <div class="form-group" show-errors>
+                            <div class="col-md-4">
+                                <label for="number">{{'MANUFACTURER_NUMBER' | translate}} </label>
+                            </div>
+                            <div class="col-md-8">
+                                <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model=""
+                                           on-select=""
+                                           name="type" id="type">
+                                    <ui-select-match allow-clear="false">
+                                        {{$select.selected.symbol}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="manufacturerNumber in data | filter: $select.search">
+                                        <span ng-bind-html="manufacturerNumber.number"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                                <br>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" show-errors>
+                            <div class="col-md-4">
+                                <label for="symbol">{{' MANUFACTURER_NUMBER ' | translate}} </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text"
+                                       ng-model=""
+                                       id="numberProtocol" name="numberProtocol" class="form-control">
+                                <br>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
                         <div class="col-md-12">
                             <table show-filter="false" ng-table="tableParams"
                                    class="table table-bordered table-hover users_table">
                                 <tbody>
                                 <tr ng-repeat="verification in $data" translate="">
-                                    <td data-title="'NUMBER_OF_COUNTER' | translate">{{ verification.counterId.name }}
+                                    <td data-title="'NUMBER_OF_COUNTER' | translate">{{ verification.counterId.name
+                                        }}
                                     </td>
 
-                                    <td data-title="'SYMBOL_OF_COUNTER' | translate">{{ verification.counterId.name }}
+                                    <td data-title="'SYMBOL_OF_COUNTER' | translate">{{ verification.counterId.name
+                                        }}
                                     </td>
 
                                     <td data-title="'YEAR OF COUNTER' | translate">{{ verification.counterId.name }}
@@ -49,11 +135,12 @@
                                         <ui-select ng-model="" theme="select2" on-select=''
                                                    search-enabled="false"
                                                    name="filter-status">
-                                            <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                                             allow-clear="true">
+                                            <ui-select-match
+                                                    placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
+                                                    allow-clear="true">
                                                 {{$select.selected.label}}
                                             </ui-select-match>
-                                            <ui-select-choices  repeat="status in statusData">
+                                            <ui-select-choices repeat="status in statusData">
                                                 <span ng-bind-html="status.label"></span>
                                             </ui-select-choices>
                                         </ui-select>
@@ -75,6 +162,7 @@
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
                 </div>
             </div>

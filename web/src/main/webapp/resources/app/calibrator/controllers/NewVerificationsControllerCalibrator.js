@@ -2,12 +2,11 @@ angular
     .module('employeeModule')
     .controller('NewVerificationsControllerCalibrator', ['$scope', '$log',
         '$modal', 'VerificationServiceCalibrator',
-        '$rootScope', 'ngTableParams', '$timeout', '$filter', '$window', '$location', '$translate', 'toaster',
+        '$rootScope', 'ngTableParams', '$timeout', '$filter', '$window', '$location', '$translate', 'toaster', 'CalibrationTestServiceCalibrator',
         function ($scope, $log, $modal, verificationServiceCalibrator, $rootScope, ngTableParams,
-                  $timeout, $filter, $window, $location, $translate, toaster) {
+                  $timeout, $filter, $window, $location, $translate, toaster, calibrationTestServiceCalibrator ) {
 
             $scope.resultsCount = 0;
-
 
             /**
              * this function return true if is StateVerificatorEmployee
@@ -291,6 +290,7 @@ angular
 
             $scope.openTests = function (verificationId) {
                 $log.debug("inside");
+                calibrationTestServiceCalibrator.dataOfVerifications().setIdsOfVerifications($scope.idsOfVerifications);
                 var url = $location.path('/calibrator/verifications/calibration-test/').search({param: verificationId});
             }
 
