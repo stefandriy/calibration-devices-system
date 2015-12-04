@@ -111,7 +111,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         }
         CalibrationTask task = new CalibrationTask(module, null, new Date(), taskDate, user);
         try {
-            sendTaskToStation(task);
+            // sendTaskToStation(task);
             taskRepository.save(task);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
