@@ -1,7 +1,30 @@
 angular
     .module('employeeModule')
     .factory('CalibrationTestServiceCalibrator', function ($http) {
+        var idsOfVerifications = null;
         return {
+            dataOfVerifications: function(){
+
+                var setIdsOfVerifications = function(dataofID){
+                    idsOfVerifications = dataofID;
+                };
+
+                var getIdsOfVerifications = function(){
+                    return idsOfVerifications;
+                };
+                return {
+                    setIdsOfVerifications : setIdsOfVerifications,
+                    getIdsOfVerifications : getIdsOfVerifications
+
+                    //setListIdsOfVerifications: function (listIdsOfVerifications) {
+                    //    id = listIdsOfVerifications;
+                    //},
+                    //getlist: function () {
+                    //    return id;
+                    //}
+                };
+            },
+
             getCalibrationTests: function (testId) {
                 var url = 'calibrator/calibrationTestData/' + testId;
                 return $http.get(url)
