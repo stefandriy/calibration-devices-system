@@ -3,17 +3,15 @@ angular
     .factory('DocumentService', function ($http) {
         return {
             getDocument: function (documentType, verificationId, fileFormat) {
-                console.log(documentType);
-                return getData('doc/' + documentType + "/" + verificationId + "/" + fileFormat);
+                var url = "doc/" + documentType + "/" + verificationId + "/" + fileFormat;
+                return $http.get(url, {responseType:'arraybuffer'})
+                    .success(function (response) {
+                        var file = new Blob([response], {type: 'application/pdf'});
+                        var fileURL = URL.createObjectURL(file);
+                        console.log(file);
+                        console.log(fileURL);
+                        return file;
+                    });
             }
         };
-
-        function getData(url) {
-            return $http.get(url, {responseType: "document"})
-                .success(function (data) {
-                return data;})
-                .error(function (err) {
-                return err;
-                });
-        }
     });

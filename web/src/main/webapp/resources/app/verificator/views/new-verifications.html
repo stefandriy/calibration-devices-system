@@ -102,17 +102,12 @@
                                                            {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF' | translate}}
                                                        </a>
                                                    </div>
-                                                   <div class="item"  ng-click="editDocument(verification)">
-                                                       <a class="ng-binding">
-                                                           <i class="fa fa-edit"></i>
-                                                           {{'EDIT_DOCUMENT' | translate}}
-                                                       </a>
-                                                   </div>
                                                    <div class="item" ng-click="printDocument(verification)">
                                                        <a class="ng-binding">
-                                                           <i class="fa fa-print"></i>
+                                                           <i class="print fa fa-print"></i>
                                                            {{'PRINT_DOCUMENT' | translate}}
                                                        </a>
+                                                       <iframe id="pdf" style="width:0px;height:0px;visibility:hidden;"></iframe>
                                                    </div>
                                                </div>
                                            </div>

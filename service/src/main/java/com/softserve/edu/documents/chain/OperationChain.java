@@ -42,20 +42,6 @@ public enum OperationChain {
             operations.add(DocxToPdf.INSTANCE);
         }
     },
-    /**
-     * Chain of actions to generate an HTML file.
-     */
-    HTML_CHAIN {
-        /**
-         * Initialize this constant's operations.
-         * Replacement of the default constructor.
-         */
-        @Override
-        public void init() {
-            operations = new ArrayList<>(DOCX_CHAIN.getOperations());
-            operations.add(DocxToHTML.INSTANCE);
-        }
-    },
     INFO_DOCX_CHAIN {
         /**
          * Initialize this constant's operations.
