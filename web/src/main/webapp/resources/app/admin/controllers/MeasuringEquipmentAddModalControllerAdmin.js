@@ -30,6 +30,9 @@ angular
                 $scope.addCalibrationModuleFormData.email = '';
                 $scope.addCalibrationModuleFormData.calibrationType = '';
 
+                $scope.headerTranslate = 'ADD_INSTALLATION';
+                $scope.applyButtonText = 'ADD';
+
                 $scope.calendar = {};
                 $scope.calendar.isOpen = false;
                 $scope.open = function ($event) {
@@ -79,6 +82,9 @@ angular
                     $scope.addCalibrationModuleFormData.workDate = calibrationModule.workDate;
                     $scope.addCalibrationModuleFormData.email = calibrationModule.email;
                     $scope.addCalibrationModuleFormData.calibrationType = calibrationModule.calibrationType;
+
+                    $scope.headerTranslate = 'EDIT_INSTALLATION';
+                    $scope.applyButtonText = 'EDIT';
                 } else {
                     $scope.addCalibrationModuleFormData.deviceType = undefined;
                     $scope.addCalibrationModuleFormData.organizationCode = '';
@@ -91,6 +97,9 @@ angular
                     $scope.addCalibrationModuleFormData.moduleType = undefined;
                     $scope.addCalibrationModuleFormData.email = '';
                     $scope.addCalibrationModuleFormData.calibrationType = '';
+
+                    $scope.headerTranslate = 'ADD_INSTALLATION';
+                    $scope.applyButtonText = 'ADD';
                 }
             };
 
