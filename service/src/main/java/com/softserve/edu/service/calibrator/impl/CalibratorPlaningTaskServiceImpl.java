@@ -456,78 +456,91 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 taskDate.add(simpleTaskDate.format(calibrationTask.getDateOfTask()));
             } catch (Exception ex) {
                 taskDate.add(" ");
+                logger.error("Date of task is null");
             }
 
             try {
                 provider.add(verification.getProvider().getName());
             } catch (Exception ex) {
                 provider.add(" ");
+                logger.error("Provider name is null");
             }
 
             try {
                 district.add(verification.getClientData().getClientAddress().getDistrict());
             } catch (Exception ex) {
                 district.add(" ");
+                logger.error("District is null");
             }
 
             try {
                 address.add(verification.getClientData().getClientAddress().getAddress());
             } catch (Exception ex) {
                 address.add(" ");
+                logger.error("Address is null");
             }
 
             try {
                 building.add(verification.getClientData().getClientAddress().getBuilding());
             } catch (Exception ex) {
                 building.add(" ");
+                logger.error("Building is null");
             }
 
             try {
                 flat.add(verification.getClientData().getClientAddress().getFlat().toString());
             } catch (Exception ex) {
                 flat.add(" ");
+                logger.error("Flat is null");
             }
 
             try {
                 entrance.add(String.valueOf(verification.getInfo().getEntrance()));
             } catch (Exception ex) {
                 entrance.add(" ");
+                logger.error("Entrance is null");
             }
 
             try {
                 floor.add(String.valueOf(verification.getInfo().getFloor()));
             } catch (Exception ex) {
                 floor.add(" ");
+                logger.error("Floor is null");
             }
 
             try {
                 countersNumber.add(String.valueOf(1));
             } catch (Exception ex) {
                 countersNumber.add(" ");
+                logger.error("CountersNumber is null");
             }
 
             try {
                 fullName.add(verification.getClientData().getFullName());
             } catch (Exception ex) {
                 fullName.add(" ");
+                logger.error("Full name is null");
             }
 
             try {
                 telephone.add(verification.getClientData().getPhone());
             } catch (Exception ex) {
                 telephone.add(" ");
+                logger.error("Phone is null");
             }
 
             try {
                 time.add(verification.getProcessTimeExceeding().toString());
             } catch (Exception ex) {
                 time.add(" ");
+                logger.error("ProcessTimeExceeding is null");
             }
 
             try {
                 comment.add(verification.getComment().toString());
             } catch (Exception ex) {
                 comment.add(" ");
+                logger.error("Comment is null");
             }
         }
 
@@ -599,66 +612,77 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 id.add(verification.getId());
             } catch (Exception ex) {
                 id.add(" ");
+                logger.error("Id is null");
             }
 
             try {
                 surname.add(verification.getClientData().getLastName());
             } catch (Exception ex) {
                 surname.add(" ");
+                logger.error("Last name is null");
             }
 
             try {
                 name.add(verification.getClientData().getFirstName());
             } catch (Exception ex) {
                 name.add(" ");
+                logger.error("First name is null");
             }
 
             try {
                 middle.add(verification.getClientData().getMiddleName());
             } catch (Exception ex) {
                 middle.add(" ");
+                logger.error("Middle name is null");
             }
 
             try {
                 city.add(verification.getClientData().getClientAddress().getLocality());
             } catch (Exception ex) {
                 city.add(" ");
+                logger.error("Locality is null");
             }
 
             try {
                 district.add(verification.getClientData().getClientAddress().getDistrict());
             } catch (Exception ex) {
                 district.add(" ");
+                logger.error("District is null");
             }
 
             try {
                 sector.add(verification.getClientData().getClientAddress().getRegion());
             } catch (Exception ex) {
                 sector.add(" ");
+                logger.error("Region is null");
             }
 
             try {
                 street.add(verification.getClientData().getClientAddress().getStreet());
             } catch (Exception ex) {
                 street.add(" ");
+                logger.error("Street is null");
             }
 
             try {
                 building.add(verification.getClientData().getClientAddress().getBuilding());
             } catch (Exception ex) {
                 building.add(" ");
+                logger.error("Building is null");
             }
 
             try {
                 flat.add(verification.getClientData().getClientAddress().getFlat());
             } catch (Exception ex) {
                 flat.add(" ");
+                logger.error("Flat is null");
             }
 
             try {
                 telephone.add(verification.getClientData().getPhone());
             } catch (Exception ex) {
                 telephone.add(" ");
+                logger.error("Phone is null");
             }
 
             try {
@@ -666,24 +690,28 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 datetime.add(simpleTaskDate.format(calibrationTask.getDateOfTask()));
             } catch (Exception ex) {
                 datetime.add(" ");
+                logger.error("Date of task is null");
             }
 
             try {
                 counterNumber.add(verification.getDevice().getNumber());
             } catch (Exception ex) {
                 counterNumber.add(" ");
+                logger.error("Address is null");
             }
 
             try {
                 comment.add(verification.getComment().toString());
             } catch (Exception ex) {
                 comment.add(" ");
+                logger.error("Comment is null");
             }
 
             try {
                 customer.add(verification.getCalibratorEmployee().getUsername());
             } catch (Exception ex) {
                 customer.add(" ");
+                logger.error("Customer is null");
             }
         }
 
