@@ -72,29 +72,7 @@ public class VerificationPageDTOTransformer {
 
     public static List<VerificationPlanningTaskDTO> toDoFromPageContent(List<Verification> verifications){
         List<VerificationPlanningTaskDTO> taskDTOs = new ArrayList<VerificationPlanningTaskDTO>();
-        Date dateOfVerif;
-        LocalTime timeFrom;
-        LocalTime timeTo;
-        boolean serviceability;
-        Date noWaterToDate;
         for (Verification verification : verifications) {
-            String counterStatus = (verification.isCounterStatus())? "Так": "Ні";
-            if (verification.isAddInfoExists())
-            {
-                dateOfVerif = verification.getInfo().getDateOfVerif();
-                timeFrom = verification.getInfo().getTimeFrom();
-                timeTo = verification.getInfo().getTimeTo();
-                serviceability = verification.getInfo().isServiceability();
-                noWaterToDate = verification.getInfo().getNoWaterToDate();
-            }
-            else
-            {
-                dateOfVerif = null;
-                timeFrom = null;
-                timeTo = null;
-                serviceability = true;
-                noWaterToDate = null;
-            }
             taskDTOs.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
                     verification.getId(),
                     verification.getProvider().getName(),
@@ -105,7 +83,11 @@ public class VerificationPageDTOTransformer {
                     verification.getClientData().getClientAddress().getFlat(),
                     verification.getClientData().getPhone(),
                     verification.getClientData().getSecondPhone(),
-                    dateOfVerif, timeFrom, timeTo, serviceability, noWaterToDate,
+                    (verification.getInfo() != null) ? verification.getInfo().getDateOfVerif() : null,
+                    (verification.getInfo() != null) ? verification.getInfo().getTimeFrom() : null,
+                    (verification.getInfo() != null) ? verification.getInfo().getTimeTo() : null,
+                    (verification.getInfo() != null) ? verification.getInfo().isServiceability() : true,
+                    (verification.getInfo() != null) ? verification.getInfo().getNoWaterToDate() : null,
                     verification.isSealPresence()
             ));
         }
