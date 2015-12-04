@@ -9,6 +9,8 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.entity.user.User;
 
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -98,10 +100,9 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "VERIFICATION_CERTIFICATE_NUMBER")
     public String getVerificationCertificateNumber() {
-        String verificationID = String.valueOf(getVerification().getId());
-        //TODO: how to generate CertificateNumber?
-        //Example: 24А/1-1001250915001-Д
-        return new BigInteger(verificationID.replaceAll("-", "").substring(0, 8), 16).toString();
+        String teamId = String.valueOf(getVerification().getTask().getTeam().getId());
+        String testId = String.valueOf(getCalibrationTest().getId());
+        return teamId + "-" + testId;
     }
 
     /**
@@ -191,6 +192,14 @@ public abstract class BaseCertificate implements Document {
     @Placeholder(name = "EFF_DATE")
     public String getVerificationCertificateEffectiveUntilDate() {
         return getVerification().getExpirationDate().toString();
+    }
+
+    /**
+     * @return the date of CalibrationTest.
+     */
+    @Placeholder(name = "PROTOCOL_DATE")
+    public String getCalibrationTestDate () {
+        return new SimpleDateFormat("yyyy-MM-dd").format(getCalibrationTest().getDateTest());
     }
 
     private void setVerification(Verification verification) {
