@@ -244,6 +244,11 @@
                                     translate="VERIFICATIONS_ARCHIVE">
                            </span></a>
                         </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="reports-provider"><i class="fa fa-file-word-o"></i><span
+                                    translate="REPORTS">
+                           </span></a>
+                        </li>
                     </sec:authorize>
                     <sec:authorize url="/calibrator">
                         <li ui-sref-active="active">

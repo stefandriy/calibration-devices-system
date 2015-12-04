@@ -2,11 +2,15 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.resources.DocumentType;
+import com.softserve.edu.entity.user.User;
+import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.tool.DocumentService;
+import com.softserve.edu.service.user.SecurityUserDetailsService;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyEditorSupport;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for file generation requests.
@@ -29,6 +35,34 @@ public class DocumentsController {
 
     @Autowired
     DocumentService documentService;
+    @Autowired
+    private ProviderEmployeeService providerEmployeeService;
+
+
+    /**
+     * Returns a document with a specific fileFormat using verification that
+     * has only one test. For example: .../verification_certificate/1/pdf.
+     *
+     * @param documentType document to generate
+     * @param fileFormat   fileFormat of the resulting document
+     * @throws IOException           if file can't be generated because of a
+     *                               file system error
+     * @throws IllegalStateException if one of parameters is incorrect
+     * @throws Exception
+     */
+    @RequestMapping(value = "{fileFormat}/{documentType}/my", method = RequestMethod.GET)
+    public void getDocument(HttpServletResponse response,
+                            @PathVariable DocumentType documentType,
+                            @PathVariable FileFormat fileFormat,
+                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser)
+            throws IOException, IllegalStateException, Exception {
+        User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
+        Long providerId = providerEmployee.getOrganization().getId();
+        Map<String, List<String>> data = documentService.getDataForProviderEmployeesReport(providerId);
+        FileObject file = documentService.buildFile(data, documentType, fileFormat);
+        sendFile(response, fileFormat, file);
+    }
+
 
     /**
      * Returns a document with a specific fileFormat using verification and it's
@@ -148,6 +182,9 @@ public class DocumentsController {
                 response.setContentType("application/vnd.openxmlformats-" +
                         "officedocument.wordprocessingml.document");
                 break;
+            case XLS:
+                response.setContentType("text/html");
+                break;
             default:
                 throw new IllegalArgumentException(fileFormat.name() +
                         " is not supported");
@@ -219,12 +256,12 @@ public class DocumentsController {
             }
         });
     }
-    
+
     @RequestMapping(value = "/info/{verificationCode}/{fileFormat}",
             method = RequestMethod.GET)
     public void getInfoDocument(HttpServletResponse response,
-                            @PathVariable String verificationCode,
-                            @PathVariable FileFormat fileFormat)
+                                @PathVariable String verificationCode,
+                                @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
         FileObject file = documentService.buildInfoFile(verificationCode, fileFormat);
         sendFile(response, fileFormat, file);

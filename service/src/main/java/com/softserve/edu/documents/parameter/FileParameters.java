@@ -22,6 +22,12 @@ public class FileParameters {
         this.fileFormat = fileFormat;
     }
 
+    public FileParameters(DocumentType documentType,
+                          FileFormat fileFormat) {
+        this.documentType = documentType;
+        this.fileFormat = fileFormat;
+    }
+
     public DocumentType getDocumentType() {
         return documentType;
     }

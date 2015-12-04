@@ -2,8 +2,13 @@ angular
     .module('employeeModule')
     .controller('DocumentController', ['$rootScope', '$scope', '$sce', '$http', '$modal', 'DocumentService', function ($rootScope, $scope, $sce, $http, $modal, documentService) {
         $scope.downloadDocument = function (documentType, verificationId, fileFormat) {
-            location.href = "doc/" + documentType + "/" + verificationId + "/" + fileFormat;
-        };
+            var url = "doc/" + documentType + "/" + verificationId + "/" + fileFormat;
+            location.href = url;
+        }
+        $scope.downloadDocument = function (documentType, fileFormat) {
+            var url = "doc/"  + fileFormat +"/" + documentType +"/"+ "my";
+            location.href = url;
+        }
 
         $scope.printDocument = function (verification) {
             var documentType = verification.status == 'TEST_OK' ? 'VERIFICATION_CERTIFICATE' : 'UNFITNESS_CERTIFICATE';
