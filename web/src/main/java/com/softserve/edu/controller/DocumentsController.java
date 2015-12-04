@@ -53,15 +53,15 @@ public class DocumentsController {
      * @throws IllegalStateException if one of parameters is incorrect
      * @throws Exception
      */
-    @RequestMapping(value = "{fileFormat}/{documentType}", method = RequestMethod.GET)
+    @RequestMapping(value = "{fileFormat}/{documentType}/my", method = RequestMethod.GET)
     public void getDocument(HttpServletResponse response,
                             @PathVariable DocumentType documentType,
                             @PathVariable FileFormat fileFormat,
-                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser)
+                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser)
             throws IOException, IllegalStateException , Exception{
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         Long providerId = providerEmployee.getOrganization().getId();
-        Map<String, List<String>> data = documentService.getDataForProviderEmployeesReport(providerId);
+        Map<String, List<String>> data = documentService.getDataForProviderEmployeesReport(1L);
         FileObject file = documentService.buildFile(data, documentType, fileFormat);
        sendFile(response, fileFormat, file);
     }

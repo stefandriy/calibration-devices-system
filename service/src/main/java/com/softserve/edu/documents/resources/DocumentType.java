@@ -16,7 +16,7 @@ public enum DocumentType {
      */
     @Override
     public String toString() {
-        return name().toLowerCase() + ".docx";
+        return name().toLowerCase();
     }
 
 }

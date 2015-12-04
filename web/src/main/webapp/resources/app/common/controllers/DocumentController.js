@@ -6,7 +6,7 @@ angular
             location.href = url;
         }
         $scope.downloadDocument = function (documentType, fileFormat) {
-            var url = "doc/"  + fileFormat +"/" + documentType ;
+            var url = "doc/"  + fileFormat +"/" + documentType +"/"+ "my";
             location.href = url;
         }
 
