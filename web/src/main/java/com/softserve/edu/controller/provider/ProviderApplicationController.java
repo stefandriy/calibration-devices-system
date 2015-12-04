@@ -178,7 +178,7 @@ public class ProviderApplicationController {
         Organization provider = providerService.findById(employeeUser.getOrganizationId());
         Device device = deviceService.getById(verificationDTO.getDeviceId());
         Verification verification = new Verification(new Date(), new Date(), clientData, provider, device, Status.SENT,
-                Verification.ReadStatus.UNREAD, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment()); //TODO: change status!!!
+                Verification.ReadStatus.UNREAD, info, verificationDTO.getDismantled(), counter, verificationDTO.getComment());
 
         verificationService.saveVerification(verification);
 

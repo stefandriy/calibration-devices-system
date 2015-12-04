@@ -74,19 +74,42 @@
                                         <img src="resources/assets/button-icons/test.png" ng-show="verification.status == 'SENT_TO_VERIFICATOR' || verification.status == 'TEST_COMPLETED' || verification.status == 'TEST_OK'"
                                              popover="Інформація про протокол" popover-trigger="mouseenter"
                                              ng-click="openProtocol(verification.id)">
-                                        </img>
-                                            <a ng-show="verification.status === 'TEST_OK'"
-                                               popover="Завантажити тестові дані у форматі 'docx'"
-                                               popover-trigger="mouseenter"
-                                               href="{{'/doc/' + verification.id + '/docx'}}">
-                                                <i class="fa fa-file-word-o"></i>
-                                            </a>
-                                            <a ng-show="verification.status === 'TEST_OK'"
-                                               popover="Завантажити тестові дані у форматі 'pdf'"
-                                               popover-trigger="mouseenter"
-                                               href="{{'/doc/test/' + verification.id + '/pdf'}}">
-                                                <i class="fa fa-file-pdf-o"></i>
-                                            </a>
+                                        <div class="ui simple icon dropdown" ng-controller="DocumentController" ng-show="(verification.status == 'TEST_OK') || (verification.status == 'TEST_NOK')">
+                                            <a class="fa fa-floppy-o fa-lg"></a>
+                                            <div class="left menu" style="right:0;left:auto;">
+                                                <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'docx')">
+                                                    <a class="ng-binding">
+                                                        <i class="fa fa-file-word-o"></i>
+                                                        {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_DOCX' | translate}}
+                                                    </a>
+                                                </div>
+                                                <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'docx')">
+                                                    <a class="ng-binding">
+                                                        <i class="fa fa-file-word-o"></i>
+                                                        {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX' | translate}}
+                                                    </a>
+                                                </div>
+                                                <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'pdf')">
+                                                    <a class="ng-binding">
+                                                        <i class="fa fa-file-pdf-o"></i>
+                                                        {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF' | translate}}
+                                                    </a>
+                                                </div>
+                                                <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'pdf')">
+                                                    <a class="ng-binding">
+                                                        <i class="fa fa-file-pdf-o"></i>
+                                                        {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF' | translate}}
+                                                    </a>
+                                                </div>
+                                                <div class="item" ng-click="printDocument(verification)">
+                                                    <a class="ng-binding">
+                                                        <i class="print fa fa-print"></i>
+                                                        {{'PRINT_DOCUMENT' | translate}}
+                                                    </a>
+                                                    <iframe id="pdf" style="width:0px;height:0px;visibility:hidden;"></iframe>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 </tbody>

@@ -31,7 +31,7 @@
                             <div class="col-md-8">
                                 <input type="text" ng-model="organizationFormData.name" id="name"
                                        ng-pattern="ORGANIZATION_NAME_REGEX" name="name"
-                                       class="form-control" popover="Введіть назву вашої організації"
+                                       class="form-control" popover="{{'ENTER_NAME_ORGANIZATION' | translate}}"
                                        popover-trigger="focus" popover-placement="top" required>
 						 	<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -54,14 +54,6 @@
                             </label>
 
                             <div class="col-md-8">
-                                <!--<select multiple chosen type="text" class="form-control" id="types" name="types"
-                                        ng-model="organizationFormData.types" data-placeholder="Оберіть тип організації"
-                                        ng-options="type as type.label for type in typeData | organizationFilter:organizationFormData.types"
-                                        popover="Введіть тип організації" popover-trigger="focus" popover-placement="top"
-                                        required>
-                                </select> <span class="form-control-feedback glyphicon
-                                    form-horizontal glyphicon glyphicon-ok-sign"></span>
-                                -->
                                 <ui-select multiple required theme="select2" id="types" name="types"
                                            class="form-control"
                                            ng-model="organizationFormData.types">
@@ -86,14 +78,6 @@
                             </label>
 
                             <div class="col-md-8">
-                                <!--<select multiple chosen type="text" class="form-control" id="counters" name="counters"
-                                        ng-model="organizationFormData.counters" data-placeholder="Оберіть тип лічильників"
-                                        ng-options="counter as counter.label for counter in counterData"
-                                        popover="Введіть тип лічильників організації" popover-trigger="focus" popover-placement="top"
-                                        required>
-                                </select> <span class="form-control-feedback glyphicon
-                                    form-horizontal glyphicon glyphicon-ok-sign"></span>
-                                -->
                                 <ui-select multiple required theme="select2" id="counters" name="counters"
                                            class="form-control"
                                            ng-model="organizationFormData.counters">
@@ -148,7 +132,7 @@
                                     <input id="phoneNumber" name="phoneNumber" type="text"
                                            class="form-control col-md-8 " ng-model="organizationFormData.phone"
                                            placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX"
-                                           popover="Введіть номер телефону організації"
+                                           popover="{{'ENTER_PHONE' | translate}}"
                                            popover-trigger="focus" popover-placement="top"
                                            required>
                                 </div>
@@ -175,7 +159,7 @@
                                 <input type="number" id="capacity" name="capacity"
                                        class="form-control"
                                        ng-model="organizationFormData.employeesCapacity" min="1"
-                                       popover="Введіть максимальну кількість працівників організації"
+                                       popover="{{'ENTER_EMPLOYEES' | translate}}"
                                        popover-trigger="focus" popover-placement="top"
                                        required>
 						 <span class="form-control-feedback glyphicon
@@ -204,7 +188,7 @@
                                        class="form-control"
                                        ng-model="organizationFormData.maxProcessTime"
                                        ng-init="organizationFormData.maxProcessTime=5" min="1"
-                                       popover="Введіть максимальну час обробки заявки"
+                                       popover="{{'ENTER_PROCESS_TIME' | translate}}"
                                        popover-trigger="focus" popover-placement="top" required>
 						 	<span class="form-control-feedback glyphicon
 						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -229,14 +213,14 @@
             <div class="panel panel-primary">
                 <accordion-group is-open="additionalInformation.open">
                     <accordion-heading>
-                        <div class="panel-heading"> <!--ng-model="checkedInfo"-->
+                        <div class="panel-heading">
                             {{'ADDITIONAL_INFORMATION' | translate }}
                             <i class="pull-right glyphicon"
                                ng-class="{'glyphicon-chevron-down': additionalInformation.open,
                    'glyphicon-chevron-right': !additionalInformation.open}"></i>
                         </div>
                     </accordion-heading>
-                    <div class="panel-body"> <!--ng-show="checkedInfo" -->
+                    <div class="panel-body">
                         <div class="form-group row" show-errors>
                             <label class="control-label col-md-4" for="codeEDRPOU">
                                 {{'INSTALL_CODE' | translate }}
@@ -551,7 +535,7 @@
                                        ng-disabled="!organizationFormData.locality"
                                        typeahead="street as street.designation for street in streets | filter: $viewValue | limitTo: 4"
                                        typeahead-editable="false"
-                                       popover="Введіть вулицю організації"
+                                       popover="{{'ENTER_STREET' | translate}}"
                                        popover-trigger="focus" popover-placement="top" required>
 											<span class="form-control-feedback glyphicon
 											 form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -578,7 +562,7 @@
                                        ng-model="organizationFormData.building" ng-pattern="BUILDING_REGEX"
                                        ng-disabled="!organizationFormData.street"
                                        typeahead="building as building.designation for building in buildings | filter: $viewValue"
-                                       class="form-control" popover="Введіть номер будинку організації"
+                                       class="form-control" popover="{{'ENTER_BUILDING' | translate}}"
                                        popover-trigger="focus" popover-placement="top" required>
 										<span class="form-control-feedback glyphicon
 											 form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -604,7 +588,7 @@
                                 <input name="flat" id="flat" type="text"
                                        ng-model="organizationFormData.flat" ng-pattern="FLAT_REGEX" class="form-control"
                                        ng-disabled="!organizationFormData.building"
-                                       popover="Введіть номер квартири організації, якщо такий наявний"
+                                       popover="{{'ENTER_FLAT' | translate}}"
                                        popover-trigger="focus" popover-placement="top">
 									<span class="form-control-feedback glyphicon
 										 form-horizontal glyphicon glyphicon-ok-sign"></span>

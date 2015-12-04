@@ -61,7 +61,7 @@ angular
                     var modalInstance = $modal.open({
                         animation: true,
                         templateUrl: 'resources/app/calibrator/views/modals/protocols-sending.html',
-                        controller: 'SendingModalControllerCalibrator',
+                        controller: 'DigitalProtocolsSendingModalControllerCalibrator',
                         size: 'md',
                         resolve: {
                             response: function () {

@@ -257,7 +257,7 @@
         'calibrator/controllers/MainPanelControllerCalibrator',
         'calibrator/controllers/NewVerificationsControllerCalibrator',
         'calibrator/controllers/DetailsModalControllerCalibrator',
-        'calibrator/controllers/SendingModalControllerCalibrator',
+        'calibrator/controllers/DigitalProtocolsSendingModalControllerCalibrator',
         'calibrator/controllers/CalibrationTestEditModalController',
         'calibrator/controllers/CalibrationTestControllerCalibrator',
         'calibrator/controllers/EmployeeControllerCalibrator',

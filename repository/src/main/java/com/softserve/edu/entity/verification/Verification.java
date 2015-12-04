@@ -154,6 +154,7 @@ public class Verification {
         this.info = info;
         this.dismantled = dismantled;
         this.counter = counter;
+        if(this.comment == null) { this.comment = ""; }
         this.comment = (comment != null) ? this.comment + comment : this.comment + "";
     }
 

@@ -21,6 +21,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
 
         $scope.checkboxModel = false;
 
+        /**
+         * to open first block "General Information" when the modal form is loaded
+         * (for Accordion)
+         * @type {boolean}
+         */
+        $scope.generalInformation = true;
+
         $scope.regions = [];
         $scope.devices = [];
         $scope.localities = [];
@@ -30,7 +37,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.symbols = [];
         $scope.standardSizes = [];
 
-        $scope.selectedData = [];
+        $scope.selectedData = {};
         $scope.selectedData.selectedStreetType = "";
         $scope.selectedData.dismantled = false;
 
@@ -203,7 +210,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.isMailValid = true;
         $scope.sendApplicationData = function () {
             $scope.$broadcast('show-errors-check-validity');
-            if ($scope.clientForm.$valid && $scope.selectedData.selectedCalibrator !== undefined) {
+            if ($scope.clientForm.$valid && $scope.selectedData.selectedCalibrator) {
 
                 $scope.fillFormData();
                 $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
@@ -268,7 +275,11 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.deviceId = $scope.selectedData.selectedDevice.id;
 
             // COUNTER
-            $scope.formData.dismantled = $scope.selectedData.dismantled;
+            if($scope.selectedData.dismantled) {
+                $scope.formData.dismantled = $scope.selectedData.dismantled;
+            } else {
+                $scope.formData.dismantled = false;
+            }
             $scope.formData.dateOfDismantled = ((new Date($scope.selectedData.dateOfDismantled)).getTime() !== 0) ?
                 (new Date($scope.selectedData.dateOfDismantled)).getTime() : null;
             $scope.formData.dateOfMounted = ((new Date($scope.selectedData.dateOfMounted)).getTime() !== 0) ?
@@ -287,13 +298,15 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.doorCode = $scope.addInfo.doorCode;
             $scope.formData.floor = $scope.addInfo.floor;
             $scope.formData.dateOfVerif = ((new Date($scope.addInfo.dateOfVerif)).getTime() !== 0) ?
-            (new Date($scope.addInfo.dateOfVerif)).getTime() : null;
+                (new Date($scope.addInfo.dateOfVerif)).getTime() : null;
             $scope.formData.time = $scope.addInfo.time;
+
             if($scope.addInfo.serviceability) {
                 $scope.formData.serviceability = $scope.addInfo.serviceability;
             } else {
                 $scope.formData.serviceability = false;
             }
+
             $scope.formData.noWaterToDate = ((new Date($scope.addInfo.noWaterToDate)).getTime() !== 0) ?
                 (new Date($scope.addInfo.noWaterToDate)).getTime() : null;
             $scope.formData.notes = $scope.addInfo.notes;
@@ -362,7 +375,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;
 
-                    $scope.selectedStreet = $scope.verification.data.street;
                     $scope.selectedBuilding = $scope.verification.data.building;
 
                     addressServiceProvider.findAllRegions().then(function (respRegions) {
@@ -386,7 +398,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                                             .then(function(streets) {
                                                 $scope.streets = streets.data;
                                                 var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
-                                                $scope.selectedData.street = $scope.streets[index];
+                                                $scope.selectedStreet = $scope.streets[index];
+
                                             });
 
                                         addressServiceProvider.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
@@ -397,23 +410,27 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                                             });
                                     });
                             });
-                    });
+                         });
 
-                    addressServiceProvider.findAllSymbols().then(function(respSymbols) {
-                        $scope.symbols = respSymbols.data;
-                        var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol, "symbol");
-                        $scope.selectedData.counterSymbol = $scope.symbols[index];
 
-                        addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol.symbol)
-                            .then(function(standardSizes) {
-                                $scope.standardSizes = standardSizes.data;
-                                var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize, "standardSize");
-                                $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
-                            });
-                    });
+                    if($scope.verification.data.symbol) {
+
+                        addressServiceProvider.findAllSymbols().then(function (respSymbols) {
+                            $scope.symbols = respSymbols.data;
+                            var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol, "symbol");
+                            $scope.selectedData.counterSymbol = $scope.symbols[index];
+
+                            addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol.symbol)
+                                .then(function (standardSizes) {
+                                    $scope.standardSizes = standardSizes.data;
+                                    var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize, "standardSize");
+                                    $scope.selectedData.counterStandardSize = $scope.standardSizes[index];
+                                });
+                        });
+
+                    }
 
                 });
-
             }
         }
 

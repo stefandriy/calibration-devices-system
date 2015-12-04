@@ -12,7 +12,7 @@
                    <h5 class="incorrectLoginPass"  ng-class="{'incorStyle': incorrectStyle==true}">{{'INCORRECT_LOGIN' | translate}}</h5>
                 </td>                           
                 <td>
-                   <input ng-model="loginForm.username" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}"  type="text" class="form-control"
+                   <input name="username" ng-model="loginForm.username" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}"  type="text" class="form-control"
                            placeholder="{{ 'USERNAME' | translate }}" required>
                  </td>
                  </tr>
@@ -25,13 +25,13 @@
                        <input type="password">
                     </div>
 
-                    <input ng-model="loginForm.password" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}" type="password" id="inputPassword" class="form-control"
+                    <input name="password" ng-model="loginForm.password" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}" type="password" id="inputPassword" class="form-control"
                            placeholder="{{ 'PASSWORD' | translate }}" required>
                  </td>
                  </tr>
                 </table> 
                    <h5 id="incorrectLoginMessage" ng-show="loginCorrect"  class="incortLebStyle">{{'INCORRECT' | translate}}</h5>
-                    <button class="btn btn-lg btn-primary btn-block withoutBorder" type="submit">{{ 'LOG_IN' | translate }}</button>
+                    <button name="login" class="btn btn-lg btn-primary btn-block withoutBorder" type="submit">{{ 'LOG_IN' | translate }}</button>
                 </form>
             </div>
         </div>

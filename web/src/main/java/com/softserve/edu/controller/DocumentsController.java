@@ -176,13 +176,11 @@ public class DocumentsController {
         switch (fileFormat) {
             case PDF:
                 response.setContentType("application/pdf");
+                response.setHeader("X-Frame-Options", "SAMEORIGIN");
                 break;
             case DOCX:
                 response.setContentType("application/vnd.openxmlformats-" +
                         "officedocument.wordprocessingml.document");
-                break;
-            case HTML:
-                response.setContentType("text/html");
                 break;
             case XLS:
                 response.setContentType("text/html");
