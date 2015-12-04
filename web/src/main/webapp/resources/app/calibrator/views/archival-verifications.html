@@ -72,43 +72,48 @@
                                                         </div>
                                                     </div>
                                                     <div class="ui simple dropdown icon item"
-                                                         ng-show="verification.status === 'TEST_OK'">
+                                                         ng-show="verification.status === 'TEST_OK' || verification.status === 'TEST_NOK'">
 
                                                         <span>{{ 'PROTOCOL_DROPDOWN' | translate }}</span>
 
-                                                        <div class="menu">
+                                                        <div class="menu" ng-controller="DocumentController">
                                                             <div class="item">
-                                                                <a
-                                                                        ng-click="">
+                                                                <a ng-click="">
                                                                     <!-- TODO: add new modal window with result of test or add some function that will be show in new Window document in docs format-->
                                                                     <i class="fa fa-external-link"></i>
                                                                     {{ 'DETAIL' | translate }}
                                                                 </a>
                                                             </div>
-                                                            <div class="item">
-                                                                <a
-                                                                        target="_blank"
-                                                                        href="{{'/doc/' + verification.documentType + '/'+verification.id + '/docx'}}">
-                                                                    <i class="fa fa-download"></i>
-                                                                    {{ 'DOWNLOAD_TEST_DOC' | translate }}
+                                                            <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'docx')">
+                                                                <a class="ng-binding">
+                                                                    <i class="fa fa-file-word-o"></i>
+                                                                    {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_DOCX' | translate}}
                                                                 </a>
                                                             </div>
-                                                            <div class="item">
-                                                                <a
-                                                                        target="_blank"
-                                                                        href="{{'/doc/' + verification.documentType + '/'+verification.id + '/pdf'}}">
+                                                            <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'docx')">
+                                                                <a class="ng-binding">
+                                                                    <i class="fa fa-file-word-o"></i>
+                                                                    {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX' | translate}}
+                                                                </a>
+                                                            </div>
+                                                            <div class="item" ng-show="verification.status == 'TEST_OK'" ng-click="downloadDocument('VERIFICATION_CERTIFICATE', verification.id, 'pdf')">
+                                                                <a class="ng-binding">
                                                                     <i class="fa fa-file-pdf-o"></i>
-                                                                    {{ 'DOWNLOAD_TEST_PDF' | translate }}
-
+                                                                    {{'DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF' | translate}}
                                                                 </a>
                                                             </div>
-                                                            <div class="item">
-                                                                <a
-                                                                        target="_blank"
-                                                                        href="{{'/doc/info/' + verification.id + '/pdf'}}">
-                                                                    <i class="fa fa-print"></i>
-                                                                    {{ 'PRINT' | translate }}
+                                                            <div class="item" ng-show="verification.status == 'TEST_NOK'" ng-click="downloadDocument('UNFITNESS_CERTIFICATE', verification.id, 'pdf')">
+                                                                <a class="ng-binding">
+                                                                    <i class="fa fa-file-pdf-o"></i>
+                                                                    {{'DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF' | translate}}
                                                                 </a>
+                                                            </div>
+                                                            <div class="item" ng-click="printDocument(verification)">
+                                                                <a class="ng-binding">
+                                                                    <i class="print fa fa-print"></i>
+                                                                    {{'PRINT_DOCUMENT' | translate}}
+                                                                </a>
+                                                                <iframe id="pdf" style="width:0px;height:0px;visibility:hidden;"></iframe>
                                                             </div>
                                                         </div>
 
