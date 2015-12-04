@@ -25,7 +25,4 @@ public interface DocumentService {
     FileObject buildFile(DocumentType documentType, Verification verification, CalibrationTest calibrationTest, FileFormat fileFormat);
 
     FileObject buildInfoFile(String verificationCode, FileFormat fileFormat);
-    FileObject buildFile(Map<String, List<String>> data, DocumentType documentType, FileFormat fileFormat) throws Exception;
-
-    Map<String, List<String>> getDataForProviderEmployeesReport(Long providerId);
 }

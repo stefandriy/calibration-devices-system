@@ -5,6 +5,7 @@ import com.softserve.edu.documents.resources.DocumentType;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.tool.DocumentService;
+import com.softserve.edu.service.tool.ReportsService;
 import com.softserve.edu.service.user.SecurityUserDetailsService;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.log4j.Logger;
@@ -36,30 +37,19 @@ public class DocumentsController {
     @Autowired
     DocumentService documentService;
     @Autowired
+    ReportsService reportsService;
+    @Autowired
     private ProviderEmployeeService providerEmployeeService;
 
-
-    /**
-     * Returns a document with a specific fileFormat using verification that
-     * has only one test. For example: .../verification_certificate/1/pdf.
-     *
-     * @param documentType document to generate
-     * @param fileFormat   fileFormat of the resulting document
-     * @throws IOException           if file can't be generated because of a
-     *                               file system error
-     * @throws IllegalStateException if one of parameters is incorrect
-     * @throws Exception
-     */
-    @RequestMapping(value = "{fileFormat}/{documentType}/my", method = RequestMethod.GET)
-    public void getDocument(HttpServletResponse response,
-                            @PathVariable DocumentType documentType,
-                            @PathVariable FileFormat fileFormat,
-                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser)
-            throws IOException, IllegalStateException, Exception {
+    @RequestMapping(value = "report/{documentType}/{fileFormat}", method = RequestMethod.GET)
+    public void getReport(HttpServletResponse response,
+                          @PathVariable DocumentType documentType,
+                          @PathVariable FileFormat fileFormat,
+                          @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser)
+            throws Exception {
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         Long providerId = providerEmployee.getOrganization().getId();
-        Map<String, List<String>> data = documentService.getDataForProviderEmployeesReport(providerId);
-        FileObject file = documentService.buildFile(data, documentType, fileFormat);
+        FileObject file = reportsService.buildFile(providerId, documentType, fileFormat);
         sendFile(response, fileFormat, file);
     }
 

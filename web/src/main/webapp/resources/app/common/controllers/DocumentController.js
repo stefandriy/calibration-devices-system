@@ -5,8 +5,8 @@ angular
             var url = "doc/" + documentType + "/" + verificationId + "/" + fileFormat;
             location.href = url;
         }
-        $scope.downloadDocument = function (documentType, fileFormat) {
-            var url = "doc/"  + fileFormat +"/" + documentType +"/"+ "my";
+        $scope.downloadReport = function (documentType) {
+            var url = "doc/report/"  + documentType +"/xls";
             location.href = url;
         }
 

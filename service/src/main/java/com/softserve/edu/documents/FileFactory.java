@@ -76,7 +76,7 @@ public class FileFactory {
      * @return the resulting file
      */
     private static FileObject runOperations(List<Operation> operations,
-                                              FileParameters fileParameters) {
+                                            FileParameters fileParameters) {
         FileObject file = FileUtils.createFile(fileParameters.getFileSystem(),
                 fileParameters.getFileName());
 
@@ -94,10 +94,9 @@ public class FileFactory {
     }
 
 
-     public static FileObject buildFile(Map<String, List<String>> data, FileParameters fileParameters)throws Exception{
-
+    public static FileObject buildReportFile(Map<String, List<String>> data, FileParameters fileParameters) throws Exception {
         FileObject file = FileUtils.createFile(fileParameters.getFileSystem(), fileParameters.getFileName());
-         XlsTableExporter xlsTableExporter  = new XlsTableExporter();
+        XlsTableExporter xlsTableExporter = new XlsTableExporter();
         xlsTableExporter.export(data, file.getContent().getOutputStream());
         return file;
     }
