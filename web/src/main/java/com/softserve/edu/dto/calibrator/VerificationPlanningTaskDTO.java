@@ -25,8 +25,8 @@ public class VerificationPlanningTaskDTO {
     private String building_flat;
     private String phone;
     private String time;
-    private int entrance;
-    private int floor;
+    private String entrance;
+    private String floor;
     private String notes;
     private Date dateOfVerif;
     private LocalTime timeFrom;
@@ -49,8 +49,12 @@ public class VerificationPlanningTaskDTO {
         this.clientFullName = clientFullName;
         this.telephone = telephone;
         if (additionalInfo != null) {
-            this.entrance = additionalInfo.getEntrance();
-            this.floor = additionalInfo.getFloor();
+            if (additionalInfo.getEntrance() > 0) {
+                this.entrance = Integer.toString(additionalInfo.getEntrance());
+            }
+            if (additionalInfo.getFloor() > 0) {
+                this.floor = Integer.toString(additionalInfo.getFloor());
+            }
             if ((additionalInfo.getTimeFrom() != null) && (additionalInfo.getTimeTo() != null)) {
                 this.time = additionalInfo.getTimeFrom().toString() + " - " + additionalInfo.getTimeTo().toString();
             } else {

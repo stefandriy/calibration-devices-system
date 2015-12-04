@@ -1,7 +1,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Tasks for calibration modules</h1>
+            <h1 class="page-header">{{ 'TASKS_FOR_CALIBRATION_MODULES' | translate }}</h1>
         </div>
     </div>
     <p></p>
@@ -14,7 +14,8 @@
                         <div class="col-lg-4">
                         </div>
                         <div class="col-lg-8">
-                            <span class="pull-right">Found tasks: {{ resultsCount }}
+                            <span class="pull-right"><span
+                                    translate="OVERALL_NUMBER_OF_CALIBRATION_TASKS"></span>: {{ resultsCount }}
                             </span>
                         </div>
                     </div>
@@ -27,22 +28,22 @@
                                        class="table table-bordered table-hover users_table">
                                     <tbody>
                                     <tr ng-repeat="moduleTask in $data">
-                                        <td data-title="'Date of task'" sortable="'dateOfTask'">
+                                        <td data-title="'DATE_OF_TASK' | translate" sortable="'dateOfTask'">
                                             {{ moduleTask.dateOfTask }}
                                         </td>
-                                        <td data-title="'Module type'" sortable="'module.moduleType'"
+                                        <td data-title="'INSTALLATION_TYPE' | translate" sortable="'module.moduleType'"
                                                 filter="{ moduleType : 'moduleType' }">
                                             {{ moduleTask.moduleType | translate }}
                                         </td>
-                                        <td data-title="'Module number'" sortable="'module.moduleNumber'"
+                                        <td data-title="'MODULE_NUMBER' | translate" sortable="'module.moduleNumber'"
                                                 filter="{ moduleNumber : 'text' }">
                                             {{ moduleTask.moduleNumber }}
                                         </td>
-                                        <td data-title="'Contact person name'" sortable="'module.employeeFullName'"
+                                        <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'module.employeeFullName'"
                                                 filter="{ employeeFullName: 'text' }">
                                             {{ moduleTask.employeeFullName }}
                                         </td>
-                                        <td data-title="'Phone number'" sortable="'module.telephone'"
+                                        <td data-title="'PHONE_NUMBER' | translate" sortable="'module.telephone'"
                                                 filter="{ phoneNumber : 'text' }">
                                             +380{{ moduleTask.telephone }}
                                         </td>

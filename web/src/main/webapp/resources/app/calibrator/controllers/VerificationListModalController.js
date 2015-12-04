@@ -21,6 +21,13 @@ angular
                 $modalInstance.close();
             });
 
+            /**
+             * Closes the modal window
+             */
+            $rootScope.closeModal = function () {
+                $modalInstance.close();
+            };
+
             $scope.tableParams = new ngTableParams({
                     page: 1,
                     count: 5,

@@ -1,5 +1,15 @@
 <div class="modal-header">
-    <h3 class="modal-title">Current task verifications</h3>
+    <div class="row">
+        <div class="col-lg-8">
+            <h3 class="modal-title">{{ 'TASK_VERIFICATIONS' | translate }}</h3>
+        </div>
+        <div class="col-lg-4">
+            <button type="button" class="btn btn-danger pull-right"
+                    ng-click="closeModal()">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+        </div>
+    </div>
 </div>
 
 <div class="modal-body modal-padding">
@@ -11,7 +21,8 @@
                         <div class="col-lg-4">
                         </div>
                         <div class="col-lg-8">
-                            <span class="pull-right">Found tasks: {{ resultsCount }}
+                            <span class="pull-right"><span
+                                    translate="NUMBER_OF_VERIFICATIONS_IN_TASK"></span>: {{ resultsCount }}
                             </span>
                         </div>
                     </div>
@@ -24,40 +35,40 @@
                                        class="table table-bordered table-hover users_table">
                                     <tbody>
                                     <tr ng-repeat="verification in $data">
-                                        <td data-title="'Sent to calibrator'">
+                                        <td data-title="'INITIAL_DATE' | translate">
                                             {{ verification.sentToCalibrator }}
                                         </td>
-                                        <td data-title="'Provider'">
+                                        <td data-title="'PROVIDER_NAME' | translate">
                                             {{ verification.providerName }}
                                         </td>
-                                        <td data-title="'District'">
+                                        <td data-title="'DISTRICT' | translate">
                                             {{ verification.district }}
                                         </td>
-                                        <td data-title="'Street'">
+                                        <td data-title="'STREET' | translate">
                                             {{ verification.street }}
                                         </td>
-                                        <td data-title="'Building'">
+                                        <td data-title="'BUILDING' | translate">
                                             {{ verification.building }}
                                         </td>
-                                        <td data-title="'Flat'">
+                                        <td data-title="'FLAT' | translate">
                                             {{ verification.flat }}
                                         </td>
-                                        <td data-title="'Client full name'">
+                                        <td data-title="'CLIENT_FULL_NAME' | translate">
                                             {{ verification.clientFullName }}
                                         </td>
-                                        <td data-title="'Telephone'">
+                                        <td data-title="'TELEPHONE' | translate">
                                             {{ verification.telephone }}
                                         </td>
-                                        <td data-title="'Entrance'">
+                                        <td data-title="'ENTRANCE' | translate">
                                             {{ verification.entrance }}
                                         </td>
-                                        <td data-title="'Floor'">
+                                        <td data-title="'FLOOR' | translate">
                                             {{ verification.floor }}
                                         </td>
-                                        <td data-title="'Time'">
+                                        <td data-title="'DESIRED_VERIFICATION_BY_TIME' | translate">
                                             {{ verification.time }}
                                         </td>
-                                        <td data-title="'Notes'">
+                                        <td data-title="'NOTES' | translate">
                                             {{ verification.notes }}
                                         </td>
                                     </tr>
