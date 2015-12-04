@@ -2,7 +2,6 @@ package com.softserve.edu.controller;
 
 import com.softserve.edu.documents.parameter.FileFormat;
 import com.softserve.edu.documents.resources.DocumentType;
-import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.tool.DocumentService;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.beans.PropertyEditorSupport;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -57,13 +54,13 @@ public class DocumentsController {
     public void getDocument(HttpServletResponse response,
                             @PathVariable DocumentType documentType,
                             @PathVariable FileFormat fileFormat,
-                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser)
-            throws IOException, IllegalStateException , Exception{
+                            @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser)
+            throws IOException, IllegalStateException, Exception {
         User providerEmployee = providerEmployeeService.oneProviderEmployee(employeeUser.getUsername());
         Long providerId = providerEmployee.getOrganization().getId();
-        Map<String, List<String>> data = documentService.getDataForProviderEmployeesReport(1L);
+        Map<String, List<String>> data = documentService.getDataForProviderEmployeesReport(providerId);
         FileObject file = documentService.buildFile(data, documentType, fileFormat);
-       sendFile(response, fileFormat, file);
+        sendFile(response, fileFormat, file);
     }
 
 
@@ -136,7 +133,7 @@ public class DocumentsController {
                             @PathVariable String verificationCode,
                             @PathVariable FileFormat fileFormat)
             throws IOException, IllegalStateException {
-            FileObject file = documentService.buildFile(verificationCode,
+        FileObject file = documentService.buildFile(verificationCode,
                 documentType, fileFormat);
         sendFile(response, fileFormat, file);
     }
@@ -185,6 +182,9 @@ public class DocumentsController {
                         "officedocument.wordprocessingml.document");
                 break;
             case HTML:
+                response.setContentType("text/html");
+                break;
+            case XLS:
                 response.setContentType("text/html");
                 break;
             default:
