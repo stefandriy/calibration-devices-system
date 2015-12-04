@@ -104,9 +104,10 @@
                                                    </div>
                                                    <div class="item" ng-click="printDocument(verification)">
                                                        <a class="ng-binding">
-                                                           <i class="fa fa-print"></i>
+                                                           <i class="print fa fa-print"></i>
                                                            {{'PRINT_DOCUMENT' | translate}}
                                                        </a>
+                                                       <iframe id="pdf" style="width:0px;height:0px;visibility:hidden;"></iframe>
                                                    </div>
                                                </div>
                                            </div>
@@ -115,9 +116,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <iframe id="frame" width="100%">
-
-                            </iframe>
                             <script type="text/ng-template" id="custom/pager">
                                 <div>
                                      <ul class="pager ng-cloak">

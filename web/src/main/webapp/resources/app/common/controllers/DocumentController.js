@@ -1,70 +1,63 @@
 angular
     .module('employeeModule')
-    .controller('DocumentController', ['$rootScope', '$scope', '$modal', '$http', 'DocumentService', function ($rootScope, $scope, $http, $modal, documentService) {
+    .controller('DocumentController', ['$rootScope', '$scope', '$sce', '$http', '$modal', 'DocumentService', function ($rootScope, $scope, $sce, $http, $modal, documentService) {
         $scope.downloadDocument = function (documentType, verificationId, fileFormat) {
-            var url = "doc/" + documentType + "/" + verificationId + "/" + fileFormat;
-            location.href = url;
-        }
+            location.href = "doc/" + documentType + "/" + verificationId + "/" + fileFormat;
+        };
 
         $scope.printDocument = function (verification) {
             var documentType = verification.status == 'TEST_OK' ? 'VERIFICATION_CERTIFICATE' : 'UNFITNESS_CERTIFICATE';
             var url = "doc/" + documentType + "/" + verification.id + "/pdf";
-            //var url = "https://cs7052.vk.me/c612420/u32810625/docs/7ed84187fc53/merged.pdf?extra=5my7LEiXYJzBsv8Q2gsL6pyvGbaXYSyuAPxS7fRdofFCwczzWbHznaJnKB8gORPMYL_tw4ChTZJpyu5q8iMVCnN1Gx9_mJUu";
-            //var doc =  documentService.getDocument(documentType, verification.id, "pdf");
-            var frame = document.getElementById("frame");
-            //frame.src = url;
-            //console.log(frame);
-            var innerDoc = frame.contentWindow.document;
-            innerDoc.open();
-            innerDoc.write("<embed type='application/pdf' width='100%' src='" + url + "'><p>bla-bla-bla...</p></embed>");
-            innerDoc.close();
-            frame.contentWindow.document.execCommand('print', false, null);
-            //frame.contentWindow.postMessage("message", "*");
+            var frame = document.getElementById('pdf');
+            var frameDoc = frame.contentDocument || frame.contentWindow.document;
+            frameDoc.documentElement.innerHTML = "";
+            var container = document.getElementById('pdf').contentWindow.document.body;
 
-            //var xhttp = new XMLHttpRequest();
-            //xhttp.onreadystatechange = function() {
-            //    if (xhttp.readyState == 4 && xhttp.status == 200) {
-            //        var toPrint = xhttp.response;
-            //        //var origin = document.body.innerHTML;
-            //        //var iframe = document.getElementById("pdf");
-            //        //var content = "bla-bla-bla";
-            //        frame.srcdoc = toPrint;
-            //        console.dir(toPrint);
-            //        //window.print();
-            //        //document.body.innerHTML = origin;
-            //        //frame.contentWindow.document.execCommand('print', false, null);
-            //    }
-            //};
-            //xhttp.open("GET", url, true);
-            //xhttp.send();
-        }
+            renderPDF(url, container).then(function(success){
+                console.log(success);
+                setTimeout("document.getElementById('pdf').contentWindow.print()", 500);
+            })
 
-        $scope.editDocument = function (verification) {
-            var documentType = verification.status == 'TEST_OK' ? 'VERIFICATION_CERTIFICATE' : 'UNFITNESS_CERTIFICATE';
-            //var url = "doc/" + documentType + "/" + verification.id + "/html";
-            //$modal.open({
-            //    animation: true,
-            //    templateUrl: url,
-            //    size: 'lg'
-            //});
-            //var xhttp = new XMLHttpRequest();
-            //xhttp.onreadystatechange = function() {
-            //    if (xhttp.readyState == 4 && xhttp.status == 200) {
-            //        var toPrint = xhttp.responseText;
-            //        //var origin = document.body.innerHTML;
-            //        //document.body.innerHTML = toPrint;
-            //        //console.dir(toPrint);
-            //        //window.print();
-            //        //document.body.innerHTML = origin;
-            //
-            //        $modal.open({
-            //            animation: true,
-            //            templateUrl: toPrint,
-            //            size: 'lg'
-            //        });
-            //    }
-            //};
-            //xhttp.open("GET", url, true);
-            //xhttp.send();
+        };
+
+        function renderPDF(url, canvasContainer) {
+            return new Promise(function(resolve, reject) {
+                PDFJS.disableWorker = true;
+                PDFJS.getDocument(url).then(function(pdfDoc) {
+                    renderPages(pdfDoc).then(function(success) {
+                        resolve(success);
+                    });
+                });
+            });
+
+            function renderPages(pdfDoc) {
+                return new Promise(function(resolve, reject) {
+                    for (var num = 1; num <= pdfDoc.numPages; num++)
+                        pdfDoc.getPage(num).then(function(page) {
+                            renderPage(page);
+                            resolve("all pages rendered");
+                        });
+                });
+            }
+
+            function renderPage(page) {
+                return new Promise(function(resolve, reject) {
+                    var scale = 1;
+                    var viewport = page.getViewport(scale);
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    var renderContext = {
+                        canvasContext: ctx,
+                        viewport: viewport
+                    };
+
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    canvasContainer.appendChild(canvas);
+
+                    page.render(renderContext);
+                    resolve("one page rendered");
+                });
+            }
         }
     }]);
