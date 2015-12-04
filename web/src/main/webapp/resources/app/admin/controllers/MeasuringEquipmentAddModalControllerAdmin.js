@@ -115,7 +115,7 @@ angular
             /**
              * Resets form
              */
-            $scope.resetAddCalibrationModuleForm = function () {
+            $scope.resetCalibrationModuleForm = function () {
                 $scope.$broadcast('show-errors-reset');
                 $scope.addCalibrationModuleForm.$setPristine();
                 $scope.addCalibrationModuleForm.$setUntouched();
@@ -126,7 +126,7 @@ angular
              * Closes the modal window
              */
             $rootScope.closeModal = function (close) {
-                $scope.resetAddCalibrationModuleForm();
+                $scope.resetCalibrationModuleForm ();
                 if (close === true) {
                     $modalInstance.close();
                 }
@@ -155,7 +155,7 @@ angular
                         .then(function (result) {
                             if (result == 201) {
                                 $scope.closeModal(true);
-                                //$scope.resetAddCalibrationModuleForm();
+                                //$scope.resetCalibrationModuleForm ();
                                 $rootScope.onTableHandling();
                             }
                         });
@@ -165,7 +165,7 @@ angular
                                 console.log("else");
                             if (result == 200) {
                                 $scope.closeModal(true);
-                                $scope.resetAddCalibrationModuleForm();
+                                $scope.resetCalibrationModuleForm ();
                                 $rootScope.onTableHandling();
                             }
                         });
