@@ -11,4 +11,5 @@ public interface Constants {
     String COUNT_ALL_VERIFICATIONS = "Кількість виконаних заявок, всього";
     String COUNT_OK_VERIFICATIONS = "Кількість виконаних заявок з результатом «придатний» ";
     String COUNT_NOK_VERIFICATIONS = "Кількість виконаних заявок з результатом «не придатний»";
+    String CALIBRATOR_ORGANIZATION_NAME = "Назва вимірювальної лабораторії";
 }

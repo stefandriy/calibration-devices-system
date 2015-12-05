@@ -68,6 +68,8 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     Long countByProviderIdAndStatusAndReadStatus(Long providerId, Status status, Verification.ReadStatus readStatus);
     Long countByCalibratorIdAndStatusAndReadStatus(Long providerId, Status status, Verification.ReadStatus readStatus);
     Long countByStateVerificatorIdAndStatusAndReadStatus(Long stateVerificatorId, Status status, Verification.ReadStatus readStatus);
+    Long countByCalibratorId(Long calibratorId);
+    Long countByCalibratorIdAndStatus(Long calibratorId, Status status);
 
     @Query("select u.providerEmployee from Verification u where u.id = :id")
     User getProviderEmployeeById(@Param("id") String id);
