@@ -35,11 +35,11 @@
                                     <label>{{'SHOW' | translate}}: </label>
                                     <div class="btn-group">
                                         <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'Active'"
-                                               ng-change="onTableHandling()">{{'ACTIVE' | translate}}</label>
+                                               ng-change="changeDisplay()">{{'ACTIVE' | translate}}</label>
                                         <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'Disabled'"
-                                               ng-change="onTableHandling()">{{'DISABLED' | translate}}</label>
+                                               ng-change="changeDisplay()">{{'DISABLED' | translate}}</label>
                                         <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'All'"
-                                               ng-change="onTableHandling()">{{'ALL' | translate}}</label>
+                                               ng-change="changeDisplay()">{{'ALL' | translate}}</label>
                                     </div>
                                 </div>
                             </form>
@@ -58,7 +58,8 @@
                                 <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
                                        class="table table-bordered table-hover users_table">
                                     <tbody>
-                                    <tr ng-repeat="calibrationModule in $data">
+                                    <tr ng-repeat="calibrationModule in $data"
+                                        ng-class="{'unreadClass' : calibrationModule.hasTask}">
                                         <td data-title="'SPHERE_OF_APPLICATION' | translate"
                                             sortable="'deviceType'"
                                             filter="{ deviceType : 'deviceType' }">

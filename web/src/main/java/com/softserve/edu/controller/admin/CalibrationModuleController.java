@@ -51,7 +51,7 @@ public class CalibrationModuleController {
                 calibrationModule.getSerialNumber(), calibrationModule.getEmployeeFullName(),
                 calibrationModule.getTelephone(), calibrationModule.getModuleNumber(),
                 calibrationModule.getIsActive(), calibrationModule.getModuleType(), calibrationModule.getEmail(),
-                calibrationModule.getCalibrationType(), calibrationModule.getWorkDate());
+                calibrationModule.getCalibrationType(), calibrationModule.getWorkDate(), calibrationModule.getTasks());
     }
 
     /**
@@ -187,8 +187,8 @@ public class CalibrationModuleController {
                     calibrationModule.getCondDesignation(), calibrationModule.getSerialNumber(),
                     calibrationModule.getEmployeeFullName(), calibrationModule.getTelephone(),
                     calibrationModule.getModuleNumber(), calibrationModule.getIsActive(),
-                    calibrationModule.getModuleType(), calibrationModule.getEmail(),
-                    calibrationModule.getCalibrationType(), calibrationModule.getWorkDate()));
+                    calibrationModule.getModuleType(), calibrationModule.getEmail(), calibrationModule.getCalibrationType(),
+                    calibrationModule.getWorkDate(), calibrationModule.getTasks()));
         }
         return new PageDTO<>(queryResult.getTotalElements(), content);
     }

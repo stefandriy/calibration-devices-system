@@ -2,12 +2,14 @@ package com.softserve.edu.dto.admin;
 
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.Device;
+import com.softserve.edu.entity.verification.calibration.CalibrationTask;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by roman on 07.11.15.
@@ -30,6 +32,7 @@ public class CalibrationModuleDTO {
     private String calibrationType;
     private String moduleNumber;
     private Boolean isActive;
+    private Boolean hasTask;
     private Date workDate;
     private Long startDateToSearch = null;
     private Long endDateToSearch = null;
@@ -41,7 +44,7 @@ public class CalibrationModuleDTO {
                                 String condDesignation, String serialNumber,
                                 String employeeFullName, String telephone, String moduleNumber,
                                 Boolean isActive, CalibrationModule.ModuleType moduleType, String email,
-                                String calibrationType, Date workDate) {
+                                String calibrationType, Date workDate, Set<CalibrationTask> tasks) {
         this.moduleId = moduleId;
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
@@ -55,15 +58,18 @@ public class CalibrationModuleDTO {
         this.email = email;
         this.calibrationType = calibrationType;
         this.workDate = workDate;
+        if (tasks != null && !tasks.isEmpty()) {
+            this.hasTask = true;
+        }
     }
 
     public CalibrationModuleDTO(Long moduleId, Device.DeviceType deviceType, String organizationCode,
-                                String condDesignation, String serialNumber,
-                                String employeeFullName, String telephone, String moduleNumber,
-                                Boolean isActive, CalibrationModule.ModuleType moduleType, String email,
-                                String calibrationType, Date workDate, Long startDate, Long endDate) {
+                                String condDesignation, String serialNumber, String employeeFullName,
+                                String telephone, String moduleNumber, Boolean isActive,
+                                CalibrationModule.ModuleType moduleType, String email, String calibrationType,
+                                Set<CalibrationTask> tasks, Date workDate, Long startDate, Long endDate) {
         this(moduleId, deviceType, organizationCode, condDesignation, serialNumber, employeeFullName,
-                telephone, moduleNumber, isActive, moduleType, email, calibrationType, workDate);
+                telephone, moduleNumber, isActive, moduleType, email, calibrationType, workDate, tasks);
         this.startDateToSearch = startDate;
         this.endDateToSearch = endDate;
     }

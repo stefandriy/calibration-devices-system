@@ -13,6 +13,10 @@ body {
     width: 100%;
 }
 
+.unreadClass {
+    background: rgba(0, 255, 0, 0.2);
+    color: black;
+}
 
 #page-wrapper {
     padding: 0 15px;

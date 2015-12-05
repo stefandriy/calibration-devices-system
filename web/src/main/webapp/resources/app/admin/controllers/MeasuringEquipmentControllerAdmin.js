@@ -83,7 +83,6 @@ angular
                 angular.element("#datepickerfield").trigger("click");
             };
 
-
             $scope.isDateDefault = function () {
                 //console.log("isDateDefault");
                 var pickerDate = $scope.myDatePicker.pickerDate;
@@ -96,6 +95,15 @@ angular
                     return true;
                 }
                 return false;
+            };
+
+            /**
+             * Changes display mode to show active/disabled/all
+             * calibration modules
+             */
+            $scope.changeDisplay = function() {
+                $scope.tableParams.$params.page = 1;
+                $rootScope.onTableHandling();
             };
 
             $scope.selectedDeviceType = {
@@ -133,6 +141,7 @@ angular
                 $scope.selectedModuleType.name = null;
                 $scope.tableParams.filter({});
             };
+
             /**
              * Updates the table.
              */
