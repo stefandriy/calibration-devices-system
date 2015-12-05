@@ -54,12 +54,12 @@ angular.module('employeeModule')
         $scope.formData = {};
         $scope.formData.comment = "";
 
-        ///**
-        // * Closes modal window on browser's back/forward button click.
-        // */
-        //$rootScope.$on('$locationChangeStart', function () {
-        //    $modalInstance.close();
-        //});
+        /**
+         * Closes modal window on browser's back/forward button click.
+         */
+        $rootScope.$on('$locationChangeStart', function () {
+            $modalInstance.close();
+        });
 
         dataReceivingService.checkOrganizationType().success(function (response) {
             $scope.isProvider = response;
@@ -284,7 +284,7 @@ angular.module('employeeModule')
             $scope.formData.dateOfVerif = ((new Date($scope.addInfo.dateOfVerif)).getTime() !== 0) ?
                 (new Date($scope.addInfo.dateOfVerif)).getTime() : null;
             $scope.formData.time = $scope.addInfo.time;
-
+            $scope.formData.time = $scope.addInfo.time;
             if($scope.addInfo.serviceability) {
                 $scope.formData.serviceability = $scope.addInfo.serviceability;
             } else {

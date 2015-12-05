@@ -438,12 +438,13 @@
                             </div>
                             <div class="form-group" show-errors ng-hide="providerDefined">
                                 <div class="col-md-4">
-                                    <label for="provider">
+                                    <label for="provider" class="control-label">
                                         {{'PROVIDER' | translate}} </label>
                                 </div>
                                 <div class="col-md-8 form-group">
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.selectedProvider"
+                                               ng-required="!providerDefined"
                                                name="provider" id="provider">
                                         <ui-select-match placeholder="{{'PROVIDER' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
@@ -458,7 +459,7 @@
 
                             <div class="form-group" ng-show="providerDefined">
                                 <div class="col-md-4 form-group">
-                                    <label for="provider">{{ 'PROVIDER' | translate}} </label>
+                                    <label for="provider" class="control-label">{{ 'PROVIDER' | translate}} </label>
                                 </div>
                                 <div class="col-md-8 form-group" show-errors>
                                     <input id="providerInfo" name="providerInfo" class="form-control"
@@ -578,12 +579,14 @@
                             <!--SYMBOL OF COUNTER-->
                             <div class="form-group" show-errors>
                                 <div class="col-md-4">
-                                    <label for="symbol">{{' SYMBOL_OF_COUNTER ' | translate}} </label>
+                                    <label for="symbol" class="control-label">
+                                        {{' SYMBOL_OF_COUNTER ' | translate}}
+                                    </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <!-- <div class="pull-left col-lg-3" id="symbolCounter"> -->
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.counterSymbol"
+                                               ng-required="selectedData.dismantled"
                                                on-select="recieveStandardSizesBySymbol(selectedData.counterSymbol)"
                                                name="symbol" id="symbol">
                                         <ui-select-match allow-clear="false">
@@ -593,7 +596,6 @@
                                             <span ng-bind-html="counterSymbol.symbol"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <!-- </div> -->
                                     <br>
                                 </div>
                             </div>
@@ -601,12 +603,14 @@
                             <!--STANDART_SIZE_OF_COUNTER standard sizeSYMBOL OF COUNTER-->
                             <div class="form-group" show-errors>
                                 <div class="col-md-4">
-                                    <label for="standardSize">{{' STANDART_SIZE_OF_COUNTER ' | translate}} </label>
+                                    <label for="standardSize" class="control-label">
+                                        {{' STANDART_SIZE_OF_COUNTER ' | translate}}
+                                    </label>
                                 </div>
                                 <div class="col-md-8">
-                                    <!-- <div class="pull-left col-lg-3" id="sizeCounter"> -->
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.counterStandardSize"
+                                               ng-required="selectedData.dismantled"
                                                ng-disabled="!selectedData.counterSymbol"
                                                name="standardSize" id="standardSize">
                                         <ui-select-match allow-clear="false">
@@ -617,13 +621,12 @@
                                             <span ng-bind-html="counterStandardSize.standardSize"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <!-- </div> -->
                                     <br>
                                 </div>
                             </div>
 
                             <!--YEAR OF COUNTER-->
-                            <div class="form-group">
+                            <div class="form-group" show-errors>
                                 <div class="col-md-4">
                                     <label for="releaseYear" class="control-label">{{' YEAR OF COUNTER ' |
                                         translate}}</label>
@@ -631,6 +634,7 @@
                                 <div class="col-md-8">
                                     <input type="text"
                                            ng-model="selectedData.releaseYear"
+                                           ng-required="selectedData.dismantled"
                                            id="releaseYear" name="releaseYear" class="form-control">
                                     <br>
                                 </div>

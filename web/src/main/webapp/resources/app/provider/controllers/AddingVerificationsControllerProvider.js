@@ -300,7 +300,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.dateOfVerif = ((new Date($scope.addInfo.dateOfVerif)).getTime() !== 0) ?
                 (new Date($scope.addInfo.dateOfVerif)).getTime() : null;
             $scope.formData.time = $scope.addInfo.time;
-
             if($scope.addInfo.serviceability) {
                 $scope.formData.serviceability = $scope.addInfo.serviceability;
             } else {
@@ -370,7 +369,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.addInfo.doorCode = $scope.verification.data.doorCode;
                     $scope.addInfo.floor = $scope.verification.data.floor;
                     $scope.addInfo.dateOfVerif = $scope.verification.data.dateOfVerif;
-
+                    $scope.addInfo.time = $scope.verification.data.time;
                     $scope.addInfo.serviceability = $scope.verification.data.serviceability;
                     $scope.addInfo.noWaterToDate = $scope.verification.data.noWaterToDate;
                     $scope.addInfo.notes = $scope.verification.data.notes;
