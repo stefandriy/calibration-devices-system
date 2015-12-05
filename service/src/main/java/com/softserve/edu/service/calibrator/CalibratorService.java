@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator;
 
+import com.softserve.edu.entity.device.CounterType;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.entity.verification.Verification;
@@ -10,14 +11,17 @@ import net.lingala.zip4j.exception.ZipException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public interface CalibratorService {
 
     Organization findById(Long id);
+
+    CounterType findOneBySymbolAndStandardSize(String symbol, String standardSize);
+
+    List<CounterType> findAllSymbols();
+
+    List<CounterType> findStandardSizesBySymbol(String symbol);
 
     void uploadBbi(InputStream fileStream, String verificationId,
                    String originalFileFullName) throws IOException;
@@ -39,5 +43,7 @@ public interface CalibratorService {
     boolean checkIfAdditionalInfoExists(String verificationId);
 
     AdditionalInfo findAdditionalInfoByVerifId(String verificationId);
+
+    Set<String> getTypesById(Long id);
 
 }

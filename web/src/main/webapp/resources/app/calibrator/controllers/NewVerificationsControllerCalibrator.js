@@ -433,8 +433,8 @@ angular
 
                 var modalInstance = $modal.open({
                     animation: true,
-                    templateUrl: 'resources/app/provider/views/modals/initiate-verification.html',
-                    controller: 'AddingVerificationsControllerProvider',
+                    templateUrl: 'resources/app/calibrator/views/modals/initiate-verification.html',
+                    controller: 'AddingVerificationsControllerCalibrator',
                     size: 'lg',
 
                 });

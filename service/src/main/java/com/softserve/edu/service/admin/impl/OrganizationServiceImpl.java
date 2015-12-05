@@ -319,5 +319,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationRepository.findByIdAndTypeAndActiveAgreementDeviceType(customerId, organizationType, deviceType);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Set<Organization> findCustomersByIdAndTypeAndActiveAgreementDeviceType(Long executorId, OrganizationType organizationType, Device.DeviceType deviceType) {
+        return organizationRepository.findCustomersByIdAndTypeAndActiveAgreementDeviceType(executorId, organizationType, deviceType);
+    }
 
 }

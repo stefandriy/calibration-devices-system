@@ -4,19 +4,15 @@ angular
         return {
             findAllRegions: function () {
                 return getProviderData('region');
-                //return getData('regions');
             },
             findAllDevices : function() {
                 return getProviderData('devices');
-               // return getData('devices');
             },
             findDistrictsByRegionId: function (id) {
                 return getProviderData('districts/' + id);
-                //return getData('districts/' + id);
             },
             findLocalitiesByDistrictId: function (id) {
                 return getProviderData('localities/' + id);
-                //return getData('localities/' + id);
             },
             findStreetsByLocalityId: function (id) {
                 return getData('streets/' + id);

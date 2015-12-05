@@ -1,12 +1,21 @@
-angular.module('employeeModule').controller('AddingVerificationsControllerProvider', ['$scope', '$modal', '$state', '$http', '$log',
-    'AddressServiceProvider', 'VerificationServiceProvider', '$stateParams',
-    '$rootScope', '$location', '$window', '$modalInstance', '$filter',
+angular.module('employeeModule')
+    .controller('AddingVerificationsControllerCalibrator', ['$scope', '$modal', '$state',
+    '$http', '$log','$stateParams', '$rootScope', '$location', '$window', '$modalInstance', 'DataReceivingServiceCalibrator',
+    'VerificationServiceCalibrator', '$filter',
 
-    function ($scope, $modal, $state, $http, $log, addressServiceProvider, verificationServiceProvider, $stateParams, $rootScope, $location, $window, $modalInstance) {
+    function ($scope, $modal, $state, $http, $log, $stateParams, $rootScope, $location, $window, $modalInstance,
+              dataReceivingService, verificationServiceCalibrator) {
         $scope.isShownForm = true;
         $scope.isShownCode = false;
-        $scope.isCalibrator = -1;
-        $scope.calibratorDefined = false;
+        $scope.isProvider = -1;
+        $scope.providerDefined = false;
+
+        /**
+         * to open first block "General Information" when the modal form is loaded
+         * (for Accordion)
+         * @type {boolean}
+         */
+        $scope.generalInformation = true;
 
         /**
          * Receives all regex for input fields
@@ -20,13 +29,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.EMAIL_REGEX = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
         $scope.checkboxModel = false;
-
-        /**
-         * to open first block "General Information" when the modal form is loaded
-         * (for Accordion)
-         * @type {boolean}
-         */
-        $scope.generalInformation = true;
 
         $scope.regions = [];
         $scope.devices = [];
@@ -52,15 +54,15 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.formData = {};
         $scope.formData.comment = "";
 
-        /**
-         * Closes modal window on browser's back/forward button click.
-         */
-        $rootScope.$on('$locationChangeStart', function () {
-            $modalInstance.close();
-        });
+        ///**
+        // * Closes modal window on browser's back/forward button click.
+        // */
+        //$rootScope.$on('$locationChangeStart', function () {
+        //    $modalInstance.close();
+        //});
 
-        addressServiceProvider.checkOrganizationType().success(function (response) {
-            $scope.isCalibrator = response;
+        dataReceivingService.checkOrganizationType().success(function (response) {
+            $scope.isProvider = response;
         });
 
         function arrayObjectIndexOf(myArray, searchTerm, property) {
@@ -71,25 +73,9 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         }
 
         /**
-         * Receives all possible regions.
-         */
-        $scope.receiveRegions = function () {
-            addressServiceProvider.findAllRegions()
-                .success(function (regions) {
-                    $scope.regions = regions;
-                    $scope.selectedData.region = "";
-                    $scope.selectedData.district = "";
-                    $scope.selectedData.locality = "";
-                    $scope.selectedStreet = "";
-                });
-        };
-
-        $scope.receiveRegions();
-
-        /**
          * Receives all possible devices.
          */
-        addressServiceProvider.findAllDevices()
+        dataReceivingService.findAllDevices()
             .success(function (devices) {
                 $scope.devices = devices;
                 $log.debug('device');
@@ -103,11 +89,11 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          */
         $scope.receiveAllSymbols = function() {
             $scope.symbols = [];
-            addressServiceProvider.findAllSymbols()
+            dataReceivingService.findAllSymbols()
                 .success(function(symbols) {
-                   $scope.symbols = symbols;
-                   $scope.selectedData.counterSymbol = undefined;
-                   $scope.selectedData.counterStandardSize = undefined;
+                    $scope.symbols = symbols;
+                    $scope.selectedData.counterSymbol = undefined;
+                    $scope.selectedData.counterStandardSize = undefined;
                 });
         };
 
@@ -118,12 +104,28 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          */
         $scope.recieveStandardSizesBySymbol = function (symbol) {
             $scope.standardSizes = [];
-            addressServiceProvider.findStandardSizesBySymbol(symbol.symbol)
+            dataReceivingService.findStandardSizesBySymbol(symbol.symbol)
                 .success(function(standardSizes) {
-                   $scope.standardSizes = standardSizes;
-                   $scope.selectedData.counterStandardSize = undefined;
+                    $scope.standardSizes = standardSizes;
+                    $scope.selectedData.counterStandardSize = undefined;
                 });
         };
+
+        /**
+         * Receives all possible regions.
+         */
+        $scope.receiveRegions = function () {
+            dataReceivingService.findAllRegions()
+                .success(function (regions) {
+                    $scope.regions = regions;
+                    $scope.selectedData.region = "";
+                    $scope.selectedData.district = "";
+                    $scope.selectedData.locality = "";
+                    $scope.selectedStreet = "";
+                });
+        };
+
+        $scope.receiveRegions();
 
         /**
          * Receives all possible districts.
@@ -131,7 +133,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
          */
         $scope.receiveDistricts = function (selectedRegion) {
             $scope.districts = [];
-            addressServiceProvider.findDistrictsByRegionId(selectedRegion.id)
+            dataReceivingService.findDistrictsByRegionId(selectedRegion.id)
                 .success(function (districts) {
                     $scope.districts = districts;
                     $scope.selectedData.district = "";
@@ -139,12 +141,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     $scope.selectedStreet = "";
                 });
         };
+
         /**
          * Receives all possible localities.
          * On-select handler in district input form element.
          */
         $scope.receiveLocalitiesAndProviders = function (selectedDistrict) {
-            addressServiceProvider.findLocalitiesByDistrictId(selectedDistrict.id)
+            dataReceivingService.findLocalitiesByDistrictId(selectedDistrict.id)
                 .success(function (localities) {
                     $scope.localities = localities;
                     $scope.selectedData.locality = "";
@@ -152,19 +155,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 });
         };
 
-        $scope.receiveCalibrators = function (deviceType) {
-            addressServiceProvider.findCalibratorsForProviderByType(deviceType.deviceType)
-                .success(function (calibrators) {
-                    $scope.calibrators = calibrators;
-                    $scope.selectedData.selectedCalibrator = "";
-                    if ($scope.isCalibrator > 0) {
-                        var index = arrayObjectIndexOf($scope.calibrators, $scope.isCalibrator, "id");
-                        $scope.selectedData.selectedCalibrator = $scope.calibrators[index];
-                    }
-                });
-        };
-
-        addressServiceProvider.findStreetsTypes().success(function (streetsTypes) {
+        dataReceivingService.findStreetsTypes().success(function (streetsTypes) {
             $scope.streetsTypes = streetsTypes;
             $scope.selectedData.selectedStreetType = "";
             $log.debug("$scope.streetsTypes");
@@ -178,28 +169,46 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.receiveStreets = function (selectedLocality, selectedDistrict) {
             if (!$scope.blockSearchFunctions) {
                 $scope.streets = [];
-                addressServiceProvider.findStreetsByLocalityId(selectedLocality.id)
+                dataReceivingService.findStreetsByLocalityId(selectedLocality.id)
                     .success(function (streets) {
                         $scope.streets = streets;
                         $scope.selectedStreet = "";
                     });
                 $scope.indexes = [];
-                addressServiceProvider.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
+                dataReceivingService.findMailIndexByLocality(selectedLocality.designation, selectedDistrict.id)
                     .success(function (indexes) {
                         $scope.indexes = indexes;
                         $scope.selectedData.index = indexes[0];
                     });
             }
         };
+
         /**
          * Receives all possible buildings.
          * On-select handler in street input form element.
          */
         $scope.receiveBuildings = function (selectedStreet) {
             $scope.buildings = [];
-            addressServiceProvider.findBuildingsByStreetId(selectedStreet.id)
+            dataReceivingService.findBuildingsByStreetId(selectedStreet.id)
                 .success(function (buildings) {
                     $scope.buildings = buildings;
+                });
+        };
+
+        /**
+         * Receives all providers, which are able to deal with the devices/counters with such a deviceType
+         * and which have the agreement with this provider
+         * @param deviceType
+         */
+        $scope.receiveProviders = function (deviceType) {
+            dataReceivingService.findProvidersForCalibratorByType(deviceType.deviceType)
+                .success(function (providers) {
+                    $scope.providers = providers;
+                    $scope.selectedData.selectedProvider = "";
+                    if ($scope.isProvider > 0) {
+                        var index = arrayObjectIndexOf($scope.providers, $scope.isProvider, "id");
+                        $scope.selectedData.selectedProvider = $scope.providers[index];
+                    }
                 });
         };
 
@@ -210,13 +219,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.isMailValid = true;
         $scope.sendApplicationData = function () {
             $scope.$broadcast('show-errors-check-validity');
-            if ($scope.clientForm.$valid && $scope.selectedData.selectedCalibrator) {
+            if ($scope.clientForm.$valid && $scope.selectedData.selectedProvider) {
 
                 $scope.fillFormData();
-                $scope.formData.calibratorId = $scope.selectedData.selectedCalibrator.id;
+                $scope.formData.providerId = $scope.selectedData.selectedProvider.id;
 
                 for (var i = 0; i < $scope.selectedData.selectedCount; i++) {
-                    verificationServiceProvider.sendInitiatedVerification($scope.formData)
+                    verificationServiceCalibrator.sendInitiatedVerification($scope.formData)
                         .success(function (applicationCode) {
                             if($scope.applicationCodes === undefined)
                             {
@@ -225,38 +234,13 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                             $scope.applicationCodes.push(applicationCode);
                         });
                 }
-                verificationServiceProvider.checkMailIsExist($scope.formData)
-                    .success(function (isMailValid) {
-                        $scope.isMailValid = isMailValid;
-                    });
+                //verificationServiceCalibrator.checkMailIsExist($scope.formData)
+                //    .success(function (isMailValid) {
+                //        $scope.isMailValid = isMailValid;
+                //    });
 
                 //hide form because application status is shown
                 $scope.isShownForm = false;
-            }
-        };
-
-
-
-        /**
-         * create and save in database the verification from filled fields in form when user clicks "Save"
-         */
-        $scope.save = function() {
-            $scope.$broadcast('show-errors-check-validity');
-            if($scope.clientForm.$valid) {
-
-                $scope.fillFormData();
-
-                verificationServiceProvider.saveVerification($scope.formData)
-                    .success(function (applicationCode) {
-                        if ($scope.applicationCodes === undefined) {
-                            $scope.applicationCodes = [];
-                        }
-                        $scope.applicationCodes.push(applicationCode);
-                    });
-
-                    $scope.isShownForm = false;
-                    $scope.isShownCode = true;
-
             }
         };
 
@@ -410,7 +394,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                                             });
                                     });
                             });
-                         });
+                    });
 
 
                     if($scope.verification.data.symbol) {
@@ -582,7 +566,7 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                     break;
             }
 
-        }
+        };
 
         function validator(caseForValidation, isValid) {
             switch (caseForValidation) {
@@ -614,5 +598,6 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             }
         }
 
+
     }
-]);
+    ]);

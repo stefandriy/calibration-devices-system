@@ -272,6 +272,7 @@
         'calibrator/controllers/CalibrationTestAddControllerCalibrator',
         'calibrator/controllers/TaskForStationController',
         'calibrator/controllers/VerificationListModalController',
+        'calibrator/controllers/AddingVerificationsControllerCalibrator',
 
         'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
@@ -298,6 +299,7 @@
         'calibrator/controllers/EditPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
         'calibrator/services/CalibrationTaskServiceCalibrator',
+        'calibrator/services/DataReceivingServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',

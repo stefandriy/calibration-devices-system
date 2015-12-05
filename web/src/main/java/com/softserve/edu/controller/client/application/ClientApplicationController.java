@@ -157,7 +157,26 @@ public class ClientApplicationController {
     public Set<ApplicationFieldDTO> getCalibratorsCorrespondingDeviceType(@PathVariable String type,
                                                                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
         //todo agreement
-        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(), OrganizationType.CALIBRATOR, Device.DeviceType.valueOf(type))
+        return organizationService.findByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(),
+                OrganizationType.CALIBRATOR, Device.DeviceType.valueOf(type))
+                .stream()
+                .map(organization -> new ApplicationFieldDTO(organization.getId(), organization.getName()))
+                .collect(Collectors.toSet());
+    }
+
+    /**
+     * Return providers corresponding organization and device type
+     *
+     * @param type type of device.
+     * @param user user of current organization
+     * @return set of ApplicationFieldDTO where stored organization id and name
+     */
+    @RequestMapping(value = "providers/{type}", method = RequestMethod.GET)
+    public Set<ApplicationFieldDTO> getProviderCorrespondingDeviceType(@PathVariable String type,
+                                                                       @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
+
+        return organizationService.findCustomersByIdAndTypeAndActiveAgreementDeviceType(user.getOrganizationId(),
+                OrganizationType.PROVIDER, Device.DeviceType.valueOf(type))
                 .stream()
                 .map(organization -> new ApplicationFieldDTO(organization.getId(), organization.getName()))
                 .collect(Collectors.toSet());

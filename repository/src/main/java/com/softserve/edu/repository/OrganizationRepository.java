@@ -97,4 +97,18 @@ public interface OrganizationRepository extends CrudRepository<Organization, Lon
     Set<Organization> findByIdAndTypeAndActiveAgreementDeviceType(@Param("customerId") Long customerId,
                                                            @Param("orgType") OrganizationType orgType,
                                                            @Param("deviceType") Device.DeviceType deviceType);
+
+    /**
+     * Find organizations by organization id and
+     * @param executorId
+     * @param orgType
+     * @param deviceType
+     * @return
+     */
+    @Query("SELECT C FROM Organization O INNER JOIN O.agreements A " +
+            "INNER JOIN A.customer C " +
+            "WHERE O.id =:executorId AND A.deviceType =:deviceType AND A.isAvailable = true AND  :orgType in elements(C.organizationTypes)")
+    Set<Organization> findCustomersByIdAndTypeAndActiveAgreementDeviceType(@Param("executorId") Long executorId,
+                                                                  @Param("orgType") OrganizationType orgType,
+                                                                  @Param("deviceType") Device.DeviceType deviceType);
 }
