@@ -11,4 +11,38 @@ public interface Constants {
     String COUNT_ALL_VERIFICATIONS = "Кількість виконаних заявок, всього";
     String COUNT_OK_VERIFICATIONS = "Кількість виконаних заявок з результатом «придатний» ";
     String COUNT_NOK_VERIFICATIONS = "Кількість виконаних заявок з результатом «не придатний»";
+
+    String COUNTERS_NUMBER = "Кількість лічильників";
+
+    String PROVIDER = "Провайдер";
+
+    // Address details
+
+    String REGION = "Район";
+    String ADDRESS = "Адреса";
+    String BUILDING = "Будинок";
+    String FLAT = "Квартира";
+    String ENTRANCE = "Під'їзд";
+    String FLOOR = "Поверх";
+
+    String COMMENT = "Примітка";
+
+    String FULL_NAME_SHORT = "ПІБ";
+    String PHONE_NUMBER = "Телефон";
+
+    // region File extensions
+
+    String XLS_EXTENSION = ".xls";
+    String DBF_EXTENSION = ".dbf";
+    String ZIP_EXTENSION = ".zip";
+
+    // endregion
+
+    // region Task
+
+    String TASK = "Завдання";
+    String TASK_DATE = "Дата завдання";
+    String DESIRABLE_TIME = "Бажаний час";
+
+    // endregion
 }

@@ -1,5 +1,6 @@
 package com.softserve.edu.service.calibrator.impl;
 
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.entity.catalogue.Team.DisassemblyTeam;
 import com.softserve.edu.entity.device.CalibrationModule;
 import com.softserve.edu.entity.device.CounterType;
@@ -114,7 +115,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             // sendTaskToStation(task);
             taskRepository.save(task);
         } catch (Exception ex) {
-            logger.error(ex.getMessage());
+            logger.error(ex);
         }
         for (String verifID : verificationsId) {
             Verification verification = verificationRepository.findOne(verifID);
@@ -367,9 +368,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         tempFolder.setReadable(true);
         tempFolder.mkdirs();
 
-        File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".xls");
-        File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".dbf");
-        File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + ".zip");
+        File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + Constants.XLS_EXTENSION);
+        File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + Constants.DBF_EXTENSION);
+        File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + Constants.ZIP_EXTENSION);
 
         BufferedOutputStream xlsStream = null;
         BufferedOutputStream dbfStream = null;
@@ -389,7 +390,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 xlsTableExporter.export(dataForXls, xlsStream);
                 xlsSuccess = true;
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e);
                 xlsSuccess = false;
             }
 
@@ -401,7 +402,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 dbfTableExporter.export(dataForDbf, dbfStream);
                 dbfSuccess = true;
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error(e);
                 dbfSuccess = false;
             }
 
@@ -415,13 +416,14 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                     zip.createZip(zipStream, sources);
                     zipSuccess = true;
                 } catch (Exception e) {
+                    logger.error(e);
                     zipSuccess = false;
                 }
             }
 
             if (xlsSuccess && dbfSuccess && zipSuccess && zipFile != null) {
                 String email = calibrationTask.getModule().getEmail();
-                mailService.sendMailWithAttachment(email, "Завдання", " ", zipFile);
+                mailService.sendMailWithAttachment(email, Constants.TASK, " ", zipFile);
                 // TODO: Can't test sending mails on local machine!
             }
         } finally {
@@ -565,19 +567,19 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         // region Fill map
 
-        data.put("Дата завдання", taskDate);
-        data.put("Провайдер", provider);
-        data.put("Район", district);
-        data.put("Адреса", address);
-        data.put("Будинок", building);
-        data.put("Квартира", flat);
-        data.put("Під'їзд", entrance);
-        data.put("Поверх", floor);
-        data.put("К-ть лічильників", countersNumber);
-        data.put("ПІБ", fullName);
-        data.put("Телефон", telephone);
-        data.put("Бажаний час", time);
-        data.put("Примітка", comment);
+        data.put(Constants.TASK_DATE, taskDate);
+        data.put(Constants.PROVIDER, provider);
+        data.put(Constants.REGION, district);
+        data.put(Constants.ADDRESS, address);
+        data.put(Constants.BUILDING, building);
+        data.put(Constants.FLAT, flat);
+        data.put(Constants.ENTRANCE, entrance);
+        data.put(Constants.FLOOR, floor);
+        data.put(Constants.COUNTERS_NUMBER, countersNumber);
+        data.put(Constants.FULL_NAME_SHORT, fullName);
+        data.put(Constants.PHONE_NUMBER, telephone);
+        data.put(Constants.DESIRABLE_TIME, time);
+        data.put(Constants.COMMENT, comment);
 
         // endregion
 
