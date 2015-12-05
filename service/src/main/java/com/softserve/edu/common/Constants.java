@@ -52,4 +52,10 @@ public interface Constants {
     String DESIRABLE_TIME = "Бажаний час";
 
     // endregion
+
+    // region Date Format
+
+    String YEAR_MONTH_DAY = "yyyy-MM-dd";
+
+    // endregion
 }

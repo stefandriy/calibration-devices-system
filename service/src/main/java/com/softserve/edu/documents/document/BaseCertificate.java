@@ -1,5 +1,6 @@
 package com.softserve.edu.documents.document;
 
+import com.softserve.edu.common.Constants;
 import com.softserve.edu.documents.document.meta.Placeholder;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.device.Device;
@@ -199,7 +200,7 @@ public abstract class BaseCertificate implements Document {
      */
     @Placeholder(name = "PROTOCOL_DATE")
     public String getCalibrationTestDate () {
-        return new SimpleDateFormat("yyyy-MM-dd").format(getCalibrationTest().getDateTest());
+        return new SimpleDateFormat(Constants.YEAR_MONTH_DAY).format(getCalibrationTest().getDateTest());
     }
 
     private void setVerification(Verification verification) {
