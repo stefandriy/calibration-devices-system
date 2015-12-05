@@ -73,6 +73,17 @@ body {
     background-color: #fff;
 }
 
+#page-wrapper .test-panel-title {
+    width: 150px;
+    float:left;
+}
+
+
+#page-wrapper .test-panel-fild-content {
+    margin-left:15px;
+
+}
+
 @media (min-width: 768px) {
     #page-wrapper {
         position: inherit;

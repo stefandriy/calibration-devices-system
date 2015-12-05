@@ -9,6 +9,71 @@ angular
             $scope.IdsOfVerifications = calibrationTestServiceCalibrator.dataOfVerifications().getIdsOfVerifications();
 
 
+            $scope.tableParams = new ngTableParams({
+                page: 1,
+                count: 50,
+                sorting: {
+                    date: 'desc'
+                }
+            }, {
+                total: 0,
+                counts :[],
+                getData: function ($defer, params) {
+                            //$defer.resolve($scope.IdsOfVerifications);
+                    var arr = [{
+                        ids:1,
+                        name:"my"
+                    },{
+                        ids:2,
+                        name:"my"
+                    }];
+                    $defer.resolve(arr);
+                    params.total(arr);
+                    $scope.dati = arr;
+                }
+            });
+
+            $scope.selectedData = {
+                numberProtocol : null
+            };
+
+            $scope.creatTest = function(){
+                console.log($scope.selectedData.numberProtocol);
+
+            };
+
+
+
+
+            $scope.statusData = [
+                {id: 'success', label: null},
+                {id: 'failed', label: null},
+                {id: 'failed', label: null},
+            ];
+
+            $scope.setStatus = function (status) {
+                $scope.selectedStatus = {
+                    label: status.label,
+                    id: status.id
+                };
+            };
+
+            $scope.setTypeDataLanguage = function () {
+                var lang = $translate.use();
+                if (lang === 'ukr') {
+                    $scope.statusData[0].label = 'придатний';
+                    $scope.statusData[1].label = 'непридатний';
+                    $scope.statusData[2].label = 'необроблений';
+                } else if (lang === 'eng') {
+                    $scope.statusData[0].label = 'success';
+                    $scope.statusData[1].label = 'failed';
+                    $scope.statusData[2].label = 'raw';
+                }
+            };
+
+            $scope.setTypeDataLanguage();
+
+
             $scope.clearAll = function () {
                 $scope.consumptionStatus.name = null;
                 $scope.selectedDeviceType.name = null;
@@ -170,76 +235,76 @@ angular
             };
 
 
-            verificationServiceCalibrator.getArchivalVerificationEarliestDate().success(function (date) {
-                    //first we will try to receive date period
-                    // to populate ng-table filter
-                    // I did this to reduce reloading and flickering of the table
-                    $scope.initDatePicker(date);
-                    $scope.tableParams = new ngTableParams(
-                        {
-                            page: 1,
-                            count: 10,
-                            sorting: {
-                                date: 'desc'
-                            }
-                        }, {
-                            counts: [],
-                            total: 0,
-                            filterDelay: 1500,
-                            getData: function ($defer, params) {
-                        //        $defer.resolve(dataT);
-                        //    }
-                        //});
-
-                        if (params.settings().$scope == null) {
-                            params.settings().$scope = $scope;
-                        }
-
-                        var sortCriteria = Object.keys(params.sorting())[0];
-                        var sortOrder = params.sorting()[sortCriteria];
-
-                        params.filter().id = null;
-
-                        if ($scope.consumptionStatus.name != null) {
-                            params.filter().consumptionStatus = $scope.consumptionStatus.name.id;
-                        }
-                        else {
-                            params.filter().consumptionStatus = null; //case when the filter is cleared with a button on the select
-                        }
-
-                        if ($scope.selectedDeviceType.name != null) {
-                            params.filter().measurementDeviceType = $scope.selectedDeviceType.name.id;
-                        }
-                        else {
-                            params.filter().measurementDeviceType = null; //case when the filter is cleared with a button on the select
-                        }
-
-
-                        if ($scope.selectedTestResult.name != null) {
-                            params.filter().testResult = $scope.selectedTestResult.name.id;
-                        } else {
-                            params.filter().testResult = null;
-                        }
-
-                        if(true) {
-                            params.filter().id = $location.search().param;
-                        }
-
-                        //params.filter().id = $location.search().param;
-                        params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                        params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
-
-                        calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
-                            $scope.resultsCount = result.totalItems;
-                            $defer.resolve(result.content);
-                            params.total(result.totalItems);
-                        }, function (result) {
-                            $log.debug('error fetching data:', result);
-                        });
-                    }
-                });
-                $scope.params.settings().$scope = $scope;
-            });
+            //verificationServiceCalibrator.getArchivalVerificationEarliestDate().success(function (date) {
+            //        //first we will try to receive date period
+            //        // to populate ng-table filter
+            //        // I did this to reduce reloading and flickering of the table
+            //        $scope.initDatePicker(date);
+            //        $scope.tableParams = new ngTableParams(
+            //            {
+            //                page: 1,
+            //                count: 10,
+            //                sorting: {
+            //                    date: 'desc'
+            //                }
+            //            }, {
+            //                counts: [],
+            //                total: 0,
+            //                filterDelay: 1500,
+            //                getData: function ($defer, params) {
+            //            //        $defer.resolve(dataT);
+            //            //    }
+            //            //});
+            //
+            //            if (params.settings().$scope == null) {
+            //                params.settings().$scope = $scope;
+            //            }
+            //
+            //            var sortCriteria = Object.keys(params.sorting())[0];
+            //            var sortOrder = params.sorting()[sortCriteria];
+            //
+            //            params.filter().id = null;
+            //
+            //            if ($scope.consumptionStatus.name != null) {
+            //                params.filter().consumptionStatus = $scope.consumptionStatus.name.id;
+            //            }
+            //            else {
+            //                params.filter().consumptionStatus = null; //case when the filter is cleared with a button on the select
+            //            }
+            //
+            //            if ($scope.selectedDeviceType.name != null) {
+            //                params.filter().measurementDeviceType = $scope.selectedDeviceType.name.id;
+            //            }
+            //            else {
+            //                params.filter().measurementDeviceType = null; //case when the filter is cleared with a button on the select
+            //            }
+            //
+            //
+            //            if ($scope.selectedTestResult.name != null) {
+            //                params.filter().testResult = $scope.selectedTestResult.name.id;
+            //            } else {
+            //                params.filter().testResult = null;
+            //            }
+            //
+            //            if(true) {
+            //                params.filter().id = $location.search().param;
+            //            }
+            //
+            //            //params.filter().id = $location.search().param;
+            //            params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
+            //            params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+            //
+            //            calibrationTestServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder).success(function (result) {
+            //                $scope.resultsCount = result.totalItems;
+            //                $defer.resolve(result.content);
+            //                params.total(result.totalItems);
+            //            }, function (result) {
+            //                $log.debug('error fetching data:', result);
+            //            });
+            //        }
+            //    });
+            //    $scope.params.settings().$scope = $scope;
+            //});
 
 
 
@@ -256,22 +321,19 @@ angular
                 return false;
             };
 
-                $scope.checkDateFilters = function () {
-                    if ($scope.tableParams == null) return false; //table not yet initialized
-                    var obj = $scope.tableParams.filter();
-
-
-
-                    if ($scope.isDateDefault())
-                    return false;
-                else if (!moment(obj.date).isSame($scope.defaultDate.startDate)
-                    || !moment(obj.endDate).isSame($scope.defaultDate.endDate)) {
-                    //filters are string,
-                    // so we are temporarily convertin them to momentjs objects
-                    return true;
-                }
-                return false;
-            };
+            //    $scope.checkDateFilters = function () {
+            //        if ($scope.tableParams == null) return false; //table not yet initialized
+            //        var obj = $scope.tableParams.filter();
+            //        if ($scope.isDateDefault())
+            //        return false;
+            //    else if (!moment(obj.date).isSame($scope.defaultDate.startDate)
+            //        || !moment(obj.endDate).isSame($scope.defaultDate.endDate)) {
+            //        //filters are string,
+            //        // so we are temporarily convertin them to momentjs objects
+            //        return true;
+            //    }
+            //    return false;
+            //};
 
             $scope.openDetails = function (verifId, verifDate) {
 
@@ -343,7 +405,6 @@ angular
 
             
             $scope.openAddTest = function (verificationID, fileName) {
-                $scope.getMy();
                 calibrationTestServiceCalibrator
                     .getEmptyTest(verificationID)
                     .then(function (data) {
