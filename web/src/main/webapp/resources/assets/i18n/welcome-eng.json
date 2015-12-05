@@ -598,7 +598,7 @@
   "TEST1":"result of test 1",
   "TEST2":"result of test 2",
   "TEST3":"result of test 3",
-  "HANDHELD_ELECTRONIC_PROTOCOL":"handheld electronic protocol"
+  "HANDHELD_ELECTRONIC_PROTOCOL":"handheld electronic protocol",
   "REPORTS" : "Reports",
   "PROVIDER_EMPLOYEES_REPORTS" : "Employees reports",
   "CALIBRATORS_REPORTS" : "Calibrators reports",
