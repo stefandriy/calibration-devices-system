@@ -63,9 +63,9 @@ public class AdditionalInfo {
     public AdditionalInfo(String entrance,String doorCode, String floor, Long dateOfVerif, boolean serviceability,
                         Long noWaterToDate, String notes, String time) {
 
-        this.entrance = (entrance != null && entrance.equals("")) ? Integer.parseInt(entrance) : 0;
-        this.doorCode = (doorCode != null && doorCode.equals("")) ? Integer.parseInt(doorCode): 0;
-        this.floor = (floor != null && floor.equals("")) ? Integer.parseInt(floor) : 0;
+        this.entrance = (entrance != null && !entrance.equals("")) ? Integer.parseInt(entrance) : 0;
+        this.doorCode = (doorCode != null && !doorCode.equals("")) ? Integer.parseInt(doorCode): 0;
+        this.floor = (floor != null && !floor.equals("")) ? Integer.parseInt(floor) : 0;
         this.dateOfVerif = (dateOfVerif != null) ? new Date(dateOfVerif) : null;
         this.serviceability = serviceability;
         this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;

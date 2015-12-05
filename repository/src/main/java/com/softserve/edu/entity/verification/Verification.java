@@ -97,6 +97,7 @@ public class Verification {
     @JoinColumn(name = "taskId")
     private CalibrationTask task;
 
+    @Deprecated
     @Column(columnDefinition = "boolean default false")
     private boolean isAddInfoExists;
 

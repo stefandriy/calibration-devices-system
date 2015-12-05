@@ -260,6 +260,7 @@
         'calibrator/controllers/ArchivalVerificationsControllerCalibrator',
         'calibrator/controllers/NotificationsControllerCalibrator',
         'calibrator/controllers/CalibrationTestAddControllerCalibrator',
+        'calibrator/controllers/AddingVerificationsControllerCalibrator',
 
         'calibrator/controllers/catalogue/DisassemblyTeamAddModalController',
         'calibrator/controllers/catalogue/DisassemblyTeamEditModalController',
@@ -285,6 +286,7 @@
         'calibrator/controllers/PieCalibratorEmployee',
         'calibrator/controllers/EditPhotoController',
         'calibrator/services/DisassemblyTeamServiceCalibrator',
+        'calibrator/services/DataReceivingServiceCalibrator',
 
         'verificator/controllers/TopNavBarControllerVerificator',
         'verificator/controllers/MainPanelControllerVerificator',
