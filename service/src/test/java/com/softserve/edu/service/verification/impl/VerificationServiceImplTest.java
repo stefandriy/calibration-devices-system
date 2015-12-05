@@ -473,10 +473,20 @@ public class VerificationServiceImplTest {
         String sortCriteria = "sortCriteria";
         String sortOrder = "sortOrded";
         User verificatorEmployee = mock(User.class);
+        String nameProvider = null;
+        String nameCalibrator = null;
+        String lastName = null;
+        String firstName = null;
+        String middleName = null;
+        String district = null;
+        String building = null;
+        String flat = null;
 
         PowerMockito.mockStatic(NewVerificationsQueryConstructorVerificator.class);
-        PowerMockito.when(NewVerificationsQueryConstructorVerificator.buildSearchQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, sortCriteria, sortOrder, employeeName, mockEntityManager)).thenReturn(criteriaQuery);
-        PowerMockito.when(NewVerificationsQueryConstructorVerificator.buildCountQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, employeeName, mockEntityManager)).thenReturn(longCriteriaQuery);
+        PowerMockito.when(NewVerificationsQueryConstructorVerificator.buildSearchQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, nameProvider,
+                nameCalibrator, lastName, firstName, middleName, district,  building,  flat, sortCriteria, sortOrder, employeeName, mockEntityManager)).thenReturn(criteriaQuery);
+        PowerMockito.when(NewVerificationsQueryConstructorVerificator.buildCountQuery(verificatorId, dateToSearch, idToSearch, fullNameToSearch, streetToSearch, status, verificatorEmployee, nameProvider,
+                nameCalibrator, lastName, firstName, middleName, district, building, flat, employeeName, mockEntityManager)).thenReturn(longCriteriaQuery);
 
         stub(mockEntityManager.createQuery(criteriaQuery)).toReturn(verificationTypedQuery);
         stub(mockEntityManager.createQuery(longCriteriaQuery)).toReturn(longTypedQuery);
@@ -486,7 +496,8 @@ public class VerificationServiceImplTest {
         Long count = mockEntityManager.createQuery(longCriteriaQuery).getSingleResult();
 
         ListToPageTransformer<Verification> actual = verificationService.findPageOfVerificationsByVerificatorIdAndCriteriaSearch(verificatorId, pageNumber, itemsPerPage, dateToSearch, idToSearch, fullNameToSearch,
-                streetToSearch, status, employeeName, sortCriteria, sortOrder, verificatorEmployee);
+                streetToSearch, status, employeeName, nameProvider,
+                nameCalibrator, lastName, firstName, middleName, district, building, flat, sortCriteria, sortOrder, verificatorEmployee);
 
         assertEquals(verificationList, actual.getContent());
         assertEquals(count, actual.getTotalItems());

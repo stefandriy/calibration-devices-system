@@ -2,6 +2,8 @@ package com.softserve.edu.service.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
@@ -52,15 +54,15 @@ public class NewVerificationsQueryConstructorVerificator {
      * @return CriteriaQuery<Verification>
      */
     public static CriteriaQuery<Verification> buildSearchQuery(Long verificatorID, String dateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status,
-                                                               User verificatorEmployee, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
+                                                               User verificatorEmployee,  String nameProvider,String nameCalibrator, String lastName, String firstName, String middleName,String district, String building, String flat, String sortCriteria, String sortOrder, String employeeSearchName, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Verification> criteriaQuery = cb.createQuery(Verification.class);
         Root<Verification> root = criteriaQuery.from(Verification.class);
         Join<Verification, Organization> verificatorJoin = root.join("stateVerificator");
 
-        Predicate predicate = NewVerificationsQueryConstructorVerificator.buildPredicate(root, cb, verificatorJoin, verificatorID, dateToSearch, idToSearch,
-                fullNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
+        Predicate predicate = NewVerificationsQueryConstructorVerificator.buildPredicate(root, cb, verificatorJoin, verificatorID, dateToSearch, idToSearch, fullNameToSearch,
+                streetToSearch, status, verificatorEmployee, nameProvider, nameCalibrator, lastName, firstName, middleName, district, building, flat, employeeSearchName);
         if((sortCriteria != null)&&(sortOrder != null)) {
 			criteriaQuery.orderBy(SortCriteriaVerification.valueOf(sortCriteria.toUpperCase()).getSortOrder(root, cb, sortOrder));
 		} else {
@@ -92,14 +94,14 @@ public class NewVerificationsQueryConstructorVerificator {
 * 		EntityManager needed to have a possibility to create query    @return CriteriaQuery<Long>
      */
     public static CriteriaQuery<Long> buildCountQuery(Long verificatorID, String dateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status,
-                                                      User verificatorEmployee, String employeeSearchName, EntityManager em) {
+                                                      User verificatorEmployee, String nameProvider, String nameCalibrator,String lastName, String firstName, String middleName, String district, String building, String flat, String employeeSearchName, EntityManager em) {
 
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Verification> root = countQuery.from(Verification.class);
         Join<Verification, Organization> verificatorJoin = root.join("stateVerificator");
-        Predicate predicate = NewVerificationsQueryConstructorVerificator.buildPredicate(root, cb, verificatorJoin, verificatorID, dateToSearch, idToSearch,
-                fullNameToSearch, streetToSearch, status, verificatorEmployee, employeeSearchName);
+        Predicate predicate = NewVerificationsQueryConstructorVerificator.buildPredicate(root, cb, verificatorJoin, verificatorID, dateToSearch, idToSearch, fullNameToSearch,
+                 streetToSearch, status, verificatorEmployee, nameProvider, nameCalibrator,lastName, firstName, middleName, district, building, flat, employeeSearchName);
         countQuery.select(cb.count(root));
         countQuery.where(predicate);
         return countQuery;
@@ -120,7 +122,7 @@ public class NewVerificationsQueryConstructorVerificator {
      * @return Predicate
      */
     private static Predicate buildPredicate(Root<Verification> root, CriteriaBuilder cb, Join<Verification, Organization> joinSearch, Long verificatorId,
-                                            String dateToSearch, String idToSearch, String fullNameToSearch, String streetToSearch, String status, User verificatorEmployee, String employeeSearchName) {
+                                            String dateToSearch, String idToSearch, String fullNameToSearch, String street, String status, User verificatorEmployee, String nameProvider, String nameCalibrator, String lastName, String firstName, String middleName, String district, String building, String flat, String employeeSearchName) {
 
         String userName = verificatorEmployee.getUsername();
         Predicate queryPredicate = cb.conjunction();
@@ -147,35 +149,40 @@ public class NewVerificationsQueryConstructorVerificator {
         queryPredicate = cb.and(cb.equal(joinSearch.get("id"), verificatorId), queryPredicate);
 
         if (dateToSearch != null) {
-			SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd");
-			Date date = null;
-			try {
-				date = form.parse(dateToSearch.substring(0, 10));
-				Calendar c = Calendar.getInstance();
-				c.setTime(date);
-				c.add(Calendar.DATE, 1);
-				date = c.getTime();
-			} catch (ParseException pe) {
-				logger.error("Cannot parse date", pe);
-			}
-			queryPredicate = cb.and(cb.equal(root.get("initialDate"), date), queryPredicate);
-		}
+            DateTimeFormatter dbDateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+            LocalDate date = null;
+            try {
+                date = LocalDate.parse(dateToSearch.substring(0, 10), dbDateTimeFormatter);
+            } catch (Exception pe) {
+                logger.error("Cannot parse date", pe);
+            }
+            queryPredicate = cb.and(cb.equal(root.get("initialDate"), java.sql.Date.valueOf(date)), queryPredicate);
+        }
 
         if ((idToSearch != null)&&(idToSearch.length()>0)) {
             queryPredicate = cb.and(cb.like(root.get("id"), "%" + idToSearch + "%"), queryPredicate);
         }
-        if ((fullNameToSearch !=null)&&(fullNameToSearch.length()>0)) {
-            queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%"), queryPredicate);
+
+        if (lastName != null && lastName.length() > 0) {
+            queryPredicate = cb.and(cb.like(root.get("clientData").get("lastName"), "%" + lastName + "%"), queryPredicate);
+            if (firstName != null && firstName.length() > 0) {
+                queryPredicate = cb.and(cb.like(root.get("clientData").get("firstName"), "%" + firstName + "%"), queryPredicate);
+            }
+            if (middleName != null && middleName.length() > 0) {
+                queryPredicate = cb.and(cb.like(root.get("clientData").get("middleName"), "%" + middleName + "%"), queryPredicate);
+            }
         }
-        if ((fullNameToSearch != null)&&(fullNameToSearch.length()>0)) {
-            Predicate searchByClientFirstName = cb.like(root.get("clientData").get("firstName"), "%" + fullNameToSearch + "%");
-            Predicate searchByClientLastName = cb.like(root.get("clientData").get("lastName"), "%" + fullNameToSearch + "%");
-            Predicate searchByClientMiddleName = cb.like(root.get("clientData").get("middleName"), "%" + fullNameToSearch + "%");
-            Predicate searchPredicateByClientFullName = cb.or(searchByClientFirstName, searchByClientLastName, searchByClientMiddleName);
-            queryPredicate = cb.and(searchPredicateByClientFullName, queryPredicate);
-        }
-        if ((streetToSearch != null)&&(streetToSearch.length()>0)) {
-            queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + streetToSearch + "%"), queryPredicate);
+        if (district != null && district.length() > 0) {
+            queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("district"), "%" + district + "%"), queryPredicate);
+            if (street != null && street.length() > 0) {
+                queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("street"), "%" + street + "%"), queryPredicate);
+            }
+            if (building != null && building.length() > 0) {
+                queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("building"), "%" + building + "%"), queryPredicate);
+            }
+            if (flat != null && flat.length() > 0) {
+                queryPredicate = cb.and(cb.like(root.get("clientData").get("clientAddress").get("flat"), "%" + flat + "%"), queryPredicate);
+            }
         }
 
         if ((employeeSearchName != null)&&(employeeSearchName.length()>0)) {
@@ -186,6 +193,17 @@ public class NewVerificationsQueryConstructorVerificator {
 			Predicate searchPredicateByProviderEmployeeName = cb.or(searchByProviderName, searchByProviderSurname, searchByProviderLastName);
 			queryPredicate = cb.and(searchPredicateByProviderEmployeeName, queryPredicate);
 		}
+        if (nameProvider != null && nameProvider.length() > 0) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("provider").get("name"), "%" + nameProvider + "%"),
+                    queryPredicate);
+        }
+        if ((nameCalibrator != null) && (nameCalibrator.length() > 0)) {
+            queryPredicate = cb.and(
+                    cb.like(root.get("calibrator").get("name"), "%" + nameCalibrator + "%"),
+                    queryPredicate);
+        }
+
         return queryPredicate;
     }
 }

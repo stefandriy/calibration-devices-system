@@ -19,6 +19,12 @@ public class NewVerificationsFilterSearch {
 	private String nameProvider;
 	private String realiseYear;
 	private String dismantled;
+	private String nameCalibrator;
+	private String lastName;
+	private String firstName;
+	private String middleName;
+	private String address;
+
 
 
 
@@ -153,5 +159,45 @@ public class NewVerificationsFilterSearch {
 
 	public void setDismantled(String dismantled) {
 		this.dismantled = dismantled;
+	}
+
+	public String getNameCalibrator() {
+		return nameCalibrator;
+	}
+
+	public void setNameCalibrator(String nameCalibrator) {
+		this.nameCalibrator = nameCalibrator;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }
