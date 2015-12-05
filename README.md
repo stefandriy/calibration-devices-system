@@ -121,7 +121,7 @@ Check `database_script.sql` for additional information about other users such as
  - Тарас Паничок
  
 
- #### LV-165 Java:
+#### LV-165 Java:
 Експерт: Назар Свідерський
 
 Викладачі: Андрій Переймибіда та Любомир Галамага
@@ -129,7 +129,7 @@ Check `database_script.sql` for additional information about other users such as
 Учасники:
  - Андрій Стефанський
  - Вероніка Герасименко
- - Любомир Лисень
+ - Любомир Лісень
  - Михайло Закалюжний
  - Павло Березін
  - Роман Горбовий
