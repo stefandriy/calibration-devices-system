@@ -140,6 +140,8 @@ public class DocumentsController {
     private void sendFile(HttpServletResponse response, FileFormat fileFormat,
                           FileObject file) throws IOException {
         setContentType(response, fileFormat);
+        response.setHeader("Content-Disposition", "attachment; " +
+                "filename=\"" + file.getName().getBaseName() + "." + fileFormat.name().toLowerCase() + "\"");
         ServletOutputStream outputStream = response.getOutputStream();
 
         int bufferSize = 10240;  // 10Kb
@@ -180,9 +182,6 @@ public class DocumentsController {
                         " is not supported");
 
         }
-
-        response.setHeader("Content-Disposition", "attachment; " +
-                "filename=\"document." + fileFormat.name().toLowerCase() + "\"");
     }
 
     /**
