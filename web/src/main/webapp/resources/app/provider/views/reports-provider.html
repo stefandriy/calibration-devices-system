@@ -4,26 +4,14 @@
             <h1 class="page-header">{{'REPORTS' | translate}}</h1>
         </div>
         <div class="col-md-12">
-            <br>
-        </div>
-
-                <a class="ng-binding" href="" ng-click="downloadReport('PROVIDER_EMPLOYEES_REPORTS')">
-                    <i class="fa fa-file-excel-o"></i>
-                    {{'PROVIDER_EMPLOYEES_REPORTS' | translate}}
-                </a>
-            </br>
-                <a class="ng-binding" href="" ng-click="downloadReport('PROVIDER_CALIBRATORS_REPORTS')">
-                    <i class="fa fa-file-excel-o"></i>
-                    {{'PROVIDER_CALIBRATORS_REPORTS' | translate}}
-                </a>
-            <br>
-        <!--    <div class="item" ng-click="downloadDocument('VERIFICATION_RESULT_REPORTS', 'xls')">
-                <a class="ng-binding">
-                    <i class="fa fa-file-excel-o"></i>
-                    {{'VERIFICATION_RESULT_REPORTS' | translate}}
-                </a>
-            </div> -->
-        </div>
+            <ul class="nav ui vertical menu">
+                <li class="list-group-item-text" ng-click="downloadReport('PROVIDER_EMPLOYEES_REPORTS')">
+                    <a><i class="fa fa-file-excel-o fa-fw"></i>{{'PROVIDER_EMPLOYEES_REPORTS' | translate}}</a>
+                </li>
+                <li class="list-group-item-text" ng-click="downloadReport('PROVIDER_CALIBRATORS_REPORTS')">
+                    <a><i class="fa fa-file-excel-o fa-fw"></i>{{'PROVIDER_CALIBRATORS_REPORTS' | translate}}</a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
