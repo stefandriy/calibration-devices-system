@@ -456,91 +456,91 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 taskDate.add(simpleTaskDate.format(calibrationTask.getDateOfTask()));
             } catch (Exception ex) {
                 taskDate.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 provider.add(verification.getProvider().getName());
             } catch (Exception ex) {
                 provider.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 district.add(verification.getClientData().getClientAddress().getDistrict());
             } catch (Exception ex) {
                 district.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 address.add(verification.getClientData().getClientAddress().getAddress());
             } catch (Exception ex) {
                 address.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 building.add(verification.getClientData().getClientAddress().getBuilding());
             } catch (Exception ex) {
                 building.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 flat.add(verification.getClientData().getClientAddress().getFlat().toString());
             } catch (Exception ex) {
                 flat.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 entrance.add(String.valueOf(verification.getInfo().getEntrance()));
             } catch (Exception ex) {
                 entrance.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 floor.add(String.valueOf(verification.getInfo().getFloor()));
             } catch (Exception ex) {
                 floor.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 countersNumber.add(String.valueOf(1));
             } catch (Exception ex) {
                 countersNumber.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 fullName.add(verification.getClientData().getFullName());
             } catch (Exception ex) {
                 fullName.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 telephone.add(verification.getClientData().getPhone());
             } catch (Exception ex) {
                 telephone.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 time.add(verification.getProcessTimeExceeding().toString());
             } catch (Exception ex) {
                 time.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 comment.add(verification.getComment().toString());
             } catch (Exception ex) {
                 comment.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
         }
 
@@ -612,77 +612,77 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 id.add(verification.getId());
             } catch (Exception ex) {
                 id.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 surname.add(verification.getClientData().getLastName());
             } catch (Exception ex) {
                 surname.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 name.add(verification.getClientData().getFirstName());
             } catch (Exception ex) {
                 name.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 middle.add(verification.getClientData().getMiddleName());
             } catch (Exception ex) {
                 middle.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 city.add(verification.getClientData().getClientAddress().getLocality());
             } catch (Exception ex) {
                 city.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 district.add(verification.getClientData().getClientAddress().getDistrict());
             } catch (Exception ex) {
                 district.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 sector.add(verification.getClientData().getClientAddress().getRegion());
             } catch (Exception ex) {
                 sector.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 street.add(verification.getClientData().getClientAddress().getStreet());
             } catch (Exception ex) {
                 street.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 building.add(verification.getClientData().getClientAddress().getBuilding());
             } catch (Exception ex) {
                 building.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 flat.add(verification.getClientData().getClientAddress().getFlat());
             } catch (Exception ex) {
                 flat.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 telephone.add(verification.getClientData().getPhone());
             } catch (Exception ex) {
                 telephone.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
@@ -690,28 +690,28 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 datetime.add(simpleTaskDate.format(calibrationTask.getDateOfTask()));
             } catch (Exception ex) {
                 datetime.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 counterNumber.add(verification.getDevice().getNumber());
             } catch (Exception ex) {
                 counterNumber.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 comment.add(verification.getComment().toString());
             } catch (Exception ex) {
                 comment.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
 
             try {
                 customer.add(verification.getCalibratorEmployee().getUsername());
             } catch (Exception ex) {
                 customer.add(" ");
-                logger.error(ex.getMessage());
+                logger.error(ex);
             }
         }
 
@@ -737,6 +737,70 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
         // endregion
 
+        return data;
+    }
+
+    // TODO: Fix method to work properly.
+    /**
+     * Method that removes dublictes from verifications.
+     * It compares verifications by field names, defined in equalsFields and increments the int value in incrementField.
+     * @param data
+     * @param equalsFields
+     * @param incrementField
+     * @return Modified table without dublications
+     * @throws Exception
+     */
+    private Map<String, List<String>> prepareDataForXls(
+            Map<String, List<String>> data,
+            List<String> equalsFields, String incrementField) throws Exception {
+
+        Object[] keys = data.keySet().toArray();
+        int length = data.get(keys[0]).size();
+        for (int i = 0; i < length; ++i) {
+            if (i < length - 1) {
+                int j = i + 1;
+                while (j < length) {
+
+                    // region Find equals cells
+
+                    int trueCount = 0;
+
+                    for (int columnHeader = 0; columnHeader < equalsFields.size(); ++columnHeader) {
+                        List<String> column = data.get(equalsFields.get(columnHeader));
+                        if (column.get(i).equals(column.get(j))) {
+                            ++trueCount;
+                        }
+                    }
+
+                    // endregion
+
+                    if (trueCount == equalsFields.size()) {
+                        for (int k = 0; k < data.size(); ++k) {
+                            data.get(keys[k]).remove(j);
+                            --length;
+                        }
+                        Integer current;
+                        try {
+                            current = Integer.parseInt(data.get(incrementField).get(i));
+                        } catch (Exception ex) {
+                            current = 0;
+                            logger.error(ex);
+                        }
+                        data.get(incrementField).set(i, (++current).toString());
+                    }
+
+                    if (j < length - 1) {
+                        ++j;
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            if (i == length - 1) {
+                break;
+            }
+        }
         return data;
     }
 }
