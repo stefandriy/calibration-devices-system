@@ -306,36 +306,30 @@ angular
                 });
                 return resalt;
             }
-            $scope.checkboxes = {'checked': false, items: {}};
+            var getAllSelected = function () {
+                var checkedItems = $scope.allVerifications.filter(function (verification) {
+                    return verification.selected;
+                });
 
-            // watch for check all checkbox
-            $scope.$watch('checkboxes.checked', function (value) {
+                return checkedItems.length === $scope.allVerifications.length;
+            }
+
+            var setAllSelected = function (value) {
                 angular.forEach($scope.allVerifications, function (verification) {
-                    if (angular.isDefined(verification.id)) {
-                    $scope.checkboxes.items[verification.id] = value;
-                    if (verification.providerEmployee) {
+                    verification.selected = value;
+                    if(verification.providerEmployee) {
                         $scope.resolveVerificationId(verification.id);
-                    }}
+                    }
                 });
-            });
+            }
 
-            // watch for data checkboxes
-            $scope.$watch('checkboxes.items', function () {
-                if (!$scope.allVerifications) {
-                    return;
+            $scope.allSelected = function (value) {
+                if (value !== undefined) {
+                    return setAllSelected(value);
+                } else {
+                    return getAllSelected();
                 }
-                var checked = 0, unchecked = 0,
-                    total = $scope.allVerifications.length;
-                angular.forEach($scope.allVerifications, function (verification) {
-                    checked += ($scope.checkboxes.items[verification.id]) || 0;
-                    unchecked += (!$scope.checkboxes.items[verification.id]) || 0;
-                });
-                if ((unchecked == 0) || (checked == 0)) {
-                    $scope.checkboxes.checked = (checked == total);
-                }
-                // grayed checkbox
-                angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
-            }, true);
+            }
 
             /**
              * push verification id to array
