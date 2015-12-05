@@ -81,7 +81,6 @@ public class XlsTableExporter implements TableExporter {
             List<String> row = data.get(header[i]);
             for (int j = 0; j < row.size(); ++j) {
                 Label item = new Label(i, j + 1, row.get(j), itemFormat);
-                sheet.setColumnView(i, lengths.get(i) + extraLength);
                 sheet.addCell(item);
             }
         }
