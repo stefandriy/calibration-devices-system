@@ -16,7 +16,7 @@ public interface Constants {
 
     String PROVIDER = "Провайдер";
 
-    // Address details
+    // region Address details
 
     String REGION = "Район";
     String ADDRESS = "Адреса";
@@ -25,10 +25,16 @@ public interface Constants {
     String ENTRANCE = "Під'їзд";
     String FLOOR = "Поверх";
 
+    // endregion
+
     String COMMENT = "Примітка";
+
+    // region Personal info
 
     String FULL_NAME_SHORT = "ПІБ";
     String PHONE_NUMBER = "Телефон";
+
+    // endregion
 
     // region File extensions
 
