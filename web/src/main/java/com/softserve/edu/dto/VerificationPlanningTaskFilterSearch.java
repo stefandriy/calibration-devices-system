@@ -11,8 +11,8 @@ import lombok.Setter;
 @Setter
 public class VerificationPlanningTaskFilterSearch {
     private String id;
-    private String date;
-    private String endDate;
+    private Long date;
+    private Long endDate;
     private String client_full_name;
     private String provider;
     private String district;

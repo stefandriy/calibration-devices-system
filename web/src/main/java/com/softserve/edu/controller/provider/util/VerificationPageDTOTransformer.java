@@ -1,6 +1,7 @@
 package com.softserve.edu.controller.provider.util;
 
 import com.softserve.edu.controller.calibrator.util.DistrictAndStreetComparator;
+import com.softserve.edu.dto.VerificationPlanningTaskFilterSearch;
 import com.softserve.edu.dto.calibrator.VerificationPlanningTaskDTO;
 import com.softserve.edu.dto.provider.VerificationPageDTO;
 import com.softserve.edu.entity.device.CounterType;
@@ -70,28 +71,65 @@ public class VerificationPageDTOTransformer {
         return resultList;
     }
 
-    public static List<VerificationPlanningTaskDTO> toDoFromPageContent(List<Verification> verifications){
+    public static List<VerificationPlanningTaskDTO> toDoFromPageContent(List<Verification> verifications,
+                                                                        VerificationPlanningTaskFilterSearch searchData){
+
         List<VerificationPlanningTaskDTO> taskDTOs = new ArrayList<VerificationPlanningTaskDTO>();
         for (Verification verification : verifications) {
-            taskDTOs.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
-                    verification.getId(),
-                    verification.getProvider().getName(),
-                    verification.getClientData().getFullName(),
-                    verification.getClientData().getClientAddress().getDistrict(),
-                    verification.getClientData().getClientAddress().getStreet(),
-                    verification.getClientData().getClientAddress().getBuilding(),
-                    verification.getClientData().getClientAddress().getFlat(),
-                    verification.getClientData().getPhone(),
-                    verification.getClientData().getSecondPhone(),
-                    (verification.getInfo() != null) ? verification.getInfo().getDateOfVerif() : null,
-                    (verification.getInfo() != null) ? verification.getInfo().getTimeFrom() : null,
-                    (verification.getInfo() != null) ? verification.getInfo().getTimeTo() : null,
-                    (verification.getInfo() != null) ? verification.getInfo().isServiceability() : true,
-                    (verification.getInfo() != null) ? verification.getInfo().getNoWaterToDate() : null,
-                    verification.isSealPresence()
-            ));
+            if (verificationPlanningTaskFiltersCheck(verification, searchData)) {
+                taskDTOs.add(new VerificationPlanningTaskDTO(verification.getSentToCalibratorDate(),
+                        verification.getId(),
+                        verification.getProvider().getName(),
+                        verification.getClientData().getFullName(),
+                        verification.getClientData().getClientAddress().getDistrict(),
+                        verification.getClientData().getClientAddress().getStreet(),
+                        verification.getClientData().getClientAddress().getBuilding(),
+                        verification.getClientData().getClientAddress().getFlat(),
+                        verification.getClientData().getPhone(),
+                        verification.getClientData().getSecondPhone(),
+                        (verification.getInfo() != null) ? verification.getInfo().getDateOfVerif() : null,
+                        (verification.getInfo() != null) ? verification.getInfo().getTimeFrom() : null,
+                        (verification.getInfo() != null) ? verification.getInfo().getTimeTo() : null,
+                        (verification.getInfo() != null) ? verification.getInfo().isServiceability() : true,
+                        (verification.getInfo() != null) ? verification.getInfo().getNoWaterToDate() : null,
+                        verification.isSealPresence()
+                ));
+            }
         }
         return taskDTOs;
+    }
+
+    public static boolean verificationPlanningTaskFiltersCheck(Verification verification, VerificationPlanningTaskFilterSearch searchData)
+    {
+        Date startDate = new Date(searchData.getDate());
+        Date endDate = new Date(searchData.getEndDate());
+        String clientName = searchData.getClient_full_name();
+        String providerName = searchData.getProvider();
+        String clientDistrict = searchData.getDistrict();
+        String clientStreet = searchData.getStreet();
+        String clientPhone = searchData.getTelephone();
+
+        if ((startDate.before(verification.getSentToCalibratorDate()) || startDate.equals(verification.getSentToCalibratorDate()))
+                && (endDate.after(verification.getSentToCalibratorDate()) || endDate.equals(verification.getSentToCalibratorDate()))) {
+            if ((clientName == null || clientName.isEmpty()) && (providerName == null || providerName.isEmpty())
+                    && (clientDistrict == null || clientDistrict.isEmpty()) && (clientStreet == null || clientStreet.isEmpty())
+                    && (clientPhone == null || clientPhone.isEmpty())) {
+                return true;
+            } else if ((clientName != null && !clientName.isEmpty()) && verification.getClientData().getFullName().contains(clientName)) {
+                return true;
+            } else if ((providerName != null && !providerName.isEmpty()) && verification.getProvider().getName().contains(providerName)) {
+                return true;
+            } else if ((clientDistrict != null && !clientDistrict.isEmpty()) && verification.getClientData().getClientAddress().getDistrict().contains(clientDistrict)) {
+                return true;
+            } else if ((clientStreet != null && !clientStreet.isEmpty()) && verification.getClientData().getClientAddress().getStreet().contains(clientStreet)) {
+                return true;
+            } else if ((clientPhone != null && !clientPhone.isEmpty()) && verification.getClientData().getPhone().contains(clientPhone)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
 }

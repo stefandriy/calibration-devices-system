@@ -193,7 +193,7 @@ public class CalibratorPlanningTaskController {
         Page<Verification> verifications = taskService.findVerificationsByCalibratorEmployeeAndTaskStatus(employeeUser.getUsername(),
                 pageNumber, itemsPerPage, sortCriteria, sortOrder);
         Long count = Long.valueOf(taskService.findVerificationsByCalibratorEmployeeAndTaskStatusCount(employeeUser.getUsername()));
-        List<VerificationPlanningTaskDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent());
+        List<VerificationPlanningTaskDTO> content = VerificationPageDTOTransformer.toDoFromPageContent(verifications.getContent(), searchData);
         return new PageDTO<VerificationPlanningTaskDTO>(count, content);
     }
 

@@ -168,8 +168,8 @@ angular
                         params.filter().status = null; //case when the filter is cleared with a button on the select
                     }
 
-                    params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
-                    params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                    params.filter().date = $scope.myDatePicker.pickerDate.startDate.format("x");
+                    params.filter().endDate = $scope.myDatePicker.pickerDate.endDate.format("x");
 
                     verificationPlanningTaskService.getVerificationsByCalibratorEmployeeAndTaskStatus(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {

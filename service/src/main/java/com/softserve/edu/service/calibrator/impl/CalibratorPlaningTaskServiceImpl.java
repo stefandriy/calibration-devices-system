@@ -268,7 +268,24 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
                 pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
                         "clientData.clientAddress.district", "clientData.clientAddress.street", "clientData.clientAddress.building", "clientData.clientAddress.flat"));
             }
+        } else if (sortCriteria.equals("serviceability")) {
+            if (sortOrder.equals("asc")) {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "info.serviceability"));
+            } else {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "info.serviceability"));
+            }
+        } else if (sortCriteria.equals("sealPresence")) {
+            if (sortOrder.equals("asc")) {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.ASC,
+                        "sealPresence"));
+            } else {
+                pageRequest = new PageRequest(pageNumber - 1, itemsPerPage, new Sort(Sort.Direction.DESC,
+                        "sealPresence"));
+            }
         }
+
         return verificationRepository.findByTaskStatusAndCalibratorId(Status.PLANNING_TASK, id, pageRequest);
     }
 
