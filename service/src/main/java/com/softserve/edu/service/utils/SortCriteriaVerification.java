@@ -209,6 +209,15 @@ public enum SortCriteriaVerification {
 			}
 		}
 	},
+	NAMECALIBRATOR(){
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("calibrator").get("name")));
+			} else {
+				return (cb.desc(root.get("calibrator").get("name")));
+			}
+		}
+	},
 	DISMANTLED() {
 		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
 			if (sortOrder.equalsIgnoreCase("asc")) {
@@ -226,7 +235,26 @@ public enum SortCriteriaVerification {
 				return (cb.desc(root.get("clientData").get("clientAddress").get("building")));
 			}
 		}
+	},
+  CLIENT_FULL_NAME() {
+	public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+		if (sortOrder.equalsIgnoreCase("asc")) {
+			return (cb.asc(root.get("clientData").get("lastName")));
+		} else {
+			return (cb.desc(root.get("clientData").get("lastName")));
+		}
+	}
+  },
+	ADDRESS() {
+		public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {
+			if (sortOrder.equalsIgnoreCase("asc")) {
+				return (cb.asc(root.get("clientData").get("clientAddress").get("district")));
+			} else {
+				return (cb.desc(root.get("clientData").get("clientAddress").get("district")));
+			}
+		}
 	};
+
 
 	
 	 public Order getSortOrder(Root<Verification> root, CriteriaBuilder cb, String sortOrder) {

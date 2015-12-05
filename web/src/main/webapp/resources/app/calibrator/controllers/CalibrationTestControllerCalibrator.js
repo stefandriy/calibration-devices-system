@@ -343,7 +343,6 @@ angular
 
             
             $scope.openAddTest = function (verificationID, fileName) {
-                $scope.getMy();
                 calibrationTestServiceCalibrator
                     .getEmptyTest(verificationID)
                     .then(function (data) {

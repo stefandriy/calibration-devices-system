@@ -5,6 +5,8 @@ angular
          '$timeout', 'photoId', 'parentScope' , '$translate',
         function ($scope, $rootScope, $route, $log, $modalInstance, $timeout, photoId, parentScope ,$translate) {
 
+            $scope.VALUE_REGEX = /^[1-9][0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457])?$/;
+
             /**
              * Closes modal window on browser's back/forward button click.
              */
@@ -34,14 +36,14 @@ angular
 
             $scope.updateValues = function (index) {
                 var test = parentScope.TestDataFormData[index];
-                if (test.endValue == 0 || test.initialValue > test.endValue) {
+                if (test.endValue == 0 || test.initialValue > test.endValue || test.initialValue ==0) {
                     test.testResult = 'RAW';
                     parentScope.TestForm.testResult = 'RAW';
-                    test.calculationError = '';
+                    test.calculationError = null;
                 } else if (test.initialValue == test.endValue) {
                     test.testResult = 'FAILED';
                     parentScope.TestForm.testResult = 'FAILED';
-                    test.calculationError = '';
+                    test.calculationError = null;
                 } else if (test.acceptableError >= Math.abs($scope.calcError(test.initialValue, test.endValue, test.volumeOfStandard))) {
                     test.testResult = 'SUCCESS';
                     parentScope.TestForm.testResult = 'SUCCESS';
@@ -49,7 +51,7 @@ angular
                 } else {
                     test.testResult = 'FAILED';
                     parentScope.TestForm.testResult = 'FAILED';
-                    test.calculationError = '';
+                    test.calculationError = null;
                 }
                 parentScope.TestDataFormData[index] = test;
 
