@@ -27,6 +27,7 @@ angular
                 $scope.defaultDate.startDate = moment();
                 $scope.defaultDate.endDate = moment();
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
+                $rootScope.onTableHandling();
             };
 
             $scope.myDatePicker = {};
@@ -155,6 +156,9 @@ angular
                         if (!$scope.isDateDefault()) {
                             params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("YYYY-MM-DD");
                             params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("YYYY-MM-DD");
+                        } else {
+                            params.filter().startDateToSearch = null;
+                            params.filter().endDateToSearch = null;
                         }
                         CalibrationTaskServiceCalibrator.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {

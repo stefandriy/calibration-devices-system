@@ -29,6 +29,7 @@ angular
                 $scope.defaultDate.startDate = moment();
                 $scope.defaultDate.endDate = moment();
                 $scope.myDatePicker.pickerDate = $scope.defaultDate;
+                $rootScope.onTableHandling();
             };
 
             $scope.myDatePicker = {};
@@ -189,6 +190,9 @@ angular
                         if (!$scope.isDateDefault()) {
                             params.filter().startDateToSearch = $scope.myDatePicker.pickerDate.startDate.format("x");
                             params.filter().endDateToSearch = $scope.myDatePicker.pickerDate.endDate.format("x");
+                        } else {
+                            params.filter().startDateToSearch = null;
+                            params.filter().endDateToSearch = null;
                         }
                         measuringEquipmentServiceAdmin.getPage(params.page(), params.count(), params.filter(), sortCriteria, sortOrder)
                             .success(function (result) {
