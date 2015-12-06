@@ -1,5 +1,6 @@
-package com.softserve.edu.controller.calibrator.util;
+package com.softserve.edu.controller.calibrator;
 
+import com.softserve.edu.controller.calibrator.util.CounterTypeDTOTransformer;
 import com.softserve.edu.controller.client.application.util.CatalogueDTOTransformer;
 import com.softserve.edu.dto.DeviceLightDTO;
 import com.softserve.edu.dto.LocalityDTO;
@@ -112,11 +113,29 @@ public class CalibratorApplicationController {
 
         verificationService.saveVerification(verification);
 
-//        String name = clientData.getFirstName() + " " + clientData.getLastName();
-//        mail.sendMail(clientData.getEmail(), name, verification.getId(), verification.getProvider().getName(),
-//                verification.getDevice().getDeviceType().toString());
-
         return verification.getId();
+    }
+
+    /**
+     * Get verification by verificationId fot Creating form by pattern
+     */
+    @RequestMapping(value = "verification/{verificationId}", method = RequestMethod.GET)
+    public OrganizationStageVerificationDTO getVerificationCode(@PathVariable String verificationId) {
+        Verification verification = verificationService.findById(verificationId);
+        if (verification != null) {
+            return new OrganizationStageVerificationDTO(
+                    verification.getClientData(),
+                    verification.getClientData().getClientAddress(),
+                    verification.getId(),
+                    verification.getProvider(),
+                    verification.getComment(),
+                    verification.getInfo(),
+                    verification.getDismantled(),
+                    verification.getCounter()
+            );
+        } else {
+            return null;
+        }
     }
 
     @RequestMapping(value = "symbols", method = RequestMethod.GET)
@@ -230,4 +249,6 @@ public class CalibratorApplicationController {
         }
         return (long) -1;
     }
+
+
 }

@@ -430,9 +430,10 @@ angular
             $scope.format = $scope.formats[2];
 
             $scope.initiateVerification = function () {
-
+                $rootScope.verifIDforTempl = $scope.idsOfVerifications[0];
                 var modalInstance = $modal.open({
                     animation: true,
+                    backdrop: 'static',
                     templateUrl: 'resources/app/calibrator/views/modals/initiate-verification.html',
                     controller: 'AddingVerificationsControllerCalibrator',
                     size: 'lg',

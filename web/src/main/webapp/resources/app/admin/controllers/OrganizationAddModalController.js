@@ -180,12 +180,12 @@ angular
                 userService.isUsernameAvailable(username).then(
                     function (data) {
                         $scope.isUsernameAvailable = data;
-                        if(data === false) {
+                        if(!data) {
                             $scope.organizationForm.username.$valid = data;
                             $scope.organizationForm.username.$invalid = !data;
                         }
             })
-            }
+            };
 
 
             /**

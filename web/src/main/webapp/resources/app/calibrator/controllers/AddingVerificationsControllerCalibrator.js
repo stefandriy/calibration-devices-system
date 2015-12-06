@@ -337,7 +337,7 @@ angular.module('employeeModule')
          */
         $scope.createNew = function () {
             if ($rootScope.verifIDforTempl) {
-                verificationServiceProvider.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
+                verificationServiceCalibrator.getVerificationById($rootScope.verifIDforTempl).then(function (verification) {
 
                     $scope.verification = verification;
                     $scope.formData = {};
@@ -366,24 +366,24 @@ angular.module('employeeModule')
 
                     $scope.selectedBuilding = $scope.verification.data.building;
 
-                    addressServiceProvider.findAllRegions().then(function (respRegions) {
+                    dataReceivingService.findAllRegions().then(function (respRegions) {
                         $scope.regions = respRegions.data;
                         var index = arrayObjectIndexOf($scope.regions, $scope.verification.data.region, "designation");
                         $scope.selectedData.region = $scope.regions[index];
 
-                        addressServiceProvider.findDistrictsByRegionId($scope.selectedData.region.id)
+                        dataReceivingService.findDistrictsByRegionId($scope.selectedData.region.id)
                             .then(function (districts) {
                                 $scope.districts = districts.data;
                                 var index = arrayObjectIndexOf($scope.districts, $scope.verification.data.district, "designation");
                                 $scope.selectedData.district = $scope.districts[index];
 
-                                addressServiceProvider.findLocalitiesByDistrictId($scope.selectedData.district.id)
+                                dataReceivingService.findLocalitiesByDistrictId($scope.selectedData.district.id)
                                     .then(function (localities) {
                                         $scope.localities = localities.data;
                                         var index = arrayObjectIndexOf($scope.localities, $scope.verification.data.locality, "designation");
                                         $scope.selectedData.locality = $scope.localities[index];
 
-                                        addressServiceProvider.findStreetsByLocalityId($scope.selectedData.locality.id)
+                                        dataReceivingService.findStreetsByLocalityId($scope.selectedData.locality.id)
                                             .then(function(streets) {
                                                 $scope.streets = streets.data;
                                                 var index = arrayObjectIndexOf($scope.streets, $scope.verification.data.street, "designation");
@@ -391,7 +391,7 @@ angular.module('employeeModule')
 
                                             });
 
-                                        addressServiceProvider.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
+                                        dataReceivingService.findMailIndexByLocality($scope.selectedData.locality.designation, $scope.selectedData.district.id)
                                             .success(function (indexes) {
                                                 $scope.indexes = indexes;
                                                 $scope.selectedData.index = $scope.indexes[0];
@@ -404,12 +404,12 @@ angular.module('employeeModule')
 
                     if($scope.verification.data.symbol) {
 
-                        addressServiceProvider.findAllSymbols().then(function (respSymbols) {
+                        dataReceivingService.findAllSymbols().then(function (respSymbols) {
                             $scope.symbols = respSymbols.data;
                             var index = arrayObjectIndexOf($scope.symbols, $scope.verification.data.symbol, "symbol");
                             $scope.selectedData.counterSymbol = $scope.symbols[index];
 
-                            addressServiceProvider.findStandardSizesBySymbol($scope.selectedData.counterSymbol.symbol)
+                            dataReceivingService.findStandardSizesBySymbol($scope.selectedData.counterSymbol.symbol)
                                 .then(function (standardSizes) {
                                     $scope.standardSizes = standardSizes.data;
                                     var index = arrayObjectIndexOf($scope.standardSizes, $scope.verification.data.standardSize, "standardSize");

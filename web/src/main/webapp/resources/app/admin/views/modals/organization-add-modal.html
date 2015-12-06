@@ -103,7 +103,7 @@
                             <div class="col-md-8">
                                 <input id="email" name="email" type="email" class="form-control"
                                        ng-model="organizationFormData.email" ng-pattern="EMAIL_REGEX"
-                                       popover="Введіть email адресу організації"
+                                       popover="{{'ENTER_MAIL' | translate}}"
                                        popover-trigger="focus" popover-placement="top"
                                        placeholder="example@gmail.com" required>
 							<span class="form-control-feedback glyphicon
@@ -391,7 +391,7 @@
                                 <input type="text" ng-model="organizationFormData.username"
                                        ng-blur="checkIfUsernameIsAvailable()"
                                        ng-pattern="USERNAME_REGEX" id="username" name="username"
-                                       class="form-control" popover="Введіть логін адміна організації"
+                                       class="form-control" popover="{{'ENTER_ADMIN_LOGIN' | translate}}"
                                        popover-trigger="focus" popover-placement="top" required>
 							<span class="form-control-feedback glyphicon
 							 form-horizontal glyphicon glyphicon-ok-sign"></span>
@@ -409,7 +409,7 @@
                                 <p class="help-block" ng-if="organizationForm.username.$error.pattern">
                                     <span class="glyphicon glyphicon-exclamation-sign"></span>
                                     {{'LOGIN_HAS_INVALID_LENGTH' | translate }}.
-                                    Дозволені малі літери латинського алфавіту, цифри і дефіс.</p>
+                                    {{'ALLOWED_LETTERS' | translate}}</p>
                                 </p>
                             </div>
                         </div>
