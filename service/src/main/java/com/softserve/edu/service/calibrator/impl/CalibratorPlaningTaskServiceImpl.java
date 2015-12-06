@@ -114,13 +114,17 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         taskRepository.save(task);
         Iterable<Verification> verifications = verificationRepository.findAll(verificationsId);
         for (Verification verification : verifications) {
+        Set<Verification> verifications = new LinkedHashSet<>();
                 verification.setTaskStatus(Status.TEST_PLACE_DETERMINED);
                 verification.setTask(task);
+                verifications.add(verification);
+            }
         }
         verificationRepository.save(verifications);
         try {
             sendTaskToStation(task.getId());
         } catch (Exception ex) {
+            logger.error(ex);
             logger.error(ex);
         }
     }
@@ -355,32 +359,29 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         String filename = dateFormat.format(calibrationTask.getCreateTaskDate()) + "_" +
                 calibrationTask.getModule().getModuleNumber() + "_" + String.valueOf((new Date()).getTime());
 
-        File tempFolder = new File("temp");
+        File tempFolder = File.createTempFile("temp", "tasks");
         tempFolder.setWritable(true);
         tempFolder.setExecutable(true);
         tempFolder.setReadable(true);
         tempFolder.mkdirs();
 
         File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
+        xlsFile.setWritable(true);
+        xlsFile.setExecutable(true);
+        xlsFile.setReadable(true);
         File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.DBF_EXTENSION);
+        dbfFile.setWritable(true);
+        dbfFile.setExecutable(true);
+        dbfFile.setReadable(true);
         File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.ZIP_EXTENSION);
-
-        BufferedOutputStream xlsStream = null;
-        BufferedOutputStream dbfStream = null;
-        BufferedOutputStream zipStream = null;
-        try {
-            xlsStream = new BufferedOutputStream(new FileOutputStream(xlsFile.getName()));
-            dbfStream = new BufferedOutputStream(new FileOutputStream(dbfFile.getName()));
-            zipStream = new BufferedOutputStream(new FileOutputStream(zipFile.getName()));
-        } catch (Exception ex) {
-            throw ex;
-        }
-
+        zipFile.setWritable(true);
+        zipFile.setExecutable(true);
+        zipFile.setReadable(true);
 
         try {
             boolean xlsSuccess;
             try {
-                xlsTableExporter.export(dataForXls, xlsStream);
+                xlsTableExporter.export(dataForXls, xlsFile);
                 xlsSuccess = true;
             } catch (Exception e) {
                 logger.error(e);
@@ -392,7 +393,7 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
 
             boolean dbfSuccess;
             try {
-                dbfTableExporter.export(dataForDbf, dbfStream);
+                dbfTableExporter.export(dataForDbf, dbfFile);
                 dbfSuccess = true;
             } catch (Exception e) {
                 logger.error(e);
@@ -403,10 +404,10 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
             if (xlsSuccess && dbfSuccess) {
                 try {
                     ZipArchiver zip = new ZipArchiver();
-                    List<File> sources = new ArrayList<>();
-                    sources.add(xlsFile);
-                    sources.add(dbfFile);
-                    zip.createZip(zipStream, sources);
+                    List<String> sources = new ArrayList<>();
+                    sources.add(xlsFile.getCanonicalPath());
+                    sources.add(dbfFile.getCanonicalPath());
+                    zip.createZip(sources, zipFile);
                     zipSuccess = true;
                 } catch (Exception e) {
                     logger.error(e);

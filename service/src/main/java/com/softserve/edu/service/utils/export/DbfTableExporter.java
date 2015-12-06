@@ -65,6 +65,36 @@ public class DbfTableExporter implements TableExporter {
         return output;
     }
 
+    public void export(Map<String, List<String>> data, File output) throws Exception {
+        DBFField[] fields = new DBFField[data.size()];
+        Object[] fieldNames = data.keySet().toArray();
+        List<Integer> lengths = getCellLengths(data);
+        for (int i = 0; i < data.size(); ++i) {
+            fields[i] = new DBFField();
+            fields[i].setName(String.valueOf(fieldNames[i]));
+            fields[i].setDataType(DBFField.FIELD_TYPE_C);
+            fields[i].setFieldLength(lengths.get(i) + extraLength);
+        }
+
+        DBFWriter writer = new DBFWriter(output);
+        writer.setFields(fields);
+
+        ArrayList<List<String>> values = new ArrayList<List<String>>();
+        Object[] valArray = data.values().toArray();
+        for (int i = 0; i < data.values().size(); ++i) {
+            values.add((List<String>)valArray[i]);
+        }
+        for (int i = 0; i < values.get(0).size(); ++i) {
+            Object[] row = new Object[values.size()];
+            for (int j = 0; j < values.size(); ++j) {
+                row[j] = values.get(j).get(i);
+            }
+            writer.addRecord(row);
+        }
+
+        writer.write();
+    }
+
     /**
      * Get maximum length for each column
      *

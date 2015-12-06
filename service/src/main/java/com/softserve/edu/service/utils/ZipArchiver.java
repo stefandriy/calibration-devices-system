@@ -1,10 +1,8 @@
 package com.softserve.edu.service.utils;
 
 import org.apache.log4j.Logger;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.zip.Deflater;
@@ -81,5 +79,43 @@ public class ZipArchiver {
 
         fis.close();
         zos.closeEntry();
+    }
+
+    public static void createZip(List<String> files, File output) {
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(output);
+            ZipOutputStream zipOutputStream = new ZipOutputStream(fileOutputStream);
+
+            for (String file : files) {
+                addToZipFile(file, zipOutputStream);
+            }
+
+            zipOutputStream.close();
+            fileOutputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addToZipFile(String fileName, ZipOutputStream zos) throws FileNotFoundException, IOException {
+
+        System.out.println("Writing '" + fileName + "' to zip file");
+
+        File file = new File(fileName);
+        FileInputStream fis = new FileInputStream(file);
+        ZipEntry zipEntry = new ZipEntry(fileName);
+        zos.putNextEntry(zipEntry);
+
+        byte[] bytes = new byte[1024];
+        int length;
+        while ((length = fis.read(bytes)) >= 0) {
+            zos.write(bytes, 0, length);
+        }
+
+        zos.closeEntry();
+        fis.close();
     }
 }
