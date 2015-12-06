@@ -4,12 +4,7 @@ angular
         return {
             getPage: function (pageNumber, itemsPerPage) {
                 var url = 'admin/unsuitability-reasons/' + pageNumber + '/' + itemsPerPage;
-                return $http.get(url)
-                    .success(function (data) {
-                        return data;
-                    }).error(function (err) {
-                        return err;
-                    });
+                return getDataWithParams(url);
             },
             saveUnsuitabilityReason: function (formData) {
                 var url = 'admin/unsuitability-reasons/add';
@@ -37,5 +32,13 @@ angular
                     });
             }
         };
-
+        function getDataWithParams(url, params) {
+            return $http.get(url, {
+                params: params
+            }).success(function (data) {
+                return data;
+            }).error(function (err) {
+                return err;
+            });
+        }
     });
