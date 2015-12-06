@@ -605,7 +605,7 @@
   "REPORTS" : "Reports",
   "PROVIDER_EMPLOYEES_REPORTS" : "Employees reports",
   "PROVIDER_CALIBRATORS_REPORTS" : "Calibrators reports",
-  "VERIFICATION_RESULT_REPORTS" : "Verification result reports",
+  "PROVIDER_VERIFICATION_RESULT_REPORTS" : "Verification result reports",
   "TASKS_FOR_CALIBRATION_MODULES" : "Tasks for calibration modules",
   "OVERALL_NUMBER_OF_CALIBRATION_TASKS": "Tasks found",
   "DATE_OF_TASK": "Date of task",
