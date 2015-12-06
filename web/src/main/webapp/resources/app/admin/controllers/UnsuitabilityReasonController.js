@@ -35,6 +35,7 @@ angular
                         .success(function (result) {
                             $scope.resultsCount = result.totalItems;
                             $defer.resolve(result.content);
+                            params.total(result.totalItems);
                         }, function (result) {
                             $log.debug('error fetching data:', result);
                         });
@@ -58,6 +59,7 @@ angular
             $scope.openAddUnsuitabilityReasonModal = function () {
                 var modalInstance = $modal.open({
                     animation: true,
+                    backdrop : 'static',
                     templateUrl: 'resources/app/admin/views/modals/unsuitability-reason-add-modal.html',
                     controller: 'UnsuitabilityReasonAddModalController',
                     size: 'md',

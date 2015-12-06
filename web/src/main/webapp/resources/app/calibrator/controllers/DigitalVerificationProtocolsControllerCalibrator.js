@@ -60,6 +60,7 @@ angular
                 if (!$scope.allIsEmpty) {
                     var modalInstance = $modal.open({
                         animation: true,
+                        backdrop : 'static',
                         templateUrl: 'resources/app/calibrator/views/modals/protocols-sending.html',
                         controller: 'DigitalProtocolsSendingModalControllerCalibrator',
                         size: 'md',
