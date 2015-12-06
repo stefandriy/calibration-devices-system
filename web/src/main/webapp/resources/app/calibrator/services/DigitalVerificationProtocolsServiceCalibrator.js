@@ -5,12 +5,7 @@ angular
             return {
                 getProtocols: function (currentPage, itemsPerPage) {
                     var url = 'calibrator/protocols/' + currentPage + '/' + itemsPerPage;
-                    return $http.get(url)
-                        .success(function (data) {
-                            return data;
-                        }).error(function (err) {
-                            return err;
-                        });
+                    return getDataWithParams(url);
                 },
                 sendProtocols: function (protocol) {
                     var url = '/calibrator/protocols/send';
@@ -31,5 +26,13 @@ angular
                         });
                 },
             };
-
+            function getDataWithParams(url, params) {
+                return $http.get(url, {
+                    params: params
+                }).success(function (data) {
+                    return data;
+                }).error(function (err) {
+                    return err;
+                });
+            }
         }]);
