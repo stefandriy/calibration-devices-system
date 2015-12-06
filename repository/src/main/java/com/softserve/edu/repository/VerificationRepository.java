@@ -84,6 +84,8 @@ public interface VerificationRepository extends PagingAndSortingRepository<Verif
     
     List<Verification> findByCalibratorAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
 
+    List<Verification> findByProvider(Organization organization);
+
     List<Verification> findByProviderAndInitialDateBetween(Organization organization,Date dateFrom,Date DateTo);
 
     @Query("SELECT COUNT(u.id) FROM Verification u WHERE u.status = 'SENT' and u.provider = :provider")

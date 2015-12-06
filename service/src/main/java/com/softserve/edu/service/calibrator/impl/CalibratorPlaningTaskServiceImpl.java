@@ -368,9 +368,9 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         tempFolder.setReadable(true);
         tempFolder.mkdirs();
 
-        File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + Constants.XLS_EXTENSION);
-        File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + Constants.DBF_EXTENSION);
-        File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + Constants.ZIP_EXTENSION);
+        File xlsFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.XLS_EXTENSION);
+        File dbfFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.DBF_EXTENSION);
+        File zipFile = new File(tempFolder.getAbsolutePath() + File.separator + filename + "." + Constants.ZIP_EXTENSION);
 
         BufferedOutputStream xlsStream = null;
         BufferedOutputStream dbfStream = null;

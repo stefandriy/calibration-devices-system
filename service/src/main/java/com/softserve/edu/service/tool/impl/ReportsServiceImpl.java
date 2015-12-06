@@ -11,6 +11,7 @@ import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.user.User;
+import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.OrganizationRepository;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.admin.OrganizationService;
@@ -21,7 +22,9 @@ import org.apache.commons.vfs2.FileObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.log4j.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -43,6 +46,8 @@ public class ReportsServiceImpl implements ReportsService {
 
     @Autowired
     private VerificationRepository verificationRepository;
+
+    private Logger logger = Logger.getLogger(ReportsServiceImpl.class);
 
     public FileObject buildFile(Long providerId, DocumentType documentType,
                                 FileFormat fileFormat) throws Exception {
@@ -140,7 +145,140 @@ public class ReportsServiceImpl implements ReportsService {
     }
 
     private Map<String,List<String>> getDataForProviderVerificationResultReport(Long providerId) {
-        Map<String,List<String>> data = new HashMap<>();
+        Organization provider = organizationRepository.findOne(providerId);
+        List<Verification> verifications = verificationRepository.findByProvider(provider);
+        // TODO: findByProviderAndInitialDateBetween
+
+        // region Define lists
+
+        // № з/п
+        List<String> number = new ArrayList<>();
+        // ПІБ замовника
+        List<String> customerFullName = new ArrayList<>();
+        // Адреса замовника (індекс вулиця, будинок, квартира)
+        List<String> customerAddress = new ArrayList<>();
+        // Тип приладу, рік випуску
+        List<String> deviceTypeYear = new ArrayList<>();
+        // Діаметр
+        List<String> diameter = new ArrayList<>();
+        // Назва вимірювальної лабораторії
+        List<String> measuringLab = new ArrayList<>();
+        // Результат (придатний, непридатний)
+        List<String> verificationResult = new ArrayList<>();
+        // Дата документа
+        List<String> documentDate = new ArrayList<>();
+        // № документа
+        List<String> documentNumber = new ArrayList<>();
+        // Придатний до
+        List<String> validUntil = new ArrayList<>();
+
+        // endregion
+
+        // region Fill lists
+
+        Integer i = 1;
+        for (Verification verification : verifications) {
+            number.add(String.valueOf(i));
+            try {
+                customerFullName.add(verification.getClientData().getFullName());
+            } catch (Exception ex) {
+                customerFullName.add(" ");
+            }
+
+            String address;
+            try {
+                address = verification.getClientData().getClientAddress().getStreet();
+            } catch (Exception ex) {
+                address = " ";
+                logger.error(ex);
+            }
+            try {
+                address += ", " + verification.getClientData().getClientAddress().getBuilding();
+            } catch (Exception ex) {
+                logger.error(ex);
+            }
+            try {
+                address += ", " + verification.getClientData().getClientAddress().getFlat();
+            } catch (Exception ex) {
+                logger.error(ex);
+            }
+            customerAddress.add(address);
+
+            try {
+                // TODO: Year - should be added
+                deviceTypeYear.add(verification.getDevice().getDeviceSign());
+            } catch (Exception ex) {
+                deviceTypeYear.add(" ");
+                logger.error(ex);
+            }
+
+            try {
+                // TODO: Should be added
+                diameter.add(" ");
+            } catch (Exception ex) {
+                diameter.add(" ");
+                logger.error(ex);
+            }
+
+            try {
+                measuringLab.add(verification.getStateVerificator().getName());
+            } catch (Exception ex) {
+                measuringLab.add(" ");
+                logger.error(ex);
+            }
+
+            try {
+                // TODO: Check ?
+                verificationResult.add(verification.getStatus().toString());
+            } catch (Exception ex) {
+                verificationResult.add(" ");
+                logger.error(ex);
+            }
+
+            try {
+                SimpleDateFormat docDate = new SimpleDateFormat("dd-MM-yyyy");
+                documentDate.add(docDate.format(verification.getStateVerificator().getCertificateGrantedDate()));
+            } catch (Exception ex) {
+                documentDate.add(" ");
+                logger.error(ex);
+            }
+
+            try {
+                documentNumber.add(verification.getStateVerificator().getCertificateNumber());
+            } catch (Exception ex) {
+                documentDate.add(" ");
+                logger.error(ex);
+            }
+
+            try {
+                SimpleDateFormat validDate = new SimpleDateFormat("dd-MM-yyyy");
+                validUntil.add(validDate.format(verification.getExpirationDate()));
+            } catch (Exception ex) {
+                validUntil.add(" ");
+                logger.error(ex);
+            }
+
+            ++i;
+        }
+
+        // endregion
+
+        // region Fill map
+
+        Map<String, List<String>> data = new LinkedHashMap<>();
+        data.put(Constants.NUMBER_IN_SEQUENCE_SHORT, number);
+        data.put(Constants.FULL_NAME_CUSTOMER, customerFullName);
+        data.put(Constants.CUSTOMER_ADDRESS, customerAddress);
+        data.put(Constants.DEVICE_TYPE_YEAR, deviceTypeYear);
+        data.put(Constants.DIAMETER, diameter);
+        data.put(Constants.MEASURING_LAB_NAME, measuringLab);
+        data.put(Constants.RESULT, verificationResult);
+        data.put(Constants.DOCUMENT_DATE, documentDate);
+        data.put(Constants.DOCUMENT_NUMBER, documentNumber);
+        data.put(Constants.VALID_UNTIL, validUntil);
+
+        // endregion
+
         return data;
     }
 }
