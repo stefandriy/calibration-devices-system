@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 /**
@@ -70,12 +71,17 @@ public class AdditionalInfo {
         this.serviceability = serviceability;
         this.noWaterToDate = (noWaterToDate != null) ? new Date(noWaterToDate) : null;
         this.notes = notes;
-        if (time == null){
+        try {
+            if (time == null) {
+                this.timeFrom = null;
+                this.timeTo = null;
+            } else {
+                this.timeFrom = LocalTime.parse(time.substring(0, 5));
+                this.timeTo = LocalTime.parse(time.substring(6, 11));
+            }
+        } catch(DateTimeParseException e) {
             this.timeFrom = null;
             this.timeTo = null;
-        } else {
-            this.timeFrom = LocalTime.parse(time.substring(0, 5));
-            this.timeTo = LocalTime.parse(time.substring(6, 11));
         }
     }
 

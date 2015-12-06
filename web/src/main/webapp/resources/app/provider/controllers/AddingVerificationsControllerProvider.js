@@ -280,10 +280,10 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             } else {
                 $scope.formData.dismantled = false;
             }
-            $scope.formData.dateOfDismantled = ((new Date($scope.selectedData.dateOfDismantled)).getTime() !== 0) ?
-                (new Date($scope.selectedData.dateOfDismantled)).getTime() : null;
-            $scope.formData.dateOfMounted = ((new Date($scope.selectedData.dateOfMounted)).getTime() !== 0) ?
-                (new Date($scope.selectedData.dateOfMounted)).getTime() : null;
+            $scope.formData.dateOfDismantled = ($scope.convertDateToLong($scope.selectedData.dateOfDismantled) !== 0) ?
+                $scope.convertDateToLong($scope.selectedData.dateOfDismantled) : null;
+            $scope.formData.dateOfMounted = ($scope.convertDateToLong($scope.selectedData.dateOfMounted) !== 0) ?
+                $scope.convertDateToLong($scope.selectedData.dateOfMounted) : null;
             $scope.formData.numberCounter = $scope.selectedData.numberCounter;
             if($scope.selectedData.counterSymbol) {
                 $scope.formData.symbol = $scope.selectedData.counterSymbol.symbol;
@@ -297,8 +297,8 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $scope.formData.entrance = $scope.addInfo.entrance;
             $scope.formData.doorCode = $scope.addInfo.doorCode;
             $scope.formData.floor = $scope.addInfo.floor;
-            $scope.formData.dateOfVerif = ((new Date($scope.addInfo.dateOfVerif)).getTime() !== 0) ?
-                (new Date($scope.addInfo.dateOfVerif)).getTime() : null;
+            $scope.formData.dateOfVerif = ($scope.convertDateToLong($scope.addInfo.dateOfVerif) !== 0) ?
+                $scope.convertDateToLong($scope.addInfo.dateOfVerif) : null;
             $scope.formData.time = $scope.addInfo.time;
             if($scope.addInfo.serviceability) {
                 $scope.formData.serviceability = $scope.addInfo.serviceability;
@@ -306,13 +306,22 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
                 $scope.formData.serviceability = false;
             }
 
-            $scope.formData.noWaterToDate = ((new Date($scope.addInfo.noWaterToDate)).getTime() !== 0) ?
-                (new Date($scope.addInfo.noWaterToDate)).getTime() : null;
+            $scope.formData.noWaterToDate = ($scope.convertDateToLong($scope.addInfo.noWaterToDate) !== 0) ?
+                $scope.convertDateToLong($scope.addInfo.noWaterToDate) : null;
             $scope.formData.notes = $scope.addInfo.notes;
         };
 
         $scope.closeAlert = function () {
             $modalInstance.close();
+        };
+
+        /**
+         * Convert date to long to sent it to backend
+         * @param date
+         * @returns {number}
+         */
+        $scope.convertDateToLong = function(date) {
+            return (new Date(date)).getTime();
         };
 
         /**
